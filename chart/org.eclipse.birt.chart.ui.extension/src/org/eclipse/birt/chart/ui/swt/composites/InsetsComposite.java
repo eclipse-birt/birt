@@ -15,8 +15,8 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  *  
  */
-public class InsetsComposite extends Composite implements KeyListener
+public class InsetsComposite extends Composite implements ModifyListener
 {
 
     private transient String sUnits = "points";
@@ -86,11 +86,11 @@ public class InsetsComposite extends Composite implements KeyListener
         flMain.marginWidth = 0;
 
         GridLayout glGroup = new GridLayout();
-        glGroup.horizontalSpacing = 4;
-        glGroup.verticalSpacing = 4;
+        glGroup.horizontalSpacing = 5;
+        glGroup.verticalSpacing = 5;
         glGroup.marginHeight = 4;
         glGroup.marginWidth = 4;
-        glGroup.numColumns = 6;
+        glGroup.numColumns = 4;
 
         this.setLayout(flMain);
 
@@ -99,7 +99,7 @@ public class InsetsComposite extends Composite implements KeyListener
         grpInsets.setText("Insets (" + sUnits + ")");
 
         Label lblTop = new Label(grpInsets, SWT.NONE);
-        GridData gdLTop = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
+        GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLTop.heightHint = 20;
         lblTop.setLayoutData(gdLTop);
         lblTop.setText("Top:");
@@ -107,13 +107,13 @@ public class InsetsComposite extends Composite implements KeyListener
         txtTop = new Text(grpInsets, SWT.BORDER);
         GridData gdTTop = new GridData(GridData.FILL_BOTH);
         gdTTop.heightHint = 20;
-        gdTTop.horizontalSpan = 2;
+        gdTTop.widthHint = 45;
         txtTop.setLayoutData(gdTTop);
         txtTop.setText(Double.toString(insets.getTop()));
-        txtTop.addKeyListener(this);
+        txtTop.addModifyListener(this);
 
         Label lblLeft = new Label(grpInsets, SWT.NONE);
-        GridData gdLLeft = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
+        GridData gdLLeft = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLLeft.heightHint = 20;
         lblLeft.setLayoutData(gdLLeft);
         lblLeft.setText("Left:");
@@ -121,13 +121,13 @@ public class InsetsComposite extends Composite implements KeyListener
         txtLeft = new Text(grpInsets, SWT.BORDER);
         GridData gdTLeft = new GridData(GridData.FILL_BOTH);
         gdTLeft.heightHint = 20;
-        gdTLeft.horizontalSpan = 2;
+        gdTLeft.widthHint = 45;
         txtLeft.setLayoutData(gdTLeft);
         txtLeft.setText(Double.toString(insets.getLeft()));
-        txtLeft.addKeyListener(this);
+        txtLeft.addModifyListener(this);
 
         Label lblBottom = new Label(grpInsets, SWT.NONE);
-        GridData gdLBottom = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
+        GridData gdLBottom = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLBottom.heightHint = 20;
         lblBottom.setLayoutData(gdLBottom);
         lblBottom.setText("Bottom:");
@@ -135,13 +135,13 @@ public class InsetsComposite extends Composite implements KeyListener
         txtBottom = new Text(grpInsets, SWT.BORDER);
         GridData gdTBottom = new GridData(GridData.FILL_BOTH);
         gdTBottom.heightHint = 20;
-        gdTBottom.horizontalSpan = 2;
+        gdTBottom.widthHint = 45;
         txtBottom.setLayoutData(gdTBottom);
         txtBottom.setText(Double.toString(insets.getBottom()));
-        txtBottom.addKeyListener(this);
+        txtBottom.addModifyListener(this);
 
         Label lblRight = new Label(grpInsets, SWT.NONE);
-        GridData gdLRight = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
+        GridData gdLRight = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLRight.heightHint = 20;
         lblRight.setLayoutData(gdLRight);
         lblRight.setText("Right:");
@@ -149,10 +149,10 @@ public class InsetsComposite extends Composite implements KeyListener
         txtRight = new Text(grpInsets, SWT.BORDER);
         GridData gdTRight = new GridData(GridData.FILL_BOTH);
         gdTRight.heightHint = 20;
-        gdTRight.horizontalSpan = 2;
+        gdTRight.widthHint = 45;
         txtRight.setLayoutData(gdTRight);
         txtRight.setText(Double.toString(insets.getRight()));
-        txtRight.addKeyListener(this);
+        txtRight.addModifyListener(this);
     }
 
     public void addListener(Listener listener)
@@ -180,43 +180,54 @@ public class InsetsComposite extends Composite implements KeyListener
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+     * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
      */
-    public void keyPressed(KeyEvent e)
+    public void modifyText(ModifyEvent e)
     {
-        if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR)
+        // Update the insets
+        if (e.getSource().equals(txtTop))
         {
-            // Update the insets
-            if (e.getSource().equals(txtTop))
+            try
             {
                 insets.setTop(Double.parseDouble(txtTop.getText()));
             }
-            else if (e.getSource().equals(txtLeft))
+            catch (NumberFormatException e1 )
+            {
+                txtTop.setText(String.valueOf(insets.getTop()));
+            }
+        }
+        else if (e.getSource().equals(txtLeft))
+        {
+            try
             {
                 insets.setLeft(Double.parseDouble(txtLeft.getText()));
             }
-            else if (e.getSource().equals(txtBottom))
+            catch (NumberFormatException e1 )
+            {
+                txtLeft.setText(String.valueOf(insets.getLeft()));
+            }
+        }
+        else if (e.getSource().equals(txtBottom))
+        {
+            try
             {
                 insets.setBottom(Double.parseDouble(txtBottom.getText()));
             }
-            else if (e.getSource().equals(txtRight))
+            catch (NumberFormatException e1 )
+            {
+                txtBottom.setText(String.valueOf(insets.getBottom()));
+            }
+        }
+        else if (e.getSource().equals(txtRight))
+        {
+            try
             {
                 insets.setRight(Double.parseDouble(txtRight.getText()));
             }
-
-            // Fire event
-            //			fireEvent();
+            catch (NumberFormatException e1 )
+            {
+                txtRight.setText(String.valueOf(insets.getRight()));
+            }
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
-     */
-    public void keyReleased(KeyEvent e)
-    {
-        // TODO Auto-generated method stub
-
     }
 }

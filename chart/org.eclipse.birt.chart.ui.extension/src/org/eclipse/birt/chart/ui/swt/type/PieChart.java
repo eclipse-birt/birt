@@ -18,12 +18,16 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
-import org.eclipse.birt.chart.ui.swt.ChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
@@ -38,6 +42,8 @@ public class PieChart implements IChartType
 {
 
     private static final String sType = "Pie Chart";
+
+    private static final String sStandardDescription = "Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.";
 
     private transient Image imgIcon = null;
 
@@ -102,17 +108,18 @@ public class PieChart implements IChartType
         {
             return vSubTypes;
         }
-        if (sDimension.equals("2D"))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
         {
             img2D = UIHelper.getImage("images/PieChartImage.gif");
 
-            vSubTypes.add(new ChartSubTypeImpl("Standard Pie Chart", img2D));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2D, sStandardDescription));
         }
-        else if (sDimension.equals("2D With Depth"))
+        else if (sDimension.equals("2D With Depth")
+            || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName()))
         {
             img2DWithDepth = UIHelper.getImage("images/PieChartWithDepthImage.gif");
 
-            vSubTypes.add(new ChartSubTypeImpl("Standard Pie Chart", img2DWithDepth));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2DWithDepth, sStandardDescription));
         }
         return vSubTypes;
     }
@@ -145,7 +152,7 @@ public class PieChart implements IChartType
         sdX.getQuery().setDefinition("Base Series");
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series valueSeries = PieSeriesImpl.create();
         valueSeries.getLabel().setVisible(true);
@@ -158,7 +165,33 @@ public class PieChart implements IChartType
 
         newChart.getSeriesDefinitions().add(sdX);
 
+        addSampleData();
         return newChart;
+    }
+
+    private void addSampleData()
+    {
+        SampleData sd = DataFactory.eINSTANCE.createSampleData();
+        sd.getBaseSampleData().clear();
+        sd.getOrthogonalSampleData().clear();
+
+        // Create Base Sample Data
+        BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+        sdBase.setDataSetRepresentation("New York, Chicago, San Francisco");
+        sd.getBaseSampleData().add(sdBase);
+
+        // Create Orthogonal Sample Data (with simulation count of 2)
+        OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample.setDataSetRepresentation("5,4,12");
+        oSample.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample);
+
+        OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample2.setDataSetRepresentation("7,22,14");
+        oSample2.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample2);
+
+        newChart.setSampleData(sd);
     }
 
     /*

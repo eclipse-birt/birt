@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class LabelAttributesComposite extends Composite implements SelectionListener, Listener
 {
+    private transient Composite cmpGeneral = null;
 
     private transient Group grpAttributes = null;
 
@@ -131,10 +132,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         flMain.marginWidth = 1;
 
         GridLayout glAttributes = new GridLayout();
-        glAttributes.verticalSpacing = 2;
+        glAttributes.verticalSpacing = 5;
         glAttributes.marginHeight = 2;
         glAttributes.marginWidth = 2;
-        glAttributes.numColumns = 6;
+
+        GridLayout glGeneral = new GridLayout();
+        glGeneral.numColumns = 2;
+        glGeneral.horizontalSpacing = 5;
+        glGeneral.verticalSpacing = 5;
 
         FillLayout flOutline = new FillLayout();
 
@@ -144,71 +149,67 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         grpAttributes.setText(sGroupName);
         grpAttributes.setLayout(glAttributes);
 
-        Label lblPosition = new Label(grpAttributes, SWT.NONE);
-        GridData gdLBLPosition = new GridData(GridData.FILL);
+        cmpGeneral = new Composite(grpAttributes, SWT.NONE);
+        GridData gdCMPGeneral = new GridData(GridData.FILL_HORIZONTAL);
+        cmpGeneral.setLayoutData(gdCMPGeneral);
+        cmpGeneral.setLayout(glGeneral);
+
+        Label lblPosition = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLBLPosition = new GridData();
         lblPosition.setLayoutData(gdLBLPosition);
         lblPosition.setText("Position:");
 
-        cmbPosition = new Combo(grpAttributes, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbPosition = new Combo(cmpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBPosition = new GridData(GridData.FILL_BOTH);
-        gdCMBPosition.horizontalSpan = 5;
         cmbPosition.setLayoutData(gdCMBPosition);
         cmbPosition.addSelectionListener(this);
 
-        Label lblFont = new Label(grpAttributes, SWT.NONE);
-        GridData gdLFont = new GridData(GridData.FILL);
-        gdLFont.horizontalSpan = 1;
+        Label lblFont = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLFont = new GridData();
         lblFont.setLayoutData(gdLFont);
         lblFont.setText("Font:");
 
-        fdcFont = new FontDefinitionComposite(grpAttributes, SWT.NONE, this.fdCurrent, this.cdFont);
+        fdcFont = new FontDefinitionComposite(cmpGeneral, SWT.NONE, this.fdCurrent, this.cdFont);
         GridData gdFDCFont = new GridData(GridData.FILL_BOTH);
-        gdFDCFont.horizontalSpan = 5;
         gdFDCFont.heightHint = fdcFont.getPreferredSize().y;
         gdFDCFont.widthHint = 96;
         gdFDCFont.grabExcessVerticalSpace = false;
         fdcFont.setLayoutData(gdFDCFont);
         fdcFont.addListener(this);
 
-        Label lblFill = new Label(grpAttributes, SWT.NONE);
-        GridData gdLFill = new GridData(GridData.FILL);
-        gdLFill.horizontalSpan = 1;
+        Label lblFill = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLFill = new GridData();
         lblFill.setLayoutData(gdLFill);
         lblFill.setText("Background:");
 
-        fccBackground = new FillChooserComposite(grpAttributes, SWT.NONE, fBackground, true, true);
+        fccBackground = new FillChooserComposite(cmpGeneral, SWT.NONE, fBackground, true, true);
         GridData gdFCCBackground = new GridData(GridData.FILL_BOTH);
-        gdFCCBackground.horizontalSpan = 5;
         gdFCCBackground.heightHint = fccBackground.getPreferredSize().y;
         fccBackground.setLayoutData(gdFCCBackground);
         fccBackground.addListener(this);
 
-        Label lblShadow = new Label(grpAttributes, SWT.NONE);
-        GridData gdLBLShadow = new GridData(GridData.FILL);
-        gdLBLShadow.horizontalSpan = 1;
+        Label lblShadow = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLBLShadow = new GridData();
         lblShadow.setLayoutData(gdLBLShadow);
         lblShadow.setText("Shadow:");
 
-        fccShadow = new FillChooserComposite(grpAttributes, SWT.NONE, cdShadow, false, false);
+        fccShadow = new FillChooserComposite(cmpGeneral, SWT.NONE, cdShadow, false, false);
         GridData gdFCCShadow = new GridData(GridData.FILL_BOTH);
-        gdFCCShadow.horizontalSpan = 5;
         fccShadow.setLayoutData(gdFCCShadow);
         fccShadow.addListener(this);
 
         grpOutline = new Group(grpAttributes, SWT.NONE);
-        GridData gdGOutline = new GridData(GridData.FILL_BOTH);
-        gdGOutline.horizontalSpan = 6;
+        GridData gdGOutline = new GridData(GridData.FILL_HORIZONTAL);
         gdGOutline.heightHint = 110;
         grpOutline.setLayoutData(gdGOutline);
         grpOutline.setText("Outline");
         grpOutline.setLayout(flOutline);
 
-        liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, laCurrent, true, true);
+        liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, laCurrent, true, true, true);
         liacOutline.addListener(this);
 
         icInsets = new InsetsComposite(grpAttributes, SWT.NONE, insets);
-        GridData gdICInsets = new GridData(GridData.FILL_BOTH);
-        gdICInsets.horizontalSpan = 6;
+        GridData gdICInsets = new GridData(GridData.FILL_HORIZONTAL);
         gdICInsets.heightHint = icInsets.getPreferredSize().y;
         gdICInsets.grabExcessVerticalSpace = false;
         icInsets.addListener(this);

@@ -47,8 +47,6 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
     private transient Composite cmpLines = null;
 
-    private transient Composite cmpStyle = null;
-
     private transient Combo cmbTickStyle = null;
 
     private transient Grid grid = null;
@@ -98,12 +96,13 @@ public class GridAttributesComposite extends Composite implements SelectionListe
     {
         // Layout for entire composite
         FillLayout flMain = new FillLayout();
-        flMain.marginHeight = 1;
-        flMain.marginWidth = 1;
+        flMain.marginHeight = 4;
+        flMain.marginWidth = 2;
 
         // Layout for content composite
         GridLayout glContent = new GridLayout();
-        glContent.verticalSpacing = 2;
+        glContent.verticalSpacing = 5;
+        glContent.horizontalSpacing = 5;
         glContent.marginHeight = 0;
         glContent.marginWidth = 0;
         glContent.numColumns = 2;
@@ -115,15 +114,11 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
         // Layout for Ticks group
         GridLayout glTicks = new GridLayout();
-        glTicks.marginHeight = 0;
-        glTicks.marginWidth = 1;
+        glTicks.marginHeight = 4;
+        glTicks.marginWidth = 4;
         glTicks.verticalSpacing = 2;
-
-        // Layout for Tick style composite
-        GridLayout glStyle = new GridLayout();
-        glStyle.marginHeight = 0;
-        glStyle.marginWidth = 4;
-        glStyle.numColumns = 5;
+        glTicks.horizontalSpacing = 5;
+        glTicks.numColumns = 2;
 
         this.setLayout(flMain);
 
@@ -139,7 +134,7 @@ public class GridAttributesComposite extends Composite implements SelectionListe
         cmpLines.setLayout(flLines);
 
         // Line Attributes for Grid Lines
-        liacLines = new LineAttributesComposite(cmpLines, SWT.NONE, grid.getLineAttributes(), true, true);
+        liacLines = new LineAttributesComposite(cmpLines, SWT.NONE, grid.getLineAttributes(), true, true, true);
         GridData gdLIACLines = new GridData(GridData.FILL_BOTH);
         liacLines.setLayoutData(gdLIACLines);
         liacLines.addListener(this);
@@ -153,27 +148,21 @@ public class GridAttributesComposite extends Composite implements SelectionListe
         grpTicks.setText("Ticks");
 
         // Line Attributes for Ticks
-        liacTicks = new LineAttributesComposite(grpTicks, SWT.NONE, grid.getTickAttributes(), false, false);
+        liacTicks = new LineAttributesComposite(grpTicks, SWT.NONE, grid.getTickAttributes(), false, false, true);
         GridData gdLIACTicks = new GridData(GridData.FILL_HORIZONTAL);
+        gdLIACTicks.horizontalSpan = 2;
         liacTicks.setLayoutData(gdLIACTicks);
         liacTicks.addListener(this);
 
-        // Tick Style composite
-        cmpStyle = new Composite(grpTicks, SWT.NONE);
-        GridData gdCMPStyle = new GridData(GridData.FILL_BOTH);
-        cmpStyle.setLayoutData(gdCMPStyle);
-        cmpStyle.setLayout(glStyle);
-
         // Tick Styles
-        Label lblStyle = new Label(cmpStyle, SWT.NONE);
+        Label lblStyle = new Label(grpTicks, SWT.NONE);
         GridData gdLBLStyle = new GridData();
-        gdLBLStyle.widthHint = 44;
+        gdLBLStyle.horizontalIndent = 4;
         lblStyle.setLayoutData(gdLBLStyle);
         lblStyle.setText("Style:");
 
-        cmbTickStyle = new Combo(cmpStyle, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbTickStyle = new Combo(grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBTickStyle = new GridData(GridData.FILL_HORIZONTAL);
-        gdCMBTickStyle.horizontalSpan = 4;
         cmbTickStyle.setLayoutData(gdCMBTickStyle);
         cmbTickStyle.addSelectionListener(this);
 

@@ -22,11 +22,15 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
-import org.eclipse.birt.chart.ui.swt.ChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
@@ -41,6 +45,8 @@ public class StockChart implements IChartType
 {
 
     private static final String sType = "Stock Chart";
+
+    private static final String sStandardDescription = "Stock charts show values of a stock for a discrete time period. Each 'value' is made up of high, low, open and close components.";
 
     private transient Image imgIcon = null;
 
@@ -103,11 +109,11 @@ public class StockChart implements IChartType
         {
             return vSubTypes;
         }
-        if (sDimension.equals("2D"))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
         {
             img2D = UIHelper.getImage("images/StockChartImage.gif");
 
-            vSubTypes.add(new ChartSubTypeImpl("Standard Stock Chart", img2D));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Stock Chart", img2D, sStandardDescription));
         }
         return vSubTypes;
     }
@@ -154,7 +160,7 @@ public class StockChart implements IChartType
             "Orthogonal Axis Title");
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series valueSeries = StockSeriesImpl.create();
         valueSeries.getLabel().setVisible(true);
@@ -163,7 +169,28 @@ public class StockChart implements IChartType
 
         newChart.setOrientation(Orientation.VERTICAL_LITERAL);
 
+        addSampleData();
         return newChart;
+    }
+
+    private void addSampleData()
+    {
+        SampleData sd = DataFactory.eINSTANCE.createSampleData();
+        sd.getBaseSampleData().clear();
+        sd.getOrthogonalSampleData().clear();
+
+        // Create Base Sample Data
+        BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+        sdBase.setDataSetRepresentation("01/25/2005,01/26/2005");
+        sd.getBaseSampleData().add(sdBase);
+
+        // Create Orthogonal Sample Data (with simulation count of 2)
+        OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample.setDataSetRepresentation("H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4 C4.1");
+        oSample.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample);
+
+        newChart.setSampleData(sd);
     }
 
     /*

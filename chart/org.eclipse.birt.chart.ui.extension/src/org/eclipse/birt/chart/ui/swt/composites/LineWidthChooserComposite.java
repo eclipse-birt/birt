@@ -15,6 +15,8 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,7 +35,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  *  
  */
-public class LineWidthChooserComposite extends Composite implements SelectionListener, MouseListener
+public class LineWidthChooserComposite extends Composite implements SelectionListener, MouseListener, KeyListener
 {
 
     private transient Composite cmpContentInner = null;
@@ -143,7 +145,7 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        Shell shell = new Shell(this.getShell(), SWT.NONE);
+        Shell shell = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         shell.setSize(cnvSelection.getSize().x, 150);
         shell.setLocation(iXLoc, iYLoc);
@@ -151,6 +153,7 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
         FillLayout fillDropDown = new FillLayout();
         fillDropDown.type = SWT.VERTICAL;
         cmpDropDown.setLayout(fillDropDown);
+        cmpDropDown.addKeyListener(this);
         for (int iC = 0; iC < this.iLineWidths.length; iC++)
         {
             LineCanvas cnv = new LineCanvas(cmpDropDown, SWT.NONE, SWT.LINE_SOLID, iLineWidths[iC]);
@@ -273,5 +276,32 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
         {
             ((Listener) vListeners.get(i)).handleEvent(e);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+     */
+    public void keyPressed(KeyEvent e)
+    {
+        if (cmpDropDown != null && !cmpDropDown.getShell().isDisposed())
+        {
+            if (e.keyCode == SWT.ESC)
+            {
+                cmpDropDown.getShell().dispose();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
+     */
+    public void keyReleased(KeyEvent e)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

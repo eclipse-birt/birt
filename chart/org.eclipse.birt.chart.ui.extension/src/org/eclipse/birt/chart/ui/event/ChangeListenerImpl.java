@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.ui.swt.data.SeriesDataSetSheetImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.emf.common.util.EList;
@@ -38,7 +37,7 @@ public class ChangeListenerImpl implements IChangeListener
         iSeriesCount = series.size();
         for (int iS = 0; iS < series.size(); iS++)
         {
-            uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
+            //            uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
         }
 
         if (cModel instanceof ChartWithAxes)
@@ -68,7 +67,7 @@ public class ChangeListenerImpl implements IChangeListener
         {
             for (int iNC = iSeriesCount; iNC > iNewSeriesCount; iNC++)
             {
-                uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
+                //                uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
             }
         }
         else

@@ -55,6 +55,8 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
     private transient boolean bEnableStyles = true;
 
+    private transient boolean bEnableVisibility = true;
+
     private transient Vector vListeners = null;
 
     public static final int STYLE_CHANGED_EVENT = 1;
@@ -70,7 +72,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
      * @param style
      */
     public LineAttributesComposite(Composite parent, int style, LineAttributes laCurrent, boolean bEnableWidths,
-        boolean bEnableStyles)
+        boolean bEnableStyles, boolean bEnableVisibility)
     {
         super(parent, style);
         this.laCurrent = laCurrent;
@@ -81,6 +83,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         }
         this.bEnableStyles = bEnableStyles;
         this.bEnableWidths = bEnableWidths;
+        this.bEnableVisibility = bEnableVisibility;
         init();
         placeComponents();
     }
@@ -100,46 +103,42 @@ public class LineAttributesComposite extends Composite implements SelectionListe
     private void placeComponents()
     {
         FillLayout flMain = new FillLayout();
-        flMain.marginHeight = 2;
-        flMain.marginWidth = 2;
+        flMain.marginHeight = 0;
+        flMain.marginWidth = 0;
 
         GridLayout glContent = new GridLayout();
-        glContent.verticalSpacing = 2;
-        glContent.horizontalSpacing = 20;
-        glContent.marginHeight = 2;
-        glContent.marginWidth = 2;
+        glContent.verticalSpacing = 5;
+        glContent.horizontalSpacing = 5;
+        glContent.marginHeight = 4;
+        glContent.marginWidth = 4;
         glContent.numColumns = 6;
-
-        FillLayout flVisible = new FillLayout();
-        flVisible.marginHeight = 2;
-        flVisible.marginWidth = 0;
 
         this.setLayout(flMain);
 
         cmpContent = new Composite(this, SWT.NONE);
         cmpContent.setLayout(glContent);
 
-        cmpVisible = new Composite(cmpContent, SWT.NONE);
-        GridData gdCMPVisible = new GridData(GridData.FILL_BOTH);
-        gdCMPVisible.horizontalSpan = 6;
-        cmpVisible.setLayoutData(gdCMPVisible);
-        cmpVisible.setLayout(flVisible);
-
-        cbVisible = new Button(cmpVisible, SWT.CHECK);
-        cbVisible.setText("Is Visible");
-        cbVisible.setSelection(laCurrent.isVisible());
-        cbVisible.addSelectionListener(this);
+        if (bEnableVisibility)
+        {
+            cbVisible = new Button(cmpContent, SWT.CHECK);
+            GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
+            gdCBVisible.horizontalSpan = 6;
+            cbVisible.setLayoutData(gdCBVisible);
+            cbVisible.setText("Is Visible");
+            cbVisible.setSelection(laCurrent.isVisible());
+            cbVisible.addSelectionListener(this);
+        }
 
         if (bEnableStyles)
         {
             Label lblStyle = new Label(cmpContent, SWT.NONE);
-            GridData gdLStyle = new GridData(GridData.FILL);
+            GridData gdLStyle = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblStyle.setLayoutData(gdLStyle);
             lblStyle.setText("Style:");
 
             cmbStyle = new LineStyleChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY,
                 getSWTLineStyle(laCurrent.getStyle()));
-            GridData gdCBStyle = new GridData(GridData.FILL_BOTH);
+            GridData gdCBStyle = new GridData(GridData.FILL_HORIZONTAL);
             gdCBStyle.horizontalSpan = 5;
             cmbStyle.setLayoutData(gdCBStyle);
             cmbStyle.addListener(this);
@@ -148,26 +147,26 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         if (bEnableWidths)
         {
             Label lblWidth = new Label(cmpContent, SWT.NONE);
-            GridData gdLWidth = new GridData(GridData.FILL);
+            GridData gdLWidth = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblWidth.setLayoutData(gdLWidth);
             lblWidth.setText("Width:");
 
             cmbWidth = new LineWidthChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, laCurrent
                 .getThickness());
-            GridData gdCBWidth = new GridData(GridData.FILL_BOTH);
+            GridData gdCBWidth = new GridData(GridData.FILL_HORIZONTAL);
             gdCBWidth.horizontalSpan = 5;
             cmbWidth.setLayoutData(gdCBWidth);
             cmbWidth.addListener(this);
         }
 
         Label lblColor = new Label(cmpContent, SWT.NONE);
-        GridData gdLColor = new GridData(GridData.FILL);
+        GridData gdLColor = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
         lblColor.setLayoutData(gdLColor);
         lblColor.setText("Color:");
 
         cmbColor = new FillChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, this.laCurrent.getColor(),
             false, false);
-        GridData gdCBColor = new GridData(GridData.FILL_BOTH);
+        GridData gdCBColor = new GridData(GridData.FILL_HORIZONTAL);
         gdCBColor.horizontalSpan = 5;
         cmbColor.setLayoutData(gdCBColor);
         cmbColor.addListener(this);
@@ -175,7 +174,11 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
     public Point getPreferredSize()
     {
-        Point ptSize = new Point(250, 70);
+        Point ptSize = new Point(250, 40);
+        if (bEnableVisibility)
+        {
+            ptSize.y += 30;
+        }
         if (bEnableStyles)
         {
             ptSize.y += 30;

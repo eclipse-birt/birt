@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  *  
  */
-public class IntegerSpinControl extends Composite implements SelectionListener, KeyListener
+public class IntegerSpinControl extends Composite implements SelectionListener, ModifyListener
 {
 
     private int iSize = 16;
@@ -126,7 +126,7 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         gd.heightHint = iSize;
         txtValue.setLayoutData(gd);
         txtValue.setText(String.valueOf(iCurrentValue));
-        txtValue.addKeyListener(this);
+        txtValue.addModifyListener(this);
 
         cmpBtnContainer = new Composite(cmpContentInner, SWT.NONE);
         gd = new GridData();
@@ -251,11 +251,11 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+     * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
      */
-    public void keyPressed(KeyEvent e)
+    public void modifyText(ModifyEvent e)
     {
-        if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR)
+        try
         {
             int iValue = (Integer.valueOf(txtValue.getText()).intValue());
             if (iValue >= iMinValue && iValue <= iMaxValue)
@@ -264,16 +264,8 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
                 fireValueChangedEvent();
             }
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
-     */
-    public void keyReleased(KeyEvent e)
-    {
-        // TODO Auto-generated method stub
-
+        catch (NumberFormatException e1 )
+        {
+        }
     }
 }

@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -55,7 +57,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  *  
  */
-public class FillChooserComposite extends Composite implements SelectionListener, MouseListener, DisposeListener
+public class FillChooserComposite extends Composite implements SelectionListener, MouseListener, DisposeListener,
+    KeyListener
 {
 
     private transient Composite cmpContentInner = null;
@@ -76,7 +79,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
     private transient Button btnImage = null;
 
-    private transient Color[] colorArray = null;
+    private static Color[] colorArray = null;
 
     private final String[] saImageTypes = new String[]
     {
@@ -92,6 +95,8 @@ public class FillChooserComposite extends Composite implements SelectionListener
     private transient Vector vListeners = null;
 
     public static final int FILL_CHANGED_EVENT = 1;
+
+    public static final int MOUSE_CLICKED_EVENT = 2;
 
     private transient int iSize = 20;
 
@@ -215,7 +220,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getDisplay(), SWT.NONE);
+        Shell shell = new Shell(this.getDisplay(), SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);
@@ -228,6 +233,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         glDropDown.verticalSpacing = 1;
         glDropDown.numColumns = 8;
         cmpDropDown.setLayout(glDropDown);
+        cmpDropDown.addKeyListener(this);
 
         ColorSelectionCanvas cnv = new ColorSelectionCanvas(cmpDropDown, SWT.BORDER, colorArray);
         GridData gdCnv = new GridData(GridData.FILL_BOTH);
@@ -350,6 +356,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         Object oSource = e.getSource();
         if (oSource.equals(btnDown))
         {
+            fireHandleEvent(MOUSE_CLICKED_EVENT);
             toggleDropDown();
         }
         else if (oSource.equals(this.btnImage))
@@ -383,7 +390,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 Image imgFill = AttributeFactory.eINSTANCE.createImage();
                 imgFill.setURL(sImgPath);
                 this.setFill(imgFill);
-                fireHandleEvent();
+                fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
             cmpDropDown.getParent().dispose();
         }
@@ -402,7 +409,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition();
                 cdNew.set(rgb.red, rgb.green, rgb.blue);
                 this.setFill(cdNew);
-                fireHandleEvent();
+                fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
             cmpDropDown.getParent().dispose();
         }
@@ -431,7 +438,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 }
             }
             this.setFill(fCurrent);
-            fireHandleEvent();
+            fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             cmpDropDown.getParent().dispose();
         }
     }
@@ -445,14 +452,14 @@ public class FillChooserComposite extends Composite implements SelectionListener
     {
     }
 
-    private void fireHandleEvent()
+    private void fireHandleEvent(int iType)
     {
         for (int iL = 0; iL < vListeners.size(); iL++)
         {
             Event se = new Event();
             se.widget = this;
-            se.data = this.fCurrent;
-            se.type = FillChooserComposite.FILL_CHANGED_EVENT;
+            se.data = fCurrent;
+            se.type = iType;
             ((Listener) vListeners.get(iL)).handleEvent(se);
         }
     }
@@ -473,6 +480,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     public void mouseDown(MouseEvent e)
     {
+        fireHandleEvent(MOUSE_CLICKED_EVENT);
         if (e.getSource().equals(cnvSelection))
         {
             toggleDropDown();
@@ -482,9 +490,9 @@ public class FillChooserComposite extends Composite implements SelectionListener
             ColorDefinition cTmp = AttributeFactory.eINSTANCE.createColorDefinition();
             Color clrTmp = ((ColorSelectionCanvas) e.getSource()).getColorAt(e.x, e.y);
             cTmp.set(clrTmp.getRed(), clrTmp.getGreen(), clrTmp.getBlue());
-            this.setFill(cTmp);
-            this.fireHandleEvent();
-            this.cmpDropDown.getShell().dispose();
+            setFill(cTmp);
+            fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
+            cmpDropDown.getShell().dispose();
         }
     }
 
@@ -511,6 +519,33 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 colorArray[iC].dispose();
             }
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+     */
+    public void keyPressed(KeyEvent e)
+    {
+        if (cmpDropDown != null && !cmpDropDown.getShell().isDisposed())
+        {
+            if (e.keyCode == SWT.ESC)
+            {
+                cmpDropDown.getShell().dispose();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
+     */
+    public void keyReleased(KeyEvent e)
+    {
+        // TODO Auto-generated method stub
+
     }
 }
 

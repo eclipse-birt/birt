@@ -20,12 +20,16 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.ui.swt.ChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
@@ -40,6 +44,12 @@ public class BarChart implements IChartType
 {
 
     private static final String sType = "Bar Chart";
+
+    private static final String sStackedDescription = "Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.";
+
+    private static final String sPercentStackedDescription = "Percent Stacked Bar charts show bars stacked one over the other in such a way that the total height of the stacked bar (from its lowest point to its highest) is 100.";
+
+    private static final String sSideBySideDescription = "Side-by-side Bar charts show bars from each series one besides the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.";
 
     private transient Image imgIcon = null;
 
@@ -98,7 +108,7 @@ public class BarChart implements IChartType
     {
         return new HelpContentImpl(
             "Bar Chart",
-            "Bar charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen). A percent bar chart would present each bar as a percent of the total for that category.");
+            "Bar charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).");
     }
 
     /*
@@ -109,7 +119,7 @@ public class BarChart implements IChartType
     public Collection getChartSubtypes(String sDimension, Orientation orientation)
     {
         Vector vSubTypes = new Vector();
-        if (sDimension.equals("2D"))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
@@ -124,11 +134,13 @@ public class BarChart implements IChartType
                 imgSideBySide = UIHelper.getImage("images/HorizontalSideBySideBarChartImage.gif");
             }
 
-            vSubTypes.add(new ChartSubTypeImpl("Stacked", imgStacked));
-            vSubTypes.add(new ChartSubTypeImpl("Percent Stacked", imgPercentStacked));
-            vSubTypes.add(new ChartSubTypeImpl("Side-by-side", imgSideBySide));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStacked, sStackedDescription));
+            vSubTypes
+                .add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStacked, sPercentStackedDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide, sSideBySideDescription));
         }
-        else if (sDimension.equals("2D With Depth"))
+        else if (sDimension.equals("2D With Depth")
+            || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName()))
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
@@ -143,11 +155,12 @@ public class BarChart implements IChartType
                     .getImage("images/HorizontalPercentStackedBarChartWithDepthImage.gif");
                 imgSideBySideWithDepth = UIHelper.getImage("images/HorizontalSideBySideBarChartWithDepthImage.gif");
             }
-            vSubTypes.add(new ChartSubTypeImpl("Stacked", imgStackedWithDepth));
-            vSubTypes.add(new ChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth));
-            vSubTypes.add(new ChartSubTypeImpl("Side-by-side", imgSideBySideWithDepth));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStackedWithDepth, sStackedDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth,
+                sPercentStackedDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySideWithDepth, sSideBySideDescription));
         }
-        else if (sDimension.equals("3D"))
+        else if (sDimension.equals("3D") || sDimension.equals(ChartDimension.THREE_DIMENSIONAL_LITERAL.getName()))
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
@@ -157,7 +170,7 @@ public class BarChart implements IChartType
             {
                 imgSideBySide3D = UIHelper.getImage("images/HorizontalSideBySideBarChart3DImage.gif");
             }
-            vSubTypes.add(new ChartSubTypeImpl("Side-by-side", imgSideBySide3D));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide3D, sSideBySideDescription));
         }
         return vSubTypes;
     }
@@ -205,7 +218,7 @@ public class BarChart implements IChartType
                 "Orthogonal Axis Title");
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = BarSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -224,7 +237,7 @@ public class BarChart implements IChartType
                 "Orthogonal Axis Title");
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = BarSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -243,7 +256,7 @@ public class BarChart implements IChartType
                 "Orthogonal Axis Title");
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = BarSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -251,7 +264,33 @@ public class BarChart implements IChartType
             sdY.getSeries().add(valueSeries);
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
         }
+        addSampleData();
         return newChart;
+    }
+
+    private void addSampleData()
+    {
+        SampleData sd = DataFactory.eINSTANCE.createSampleData();
+        sd.getBaseSampleData().clear();
+        sd.getOrthogonalSampleData().clear();
+
+        // Create Base Sample Data
+        BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+        sdBase.setDataSetRepresentation("New York, Chicago, San Francisco");
+        sd.getBaseSampleData().add(sdBase);
+
+        // Create Orthogonal Sample Data (with simulation count of 2)
+        OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample.setDataSetRepresentation("5,4,12");
+        oSample.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample);
+
+        OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample2.setDataSetRepresentation("7,22,14");
+        oSample2.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample2);
+
+        newChart.setSampleData(sd);
     }
 
     /*

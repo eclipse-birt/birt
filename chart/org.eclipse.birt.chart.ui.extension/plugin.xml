@@ -52,17 +52,11 @@
             classDefinition="org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl"
             nodePath="General"/>
       <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.data.DataSheetImpl"
-            nodePath="Data"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.data.SeriesDataSetSheetImpl"
-            nodePath="Data.Series.DataSet"/>
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.OrthogonalSeriesDataSheetImpl"
+            nodePath="Data.Orthogonal Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.SampleDataSheetImpl"
             nodePath="Data.Sample"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.AttributeSheetImpl"
-            nodePath="Attributes"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisAttributeSheetImpl"
             nodePath="Attributes.Base Axis"/>
@@ -90,8 +84,23 @@
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.ScriptSheetImpl"
             nodePath="Scripts"/>
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.general.StyleSheetImpl"
-            nodePath="Styles"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.chart.ui.seriescomposites">
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.BarSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.LineSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.PieSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.PieSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.ScatterSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.ScatterSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.StockSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.StockSeriesImpl"/>
    </extension>
 </plugin>

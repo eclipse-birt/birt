@@ -52,6 +52,8 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
 
     public static final int COLOR_DATA = 1;
 
+    private transient int iSize = 20;
+
     /**
      * @param parent
      * @param style
@@ -88,7 +90,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         glContent.horizontalSpacing = 2;
         glContent.marginHeight = 0;
         glContent.marginWidth = 0;
-        glContent.numColumns = 6;
+        glContent.numColumns = 2;
 
         this.setLayout(flMain);
 
@@ -99,14 +101,13 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
 
         cnvSelection = new FontCanvas(cmpContent, SWT.BORDER, fdCurrent, cdCurrent, false, false, false);
         GridData gdCNVSelection = new GridData(GridData.FILL_BOTH);
-        gdCNVSelection.horizontalSpan = 5;
-        gdCNVSelection.heightHint = 22;
-        gdCNVSelection.widthHint = 80;
+        gdCNVSelection.heightHint = iSize;
         cnvSelection.setLayoutData(gdCNVSelection);
 
         btnEllipsis = new Button(cmpContent, SWT.NONE);
-        GridData gdBEllipsis = new GridData(GridData.FILL_BOTH);
-        gdBEllipsis.widthHint = 16;
+        GridData gdBEllipsis = new GridData();
+        gdBEllipsis.widthHint = iSize;
+        gdBEllipsis.heightHint = iSize + 4;
         btnEllipsis.setLayoutData(gdBEllipsis);
         btnEllipsis.setText("...");
         btnEllipsis.addSelectionListener(this);

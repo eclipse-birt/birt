@@ -22,12 +22,16 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
-import org.eclipse.birt.chart.ui.swt.ChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
@@ -42,6 +46,8 @@ public class ScatterChart implements IChartType
 {
 
     private static final String sType = "Scatter Chart";
+
+    private static final String sStandardDescription = "Scatter charts show the values arranged on the plot using the base and orthogonal values as co-ordinates. Each data value is indicated by a marker.";
 
     private transient Image imgIcon = null;
 
@@ -99,7 +105,7 @@ public class ScatterChart implements IChartType
     public Collection getChartSubtypes(String sDimension, Orientation orientation)
     {
         Vector vSubTypes = new Vector();
-        if (sDimension.equals("2D"))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
@@ -110,7 +116,7 @@ public class ScatterChart implements IChartType
                 img2D = UIHelper.getImage("images/HorizontalScatterChartImage.gif");
             }
 
-            vSubTypes.add(new ChartSubTypeImpl("Standard Scatter Chart", img2D));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Scatter Chart", img2D, sStandardDescription));
         }
         return vSubTypes;
     }
@@ -156,7 +162,7 @@ public class ScatterChart implements IChartType
             "Orthogonal Axis Title");
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("MyExpression(Table.Column)");
+        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series orthogonalSeries = ScatterSeriesImpl.create();
         orthogonalSeries.getLabel().setVisible(true);
@@ -168,7 +174,33 @@ public class ScatterChart implements IChartType
         {
             newChart.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
         }
+        addSampleData();
         return newChart;
+    }
+
+    private void addSampleData()
+    {
+        SampleData sd = DataFactory.eINSTANCE.createSampleData();
+        sd.getBaseSampleData().clear();
+        sd.getOrthogonalSampleData().clear();
+
+        // Create Base Sample Data
+        BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+        sdBase.setDataSetRepresentation("3,9,-2");
+        sd.getBaseSampleData().add(sdBase);
+
+        // Create Orthogonal Sample Data (with simulation count of 2)
+        OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample.setDataSetRepresentation("15,-4,12");
+        oSample.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample);
+
+        OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+        oSample2.setDataSetRepresentation("2,27,35");
+        oSample2.setSeriesDefinitionIndex(0);
+        sd.getOrthogonalSampleData().add(oSample2);
+
+        newChart.setSampleData(sd);
     }
 
     /*

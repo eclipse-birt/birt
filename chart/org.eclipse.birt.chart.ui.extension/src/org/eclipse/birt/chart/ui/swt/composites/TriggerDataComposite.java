@@ -14,30 +14,40 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.attribute.SeriesValue;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
+import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class TriggerDataComposite extends Composite implements SelectionListener, Listener, KeyListener
+public class TriggerDataComposite extends Composite implements SelectionListener
 {
 
     private transient Group grpValue = null;
@@ -76,9 +86,25 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
     private transient Combo cmbActionType = null;
 
-    private transient Trigger trigger = null;
-
     private transient Vector vListeners = null;
+
+    public static void main(String[] args)
+    {
+        Display display = Display.getDefault();
+        Shell shell = new Shell(display);
+        TriggerDataComposite myComposite = new TriggerDataComposite(shell, SWT.NONE, null);
+        FillLayout flShell = new FillLayout(SWT.VERTICAL);
+        shell.setLayout(flShell);
+        shell.setSize(myComposite.getPreferredSize());
+        shell.open();
+        while (!shell.isDisposed())
+        {
+            if (!display.readAndDispatch())
+            {
+                display.sleep();
+            }
+        }
+    }
 
     /**
      * @param parent
@@ -87,9 +113,9 @@ public class TriggerDataComposite extends Composite implements SelectionListener
     public TriggerDataComposite(Composite parent, int style, Trigger trigger)
     {
         super(parent, style);
-        this.trigger = trigger;
         init();
         placeComponents();
+        setTrigger(trigger);
     }
 
     private void init()
@@ -101,12 +127,12 @@ public class TriggerDataComposite extends Composite implements SelectionListener
     private void placeComponents()
     {
         // Layout for the content composite
-        GridLayout glContent = new GridLayout();
-        glContent.numColumns = 6;
-        glContent.horizontalSpacing = 16;
-        glContent.verticalSpacing = 4;
-        glContent.marginHeight = 2;
-        glContent.marginWidth = 2;
+        GridLayout glCMPTrigger = new GridLayout();
+        glCMPTrigger.numColumns = 4;
+        glCMPTrigger.horizontalSpacing = 16;
+        glCMPTrigger.verticalSpacing = 4;
+        glCMPTrigger.marginHeight = 2;
+        glCMPTrigger.marginWidth = 2;
 
         // Layout for the Action Details group
         slValues = new StackLayout();
@@ -145,36 +171,32 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         glParameter.numColumns = 3;
 
         // Main content composite
-        this.setLayout(glContent);
+        this.setLayout(glCMPTrigger);
 
         Label lblTriggerType = new Label(this, SWT.NONE);
         GridData gdLBLTriggerType = new GridData();
-        gdLBLTriggerType.widthHint = 40;
         gdLBLTriggerType.horizontalIndent = 4;
         lblTriggerType.setLayoutData(gdLBLTriggerType);
         lblTriggerType.setText("Type:");
 
         cmbTriggerType = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBTriggerType = new GridData(GridData.FILL_HORIZONTAL);
-        gdCMBTriggerType.horizontalSpan = 2;
         cmbTriggerType.setLayoutData(gdCMBTriggerType);
         cmbTriggerType.addSelectionListener(this);
 
         Label lblActionType = new Label(this, SWT.NONE);
         GridData gdLBLActionType = new GridData();
-        gdLBLActionType.widthHint = 34;
         lblActionType.setLayoutData(gdLBLActionType);
         lblActionType.setText("Action:");
 
         cmbActionType = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBActionType = new GridData(GridData.FILL_HORIZONTAL);
-        gdCMBActionType.horizontalSpan = 2;
         cmbActionType.setLayoutData(gdCMBActionType);
         cmbActionType.addSelectionListener(this);
 
         grpValue = new Group(this, SWT.NONE);
         GridData gdGRPValue = new GridData(GridData.FILL_BOTH);
-        gdGRPValue.horizontalSpan = 6;
+        gdGRPValue.horizontalSpan = 4;
         grpValue.setLayoutData(gdGRPValue);
         grpValue.setText("Action Details");
         grpValue.setLayout(slValues);
@@ -301,69 +323,117 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
     private void populateLists()
     {
-        cmbTriggerType.add(TriggerCondition.MOUSE_CLICK_LITERAL.getName());
-        cmbTriggerType.add(TriggerCondition.MOUSE_HOVER_LITERAL.getName());
+        for (int iC = 0; iC < TriggerCondition.VALUES.size(); iC++)
+        {
+            cmbTriggerType.add(((TriggerCondition) TriggerCondition.VALUES.get(iC)).getName());
+        }
         cmbTriggerType.select(0);
 
-        cmbActionType.add(ActionType.URL_REDIRECT_LITERAL.getName());
-        cmbActionType.add(ActionType.TOGGLE_VISIBILITY_LITERAL.getName());
-        cmbActionType.add(ActionType.SHOW_TOOLTIP_LITERAL.getName());
-        cmbActionType.add(ActionType.INVOKE_SCRIPT_LITERAL.getName());
+        for (int iC = 0; iC < ActionType.VALUES.size(); iC++)
+        {
+            cmbActionType.add(((ActionType) ActionType.VALUES.get(iC)).getName());
+        }
         cmbActionType.select(0);
     }
 
-    public void addListener(Listener listener)
+    public void setTrigger(Trigger trigger)
     {
-        vListeners.add(listener);
+        updateUI(trigger);
     }
 
-    private void fireEvent()
+    private void updateUI(Trigger trigger)
     {
-        Event event = new Event();
-        event.widget = this;
-        // TODO: Set the event type and data before firing
-        for (int i = 0; i < vListeners.size(); i++)
+        if (trigger == null)
         {
-            ((Listener) vListeners.get(i)).handleEvent(event);
+            clear();
+            return;
         }
+        cmbTriggerType.setText(trigger.getCondition().getName());
+        cmbActionType.setText(trigger.getAction().getType().getName());
+        switch (cmbActionType.getSelectionIndex())
+        {
+            case 0:
+                this.slValues.topControl = cmpURL;
+                URLValue urlValue = (URLValue) trigger.getAction().getValue();
+                txtBaseURL.setText((urlValue.getBaseUrl().length() > 0) ? urlValue.getBaseUrl() : "");
+                txtTarget.setText((urlValue.getTarget().length() > 0) ? urlValue.getTarget() : "");
+                txtBaseParm.setText((urlValue.getBaseParameterName().length() > 0) ? urlValue.getBaseParameterName()
+                    : "");
+                txtValueParm.setText((urlValue.getValueParameterName().length() > 0) ? urlValue.getValueParameterName()
+                    : "");
+                txtSeriesParm.setText((urlValue.getSeriesParameterName().length() > 0) ? urlValue
+                    .getSeriesParameterName() : "");
+                break;
+            case 1:
+                this.slValues.topControl = cmpTooltip;
+                TooltipValue tooltipValue = (TooltipValue) trigger.getAction().getValue();
+                iscDelay.setValue(tooltipValue.getDelay());
+                txtTooltipText.setText((tooltipValue.getText().length() > 0) ? tooltipValue.getText() : "");
+                break;
+            case 2:
+                this.slValues.topControl = cmpVisibility;
+                SeriesValue seriesValue = (SeriesValue) trigger.getAction().getValue();
+                txtSeriesDefinition.setText((seriesValue.getName().length() > 0) ? seriesValue.getName() : "");
+                break;
+            case 3:
+                this.slValues.topControl = cmpScript;
+                ScriptValue scriptValue = (ScriptValue) trigger.getAction().getValue();
+                txtScript.setText((scriptValue.getScript().length() > 0) ? scriptValue.getScript() : "");
+                break;
+        }
+        grpValue.layout();
+    }
+
+    public Trigger getTrigger()
+    {
+        ActionValue value = null;
+        switch (cmbActionType.getSelectionIndex())
+        {
+            case 0:
+                value = URLValueImpl.create(txtBaseURL.getText(), txtTarget.getText(), txtBaseParm.getText(),
+                    txtValueParm.getText(), txtSeriesParm.getText());
+                break;
+            case 1:
+                value = TooltipValueImpl.create(iscDelay.getValue(), txtTooltipText.getText());
+                break;
+            case 2:
+                value = AttributeFactory.eINSTANCE.createSeriesValue();
+                ((SeriesValue) value).setName(txtSeriesDefinition.getText());
+                break;
+            case 3:
+                value = AttributeFactory.eINSTANCE.createScriptValue();
+                ((ScriptValue) value).setScript(txtScript.getText());
+                break;
+        }
+        Action action = ActionImpl.create(ActionType.get(cmbActionType.getText()), value);
+        return TriggerImpl.create(TriggerCondition.get(cmbTriggerType.getText()), action);
+    }
+
+    public void clear()
+    {
+        cmbTriggerType.select(0);
+        cmbActionType.select(0);
+        switch (cmbActionType.getSelectionIndex())
+        {
+            case 0:
+                this.slValues.topControl = cmpURL;
+                break;
+            case 1:
+                this.slValues.topControl = cmpTooltip;
+                break;
+            case 2:
+                this.slValues.topControl = cmpVisibility;
+                break;
+            case 3:
+                this.slValues.topControl = cmpScript;
+                break;
+        }
+        grpValue.layout();
     }
 
     public Point getPreferredSize()
     {
-        return new Point(360, 260);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
-     */
-    public void keyPressed(KeyEvent e)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
-     */
-    public void keyReleased(KeyEvent e)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-     */
-    public void handleEvent(Event event)
-    {
-        // TODO Auto-generated method stub
-
+        return new Point(260, 260);
     }
 
     /*
@@ -373,11 +443,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
      */
     public void widgetSelected(SelectionEvent e)
     {
-        if (e.getSource().equals(cmbTriggerType))
-        {
-
-        }
-        else if (e.getSource().equals(cmbActionType))
+        if (e.getSource().equals(cmbActionType))
         {
             switch (cmbActionType.getSelectionIndex())
             {
@@ -386,11 +452,11 @@ public class TriggerDataComposite extends Composite implements SelectionListener
                     grpValue.layout();
                     break;
                 case 1:
-                    this.slValues.topControl = cmpVisibility;
+                    this.slValues.topControl = cmpTooltip;
                     grpValue.layout();
                     break;
                 case 2:
-                    this.slValues.topControl = cmpTooltip;
+                    this.slValues.topControl = cmpVisibility;
                     grpValue.layout();
                     break;
                 case 3:
