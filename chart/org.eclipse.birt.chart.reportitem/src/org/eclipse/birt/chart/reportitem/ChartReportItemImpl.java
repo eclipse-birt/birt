@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.extension.IReportItem;
+import org.eclipse.birt.report.model.extension.ReportItemAdapter;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -38,7 +39,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * @author Actuate Corporation
  *  
  */
-public final class ChartReportItemImpl implements IReportItem
+public final class ChartReportItemImpl extends ReportItemAdapter
 {
     private Chart cm = null;
     private static final List liLegendPositions = new LinkedList();

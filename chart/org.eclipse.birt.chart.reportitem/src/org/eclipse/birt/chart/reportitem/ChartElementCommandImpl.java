@@ -10,13 +10,13 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
-import org.eclipse.birt.report.model.extension.IElementCommand;
+import org.eclipse.birt.report.model.extension.ElementCommandAdapter;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class ChartElementCommandImpl implements IElementCommand
+public class ChartElementCommandImpl extends ElementCommandAdapter
 {
 
     /**

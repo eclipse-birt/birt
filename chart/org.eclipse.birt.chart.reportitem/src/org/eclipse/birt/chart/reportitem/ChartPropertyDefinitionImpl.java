@@ -12,12 +12,12 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.extension.PropertyDefinitionAdapter;
 
 /**
  * 
  */
-public final class ChartPropertyDefinitionImpl implements IPropertyDefinition
+public final class ChartPropertyDefinitionImpl extends PropertyDefinitionAdapter
 {
     /**
      * 

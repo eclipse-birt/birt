@@ -30,14 +30,6 @@ public class ChartReportItemFactoryImpl implements IReportItemFactory, IMessages
         super();
     }
 
-    /**
-     * This is unused and should be removed from the interface
-     */
-    public Object getIcon()
-    {
-        return null;
-    }
-
     /*
      * (non-Javadoc)
      * 
