@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.commands.DeleteColumnCommand;
+import org.eclipse.birt.report.designer.core.commands.DeleteRowCommand;
 import org.eclipse.birt.report.designer.core.model.ITableAdaptHelper;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -56,6 +58,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.GridLayer;
 import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
@@ -511,7 +514,7 @@ public class TableEditPart extends ReportElementEditPart
 		int size = numbers.length;
 		for ( int i = 0; i < size; i++ )
 		{
-			list.add( new DummyEditpart( getColumn( numbers[i] ) ) );
+			list.add( new DummyColumnEditPart( getColumn( numbers[i] ) ) );
 		}
 		for ( int i = 0; i < size; i++ )
 		{
@@ -582,7 +585,7 @@ public class TableEditPart extends ReportElementEditPart
 		//add row object in the list first
 		for ( int i = 0; i < size; i++ )
 		{
-			list.add( new DummyEditpart( getRow( numbers[i] ) ) );
+			list.add( new DummyRowEditPart( getRow( numbers[i] ) ) );
 		}
 
 		for ( int i = 0; i < size; i++ )
@@ -1168,6 +1171,75 @@ public class TableEditPart extends ReportElementEditPart
 				.iterator( ); it.hasNext( ); )
 		{
 			( (DesignElementHandle) it.next( ) ).addListener( this );
+		}
+	}
+	
+	/**
+	 * The class use for select row in table.
+	 * 
+	 */
+	public static class DummyColumnEditPart extends DummyEditpart
+	{
+
+		/**
+		 * @param model
+		 */
+		public DummyColumnEditPart( Object model )
+		{
+			super( model );
+			createEditPolicies();
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
+		 */
+		protected void createEditPolicies( )
+		{
+			
+			ReportComponentEditPolicy policy = new ReportComponentEditPolicy()
+			{
+				protected org.eclipse.gef.commands.Command createDeleteCommand(
+						GroupRequest deleteRequest )
+				{
+					DeleteColumnCommand command = new DeleteColumnCommand( getModel( ) );
+					return command;
+				}
+			};
+			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
+		}
+	}
+	
+	/**
+	 * The class use for select row in table.
+	 * 
+	 */
+	public static class DummyRowEditPart extends DummyEditpart
+	{
+
+		/**
+		 * @param model
+		 */
+		public DummyRowEditPart( Object model )
+		{
+			super( model );
+			createEditPolicies();
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
+		 */
+		protected void createEditPolicies( )
+		{
+			ReportComponentEditPolicy policy = new ReportComponentEditPolicy()
+			{
+				protected org.eclipse.gef.commands.Command createDeleteCommand(
+						GroupRequest deleteRequest )
+				{
+					DeleteRowCommand command = new DeleteRowCommand( getModel( ) );
+					return command;
+				}
+			};
+			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
 		}
 	}
 }
