@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
@@ -105,6 +107,10 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	public ComboBoxColorCellEditor( Composite parent, String[] items, int style )
 	{
 		super( parent, style );
+		if ( items != null )
+		{
+			Arrays.sort( items );
+		}
 		setItems( items );
 	}
 
