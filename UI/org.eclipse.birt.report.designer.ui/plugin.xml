@@ -69,7 +69,7 @@
             contributorClass="org.eclipse.birt.report.designer.ui.actions.DesignerActionBarContributor"
             name="%ReportEditor"
             id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
-            extensions="iard"/>
+            extensions="rtpdesign"/>
    </extension>
       <extension
          point="org.eclipse.ui.perspectives">

@@ -89,12 +89,6 @@ public class TableCellEditPart extends ReportElementEditPart
 		return figure;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.actuate.iard.design.core.Listener#notify(com.actuate.iard.design.core.DesignElement,
-	 *      com.actuate.iard.design.activity.NotificationEvent)
-	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
 		markDirty( true );

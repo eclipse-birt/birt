@@ -219,13 +219,7 @@ public class TableEditPart extends ReportElementEditPart implements
 			( (RowHandle) list.get( i ) ).removeListener( this );
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.actuate.iard.design.core.Listener#notify(com.actuate.iard.design.core.DesignElement,
-	 *      com.actuate.iard.design.activity.NotificationEvent)
-	 */
+	
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( !isActive( ) )
