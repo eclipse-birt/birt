@@ -286,10 +286,6 @@ public class ExtendedItem extends ReportItem
 
 		ElementPropertyDefn defn = super.getPropertyDefn( propName );
 
-		// if the extended item is a normal report item, then return it
-
-		assert hasExtension( );
-
 		// if the extended item has the extension, then check the
 		// style masks first
 
@@ -303,15 +299,17 @@ public class ExtendedItem extends ReportItem
 		// check whether the property is defined by extension
 
 		ExtensionElementDefn extDefn = getExtDefn( );
-		assert extDefn != null;
+		if ( extDefn == null )
+			return null;
+		
 		ElementPropertyDefn prop = extDefn.getProperty( propName );
-
 		if ( prop != null )
 			return prop;
 
 		IPropertyDefinition[] extProps = getExtensionModel( );
 		if ( extProps == null )
 			return null;
+		
 		for ( int i = 0; i < extProps.length; i++ )
 		{
 			IPropertyDefinition extProp = extProps[i];
@@ -398,14 +396,15 @@ public class ExtendedItem extends ReportItem
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		assert extName != null;
+		if ( extName == null )
+			return null;
+		
 		if ( cachedExtDefn != null )
 			return cachedExtDefn;
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		cachedExtDefn = dd.getExtension( extName );
 
-		assert cachedExtDefn != null;
 		return cachedExtDefn;
 	}
 
@@ -584,6 +583,38 @@ public class ExtendedItem extends ReportItem
 	{
 		List list = super.validate( design );
 
+		// Note: the following errors are treated as syntax error.
+		
+//		if ( StringUtil.isBlank( extName ) )
+//		{
+//			list.add( new SemanticError( this,
+//					SemanticError.MISSING_EXTENSION ) );
+//		}
+//		else
+//		{
+//			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+//			ExtensionElementDefn extDefn = dd.getExtension( extName );
+//			if ( extDefn == null )
+//			{
+//				list.add( new SemanticError( this, new String[]{ extName },
+//						SemanticError.EXTENSION_NOT_FOUND ) );
+//			}
+//			else
+//			{
+//				if ( extElement != null )
+//				{
+//					try
+//					{
+//						extElement.validate( );
+//					}
+//					catch ( ExtendedElementException e )
+//					{
+//						list.add( e );
+//					}
+//				}
+//			}
+//		}
+
 		if ( extElement != null )
 		{
 			try
@@ -595,6 +626,7 @@ public class ExtendedItem extends ReportItem
 				list.add( e );
 			}
 		}
+		
 		return list;
 	}
 

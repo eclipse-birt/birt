@@ -656,7 +656,7 @@
     </Method>
     <Method name="setUTCFullYear" displayNameID="Class.Date.setUTCFullYear" toolTipID="Class.Date.setUTCFullYear.toolTip" returnType="number">
       <Argument name="year" type="number" tagID="Class.Date.setUTCFullYear.year" />
-      <Argument name="minutes" type="number" tagID="Class.Date.setUTCFullYear.minutes" />
+      <Argument name="month" type="number" tagID="Class.Date.setUTCFullYear.month" />
       <Argument name="day" type="number" tagID="Class.Date.setUTCFullYear.day" />
     </Method>
     <Method name="setUTCHours" displayNameID="Class.Date.setUTCHours" toolTipID="Class.Date.setUTCHours.toolTip" returnType="number">

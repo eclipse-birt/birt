@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -16,13 +16,15 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.SemanticError;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
 /**
  * This class parses the Extended Item (extended item) tag.
- * 
+ *  
  */
 
 public class ExtendedItemState extends ReportItemState
@@ -61,25 +63,47 @@ public class ExtendedItemState extends ReportItemState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new ExtendedItem( );
-		
-		String extension = getAttrib( attrs, DesignSchemaConstants.EXTENSION_ATTRIB );
+
+		String extension = getAttrib( attrs,
+				DesignSchemaConstants.EXTENSION_ATTRIB );
 		if ( StringUtil.isBlank( extension ) )
 		{
-			initElement( attrs );
-			return;
+			handler.semanticError( new SemanticError( element,
+					SemanticError.MISSING_EXTENSION ) );
 		}
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = dd.getExtension( extension );
-		if ( extDefn == null )
+		else
 		{
-			handler.semanticError( new SemanticError( element, SemanticError.EXTENSION_NOT_FOUND ) );
-			initElement( attrs );
-			return;
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			ExtensionElementDefn extDefn = dd.getExtension( extension );
+			if ( extDefn == null )
+			{
+				handler.semanticError( new SemanticError( element,
+						new String[]{extension},
+						SemanticError.EXTENSION_NOT_FOUND ) );
+			}
 		}
 		setProperty( ExtendedItem.EXTENSION_PROP, attrs,
 				DesignSchemaConstants.EXTENSION_ATTRIB );
+
 		initElement( attrs );
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 */
+	public AbstractParseState startElement( String tagName )
+	{
+//		if ( StringUtil.isBlank( element.getExtendsName( ) )
+//				|| MetaDataDictionary.getInstance( ).getExtension(
+//						element.getExtendsName( ) ) == null )
+//		{
+//			return new AnyElementState( getHandler( ) );
+//		}
+
+		return super.startElement( tagName );
 	}
 
 	/*

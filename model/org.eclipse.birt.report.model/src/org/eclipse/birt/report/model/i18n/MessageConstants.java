@@ -150,6 +150,7 @@ public interface MessageConstants
     public static final String  SEMANTIC_ERROR_INVALID_CUSTOM_COLOR_NAME             	= "Error.SemanticError.INVALID_CUSTOM_COLOR_NAME";                  //$NON-NLS-1$
     public static final String  SEMANTIC_ERROR_DUPLICATE_CUSTOM_COLOR_NAME              = "Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME";                  //$NON-NLS-1$
     public static final String 	SEMANTIC_ERROR_EXTENSION_NOT_FOUND 						= "Error.SemanticError.EXTENSION_NOT_FOUND"; 						//$NON-NLS-1$
+    public static final String 	SEMANTIC_ERROR_MISSING_EXTENSION 						= "Error.SemanticError.MISSING_EXTENSION"; 						//$NON-NLS-1$
     
 	public static final String	STYLE_EXCEPTION_FORBIDDEN								= "Error.StyleException.FORBIDDEN";								//$NON-NLS-1$
 	public static final String	STYLE_EXCEPTION_NOT_FOUND								= "Error.StyleException.NOT_FOUND";								//$NON-NLS-1$
