@@ -13,6 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.GridFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -25,6 +30,7 @@ import org.eclipse.draw2d.IFigure;
 public class GridEditPart extends TableEditPart
 {
 
+	private static final String GUIDEHANDLE_TEXT = Messages.getString( "GridEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 	/**
 	 * Constructor
 	 * @param obj
@@ -75,6 +81,16 @@ public class GridEditPart extends TableEditPart
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+	 */
+	protected AbstractGuideHandle createGuideHandle( )
+	{
+		TableGuideHandle handle = new TableGuideHandle(this);
+		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
+		return handle;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

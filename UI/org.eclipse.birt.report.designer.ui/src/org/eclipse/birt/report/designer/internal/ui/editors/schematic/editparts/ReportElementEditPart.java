@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -39,18 +41,25 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.birt.report.model.util.DimensionUtil;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * <p>
@@ -63,18 +72,148 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			IModelAdapterHelper
 {
 
-	DesignElementHandleAdapter peer;
+	private static final int DELAY_TIME = 1600;
+	private DesignElementHandleAdapter peer;
+	private AbstractHandle guideHandle = null;
+	private boolean canDeleteGuide = true;
 
 	/**
 	 * Constructor
+	 * 
 	 * @param model
 	 */
 	public ReportElementEditPart( Object model )
 	{
 		super( );
 		setModel( model );
+		getFigure( ).addMouseMotionListener( new MouseMotionListener.Stub( )
+		{
+
+			public void mouseEntered( MouseEvent me )
+			{
+				//System.out.println("enter");
+				addGuideFeedBack( );
+
+			}
+
+			public void mouseExited( MouseEvent me )
+			{
+				//System.out.println("exit");
+				delayRemoveGuideFeedBack( );
+			}
+
+			public void mouseHover( MouseEvent me )
+			{
+				//System.out.println("hover");
+				addGuideFeedBack( );
+
+			}
+
+			public void mouseMoved( MouseEvent me )
+			{
+				//System.out.println("move");
+				//addGuideFeedBack();
+			}
+
+		} );
 	}
+
+	/**Creates the guide handle, default get from parent.
+	 * @return
+	 */
+	protected AbstractGuideHandle createGuideHandle( )
+	{
+		EditPart part = getParent( );
+		if ( part instanceof ReportElementEditPart )
+		{
+			return ( (ReportElementEditPart) part ).createGuideHandle( );
+		}
+		return null;
+	}
+
+	/**Adds the guide handle to the handle layer.
+	 * 
+	 */
+	public void addGuideFeedBack( )
+	{
+		canDeleteGuide = false;
+		if ( guideHandle == null )
+		{
+			guideHandle = createGuideHandle( );
+		}
+		if ( guideHandle != null && guideHandle.getParent( ) == null )
+		{
+			clearGuideHandle( );	
+			getHandleLayer( ).add( guideHandle );
+		}
+	}
+
+	private void clearGuideHandle( )
+	{
+		IFigure layer = getHandleLayer( );
+		List list = layer.getChildren( );
+		List temp = new ArrayList( );
+		int size = list.size( );
+
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof AbstractGuideHandle )
+			{
+				temp.add( obj );
+			}
+		}
+
+		size = temp.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			IFigure figure = (IFigure) temp.get( i );
+			layer.remove( figure );
+		}
+	}
+
+	/**
+	 *Removes the guide handle. 
+	 */
+	public void removeGuideFeedBack( )
+	{
+		if ( guideHandle != null
+				&& guideHandle.getParent( ) == getHandleLayer( ) )
+		{
+			getHandleLayer( ).remove( guideHandle );
+		}
+		guideHandle = null;
+	}
+
 	
+	/**
+	 * Removes the guide handle after the specified
+	 * number of milliseconds.
+	 */
+	public void delayRemoveGuideFeedBack( )
+	{
+		canDeleteGuide = true;
+		Display.getCurrent( ).timerExec( DELAY_TIME, new Runnable( )
+		{
+
+			public void run( )
+			{
+				if (canDeleteGuide)
+				{
+					removeGuideFeedBack( );
+				}
+			}
+
+		} );
+	}
+
+	private IFigure getHandleLayer( )
+	{
+		LayerManager manager = (LayerManager) getViewer( )
+				.getEditPartRegistry( ).get( LayerManager.ID );
+		return manager.getLayer( LayerConstants.HANDLE_LAYER );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -108,6 +247,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	{
 		if ( !isActive( ) )
 			return;
+
+		removeGuideFeedBack( );
+
 		removeModelLister( );
 		super.deactivate( );
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
@@ -170,6 +312,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets bounds
+	 * 
 	 * @param r
 	 */
 	public void setBounds( Rectangle r )
@@ -186,6 +329,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Gets location
+	 * 
 	 * @return
 	 */
 	public Point getLocation( )
@@ -195,6 +339,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets location
+	 * 
 	 * @param p
 	 */
 	public void setLocation( Point p )
@@ -219,6 +364,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Sets size
+	 * 
 	 * @param d
 	 */
 	public void setSize( Dimension d )
@@ -240,9 +386,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	 */
 	protected Font getFont( )
 	{
-		StyleHandle styleHandle = ( (ReportItemHandle) getModel( ) ).getPrivateStyle( );
+		StyleHandle styleHandle = ( (ReportItemHandle) getModel( ) )
+				.getPrivateStyle( );
 
-		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
+		String family = (String) ( styleHandle.getFontFamilyHandle( )
+				.getValue( ) );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 
 		if ( FontFamily == null )
@@ -262,8 +410,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 		else
 		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( handle ) ) )
-					.intValue( );
+			fontSize = Integer.valueOf(
+					(String) DesignerConstants.fontMap.get( DEUtil
+							.getFontSize( handle ) ) ).intValue( );
 		}
 
 		int fontStyle = 0;
@@ -416,11 +565,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			else if ( backGroundPosition instanceof DimensionValue[] )
 			{
 				//{0%, 0%}
-				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0].getMeasure( );
-				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1].getMeasure( );
+				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0]
+						.getMeasure( );
+				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1]
+						.getMeasure( );
 				Rectangle area = getFigure( ).getClientArea( );
-				org.eclipse.swt.graphics.Rectangle imageArea = ImageManager.getImage( backGroundImage )
-						.getBounds( );
+				org.eclipse.swt.graphics.Rectangle imageArea = ImageManager
+						.getImage( backGroundImage ).getBounds( );
 				int x = ( area.width - imageArea.width ) * percentX / 100;
 				int y = ( area.height - imageArea.height ) * percentY / 100;
 
@@ -429,7 +580,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#markDirty(boolean)
 	 */
 	public void markDirty( boolean bool )
@@ -439,6 +592,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	/**
 	 * Marks edit part dirty
+	 * 
 	 * @param bool
 	 * @param notifyParent
 	 */
@@ -470,7 +624,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#isDirty()
 	 */
 	public boolean isDirty( )
@@ -503,7 +659,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getPreferredSize()
 	 */
 	public Dimension getPreferredSize( )
@@ -512,7 +670,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return size;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getInsets()
 	 */
 	public Insets getInsets( )
@@ -527,45 +687,47 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	protected void refreshBorder( DesignElementHandle handle, BaseBorder border )
 	{
-		border.bottom_color = handle.getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
-				.getStringValue( );
-		border.bottom_style = handle.getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
-				.getStringValue( );
-		border.bottom_width = handle.getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
-				.getStringValue( );
+		border.bottom_color = handle.getPropertyHandle(
+				Style.BORDER_BOTTOM_COLOR_PROP ).getStringValue( );
+		border.bottom_style = handle.getPropertyHandle(
+				Style.BORDER_BOTTOM_STYLE_PROP ).getStringValue( );
+		border.bottom_width = handle.getPropertyHandle(
+				Style.BORDER_BOTTOM_WIDTH_PROP ).getStringValue( );
 
-		border.top_color = handle.getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
-				.getStringValue( );
-		border.top_style = handle.getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
-				.getStringValue( );
-		border.top_width = handle.getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
-				.getStringValue( );
+		border.top_color = handle.getPropertyHandle(
+				Style.BORDER_TOP_COLOR_PROP ).getStringValue( );
+		border.top_style = handle.getPropertyHandle(
+				Style.BORDER_TOP_STYLE_PROP ).getStringValue( );
+		border.top_width = handle.getPropertyHandle(
+				Style.BORDER_TOP_WIDTH_PROP ).getStringValue( );
 
-		border.left_color = handle.getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
-				.getStringValue( );
-		border.left_style = handle.getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
-				.getStringValue( );
-		border.left_width = handle.getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
-				.getStringValue( );
+		border.left_color = handle.getPropertyHandle(
+				Style.BORDER_LEFT_COLOR_PROP ).getStringValue( );
+		border.left_style = handle.getPropertyHandle(
+				Style.BORDER_LEFT_STYLE_PROP ).getStringValue( );
+		border.left_width = handle.getPropertyHandle(
+				Style.BORDER_LEFT_WIDTH_PROP ).getStringValue( );
 
-		border.right_color = handle.getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
-				.getStringValue( );
-		border.right_style = handle.getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
-				.getStringValue( );
-		border.right_width = handle.getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
-				.getStringValue( );
+		border.right_color = handle.getPropertyHandle(
+				Style.BORDER_RIGHT_COLOR_PROP ).getStringValue( );
+		border.right_style = handle.getPropertyHandle(
+				Style.BORDER_RIGHT_STYLE_PROP ).getStringValue( );
+		border.right_width = handle.getPropertyHandle(
+				Style.BORDER_RIGHT_WIDTH_PROP ).getStringValue( );
 
 		getFigure( ).setBorder( border );
 	}
 
 	protected Insets getMasterPageInsets( DesignElementHandle handle )
 	{
-		return ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPageInsets( handle );
+		return ( (ReportDesignHandleAdapter) getModelAdapter( ) )
+				.getMasterPageInsets( handle );
 	}
 
 	protected Dimension getMasterPageSize( DesignElementHandle handle )
 	{
-		return ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPageSize( handle );
+		return ( (ReportDesignHandleAdapter) getModelAdapter( ) )
+				.getMasterPageSize( handle );
 	}
 
 	protected int getForegroundColor( DesignElementHandle handle )

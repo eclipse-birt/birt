@@ -21,7 +21,12 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
@@ -45,6 +50,7 @@ import org.eclipse.gef.RequestConstants;
 public class ListEditPart extends ReportElementEditPart
 {
 
+	private static final String GUIDEHANDLE_TEXT = Messages.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 	/**
 	 * Constructor.
 	 * 
@@ -55,6 +61,16 @@ public class ListEditPart extends ReportElementEditPart
 		super( obj );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+	 */
+	protected AbstractGuideHandle createGuideHandle( )
+	{
+		TableGuideHandle handle = new TableGuideHandle(this);
+		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
+		return handle;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
