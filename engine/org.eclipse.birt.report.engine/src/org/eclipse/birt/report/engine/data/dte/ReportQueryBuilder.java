@@ -89,7 +89,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/11 18:08:40 $
  */
 public class ReportQueryBuilder
 {
@@ -194,7 +194,10 @@ public class ReportQueryBuilder
 		private void prepareVisit( ReportItemDesign item )
 		{
 			tempQuery = null;
-			tempQuery = createQuery( item );
+			if (item instanceof ListingDesign)
+				tempQuery = createQuery( (ListingDesign)item );
+			else
+				tempQuery = createQuery( item );
 			if ( tempQuery != null )
 			{
 				pushQuery( tempQuery );
