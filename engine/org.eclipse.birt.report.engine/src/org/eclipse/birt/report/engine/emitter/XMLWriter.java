@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.10 $ $Date: 2005/03/15 07:22:42 $
  */
 public class XMLWriter
 {
@@ -438,6 +438,10 @@ public class XMLWriter
 			{
 				replacement = "&quot;"; //$NON-NLS-1$
 			}
+//			else if ( c == '<' )
+//			{
+//				replacement = "&lt;"; //$NON-NLS-1$
+//			}
 			else if ( c == '\r' )
 			{
 				replacement = "&#13;"; //$NON-NLS-1$

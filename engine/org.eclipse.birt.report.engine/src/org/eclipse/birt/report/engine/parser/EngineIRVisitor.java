@@ -130,10 +130,10 @@ import org.xml.sax.Attributes;
  * <p>
  * 
  * This class visits the Design Engine's IR to create a new IR for FPE. It is
- * usually used in the "Design Adaptation" phase of report geenration, which is
+ * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.13 $ $Date: 2005/03/15 03:29:36 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -141,7 +141,8 @@ class EngineIRVisitor extends DesignVisitor
 	/**
 	 * logger used to log the error.
 	 */
-	protected static Logger logger = Logger.getLogger( EngineIRVisitor.class.getName() );
+	protected static Logger logger = Logger.getLogger( EngineIRVisitor.class
+			.getName( ) );
 
 	/**
 	 * current report element created by visitor
@@ -1052,7 +1053,8 @@ class EngineIRVisitor extends DesignVisitor
 			// Check if the style is already in report's style list
 			for ( int i = 0; i < report.getStyleCount( ); i++ )
 			{
-				StyleDesign cachedStyle = report.getStyle( i );
+				//Cast the type mandatorily
+				StyleDesign cachedStyle = (StyleDesign) report.getStyle( i );
 				if ( cachedStyle.equals( style ) )
 				{
 					//There exist a style which has same properties with this
@@ -1710,7 +1712,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		catch ( BirtException e )
 		{
-		    logger.log( Level.SEVERE, e.getLocalizedMessage(),  e );
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 			return null;
 		}
 	}

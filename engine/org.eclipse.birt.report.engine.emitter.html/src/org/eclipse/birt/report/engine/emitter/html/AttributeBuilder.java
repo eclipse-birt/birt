@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/15 03:30:13 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/15 07:22:32 $
  */
 public class AttributeBuilder
 {
@@ -38,12 +38,12 @@ public class AttributeBuilder
 		if ( x != null || y != null )
 		{
 			content.append( "position: relative;" ); //$NON-NLS-1$
-			buildSize( content, HTMLTags.ATTR_LEFT, x ); 
-			buildSize( content, HTMLTags.ATTR_TOP, y ); 
+			buildSize( content, HTMLTags.ATTR_LEFT, x );
+			buildSize( content, HTMLTags.ATTR_TOP, y );
 		}
 
-		buildSize( content,HTMLTags. ATTR_WIDTH, width ); 
-		buildSize( content, HTMLTags.ATTR_HEIGHT, height ); 
+		buildSize( content, HTMLTags.ATTR_WIDTH, width );
+		buildSize( content, HTMLTags.ATTR_HEIGHT, height );
 
 		return content.toString( );
 	}
@@ -60,7 +60,7 @@ public class AttributeBuilder
 	 *            resource manager and hyperlink builder objects for
 	 *            background-image property.
 	 */
-	public static void buildStyle( StringBuffer content, StyleDesign style,
+	public static void buildStyle( StringBuffer content, IStyle style,
 			HTMLReportEmitter emitter )
 	{
 		if ( style == null )
@@ -87,12 +87,14 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildVisual( StringBuffer content, StyleDesign style )
+	private static void buildVisual( StringBuffer content, IStyle style )
 	{
 		// move display property from css file to html file
 		// buildProperty( content, "display", style.getDisplay( ) );
-		buildProperty( content, HTMLTags.ATTR_VERTICAL_ALIGN, style.getVerticalAlign( ) ); //$NON-NLS-1$
-		buildProperty( content, HTMLTags.ATTR_LINE_HEIGHT, style.getLineHeight( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_VERTICAL_ALIGN, style
+				.getVerticalAlign( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_LINE_HEIGHT, style
+				.getLineHeight( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -103,13 +105,17 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildPagedMedia( StringBuffer content, StyleDesign style )
+	private static void buildPagedMedia( StringBuffer content,
+			IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) ); 
-		buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style.getPageBreakBefore( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style.getPageBreakAfter( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style.getPageBreakInside( ) );
+		buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
+		buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
+				.getPageBreakBefore( ) );
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style
+				.getPageBreakAfter( ) );
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style
+				.getPageBreakInside( ) );
 	}
 
 	/**
@@ -124,7 +130,7 @@ public class AttributeBuilder
 	 *            resource manager and hyperlink builder objects.
 	 */
 	private static void buildBackground( StringBuffer content,
-			StyleDesign style, HTMLReportEmitter emitter )
+			IStyle style, HTMLReportEmitter emitter )
 	{
 		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) ); //$NON-NLS-1$
 
@@ -194,33 +200,40 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildBox( StringBuffer content, StyleDesign style )
+	private static void buildBox( StringBuffer content, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, style.getMarginTop( ) ); 
-		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, style.getMarginRight( ) ); 
-		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, style.getMarginBottom( ) );
-		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, style.getMarginLeft( ) ); 
+		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, style.getMarginTop( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, style
+				.getMarginRight( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, style
+				.getMarginBottom( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, style
+				.getMarginLeft( ) );
 
-		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, style.getPaddingTop( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, style.getPaddingRight( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, style.getPaddingBottom( ) ); 
-		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, style.getPaddingLeft( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, style
+				.getPaddingTop( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, style
+				.getPaddingRight( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, style
+				.getPaddingBottom( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, style
+				.getPaddingLeft( ) );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_TOP,
-				style.getBorderTopWidth( ), style.getBorderTopStyle( ), style
-						.getBorderTopColor( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_TOP, style
+				.getBorderTopWidth( ), style.getBorderTopStyle( ), style
+				.getBorderTopColor( ) );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_RIGHT,
-				style.getBorderRightWidth( ), style.getBorderRightStyle( ),
-				style.getBorderRightColor( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_RIGHT, style
+				.getBorderRightWidth( ), style.getBorderRightStyle( ), style
+				.getBorderRightColor( ) );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_BOTTOM,
-				style.getBorderBottomWidth( ), style.getBorderBottomStyle( ),
-				style.getBorderBottomColor( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_BOTTOM, style
+				.getBorderBottomWidth( ), style.getBorderBottomStyle( ), style
+				.getBorderBottomColor( ) );
 
-		buildBorder( content, HTMLTags.ATTR_BORDER_LEFT,
-				style.getBorderLeftWidth( ), style.getBorderLeftStyle( ), style
-						.getBorderLeftColor( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_LEFT, style
+				.getBorderLeftWidth( ), style.getBorderLeftStyle( ), style
+				.getBorderLeftColor( ) );
 	}
 
 	/**
@@ -231,18 +244,23 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildText( StringBuffer content, StyleDesign style )
+	private static void buildText( StringBuffer content, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style.getTextIndent( ) ); 
-		buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) ); 
+		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style
+				.getTextIndent( ) );
+		buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
 
 		buildTextDecoration( content, style.getTextLineThrough( ), style
 				.getTextOverline( ), style.getTextUnderline( ) );
 
-		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style.getLetterSpacing( ) ); 
-		buildProperty( content, HTMLTags.ATTR_WORD_SPACING, style.getWordSpacing( ) ); 
-		buildProperty( content, HTMLTags.ATTR_TEXT_TRANSFORM, style.getTextTransform( ) ); 
-		buildProperty( content, HTMLTags.ATTR_WHITE_SPACE, style.getWhiteSpace( ) );
+		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style
+				.getLetterSpacing( ) );
+		buildProperty( content, HTMLTags.ATTR_WORD_SPACING, style
+				.getWordSpacing( ) );
+		buildProperty( content, HTMLTags.ATTR_TEXT_TRANSFORM, style
+				.getTextTransform( ) );
+		buildProperty( content, HTMLTags.ATTR_WHITE_SPACE, style
+				.getWhiteSpace( ) );
 	}
 
 	/**
@@ -253,17 +271,20 @@ public class AttributeBuilder
 	 * @param style
 	 *            The style object.
 	 */
-	private static void buildFont( StringBuffer content, StyleDesign style )
+	private static void buildFont( StringBuffer content, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_FONT_FAMILY, style.getFontFamily( ) ); 
+		buildProperty( content, HTMLTags.ATTR_FONT_FAMILY, style
+				.getFontFamily( ) );
 
 		buildProperty( content, HTMLTags.ATTR_FONT_STYLE, style.getFontStyle( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_VARIANT, style.getFontVariant( ) );
+		buildProperty( content, HTMLTags.ATTR_FONT_VARIANT, style
+				.getFontVariant( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_WEIGTH, style.getFontWeight( ) ); 
+		buildProperty( content, HTMLTags.ATTR_FONT_WEIGTH, style
+				.getFontWeight( ) );
 
-		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) ); 
+		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) );
 	}
 
 	/**
@@ -317,12 +338,9 @@ public class AttributeBuilder
 
 	/**
 	 * Build the border string.
- 	 * <li>
-	 * ignore all the border styles is style is null
-     * <li>
-	 * CSS default border-color is the font-color, while BIRT is black
-     * <li>
-	 * border-color is not inheritable.
+	 * <li>ignore all the border styles is style is null
+	 * <li>CSS default border-color is the font-color, while BIRT is black
+	 * <li>border-color is not inheritable.
 	 * 
 	 * @param content
 	 *            The <code>StringBuffer</code> to which the result is output.
@@ -338,7 +356,7 @@ public class AttributeBuilder
 	private static void buildBorder( StringBuffer content, String name,
 			String width, String style, String color )
 	{
-		if (style == null || style.length() <= 0)
+		if ( style == null || style.length( ) <= 0 )
 		{
 			return;
 		}
@@ -348,7 +366,7 @@ public class AttributeBuilder
 		addPropValue( content, color == null ? "black" : color ); //$NON-NLS-1$
 		content.append( ';' );
 	}
-	
+
 	/**
 	 * Build size style string say, "width: 10.0mm;".
 	 * 

@@ -13,14 +13,14 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IReportContentVisitor;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 
 /**
  * container content object
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ContainerContent extends ReportItemContent
 		implements
@@ -38,7 +38,7 @@ public class ContainerContent extends ReportItemContent
 	/**
 	 * the style defined for the report item
 	 */
-	private StyleDesign style = null;
+	private IStyle style = null;
 
 	/**
 	 * constructor for REPORTITEM_CONTAINER
@@ -76,7 +76,7 @@ public class ContainerContent extends ReportItemContent
 	/**
 	 * @return Returns the style.
 	 */
-	public StyleDesign getStyle( )
+	public IStyle getStyle( )
 	{
 		return style;
 	}

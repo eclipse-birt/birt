@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
+import org.eclipse.birt.report.engine.content.IReport;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -28,9 +30,9 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/24 08:29:31 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
  */
-public class Report
+public class Report implements IReport
 {
 
 	/**
@@ -176,10 +178,10 @@ public class Report
 	 *            style index
 	 * @return style
 	 */
-	public StyleDesign getStyle( int index )
+	public IStyle getStyle( int index )
 	{
 		assert ( index >= 0 && index < styles.size( ) );
-		return (StyleDesign) this.styles.get( index );
+		return (IStyle) this.styles.get( index );
 	}
 
 	/**
@@ -319,7 +321,7 @@ public class Report
 	public void setReportDesign( ReportDesign reportDesign )
 	{
 		this.reportDesign = reportDesign;
-		if ( basePath == null || basePath.equals("")) //$NON-NLS-1$
+		if ( basePath == null || basePath.equals( "" ) ) //$NON-NLS-1$
 		{
 			File file = new File( reportDesign.getFileName( ) );
 			basePath = file.getParent( );
@@ -483,9 +485,9 @@ public class Report
 	{
 		this.basePath = basePath;
 	}
-	
-	public List getErrors()
+
+	public List getErrors( )
 	{
-		return this.reportDesign.handle().getErrorList();
+		return this.reportDesign.handle( ).getErrorList( );
 	}
 }

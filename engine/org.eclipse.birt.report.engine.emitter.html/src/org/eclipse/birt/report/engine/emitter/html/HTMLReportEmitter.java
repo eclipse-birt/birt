@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
 import org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessor;
@@ -29,7 +30,6 @@ import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.resource.IRepository;
 import org.eclipse.birt.report.engine.resource.ResourceManager;
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/03/15 03:30:13 $
+ * @version $Revision: 1.12 $ $Date: 2005/03/15 07:22:32 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -276,18 +276,16 @@ public class HTMLReportEmitter implements IReportEmitter
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
 		writer.closeNoEndTag( );
 
-		writer.openTag( HTMLTags.TAG_HEAD ); 
+		writer.openTag( HTMLTags.TAG_HEAD );
 
-		writer.openTag( HTMLTags.TAG_STYLE ); 
-		writer.attribute( HTMLTags.ATTR_TYPE, 
-				"text/css" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_STYLE );
+		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
 
 		// output general styles
-		writer
-				.style(
-						"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		writer.style(
+				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
-		StyleDesign style;
+		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
 		if ( report == null )
 		{
@@ -305,16 +303,16 @@ public class HTMLReportEmitter implements IReportEmitter
 				style = report.getStyle( n );
 				if ( style != null )
 				{
-					if ( style.entrySet( ).size( ) == 0 )
+					if ( style.isEmpty())
 					{
 						styleNameMapping.put( style.getName( ), null );
 					}
 					else
 					{
-						StyleDesign tempStyle;
+						IStyle tempStyle;
 						for ( m = 0; m < styleNum; m++ )
 						{
-							tempStyle = (StyleDesign) styleList.get( m );
+							tempStyle = (IStyle) styleList.get( m );
 							if ( style.isSameStyle( tempStyle ) )
 							{
 								styleNameMapping.put( style.getName( ),
@@ -360,7 +358,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void endReport( )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
-		writer.closeTag( HTMLTags.TAG_HTML ); 
+		writer.closeTag( HTMLTags.TAG_HTML );
 		writer.endWriter( );
 		writer.close( );
 	}

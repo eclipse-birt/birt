@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:36 $
  */
 class ReportDesignWriter
 {
@@ -94,10 +94,10 @@ class ReportDesignWriter
 			attribute( "y", item.getY( ) ); //$NON-NLS-1$
 			attribute( "width", item.getWidth( ) ); //$NON-NLS-1$
 			attribute( "height", item.getHeight( ) ); //$NON-NLS-1$
-			/*if ( item.getDataSet( ) != null )
-			{
-				attribute( "dataset", item.getDataSet( ).getName( ) );
-			}*/
+			/*
+			 * if ( item.getDataSet( ) != null ) { attribute( "dataset",
+			 * item.getDataSet( ).getName( ) ); }
+			 */
 
 		}
 
@@ -141,31 +141,20 @@ class ReportDesignWriter
 			out.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ); //$NON-NLS-1$
 			pushTag( "report" ); //$NON-NLS-1$
 			attribute( "units", report.getUnit( ) ); //$NON-NLS-1$
-			/*if ( report.getDataSourceCount( ) > 0 )
-			{
-				pushTag( "data-sources" );
-				for ( int i = 0; i < report.getDataSourceCount( ); i++ )
-				{
-					writeDataSource( report.getDataSource( i ) );
-				}
-				popTag( );
-			}
-			if ( report.getDataSetCount( ) > 0 )
-			{
-				pushTag( "data-sets" );
-				for ( int i = 0; i < report.getDataSetCount( ); i++ )
-				{
-					writeDataSet( report.getDataSet( i ) );
-				}
-				popTag( );
-			}
-*/
+			/*
+			 * if ( report.getDataSourceCount( ) > 0 ) { pushTag( "data-sources" );
+			 * for ( int i = 0; i < report.getDataSourceCount( ); i++ ) {
+			 * writeDataSource( report.getDataSource( i ) ); } popTag( ); } if (
+			 * report.getDataSetCount( ) > 0 ) { pushTag( "data-sets" ); for (
+			 * int i = 0; i < report.getDataSetCount( ); i++ ) { writeDataSet(
+			 * report.getDataSet( i ) ); } popTag( ); }
+			 */
 			if ( hasStyle && report.getStyleCount( ) > 0 )
 			{
 				pushTag( "styles" ); //$NON-NLS-1$
 				for ( int i = 0; i < report.getStyleCount( ); i++ )
 				{
-					writeStyle( report.getStyle( i ) );
+					writeStyle( (StyleDesign) report.getStyle( i ) );
 				}
 				popTag( );
 			}
@@ -192,20 +181,18 @@ class ReportDesignWriter
 		 * @param ds
 		 *            datas ource
 		 */
-		/*private void writeDataSource( DataSourceDesign ds )
-		{
-			assert ds instanceof JdbcDataSourceDesign;
-
-			pushTag( "jdbc-data-source" );
-			writeReportElement( ds );
-
-			JdbcDataSourceDesign jdbcds = (JdbcDataSourceDesign) ds;
-			attribute( "user-name", jdbcds.getUserName( ) );
-			attribute( "password", jdbcds.getPassword( ) );
-			text( jdbcds.getUrl( ) );
-
-			popTag( );
-		}*/
+		/*
+		 * private void writeDataSource( DataSourceDesign ds ) { assert ds
+		 * instanceof JdbcDataSourceDesign;
+		 * 
+		 * pushTag( "jdbc-data-source" ); writeReportElement( ds );
+		 * 
+		 * JdbcDataSourceDesign jdbcds = (JdbcDataSourceDesign) ds; attribute(
+		 * "user-name", jdbcds.getUserName( ) ); attribute( "password",
+		 * jdbcds.getPassword( ) ); text( jdbcds.getUrl( ) );
+		 * 
+		 * popTag( ); }
+		 */
 
 		/**
 		 * write out the data set
@@ -213,19 +200,18 @@ class ReportDesignWriter
 		 * @param ds
 		 *            data set
 		 */
-		/*private void writeDataSet( DataSetDesign ds )
-		{
-			assert ds instanceof SqlQueryDataSetDesign;
-
-			pushTag( "sql-query" );
-			writeReportElement( ds );
-
-			SqlQueryDataSetDesign sqlds = (SqlQueryDataSetDesign) ds;
-			attribute( "data-source", sqlds.getDataSource( ).getName( ) );
-			text( sqlds.getStatement( ) );
-
-			popTag( );
-		}*/
+		/*
+		 * private void writeDataSet( DataSetDesign ds ) { assert ds instanceof
+		 * SqlQueryDataSetDesign;
+		 * 
+		 * pushTag( "sql-query" ); writeReportElement( ds );
+		 * 
+		 * SqlQueryDataSetDesign sqlds = (SqlQueryDataSetDesign) ds; attribute(
+		 * "data-source", sqlds.getDataSource( ).getName( ) ); text(
+		 * sqlds.getStatement( ) );
+		 * 
+		 * popTag( ); }
+		 */
 
 		/**
 		 * write pagesetup
@@ -373,7 +359,7 @@ class ReportDesignWriter
 		void writeListGroup( ListGroupDesign group )
 		{
 			pushTag( "group" ); //$NON-NLS-1$
-			
+
 			if ( group.getHeader( ) != null )
 			{
 				writeListBand( "header", group.getHeader( ) ); //$NON-NLS-1$
@@ -388,7 +374,7 @@ class ReportDesignWriter
 		void writeTableGroup( TableGroupDesign group )
 		{
 			pushTag( "group" ); //$NON-NLS-1$
-			
+
 			if ( group.getHeader( ) != null )
 			{
 				writeTableBand( "header", group.getHeader( ) ); //$NON-NLS-1$
