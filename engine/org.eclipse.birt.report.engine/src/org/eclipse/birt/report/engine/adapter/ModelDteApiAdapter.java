@@ -264,6 +264,11 @@ public class ModelDteApiAdapter
             {
             	DataSetParameterHandle modelParam = (DataSetParameterHandle ) elmtIter.next();
 				dteDataSet.addParameter( newParam( modelParam ) );
+				if ( modelParam.isInput( ) )
+				{
+					dteDataSet.addInputParamBinding( newInputParamBinding( modelParam.getName( ),
+							modelParam.getDefaultValue( ) ) );
+				}
             }
         }
 
@@ -349,7 +354,7 @@ public class ModelDteApiAdapter
         dteParam.setType( toDteDataType( modelParam.getDataType() ) );
         dteParam.setInputMode( modelParam.isInput() );
         dteParam.setOutputMode( modelParam.isOutput() );
-        dteParam.setNullable( modelParam.getIsNullable() );
+        dteParam.setNullable( modelParam.isNullable() );
         dteParam.setInputOptional( modelParam.isOptional() );
         dteParam.setDefaultInputValue( modelParam.getDefaultValue() );
         
@@ -361,11 +366,17 @@ public class ModelDteApiAdapter
      */
     IInputParameterBinding newInputParamBinding( ParamBindingHandle modelInputParamBndg )
     {
-        if ( modelInputParamBndg.getExpression() == null )
-            return null;	// no expression is bound
-        ScriptExpression expr = new ScriptExpression( modelInputParamBndg.getExpression() );
-        // model provides binding by name only
-        return new InputParameterBinding( modelInputParamBndg.getParamName(), expr );
+        if ( modelInputParamBndg.getExpression( ) == null )
+			return null; // no expression is bound
+		// model provides binding by name only
+		return newInputParamBinding( modelInputParamBndg.getParamName( ),
+				modelInputParamBndg.getExpression( ) );
+    }
+    
+    private IInputParameterBinding newInputParamBinding( String paramName, String paramValue )
+    {
+    	ScriptExpression paramValueExpr = new ScriptExpression( paramValue );
+		return new InputParameterBinding( paramName, paramValueExpr );
     }
     
     /** Creates a new DtE API Computed Column from a model computed column.
