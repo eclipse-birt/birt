@@ -15,6 +15,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -26,9 +27,11 @@ import org.eclipse.swt.graphics.Color;
 public class AreaFigure extends Figure
 {
 
-	private static int LINE_STYLE = SWT.LINE_DASHDOT;
+	private static final int LINE_STYLE = SWT.LINE_DASHDOT;
 
-	private static int inset = 3;
+	private static final Insets DEFAULT_EXPAND = new Insets( 2, 2, 2, 2 );
+
+	private static final int inset = 5;
 
 	/**
 	 * Creates a figure with a margin border.
@@ -36,7 +39,7 @@ public class AreaFigure extends Figure
 	public AreaFigure( )
 	{
 		super( );
-		setOpaque( true );
+		setOpaque( false );
 
 		setBorder( new MarginBorder( inset ) );
 	}
@@ -48,27 +51,21 @@ public class AreaFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		Rectangle rect = getClientArea( );
+		Rectangle rect = getClientArea( ).expand( DEFAULT_EXPAND );
 		Color forecolor = graphics.getForegroundColor( );
 
 		if ( getBackgroundColor( ).equals( ColorConstants.blue ) )
 		{
 			//paint the figure with blue when it's highlighted
 			graphics.fillRectangle( rect );
-			graphics.setForegroundColor( ColorConstants.lightBlue );
-			graphics.drawRectangle( rect );
 		}
-		else
-		{
-			graphics.setBackgroundColor( ColorConstants.white );
-			graphics.fillRectangle( rect );
 
-			graphics.setForegroundColor(ReportColorConstants.MarginBorderColor);
-			drawLine( graphics, rect, SWT.LEFT, LINE_STYLE );
-			drawLine( graphics, rect, SWT.TOP, LINE_STYLE );
-			drawLine( graphics, rect, SWT.RIGHT, LINE_STYLE );
-			drawLine( graphics, rect, SWT.BOTTOM, LINE_STYLE );
-		}
+		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+
+		drawLine( graphics, rect, SWT.LEFT, LINE_STYLE );
+		drawLine( graphics, rect, SWT.TOP, LINE_STYLE );
+		drawLine( graphics, rect, SWT.RIGHT, LINE_STYLE );
+		drawLine( graphics, rect, SWT.BOTTOM, LINE_STYLE );
 
 		graphics.setForegroundColor( forecolor );
 	}

@@ -98,7 +98,8 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 		List lst = getSupportList( slotHandle );
 
 		return lst.contains( MetaDataDictionary.getInstance( )
-				.getElement( insertType ) );
+				.getElement( insertType ) )
+				&& DEUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
 	}
 
 	/**
@@ -165,8 +166,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		request.setExtendedData( extendsData );
 
-		ProviderFactory.createProvider( model ).performRequest( model,
-				request );
+		ProviderFactory.createProvider( model ).performRequest( model, request );
 
 		return request;
 	}
