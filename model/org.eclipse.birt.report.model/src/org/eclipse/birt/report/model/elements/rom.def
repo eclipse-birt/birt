@@ -1910,22 +1910,22 @@
     </Property>
     <PropertyGroup displayNameID="Element.MasterPage.margin">
       <Property name="topMargin" displayNameID="Element.MasterPage.topMargin" type="dimension">
-        <Default>0.5in</Default>
+        <Default>1in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="leftMargin" displayNameID="Element.MasterPage.leftMargin" type="dimension">
-        <Default>0.5in</Default>
+        <Default>1.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="bottomMargin" displayNameID="Element.MasterPage.bottomMargin" type="dimension">
-        <Default>0.5in</Default>
+        <Default>1in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="rightMargin" displayNameID="Element.MasterPage.rightMargin" type="dimension">
-        <Default>0.5in</Default>
+        <Default>1.25in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
@@ -2541,7 +2541,7 @@
     <StyleProperty name="borderRightColor" />
     <StyleProperty name="display" />
   </Element>
-  <Element name="TextData" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" displayNameID="Element.TextData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="multi-line-data">
+  <Element name="TextData" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" displayNameID="Element.TextData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="text-data">
     <Property name="valueExpr" displayNameID="Element.TextData.valueExpr" type="expression" valueRequired="true" />
     <Property name="contentTypeExpr" displayNameID="Element.TextData.contentTypeExpr" type="expression" />
     <StyleProperty name="backgroundAttachment" />
@@ -2721,10 +2721,10 @@
   <Style name="toc7" displayNameID="Style.Toc7" reference="Table-of-contents level 7" />
   <Style name="toc8" displayNameID="Style.Toc8" reference="Table-of-contents level 8" />
   <Style name="toc9" displayNameID="Style.Toc9" reference="Table-of-contents level 9" />
-  <Style name="freeform" displayNameID="Style.FreeForm" reference="Free-form item" />
+  <Style name="free-form" displayNameID="Style.FreeForm" reference="Free-form item" />
   <Style name="line" displayNameID="Style.Line" reference="Line item" />
   <Style name="rectangle" displayNameID="Style.Rectangle" reference="Rectangel item" />
-  <Style name="textdata" displayNameID="Style.TextData" reference="Text data item" />
-  <Style name="extendeditem" displayNameID="Style.ExtendedItem" reference="Extended item" />
+  <Style name="text-data" displayNameID="Style.TextData" reference="Text data item" />
+  <Style name="extended-item" displayNameID="Style.ExtendedItem" reference="Extended item" />
 </ReportMetaData>
 
