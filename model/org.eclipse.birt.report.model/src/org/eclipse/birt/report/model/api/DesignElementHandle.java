@@ -48,7 +48,6 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
@@ -495,7 +494,7 @@ public abstract class DesignElementHandle
 	 */
 
 	public void addUserPropertyDefn( UserPropertyDefn prop )
-			throws UserPropertyException, MetaDataException
+			throws UserPropertyException
 	{
 		DesignElement element = getElement( );
 		UserPropertyCommand cmd = new UserPropertyCommand( design, element );
