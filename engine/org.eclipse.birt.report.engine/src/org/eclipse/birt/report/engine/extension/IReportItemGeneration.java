@@ -38,11 +38,11 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
  * <li> Call finish() for cleanup.
  */
 public interface IReportItemGeneration {
-	public static String ITEM_BOUNDS 				= "bounds"; 	// $NON-NLS-1$
-	public static String RESOLUTION	 				= "dpi"; 		// $NON-NLS-1$
-	public static String SCALING_FACTOR 			= "scale";		// $NON-NLS-1$
-	public static String MODEL_OBJ					= "model";		// $NON-NLS-1$
-	
+	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$
+	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$
+	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$
+	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$
+
     /**
      * Initializes the generation object before it processes the extended item. The 
      * hash table parameter allows new parameters to be added without changing this 
@@ -62,7 +62,7 @@ public interface IReportItemGeneration {
     /**
      * @return an IReportQueryDefn object that the fatory can pass to DTE 
      */
-    public IBaseQueryDefn nextQuery();   
+    public IBaseQueryDefn nextQuery(IBaseQueryDefn parent);   
     
 	/**
 	 * @param query a prepared query
