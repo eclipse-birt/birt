@@ -366,11 +366,27 @@
     <Choice name="center" displayNameID="Choices.columnAlign.center" />
     <Choice name="right" displayNameID="Choices.columnAlign.right" />
   </ChoiceType>
-  <ChoiceType name="queryChoiceType">
-    <Choice name="none" displayNameID="Choices.queryChoiceType.none" />
-    <Choice name="text" displayNameID="Choices.queryChoiceType.text" />
-    <Choice name="script" displayNameID="Choices.queryChoiceType.script" />
+  <ChoiceType name="dateTimeFormat">
+	<Choice name="General Date" displayNameID="Choices.dateTimeFormat.generalDate" />
+    <Choice name="Long Date" displayNameID="Choices.dateTimeFormat.longDate" />
+    <Choice name="Medium Date" displayNameID="Choices.dateTimeFormat.mediumDate" />
+    <Choice name="Short Date" displayNameID="Choices.dateTimeFormat.shortDate" />
+	<Choice name="Long Time" displayNameID="Choices.dateTimeFormat.longTime" />
+    <Choice name="Medium Time" displayNameID="Choices.dateTimeFormat.mediumTime" />
+    <Choice name="Short Time" displayNameID="Choices.dateTimeFormat.shortTime" />			
   </ChoiceType>
+  <ChoiceType name="numberFormat">
+	<Choice name="General Number" displayNameID="Choices.numberFormat.generalNumber" />
+    <Choice name="Currency" displayNameID="Choices.numberFormat.currency" />
+    <Choice name="Fixed" displayNameID="Choices.numberFormat.fixed" />
+    <Choice name="Percent" displayNameID="Choices.numberFormat.percent" />
+	<Choice name="Scientific" displayNameID="Choices.numberFormat.scientific" />
+    <Choice name="Standard" displayNameID="Choices.numberFormat.standard" />
+  </ChoiceType>
+  <ChoiceType name="stringFormat">
+	<Choice name="Upper" displayNameID="Choices.stringFormat.upper" />
+    <Choice name="Lower" displayNameID="Choices.stringFormat.lower" />
+  </ChoiceType> 
   <Class name="String" displayNameID="Class.String" toolTipID="Class.String.toolTip" native="true">
     <Constructor name="String" displayNameID="Class.String.String" toolTipID="Class.String.String.toolTip" returnType="String">
       <Argument name="object" type="Object" tagID="Class.String.String.object" />
@@ -1830,12 +1846,12 @@
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
-      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="string" isStyleProperty="true" />
-      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="string" isStyleProperty="true" />
+      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="string" detailType="dateTimeFormat" isStyleProperty="true" />
+      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="string" detailType="numberFormat" isStyleProperty="true" />
       <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true">
         <Default>left</Default>
       </Property>
-      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="string" isStyleProperty="true" />
+      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="string" detailType="stringFormat" isStyleProperty="true" />
     </PropertyGroup>
     <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true">
       <Default>true</Default>
