@@ -14,12 +14,13 @@ package org.eclipse.birt.core.script;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IdScriptable;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/25 $
+ * @version $Revision: #2 $ $Date: 2005/02/05 $
  */
 public class ScriptContext
 {
@@ -107,8 +108,7 @@ public class ScriptContext
 
 	public Object eval( String source )
 	{
-		Object value = eval( source, "<inline>", 1 );
-		return jsToJava( value );
+		return eval( source, "<inline>", 1 );
 	}
 
 	public Object eval( String source, String name, int lineNo )
@@ -131,9 +131,18 @@ public class ScriptContext
 	{
 		if ( jsValue instanceof Scriptable )
 		{
-			if ( "Date".equals( ( (Scriptable) jsValue ).getClassName( ) ) )
+			String className = ((Scriptable) jsValue) .getClassName( );
+			if ("Date".equals(className))
 			{
 				return Context.toType( jsValue, java.util.Date.class );
+			}
+			else if ("Boolean".equals(className))
+			{
+				return Boolean.valueOf(Context.toString( jsValue));
+			}
+			else if ("String".equals(className))
+			{
+				return Context.toString(jsValue);
 			}
 		}
 		return Context.toType( jsValue, Object.class );

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.core.framework;
 
-import java.lang.reflect.Method;
-
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.framework.server.ServerPlatform;
 
@@ -23,7 +21,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * 
  * This class is a singleton. 
  * 
- * @version $Revision: #1 $ $Date: 2005/02/01 $
+ * @version $Revision: #2 $ $Date: 2005/02/05 $
  */
 public class Platform
 {
@@ -90,23 +88,9 @@ public class Platform
 	 */
 	public static boolean runningEclipse()
 	{
-		try
+		if (System.getProperty("eclipse.startTime") != null)
 		{
-			Class eclipseStarter = Class.forName("org.eclipse.core.runtime.adaptor.EclipseStarter");
-			if (eclipseStarter != null)
-			{
-				Method isRunning = eclipseStarter.getMethod("isRunning", new Class[0]);
-				Object result = isRunning.invoke(null, new Object[0]);
-				if (result instanceof Boolean)
-				{
-					boolean running = ((Boolean)result).booleanValue();
-					return running;
-				}
-			}
-		}
-		catch(Throwable ex)
-		{
-			// Not in eclipse (or wrong Eclipse version) if any exception occurs
+			return true;
 		}
 		return false;
 	}
