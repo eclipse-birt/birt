@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -222,6 +223,8 @@ public class BasePaletteFactory
 		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 
+		private static final String DEFAULT_AUTHOR = Messages.getString( "TextExtendsTools.Message.DefaultAuthor" ); //$NON-NLS-1$		
+
 		public boolean preHandleMouseUp( )
 		{
 			String type = (String) getRequest( ).getNewObjectType( );
@@ -257,6 +260,15 @@ public class BasePaletteFactory
 					if ( author != null )
 					{
 						text += author;
+					}
+					else
+					{
+						String pluginVersion = (String) ReportPlugin.getDefault( )
+								.getBundle( )
+								.getHeaders( )
+								.get( org.osgi.framework.Constants.BUNDLE_VERSION );
+						text += DEFAULT_AUTHOR + " " //$NON-NLS-1$
+								+ pluginVersion;
 					}
 				}
 				else if ( IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( type ) )
