@@ -72,6 +72,7 @@ public final class PngRendererImpl extends SwingRendererImpl
      */
     public final void after() throws RenderingException
     {
+    	super.after();
         final PngWriter pw = new PngWriter();
         if (oOutputIdentifier instanceof OutputStream) // OUTPUT STREAM
         {

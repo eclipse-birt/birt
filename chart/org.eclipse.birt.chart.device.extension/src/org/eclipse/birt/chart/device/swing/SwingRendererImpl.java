@@ -390,7 +390,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            img.flush(); // RESTORE
+            //img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
             _g2d.setClip(shClip); // RESTORE
         }
     }
@@ -572,7 +572,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            img.flush(); // RESTORE
+            //img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
             _g2d.setClip(shClip); // RESTORE
         }
 
@@ -765,7 +765,7 @@ public class SwingRendererImpl extends DeviceAdapter
                         (int) (r2d.y + j * szImage.getHeight()), io);
                 }
             }
-            img.flush(); // RESTORE
+            //img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
             _g2d.setClip(shPreviousClip); // RESTORE
         }
     }
@@ -924,7 +924,7 @@ public class SwingRendererImpl extends DeviceAdapter
         }
         else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image)
         {
-
+        	// TBD
         }
         _g2d.fill(gp);
     }
@@ -1251,7 +1251,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            img.flush(); // RESTORE
+            //img.flush(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
             _g2d.setClip(shClip); // RESTORE
         }
     }
@@ -1310,10 +1310,6 @@ public class SwingRendererImpl extends DeviceAdapter
      */
     public void after() throws RenderingException
     {
-        /*
-         * final double dPixelsToPoints = 72d / _xs.getDpiResolution(); final TransformationEvent trae =
-         * (TransformationEvent) getEventObject(this, TransformationEvent.class);
-         * trae.setTransform(TransformationEvent.SCALE); trae.setScale(dPixelsToPoints); applyTransformation(trae);
-         */
+    	((SwingDisplayServer) _ids).getImageCache().flush();
     }
 }

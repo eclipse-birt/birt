@@ -64,6 +64,7 @@ public final class GifRendererImpl extends SwingRendererImpl
      */
     public final void after() throws RenderingException
     {
+    	super.after();
         GifWriter gw = null;
         if (oOutputIdentifier instanceof OutputStream) // OUTPUT STREAM
         {

@@ -16,16 +16,14 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.ImageIcon;
 
 import org.eclipse.birt.chart.device.DisplayAdapter;
 import org.eclipse.birt.chart.device.ITextMetrics;
@@ -53,16 +51,16 @@ public class SwingDisplayServer extends DisplayAdapter
      *  
      */
     private transient Graphics2D _g2d = null;
+    
+    /**
+     * 
+     */
+    private transient SwingImageCache _simc = null;
 
     /**
      *  
      */
     private double dScale = 1;
-
-    /**
-     *  
-     */
-    private final java.awt.Panel p = new java.awt.Panel(); // NEEDED FOR IMAGE
 
     /**
      *  
@@ -87,6 +85,7 @@ public class SwingDisplayServer extends DisplayAdapter
         _g2d.scale(dScale, dScale);
         il.log(ILogger.INFORMATION, "SWING Display Server: " + System.getProperty("java.vendor") + " v"
             + System.getProperty("java.version"));
+        _simc = new SwingImageCache();
     }
 
     /*
@@ -166,37 +165,7 @@ public class SwingDisplayServer extends DisplayAdapter
      */
     public final Object loadImage(URL url) throws ImageLoadingException
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Loading image " + url);
-        final Image img = (new ImageIcon(url)).getImage();
-        try
-        {
-            final MediaTracker tracker = new MediaTracker(p);
-            tracker.addImage(img, 0);
-            tracker.waitForAll();
-
-            if ((tracker.statusAll(true) & MediaTracker.ERRORED) != 0)
-            {
-                StringBuffer sb = new StringBuffer();
-                Object[] oa = tracker.getErrorsAny();
-                sb.append('[');
-                for (int i = 0; i < oa.length; i++)
-                {
-                    sb.append(oa[i]);
-                    if (i < oa.length - 1)
-                    {
-                        sb.append(", ");
-                    }
-                }
-                sb.append(']');
-                throw new ImageLoadingException("MediaTracker returned an error in " + sb.toString());
-            }
-        }
-        catch (InterruptedException ex )
-        {
-            throw new ImageLoadingException(ex);
-        }
-
-        return img;
+    	return _simc.loadImage(url);
     }
 
     /*
@@ -207,7 +176,8 @@ public class SwingDisplayServer extends DisplayAdapter
     public final Size getSize(Object oImage)
     {
         final Image img = (Image) oImage;
-        return SizeImpl.create(img.getWidth(p), img.getHeight(p));
+        final ImageObserver io = (ImageObserver) _simc.getObserver();
+        return SizeImpl.create(img.getWidth(io), img.getHeight(io));
     }
 
     /*
@@ -217,7 +187,7 @@ public class SwingDisplayServer extends DisplayAdapter
      */
     public final Object getObserver()
     {
-        return p;
+        return _simc.getObserver();
     }
 
     /*
@@ -228,5 +198,14 @@ public class SwingDisplayServer extends DisplayAdapter
     public ITextMetrics getTextMetrics(Label la)
     {
         return new SwingTextMetrics(this, la);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    final SwingImageCache getImageCache()
+    {
+    	return _simc;
     }
 }
