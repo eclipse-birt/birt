@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 
 
 /**
@@ -37,7 +37,7 @@ import org.eclipse.birt.report.model.core.ReferencableElement;
  * the inheritance hierarchy. In this case, the reference is to a generic
  * <code>DesignElement</code>. The second use is to record the value of an
  * element reference property (<code>ElementRefPropertyType</code>). In this
- * case, the target must be derived from <code>ReferencableElement</code>
+ * case, the target must be derived from <code>ReferenceableElement</code>
  * so that the referenced class can cache a back-pointer to the referencing
  * element.
  *
@@ -126,9 +126,9 @@ public class ElementRefValue
 	 * @return the target element as a referencable element
 	 */
 	
-	public ReferencableElement getTargetElement( )
+	public ReferenceableElement getTargetElement( )
 	{
-		return (ReferencableElement) resolved;
+		return (ReferenceableElement) resolved;
 	}
 	
 	/**

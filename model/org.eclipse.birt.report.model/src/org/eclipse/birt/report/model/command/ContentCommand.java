@@ -20,11 +20,11 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.core.ReferencableElement.BackRef;
+import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -290,7 +290,7 @@ public class ContentCommand extends AbstractElementCommand
 			if ( content.isStyle( ) )
 				adjustStyleClients( (StyleElement) content );
 			else if ( content.hasReferences( ) )
-				adjustReferenceClients( (ReferencableElement) content );
+				adjustReferenceClients( (ReferenceableElement) content );
 			adjustReferredClients( content );
 			adjustDerived( content );
 
@@ -404,7 +404,7 @@ public class ContentCommand extends AbstractElementCommand
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
-	private void adjustReferenceClients( ReferencableElement element )
+	private void adjustReferenceClients( ReferenceableElement element )
 			throws SemanticException
 	{
 		List clients = element.getClientList( );
@@ -420,7 +420,7 @@ public class ContentCommand extends AbstractElementCommand
 	/**
 	 * Clears references of elements that are referred by the to-be-deleted
 	 * element, except for extends and style element references. Unlike the
-	 * method {@link #adjustReferenceClients(ReferencableElement)}, this method
+	 * method {@link #adjustReferenceClients(ReferenceableElement)}, this method
 	 * removes references from those elements that are referred.
 	 * 
 	 * @param element
@@ -462,7 +462,7 @@ public class ContentCommand extends AbstractElementCommand
 					if ( referred != null )
 					{
 						BackRefRecord record = new BackRefRecord(
-								(ReferencableElement) referred, element,
+								(ReferenceableElement) referred, element,
 								propDefn.getName( ) );
 						getActivityStack( ).execute( record );
 					}

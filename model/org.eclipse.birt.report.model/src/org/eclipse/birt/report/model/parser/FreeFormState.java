@@ -120,17 +120,10 @@ public class FreeFormState extends ReportItemState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
 				return new ImageState( handler, element,
 						FreeForm.REPORT_ITEMS_SLOT );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TOGGLE_IMAGE_TAG ) )
-				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
 				return new LineItemState( handler, element,
 						FreeForm.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CHART_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.MATRIX_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
 				return new GridItemState( handler, element,

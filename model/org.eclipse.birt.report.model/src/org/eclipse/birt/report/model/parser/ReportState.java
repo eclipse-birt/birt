@@ -387,10 +387,6 @@ public class ReportState extends DesignParseState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
 				return new DataItemState( handler, design,
 						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CHART_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.MATRIX_TAG ) )
-				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
@@ -440,8 +436,6 @@ public class ReportState extends DesignParseState
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
 				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CHART_TAG ) )
-				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
 				return new FreeFormState( handler, design, slotID );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
@@ -463,8 +457,6 @@ public class ReportState extends DesignParseState
 				return new LineItemState( handler, design, slotID );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
 				return new ListItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.MATRIX_TAG ) )
-				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
 				return new RectangleState( handler, design, slotID );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
@@ -472,9 +464,6 @@ public class ReportState extends DesignParseState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 				return new TextItemState( handler, design, slotID );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TOGGLE_IMAGE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )

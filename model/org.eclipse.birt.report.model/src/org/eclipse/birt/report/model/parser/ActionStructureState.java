@@ -47,9 +47,6 @@ public class ActionStructureState extends StructureState
 			return new ActionExpressionState( handler, element, propDefn,
 					struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_LIST_TAG ) )
-			return new PropertyListState( handler, element, propDefn, struct );
-
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
 			return new PropertyListState( handler, element, propDefn, struct );
 

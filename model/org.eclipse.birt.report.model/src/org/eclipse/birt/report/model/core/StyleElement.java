@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.core;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.core.ReferencableElement.BackRef;
+import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.PredefinedStyle;
  *  
  */
 
-public abstract class StyleElement extends ReferencableElement
+public abstract class StyleElement extends ReferenceableElement
 {
 
 	/**
@@ -54,7 +54,7 @@ public abstract class StyleElement extends ReferencableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferencableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 
 	protected void adjustDeliveryPath( NotificationEvent ev )
@@ -144,7 +144,7 @@ public abstract class StyleElement extends ReferencableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferencableElement#broadcastToClients(org.eclipse.birt.report.model.activity.NotificationEvent,
+	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.activity.NotificationEvent,
 	 *      org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 

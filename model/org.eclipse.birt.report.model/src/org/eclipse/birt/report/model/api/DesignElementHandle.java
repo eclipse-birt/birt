@@ -1140,7 +1140,7 @@ public abstract class DesignElementHandle
 	 *         type {@link ClientIterator}and each item returned by the
 	 *         iterator's <code>getNext( )</code> method is of type
 	 *         {@link DesignElementHandle}. Nothing will be iterated over an
-	 *         element that is not <code>ReferencableElement</code>.
+	 *         element that is not <code>ReferenceableElement</code>.
 	 * 
 	 * @see ClientIterator
 	 */

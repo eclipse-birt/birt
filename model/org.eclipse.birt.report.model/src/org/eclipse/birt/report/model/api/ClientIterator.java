@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * Each call to <code>getNext( )</code>
  * returns a handle of type {@link DesignElementHandle}.
  * 
- * @see org.eclipse.birt.report.model.core.ReferencableElement
+ * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
 class ClientIterator implements Iterator
@@ -57,9 +57,9 @@ class ClientIterator implements Iterator
 		this.design = elementHandle.getDesign( );
 		assert design != null;
 		
-		if ( elementHandle.getElement( ) instanceof ReferencableElement )
+		if ( elementHandle.getElement( ) instanceof ReferenceableElement )
 		{
-			ReferencableElement element = (ReferencableElement) elementHandle
+			ReferenceableElement element = (ReferenceableElement) elementHandle
 					.getElement( );
 			iter = element.getClientList( ).iterator( );
 		}
@@ -112,7 +112,7 @@ class ClientIterator implements Iterator
 	{
 		if ( iter != null )
 		{
-			ReferencableElement.BackRef client = (ReferencableElement.BackRef) iter
+			ReferenceableElement.BackRef client = (ReferenceableElement.BackRef) iter
 					.next( );
 			return client.element.getHandle( design );
 		}

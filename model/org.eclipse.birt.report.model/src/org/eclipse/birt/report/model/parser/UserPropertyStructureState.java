@@ -71,10 +71,6 @@ public class UserPropertyStructureState extends StructureState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new UserPropertyState( handler, element, propDefn, struct );
 
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_LIST_TAG ) )
-			return new ChoiceStructureListState( handler, element, propDefn,
-					struct );
-
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
 			return new ChoiceStructureListState( handler, element, propDefn,
 					struct );

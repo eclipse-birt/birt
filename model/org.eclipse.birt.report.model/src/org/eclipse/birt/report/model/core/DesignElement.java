@@ -1468,7 +1468,7 @@ public abstract class DesignElement implements IPropertySet
 	protected void updateReference( ElementRefValue oldRef,
 			ElementRefValue newRef, ElementPropertyDefn prop )
 	{
-		ReferencableElement target;
+		ReferenceableElement target;
 
 		// Drop the old reference. Clear the back pointer from the referenced
 		// element to this element.

@@ -185,8 +185,6 @@ public abstract class DesignParseState extends AbstractParseState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_LIST_TAG ) )
-			return new PropertyListState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
 			return new PropertyListState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )

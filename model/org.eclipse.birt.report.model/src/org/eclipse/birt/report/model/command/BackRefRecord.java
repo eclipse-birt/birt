@@ -14,12 +14,12 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 
 /**
  * Records a change to the back reference of an element.
  * 
- * @see org.eclipse.birt.report.model.core.ReferencableElement
+ * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
 public class BackRefRecord extends SimpleRecord
@@ -29,7 +29,7 @@ public class BackRefRecord extends SimpleRecord
 	 * The element is referred by <code>reference</code>.
 	 */
 
-	protected ReferencableElement referred = null;
+	protected ReferenceableElement referred = null;
 
 	/**
 	 * The element that refers to another element.
@@ -57,7 +57,7 @@ public class BackRefRecord extends SimpleRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( ReferencableElement obj, DesignElement reference,
+	public BackRefRecord( ReferenceableElement obj, DesignElement reference,
 			String propName )
 	{
 		this.referred = obj;

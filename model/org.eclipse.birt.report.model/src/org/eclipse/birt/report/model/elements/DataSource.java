@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 
 /**
  * This class represents a data source: a connection to a database or other
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.ReferencableElement;
  * 
  */
 
-public abstract class DataSource extends ReferencableElement
+public abstract class DataSource extends ReferenceableElement
 {
 
 	/**
@@ -70,7 +70,7 @@ public abstract class DataSource extends ReferencableElement
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.ReferencableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 	
 	protected void adjustDeliveryPath ( NotificationEvent ev )

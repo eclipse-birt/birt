@@ -189,10 +189,6 @@ public class ListItemState extends ListingItemState
 				return new ImageState( handler, container, slotID );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
 				return new LabelState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CHART_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.MATRIX_TAG ) )
-				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )

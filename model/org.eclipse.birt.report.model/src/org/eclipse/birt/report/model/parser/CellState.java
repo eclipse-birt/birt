@@ -96,10 +96,6 @@ public class CellState extends ReportElementState
 			return new FreeFormState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
 			return new GridItemState( handler, element, Cell.CONTENT_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CHART_TAG ) )
-			return new AnyElementState( handler );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.MATRIX_TAG ) )
-			return new AnyElementState( handler );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 			return new AnyElementState( handler );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.core.ReferencableElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.StringUtil;
 
@@ -36,7 +36,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  *  
  */
 
-public abstract class DataSet extends ReferencableElement
+public abstract class DataSet extends ReferenceableElement
 {
 
 	/**
@@ -189,7 +189,7 @@ public abstract class DataSet extends ReferencableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferencableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 
 	protected void adjustDeliveryPath( NotificationEvent ev )
