@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditLabelAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Me
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
@@ -172,7 +174,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		Object firstSelectedElement = getFirstElement( );
 		Object selectedElements = getSelectedElement( );
-		Object multiSelection = getMultiSeletedElement( );
+		Object multiSelection = getMultiSelectedElement( );
 
 		// except for dealing with multi selected elements.
 		if ( multiSelection == Object.class // report design and slot
@@ -209,6 +211,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
 		}
+
 		//-----------------------------------------------------------------
 		else if ( firstSelectedElement instanceof DesignElementHandle )
 		{
@@ -232,6 +235,17 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new PasteAction( selectedElements ) );
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
+
+			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1
+					&& ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof LabelEditPart )
+			{
+				Object selection = ( (IStructuredSelection) getSelection( ) ).getFirstElement( );
+				if ( selection instanceof LabelEditPart )
+				{
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							new EditLabelAction( (LabelEditPart) selection ) );
+				}
+			}
 
 			if ( firstSelectedElement instanceof RowHandle )
 			{
@@ -578,11 +592,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	}
 
 	/**
-	 * Gets multi selected elements
+	 * Gets multiple selected elements
 	 * 
 	 * @return The (base) class type all the multi selected elements
 	 */
-	private Object getMultiSeletedElement( )
+	private Object getMultiSelectedElement( )
 	{
 		List list = (ArrayList) getElements( );
 		Object baseHandle = list.get( 0 );
@@ -597,7 +611,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else
 			{
-				// Insure multi selected elements are instance of the "base"
+				// Ensure multi selected elements are instance of the "base"
 				// class.
 				while ( !base.isInstance( obj ) )
 				{
@@ -702,7 +716,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				if ( !( listParts.contains( obj ) ) )
 				{
-					listParts.add( (ListEditPart) obj );
+					listParts.add( obj );
 				}
 			}
 			else if ( obj instanceof ListBandEditPart )
