@@ -19,8 +19,8 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.validators.DataSetResultSetValidator;
+import org.eclipse.birt.report.model.validators.DataSourceRequiredValidator;
 import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
-import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * This class represents a data set: a query, stored procedure, or other source
@@ -169,8 +169,8 @@ public abstract class DataSet extends ReferenceableElement
 
 		// Check the data source value is required
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
-				this, DATA_SOURCE_PROP ) );
+		list.addAll( DataSourceRequiredValidator.getInstance( ).validate( design,
+				this ) );
 
 		// Check the element reference of dataSource property
 
@@ -179,10 +179,6 @@ public abstract class DataSet extends ReferenceableElement
 
 		// Check input parameter structure list
 
-		//		list.addAll( validateStructureList( design, INPUT_PARAMETERS_PROP )
-		// );
-		//		list.addAll( validateStructureList( design, OUTPUT_PARAMETERS_PROP )
-		// );
 		list.addAll( validateStructureList( design, PARAMETERS_PROP ) );
 		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );
 		list.addAll( validateStructureList( design, COMPUTED_COLUMNS_PROP ) );

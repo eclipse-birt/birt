@@ -501,7 +501,7 @@ public class ReportDesign extends RootElement
 
 		list
 				.addAll( MasterPageRequiredValidator.getInstance( ).validate(
-						this ) );
+						this, this ) );
 
 		list.addAll( validateStructureList( design, IMAGES_PROP ) );
 		list.addAll( validateStructureList( design, COLOR_PALETTE_PROP ) );

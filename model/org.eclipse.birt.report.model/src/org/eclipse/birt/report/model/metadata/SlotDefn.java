@@ -91,6 +91,12 @@ public class SlotDefn implements ISlotDefn
 	private String selector = null;
 
 	/**
+	 * The collection of semantic validation triggers.
+	 */
+
+	private SemanticTriggerDefns triggers = null;
+
+	/**
 	 * Returns the slot cardinality.
 	 * 
 	 * @return true if the cardinality is multiple, false if it is single
@@ -215,6 +221,24 @@ public class SlotDefn implements ISlotDefn
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
 			contentElements.add( type );
 		}
+		
+		getTriggers().build();
+		
+//		if ( semanticValidators != null )
+//		{
+//			iter = semanticValidators.iterator( );
+//			while ( iter.hasNext( ) )
+//			{
+//				TriggerDefn validatorDefn = (TriggerDefn) iter.next( );
+//
+//				AbstractSemanticValidator validator = MetaDataDictionary
+//						.getInstance( ).getSemanticValidator( validatorDefn.getValidatorName() );
+//				assert validator != null;
+//
+//				validatorDefn.setValidator( validator );
+//			}
+//		}
+		
 	}
 
 	/**
@@ -323,4 +347,20 @@ public class SlotDefn implements ISlotDefn
 	{
 		return selector;
 	}
+
+	/**
+	 * Returns the semantic validation trigger collection.
+	 * 
+	 * @return the semantic validation triggers
+	 */
+	
+	public SemanticTriggerDefns getTriggers( )
+	{
+		if ( triggers == null )
+			triggers = new SemanticTriggerDefns();
+		
+		return triggers;
+	}
+	
+	
 }

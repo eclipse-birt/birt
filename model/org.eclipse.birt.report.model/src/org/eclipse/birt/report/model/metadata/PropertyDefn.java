@@ -17,6 +17,8 @@ import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
+import org.eclipse.birt.report.model.validators.StructureListValidator;
 
 /**
  * Base class for both element property and structure member definitions.
@@ -137,35 +139,16 @@ public abstract class PropertyDefn implements IPropertyDefn
 	protected boolean isList = false;
 
 	/**
-	 * Reference to validator applied to the property.
+	 * Reference to the name of value validator applied to this property.
 	 */
 
-	protected String validator = null;
+	protected String valueValidator = null;
 
 	/**
-	 * Indicates whether this property is a list. It is useful only when the
-	 * property type is a structure type.
-	 * 
-	 * @return whether the property is a list or not.
+	 * The collection of semantic validatin triggers.
 	 */
 
-	public boolean isList( )
-	{
-		return isList;
-	}
-
-	/**
-	 * Set if the property is a list.
-	 * 
-	 * @param isList
-	 *            whether the property is a list or not.
-	 *  
-	 */
-
-	protected void setIsList( boolean isList )
-	{
-		this.isList = isList;
-	}
+	private SemanticTriggerDefns triggers = null;
 
 	/**
 	 * Constructs a Property Definition.
@@ -220,7 +203,8 @@ public abstract class PropertyDefn implements IPropertyDefn
 				// is a choice property, and is not allowed otherwise.
 
 				if ( getChoices( ) == null )
-					throw new MetaDataException( new String[]{name},
+					throw new MetaDataException(
+							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_PROP_CHOICES );
 				break;
 
@@ -229,13 +213,26 @@ public abstract class PropertyDefn implements IPropertyDefn
 				// A structure definition must be provided.
 
 				if ( getStructDefn( ) == null )
-					throw new MetaDataException( new String[]{name},
+					throw new MetaDataException(
+							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN );
+
+				if ( isList( ) )
+				{
+					StructureListValidator validator = StructureListValidator
+							.getInstance( );
+					SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+							StructureListValidator.NAME );
+					triggerDefn.setPropertyName( getName( ) );
+					triggerDefn.setValidator( validator );
+					getTriggers( ).addSemanticValidationDefn( triggerDefn );
+				}
 				break;
 
 			case PropertyType.ELEMENT_REF_TYPE :
 				if ( details == null )
-					throw new MetaDataException( new String[]{name},
+					throw new MetaDataException(
+							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
 				// Look up a string name reference.
@@ -243,15 +240,16 @@ public abstract class PropertyDefn implements IPropertyDefn
 				if ( details instanceof String )
 				{
 					MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-					ElementDefn elementDefn = (ElementDefn)dd.getElement( StringUtil
-							.trimString( (String) details ) );
+					ElementDefn elementDefn = (ElementDefn) dd
+							.getElement( StringUtil
+									.trimString( (String) details ) );
 					if ( elementDefn == null )
-						throw new MetaDataException( new String[]{
-								(String) details, name},
+						throw new MetaDataException(
+								new String[]{(String) details, name},
 								MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
 					if ( elementDefn.getNameSpaceID( ) == MetaDataConstants.NO_NAME_SPACE )
-						throw new MetaDataException( new String[]{
-								(String) details, name},
+						throw new MetaDataException(
+								new String[]{(String) details, name},
 								MetaDataException.DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE );
 					details = elementDefn;
 				}
@@ -259,8 +257,16 @@ public abstract class PropertyDefn implements IPropertyDefn
 				// Otherwise, an element definition must be provided.
 
 				else if ( getTargetElementType( ) == null )
-					throw new MetaDataException( new String[]{name},
+					throw new MetaDataException(
+							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
+
+				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+						ElementReferenceValidator.NAME );
+				triggerDefn.setPropertyName( getName( ) );
+				triggerDefn.setValidator( ElementReferenceValidator
+						.getInstance( ) );
+				getTriggers( ).addSemanticValidationDefn( triggerDefn );
 				break;
 		}
 
@@ -283,21 +289,24 @@ public abstract class PropertyDefn implements IPropertyDefn
 			}
 			catch ( PropertyValueException e )
 			{
-				throw new MetaDataException( new String[]{name,
-						defaultValue.toString( )},
+				throw new MetaDataException(
+						new String[]{name, defaultValue.toString( )},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
 			}
 		}
 
 		// ensure that the validator is defined in the dictionary.
 
-		if ( validator != null )
+		if ( valueValidator != null )
 		{
 			MetaDataDictionary dict = MetaDataDictionary.getInstance( );
-			if ( dict.getValidator( validator ) == null )
-				throw new MetaDataException( new String[]{validator, name},
+			if ( dict.getValueValidator( valueValidator ) == null )
+				throw new MetaDataException(
+						new String[]{valueValidator, name},
 						MetaDataException.DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND );
 		}
+
+		getTriggers( ).build( );
 
 	}
 
@@ -473,9 +482,10 @@ public abstract class PropertyDefn implements IPropertyDefn
 
 		// Per-property validations using a specific validator.
 
-		if ( validator != null )
-			MetaDataDictionary.getInstance( ).getValidator( validator )
-					.validate( design, this, retValue );
+		if ( valueValidator != null )
+			MetaDataDictionary.getInstance( )
+					.getValueValidator( valueValidator ).validate( design,
+							this, retValue );
 
 		return retValue;
 	}
@@ -516,9 +526,10 @@ public abstract class PropertyDefn implements IPropertyDefn
 
 		// Per-property validations using a specific validator.
 
-		if ( validator != null )
-			MetaDataDictionary.getInstance( ).getValidator( validator )
-					.validate( design, this, retValue );
+		if ( valueValidator != null )
+			MetaDataDictionary.getInstance( )
+					.getValueValidator( valueValidator ).validate( design,
+							this, retValue );
 
 		return retValue;
 	}
@@ -904,9 +915,9 @@ public abstract class PropertyDefn implements IPropertyDefn
 	 * @param validator
 	 */
 
-	public void setValidator( String validator )
+	void setValueValidator( String validator )
 	{
-		this.validator = validator;
+		this.valueValidator = validator;
 	}
 
 	/**
@@ -933,4 +944,43 @@ public abstract class PropertyDefn implements IPropertyDefn
 	{
 		this.isExtended = isExtended;
 	}
+
+	/**
+	 * Indicates whether this property is a list. It is useful only when the
+	 * property type is a structure type.
+	 * 
+	 * @return whether the property is a list or not.
+	 */
+
+	public boolean isList( )
+	{
+		return isList;
+	}
+
+	/**
+	 * Set if the property is a list.
+	 * 
+	 * @param isList
+	 *            whether the property is a list or not.
+	 */
+
+	protected void setIsList( boolean isList )
+	{
+		this.isList = isList;
+	}
+
+	/**
+	 * Returns the semantic validation trigger collection.
+	 * 
+	 * @return the semantic validation triggers
+	 */
+
+	public SemanticTriggerDefns getTriggers( )
+	{
+		if ( triggers == null )
+			triggers = new SemanticTriggerDefns( );
+
+		return triggers;
+	}
+
 }

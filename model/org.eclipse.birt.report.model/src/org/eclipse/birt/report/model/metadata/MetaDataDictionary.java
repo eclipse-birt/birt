@@ -18,7 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
 
 /**
  * Global, shared dictionary of design meta data. Meta-data describes each
@@ -161,6 +163,20 @@ public final class MetaDataDictionary
 	 */
 
 	private HashMap predefinedStyles = new HashMap( );
+
+	/**
+	 * Map of property value validators, holding the validator name as key. Each
+	 * of this map is the instance of <code>IValueValidator</code>.
+	 */
+
+	private Map valueValidators = new HashMap( );
+
+	/**
+	 * Map of semantic validators, holding the validator name as key. Each of
+	 * this map is the instance of <code>AbstractSemanticValidator</code>.
+	 */
+
+	private Map semanticValidators = new HashMap( );
 
 	/**
 	 * Singleton class, constructor is private.
@@ -312,9 +328,10 @@ public final class MetaDataDictionary
 		// Build the style first, since most other elements will
 		// reference it.
 
-		style = (ElementDefn)getElement( MetaDataConstants.STYLE_NAME );
+		style = (ElementDefn) getElement( MetaDataConstants.STYLE_NAME );
 		if ( style == null )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
 		style.build( );
 
 		// Build the element metadata.
@@ -410,7 +427,8 @@ public final class MetaDataDictionary
 	{
 		String name = type.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_NAME );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_NAME );
 		if ( elementNameMap.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_NAME );
@@ -448,13 +466,13 @@ public final class MetaDataDictionary
 	 *             already exists.
 	 */
 
-	void addPredefinedStyle( PredefinedStyle style )
-			throws MetaDataException
+	void addPredefinedStyle( PredefinedStyle style ) throws MetaDataException
 	{
 		String name = style.getName( );
 
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_STYLE_NAME );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_MISSING_STYLE_NAME );
 		if ( predefinedStyles.get( name ) != null )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_STYLE_NAME );
@@ -503,7 +521,8 @@ public final class MetaDataDictionary
 			throw new MetaDataException(
 					MetaDataException.DESIGN_EXCEPTION_MISSING_CHOICE_SET_NAME );
 		if ( choiceSets.containsKey( name ) )
-			throw new MetaDataException( new String[]{name},
+			throw new MetaDataException(
+					new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CHOICE_SET_NAME );
 
 		choiceSets.put( name, choiceSet );
@@ -535,7 +554,8 @@ public final class MetaDataDictionary
 	{
 		String name = struct.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_NAME );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_NAME );
 		if ( structures.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_STRUCT_NAME );
@@ -628,7 +648,8 @@ public final class MetaDataDictionary
 	void addClass( ClassInfo classDefn ) throws MetaDataException
 	{
 		if ( StringUtil.isBlank( classDefn.getName( ) ) )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_CLASS_NAME );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_MISSING_CLASS_NAME );
 
 		if ( classes.get( classDefn.getName( ) ) != null )
 			throw new MetaDataException( new String[]{classDefn.getName( )},
@@ -695,14 +716,6 @@ public final class MetaDataDictionary
 	}
 
 	/**
-	 * Map of validators, holds a string key represents the name of a validator
-	 * to a specific property validator.
-	 *  
-	 */
-
-	private Map validators = new HashMap( );
-
-	/**
 	 * Add a new validator to the dictionary.
 	 * 
 	 * @param validator
@@ -712,31 +725,69 @@ public final class MetaDataDictionary
 	 *             an exsiting one.
 	 */
 
-	void addValidator( IMetaValidator validator )
+	void addValueValidator( IValueValidator validator )
 			throws MetaDataException
 	{
 		String name = validator.getName( );
 		if ( StringUtil.isBlank( name ) )
 			throw new MetaDataException(
 					MetaDataException.DESIGN_EXCEPTION_MISSING_VALIDATOR_NAME );
-		if ( validators.containsKey( name ) )
+		if ( valueValidators.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_VALIDATOR_NAME );
 
-		validators.put( name, validator );
+		valueValidators.put( name, validator );
 	}
 
 	/**
-	 * Return a meta validator given its name
+	 * Return a property value validator given its name
 	 * 
 	 * @param name
-	 *            name of the validator.
-	 * @return A meta validator.
+	 *            name of the value validator.
+	 * @return A property value validator.
 	 */
 
-	public IMetaValidator getValidator( String name )
+	public IValueValidator getValueValidator( String name )
 	{
-		return (IMetaValidator) validators.get( name );
+		return (IValueValidator) valueValidators.get( name );
 	}
 
+	/**
+	 * Adds the semantic validator.
+	 * 
+	 * @param validator
+	 *            the validator to add
+	 * @throws MetaDataException
+	 *             if the validator name is missing or duplicates.
+	 */
+
+	public void addSemanticValidator( AbstractSemanticValidator validator )
+			throws MetaDataException
+	{
+		String name = validator.getName( );
+		if ( StringUtil.isBlank( name ) )
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_MISSING_VALIDATOR_NAME );
+
+		if ( semanticValidators.containsKey( name ) )
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_VALIDATOR_NAME );
+
+		semanticValidators.put( name, validator );
+	}
+
+	/**
+	 * Returns the semantic validator given the name.
+	 * 
+	 * @param name
+	 *            the validator name
+	 * @return the semantic validator with the given name. Or return
+	 *         <code>null</code>, the there is no validator with the given
+	 *         name.
+	 */
+
+	public AbstractSemanticValidator getSemanticValidator( String name )
+	{
+		return (AbstractSemanticValidator) semanticValidators.get( name );
+	}
 }

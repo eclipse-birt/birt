@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
 import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
-import org.eclipse.birt.report.model.validators.TablelDroppingValidator;
+import org.eclipse.birt.report.model.validators.TableDroppingValidator;
 
 /**
  * This class represents a table in design.A table is a list that is structured
@@ -294,7 +294,7 @@ public class TableItem extends ListingElement
 		// check whether there is any overlapping cells with drop properties in
 		// the group headers.
 
-		list.addAll( TablelDroppingValidator.getInstance( ).validate( design,
+		list.addAll( TableDroppingValidator.getInstance( ).validate( design,
 				this ) );
 
 		return list;

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.model.util.XMLParserException;
 
 /**
@@ -184,8 +186,12 @@ public class MetaDataParserException extends XMLParserException
 	 */
 
 	public static final String DESIGN_EXCEPTION_DATA_TYPE_REQUIRED = "DATA_TYPE_REQUIRED"; //$NON-NLS-1$
-	
-	
+
+	/**
+	 * The validator name is missing.
+	 */
+
+	public static final String DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED = "VALIDATOR_NAME_REQUIRED"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an exception given the file name and error code.
@@ -230,6 +236,18 @@ public class MetaDataParserException extends XMLParserException
 	}
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param errors list of errors
+	 */
+	
+	public MetaDataParserException( ArrayList errors )
+	{
+		super( errors );
+	}
+
+	
+	/**
 	 * Sets the file name.
 	 * 
 	 * @param name
@@ -257,15 +275,25 @@ public class MetaDataParserException extends XMLParserException
 		String SEPARATOR = " "; //$NON-NLS-1$
 
 		if ( fileName != null )
-			sb.append( "FileName:" ).append( fileName ).append( SEPARATOR ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			sb.append( "FileName:" ); //$NON-NLS-1$
+			sb.append( fileName );
+			sb.append( SEPARATOR );
+		}
 
-		sb
-				.append( "Line Number:" ).append( getLineNumber( ) ).append( SEPARATOR ); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append( "Error Code:" ).append( errorCode ).append( SEPARATOR ); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append( "Line Number:" );//$NON-NLS-1$
+		sb.append( getLineNumber( ) );
+		sb.append( SEPARATOR );
+		sb.append( "Error Code:" ); //$NON-NLS-1$
+		sb.append( errorCode );
+		sb.append( SEPARATOR );
 
 		if ( getException( ) != null )
-			sb
-					.append( "Exception:" ).append( getException( ) ).append( SEPARATOR ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			sb.append( "Exception:" );//$NON-NLS-1$
+			sb.append( getException( ) );
+			sb.append( SEPARATOR );
+		}
 
 		return sb.toString( );
 	}

@@ -208,7 +208,7 @@ public abstract class StyledElement extends DesignElement
 		// Resolve style
 
 		list.addAll( StyleReferenceValidator.getInstance( ).validate( design,
-				this, style ) );
+				this ) );
 
 		list.addAll( Style.validateStyleProperties( design, this ) );
 

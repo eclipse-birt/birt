@@ -11,21 +11,24 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
+import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
  * SAX handler for reading the XML meta data definition file.
- *  
+ * 
  */
 
 class MetaDataHandler extends XMLParserHandler
@@ -47,12 +50,14 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String STRUCTURE_TAG = "Structure"; //$NON-NLS-1$
 	private static final String ALLOWED_TAG = "Allowed"; //$NON-NLS-1$
 	private static final String MEMBER_TAG = "Member"; //$NON-NLS-1$
-	private static final String VALIDATOR_TAG = "validator"; //$NON-NLS-1$
+	private static final String VALUE_VALIDATOR_TAG = "ValueValidator"; //$NON-NLS-1$
 	private static final String VALIDATORS_TAG = "Validators"; //$NON-NLS-1$
 	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
 	private static final String ARGUMENT_TAG = "Argument"; //$NON-NLS-1$
 	private static final String CLASS_TAG = "Class"; //$NON-NLS-1$
 	private static final String CONSTRUCTOR_TAG = "Constructor"; //$NON-NLS-1$
+	private static final String SEMANTIC_VALIDATOR_TAG = "SemanticValidator"; //$NON-NLS-1$
+	private static final String TRIGGER_TAG = "Trigger"; //$NON-NLS-1$
 
 	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$ 
@@ -81,6 +86,8 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 	private static final String NATIVE_ATTRIB = "native"; //$NON-NLS-1$
 	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
+	private static final String PRE_REQUISITE_ATTRIB = "preRequisite"; //$NON-NLS-1$
+	private static final String TARGET_ELEMENT_ATTRIB = "targetElement"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -117,7 +124,7 @@ class MetaDataHandler extends XMLParserHandler
 		// 
 		if ( !errors.isEmpty( ) )
 		{
-			throw new XMLParserException( errors );
+			throw new MetaDataParserException( errors );
 		}
 
 		try
@@ -128,7 +135,7 @@ class MetaDataHandler extends XMLParserHandler
 		{
 			semanticError( new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
-			throw new XMLParserException( errors );
+			throw new MetaDataParserException( errors );
 		}
 
 		super.endDocument( );
@@ -409,7 +416,8 @@ class MetaDataHandler extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
-					structDefn = (StructureDefn)dictionary.getStructure( detailName );
+					structDefn = (StructureDefn) dictionary
+							.getStructure( detailName );
 					if ( structDefn == null )
 					{
 						semanticError( new MetaDataParserException(
@@ -428,7 +436,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
-				memberDefn.setValidator( validator );
+				memberDefn.setValueValidator( validator );
 			}
 
 			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
@@ -564,6 +572,8 @@ class MetaDataHandler extends XMLParserHandler
 				return new SlotState( );
 			if ( tagName.equalsIgnoreCase( METHOD_TAG ) )
 				return new ElementMethodState( elementDefn );
+			if ( tagName.equalsIgnoreCase( SEMANTIC_VALIDATOR_TAG ) )
+				return new TriggerState( );
 
 			return super.startElement( tagName );
 		}
@@ -710,7 +720,8 @@ class MetaDataHandler extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
-					struct = (StructureDefn)dictionary.getStructure( detailName );
+					struct = (StructureDefn) dictionary
+							.getStructure( detailName );
 					if ( struct == null )
 					{
 						semanticError( new MetaDataParserException(
@@ -753,7 +764,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
-				propDefn.setValidator( validator );
+				propDefn.setValueValidator( validator );
 			}
 
 			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
@@ -783,6 +794,8 @@ class MetaDataHandler extends XMLParserHandler
 				return new DefaultValueState( propDefn );
 			else if ( tagName.equalsIgnoreCase( ALLOWED_TAG ) )
 				return new AllowedState( );
+			else if ( tagName.equalsIgnoreCase( TRIGGER_TAG ) )
+				return new TriggerState( );
 			else
 				return super.startElement( tagName );
 		}
@@ -892,14 +905,15 @@ class MetaDataHandler extends XMLParserHandler
 		 */
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( VALIDATOR_TAG.equalsIgnoreCase( tagName ) )
-				return new ValidatorState( );
-
+			if ( VALUE_VALIDATOR_TAG.equalsIgnoreCase( tagName ) )
+				return new ValueValidatorState( );
+			if ( SEMANTIC_VALIDATOR_TAG.equalsIgnoreCase( tagName ) )
+				return new SemanticValidatorState( );
 			return super.startElement( tagName );
 		}
 	}
 
-	class ValidatorState extends InnerParseState
+	class ValueValidatorState extends InnerParseState
 	{
 
 		/*
@@ -914,22 +928,29 @@ class MetaDataHandler extends XMLParserHandler
 			String className = getAttrib( attrs, CLASS_ATTRIB );
 
 			if ( StringUtil.isBlank( name ) )
+			{
 				semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
+				return;
+			}
+			
 			if ( StringUtil.isBlank( className ) )
+			{
 				semanticError( new MetaDataParserException(
 						MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
+				return;
+			}
 
 			try
 			{
 				Class c = Class.forName( className );
-				PropertyValidator validator = (PropertyValidator) c
+				SimpleValueValidator validator = (SimpleValueValidator) c
 						.newInstance( );
 				validator.setName( name );
 
 				try
 				{
-					dictionary.addValidator( validator );
+					dictionary.addValueValidator( validator );
 				}
 				catch ( MetaDataException e )
 				{
@@ -945,6 +966,61 @@ class MetaDataHandler extends XMLParserHandler
 						MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
 			}
 		}
+	}
+
+	class SemanticValidatorState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 */
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = getAttrib( attrs, NAME_ATTRIB );
+			String className = getAttrib( attrs, CLASS_ATTRIB );
+
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
+				return;
+			}
+			if ( StringUtil.isBlank( className ) )
+			{
+				semanticError( new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
+				return;
+			}
+
+			try
+			{
+				Class c = Class.forName( className );
+				Method m = c.getMethod( "getInstance", null ); //$NON-NLS-1$
+				AbstractSemanticValidator validator = (AbstractSemanticValidator) m.invoke(
+						null, null );
+				validator.setName( name );
+
+				try
+				{
+					dictionary.addSemanticValidator( validator );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataParserException(
+							e,
+							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				}
+			}
+			catch ( Exception e )
+			{
+				semanticError( new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
+			}
+		}
+
 	}
 
 	class DefaultValueState extends InnerParseState
@@ -1088,6 +1164,8 @@ class MetaDataHandler extends XMLParserHandler
 		{
 			if ( tagName.equalsIgnoreCase( TYPE_TAG ) )
 				return new SlotTypeState( );
+			if ( tagName.equalsIgnoreCase( TRIGGER_TAG ) )
+				return new TriggerState( );
 			return super.startElement( tagName );
 		}
 
@@ -1124,9 +1202,9 @@ class MetaDataHandler extends XMLParserHandler
 	}
 
 	/**
-	 * The state to parse a method under a class.	
+	 * The state to parse a method under a class.
 	 */
-	
+
 	class ClassMethodState extends AbstractMethodState
 	{
 
@@ -1194,11 +1272,11 @@ class MetaDataHandler extends XMLParserHandler
 
 		}
 	}
-	
+
 	/**
-	 * The state to parse a method under an element.	
+	 * The state to parse a method under an element.
 	 */
-	
+
 	class ElementMethodState extends AbstractMethodState
 	{
 
@@ -1306,7 +1384,7 @@ class MetaDataHandler extends XMLParserHandler
 		 * @param name
 		 *            the method name
 		 * @return the <code>MethodInfo</code> object
-		 *  
+		 * 
 		 */
 
 		abstract MethodInfo getMethodInfo( String name );
@@ -1524,6 +1602,45 @@ class MetaDataHandler extends XMLParserHandler
 							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
+			}
+		}
+	}
+
+	class TriggerState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 */
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			assert propDefn != null || slotDefn != null;
+
+			String validatorName = attrs.getValue( VALIDATOR_ATTRIB );
+			String targetElement = attrs.getValue( TARGET_ELEMENT_ATTRIB );
+
+			if ( ! StringUtil.isBlank( validatorName ) )
+			{
+				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+						validatorName );
+
+				triggerDefn.setPreRequisite( getBooleanAttrib( attrs,
+						PRE_REQUISITE_ATTRIB, false ) );
+				if ( !StringUtil.isBlank( targetElement ) )
+					triggerDefn.setTargetElement( targetElement );
+
+				if ( propDefn != null )
+					propDefn.getTriggers().addSemanticValidationDefn( triggerDefn );
+
+				if ( slotDefn != null )
+					slotDefn.getTriggers().addSemanticValidationDefn( triggerDefn );
+			}
+			else
+			{
+				semanticError( new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
 			}
 		}
 	}

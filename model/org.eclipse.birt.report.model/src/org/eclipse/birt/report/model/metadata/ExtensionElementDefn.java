@@ -327,7 +327,7 @@ public class ExtensionElementDefn extends ElementDefn
 		newDefn.setIsList( defn.isList( ) );
 		newDefn.setName( defn.getName( ) );
 		newDefn.setType( defn.getType( ) );
-		newDefn.setValidator( defn.validator );
+		newDefn.setValueValidator( defn.valueValidator );
 		newDefn.details = defn.details;
 
 		// 3 members on the ElementPropertyDefn

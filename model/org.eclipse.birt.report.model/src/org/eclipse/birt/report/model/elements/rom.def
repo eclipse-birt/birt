@@ -381,7 +381,7 @@
   <ChoiceType name="stringFormat">
 	<Choice name=">" displayNameID="Choices.stringFormat.upper" />
     <Choice name="&lt;" displayNameID="Choices.stringFormat.lower" />
-  </ChoiceType>
+  </ChoiceType> 
   <Class name="String" displayNameID="Class.String" toolTipID="Class.String.toolTip" native="true">
     <Constructor name="String" displayNameID="Class.String.String" toolTipID="Class.String.String.toolTip" returnType="String">
       <Argument name="object" type="Object" tagID="Class.String.String.object" />
@@ -1312,8 +1312,22 @@
 		</Method>	
   </Class>
   <Validators>
-		<Validator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validator.NonNegativeValueValidator"/>
-		<Validator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveValueValidator"/>
+		<ValueValidator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator"/>
+		<ValueValidator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator"/>
+		<SemanticValidator name="CellOverlappingValidator" class="org.eclipse.birt.report.model.validators.CellOverlappingValidator"/>
+		<SemanticValidator name="DataSetRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetRequiredValidator"/>
+		<SemanticValidator name="DataSourceRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSourceRequiredValidator"/>
+		<SemanticValidator name="DataSetResultSetValidator" class="org.eclipse.birt.report.model.validators.DataSetResultSetValidator"/>
+		<SemanticValidator name="ExtensionValidator" class="org.eclipse.birt.report.model.validators.ExtensionValidator"/>
+		<SemanticValidator name="GroupNameValidator" class="org.eclipse.birt.report.model.validators.GroupNameValidator"/>
+		<SemanticValidator name="InconsistentColumnsValidator" class="org.eclipse.birt.report.model.validators.InconsistentColumnsValidator"/>
+		<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator"/>
+		<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.validators.MasterPageRequiredValidator"/>
+		<SemanticValidator name="MasterPageSizeValidator" class="org.eclipse.birt.report.model.validators.MasterPageSizeValidator"/>
+		<SemanticValidator name="MasterPageTypeValidator" class="org.eclipse.birt.report.model.validators.MasterPageTypeValidator"/>
+		<SemanticValidator name="StructureListValidator" class="org.eclipse.birt.report.model.validators.StructureListValidator"/>
+		<SemanticValidator name="TableDroppingValidator" class="org.eclipse.birt.report.model.validators.TableDroppingValidator"/>
+		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.validators.ElementReferenceValidator"/>
   </Validators>
   <Structure name="MapRule" displayNameID="Structure.MapRule">
     <Member name="operator" displayNameID="Structure.MapRule.operator" type="choice" detailType="mapOperator" isIntrinsic="true">
@@ -1541,6 +1555,7 @@
     </Slot>
     <Slot name="pageSetup" displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="true">
       <Type name="MasterPage" />
+		<Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
     <Slot name="components" displayNameID="Element.ReportDesign.slot.components" multipleCardinality="true">
       <Type name="FreeForm" />
@@ -1608,7 +1623,9 @@
     <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" />
   </Element>
   <Element name="DataSet" displayNameID="Element.DataSet" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSet" isNameRequired="true">
-    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" />
+    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource">
+	  <Trigger validator="DataSourceRequiredValidator"/>
+	</Property>
     <Method name="beforeOpen" displayNameID="Element.DataSet.beforeOpen" toolTipID="Element.DataSet.beforeOpen.toolTip" />
     <Method name="beforeClose" displayNameID="Element.DataSet.beforeClose" toolTipID="Element.DataSet.beforeClose.toolTip" />
     <Method name="onFetch" displayNameID="Element.DataSet.onFetch" toolTipID="Element.DataSet.onFetch.toolTip" />
@@ -1616,7 +1633,9 @@
     <Method name="afterClose" displayNameID="Element.DataSet.afterClose" toolTipID="Element.DataSet.afterClose.toolTip" />
     <Property name="parameters" type="structure" isList="true" detailType="DataSetParam" displayNameID="Element.DataSet.parameters" />
     <Property name="paramBindings" type="structure" isList="true" detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" />
-    <Property name="resultSet" type="structure" isList="true" detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" />
+    <Property name="resultSet" type="structure" isList="true" detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" >
+	  <Trigger validator="DataSetResultSetValidator"/>
+	</Property>
     <Property name="computedColumns" type="structure" isList="true" detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" />
     <Property name="columnHints" type="structure" isList="true" detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" />
     <Property name="filter" type="structure" isList="true" detailType="FilterCond" displayNameID="Element.DataSet.filter" />
@@ -1863,9 +1882,20 @@
   <Element name="MasterPage" displayNameID="Element.MasterPage" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="true" hasStyle="true" nameSpace="masterPage" isNameRequired="true" selector="page">
     <Property name="type" displayNameID="Element.MasterPage.type" type="string" detailType="pageSize">
       <Default>us-letter</Default>
+	  <Trigger validator="MasterPageTypeValidator" preRequisite="true"/>
+	  <Trigger validator="MasterPageSizeValidator"/>
+	  <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
-    <Property name="height" displayNameID="Element.MasterPage.height" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property name="width" displayNameID="Element.MasterPage.width" type="dimension" validator="NonNegativeValueValidator"/>
+    <Property name="height" displayNameID="Element.MasterPage.height" type="dimension" validator="NonNegativeValueValidator">
+	  <Trigger validator="MasterPageTypeValidator" preRequisite="true"/>
+	  <Trigger validator="MasterPageSizeValidator"/>
+	  <Trigger validator="MasterPageMultiColumnValidator"/>
+	</Property>
+    <Property name="width" displayNameID="Element.MasterPage.width" type="dimension" validator="NonNegativeValueValidator">
+	  <Trigger validator="MasterPageTypeValidator" preRequisite="true"/>
+	  <Trigger validator="MasterPageSizeValidator"/>
+	  <Trigger validator="MasterPageMultiColumnValidator"/>
+	</Property>		
 	<Property name="headerHeight" displayNameID="Element.MasterPage.headerHeight" type="dimension" validator="NonNegativeValueValidator"/>
 	<Property name="footerHeight" displayNameID="Element.MasterPage.footerHeight" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="orientation" displayNameID="Element.MasterPage.orientation" type="string" detailType="pageOrientation">
@@ -1874,24 +1904,34 @@
     <PropertyGroup displayNameID="Element.MasterPage.margin">
       <Property name="topMargin" displayNameID="Element.MasterPage.topMargin" type="dimension">
         <Default>1in</Default>
+	    <Trigger validator="MasterPageSizeValidator"/>
+	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="leftMargin" displayNameID="Element.MasterPage.leftMargin" type="dimension">
         <Default>1in</Default>
+	    <Trigger validator="MasterPageSizeValidator"/>
+	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="bottomMargin" displayNameID="Element.MasterPage.bottomMargin" type="dimension">
         <Default>1in</Default>
+	    <Trigger validator="MasterPageSizeValidator"/>
+	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="rightMargin" displayNameID="Element.MasterPage.rightMargin" type="dimension">
         <Default>1in</Default>
+	    <Trigger validator="MasterPageSizeValidator"/>
+	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
     </PropertyGroup>
   </Element>
   <Element name="GraphicMasterPage" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" displayNameID="Element.GraphicMasterPage" isAbstract="false" extends="MasterPage" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="true" selector="page">
     <Property name="columns" displayNameID="Element.GraphicMasterPage.columns" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
+      <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
     <Property name="columnSpacing" displayNameID="Element.GraphicMasterPage.columnSpacing" type="dimension">
       <Default>0.5in</Default>
+      <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
     <Slot name="contents" displayNameID="Element.GraphicMasterPage.slot.contents" multipleCardinality="true">
       <Type name="Label" />
@@ -1921,9 +1961,11 @@
     </Slot>
   </Element>
   <Element name="ReportItem" displayNameID="Element.ReportItem" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="true" nameSpace="element" isNameRequired="false">
-    <Property name="bookmark" displayNameID="Element.ReportItem.bookmark" type="expression" isVisible="false" />
+    <Property name="bookmark" displayNameID="Element.ReportItem.bookmark" type="expression" isVisible="false"/>
     <Property name="toc" displayNameID="Element.ReportItem.toc" type="expression" isVisible="false"/>
-    <Property name="dataSet" displayNameID="Element.ReportItem.dataSet" type="element" detailType="DataSet" />
+    <Property name="dataSet" displayNameID="Element.ReportItem.dataSet" type="element" detailType="DataSet" >
+      <Trigger validator="DataSetRequiredValidator"/>
+	</Property>
     <PropertyGroup displayNameID="Element.ReportItem">
       <Property name="x" displayNameID="Element.ReportItem.x" type="dimension" isVisible="false"/>
       <Property name="y" displayNameID="Element.ReportItem.y" type="dimension" isVisible="false"/>
@@ -2129,7 +2171,9 @@
     <Property name="sort" displayNameID="Element.ListingGroup.sort" type="structure" isList="true" detailType="SortKey" />
     <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCond" />
     <Property name="toc" displayNameID="Element.ListingGroup.toc" type="expression" isVisible="false"/>
-    <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" />
+    <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
+      <Trigger validator="GroupNameValidator" targetElement="Table"/>
+	</Property>
     <Property name="interval" displayNameID="Element.ListingGroup.interval" type="choice" detailType="interval">
       <Default>none</Default>
     </Property>
@@ -2165,6 +2209,7 @@
     </Slot>
     <Slot name="group" displayNameID="Element.List.slot.group" multipleCardinality="true" selector="group">
       <Type name="ListGroup" />
+      <Trigger validator="GroupNameValidator"/>
     </Slot>
     <Slot name="detail" displayNameID="Element.List.slot.detail" multipleCardinality="true" selector="detail">
       <Type name="FreeForm" />
@@ -2225,31 +2270,40 @@
     </Property>
     <Slot name="header" displayNameID="Element.Table.slot.header" multipleCardinality="true" selector="header">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
     <Slot name="group" displayNameID="Element.Table.slot.group" multipleCardinality="true">
       <Type name="TableGroup" />
+      <Trigger validator="GroupNameValidator"/>
     </Slot>
     <Slot name="detail" displayNameID="Element.Table.slot.detail" multipleCardinality="true" selector="detail">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
     <Slot name="footer" displayNameID="Element.Table.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
     <Slot name="columns" displayNameID="Element.Table.slot.columns" multipleCardinality="true">
       <Type name="Column" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
   <Element name="TableGroup" javaClass="org.eclipse.birt.report.model.elements.TableGroup" displayNameID="Element.TableGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="table-group">
     <Slot name="header" displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" selector="header">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
+      <Trigger validator="TableDroppingValidator"/>
     </Slot>
     <Slot name="footer" displayNameID="Element.TableGroup.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Slot>
   </Element>
   <Element name="Column" javaClass="org.eclipse.birt.report.model.elements.TableColumn" displayNameID="Element.Column" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
     <Property name="repeat" displayNameID="Element.Column.repeat" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
+      <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
     <Property name="width" displayNameID="Element.Column.width" type="dimension" validator="NonNegativeValueValidator"/>
     <StyleProperty name="fontFamily" />
@@ -2319,17 +2373,23 @@
     <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" isVisible="false" />
     <Slot name="cell" displayNameID="Element.Row.slot.cell" multipleCardinality="true">
       <Type name="Cell" />
+      <Trigger validator="CellOverlappingValidator"/>
     </Slot>
   </Element>
   <Element name="Cell" javaClass="org.eclipse.birt.report.model.elements.Cell" displayNameID="Element.Cell" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
     <Property name="column" displayNameID="Element.Cell.column" type="integer" validator="NonNegativeValueValidator" isVisible="false">
       <Default>0</Default>
+      <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
+      <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
     <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
+      <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
+      <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
     <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
+      <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
     </Property>
     <Property name="drop" displayNameID="Element.Cell.drop" type="choice" detailType="dropType" isVisible="false">
       <Default>none</Default>
