@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
+import org.eclipse.birt.report.engine.api.IViewHTMLOptions;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
@@ -40,7 +41,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/03/15 07:22:32 $
+ * @version $Revision: 1.13 $ $Date: 2005/03/17 07:56:38 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -56,6 +57,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	protected Report report;
 
+	protected boolean isEmbeddable;
 	/**
 	 * The
 	 * <code>HTMLWriter<code> object that Emitters use to output HTML content.
@@ -145,6 +147,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		this.services = services;
 		IRepository repository = services.getRepository( );
 		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
+		isEmbeddable = IViewHTMLOptions.HTML_TYPE_REPORTLETNOCSS
+				.equalsIgnoreCase( services.getOption( IViewHTMLOptions.HTML_TYPE ) );
 
 		writer = new HTMLWriter( );
 
@@ -156,11 +160,11 @@ public class HTMLReportEmitter implements IReportEmitter
 		else if ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE )
 			hyperlinkProcessor = new DefaultHyperlinkProcessor( );
 
-		imageEmitter = new HTMLImageEmitter( this );
-		pageSetupEmitter = new HTMLPageSetupEmitter( this );
-		tableEmitter = new HTMLTableEmitter( this );
-		textEmitter = new HTMLTextEmitter( this );
-		containerEmitter = new HTMLContainerEmitter( this );
+		imageEmitter = new HTMLImageEmitter( this, isEmbeddable );
+		pageSetupEmitter = new HTMLPageSetupEmitter( this, isEmbeddable );
+		tableEmitter = new HTMLTableEmitter( this, isEmbeddable );
+		textEmitter = new HTMLTextEmitter( this, isEmbeddable );
+		containerEmitter = new HTMLContainerEmitter( this, isEmbeddable );
 	}
 
 	/**
@@ -269,6 +273,12 @@ public class HTMLReportEmitter implements IReportEmitter
 		OutputStream out = this.resourceManager.openOutputStream( REPORT_FILE );
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
+		if ( isEmbeddable )
+		{
+			fixPng( );
+			return;
+		}
+
 		writer.startWriter( );
 		writer.openTag( HTMLTags.TAG_HTML );
 		writer.openTag( HTMLTags.TAG_META );
@@ -346,7 +356,7 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 
 		writer.closeTag( HTMLTags.TAG_STYLE );
-
+		fixPng( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 	}
 
@@ -358,7 +368,10 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void endReport( )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
-		writer.closeTag( HTMLTags.TAG_HTML );
+		if ( !isEmbeddable )
+		{
+			writer.closeTag( HTMLTags.TAG_HTML );
+		}
 		writer.endWriter( );
 		writer.close( );
 	}
@@ -372,7 +385,10 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 
-		writer.openTag( HTMLTags.TAG_BODY );
+		if ( !isEmbeddable )
+		{
+			writer.openTag( HTMLTags.TAG_BODY );
+		}
 	}
 
 	/*
@@ -384,7 +400,10 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 
-		writer.closeTag( HTMLTags.TAG_BODY );
+		if ( !isEmbeddable )
+		{
+			writer.closeTag( HTMLTags.TAG_BODY );
+		}
 	}
 
 	/**
@@ -473,5 +492,29 @@ public class HTMLReportEmitter implements IReportEmitter
 	public String getMappedStyleName( String name )
 	{
 		return (String) styleNameMapping.get( name );
+	}
+
+	protected void fixPng( )
+	{
+		writer.writeCode( "<!--[if gte IE 5.5000]>" ); //$NON-NLS-1$
+		writer.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
+		writer.writeCode( "<![endif]-->" ); //$NON-NLS-1$
+		writer.writeCode( "<script language=\"JavaScript\">" ); //$NON-NLS-1$
+		writer.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
+		writer.writeCode( "      {" ); //$NON-NLS-1$
+		writer.writeCode( "      if (window.ie55up)" ); //$NON-NLS-1$
+		writer.writeCode( "         {" ); //$NON-NLS-1$
+		writer.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\"" ); //$NON-NLS-1$
+		writer.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\"" ); //$NON-NLS-1$
+		writer.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \"" ); //$NON-NLS-1$
+		writer.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText" );  //$NON-NLS-1$
+		writer.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle" ); //$NON-NLS-1$
+		writer.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\"" ); //$NON-NLS-1$
+		writer.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\"" ); //$NON-NLS-1$
+		writer.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\"" );  //$NON-NLS-1$
+		writer.writeCode( "         myImage.outerHTML = strNewHTML" ); //$NON-NLS-1$
+		writer.writeCode( "         }" ); //$NON-NLS-1$
+		writer.writeCode( "      }" ); //$NON-NLS-1$
+		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
 }

@@ -45,29 +45,4 @@
 		  	</reportItem>
 	 	</emitter>
    </extension>
-   <extension 
-	 	point="org.eclipse.birt.report.engine.emitterSet"
-	 	name = "Engine Emitters">
-	 	<emitter 
-	  		format="htmllet" 
-	  		id="org.eclipse.birt.report.engine.emitter.htmllet"
-	  		class="org.eclipse.birt.report.engine.emitter.htmllet.HTMLLetReportEmitter">
-		  	<reportItem name="Container"
-		   		id="org.eclipse.birt.report.engine.emitter.container.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLContainerEmitter">
-		  	</reportItem>
-		  	<reportItem name="Image"
-		   		id="org.eclipse.birt.report.engine.emitter.image.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLImageEmitter">
-		  	</reportItem>
-		  	<reportItem name="Table"
-		   		id="org.eclipse.birt.report.engine.emitter.table.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLTableEmitter">
-		  	</reportItem>
-		  	<reportItem name="Text"
-		   		id="org.eclipse.birt.report.engine.emitter.Text.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLTextEmitter">
-		  	</reportItem>
-	 	</emitter>
-   </extension>
 </plugin>
