@@ -42,13 +42,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class ChartReportItemImpl extends ReportItem
 {
     private Chart cm = null;
+
     private static final List liLegendPositions = new LinkedList();
+
     private static final List liLegendAnchors = new LinkedList();
+
     private static final List liChartDimensions = new LinkedList();
 
     static
     {
-        // SUPPRESS EVERYTHING EXCEPT FOR ERRORS 
+        // SUPPRESS EVERYTHING EXCEPT FOR ERRORS
         //DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR);
 
         // SETUP LEGEND POSITION CHOICE LIST
@@ -64,9 +67,7 @@ public final class ChartReportItemImpl extends ReportItem
             {
                 continue;
             }
-            icd = new ChartChoiceDefinitionImpl(
-                "choice.legend.position." + sLowercaseName, sName, null
-            );
+            icd = new ChartChoiceDefinitionImpl("choice.legend.position." + sLowercaseName, sName, null);
             liLegendPositions.add(icd);
         }
 
@@ -77,9 +78,7 @@ public final class ChartReportItemImpl extends ReportItem
         {
             sName = ((Anchor) it.next()).getName();
             sLowercaseName = sName.toLowerCase(Locale.US);
-            icd = new ChartChoiceDefinitionImpl(
-                "choice.legend.anchor." + sLowercaseName, sName, null
-            );
+            icd = new ChartChoiceDefinitionImpl("choice.legend.anchor." + sLowercaseName, sName, null);
             liLegendAnchors.add(icd);
         }
 
@@ -90,16 +89,14 @@ public final class ChartReportItemImpl extends ReportItem
         {
             sName = ((ChartDimension) it.next()).getName();
             sLowercaseName = sName.toLowerCase(Locale.US);
-            icd = new ChartChoiceDefinitionImpl(
-                "choice.chart.dimension." + sLowercaseName, sName, null
-            );
+            icd = new ChartChoiceDefinitionImpl("choice.chart.dimension." + sLowercaseName, sName, null);
             liChartDimensions.add(icd);
         }
     };
 
     public ChartReportItemImpl()
     {
-        
+
     }
 
     public void setModel(Chart cm)
@@ -164,37 +161,40 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public IPropertyDefinition[] getPropertyDefinitions()
     {
+        if (cm == null)
+        {
+            DefaultLoggerImpl.instance().log(ILogger.WARNING,
+                "Request for property definitions recieved before model was created.");
+            return null;
+        }
         final boolean bTransposed = (cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false;
-        
-        return new IPropertyDefinition[] {
-            
-	        new ChartPropertyDefinitionImpl(
-	            null, "title.value", "property.title.value", false, PropertyType.STRING_TYPE, 
-	            null, null, cm.getTitle().getLabel().getCaption().getValue()),
-	            
-	        new ChartPropertyDefinitionImpl(
-	            null, "title.font.rotation", "property.title.font.rotation", false, PropertyType.NUMBER_TYPE, 
-	            null, null, new Double(cm.getTitle().getLabel().getCaption().getFont().getRotation())),
 
-	        /*new ChartPropertyDefinitionImpl(
-	            null, "title.textColor", "property.title.textColor", false, PropertyType.COLOR_TYPE, 
-	            null, null, cm.getTitle().getLabel().getCaption().getColor()),*/
-	            
-	        new ChartPropertyDefinitionImpl(
-	            null, "legend.position", "property.legend.position", false, PropertyType.CHOICE_TYPE, 
-	            liLegendPositions, null, null),
-	            
-	        new ChartPropertyDefinitionImpl(
-	            null, "legend.anchor", "property.legend.anchor", false, PropertyType.CHOICE_TYPE, 
-	            liLegendAnchors, null, null),
+        return new IPropertyDefinition[]
+        {
 
-	        new ChartPropertyDefinitionImpl(
-	            null, "chart.dimension", "property.chart.dimension", false, PropertyType.CHOICE_TYPE, 
-	            liChartDimensions, null, null),
-		            
-	        new ChartPropertyDefinitionImpl(
-	            null, "plot.transposed", "property.chart.plot.transposed", false, PropertyType.BOOLEAN_TYPE, 
-	            null, null, new Boolean(bTransposed)),
+            new ChartPropertyDefinitionImpl(null, "title.value", "property.title.value", false,
+                PropertyType.STRING_TYPE, null, null, cm.getTitle().getLabel().getCaption().getValue()),
+
+            new ChartPropertyDefinitionImpl(null, "title.font.rotation", "property.title.font.rotation", false,
+                PropertyType.NUMBER_TYPE, null, null, new Double(cm.getTitle().getLabel().getCaption().getFont()
+                    .getRotation())),
+
+            /*
+             * new ChartPropertyDefinitionImpl( null, "title.textColor", "property.title.textColor", false,
+             * PropertyType.COLOR_TYPE, null, null, cm.getTitle().getLabel().getCaption().getColor()),
+             */
+
+            new ChartPropertyDefinitionImpl(null, "legend.position", "property.legend.position", false,
+                PropertyType.CHOICE_TYPE, liLegendPositions, null, null),
+
+            new ChartPropertyDefinitionImpl(null, "legend.anchor", "property.legend.anchor", false,
+                PropertyType.CHOICE_TYPE, liLegendAnchors, null, null),
+
+            new ChartPropertyDefinitionImpl(null, "chart.dimension", "property.chart.dimension", false,
+                PropertyType.CHOICE_TYPE, liChartDimensions, null, null),
+
+            new ChartPropertyDefinitionImpl(null, "plot.transposed", "property.chart.plot.transposed", false,
+                PropertyType.BOOLEAN_TYPE, null, null, new Boolean(bTransposed)),
         };
     }
 
@@ -216,15 +216,15 @@ public final class ChartReportItemImpl extends ReportItem
         }
         else if (propName.equals("legend.position"))
         {
-            return cm.getLegend().getPosition().getName(); 
+            return cm.getLegend().getPosition().getName();
         }
         else if (propName.equals("legend.anchor"))
         {
-            return cm.getLegend().getAnchor().getName(); 
+            return cm.getLegend().getAnchor().getName();
         }
         else if (propName.equals("chart.dimension"))
         {
-            return cm.getDimension().getName(); 
+            return cm.getDimension().getName();
         }
         else if (propName.equals("plot.transposed"))
         {
@@ -240,7 +240,8 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void checkProperty(String propName, Object value) throws ExtendedElementException
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "checkProperty(...) - " + propName + " with value " + value);
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+            "checkProperty(...) - " + propName + " with value " + value);
     }
 
     /*
@@ -250,7 +251,8 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void setProperty(String propName, Object value)
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "setProperty(...) - " + propName + " with value " + value);
+        DefaultLoggerImpl.instance()
+            .log(ILogger.INFORMATION, "setProperty(...) - " + propName + " with value " + value);
         if (propName.equals("title.value"))
         {
             cm.getTitle().getLabel().getCaption().setValue((String) value);
@@ -279,7 +281,8 @@ public final class ChartReportItemImpl extends ReportItem
             }
             else
             {
-                DefaultLoggerImpl.instance().log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
+                DefaultLoggerImpl.instance()
+                    .log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
             }
         }
     }
@@ -335,7 +338,8 @@ public final class ChartReportItemImpl extends ReportItem
         char c = sb.charAt(0);
         sb.setCharAt(0, Character.toUpperCase(c));
         int i = 1, iSlash;
-        do {
+        do
+        {
             iSlash = sb.indexOf("_", i);
             if (iSlash >= 0 && iSlash < sb.length() - 1)
             {
@@ -343,7 +347,8 @@ public final class ChartReportItemImpl extends ReportItem
                 sb.setCharAt(iSlash + 1, Character.toUpperCase(c));
                 i = iSlash + 1;
             }
-        } while (i < sb.length() && iSlash != -1);
+        }
+        while (i < sb.length() && iSlash != -1);
         return sb.toString();
     }
 }

@@ -206,6 +206,7 @@ public class BarChart extends DefaultChartTypeImpl
         newChart.setSubType(sSubType);
         newChart.setOrientation(orientation);
         newChart.setDimension(getDimensionFor(sDimension));
+        newChart.setUnits("Points");
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.TEXT_LITERAL);

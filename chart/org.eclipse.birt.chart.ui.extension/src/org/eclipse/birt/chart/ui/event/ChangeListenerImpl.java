@@ -204,9 +204,8 @@ public class ChangeListenerImpl implements IChangeListener
      * @see org.eclipse.birt.chart.ui.swt.IChangeListener#chartModified(org.eclipse.emf.common.notify.Notification,
      *      org.eclipse.birt.chart.ui.swt.IUIManager)
      */
-    public void chartModified(IUIManager uiManager)
+    public void chartModified(Chart cModel, IUIManager uiManager)
     {
-        Chart cModel = uiManager.getCurrentModelState();
         int iNewBaseAxisCount = 0;
         int iNewOrthogonalAxisCount = 0;
         int iNewBaseSeriesCount = 0;

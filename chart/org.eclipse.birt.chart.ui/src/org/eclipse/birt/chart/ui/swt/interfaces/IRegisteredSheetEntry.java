@@ -16,7 +16,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
  */
 public interface IRegisteredSheetEntry
 {
-    public String getNodePath();
+    public int getNodeIndex();
 
     public ISheet getSheet();
 }

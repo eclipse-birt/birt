@@ -156,6 +156,7 @@ public class PieChart extends DefaultChartTypeImpl
         newChart.setType(sType);
         newChart.setSubType(sSubType);
         newChart.setDimension(getDimensionFor(sDimension));
+        newChart.setUnits("Points");
         if (newChart.getDimension().equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL))
         {
             newChart.setSeriesThickness(15);
@@ -386,7 +387,7 @@ public class PieChart extends DefaultChartTypeImpl
                 if (sElement.startsWith("-")) // Negative Number
                 {
                     sElement = sElement.substring(1); // Convert to positive number since negative values are not
-                                                      // supported for pie charts
+                    // supported for pie charts
                 }
                 sbNewRepresentation.append(sElement);
             }
@@ -403,7 +404,7 @@ public class PieChart extends DefaultChartTypeImpl
         {
             String sElement = strtok.nextToken().trim();
             if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
-                                          // be text
+            // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
                 sbNewRepresentation.append(strStockTokenizer.nextToken().trim().substring(1));
@@ -413,7 +414,7 @@ public class PieChart extends DefaultChartTypeImpl
                 if (sElement.startsWith("-")) // Negative Number
                 {
                     sElement = sElement.substring(1); // Convert to positive number since negative values are not
-                                                      // supported for pie charts
+                    // supported for pie charts
                 }
                 sbNewRepresentation.append(sElement);
             }

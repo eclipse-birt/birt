@@ -60,7 +60,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private transient IUIServiceProvider serviceprovider = null;
 
     public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint, List keys,
-        IUIServiceProvider serviceprovider)
+        IUIServiceProvider serviceprovider, String sText)
     {
         super(parent, SWT.NONE);
         this.iStyle = style;
@@ -68,6 +68,8 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         this.iWidthHint = iWidthHint;
         this.keys = keys;
         this.serviceprovider = serviceprovider;
+        sKey = getKey(sText);
+        sCurrent = getValue(sText);
         init();
         placeComponents();
     }
@@ -89,6 +91,16 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         this.setLayout(glContent);
 
         txtSelection = new TextEditorComposite(this, iStyle);
+        if (sKey == null || sKey.length() == 0)
+        {
+            txtSelection.setEnabled(true);
+        }
+        else
+        {
+            txtSelection.setEnabled(false);
+        }
+        txtSelection.setText(sCurrent);
+
         GridData gdTXTSelection = new GridData(GridData.FILL_HORIZONTAL);
         if (iHeightHint > 0)
         {
@@ -139,12 +151,26 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public String getValue(String str)
     {
-        int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
-        if (iSeparator == (-1 + SEPARATOR.length()))
+        String sTmp = "";
+        sTmp = getKey(str);
+        if ("".equals(sTmp))
         {
-            iSeparator = 0;
+            int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
+            if (iSeparator == (-1 + SEPARATOR.length()))
+            {
+                iSeparator = 0;
+            }
+            return str.substring(iSeparator);
         }
-        return str.substring(iSeparator);
+        else
+        {
+            sTmp = serviceprovider.getValue(sTmp);
+            if (sTmp == null || "".equals(sTmp))
+            {
+                sTmp = "Key could not be found in Properties file...or properties file not present.";
+            }
+        }
+        return sTmp;
     }
 
     public void addListener(Listener listener)
@@ -177,6 +203,14 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         if (sTxt != null)
         {
             this.setText(sTxt);
+            if (sKey == null || sKey.length() == 0)
+            {
+                txtSelection.setEnabled(true);
+            }
+            else
+            {
+                txtSelection.setEnabled(false);
+            }
             fireEvent();
         }
     }
@@ -202,5 +236,4 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         sCurrent = txtSelection.getText();
         fireEvent();
     }
-
 }

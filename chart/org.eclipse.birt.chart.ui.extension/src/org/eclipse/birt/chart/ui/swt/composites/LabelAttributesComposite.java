@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -76,6 +77,8 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient Insets insets = null;
 
+    private transient String sUnits = null;
+
     private transient LineAttributesComposite liacOutline = null;
 
     private transient Vector vListeners = null;
@@ -104,17 +107,21 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient boolean bVisibilityEnabled = true;
 
+    private transient IUIServiceProvider serviceprovider = null;
+
     /**
      * @param parent
      * @param style
      */
     public LabelAttributesComposite(Composite parent, int style, String sGroupName, Position lpCurrent,
-        org.eclipse.birt.chart.model.component.Label lblCurrent, boolean bPositionEnabled, boolean bVisibilityEnabled)
+        org.eclipse.birt.chart.model.component.Label lblCurrent, String sUnits, boolean bPositionEnabled,
+        boolean bVisibilityEnabled, IUIServiceProvider serviceprovider)
     {
         super(parent, style);
         this.sGroupName = sGroupName;
         this.lpCurrent = lpCurrent;
         this.lblCurrent = lblCurrent;
+        this.sUnits = sUnits;
         this.fdCurrent = lblCurrent.getCaption().getFont();
         this.cdFont = lblCurrent.getCaption().getColor();
         this.fBackground = lblCurrent.getBackground();
@@ -123,6 +130,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         this.insets = lblCurrent.getInsets();
         this.bPositionEnabled = bPositionEnabled;
         this.bVisibilityEnabled = bVisibilityEnabled;
+        this.serviceprovider = serviceprovider;
         init();
         placeComponents();
     }
@@ -237,7 +245,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, laCurrent, true, true, true);
         liacOutline.addListener(this);
 
-        icInsets = new InsetsComposite(grpAttributes, SWT.NONE, insets);
+        icInsets = new InsetsComposite(grpAttributes, SWT.NONE, insets, sUnits, serviceprovider);
         GridData gdICInsets = new GridData(GridData.FILL_HORIZONTAL);
         gdICInsets.heightHint = icInsets.getPreferredSize().y;
         gdICInsets.grabExcessVerticalSpace = false;
@@ -262,9 +270,10 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         }
     }
 
-    public void setLabel(org.eclipse.birt.chart.model.component.Label lbl)
+    public void setLabel(org.eclipse.birt.chart.model.component.Label lbl, String sUnits)
     {
         this.lblCurrent = lbl;
+        this.sUnits = sUnits;
         this.fdCurrent = lblCurrent.getCaption().getFont();
         this.cdFont = lblCurrent.getCaption().getColor();
         this.fBackground = lblCurrent.getBackground();
@@ -282,7 +291,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         this.fccBackground.setFill(fBackground);
         this.fccShadow.setFill(cdShadow);
         this.liacOutline.setLineAttributes(laCurrent);
-        this.icInsets.setInsets(insets);
+        this.icInsets.setInsets(insets, this.sUnits);
         redraw();
     }
 

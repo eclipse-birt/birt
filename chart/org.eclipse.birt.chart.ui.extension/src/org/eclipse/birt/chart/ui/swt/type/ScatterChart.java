@@ -158,6 +158,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         newChart.setSubType(sSubType);
         newChart.setOrientation(orientation);
         newChart.setDimension(getDimensionFor(sDimension));
+        newChart.setUnits("Points");
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
@@ -434,15 +435,15 @@ public class ScatterChart extends DefaultChartTypeImpl
         {
             BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
             bsd.setDataSetRepresentation(getConvertedSampleDataRepresentation(bsd.getDataSetRepresentation(), false)); // Special
-                                                                                                                       // handling
-                                                                                                                       // for
-                                                                                                                       // stock
-                                                                                                                       // series
-                                                                                                                       // only
-                                                                                                                       // needed
-                                                                                                                       // for
-                                                                                                                       // orthogonal
-                                                                                                                       // values
+            // handling
+            // for
+            // stock
+            // series
+            // only
+            // needed
+            // for
+            // orthogonal
+            // values
             vNewBaseSampleData.add(bsd);
         }
         currentSampleData.getBaseSampleData().clear();

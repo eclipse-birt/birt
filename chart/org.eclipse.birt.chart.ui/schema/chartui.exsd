@@ -41,10 +41,10 @@
 
    <element name="propertySheet">
       <complexType>
-         <attribute name="nodePath" type="string">
+         <attribute name="nodeIndex" type="int">
             <annotation>
                <documentation>
-                  The node path is the path in the Chart Builder tree that shows hierarchy of the node representing the custom sheet.
+                  The index for the node in the tree. This value will determine the order in which the node is added to the tree. A higher number will cause it to appear lower down in the tree.
                </documentation>
             </annotation>
          </attribute>

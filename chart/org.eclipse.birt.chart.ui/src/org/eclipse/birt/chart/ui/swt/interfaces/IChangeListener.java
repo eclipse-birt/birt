@@ -22,13 +22,7 @@ import org.eclipse.birt.chart.model.Chart;
 public interface IChangeListener
 {
 
-    /**
-     * 
-     * @param uiManager
-     *            The IUIManager instance that actually manages the tree and performs the addition and removal
-     *            operations on it.
-     */
-    public void chartModified(IUIManager uiManager);
+    public void chartModified(Chart chartModel, IUIManager uiManager);
 
-    public void initialize(Chart cModel, IUIManager uiManager);
+    public void initialize(Chart chartModel, IUIManager uiManager);
 }

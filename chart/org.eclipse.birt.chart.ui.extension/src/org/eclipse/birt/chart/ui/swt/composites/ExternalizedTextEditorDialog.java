@@ -46,6 +46,8 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
 
     private transient Text txtValue = null;
 
+    private transient Text txtCurrent = null;
+
     private transient Button btnAccept = null;
 
     private transient Button btnCancel = null;
@@ -128,15 +130,32 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         cmbKeys.addSelectionListener(this);
 
         Label lblValue = new Label(cmpContent, SWT.NONE);
-        GridData gdLBLValue = new GridData();
+        GridData gdLBLValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+        gdLBLValue.horizontalSpan = 2;
         lblValue.setLayoutData(gdLBLValue);
-        lblValue.setText("Display Value:");
+        lblValue.setText("Default Value:");
 
-        txtValue = new Text(cmpContent, SWT.BORDER | SWT.SINGLE);
+        txtValue = new Text(cmpContent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
         GridData gdTXTValue = new GridData(GridData.FILL_HORIZONTAL);
-        gdTXTValue.widthHint = 100;
+        gdTXTValue.horizontalSpan = 2;
+        gdTXTValue.widthHint = 150;
+        gdTXTValue.heightHint = 40;
         txtValue.setLayoutData(gdTXTValue);
-        txtValue.setText(getValueComponent(this.sResult));
+
+        Label lblExtValue = new Label(cmpContent, SWT.NONE);
+        GridData gdLBLExtValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+        gdLBLExtValue.horizontalSpan = 2;
+        lblExtValue.setLayoutData(gdLBLExtValue);
+        lblExtValue.setText("Externalized Value:");
+
+        txtCurrent = new Text(cmpContent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL
+            | SWT.READ_ONLY);
+        GridData gdTXTCurrent = new GridData(GridData.FILL_HORIZONTAL);
+        gdTXTCurrent.horizontalSpan = 2;
+        gdTXTCurrent.widthHint = 150;
+        gdTXTCurrent.heightHint = 40;
+        txtCurrent.setLayoutData(gdTXTCurrent);
+        txtCurrent.setText(getCurrentPropertyValue());
 
         // Layout for button composite
         GridLayout glButtons = new GridLayout();
@@ -184,7 +203,10 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
             {
                 cbExternalize.setSelection(true);
                 cmbKeys.setEnabled(true);
-                cmbKeys.setText(str);
+                // Add non-existent key into list
+                cmbKeys.add(str);
+                // Select newly added entry
+                cmbKeys.select(cmbKeys.getItemCount() - 1);
             }
             else
             {
@@ -193,6 +215,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
                 cmbKeys.select(0);
             }
         }
+        txtValue.setText(getDisplayValue());
     }
 
     private String getKeyComponent(String sText)
@@ -209,14 +232,51 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
 
     private String getValueComponent(String sText)
     {
-        if (sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR) != -1)
+        String sKey = getKeyComponent(sText);
+        if (sKey == null || "".equals(sKey))
         {
-            return sText.substring(sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR)
-                + ExternalizedTextEditorComposite.SEPARATOR.length(), sText.length());
+            if (sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR) != -1)
+            {
+                return sText.substring(sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR)
+                    + ExternalizedTextEditorComposite.SEPARATOR.length(), sText.length());
+            }
+            else
+            {
+                return sText;
+            }
         }
         else
         {
-            return sText;
+            String sValue = serviceprovider.getValue(sKey);
+            if (sValue == null || "".equals(sValue))
+            {
+                sValue = "Key could not be found in Properties file...or properties file not present.";
+            }
+            return sValue;
+        }
+    }
+
+    private String getCurrentPropertyValue()
+    {
+        if (sResult == null || "".equals(sResult))
+        {
+            return "";
+        }
+        else
+        {
+            return getValueComponent(sResult);
+        }
+    }
+
+    private String getDisplayValue()
+    {
+        if (cbExternalize.getSelection())
+        {
+            return "<Value of key '" + getKeyComponent(sResult) + "'>";
+        }
+        else
+        {
+            return getValueComponent(sResult);
         }
     }
 
@@ -255,12 +315,18 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         else if (e.getSource().equals(cbExternalize))
         {
             cmbKeys.setEnabled(cbExternalize.getSelection());
+            if (cmbKeys.getItemCount() > 0)
+            {
+                sResult = buildString();
+                txtValue.setText(getDisplayValue());
+                txtCurrent.setText(getCurrentPropertyValue());
+            }
         }
         else if (e.getSource().equals(cmbKeys))
         {
-            String sTxt = this.serviceprovider.getValue(cmbKeys.getText());
-            txtValue.setText(sTxt);
             sResult = buildString();
+            txtValue.setText(getDisplayValue());
+            txtCurrent.setText(getCurrentPropertyValue());
         }
     }
 

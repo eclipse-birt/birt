@@ -86,4 +86,19 @@ public interface IUIServiceProvider
      * @return the value associated with the key for the current locale, null if resource key is blank
      */
     public String getValue(String sKey);
+
+    /**
+     * Gets the result of converting the given value between the specified absolute units of measurement. Any
+     * implementation of this method needs to support conversion between at least the following units: Inches,
+     * Centimeters, Millimeters, Points and Pixels
+     * 
+     * @param dOriginalValue
+     *            the value to be converted
+     * @param sFromUnits
+     *            the units of measurement from which the conversion is to be done
+     * @param sToUnits
+     *            the units of measurement to which the conversion is to be done
+     * @return the converted value
+     */
+    public double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits);
 }

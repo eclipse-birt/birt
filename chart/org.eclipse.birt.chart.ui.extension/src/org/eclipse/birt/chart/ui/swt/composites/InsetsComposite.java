@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -32,7 +33,7 @@ import org.eclipse.swt.widgets.Listener;
 public class InsetsComposite extends Composite implements Listener
 {
 
-    private transient String sUnits = "points";
+    private transient String sUnits = null;
 
     public static final int INSETS_CHANGED_EVENT = 1;
 
@@ -52,14 +53,18 @@ public class InsetsComposite extends Composite implements Listener
 
     private transient Vector vListeners = null;
 
+    private transient IUIServiceProvider serviceprovider = null;
+
     /**
      * @param parent
      * @param style
      */
-    public InsetsComposite(Composite parent, int style, Insets insets)
+    public InsetsComposite(Composite parent, int style, Insets insets, String sUnits, IUIServiceProvider serviceprovider)
     {
         super(parent, style);
         this.insets = insets;
+        this.sUnits = sUnits;
+        this.serviceprovider = serviceprovider;
         init();
         placeComponents();
     }
@@ -93,7 +98,7 @@ public class InsetsComposite extends Composite implements Listener
 
         grpInsets = new Group(this, SWT.NONE);
         grpInsets.setLayout(glGroup);
-        grpInsets.setText("Insets (" + sUnits + ")");
+        grpInsets.setText("Insets (in " + sUnits + ")");
 
         Label lblTop = new Label(grpInsets, SWT.NONE);
         GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -106,7 +111,9 @@ public class InsetsComposite extends Composite implements Listener
         gdTTop.heightHint = 20;
         gdTTop.widthHint = 45;
         txtTop.setLayoutData(gdTTop);
-        txtTop.setText(Double.toString(insets.getTop()));
+        double dblPoints = insets.getTop();
+        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtTop.setText(new Double(dblCurrent).toString());
         txtTop.addListener(this);
 
         Label lblLeft = new Label(grpInsets, SWT.NONE);
@@ -120,7 +127,9 @@ public class InsetsComposite extends Composite implements Listener
         gdTLeft.heightHint = 20;
         gdTLeft.widthHint = 45;
         txtLeft.setLayoutData(gdTLeft);
-        txtLeft.setText(Double.toString(insets.getLeft()));
+        dblPoints = insets.getLeft();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtLeft.setText(new Double(dblCurrent).toString());
         txtLeft.addListener(this);
 
         Label lblBottom = new Label(grpInsets, SWT.NONE);
@@ -134,7 +143,9 @@ public class InsetsComposite extends Composite implements Listener
         gdTBottom.heightHint = 20;
         gdTBottom.widthHint = 45;
         txtBottom.setLayoutData(gdTBottom);
-        txtBottom.setText(Double.toString(insets.getBottom()));
+        dblPoints = insets.getBottom();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtBottom.setText(new Double(dblCurrent).toString());
         txtBottom.addListener(this);
 
         Label lblRight = new Label(grpInsets, SWT.NONE);
@@ -148,23 +159,39 @@ public class InsetsComposite extends Composite implements Listener
         gdTRight.heightHint = 20;
         gdTRight.widthHint = 45;
         txtRight.setLayoutData(gdTRight);
-        txtRight.setText(Double.toString(insets.getRight()));
+        dblPoints = insets.getRight();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtRight.setText(new Double(dblCurrent).toString());
         txtRight.addListener(this);
     }
 
-    public void setInsets(Insets insets)
+    public void setInsets(Insets insets, String sUnits)
     {
         if (insets == null)
         {
             return;
         }
         this.insets = insets;
+        this.sUnits = sUnits;
 
         // Update the UI
-        this.txtBottom.setText(String.valueOf(insets.getBottom()));
-        this.txtLeft.setText(String.valueOf(insets.getLeft()));
-        this.txtTop.setText(String.valueOf(insets.getTop()));
-        this.txtRight.setText(String.valueOf(insets.getRight()));
+        double dblPoints = insets.getBottom();
+        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtBottom.setText(new Double(dblCurrent).toString());
+
+        dblPoints = insets.getLeft();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtLeft.setText(new Double(dblCurrent).toString());
+
+        dblPoints = insets.getTop();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtTop.setText(new Double(dblCurrent).toString());
+
+        dblPoints = insets.getRight();
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        txtRight.setText(new Double(dblCurrent).toString());
+
+        this.grpInsets.setText("Insets (in " + sUnits + ")");
     }
 
     public void addListener(Listener listener)
@@ -196,48 +223,66 @@ public class InsetsComposite extends Composite implements Listener
      */
     public void handleEvent(Event event)
     {
+        double dblCurrent = -1;
+        double dblPoints = -1;
         if (event.widget.equals(txtTop))
         {
             try
             {
-                insets.setTop(Double.parseDouble(txtTop.getText()));
+                dblCurrent = Double.parseDouble(txtTop.getText());
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                insets.setTop(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
-                txtTop.setText(String.valueOf(insets.getTop()));
+                dblPoints = insets.getTop();
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                txtTop.setText(new Double(dblCurrent).toString());
             }
         }
         else if (event.widget.equals(txtLeft))
         {
             try
             {
-                insets.setLeft(Double.parseDouble(txtLeft.getText()));
+                dblCurrent = Double.parseDouble(txtLeft.getText());
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
-                txtLeft.setText(String.valueOf(insets.getLeft()));
+                dblPoints = insets.getLeft();
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                txtLeft.setText(new Double(dblCurrent).toString());
             }
         }
         else if (event.widget.equals(txtBottom))
         {
             try
             {
-                insets.setBottom(Double.parseDouble(txtBottom.getText()));
+                dblCurrent = Double.parseDouble(txtBottom.getText());
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
-                txtBottom.setText(String.valueOf(insets.getBottom()));
+                dblPoints = insets.getBottom();
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                txtBottom.setText(new Double(dblCurrent).toString());
             }
         }
         else if (event.widget.equals(txtRight))
         {
             try
             {
-                insets.setRight(Double.parseDouble(txtRight.getText()));
+                dblCurrent = Double.parseDouble(txtRight.getText());
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
-                txtRight.setText(String.valueOf(insets.getRight()));
+                dblPoints = insets.getRight();
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                txtRight.setText(new Double(dblCurrent).toString());
             }
         }
     }

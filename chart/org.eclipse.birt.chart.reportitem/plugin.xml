@@ -73,4 +73,10 @@
             supportedFormats="GIF,PNG,BMP,JPG"
             name="Chart"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.chart.ui.uisheets">
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.reportitem.ui.ChartDataSetBindingSheetImpl"
+            nodeIndex="50"/>
+   </extension>
 </plugin>

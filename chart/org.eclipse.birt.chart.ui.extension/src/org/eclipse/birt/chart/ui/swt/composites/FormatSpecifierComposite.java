@@ -30,10 +30,10 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -44,27 +44,30 @@ import org.eclipse.swt.widgets.Text;
  */
 public class FormatSpecifierComposite extends Composite implements SelectionListener, Listener, ModifyListener
 {
+    private transient Button btnUndefined = null;
+
+    private transient Button btnStandard = null;
+
+    private transient Button btnAdvanced = null;
+
     private transient Combo cmbDataType = null;
 
-    private transient Composite cmpDetails = null;
+    // Composites for Standard Properties
+    private transient Composite cmpStandardDetails = null;
 
-    private transient StackLayout slDetails = null;
+    private transient StackLayout slStandardDetails = null;
 
-    private transient Composite cmpDateDetails = null;
+    private transient Composite cmpStandardDateDetails = null;
 
-    private transient Group grpDateStandard = null;
+    private transient Composite cmpDateStandard = null;
 
     private transient Combo cmbDateType = null;
 
     private transient Combo cmbDateForm = null;
 
-    private transient Group grpDateAdvanced = null;
+    private transient Composite cmpStandardNumberDetails = null;
 
-    private transient Text txtDatePattern = null;
-
-    private transient Composite cmpNumberDetails = null;
-
-    private transient Group grpNumberStandard = null;
+    private transient Composite cmpNumberStandard = null;
 
     private transient Text txtPrefix = null;
 
@@ -74,7 +77,20 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
     private transient IntegerSpinControl iscFractionDigits = null;
 
-    private transient Group grpNumberAdvanced = null;
+    // Composites for Advanced Properties
+    private transient Composite cmpAdvancedDetails = null;
+
+    private transient StackLayout slAdvancedDetails = null;
+
+    private transient Composite cmpAdvancedDateDetails = null;
+
+    private transient Composite cmpDateAdvanced = null;
+
+    private transient Text txtDatePattern = null;
+
+    private transient Composite cmpAdvancedNumberDetails = null;
+
+    private transient Composite cmpNumberAdvanced = null;
 
     private transient Text txtNumberPattern = null;
 
@@ -112,7 +128,10 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glContent.verticalSpacing = 5;
 
         // Layout for the details composite
-        slDetails = new StackLayout();
+        slStandardDetails = new StackLayout();
+
+        // Layout for the details composite
+        slAdvancedDetails = new StackLayout();
 
         this.setLayout(glContent);
 
@@ -126,11 +145,25 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         cmbDataType.setLayoutData(gdCMBDataType);
         cmbDataType.addSelectionListener(this);
 
-        cmpDetails = new Composite(this, SWT.NONE);
-        GridData gdCMPDetails = new GridData(GridData.FILL_BOTH);
-        gdCMPDetails.horizontalSpan = 2;
-        cmpDetails.setLayoutData(gdCMPDetails);
-        cmpDetails.setLayout(slDetails);
+        btnUndefined = new Button(this, SWT.RADIO);
+        GridData gdBTNUndefined = new GridData(GridData.FILL_HORIZONTAL);
+        gdBTNUndefined.horizontalSpan = 2;
+        btnUndefined.setLayoutData(gdBTNUndefined);
+        btnUndefined.setText("Undefined");
+        btnUndefined.addSelectionListener(this);
+
+        btnStandard = new Button(this, SWT.RADIO);
+        GridData gdBTNStandard = new GridData(GridData.FILL_HORIZONTAL);
+        gdBTNStandard.horizontalSpan = 2;
+        btnStandard.setLayoutData(gdBTNStandard);
+        btnStandard.setText("Standard");
+        btnStandard.addSelectionListener(this);
+
+        cmpStandardDetails = new Composite(this, SWT.NONE);
+        GridData gdCMPStandardDetails = new GridData(GridData.FILL_BOTH);
+        gdCMPStandardDetails.horizontalSpan = 2;
+        cmpStandardDetails.setLayoutData(gdCMPStandardDetails);
+        cmpStandardDetails.setLayout(slStandardDetails);
 
         // Date/Time details Composite
         GridLayout glDate = new GridLayout();
@@ -138,8 +171,8 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glDate.marginHeight = 0;
         glDate.marginWidth = 0;
 
-        cmpDateDetails = new Composite(cmpDetails, SWT.NONE);
-        cmpDateDetails.setLayout(glDate);
+        cmpStandardDateDetails = new Composite(cmpStandardDetails, SWT.NONE);
+        cmpStandardDateDetails.setLayout(glDate);
 
         // Date/Time Standard Composite
         // Layout
@@ -149,55 +182,30 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glDateStandard.marginHeight = 2;
         glDateStandard.marginWidth = 2;
 
-        grpDateStandard = new Group(cmpDateDetails, SWT.NONE);
+        cmpDateStandard = new Composite(cmpStandardDateDetails, SWT.NONE);
         GridData gdGRPDateStandard = new GridData(GridData.FILL_BOTH);
-        grpDateStandard.setLayoutData(gdGRPDateStandard);
-        grpDateStandard.setLayout(glDateStandard);
-        grpDateStandard.setText("Standard");
+        cmpDateStandard.setLayoutData(gdGRPDateStandard);
+        cmpDateStandard.setLayout(glDateStandard);
 
-        Label lblDateType = new Label(grpDateStandard, SWT.NONE);
+        Label lblDateType = new Label(cmpDateStandard, SWT.NONE);
         GridData gdLBLDateType = new GridData();
         lblDateType.setLayoutData(gdLBLDateType);
         lblDateType.setText("Type:");
 
-        cmbDateType = new Combo(grpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbDateType = new Combo(cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBDateType = new GridData(GridData.FILL_HORIZONTAL);
         cmbDateType.setLayoutData(gdCMBDateType);
         cmbDateType.addSelectionListener(this);
 
-        Label lblDateDetails = new Label(grpDateStandard, SWT.NONE);
+        Label lblDateDetails = new Label(cmpDateStandard, SWT.NONE);
         GridData gdLBLDateDetails = new GridData();
         lblDateDetails.setLayoutData(gdLBLDateDetails);
         lblDateDetails.setText("Details:");
 
-        cmbDateForm = new Combo(grpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbDateForm = new Combo(cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBDateForm = new GridData(GridData.FILL_HORIZONTAL);
         cmbDateForm.setLayoutData(gdCMBDateForm);
         cmbDateForm.addSelectionListener(this);
-
-        // Date/Time Advanced Composite
-        // Layout
-        GridLayout glDateAdvanced = new GridLayout();
-        glDateAdvanced.verticalSpacing = 5;
-        glDateAdvanced.numColumns = 2;
-        glDateAdvanced.marginHeight = 2;
-        glDateAdvanced.marginWidth = 2;
-
-        grpDateAdvanced = new Group(cmpDateDetails, SWT.NONE);
-        GridData gdGRPDateAdvanced = new GridData(GridData.FILL_BOTH);
-        grpDateAdvanced.setLayoutData(gdGRPDateAdvanced);
-        grpDateAdvanced.setLayout(glDateAdvanced);
-        grpDateAdvanced.setText("Advanced");
-
-        Label lblDatePattern = new Label(grpDateAdvanced, SWT.NONE);
-        GridData gdLBLDatePattern = new GridData();
-        lblDatePattern.setLayoutData(gdLBLDatePattern);
-        lblDatePattern.setText("Pattern:");
-
-        txtDatePattern = new Text(grpDateAdvanced, SWT.BORDER | SWT.SINGLE);
-        GridData gdTXTDatePattern = new GridData(GridData.FILL_HORIZONTAL);
-        txtDatePattern.setLayoutData(gdTXTDatePattern);
-        txtDatePattern.addModifyListener(this);
 
         // Number details Composite
         GridLayout glNumber = new GridLayout();
@@ -205,8 +213,8 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glNumber.marginHeight = 0;
         glNumber.marginWidth = 0;
 
-        cmpNumberDetails = new Composite(cmpDetails, SWT.NONE);
-        cmpNumberDetails.setLayout(glNumber);
+        cmpStandardNumberDetails = new Composite(cmpStandardDetails, SWT.NONE);
+        cmpStandardNumberDetails.setLayout(glNumber);
 
         // Number Standard Composite
         // Layout
@@ -216,51 +224,104 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glNumberStandard.marginHeight = 2;
         glNumberStandard.marginWidth = 2;
 
-        grpNumberStandard = new Group(cmpNumberDetails, SWT.NONE);
+        cmpNumberStandard = new Composite(cmpStandardNumberDetails, SWT.NONE);
         GridData gdGRPNumberStandard = new GridData(GridData.FILL_BOTH);
-        grpNumberStandard.setLayoutData(gdGRPNumberStandard);
-        grpNumberStandard.setLayout(glNumberStandard);
-        grpNumberStandard.setText("Standard");
+        cmpNumberStandard.setLayoutData(gdGRPNumberStandard);
+        cmpNumberStandard.setLayout(glNumberStandard);
 
-        Label lblPrefix = new Label(grpNumberStandard, SWT.NONE);
+        Label lblPrefix = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLPrefix = new GridData();
         lblPrefix.setLayoutData(gdLBLPrefix);
         lblPrefix.setText("Prefix:");
 
-        txtPrefix = new Text(grpNumberStandard, SWT.BORDER | SWT.SINGLE);
+        txtPrefix = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTPrefix = new GridData(GridData.FILL_HORIZONTAL);
         txtPrefix.setLayoutData(gdTXTPrefix);
         txtPrefix.addModifyListener(this);
 
-        Label lblSuffix = new Label(grpNumberStandard, SWT.NONE);
+        Label lblSuffix = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLSuffix = new GridData();
         lblSuffix.setLayoutData(gdLBLSuffix);
         lblSuffix.setText("Suffix:");
 
-        txtSuffix = new Text(grpNumberStandard, SWT.BORDER | SWT.SINGLE);
+        txtSuffix = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTSuffix = new GridData(GridData.FILL_HORIZONTAL);
         txtSuffix.setLayoutData(gdTXTSuffix);
         txtSuffix.addModifyListener(this);
 
-        Label lblMultiplier = new Label(grpNumberStandard, SWT.NONE);
+        Label lblMultiplier = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLMultiplier = new GridData();
         lblMultiplier.setLayoutData(gdLBLMultiplier);
         lblMultiplier.setText("Multiplier:");
 
-        txtMultiplier = new Text(grpNumberStandard, SWT.BORDER | SWT.SINGLE);
+        txtMultiplier = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTMultiplier = new GridData(GridData.FILL_HORIZONTAL);
         txtMultiplier.setLayoutData(gdTXTMultiplier);
         txtMultiplier.addModifyListener(this);
 
-        Label lblFractionDigit = new Label(grpNumberStandard, SWT.NONE);
+        Label lblFractionDigit = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLFractionDigit = new GridData();
         lblFractionDigit.setLayoutData(gdLBLFractionDigit);
         lblFractionDigit.setText("Fraction Digits:");
 
-        iscFractionDigits = new IntegerSpinControl(grpNumberStandard, SWT.NONE, 2);
+        iscFractionDigits = new IntegerSpinControl(cmpNumberStandard, SWT.NONE, 2);
         GridData gdISCFractionDigits = new GridData(GridData.FILL_HORIZONTAL);
         iscFractionDigits.setLayoutData(gdISCFractionDigits);
         iscFractionDigits.addListener(this);
+
+        btnAdvanced = new Button(this, SWT.RADIO);
+        GridData gdBTNAdvanced = new GridData(GridData.FILL_HORIZONTAL);
+        gdBTNAdvanced.horizontalSpan = 2;
+        btnAdvanced.setLayoutData(gdBTNAdvanced);
+        btnAdvanced.setText("Advanced");
+        btnAdvanced.addSelectionListener(this);
+
+        cmpAdvancedDetails = new Composite(this, SWT.NONE);
+        GridData gdCMPAdvancedDetails = new GridData(GridData.FILL_BOTH);
+        gdCMPAdvancedDetails.horizontalSpan = 2;
+        cmpAdvancedDetails.setLayoutData(gdCMPAdvancedDetails);
+        cmpAdvancedDetails.setLayout(slAdvancedDetails);
+
+        // Date/Time details Composite
+        GridLayout glAdvDate = new GridLayout();
+        glAdvDate.verticalSpacing = 5;
+        glAdvDate.marginHeight = 0;
+        glAdvDate.marginWidth = 0;
+
+        cmpAdvancedDateDetails = new Composite(cmpAdvancedDetails, SWT.NONE);
+        cmpAdvancedDateDetails.setLayout(glAdvDate);
+
+        // Date/Time Advanced Composite
+        // Layout
+        GridLayout glDateAdvanced = new GridLayout();
+        glDateAdvanced.verticalSpacing = 5;
+        glDateAdvanced.numColumns = 2;
+        glDateAdvanced.marginHeight = 2;
+        glDateAdvanced.marginWidth = 2;
+
+        cmpDateAdvanced = new Composite(cmpAdvancedDateDetails, SWT.NONE);
+        GridData gdGRPDateAdvanced = new GridData(GridData.FILL_BOTH);
+        cmpDateAdvanced.setLayoutData(gdGRPDateAdvanced);
+        cmpDateAdvanced.setLayout(glDateAdvanced);
+
+        Label lblDatePattern = new Label(cmpDateAdvanced, SWT.NONE);
+        GridData gdLBLDatePattern = new GridData();
+        lblDatePattern.setLayoutData(gdLBLDatePattern);
+        lblDatePattern.setText("Pattern:");
+
+        txtDatePattern = new Text(cmpDateAdvanced, SWT.BORDER | SWT.SINGLE);
+        GridData gdTXTDatePattern = new GridData(GridData.FILL_HORIZONTAL);
+        txtDatePattern.setLayoutData(gdTXTDatePattern);
+        txtDatePattern.addModifyListener(this);
+
+        // Number details Composite
+        GridLayout glAdvNumber = new GridLayout();
+        glAdvNumber.verticalSpacing = 5;
+        glAdvNumber.marginHeight = 0;
+        glAdvNumber.marginWidth = 0;
+
+        cmpAdvancedNumberDetails = new Composite(cmpAdvancedDetails, SWT.NONE);
+        cmpAdvancedNumberDetails.setLayout(glAdvNumber);
 
         // Number Advanced Composite
         // Layout
@@ -270,28 +331,27 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         glNumberAdvanced.marginHeight = 2;
         glNumberAdvanced.marginWidth = 2;
 
-        grpNumberAdvanced = new Group(cmpNumberDetails, SWT.NONE);
+        cmpNumberAdvanced = new Composite(cmpAdvancedNumberDetails, SWT.NONE);
         GridData gdGRPNumberAdvanced = new GridData(GridData.FILL_BOTH);
-        grpNumberAdvanced.setLayoutData(gdGRPNumberAdvanced);
-        grpNumberAdvanced.setLayout(glNumberAdvanced);
-        grpNumberAdvanced.setText("Advanced");
+        cmpNumberAdvanced.setLayoutData(gdGRPNumberAdvanced);
+        cmpNumberAdvanced.setLayout(glNumberAdvanced);
 
-        Label lblAdvMultiplier = new Label(grpNumberAdvanced, SWT.NONE);
+        Label lblAdvMultiplier = new Label(cmpNumberAdvanced, SWT.NONE);
         GridData gdLBLAdvMultiplier = new GridData();
         lblAdvMultiplier.setLayoutData(gdLBLAdvMultiplier);
         lblAdvMultiplier.setText("Multiplier:");
 
-        txtAdvMultiplier = new Text(grpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
+        txtAdvMultiplier = new Text(cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTAdvMultiplier = new GridData(GridData.FILL_HORIZONTAL);
         txtAdvMultiplier.setLayoutData(gdTXTAdvMultiplier);
         txtAdvMultiplier.addModifyListener(this);
 
-        Label lblNumberPattern = new Label(grpNumberAdvanced, SWT.NONE);
+        Label lblNumberPattern = new Label(cmpNumberAdvanced, SWT.NONE);
         GridData gdLBLNumberPattern = new GridData();
         lblNumberPattern.setLayoutData(gdLBLNumberPattern);
         lblNumberPattern.setText("Pattern:");
 
-        txtNumberPattern = new Text(grpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
+        txtNumberPattern = new Text(cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTNumberPattern = new GridData(GridData.FILL_HORIZONTAL);
         txtNumberPattern.setLayoutData(gdTXTNumberPattern);
         txtNumberPattern.addModifyListener(this);
@@ -308,13 +368,40 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         if (formatspecifier instanceof DateFormatSpecifier || formatspecifier instanceof JavaDateFormatSpecifier)
         {
             cmbDataType.select(0);
-            slDetails.topControl = this.cmpDateDetails;
+            if (formatspecifier instanceof DateFormatSpecifier)
+            {
+                btnStandard.setSelection(true);
+            }
+            else if (formatspecifier instanceof JavaDateFormatSpecifier)
+            {
+                btnAdvanced.setSelection(true);
+            }
+            else
+            {
+                btnUndefined.setSelection(true);
+            }
+            slStandardDetails.topControl = this.cmpStandardDateDetails;
+            slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
         }
         else
         {
             cmbDataType.select(1);
-            slDetails.topControl = cmpNumberDetails;
+            if (formatspecifier instanceof NumberFormatSpecifier)
+            {
+                btnStandard.setSelection(true);
+            }
+            else if (formatspecifier instanceof JavaNumberFormatSpecifier)
+            {
+                btnAdvanced.setSelection(true);
+            }
+            else
+            {
+                btnUndefined.setSelection(true);
+            }
+            slStandardDetails.topControl = this.cmpStandardNumberDetails;
+            slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
         }
+        updateUIState();
 
         // Populate Date Types
         Object[] oArrDT = DateFormatType.VALUES.toArray();
@@ -392,6 +479,10 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
     public FormatSpecifier getFormatSpecifier()
     {
+        if (this.btnUndefined.getSelection())
+        {
+            return null;
+        }
         // Build (or set) the format specifier instance
         formatspecifier = buildFormatSpecifier();
         return this.formatspecifier;
@@ -402,11 +493,11 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         FormatSpecifier fs = null;
         if (cmbDataType.getText().equals("Date/Time"))
         {
-            if (txtDatePattern.getText().trim().length() != 0)
+            if (this.btnAdvanced.getSelection())
             {
                 fs = JavaDateFormatSpecifierImpl.create(txtDatePattern.getText());
             }
-            else
+            else if (this.btnStandard.getSelection())
             {
                 fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
                 ((DateFormatSpecifier) fs).setType(DateFormatType.get(cmbDateType.getText()));
@@ -415,7 +506,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         }
         else
         {
-            if (txtNumberPattern.getText().trim().length() != 0)
+            if (this.btnAdvanced.getSelection())
             {
                 fs = JavaNumberFormatSpecifierImpl.create(txtNumberPattern.getText());
                 if (txtAdvMultiplier.getText().length() > 0)
@@ -424,7 +515,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                         .doubleValue());
                 }
             }
-            else
+            else if (this.btnStandard.getSelection())
             {
                 fs = NumberFormatSpecifierImpl.create();
                 ((NumberFormatSpecifier) fs).setPrefix(txtPrefix.getText());
@@ -437,6 +528,77 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
         }
         return fs;
+    }
+
+    private void updateUIState()
+    {
+        if (cmbDataType.getText().equals("Number"))
+        {
+            if (this.btnStandard.getSelection())
+            {
+                // Enable Standard properties for number
+                this.txtPrefix.setEnabled(true);
+                this.txtSuffix.setEnabled(true);
+                this.txtMultiplier.setEnabled(true);
+                this.iscFractionDigits.setEnabled(true);
+
+                // Disable Advanced properties for number
+                this.txtAdvMultiplier.setEnabled(false);
+                this.txtNumberPattern.setEnabled(false);
+            }
+            else if (this.btnAdvanced.getSelection())
+            {
+                // Disable Standard properties for number
+                this.txtPrefix.setEnabled(false);
+                this.txtSuffix.setEnabled(false);
+                this.txtMultiplier.setEnabled(false);
+                this.iscFractionDigits.setEnabled(false);
+
+                // Enable Standard properties for number
+                this.txtAdvMultiplier.setEnabled(true);
+                this.txtNumberPattern.setEnabled(true);
+            }
+            else
+            {
+                // Disable both Standard and Advanced properties
+                this.txtPrefix.setEnabled(false);
+                this.txtSuffix.setEnabled(false);
+                this.txtMultiplier.setEnabled(false);
+                this.iscFractionDigits.setEnabled(false);
+
+                this.txtAdvMultiplier.setEnabled(false);
+                this.txtNumberPattern.setEnabled(false);
+            }
+        }
+        else
+        {
+            if (this.btnStandard.getSelection())
+            {
+                // Enable Standard properties for date
+                this.cmbDateForm.setEnabled(true);
+                this.cmbDateType.setEnabled(true);
+
+                // Disable Standard properties for date
+                this.txtDatePattern.setEnabled(false);
+            }
+            else if (this.btnAdvanced.getSelection())
+            {
+                // Disable Standard properties for date
+                this.cmbDateForm.setEnabled(false);
+                this.cmbDateType.setEnabled(false);
+
+                // Enable Standard properties for date
+                this.txtDatePattern.setEnabled(true);
+            }
+            else
+            {
+                // Disable both Standard and Advanced properties
+                this.cmbDateForm.setEnabled(false);
+                this.cmbDateType.setEnabled(false);
+
+                this.txtDatePattern.setEnabled(false);
+            }
+        }
     }
 
     /**
@@ -462,13 +624,22 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             if (cmbDataType.getText().equals("Number"))
             {
-                slDetails.topControl = cmpNumberDetails;
+                slStandardDetails.topControl = cmpStandardNumberDetails;
+                slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
+                updateUIState();
             }
             else
             {
-                slDetails.topControl = cmpDateDetails;
+                slStandardDetails.topControl = cmpStandardDateDetails;
+                slAdvancedDetails.topControl = cmpAdvancedDateDetails;
+                updateUIState();
             }
-            cmpDetails.layout();
+            cmpStandardDetails.layout();
+            cmpAdvancedDetails.layout();
+        }
+        else if (e.getSource() instanceof Button)
+        {
+            updateUIState();
         }
     }
 
