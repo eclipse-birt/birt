@@ -274,40 +274,92 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
             sdBase.getSeries().add(seBaseRuntimeSeries);
             final Axis[] axaOrthogonal = cwa.getOrthogonalAxes(axPrimaryBase, true);
             int iOrthogonalSeriesDefinitionCount = 0;
+            SeriesDefinition sd;
+            Query qy;
+            String sExpression;
+            
             for (int i = 0; i < axaOrthogonal.length; i++)
             {
                 elSD = axaOrthogonal[i].getSeriesDefinitions();
-                iOrthogonalSeriesDefinitionCount += elSD.size();
-            }
-            fillSeriesDataSet(
-                seBaseRuntimeSeries, 
-                rsw.getSubset(0, iOrthogonalSeriesDefinitionCount)
-            );
-            
-            // POPULATE ALL ORTHOGONAL SERIES
-            Series seOrthogonalDesignSeries;
-            Series seOrthogonalRuntimeSeries;
-            SeriesDefinition sdOrthogonal;
-            int iOffset = 0;
-            for (int i = 0; i < axaOrthogonal.length; i++) // FOR EACH AXIS
-            {
-                elSD = axaOrthogonal[i].getSeriesDefinitions();
-                for (int j = 0; j < elSD.size(); j++) // FOR EACH ORTHOGONAL SERIES DEFINITION
+                for (int j = 0; j < elSD.size(); j++)
                 {
-                    sdOrthogonal = (SeriesDefinition) elSD.get(j);
-                    seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries();
-                    iOffset++;
-                    for (int k = 0; k < iGroupCount; k++) // FOR EACH ORTHOGONAL RUNTIME SERIES
+                    sd = (SeriesDefinition) elSD.get(j);
+                    qy = sd.getQuery();
+                    if (qy == null)
                     {
+                        continue;
+                    }
+                    sExpression = qy.getDefinition();
+                    if (sExpression == null || sExpression.length() == 0)
+                    {
+                        continue;
+                    }
+                    iOrthogonalSeriesDefinitionCount++;
+                }
+            }
+            
+            if (iOrthogonalSeriesDefinitionCount < 1)
+            {
+	            fillSeriesDataSet(
+	                seBaseRuntimeSeries, 
+	                rsw.getSubset(iOrthogonalSeriesDefinitionCount)
+	            );
+	            
+	            // POPULATE ONE ORTHOGONAL SERIES
+	            Series seOrthogonalDesignSeries;
+	            Series seOrthogonalRuntimeSeries;
+	            SeriesDefinition sdOrthogonal;
+	            int iOffset = 0;
+	            for (int i = 0; i < axaOrthogonal.length; i++) // FOR EACH AXIS
+	            {
+	                elSD = axaOrthogonal[i].getSeriesDefinitions();
+	                for (int j = 0; j < elSD.size(); j++) // FOR EACH ORTHOGONAL SERIES DEFINITION
+	                {
+	                    sdOrthogonal = (SeriesDefinition) elSD.get(j);
+	                    seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries();
+	                    sExpression = ((Query)seOrthogonalDesignSeries.getDataDefinition().get(0)).getDefinition();
                         seOrthogonalRuntimeSeries = (Series) EcoreUtil.copy(seOrthogonalDesignSeries);
                         fillSeriesDataSet(
                             seOrthogonalRuntimeSeries, 
-                            rsw.getSubset(k, iOrthogonalSeriesDefinitionCount + iOffset)
+                            rsw.getSubset(sExpression)
                         );
-                        seOrthogonalRuntimeSeries.setSeriesIdentifier(rsw.getGroupKey(k, j));
+                        seOrthogonalRuntimeSeries.setSeriesIdentifier(sExpression);
                         sdOrthogonal.getSeries().add(seOrthogonalRuntimeSeries);
-                    }
-                }
+	                }
+	            }
+            }
+            else
+            {
+	            fillSeriesDataSet(
+	                seBaseRuntimeSeries, 
+	                rsw.getSubset(0, iOrthogonalSeriesDefinitionCount)
+	            );
+	            
+	            // POPULATE ALL ORTHOGONAL SERIES
+	            Series seOrthogonalDesignSeries;
+	            Series seOrthogonalRuntimeSeries;
+	            SeriesDefinition sdOrthogonal;
+	            int iOffset = 0;
+	            for (int i = 0; i < axaOrthogonal.length; i++) // FOR EACH AXIS
+	            {
+	                elSD = axaOrthogonal[i].getSeriesDefinitions();
+	                for (int j = 0; j < elSD.size(); j++) // FOR EACH ORTHOGONAL SERIES DEFINITION
+	                {
+	                    sdOrthogonal = (SeriesDefinition) elSD.get(j);
+	                    seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries();
+	                    iOffset++;
+	                    for (int k = 0; k < iGroupCount; k++) // FOR EACH ORTHOGONAL RUNTIME SERIES
+	                    {
+	                        seOrthogonalRuntimeSeries = (Series) EcoreUtil.copy(seOrthogonalDesignSeries);
+	                        fillSeriesDataSet(
+	                            seOrthogonalRuntimeSeries, 
+	                            rsw.getSubset(k, iOrthogonalSeriesDefinitionCount + iOffset)
+	                        );
+	                        seOrthogonalRuntimeSeries.setSeriesIdentifier(rsw.getGroupKey(k, j));
+	                        sdOrthogonal.getSeries().add(seOrthogonalRuntimeSeries);
+	                    }
+	                }
+	            }
             }
         }
         else
@@ -379,7 +431,6 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
             EList elSD = axPrimaryBase.getSeriesDefinitions();
             
             // PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-            final SortDefinition srtd = new SortDefinition();
             SeriesDefinition sd = (SeriesDefinition) elSD.get(0);
             final Query qBaseSeriesDefinition = sd.getQuery();
             String sExpression = qBaseSeriesDefinition.getDefinition();
@@ -392,14 +443,16 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
             final Series seBase = sd.getDesignTimeSeries();
             EList elBaseSeries = seBase.getDataDefinition();
             final Query qBaseSeries = (Query) elBaseSeries.get(0);
-            sExpression = qBaseSeries.getDefinition();
-            if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
+            if (qBaseSeries != null) // NPE PROTECTION
             {
-                if (!alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
-                {
-                    alExpressions.add(sExpression);
-                    srtd.setExpression(sExpression);
-                }
+	            sExpression = qBaseSeries.getDefinition();
+	            if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
+	            {
+	                if (!alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
+	                {
+	                    alExpressions.add(sExpression);
+	                }
+	            }
             }
 
             // PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
@@ -413,15 +466,31 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
                 elSD = axaOrthogonal[j].getSeriesDefinitions();
                 for (int k = 0; k < elSD.size(); k++)
                 {
-                    iCount++;
                     sd = (SeriesDefinition) elSD.get(k);
                     qOrthogonalSeriesDefinition = sd.getQuery();
+                    if (qOrthogonalSeriesDefinition == null)
+                    {
+                        continue;
+                    }
                     sExpression = qOrthogonalSeriesDefinition.getDefinition();
                     if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
                     {
-                        if (!alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
+                        if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
                         {
-                            alExpressions.add(k, sExpression); // INSERT AT START
+                            if (alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
+                            {
+                                int iRemovalIndex = alExpressions.indexOf(sExpression);
+                                if (iRemovalIndex > iCount)
+                                {
+                                    alExpressions.remove(iRemovalIndex);
+                                }
+                                else
+                                {
+                                    // DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
+                                    continue;
+                                }
+                            }
+                            alExpressions.add(iCount++, sExpression); // INSERT AT START
                         }
                     }
                 }
@@ -483,15 +552,31 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
             elSD = axaOrthogonal[j].getSeriesDefinitions();
             for (int k = 0; k < elSD.size(); k++)
             {
-                iCount++;
                 sd = (SeriesDefinition) elSD.get(k);
                 qOrthogonalSeriesDefinition = sd.getQuery();
+                if (qOrthogonalSeriesDefinition == null)
+                {
+                    continue;
+                }
                 sExpression = qOrthogonalSeriesDefinition.getDefinition();
                 if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
                 {
-                    if (!alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
+                    if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
                     {
-                        alExpressions.add(k, sExpression); // INSERT AT START
+                        if (alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
+                        {
+                            int iRemovalIndex = alExpressions.indexOf(sExpression);
+                            if (iRemovalIndex > iCount)
+                            {
+                                alExpressions.remove(iRemovalIndex);
+                            }
+                            else
+                            {
+                                // DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
+                                continue;
+                            }
+                        }
+                        alExpressions.add(iCount++, sExpression); // INSERT AT START
                     }
                 }
                 
@@ -504,12 +589,16 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
                 for (int i = 0; i < elOrthogonalSeries.size(); i++)
                 {
                     qOrthogonalSeries = (Query) elOrthogonalSeries.get(i);
+                    if (qOrthogonalSeries == null) // NPE PROTECTION
+                    {
+                        continue;
+                    }
                     sExpression = qOrthogonalSeries.getDefinition();
                     if (sExpression != null && sExpression.trim().length() > 0) // CHECK FOR UNSPECIFIED EXPRESSIONS
                     {
                         if (!alExpressions.contains(sExpression)) // FILTER OUT DUPLICATE ENTRIES
                         {
-                            alExpressions.add(sExpression);
+                            alExpressions.add(sExpression); // APPEND AT END
                         }
                     }
                 }

@@ -1130,6 +1130,7 @@ public final class PlotWith2DAxes extends PlotContent
         GenerationException, NullValueException, UnexpectedInputException
     {
         bo = bo.scaledInstance(dPointToPixel); // CONVERSION
+        dSeriesThickness = (ids.getDpiResolution()/72d) * cwa.getSeriesThickness();
 
         // MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
         double dX = bo.getLeft() + insCA.getLeft();

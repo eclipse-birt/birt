@@ -1185,6 +1185,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
         // 4. SETUP OTHER BASIC PROPERTIES
         setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
+        setSeriesThickness(10);
     }
 
     /*

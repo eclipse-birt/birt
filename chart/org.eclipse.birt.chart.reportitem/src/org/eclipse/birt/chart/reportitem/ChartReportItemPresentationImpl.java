@@ -92,10 +92,12 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     {
         if (cm != null)
         {
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: getSize(...) - start");
             final Size sz = new Size();
             sz.setWidth((float) cm.getBlock().getBounds().getWidth());
             sz.setHeight((float) cm.getBlock().getBounds().getHeight());
             sz.setUnit(Size.UNITS_PT);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: getSize(...) - end");
             return sz;
         }
         return super.getSize();
@@ -129,6 +131,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         
         // BUILD THE CHART
         final Bounds bo = cm.getBlock().getBounds();
+        DefaultLoggerImpl.instance().log(ILogger.ERROR, "Presentation uses bounds bo=" + bo);
         final Generator gr = Generator.instance();
         GeneratedChartState gcs = null;
         try {

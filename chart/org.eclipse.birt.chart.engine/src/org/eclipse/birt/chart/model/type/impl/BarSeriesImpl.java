@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -477,7 +476,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
     protected final void initialize()
     {
         super.initialize();
-        setRiserOutline(ColorDefinitionImpl.BLACK());
+        setRiserOutline(null);
         setRiser(RiserType.RECTANGLE_LITERAL);
         setVisible(true);
     }

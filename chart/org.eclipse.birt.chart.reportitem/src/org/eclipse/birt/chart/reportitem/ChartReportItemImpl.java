@@ -22,6 +22,7 @@ import java.util.Locale;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -47,7 +48,7 @@ public final class ChartReportItemImpl implements IReportItem
     static
     {
         // SUPPRESS EVERYTHING EXCEPT FOR ERRORS 
-        DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR);
+        //DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR);
 
         // SETUP LEGEND POSITION CHOICE LIST
         List li = Position.VALUES;
@@ -162,6 +163,8 @@ public final class ChartReportItemImpl implements IReportItem
      */
     public IPropertyDefinition[] getPropertyDefinitions()
     {
+        final boolean bTransposed = (cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false;
+        
         return new IPropertyDefinition[] {
             
 	        new ChartPropertyDefinitionImpl(
@@ -188,6 +191,9 @@ public final class ChartReportItemImpl implements IReportItem
 	            null, "chart.dimension", "property.chart.dimension", false, PropertyType.CHOICE_TYPE, 
 	            liChartDimensions, null, null),
 		            
+	        new ChartPropertyDefinitionImpl(
+	            null, "plot.transposed", "property.chart.plot.transposed", false, PropertyType.BOOLEAN_TYPE, 
+	            null, null, new Boolean(bTransposed)),
         };
     }
 
@@ -218,6 +224,10 @@ public final class ChartReportItemImpl implements IReportItem
         else if (propName.equals("chart.dimension"))
         {
             return cm.getDimension().getName(); 
+        }
+        else if (propName.equals("plot.transposed"))
+        {
+            return new Boolean((cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false);
         }
         return null;
     }
@@ -259,6 +269,17 @@ public final class ChartReportItemImpl implements IReportItem
         else if (propName.equals("chart.dimension"))
         {
             cm.setDimension(ChartDimension.get((String) value));
+        }
+        else if (propName.equals("plot.transposed"))
+        {
+            if (cm instanceof ChartWithAxes)
+            {
+                ((ChartWithAxes) cm).setTransposed(((Boolean) value).booleanValue());
+            }
+            else
+            {
+                DefaultLoggerImpl.instance().log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
+            }
         }
     }
 

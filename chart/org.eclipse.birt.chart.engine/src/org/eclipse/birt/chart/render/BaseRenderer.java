@@ -1305,6 +1305,7 @@ public abstract class BaseRenderer
             return;
         }
 
+        final boolean bSolidColor = f instanceof ColorDefinition;
         Fill fDarker = null, fBrighter = null;
         if (cd.getValue() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH)
         {
@@ -1432,8 +1433,11 @@ public abstract class BaseRenderer
             }
             else if (i == iSmallestYIndex)
             {
-                // DRAW A TRANSLUCENT LIGHT GLASS PANE OVER THE BRIGHTER SURFACE
-                pre.setBackground(LIGHT_GLASS);
+                // DRAW A TRANSLUCENT LIGHT GLASS PANE OVER THE BRIGHTER SURFACE (IF NOT A SOLID COLOR)
+                if (!bSolidColor)
+                {
+                    pre.setBackground(LIGHT_GLASS);
+                }
                 if (bDeferred)
                 {
                     alModel.add(pre.copy());
@@ -1445,8 +1449,11 @@ public abstract class BaseRenderer
             }
             else
             {
-                // DRAW A TRANSLUCENT DARK GLASS PANE OVER THE DARKER SURFACE
-                pre.setBackground(DARK_GLASS);
+                // DRAW A TRANSLUCENT DARK GLASS PANE OVER THE DARKER SURFACE (IF NOT A SOLID COLOR)
+                if (!bSolidColor)
+                {
+                    pre.setBackground(DARK_GLASS);
+                }
                 if (bDeferred)
                 {
                     alModel.add(pre.copy());
