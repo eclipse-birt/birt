@@ -21,6 +21,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -49,8 +50,6 @@ public final class SwingTextMetrics implements ITextMetrics
     private Label la = null;
 
     private final IDisplayServer xs;
-
-    private static final String NULL = "<null>";
 
     private Insets ins = null;
 
@@ -91,8 +90,7 @@ public final class SwingTextMetrics implements ITextMetrics
         final FontRenderContext frc = g2d.getFontRenderContext();
 
         String s = la.getCaption().getValue();
-        if (s == null)
-            s = NULL;
+        if (s == null) s = IConstants.NULL_STRING;
         String[] sa = splitOnHardBreaks(s);
         if (sa == null)
         {
