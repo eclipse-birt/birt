@@ -26,6 +26,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.jface.window.Window;
 
 /**
  * add comment here
@@ -111,9 +112,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 	public void performDirectEdit( )
 	{
 		IReportItemBuilderUI builder = ExtensionPointManager.getInstance( )
-		.getExtendedElementPoint( ((ExtendedItemHandle)getModel()).getExtensionName() )
-		.getReportItemBuilderUI( );
-		if ( builder != null && builder.open( getExtendedItemHandle( ) ) > 0 )
+				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) )
+				.getReportItemBuilderUI( );
+		if ( builder != null
+				&& builder.open( getExtendedItemHandle( ) ) == Window.OK )
 		{
 			refreshVisuals( );
 		}
@@ -154,10 +156,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 
 		return bool.booleanValue( );
 	}
-	
+
 	public void deactivate( )
 	{
-		elementUI.disposeFigure( getExtendedItemHandle( ), (IFigure)getFigure( ) );
+		elementUI.disposeFigure( getExtendedItemHandle( ), getFigure( ) );
 		super.deactivate( );
 	}
 }
