@@ -21,7 +21,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * 
  * This class is a singleton. 
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
  */
 public class Platform
 {
@@ -88,6 +88,15 @@ public class Platform
 	 */
 	public static boolean runningEclipse()
 	{
+		String runningUnderEclipse = System.getProperty("RUN_UNDER_ECLIPSE");
+		if ("true".equalsIgnoreCase(runningUnderEclipse))
+		{
+			return true;
+		}
+		if ("false".equalsIgnoreCase(runningUnderEclipse))
+		{
+			return false;
+		}
 		if (System.getProperty("eclipse.startTime") != null)
 		{
 			return true;
