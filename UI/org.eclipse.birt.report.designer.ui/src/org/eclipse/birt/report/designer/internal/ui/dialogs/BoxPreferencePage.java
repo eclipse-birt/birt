@@ -108,7 +108,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		gpPadding = new Group( getFieldEditorParent( ), 0 );
 		gpPadding.setText( Messages.getString( "BoxPreferencePage.text.Padding" ) ); //$NON-NLS-1$
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 120;
+		//		gdata.heightHint = 120;
 		gpPadding.setLayoutData( gdata );
 		gpPadding.setLayout( new GridLayout( 3, false ) );
 
@@ -145,7 +145,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		gpMargin = new Group( getFieldEditorParent( ), 0 );
 		gpMargin.setText( Messages.getString( "BoxPreferencePage.text.Margin" ) ); //$NON-NLS-1$
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 120;
+		//		gdata.heightHint = 120;
 		gpMargin.setLayoutData( gdata );
 		gpMargin.setLayout( new GridLayout( 3, false ) );
 

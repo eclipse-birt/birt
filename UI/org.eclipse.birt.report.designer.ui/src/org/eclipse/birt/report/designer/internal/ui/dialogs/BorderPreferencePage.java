@@ -225,7 +225,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		Group gp = new Group( parent, 0 );
 		gp.setText( labelText );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 125;
+		//		gdata.heightHint = 125;
 		gdata.horizontalSpan = horizontalSpan;
 		gp.setLayoutData( gdata );
 		gp.setLayout( new GridLayout( numColumns, false ) );
