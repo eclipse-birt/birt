@@ -436,6 +436,7 @@ public class JdbcMetaDataProvider
 	        	Iterator joinIterator = joins.iterator();
 	        	while(joinIterator.hasNext())
 	        	{
+	        		boolean addParanthesis = false;
 	        		JoinImpl join = (JoinImpl)joinIterator.next();
 	        		JoinCondition joinCondition = join.getCondition();
 	        		if(joinCondition == null)
@@ -449,25 +450,46 @@ public class JdbcMetaDataProvider
 	        		String leftColumn = joinCondition.getLeftExpr();
 	        		String rightColumn = joinCondition.getRightExpr();
 	        	
-	        		if(!fromTables.contains(leftTable))
-	    			{
-	    				fromTables.add(leftTable);
-	    			}
-	    			
-	    			if(!fromTables.contains(rightTable))
-	    			{
-	    				fromTables.add(rightTable);
-	    			}
 	    	
 	        		int joinType = joinCondition.getJoinType();
 	        		int operation = joinCondition.getOperationType();
 	        		
-	        		if(fromClause.length() > 0)
-	    			{
-	        			fromClause.append(" , ");
-	    			}
 	        		
-	        		fromClause.append(leftTable);
+	        		
+	        		if( ! fromTables.contains(leftTable) && 
+	    	        	! fromTables.contains(rightTable)	)
+	    	        {
+		        		addParanthesis = true;
+	    	        }
+	        		
+	        		if( addParanthesis )
+	        		{
+	        			fromClause.append("(");
+	        		}
+	        		//else
+	        		//{
+	        		//	fromClause.append(",");
+	        		//}
+
+	        		
+	        		//if(fromClause.length() > 0)
+	    			//{
+	        		//	if( ! fromTables.contains(leftTable) && 
+	        		//			! fromTables.contains(rightTable)	)
+	        		//	{
+	        		//		fromClause.append(" , ");
+	        		//	}
+	    			//}
+	        		
+	        		if(!fromTables.contains(leftTable))
+	    			{
+	    				fromTables.add(leftTable);
+	    				fromClause.append(leftTable);
+	    			}
+	    			
+
+	        		
+	        		//fromClause.append(leftTable);
 	        		if((joinType == -1) || (joinType == JoinType.INNER))
 	        		{
 	        			// Inner join, do no tneed any keyword
@@ -486,7 +508,14 @@ public class JdbcMetaDataProvider
 	        		{
 	        			fromClause.append(" FULL OUTER JOIN ");
 	        		}
-					fromClause.append(rightTable);
+	        		
+	    			if(!fromTables.contains(rightTable))
+	    			{
+	    				fromTables.add(rightTable);
+	    				fromClause.append(rightTable);
+	    			}
+
+					
 					
 					// ON condition
 					fromClause.append(" ON ");
@@ -501,6 +530,13 @@ public class JdbcMetaDataProvider
 		        	fromClause.append(" ");
 		        	fromClause.append(rightColumnFullName);
 		        	fromClause.append(" ");
+		        	
+		        	
+		        	if( addParanthesis )
+		        	{
+		        		fromClause.append(")");
+		        	}
+		        	
 		        	fromClause.append("\n");
 		        		
 	        	}
@@ -537,7 +573,6 @@ public class JdbcMetaDataProvider
         	{
         		fromClauseStr = " FROM " + fromClause.toString();
         	}
-        	
         	
         	
         	return fromClauseStr ;
