@@ -93,7 +93,7 @@ public class ReportCreationTool extends CreationTool
 				.getCommandStack( )
 				.commit( );
 		selectAddedObject( );
-
+		
 	}
 
 	/*
@@ -126,6 +126,7 @@ public class ReportCreationTool extends CreationTool
 			public void run( )
 			{
 				Object editpart = viewer.getEditPartRegistry( ).get( model );
+				
 				if ( editpart instanceof EditPart )
 				{
 					viewer.flush( );
@@ -152,6 +153,7 @@ public class ReportCreationTool extends CreationTool
 
 					( (LabelEditPart) editpart ).performDirectEdit( );
 				}
+				viewer.reveal((EditPart)editpart);
 			}
 		} );
 	}

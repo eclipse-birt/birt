@@ -16,6 +16,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -34,6 +36,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Presents list band figure figure for list band edit part
@@ -199,7 +202,7 @@ public class ListBandControlFigure extends Figure
 		}
 	}
 
-	public static class ListControlDispalyNameFigure extends Figure
+	public static class ListControlDisplayNameFigure extends Figure
 	{
 
 		private ListBandEditPart owner;
@@ -207,12 +210,12 @@ public class ListBandControlFigure extends Figure
 		/**
 		 * @param owner
 		 */
-		public ListControlDispalyNameFigure( ListBandEditPart owner )
+		public ListControlDisplayNameFigure( ListBandEditPart owner )
 		{
 			super( );
 			this.owner = owner;
 
-			setBounds( new Rectangle( 20, 0, 35, 19 ) );
+			setBounds( new Rectangle( 35, 0, 35, 19 ) );
 			setBorder( new MarginBorder( 8, 0, 0, 0 ) );
 		}
 
@@ -233,6 +236,65 @@ public class ListBandControlFigure extends Figure
 
 			graphics.setForegroundColor( ColorConstants.gray );
 			graphics.drawString( text, rect.x, rect.y - 6 );
+		}
+	}
+
+	public static class ListIconFigure extends Figure
+	{
+
+		private ListBandEditPart owner;
+
+		/**
+		 * @param owner
+		 */
+		public ListIconFigure( ListBandEditPart owner )
+		{
+			super( );
+			this.owner = owner;
+			setBounds( new Rectangle( 17, 2, 16, 16 ) );
+			
+		}
+
+		public ListBandEditPart getOwner( )
+		{
+			return owner;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
+		 */
+		protected void paintFigure( Graphics graphics )
+		{
+			Rectangle rect = getClientArea( ).getCopy( );
+			graphics.drawImage( getImage( ), rect.x, rect.y );
+		}
+		
+		private Image getImage( )
+		{
+			ListBandEditPart part =  getOwner( );
+			int type = ( (ListBandProxy) getOwner( ).getModel( ) ).getType();
+			String imageType = null;
+			switch ( type )
+			{
+			case ListBandProxy.LIST_HEADER_TYPE:
+				imageType = IReportGraphicConstants.ICON_NODE_HEADER;
+				break;
+			case ListBandProxy.LIST_DETAIL_TYPE:
+				imageType = IReportGraphicConstants.ICON_NODE_DETAILS;
+				break;
+			case ListBandProxy.LIST_FOOTER_TYPE:
+				imageType = IReportGraphicConstants.ICON_NODE_FOOTER;
+				break;
+			case ListBandProxy.LIST_GROUP_HEADER_TYPE:
+				imageType = IReportGraphicConstants.ICON_NODE_GROUP_HEADER;
+				break;
+			case ListBandProxy.LIST_GROUP_FOOTER_TYPE:
+				imageType = IReportGraphicConstants.ICON_NODE_GROUP_FOOTER;
+				break;
+			}
+			return ReportPlatformUIImages.getImage( imageType );
 		}
 	}
 

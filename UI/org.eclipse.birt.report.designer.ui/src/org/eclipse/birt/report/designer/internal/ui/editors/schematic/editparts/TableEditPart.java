@@ -1027,6 +1027,7 @@ public class TableEditPart extends ReportElementEditPart
 	 */
 	public int caleVisualWidth( int columnNumber )
 	{
+		assert columnNumber > 0;
 		return TableUtil.caleVisualWidth( this, getColumn( columnNumber ) );
 	}
 

@@ -166,16 +166,18 @@ public class TableCellEditPart extends ReportElementEditPart
 		int rNumber = getRowNumber( );
 		int cNumber = getColumnNumber( );
 
-		for ( int i = rNumber; i < rNumber + getRowSpan( ); i++ )
+		if ( rNumber > 0 && cNumber > 0)
 		{
-			h += tablePart.caleVisualHeight( i );
+			for ( int i = rNumber; i < rNumber + getRowSpan( ); i++ )
+			{
+				h += tablePart.caleVisualHeight( i );
+			}
+			
+			for ( int j = cNumber; j < cNumber + getColSpan( ); j++ )
+			{
+				w += tablePart.caleVisualWidth( j );
+			}
 		}
-
-		for ( int j = cNumber; j < cNumber + getColSpan( ); j++ )
-		{
-			w += tablePart.caleVisualWidth( j );
-		}
-
 		return new Dimension( w, h );
 	}
 

@@ -159,7 +159,45 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					.iterator( ), children );
 		}
 
+		removePhantomCells(children);
 		return children;
+	}
+
+	/**
+	 * Some cells might not be relevant, because overriden by colspan/rowspan of other cells
+	 * Example in a three columns table:
+	 *  <row>
+     *           <cell>
+     *               <property name="colSpan">3</property>
+     *               <property name="rowSpan">1</property>
+     *           <cell>
+     *           <cell/>
+     *           <cell/>
+     *   <row>
+     * 
+     * The last two cells are phantom, the layout cannot handle them so we remove them
+     * at that stage. Ideally the model should not return those cells.
+	 * @param children
+	 */
+	protected void removePhantomCells(List children)
+	{
+		
+		ArrayList phantomCells = new ArrayList();
+		for ( Iterator iter = children.iterator(); iter.hasNext();)
+		{
+			Object cell = iter.next();
+			CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
+			.getCellHandleAdapter( cell );
+			if ( cellAdapt.getRowNumber() == 0 || cellAdapt.getColumnNumber() == 0)
+			{
+				phantomCells.add( cell );
+			}
+		}
+		for ( Iterator iter = phantomCells.iterator();iter.hasNext();)
+		{
+			children.remove(iter.next());
+		}
+		
 	}
 
 	private ListIterator convertIteratorToListIterator( Iterator iterator )

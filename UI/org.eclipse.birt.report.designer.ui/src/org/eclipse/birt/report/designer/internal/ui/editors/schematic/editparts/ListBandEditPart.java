@@ -21,7 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandRenderFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListBandControVisible;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDispalyNameFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -125,8 +126,10 @@ public class ListBandEditPart extends ReportElementEditPart
 	{
 		controlFigure = new ListBandControlFigure( this );
 
-		controlFigure.add( new ListControlDispalyNameFigure( this ) );
+		controlFigure.add( new ListControlDisplayNameFigure( this ) );
 
+		controlFigure.add( new ListIconFigure( this ) );
+		
 		controlFigure.add( new ListBandControVisible( this ) );
 
 		//Sets the background
