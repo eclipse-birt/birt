@@ -11,11 +11,9 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TextEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -25,11 +23,9 @@ import org.eclipse.jface.dialogs.Dialog;
 public class TextEditPart extends LabelEditPart
 {
 
-	private static final String DLG_TITLE_TEXT = Messages
-			.getString( "TextEditPart.Dialog.Title" ); //$NON-NLS-1$
+	private static final String DLG_TITLE_TEXT = Messages.getString( "TextEditPart.Dialog.Title" ); //$NON-NLS-1$
 
-	private static final String FIGURE_DEFAULT_TEXT = Messages
-			.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
+	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
 
 	/**
 	 * @param model
@@ -40,26 +36,15 @@ public class TextEditPart extends LabelEditPart
 	}
 
 	/**
-	 *  Perform direct edit.
+	 * Perform direct edit.
 	 */
 	public void performDirectEdit( )
 	{
 		TextEditDialog dialog = new TextEditDialog( DLG_TITLE_TEXT,
-				( (TextItemHandle) getModel( ) ).getContent( ) );
-
-		dialog.setDesignElementHandle( (DesignElementHandle) getModel( ) );
+				( (TextItemHandle) getModel( ) ) );
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			try
-			{
-				( (TextItemHandle) getModel( ) ).setContent( (String) dialog
-						.getResult( ) );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
 			refreshVisuals( );
 		}
 
@@ -84,7 +69,7 @@ public class TextEditPart extends LabelEditPart
 
 	protected boolean hasText( )
 	{
-		if ( ( (TextItemHandle) getModel( ) ).getContent( ) == null )
+		if ( StringUtil.isBlank( ( (TextItemHandle) getModel( ) ).getDisplayContent( ) ) )
 		{
 			return false;
 		}

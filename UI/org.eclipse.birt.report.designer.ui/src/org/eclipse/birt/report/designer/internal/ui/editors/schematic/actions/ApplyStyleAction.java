@@ -48,7 +48,14 @@ public class ApplyStyleAction extends DynamicItemAction
 	{
 		this.handle = handle;
 		setId( ID );
-		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		if ( handle == null )
+		{
+			setText( Messages.getString( "ApplyStyleAction.actionLabel.none" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		}
 	}
 
 	/**
@@ -84,8 +91,8 @@ public class ApplyStyleAction extends DynamicItemAction
 			for ( int i = 0; i < handles.size( ); i++ )
 			{
 				// set style or remove style!
-				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( )
-						? handle : null );
+				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( ) ? handle
+						: null );
 			}
 			stack.commit( );
 		}

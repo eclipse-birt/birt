@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -182,7 +183,7 @@ public class LabelEditPart extends ReportElementEditPart
 
 	protected boolean hasText( )
 	{
-		if ( ( (LabelHandle) getModel( ) ).getText( ) == null )
+		if ( StringUtil.isBlank( ( (LabelHandle) getModel( ) ).getDisplayText( ) ) )
 		{
 			return false;
 		}

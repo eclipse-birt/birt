@@ -381,11 +381,22 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		MenuManager menu = new MenuManager( STYLE_MENU_ITEM_TEXT );
 		MenuManager subMenu = new MenuManager( APPLY_STYLE_MENU_ITEM_TEXT );
+
+		SharedStyleHandle oldStyle = getStyleHandle( );
+
+		ApplyStyleAction resetAction = new ApplyStyleAction( null );
+		resetAction.setSelection( getSelection( ) );
+		if ( oldStyle == null )
+		{
+			resetAction.setChecked( true );
+		}
+		subMenu.add( resetAction );
+		subMenu.add( new Separator( ) );
+
 		Iterator iter = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getStyles( )
 				.iterator( );
-		SharedStyleHandle oldStyle = getStyleHandle( );
 		while ( iter.hasNext( ) )
 		{
 			SharedStyleHandle handle = (SharedStyleHandle) iter.next( );
@@ -403,10 +414,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 
 		menu.add( subMenu );
-		if ( subMenu.getItems( ) != null )
-		{
-			menu.add( new Separator( ) );
-		}
+		menu.add( new Separator( ) );
 		menu.add( getAction( AddStyleRuleAction.ID ) );
 		appendMenuToGroup( menu, group_name, menuManager );
 	}
