@@ -190,8 +190,21 @@ public abstract class BaseBorder extends AbstractBorder
 
 			if ( rt[0] != null && DEUtil.isValidNumber( rt[0] ) )
 			{
-				return (int) DEUtil.convertoToPixel( new DimensionValue( Double.parseDouble( rt[0] ),
+				double w =  DEUtil.convertoToPixel( new DimensionValue( Double.parseDouble( rt[0] ),
 						rt[1] ) );
+				// if the width is too small,
+				// think it's zero
+				if(w < 0.00000000001)
+				{
+					return 0;
+				}
+				else
+				{
+					// if the width is not too small;
+					// think  it's mini size is 1
+					return Math.max(1,(int)w);
+				}
+				
 			}
 		}
 
