@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/03/29 02:54:34 $
+ * @version $Revision: 1.18 $ $Date: 2005/04/01 02:22:37 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -400,23 +400,29 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void startBody( )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
-		IStyle bodyStyle = report.getBodyStyle( );
-		if ( !isEmbeddable )
+		if ( report != null )
 		{
-			writer.openTag( HTMLTags.TAG_BODY );
-			if ( bodyStyle != null )
+			IStyle bodyStyle = report.getBodyStyle( );
+			if ( !isEmbeddable )
 			{
-				writer.attribute( HTMLTags.ATTR_CLASS, bodyStyle.getName( ) );
+				writer.openTag( HTMLTags.TAG_BODY );
+				if ( bodyStyle != null )
+				{
+					writer
+							.attribute( HTMLTags.ATTR_CLASS, bodyStyle
+									.getName( ) );
+				}
 			}
-		}
-		else
-		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			if ( bodyStyle != null )
+			else
 			{
-				StringBuffer styleBuffer = new StringBuffer( );
-				AttributeBuilder.buildStyle( styleBuffer, bodyStyle, this );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+				writer.openTag( HTMLTags.TAG_DIV );
+				if ( bodyStyle != null )
+				{
+					StringBuffer styleBuffer = new StringBuffer( );
+					AttributeBuilder.buildStyle( styleBuffer, bodyStyle, this );
+					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer
+							.toString( ) );
+				}
 			}
 		}
 	}
