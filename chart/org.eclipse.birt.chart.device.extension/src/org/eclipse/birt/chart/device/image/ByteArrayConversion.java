@@ -44,7 +44,7 @@ final class ByteArrayConversion
      */
     final static int bytesLEasINT(byte[] bytes, int start_offset, int end_offset)
     {
-        int i, result;
+        int result;
         int max_minus;
         boolean is_negative = false;
 

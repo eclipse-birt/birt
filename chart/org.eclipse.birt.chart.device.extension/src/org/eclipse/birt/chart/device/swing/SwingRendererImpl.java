@@ -71,7 +71,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
-import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -310,7 +309,7 @@ public class SwingRendererImpl extends DeviceAdapter
             boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
-            int iAlpha = g.getTransparency();
+            //int iAlpha = g.getTransparency();
 
             if (bCyclic)
             {
@@ -486,7 +485,7 @@ public class SwingRendererImpl extends DeviceAdapter
             final boolean bRadial = g.isCyclic();
             final double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
-            final int iAlpha = g.getTransparency();
+            //final int iAlpha = g.getTransparency();
 
             final double dMinX = BaseRenderer.getX(loa, IConstants.MIN);
             final double dMaxX = BaseRenderer.getX(loa, IConstants.MAX);
@@ -675,7 +674,7 @@ public class SwingRendererImpl extends DeviceAdapter
             boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
-            int iAlpha = g.getTransparency();
+            //int iAlpha = g.getTransparency();
             Bounds bo = are.getBounds();
 
             if (bCyclic)
@@ -876,7 +875,7 @@ public class SwingRendererImpl extends DeviceAdapter
             boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
-            int iAlpha = g.getTransparency();
+            //int iAlpha = g.getTransparency();
             Bounds bo = are.getBounds();
 
             if (bCyclic)
@@ -979,7 +978,6 @@ public class SwingRendererImpl extends DeviceAdapter
 
         // CREATE AND SETUP THE SHAPES FOR INTERACTION
         TriggerCondition tc;
-        Action ac;
         ArrayList al;
         final PrimitiveRenderEvent pre = iev.getHotSpot();
         if (pre instanceof PolygonRenderEvent)
@@ -1130,7 +1128,6 @@ public class SwingRendererImpl extends DeviceAdapter
         final Ellipse2D.Double e2d = new Ellipse2D.Double(bo.getLeft(), bo.getTop(), bo.getWidth(), bo.getHeight());
 
         Stroke sPrevious = null;
-        final ColorDefinition cd = lia.getColor();
         Stroke sCurrent = getCachedStroke(lia);
         if (sCurrent != null) // SOME STROKE DEFINED?
         {
@@ -1171,7 +1168,7 @@ public class SwingRendererImpl extends DeviceAdapter
             boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
-            int iAlpha = g.getTransparency();
+            //int iAlpha = g.getTransparency();
 
             if (bCyclic)
             {

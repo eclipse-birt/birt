@@ -156,7 +156,6 @@ public final class SwingTextMetrics implements ITextMetrics
     private final double stringWidth()
     {
         Rectangle2D r2d;
-        TextLayout tl;
 
         if (iLineCount > 1)
         {

@@ -13,16 +13,13 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
-import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
-import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -78,7 +75,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -519,15 +515,12 @@ public abstract class BaseRenderer
         la.getCaption().setValue("X");
         final ITextMetrics itm = xs.getTextMetrics(la);
 
-        double dWidth = 0, dHeight = 0;
         double dItemHeight = itm.getFullHeight();
         final double dHorizontalSpacing = 4;
         final double dVerticalSpacing = 4;
         double dSeparatorThickness = lia.getThickness();
-        final LinkedHashMap htSeriesGroups = new LinkedHashMap(); // ORDER OF KEYS IS IMPORTANT
         Insets insCA = ca.getInsets().scaledInstance(xs.getDpiResolution() / 72d);
 
-        String sRC, sSI;
         Series seBase;
         ArrayList al;
         LegendItemRenderingHints lirh;
@@ -732,11 +725,9 @@ public abstract class BaseRenderer
             }
             else if (d.getValue() == Direction.TOP_BOTTOM)
             {
-                double dMaxW = 0;
                 dSeparatorThickness += dVerticalSpacing;
                 for (int j = 0; j < seda.length; j++)
                 {
-                    dWidth = 0;
                     dY += insCA.getTop();
                     al = seda[j].getRunTimeSeries();
                     pa = seda[j].getSeriesPalette();
@@ -884,7 +875,6 @@ public abstract class BaseRenderer
         final BaseRenderer br = lirh.getRenderer();
         br.renderLegendGraphic(ipr, lg, fPaletteEntry, bo);
 
-        final ColorDefinition cdTransparent = ColorDefinitionImpl.TRANSPARENT();
         final TextRenderEvent tre = (TextRenderEvent) ((EventObjectCache) ir).getEventObject(lg, TextRenderEvent.class);
         tre.setLocation(LocationImpl.create(dX + dLeftInset + (3 * dItemHeight / 2) + dHorizontalSpacing, dY
             + dFullHeight / 2 - 1));
@@ -894,7 +884,6 @@ public abstract class BaseRenderer
         ipr.drawText(tre);
 
         // PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
-        Action ac;
         Trigger tg;
         EList elTriggers = lg.getTriggers();
         Location[] loaHotspot = new Location[4];
@@ -1096,21 +1085,15 @@ public abstract class BaseRenderer
         {
             final ChartWithAxes cwa = (ChartWithAxes) cm;
             final Axis[] axa = cwa.getPrimaryBaseAxes();
-            Axis axPrimaryBase = axa[0], ax;
-            final Axis axaPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis(axPrimaryBase);
-            final Axis[] axaOverlayOrthogonal = cwa.getOrthogonalAxes(axPrimaryBase, false);
-            int iOverlayOrthogonalCount = axaOverlayOrthogonal.length;
-            EList elSeries;
+            Axis axPrimaryBase = axa[0];
             Series se;
             AxesRenderer ar = null;
             ArrayList al = new ArrayList(), alRunTimeSeries;
-            AllAxes aaxX = ((PlotWith2DAxes) oComputations).getAxes();
             EList elBase, elOrthogonal;
             SeriesDefinition sd = null;
             //final int iSeriesCount =
             // ((ChartWithAxes)cm).getSeries(IConstants.ORTHOGONAL).length;
 
-            Boolean bShared;
             int iSI = 0; // SERIES INDEX COUNTER
 
             elBase = axPrimaryBase.getSeriesDefinitions();
@@ -1182,8 +1165,6 @@ public abstract class BaseRenderer
 
             final Series[] sea = cwoa.getRunTimeSeries();
 
-            BaseRenderer br;
-            Class cRenderer;
             Series se;
             final int iSeriesCount = sea.length;
             brna = new BaseRenderer[iSeriesCount];
@@ -1362,7 +1343,7 @@ public abstract class BaseRenderer
 
         // SORT ON MULTIPLE KEYS (GREATEST Y, SMALLEST X)
         double dI, dJ;
-        Location[] loaI, loaJ, loaSwap;
+        Location[] loaI, loaJ;
         for (int i = 0; i < nSides - 1; i++)
         {
             loaI = loaa[i];
@@ -1619,8 +1600,6 @@ public abstract class BaseRenderer
     {
         final PlotWithoutAxes pwoa = (PlotWithoutAxes) getComputations();
         final Coordinates co = pwoa.getCellCoordinates(iSeriesIndex - 1);
-        final int iColumnCount = pwoa.getColumnCount();
-        final int iRowCount = pwoa.getRowCount();
         final Size sz = pwoa.getCellSize();
 
         Bounds bo = (Bounds) EcoreUtil.copy(pwoa.getBounds());

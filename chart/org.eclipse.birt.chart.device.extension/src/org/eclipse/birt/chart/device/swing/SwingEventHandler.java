@@ -324,7 +324,6 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
         {
             ShapedAction sa;
             Shape sh;
-            Action ac;
 
             // POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
             boolean bFound = false;
@@ -364,7 +363,6 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
         {
             ShapedAction sa;
             Shape sh;
-            Action ac;
 
             // POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
             boolean bFound = false;

@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 
@@ -70,7 +69,6 @@ public final class EmptyWithAxes extends AxesRenderer
     public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
         throws RenderingException
     {
-        final Series se = (Series) getSeries();
         final LineAttributes lia = LineAttributesImpl.create(ColorDefinitionImpl.GREY(), LineStyle.SOLID_LITERAL, 1);
         if (fPaletteEntry == null) // TEMPORARY PATCH: WILL BE REMOVED SOON
         {

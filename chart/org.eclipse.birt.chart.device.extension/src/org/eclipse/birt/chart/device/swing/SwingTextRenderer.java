@@ -18,7 +18,6 @@ import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -188,8 +187,6 @@ final class SwingTextRenderer implements IConstants
         {
             throw new RenderingException("Cannot render text with an undefined color");
         }
-        ColorDefinition cdBackground = (ColorDefinition) la.getBackground();
-
         IDisplayServer xs = idr.getDisplayServer();
         Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) idr).getGraphicsContext();
         g2d.setFont((java.awt.Font) xs.createFont(fd));
@@ -259,8 +256,6 @@ final class SwingTextRenderer implements IConstants
         double dX = lo.getX(), dY = lo.getY();
         FontDefinition fd = la.getCaption().getFont();
         double dAngleInDegrees = fd.getRotation();
-        String sText = la.getCaption().getValue();
-        
         if (bShadow) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW REQUESTED FOR
         {
             bShadow = la.getShadowColor() != null;
@@ -469,7 +464,6 @@ final class SwingTextRenderer implements IConstants
             else
             {
                 final Rectangle2D.Double r2d = new Rectangle2D.Double(dX, dY - dFH, dFW, dFH);
-                double dYHalfOffset = (dFH + dH) / 2d;
 
                 // RENDER THE BACKGROUND FILL
                 g2d.setColor(clrBackground);
@@ -573,8 +567,6 @@ final class SwingTextRenderer implements IConstants
         double dX = lo.getX(), dY = lo.getY();
         FontDefinition fd = la.getCaption().getFont();
         double dAngleInDegrees = fd.getRotation();
-        String sText = la.getCaption().getValue();
-
         if (bShadow) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW REQUESTED FOR
         {
             bShadow = la.getShadowColor() != null;
@@ -896,7 +888,6 @@ final class SwingTextRenderer implements IConstants
         FontDefinition fd = la.getCaption().getFont();
         //Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         double dAngleInDegrees = fd.getRotation();
-        String sText = la.getCaption().getValue();
         Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
         Color clrBackground = (Color) _sxs.getColor((ColorDefinition) la.getBackground());
         double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
@@ -968,10 +959,6 @@ final class SwingTextRenderer implements IConstants
         // DRAW IT AT A POSITIVE ANGLE
         else if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
         {
-            int iRotateX = (int) (dX);
-            int iRotateY = (int) (dY);
-            double dBackupX = dX;
-            double dBackupY = dY;
             double dSineTheta = Math.abs(Math.sin(dAngleInRadians));
             double dCosTheta = Math.abs(Math.cos(dAngleInRadians));
             double dDeltaX = dFW * dCosTheta - dH * dSineTheta - dFW / 2.0;
@@ -1143,7 +1130,6 @@ final class SwingTextRenderer implements IConstants
 
             double dYHalfOffset = (dFH + dH) / 2d;
             double dDeltaX = dYHalfOffset - dFH / 2d;
-            double dDeltaY = dFH;
             dX -= dDeltaX;
             g2d.rotate(dAngleInRadians, dX, dY);
             if (bShadow) // RENDER THE SHADOW
@@ -1211,7 +1197,6 @@ final class SwingTextRenderer implements IConstants
         final FontDefinition fd = la.getCaption().getFont();
         //final Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         final double dAngleInDegrees = fd.getRotation();
-        final String sText = la.getCaption().getValue();
         final Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
         final Color clrBackground = (Color) _sxs.getColor((ColorDefinition) la.getBackground());
         double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
@@ -1285,8 +1270,6 @@ final class SwingTextRenderer implements IConstants
         // DRAW IT AT A POSITIVE ANGLE
         else if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
         {
-            double dSineTheta = Math.abs(Math.sin(dAngleInRadians));
-            double dCosTheta = Math.abs(Math.cos(dAngleInRadians));
             double dDeltaX = dFW / 2;
 
             dX += dDeltaX;
@@ -1314,7 +1297,6 @@ final class SwingTextRenderer implements IConstants
 
                 // RENDER THE TEXT
                 g2d.setColor(clrText);
-                Map m = g2d.getFont().getAttributes();
                 for (int i = 0; i < itm.getLineCount(); i++)
                 {
                     tl = new TextLayout(itm.getLine(iLC - i - 1), g2d.getFont(), g2d.getFontRenderContext());
@@ -1405,7 +1387,6 @@ final class SwingTextRenderer implements IConstants
         {
             double dYHalfOffset = (dFH + dH) / 2.0;
             double dDeltaX = (dFW + dH) / 2;
-            double dDeltaY = dH;
             dX += dDeltaX;
             g2d.rotate(dAngleInRadians, dX, dY);
             if (bShadow) // RENDER THE SHADOW
