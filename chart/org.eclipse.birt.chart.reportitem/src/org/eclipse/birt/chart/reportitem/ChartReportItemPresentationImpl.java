@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.GenerationException;
@@ -58,6 +59,11 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
      * 
      */
     private transient FileInputStream fis = null;
+    
+    /**
+     * 
+     */
+    private final String sExtension;
 
     /**
      *  
@@ -65,6 +71,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     public ChartReportItemPresentationImpl()
     {
         super();
+        sExtension = "png";
     }
 
     /**
@@ -112,8 +119,8 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - start");
         // SETUP A TEMP FILE FOR STREAMING
         try {
-            fChartImage = File.createTempFile("chart", ".png");
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Writing to PNG at " + fChartImage.getPath());
+            fChartImage = File.createTempFile("chart", "." + sExtension);
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Writing to "+sExtension+" file at " + fChartImage.getPath());
         } catch (IOException ioex)
         {
             throw new BirtException("tmp png file creation", ioex);
@@ -122,11 +129,11 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         // FETCH A HANDLE TO THE DEVICE RENDERER
         IDeviceRenderer idr = null;
         try {
-            idr = PluginSettings.instance().getDevice("dv.PNG24");
+            idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
         } catch (PluginException pex)
         {
             DefaultLoggerImpl.instance().log(pex);
-            throw new BirtException("png24 device retrieval", pex);
+            throw new BirtException(sExtension.toUpperCase(Locale.US) + " device retrieval", pex);
         }
         
         // BUILD THE CHART
@@ -187,11 +194,11 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         // DELETE THE TEMP CHART IMAGE FILE CREATED
         if (!fChartImage.delete())
         {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "Could not delete temporary PNG file created at " + fChartImage.getPath());
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "Could not delete temporary "+sExtension+" file created at " + fChartImage.getPath());
         }
         else
         {
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Successfully deleted temporary PNG file created at " + fChartImage.getPath());
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Successfully deleted temporary "+sExtension+" file created at " + fChartImage.getPath());
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - end");
     }
