@@ -31,10 +31,8 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -1240,19 +1238,15 @@ public class ChartImpl extends EObjectImpl implements Chart
         {
             return;
         }
-
         try
         {
             // Process Base SeriesDefinitions
             Series seriesBaseRuntime = (Series) EcoreUtil.copy(getBaseSeriesDefinitionForProcessing()
                 .getDesignTimeSeries());
-
             // Clear existing values from the dataset
             seriesBaseRuntime.setDataSet(null);
-
             // Clear any existing Runtime Series
             chart.clearSections(IConstants.RUN_TIME);
-
             // Get the BaseSampleData and use it to construct dataset
             seriesBaseRuntime.setDataSet((PluginSettings.instance()
                 .getDataSetProcessor(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries().getClass()))
@@ -1295,11 +1289,12 @@ public class ChartImpl extends EObjectImpl implements Chart
                     seriesOrthogonalRuntime.getDataSet()));
 
                 // Set sample series identifiers
-                seriesOrthogonalRuntime.setSeriesIdentifier("Series " + (sdTmp.getSeries().size()));
-
-                // Set sample data definition
-                Query q = QueryImpl.create("Data " + (sdTmp.getSeries().size()));
-                seriesOrthogonalRuntime.getDataDefinition().add(q);
+                String sIdentifier = "Series";
+                if (sdTmp.getQuery() != null)
+                {
+                    sIdentifier = sdTmp.getQuery().getDefinition();
+                }
+                seriesOrthogonalRuntime.setSeriesIdentifier(sIdentifier + "-" + iO);
 
                 sdTmp.getSeries().add(seriesOrthogonalRuntime);
             }
