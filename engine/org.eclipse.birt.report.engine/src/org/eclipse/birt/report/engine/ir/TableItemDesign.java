@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 
  * Tabel item.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: #2 $ $Date: 2005/02/04 $
  */
 public class TableItemDesign extends ListingDesign
 {
@@ -54,6 +54,14 @@ public class TableItemDesign extends ListingDesign
 
 	protected boolean repeatHeader;
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getRepeatHeader()
+	{
+		return repeatHeader;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

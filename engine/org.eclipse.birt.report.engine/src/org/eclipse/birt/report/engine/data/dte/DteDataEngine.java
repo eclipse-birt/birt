@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DteException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -28,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IReportQueryDefn;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefn;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -45,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: #3 $ $Date: 2005/02/01 $
+ * @version $Revision: #4 $ $Date: 2005/02/04 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -170,7 +170,7 @@ public class DteDataEngine implements IDataEngine
 			{
 				logger.error( e.getMessage( ), e );
 			}
-			catch ( DteException e )
+			catch ( DataException e )
 			{
 				logger.error( e.getMessage( ), e );
 			}
@@ -193,7 +193,7 @@ public class DteDataEngine implements IDataEngine
 					logger.error( e.getMessage( ), e );
 				}
 			}
-			catch ( DteException e )
+			catch ( DataException e )
 			{
 				if ( logger.isErrorEnabled( ) )
 				{
@@ -216,7 +216,7 @@ public class DteDataEngine implements IDataEngine
 				queryMap.put( query, preparedQuery );
 
 			}
-			catch ( DteException e )
+			catch ( DataException e )
 			{
 				if ( logger.isErrorEnabled( ) )
 				{
@@ -261,7 +261,7 @@ public class DteDataEngine implements IDataEngine
 					rsStack.addLast( dRS );
 					return dRS;
 				}
-				catch ( DteException e )
+				catch ( DataException e )
 				{
 					if ( logger.isErrorEnabled( ) )
 					{
@@ -286,7 +286,7 @@ public class DteDataEngine implements IDataEngine
 				return dRS;
 
 			}
-			catch ( DteException e )
+			catch ( DataException e )
 			{
 				if ( logger.isErrorEnabled( ) )
 				{
@@ -348,7 +348,7 @@ public class DteDataEngine implements IDataEngine
 					return null;
 				}
 			}
-			catch ( DteException e )
+			catch ( DataException e )
 			{
 				if ( logger.isErrorEnabled( ) )
 				{

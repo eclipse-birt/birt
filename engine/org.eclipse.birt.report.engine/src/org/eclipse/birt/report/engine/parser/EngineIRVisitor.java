@@ -126,7 +126,7 @@ import org.xml.sax.Attributes;
  * used in the "Design Adaptation" phase of report geenration, which is also the first
  * step in report generation after DE loads the report in.  
  *  
- * @version $Revision: #2 $ $Date: 2005/01/30 $
+ * @version $Revision: #3 $ $Date: 2005/02/04 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -619,6 +619,8 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// Create Table Item
 		TableItemDesign table = new TableItemDesign( );
+		table.setRepeatHeader(handle.repeatHeader());
+		
 		setupListingItem( table, handle );
 
 		// Handle table caption

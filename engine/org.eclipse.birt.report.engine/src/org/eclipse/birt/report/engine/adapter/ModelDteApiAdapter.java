@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataType;
-import org.eclipse.birt.data.engine.api.DteException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefn;
@@ -46,6 +45,7 @@ import org.eclipse.birt.data.engine.api.querydefn.JSExpression;
 import org.eclipse.birt.data.engine.api.querydefn.OutputParamDefn;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -139,7 +139,7 @@ public class ModelDteApiAdapter
                 {
                     dteSource.addPublicProperty( modelProp.getName(), modelProp.getValue() );
                 }
-                catch ( DteException e )
+                catch ( DataException e )
                 {
                     throw new EngineException( e.getMessage() );
                 }
@@ -157,7 +157,7 @@ public class ModelDteApiAdapter
                 {
                     dteSource.addPrivateProperty( modelProp.getName(), modelProp.getValue() );
                 }
-                catch ( DteException e )
+                catch ( DataException e )
                 {
                     throw new EngineException( e.getMessage() );
                 }
