@@ -12,16 +12,29 @@
 package org.eclipse.birt.chart.model.impl;
 
 import java.util.Collection;
+import java.util.Vector;
 
+import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.exception.DataSetException;
+import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.SeriesHint;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -30,6 +43,7 @@ import org.eclipse.birt.chart.model.layout.impl.BlockImpl;
 import org.eclipse.birt.chart.model.layout.impl.LegendImpl;
 import org.eclipse.birt.chart.model.layout.impl.PlotImpl;
 import org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -39,6 +53,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -301,6 +316,11 @@ public class ChartImpl extends EObjectImpl implements Chart
      */
     protected SampleData sampleData = null;
 
+    /**
+     * A transient script handler capable of processing/executing scripts
+     */
+    private transient ScriptHandler sh = null;
+    
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -1184,7 +1204,163 @@ public class ChartImpl extends EObjectImpl implements Chart
      */
     public void clearSections(int iSectionType)
     {
-        // TODO: Recursively walk through the model and clear unwanted sections
-        // as requested
+        // TODO: Recursively walk through the model and clear unwanted sections as requested
     }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.Chart#setScriptHandler(org.eclipse.birt.chart.model.ScriptHandler)
+     */
+    public void setScriptHandler(ScriptHandler sh)
+    {
+        this.sh = sh;
+    }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.Chart#getScriptHandler()
+     */
+    public ScriptHandler getScriptHandler()
+    {
+        return sh;
+    }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.Chart#createSampleRuntimeSeries()
+     */
+    public final void createSampleRuntimeSeries()
+    {
+        Chart chart = this;
+        SampleData sd = chart.getSampleData();
+        if (sd == null || sd.getBaseSampleData().size() == 0 || sd.getOrthogonalSampleData().size() == 0)
+        {
+            return;
+        }
+
+        try
+        {
+            // Process Base SeriesDefinitions
+            Series seriesBaseRuntime = (Series) EcoreUtil.copy(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries());
+            
+            // Clear existing values from the dataset
+            seriesBaseRuntime.setDataSet(null);
+            
+            // Clear any existing Runtime Series
+            chart.clearSections(IConstants.RUN_TIME);
+            
+            // Get the BaseSampleData and use it to construct dataset
+            seriesBaseRuntime.setDataSet((PluginSettings.instance()
+                .getDataSetProcessor(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries().getClass()))
+                .fromString(((BaseSampleData) sd.getBaseSampleData().get(0)).getDataSetRepresentation(),
+                    seriesBaseRuntime.getDataSet()));
+            getBaseSeriesDefinitionForProcessing().getSeries().add(seriesBaseRuntime);
+            
+            // Set sample series identifier
+            seriesBaseRuntime.setSeriesIdentifier("Category 1");
+            
+            // Process Orthogonal SeriesDefinitions
+            Vector vOSD = getOrthogonalSeriesDefinitions();
+            int[] iOSD = new int[vOSD.size()];
+            SeriesDefinition sdTmp = null;
+            Series seriesOrthogonalRuntime = null;
+
+            // Initialize position array and clear any existing runtime series
+            for (int i = 0; i < iOSD.length; i++)
+            {
+                iOSD[i] = 0;
+                sdTmp = (SeriesDefinition) vOSD.get(i);
+            }
+
+            // Fetch the DataSetRepresentations for orthogonal sample data
+            for (int iO = 0; iO < sd.getOrthogonalSampleData().size(); iO++)
+            {
+                OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData().get(iO);
+                int iSDIndex = osd.getSeriesDefinitionIndex();
+
+                // Create runtime series for SeriesDefinition index
+                sdTmp = (SeriesDefinition) vOSD.get(iSDIndex);
+                seriesOrthogonalRuntime = (Series) EcoreUtil.copy(sdTmp.getDesignTimeSeries());
+
+                // Clear existing values from the dataset
+                seriesOrthogonalRuntime.setDataSet(null);
+
+                // Set the new dataset with sample values
+                seriesOrthogonalRuntime.setDataSet((PluginSettings.instance().getDataSetProcessor(sdTmp
+                    .getDesignTimeSeries().getClass())).fromString(osd.getDataSetRepresentation(),
+                    seriesOrthogonalRuntime.getDataSet()));
+
+                // Set sample series identifiers
+                seriesOrthogonalRuntime.setSeriesIdentifier("Series " + (sdTmp.getSeries().size()));
+
+                // Set sample data definition
+                Query q = QueryImpl.create("Data " + (sdTmp.getSeries().size()));
+                seriesOrthogonalRuntime.getDataDefinition().add(q);
+
+                sdTmp.getSeries().add(seriesOrthogonalRuntime);
+            }
+        }
+        catch (DataSetException e1 )
+        {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        catch (PluginException e1 )
+        {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+    }
+
+    private SeriesDefinition getBaseSeriesDefinitionForProcessing()
+    {
+        Chart chart = this;
+        if (chart instanceof ChartWithAxes)
+        {
+            return (SeriesDefinition) ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).getSeriesDefinitions().get(0);
+        }
+        else
+        {
+            return (SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(0);
+        }
+    }
+
+    private Vector getOrthogonalSeriesDefinitions()
+    {
+        Chart chart = this;
+        Vector vTmp = new Vector();
+        if (chart instanceof ChartWithAxes)
+        {
+            Axis axisBase = null;
+            Object[] oSD = null;
+            for (int iC = 0; iC < ((ChartWithAxes) chart).getAxes().size(); iC++)
+            {
+                axisBase = (Axis) ((ChartWithAxes) chart).getAxes().get(iC);
+                for (int iAC = 0; iAC < axisBase.getAssociatedAxes().size(); iAC++)
+                {
+                    oSD = ((Axis) axisBase.getAssociatedAxes().get(iAC)).getSeriesDefinitions().toArray();
+                    for (int iA = 0; iA < oSD.length; iA++)
+                    {
+                        vTmp.add(oSD[iA]);
+                    }
+                }
+            }
+            return vTmp;
+        }
+        else
+        {
+            Object[] oSD = null;
+            for (int iC = 0; iC < ((ChartWithoutAxes) chart).getSeriesDefinitions().size(); iC++)
+            {
+                oSD = ((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(iC))
+                    .getSeriesDefinitions().toArray();
+                for (int iA = 0; iA < oSD.length; iA++)
+                {
+                    vTmp.add(oSD[iA]);
+                }
+            }
+            return vTmp;
+        }
+    }
+    
 } //ChartImpl
