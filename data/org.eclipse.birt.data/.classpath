@@ -9,9 +9,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/castor-0.9.5.4-xml.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="lib/derby.jar"/>
-	<classpathentry kind="lib" path="lib/derbynet.jar"/>
-	<classpathentry kind="lib" path="lib/db2jcc_license_c.jar"/>
-	<classpathentry kind="lib" path="lib/db2jcc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
