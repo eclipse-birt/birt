@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * This command deletes an object from the model.
+ * Deletes an object or multiple objects or do nothing.
  * 
  *  
  */
@@ -25,7 +29,7 @@ import org.eclipse.jface.util.Assert;
 public class DeleteCommand extends Command
 {
 
-	private DesignElementHandle model = null;
+	private Object model = null;
 
 	/**
 	 * Deletes the command
@@ -36,8 +40,7 @@ public class DeleteCommand extends Command
 
 	public DeleteCommand( Object model )
 	{
-		Assert.isTrue( model instanceof DesignElementHandle );
-		this.model = (DesignElementHandle) model;
+		this.model = model;
 	}
 
 	/**
@@ -49,14 +52,52 @@ public class DeleteCommand extends Command
 	{
 		try
 		{
-			if ( model.getContainer( ) != null )
-			{
-				model.drop( );
-			}
+			dropSource( model );
 		}
 		catch ( SemanticException e )
 		{
 			e.printStackTrace( );
+		}
+	}
+
+	protected void dropSource( Object source ) throws SemanticException
+	{
+		if ( source instanceof Object[] )
+		{
+			Object[] array = (Object[]) source;
+			for ( int i = 0; i < array.length; i++ )
+			{
+				dropSource( array[i] );
+			}
+		}
+		else if ( source instanceof StructuredSelection )
+		{
+			dropSource( ( (StructuredSelection) source ).toArray( ) );
+		}
+		else if ( source instanceof DesignElementHandle )
+		{
+			if ( ( (DesignElementHandle) source ).getContainer( ) != null )
+			{
+				( (DesignElementHandle) source ).drop( );
+			}
+		}
+		else if ( source instanceof SlotHandle )
+		{
+			dropSourceSlotHandle( (SlotHandle) source );
+		}
+		else if ( source instanceof ReportElementModel )
+		{
+			dropSourceSlotHandle( ( (ReportElementModel) source ).getSlotHandle( ) );
+		}
+	}
+
+	protected void dropSourceSlotHandle( SlotHandle slot )
+			throws SemanticException
+	{
+		List list = slot.getContents( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			( (DesignElementHandle) list.get( i ) ).drop( );
 		}
 	}
 }

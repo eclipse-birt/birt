@@ -130,7 +130,6 @@ public class DEUtil
 	 * Get the containable element type list of give slot handle
 	 * 
 	 * @param slotHandle
-	 * @return
 	 */
 	public static List getElementSupportList( SlotHandle slotHandle )
 	{
@@ -223,7 +222,6 @@ public class DEUtil
 	 * Get display label of report element
 	 * 
 	 * @param obj
-	 * @return
 	 */
 	public static String getDisplayLabel( Object obj )
 	{
@@ -238,7 +236,7 @@ public class DEUtil
 			}
 			return elementName;
 		}
-		return null;
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -400,7 +398,8 @@ public class DEUtil
 	 * 
 	 * @param object
 	 *            model to keep the measure and units.
-	 * @fontSize the parent font size.
+	 * @param fontSize
+	 *            the parent font size.
 	 * @return The pixel value.
 	 */
 	public static double convertToPixel( Object object, int fontSize )
@@ -459,7 +458,7 @@ public class DEUtil
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		//added by gao if unit is "", set the unit is Design default unit
-		else if ( "".equals( units ) )
+		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
 			units = ( SessionHandleAdapter.getInstance( ).getReportDesign( ).handle( ) ).getDefaultUnits( );
 			px = DimensionUtil.convertTo( measure,
@@ -502,7 +501,6 @@ public class DEUtil
 	 * double.
 	 * 
 	 * @param val
-	 * @return
 	 */
 	public static boolean isValidNumber( String val )
 	{
@@ -664,8 +662,7 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
-				| ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -705,7 +702,6 @@ public class DEUtil
 	 * 
 	 * @param elementName
 	 * @param propertyName
-	 * @return
 	 */
 	public static IElementPropertyDefn getPropertyDefn( String elementName,
 			String propertyName )
@@ -732,9 +728,7 @@ public class DEUtil
 		if ( model instanceof ParameterHandle )
 		{
 			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\""
-					+ ( (ParameterHandle) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (ParameterHandle) model ).getName( ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ( model instanceof DataSetItemModel )
 		{
@@ -744,9 +738,7 @@ public class DEUtil
 				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
 				    * ).getName( ) + "\"]." +
 				    */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\""
-					+ ( (DataSetItemModel) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (DataSetItemModel) model ).getName( ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return null;
 	}
@@ -817,7 +809,7 @@ public class DEUtil
 	{
 		if ( src != null && src.indexOf( '&' ) != -1 )
 		{
-			src = src.replaceAll( "\\&", "&&" );
+			src = src.replaceAll( "\\&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		return src;
@@ -849,7 +841,7 @@ public class DEUtil
 	public static boolean handleValidateTargetCanContain( Object targetObj,
 			Object transferData )
 	{
-		return handleValidateTargetCanContain( targetObj, transferData, false ) != CONTAIN_NO;
+		return handleValidateTargetCanContain( targetObj, transferData, true ) != CONTAIN_NO;
 	}
 
 	/**
@@ -879,7 +871,7 @@ public class DEUtil
 		{
 			return handleValidateTargetCanContain( targetObj,
 					( (StructuredSelection) transferData ).toArray( ),
-					false );
+					validateContainer );
 		}
 		else if ( transferData instanceof Object[] )
 		{
@@ -890,96 +882,155 @@ public class DEUtil
 						array[0],
 						validateContainer );
 			}
+			int canContainAll = CONTAIN_NO;
 			for ( int i = 0; i < array.length; i++ )
 			{
-				if ( handleValidateTargetCanContain( targetObj, array[i], false ) == CONTAIN_NO )
+				int canContain = handleValidateTargetCanContain( targetObj,
+						array[i],
+						validateContainer );
+				if ( i == 0 )
+				{
+					canContainAll = canContain;
+				}
+				if ( canContain == CONTAIN_NO || canContain != canContainAll )
 				{
 					return CONTAIN_NO;
 				}
 			}
-			return CONTAIN_THIS;
+			return canContainAll;
 		}
 		else
 		{
 			//Gets handle to test if can contain
-			DesignElementHandle childHandle = null;
 			if ( transferData instanceof DesignElementHandle )
 			{
-				childHandle = (DesignElementHandle) transferData;
+				return handleValidateTargetCanContainByContainer( targetObj,
+						(DesignElementHandle) transferData,
+						validateContainer,
+						transferData );
 			}
 			else if ( transferData instanceof DesignElement )
 			{
-				childHandle = ( (DesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
+				DesignElementHandle childHandle = ( (DesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
 						.getReportDesign( ) );
+				return handleValidateTargetCanContainByContainer( targetObj,
+						childHandle,
+						validateContainer,
+						transferData );
 			}
-			else
+			else if ( transferData instanceof SlotHandle )
 			{
-				return CONTAIN_NO;
-			}
-
-			if ( targetObj instanceof DesignElementHandle )
-			{
-				DesignElementHandle targetHandle = (DesignElementHandle) targetObj;
-				if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
-						childHandle ) )
-				{
-					return CONTAIN_THIS;
-				}
-				else if ( targetObj instanceof ParameterGroupHandle
-						&& childHandle instanceof ParameterGroupHandle )
-				{
-					return CONTAIN_THIS;
-				}
-				else if ( validateContainer )
-				//Validates target's container
-				{
-					if ( !targetHandle.getContainer( )
-							.getDefn( )
-							.getSlot( targetHandle.getContainerSlotHandle( )
-									.getSlotID( ) )
-							.isMultipleCardinality( ) )
-					{
-						//If only can contain single
-						return CONTAIN_NO;
-					}
-					if ( targetHandle.getClass( )
-							.equals( transferData.getClass( ) ) )
-					{
-						//If class type is same
-						return CONTAIN_PARENT;
-					}
-					return targetHandle.getContainer( )
-							.canContain( DEUtil.getDefaultSlotID( targetHandle.getContainer( ) ),
-									childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
-				}
-				return CONTAIN_NO;
-			}
-			else if ( targetObj instanceof ReportElementModel )
-			{
-				ReportElementModel targetModel = (ReportElementModel) targetObj;
-				return targetModel.getElementHandle( )
-						.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
-			}
-			else if ( targetObj instanceof SlotHandle )
-			{
-				SlotHandle targetHandle = (SlotHandle) targetObj;
-				return targetHandle.getElementHandle( )
-						.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
-			}
-			else if ( targetObj instanceof ListBandProxy )
-			{
-				ListBandProxy targetHandle = (ListBandProxy) targetObj;
-				return targetHandle.getElemtHandle( )
-						.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+				SlotHandle slot = (SlotHandle) transferData;
+				Object[] childHandles = slot.getContents( ).toArray( );
+				return handleValidateTargetCanContainByContainer( targetObj,
+						childHandles,
+						validateContainer,
+						transferData );
 			}
 			else
 			{
 				return CONTAIN_NO;
 			}
 		}
+	}
+
+	protected static int handleValidateTargetCanContainByContainer(
+			Object targetObj, DesignElementHandle childHandle,
+			boolean validateContainer, Object transferData )
+	{
+		if ( targetObj instanceof DesignElementHandle )
+		{
+			return handleValidateTargetCanContainElementHandle( (DesignElementHandle) targetObj,
+					childHandle,
+					validateContainer,
+					transferData );
+		}
+		else if ( targetObj instanceof ReportElementModel )
+		{
+			ReportElementModel targetModel = (ReportElementModel) targetObj;
+			return targetModel.getElementHandle( )
+					.canContain( targetModel.getSlotId( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
+		}
+		else if ( targetObj instanceof SlotHandle )
+		{
+			SlotHandle targetHandle = (SlotHandle) targetObj;
+			return targetHandle.getElementHandle( )
+					.canContain( targetHandle.getSlotID( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
+		}
+		else if ( targetObj instanceof ListBandProxy )
+		{
+			ListBandProxy targetHandle = (ListBandProxy) targetObj;
+			return targetHandle.getElemtHandle( )
+					.canContain( targetHandle.getSlotId( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
+		}
+		else
+		{
+			return CONTAIN_NO;
+		}
+	}
+
+	protected static int handleValidateTargetCanContainByContainer(
+			Object targetObj, Object[] childHandles, boolean validateContainer,
+			Object transferData )
+	{
+		if ( childHandles.length == 0 )
+		{
+			return CONTAIN_NO;
+		}
+		for ( int i = 0; i < childHandles.length; i++ )
+		{
+			if ( !( childHandles[i] instanceof DesignElementHandle )
+					|| handleValidateTargetCanContainByContainer( targetObj,
+							(DesignElementHandle) childHandles[i],
+							validateContainer,
+							transferData ) == CONTAIN_NO )
+			{
+				return CONTAIN_NO;
+			}
+		}
+		return CONTAIN_THIS;
+	}
+
+	protected static int handleValidateTargetCanContainElementHandle(
+			DesignElementHandle targetHandle, DesignElementHandle childHandle,
+			boolean validateContainer, Object transferData )
+	{
+		if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
+				childHandle ) )
+		{
+			return CONTAIN_THIS;
+		}
+		else if ( targetHandle instanceof ParameterGroupHandle
+				&& childHandle instanceof ParameterGroupHandle )
+		{
+			return CONTAIN_THIS;
+		}
+		else if ( validateContainer )
+		//Validates target's container
+		{
+			if ( !targetHandle.getContainer( )
+					.getDefn( )
+					.getSlot( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ) )
+					.isMultipleCardinality( ) )
+			{
+				//If only can contain single
+				return CONTAIN_NO;
+			}
+			if ( targetHandle.getClass( ).equals( transferData.getClass( ) ) )
+			{
+				//If class type is same
+				return CONTAIN_PARENT;
+			}
+			return targetHandle.getContainer( )
+					.canContain( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ),
+							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+		}
+		return CONTAIN_NO;
 	}
 
 	/**
@@ -1087,5 +1138,5 @@ public class DEUtil
 		GroupElementHandle handle = new GroupElementHandle( design, modelList );
 		return handle;
 	}
-	
+
 }
