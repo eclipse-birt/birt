@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -593,6 +592,10 @@ public final class AutoScale extends Methods implements Cloneable
      */
     public final String getNumericPattern()
     {
+        if (oMinimum == null || oStep == null)
+        {
+            return "0.00";
+        }
         final double dMinValue = asDouble(oMinimum).doubleValue();
         final double dStep = asDouble(oStep).doubleValue();
 
@@ -600,9 +603,7 @@ public final class AutoScale extends Methods implements Cloneable
         {
             final DecimalFormatSymbols dfs = new DecimalFormatSymbols();
             final String sMinimum = oMinimum.toString();
-            final int iDecimalPosition = sMinimum.indexOf(dfs.getDecimalSeparator()); // THIS RELIES ON THE FACT THAT
-            // IN ANY LOCALE, DECIMAL IS A
-            // DOT
+            final int iDecimalPosition = sMinimum.indexOf(dfs.getDecimalSeparator()); 
             if (iDecimalPosition >= 0)
             {
                 int n = sMinimum.length();
@@ -633,8 +634,7 @@ public final class AutoScale extends Methods implements Cloneable
 
         }
 
-        if (dMinValue - (int) dMinValue == 0 // IF MANTISSA IS INSIGNIFICANT,
-            // SHOW LABELS AS INTEGERS
+        if (dMinValue - (int) dMinValue == 0 // IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
             && dStep - (int) dStep == 0)
         {
             return sNumericPattern;
@@ -642,18 +642,7 @@ public final class AutoScale extends Methods implements Cloneable
 
         final DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         final String sStep = oStep.toString();
-        final int iDecimalPosition = sStep.indexOf(dfs.getDecimalSeparator()); // THIS
-        // RELIES
-        // ON
-        // THE
-        // FACT
-        // THAT
-        // IN
-        // ANY
-        // LOCALE,
-        // DECIMAL
-        // IS A
-        // DOT
+        final int iDecimalPosition = sStep.indexOf(dfs.getDecimalSeparator()); 
         if (iDecimalPosition >= 0)
         {
             int n = sStep.length();
@@ -1189,15 +1178,19 @@ public final class AutoScale extends Methods implements Cloneable
             double dAxisValue = asDouble(getMinimum()).doubleValue();
             final double dAxisStep = asDouble(getStep()).doubleValue();
             String sText;
-            DecimalFormat df;
             NumberDataElement nde = NumberDataElementImpl.create(0);
+            DecimalFormat df = null;
 
             for (int i = 0; i < da.length; i++)
             {
                 nde.setValue(dAxisValue);
+                if (fs == null)
+                {
+                    df = new DecimalFormat(getNumericPattern(dAxisValue));
+                }
                 try
                 {
-                    sText = ValueFormatter.format(nde, fs, lcl, this);
+                    sText = ValueFormatter.format(nde, fs, lcl, df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -1337,10 +1330,8 @@ public final class AutoScale extends Methods implements Cloneable
         throws GenerationException
     {
         final Label la = ax.getLabel();
-        final FontDefinition fd = la.getCaption().getFont();
         final int iLabelLocation = ax.getLabelPosition();
         final int iOrientation = ax.getOrientation();
-        final double dAngleInDegrees = fd.getRotation();
 
         AutoScale sc = null;
         AutoScale scCloned = null;
@@ -1348,6 +1339,8 @@ public final class AutoScale extends Methods implements Cloneable
         if ((iType & TEXT) == TEXT || ax.isCategoryScale())
         {
             sc = new AutoScale(iType);
+            sc.fs = fs;
+            sc.lcl = lcl;
             sc.bCategoryScale = true;
             sc.setData(dsi);
             sc.computeTicks(xs, ax.getLabel(), iLabelLocation, iOrientation, dStart, dEnd, false, null);
@@ -1395,14 +1388,13 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     sc.oMinimum = new Double(((NumberDataElement) oMinimum).getValue());
                 }
-                else if (oMinimum instanceof DateTimeDataElement)
+                /*else if (oMinimum instanceof DateTimeDataElement)
                 {
                     sc.oMinimum = ((DateTimeDataElement) oMinimum).getValueAsCDateTime();
-                }
+                }*/
                 else
                 {
-                    throw new GenerationException("Cannot override minimum value for axis " + ax + " with value "
-                        + sc.oMinimum);
+                    throw new GenerationException("Invalid minimum scale value " + oMinimum + " specified for axis type " + ax.getModelAxis().getType());
                 }
                 sc.bMinimumFixed = true;
             }
@@ -1414,14 +1406,13 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     sc.oMaximum = new Double(((NumberDataElement) oMaximum).getValue());
                 }
-                else if (oMaximum instanceof DateTimeDataElement)
+                /*else if (oMaximum instanceof DateTimeDataElement)
                 {
                     sc.oMaximum = ((DateTimeDataElement) oMaximum).getValueAsCDateTime();
-                }
+                }*/
                 else
                 {
-                    throw new GenerationException("Cannot override maximum value for axis " + ax + " with value "
-                        + sc.oMaximum);
+                    throw new GenerationException("Invalid maximum scale value " + oMaximum + " specified for axis type " + ax.getModelAxis().getType());
                 }
                 sc.bMaximumFixed = true;
             }
@@ -1431,8 +1422,23 @@ public final class AutoScale extends Methods implements Cloneable
             {
                 sc.oStep = oStep;
                 sc.bStepFixed = true;
+                
+                // VALIDATE OVERRIDDEN STEP
+                if (((Double) sc.oStep).doubleValue() <= 0)
+                {
+                    throw new GenerationException("Invalid 'step(" + oStep + ") <= 0' specified for axis scale");
+                }
             }
 
+            // VALIDATE OVERRIDDEN MIN/MAX
+            if (sc.bMaximumFixed && sc.bMinimumFixed)
+            {
+                if (((Double) sc.oMinimum).doubleValue() > ((Double) sc.oMaximum).doubleValue())
+                {
+                    throw new GenerationException("Invalid entries 'min("+oMinimum+") > max("+oMaximum+")' specified for axis scale");
+                }
+            }
+            
             final Object oMinValue = new Double(dMinValue);
             final Object oMaxValue = new Double(dMaxValue);
             sc.updateAxisMinMax(oMinValue, oMaxValue);
@@ -1443,8 +1449,7 @@ public final class AutoScale extends Methods implements Cloneable
 
             boolean bFirstFit = sc.checkFit(xs, la, iLabelLocation);
             boolean bFits = bFirstFit;
-            boolean bZoomMore, bZoomSuccess = false;
-            //sc.oDebug = String.valueOf(bFirstFit);
+            boolean bZoomSuccess = false;
 
             // THE AUTO ZOOM LOOP
             while (bFits == bFirstFit)
@@ -1542,7 +1547,7 @@ public final class AutoScale extends Methods implements Cloneable
 
             boolean bFirstFit = sc.checkFit(xs, la, iLabelLocation);
             boolean bFits = bFirstFit;
-            boolean bZoomMore, bZoomSuccess = false;
+            boolean bZoomSuccess = false;
             //sc.oDebug = String.valueOf(bFirstFit);
 
             while (bFits == bFirstFit)
@@ -1591,13 +1596,62 @@ public final class AutoScale extends Methods implements Cloneable
         }
         else if ((iType & DATE_TIME) == DATE_TIME)
         {
+            // OVERRIDE MINIMUM IF SPECIFIED
+            if (oMinimum != null)
+            {
+                if (oMinimum instanceof DateTimeDataElement)
+                {
+                    sc.oMinimum = ((DateTimeDataElement) oMinimum).getValueAsCDateTime();
+                }
+                else
+                {
+                    throw new GenerationException("Invalid minimum scale value " + oMinimum + " specified for axis type " + ax.getModelAxis().getType());
+                }
+                sc.bMinimumFixed = true;
+            }
+
+            // OVERRIDE MAXIMUM IF SPECIFIED
+            if (oMaximum != null)
+            {
+                if (oMaximum instanceof DateTimeDataElement)
+                {
+                    sc.oMaximum = ((DateTimeDataElement) oMaximum).getValueAsCDateTime();
+                }
+                else
+                {
+                    throw new GenerationException("Invalid maximum scale value " + oMaximum + " specified for axis type " + ax.getModelAxis().getType());
+                }
+                sc.bMaximumFixed = true;
+            }
+
+            // OVERRIDE STEP IF SPECIFIED
+            /*if (oStep != null)
+            {
+                sc.oStep = oStep;
+                sc.bStepFixed = true;
+                
+                // VALIDATE OVERRIDDEN STEP
+                if (((Double) sc.oStep).doubleValue() <= 0)
+                {
+                    throw new GenerationException("Invalid 'step(" + oStep + ") <= 0' specified for axis scale");
+                }
+            }*/
+
+            // VALIDATE OVERRIDDEN MIN/MAX
+            if (sc.bMaximumFixed && sc.bMinimumFixed)
+            {
+                if (((CDateTime) sc.oMinimum).after(((CDateTime) sc.oMaximum)))
+                {
+                    throw new GenerationException("Invalid entries 'min("+oMinimum+") > max("+oMaximum+")' specified for axis scale");
+                }
+            }
+            
             Calendar cValue;
             Calendar caMin = null, caMax = null;
             dsi.reset();
             while (dsi.hasNext())
             {
                 cValue = (Calendar) dsi.next();
-                String s = cValue.toString();
                 if (cValue == null) // NULL VALUE CHECK
                 {
                     continue;
@@ -1624,10 +1678,6 @@ public final class AutoScale extends Methods implements Cloneable
             CDateTime cdtMaxAxis = cdtMaxValue.forward(iUnit, 1);
             cdtMinAxis.clearBelow(iUnit);
             cdtMaxAxis.clearBelow(iUnit);
-            /*
-             * SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"); String sMin =
-             * sdf.format(cdtMinAxis.getTime()); String sMax = sdf.format(cdtMaxAxis.getTime());
-             */
 
             sc = new AutoScale(DATE_TIME, cdtMinAxis, cdtMaxAxis, new Integer(iUnit), new Integer(1));
             sc.computeTicks(xs, la, iLabelLocation, iOrientation, dStart, dEnd, false, null);
@@ -1667,11 +1717,6 @@ public final class AutoScale extends Methods implements Cloneable
                     break;
 
                 sc.adjustAxisMinMax(cdtMinValue, cdtMaxValue);
-                /*
-                 * sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"); sMin =
-                 * sdf.format(((CDateTime)sc.oMinimum).getTime()); sMax =
-                 * sdf.format(((CDateTime)sc.oMaximum).getTime());
-                 */
 
                 sc.computeTicks(xs, la, iLabelLocation, iOrientation, dStart, dEnd, false, null);
                 bFits = sc.checkFit(xs, la, iLabelLocation);
@@ -1725,18 +1770,13 @@ public final class AutoScale extends Methods implements Cloneable
         }
         else if ((iType & NUMERICAL) == NUMERICAL)
         {
-            //if ((iType & LINEAR) == LINEAR ||)
-            {
-                nTicks = getTickCount();
-                dLength = Math.abs(dStart - dEnd);
-            }
+            nTicks = getTickCount();
+            dLength = Math.abs(dStart - dEnd);
         }
         else if ((iType & DATE_TIME) == DATE_TIME)
         {
             final CDateTime cdt1 = (CDateTime) oMinimum;
             final CDateTime cdt2 = (CDateTime) oMaximum;
-            String s1 = cdt1.toString();
-            String s2 = cdt2.toString();
             final double dNumberOfSteps = Math.ceil(CDateTime.computeDifference(cdt2, cdt1, asInteger(oUnit)));
             nTicks = (int) (dNumberOfSteps / asInteger(oStep)) + 1;
             dLength = Math.abs(dStart - dEnd);
@@ -1746,11 +1786,11 @@ public final class AutoScale extends Methods implements Cloneable
             throw new GenerationException("Unable to determine axis type needed to compute ticks");
         }
 
-        double dTicGap = dLength / (nTicks - 1) * iDirection;
-        double d = dStart + dTicGap;
-        double[] da = new double[nTicks];
+        final double dTickGap = dLength / (nTicks - 1) * iDirection;
+        double d = dStart + dTickGap;
+        final double[] da = new double[nTicks];
 
-        for (int i = 1; i < nTicks - 1; i++, d += dTicGap)
+        for (int i = 1; i < nTicks - 1; i++, d += dTickGap)
         {
             da[i] = d;
         }
@@ -2033,9 +2073,7 @@ public final class AutoScale extends Methods implements Cloneable
 
         else if (getType() == DATE_TIME)
         {
-            // COMPUTE THE BOUNDING BOXES FOR FIRST AND LAST LABEL TO ADJUST
-            // START/END OF X-AXIS
-            double dUnitSize = getUnitSize();
+            // COMPUTE THE BOUNDING BOXES FOR FIRST AND LAST LABEL TO ADJUST START/END OF X-AXIS
             CDateTime cdt = asDateTime(getMinimum());
             final int iUnit = asInteger(oUnit);
             SimpleDateFormat sdf = null;
@@ -2382,8 +2420,7 @@ public final class AutoScale extends Methods implements Cloneable
         }
         else
         {
-            double dCount = iMinorUnitsPerMajor;
-            final double dEach = 10d / dCount;
+            final double dCount = iMinorUnitsPerMajor;
             final double dMax = Math.log(dCount);
 
             for (int i = 0; i < iMinorUnitsPerMajor; i++)

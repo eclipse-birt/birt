@@ -42,7 +42,6 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -50,7 +49,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
@@ -59,9 +57,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataSet;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
@@ -600,9 +596,17 @@ public final class PlotWith2DAxes extends PlotContent
     {
         final Axis[] axa = cwa.getPrimaryBaseAxes();
         final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE SUPPORT A SINGLE PRIMARY BASE AXIS ONLY
+        if (!axPrimaryBase.isSetOrientation())
+        {
+            axPrimaryBase.setOrientation(Orientation.HORIZONTAL_LITERAL);
+        }
         validateAxis(axPrimaryBase);
         final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis(axPrimaryBase);
         validateAxis(axPrimaryOrthogonal);
+        if (!axPrimaryOrthogonal.isSetOrientation())
+        {
+            axPrimaryOrthogonal.setOrientation(Orientation.VERTICAL_LITERAL);
+        }
         final Axis[] axaOverlayOrthogonal = cwa.getOrthogonalAxes(axPrimaryBase, false);
         aax = new AllAxes(cwa.getPlot().getClientArea().getInsets().scaledInstance(dPointToPixel)); // CONVERSION
         insCA = aax.getInsets();
@@ -622,15 +626,9 @@ public final class PlotWith2DAxes extends PlotContent
         }
         
         aax.swapAxes(cwa.isTransposed());
-        Label l;
-        IntersectionValue iv = null;
-        AxisOrigin ao;
 
         // SETUP THE PRIMARY BASE-AXIS PROPERTIES AND ITS SCALE
         final OneAxis oaxPrimaryBase = new OneAxis(axPrimaryBase);
-        l = axPrimaryBase.getLabel();
-        Text t = l.getCaption();
-        FontDefinition fd = t.getFont();
         oaxPrimaryBase.set(getOrientation(IConstants.BASE), transposeLabelPosition(IConstants.BASE,
             getLabelPosition(axPrimaryBase.getLabelPosition())), transposeLabelPosition(IConstants.BASE,
             getLabelPosition(axPrimaryBase.getTitlePosition())), axPrimaryBase.isSetCategoryAxis()
@@ -663,9 +661,6 @@ public final class PlotWith2DAxes extends PlotContent
 
         // SETUP THE PRIMARY ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
         final OneAxis oaxPrimaryOrthogonal = new OneAxis(axPrimaryOrthogonal);
-        l = axPrimaryOrthogonal.getLabel();
-        t = l.getCaption();
-        fd = t.getFont();
         oaxPrimaryOrthogonal.set(getOrientation(IConstants.ORTHOGONAL), transposeLabelPosition(IConstants.ORTHOGONAL,
             getLabelPosition(axPrimaryOrthogonal.getLabelPosition())), transposeLabelPosition(IConstants.ORTHOGONAL,
             getLabelPosition(axPrimaryOrthogonal.getTitlePosition())), axPrimaryOrthogonal.isSetCategoryAxis()
@@ -702,9 +697,10 @@ public final class PlotWith2DAxes extends PlotContent
         for (int i = 0; i < axaOverlayOrthogonal.length; i++)
         {
             validateAxis(axaOverlayOrthogonal[i]);
-            l = axaOverlayOrthogonal[i].getLabel();
-            t = l.getCaption();
-            fd = t.getFont();
+            if (!axaOverlayOrthogonal[i].isSetOrientation())
+            {
+                axaOverlayOrthogonal[i].setOrientation(Orientation.VERTICAL_LITERAL);
+            }
 
             oaxOverlayOrthogonal = new OneAxis(axaOverlayOrthogonal[i]);
             oaxOverlayOrthogonal.set(getOrientation(IConstants.ORTHOGONAL), transposeLabelPosition(
@@ -824,14 +820,10 @@ public final class PlotWith2DAxes extends PlotContent
         DataSet ds;
 
         Object oV1, oV2, oMin = null, oMax = null;
-        EList elDataElements;
-        DataElement de;
 
         PluginSettings ps = PluginSettings.instance();
         IDataSetProcessor iDSP = null;
-        Class cDSP = null;
-        boolean bAnyStacked = false; // ANY STACKED SERIES ASSOCIATED WITH AXIS
-        // 'ax'
+        boolean bAnyStacked = false; // ANY STACKED SERIES ASSOCIATED WITH AXIS 'ax'
 
         for (int i = 0; i < iSeriesCount; i++)
         {
@@ -935,9 +927,7 @@ public final class PlotWith2DAxes extends PlotContent
                 throw new UnexpectedInputException("Cannot define stacked series on a date-time axis " + ax);
             }
             Object oValue;
-            ArrayList alI;
             int iSeriesPerGroup;
-            NumberDataElement nde;
             double dGroupMin, dGroupMax, dValue, dAbsTotal, dPercentMax = 0, dPercentMin = 0;
             double dAxisMin = Double.MAX_VALUE, dAxisMax = Double.MIN_VALUE;
             ArrayList alSeriesGroupsPerAxis = ssl.getStackGroups(ax);
@@ -1067,17 +1057,13 @@ public final class PlotWith2DAxes extends PlotContent
             oMax = new Double(dAxisMax);
         }
 
-        // IF NO DATASET WAS FOUND BECAUSE NO SERIES WERE ATTACHED TO AXES
+        // IF NO DATASET WAS FOUND BECAUSE NO SERIES WERE ATTACHED TO AXES, SIMULATE MIN/MAX VALUES
         if (oMin == null && oMax == null)
         {
             if (iType == DATE_TIME)
             {
                 oMin = new CDateTime(1, 1, 2005);
                 oMax = new CDateTime(1, 1, 2006);
-                return new Calendar[]
-                {
-                    asDateTime(oMin), asDateTime(oMax)
-                };
             }
             else if ((iType & NUMERICAL) == NUMERICAL)
             {
@@ -1086,15 +1072,16 @@ public final class PlotWith2DAxes extends PlotContent
                     oMin = new Double(0);
                     oMax = new Double(99.99);
                 }
+                else if ((iType & LOGARITHMIC) == LOGARITHMIC)
+                {
+                    oMin = new Double(1);
+                    oMax = new Double(999);
+                }
                 else
                 {
-                    oMin = new Double(-1);
-                    oMax = new Double(1);
+                    oMin = new Double(-0.9);
+                    oMax = new Double(0.9);
                 }
-                return new double[]
-                {
-                    asDouble(oMin).doubleValue(), asDouble(oMax).doubleValue()
-                };
             }
         }
 
@@ -1288,7 +1275,6 @@ public final class PlotWith2DAxes extends PlotContent
         OneAxis oaxBase = aax.getPrimaryBase();
         OneAxis oaxOrthogonal = aax.getPrimaryOrthogonal();
         AutoScale scBase = oaxBase.getScale();
-        Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 
         if (!aax.areAxesSwapped()) // STANDARD ORIENTATION
         {
@@ -1347,7 +1333,6 @@ public final class PlotWith2DAxes extends PlotContent
                     final double dTopThreshold = bo.getTop();
                     double dEnd = scBase.getEnd();
                     final double dEndShift = Math.floor(scBase.getEndShift());
-                    final double dStartShift = Math.floor(scBase.getStartShift());
                     if (dEnd - dEndShift > dTopThreshold)
                     {
                         dEnd = dEnd - dEndShift;
@@ -1407,7 +1392,6 @@ public final class PlotWith2DAxes extends PlotContent
         int iTickStyle, iAxisType, j, iTitleLocation;
         int iOverlayCount = aax.getOverlayCount();
         int iOrientation = aax.getOrientation();
-        FontDefinition fd;
         double dStart, dEnd, dAxisLabelsThickness;
         Label laAxisTitle;
         Scale scModel;
@@ -1416,12 +1400,7 @@ public final class PlotWith2DAxes extends PlotContent
         {
             j = iOverlayCount - i - 1; // GO BACKWARDS TO ENSURE CORRECT
             // RENDERING ORDER
-            oaxOverlay = aax.getOverlay(j); // UPDATE A PREVIOUSLY DEFINED
-            // OVERLAY AXIS
-            fd = oaxOverlay.getLabel().getCaption().getFont(); // NEEDED TO
-            // AUTO
-            // COMPUTE
-            // SCALE
+            oaxOverlay = aax.getOverlay(j); // UPDATE A PREVIOUSLY DEFINED OVERLAY AXIS AUTO COMPUTE SCALE
             iTickStyle = oaxOverlay.getCombinedTickStyle();
             iTitleLocation = oaxOverlay.getTitlePosition();
             laAxisTitle = oaxOverlay.getTitle();
@@ -1461,40 +1440,23 @@ public final class PlotWith2DAxes extends PlotContent
 
             if (iOrientation == VERTICAL)
             {
-                // COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS
-                // AND AXIS-PLOT SPACING
-                double dX = 0, dX1 = 0, dX2 = 0; // Y-AXIS BAND VERTICAL
-                // CO-ORDINATES
-                final boolean bTicksLeft = (iTickStyle & TICK_LEFT) == TICK_LEFT; // 'boolean'
-                // FOR
-                // CONVENIENCE
-                // &
-                // READABILITY
-                final boolean bTicksRight = (iTickStyle & TICK_RIGHT) == TICK_RIGHT; // 'boolean'
-                // FOR
-                // CONVENIENCE
-                // &
-                // READABILITY
+                // COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS AND AXIS-PLOT SPACING
+                double dX = 0, dX1 = 0, dX2 = 0; // Y-AXIS BAND VERTICAL CO-ORDINATES
+                final boolean bTicksLeft = (iTickStyle & TICK_LEFT) == TICK_LEFT; // 'boolean' FOR CONVENIENCE & READABILITY
+                final boolean bTicksRight = (iTickStyle & TICK_RIGHT) == TICK_RIGHT; // 'boolean' FOR CONVENIENCE & READABILITY
                 final double dAppliedYAxisPlotSpacing = dYAxisPlotSpacing;
-                double dDeltaX1 = 0, dDeltaX2 = 0;
                 if (laAxisTitle.isVisible())
                 {
-                    dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getWidth() /*
-                                                                                                          * REQUIRED TO
-                                                                                                          * FIT CLEANLY
-                                                                                                          */;
+                    dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getWidth();
                 }
 
                 // COMPUTE VALUES FOR x1, x, x2
                 // x = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
-                // x1 = LEFT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS,
-                // SPACING)
-                // x2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS,
-                // SPACING)
+                // x1 = LEFT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS, SPACING)
+                // x2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS, SPACING)
                 if (iv.getType() == IntersectionValue.MIN) // LEFT OF PLOT
                 {
-                    // NOTE: ENSURE CODE SYMMETRY WITH 'iaLabelPositions[i] ==
-                    // RIGHT'
+                    // NOTE: ENSURE CODE SYMMETRY WITH 'iaLabelPositions[i] == RIGHT'
                     dX = dBlockStart;
                     dX -= dAppliedYAxisPlotSpacing;
                     dX1 = dX;
@@ -1530,9 +1492,6 @@ public final class PlotWith2DAxes extends PlotContent
                         dX += dDelta;
                         dX2 += dDelta;
                     }
-                    dDeltaX1 = dX - dX1;
-                    dDeltaX2 = dX2 - dX;
-
                     dBlockStart += (dX2 - dX1); // SHIFT LEFT EDGE >>
                 }
                 else if (iv.getType() == IntersectionValue.MAX) // RIGHT
@@ -1557,8 +1516,6 @@ public final class PlotWith2DAxes extends PlotContent
                         dX1 -= Math.max((bTicksLeft ? TICK_SIZE : 0) + dAxisLabelsThickness, dAppliedYAxisPlotSpacing);
                     }
 
-                    dDeltaX1 = dX - dX1;
-                    dDeltaX2 = dX2 - dX;
                     if (iTitleLocation == LEFT)
                     {
                         dX1 -= dAxisTitleThickness;
@@ -1603,7 +1560,7 @@ public final class PlotWith2DAxes extends PlotContent
             {
                 // COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS
                 // AND AXIS-PLOT SPACING
-                double dY = 0, dY1 = dY, dY2 = dY, dDeltaY1 = 0, dDeltaY2 = 0; // X-AXIS
+                double dY = 0, dY1 = dY, dY2 = dY; // X-AXIS
                 // BAND
                 // VERTICAL
                 // CO-ORDINATES
@@ -1669,9 +1626,6 @@ public final class PlotWith2DAxes extends PlotContent
                         dY += dDelta;
                         dY2 += dDelta;
                     }
-                    dDeltaY1 = dY - dY1;
-                    dDeltaY2 = dY2 - dY;
-
                     dBlockStart += (dY2 - dY1); // SHIFT TOP EDGE >>
                 }
                 else if (iv.getType() == IntersectionValue.MIN) // BELOW THE
@@ -1697,8 +1651,6 @@ public final class PlotWith2DAxes extends PlotContent
                         dY1 -= Math.max((bTicksAbove ? TICK_SIZE : 0) + dAxisLabelsThickness, dAppliedXAxisPlotSpacing);
                     }
 
-                    dDeltaY1 = dY - dY1;
-                    dDeltaY2 = dY2 - dY;
                     if (iTitleLocation == ABOVE)
                     {
                         dY1 -= dAxisTitleThickness;
@@ -1759,12 +1711,8 @@ public final class PlotWith2DAxes extends PlotContent
 
         OneAxis axOverlay, axPrimary = aax.getPrimaryOrthogonal();
         AutoScale scOA, sc = axPrimary.getScale();
-        double dMaxSS = Math.max(sc.getStartShift(), aax.getMaxStartShift());
-        double dMaxES = Math.max(sc.getEndShift(), aax.getMaxEndShift());
         double dStart, dEnd;
         Object[] oaMinMax;
-        FontDefinition fd = null;
-        Object oaData;
         int iAxisType = (aax.getOverlayCount() > 0) ? aax.getOverlay(0).getScale().getType() : 0;
 
         Label la;
@@ -1772,7 +1720,6 @@ public final class PlotWith2DAxes extends PlotContent
         {
             axOverlay = aax.getOverlay(i);
             la = axOverlay.getLabel();
-            fd = la.getCaption().getFont();
             scOA = axOverlay.getScale();
             scOA.setEndPoints(scOA.getStart() - scOA.getStartShift() * iDirection, scOA.getEnd() + scOA.getEndShift()
                 * iDirection);
@@ -1834,13 +1781,7 @@ public final class PlotWith2DAxes extends PlotContent
         final int iYTitleLocation = axPV.getTitlePosition();
         final Label laXAxisLabels = axPH.getLabel();
         final Label laYAxisLabels = axPV.getLabel();
-        final Label laXAxisTitle = axPH.getTitle();
         final Label laYAxisTitle = axPV.getTitle();
-        final FontDefinition fdPH = axPH.getLabel().getCaption().getFont();
-        final FontDefinition fdPV = axPV.getLabel().getCaption().getFont();
-        final double dXRotation = fdPH.getRotation();
-        final double dYRotation = fdPV.getRotation();
-        final int iXTickStyle = axPH.getCombinedTickStyle();
         final int iYTickStyle = axPV.getCombinedTickStyle();
         final IntersectionValue iv = axPV.getIntersectionValue();
 
@@ -2299,12 +2240,7 @@ public final class PlotWith2DAxes extends PlotContent
 
         final Label laXAxisTitle = axPH.getTitle();
         final Label laYAxisLabels = axPV.getLabel();
-        final FontDefinition fdPH = axPH.getLabel().getCaption().getFont();
-        final FontDefinition fdPV = axPV.getLabel().getCaption().getFont();
-        final double dXRotation = fdPH.getRotation();
-        final double dYRotation = fdPV.getRotation();
         final int iXTickStyle = axPH.getCombinedTickStyle();
-        final int iYTickStyle = axPV.getCombinedTickStyle();
         final IntersectionValue iv = axPH.getIntersectionValue();
 
         // COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS AND
@@ -2545,17 +2481,13 @@ public final class PlotWith2DAxes extends PlotContent
 
                     do
                     {
-                        // CANCEL OUT THE END LABEL SHIFT COMPUTATIONS FROM THE
-                        // Y-AXIS
+                        // CANCEL OUT THE END LABEL SHIFT COMPUTATIONS FROM THE Y-AXIS
                         scY.setEndPoints(scY.getStart() + scY.getStartShift(), scY.getEnd() - scY.getEndShift()); // RESTORE
-                        double dES = scY.getEndShift();
                         scY.resetShifts();
 
-                        // APPLY THE AXIS REDUCTION FORMULA W.R.T. Y-AXIS
-                        // ENDPOINT
+                        // APPLY THE AXIS REDUCTION FORMULA W.R.T. Y-AXIS ENDPOINT
                         double[] da = scY.getEndPoints();
-                        double dT_RI = dBlockY - dY1; // THRESHOLD -
-                        // REQUESTEDINTERSECTION
+                        double dT_RI = dBlockY - dY1; // THRESHOLD - REQUESTEDINTERSECTION
                         double dAMin_AMax = da[0] - da[1];
                         double dAMin_RI = da[0] - dY;
                         double dStart = da[0];
@@ -2563,13 +2495,10 @@ public final class PlotWith2DAxes extends PlotContent
                         if (dEnd < dBlockY)
                         {
                             dEnd = dBlockY;
-                            bForceBreak = true; // ADJUST THE TOP EDGE OF THE
-                            // Y-AXIS SCALE TO THE TOP EDGE
-                            // OF THE PLOT BLOCK
+                            bForceBreak = true; // ADJUST THE TOP EDGE OF THE Y-AXIS SCALE TO THE TOP EDGE OF THE PLOT BLOCK
                         }
 
-                        // LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
-                        // LABELS IF OVERLAPS OCCUR
+                        // LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF OVERLAPS OCCUR
                         scY.setEndPoints(dStart, dEnd);
                         scY.computeTicks(ids, laYAxisLabels, iYLabelLocation, VERTICAL, dStart, dEnd, true, aax);
                         if (!scY.isStepFixed())
@@ -2714,7 +2643,6 @@ public final class PlotWith2DAxes extends PlotContent
         Axis axPrimaryBase = axaBase[0];
         final Axis[] axaOrthogonal = ((ChartWithAxesImpl) cwa).getOrthogonalAxes(axPrimaryBase, true);
         Series[] sea;
-        Object oSeriesFound;
 
         for (int i = 0; i < axaOrthogonal.length; i++)
         {
@@ -2784,8 +2712,6 @@ public final class PlotWith2DAxes extends PlotContent
         {
             iUnitCount--;
         }
-
-        final int iDirection = (oaxBase.getOrientation() == HORIZONTAL) ? 1 : -1;
 
         double dX = 0, dY = 0, dLength = 0;
         Location lo;
