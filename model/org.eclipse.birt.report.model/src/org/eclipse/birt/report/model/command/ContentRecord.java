@@ -243,7 +243,7 @@ public class ContentRecord extends SimpleRecord
 
 		NotificationEvent event = null;
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			event = new ContentEvent( container, slotID, ContentEvent.ADD );
+			event = new ContentEvent( container, content, slotID, ContentEvent.ADD );
 		else
 			event = new ContentEvent( container, slotID, ContentEvent.REMOVE );
 

@@ -101,7 +101,7 @@ public class UserPropertyDefnHandle extends PropertyHandle
 	 *             if the property is not found, is not a user property, or is
 	 *             not defined on this element, or the user property definition
 	 *             is inconsistent.
-	 * @throws PropertyValueException,
+	 * @throws PropertyValueException
 	 *             if the type changes, the value becomes invalid. 
 	 */
 

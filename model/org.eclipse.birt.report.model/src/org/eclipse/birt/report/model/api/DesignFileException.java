@@ -26,13 +26,13 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * <p>
  * Four types of error are defined:
  * <dl>
- * <dn><code>FILE_NOT_FOUND</code>
- * <dd>Design file is not found. <dn><code>INVALID_XML</code>
- * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code>
+ * <dn><code>FILE_NOT_FOUND</code></dn>
+ * <dd>Design file is not found. <dn><code>INVALID_XML</code></dn>
+ * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code></dn>
  * <dd>Design file has something conflicting MetaData definition. <dn>
- * <code>SEMANTIC_ERROR</code>
+ * <code>SEMANTIC_ERROR</code></dn>
  * <dd>Design file is opened with semantic error.
- * <ul>
+ * <ul></ul>
  * 
  * @see ErrorDetail
  */
