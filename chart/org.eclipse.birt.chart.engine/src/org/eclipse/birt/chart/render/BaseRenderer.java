@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
+import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
@@ -321,9 +322,11 @@ public abstract class BaseRenderer
         {
             // ALWAYS RENDER THE OUTERMOST BLOCK FIRST
             ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
             bge.updateBlock(bl);
             renderBlock(idr, bl);
             ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
         }
 
         // RENDER ALL BLOCKS EXCEPT FOR THE LEGEND IN THIS ITERATIVE LOOP
@@ -335,8 +338,10 @@ public abstract class BaseRenderer
             if (bl instanceof Plot)
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                 renderPlot(ir, (Plot) bl);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 if (bFirstInSequence && !bLastInSequence)
                 {
                     break;
@@ -350,26 +355,34 @@ public abstract class BaseRenderer
             else if (bl instanceof TitleBlock && bStarted)
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                 renderTitle(ir, bl);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
             }
             else if (bl instanceof LabelBlock && bStarted)
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                 renderLabel(ir, bl);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
             }
             else if (bl instanceof Legend && bStarted)
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                 renderLegend(idr, (Legend) bl, htRenderers);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
             }
             else if (bStarted)
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                 renderBlock(ir, bl);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
             }
         }
 
@@ -884,6 +897,7 @@ public abstract class BaseRenderer
     {
         ScriptHandler sh = getRunTimeContext().getScriptHandler();
         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY, la);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ENTRY, la);
         final Bounds bo = lirh.getLegendGraphicBounds();
         bo.setLeft(dX + dLeftInset + 1);
         bo.setTop(dY + 1);
@@ -930,6 +944,7 @@ public abstract class BaseRenderer
             ipr.enableInteraction(iev);
         }
         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_LEGEND_ENTRY, la);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_LEGEND_ENTRY, la);
     }
 
     /**
@@ -950,8 +965,10 @@ public abstract class BaseRenderer
         }
 
         ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_SERIES, getSeries());
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR
         ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_SERIES, getSeries());
 
         if (bLastInSequence)
         {

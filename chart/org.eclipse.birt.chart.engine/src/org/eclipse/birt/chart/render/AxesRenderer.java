@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
+import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
@@ -133,9 +134,11 @@ public abstract class AxesRenderer extends BaseRenderer
 
             // ALWAYS RENDER THE OUTERMOST BLOCK FIRST
             ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
             bge.updateBlock(bl);
             renderBlock(idr, bl);
             ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
 
             while (e.hasMoreElements())
             {
@@ -145,8 +148,10 @@ public abstract class AxesRenderer extends BaseRenderer
                 if (bl instanceof Plot)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderPlot(idr, (Plot) bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                     if (!bLastInSequence)
                     {
                         break; // STOP AT THE PLOT IF NOT ALSO THE LAST IN THE SEQUENCE
@@ -155,26 +160,34 @@ public abstract class AxesRenderer extends BaseRenderer
                 else if (bl instanceof TitleBlock)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderTitle(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof LabelBlock)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderLabel(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof Legend)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderLegend(idr, (Legend) bl, htRenderers);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderBlock(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
             }
         }
@@ -198,32 +211,42 @@ public abstract class AxesRenderer extends BaseRenderer
                 if (bl instanceof Plot)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderPlot(idr, (Plot) bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof TitleBlock)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderTitle(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof LabelBlock)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderLabel(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof Legend)
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderLegend(idr, (Legend) bl, htRenderers);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
                 else
                 {
                     ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, bl);
                     renderBlock(idr, bl);
                     ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
+                    getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_BLOCK, bl);
                 }
             }
         }
@@ -233,9 +256,11 @@ public abstract class AxesRenderer extends BaseRenderer
             final BlockGenerationEvent bge = new BlockGenerationEvent(this);
             Plot p = cm.getPlot();
             bge.updateBlock(p);
-            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p);
+            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, p);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, p);
             renderPlot(idr, p);
             ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p);
+            getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_BLOCK, p);
         }
 
         lTimer = System.currentTimeMillis() - lTimer;
@@ -398,6 +423,7 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 mr = (MarkerRange) el.get(j);
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_RANGE, ax, mr);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_MARKER_RANGE, mr);
 
                 deStart = (DataElement) mr.getStartValue();
                 deEnd = (DataElement) mr.getEndValue();
@@ -560,6 +586,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 }
 
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_RANGE, ax, mr);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_MARKER_RANGE, mr);
             }
         }
     }
@@ -943,8 +970,10 @@ public abstract class AxesRenderer extends BaseRenderer
         }
 
         ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_SERIES, getSeries());
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
         ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
+        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_SERIES, getSeries());
 
         if (bLastInSequence)
         {
@@ -1028,6 +1057,7 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 ml = (MarkerLine) el.get(j);
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_LINE, ax, ml);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_MARKER_LINE, ml);
 
                 deValue = (DataElement) ml.getValue();
                 if (deValue == null)
@@ -1269,6 +1299,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     }
                 }
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_LINE, ax, ml);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_MARKER_LINE, ml);
             }
         }
     }
@@ -1448,6 +1479,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         itmText.reuse(la); // RECYCLED
                         dH = itmText.getFullHeight();
                         dW = itmText.getFullWidth();
@@ -1506,6 +1538,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                 }
                 y = (int) da[da.length - 1];
@@ -1614,9 +1647,11 @@ public abstract class AxesRenderer extends BaseRenderer
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                     dAxisValue *= dAxisStep;
                 }
@@ -1702,9 +1737,11 @@ public abstract class AxesRenderer extends BaseRenderer
                         la.getCaption().setValue(sText);
 
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                     dAxisValue += dAxisStep;
                 }
@@ -1785,9 +1822,11 @@ public abstract class AxesRenderer extends BaseRenderer
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
 
                     cdt = cdtAxisValue.forward(iUnit, iStep * (i + 1)); // ALWAYS W.R.T START VALUE
@@ -1798,6 +1837,7 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE, la);
                 final String sRestoreValue = la.getCaption().getValue();
                 la.getCaption().setValue(rtc.externalizedMessage(sRestoreValue));
                 BoundingBox bb = null;
@@ -1819,6 +1859,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 ipr.drawText(tre);
                 la.getCaption().setValue(sRestoreValue);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE, la);
             }
             la = ax.getLabel();
 
@@ -1962,6 +2003,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         itmText.reuse(la);// RECYCLED
                         dH = itmText.getFullHeight();
                         dW = itmText.getFullWidth();
@@ -1997,6 +2039,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                 }
 
@@ -2098,8 +2141,10 @@ public abstract class AxesRenderer extends BaseRenderer
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                     dAxisValue += dAxisStep;
                 }
@@ -2186,8 +2231,10 @@ public abstract class AxesRenderer extends BaseRenderer
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
                     dAxisValue *= dAxisStep;
                 }
@@ -2271,8 +2318,10 @@ public abstract class AxesRenderer extends BaseRenderer
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL, la);
                         ipr.drawText(tre);
                         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
+                        getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL, la);
                     }
 
                     cdt = cdtAxisValue.forward(iUnit, iStep * (i + 1)); // ALWAYS W.R.T START VALUE
@@ -2284,6 +2333,7 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE, la);
                 final String sRestoreValue = la.getCaption().getValue();
                 la.getCaption().setValue(rtc.externalizedMessage(sRestoreValue)); // EXTERNALIZE
                 BoundingBox bb = null;
@@ -2305,6 +2355,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 ipr.drawText(tre);
                 la.getCaption().setValue(sRestoreValue); // RESTORE
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
+                getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE, la);
             }
             la = ax.getLabel(); // RESTORE BACK TO AXIS LABEL
 

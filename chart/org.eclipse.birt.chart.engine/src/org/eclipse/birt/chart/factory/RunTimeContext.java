@@ -12,6 +12,9 @@ package org.eclipse.birt.chart.factory;
 
 import java.util.Locale;
 
+import org.eclipse.birt.chart.device.IStructureDefinitionListener;
+import org.eclipse.birt.chart.event.EventObjectCache;
+import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
@@ -43,11 +46,63 @@ public final class RunTimeContext
     private transient IMessageLookup iml = null;
     
     /**
+     * A structure definition listener associated with this runtime context.
+     */
+    private transient IStructureDefinitionListener isdl = null;
+    
+    /**
      * A default zero-arg public constructor used for object creation.
      */
     public RunTimeContext()
     {
         
+    }
+
+    /**
+     * Internally sets an instance of the structure definition listener
+     * for device renderers that need a structure definition notification
+     * when rendering primitives.
+     * 
+     * @param   isdl    The structure definition listener associated with the runtime context.
+     */
+    public void setStructureDefinitionListener(IStructureDefinitionListener isdl)
+    {
+        this.isdl = isdl;
+    }
+ 
+    /**
+     * Returns an instance of the structure definition listner for
+     * device renderers that need a structure definition notification
+     * when rendering primitives.
+     * 
+     * @return  The structure definition listener associated with the runtime context.
+     */
+    public IStructureDefinitionListener getStructureDefinitionListener()
+    {
+        return isdl;
+    }
+    
+    /**
+     * Notifies the structure definition listener of a change in the current
+     * running structure that defines a group of primitives being rendered
+     * and puts them into context with reference to the source object.
+     * 
+     * @param   sEventName    Defines the structure being defined along with the event type
+     * @param   oSource       The source object on which the structure is being defined 
+     * 
+     * @return  'true' if the structure definition listener exists
+     * and was notified of the change or 'false' otherwise.
+     */
+    public final boolean notifyStructureChange(String sEventName, Object oSource)
+    {
+        if (isdl == null)
+        {
+            return false;
+        }
+        final StructureChangeEvent scev = (StructureChangeEvent) ((EventObjectCache) isdl).getEventObject(oSource, StructureChangeEvent.class);
+        scev.setEventName(sEventName);
+        isdl.changeStructure(scev);
+        return true;
     }
 
     /**

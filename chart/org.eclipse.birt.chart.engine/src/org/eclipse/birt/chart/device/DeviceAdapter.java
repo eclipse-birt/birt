@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
+import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.RenderingException;
@@ -31,7 +32,6 @@ import org.eclipse.birt.chart.exception.RenderingException;
  */
 public abstract class DeviceAdapter extends EventObjectCache implements IDeviceRenderer
 {
-
     /*
      * (non-Javadoc)
      * 
@@ -39,8 +39,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void setProperty(String sProperty, Object oValue)
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -50,7 +49,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public Object getGraphicsContext()
     {
-        // TODO Auto-generated method stub
+        // DO NOTHING IN NO-OP IMPL
         return null;
     }
 
@@ -61,10 +60,20 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public IDisplayServer getDisplayServer()
     {
-        // TODO Auto-generated method stub
+        // DO NOTHING IN NO-OP IMPL
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDeviceRenderer#needsStructureDefinition()
+     */
+    public boolean needsStructureDefinition()
+    {
+        // THE NO-OP IMPLEMENTATION INDICATES THAT STRUCTURE DEFINITION
+        // NOTIFICATIONS ARE NOT REQUIRED
+        return false;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -72,8 +81,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void before() throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -83,8 +91,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void after() throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -94,8 +101,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void setClip(ClipRenderEvent cre)
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -105,8 +111,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawImage(ImageRenderEvent ire) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -116,8 +121,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawLine(LineRenderEvent lre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -127,8 +131,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawRectangle(RectangleRenderEvent rre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -138,8 +141,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void fillRectangle(RectangleRenderEvent rre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -149,8 +151,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawPolygon(PolygonRenderEvent pre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -160,8 +161,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void fillPolygon(PolygonRenderEvent pre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -171,8 +171,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawArc(ArcRenderEvent are) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -182,8 +181,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void fillArc(ArcRenderEvent are) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -193,8 +191,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void enableInteraction(InteractionEvent ie) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -204,8 +201,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawArea(AreaRenderEvent are) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -215,8 +211,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void fillArea(AreaRenderEvent are) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -226,8 +221,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawOval(OvalRenderEvent ore) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -237,8 +231,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void fillOval(OvalRenderEvent ore) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -248,8 +241,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void drawText(TextRenderEvent tre) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
     /*
@@ -259,16 +251,23 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
      */
     public void applyTransformation(TransformationEvent tev) throws RenderingException
     {
-        // TODO Auto-generated method stub
-
+        // DO NOTHING IN NO-OP IMPL
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IStructureDefinitionListener#changeStructure(org.eclipse.birt.chart.event.StructureChangeEvent)
+     */
+    public void changeStructure(StructureChangeEvent scev)
+    {
+        // DO NOTHING IN NO-OP IMPL
+    }
+    
     /*
      *  (non-Javadoc)
      * @see org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.Exception)
      */
     public void presentException(Exception cexp)
     {
-        // TODO Auto-generated method stub
+        // DO NOTHING IN NO-OP IMPL
     }
 }

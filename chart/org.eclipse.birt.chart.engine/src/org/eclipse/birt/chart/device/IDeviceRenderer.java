@@ -24,7 +24,7 @@ import org.eclipse.birt.chart.exception.RenderingException;
  * Note that the device renderer works in conjunction with a display server implementation
  * to correctly layout primitives.
  */
-public interface IDeviceRenderer extends IPrimitiveRenderer
+public interface IDeviceRenderer extends IPrimitiveRenderer, IStructureDefinitionListener
 {
     /**
      * A property name that identifies a device-specific file identifier
@@ -58,6 +58,14 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
      */
     public static final String CACHED_IMAGE = "cached.image";
     
+    
+    /**
+     * A property name that indicates if the output associated with the
+     * device should be compressed ('true') or written out as is uncompressed ('false').
+     * Device renderers should interpret a missing undefined value as uncompressed.
+     */
+    public static final String COMPRESSED_OUTPUT = "output.compressed";
+    
     /**
      * Device-specific write-only properties that may be set for each device renderer
      * 
@@ -80,6 +88,15 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
      */
     IDisplayServer getDisplayServer();
 
+    /**
+     * Indicated to the caller if the device renderer needs additional structure definition
+     * callbacks to identify how primitives are to be grouped to possibly aid in client side event
+     * handling. 
+     *  
+     * @return  'true' if structure definition notificates are required in the device renderer implementation.
+     */
+    boolean needsStructureDefinition();
+    
     /**
      * A notification sent to the device to initialize itself before rendering begins
      * 
