@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
@@ -390,4 +391,40 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
         }
     }
 
+    /**
+     * Walks down the series definition tree and removes all runtime series.
+     * 
+     * @param elSDs
+     * @param al
+     * @param iLevel
+     */
+    private static final void recursivelyRemoveRuntimeSeries(EList elSDs, int iLevel, int iLevelToOmit)
+    {
+        SeriesDefinition sd;
+        EList el;
+
+        for (int i = 0; i < elSDs.size(); i++)
+        {
+            sd = (SeriesDefinition) elSDs.get(i);
+            if (iLevel != iLevelToOmit)
+            {
+                sd.getSeries().removeAll(sd.getRunTimeSeries());
+            }
+            el = sd.getSeriesDefinitions();
+            recursivelyRemoveRuntimeSeries(el, iLevel + 1, iLevelToOmit);
+        }
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.Chart#clearSections(int)
+     */
+    public final void clearSections(int iSectionType)
+    {
+        if (( iSectionType & IConstants.RUN_TIME) == IConstants.RUN_TIME)
+        {
+            recursivelyRemoveRuntimeSeries(getSeriesDefinitions(), 0, -1);
+        }
+    }
+    
 } //ChartWithoutAxesImpl

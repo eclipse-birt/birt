@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.Serializer;
@@ -83,6 +84,9 @@ public class SerializerImpl implements Serializer
      */
     public void write(Chart cModel, OutputStream os) throws IOException
     {
+        // REMOVE ANY TRANSIENT RUNTIME SERIES
+        cModel.clearSections(IConstants.RUN_TIME);
+        
         // Create and setup local ResourceSet
         ResourceSet rsChart = new ResourceSetImpl();
         rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", new ModelResourceFactoryImpl());
@@ -109,6 +113,9 @@ public class SerializerImpl implements Serializer
      */
     public void write(Chart cModel, URI uri) throws IOException
     {
+        // REMOVE ANY TRANSIENT RUNTIME SERIES
+        cModel.clearSections(IConstants.RUN_TIME);
+        
         // Create and setup local ResourceSet
         ResourceSet rsChart = new ResourceSetImpl();
         rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", new ModelResourceFactoryImpl());
@@ -138,6 +145,9 @@ public class SerializerImpl implements Serializer
      */
     public ByteArrayOutputStream asXml(Chart cModel, boolean bStripHeaders) throws IOException
     {
+        // REMOVE ANY TRANSIENT RUNTIME SERIES
+        cModel.clearSections(IConstants.RUN_TIME);
+        
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // Create and setup local ResourceSet

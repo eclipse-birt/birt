@@ -769,4 +769,40 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
         return (SeriesDefinition[]) al.toArray(SeriesDefinition.EMPTY_ARRAY);
     }
-} //ChartWithAxesImpl
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.Chart#clearSections(int)
+     */
+    public final void clearSections(int iSectionType)
+    {
+        if ((iSectionType & IConstants.RUN_TIME) == IConstants.RUN_TIME)
+        {
+            final Axis[] axaBase = getBaseAxes();
+            Axis[] axaOrthogonal;
+            Series se = null;
+            SeriesDefinition sd;
+            EList el;
+
+            for (int i = 0; i < axaBase.length; i++)
+            {
+                el = axaBase[i].getSeriesDefinitions();
+                for (int j = 0; j < el.size(); j++)
+                {
+                    sd = (SeriesDefinition) el.get(j);
+                    sd.getSeries().removeAll(sd.getRunTimeSeries());
+                }
+                axaOrthogonal = getOrthogonalAxes(axaBase[i], true);
+                for (int j = 0; j < axaOrthogonal.length; j++)
+                {
+                    el = axaOrthogonal[j].getSeriesDefinitions();
+                    for (int k = 0; k < el.size(); k++)
+                    {
+                        sd = (SeriesDefinition) el.get(k);
+                        sd.getSeries().removeAll(sd.getRunTimeSeries());
+                    }
+                }
+            }
+        }
+    }
+} 
