@@ -27,6 +27,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -35,7 +36,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 22:35:18 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/08 06:19:51 $
  */
 public class Utility
 {
@@ -44,28 +45,6 @@ public class Utility
 	// if duplicate objects are selected in the Table Selection Page
 	private static final String dupAffix = "_";
 	
-	private static String TABLE_ICON = "TableIcon";
-	private static String VIEW_ICON = "ViewIcon";
-
-	
-	static
-	{
-		try
-		{
-
-			ImageRegistry reg = JFaceResources.getImageRegistry( );
-			reg.put( TABLE_ICON,
-					ImageDescriptor.createFromFile( JdbcPlugin.class,
-							"icons/table.gif" ) );//$NON-NLS-1$
-			reg.put( VIEW_ICON,
-					ImageDescriptor.createFromFile( JdbcPlugin.class,
-							"icons/view.gif" ) );//$NON-NLS-1$
-
-		}
-		catch ( Exception ex )
-		{
-		} // TODO Exception handling
-	}
 
 	
     /**
@@ -131,33 +110,6 @@ public class Utility
 	 * @param image
 	 * @return
 	 */
-	public static TreeItem[] createTreeItems(Tree parent, ArrayList dataSource, int style, Image image) 
-	{
-		if ( dataSource == null )
-		{
-			return null;
-		}
-		
-		TreeItem item[] = new TreeItem[dataSource.size()];
-		Font dataSourceItemFont = parent.getFont();
-	
-		for (int i = 0; i < dataSource.size(); i++)
-		{
-			item[i] = new TreeItem(parent, style);
-			item[i].setText((String)dataSource.get(i));
-			item[i].setImage( image );
-			parent.setTopItem(item[i]);
-			item[i].setExpanded(false);
-		}
-		return item;
-	}
-
-	/**
-	 * @param composite
-	 * @param dataSource
-	 * @param image
-	 * @return
-	 */
 	public static TreeItem[] createTreeItems( TreeItem parentItem ,ArrayList dataSource, int style, Image image) 
 	{
 		if ( dataSource == null )
@@ -196,21 +148,15 @@ public class Utility
 				DbObject dbObject = (DbObject)source;
 				name = dbObject.getName();
 				displayName = dbObject.getDisplayName();
+				image = dbObject.getImage();
 				
-				if( dbObject.getType() == DbObject.TABLE_TYPE)
-				{
-					image = JFaceResources.getImage( TABLE_ICON );
-				}
-				else
-				{
-					image = JFaceResources.getImage( VIEW_ICON );
-				}
 			}
 
 	
 			item[i].setText(displayName);
 			item[i].setData(name);
-			item[i].setImage( image );
+			
+			item[i].setImage(image);
 			parent.setTopItem(item[i]);
 			item[i].setExpanded(false);
 	
@@ -247,6 +193,35 @@ public class Utility
 			tableName = tableName + dupAffix + index;
 		}
 		return tableName;
+	}
+	
+	/**
+	 * 
+	 * @param tree The Tree whose position needs to be set 
+	 */
+	public static void setMinScrollPosition(Tree tree)
+	{
+		if ( tree == null )
+		{
+			return;
+		}
+		
+		ScrollBar horizontalScrollBar = tree.getHorizontalBar();
+		
+		if( horizontalScrollBar != null )
+		{
+			horizontalScrollBar.setThumb(0);
+		}
+		
+		
+		
+		// position the vertical and horizontal scrollbars accordingly
+		ScrollBar verticalScrollBar = tree.getVerticalBar();
+		if( verticalScrollBar != null )
+		{
+			verticalScrollBar.setThumb(0);
+		}
+		
 	}
 
 }
