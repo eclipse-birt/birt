@@ -9,12 +9,6 @@
       <library name="lib/js.jar">
          <export name="*"/>
       </library>
-      <library name="lib/jtds-0.9.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/junit.jar">
-         <export name="*"/>
-      </library>
       <library name="lib/castor-0.9.5.4-xml.jar">
          <export name="*"/>
       </library>
