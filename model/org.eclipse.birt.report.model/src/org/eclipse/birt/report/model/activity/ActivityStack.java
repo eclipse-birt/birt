@@ -399,7 +399,7 @@ public final class ActivityStack implements CommandStack
 
 		// Send notifications.
 
-		record.sendNotifcations( true );
+		record.sendNotifcations( false );
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.UNDONE ) );
@@ -433,7 +433,7 @@ public final class ActivityStack implements CommandStack
 
 		// Send notifications.
 
-		record.sendNotifcations( true );
+		record.sendNotifcations( false );
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.REDONE ) );
