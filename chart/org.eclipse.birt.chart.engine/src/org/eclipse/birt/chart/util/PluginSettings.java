@@ -89,6 +89,11 @@ public final class PluginSettings
      *  
      */
     private static PluginSettings ps = null;
+    
+    /**
+     * 
+     */
+    private boolean bStandalone = false;
 
     /**
      *  
@@ -107,6 +112,10 @@ public final class PluginSettings
         if (ps == null)
         {
             ps = new PluginSettings();
+            if (System.getProperty("STANDALONE") != null)
+            {
+                ps.bStandalone = true;
+            }
         }
         return ps;
     }
@@ -391,6 +400,10 @@ public final class PluginSettings
      */
     private boolean inEclipseEnv()
     {
+        if (bStandalone)
+        {
+            return false;
+        }
         return (Platform.getExtensionRegistry() != null);
     }
 
