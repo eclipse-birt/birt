@@ -22,16 +22,20 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Handle;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.ui.parts.DomainEventDispatcher;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 
 /**
  * 
@@ -39,7 +43,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 {
-	
+	private DomainEventDispatcher eventDispatcher;
 	/**
 	 * The actual layout area size.
 	 */
@@ -50,6 +54,17 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		ReportDeferredUpdateManager updateManager = new ReportDeferredUpdateManager( );
 		updateManager.setRefreshManager( refreshManager );
 		getLightweightSystem( ).setUpdateManager( updateManager );
+		//System.out.println("figure canvas == " + getFigureCanvas( ) );
+//		getFigureCanvas( ).addTraverseListener( new TraverseListener( )
+//		{
+//
+//			public void keyTraversed( TraverseEvent e )
+//			{
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//		} );
 	}
 
 	/**
@@ -69,7 +84,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 		setFocus( null );
 		for ( int i = 0; i < selection.size( ); i++ )
-			( (EditPart) selection.get( i ) ).setSelected( EditPart.SELECTED_NONE );
+			( (EditPart) selection.get( i ) )
+					.setSelected( EditPart.SELECTED_NONE );
 		selection.clear( );
 
 		editparts = flitterEditpart( editparts );
@@ -101,8 +117,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = ( (EditPart) editparts.get( i ) ).getModel( );
-			if ( obj instanceof CellHandle
-					|| obj instanceof RowHandle
+			if ( obj instanceof CellHandle || obj instanceof RowHandle
 					|| obj instanceof ColumnHandle )
 			{
 				hasCell = true;
@@ -120,8 +135,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				EditPart part = (EditPart) editparts.get( i );
 				Object obj = part.getModel( );
 
-				if ( obj instanceof CellHandle
-						|| obj instanceof RowHandle
+				if ( obj instanceof CellHandle || obj instanceof RowHandle
 						|| obj instanceof ColumnHandle )
 				{
 					copy.remove( part );
@@ -137,7 +151,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public Handle findHandleAt( Point p )
 	{
-		LayerManager layermanager = (LayerManager) getEditPartRegistry( ).get( LayerManager.ID );
+		LayerManager layermanager = (LayerManager) getEditPartRegistry( ).get(
+				LayerManager.ID );
 		if ( layermanager == null )
 			return null;
 		List list = new ArrayList( 3 );
@@ -170,13 +185,32 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public void appendSelection( EditPart editpart )
 	{
-		if ( editpart != focusPart )
+		if ( editpart != focusPart ) 
 			setFocus( null );
 		List list = primGetSelectedEditParts( );
 		list.remove( editpart );
 		list.add( editpart );
 
 		setSelection( new StructuredSelection( list ) );
+	}
+	
+	public void setEditDomain(EditDomain domain) 
+	{
+		super.setEditDomain(domain);
+		eventDispatcher = new ReportDomainEventDispatcher(domain, this);
+		eventDispatcher.setEnableKeyTraversal(true);
+		getLightweightSystem()
+		.setEventDispatcher(eventDispatcher);
+		
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalViewerImpl#getEventDispatcher()
+	 */
+	protected DomainEventDispatcher getEventDispatcher( )
+	{
+		return eventDispatcher;
 	}
 
 }

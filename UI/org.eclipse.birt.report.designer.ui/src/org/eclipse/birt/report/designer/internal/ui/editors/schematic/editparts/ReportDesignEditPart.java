@@ -307,6 +307,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 			( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( )
 					.addListener( this );
 		}
+		getFigure().setFocusTraversable(false);
 	}
 
 	/*

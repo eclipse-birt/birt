@@ -225,6 +225,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 
 		} );
+		
+		getFigure().setFocusTraversable(true);
 	}
 
 	/**

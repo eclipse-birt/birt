@@ -92,6 +92,16 @@ public class MasterPageEditPart extends ReportElementEditPart
 		}
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
+	 */
+	public void activate( )
+	{
+		super.activate( );
+		getFigure().setFocusTraversable(false);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
