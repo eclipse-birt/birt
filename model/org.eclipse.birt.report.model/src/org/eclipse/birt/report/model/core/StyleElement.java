@@ -14,11 +14,12 @@ package org.eclipse.birt.report.model.core;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.command.NameEvent;
+import org.eclipse.birt.report.model.command.StyleEvent;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 
 /**
  * Represents an element that defines a style. An element that uses this style
@@ -154,19 +155,41 @@ public abstract class StyleElement extends ReferenceableElement
 
 		// Broad the event to the elements selected by selector style.
 
-		PredefinedStyle predefinedStyle = MetaDataDictionary.getInstance( )
-				.getPredefinedStyle( getName( ) );
-		if ( predefinedStyle != null )
+		String selector = null;
+
+		if ( ev instanceof NameEvent )
 		{
-			broadcastToSelectedElementsInSlot( ev, design, design
-					.getSlot( ReportDesign.COMPONENT_SLOT ) );
-			broadcastToSelectedElementsInSlot( ev, design, design
-					.getSlot( ReportDesign.PAGE_SLOT ) );
-			broadcastToSelectedElementsInSlot( ev, design, design
-					.getSlot( ReportDesign.BODY_SLOT ) );
-			broadcastToSelectedElementsInSlot( ev, design, design
-					.getSlot( ReportDesign.SCRATCH_PAD_SLOT ) );
+			String oldName = ( (NameEvent) ev ).getOldName( );
+			String newName = ( (NameEvent) ev ).getNewName( );
+
+			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( oldName ) != null )
+				selector = oldName;
+			else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
+					newName ) != null )
+				selector = newName;
 		}
+		else
+		{
+			if ( MetaDataDictionary.getInstance( ).getPredefinedStyle(
+					getName( ) ) != null )
+				selector = getName( );
+		}
+
+		if ( selector != null )
+		{
+			// Work around for renaming selector style.
+
+			broadcastToSelectedElementsInSlot( design, design
+					.getSlot( ReportDesign.COMPONENT_SLOT ), selector );
+			broadcastToSelectedElementsInSlot( design, design
+					.getSlot( ReportDesign.PAGE_SLOT ), selector );
+			broadcastToSelectedElementsInSlot( design, design
+					.getSlot( ReportDesign.BODY_SLOT ), selector );
+			broadcastToSelectedElementsInSlot( design, design
+					.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selector );
+
+		}
+
 	}
 
 	/**
@@ -181,37 +204,70 @@ public abstract class StyleElement extends ReferenceableElement
 	 *            the slot to send
 	 */
 
-	private void broadcastToSelectedElementsInSlot( NotificationEvent ev,
-			ReportDesign design, ContainerSlot slot )
+	private void broadcastToSelectedElementsInSlot( ReportDesign design,
+			ContainerSlot slot, String selectorName )
 	{
 		Iterator iter = slot.iterator( );
+
+		NotificationEvent event = null;
+
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
 			assert element != null;
 
+			event = new StyleEvent( element );
+			event.setDeliveryPath(NotificationEvent.STYLE_CLIENT);
+
 			// Broadcast the element which is selected by this style
 
 			String selector = ( (ElementDefn) element.getDefn( ) )
 					.getSelector( );
-			if ( selector != null && selector.equalsIgnoreCase( getName( ) ) )
-				element.broadcast( ev, design );
 
-			String[] selectors = element.getContainer( ).getSelectors(
-					element.getContainerSlot( ) );
-			for ( int i = 0; i < selectors.length; i++ )
+			if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
 			{
-				if ( selectors[i] != null
-						&& selectors[i].equalsIgnoreCase( getName( ) ) )
-					element.broadcast( ev, design );
+				element.broadcast( event, design );
+				continue;
 			}
+
+			//check if the element slot has the selector with the same name as
+			// the given selector name.
+
+			if ( checkSlotSelector( element, selectorName, event, design ) )
+				continue;
 
 			int count = element.getDefn( ).getSlotCount( );
 			for ( int i = 0; i < count; i++ )
 			{
-				broadcastToSelectedElementsInSlot( ev, design, element
-						.getSlot( i ) );
+				broadcastToSelectedElementsInSlot( design,
+						element.getSlot( i ), selectorName );
 			}
 		}
+	}
+
+	private boolean checkSlotSelector( DesignElement element,
+			String selectorName, NotificationEvent event, ReportDesign design )
+	{
+
+		String[] selectors = element.getContainer( ).getSelectors(
+				element.getContainerSlot( ) );
+		String selector = selectors[0];
+
+		if ( selectors.length == 2 )
+		{
+			for ( int i = 0; i < selectors.length; i++ )
+			{
+				selector = selectors[i];
+				if ( selector != null
+						&& selector.equalsIgnoreCase( selectorName ) )
+				{
+					element.broadcast( event, design );
+					return true;
+				}
+			}
+		}
+
+		return false;
+
 	}
 }

@@ -248,7 +248,7 @@ public class ContentRecord extends SimpleRecord
 			event = new ContentEvent( container, slotID, ContentEvent.REMOVE );
 
 		event.setInTransaction( transactionStarted );
-		
+
 		// Include the sender if this is the original execution.
 		// The sender is not sent for undo, redo because such actions are
 		// triggered by the activity stack, not dialog or editor.
@@ -258,18 +258,29 @@ public class ContentRecord extends SimpleRecord
 
 		// Broadcast the event to the target.
 
-		container.broadcast( event);
+		container.broadcast( event );
 
 		// If the content was dropped, then send an element deleted
 		// event to the content.
 
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
+		{
+			if ( isSelector( content ) )
+				content.broadcast( event, container.getRoot( ) );
+
 			return;
+		}
 
 		event = new ElementDeletedEvent( content );
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 		content.broadcast( event, container.getRoot( ) );
+	}
+
+	private boolean isSelector( DesignElement content )
+	{
+		return MetaDataDictionary.getInstance( ).getPredefinedStyle(
+				content.getName( ) ) != null;
 	}
 
 	/**
