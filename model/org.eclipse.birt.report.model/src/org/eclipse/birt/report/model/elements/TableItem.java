@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IElementDefn;
-import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
+import org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator;
 import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.validators.TableDroppingValidator;
 
@@ -287,9 +287,8 @@ public class TableItem extends ListingElement
 
 		// Check table's slot context containment.
 
-		list.addAll( ContextContainmentValidator.getInstance( ).validate(
-				design, this, ReportDesignConstants.TABLE_ITEM,
-				TableItem.HEADER_SLOT ) );
+		list.addAll( TableHeaderContextContainmentValidator.getInstance( ).validate(
+				design, this ) );
 
 		// check whether there is any overlapping cells with drop properties in
 		// the group headers.
@@ -315,14 +314,10 @@ public class TableItem extends ListingElement
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		if ( !containsListingElement( content ) )
-			return errors;
+		errors.addAll( TableHeaderContextContainmentValidator.getInstance( ).validateForAdding(
+				design, container, content ) );
 
-		errors.addAll( ContextContainmentValidator.getInstance( ).validate(
-				design, container, ReportDesignConstants.TABLE_ITEM,
-				TableItem.HEADER_SLOT ) );
-
-		return errors; // checkTableHeaderContainment( container );
+		return errors; 
 	}
 
 	/*
@@ -340,53 +335,11 @@ public class TableItem extends ListingElement
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		if ( ( (ElementDefn) defn ).getParent( ) == null
-				|| !( (ElementDefn) defn ).getParent( ).getName( )
-						.equalsIgnoreCase( ReportDesignConstants.LISTING_ITEM ) )
-			return errors;
+		errors.addAll( TableHeaderContextContainmentValidator.getInstance( ).validateForAdding(
+				design, container, defn ) );
 
-		errors.addAll( ContextContainmentValidator.getInstance( ).validate(
-				design, container, ReportDesignConstants.TABLE_ITEM,
-				TableItem.HEADER_SLOT ) );
-
-		return errors; // checkTableHeaderContainment( container );
+		return errors; 
 	}
 
-	/**
-	 * Checks whether the <code>element</code> recursively contains a
-	 * <code>ListingItem</code>.
-	 * 
-	 * @param element
-	 *            the element to check
-	 * 
-	 * @return <code>true</code> if the <code>element</code> recursively
-	 *         contains a <code>ListingItem</code>. Otherwise
-	 *         <code>false</code>.
-	 */
 
-	private static boolean containsListingElement( DesignElement element )
-	{
-		if ( element instanceof ListingElement )
-			return true;
-
-		// Check contents.
-
-		int count = element.getDefn( ).getSlotCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			Iterator iter = element.getSlot( i ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement e = (DesignElement) iter.next( );
-
-				if ( e instanceof ListingElement )
-					return true;
-
-				if ( containsListingElement( e ) )
-					return true;
-			}
-		}
-
-		return false;
-	}
 }

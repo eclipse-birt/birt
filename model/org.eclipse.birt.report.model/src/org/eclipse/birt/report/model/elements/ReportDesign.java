@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.MasterPageRequiredValidator;
+import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
 
 /**
  * This class represents the root element in the report design hierarchy.
@@ -52,7 +53,7 @@ import org.eclipse.birt.report.model.validators.MasterPageRequiredValidator;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- * 
+ *  
  */
 
 public class ReportDesign extends RootElement
@@ -309,6 +310,14 @@ public class ReportDesign extends RootElement
 	private TranslationTable translations = new TranslationTable( );
 
 	/**
+	 * The validation executor. It performs the semantic validation and sends
+	 * validation event to listeners.
+	 */
+
+	private ValidationExecutor validationExecutor = new ValidationExecutor(
+			this );
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @deprecated
@@ -319,17 +328,6 @@ public class ReportDesign extends RootElement
 		super( null );
 		initSlots( );
 		onCreate( );
-	}
-
-	/**
-	 * Privates method to create the slots.
-	 */
-
-	private void initSlots( )
-	{
-		slots = new ContainerSlot[SLOT_COUNT];
-		for ( int i = 0; i < slots.length; i++ )
-			slots[i] = new MultiElementSlot( );
 	}
 
 	/**
@@ -344,6 +342,17 @@ public class ReportDesign extends RootElement
 		super( session );
 		initSlots( );
 		onCreate( );
+	}
+
+	/**
+	 * Privates method to create the slots.
+	 */
+
+	private void initSlots( )
+	{
+		slots = new ContainerSlot[SLOT_COUNT];
+		for ( int i = 0; i < slots.length; i++ )
+			slots[i] = new MultiElementSlot( );
 	}
 
 	/**
@@ -472,6 +481,10 @@ public class ReportDesign extends RootElement
 	protected void onCreate( )
 	{
 		super.onCreate( );
+
+		// Pass the validation executor to activity stack.
+
+		activityStack.setValidationExecutor( validationExecutor );
 	}
 
 	/*
@@ -495,13 +508,10 @@ public class ReportDesign extends RootElement
 	{
 		List list = super.validate( design );
 
-		// The refresh rate must be non-negative.
-
 		// Must there is more than one master page in setup page
 
-		list
-				.addAll( MasterPageRequiredValidator.getInstance( ).validate(
-						this, this ) );
+		list.addAll( MasterPageRequiredValidator.getInstance( ).validate( this,
+				this ) );
 
 		list.addAll( validateStructureList( design, IMAGES_PROP ) );
 		list.addAll( validateStructureList( design, COLOR_PALETTE_PROP ) );
@@ -1251,5 +1261,16 @@ public class ReportDesign extends RootElement
 			}
 		}
 		return retList;
+	}
+
+	/**
+	 * Returns the validation executor.
+	 * 
+	 * @return the validation executor
+	 */
+
+	public ValidationExecutor getValidationExecutor( )
+	{
+		return validationExecutor;
 	}
 }

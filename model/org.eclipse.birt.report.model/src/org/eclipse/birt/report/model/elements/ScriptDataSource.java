@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * This class represents the data source that is defined in JavaScript. The
@@ -136,19 +137,10 @@ public class ScriptDataSource extends DataSource
 	{
 		List list = super.validate( design );
 		
-		String value = getStringProperty( design,  OPEN_METHOD );
-		if ( StringUtil.isBlank( value ) )
-		{
-			list.add( new PropertyValueException( this, OPEN_METHOD,
-					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
-
-		value = getStringProperty( design,  CLOSE_METHOD );
-		if ( StringUtil.isBlank( value ) )
-		{
-			list.add( new PropertyValueException( this, CLOSE_METHOD,
-					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, OPEN_METHOD ) );
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, CLOSE_METHOD ) );
 
 		return list;
 	}

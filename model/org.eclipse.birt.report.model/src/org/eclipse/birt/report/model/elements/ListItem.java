@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
+import org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator;
 
 /**
  * This class represents a List element. List is a free-form layout driven by
@@ -110,9 +110,8 @@ public class ListItem extends ListingElement
 
 		// Check header slot context containment of table.
 
-		list.addAll( ContextContainmentValidator.getInstance( ).validate(
-				design, this, ReportDesignConstants.TABLE_ITEM,
-				TableItem.HEADER_SLOT ) );
+		list.addAll( TableHeaderContextContainmentValidator.getInstance( ).validate(
+				design, this ) );
 
 		return list;
 	}

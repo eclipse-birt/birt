@@ -45,6 +45,8 @@ import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
+import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
+import org.eclipse.birt.report.model.elements.TableItem;
 
 ;
 
@@ -2294,8 +2296,15 @@ public abstract class DesignElement implements IPropertySet
 
 	public final List validateWithContents( ReportDesign design )
 	{
-		List list = validate( design );
+//		List list = validate( design );
 
+		ElementDefn elementDefn = (ElementDefn) getDefn( );
+		List validatorList = ValidationExecutor.getValidationNodes( this,
+				elementDefn.getTriggerDefnSet( ), true ) ;
+
+		ValidationExecutor executor = design.getValidationExecutor();
+		List list = executor.perform( validatorList, true );
+		
 		int count = getDefn( ).getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{

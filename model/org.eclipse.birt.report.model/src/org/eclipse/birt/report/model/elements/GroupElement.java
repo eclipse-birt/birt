@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * This class represents a grouping level within either a List or Table item.
@@ -247,12 +248,8 @@ public abstract class GroupElement extends DesignElement
 		list.addAll( validateStructureList( design, SORT_PROP ) );
 		list.addAll( validateStructureList( design, FILTER_PROP ) );
 
-		String value = (String) getLocalProperty( design, KEY_EXPR_PROP );
-		if ( StringUtil.isBlank( value ) )
-		{
-			list.add( new PropertyValueException( this, KEY_EXPR_PROP, value,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, KEY_EXPR_PROP ) );
 
 		return list;
 	}

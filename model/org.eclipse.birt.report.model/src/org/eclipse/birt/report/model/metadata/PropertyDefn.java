@@ -13,18 +13,24 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider;
 
 /**
  * Base class for both element property and structure member definitions.
  */
 
-public abstract class PropertyDefn implements IPropertyDefn
+public abstract class PropertyDefn
+		implements
+			IPropertyDefn,
+			ISemanticTriggerDefnSetProvider
 {
 
 	/**
@@ -148,7 +154,13 @@ public abstract class PropertyDefn implements IPropertyDefn
 	 * The collection of semantic validatin triggers.
 	 */
 
-	private SemanticTriggerDefns triggers = null;
+	private SemanticTriggerDefnSet triggers = null;
+
+	/**
+	 * Whether the value of this property is required.
+	 */
+
+	private boolean valueRequired = false;
 
 	/**
 	 * Constructs a Property Definition.
@@ -225,7 +237,7 @@ public abstract class PropertyDefn implements IPropertyDefn
 							StructureListValidator.NAME );
 					triggerDefn.setPropertyName( getName( ) );
 					triggerDefn.setValidator( validator );
-					getTriggers( ).addSemanticValidationDefn( triggerDefn );
+					getTriggerDefnSet( ).add( triggerDefn );
 				}
 				break;
 
@@ -261,13 +273,25 @@ public abstract class PropertyDefn implements IPropertyDefn
 							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
-				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
-						ElementReferenceValidator.NAME );
-				triggerDefn.setPropertyName( getName( ) );
-				triggerDefn.setValidator( ElementReferenceValidator
-						.getInstance( ) );
-				getTriggers( ).addSemanticValidationDefn( triggerDefn );
+				if ( !name.equalsIgnoreCase( StyledElement.STYLE_PROP ) )
+				{
+					SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+							ElementReferenceValidator.NAME );
+					triggerDefn.setPropertyName( getName( ) );
+					triggerDefn.setValidator( ElementReferenceValidator
+							.getInstance( ) );
+					getTriggerDefnSet( ).add( triggerDefn );
+				}
 				break;
+		}
+
+		if ( isValueRequired( ) )
+		{
+			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+					ValueRequiredValidator.NAME );
+			triggerDefn.setPropertyName( getName( ) );
+			triggerDefn.setValidator( ValueRequiredValidator.getInstance( ) );
+			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
 		if ( getTypeCode( ) != PropertyType.STRUCT_TYPE && isList == true )
@@ -306,7 +330,7 @@ public abstract class PropertyDefn implements IPropertyDefn
 						MetaDataException.DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND );
 		}
 
-		getTriggers( ).build( );
+		getTriggerDefnSet( ).build( );
 
 	}
 
@@ -969,18 +993,42 @@ public abstract class PropertyDefn implements IPropertyDefn
 		this.isList = isList;
 	}
 
-	/**
-	 * Returns the semantic validation trigger collection.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the semantic validation triggers
+	 * @see org.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#getTriggerDefnSet()
 	 */
-
-	public SemanticTriggerDefns getTriggers( )
+	public SemanticTriggerDefnSet getTriggerDefnSet( )
 	{
 		if ( triggers == null )
-			triggers = new SemanticTriggerDefns( );
+			triggers = new SemanticTriggerDefnSet( );
 
 		return triggers;
 	}
 
+	/**
+	 * Returns whether the value of this property is required. Generally, this
+	 * flag is not applied for style property. That means the value of style
+	 * property is not required anyway.
+	 * 
+	 * @return <code>true</code>, if the value of this property is required.
+	 */
+
+	public boolean isValueRequired( )
+	{
+		return valueRequired;
+	}
+
+	/**
+	 * Sets the flag for indicating whether the value of this property is
+	 * required.
+	 * 
+	 * @param valueRequired
+	 *            the flag to set
+	 */
+
+	void setValueRequired( boolean valueRequired )
+	{
+		this.valueRequired = valueRequired;
+	}
 }

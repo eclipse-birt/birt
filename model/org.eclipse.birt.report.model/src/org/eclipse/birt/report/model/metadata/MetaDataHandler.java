@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 /**
  * SAX handler for reading the XML meta data definition file.
- * 
+ *  
  */
 
 class MetaDataHandler extends XMLParserHandler
@@ -88,6 +88,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
 	private static final String PRE_REQUISITE_ATTRIB = "preRequisite"; //$NON-NLS-1$
 	private static final String TARGET_ELEMENT_ATTRIB = "targetElement"; //$NON-NLS-1$
+	private static final String VALUE_REQUIRED_ATTRIB = "valueRequired"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -761,6 +762,8 @@ class MetaDataHandler extends XMLParserHandler
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
 			propDefn.setVisible( getBooleanAttrib( attrs, IS_VISIBLE_ATTRIB,
 					true ) );
+			propDefn.setValueRequired( getBooleanAttrib( attrs,
+					VALUE_REQUIRED_ATTRIB, false ) );
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
@@ -933,7 +936,7 @@ class MetaDataHandler extends XMLParserHandler
 						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
 				return;
 			}
-			
+
 			if ( StringUtil.isBlank( className ) )
 			{
 				semanticError( new MetaDataParserException(
@@ -999,8 +1002,8 @@ class MetaDataHandler extends XMLParserHandler
 			{
 				Class c = Class.forName( className );
 				Method m = c.getMethod( "getInstance", null ); //$NON-NLS-1$
-				AbstractSemanticValidator validator = (AbstractSemanticValidator) m.invoke(
-						null, null );
+				AbstractSemanticValidator validator = (AbstractSemanticValidator) m
+						.invoke( null, null );
 				validator.setName( name );
 
 				try
@@ -1280,6 +1283,8 @@ class MetaDataHandler extends XMLParserHandler
 	class ElementMethodState extends AbstractMethodState
 	{
 
+		SystemPropertyDefn propDefn = new SystemPropertyDefn( );
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -1299,6 +1304,18 @@ class MetaDataHandler extends XMLParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 */
+		public void parseAttrs( Attributes attrs )
+		{
+			super.parseAttrs( attrs );
+			propDefn.setValueRequired( getBooleanAttrib( attrs,
+					VALUE_REQUIRED_ATTRIB, false ) );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#addDefnTo()
 		 */
 
@@ -1309,7 +1326,6 @@ class MetaDataHandler extends XMLParserHandler
 			PropertyType typeDefn = dictionary
 					.getPropertyType( PropertyType.SCRIPT_TYPE );
 
-			SystemPropertyDefn propDefn = new SystemPropertyDefn( );
 			String name = methodInfo.getName( );
 			String displayNameID = methodInfo.getDisplayNameKey( );
 
@@ -1384,7 +1400,7 @@ class MetaDataHandler extends XMLParserHandler
 		 * @param name
 		 *            the method name
 		 * @return the <code>MethodInfo</code> object
-		 * 
+		 *  
 		 */
 
 		abstract MethodInfo getMethodInfo( String name );
@@ -1621,7 +1637,7 @@ class MetaDataHandler extends XMLParserHandler
 			String validatorName = attrs.getValue( VALIDATOR_ATTRIB );
 			String targetElement = attrs.getValue( TARGET_ELEMENT_ATTRIB );
 
-			if ( ! StringUtil.isBlank( validatorName ) )
+			if ( !StringUtil.isBlank( validatorName ) )
 			{
 				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 						validatorName );
@@ -1632,10 +1648,10 @@ class MetaDataHandler extends XMLParserHandler
 					triggerDefn.setTargetElement( targetElement );
 
 				if ( propDefn != null )
-					propDefn.getTriggers().addSemanticValidationDefn( triggerDefn );
+					propDefn.getTriggerDefnSet( ).add( triggerDefn );
 
 				if ( slotDefn != null )
-					slotDefn.getTriggers().addSemanticValidationDefn( triggerDefn );
+					slotDefn.getTriggerDefnSet( ).add( triggerDefn );
 			}
 			else
 			{

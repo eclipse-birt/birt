@@ -146,6 +146,12 @@ public final class ErrorDetail
 	private String message;
 
 	/**
+	 * The validation ID which is used to identify one specific validation.
+	 */
+
+	private String validationID;
+
+	/**
 	 * The error description, which is used for <code>toString()</code>.
 	 * Generally, it's only used for debug purposes.
 	 */
@@ -215,7 +221,8 @@ public final class ErrorDetail
 		description.append( e.getTag( ) );
 		description.append( ") " ); //$NON-NLS-1$
 
-		if ( e.getErrorCode( ).equalsIgnoreCase( XMLParserException.DESIGN_EXCEPTION_EXCEPTION ) ) //$NON-NLS-1$
+		if ( e.getErrorCode( ).equalsIgnoreCase(
+				XMLParserException.DESIGN_EXCEPTION_EXCEPTION ) ) //$NON-NLS-1$
 		{
 			if ( e.getException( ) instanceof DesignParserException )
 			{
@@ -492,5 +499,28 @@ public final class ErrorDetail
 	public String getType( )
 	{
 		return type;
+	}
+
+	/**
+	 * Sets the validation ID, which identifies one specific validation.
+	 * 
+	 * @param validationID
+	 *            the validation ID
+	 */
+
+	public void setValidationID( String validationID )
+	{
+		this.validationID = validationID;
+	}
+
+	/**
+	 * Returns the validation ID, which identifies one specific validation.
+	 * 
+	 * @return the validator ID
+	 */
+
+	public String getValidationID( )
+	{
+		return validationID;
 	}
 }

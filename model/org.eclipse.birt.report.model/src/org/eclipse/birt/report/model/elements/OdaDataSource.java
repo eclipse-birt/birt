@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * Represents an extended data source.
@@ -121,12 +122,8 @@ public class OdaDataSource extends DataSource
 	{
 		List list = super.validate( design );
 
-		String driverName = getStringProperty( design, DRIVER_NAME_PROP );
-		if ( StringUtil.isBlank( driverName ) )
-		{
-			list.add( new PropertyValueException( this, DRIVER_NAME_PROP,
-					driverName, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, DRIVER_NAME_PROP ) );
 
 		list.addAll( validateStructureList( design,
 				PUBLIC_DRIVER_PROPERTIES_PROP ) );

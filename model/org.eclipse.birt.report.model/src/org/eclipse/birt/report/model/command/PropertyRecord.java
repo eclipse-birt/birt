@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -19,6 +21,7 @@ import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
 
 /**
  * Changes the value of a property. The caller must have previously validated
@@ -135,7 +138,7 @@ public class PropertyRecord extends SimpleRecord
 		{
 			IReportItem extElement = ( (ExtendedItem) element )
 					.getExtendedElement( );
-//			assert extElement != null;
+			// assert extElement != null;
 
 			if ( extElement != null && extElement.refreshPropertyDefinition( ) )
 			{
@@ -157,4 +160,13 @@ public class PropertyRecord extends SimpleRecord
 		element.setProperty( propDefn, value );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.validators.IValidatable#getValidators()
+	 */
+	public List getValidators( )
+	{
+		return ValidationExecutor.getValidationNodes( element, propDefn.getTriggerDefnSet(), false );
+	}
 }

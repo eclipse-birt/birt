@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider;
 
 /**
  * Meta-data about a slot within an element. Elements can act as a
@@ -31,6 +32,9 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * <li><strong>ID </strong>-- The internal identifier for the slot.</li>
  * <li><strong>Cardinality </strong>-- Whether the slot stores one item or a
  * list of items.</li>
+ * <li><strong>Content Types </strong>-- The element type(s) that can appear in
+ * the slot.</li>
+ * </ul>
  * <li><strong>Content Types </strong>-- The element type(s) that can appear
  * in the slot.</li>
  * <p>
@@ -39,7 +43,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  *  
  */
 
-public class SlotDefn implements ISlotDefn
+public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 {
 
 	/**
@@ -93,7 +97,7 @@ public class SlotDefn implements ISlotDefn
 	 * The collection of semantic validation triggers.
 	 */
 
-	private SemanticTriggerDefns triggers = null;
+	private SemanticTriggerDefnSet triggers = null;
 
 	/**
 	 * Returns the slot cardinality.
@@ -214,30 +218,14 @@ public class SlotDefn implements ISlotDefn
 		while ( iter.hasNext( ) )
 		{
 			String name = (String) iter.next( );
-			ElementDefn type = (ElementDefn)dd.getElement( name );
+			ElementDefn type = (ElementDefn) dd.getElement( name );
 			if ( type == null )
 				throw new MetaDataException( new String[]{this.name, name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
 			contentElements.add( type );
 		}
-		
-		getTriggers().build();
-		
-//		if ( semanticValidators != null )
-//		{
-//			iter = semanticValidators.iterator( );
-//			while ( iter.hasNext( ) )
-//			{
-//				TriggerDefn validatorDefn = (TriggerDefn) iter.next( );
-//
-//				AbstractSemanticValidator validator = MetaDataDictionary
-//						.getInstance( ).getSemanticValidator( validatorDefn.getValidatorName() );
-//				assert validator != null;
-//
-//				validatorDefn.setValidator( validator );
-//			}
-//		}
-		
+
+		getTriggerDefnSet( ).build( );
 	}
 
 	/**
@@ -347,19 +335,18 @@ public class SlotDefn implements ISlotDefn
 		return selector;
 	}
 
-	/**
-	 * Returns the semantic validation trigger collection.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the semantic validation triggers
+	 * @see org.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#getTriggerDefnSet()
 	 */
-	
-	public SemanticTriggerDefns getTriggers( )
+
+	public SemanticTriggerDefnSet getTriggerDefnSet( )
 	{
 		if ( triggers == null )
-			triggers = new SemanticTriggerDefns();
-		
+			triggers = new SemanticTriggerDefnSet( );
+
 		return triggers;
 	}
-	
-	
+
 }

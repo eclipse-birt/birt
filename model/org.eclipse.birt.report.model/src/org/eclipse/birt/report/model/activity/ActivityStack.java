@@ -18,6 +18,7 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.extension.IElementCommand;
+import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
 
 /**
  * An implementation of a command stack, called an "activity stack" here. The
@@ -292,6 +293,13 @@ public final class ActivityStack implements CommandStack
 	protected ArrayList listeners = null;
 
 	/**
+	 * The executor for validation. It can collect the validators and perform
+	 * validation one by one.
+	 */
+
+	private ValidationExecutor validationExecutor = null;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -358,6 +366,11 @@ public final class ActivityStack implements CommandStack
 
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
+
+			if ( validationExecutor != null )
+			{
+				validationExecutor.perform( record.getValidators( ), true );
+			}
 		}
 		else
 		{
@@ -404,6 +417,10 @@ public final class ActivityStack implements CommandStack
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.UNDONE ) );
 
+		if ( validationExecutor != null )
+		{
+			validationExecutor.perform( record.getValidators( ), true );
+		}
 	}
 
 	/**
@@ -437,6 +454,11 @@ public final class ActivityStack implements CommandStack
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.REDONE ) );
+
+		if ( validationExecutor != null )
+		{
+			validationExecutor.perform( record.getValidators( ), true );
+		}
 	}
 
 	/**
@@ -715,6 +737,11 @@ public final class ActivityStack implements CommandStack
 
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
+
+			if ( validationExecutor != null )
+			{
+				validationExecutor.perform( record.getValidators( ), true );
+			}
 		}
 		else
 		{
@@ -831,5 +858,15 @@ public final class ActivityStack implements CommandStack
 		}
 	}
 
-}
+	/**
+	 * Sets the validation executor.
+	 * 
+	 * @param validationExecutor
+	 *            the validation executor to set
+	 */
 
+	public void setValidationExecutor( ValidationExecutor validationExecutor )
+	{
+		this.validationExecutor = validationExecutor;
+	}
+}

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="0.01" xsi:noNamespaceSchemaLocation="..\metadata\metadata.xsd">
   <ChoiceType name="colors">
     <Choice name="maroon" displayNameID="Choices.colors.maroon" />
@@ -1315,19 +1314,23 @@
 		<ValueValidator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator"/>
 		<ValueValidator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator"/>
 		<SemanticValidator name="CellOverlappingValidator" class="org.eclipse.birt.report.model.validators.CellOverlappingValidator"/>
+		<SemanticValidator name="DataSetNameRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetNameRequiredValidator"/>
 		<SemanticValidator name="DataSetRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetRequiredValidator"/>
-		<SemanticValidator name="DataSourceRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSourceRequiredValidator"/>
 		<SemanticValidator name="DataSetResultSetValidator" class="org.eclipse.birt.report.model.validators.DataSetResultSetValidator"/>
+		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.validators.ElementReferenceValidator"/>
 		<SemanticValidator name="ExtensionValidator" class="org.eclipse.birt.report.model.validators.ExtensionValidator"/>
 		<SemanticValidator name="GroupNameValidator" class="org.eclipse.birt.report.model.validators.GroupNameValidator"/>
 		<SemanticValidator name="InconsistentColumnsValidator" class="org.eclipse.birt.report.model.validators.InconsistentColumnsValidator"/>
+		<SemanticValidator name="ImageFileExistingValidator" class="org.eclipse.birt.report.model.validators.ImageFileExistingValidator"/>
 		<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator"/>
 		<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.validators.MasterPageRequiredValidator"/>
 		<SemanticValidator name="MasterPageSizeValidator" class="org.eclipse.birt.report.model.validators.MasterPageSizeValidator"/>
 		<SemanticValidator name="MasterPageTypeValidator" class="org.eclipse.birt.report.model.validators.MasterPageTypeValidator"/>
 		<SemanticValidator name="StructureListValidator" class="org.eclipse.birt.report.model.validators.StructureListValidator"/>
 		<SemanticValidator name="TableDroppingValidator" class="org.eclipse.birt.report.model.validators.TableDroppingValidator"/>
-		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.validators.ElementReferenceValidator"/>
+		<SemanticValidator name="TableHeaderContextContainmentValidator" class="org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator"/>
+		<SemanticValidator name="UnsupportedElementValidator" class="org.eclipse.birt.report.model.validators.UnsupportedElementValidator"/>
+		<SemanticValidator name="ValueRequiredValidator" class="org.eclipse.birt.report.model.validators.ValueRequiredValidator"/>
   </Validators>
   <Structure name="MapRule" displayNameID="Structure.MapRule">
     <Member name="operator" displayNameID="Structure.MapRule.operator" type="choice" detailType="mapOperator" isIntrinsic="true">
@@ -1614,18 +1617,16 @@
     <Method name="afterClose" displayNameID="Element.DataSource.afterClose" toolTipID="Element.DataSource.afterClose.toolTip" />
   </Element>
   <Element name="OdaDataSource" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" displayNameID="Element.OdaDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
-    <Property name="driverName" type="string" displayNameID="Element.OdaDataSource.driverName" />
+    <Property name="driverName" type="string" displayNameID="Element.OdaDataSource.driverName" valueRequired="true" />
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.publicDriverProperties" />
     <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isVisible="false"/>
   </Element>
   <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
-    <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" />
-    <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" />
+    <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" valueRequired="true" />
+    <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" valueRequired="true" />
   </Element>
   <Element name="DataSet" displayNameID="Element.DataSet" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSet" isNameRequired="true">
-    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource">
-	  <Trigger validator="DataSourceRequiredValidator"/>
-	</Property>
+    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" valueRequired="true" />
     <Method name="beforeOpen" displayNameID="Element.DataSet.beforeOpen" toolTipID="Element.DataSet.beforeOpen.toolTip" />
     <Method name="beforeClose" displayNameID="Element.DataSet.beforeClose" toolTipID="Element.DataSet.beforeClose.toolTip" />
     <Method name="onFetch" displayNameID="Element.DataSet.onFetch" toolTipID="Element.DataSet.onFetch.toolTip" />
@@ -1644,7 +1645,7 @@
   <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSet.open" toolTipID="Element.ScriptDataSet.open.toolTip" />
     <Method name="describe" displayNameID="Element.ScriptDataSet.describe" toolTipID="Element.ScriptDataSet.describe.toolTip" returnType="Column" />
-    <Method name="fetch" displayNameID="Element.ScriptDataSet.fetch" toolTipID="Element.ScriptDataSet.fetch.toolTip" returnType="DataRow" />
+    <Method name="fetch" displayNameID="Element.ScriptDataSet.fetch" toolTipID="Element.ScriptDataSet.fetch.toolTip" returnType="DataRow" valueRequired="true" />
     <Method name="close" displayNameID="Element.ScriptDataSet.close" toolTipID="Element.ScriptDataSet.close.toolTip" />
   </Element>
   <Element name="OdaDataSet" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" displayNameID="Element.OdaDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
@@ -1681,9 +1682,15 @@
     </Property>
     <Property name="defaultValue" displayNameID="Element.ScalarParameter.defaultValue" type="expression" />
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
-      <Property name="dataSetName" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" type="string" />
-      <Property name="valueExpr" displayNameID="Element.ScalarParameter.dynamicList.valueExpr" type="expression" />
-      <Property name="labelExpr" displayNameID="Element.ScalarParameter.dynamicList.labelExpr" type="expression" />
+      <Property name="dataSetName" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" type="string" >
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
+      <Property name="valueExpr" displayNameID="Element.ScalarParameter.dynamicList.valueExpr" type="expression" >
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
+      <Property name="labelExpr" displayNameID="Element.ScalarParameter.dynamicList.labelExpr" type="expression" >
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.ScalarParameter.selectionList">
       <Property name="mustMatch" displayNameID="Element.ScalarParameter.selectionList.mustMatch" type="boolean">
@@ -2046,6 +2053,7 @@
       <Type name="Table" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
   <Element name="Data" javaClass="org.eclipse.birt.report.model.elements.DataItem" displayNameID="Element.Data" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
@@ -2167,12 +2175,12 @@
     <StyleProperty name="wordSpacing" />
   </Element>
   <Element name="ListingGroup" displayNameID="Element.ListingGroup" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="group">
-    <Property name="keyExpr" displayNameID="Element.ListingGroup.keyExpr" type="expression" />
+    <Property name="keyExpr" displayNameID="Element.ListingGroup.keyExpr" type="expression" valueRequired="true" />
     <Property name="sort" displayNameID="Element.ListingGroup.sort" type="structure" isList="true" detailType="SortKey" />
     <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCond" />
     <Property name="toc" displayNameID="Element.ListingGroup.toc" type="expression" isVisible="false"/>
     <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
-      <Trigger validator="GroupNameValidator" targetElement="Table"/>
+      <Trigger validator="GroupNameValidator" targetElement="Listing"/>
 	</Property>
     <Property name="interval" displayNameID="Element.ListingGroup.interval" type="choice" detailType="interval">
       <Default>none</Default>
@@ -2206,6 +2214,7 @@
       <Type name="Image" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
     <Slot name="group" displayNameID="Element.List.slot.group" multipleCardinality="true" selector="group">
       <Type name="ListGroup" />
@@ -2222,6 +2231,7 @@
       <Type name="Image" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
     <Slot name="footer" displayNameID="Element.List.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="FreeForm" />
@@ -2234,6 +2244,7 @@
       <Type name="Image" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
   <Element name="ListGroup" javaClass="org.eclipse.birt.report.model.elements.ListGroup" displayNameID="Element.ListGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="list-group">
@@ -2248,6 +2259,7 @@
       <Type name="Image" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
     <Slot name="footer" displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="FreeForm" />
@@ -2260,6 +2272,7 @@
       <Type name="Image" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
   <Element name="Table" javaClass="org.eclipse.birt.report.model.elements.TableItem" displayNameID="Element.Table" isAbstract="false" extends="Listing" allowsUserProperties="true" canExtend="true" hasStyle="false" isNameRequired="false" selector="table">
@@ -2271,10 +2284,12 @@
     <Slot name="header" displayNameID="Element.Table.slot.header" multipleCardinality="true" selector="header">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator"/>
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
     <Slot name="group" displayNameID="Element.Table.slot.group" multipleCardinality="true">
       <Type name="TableGroup" />
       <Trigger validator="GroupNameValidator"/>
+      <Trigger validator="TableDroppingValidator"/>
     </Slot>
     <Slot name="detail" displayNameID="Element.Table.slot.detail" multipleCardinality="true" selector="detail">
       <Type name="Row" />
@@ -2293,7 +2308,7 @@
     <Slot name="header" displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" selector="header">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
-      <Trigger validator="TableDroppingValidator"/>
+      <Trigger validator="TableDroppingValidator" targetElement="Table"/>
     </Slot>
     <Slot name="footer" displayNameID="Element.TableGroup.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="Row" />
@@ -2393,6 +2408,7 @@
     </Property>
     <Property name="drop" displayNameID="Element.Cell.drop" type="choice" detailType="dropType" isVisible="false">
       <Default>none</Default>
+      <Trigger validator="TableDroppingValidator" targetElement="Table"/>
     </Property>
     <Property name="height" displayNameID="Element.Cell.height" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="width" displayNameID="Element.Cell.width" type="dimension" validator="NonNegativeValueValidator"/>
@@ -2408,6 +2424,7 @@
       <Type name="Line" />
       <Type name="ExtendedItem" />
       <Type name="TextData" />
+      <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
   <Element name="Image" javaClass="org.eclipse.birt.report.model.elements.ImageItem" displayNameID="Element.Image" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
@@ -2423,8 +2440,11 @@
     </Property>
     <Property name="source" displayNameID="Element.Image.source" type="choice" detailType="imageRefType">
       <Default>none</Default>
+	  <Trigger validator="ImageFileExistingValidator"/>
     </Property>
-    <Property name="uri" displayNameID="Element.Image.uri" type="expression" />
+    <Property name="uri" displayNameID="Element.Image.uri" type="expression">
+	  <Trigger validator="ImageFileExistingValidator"/>
+	</Property>
     <Property name="imageName" displayNameID="Element.Image.imageName" type="expression" />
     <Property name="valueExpr" displayNameID="Element.Image.valueExpr" type="expression" isVisible="false"/>
     <Property name="typeExpr" displayNameID="Element.Image.typeExpr" type="expression" isVisible="false"/>
@@ -2472,9 +2492,11 @@
   <Element name="Grid" javaClass="org.eclipse.birt.report.model.elements.GridItem" displayNameID="Element.Grid" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="grid">
     <Slot name="columns" displayNameID="Element.Grid.slot.columns" multipleCardinality="true">
       <Type name="Column" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
     <Slot name="row" displayNameID="Element.Grid.slot.row" multipleCardinality="true">
       <Type name="Row" />
+      <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
   <Element name="Line" javaClass="org.eclipse.birt.report.model.elements.LineItem" displayNameID="Element.Line" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="false" isNameRequired="false" selector="line">
@@ -2520,7 +2542,7 @@
     <StyleProperty name="display" />
   </Element>
   <Element name="TextData" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" displayNameID="Element.TextData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="multi-line-data">
-    <Property name="valueExpr" displayNameID="Element.TextData.valueExpr" type="expression" />
+    <Property name="valueExpr" displayNameID="Element.TextData.valueExpr" type="expression" valueRequired="true" />
     <Property name="contentTypeExpr" displayNameID="Element.TextData.contentTypeExpr" type="expression" />
     <StyleProperty name="backgroundAttachment" />
     <StyleProperty name="backgroundImage" />

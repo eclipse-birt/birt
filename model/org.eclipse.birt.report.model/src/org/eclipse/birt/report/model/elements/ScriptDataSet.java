@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * This class represents script data set. The script data set provides the
@@ -133,13 +134,8 @@ public class ScriptDataSet extends DataSet
 	{
 		List list = super.validate( design );
 
-		String value = getStringProperty( design, ScriptDataSet.FETCH_METHOD );
-		if ( StringUtil.isBlank( value ) )
-		{
-			list.add( new PropertyValueException( this,
-					ScriptDataSet.FETCH_METHOD, value,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, FETCH_METHOD ) );
 
 		return list;
 	}

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.core.AbstractElementValidator;
+import org.eclipse.birt.report.model.validators.core.AbstractPropertyValidator;
 import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
 
 /**
@@ -181,8 +184,35 @@ public class SemanticTriggerDefn
 	 *            the name of the target element definition.
 	 */
 
-	public void setTargetElement( String targetElement )
+	void setTargetElement( String targetElement )
 	{
 		this.targetElement = targetElement;
+	}
+	
+	/**
+	 * Returns the ID of one validation, which is used to identify one
+	 * validation.
+	 * <ul>
+	 * <li>For {@link AbstractElementValidator}, the validation ID is just the
+	 * validator name. For example, "CellOverlappingValidator".
+	 * <li>For {@link AbstractPropertyValidator}, the validation ID is the
+	 * validation name and name of the property on which the validator is
+	 * applied. For example, "ValueRequiredValidator.DataSet". "DataSet" is the
+	 * name of the property which should be validated by ValueRequiredValidator.
+	 * </ul>
+	 * 
+	 * @return the validation ID of this trigger definition
+	 */
+
+	public String getValidationID( )
+	{
+		String validationID;
+		
+		if ( !StringUtil.isBlank( propertyName ) )
+			validationID = validatorName + "." + propertyName; //$NON-NLS-1$
+		else
+			validationID = validatorName;
+
+		return validationID;
 	}
 }

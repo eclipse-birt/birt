@@ -18,11 +18,12 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.command.StyleEvent;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
 
 /**
  * Records adding a content into a container, or removing content from a
@@ -243,7 +244,8 @@ public class ContentRecord extends SimpleRecord
 
 		NotificationEvent event = null;
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			event = new ContentEvent( container, content, slotID, ContentEvent.ADD );
+			event = new ContentEvent( container, content, slotID,
+					ContentEvent.ADD );
 		else
 			event = new ContentEvent( container, slotID, ContentEvent.REMOVE );
 
@@ -294,5 +296,27 @@ public class ContentRecord extends SimpleRecord
 	public void setRoot( RootElement theRoot )
 	{
 		root = theRoot;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
+	 */
+
+	public List getValidators( )
+	{
+		SlotDefn slotDefn = (SlotDefn) container.getDefn( ).getSlot( slotID );
+
+		List list = ValidationExecutor.getValidationNodes( container, slotDefn
+				.getTriggerDefnSet( ), false );
+
+		// Validate the content.
+
+		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
+		list.addAll( ValidationExecutor.getValidationNodes( content,
+				contentDefn.getTriggerDefnSet( ), false ) );
+
+		return list;
 	}
 }

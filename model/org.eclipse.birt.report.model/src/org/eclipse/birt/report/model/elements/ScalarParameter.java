@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
@@ -15,16 +15,16 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.validators.DataSetNameRequiredValidator;
 
 /**
  * This class represents a scalar (single-value) parameter. Scalar parameters
  * can have selection lists. If the user enters no value for a parameter, then
- * the default value is used. If there is no default value, then BIRT checks
- * if nulls are allowed. If so, the value of the parameter is null. If nulls are
+ * the default value is used. If there is no default value, then BIRT checks if
+ * nulls are allowed. If so, the value of the parameter is null. If nulls are
  * not allowed, then the user must enter a value.
  * 
- * 
+ *  
  */
 
 public class ScalarParameter extends Parameter
@@ -195,17 +195,9 @@ public class ScalarParameter extends Parameter
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
-		if ( ( getLocalProperty( design, ScalarParameter.LABEL_EXPR_PROP ) != null )
-				|| ( getLocalProperty( design,
-						ScalarParameter.VALUE_EXPR_PROP ) != null ) )
-		{
-			if ( getLocalProperty( design, ScalarParameter.DATASET_NAME_PROP ) == null )
-				list.add( new PropertyValueException( this,
-						ScalarParameter.DATASET_NAME_PROP,
-						null, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 
-		}
+		list.addAll( DataSetNameRequiredValidator.getInstance( ).validate(
+				design, this ) );
 
 		return list;
 	}

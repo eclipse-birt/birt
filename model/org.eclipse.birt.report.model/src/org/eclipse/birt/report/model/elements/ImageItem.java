@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.validators.FileExistingValidator;
+import org.eclipse.birt.report.model.validators.ImageFileExistingValidator;
 
 /**
  * This class represents an image item. Reports often display images in various
@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.validators.FileExistingValidator;
  * below.)</li>
  * <li>Adjust the element size to fit the image.</li>
  * <p>
- * 
+ *  
  */
 
 public class ImageItem extends ReportItem
@@ -236,13 +236,8 @@ public class ImageItem extends ReportItem
 	{
 		List list = super.validate( design );
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
-				.equalsIgnoreCase( getStringProperty( design, SOURCE_PROP ) ) )
-		{
-			String uri = getStringProperty( design, ImageItem.URI_PROP );
-			list.addAll( FileExistingValidator.getInstance( ).validate( design,
-					this, uri ) );
-		}
+		list.addAll( ImageFileExistingValidator.getInstance( ).validate(
+				design, this ) );
 
 		return list;
 	}

@@ -257,4 +257,21 @@ public class CompoundRecord extends ActivityRecord
 		return (ActivityRecord) recordList.remove( recordList.size( ) - 1 );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.validators.IValidatable#getValidators()
+	 */
+
+	public List getValidators( )
+	{
+		List list = new ArrayList( );
+		Iterator iter = recordList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ActivityRecord record = (ActivityRecord) iter.next( );
+			list.addAll( record.getValidators( ) );
+		}
+		return list;
+	}
 }

@@ -19,6 +19,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
+import org.eclipse.birt.report.model.validators.UnsupportedElementValidator;
+import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
 
 /**
  * Describes a report element. This class represents "meta-data" about an
@@ -313,6 +316,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	protected String javaClass = null;
 
 	/**
+	 * The collection of semantic validation trigger definition.
+	 */
+
+	private SemanticTriggerDefnSet triggerDefnSet = null;
+
+	/**
 	 * Sets the Java class which implements this element.
 	 * 
 	 * @param theClass
@@ -486,8 +495,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 						.equalsIgnoreCase( getName( ) ) )
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			SystemPropertyDefn prop = (SystemPropertyDefn) ((ElementDefn)dd.getStyle( )).properties
-					.get( propName );
+			SystemPropertyDefn prop = (SystemPropertyDefn) ( (ElementDefn) dd
+					.getStyle( ) ).properties.get( propName );
 			if ( prop != null )
 				return prop;
 		}
@@ -599,7 +608,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		if ( extendsFrom != null )
 		{
-			parent = (ElementDefn)dd.getElement( extendsFrom );
+			parent = (ElementDefn) dd.getElement( extendsFrom );
 			if ( parent == null )
 				throw new MetaDataException(
 						new String[]{extendsFrom, name},
@@ -702,7 +711,93 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( !isAbstract( ) )
 			newInstance( );
 
+		buildTriggerDefnSet( );
+
 		isBuilt = true;
+	}
+
+	/**
+	 * Builds the trigger definition set. This method cached all validators
+	 * defined in property definition and slot definition. The cached validators
+	 * are used to perform full validation of one element instance.
+	 */
+
+	private void buildTriggerDefnSet( )
+	{
+		AbstractSemanticValidator validator = UnsupportedElementValidator
+				.getInstance( );
+		SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn( validator
+				.getName( ) );
+		triggerDefn.setValidator( validator );
+		getTriggerDefnSet( ).add( triggerDefn );
+
+		if ( hasStyle )
+		{
+			validator = StyleReferenceValidator.getInstance( );
+			triggerDefn = new SemanticTriggerDefn( StyleReferenceValidator.NAME );
+			triggerDefn.setValidator( validator );
+			getTriggerDefnSet( ).add( triggerDefn );
+		}
+
+		// Cache all triggers which are defined in property definition.
+
+		List propList = getProperties( );
+		Iterator iter = propList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyDefn propDefn = (PropertyDefn) iter.next( );
+
+			mergeTriggerDefnSet( propDefn.getTriggerDefnSet( ) );
+		}
+
+		// Cache all triggers which are defined in slot definition.
+
+		int slotCount = getSlotCount( );
+		for ( int i = 0; i < slotCount; i++ )
+		{
+			SlotDefn slotDefn = (SlotDefn) getSlot( i );
+
+			mergeTriggerDefnSet( slotDefn.getTriggerDefnSet( ) );
+		}
+	}
+
+	/**
+	 * Merges the trigger definition set with the given one. The duplicate
+	 * trigger and the trigger whose target is not this element definition will
+	 * not be merged.
+	 * 
+	 * @param toMerge
+	 *            the trigger definition set to merge
+	 */
+
+	private void mergeTriggerDefnSet( SemanticTriggerDefnSet toMerge )
+	{
+		List triggerDefns = toMerge.getTriggerList( );
+		if ( triggerDefns == null || triggerDefns.isEmpty( ) )
+			return;
+
+		Iterator iter = triggerDefns.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			SemanticTriggerDefn triggerDefn = (SemanticTriggerDefn) iter.next( );
+
+			String targetName = triggerDefn.getTargetElement( );
+
+			if ( StringUtil.isBlank( targetName ) )
+			{
+				getTriggerDefnSet( ).add( triggerDefn );
+			}
+			else
+			{
+				ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
+						.getInstance( ).getElement( targetName );
+
+				if ( targetDefn.isKindOf( this ) )
+				{
+					getTriggerDefnSet( ).add( triggerDefn );
+				}
+			}
+		}
 	}
 
 	/**
@@ -806,7 +901,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( stylePropertyNames == null )
 			return;
 
-		ElementDefn style = (ElementDefn)MetaDataDictionary.getInstance( ).getStyle( );
+		ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getStyle( );
 
 		// Get the style property list this element can access if it's
 		// leaf element.
@@ -1096,7 +1192,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	{
 		if ( type == this )
 			return true;
-		ElementDefn obj = ((ElementDefn) type).parent;
+		ElementDefn obj = ( (ElementDefn) type ).parent;
 		while ( obj != null )
 		{
 			if ( obj == this )
@@ -1192,7 +1288,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		abstractElement = flag;
 	}
 
-	// Override of method in super class.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.IObjectDefn#findProperty(java.lang.String)
+	 */
 
 	public IPropertyDefn findProperty( String propName )
 	{
@@ -1213,7 +1313,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		if ( dd.getElement( extendsFrom ) != null )
 		{
-			ElementDefn parentTemp = (ElementDefn)dd.getElement( extendsFrom );
+			ElementDefn parentTemp = (ElementDefn) dd.getElement( extendsFrom );
 			while ( parentTemp != null )
 			{
 				if ( parentTemp.properties.containsKey( property.getName( ) ) )
@@ -1222,7 +1322,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 							new String[]{property.getName( ), this.name},
 							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 				}
-				parentTemp = (ElementDefn)dd.getElement( parentTemp.getExtends( ) );
+				parentTemp = (ElementDefn) dd.getElement( parentTemp
+						.getExtends( ) );
 			}
 		}
 
@@ -1230,7 +1331,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		if ( hasStyle( ) )
 		{
-			ElementDefn styleDefn = (ElementDefn)dd
+			ElementDefn styleDefn = (ElementDefn) dd
 					.getElement( ReportDesignConstants.STYLE_ELEMENT );
 
 			// Style should be defined before any element that has a
@@ -1253,4 +1354,19 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		super.addProperty( property );
 	}
+
+	/**
+	 * Returns the semantic validation trigger definition collection.
+	 * 
+	 * @return the semantic validation trigger definition collection
+	 */
+
+	public SemanticTriggerDefnSet getTriggerDefnSet( )
+	{
+		if ( triggerDefnSet == null )
+			triggerDefnSet = new SemanticTriggerDefnSet( );
+
+		return triggerDefnSet;
+	}
+
 }
