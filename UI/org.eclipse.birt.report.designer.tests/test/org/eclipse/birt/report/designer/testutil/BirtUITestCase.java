@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IViewPart;
@@ -29,10 +28,6 @@ import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Base class of BIRT GUI Features test
- * 
- * 
- * 
- *  
  */
 public class BirtUITestCase extends TestCase implements ITestConstants
 {
@@ -45,8 +40,8 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 
 	protected IPerspectiveDescriptor tPerspectiveDescriptor;
 
-	protected IEditorDescriptor tEditorDescriptor;
-	
+	protected IEditorPart tEditor = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -59,8 +54,6 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 		tPage = tWindow.getActivePage( );
 		tPerspectiveDescriptor = tWorkbench.getPerspectiveRegistry( )
 				.findPerspectiveWithId( PERSPECTIVE_ID );
-		tEditorDescriptor = tWorkbench.getEditorRegistry( )
-				.getDefaultEditor( TEST_DESIGN_FILE );
 	}
 
 	/**
@@ -73,23 +66,53 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 	}
 
 	/**
-	 * Open ReportEditor
+	 * Opens the ReportEditor
+	 * 
+	 * @return the Report Editor
 	 */
 
 	protected IEditorPart openEditor( ) throws Exception
 	{
-		IProject p = FileUtil.createProject( "Test" ); //$NON-NLS-1$
-		p.open( null );
+		if ( tEditor == null )
+		{
+			IProject p = FileUtil.createProject( "Test" ); //$NON-NLS-1$			
 
-		IFile f = FileUtil.createFile( TEST_DESIGN_FILE, p );
-		return tPage.openEditor( new FileEditorInput( f ), EDITOR_ID );
+			IFile f = FileUtil.createFile( TEST_DESIGN_FILE, p );
+			tEditor = tPage.openEditor( new FileEditorInput( f ), EDITOR_ID );
+		}
+		return tEditor;
 	}
 
 	/**
-	 * Get ViewPart
+	 * Saves the opened editor
+	 */
+	protected void saveEditor( )
+	{
+		if ( tEditor != null )
+		{
+			tEditor.doSave( null );
+		}
+	}
+
+	/**
+	 * Closes the opened editor without saving changes
+	 */
+	protected void closeEditor( )
+	{
+		if ( tEditor != null )
+		{
+			tPage.closeEditor( tEditor, false );
+			tEditor = null;
+		}
+	}		
+
+	/**
+	 * Gets the ViewPart with the specified id
 	 * 
 	 * @param id
 	 *            the id of view part
+	 * 
+	 * @return Returns the view part, or null if not found
 	 */
 
 	protected IViewPart getView( String id )

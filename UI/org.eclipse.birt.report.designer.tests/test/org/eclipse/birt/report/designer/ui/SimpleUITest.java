@@ -52,6 +52,7 @@ public class SimpleUITest extends BirtUITestCase
 		assertEquals( EDITOR_ID, tPart.getSite( ).getId( ) );
 		assertEquals( EDITOR_NAME, tPart.getSite( ).getRegisteredName( ) );
 		assertEquals( TEST_DESIGN_FILE, tPart.getTitle( ) );
+		closeEditor( );
 	}
 
 	public void testGetView( )
