@@ -243,6 +243,19 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
+	 * Checks whether the property value can be edited by the user in the
+	 * property sheet.
+	 * 
+	 * @return <code>true</code> if the property value is read-only,
+	 *         <code>false</code> otherwise.
+	 */
+
+	public boolean isEditable( )
+	{
+		return !( getTypeCode( ) == PropertyType.CHOICE_TYPE );
+	}
+
+	/**
 	 * Returns the method information of this property.
 	 * 
 	 * @return the method information of this property. Return null, if this

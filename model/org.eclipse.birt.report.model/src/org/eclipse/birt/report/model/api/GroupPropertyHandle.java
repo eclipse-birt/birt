@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 
 /**
  * A handle for working with a top-level property of a collection of elements.
@@ -67,7 +68,6 @@ public class GroupPropertyHandle
 	 * considered that they share the same value.
 	 * 
 	 * @return <code>true</code> if the group of element share the same value.
-	 *  
 	 */
 
 	public final boolean shareSameValue( )
@@ -79,8 +79,7 @@ public class GroupPropertyHandle
 		if ( !iter.hasNext( ) )
 			return false;
 
-		DesignElementHandle elemHandle = (DesignElementHandle) iter
-				.next( );
+		DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
 
 		// use the value set on the first element as the base value.
 
@@ -113,7 +112,6 @@ public class GroupPropertyHandle
 	 * @return The value as string if all the element values for the property
 	 *         are equal. Return null, if elements have different value for the
 	 *         property.
-	 * 
 	 * @see SimpleValueHandle#getStringValue()
 	 */
 
@@ -122,11 +120,11 @@ public class GroupPropertyHandle
 		if ( !shareSameValue( ) )
 			return null;
 
-        // List must contain at least one element.
-        // return the property value from the first element.
-        
-        List elements = handle.getElements();
-        
+		// List must contain at least one element.
+		// return the property value from the first element.
+
+		List elements = handle.getElements( );
+
 		return ( (DesignElementHandle) elements.get( 0 ) )
 				.getStringProperty( propDefn.getName( ) );
 	}
@@ -141,7 +139,6 @@ public class GroupPropertyHandle
 	 * @throws SemanticException
 	 *             if the property is undefined on an element or the value is
 	 *             invalid.
-	 * 
 	 * @see PropertyHandle#setValue(Object)
 	 */
 
@@ -179,7 +176,6 @@ public class GroupPropertyHandle
 	 * @throws SemanticException
 	 *             if the property is undefined on an element or the string
 	 *             value is invalid.
-	 * 
 	 * @see SimpleValueHandle#setStringValue(String)
 	 */
 
@@ -211,4 +207,39 @@ public class GroupPropertyHandle
 		setValue( null );
 	}
 
+	/**
+	 * Compares the specified Object with this <code>GroupPropertyHandle</code>
+	 * for equality. Returns <code>true</code> in the following cases:
+	 * <ul>
+	 * <li><code>target</code> is a <code>PropertyHandle</code>. The
+	 * element of <code>target</code> is in the
+	 * <code>GroupElementHandle</code> and two property definitions are same.</li>
+	 * <li><code>target</code> is a <code>GroupPropertyHandle</code>.
+	 * <code>GroupElementHandle</code> and the the property definition are same.</li>
+	 * </ul>
+	 * 
+	 * @param target
+	 *            the property or group property handle
+	 * @return <code>true</code> if the two property handles are considerred
+	 *         as same. Otherwise <code>false</code>.
+	 */
+
+	public boolean equals( Object target )
+	{
+		if ( !( target instanceof PropertyHandle )
+				&& !( target instanceof GroupPropertyHandle ) )
+			return false;
+
+		if ( target instanceof PropertyHandle )
+		{
+			DesignElementHandle targetElement = ( (PropertyHandle) target )
+					.getElementHandle( );
+			IPropertyDefn targetPropDefn = ( (PropertyHandle) target )
+					.getDefn( );
+			return ( handle.isInGroup( targetElement ) && targetPropDefn == this.propDefn );
+		}
+
+		GroupPropertyHandle propHandle = (GroupPropertyHandle) target;
+		return ( propHandle.handle == this.handle && propHandle.propDefn == getPropertyDefn( ) );
+	}
 }

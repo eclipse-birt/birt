@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -239,32 +240,33 @@ public class GroupElementHandle
 	public Iterator propertyIterator( )
 	{
 
-		return new Iterator( ) {
+		return new GroupPropertyIterator( getCommonProperties( ) );
+	}
 
-			Iterator propIterator = getCommonProperties( ).iterator( );
+	/**
+	 * Returns an iterator over the common properties that are visible. Contents
+	 * of the iterator are handles to the common properties, type of them is
+	 * <code>GroupPropertyHandle</code>. Note: remove is not support for the
+	 * iterator.
+	 * 
+	 * @return an iterator over the common properties. Contents of the iterator
+	 *         are handles to the common properties, type of them is
+	 *         <code>GroupPropertyHandle</code>
+	 */
 
-			public void remove( )
-			{
-				// not support.
-			}
+	public Iterator visiblePropertyIterator( )
+	{
+		List list = getCommonProperties( );
+		final List visibleList = new ArrayList( );
 
-			public boolean hasNext( )
-			{
-				if ( propIterator == null )
-					return false;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			IElementPropertyDefn propDefn = (IElementPropertyDefn) list.get( i );
+			if ( propDefn.isVisible( ) )
+				visibleList.add( propDefn );
+		}
 
-				return propIterator.hasNext( );
-			}
-
-			public Object next( )
-			{
-				if ( !propIterator.hasNext( ) )
-					return null;
-
-				return new GroupPropertyHandle( GroupElementHandle.this,
-						(ElementPropertyDefn) propIterator.next( ) );
-			}
-		};
+		return new GroupPropertyIterator( visibleList );
 	}
 
 	/**
@@ -404,4 +406,57 @@ public class GroupElementHandle
 	{
 		setProperty( propName, value );
 	}
+
+	/**
+	 * Checks whether the <code>element</code> is a member of
+	 * <code>GroupElementHandle</code>.
+	 * 
+	 * @param element
+	 *            the element to check
+	 * @return <code>true</code> if the element is in the list, otherwise
+	 *         <code>false</code>.
+	 */
+
+	protected boolean isInGroup( DesignElementHandle element )
+	{
+		return elements.contains( element );
+	}
+
+	/**
+	 * An iterator over the properties defined for elements that in the group
+	 * element.
+	 */
+
+	class GroupPropertyIterator implements Iterator
+	{
+
+		Iterator propIterator;
+
+		GroupPropertyIterator( List list )
+		{
+			propIterator = list.iterator( );
+		}
+
+		public void remove( )
+		{
+			// not support.
+		}
+
+		public boolean hasNext( )
+		{
+			if ( propIterator == null )
+				return false;
+
+			return propIterator.hasNext( );
+		}
+
+		public Object next( )
+		{
+			if ( !propIterator.hasNext( ) )
+				return null;
+
+			return new GroupPropertyHandle( GroupElementHandle.this,
+					(ElementPropertyDefn) propIterator.next( ) );
+		}
+	};
 }
