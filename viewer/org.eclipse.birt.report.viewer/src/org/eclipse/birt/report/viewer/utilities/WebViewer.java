@@ -13,6 +13,8 @@ package org.eclipse.birt.report.viewer.utilities;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Locale;
+import java.util.TreeMap;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
@@ -42,6 +44,34 @@ public class WebViewer
 	final public static String WebAppPlugin = ViewerPlugin.PLUGIN_ID;
 
 	/**
+	 * locale preference name 
+	 */
+	final public static String USER_LOCALE = "user_locale"; //$NON-NLS-1$
+
+	/**
+	 * locale mapping. Save some time.
+	 */
+	public static TreeMap LocaleTable = null;
+
+	static
+	{
+		// Initialize the locale mapping table
+		LocaleTable = new TreeMap(); 
+		Locale[] locales = Locale.getAvailableLocales();
+		if ( locales != null )
+		{
+			for ( int i = 0; i < locales.length; i++ )
+			{
+				Locale locale = locales[i];
+				if ( locale != null )
+				{
+					LocaleTable.put( locale.getDisplayName( ), locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
+				}
+			}
+		}
+	}
+
+	/**
 	 * Get web viewer base url.
 	 * 
 	 * @return base web viewer application url
@@ -63,6 +93,7 @@ public class WebViewer
 	private static String createURL( String servletName, String uri, String format )
 	{
 		String encodedUri = null;
+		
 		try
 		{
 			encodedUri = URLEncoder.encode( uri, "utf-8" ); //$NON-NLS-1$
@@ -72,11 +103,14 @@ public class WebViewer
 			// Do nothing
 		}
 		
-		/**
-		 * So far, only uri is encoded as utf-8 format 
-		 */
-		return getBaseURL( ) + servletName + "?" + "__uri=" //$NON-NLS-1$ //$NON-NLS-2$
-			+ encodedUri + "&__format=" + format; //$NON-NLS-1$
+		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
+		// So far, only uri is encoded as utf-8 format 
+		return getBaseURL( )
+			+ servletName + "?" //$NON-NLS-1$
+			+ "__uri=" + encodedUri //$NON-NLS-1$
+			+ "&__format=" + format //$NON-NLS-1$
+			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
+		
 	}
 
 	/**
@@ -105,7 +139,6 @@ public class WebViewer
 	public static void startup( Browser browser )
 	{
 		startWebApp( );
-
 		browser.setUrl( getBaseURL( ) + "initservlet" ); //$NON-NLS-1$
 	}
 
@@ -118,7 +151,6 @@ public class WebViewer
 	public static void display( String uri, String format )
 	{
 		startWebApp( );
-
 		String root = null;
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
@@ -150,7 +182,6 @@ public class WebViewer
 	public static void display( String uri, String format, Browser browser )
 	{
 		startWebApp( );
-
 		browser.setUrl( createURL( "engineservlet", uri, format ) ); //$NON-NLS-1$
 	}
 
