@@ -1819,16 +1819,16 @@
       <Property name="borderRightColor" displayNameID="Element.Style.border.right.color" type="color" isStyleProperty="true" canInherit="false">
         <Default>black</Default>
       </Property>
-      <Property name="marginTop" displayNameID="Element.Style.margin.top" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false">
+      <Property name="marginTop" displayNameID="Element.Style.margin.top" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0</Default>
       </Property>
-      <Property name="marginBottom" displayNameID="Element.Style.margin.bottom" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false">
+      <Property name="marginBottom" displayNameID="Element.Style.margin.bottom" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0</Default>
       </Property>
-      <Property name="marginLeft" displayNameID="Element.Style.margin.left" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false">
+      <Property name="marginLeft" displayNameID="Element.Style.margin.left" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0</Default>
       </Property>
-      <Property name="marginRight" displayNameID="Element.Style.margin.right" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false">
+      <Property name="marginRight" displayNameID="Element.Style.margin.right" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0</Default>
       </Property>
       <Property name="paddingTop" displayNameID="Element.Style.padding.top" type="dimension" isStyleProperty="true" canInherit="false">
