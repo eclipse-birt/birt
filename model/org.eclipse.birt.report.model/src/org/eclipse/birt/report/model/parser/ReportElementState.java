@@ -364,7 +364,7 @@ public abstract class ReportElementState extends DesignParseState
 		if ( StringUtil.isBlank( name ) )
 		{
 			if ( nameRequired )
-				handler.semanticError( new NameException( null, null,
+				handler.semanticError( new NameException( element, null,
 						NameException.NAME_REQUIRED ) );
 		}
 		else
