@@ -70,7 +70,7 @@
          point="org.eclipse.birt.report.engine.reportitemPresentation">
       <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationImpl"
-            supportedFormars="GIF,PNG"
+            supportedFormats="GIF,PNG,BMP,JPG"
             name="Chart"/>
    </extension>
 </plugin>
