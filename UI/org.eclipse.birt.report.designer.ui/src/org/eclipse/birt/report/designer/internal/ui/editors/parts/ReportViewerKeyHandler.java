@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditLabelAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyStroke;
@@ -89,13 +86,6 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		{
 			return tableCellKeyPressed( event );
 		}
-		else if ( part instanceof LabelEditPart )
-		{
-			if ( labelKeyPressed( event, part ) )
-			{
-				return true;
-			}
-		}
 
 		return super.keyPressed( event );
 	}
@@ -103,18 +93,5 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 	protected boolean tableCellKeyPressed( KeyEvent event )
 	{
 		return tableDelgate.keyPressed( event );
-	}
-
-	/**
-	 * Presses F2 to edit label,text,data elements.
-	 */
-	protected boolean labelKeyPressed( KeyEvent event, EditPart part )
-	{
-		if ( event.keyCode == SWT.F2 )
-		{
-			( new EditLabelAction( part ) ).run( );
-			return true;
-		}
-		return false;
 	}
 }
