@@ -1033,7 +1033,7 @@ public class SeriesImpl extends EObjectImpl implements Series
         setLabel(la);
         la.setVisible(false);
         setLabelPosition(Position.OUTSIDE_LITERAL);
-        setSeriesIdentifier(IConstants.EMPTY_STRING);
+        setSeriesIdentifier(IConstants.UNDEFINED_STRING);
         setDataPoint(DataPointImpl.create(null, null, ", "));
     }
 
