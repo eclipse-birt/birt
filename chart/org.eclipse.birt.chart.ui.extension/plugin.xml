@@ -20,6 +20,7 @@
       <import plugin="org.eclipse.birt.chart.shared"/>
       <import plugin="org.eclipse.birt.chart.ui"/>
       <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.birt.core"/>
    </requires>
 
    <!-- Change Listener Extensions -->
