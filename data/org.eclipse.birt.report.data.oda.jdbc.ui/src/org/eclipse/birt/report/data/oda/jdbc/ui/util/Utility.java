@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.StringPropertyType;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -36,7 +35,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/24 05:04:34 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 22:35:18 $
  */
 public class Utility
 {
@@ -113,13 +112,7 @@ public class Utility
             {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
-            catch (MetaDataException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            
+            }            
         }
         try
         {
