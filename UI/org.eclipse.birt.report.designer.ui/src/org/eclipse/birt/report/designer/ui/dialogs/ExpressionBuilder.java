@@ -17,16 +17,21 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport;
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.text.Document;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.SashForm;
@@ -245,15 +250,23 @@ public class ExpressionBuilder extends BaseDialog
 				| SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
 		treeCommon.setExpressionViewer( expressionViewer );
-		final StyledText text = expressionViewer.getTextWidget( );
-		expressionViewer.setDocument( new Document( ) );
+
+		expressionViewer.configure( new JSSourceViewerConfiguration( ) );
+		JSEditorInput editorInput = new JSEditorInput( inputExpression );
+		JSDocumentProvider documentProvider = new JSDocumentProvider( );
+		try
 		{
-			text.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			text.setFocus( );
-			if ( inputExpression != null )
-				text.setText( inputExpression );
+			documentProvider.connect( editorInput );
 		}
-		expressionViewer.configure( new SourceViewerConfiguration( ) );
+		catch ( CoreException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		final StyledText text = expressionViewer.getTextWidget( );
+		IDocument document = documentProvider.getDocument( editorInput );
+		expressionViewer.setDocument( document );
+		text.setFont( JFaceResources.getTextFont( ) );
 		text.invokeAction( ST.TEXT_END );
 
 		//create actions for context menu and short cut keys
