@@ -113,30 +113,30 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		styleSep = new SeparatorFieldEditor( gpStyle, false );
 
 		styleTop = new ComboBoxFieldEditor( Style.BORDER_TOP_STYLE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_TOP_STYLE_PROP ),
 				gpStyle );
 
 		styleRight = new ComboBoxFieldEditor( Style.BORDER_RIGHT_STYLE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_RIGHT_STYLE_PROP ),
 				gpStyle );
 
 		styleBottom = new ComboBoxFieldEditor( Style.BORDER_BOTTOM_STYLE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_BOTTOM_STYLE_PROP ),
 				gpStyle );
 
 		styleLeft = new ComboBoxFieldEditor( Style.BORDER_LEFT_STYLE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_LEFT_STYLE_PROP ),
 				gpStyle );
 
@@ -146,24 +146,24 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		colorSep = new SeparatorFieldEditor( gpColor, false );
 
 		colorTop = new ColorFieldEditor( Style.BORDER_TOP_COLOR_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				gpColor );
 		colorRight = new ColorFieldEditor( Style.BORDER_RIGHT_COLOR_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				gpColor );
 		colorBottom = new ColorFieldEditor( Style.BORDER_BOTTOM_COLOR_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				gpColor );
 		colorLeft = new ColorFieldEditor( Style.BORDER_LEFT_COLOR_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				gpColor );
 
 		gpWidth = createGroupControl( getFieldEditorParent( ),
@@ -172,33 +172,33 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		widthSep = new SeparatorFieldEditor( gpWidth, false );
 
 		widthTop = new ComboBoxMeasureFieldEditor( Style.BORDER_TOP_WIDTH_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_TOP_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_TOP_WIDTH_PROP ),
 				gpWidth );
 
 		widthRight = new ComboBoxMeasureFieldEditor( Style.BORDER_RIGHT_WIDTH_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_RIGHT_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_RIGHT_WIDTH_PROP ),
 				gpWidth );
 
 		widthBottom = new ComboBoxMeasureFieldEditor( Style.BORDER_BOTTOM_WIDTH_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_BOTTOM_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_BOTTOM_WIDTH_PROP ),
 				gpWidth );
 
 		widthLeft = new ComboBoxMeasureFieldEditor( Style.BORDER_LEFT_WIDTH_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.BORDER_LEFT_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_LEFT_WIDTH_PROP ),
 				gpWidth );

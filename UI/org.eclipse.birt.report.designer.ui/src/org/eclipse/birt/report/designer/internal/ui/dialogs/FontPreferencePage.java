@@ -117,52 +117,52 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 
 		name = new EditableComboFieldEditor( Style.FONT_FAMILY_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.FONT_FAMILY_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_FAMILY_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getFontChoiceArray( ),
 				getFieldEditorParent( ) );
 
 		color = new ColorFieldEditor( Style.COLOR_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.COLOR_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.COLOR_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 
 		size = new ComboBoxMeasureFieldEditor( Style.FONT_SIZE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_SIZE ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_UNITS ),
 				getFieldEditorParent( ) );
 
 		style = new ComboBoxFieldEditor( Style.FONT_STYLE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.FONT_STYLE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_STYLE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_STYLE ),
 				getFieldEditorParent( ) );
 
 		weight = new ComboBoxFieldEditor( Style.FONT_WEIGHT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.FONT_WEIGHT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_WEIGHT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_WEIGHT ),
 				getFieldEditorParent( ) );
 
 		docoration = new DecorationFieldEditor( Style.TEXT_UNDERLINE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_UNDERLINE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_UNDERLINE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				Style.TEXT_OVERLINE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_OVERLINE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_OVERLINE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				Style.TEXT_LINE_THROUGH_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_LINE_THROUGH_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_LINE_THROUGH_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				Messages.getString( "FontPreferencePage.label.fontDecoration" ), //$NON-NLS-1$
 				getFieldEditorParent( ) );
 

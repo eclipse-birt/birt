@@ -103,9 +103,9 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 
 		lineHeight = new ComboBoxMeasureFieldEditor( Style.LINE_HEIGHT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.LINE_HEIGHT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.LINE_HEIGHT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.LINE_HEIGHT_PROP ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
@@ -113,9 +113,9 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getFieldEditorParent( ) );
 
 		charSpacing = new ComboBoxMeasureFieldEditor( Style.LETTER_SPACING_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.LETTER_SPACING_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.LETTER_SPACING_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.LETTER_SPACING_PROP ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
@@ -123,9 +123,9 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getFieldEditorParent( ) );
 
 		wordSpacing = new ComboBoxMeasureFieldEditor( Style.WORD_SPACING_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.WORD_SPACING_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.WORD_SPACING_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.WORD_SPACING_PROP ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
@@ -133,49 +133,49 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getFieldEditorParent( ) );
 
 		verticalAlign = new ComboBoxFieldEditor( Style.VERTICAL_ALIGN_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.VERTICAL_ALIGN_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.VERTICAL_ALIGN_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.VERTICAL_ALIGN_PROP ) ),
 				getFieldEditorParent( ) );
 
 		textAlign = new ComboBoxFieldEditor( Style.TEXT_ALIGN_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_ALIGN_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_ALIGN_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.TEXT_ALIGN_PROP ) ),
 				getFieldEditorParent( ) );
 
 		textIndent = new ComboBoxMeasureFieldEditor( Style.TEXT_INDENT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_INDENT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_INDENT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.TEXT_INDENT_PROP ) ),
 				getFieldEditorParent( ) );
 
 		textTrans = new ComboBoxFieldEditor( Style.TEXT_TRANSFORM_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_TRANSFORM_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_TRANSFORM_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.TEXT_TRANSFORM_PROP ) ),
 				getFieldEditorParent( ) );
 
 		whiteSpace = new ComboBoxFieldEditor( Style.WHITE_SPACE_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.WHITE_SPACE_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.WHITE_SPACE_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.WHITE_SPACE_PROP ) ),
 				getFieldEditorParent( ) );
 
 		display = new ComboBoxFieldEditor( Style.DISPLAY_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.DISPLAY_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.DISPLAY_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.DISPLAY_PROP ) ),
 				getFieldEditorParent( ) );

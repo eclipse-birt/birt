@@ -115,30 +115,30 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		paddingSep = new SeparatorFieldEditor( gpPadding, false );
 
 		paddingTop = new ComboBoxMeasureFieldEditor( Style.PADDING_TOP_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_TOP_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PADDING_TOP_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getMeasureChoiceArray( Style.PADDING_TOP_PROP ),
 				gpPadding );
 
 		paddingRight = new ComboBoxMeasureFieldEditor( Style.PADDING_RIGHT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_RIGHT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PADDING_RIGHT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getMeasureChoiceArray( Style.PADDING_RIGHT_PROP ),
 				gpPadding );
 
 		paddingBottom = new ComboBoxMeasureFieldEditor( Style.PADDING_BOTTOM_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_BOTTOM_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PADDING_BOTTOM_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getMeasureChoiceArray( Style.PADDING_BOTTOM_PROP ),
 				gpPadding );
 
 		paddingLeft = new ComboBoxMeasureFieldEditor( Style.PADDING_LEFT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_LEFT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PADDING_LEFT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getMeasureChoiceArray( Style.PADDING_LEFT_PROP ),
 				gpPadding );
 
@@ -152,33 +152,33 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		marginSep = new SeparatorFieldEditor( gpMargin, false );
 
 		marginTop = new ComboBoxMeasureFieldEditor( Style.MARGIN_TOP_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_TOP_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_TOP_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.MARGIN_TOP_PROP ),
 				getMeasureChoiceArray( Style.MARGIN_TOP_PROP ),
 				gpMargin );
 
 		marginRight = new ComboBoxMeasureFieldEditor( Style.MARGIN_RIGHT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_RIGHT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_RIGHT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.MARGIN_RIGHT_PROP ),
 				getMeasureChoiceArray( Style.MARGIN_RIGHT_PROP ),
 				gpMargin );
 
 		marginBottom = new ComboBoxMeasureFieldEditor( Style.MARGIN_BOTTOM_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_BOTTOM_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_BOTTOM_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.MARGIN_BOTTOM_PROP ),
 				getMeasureChoiceArray( Style.MARGIN_BOTTOM_PROP ),
 				gpMargin );
 
 		marginLeft = new ComboBoxMeasureFieldEditor( Style.MARGIN_LEFT_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_LEFT_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_LEFT_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getChoiceArray( Style.MARGIN_LEFT_PROP ),
 				getMeasureChoiceArray( Style.MARGIN_LEFT_PROP ),
 				gpMargin );
