@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.viewer;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -23,6 +26,8 @@ import org.osgi.framework.BundleContext;
  */
 public class ViewerPlugin extends Plugin
 {
+	public final static String PLUGIN_ID = "org.eclipse.birt.report.viewer"; //$NON-NLS-1$
+
 	/**
 	 * The shared instance.
 	 */
@@ -42,7 +47,7 @@ public class ViewerPlugin extends Plugin
 		plugin = this;
 		try
 		{
-			resourceBundle = ResourceBundle.getBundle("org.eclipse.birt.report.viewer.ViewerPluginResources");
+			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class.getName( ) );
 		}
 		catch (MissingResourceException x)
 		{
@@ -102,12 +107,33 @@ public class ViewerPlugin extends Plugin
 		}
 	}
 
+	public static String getFormattedResourceString( String key, Object[] arguments )
+	{
+		return MessageFormat.format( getResourceString( key ), arguments );
+	}
+
+	/**
+	 * Logs an Error message with an exception. Note that the message should
+	 * already be localized to proper locale. ie: Resources.getString() should
+	 * already have been called
+	 */
+	public static synchronized void logError( String message, Throwable ex )
+	{
+		if ( message == null )
+		{
+			message = ""; //$NON-NLS-1$
+		}
+		
+		Status errorStatus = new Status( IStatus.ERROR, PLUGIN_ID, IStatus.OK, message, ex );
+		ViewerPlugin.getDefault( ).getLog( ).log( errorStatus );
+	}
+
 	/**
 	 * Returns the plugin's resource bundle,
 	 * 
 	 * @return resource boundle
 	 */
-	public ResourceBundle getResourceBundle()
+	public ResourceBundle getResourceBundle( )
 	{
 		return resourceBundle;
 	}
