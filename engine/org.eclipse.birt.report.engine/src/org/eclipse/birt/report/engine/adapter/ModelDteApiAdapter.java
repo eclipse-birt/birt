@@ -50,13 +50,12 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.InputParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.OutputParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
@@ -259,25 +258,23 @@ public class ModelDteApiAdapter
         dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose() );
         dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose() );
 
-        // input parameters
-        Iterator elmtIter = modelDataSet.inputParametersIterator();
+        // dataset parameters
+        Iterator elmtIter = modelDataSet.parametersIterator();
         if ( elmtIter != null )
         {
             while ( elmtIter.hasNext() )
             {
-                InputParameterHandle modelInputParam = (InputParameterHandle) elmtIter.next();
-                dteDataSet.addInputParameter( newInputParam( modelInputParam ) );
-            }
-        }
-
-        // output parameters
-        elmtIter = modelDataSet.outputParametersIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                OutputParameterHandle modelOutputParam = (OutputParameterHandle) elmtIter.next();
-                dteDataSet.addOutputParameter( newOutputParam( modelOutputParam ) );
+            	DataSetParameterHandle modelParam = (DataSetParameterHandle ) elmtIter.next();
+            	// input parameters
+            	if ( modelParam.isInput( ) )
+				{
+					dteDataSet.addInputParameter( newInputParam( modelParam ) );
+				}
+				// output parameters
+				if ( modelParam.isOutput( ) )
+				{
+					dteDataSet.addOutputParameter( newOutputParam( modelParam ) );
+				}
             }
         }
 
@@ -350,7 +347,7 @@ public class ModelDteApiAdapter
 
     }
     
-    IInputParameterDefinition newInputParam( InputParameterHandle modelInputParam )
+    IInputParameterDefinition newInputParam( DataSetParameterHandle modelInputParam )
     {
         InputParameterDefinition dteInputParam = new InputParameterDefinition();
 
@@ -363,7 +360,7 @@ public class ModelDteApiAdapter
         return dteInputParam;
     }
 
-    IOutputParameterDefinition newOutputParam( OutputParameterHandle modelOutputParam )
+    IOutputParameterDefinition newOutputParam( DataSetParameterHandle modelOutputParam )
     {
         OutputParameterDefinition dteOutputParam = new OutputParameterDefinition();
 
