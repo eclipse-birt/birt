@@ -118,12 +118,8 @@ public class ResourceConstants
 	public final static String CANOOT_GET_PARAMETER_SCALE = "odaconsumer.CannotGetParameterScale";
 	public final static String CANNOT_GET_PARAMETER_PRECISION = "odaconsumer.CannotGetParameterPrecision";
 	public final static String CANNOT_GET_PARAMETER_ISNULLABLE = "odaconsumer.CannotGetParameterIsNullable";
-	public final static String NON_INPUT_PARAM_MERGE_WITH_INPUT_HINT = "odaconsumer.NonInputParamMergeWithInputHint";
-	public final static String NON_OUTPUT_PARAM_MERGE_WITH_OUTPUT_HINT = "odaconsumer.NonOutputParamMergeWithOutputHint";
 	public final static String SAME_PARAM_NAME_FOR_DIFFERENT_HINTS = "odaconsumer.SameParamNameForDifferentHints";
 	public final static String DIFFERENT_PARAM_NAME_FOR_SAME_POSITION = "odaconsumer.DifferentParamNameForSamePosition";
-	public final static String INPUT_PARAMETERS = "odaconsumer.InputParameters";
-	public final static String OUTPUT_PARAMETERS = "odaconsumer.OutputParameters";
 	public final static String PARAMETER_VALUE_IS_NULL = "odaconsumer.ParameterValueIsNull";
 	public final static String UNSUPPORTED_PARAMETER_VALUE_TYPE = "odaconsumer.UnsupportedParameterValueType";
 	public final static String UNKNOWN_EXCEPTION_THROWN = "odaconsumer.UnknownExceptionThrown";

@@ -59,8 +59,7 @@ public class PreparedStatement
 	private int m_supportsOutputParameters;
 	private int m_supportsNamedParameters;
 	
-	private ArrayList m_inputParameterHints;
-	private ArrayList m_outputParameterHints;
+	private ArrayList m_parameterHints;
 	// cached Collection of parameter metadata
 	private Collection m_parameterMetaData;
 	
@@ -557,7 +556,7 @@ public class PreparedStatement
 	{
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = doGetIndexFromParamHints( paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return getParameterType( paramIndex );
 		}
@@ -578,17 +577,6 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { paramName } );
 		}
-	}
-	
-	// need to check through two different sets of hints to get the parameter 
-	// index from the hints
-	private int doGetIndexFromParamHints( String paramName )
-	{
-		int index = getIndexFromParamHints( getOutputParameterHints(), paramName );
-		if( index == 0 )
-			index = getIndexFromParamHints( getInputParameterHints(), paramName );
-		
-		return index;
 	}
 
 	/**
@@ -688,44 +676,36 @@ public class PreparedStatement
 		getProjectedColumns( resultSetName ).addHint( columnHint );
 	}
 
+	private ArrayList getParameterHints()
+	{
+		if( m_parameterHints == null )
+			m_parameterHints = new ArrayList();
+		
+		return m_parameterHints;
+	}
+	
 	/**
-	 * Adds an <code>OutputParameterHint</code> for this statement to map 
-	 * static output parameter definitions with runtime output parameter 
-	 * metadata.
-	 * @param outputParamHint	an <code>OutputParameterHint</code> instance.
+	 * Adds a <code>ParameterHint</code> for this statement to map static 
+	 * parameter definitions with the runtime parameter metadata.
+	 * @param paramHint	a <code>ParameterHint</code> instance.
 	 * @throws DataException	if data source error occurs.
 	 */
-	public void addOutputParameterHint( OutputParameterHint outputParamHint )
-		throws DataException
+	public void addParameterHint( ParameterHint paramHint ) throws DataException
 	{
-		if( outputParamHint == null )
+		if( paramHint == null )
 			return;
 		
-		validateAndAddParameterHint( outputParamHint,
-		                             false /* useInputHintsList */,
-		                             false /* isMergingWithOtherHintList */ );
+		validateAndAddParameterHint( paramHint );
 		
 		// if we've successfully added a parameter hint, then we need to invalidate 
 		// previous version of parameter metadata
 		m_parameterMetaData = null;
 	}
-	
-	private ArrayList getOutputParameterHints()
-	{
-		if( m_outputParameterHints == null )
-			m_outputParameterHints = new ArrayList();
-		
-		return m_outputParameterHints;
-	}
-	
-	private void validateAndAddParameterHint( ParameterHint newParameterHint,
-											  boolean useInputHintsList,
-											  boolean isMergingWithOtherHintList )
+
+	private void validateAndAddParameterHint( ParameterHint newParameterHint )
 		throws DataException
 	{
-		ArrayList parameterHintsList = ( useInputHintsList ) ?
-									   getInputParameterHints() : 
-									   getOutputParameterHints();	
+		ArrayList parameterHintsList = getParameterHints();	
 		String newParamHintName = newParameterHint.getName();
 		int newParamHintIndex = newParameterHint.getPosition();
 		for( int i = 0, n = parameterHintsList.size(); i < n; i++ )
@@ -748,7 +728,6 @@ public class PreparedStatement
 				// same parameter hint position
 				throw new DataException( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION, 
 										 new Object[] { existingParamHintName, 
-														getLocalizedParamListTypeName( useInputHintsList ), 
 														new Integer( existingParamHintPosition ) } );
 			}
 
@@ -759,16 +738,8 @@ public class PreparedStatement
 			if( existingParamHintIndex != newParamHintIndex && 
 				existingParamHintIndex > 0 && newParamHintIndex > 0 )
 				throw new DataException( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
-										 new Object[] { getLocalizedParamListTypeName( useInputHintsList ), 
-														existingParamHintName } );
+										 new Object[] { existingParamHintName } );
 
-			// we also need to check whether this new parameter hint 
-			// is compatible with the entries in the other parameter hints 
-			// list, otherwise there will be problems in getParameterMetaData()
-			if( ! isMergingWithOtherHintList )
-				validateAndAddParameterHint( newParameterHint, ! useInputHintsList, 
-				                             true /* isMergingWithOtherHintList */ );
-			
 			// same parameter hint name and parameter hint index, so we're 
 			// referring to the same hint, just update the existing one with 
 			// the new info
@@ -777,23 +748,8 @@ public class PreparedStatement
 		}
 		
 		// new hint name didn't match any of the existing hints, so we'll need to add 
-		// it to the list.  first check that it's compatible with all of the hints in the 
-		// other list.  And do not add it to the list if we're processing the second list 
-		// because we should only merge with that list
-		if( ! isMergingWithOtherHintList )
-		{
-			validateAndAddParameterHint( newParameterHint, ! useInputHintsList, 
-			                             true /* isMergingWithOtherHintList */ );
-			
-			parameterHintsList.add( newParameterHint );
-		}
-	}
-	
-	private String getLocalizedParamListTypeName( boolean useInputHintsList )
-	{
-		String key = ( useInputHintsList ) ? ResourceConstants.INPUT_PARAMETERS :
-											 ResourceConstants.OUTPUT_PARAMETERS;
-		return DataResourceHandle.getInstance().getMessage( key );
+		// it to the list.
+		parameterHintsList.add( newParameterHint );
 	}
 	
 	/**
@@ -1029,83 +985,23 @@ public class PreparedStatement
 	{
 		ArrayList parameterMetaData = null;
 		
-		// add the input parameter hints, if any.
-		if( m_inputParameterHints != null && m_inputParameterHints.size() > 0 )
+		// add the parameter hints, if any.
+		if( m_parameterHints != null && m_parameterHints.size() > 0 )
 		{
 			parameterMetaData = new ArrayList();
-			addParameterHints( parameterMetaData, m_inputParameterHints );
+			addParameterHints( parameterMetaData, m_parameterHints );
 		}
-		
-		// add the output parameter hints, if any.
-		if( m_outputParameterHints != null && m_outputParameterHints.size() > 0 )
-		{
-			if( parameterMetaData != null )
-			{
-				// if the parameter metadata list is not null, then there are some 
-				// existing input parameter metadata that we'll need to merge with 
-				// the output parameter hints
-				doMergeParamHints( parameterMetaData, m_outputParameterHints );
-			}
-			else
-			{
-				parameterMetaData = new ArrayList();
-				addParameterHints( parameterMetaData, m_outputParameterHints );
-			}
-		}
-		
+	
 		return parameterMetaData;
 	}
-	
-	private void doMergeParamHints( List parameterMetaData, List outputParamHints )
-		throws DataException
-	{
-		ListIterator iter = outputParamHints.listIterator();
-		while( iter.hasNext() )
-		{
-			OutputParameterHint outputHint = (OutputParameterHint) iter.next();
-			String outputHintName = outputHint.getName();
-			ParameterMetaData matchingParamMd = 
-				findMatchingParameterMetaData( parameterMetaData, outputHintName );
-			
-			if( matchingParamMd != null )
-			{
-				matchingParamMd.updateWith( outputHint );
-				continue;
-			}
-			
-			// no existing parameter metadata match, so need to add a new one based 
-			// on the hint
-			ParameterMetaData paramMd = new ParameterMetaData( outputHint );
-			parameterMetaData.add( paramMd );
-		}
-	}
-	
-	private ParameterMetaData findMatchingParameterMetaData( List parameterMetaData, 
-															 String outputHintName )
-	{
-		ListIterator paramMdIter = parameterMetaData.listIterator();
-		while( paramMdIter.hasNext() )
-		{
-			ParameterMetaData paramMd = (ParameterMetaData) paramMdIter.next();
-			String paramMdName = paramMd.getName();
-			if( paramMdName != null && paramMdName.equals( outputHintName ) )
-				return paramMd;
-		}
-		
-		// no match
-		return null;
-	}
-	
+
 	private void addParameterHints( List parameterMetaData, List parameterHints )
 	{
 		ListIterator iter = parameterHints.listIterator();
 		while( iter.hasNext() )
 		{
 			ParameterHint paramHint = (ParameterHint) iter.next();
-			ParameterMetaData paramMd = 
-				( paramHint instanceof InputParameterHint ) ?
-				new ParameterMetaData( (InputParameterHint) paramHint ) :
-				new ParameterMetaData( (OutputParameterHint) paramHint );
+			ParameterMetaData paramMd = new ParameterMetaData( paramHint );
 			parameterMetaData.add( paramMd );						
 		}
 	}
@@ -1127,14 +1023,9 @@ public class PreparedStatement
 			paramMetaData.add( paramMd );
 		}
 		
-		if( m_inputParameterHints != null && m_inputParameterHints.size() > 0 )
-			updateWithParameterHints( paramMetaData, m_inputParameterHints, 
-			                          true /* forInput */ );
-		
-		if( m_outputParameterHints != null && m_outputParameterHints.size() > 0 )
-			updateWithParameterHints( paramMetaData, m_outputParameterHints,
-			                          false /* forInput */ );
-		
+		if( m_parameterHints != null && m_parameterHints.size() > 0 )
+			updateWithParameterHints( paramMetaData, m_parameterHints );
+
 		return paramMetaData;
 	}
 	
@@ -1156,8 +1047,7 @@ public class PreparedStatement
 	}
 	
 	private void updateWithParameterHints( List parameterMetaData, 
-									   	   List parameterHints,
-									   	   boolean forInput )
+									   	   List parameterHints )
 		throws DataException
 	{
 		assert( parameterHints != null );
@@ -1168,17 +1058,18 @@ public class PreparedStatement
 		{
 			ParameterHint paramHint = (ParameterHint) iter.next();
 			String paramHintName = paramHint.getName();
-			int position = getParameterIndexFromName( paramHintName, forInput );
+			// try to get the parameter index from the runtime first.  if that fails, 
+			// then use the position in the hint itself.
+			int position = 0;
+			if( paramHint.isInputMode() )
+				position = 
+					getRuntimeParameterIndexFromName( paramHintName, true /* forInput */ );
+			
 			if( position <= 0 || position > numOfRuntimeParameters )
 			{
-				// this param hint didn't have a position, so try to see if 
-				// a param hint with the same name on the other parameter hints 
-				// list would have a position
-				if( forInput && m_outputParameterHints != null )
-					position = getIndexFromParamHints( m_outputParameterHints, paramHintName );
-				else if( ! forInput && m_inputParameterHints != null )
-					position = getIndexFromParamHints( m_inputParameterHints, paramHintName );
-				
+				if( paramHint.isOutputMode() )
+					position = getRuntimeParameterIndexFromName( paramHintName, false /* forInput */ );
+
 				if( position <= 0 || position > numOfRuntimeParameters )
 				{
 					// couldn't find the index for the param name
@@ -1190,15 +1081,11 @@ public class PreparedStatement
 			
 			ParameterMetaData paramMd = 
 				(ParameterMetaData) parameterMetaData.get( position - 1 );
-			
-			if( forInput )
-				paramMd.updateWith( (InputParameterHint) paramHint );
-			else
-				paramMd.updateWith( (OutputParameterHint) paramHint );
+			paramMd.updateWith( paramHint );
 		}
 	}
-	
-	private int getParameterIndexFromName( String paramName, boolean forInput )
+
+	private int getRuntimeParameterIndexFromName( String paramName, boolean forInput )
 		throws DataException
 	{
 		if( forInput )
@@ -1258,8 +1145,7 @@ public class PreparedStatement
 		// any type info, then getOdaTypeFromParamHints() will return the safest default 
 		// type, Types.CHAR.
 		int paramType = ( nativeType == Types.NULL ) ?
-						getOdaTypeFromParamHints( getOutputParameterHints(), 
-						                          paramName, paramIndex ) :
+						getOdaTypeFromParamHints( paramName, paramIndex ) :
 						DriverManager.getInstance().getNativeToOdaMapping( driverName,
 																		   m_dataSetType, 
 																		   nativeType );
@@ -1327,7 +1213,7 @@ public class PreparedStatement
 	{
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetInt( paramIndex );
 		}
@@ -1340,7 +1226,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetDouble( paramIndex );
 		}
@@ -1353,7 +1239,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetString( paramIndex );
 		}
@@ -1366,7 +1252,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetBigDecimal( paramIndex );
 		}
@@ -1379,7 +1265,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetDate( paramIndex );
 		}
@@ -1392,7 +1278,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetTime( paramIndex );
 		}
@@ -1405,7 +1291,7 @@ public class PreparedStatement
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getOutputParameterHints(), paramName );
+			int paramIndex = getIndexFromParamHints( paramName );
 			if( paramIndex > 0 )
 				return doGetTimestamp( paramIndex );
 		}
@@ -1681,13 +1567,13 @@ public class PreparedStatement
 		}
 	}
 	
-	private int getOdaTypeFromParamHints( List parameterHints, 
-										  String paramName, 
+	private int getOdaTypeFromParamHints( String paramName, 
 										  int paramIndex )
 	{
-		assert( parameterHints != null );
+		if( m_parameterHints == null )
+			return Types.CHAR;
 		
-		ListIterator iter = parameterHints.listIterator();
+		ListIterator iter = m_parameterHints.listIterator();
 		boolean useParamName = ( paramName != null );
 		while( iter.hasNext() )
 		{
@@ -1708,11 +1594,12 @@ public class PreparedStatement
 
 	// returns 0 if the parameter hint doesn't exist for the specified parameter 
 	// name or if the caller didn't specify a position for the specified parameter name
-	private int getIndexFromParamHints( List parameterHints, String paramName )
+	private int getIndexFromParamHints( String paramName )
 	{
-		assert( parameterHints != null );
+		if( m_parameterHints == null )
+			return 0;
 		
-		ListIterator iter = parameterHints.listIterator();
+		ListIterator iter = m_parameterHints.listIterator();
 		while( iter.hasNext() )
 		{
 			ParameterHint paramHint = 
@@ -1884,35 +1771,6 @@ public class PreparedStatement
 		setParameterValue( paramName, 0 /* n/a paramIndex */, paramValue );
 	}
 
-	/**
-	 * Adds an <code>InputParameterHint</code> for this statement to map 
-	 * static input parameter definitions with runtime input parameter 
-	 * metadata.
-	 * @param inputParamHint	an <code>InputParameterHint</code> instance.
-	 * @throws DataException	if data source error occurs.
-	 */
-	public void addInputParameterHint( InputParameterHint inputParamHint ) throws DataException
-	{
-		if( inputParamHint == null )
-			return;
-		
-		validateAndAddParameterHint( inputParamHint, 
-		                             true /* useInputHintsList */,
-		                             false /* isMergingWithOtherHintList */ );
-		
-		// if we've successfully added a parameter hint, then we need to invalidate 
-		// previous version of parameter metadata
-		m_parameterMetaData = null;
-	}
-
-	private ArrayList getInputParameterHints()
-	{
-		if( m_inputParameterHints == null )
-			m_inputParameterHints = new ArrayList();
-		
-		return m_inputParameterHints;
-	}
-
 	private void setParameterValue( String paramName, int paramIndex, 
 									Object paramValue ) throws DataException
 	{
@@ -2022,8 +1880,7 @@ public class PreparedStatement
 		// if the runtime parameter metadata returns the unknown type, then 
 		// try to get the type from the parameter hints
 		if( parameterType == Types.NULL )
-			parameterType = getOdaTypeFromParamHints( getInputParameterHints(), 
-			                                          paramName, paramIndex );
+			parameterType = getOdaTypeFromParamHints( paramName, paramIndex );
 		
 		Class paramValueClass = paramValue.getClass();
 		
@@ -2458,7 +2315,7 @@ public class PreparedStatement
 	
 	private boolean setIntUsingHints( String paramName, int i ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2489,7 +2346,7 @@ public class PreparedStatement
 	
 	private boolean setDoubleUsingHints( String paramName, double d ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2520,7 +2377,7 @@ public class PreparedStatement
 
 	private boolean setStringUsingHints( String paramName, String stringValue ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2551,7 +2408,7 @@ public class PreparedStatement
 
 	private boolean setBigDecimalUsingHints( String paramName, BigDecimal decimal ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2582,7 +2439,7 @@ public class PreparedStatement
 
 	private boolean setDateUsingHints( String paramName, Date date ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2613,7 +2470,7 @@ public class PreparedStatement
 
 	private boolean setTimeUsingHints( String paramName, Time time ) throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		
@@ -2646,7 +2503,7 @@ public class PreparedStatement
 	private boolean setTimestampUsingHints( String paramName, Timestamp timestamp ) 
 		throws DataException
 	{
-		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		int paramIndex = getIndexFromParamHints( paramName );
 		if( paramIndex <= 0 )
 			return false;
 		

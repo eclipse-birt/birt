@@ -37,7 +37,7 @@ public class ParameterMetaData
 	private int m_precision = -1;
 	private Boolean m_isNullable;
 	
-	private ParameterMetaData( ParameterHint paramHint )
+	ParameterMetaData( ParameterHint paramHint )
 	{
 		m_name = paramHint.getName();
 		
@@ -48,26 +48,16 @@ public class ParameterMetaData
 		
 		m_dataType = 
 			DataTypeUtil.toOdaType( paramHint.getDataType() );
+		
+		m_isOptional = Boolean.valueOf( paramHint.isInputOptional() );
+		
+		m_isInput = Boolean.valueOf( paramHint.isInputMode() );
+		m_isOutput = Boolean.valueOf( paramHint.isOutputMode() );
+		
+		m_defaultValue = paramHint.getDefaultInputValue();
+		m_isNullable = Boolean.valueOf( paramHint.isNullable() );
 	}
-	
-	ParameterMetaData( InputParameterHint inputParamHint )
-	{
-		this( (ParameterHint) inputParamHint );
-		
-		m_isOptional = Boolean.valueOf( inputParamHint.isOptional() );
-		
-		m_isInput = Boolean.TRUE;
-		
-		m_defaultValue = inputParamHint.getDefaultValue();
-	}
-	
-	ParameterMetaData( OutputParameterHint outputParamHint )
-	{
-		this( (ParameterHint) outputParamHint );
-		
-		m_isOutput = Boolean.TRUE;
-	}
-	
+
 	ParameterMetaData( IParameterMetaData parameterMetaData, int index, 
 	                   String driverName, String dataSetType ) 
 		throws DataException
@@ -116,8 +106,21 @@ public class ParameterMetaData
 		}
 	}
 	
-	private void updateWith( ParameterHint paramHint )
+	/**
+	 * This method is meant to update the runtime parameter metadata with static 
+	 * parameter hints.
+	 * @param paramHint	the hint used to update the runtime parameter metadata.
+	 * @throws DataException	if data source error occurs.
+	 */
+	void updateWith( ParameterHint paramHint ) throws DataException
 	{
+		// Based on previous experience, runtime parameter metadata can often 
+		// be incorrect about the parameter's input and output modes.  Therefore, 
+		// we want to use the static parameter hints provided by the user to override 
+		// those specified by the runtime.
+		m_isInput = Boolean.valueOf( paramHint.isInputMode() );
+		m_isOutput = Boolean.valueOf( paramHint.isOutputMode() );
+	
 		// check that the position in the parameter hint either has not been 
 		// set or this parameter metadata (from a hint) has not been set, or 
 		// it's the same as the current parameter metadata.
@@ -148,36 +151,17 @@ public class ParameterMetaData
 			m_dataType = 
 				DataTypeUtil.toOdaType( paramHintType );
 		}
+		
+		if( m_isOptional == null )	// was unknown
+			m_isOptional = Boolean.valueOf( paramHint.isInputOptional() );
+		
+		if( m_isNullable == null )	// was unknown
+			m_isNullable = Boolean.valueOf( paramHint.isNullable() );
+		
+		m_defaultValue = paramHint.getDefaultInputValue();
+		
 	}
-	
-	void updateWith( InputParameterHint inputParamHint ) throws DataException
-	{
-		if( m_isInput == Boolean.FALSE )
-			throw new DataException( ResourceConstants.NON_INPUT_PARAM_MERGE_WITH_INPUT_HINT, 
-                                     new Object[] { inputParamHint.getName() } );
-		
-		if( m_isInput == null )		// was unknown
-			m_isInput = Boolean.TRUE;
-		
-		updateWith( (ParameterHint) inputParamHint );
-		
-		m_isOptional = ( inputParamHint.isOptional() ) ? Boolean.TRUE : Boolean.FALSE;
-		
-		m_defaultValue = inputParamHint.getDefaultValue();
-	}
-	
-	void updateWith( OutputParameterHint outputParamHint ) throws DataException
-	{
-		if( m_isOutput == Boolean.FALSE )
-			throw new DataException( ResourceConstants.NON_OUTPUT_PARAM_MERGE_WITH_OUTPUT_HINT, 
-                                     new Object[] { outputParamHint.getName() } );
-		
-		if( m_isOutput == null )	// was unknown
-			m_isOutput = Boolean.TRUE;
-		
-		updateWith( (ParameterHint) outputParamHint );
-	}
-	
+
 	private int getRuntimeParameterType( IParameterMetaData parameterMetaData, 
 										 int index ) throws DataException
 	{

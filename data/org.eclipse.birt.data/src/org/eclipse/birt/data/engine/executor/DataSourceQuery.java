@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
-import org.eclipse.birt.data.engine.odaconsumer.InputParameterHint;
-import org.eclipse.birt.data.engine.odaconsumer.OutputParameterHint;
+import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -338,36 +337,20 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		if ( paramHints == null )
 		    return;	// nothing to add
 
-		// first iterate thru the collection to add input parameter hints
+		// iterate thru the collection to add parameter hints
 		Iterator list = paramHints.iterator( );
 		while ( list.hasNext( ) )
 		{
 		    IParameterDefinition paramDef = (IParameterDefinition) list.next( );
-		    if ( ! paramDef.isInputMode() )
-		        continue;	// skip non input parameter
-		    
-			InputParameterHint parameterHint = new InputParameterHint(
-					paramDef.getName( ) );
+		    ParameterHint parameterHint = new ParameterHint( paramDef.getName(), 
+															 paramDef.isInputMode(),
+															 paramDef.isOutputMode() );
 			parameterHint.setPosition( paramDef.getPosition( ) );
 			parameterHint.setDataType( DataType.getClass( paramDef.getType() ));
-			parameterHint.setIsOptional( paramDef.isInputOptional( ) );
-			parameterHint.setDefaultValue( paramDef.getDefaultInputValue() );
-			odaStatement.addInputParameterHint( parameterHint );
-		}
-		
-		// re-iterate thru the collection to add output parameter hints
-		list = paramHints.iterator( );
-		while ( list.hasNext( ) )
-		{
-		    IParameterDefinition paramDefn = (IParameterDefinition) list.next( );
-		    if ( ! paramDefn.isOutputMode() )
-		        continue;	// skip non output parameter
-		    
-		    OutputParameterHint parameterHint = new OutputParameterHint(
-		            paramDefn.getName( ) );
-			parameterHint.setPosition( paramDefn.getPosition( ) );
-			parameterHint.setDataType( DataType.getClass( paramDefn.getType() ));
-			odaStatement.addOutputParameterHint( parameterHint );
+			parameterHint.setIsInputOptional( paramDef.isInputOptional( ) );
+			parameterHint.setDefaultInputValue( paramDef.getDefaultInputValue() );
+			parameterHint.setIsNullable( paramDef.isNullable() );
+			odaStatement.addParameterHint( parameterHint );
 		}
 	}
 	
