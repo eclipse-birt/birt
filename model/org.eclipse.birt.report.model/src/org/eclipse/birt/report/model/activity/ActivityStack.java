@@ -334,10 +334,6 @@ public final class ActivityStack implements CommandStack
 		assert record != null;
 		assert record.getState( ) == ActivityRecord.INITIAL_STATE;
 
-		// Flush the redo stack.
-
-		destroyRecords( redoStack );
-
 		// Execute the record and push it onto the undo stack.
 
 		record.execute( );
@@ -345,13 +341,17 @@ public final class ActivityStack implements CommandStack
 
 		// Send out notifications about the action just completed.
 
-		record.sendNotifcations( ! transStack.isEmpty( ) );
+		record.sendNotifcations( !transStack.isEmpty( ) );
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
 
 		if ( transStack.isEmpty( ) )
 		{
+			// Flush the redo stack.
+
+			destroyRecords( redoStack );
+
 			record.setTransNo( ++transCount );
 			undoStack.push( record );
 			trimUndoStack( );
@@ -656,10 +656,6 @@ public final class ActivityStack implements CommandStack
 
 	public void startTrans( String label )
 	{
-		// Flush the redo stack.
-
-		destroyRecords( redoStack );
-
 		// Create a compound record to implement the transaction.
 
 		transStack.push( new CompoundRecord( label ) );
@@ -705,6 +701,11 @@ public final class ActivityStack implements CommandStack
 
 		if ( transStack.empty( ) )
 		{
+
+			// Flush the redo stack.
+
+			destroyRecords( redoStack );
+
 			// This is the outermost transaction. Add it to the undo stack
 			// and send out notifications.
 
