@@ -17,15 +17,15 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Base class to define set of transforms that are common to report queries, 
- * and groups within report queries.
+ * Base class to define set of transforms that are common to queries, 
+ * and groups within queries.
  *
  */
 public interface IBaseTransform
 {
 	/**
 	 * Returns the filters defined in this transform, as an ordered list of 
-	 * IFilterDefn objects.
+	 * {@link org.eclipse.birt.data.engine.api.IFilterDefinition} objects.
 	 * 
 	 * @return the filters. null if no filter is defined.
 	 */
@@ -33,16 +33,19 @@ public interface IBaseTransform
 
 	/**
 	 * Returns an unordered collection of subqueries that are alternative views of
-	 * the result set for this transform. Objects are of type ISubqueryDefn.
+	 * the result set for this transform. Objects are of type 
+	 * {@link org.eclipse.birt.data.engine.api.ISubqueryDefinition}.
 	 * 
 	 * @return the subqueries for this transform
+	 * @see ISubqueryDefinition
 	 */
 	
 	public Collection getSubqueries( );
 
 	
 	/**
-	 * Returns the sort criteria as an ordered list of ISortDefn objects.
+	 * Returns the sort criteria as an ordered list of 
+	 * {@link org.eclipse.birt.data.engine.api.ISortDefinition} objects.
 	 * 
 	 * @return the sort criteria
 	 */
@@ -50,19 +53,19 @@ public interface IBaseTransform
 		
 	/**
 	 * Gets the expressions that needs to be calculated per detail row, as an unordered
-	 * collection of IJSExpression objects
+	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects
 	 */
 	public Collection getRowExpressions();
 	
 	/**
 	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
-	 * collection of IBaseExpression objects.
+	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
 	 */
 	public Collection getAfterExpressions(); 
 	
 	/**
 	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
-	 * collection of IBaseExpression objects.
+	 * collection of {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
 	 */
 	public Collection getBeforeExpressions();
 }

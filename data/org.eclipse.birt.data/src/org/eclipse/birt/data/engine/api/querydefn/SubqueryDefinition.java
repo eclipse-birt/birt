@@ -17,10 +17,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 
 
 /**
- * Default implementation of ISubQueryDefn
- * Defines a subquery: a supplemental use of rows returned by a data set
- * or a group. A subquery does not have its own data set, but rather it provides an alternate view
- * of data of an existing group or report query by applying additional transforms on top of such data.
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.ISubqueryDefinition} interface.
  */
 
 public class SubqueryDefinition extends BaseQueryDefinition implements ISubqueryDefinition

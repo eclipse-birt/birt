@@ -68,6 +68,7 @@ public interface IResultClass
 
 	/**
 	 * Gets the index of a field with given name or alias. 
+	 * <p>
 	 * -1 is returned if given name or alias is not found.
 	 * @param fieldName The name or alias of a field.
 	 * @return The 1-based index of the field if found, -1 otherwise.

@@ -97,34 +97,33 @@ public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesi
 	}
 	
 	/**
-	 * Gets the effective queryText. If a queryText is defined, use it; otherwise run
-	 * queryScript to obtain query text
+	 * Gets the effective queryText. If queryScript is defined and returns non-null, use its
+	 * result as query text. Otherwise use queryText.
 	 */
 	public String getEffectiveQueryText() throws DataException
 	{
 		String query = null;
 		
-		if ( queryText != null && queryText.length() > 0 )
-			query = queryText;
-		else 
+		String queryScript = getQueryScript();
+		if ( queryScript != null && queryScript.length() > 0 )
 		{
-			String queryScript = getQueryScript();
-			if ( queryScript != null && queryScript.length() > 0 )
+			Context cx = Context.enter();
+			try
 			{
-				Context cx = Context.enter();
-				try
-				{
-					Object result = ScriptEvalUtil.evaluateJSExpr( cx, this.getScriptable(), queryScript, 
-							"DataSet(" +getName() + ").QueryScript",
-							1);
-					query = result.toString();
-				}
-				finally
-				{
-					Context.exit();
-				}
+				Object result = ScriptEvalUtil.evaluateJSExpr( cx, this.getScriptable(), queryScript, 
+						"DataSet(" +getName() + ").QueryScript",
+						1);
+				query = result.toString();
+			}
+			finally
+			{
+				Context.exit();
 			}
 		}
+		
+		if ( query == null || query.length() == 0 )
+			query = this.queryText;
+		
 		return query;
 	}
 

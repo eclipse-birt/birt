@@ -28,9 +28,9 @@ import java.util.List;
 
 
 /**
- * Default implementation of IBaseDataSetDesign interface.<p>
- * Describes the static design of any data set to be used by 
- * the Data Engine.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IBaseDataSetDesign} interface.<p>
+ * Describes the static design of a data set
+ * to be used by the Data Engine.
  * Each subclass defines a specific type of data set. 
  */
 public class BaseDataSetDesign implements IBaseDataSetDesign
@@ -70,7 +70,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.dataSourceName = dataSourceName;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getName()
      */	
 	public String getName( )
@@ -78,7 +78,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		return name;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getDataSourceName()
      */	
 	public String getDataSourceName( )
@@ -95,7 +95,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.dataSourceName = dataSourceName;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getComputedColumns()()
      */	
 	public List getComputedColumns( )
@@ -116,7 +116,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getComputedColumns().add( column );
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getFilters()
      */	
 	public List getFilters( )
@@ -137,7 +137,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getFilters().add( filter );
 	}
     
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getParameters()
      */	
     public List getParameters()
@@ -157,8 +157,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
     /**
-     * Returns the input parameter definitions as a list
-     * of IInputParameterDefinition objects. 
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParameters() 
      * @return the input parameter definitions. 
      * 			An empty list if none is defined.
      * @deprecated use getParameters()
@@ -192,8 +191,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
     /**
-     * Returns the output parameter definitions as a list
-     * of IOutputParameterDefinition objects.
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getOutputParameters() 
      * @return the output parameter definitions. 
      * 			An empty list if none is defined.
      * @deprecated use getParameters()
@@ -226,7 +224,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	    addParameter( param );
 	}
 		
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getResultSetHints()
      */	
 	public List getResultSetHints()
@@ -238,7 +236,6 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	
 	/**
 	 * Adds a column to the result set hints definition.
-	 * @param col
 	 */
 	public void addResultSetHint( IColumnDefinition col )
 	{
@@ -246,7 +243,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getResultSetHints().add( col );
 	}
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParamBindings()
      */	
 	public Collection getInputParamBindings()
@@ -257,7 +254,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
 	/**
-	 * Adds an IInputParamBinding to the set of input parameter bindings.
+	 * Adds an input parameter binding.
 	 * Ignores given binding if null.
 	 * @param binding	Could be null.
 	 */
@@ -267,7 +264,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getInputParamBindings().add( binding );
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeOpenScript()
      */	
 	public String getBeforeOpenScript( )
@@ -276,15 +273,14 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 
 	/**
-	 * Assigns the BeforeOpen script.
-	 * @param beforeOpenScript The BeforeOpen script to set.
+	 * Sets the <code>beforeOpen</code> script for the data set
 	 */
 	public void setBeforeOpenScript( String beforeOpenScript ) 
 	{
 		this.beforeOpenScript = beforeOpenScript;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterOpenScript()
      */	
 	public String getAfterOpenScript( )
@@ -293,7 +289,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 
 	/**
-	 * Assigns the AfterOpen script.
+	 * Sets the <code>afterOpen</code> script for the data set
 	 * @param afterOpenScript The AfterOpen script to set.
 	 */
 	public void setAfterOpenScript( String afterOpenScript ) 
@@ -301,7 +297,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.afterOpenScript = afterOpenScript;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getOnFetchScript()
      */	
 	public String getOnFetchScript( )
@@ -310,15 +306,14 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
 	/**
-	 * Specifies the OnFetch script.
-	 * @param onFetchScript The OnFetch script to set.
+	 * Sets the <code>onFetch</code> script for the data set
 	 */
 	public void setOnFetchScript( String onFetchScript ) 
 	{
 		this.onFetchScript = onFetchScript;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeCloseScript()
      */	
 	public String getBeforeCloseScript( )
@@ -327,15 +322,14 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
 	/**
-	 * Specifies the BeforeClose script.
-	 * @param beforeCloseScript The BeforeClose script to set.
+	 * Sets the <code>beforeClose</code> script for the data set
 	 */
 	public void setBeforeCloseScript( String beforeCloseScript ) 
 	{
 		this.beforeCloseScript = beforeCloseScript;
 	}
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterCloseScript()
      */	
 	public String getAfterCloseScript( )
@@ -344,8 +338,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 
 	/**
-	 * Specifies the AfterClose script.
-	 * @param afterCloseScript The AfterClose script to set.
+	 * Sets the <code>afterClose</code> script for the data set
 	 */
 	public void setAfterCloseScript( String afterCloseScript ) 
 	{

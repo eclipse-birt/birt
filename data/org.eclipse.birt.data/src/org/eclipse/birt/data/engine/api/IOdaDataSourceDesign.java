@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Map;
 
 /**
- * Describes the static design of a non-scripted Data Source.
+ * Describes the static design of an ODA (Open Data Access) Data Source.
  * The data source is to be accessed via an underlying
  * data access driver, whose name and properties are defined
  * in this specialized interface.

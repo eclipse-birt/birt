@@ -16,33 +16,42 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 /**
- * Default implementation of the IJSExpression interface
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IScriptExpression} interface
  */
 public class ScriptExpression extends BaseExpression implements IScriptExpression
 {
 	protected String exprText;
 	
+	/**
+	 * Constructs a Javascript expression
+	 * @param text Javascript expression text
+	 */
     public ScriptExpression( String text )
     {
         this.exprText = text;
     }
     
+	/**
+	 * Constructs a Javascript expression
+	 * @param text Javascript expression text
+	 * @param dataType Return data type of the expression
+	 */
     public ScriptExpression( String text, int dataType )
     {
     	super( dataType );
         this.exprText = text;
     }
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IJSExpression#getText()
-	 */
+    /**
+     * @see org.eclipse.birt.data.engine.api.IScriptExpression#getText()
+     */
 	public String getText()
 	{
 		return exprText;
 	}
 	
 	/**
-	 * Sets the expression text
+	 * Sets the Javascript expression text
 	 */
 	public void setText( String text )
 	{

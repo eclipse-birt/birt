@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.api;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * Describes the metadata of a parameter in an IPreparedQuery.
+ * Describes the metadata of a parameter in an <code>IPreparedQuery</code>.
  * A parameter's metadata is defined based on a query's 
  * runtime meta-data (as described by underlying its data source driver),
  * merging with static input and output parameter hints specified 
@@ -62,7 +62,7 @@ public interface IParameterMetaData
 	/**
 	 * Returns the data type of this parameter.
 	 * @return		The data type of this parameter, as an integer 
-     * 				defined in org.eclipse.birt.data.engine.api.DataType.
+     * 				defined in <code>org.eclipse.birt.core.data.DataType</code>.
 	 * @throws DataException	
 	 */
 	public int getDataType() throws DataException;

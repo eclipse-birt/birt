@@ -17,13 +17,14 @@ import java.util.List;
 
 /**
 /**
- * Represents attributes common to a report query and a subquery.
+ * Represents attributes common to a data engine query and a subquery.
  *
  */
 public interface IBaseQueryDefinition extends IBaseTransform
 {
 	/**
-	 * Returns the group definitions as an ordered collection of IGroupDefn
+	 * Returns the group definitions as an ordered collection of 
+	 * {@link org.eclipse.birt.data.engine.api.IGroupDefinition}
 	 * objects. Groups are organizations within the data that support
 	 * aggregation, filtering and sorting. Reports use groups to trigger
 	 * level breaks.
@@ -36,7 +37,7 @@ public interface IBaseQueryDefinition extends IBaseTransform
 	
 	/**
 	 * Indicates if the report will use the detail rows. Allows the data
-	 * transform engine to optimize the query if the details are not used.
+	 * engine to optimize the query if the details are not used.
 	 * 
 	 * @return true if the detail rows are used, false if not used
 	 */
@@ -44,12 +45,12 @@ public interface IBaseQueryDefinition extends IBaseTransform
 	
 	/**
 	 * Returns the parent query. The parent query is the outer query which encloses
-	 * this report query.
+	 * this query.
 	 */
 	public IBaseQueryDefinition getParentQuery(); 
 	
 	/**
-	 * Gets the maximum number of detail rows that can be retrieved by this report query
+	 * Gets the maximum number of detail rows that can be retrieved by this query
 	 * @return Maximum number of rows. If 0, there is no limit on how many rows this query can retrieve.
 	 */
 	public int getMaxRows( );

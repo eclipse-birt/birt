@@ -22,14 +22,14 @@ package org.eclipse.birt.data.engine.api;
 public interface IScriptDataSourceDesign extends IBaseDataSourceDesign 
 {
     /**
-     * Gets the Open script for opening the data source (connection).
-     * @return The Open script.
+     * Gets the <code>open</code> script for opening the data source (connection).
+     * @return The <code>open</code> script.
      */
     public abstract String getOpenScript();
     
     /**
-     * Gets the Close script for closing the data source.
-     * @return The Close script
+     * Gets the <code>close</code> script for closing the data source.
+     * @return The <code>close</code> script
      */
     public abstract String getCloseScript();
 

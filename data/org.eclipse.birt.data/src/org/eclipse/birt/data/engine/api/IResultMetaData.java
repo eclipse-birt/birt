@@ -88,8 +88,8 @@ public interface IResultMetaData
 	
 	/**
 	 * Indicates whether the specified projected column is defined
-	 * as a computed column,
-	 * i.e. one that is not retrieved from the underlying data provider.
+	 * as a computed column.
+	 * A computed column is one that is not retrieved from the underlying data provider.
 	 * Only those computed columns declared explicitly in a data set design 
 	 * are considered as "computed" columns.
 	 * @param index	The projected column index.

@@ -18,7 +18,7 @@ package org.eclipse.birt.data.engine.api;
  * to define columns for two purposes: to provide result set metadata for those data sets whose result
  * set metadata cannot be obtained from the driver, and to provide a processing hint to the data engine.
  * <br>
- * A ColumnDefn includes a name or a 1-based position to identify the column in the data row. It provides
+ * A column definition includes a name or a 1-based position to identify the column in the data row. It provides
  * information such as data type, alias, export and search hints about the specified column.
  */
 public interface IColumnDefinition

@@ -21,25 +21,26 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * An iterator on a result set from a prepared and executed report query.
- * Multiple ResultIterator objects could be associated with
- * the same QueryResults object.
+ * An iterator on a result set from a prepared and executed query.
+ * Multiple <code>IResultIterator</code> objects could be associated with
+ * the same <code>IQueryResults</code> object, such as in the case of an ODA data set
+ * capable of producing multiple result sets.
  */
 public interface IResultIterator
 {
     /**
-     * Returns the QueryResults from which this result iterator is obtained. If this iterator
+     * Returns the {@link org.eclipse.birt.data.engine.api.IQueryResults} 
+     * from which this result iterator is obtained. If this iterator
      * is that of a subquery, null is returned. 
-     * @return	The QueryResults that contains this result iterator.
      */
     public IQueryResults getQueryResults();
 
     /**
      * Returns the JavaScript scope associated with this result iterator.
      * All JavaScript result objects, e.g. rows, row, specific to this
-     * QueryResults are defined within this scope.    
-     * The returned scope is second level to the global shared scope
-     * provided to the DataEngine constructor.
+     * result set are defined within this scope.    
+     * The returned scope is the same as the one passed to <code>IPreparedQuery.excute()</code>
+     * which produced this iterator's <code>IQueryResults</code>.
      * @return	The JavaScript scope associated to this result iterator.
      */
     public Scriptable getScope();
@@ -70,15 +71,15 @@ public interface IResultIterator
      * in the current row of the iterator will be returned.
      * <p>
      * Throws an exception if a result expression value is requested 
-     * out of sequence from the prepared ReportQueryDefn spec.  
+     * out of sequence from the prepared <code>IQueryDefinition</code> spec.  
      * E.g. A group aggregation is defined to be after_last_row. 
      * It would be out of sequence if requested before having
      * iterated/skipped to the last row of the group. 
      * In future release, this could have intelligence to auto recover 
      * and performs dependent operations to properly evaluate 
      * any out-of-sequence result values. 
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -92,9 +93,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Boolean.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -108,9 +109,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as an Integer.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -124,9 +125,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Double.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -140,9 +141,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a String.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -156,9 +157,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a BigDecimal.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -172,9 +173,9 @@ public interface IResultIterator
      * A convenience method for the API consumer.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Date.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -186,9 +187,9 @@ public interface IResultIterator
      * representing Blob data.
      * <br>
      * If the expression value has an incompatible type,  
-     * a ClassCastException is thrown at runtime.
-     * @param dataExpr 	An IBaseExpression object provided in
-     * 					the ReportQueryDefn at the time of prepare.
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given Blob expression.
      * 					It could be null.
      * @throws 			DataException if error occurs in Data Engine
@@ -240,10 +241,10 @@ public interface IResultIterator
     public int getEndingGroupLevel() throws DataException;
 
     /**
-     * Returns the secondary result specified by a SubQuery 
-     * that was defined in the prepared ReportQueryDefn.
+     * Returns the secondary result specified by a sub query 
+     * that was defined in the prepared <code>IQueryDefinition</code>.
      * @throws 			DataException if error occurs in Data Engine
-     * @param subQueryName name of subquery which defines the secondary result set
+     * @param subQueryName name of sub query which defines the secondary result set
      * @param scope Javascript scope to be associated with the secondary result set
      */
     public IResultIterator getSecondaryIterator( String subQueryName, Scriptable scope ) 

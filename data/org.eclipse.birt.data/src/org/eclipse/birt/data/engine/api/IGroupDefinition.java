@@ -14,7 +14,7 @@
 package org.eclipse.birt.data.engine.api;
 
 /**
- * Provides information about a grouping level within a report query or subquery. A group definition contains group break 
+ * Provides information about a grouping level within a query or subquery. A group definition contains group break 
  * definition (key column etc.) and a set of transforms defined for the group
  */
 
@@ -100,14 +100,14 @@ public interface IGroupDefinition extends IBaseTransform
 	 * Returns the sort direction on the group key. Use this to specify a sort in the common case
 	 * where the groups are ordered by the group key only. To specify other types of sort criteria,
 	 * use the Sorts property. SortDirection is ignored if Sorts is defined for this group.
-	 * @return The group key sort direction. If no direction is specified, NO_SORT is returned. This means
+	 * @return The group key sort direction. If no direction is specified, <code>NO_SORT</code> is returned. This means
 	 * that the data engine can choose any sort order, or no sort order at all, for this group level.
 	 */
 	public int getSortDirection();
 	
 	/**
 	 * Returns the number of contiguous group intervals that form one single group, when Interval 
-	 * is used to define group break level. For example, if Interval is MONTH_INTERVAL, and IntervalRange
+	 * is used to define group break level. For example, if Interval is <code>MONTH_INTERVAL</code>, and IntervalRange
 	 * is 6, each group is defined to contain a span of 6 months.
 	 */
 	public double getIntervalRange( );
@@ -123,7 +123,7 @@ public interface IGroupDefinition extends IBaseTransform
 	public Object getIntervalStart();
 	
 	/**
-	 * Returns the name of the column that defines the group key. Either the KeyColumn or KeyExpr can
+	 * Returns the name of the column that defines the group key. Either the KeyColumn or KeyExpression can
 	 * be used to define the group key.
 	 */
 	public String getKeyColumn( );
@@ -131,7 +131,7 @@ public interface IGroupDefinition extends IBaseTransform
 	/**
 	 * Returns the JavaScript expression that defines the group key. <br>
 	 * Note: Presently group key must be a column. If an JavaScript expression is used to specify the group key,
-	 * the expression must be in the form of row.column_name, or row["column_name"]. 
+	 * the expression must be in the form of <code>row.column_name</code>, or <code>row["column_name"]</code>. 
 	 */
 	public String getKeyExpression( );
 }

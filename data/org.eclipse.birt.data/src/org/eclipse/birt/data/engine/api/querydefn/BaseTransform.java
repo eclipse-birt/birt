@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 
 /**
- * Default implementation of IBaseTransform, which defines a set of transforms 
- * that are common to report queries, and groups within report queries.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IBaseTransform} interface.
  *
 */
 abstract public class BaseTransform implements IBaseTransform
@@ -53,7 +52,8 @@ abstract public class BaseTransform implements IBaseTransform
 	protected 	List afterExpressions = new ArrayList();
 	
 	/**
-	 * Returns the filters defined in this transform, as an ordered list of FilterDefn objects.
+	 * Returns the filters defined in this transform, as an ordered list of 
+	 * <code>IFilterDefintion</code> objects.
 	 * 
 	 * @return the filters. null if no filter is defined.
 	 */
@@ -72,7 +72,7 @@ abstract public class BaseTransform implements IBaseTransform
 	
 	/**
 	 * Returns an unordered collection of subqueries that are alternative views of
-	 * the result set for this transform. Objects are of type SubqueryDefn.
+	 * the result set for this transform. Objects are of type <code>SubqueryDefinition</code>.
 	 * 
 	 * @return the subqueries for this transform
 	 */
@@ -92,7 +92,7 @@ abstract public class BaseTransform implements IBaseTransform
 	}
 	
 	/**
-	 * Returns the sort criteria as an ordered list of SortDefn objects.
+	 * Returns the sort criteria as an ordered list of <code>SortDefinition</code> objects.
 	 * 
 	 * @return the sort criteria
 	 */
@@ -114,9 +114,9 @@ abstract public class BaseTransform implements IBaseTransform
 	 * Add one Javascript expression to the list of expressions that needs evaluation as part 
 	 * of this transform. 
 	 * expressionTiming can be <br>
-	 * BEFORE_FIRST_ROW: expression is evaluated at the start of the iteration over the row set for this gorup/list <br>
-	 * AFTER_LAST_ROW: expression is evaluated at the end of the iteration<br>
-	 * ON_EACH_ROW: expression is evaluated with each detail row within the group/list <br>  
+	 * <code>BEFORE_FIRST_ROW</code>: expression is evaluated at the start of the iteration over the row set for this gorup/list <br>
+	 * <code>AFTER_LAST_ROW</code>: expression is evaluated at the end of the iteration<br>
+	 * <code>ON_EACH_ROW</code>: expression is evaluated with each detail row within the group/list <br>  
 	 */
 	public void addExpression(IBaseExpression expression, int expressionTiming ) 
 	{
@@ -137,7 +137,7 @@ abstract public class BaseTransform implements IBaseTransform
 	
 	/**
 	 * Gets the expressions that needs to be calculated per detail row, as an unordered
-	 * collection of JSExpression objects
+	 * collection of <code>IBaseExpression</code> objects
 	 */
 	public Collection getRowExpressions() 
 	{
@@ -146,7 +146,7 @@ abstract public class BaseTransform implements IBaseTransform
 	
 	/**
 	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
-	 * collection of JSExpression objects.
+	 * collection of <code>IBaseExpression</code> objects.
 	 */
 	public Collection getAfterExpressions() 
 	{
@@ -155,7 +155,7 @@ abstract public class BaseTransform implements IBaseTransform
 	
 	/**
 	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
-	 * collection of JSExpression objects.
+	 * collection of <code>IBaseExpression</code> objects.
 	 */
 	public Collection getBeforeExpressions() 
 	{

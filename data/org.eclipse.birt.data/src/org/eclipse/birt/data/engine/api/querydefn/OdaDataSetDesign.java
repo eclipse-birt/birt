@@ -21,8 +21,7 @@ import java.util.HashSet;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 
 /**
- * Default implementation of the IExtendedDataSetDesign interface.<p>
- * Describes the static design of a generic extended Data Set.
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IOdaDataSetDesign} interface.<p>
  */
 public class OdaDataSetDesign extends BaseDataSetDesign 
 		implements IOdaDataSetDesign
@@ -34,18 +33,24 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	private Map 	publicProps;
 	private Map 	privateProps;
 	
+	/**
+	 * Constructs an instance with the given name
+	 */
     public OdaDataSetDesign( String name )
     {
         super( name );
     }
 
+	/**
+	 * Constructs an instance with the given name and data source name
+	 */
     public OdaDataSetDesign( String name, String dataSourceName )
     {
         super( name, dataSourceName );
     }
 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getQueryText()
+    /**
+     * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getQueryText()
      */
     public String getQueryText()
     {
@@ -61,9 +66,9 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	    this.queryText = queryText;
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getQueryScript()
-     */
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getQueryScript()
+	 */
     public String getQueryScript()
     {
         return queryScript;
@@ -79,10 +84,10 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	{
 	    this.queryScript = queryScript;
 	}
- 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getDataSetType()
-     */
+
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getDataSetType()
+	 */
     public String getDataSetType()
     {
         return dataSetType;
@@ -96,9 +101,9 @@ public class OdaDataSetDesign extends BaseDataSetDesign
     {
         this.dataSetType = dataSetType;
     }
- 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getPrimaryResultSetName()
+
+    /**
+     * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrimaryResultSetName()
      */
     public String getPrimaryResultSetName()
     {
@@ -114,8 +119,8 @@ public class OdaDataSetDesign extends BaseDataSetDesign
         primaryResultSetName = resultSetName;
     }
 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getPublicProperties()
+    /**
+     * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPublicProperties()
      */
 	public Map getPublicProperties( ) 
 	{
@@ -124,9 +129,9 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 		return publicProps;
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getPrivateProperties()
-     */
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrivateProperties()
+	 */
 	public Map getPrivateProperties( ) 
 	{
 	    if ( privateProps == null )

@@ -99,7 +99,7 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * Converts a Java class to an ODA data type.<br>
+	 * Converts a Java class to an ODA data type. <br>
 	 * <b>Java Class -> ODA Data Type</b><br>
 	 * <i>java.lang.Integer -> Integer<br>
 	 * java.lang.Double -> Double<br>

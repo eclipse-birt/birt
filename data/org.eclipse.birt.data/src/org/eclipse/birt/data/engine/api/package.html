@@ -1,14 +1,58 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
+<head>
+<!--
+
+  @(#)package.html
+  
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+-->
+</head>
 <body bgcolor="white">
 
-DtE API definition component.
+This package contains the main public API classes and interfaces of the BIRT Data Engine (DtE). <p>
 
-<h2>Package Specification</h2>
+The Data Engine provides data access and transform services for the BIRT reporting platform.
+It handles connection to data sources, executes data set queries, provides metadata for data sets,
+retrieves data set query results, and performs additional data transforms such as grouping, filtering,
+sorting and aggregation. <p>
 
-DtE API definition component.
+A Data Engine client typically requests Data Engine services in these steps: <p>
+<ol>
+<li> Obtains an instance of {@link org.eclipse.birt.data.engine.api.DataEngine} class by calling
+<code>DataEngine.newDataEngine()</code>. A single instances of <code>DataEngine</code> is typically used 
+throughout an application.
+<li> Defines data sources and data sets available to the data engine by calling 
+<code>DataEngine.defineDataSet()</code> and <code>DataEngine.defineDataSource()</code>. A data set
+or data source need only be defined once. This is typically done before any data engine query is
+executed.
+<li> Defines a data engine query by creating and populating an instance of 
+{@link org.eclipse.birt.data.engine.api.IQueryDefinition}. Calls <code>DataEngine.prepare()</code>
+to prepare the query and obtain an instance of 
+{@link org.eclipse.birt.data.engine.api.IPreparedQuery}
+<li> Calls <code>IPreparedQuery.execute()</code> to execute the query and obtain an 
+{@link org.eclipse.birt.data.engine.api.IQueryResults} instance, from which an 
+{@link org.eclipse.birt.data.engine.api.IResultIterator} can be obtained. Calls methods on 
+<code>IResultIterator</code> to iterate through data rows in the query result set and to evaluate
+expressions.
+</ol>
+<p>
+All request classes that define data set, data source, query and related objects are defined as interfaces
+in this package. A Data Engine client may choose to implement these interfaces, or it can use the
+default implementation of these interfaces in the 
+{@link org.eclipse.birt.data.engine.api.querydefn} package.
 
 <!-- Put @see and @since tags down here. -->
+@see org.eclipse.birt.data.engine.api.querydefn
 
 </body>
 </html>

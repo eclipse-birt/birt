@@ -18,9 +18,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 
 
 /**
- * Default implementation of the IParameterDefn interface. <p>
- * Base class for defining input and output parameters. A parameter has an ID (either by name or by 
- * 1-based index), and a data type
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IParameterDefinition} interface. <p>
  */
 
 public class ParameterDefinition implements IParameterDefinition 
@@ -34,22 +32,26 @@ public class ParameterDefinition implements IParameterDefinition
 	private String defaultInputValue;
 	private boolean isNullable = true;
 
+	/** Constructs an empty parameter definition */
 	public ParameterDefinition()
 	{
 	}
 	
+	/** Constructs a name-based parameter definition with specified data type*/
 	public ParameterDefinition( String name, int type )
 	{
 	    this.name = name;
 	    this.type = type;
 	}
 	
+	/** Constructs a position-based parameter definition with specified data type*/
 	public ParameterDefinition( int position, int type )
 	{
 	    this.posn = position;
 	    this.type = type;
 	}
 	
+	/** Constructs a name-based parameter definition with specified data type, and input/output mode*/
 	public ParameterDefinition( String name, int type, boolean isInput, boolean isOutput )
 	{
 	    this.name = name;
@@ -58,6 +60,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    isOutputMode = isOutput;
 	}
 	
+	/** Constructs a position-based parameter definition with specified data type, and input/output mode*/
 	public ParameterDefinition( int position, int type, boolean isInput, boolean isOutput )
 	{
 	    this.posn = position;
@@ -66,7 +69,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    isOutputMode = isOutput;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getName()
      */	
 	public String getName( )
@@ -82,7 +85,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.name = name;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getPosition()
      */	
 	public int getPosition( )
@@ -98,7 +101,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.posn = posn;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getType()
      */	
 	public int getType( )
@@ -114,7 +117,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.type = type;
 	}	
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputMode()
      */	
 	public boolean isInputMode()
@@ -132,7 +135,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.isInputMode = isInput;
 	}
 	
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isOutputMode()
      */	
 	public boolean isOutputMode()
@@ -150,7 +153,7 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.isOutputMode = isOutput;
 	}
     
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputOptional()
      */	
     public boolean isInputOptional()
@@ -170,7 +173,7 @@ public class ParameterDefinition implements IParameterDefinition
             isInputOptional = isOptional;
     }
     
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getDefaultInputValue()
      */	
     public String getDefaultInputValue()
@@ -189,7 +192,7 @@ public class ParameterDefinition implements IParameterDefinition
             defaultInputValue = defaultValue;
     }
     
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isNullable()
      */	
 	public boolean isNullable()

@@ -17,24 +17,30 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 
 /**
- * Default implementation of the IBaseExpression interface.
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IBaseExpression} interface.
  */
 public abstract class BaseExpression implements IBaseExpression
 {
     protected int			dataType;
     protected Object		handle;
 
+    /**
+     * Constructs an instance with unknown data type
+     */
     public BaseExpression( )
     {
     	this.dataType = DataType.UNKNOWN_TYPE;
     }
     
+    /**
+     * Constructs an instance with specified data type
+     */
     public BaseExpression( int dataType )
     {
     	this.dataType = dataType;
     }
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getDataType()
 	 */
 	public int getDataType()
@@ -50,7 +56,7 @@ public abstract class BaseExpression implements IBaseExpression
 		this.dataType = dataType;
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getHandle()
 	 */
 	public Object getHandle()
@@ -58,7 +64,7 @@ public abstract class BaseExpression implements IBaseExpression
 		return this.handle;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#setHandle(java.lang.Object)
 	 */
 	public void setHandle(Object handle)

@@ -17,13 +17,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 
 /**
- * Default implementation of IColumnDefn interface. <p>
- * Describes  a column that appears in the data row of a data set. The report designer uses this class
- * to define columns for two purposes: to provide result set metadata for those data sets whose result
- * set metadata cannot be obtained from the driver, and to provide a processing hint to the data engine.
- * <br>
- * A ColumnDefn includes a name or a 1-based position to identify the column in the data row. It provides
- * information such as data type, alias, export and search hints about the specified column.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IColumnDefinition} interface. <p>
  */
 public class ColumnDefinition implements IColumnDefinition
 {

@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 
 
 /**
- * Default implementation of the IReportQueryDefn interface
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IQueryDefinition} interface
  */
 
 public class QueryDefinition extends BaseQueryDefinition implements IQueryDefinition 
@@ -30,14 +30,16 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	protected List 				bindings = new ArrayList();
 	protected String[]			projectedColumns;
 	
+	/** Constructs an empty query definition */
 	public QueryDefinition( )
 	{
 	   super(null); 
 	}
+	
 	/**
-	 * Constructs a report query that is nested within another report query. The outer query (parent)
-	 * can be another report query, or a sub query.
-	 * @param parent The outer report query or subquery
+	 * Constructs a  query that is nested within another query. The outer query (parent)
+	 * can be another query, or a sub query.
+	 * @param parent The outer query or subquery
 	 */
 	public QueryDefinition( BaseQueryDefinition parent)
 	{
@@ -45,7 +47,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	}
 	
 	/**
-	 * Gets the name of the data set used by this report query
+	 * Gets the name of the data set used by this query
 	 */
 	public String getDataSetName( )
 	{
@@ -62,7 +64,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection
-	 * of InputParamBinding objects.
+	 * of <code>InputParameterBinding</code> objects.
 	 * 
 	 * @return the input parameter bindings. If no binding is defined, null is returned.
 	 */
@@ -93,6 +95,9 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	    this.projectedColumns = projectedColumns;
 	}
 	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getColumnProjection()
+	 */
 	public String[] getColumnProjection()
 	{
 	    return projectedColumns;

@@ -16,9 +16,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 
 /**
- * Default implementation of IGroupDefn.
- * Defines a grouping level within a report query or subquery. A group definition contains group break 
- * definition (key column etc.) and a set of transforms defined for the group
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IGroupDefinition}.
  */
 
 public class GroupDefinition extends BaseTransform implements IGroupDefinition
@@ -72,7 +70,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	 * Returns the sort direction on the group key. Use this to specify a sort in the common case
 	 * where the groups are ordered by the group key only. To specify other types of sort criteria,
 	 * use the Sorts property. SortDirection is ignored if Sorts is defined for this group.
-	 * @return The group key sort direction. If no direction is specified, NO_SORT is returned. This means
+	 * @return The group key sort direction. If no direction is specified, <code>NO_SORT</code> is returned. This means
 	 * that the data engine can choose any sort order, or no sort order at all, for this group level.
 	 */
 	public int getSortDirection() 
@@ -82,7 +80,8 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	
 	/**
 	 * Returns the number of contiguous group intervals that form one single group, when Interval 
-	 * is used to define group break level. For example, if Interval is MONTH_INTERVAL, and IntervalRange
+	 * is used to define group break level. For example, if Interval is 
+	 * <code>MONTH_INTERVAL</code>, and IntervalRange
 	 * is 6, each group is defined to contain a span of 6 months.
 	 */
 	public double getIntervalRange( )
@@ -90,6 +89,9 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 		return intervalRange;
 	}
 	
+	/**
+	 * Gets the starting value for the first interval
+	 */
 	public Object getIntervalStart()
 	{
 	    return intervalStart;
@@ -129,6 +131,9 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 		this.intervalRange = intervalRange;
 	}
 	
+	/**
+	 * @param start a start value for the first interval
+	 */
 	public void setIntervalStart( Object start)
 	{
 	    this.intervalStart = start;

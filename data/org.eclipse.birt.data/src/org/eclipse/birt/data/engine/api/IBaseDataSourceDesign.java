@@ -26,28 +26,28 @@ public interface IBaseDataSourceDesign
     public abstract String getName();
 
     /**
-     * Gets the BeforeOpen script to be called just before opening the data
+     * Gets the <code>beforeOpen</code> script to be called just before opening the data
      * source (connection).
-     * @return The BeforeOpen script.  Null if none is defined.
+     * @return The <code>beforeOpen</code> script.  Null if none is defined.
      */
     public abstract String getBeforeOpenScript();
     
     /**
-     * Gets the AfterOpen script of the data source.
-     * @return	The AfterOpen script.  Null if none is defined.
+     * Gets the <code>afterOpen</code> script of the data source.
+     * @return	The <code>afterOpen</code> script.  Null if none is defined.
      */
     public abstract String getAfterOpenScript();
 
     /**
-     * Gets the BeforeClose script to be called just before closing the
+     * Gets the <code>beforeClose</code> script to be called just before closing the
      * data source (connection).
-     * @return The BeforeClose script.  Null if none is defined.
+     * @return The <code>beforeClose</code> script.  Null if none is defined.
      */
     public abstract String getBeforeCloseScript();
 
     /**
-     * Gets the AfterClose script of the data source.
-     * @return	The AfterClose script.  Null if none is defined.
+     * Gets the <code>afterClose</code> script of the data source.
+     * @return	The <code>afterClose</code> script.  Null if none is defined.
      */
     public abstract String getAfterCloseScript();
 

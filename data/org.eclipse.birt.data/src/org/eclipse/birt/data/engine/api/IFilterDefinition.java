@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.api;
 /**
  * Describes a data row filter defined in a data set or a report query. A filter is defined
  * as an expression that returns a Boolean type. The expression normally
- * operates on the "row" variable to apply conditions based on column values of a data row.
+ * operates on the "row" Javascript object to apply conditions based on column values of a data row.
  */
 public interface IFilterDefinition
 {

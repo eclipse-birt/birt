@@ -17,8 +17,9 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 
 
 /**
- * Default implementation of the IBaseDataSourceDesign interface. <p>
- * Describes the static design of any data source (connection)
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IBaseDataSourceDesign} interface.<p>
+ *
+ * Describes the static design of a data source (connection)
  * to be used by the Data Engine.
  * Each subclass defines a specific type of data source. 
  */
@@ -47,7 +48,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/** 
-	 * Gets the BeforeOpen Script of the data source
+	 * Gets the <code>beforeOpen<code> Script of the data source
 	 */	
 	public String getBeforeOpenScript( )
 	{
@@ -55,8 +56,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Specifies the BeforeOpen script of the data source.
-	 * @param script	beforeOpen script
+	 * Sets the <code>beforeOpen</code> script of the data source.
 	 */
 	public void setBeforeOpenScript( String script )
 	{
@@ -64,7 +64,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Gets the AfterOpen script of the data source
+	 * Gets the <code>afterOpen</code> script of the data source
 	 */	
 	public String getAfterOpenScript( )
 	{
@@ -72,7 +72,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Specifies the AfterOpen script of the data source.
+	 * Sets the <code>afterOpen</code> script of the data source.
 	 * @param script	afterOpen script
 	 */
 	public void setAfterOpenScript( String script )
@@ -81,7 +81,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Gets the BeforeClose script of the data source
+	 * Gets the <code>beforeClose</code> script of the data source
 	 */
 	public String getBeforeCloseScript( )
 	{
@@ -89,8 +89,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Specifies the BeforeClose script of the data source.
-	 * @param script	beforeClose script
+	 * Sets the <code>beforeClose</code> script of the data source.
 	 */
 	public void setBeforeCloseScript( String script )
 	{
@@ -98,7 +97,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Gets the AfterClose script of the data source
+	 * Gets the <code>afterClose</code> script of the data source
 	 */
 	public String getAfterCloseScript( )
 	{
@@ -106,8 +105,7 @@ public class BaseDataSourceDesign implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Specifies the AfterClose script of the data source.
-	 * @param script	afterClose script
+	 * Specifies the <code>afterClose</code> script of the data source.
 	 */
 	public void setAfterCloseScript( String script )
 	{

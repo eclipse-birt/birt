@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Map;
 
 /**
- * Describes the static design of a generic ODA Extended Data Set.
+ * Describes the static design of a generic ODA (Open Data AccesS) Data Set.
  * The data set is to be retrieved by a query and/or properties 
  * defined in this specialized interface.
  */

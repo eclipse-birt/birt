@@ -2,3 +2,7 @@ bin
 log
 DTETest
 *.log
+doc
+dte.jar
+oda.jar
+

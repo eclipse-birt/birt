@@ -16,8 +16,9 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Collection;
 
 /**
- * Defines a "report query": a set of data transforms that provides data for
- * a list-like element in the report. The report query encapsulates three types of information:<br>
+ * Defines a data engine query: a set of data transforms that provides data for
+ * a list-like element in the report. 
+ * The data engine query encapsulates three types of information:<br>
  * 
  * 1. A data set, including computed columns together with the parameter bindings. <br>
  * 2. Data transforms that are defined on report items, i.e., sorting, filtering, 
@@ -28,13 +29,13 @@ import java.util.Collection;
 public interface IQueryDefinition extends IBaseQueryDefinition
 {
 	/**
-	 * Gets the name of the data set used by this report query
+	 * Gets the name of the data set used by this query
 	 */
 	public String getDataSetName( );
 		
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection
-	 * of IInputParamBinding objects.
+	 * of {@link org.eclipse.birt.data.engine.api.IInputParameterBinding} objects.
 	 * 
 	 * @return the input parameter bindings. If no binding is defined, null is returned.
 	 */

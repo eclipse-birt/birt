@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.api;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * A report query's results opened and ready for data retrieval.  
+ * A handle used to retrieve a data engine query's results.  
  * A query results could contain multiple result sets.
  * This is intended to be used by both Factory and Presentation Engines
  * in BIRT, including later releases when a report document persists.
@@ -26,25 +26,22 @@ import org.eclipse.birt.data.engine.core.DataException;
 public interface IQueryResults
 {
     /**
-     * Returns the PreparedQuery that contains the execution plan
-     * for producing this.
-     * A convenience method for the API consumer.
-     * @return	The PreparedQuery object used to produce this object. 
+     * Returns the {@link org.eclipse.birt.data.engine.api.IPreparedQuery}
+     *  that produced this instance.
      */
     public IPreparedQuery getPreparedQuery();
     
     /**
-     * Returns the metadata of the first or current result set expected
-     * in this IQueryResults. <br>
+     * Returns the metadata of the first or current result set <br>
      * This method provides the result metadata without having to 
      * first fetch the result data. <p>
      * Returns Null if the metadata is not available before fetching
-     * from an IResultIterator,
+     * from an <code>IResultIterator</code>,
      * or if it is ambiguous on which result set to reference.
      * In such case, one should obtain the result metadata 
-     * from a specific IResultIterator. 
+     * from a specific <code>IResultIterator<code>. 
      * @return	The metadata of the first result set's detail row in this
-     * 			IQueryResults.  Null if not available or
+     * 			<code>IQueryResults<code>.  Null if not available or
      * 			ambiguous on which result set to reference.
      * @throws 	DataException if error occurs in Data Engine
      */

@@ -17,8 +17,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 
 /**
- * Default implementation of IScriptDataSourceDesign interface.<p>
- * Describes the static design of a scripted Data Source.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IScriptDataSourceDesign} interface.<p>
  */
 public class ScriptDataSourceDesign extends BaseDataSourceDesign implements
         IScriptDataSourceDesign
@@ -26,12 +25,16 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements
 	private String 	openScript;
 	private String 	closeScript;
 
+	/**
+	 * Constructs a script data source with specified name
+	 * @param name
+	 */
     public ScriptDataSourceDesign( String name )
     {
         super( name );
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSourceDesign#getOpenScript()
      */
     public String getOpenScript()
@@ -40,15 +43,14 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements
     }
 
     /**
-     * Specifies the Open script for opening the data source (connection).
-     * @param The Open script
+     * Specifies the <code>open</code> script for opening the data source (connection).
      */
     public void setOpenScript( String script )
     {
         openScript = script;
     }
     
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSourceDesign#getCloseScript()
      */
     public String getCloseScript()
@@ -57,8 +59,7 @@ public class ScriptDataSourceDesign extends BaseDataSourceDesign implements
     }
 
     /**
-     * Specifies the Close script for closing the data source (connection).
-     * @param The Close script
+     * Specifies the <code>close</code> script for opening the data source (connection).
      */
     public void setCloseScript( String script )
     {

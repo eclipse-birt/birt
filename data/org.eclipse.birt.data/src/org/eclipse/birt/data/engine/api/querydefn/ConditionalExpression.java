@@ -20,7 +20,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 /**
- * 
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IConditionalExpression} interface.
  */
 public class ConditionalExpression extends BaseExpression implements IConditionalExpression
 {
@@ -29,22 +29,34 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	protected IScriptExpression		op1;
 	protected IScriptExpression 	op2;
 	
+	/**
+	 * Constructs an instance, setting main expression and the operator (which takes no operands)
+	 */
 	public ConditionalExpression( String expr, int operator  )
 	{
 		this( expr, operator, null, null);
 	}
 	
+	/**
+	 * Constructs an instance, setting main expression, a unary operator, and its operand
+	 */
 	public ConditionalExpression( String expr, int operator, String operand1  )
 	{
 		this(expr, operator, operand1, null);
 	}
 	
+	/**
+	 * Constructs an instance, setting main expression, a binary operator, and its two operands
+	 */
 	public ConditionalExpression( String expr, int operator, String operand1, String operand2 )
 	{
 		this( newJSExpression(expr), operator,
 				newJSExpression(operand1), newJSExpression(operand2) );
 	}
 	
+	/**
+	 * Constructs an instance, setting main expression, operator, and operands
+	 */
 	public ConditionalExpression(IScriptExpression expr, int operator, 
 			IScriptExpression op1, IScriptExpression op2)
 	{
@@ -54,7 +66,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		this.op2 = op2;
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getExpression()
 	 */
 	public IScriptExpression getExpression()
@@ -62,7 +74,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return expr;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperator()
 	 */
 	public int getOperator()
@@ -70,7 +82,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return operator;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand1()
 	 */
 	public IScriptExpression getOperand1()
@@ -78,7 +90,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return op1;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand2()
 	 */
 	public IScriptExpression getOperand2()
@@ -86,7 +98,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return op2;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getDataType()
 	 */
 	public int getDataType()
@@ -95,6 +107,10 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		return DataType.BOOLEAN_TYPE;
 	}
 	
+	/**
+	 * Sets the data type of the expression. For conditional expression, only <code>BOOLEAN_TYPE</code>
+	 * is expected.
+	 */
 	public void setDataType( int dataType )
 	{
 		if ( dataType != DataType.BOOLEAN_TYPE )

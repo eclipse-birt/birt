@@ -17,11 +17,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 
 /**
- * Default implementation of the ISortDefn interface <p>
- * Describes one sort (key, direction) pair in a sort sequence. The sort key can be a single column name
- * or a Javascript expression.<br>
- * NOTE: Presently only sorting on actual columns are supported. If the sort key is specified as an 
- * expression, it must be in the form row.column_name, or row["column_name"]
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.ISortDefinition} interface.
  */
 
 public class SortDefinition implements ISortDefinition

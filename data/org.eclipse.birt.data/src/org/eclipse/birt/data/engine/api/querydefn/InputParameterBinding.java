@@ -17,9 +17,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 
 /**
- * Default implementation of IInputParamBinding interface. <p>
- * Describes on input parameter binding, which associates one input parameter (identified by either parameter
- * name or position) to a JavaScript expression
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IInputParameterBinding} interface. <p>
  */
 public class InputParameterBinding implements IInputParameterBinding
 {

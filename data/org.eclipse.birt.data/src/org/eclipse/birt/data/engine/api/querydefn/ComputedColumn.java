@@ -16,9 +16,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 
 /**
- * Default implementation of IComputedColumn interface.<p>
- * Describes a computed column defined for a data set, or a report query.
- * A computed column has a name, and an JavaScript expression used to caculate value of the column.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IComputedColumn} interface.<p>
  */
 public class ComputedColumn implements IComputedColumn
 {

@@ -20,8 +20,8 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 
 
 /**
- * Default implementation of the IBaseQueryDefn interface, which
- * represents attributes common to a report query and a subquery.
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IBaseQueryDefinition} 
+ * interface.
  *
  */
 
@@ -32,13 +32,16 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	protected BaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
 	
+	/**
+	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
+	 */
 	BaseQueryDefinition(BaseQueryDefinition parent)
 	{
 		parentQuery = parent;
 	}
 	
 	/**
-	 * Returns the group definitions as an ordered collection of GroupDefn
+	 * Returns the group definitions as an ordered collection of <code>GroupDefinition</code>
 	 * objects. Groups are organizations within the data that support
 	 * aggregation, filtering and sorting. Reports use groups to trigger
 	 * level breaks.

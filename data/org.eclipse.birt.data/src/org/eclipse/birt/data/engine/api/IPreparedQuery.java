@@ -18,28 +18,25 @@ import org.mozilla.javascript.Scriptable;
 import java.util.Collection;
 
 /**
- * A prepared report query ready for execution. An instance of this class is compiled from the static
- * definition of an IReportQueryDefn object. 
+ * A prepared data engine query ready for execution. An instance of this class is compiled from the static
+ * definition of an {@link org.eclipse.birt.data.engine.api.IQueryDefinition} object. 
  */
 public interface IPreparedQuery
 {
     /**
-     * Returns the same IReportQueryDefn specified in prepare, without 
-     * any changes.
-     * A convenience method for the API consumer. 
-     * @return	The IReportQueryDefn object used in prepare phase 
-     * 			to produce this.  
+     * Returns the same {@link org.eclipse.birt.data.engine.api.IQueryDefinition} 
+     * used to prepare this instance, without any changes.
      */
     public IQueryDefinition getReportQueryDefn();
 
     /**
-     * Returns a collection of <code>IParameterMetaData</code> that 
+     * Returns a collection of {@link org.eclipse.birt.data.engine.api.IParameterMetaData} that 
      * each describes the meta-data of a parameter defined in this query.
      * The sequence in the collection has no implied meaning.
      * A parameter's position value, if defined, is specified 
-     * in a IParameterMetaData.
+     * in a <code>IParameterMetaData</code>.
      * Each parameter can be of input and/or output mode.
-     * @return	The collection of IParameterMetaData to describe
+     * @return	The collection of <code>IParameterMetaData</code> to describe
      * 			the meta-data of all parameters defined in this
      * 			prepared query.  Returns null if no parameters
      * 			are defined, or if no parameter metadata is available.
@@ -49,33 +46,29 @@ public interface IPreparedQuery
     
     /**
      * Executes the prepared execution plan.  This returns
-     * a IQueryResult object at a state ready to return its 
-     * current result iterator, or evaluate an aggregate expression.
+     * a {@link org.eclipse.birt.data.engine.api.IQueryResults} object which can be used
+     * to obtain the result set metadata and the result iterator. 
      * <p>
      * The caller should create a separate Javascript scope, which uses the
      * data engine's shared scope as its prototype, and pass that scope as 
      * a parameter to this method. The Data Engine is responsible for setting
      * up necessary Javascript objects to facilitate evaluation of data related
      * expressions (e.g., those that uses the Javascript "row" object).
-     * @return The QueryResults object opened and ready to return
-     * 		the results of a report query. 
      * @param queryScope The Javascript scope for evaluating query's script expressions. 
      *      This is expected to be a top-level scope with the Data Engine's global scope
-     *      at its top prototype chain. The factory should pass in the ElementState object
-     *      that it maintains for the report item using this query.
+     *      at its top prototype chain. 
      */
     public IQueryResults execute( Scriptable queryScope) 
     			throws DataException;
 
     /**
      * Executes the prepared execution plan as an inner query 
-     * that appears within the scope of another report query. 
+     * that appears within the scope of another query. 
      * The outer query must have been prepared and executed, and 
      * its results given as a parameter to this method.
-     * @param outerResults	QueryResults for the executed outer query
+     * @param outerResults	<code>IQueryResults</code> for the executed outer query
      * @param queryScope Javascript defined for this runtime instance of report query.
-     * @return The QueryResults object opened and ready to return
-     * 		the results of a report query. 
+     * @return The <code>IQueryResults</code> object for this report query
      */
     public IQueryResults execute( IQueryResults outerResults, Scriptable queryScope ) 
     			throws DataException;

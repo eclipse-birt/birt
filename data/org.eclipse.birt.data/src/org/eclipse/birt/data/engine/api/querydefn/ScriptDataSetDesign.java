@@ -17,8 +17,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 
 /**
- * Default implementation of IScriptDataSetDesign interface.<p>
- * Describes the static design of a scripted Data Set.
+ * Default implementation of {@link org.eclipse.birt.data.engine.api.IScriptDataSetDesign} interface.<p>
  */
 public class ScriptDataSetDesign extends BaseDataSetDesign implements
         IScriptDataSetDesign
@@ -28,17 +27,23 @@ public class ScriptDataSetDesign extends BaseDataSetDesign implements
 	private String 	closeScript;
 	private String	describeScript;
 
+	/**
+	 * Constructs a script data set with the specified name
+	 */
     public ScriptDataSetDesign( String name )
     {
         super( name );
     }
 
+	/**
+	 * Constructs a script data set with the specified name and data source name
+	 */
     public ScriptDataSetDesign( String name, String dataSourceName )
     {
         super( name, dataSourceName );
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSetDesign#getOpenScript()
      */
     public String getOpenScript()
@@ -47,15 +52,14 @@ public class ScriptDataSetDesign extends BaseDataSetDesign implements
     }
 
     /**
-     * Specifies the Open script for opening the data set.
-     * @param The Open script
+     * Specifies the <code>open</code> script for opening the data set.
      */
     public void setOpenScript( String script )
     {
         openScript = script;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSetDesign#getFetchScript()
      */
     public String getFetchScript()
@@ -64,15 +68,14 @@ public class ScriptDataSetDesign extends BaseDataSetDesign implements
     }
 
     /**
-     * Specifies the Fetch script for fetching each data row.
-     * @param The Fetch script
+     * Specifies the <code>fetch</code> script for fetching each data row.
      */
     public void setFetchScript( String script )
     {
         fetchScript = script;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSetDesign#getCloseScript()
      */
     public String getCloseScript()
@@ -81,16 +84,14 @@ public class ScriptDataSetDesign extends BaseDataSetDesign implements
     }
 
     /**
-     * Specifies the Close script for closing the data set.
-     * @param The Close script
+     * Specifies the <code>close</code> script for closing the data set.
      */
     public void setCloseScript( String script )
     {
         closeScript = script;
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.eclipse.birt.data.engine.api.IScriptDataSetDesign#getDescribeScript()
      */
     public String getDescribeScript()
@@ -99,8 +100,7 @@ public class ScriptDataSetDesign extends BaseDataSetDesign implements
     }
 
     /**
-     * Specifies the Describe script for closing the data set.
-     * @param The Describe script
+     * Specifies the <code>describe</code> script for providing the data set metadata
      */
     public void setDescribeScript( String script )
     {

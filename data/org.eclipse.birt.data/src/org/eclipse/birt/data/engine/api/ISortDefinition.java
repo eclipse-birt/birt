@@ -17,14 +17,20 @@ package org.eclipse.birt.data.engine.api;
  * Describes one sort (key, direction) pair in a sort sequence. The sort key can be a single column name
  * or a Javascript expression.<br>
  * NOTE: Presently only sorting on actual columns are supported. If the sort key is specified as an 
- * expression, it must be in the form row.column_name, or row["column_name"]
+ * expression, it must be in the form <code>row.column_name</code>, or <code>row["column_name"]</code>
  */
 public interface ISortDefinition
 {
     // Enumeration constants for sort direction
-    public static final int SORT_ASC = 0; // Sort asending
+    /**
+     * Sorts in ascending order of sort key values
+     */
+    public static final int SORT_ASC = 0; 
 
-    public static final int SORT_DESC = 1; // Sort descending
+    /**
+     * Sorts in descending order of sort key values
+     */
+    public static final int SORT_DESC = 1;
 
     /**
      * Returns the name of the column to sort on. Either the KeyColumn or KeyExpr can

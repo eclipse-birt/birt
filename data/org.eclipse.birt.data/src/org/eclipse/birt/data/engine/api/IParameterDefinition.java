@@ -34,7 +34,8 @@ public interface IParameterDefinition
     public abstract int getPosition();
 
     /**
-     * Returns the parameter data type. See the DataType class for return value constants.
+     * Returns the parameter data type. See the <code>org.eclipse.birt.core.data.DataType</code>
+     *  class for return value constants.
      * @return the parameter data type
      */
     public abstract int getType();

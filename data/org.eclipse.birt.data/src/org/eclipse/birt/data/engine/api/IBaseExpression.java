@@ -22,9 +22,10 @@ public interface IBaseExpression
 {
     /**
      * Gets the data type of the expression. Acceptable return values are those enumeration constants
-     * defined in the DataType class. If the result data type of the expression is not known,
-     * return DataType.UNKNOWN_TYPE.
-     * @see DataType
+     * defined in the <code>org.eclipse.birt.core.data.DataType</code> class. 
+     * If the result data type of the expression is not known,
+     * return <code>UNKNOWN_TYPE</code>.
+     * @see org.eclipse.birt.core.data.DataType
      */
     public abstract int getDataType();
 

@@ -46,7 +46,8 @@ public interface IBaseDataSetDesign
     public abstract List getComputedColumns();
 
     /**
-     * Returns a list of filters. The List contains IFilterDefn objects. The data set should discard any
+     * Returns a list of filters. The List contains {@link org.eclipse.birt.data.engine.api.IFilterDefinition}
+     *  objects. The data set should discard any
      * row that does not satisfy all the filters.
      * @return the filters. An empty list if none is defined.
      */
@@ -54,7 +55,7 @@ public interface IBaseDataSetDesign
 
     /**
      * Returns the data set parameter definitions as a list
-     * of IParameterDefinition objects. 
+     * of {@link org.eclipse.birt.data.engine.api.IParameterDefinition} objects. 
      * @return the parameter definitions. 
      * 			An empty list if none is defined.
      */
@@ -62,7 +63,7 @@ public interface IBaseDataSetDesign
 
     /**
      * Returns the input parameter definitions as a list
-     * of IInputParameterDefinition objects. 
+     * of {@link org.eclipse.birt.data.engine.api.IInputParameterDefinition} objects. 
      * @return the input parameter definitions. 
      * 			An empty list if none is defined.
      * @deprecated use getParameters()
@@ -71,7 +72,7 @@ public interface IBaseDataSetDesign
 
     /**
      * Returns the output parameter definitions as a list
-     * of IOutputParameterDefinition objects.
+     * of {@link org.eclipse.birt.data.engine.api.IOutputParameterDefinition} objects.
      * @return the output parameter definitions. 
      * 			An empty list if none is defined.
      * @deprecated use getParameters()
@@ -79,9 +80,10 @@ public interface IBaseDataSetDesign
     public abstract List getOutputParameters();
 
     /**
-     * Returns the primary result set hints as a list of IColumnDefn
+     * Returns the primary result set hints as a list of 
+     * {@link org.eclipse.birt.data.engine.api.IColumnDefinition}
      * objects. 
-     * @return the result set hints as a list of IColumnDefn objects.
+     * @return the result set hints as a list of <code>IColumnDefinition</code> objects.
      * 			An empty list if none is defined, which normally
      * 			means that the data set can provide the definition 
      * 			from the underlying data access provider.
@@ -90,46 +92,46 @@ public interface IBaseDataSetDesign
 	
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection
-	 * of IInputParamBinding objects.
+	 * of {@link org.eclipse.birt.data.engine.api.IInputParameterBinding} objects.
 	 * @return the input parameter bindings. 
 	 * 			An empty collection if none is defined.
 	 */
 	public abstract Collection getInputParamBindings( );
 
     /**
-     * Returns the BeforeOpen script to be called just before opening the data
+     * Returns the <code>beforeOpen</code> script to be called just before opening the data
      * set.
-     * @return the BeforeOpen script. Null if none is defined.
+     * @return the <code>beforeOpen</code> script. Null if none is defined.
      */
     public abstract String getBeforeOpenScript();
 
     /**
-     * Returns the AfterOpen script to be called just after the data set is
+     * Returns the <code>afterOpen</code> script to be called just after the data set is
      * opened, but before fetching each row.
-     * @return the AfterOpen script.  Null if none is defined.
+     * @return the <code>afterOpen</code> script.  Null if none is defined.
      */
     public abstract String getAfterOpenScript();
 
     /**
-     * Returns the OnFetch script to be called just after the a row is read
+     * Returns the <code>onFetch</code> script to be called just after the a row is read
      * from the data set. Called after setting computed columns and only for
      * rows that pass the filters. (Not called for rows that are filtered out
      * of the data set.)
-     * @return the OnFetch script. Null if none is defined.
+     * @return the <code>onFetch</code> script. Null if none is defined.
      */
     public abstract String getOnFetchScript();
 
     /**
-     * Returns the BeforeClose script to be called just before closing the
+     * Returns the <code>beforeClose</code> script to be called just before closing the
      * data set.
-     * @return the BeforeClose script.  Null if none is defined.
+     * @return the <code>beforeClose</code> script.  Null if none is defined.
      */
     public abstract String getBeforeCloseScript();
 
     /**
-     * Returns the AfterClose script to be called just after the data set is
+     * Returns the <code>afterClose</code> script to be called just after the data set is
      * closed.
-     * @return the AfterClose script.  Null if none is defined.
+     * @return the <code>afterClose</code> script.  Null if none is defined.
      */
     public abstract String getAfterCloseScript();
 

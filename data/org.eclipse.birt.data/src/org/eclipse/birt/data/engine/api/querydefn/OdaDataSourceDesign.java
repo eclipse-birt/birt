@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * Default implementation of the IExtendedDataSourceDesign interface. <p>
- * Describes the static design of a non-scripted Data Source.
+ * Default implementation of the {@link org.eclipse.birt.data.engine.api.IOdaDataSourceDesign} interface. <p>
  */
 public class OdaDataSourceDesign extends BaseDataSourceDesign 
 		implements IOdaDataSourceDesign 
@@ -32,6 +31,9 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
     private Map 	publicProps;
     private Map 	privateProps;
 
+    /**
+     * Constructs a data source with the given name
+     */
     public OdaDataSourceDesign( String name ) 
     {
         super( name );
@@ -109,7 +111,6 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
     protected void addProperty( Map properties, String name, String value ) throws DataException
     {
         if ( properties.containsKey( name ) )
-            // TODO - externalize message text
             throw new DataException( ResourceConstants.DUPLICATE_PROPERTY_NAME,
 					name );
         
