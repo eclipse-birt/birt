@@ -11,6 +11,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -37,7 +38,8 @@ public interface ISeriesUIProvider
      *            provided
      * @return the series data composite
      */
-    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder, Object oContext);
+    public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
+        IExpressionBuilder builder, Object oContext);
 
     /**
      * Fetches the class of the series for which this class provides services

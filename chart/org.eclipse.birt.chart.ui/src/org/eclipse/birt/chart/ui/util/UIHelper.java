@@ -63,6 +63,19 @@ public final class UIHelper
     }
 
     /**
+     * This is a helper method created to center a shell on the screen. It centers the shell on the primary monitor in a
+     * multi-monitor configuration.
+     * 
+     * @param shell
+     *            The shell to be centered on screen
+     */
+    public static void centerOnScreen(Shell shell)
+    {
+        shell.setLocation(Display.getCurrent().getPrimaryMonitor().getClientArea().width / 2 - (shell.getSize().x / 2),
+            Display.getCurrent().getPrimaryMonitor().getClientArea().height / 2 - (shell.getSize().y / 2));
+    }
+
+    /**
      * This method returns an URL for a resource given its plugin relative path. It is intended to be used to abstract
      * out the usage of the UI as a plugin or standalone component when it comes to accessing resources.
      * 
