@@ -108,10 +108,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_SOURCE,
 				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
 
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_DATA_SET,
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET,
 				ICONS_PATH + "data_set.gif" ); //$NON-NLS-1$
 
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_DATA_SOURCE,
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SOURCE,
 				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH

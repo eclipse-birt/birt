@@ -45,9 +45,9 @@ public interface IReportGraphicConstants
 	
 	public final static String ICON_ELEMENT_EXTENDED_ITEM = ReportDesignConstants.EXTENDED_ITEM;
 
-	public final static String ICON_ELEMENT_EXTENDED_DATA_SET = ReportDesignConstants.EXTENDED_DATA_SET;
+	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
 
-	public final static String ICON_ELEMENT_EXTENDED_DATA_SOURCE = ReportDesignConstants.EXTENDED_DATA_SOURCE;
+	public final static String ICON_ELEMENT_ODA_DATA_SOURCE = ReportDesignConstants.ODA_DATA_SOURCE;
 
 	public final static String ICON_ELEMENT_GRID = ReportDesignConstants.GRID_ITEM;
 
