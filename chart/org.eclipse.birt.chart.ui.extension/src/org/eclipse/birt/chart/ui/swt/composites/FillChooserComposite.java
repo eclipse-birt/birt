@@ -12,9 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
@@ -24,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -122,28 +120,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
     {
         this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
         Display display = Display.getDefault();
-        colorArray = new Color[]
-        {
-            new Color(display, 0, 0, 0), new Color(display, 154, 50, 0), new Color(display, 51, 51, 0),
-            new Color(display, 0, 50, 0), new Color(display, 0, 50, 100), new Color(display, 0, 0, 128),
-            new Color(display, 51, 51, 153), new Color(display, 51, 51, 51),
-
-            new Color(display, 128, 0, 0), new Color(display, 254, 102, 0), new Color(display, 124, 124, 0),
-            new Color(display, 0, 128, 0), new Color(display, 0, 128, 128), new Color(display, 0, 0, 254),
-            new Color(display, 102, 102, 153), new Color(display, 128, 128, 128),
-
-            new Color(display, 254, 0, 0), new Color(display, 254, 153, 0), new Color(display, 154, 204, 0),
-            new Color(display, 51, 153, 102), new Color(display, 51, 204, 204), new Color(display, 51, 102, 254),
-            new Color(display, 128, 0, 128), new Color(display, 145, 145, 145),
-
-            new Color(display, 254, 0, 254), new Color(display, 254, 204, 0), new Color(display, 254, 254, 0),
-            new Color(display, 0, 254, 0), new Color(display, 0, 254, 254), new Color(display, 0, 204, 254),
-            new Color(display, 154, 50, 102), new Color(display, 192, 192, 192),
-
-            new Color(display, 253, 153, 204), new Color(display, 254, 204, 153), new Color(display, 254, 254, 153),
-            new Color(display, 204, 254, 204), new Color(display, 204, 254, 254), new Color(display, 153, 204, 254),
-            new Color(display, 204, 153, 254), new Color(display, 254, 254, 254)
-        };
+        colorArray = this.createColorMap(display);
         vListeners = new Vector();
     }
 
@@ -203,6 +180,32 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
         addDisposeListener(this);
     }
+    
+    private Color[] createColorMap(Display display)
+    {
+        return new Color[]
+                               {
+                                   new Color(display, 0, 0, 0), new Color(display, 154, 50, 0), new Color(display, 51, 51, 0),
+                                   new Color(display, 0, 50, 0), new Color(display, 0, 50, 100), new Color(display, 0, 0, 128),
+                                   new Color(display, 51, 51, 153), new Color(display, 51, 51, 51),
+
+                                   new Color(display, 128, 0, 0), new Color(display, 254, 102, 0), new Color(display, 124, 124, 0),
+                                   new Color(display, 0, 128, 0), new Color(display, 0, 128, 128), new Color(display, 0, 0, 254),
+                                   new Color(display, 102, 102, 153), new Color(display, 128, 128, 128),
+
+                                   new Color(display, 254, 0, 0), new Color(display, 254, 153, 0), new Color(display, 154, 204, 0),
+                                   new Color(display, 51, 153, 102), new Color(display, 51, 204, 204), new Color(display, 51, 102, 254),
+                                   new Color(display, 128, 0, 128), new Color(display, 145, 145, 145),
+
+                                   new Color(display, 254, 0, 254), new Color(display, 254, 204, 0), new Color(display, 254, 254, 0),
+                                   new Color(display, 0, 254, 0), new Color(display, 0, 254, 254), new Color(display, 0, 204, 254),
+                                   new Color(display, 154, 50, 102), new Color(display, 192, 192, 192),
+
+                                   new Color(display, 253, 153, 204), new Color(display, 254, 204, 153), new Color(display, 254, 254, 153),
+                                   new Color(display, 204, 254, 204), new Color(display, 204, 254, 254), new Color(display, 153, 204, 254),
+                                   new Color(display, 204, 153, 254), new Color(display, 254, 254, 254)
+                               };
+    }
 
     /**
      *  
@@ -220,7 +223,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getDisplay(), SWT.NONE/* SWT.APPLICATION_MODAL */);
+        Shell shell = new Shell(this.getDisplay(), SWT.NONE | SWT.APPLICATION_MODAL );
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);
@@ -234,7 +237,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
         glDropDown.numColumns = 8;
         cmpDropDown.setLayout(glDropDown);
         cmpDropDown.addKeyListener(this);
-
+        
+        if(colorArray == null)
+        {
+            colorArray = createColorMap(getDisplay());
+        }
         ColorSelectionCanvas cnv = new ColorSelectionCanvas(cmpDropDown, SWT.BORDER, colorArray);
         GridData gdCnv = new GridData(GridData.FILL_BOTH);
         gdCnv.horizontalSpan = 8;
@@ -254,27 +261,13 @@ public class FillChooserComposite extends Composite implements SelectionListener
         btnTransparent.setLayoutData(gdTransparent);
         btnTransparent.setText("Transparent");
         btnTransparent.addSelectionListener(this);
-        if (fCurrent instanceof ColorDefinition)
+        if (fCurrent == null)
         {
-            if (((ColorDefinition) fCurrent).getTransparency() == 100)
-            {
-                btnTransparent.setSelection(true);
-            }
-            else
-            {
-                btnTransparent.setSelection(false);
-            }
+            btnTransparent.setSelection(true);
         }
-        else if (fCurrent instanceof Gradient)
+        else
         {
-            if (((Gradient) fCurrent).getTransparency() == 100)
-            {
-                btnTransparent.setSelection(true);
-            }
-            else
-            {
-                btnTransparent.setSelection(false);
-            }
+            btnTransparent.setSelection(false);
         }
 
         if (this.bGradientEnabled)
@@ -362,6 +355,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         else if (oSource.equals(this.btnImage))
         {
             FileDialog fDlg = new FileDialog(this.getShell(), SWT.OPEN);
+            cmpDropDown.getParent().dispose();
             fDlg.setFilterExtensions(saImageTypes);
             String sStartFolder = System.getProperty("user.dir");
             String sImageFile = "";
@@ -392,11 +386,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 this.setFill(imgFill);
                 fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
-            cmpDropDown.getParent().dispose();
         }
         else if (oSource.equals(this.btnCustom))
         {
             ColorDialog cDlg = new ColorDialog(this.getShell(), SWT.NONE);
+            cmpDropDown.getParent().dispose();
             if (fCurrent instanceof ColorDefinition)
             {
                 cDlg.setRGB(new RGB(((ColorDefinition) this.fCurrent).getRed(), ((ColorDefinition) this.fCurrent)
@@ -411,31 +405,38 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 this.setFill(cdNew);
                 fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
+        }
+        else if (oSource.equals(this.btnGradient))
+        {
+        	GradientEditorDialog ged = null;
             cmpDropDown.getParent().dispose();
+        	if(fCurrent instanceof Gradient)
+        	{
+        		ged = new GradientEditorDialog((Gradient) fCurrent);
+        	}
+        	else
+        	{
+        		ged = new GradientEditorDialog(null);
+        	}
+        	if(ged.getGradient() != null)
+        	{
+        		Fill fTmp = ged.getGradient();
+        		if(fCurrent == null || !(fCurrent.equals(fTmp)))
+        		{
+        			this.setFill(fTmp);
+        			fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
+        		}
+        	}
         }
         else if (oSource.equals(btnTransparent))
         {
-            if (fCurrent instanceof ColorDefinition)
+            if (btnTransparent.getSelection())
             {
-                if (btnTransparent.getSelection())
-                {
-                    ((ColorDefinition) fCurrent).setTransparency(100);
-                }
-                else
-                {
-                    ((ColorDefinition) fCurrent).setTransparency(0);
-                }
+                fCurrent = null;
             }
-            else if (fCurrent instanceof Gradient)
+            else
             {
-                if (btnTransparent.getSelection())
-                {
-                    ((Gradient) fCurrent).setTransparency(100);
-                }
-                else
-                {
-                    ((Gradient) fCurrent).setTransparency(0);
-                }
+                fCurrent = ColorDefinitionImpl.WHITE();
             }
             this.setFill(fCurrent);
             fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
@@ -518,6 +519,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             {
                 colorArray[iC].dispose();
             }
+            colorArray = null;
         }
     }
 
@@ -587,7 +589,15 @@ class ColorSelectionCanvas extends Canvas implements PaintListener
         {
             for (int iC = 0; iC < 8; iC++)
             {
-                gc.setBackground(colorMap[(iR * 8) + iC]);
+                try
+                {
+                    gc.setBackground(colorMap[(iR * 8) + iC]);
+                }
+                catch (Throwable e )
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 gc.fillRectangle(iC * iCellWidth, iR * iCellHeight, iCellWidth, iCellHeight);
                 // Hilight currently selected color if it exists in this list
                 if (colorSelection != null && colorSelection.equals(colorMap[(iR * 8) + iC]))
@@ -619,86 +629,5 @@ class ColorSelectionCanvas extends Canvas implements PaintListener
         int iVCell = y / iCellHeight;
         int iArrayIndex = ((iVCell) * 8) + iHCell;
         return this.colorMap[iArrayIndex];
-    }
-}
-
-class FillCanvas extends Canvas implements PaintListener
-{
-
-    Fill fCurrent = null;
-
-    public FillCanvas(Composite parent, int iStyle)
-    {
-        super(parent, iStyle);
-        this.addPaintListener(this);
-    }
-
-    public void setFill(Fill fill)
-    {
-        this.fCurrent = fill;
-    }
-
-    public void paintControl(PaintEvent pe)
-    {
-        Color cBackground = null;
-        GC gc = pe.gc;
-        if (fCurrent != null)
-        {
-            if (fCurrent instanceof ColorDefinition)
-            {
-                if (((ColorDefinition) fCurrent).getTransparency() == 100)
-                {
-                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-                    Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
-                    gc.setForeground(cBlack);
-                    gc.drawText("Transparent", 2, 2);
-                    cBlack.dispose();
-                }
-                else
-                {
-                    cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
-                        ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
-                    gc.setBackground(cBackground);
-                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-                }
-            }
-            else if (fCurrent instanceof Image)
-            {
-                gc.fillRectangle(2, 2, getSize().x - 4, this.getSize().y - 4);
-                gc.drawImage(getSWTImage((Image) fCurrent), 2, 2);
-            }
-        }
-        if (cBackground != null)
-        {
-            cBackground.dispose();
-        }
-    }
-
-    private org.eclipse.swt.graphics.Image getSWTImage(Image modelImage)
-    {
-        org.eclipse.swt.graphics.Image img = null;
-        try
-        {
-            try
-            {
-                img = new org.eclipse.swt.graphics.Image(Display.getCurrent(), new URL(modelImage.getURL())
-                    .openStream());
-            }
-            catch (MalformedURLException e1 )
-            {
-                img = new org.eclipse.swt.graphics.Image(Display.getCurrent(), new FileInputStream(modelImage.getURL()));
-            }
-        }
-        catch (FileNotFoundException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return img;
     }
 }

@@ -145,8 +145,6 @@ public class ScatterChart implements IChartType
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
 
-        ((Axis) newChart.getAxes().get(0)).getTitle().getCaption().setValue("Base Axis Title");
-
         SeriesDefinition sdX = SeriesDefinitionImpl.create();
         Series baseSeries = SeriesImpl.create();
         sdX.getSeries().add(baseSeries);
@@ -157,9 +155,6 @@ public class ScatterChart implements IChartType
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0))
             .setOrientation(Orientation.VERTICAL_LITERAL);
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
-
-        ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getTitle().getCaption().setValue(
-            "Orthogonal Axis Title");
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
         sdY.getQuery().setDefinition("Expr(\"Column\")");

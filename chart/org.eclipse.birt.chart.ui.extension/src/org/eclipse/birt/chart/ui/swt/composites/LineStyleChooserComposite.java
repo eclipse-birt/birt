@@ -146,7 +146,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        Shell shell = new Shell(this.getShell(), SWT.NONE/* SWT.APPLICATION_MODAL */);
+        Shell shell = new Shell(this.getShell(), SWT.NONE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         shell.setSize(cnvSelection.getSize().x, 150);
         shell.setLocation(iXLoc, iYLoc);

@@ -293,12 +293,3 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
         iLastAngle = iNewAngle;
     }
 }
-
-/**
- * A listener interface tuned to listen to angle change events notified by the text angle selector
- */
-
-interface IAngleChangeListener
-{
-    void angleChanged(int iNewAngle);
-}

@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.chart.ui.event;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.model.layout.LabelBlock;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.emf.common.util.EList;
@@ -26,28 +31,104 @@ import org.eclipse.emf.common.util.EList;
  */
 public class ChangeListenerImpl implements IChangeListener
 {
-
-    int iSeriesCount = 0;
+    private transient int iBaseSeriesCount = 0;
+    private transient int iOrthogonalSeriesCount = 0;
+    private transient int iBaseAxisCount = 0;
+    private transient int iOrthogonalAxisCount = 0;
+    private transient int iLabelBlockCount = 0;
+    
+    private static final String BASE_SERIES_SHEET_COLLECTION = "BaseSeriesSheets";
+    private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION = "OrthogonalSeriesSheets";
+    private static final String BASE_AXIS_SHEET_COLLECTION = "BaseAxisSheets";
+    private static final String ORTHOGONAL_AXIS_SHEET_COLLECTION = "OrthogonalAxisSheets";
+    private static final String LABEL_BLOCK_SHEET_COLLECTION = "LabelBlockSeriesSheets";
+    
+    private static final String[] BASE_SERIES_SHEETS = new String[] { "Data.X Series", "Attributes.X Series" };
+    private static final String[] ORTHOGONAL_SERIES_SHEETS = new String[] { "Data.Y Series", "Attributes.Y Series", "Attributes.Y Series.Labels" };
+    private static final String[] BASE_AXIS_SHEETS = new String[] { "Data.X Axis", "Attributes.X Axis", "Attributes.X Axis.Labels" };
+    private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[] { "Data.Y Axis", "Attributes.Y Axis", "Attributes.Y Axis.Labels" };
+    private static final String[] LABEL_BLOCK_SHEETS = new String[] { "Layout.Label Block" };
 
     public void initialize(Chart cModel, IUIManager uiManager)
     {
-        EList series = getSeries(cModel);
-        if (series == null)
-            return;
-        iSeriesCount = series.size();
-        for (int iS = 0; iS < series.size(); iS++)
+        // Register sheet collections
+        uiManager.registerSheetCollection(BASE_SERIES_SHEET_COLLECTION, BASE_SERIES_SHEETS);
+        uiManager.registerSheetCollection(ORTHOGONAL_SERIES_SHEET_COLLECTION, ORTHOGONAL_SERIES_SHEETS);
+        uiManager.registerSheetCollection(BASE_AXIS_SHEET_COLLECTION, BASE_AXIS_SHEETS);
+        uiManager.registerSheetCollection(ORTHOGONAL_AXIS_SHEET_COLLECTION, ORTHOGONAL_AXIS_SHEETS);
+        uiManager.registerSheetCollection(LABEL_BLOCK_SHEET_COLLECTION, LABEL_BLOCK_SHEETS);
+        
+        iLabelBlockCount = 0;
+        if(cModel instanceof ChartWithAxes)
         {
-            //            uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
+            iBaseAxisCount = ((ChartWithAxes) cModel).getAxes().size();
+            iOrthogonalAxisCount = 0;
+            iBaseSeriesCount = 0;
+            iOrthogonalSeriesCount = 0;
+            for(int i = 0; i < iBaseAxisCount; i++)
+            {
+                iBaseSeriesCount += ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getSeriesDefinitions().size();
+                iOrthogonalAxisCount += ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getAssociatedAxes().size();
+                for(int iS = 0; iS < iOrthogonalAxisCount; iS++)
+                {
+                    iOrthogonalSeriesCount += ((Axis) ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getAssociatedAxes().get(iS)).getSeriesDefinitions().size();
+                }
+            }
+            // Start from 1 because there will always be at least 1 entry for each registered sheet when this method is called
+            for (int iBA = 1; iBA < iBaseAxisCount; iBA++)
+            {
+                uiManager.addCollectionInstance(BASE_AXIS_SHEET_COLLECTION);
+            }
+            for (int iOA = 1; iOA < iOrthogonalAxisCount; iOA++)
+            {
+                uiManager.addCollectionInstance(ORTHOGONAL_AXIS_SHEET_COLLECTION);
+            }
+        }
+        else
+        {
+            iBaseAxisCount = 0;
+            iOrthogonalAxisCount = 0;
+            iBaseSeriesCount = ((ChartWithoutAxes) cModel).getSeriesDefinitions().size();
+            iOrthogonalSeriesCount = 0;
+            for(int iS = 0; iS < iBaseSeriesCount; iS++)
+            {
+                iOrthogonalSeriesCount += ((SeriesDefinition) ((ChartWithoutAxes) cModel).getSeriesDefinitions().get(iS)).getSeriesDefinitions().size();
+            }
+            
+            // Remove axis sheets since they are not needed for Charts Without Axes
+            uiManager.removeCollectionInstance(ORTHOGONAL_AXIS_SHEET_COLLECTION);
+            uiManager.removeCollectionInstance(BASE_AXIS_SHEET_COLLECTION);
+        }
+        Iterator iter = cModel.getBlock().getChildren().iterator();
+        while(iter.hasNext())
+        {
+            Block block = (Block) iter.next();
+            if(block instanceof LabelBlock && !(block instanceof TitleBlock))
+            {
+                iLabelBlockCount++;
+            }
         }
 
-        if (cModel instanceof ChartWithAxes)
+        // Start from 1 because there will always be at least 1 entry for each registered sheet when this method is called
+        for (int iBS = 1; iBS < iBaseSeriesCount; iBS++)
         {
-            // TODO: Handle addition of default sheets for ChartWithAxes model
+            uiManager.addCollectionInstance(BASE_SERIES_SHEET_COLLECTION);
         }
-        else if (cModel instanceof ChartWithoutAxes)
+        for (int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++)
         {
-            // TODO: Handle addition of default sheets for ChartWithoutAxes
-            // model
+            uiManager.addCollectionInstance(ORTHOGONAL_SERIES_SHEET_COLLECTION);
+        }
+        
+        if(iLabelBlockCount == 0)
+        {
+            uiManager.removeCollectionInstance(LABEL_BLOCK_SHEET_COLLECTION);
+        }
+        else
+        {
+	        for (int iLB = 1; iLB < iLabelBlockCount; iLB++)
+	        {
+	            uiManager.addCollectionInstance(LABEL_BLOCK_SHEET_COLLECTION);
+	        }
         }
     }
 
@@ -59,25 +140,120 @@ public class ChangeListenerImpl implements IChangeListener
      */
     public void chartModified(IUIManager uiManager)
     {
-        int iNewSeriesCount = 0;
-        EList series = getSeries(uiManager.getCurrentModelState());
-
-        iNewSeriesCount = series.size();
-        if (iNewSeriesCount >= iSeriesCount)
+        Chart cModel = uiManager.getCurrentModelState();
+        int iNewBaseAxisCount = 0;
+        int iNewOrthogonalAxisCount = 0;
+        int iNewBaseSeriesCount = 0;
+        int iNewOrthogonalSeriesCount = 0;
+        int iNewLabelBlockCount = 0;
+        
+        if(cModel instanceof ChartWithAxes)
         {
-            for (int iNC = iSeriesCount; iNC > iNewSeriesCount; iNC++)
+            iNewBaseAxisCount = ((ChartWithAxes) cModel).getAxes().size();
+            iNewOrthogonalAxisCount = 0;
+            iNewBaseSeriesCount = 0;
+            iNewOrthogonalSeriesCount = 0;
+            for(int i = 0; i < iNewBaseAxisCount; i++)
             {
-                //                uiManager.addSeriesDataSheet(new SeriesDataSetSheetImpl());
+                iNewBaseSeriesCount += ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getSeriesDefinitions().size();
+                iNewOrthogonalAxisCount += ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getAssociatedAxes().size();
+                for(int iS = 0; iS < iNewOrthogonalAxisCount; iS++)
+                {
+                    iNewOrthogonalSeriesCount += ((Axis) ((Axis) ((ChartWithAxes) cModel).getAxes().get(i)).getAssociatedAxes().get(iS)).getSeriesDefinitions().size();
+                }
+            }
+            // Start from 1 because there will always be at least 1 entry for each registered sheet when this method is called
+            if(iNewBaseAxisCount >= iBaseAxisCount)
+            {
+	            for (int iBA = iBaseAxisCount; iBA < iNewBaseAxisCount; iBA++)
+	            {
+	                uiManager.addCollectionInstance(BASE_AXIS_SHEET_COLLECTION);
+	            }
+            }
+            else
+            {
+	            for (int iBA = iBaseAxisCount; iBA > iNewBaseAxisCount; iBA--)
+	            {
+	                uiManager.removeCollectionInstance(BASE_AXIS_SHEET_COLLECTION);
+	            }                
+            }
+            
+            if(iNewOrthogonalAxisCount >= iOrthogonalAxisCount)
+            {
+	            for (int iOA = iOrthogonalAxisCount; iOA < iNewOrthogonalAxisCount; iOA++)
+	            {
+	                uiManager.addCollectionInstance(ORTHOGONAL_AXIS_SHEET_COLLECTION);
+	            }
+            }
+            else
+            {
+	            for (int iOA = iOrthogonalAxisCount; iOA > iNewOrthogonalAxisCount; iOA--)
+	            {
+	                uiManager.removeCollectionInstance(ORTHOGONAL_AXIS_SHEET_COLLECTION);
+	            }                
             }
         }
         else
         {
-            for (int iNC = iSeriesCount; iNC == iNewSeriesCount; iNC--)
+            iNewBaseAxisCount = 0;
+            iNewOrthogonalAxisCount = 0;
+            iNewBaseSeriesCount = ((ChartWithoutAxes) cModel).getSeriesDefinitions().size();
+            iNewOrthogonalSeriesCount = 0;
+            for(int iS = 0; iS < iBaseSeriesCount; iS++)
             {
-                uiManager.removeSeriesDataSheet();
+                iOrthogonalSeriesCount += ((SeriesDefinition) ((ChartWithoutAxes) cModel).getSeriesDefinitions().get(iS)).getSeriesDefinitions().size();
             }
         }
-        iSeriesCount = iNewSeriesCount;
+        Iterator iter = cModel.getBlock().getChildren().iterator();
+        while(iter.hasNext())
+        {
+            Block block = (Block) iter.next();
+            if(block instanceof LabelBlock && !(block instanceof TitleBlock))
+            {
+                iNewLabelBlockCount++;
+            }
+        }
+        // Start from 1 because there will always be at least 1 entry for each registered sheet when this method is called
+        if(iNewBaseSeriesCount >= iBaseSeriesCount)
+        {
+            for (int iBS = iBaseSeriesCount; iBS < iNewBaseSeriesCount; iBS++)
+            {
+                uiManager.addCollectionInstance(BASE_SERIES_SHEET_COLLECTION);
+            }
+        }
+        else
+        {
+            for (int iBS = iBaseSeriesCount; iBS > iNewBaseSeriesCount; iBS--)
+            {
+                uiManager.removeCollectionInstance(BASE_SERIES_SHEET_COLLECTION);
+            }                
+        }
+        
+        if(iNewOrthogonalSeriesCount >= iOrthogonalSeriesCount)
+        {
+            for (int iOS = iOrthogonalSeriesCount; iOS < iNewOrthogonalSeriesCount; iOS++)
+            {
+                uiManager.addCollectionInstance(ORTHOGONAL_SERIES_SHEET_COLLECTION);
+            }
+        }
+        else
+        {
+            for (int iOS = iOrthogonalSeriesCount; iOS > iNewOrthogonalSeriesCount; iOS--)
+            {
+                uiManager.removeCollectionInstance(ORTHOGONAL_SERIES_SHEET_COLLECTION);
+            }                
+        }
+        
+        /*for (int iLB = 1; iLB < iLabelBlockCount; iLB++)
+        {
+            uiManager.addCollectionInstance(LABEL_BLOCK_SHEET_COLLECTION);
+        }*/
+        
+        // Update the stored counts
+        iBaseAxisCount = iNewBaseAxisCount;
+        iOrthogonalAxisCount = iNewOrthogonalAxisCount;
+        iBaseSeriesCount = iNewBaseSeriesCount;
+        iOrthogonalSeriesCount = iNewOrthogonalSeriesCount;
     }
 
     /**

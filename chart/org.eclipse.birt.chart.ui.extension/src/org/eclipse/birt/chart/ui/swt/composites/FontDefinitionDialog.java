@@ -125,8 +125,6 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         this.fdBackup = (FontDefinition) EcoreUtil.copy(fdCurrent);
         this.cdBackup = (ColorDefinition) EcoreUtil.copy(cdCurrent);
         shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE/* | SWT.APPLICATION_MODAL */);
-        GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
         populateLists();

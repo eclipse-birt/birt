@@ -83,6 +83,8 @@ public class TriggerEditorDialog implements SelectionListener
         cmpContent.setLayout(glContent);
 
         triggereditor = new TriggerEditorComposite(cmpContent, SWT.NONE, triggers);
+        GridData gdTriggerEditor = new GridData(GridData.FILL_HORIZONTAL);
+        triggereditor.setLayoutData(gdTriggerEditor);
 
         GridLayout glButtons = new GridLayout();
         glButtons.numColumns = 2;
