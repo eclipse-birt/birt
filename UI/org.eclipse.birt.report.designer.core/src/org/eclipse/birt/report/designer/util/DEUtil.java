@@ -651,8 +651,7 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
-				| ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -719,9 +718,7 @@ public class DEUtil
 		if ( model instanceof ParameterHandle )
 		{
 			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\""
-					+ ( (ParameterHandle) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (ParameterHandle) model ).getName( ) + "\"]";
 		}
 		if ( model instanceof DataSetItemModel )
 		{
@@ -731,9 +728,7 @@ public class DEUtil
 				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
 				    * ).getName( ) + "\"]." +
 				    */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\""
-					+ ( (DataSetItemModel) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (DataSetItemModel) model ).getName( ) + "\"]";
 		}
 		return null;
 	}
@@ -912,6 +907,11 @@ public class DEUtil
 				{
 					return CONTAIN_THIS;
 				}
+				else if ( targetObj instanceof ParameterGroupHandle
+						&& childHandle instanceof ParameterGroupHandle )
+				{
+					return CONTAIN_THIS;
+				}
 				else if ( validateContainer )
 				//Validates target's container
 				{
@@ -940,22 +940,22 @@ public class DEUtil
 			{
 				ReportElementModel targetModel = (ReportElementModel) targetObj;
 				return targetModel.getElementHandle( )
-						.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetModel.getSlotId( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else if ( targetObj instanceof SlotHandle )
 			{
 				SlotHandle targetHandle = (SlotHandle) targetObj;
 				return targetHandle.getElementHandle( )
-						.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetHandle.getSlotID( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else if ( targetObj instanceof ListBandProxy )
 			{
 				ListBandProxy targetHandle = (ListBandProxy) targetObj;
 				return targetHandle.getElemtHandle( )
-						.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetHandle.getSlotId( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else
 			{

@@ -148,6 +148,15 @@ public class PasteCommand extends Command
 	{
 		try
 		{
+			if ( !isCut
+					|| sourceHandle == null
+					|| sourceHandle.getContainer( ) == null )
+			{
+				isCut = false;
+			}
+
+			calculatePositionAndSlotId( );
+
 			//Drops old source handle if operation is cut
 			dropSourceHandle( sourceHandle );
 
@@ -171,50 +180,70 @@ public class PasteCommand extends Command
 	{
 		if ( newContainer instanceof DesignElementHandle )
 		{
-			slotID = DEUtil.getDefaultSlotID( newContainer );
-			if ( position == -1 && afterHandle != null )
-			{
-				position = DEUtil.findInsertPosition( (DesignElementHandle) newContainer,
-						afterHandle );
-			}
 			( (DesignElementHandle) newContainer ).getSlot( slotID )
 					.paste( newHandle, position );
 		}
 		else if ( newContainer instanceof SlotHandle )
 		{
-			slotID = ( (SlotHandle) newContainer ).getSlotID( );
-			if ( position == -1 && afterHandle != null )
-			{
-				position = DEUtil.findInsertPosition( ( (SlotHandle) newContainer ).getElementHandle( ),
-						afterHandle,
-						slotID );
-			}
 			( (SlotHandle) newContainer ).paste( newHandle, position );
 		}
 		else if ( newContainer instanceof ReportElementModel )
 		{
-			slotID = ( (ReportElementModel) newContainer ).getSlotId( );
-			if ( position == -1 && afterHandle != null )
-			{
-				position = DEUtil.findInsertPosition( ( (SlotHandle) newContainer ).getElementHandle( ),
-						afterHandle,
-						slotID );
-			}
 			( (ReportElementModel) newContainer ).getElementHandle( )
 					.getSlot( slotID )
 					.paste( newHandle, position );
 		}
 	}
 
+	private void calculatePositionAndSlotId( )
+	{
+		DesignElementHandle container = null;
+		if ( newContainer instanceof DesignElementHandle )
+		{
+			slotID = DEUtil.getDefaultSlotID( newContainer );
+			container = (DesignElementHandle) newContainer;
+		}
+		else if ( newContainer instanceof SlotHandle )
+		{
+			slotID = ( (SlotHandle) newContainer ).getSlotID( );
+			container = ( (SlotHandle) newContainer ).getElementHandle( );
+		}
+		else if ( newContainer instanceof ReportElementModel )
+		{
+			slotID = ( (ReportElementModel) newContainer ).getSlotId( );
+			container = ( (ReportElementModel) newContainer ).getElementHandle( );
+		}
+		else
+		{
+			return;
+		}
+
+		if ( afterHandle != null )
+		{
+			position = DEUtil.findInsertPosition( container,
+					afterHandle,
+					slotID );
+		}
+		else if ( position > -1
+				&& isCut && sourceHandle.getContainer( ) == container )
+		{
+			int oldPosition = DEUtil.findInsertPosition( container,
+					sourceHandle,
+					slotID );
+			if ( oldPosition < position )
+			{
+				position--;
+			}
+		}
+
+	}
+
 	private void dropSourceHandle( DesignElementHandle oldHandle )
 			throws SemanticException
 	{
-		if ( isCut && oldHandle != null )
+		if ( isCut )
 		{
-			if ( oldHandle.getContainer( ) != null )
-			{
-				oldHandle.drop( );
-			}
+			oldHandle.drop( );
 		}
 	}
 
