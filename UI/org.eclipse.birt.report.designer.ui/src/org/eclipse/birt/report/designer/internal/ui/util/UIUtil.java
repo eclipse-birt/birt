@@ -37,35 +37,80 @@ public class UIUtil
 	}
 
 	/**
-	 * Returns the current active report editor.
+	 * Returns the current active report editor. The same as getActiveEditor(
+	 * true ).
 	 * 
 	 * @return Returns the current active report editor, or null if no report
 	 *         editor is active.
 	 */
 	public static ReportEditor getActiveEditor( )
 	{
+		return getActiveEditor( true );
+	}
+
+	/**
+	 * Returns the current active report editor in current active page or
+	 * current active workbench.
+	 * 
+	 * @param activePageOnly
+	 *            If this is true, only search the current active page, or will
+	 *            search all pages in current workbench, returns the first
+	 *            active report or null if not found.
+	 * @return Returns the current active report editor, or null if no report
+	 *         editor is active.
+	 */
+	public static ReportEditor getActiveEditor( boolean activePageOnly )
+	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
 
 		if ( window != null )
 		{
-			IWorkbenchPage pg = window.getActivePage( );
-
-			if ( pg != null )
+			if ( activePageOnly )
 			{
-				IEditorPart editor = pg.getActiveEditor( );
+				IWorkbenchPage pg = window.getActivePage( );
 
-				if ( editor != null
-						&& editor.getEditorInput( ) instanceof FileEditorInput )
+				if ( pg != null )
 				{
-					if ( editor instanceof ReportEditor )
+					IEditorPart editor = pg.getActiveEditor( );
+
+					if ( editor != null
+							&& editor.getEditorInput( ) instanceof FileEditorInput )
 					{
-						return (ReportEditor) editor;
+						if ( editor instanceof ReportEditor )
+						{
+							return (ReportEditor) editor;
+						}
+					}
+				}
+			}
+			else
+			{
+				IWorkbenchPage[] pgs = window.getPages( );
+
+				for ( int i = 0; i < pgs.length; i++ )
+				{
+					IWorkbenchPage pg = pgs[i];
+
+					if ( pg != null )
+					{
+						IEditorPart editor = pg.getActiveEditor( );
+
+						if ( editor != null
+								&& editor.getEditorInput( ) instanceof FileEditorInput )
+						{
+							if ( editor instanceof ReportEditor )
+							{
+								return (ReportEditor) editor;
+							}
+						}
 					}
 				}
 			}
 		}
+
 		return null;
+
 	}
 
 	/**
