@@ -23,6 +23,7 @@
       <import plugin="org.eclipse.birt.report.designer.core"/>
       <import plugin="org.eclipse.birt.chart.ui"/>
       <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
    </requires>
    <extension
          point="org.eclipse.birt.report.model.reportitem">
@@ -47,5 +48,13 @@
                showInDesigner="true"/>
          <outline icon="icons/cell.gif"/>
       </ReportItemUI>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportitemGeneration">
+      <reportItem
+            createReportQuery="no"
+            class="org.eclipse.birt.chart.reportitem.ChartGenerationAdapter"
+            needSerialization="false"
+            name="Chart"/>
    </extension>
 </plugin>
