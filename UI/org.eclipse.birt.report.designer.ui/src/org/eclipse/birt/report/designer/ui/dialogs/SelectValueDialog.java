@@ -19,12 +19,10 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -42,7 +40,7 @@ import org.eclipse.ui.PlatformUI;
  * from the data set.
  * It allows both multiple and single selection. The default is single selection.
  * 
- * @version $Revision: #1 $ $Date: Feb 18, 2005 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/21 23:45:04 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -58,7 +56,7 @@ public class SelectValueDialog extends BaseDialog
      */
     public SelectValueDialog(Shell parentShell, String title)
     {
-        super(parentShell, title);
+        super(parentShell, title, false);
     }
 
     /**
@@ -193,11 +191,7 @@ public class SelectValueDialog extends BaseDialog
                 results.close();
             }
         }
-        catch (EngineException e)
-        {
-            ExceptionHandler.handle(e);
-        }
-        catch (DataException e)
+        catch (Exception e)
         {
             ExceptionHandler.handle(e);
         }

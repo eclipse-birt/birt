@@ -21,9 +21,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
 import org.eclipse.birt.report.designer.ui.editors.sql.ISQLSyntax;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ExtendedDataSetHandle;
-import org.eclipse.birt.report.model.api.ExtendedDataSourceHandle;
 import org.eclipse.birt.report.model.api.InputParameterHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.jface.text.BadLocationException;
@@ -43,7 +43,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: #3 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -51,7 +51,7 @@ public class JdbcSQLContentAssistProcessor implements
 		ISQLSyntax
 {
 
-	private transient ExtendedDataSetHandle handle = null;
+	private transient OdaDataSetHandle handle = null;
 	private transient ConnectionMetaData metaData = null;
 	private transient ICompletionProposal[] lastProposals = null;
 
@@ -61,8 +61,8 @@ public class JdbcSQLContentAssistProcessor implements
 	public JdbcSQLContentAssistProcessor( DataSetHandle ds )
 	{
 		super( );
-		handle = (ExtendedDataSetHandle) ds;
-		ExtendedDataSourceHandle dataSourceHandle = (ExtendedDataSourceHandle) handle.getDataSource( );
+		handle = (OdaDataSetHandle) ds;
+		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
 		metaData = ConnectionMetaDataManager.getInstance( )
 				.getMetaData( dataSourceHandle.getPublicDriverProperty( "ODA:driver-class" ),//$NON-NLS-1$
 						dataSourceHandle.getPublicDriverProperty( "ODA:url" ),//$NON-NLS-1$

@@ -21,8 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
 import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.api.ExtendedDataSetHandle;
-import org.eclipse.birt.report.model.api.ExtendedDataSourceHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.Menu;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -85,8 +85,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		ruler.addDecorator( 0, lineNumbers );
 		SourceViewer viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		viewer.configure( new JdbcSQLSourceViewerConfiguration( ( (ExtendedDataSetHandle) getContainer( ).getModel( ) ) ) );
-		doc = new Document( ( (ExtendedDataSetHandle) getContainer( ).getModel( ) ).getQueryText( ) );
+		viewer.configure( new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) ) );
+		doc = new Document( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( ) );
 		DefaultPartitioner partitioner = new DefaultPartitioner( new SQLPartitionScanner( ),
 				new String[]{
 						SQLPartitionScanner.SINGLE_LINE_COMMENT1,
@@ -115,10 +115,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     
     private final boolean isExternalEditorConfigured()
     {
-        ExtendedDataSourceHandle handle = (ExtendedDataSourceHandle) ((ExtendedDataSetHandle) getContainer( ).getModel( )).getDataSource();
+        OdaDataSourceHandle handle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
         String editorName = Utility.getUserProperty(handle, ExternalEditorPreferenceManager.PROPERTY_NAME_PREFIX + "externaleditortype");
         preference = ExternalEditorPreferenceManager.getInstance().getEditor(editorName); 
-        return (preference != null && preference.canBeLaunched((ExtendedDataSetHandle) getContainer( ).getModel( )));
+        return (preference != null && preference.canBeLaunched((OdaDataSetHandle) getContainer( ).getModel( )));
     }
 
 	private final void attachMenus( SourceViewer viewer )
@@ -195,7 +195,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		try
 		{
-			( (ExtendedDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
+			( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -213,7 +213,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		try
 		{
-			( (ExtendedDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
+			( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -231,8 +231,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
         {
             try
             {
-                ( (ExtendedDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
-                String command = preference.getPreparedCommandLine((ExtendedDataSetHandle) getContainer( ).getModel( ));
+                ( (OdaDataSetHandle) getContainer( ).getModel( ) ).setQueryText( doc.get( ) );
+                String command = preference.getPreparedCommandLine((OdaDataSetHandle) getContainer( ).getModel( ));
                 Process process = Runtime.getRuntime().exec(command);
                 process.waitFor();
                 FileInputStream fis = new FileInputStream(preference.getTemporaryFile());
