@@ -118,6 +118,8 @@ public interface IConstants
     public final int NON_PRIMITIVE_ARRAY = 3;
 
     public static final String EMPTY_STRING = "";
+    
+    public static final String ONE_SPACE = " ";
 
     public static final String UNDEFINED_STRING = "<undefined>";
 

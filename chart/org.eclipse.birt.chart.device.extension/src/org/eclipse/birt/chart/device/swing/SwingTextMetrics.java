@@ -79,7 +79,7 @@ public final class SwingTextMetrics implements ITextMetrics
     }
 
     /**
-     * Allows reuse of the multi-line text element for computing bounds of a different font
+     * Allows reuse of the multi-line text element for computing bounds of changed font/text content
      * 
      * @param fd
      */
@@ -90,7 +90,14 @@ public final class SwingTextMetrics implements ITextMetrics
         final FontRenderContext frc = g2d.getFontRenderContext();
 
         String s = la.getCaption().getValue();
-        if (s == null) s = IConstants.NULL_STRING;
+        if (s == null)
+        {
+            s = IConstants.NULL_STRING;
+        }
+        else if (s.length() == 0) // TextLayout DOESN'T LIKE EMPTY STRINGS
+        {
+            s = IConstants.ONE_SPACE;
+        }
         String[] sa = splitOnHardBreaks(s);
         if (sa == null)
         {
