@@ -10,8 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -40,8 +40,6 @@ public class FormatSpecifierDialog implements SelectionListener
 
     private transient FormatSpecifier formatspecifier = null;
 
-    private transient FormatSpecifier fsBackup = null;
-
     private transient boolean bWasCancelled = true;
 
     /**
@@ -50,15 +48,9 @@ public class FormatSpecifierDialog implements SelectionListener
     public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier, String sTitle)
     {
         super();
-        if (formatspecifier == null)
-        {
-            this.formatspecifier = AttributeFactory.eINSTANCE.createNumberFormatSpecifier();
-            fsBackup = (FormatSpecifier) EcoreUtil.copy(this.formatspecifier);
-        }
-        else
+        if(formatspecifier != null)
         {
             this.formatspecifier = (FormatSpecifier) EcoreUtil.copy(formatspecifier);
-            fsBackup = formatspecifier;
         }
 
         shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
@@ -66,7 +58,7 @@ public class FormatSpecifierDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText("Format Specifier - " + sTitle);
+        shell.setText(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier") + sTitle); //$NON-NLS-1$
         shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();
@@ -108,23 +100,24 @@ public class FormatSpecifierDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("   OK   ");
+        btnAccept.setText(Messages.getString("FormatSpecifierDialog.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText("Cancel");
+        btnCancel.setText(Messages.getString("FormatSpecifierDialog.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
+    }
+    
+    public boolean wasCancelled()
+    {
+        return bWasCancelled;
     }
 
     public FormatSpecifier getFormatSpecifier()
     {
-        if (bWasCancelled)
-        {
-            return null;
-        }
         return formatspecifier;
     }
 
@@ -143,7 +136,6 @@ public class FormatSpecifierDialog implements SelectionListener
         }
         else if (e.getSource().equals(btnCancel))
         {
-            formatspecifier = fsBackup;
             shell.dispose();
         }
     }

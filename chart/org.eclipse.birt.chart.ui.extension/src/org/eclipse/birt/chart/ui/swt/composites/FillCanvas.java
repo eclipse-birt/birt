@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -58,7 +59,7 @@ class FillCanvas extends Canvas implements PaintListener
             gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
             Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
             gc.setForeground(cBlack);
-            gc.drawText("Transparent", 2, 2);
+            gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2); //$NON-NLS-1$
             cBlack.dispose();
         }
         else
@@ -70,7 +71,7 @@ class FillCanvas extends Canvas implements PaintListener
                     gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
                     Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
                     gc.setForeground(cBlack);
-                    gc.drawText("Transparent", 2, 2);
+                    gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2);
                     cBlack.dispose();
                 }
                 else

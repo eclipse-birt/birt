@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -67,11 +68,13 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
     private transient Composite cmpDropDown = null;
 
+    private transient Composite cmpButtons = null;
+
     private transient FillCanvas cnvSelection = null;
 
     private transient Button btnDown = null;
 
-    private transient Label lblCurrentTransparency = null;
+    private transient Label lblTransparency = null;
 
     private transient Slider srTransparency = null;
 
@@ -85,7 +88,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
     private final String[] saImageTypes = new String[]
     {
-        "*.gif", "*.jpg", "*.png"
+        "*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
     private transient boolean bGradientEnabled = true;
@@ -220,7 +223,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        int iShellHeight = 240;
+        int iShellHeight = 256;
         int iShellWidth = 160;
         // Reduce the height based on which buttons are to be shown.
         if (!bGradientEnabled)
@@ -241,7 +244,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         glDropDown.marginHeight = 2;
         glDropDown.marginWidth = 2;
         glDropDown.horizontalSpacing = 1;
-        glDropDown.verticalSpacing = 1;
+        glDropDown.verticalSpacing = 4;
         glDropDown.numColumns = 8;
         cmpDropDown.setLayout(glDropDown);
         cmpDropDown.addKeyListener(this);
@@ -253,7 +256,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         ColorSelectionCanvas cnv = new ColorSelectionCanvas(cmpDropDown, SWT.BORDER, colorArray);
         GridData gdCnv = new GridData(GridData.FILL_BOTH);
         gdCnv.horizontalSpan = 8;
-        gdCnv.heightHint = 100;
+        gdCnv.heightHint = 110;
         cnv.setLayoutData(gdCnv);
         cnv.addMouseListener(this);
         if (this.fCurrent instanceof ColorDefinition)
@@ -262,40 +265,46 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue()));
         }
 
+        cmpButtons = new Composite(cmpDropDown, SWT.NONE);
+        GridLayout glButtons = new GridLayout();
+        glButtons.marginHeight = 3;
+        glButtons.marginWidth = 4;
+        glButtons.horizontalSpacing = 1;
+        glButtons.verticalSpacing = 4;
+        glButtons.numColumns = 2;
+        cmpButtons.setLayout(glButtons);
+        GridData gdButtons = new GridData(GridData.FILL_HORIZONTAL);
+        gdButtons.horizontalSpan = 8;
+        cmpButtons.setLayoutData(gdButtons);
+        cmpButtons.addKeyListener(this);
+
         // Layout for Transparency Composite
         GridLayout glTransparency = new GridLayout();
-        glTransparency.numColumns = 2;
+        glTransparency.numColumns = 1;
         glTransparency.horizontalSpacing = 5;
         glTransparency.verticalSpacing = 3;
-        glTransparency.marginHeight = 0;
+        glTransparency.marginHeight = 4;
         glTransparency.marginWidth = 0;
 
-        Composite cmpTransparency = new Composite(cmpDropDown, SWT.NONE);
+        Composite cmpTransparency = new Composite(cmpButtons, SWT.NONE);
         GridData gdTransparency = new GridData(GridData.FILL_BOTH);
-        gdTransparency.heightHint = 40;
-        gdTransparency.horizontalSpan = 8;
+        gdTransparency.horizontalSpan = 2;
         cmpTransparency.setLayoutData(gdTransparency);
         cmpTransparency.setLayout(glTransparency);
 
-        Label lblTransparency = new Label(cmpTransparency, SWT.NONE);
+        lblTransparency = new Label(cmpTransparency, SWT.NONE);
         GridData gdLBLTransparency = new GridData(GridData.FILL_HORIZONTAL);
         gdLBLTransparency.horizontalIndent = 2;
         lblTransparency.setLayoutData(gdLBLTransparency);
-        lblTransparency.setText("Transparency:");
-
-        lblCurrentTransparency = new Label(cmpTransparency, SWT.NONE);
-        GridData gdLBLCurrentTransparency = new GridData();
-        gdLBLCurrentTransparency.widthHint = 40;
-        lblCurrentTransparency.setLayoutData(gdLBLCurrentTransparency);
+        lblTransparency.setText(Messages.getString("FillChooserComposite.Lbl.Opacity")); //$NON-NLS-1$
 
         srTransparency = new Slider(cmpTransparency, SWT.HORIZONTAL);
         GridData gdTransparent = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL);
-        gdTransparent.heightHint = 20;
         gdTransparent.horizontalSpan = 2;
         srTransparency.setLayoutData(gdTransparent);
         if (fCurrent == null)
         {
-            srTransparency.setSelection(0);
+            srTransparency.setValues(0, 0, 256, 1, 1, 10);
             srTransparency.setEnabled(false);
         }
         else
@@ -304,44 +313,49 @@ public class FillChooserComposite extends Composite implements SelectionListener
             if (fCurrent instanceof ColorDefinition)
             {
                 iValue = ((ColorDefinition) fCurrent).getTransparency();
+                srTransparency.setValues(iValue, 0, 256, 1, 1, 10);
             }
-            if (fCurrent instanceof Gradient)
+            else if (fCurrent instanceof Gradient)
             {
                 iValue = ((Gradient) fCurrent).getTransparency();
+                srTransparency.setValues(iValue, 0, 256, 1, 1, 10);
             }
-            srTransparency.setValues(iValue, 0, 256, 1, 1, 10);
+            else
+            {
+                srTransparency.setEnabled(false);
+            }
         }
-        lblCurrentTransparency.setText(String.valueOf(srTransparency.getSelection()));
+        lblTransparency.setText(Messages.getString("FillChooserComposite.Lbl.Opacity") + String.valueOf(srTransparency.getSelection()));
         srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
         srTransparency.addSelectionListener(this);
 
         if (this.bGradientEnabled)
         {
-            btnGradient = new Button(cmpDropDown, SWT.NONE);
+            btnGradient = new Button(cmpButtons, SWT.NONE);
             GridData gdGradient = new GridData(GridData.FILL_BOTH);
-            gdTransparent.heightHint = 26;
-            gdGradient.horizontalSpan = 8;
+            gdGradient.heightHint = 26;
+            gdGradient.horizontalSpan = 2;
             btnGradient.setLayoutData(gdGradient);
-            btnGradient.setText("Gradient...");
+            btnGradient.setText(Messages.getString("FillChooserComposite.Lbl.Gradient")); //$NON-NLS-1$
             btnGradient.addSelectionListener(this);
         }
 
-        btnCustom = new Button(cmpDropDown, SWT.NONE);
+        btnCustom = new Button(cmpButtons, SWT.NONE);
         GridData gdCustom = new GridData(GridData.FILL_BOTH);
-        gdTransparent.heightHint = 26;
-        gdCustom.horizontalSpan = 8;
+        gdCustom.heightHint = 26;
+        gdCustom.horizontalSpan = 2;
         btnCustom.setLayoutData(gdCustom);
-        btnCustom.setText("Custom Color...");
+        btnCustom.setText(Messages.getString("FillChooserComposite.Lbl.CustomColor")); //$NON-NLS-1$
         btnCustom.addSelectionListener(this);
 
         if (this.bImageEnabled)
         {
-            btnImage = new Button(cmpDropDown, SWT.NONE);
+            btnImage = new Button(cmpButtons, SWT.NONE);
             GridData gdImage = new GridData(GridData.FILL_BOTH);
-            gdTransparent.heightHint = 26;
-            gdImage.horizontalSpan = 8;
+            gdImage.heightHint = 26;
+            gdImage.horizontalSpan = 2;
             btnImage.setLayoutData(gdImage);
-            btnImage.setText("Image...");
+            btnImage.setText(Messages.getString("FillChooserComposite.Lbl.Image")); //$NON-NLS-1$
             btnImage.addSelectionListener(this);
         }
         shell.layout();
@@ -405,13 +419,13 @@ public class FillChooserComposite extends Composite implements SelectionListener
             FileDialog fDlg = new FileDialog(this.getShell(), SWT.OPEN);
             cmpDropDown.getParent().dispose();
             fDlg.setFilterExtensions(saImageTypes);
-            String sStartFolder = System.getProperty("user.dir");
-            String sImageFile = "";
+            String sStartFolder = System.getProperty("user.dir"); //$NON-NLS-1$
+            String sImageFile = ""; //$NON-NLS-1$
             if (fCurrent instanceof Image)
             {
                 String sFullPath = ((Image) fCurrent).getURL().toString();
-                sImageFile = sFullPath.substring(sFullPath.lastIndexOf("/") + 1);
-                sStartFolder = sFullPath.substring(0, sFullPath.lastIndexOf("/"));
+                sImageFile = sFullPath.substring(sFullPath.lastIndexOf("/") + 1); //$NON-NLS-1$
+                sStartFolder = sFullPath.substring(0, sFullPath.lastIndexOf("/")); //$NON-NLS-1$
             }
             fDlg.setFilterPath(sStartFolder);
             fDlg.setFileName(sImageFile);
@@ -429,7 +443,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             }
             catch (MalformedURLException e1 )
             {
-                sImgPath = "file:///" + fDlg.getFilterPath() + File.separator + fDlg.getFileName();
+                sImgPath = "file:///" + fDlg.getFilterPath() + File.separator + fDlg.getFileName(); //$NON-NLS-1$
             }
             if (sImgPath != null && sImgPath.trim().length() > 0)
             {
@@ -443,7 +457,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             ColorDialog cDlg = new ColorDialog(this.getShell(), SWT.NONE);
             cmpDropDown.getParent().dispose();
-            int iTrans = 0;
+            int iTrans = 255;
             if (fCurrent instanceof ColorDefinition)
             {
                 iTransparency = ((ColorDefinition) fCurrent).getTransparency();
@@ -486,7 +500,8 @@ public class FillChooserComposite extends Composite implements SelectionListener
         else if (oSource.equals(srTransparency))
         {
             iTransparency = srTransparency.getSelection();
-            lblCurrentTransparency.setText(String.valueOf(iTransparency));
+            lblTransparency.setText(Messages.getString("FillChooserComposite.Lbl.Opacity") + String.valueOf(iTransparency));
+            srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
             bTransparencyChanged = true;
         }
     }
@@ -538,7 +553,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             ColorDefinition cTmp = AttributeFactory.eINSTANCE.createColorDefinition();
             Color clrTmp = ((ColorSelectionCanvas) e.getSource()).getColorAt(e.x, e.y);
             cTmp.set(clrTmp.getRed(), clrTmp.getGreen(), clrTmp.getBlue());
-            int iTransparency = 0;
+            int iTransparency = 255;
             if (fCurrent instanceof ColorDefinition)
             {
                 iTransparency = (bTransparencyChanged) ? this.iTransparency : ((ColorDefinition) fCurrent)
@@ -589,6 +604,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             if (e.keyCode == SWT.ESC)
             {
                 cmpDropDown.getShell().dispose();
+                return;
             }
             else if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR)
             {
@@ -599,6 +615,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 }
                 this.setFill(fCurrent);
                 cmpDropDown.getShell().dispose();
+                return;
             }
         }
     }

@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -145,7 +146,7 @@ public class GridAttributesComposite extends Composite implements SelectionListe
         gdGRPTicks.horizontalSpan = 2;
         grpTicks.setLayoutData(gdGRPTicks);
         grpTicks.setLayout(glTicks);
-        grpTicks.setText("Ticks");
+        grpTicks.setText(Messages.getString("GridAttributesComposite.Lbl.Ticks")); //$NON-NLS-1$
 
         // Line Attributes for Ticks
         liacTicks = new LineAttributesComposite(grpTicks, SWT.NONE, grid.getTickAttributes(), false, false, true);
@@ -159,7 +160,7 @@ public class GridAttributesComposite extends Composite implements SelectionListe
         GridData gdLBLStyle = new GridData();
         gdLBLStyle.horizontalIndent = 4;
         lblStyle.setLayoutData(gdLBLStyle);
-        lblStyle.setText("Style:");
+        lblStyle.setText(Messages.getString("GridAttributesComposite.Lbl.Style")); //$NON-NLS-1$
 
         cmbTickStyle = new Combo(grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBTickStyle = new GridData(GridData.FILL_HORIZONTAL);

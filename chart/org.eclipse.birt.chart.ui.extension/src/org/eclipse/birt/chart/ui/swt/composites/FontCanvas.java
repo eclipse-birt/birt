@@ -182,10 +182,10 @@ public class FontCanvas extends Canvas implements PaintListener
             if (!bUseSize)
             {
                 gc.setClipping(1, 1, this.getSize().x, this.getSize().y);
-                fSize = new Font(this.getDisplay(), "Sans-Serif", 10, SWT.NORMAL);
+                fSize = new Font(this.getDisplay(), "Sans-Serif", 10, SWT.NORMAL); //$NON-NLS-1$
                 gc.setFont(fSize);
 
-                gc.drawText("(" + String.valueOf(fdCurrent.getSize()) + ")", this.getSize().x - 36, 3);
+                gc.drawText("(" + String.valueOf(fdCurrent.getSize()) + ")", this.getSize().x - 36, 3); //$NON-NLS-1$ //$NON-NLS-2$
 
                 fSize.dispose();
             }

@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
@@ -49,8 +50,8 @@ public class StockSeriesAttributeComposite extends Composite implements Listener
         super(parent, style);
         if (!(series instanceof StockSeries))
         {
-            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName()
-                + " is an invalid argument for StockSeriesAttributeComposite.");
+            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName() //$NON-NLS-1$
+                + Messages.getString("StockSeriesAttributeComposite.Exception.IllegalArgument")); //$NON-NLS-1$
         }
         this.series = (StockSeries) series;
         init();
@@ -77,7 +78,7 @@ public class StockSeriesAttributeComposite extends Composite implements Listener
         Label lblRiserOutline = new Label(this, SWT.NONE);
         GridData gdLBLRiserOutline = new GridData();
         lblRiserOutline.setLayoutData(gdLBLRiserOutline);
-        lblRiserOutline.setText("Candle Fill:");
+        lblRiserOutline.setText(Messages.getString("StockSeriesAttributeComposite.Lbl.CandleFill")); //$NON-NLS-1$
 
         this.fccCandle = new FillChooserComposite(this, SWT.NONE, series.getFill(), true, true);
         GridData gdFCCRiserOutline = new GridData(GridData.FILL_HORIZONTAL);

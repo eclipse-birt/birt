@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class StockSeriesUIProvider implements ISeriesUIProvider
 {
-    private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.StockSeriesImpl";
+    private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"; //$NON-NLS-1$
 
     /**
      *  

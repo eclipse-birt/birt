@@ -109,7 +109,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         gdBEllipsis.widthHint = iSize;
         gdBEllipsis.heightHint = iSize + 4;
         btnEllipsis.setLayoutData(gdBEllipsis);
-        btnEllipsis.setText("...");
+        btnEllipsis.setText("..."); //$NON-NLS-1$
         btnEllipsis.addSelectionListener(this);
     }
 

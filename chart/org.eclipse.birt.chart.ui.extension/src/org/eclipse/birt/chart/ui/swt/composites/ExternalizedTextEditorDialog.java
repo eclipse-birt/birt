@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
@@ -36,7 +37,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class ExternalizedTextEditorDialog extends Dialog implements SelectionListener
 {
-    private transient String sResult = "";
+    private transient String sResult = ""; //$NON-NLS-1$
 
     private transient Shell shell = null;
 
@@ -85,7 +86,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         Shell parent = getParent();
         shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
-        shell.setText("Externalize Text");
+        shell.setText(Messages.getString("ExternalizedTextEditorDialog.Title.ExternalizeText")); //$NON-NLS-1$
         shell.setLayout(new FillLayout());
         placeComponents(shell);
         shell.pack();
@@ -116,13 +117,13 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         GridData gdCBExternalize = new GridData(GridData.FILL_HORIZONTAL);
         gdCBExternalize.horizontalSpan = 2;
         cbExternalize.setLayoutData(gdCBExternalize);
-        cbExternalize.setText("Externalize Text");
+        cbExternalize.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.ExternalizeText")); //$NON-NLS-1$
         cbExternalize.addSelectionListener(this);
 
         Label lblKey = new Label(cmpContent, SWT.NONE);
         GridData gdLBLKey = new GridData();
         lblKey.setLayoutData(gdLBLKey);
-        lblKey.setText("Lookup Key:");
+        lblKey.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.LookupKey")); //$NON-NLS-1$
 
         cmbKeys = new Combo(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBKeys = new GridData(GridData.FILL_HORIZONTAL);
@@ -145,7 +146,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         Label lblValue = new Label(cmpCurrent, SWT.NONE);
         GridData gdLBLValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
         lblValue.setLayoutData(gdLBLValue);
-        lblValue.setText("Default Value:");
+        lblValue.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.DefaultValue")); //$NON-NLS-1$
 
         txtValue = new Text(cmpCurrent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
         GridData gdTXTValue = new GridData(GridData.FILL_BOTH);
@@ -169,7 +170,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         Label lblExtValue = new Label(cmpExtValue, SWT.NONE);
         GridData gdLBLExtValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
         lblExtValue.setLayoutData(gdLBLExtValue);
-        lblExtValue.setText("Externalized Value:");
+        lblExtValue.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.ExternalizedValue")); //$NON-NLS-1$
 
         txtCurrent = new Text(cmpExtValue, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL
             | SWT.READ_ONLY);
@@ -195,13 +196,13 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         btnAccept = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("   OK   ");
+        btnAccept.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData();
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText("Cancel");
+        btnCancel.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
 
         populateList();
@@ -252,7 +253,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     private String getValueComponent(String sText)
     {
         String sKey = getKeyComponent(sText);
-        if (sKey == null || "".equals(sKey))
+        if (sKey == null || "".equals(sKey)) //$NON-NLS-1$
         {
             if (sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR) != -1)
             {
@@ -262,18 +263,18 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
             return sText;
         }
         String sValue = serviceprovider.getValue(sKey);
-        if (sValue == null || "".equals(sValue))
+        if (sValue == null || "".equals(sValue)) //$NON-NLS-1$
         {
-            sValue = "Key could not be found in Properties file...or properties file not present.";
+            sValue = Messages.getString("ExternalizedTextEditorDialog.Warn.KeyNotFound"); //$NON-NLS-1$
         }
         return sValue;
     }
 
     private String getCurrentPropertyValue()
     {
-        if (!cbExternalize.getSelection() || sResult == null || "".equals(sResult))
+        if (!cbExternalize.getSelection() || sResult == null || "".equals(sResult)) //$NON-NLS-1$
         {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         return getValueComponent(sResult);
     }
@@ -282,14 +283,14 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         if (cbExternalize.getSelection())
         {
-            return "<Value of key '" + getKeyComponent(sResult) + "'>";
+            return Messages.getString("ExternalizedTextEditorDialog.Lbl.Value1") + getKeyComponent(sResult) + Messages.getString("ExternalizedTextEditorDialog.Lbl.Value2"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         return getValueComponent(sResult);
     }
 
     private String buildString()
     {
-        StringBuffer sbText = new StringBuffer("");
+        StringBuffer sbText = new StringBuffer(""); //$NON-NLS-1$
         String sKey = cmbKeys.getText();
         if (cbExternalize.getSelection())
         {

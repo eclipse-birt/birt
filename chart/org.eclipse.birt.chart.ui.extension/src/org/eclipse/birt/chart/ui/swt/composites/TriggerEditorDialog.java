@@ -12,6 +12,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -57,7 +58,7 @@ public class TriggerEditorDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText("Trigger Editor - " + sTitle);
+        shell.setText(Messages.getString("TriggerEditorDialog.Title.TriggerEditor") + sTitle); //$NON-NLS-1$
         shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();
@@ -98,14 +99,14 @@ public class TriggerEditorDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("   OK   ");
+        btnAccept.setText(Messages.getString("TriggerEditorDialog.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText("Cancel");
+        btnCancel.setText(Messages.getString("TriggerEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
     }
 

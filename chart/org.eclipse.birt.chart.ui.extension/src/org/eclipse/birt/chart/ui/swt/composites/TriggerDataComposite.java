@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -151,7 +152,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLTriggerType = new GridData();
         gdLBLTriggerType.horizontalIndent = 4;
         lblTriggerType.setLayoutData(gdLBLTriggerType);
-        lblTriggerType.setText("Type:");
+        lblTriggerType.setText(Messages.getString("TriggerDataComposite.Lbl.Type")); //$NON-NLS-1$
 
         cmbTriggerType = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBTriggerType = new GridData(GridData.FILL_HORIZONTAL);
@@ -162,7 +163,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLActionType = new GridData();
         gdLBLActionType.horizontalIndent = 4;
         lblActionType.setLayoutData(gdLBLActionType);
-        lblActionType.setText("Action:");
+        lblActionType.setText(Messages.getString("TriggerDataComposite.Lbl.Action")); //$NON-NLS-1$
 
         cmbActionType = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBActionType = new GridData(GridData.FILL_HORIZONTAL);
@@ -173,7 +174,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdGRPValue = new GridData(GridData.FILL_BOTH);
         gdGRPValue.horizontalSpan = 2;
         grpValue.setLayoutData(gdGRPValue);
-        grpValue.setText("Action Details");
+        grpValue.setText(Messages.getString("TriggerDataComposite.Lbl.ActionDetails")); //$NON-NLS-1$
         grpValue.setLayout(slValues);
 
         // Composite for script value
@@ -183,7 +184,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         Label lblScript = new Label(cmpScript, SWT.NONE);
         GridData gdLBLScript = new GridData();
         lblScript.setLayoutData(gdLBLScript);
-        lblScript.setText("Script:");
+        lblScript.setText(Messages.getString("TriggerDataComposite.Lbl.Script")); //$NON-NLS-1$
 
         txtScript = new Text(cmpScript, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
         GridData gdTXTScript = new GridData(GridData.FILL_BOTH);
@@ -197,7 +198,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLSeries = new GridData();
         gdLBLSeries.horizontalIndent = 2;
         lblSeries.setLayoutData(gdLBLSeries);
-        lblSeries.setText("Series Definition:");
+        lblSeries.setText(Messages.getString("TriggerDataComposite.Lbl.SeriesDefinition")); //$NON-NLS-1$
 
         txtSeriesDefinition = new Text(cmpVisibility, SWT.BORDER);
         GridData gdTXTSeriesDefinition = new GridData(GridData.FILL_HORIZONTAL);
@@ -212,7 +213,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLDelay = new GridData();
         gdLBLDelay.horizontalIndent = 2;
         lblDelay.setLayoutData(gdLBLDelay);
-        lblDelay.setText("Tooltip Delay (in ms):");
+        lblDelay.setText(Messages.getString("TriggerDataComposite.Lbl.TooltipDelay")); //$NON-NLS-1$
 
         iscDelay = new IntegerSpinControl(cmpTooltip, SWT.NONE, 200);
         GridData gdISCDelay = new GridData();
@@ -228,7 +229,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         gdLBLText.horizontalIndent = 2;
         gdLBLText.horizontalSpan = 3;
         lblText.setLayoutData(gdLBLText);
-        lblText.setText("Tooltip Text:");
+        lblText.setText(Messages.getString("TriggerDataComposite.Lbl.TooltipText")); //$NON-NLS-1$
 
         txtTooltipText = new Text(cmpTooltip, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
         GridData gdTXTTooltipText = new GridData(GridData.FILL_BOTH);
@@ -242,7 +243,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLBaseURL = new GridData();
         gdLBLBaseURL.horizontalIndent = 2;
         lblBaseURL.setLayoutData(gdLBLBaseURL);
-        lblBaseURL.setText("Base URL:");
+        lblBaseURL.setText(Messages.getString("TriggerDataComposite.Lbl.BaseURL")); //$NON-NLS-1$
 
         txtBaseURL = new Text(cmpURL, SWT.BORDER);
         GridData gdTXTBaseURL = new GridData(GridData.FILL_HORIZONTAL);
@@ -253,7 +254,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLTarget = new GridData();
         gdLBLTarget.horizontalIndent = 2;
         lblTarget.setLayoutData(gdLBLTarget);
-        lblTarget.setText("Target:");
+        lblTarget.setText(Messages.getString("TriggerDataComposite.Lbl.Target")); //$NON-NLS-1$
 
         txtTarget = new Text(cmpURL, SWT.BORDER);
         GridData gdTXTTarget = new GridData(GridData.FILL_HORIZONTAL);
@@ -265,13 +266,13 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         gdGRPParameters.horizontalSpan = 3;
         grpParameters.setLayoutData(gdGRPParameters);
         grpParameters.setLayout(glParameter);
-        grpParameters.setText("Parameter Names");
+        grpParameters.setText(Messages.getString("TriggerDataComposite.Lbl.ParameterNames")); //$NON-NLS-1$
 
         Label lblBaseParm = new Label(grpParameters, SWT.NONE);
         GridData gdLBLBaseParm = new GridData();
         gdLBLBaseParm.horizontalIndent = 2;
         lblBaseParm.setLayoutData(gdLBLBaseParm);
-        lblBaseParm.setText("Base Parameter:");
+        lblBaseParm.setText(Messages.getString("TriggerDataComposite.Lbl.BaseParameter")); //$NON-NLS-1$
 
         txtBaseParm = new Text(grpParameters, SWT.BORDER);
         GridData gdTXTBaseParm = new GridData(GridData.FILL_HORIZONTAL);
@@ -282,7 +283,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLValueParm = new GridData();
         gdLBLValueParm.horizontalIndent = 2;
         lblValueParm.setLayoutData(gdLBLValueParm);
-        lblValueParm.setText("Value Parameter:");
+        lblValueParm.setText(Messages.getString("TriggerDataComposite.Lbl.ValueParameter")); //$NON-NLS-1$
 
         txtValueParm = new Text(grpParameters, SWT.BORDER);
         GridData gdTXTValueParm = new GridData(GridData.FILL_HORIZONTAL);
@@ -293,7 +294,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         GridData gdLBLSeriesParm = new GridData();
         gdLBLSeriesParm.horizontalIndent = 2;
         lblSeriesParm.setLayoutData(gdLBLSeriesParm);
-        lblSeriesParm.setText("Series Parameter:");
+        lblSeriesParm.setText(Messages.getString("TriggerDataComposite.Lbl.SeriesParameter")); //$NON-NLS-1$
 
         txtSeriesParm = new Text(grpParameters, SWT.BORDER);
         GridData gdTXTSeriesParm = new GridData(GridData.FILL_HORIZONTAL);
@@ -338,30 +339,30 @@ public class TriggerDataComposite extends Composite implements SelectionListener
             case 0:
                 this.slValues.topControl = cmpURL;
                 URLValue urlValue = (URLValue) trigger.getAction().getValue();
-                txtBaseURL.setText((urlValue.getBaseUrl().length() > 0) ? urlValue.getBaseUrl() : "");
-                txtTarget.setText((urlValue.getTarget().length() > 0) ? urlValue.getTarget() : "");
+                txtBaseURL.setText((urlValue.getBaseUrl().length() > 0) ? urlValue.getBaseUrl() : ""); //$NON-NLS-1$
+                txtTarget.setText((urlValue.getTarget().length() > 0) ? urlValue.getTarget() : ""); //$NON-NLS-1$
                 txtBaseParm.setText((urlValue.getBaseParameterName().length() > 0) ? urlValue.getBaseParameterName()
-                    : "");
+                    : ""); //$NON-NLS-1$
                 txtValueParm.setText((urlValue.getValueParameterName().length() > 0) ? urlValue.getValueParameterName()
-                    : "");
+                    : ""); //$NON-NLS-1$
                 txtSeriesParm.setText((urlValue.getSeriesParameterName().length() > 0) ? urlValue
-                    .getSeriesParameterName() : "");
+                    .getSeriesParameterName() : ""); //$NON-NLS-1$
                 break;
             case 1:
                 this.slValues.topControl = cmpTooltip;
                 TooltipValue tooltipValue = (TooltipValue) trigger.getAction().getValue();
                 iscDelay.setValue(tooltipValue.getDelay());
-                txtTooltipText.setText((tooltipValue.getText().length() > 0) ? tooltipValue.getText() : "");
+                txtTooltipText.setText((tooltipValue.getText().length() > 0) ? tooltipValue.getText() : ""); //$NON-NLS-1$
                 break;
             case 2:
                 this.slValues.topControl = cmpVisibility;
                 SeriesValue seriesValue = (SeriesValue) trigger.getAction().getValue();
-                txtSeriesDefinition.setText((seriesValue.getName().length() > 0) ? seriesValue.getName() : "");
+                txtSeriesDefinition.setText((seriesValue.getName().length() > 0) ? seriesValue.getName() : ""); //$NON-NLS-1$
                 break;
             case 3:
                 this.slValues.topControl = cmpScript;
                 ScriptValue scriptValue = (ScriptValue) trigger.getAction().getValue();
-                txtScript.setText((scriptValue.getScript().length() > 0) ? scriptValue.getScript() : "");
+                txtScript.setText((scriptValue.getScript().length() > 0) ? scriptValue.getScript() : ""); //$NON-NLS-1$
                 break;
         }
         grpValue.layout();

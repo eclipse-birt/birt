@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -62,8 +63,8 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         super(parent, style);
         if (!(series instanceof PieSeriesImpl))
         {
-            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName()
-                + " is an invalid argument for PieSeriesAttributeComposite.");
+            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName() //$NON-NLS-1$
+                + Messages.getString("PieSeriesAttributeComposite.Exception.IllegalArgument")); //$NON-NLS-1$
         }
         this.series = (PieSeries) series;
         init();
@@ -96,7 +97,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         Label lblExplosion = new Label(this, SWT.NONE);
         GridData gdLBLExplosion = new GridData();
         lblExplosion.setLayoutData(gdLBLExplosion);
-        lblExplosion.setText("Explosion:");
+        lblExplosion.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.Explosion")); //$NON-NLS-1$
 
         iscExplosion = new IntegerSpinControl(this, SWT.NONE, 0);
         GridData gdISCExplosion = new GridData(GridData.FILL_HORIZONTAL);
@@ -109,7 +110,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         Label lblSliceOutline = new Label(this, SWT.NONE);
         GridData gdLBLSliceOutline = new GridData();
         lblSliceOutline.setLayoutData(gdLBLSliceOutline);
-        lblSliceOutline.setText("Slice Outline:");
+        lblSliceOutline.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.SliceOutline")); //$NON-NLS-1$
 
         fccSliceOutline = new FillChooserComposite(this, SWT.NONE, series.getSliceOutline(), false, false);
         GridData gdFCCSliceOutline = new GridData(GridData.FILL_HORIZONTAL);
@@ -122,7 +123,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         gdGRPLeaderLine.horizontalSpan = 4;
         grpLeaderLine.setLayoutData(gdGRPLeaderLine);
         grpLeaderLine.setLayout(glLeaderLine);
-        grpLeaderLine.setText("Leader Line");
+        grpLeaderLine.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.LeaderLine")); //$NON-NLS-1$
 
         // LeaderLine Attributes composite
         liacLeaderLine = new LineAttributesComposite(grpLeaderLine, SWT.NONE, series.getLeaderLineAttributes(), true,
@@ -137,7 +138,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         Label lblLeaderStyle = new Label(grpLeaderLine, SWT.NONE);
         GridData gdLBLLeaderStyle = new GridData();
         lblLeaderStyle.setLayoutData(gdLBLLeaderStyle);
-        lblLeaderStyle.setText("LeaderLine Style:");
+        lblLeaderStyle.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.LeaderLineStyle")); //$NON-NLS-1$
 
         cmbLeaderLine = new Combo(grpLeaderLine, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBLeaderLine = new GridData(GridData.FILL_HORIZONTAL);
@@ -148,7 +149,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         Label lblLeaderSize = new Label(grpLeaderLine, SWT.NONE);
         GridData gdLBLLeaderSize = new GridData();
         lblLeaderSize.setLayoutData(gdLBLLeaderSize);
-        lblLeaderSize.setText("LeaderLine Size:");
+        lblLeaderSize.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.LeaderLineSize")); //$NON-NLS-1$
 
         iscLeaderLength = new IntegerSpinControl(grpLeaderLine, SWT.NONE, (int) series.getLeaderLineLength());
         GridData gdISCLeaderLength = new GridData(GridData.FILL_HORIZONTAL);

@@ -34,7 +34,7 @@ public class DefaultChartTypeImpl implements IChartType
      */
     public String getName()
     {
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     /*
@@ -89,7 +89,7 @@ public class DefaultChartTypeImpl implements IChartType
     {
         return new String[]
         {
-            "2D"
+            "2D" //$NON-NLS-1$
         };
     }
 
@@ -100,7 +100,7 @@ public class DefaultChartTypeImpl implements IChartType
      */
     public String getDefaultDimension()
     {
-        return "2D";
+        return "2D"; //$NON-NLS-1$
     }
 
     /*
@@ -120,7 +120,7 @@ public class DefaultChartTypeImpl implements IChartType
      */
     public IHelpContent getHelp()
     {
-        return new HelpContentImpl("{Title}", "{Description}");
+        return new HelpContentImpl("{Title}", "{Description}"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -59,7 +60,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient InsetsComposite icInsets = null;
 
-    private transient String sGroupName = "Label";
+    private transient String sGroupName = Messages.getString("LabelAttributesComposite.Lbl.Label"); //$NON-NLS-1$
 
     private transient Position lpCurrent = null;
 
@@ -184,7 +185,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
             gdCBVisible.horizontalSpan = 2;
             cbVisible.setLayoutData(gdCBVisible);
             cbVisible.setSelection(this.lblCurrent.isVisible());
-            cbVisible.setText("Is Visible");
+            cbVisible.setText(Messages.getString("LabelAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.addSelectionListener(this);
         }
 
@@ -193,7 +194,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
             Label lblPosition = new Label(cmpGeneral, SWT.NONE);
             GridData gdLBLPosition = new GridData();
             lblPosition.setLayoutData(gdLBLPosition);
-            lblPosition.setText("Position:");
+            lblPosition.setText(Messages.getString("LabelAttributesComposite.Lbl.Position")); //$NON-NLS-1$
 
             cmbPosition = new Combo(cmpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY);
             GridData gdCMBPosition = new GridData(GridData.FILL_BOTH);
@@ -204,7 +205,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         Label lblFont = new Label(cmpGeneral, SWT.NONE);
         GridData gdLFont = new GridData();
         lblFont.setLayoutData(gdLFont);
-        lblFont.setText("Font:");
+        lblFont.setText(Messages.getString("LabelAttributesComposite.Lbl.Font")); //$NON-NLS-1$
 
         fdcFont = new FontDefinitionComposite(cmpGeneral, SWT.NONE, this.fdCurrent, this.cdFont);
         GridData gdFDCFont = new GridData(GridData.FILL_BOTH);
@@ -217,7 +218,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         Label lblFill = new Label(cmpGeneral, SWT.NONE);
         GridData gdLFill = new GridData();
         lblFill.setLayoutData(gdLFill);
-        lblFill.setText("Background:");
+        lblFill.setText(Messages.getString("LabelAttributesComposite.Lbl.Background")); //$NON-NLS-1$
 
         fccBackground = new FillChooserComposite(cmpGeneral, SWT.NONE, fBackground, true, true);
         GridData gdFCCBackground = new GridData(GridData.FILL_BOTH);
@@ -228,7 +229,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         Label lblShadow = new Label(cmpGeneral, SWT.NONE);
         GridData gdLBLShadow = new GridData();
         lblShadow.setLayoutData(gdLBLShadow);
-        lblShadow.setText("Shadow:");
+        lblShadow.setText(Messages.getString("LabelAttributesComposite.Lbl.Shadow")); //$NON-NLS-1$
 
         fccShadow = new FillChooserComposite(cmpGeneral, SWT.NONE, cdShadow, false, false);
         GridData gdFCCShadow = new GridData(GridData.FILL_BOTH);
@@ -239,7 +240,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         GridData gdGOutline = new GridData(GridData.FILL_HORIZONTAL);
         gdGOutline.heightHint = 110;
         grpOutline.setLayoutData(gdGOutline);
-        grpOutline.setText("Outline");
+        grpOutline.setText(Messages.getString("LabelAttributesComposite.Lbl.Outline")); //$NON-NLS-1$
         grpOutline.setLayout(flOutline);
 
         liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, laCurrent, true, true, true);

@@ -90,7 +90,7 @@ public final class UIHelper
         {
             try
             {
-                url = new URL(ChartUIPluginClass.getDefault().getBundle().getEntry("/"), sPluginRelativePath);
+                url = new URL(ChartUIPluginClass.getDefault().getBundle().getEntry("/"), sPluginRelativePath); //$NON-NLS-1$
             }
             catch (MalformedURLException e )
             {
@@ -101,7 +101,7 @@ public final class UIHelper
         {
             try
             {
-                url = new URL("file:///" + new File(sPluginRelativePath).getAbsolutePath());
+                url = new URL("file:///" + new File(sPluginRelativePath).getAbsolutePath()); //$NON-NLS-1$
             }
             catch (MalformedURLException e )
             {

@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -59,9 +60,9 @@ import org.eclipse.swt.graphics.Image;
 public class StockChart extends DefaultChartTypeImpl
 {
 
-    private static final String sType = "Stock Chart";
+    private static final String sType = "Stock Chart"; //$NON-NLS-1$
 
-    private static final String sStandardDescription = "Stock charts show values of a stock for a discrete time period. Each 'value' is made up of high, low, open and close components.";
+    private static final String sStandardDescription = Messages.getString("StockChart.Txt.Description"); //$NON-NLS-1$
 
     private transient Image imgIcon = null;
 
@@ -69,12 +70,12 @@ public class StockChart extends DefaultChartTypeImpl
 
     private static final String[] saDimensions = new String[]
     {
-        "2D"
+        "2D" //$NON-NLS-1$
     };
 
     public StockChart()
     {
-        imgIcon = UIHelper.getImage("images/stockcharticon.gif");
+        imgIcon = UIHelper.getImage("images/stockcharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -105,8 +106,8 @@ public class StockChart extends DefaultChartTypeImpl
     public IHelpContent getHelp()
     {
         return new HelpContentImpl(
-            "Stock Chart",
-            "Candlestick stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session’s high value. The lower end of the line indicates the session’s low value. A bar connects the open and close values.");
+            "Stock Chart", //$NON-NLS-1$
+            Messages.getString("StockChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
     /*
@@ -122,11 +123,11 @@ public class StockChart extends DefaultChartTypeImpl
         {
             return vSubTypes;
         }
-        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
-            img2D = UIHelper.getImage("images/stockchartimage.gif");
+            img2D = UIHelper.getImage("images/stockchartimage.gif"); //$NON-NLS-1$
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Stock Chart", img2D, sStandardDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Stock Chart", img2D, sStandardDescription)); //$NON-NLS-1$
         }
         return vSubTypes;
     }
@@ -153,7 +154,7 @@ public class StockChart extends DefaultChartTypeImpl
         newChart.setSubType(sSubType);
         newChart.setOrientation(orientation);
         newChart.setDimension(getDimensionFor(sDimension));
-        newChart.setUnits("Points");
+        newChart.setUnits("Points"); //$NON-NLS-1$
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.DATE_TIME_LITERAL);
@@ -189,12 +190,12 @@ public class StockChart extends DefaultChartTypeImpl
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("01/25/2005,01/26/2005");
+        sdBase.setDataSetRepresentation("01/25/2005,01/26/2005"); //$NON-NLS-1$
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)
         OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
-        oSample.setDataSetRepresentation("H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4 C4.1");
+        oSample.setDataSetRepresentation("H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4 C4.1"); //$NON-NLS-1$
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
@@ -225,10 +226,10 @@ public class StockChart extends DefaultChartTypeImpl
                     }
                 }
             }
-            else if (currentChart.getType().equals("Line Chart") || currentChart.getType().equals("Bar Chart")
-                || currentChart.getType().equals("Scatter Chart"))
+            else if (currentChart.getType().equals("Line Chart") || currentChart.getType().equals("Bar Chart") //$NON-NLS-1$ //$NON-NLS-2$
+                || currentChart.getType().equals("Scatter Chart")) //$NON-NLS-1$
             {
-                if (!currentChart.getType().equals("Stock Chart"))
+                if (!currentChart.getType().equals("Stock Chart")) //$NON-NLS-1$
                 {
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
                 }
@@ -286,7 +287,7 @@ public class StockChart extends DefaultChartTypeImpl
             currentChart.setSeriesThickness(helperModel.getSeriesThickness());
             currentChart.setUnits(helperModel.getUnits());
 
-            if (helperModel.getType().equals("Pie Chart"))
+            if (helperModel.getType().equals("Pie Chart")) //$NON-NLS-1$
             {
                 // Clear existing series definitions
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
@@ -352,7 +353,7 @@ public class StockChart extends DefaultChartTypeImpl
     private Series getConvertedSeries(Series series)
     {
         // Do not convert base series
-        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl")) //$NON-NLS-1$
         {
             return series;
         }
@@ -439,14 +440,14 @@ public class StockChart extends DefaultChartTypeImpl
 
     private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault());
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
+        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()); //$NON-NLS-1$
         int iValueCount = 0;
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (!sElement.startsWith("'"))
+            if (!sElement.startsWith("'")) //$NON-NLS-1$
             {
                 Calendar cal = Calendar.getInstance();
                 // Increment the date once for each entry so that you get a sequence of dates
@@ -471,16 +472,16 @@ public class StockChart extends DefaultChartTypeImpl
                     iValueCount++;
                 }
             }
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
         NumberFormat nf = NumberFormat.getNumberInstance();
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         int iValueCount = 0;
         while (strtok.hasMoreTokens())
         {
@@ -499,21 +500,21 @@ public class StockChart extends DefaultChartTypeImpl
                 sElement = String.valueOf(4.0 + iValueCount);
                 iValueCount++;
             }
-            sbNewRepresentation.append("H");
+            sbNewRepresentation.append("H"); //$NON-NLS-1$
             sbNewRepresentation.append(sElement);
-            sbNewRepresentation.append(" ");
+            sbNewRepresentation.append(" "); //$NON-NLS-1$
 
-            sbNewRepresentation.append(" L");
+            sbNewRepresentation.append(" L"); //$NON-NLS-1$
             sbNewRepresentation.append(sElement);
-            sbNewRepresentation.append(" ");
+            sbNewRepresentation.append(" "); //$NON-NLS-1$
 
-            sbNewRepresentation.append(" O");
+            sbNewRepresentation.append(" O"); //$NON-NLS-1$
             sbNewRepresentation.append(sElement);
-            sbNewRepresentation.append(" ");
+            sbNewRepresentation.append(" "); //$NON-NLS-1$
 
-            sbNewRepresentation.append(" C");
+            sbNewRepresentation.append(" C"); //$NON-NLS-1$
             sbNewRepresentation.append(sElement);
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }

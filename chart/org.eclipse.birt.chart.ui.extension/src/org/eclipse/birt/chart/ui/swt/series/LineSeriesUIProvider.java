@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -27,7 +28,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class LineSeriesUIProvider implements ISeriesUIProvider
 {
-    private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.LineSeriesImpl";
+    private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"; //$NON-NLS-1$
 
     /**
      *  
@@ -64,29 +65,29 @@ public class LineSeriesUIProvider implements ISeriesUIProvider
         }
         else
         {
-            query = QueryImpl.create("");
+            query = QueryImpl.create(""); //$NON-NLS-1$
             seriesdefinition.getDesignTimeSeries().getDataDefinition().add(query);
         }
 
-        String sPrefix = "";
+        String sPrefix = ""; //$NON-NLS-1$
         // If container of container is chart, it is a base series
         if (seriesdefinition.eContainer().eContainer() instanceof Chart)
         {
-            sPrefix = "X ";
+            sPrefix = "X "; //$NON-NLS-1$
         }
         else
         {
-            sPrefix = "Y ";
+            sPrefix = "Y "; //$NON-NLS-1$
         }
 
         String sTitle = query.getDefinition();
-        if (sTitle == null || "".equals(sTitle))
+        if (sTitle == null || "".equals(sTitle)) //$NON-NLS-1$
         {
-            sTitle = sPrefix + "Series Definition";
+            sTitle = sPrefix + Messages.getString("LineSeriesUIProvider.Lbl.SeriesDefinition"); //$NON-NLS-1$
         }
         else
         {
-            sTitle = sPrefix + "Series Definition (" + sTitle + ")";
+            sTitle = sPrefix + "Series Definition (" + sTitle + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext, sTitle);

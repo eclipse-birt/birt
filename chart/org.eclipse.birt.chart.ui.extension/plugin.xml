@@ -81,77 +81,81 @@
 			nodePath="Data.Sample"
             nodeIndex="27"/>
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.AttributeSheetImpl"
+			nodePath="Attributes"
+            nodeIndex="28"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisAttributeSheetImpl"
 			nodePath="Attributes.X Axis"
-            nodeIndex="28"/>
+            nodeIndex="29"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisLabelAttributeSheetImpl"
 			nodePath="Attributes.X Axis.Labels"
-            nodeIndex="29"/>
+            nodeIndex="30"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisMarkerAttributeSheetImpl"
 			nodePath="Attributes.X Axis.Markers"
-            nodeIndex="30"/>
+            nodeIndex="31"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisAttributeSheetImpl"
 			nodePath="Attributes.Y Axis"
-            nodeIndex="31"/>
+            nodeIndex="32"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisLabelAttributeSheetImpl"
 			nodePath="Attributes.Y Axis.Labels"
-            nodeIndex="32"/>
+            nodeIndex="33"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisMarkerAttributeSheetImpl"
 			nodePath="Attributes.Y Axis.Markers"
-            nodeIndex="33"/>
+            nodeIndex="34"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseSeriesAttributeSheetImpl"
 			nodePath="Attributes.Base Series"
-            nodeIndex="34"/>
+            nodeIndex="35"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesAttributeSheetImpl"
 			nodePath="Attributes.Orthogonal Series"
-            nodeIndex="35"/>
+            nodeIndex="36"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesLabelAttributeSheetImpl"
 			nodePath="Attributes.Orthogonal Series.Labels"
-            nodeIndex="36"/>
+            nodeIndex="37"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseSeriesAttributeSheetImpl"
 			nodePath="Attributes.X Series"
-            nodeIndex="37"/>
+            nodeIndex="38"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesAttributeSheetImpl"
 			nodePath="Attributes.Y Series"
-            nodeIndex="38"/>
+            nodeIndex="39"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesLabelAttributeSheetImpl"
 			nodePath="Attributes.Y Series.Labels"
-            nodeIndex="39"/>
+            nodeIndex="40"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.LayoutSheetImpl"
 			nodePath="Layout"
-            nodeIndex="40"/>
+            nodeIndex="41"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.PlotAttributeSheetImpl"
 			nodePath="Layout.Plot"
-            nodeIndex="41"/>
+            nodeIndex="42"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.LegendAttributeSheetImpl"
 			nodePath="Layout.Legend"
-            nodeIndex="42"/>
+            nodeIndex="43"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.TitleBlockAttributeSheetImpl"
 			nodePath="Layout.Title Block"
-            nodeIndex="43"/>
+            nodeIndex="44"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.LabelBlockAttributeSheetImpl"
 			nodePath="Layout.Label Block"
-            nodeIndex="44"/>
+            nodeIndex="45"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.ScriptSheetImpl"
 			nodePath="Scripts"
-            nodeIndex="45"/>
+            nodeIndex="46"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.seriescomposites">

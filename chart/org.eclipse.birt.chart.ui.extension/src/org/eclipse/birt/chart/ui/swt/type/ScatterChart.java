@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -60,9 +61,9 @@ import org.eclipse.swt.graphics.Image;
 public class ScatterChart extends DefaultChartTypeImpl
 {
 
-    private static final String sType = "Scatter Chart";
+    private static final String sType = "Scatter Chart"; //$NON-NLS-1$
 
-    private static final String sStandardDescription = "Scatter charts show the values arranged on the plot using the base and orthogonal values as co-ordinates. Each data value is indicated by a marker.";
+    private static final String sStandardDescription = Messages.getString("ScatterChart.Txt.Description"); //$NON-NLS-1$
 
     private transient Image imgIcon = null;
 
@@ -70,12 +71,12 @@ public class ScatterChart extends DefaultChartTypeImpl
 
     private static final String[] saDimensions = new String[]
     {
-        "2D"
+        "2D" //$NON-NLS-1$
     };
 
     public ScatterChart()
     {
-        imgIcon = UIHelper.getImage("images/scattercharticon.gif");
+        imgIcon = UIHelper.getImage("images/scattercharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -106,8 +107,8 @@ public class ScatterChart extends DefaultChartTypeImpl
     public IHelpContent getHelp()
     {
         return new HelpContentImpl(
-            "Scatter Chart",
-            "Scatter charts show randomly spaced data values associated with non category axes. Each data point is associated with the X and Y axis scale.");
+            "Scatter Chart", //$NON-NLS-1$
+            Messages.getString("ScatterChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
     /*
@@ -118,18 +119,18 @@ public class ScatterChart extends DefaultChartTypeImpl
     public Collection getChartSubtypes(String sDimension, Orientation orientation)
     {
         Vector vSubTypes = new Vector();
-        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                img2D = UIHelper.getImage("images/scatterchartimage.gif");
+                img2D = UIHelper.getImage("images/scatterchartimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                img2D = UIHelper.getImage("images/horizontalscatterchartimage.gif");
+                img2D = UIHelper.getImage("images/horizontalscatterchartimage.gif"); //$NON-NLS-1$
             }
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Scatter Chart", img2D, sStandardDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Scatter Chart", img2D, sStandardDescription)); //$NON-NLS-1$
         }
         return vSubTypes;
     }
@@ -156,7 +157,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         newChart.setSubType(sSubType);
         newChart.setOrientation(orientation);
         newChart.setDimension(getDimensionFor(sDimension));
-        newChart.setUnits("Points");
+        newChart.setUnits("Points"); //$NON-NLS-1$
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
@@ -167,7 +168,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         sdX.getSeries().add(baseSeries);
         ((Axis) newChart.getAxes().get(0)).getSeriesDefinitions().add(sdX);
 
-        newChart.getTitle().getLabel().getCaption().setValue("Scatter Chart Title");
+        newChart.getTitle().getLabel().getCaption().setValue("Scatter Chart Title"); //$NON-NLS-1$
 
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0))
             .setOrientation(Orientation.VERTICAL_LITERAL);
@@ -181,7 +182,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         sdY.getSeries().add(orthogonalSeries);
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
 
-        if (sSubType.equalsIgnoreCase("Standard Scatter Chart"))
+        if (sSubType.equalsIgnoreCase("Standard Scatter Chart")) //$NON-NLS-1$
         {
             newChart.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
         }
@@ -197,12 +198,12 @@ public class ScatterChart extends DefaultChartTypeImpl
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("3,9,-2");
+        sdBase.setDataSetRepresentation("3,9,-2"); //$NON-NLS-1$
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)
         OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
-        oSample.setDataSetRepresentation("15,-4,12");
+        oSample.setDataSetRepresentation("15,-4,12"); //$NON-NLS-1$
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
@@ -238,11 +239,11 @@ public class ScatterChart extends DefaultChartTypeImpl
                     }
                 }
             }
-            else if (currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart")
-                || currentChart.getType().equals("Line Chart"))
+            else if (currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart") //$NON-NLS-1$ //$NON-NLS-2$
+                || currentChart.getType().equals("Line Chart")) //$NON-NLS-1$
             {
                 currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData(), currentChart.getType()
-                    .equals("Stock Chart")));
+                    .equals("Stock Chart"))); //$NON-NLS-1$
                 currentChart.setType(sType);
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(false);
@@ -297,7 +298,7 @@ public class ScatterChart extends DefaultChartTypeImpl
             currentChart.setSeriesThickness(helperModel.getSeriesThickness());
             currentChart.setUnits(helperModel.getUnits());
 
-            if (helperModel.getType().equals("Pie Chart"))
+            if (helperModel.getType().equals("Pie Chart")) //$NON-NLS-1$
             {
                 // Clear existing series definitions
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
@@ -363,7 +364,7 @@ public class ScatterChart extends DefaultChartTypeImpl
     private Series getConvertedSeries(Series series)
     {
         // Do not convert base series
-        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl")) //$NON-NLS-1$
         {
             return series;
         }
@@ -464,9 +465,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 
     private String getConvertedSampleDataRepresentation(String sOldRepresentation, boolean bStockSeries)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
         NumberFormat nf = NumberFormat.getNumberInstance();
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         int iValueCount = 0;
         while (strtok.hasMoreTokens())
         {
@@ -496,7 +497,7 @@ public class ScatterChart extends DefaultChartTypeImpl
                 iValueCount++;
             }
             sbNewRepresentation.append(sElement);
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }

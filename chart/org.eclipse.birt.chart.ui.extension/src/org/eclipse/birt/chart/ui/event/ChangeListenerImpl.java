@@ -40,53 +40,53 @@ public class ChangeListenerImpl implements IChangeListener
 
     private transient int iLabelBlockCount = 0;
 
-    private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "BaseSeriesSheetsCWA";
+    private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "BaseSeriesSheetsCWA"; //$NON-NLS-1$
 
-    private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA";
+    private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
 
-    private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "BaseSeriesSheetsCWOA";
+    private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "BaseSeriesSheetsCWOA"; //$NON-NLS-1$
 
-    private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "OrthogonalSeriesSheetsCWOA";
+    private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "OrthogonalSeriesSheetsCWOA"; //$NON-NLS-1$
 
-    private static final String BASE_AXIS_SHEET_COLLECTION = "BaseAxisSheets";
+    private static final String BASE_AXIS_SHEET_COLLECTION = "BaseAxisSheets"; //$NON-NLS-1$
 
-    private static final String ORTHOGONAL_AXIS_SHEET_COLLECTION = "OrthogonalAxisSheets";
+    private static final String ORTHOGONAL_AXIS_SHEET_COLLECTION = "OrthogonalAxisSheets"; //$NON-NLS-1$
 
-    private static final String LABEL_BLOCK_SHEET_COLLECTION = "LabelBlockSeriesSheets";
+    private static final String LABEL_BLOCK_SHEET_COLLECTION = "LabelBlockSeriesSheets"; //$NON-NLS-1$
 
     private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[]
     {
-        "Data.X Series", "Attributes.X Series"
+        "Data.X Series", "Attributes.X Series" //$NON-NLS-1$ //$NON-NLS-2$
     };
 
     private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[]
     {
-        "Data.Y Series", "Attributes.Y Series", "Attributes.Y Series.Labels"
+        "Data.Y Series", "Attributes.Y Series", "Attributes.Y Series.Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
     private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]
     {
-        "Data.Base Series", "Attributes.Base Series"
+        "Data.Base Series", "Attributes.Base Series" //$NON-NLS-1$ //$NON-NLS-2$
     };
 
     private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]
     {
-        "Data.Orthogonal Series", "Attributes.Orthogonal Series", "Attributes.Orthogonal Series.Labels"
+        "Data.Orthogonal Series", "Attributes.Orthogonal Series", "Attributes.Orthogonal Series.Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
     private static final String[] BASE_AXIS_SHEETS = new String[]
     {
-        "Data.X Axis", "Attributes.X Axis", "Attributes.X Axis.Labels", "Attributes.X Axis.Markers"
+        "Data.X Axis", "Attributes.X Axis", "Attributes.X Axis.Labels", "Attributes.X Axis.Markers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     };
 
     private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[]
     {
-        "Data.Y Axis", "Attributes.Y Axis", "Attributes.Y Axis.Labels", "Attributes.Y Axis.Markers"
+        "Data.Y Axis", "Attributes.Y Axis", "Attributes.Y Axis.Labels", "Attributes.Y Axis.Markers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     };
 
     private static final String[] LABEL_BLOCK_SHEETS = new String[]
     {
-        "Layout.Label Block"
+        "Layout.Label Block" //$NON-NLS-1$
     };
 
     public void initialize(Chart cModel, IUIManager uiManager)

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -149,7 +150,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         btnAdd = new Button(coControlPanel, SWT.PUSH);
         gd = new GridData();
         btnAdd.setLayoutData(gd);
-        btnAdd.setText("Add");
+        btnAdd.setText(Messages.getString("PaletteEditorComposite.Lbl.Add")); //$NON-NLS-1$
         btnAdd.addSelectionListener(this);
         fccNewEntry = new FillChooserComposite(coControlPanel, SWT.NONE, ColorDefinitionImpl.WHITE(), true, true);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -157,17 +158,17 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         btnRemove = new Button(coControlPanel, SWT.PUSH);
         gd = new GridData();
         btnRemove.setLayoutData(gd);
-        btnRemove.setText("Remove");
+        btnRemove.setText(Messages.getString("PaletteEditorComposite.Lbl.Remove")); //$NON-NLS-1$
         btnRemove.addSelectionListener(this);
         btnUp = new Button(coControlPanel, SWT.ARROW | SWT.UP);
         gd = new GridData();
         btnUp.setLayoutData(gd);
-        btnUp.setText("Up");
+        btnUp.setText(Messages.getString("PaletteEditorComposite.Lbl.Up")); //$NON-NLS-1$
         btnUp.addSelectionListener(this);
         btnDown = new Button(coControlPanel, SWT.ARROW | SWT.DOWN);
         gd = new GridData();
         btnDown.setLayoutData(gd);
-        btnDown.setText("Down");
+        btnDown.setText(Messages.getString("PaletteEditorComposite.Lbl.Down")); //$NON-NLS-1$
         btnDown.addSelectionListener(this);
 
         addControlListener(this);
@@ -178,7 +179,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         final PluginSettings ps = PluginSettings.instance();
         try
         {
-            idrSWT = ps.getDevice("dv.SWT");
+            idrSWT = ps.getDevice("dv.SWT"); //$NON-NLS-1$
             idsSWT = idrSWT.getDisplayServer();
         }
         catch (PluginException pex )

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -47,11 +48,11 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public static final int TEXT_CHANGED_EVENT = 1;
 
-    public static final String SEPARATOR = "=";
+    public static final String SEPARATOR = "="; //$NON-NLS-1$
 
     private transient String sKey = null;
 
-    private transient String sCurrent = "";
+    private transient String sCurrent = ""; //$NON-NLS-1$
 
     private transient List keys = null;
 
@@ -115,7 +116,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         GridData gdBTNDown = new GridData(GridData.VERTICAL_ALIGN_END);
         gdBTNDown.heightHint = iSize;
         gdBTNDown.widthHint = iSize;
-        btnDown.setText(" ... ");
+        btnDown.setText(" ... "); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);
     }
@@ -149,9 +150,9 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public String getValue(String str)
     {
-        String sTmp = "";
+        String sTmp = ""; //$NON-NLS-1$
         sTmp = getKey(str);
-        if ("".equals(sTmp))
+        if ("".equals(sTmp)) //$NON-NLS-1$
         {
             int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
             if (iSeparator == (-1 + SEPARATOR.length()))
@@ -161,9 +162,9 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
             return str.substring(iSeparator);
         }
         sTmp = serviceprovider.getValue(sTmp);
-        if (sTmp == null || "".equals(sTmp))
+        if (sTmp == null || "".equals(sTmp)) //$NON-NLS-1$
         {
-            sTmp = "Key could not be found in Properties file...or properties file not present.";
+            sTmp = Messages.getString("ExternalizedTextEditorComposite.Warn.KeyNotFound"); //$NON-NLS-1$
         }
         return sTmp;
     }

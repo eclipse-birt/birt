@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -67,8 +68,8 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         super(parent, style);
         if (!(series instanceof LineSeriesImpl))
         {
-            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName()
-                + " is an invalid argument for LineSeriesAttributeComposite.");
+            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName() //$NON-NLS-1$
+                + Messages.getString("LineSeriesAttributeComposite.Exception.IllegalArgument")); //$NON-NLS-1$
         }
         this.series = series;
         init();
@@ -94,7 +95,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         Label lblShadow = new Label(this, SWT.NONE);
         GridData gdLBLShadow = new GridData();
         lblShadow.setLayoutData(gdLBLShadow);
-        lblShadow.setText("Shadow Color:");
+        lblShadow.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.ShadowColor")); //$NON-NLS-1$
 
         fccShadow = new FillChooserComposite(this, SWT.NONE, ((LineSeries) series).getShadowColor(), false, false);
         GridData gdFCCShadow = new GridData(GridData.FILL_HORIZONTAL);
@@ -104,7 +105,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         GridData gdBTNCurve = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNCurve.horizontalSpan = 2;
         btnCurve.setLayoutData(gdBTNCurve);
-        btnCurve.setText("Show Lines as Curves");
+        btnCurve.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves")); //$NON-NLS-1$
         btnCurve.setSelection(((LineSeries) series).isCurve());
         btnCurve.addSelectionListener(this);
 
@@ -121,20 +122,20 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         gdGRPMarker.horizontalSpan = 2;
         grpMarker.setLayoutData(gdGRPMarker);
         grpMarker.setLayout(glMarker);
-        grpMarker.setText("Marker");
+        grpMarker.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.Marker")); //$NON-NLS-1$
 
         btnMarkerVisible = new Button(grpMarker, SWT.CHECK);
         GridData gdBTNVisible = new GridData();
         gdBTNVisible.horizontalSpan = 2;
         btnMarkerVisible.setLayoutData(gdBTNVisible);
-        btnMarkerVisible.setText("Is Visible");
+        btnMarkerVisible.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.IsVisible")); //$NON-NLS-1$
         btnMarkerVisible.addSelectionListener(this);
         btnMarkerVisible.setSelection(((LineSeries) series).getMarker().isVisible());
 
         Label lblType = new Label(grpMarker, SWT.NONE);
         GridData gdLBLType = new GridData();
         lblType.setLayoutData(gdLBLType);
-        lblType.setText("Type:");
+        lblType.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.Type")); //$NON-NLS-1$
 
         cmbMarkerTypes = new Combo(grpMarker, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBMarkerTypes = new GridData(GridData.FILL_HORIZONTAL);
@@ -144,7 +145,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         Label lblSize = new Label(grpMarker, SWT.NONE);
         GridData gdLBLSize = new GridData();
         lblSize.setLayoutData(gdLBLSize);
-        lblSize.setText("Size:");
+        lblSize.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.Size")); //$NON-NLS-1$
 
         iscMarkerSize = new IntegerSpinControl(grpMarker, SWT.NONE, ((LineSeries) series).getMarker().getSize());
         GridData gdISCMarkerSize = new GridData(GridData.FILL_HORIZONTAL);
@@ -158,7 +159,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         gdGRPLine.horizontalSpan = 2;
         grpLine.setLayout(new FillLayout());
         grpLine.setLayoutData(gdGRPLine);
-        grpLine.setText("Line");
+        grpLine.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.Line")); //$NON-NLS-1$
 
         liacLine = new LineAttributesComposite(grpLine, SWT.NONE, ((LineSeries) series).getLineAttributes(), true,
             true, true);

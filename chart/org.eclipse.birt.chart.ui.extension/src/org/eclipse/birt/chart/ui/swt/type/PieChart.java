@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -52,9 +53,9 @@ import org.eclipse.swt.graphics.Image;
 public class PieChart extends DefaultChartTypeImpl
 {
 
-    private static final String sType = "Pie Chart";
+    private static final String sType = "Pie Chart"; //$NON-NLS-1$
 
-    private static final String sStandardDescription = "Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.";
+    private static final String sStandardDescription = Messages.getString("PieChart.Txt.Description"); //$NON-NLS-1$
 
     private transient Image imgIcon = null;
 
@@ -64,12 +65,12 @@ public class PieChart extends DefaultChartTypeImpl
 
     private static final String[] saDimensions = new String[]
     {
-        "2D", "2D With Depth"
+        "2D", "2D With Depth" //$NON-NLS-1$ //$NON-NLS-2$
     };
 
     public PieChart()
     {
-        imgIcon = UIHelper.getImage("images/piecharticon.gif");
+        imgIcon = UIHelper.getImage("images/piecharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -100,8 +101,8 @@ public class PieChart extends DefaultChartTypeImpl
     public IHelpContent getHelp()
     {
         return new HelpContentImpl(
-            "Pie Chart",
-            "Pie charts show data values for a series or category as a slice percentage of the entire pie. Multiple pie series are presented in a grid.");
+            "Pie Chart", //$NON-NLS-1$
+            Messages.getString("PieChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
     /*
@@ -117,18 +118,18 @@ public class PieChart extends DefaultChartTypeImpl
         {
             return vSubTypes;
         }
-        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
-            img2D = UIHelper.getImage("images/piechartimage.gif");
+            img2D = UIHelper.getImage("images/piechartimage.gif"); //$NON-NLS-1$
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2D, sStandardDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2D, sStandardDescription)); //$NON-NLS-1$
         }
-        else if (sDimension.equals("2D With Depth")
+        else if (sDimension.equals("2D With Depth") //$NON-NLS-1$
             || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName()))
         {
-            img2DWithDepth = UIHelper.getImage("images/piechartwithdepthimage.gif");
+            img2DWithDepth = UIHelper.getImage("images/piechartwithdepthimage.gif"); //$NON-NLS-1$
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2DWithDepth, sStandardDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Standard Pie Chart", img2DWithDepth, sStandardDescription)); //$NON-NLS-1$
         }
         return vSubTypes;
     }
@@ -154,25 +155,25 @@ public class PieChart extends DefaultChartTypeImpl
         newChart.setType(sType);
         newChart.setSubType(sSubType);
         newChart.setDimension(getDimensionFor(sDimension));
-        newChart.setUnits("Points");
+        newChart.setUnits("Points"); //$NON-NLS-1$
         if (newChart.getDimension().equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL))
         {
             newChart.setSeriesThickness(15);
         }
 
-        newChart.getTitle().getLabel().getCaption().setValue("Pie Chart Title");
+        newChart.getTitle().getLabel().getCaption().setValue(Messages.getString("PieChart.Txt.DefaultPieChartTitle")); //$NON-NLS-1$
 
         SeriesDefinition sdX = SeriesDefinitionImpl.create();
         Series categorySeries = SeriesImpl.create();
         sdX.getSeries().add(categorySeries);
-        sdX.getQuery().setDefinition("Base Series");
+        sdX.getQuery().setDefinition("Base Series"); //$NON-NLS-1$
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
         sdY.getSeriesPalette().update(0);
         Series valueSeries = PieSeriesImpl.create();
         valueSeries.getLabel().setVisible(true);
-        valueSeries.setSeriesIdentifier("valueSeriesIdentifier");
-        ((PieSeries) valueSeries).getTitle().getCaption().setValue("valueSeries");
+        valueSeries.setSeriesIdentifier("valueSeriesIdentifier"); //$NON-NLS-1$
+        ((PieSeries) valueSeries).getTitle().getCaption().setValue("valueSeries"); //$NON-NLS-1$
         ((PieSeries) valueSeries).setStacked(false);
         sdY.getSeries().add(valueSeries);
 
@@ -192,12 +193,12 @@ public class PieChart extends DefaultChartTypeImpl
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("A, B, C");
+        sdBase.setDataSetRepresentation("A, B, C"); //$NON-NLS-1$
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)
         OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
-        oSample.setDataSetRepresentation("5,4,12");
+        oSample.setDataSetRepresentation("5,4,12"); //$NON-NLS-1$
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
@@ -224,7 +225,7 @@ public class PieChart extends DefaultChartTypeImpl
             currentChart.setBlock(helperModel.getBlock());
             currentChart.setDescription(helperModel.getDescription());
             currentChart.setGridColumnCount(helperModel.getGridColumnCount());
-            if (!currentChart.getType().equals("Line Chart") && !currentChart.getType().equals("Bar Chart"))
+            if (!currentChart.getType().equals("Line Chart") && !currentChart.getType().equals("Bar Chart")) //$NON-NLS-1$ //$NON-NLS-2$
             {
                 currentChart.setSampleData(getConvertedSampleData(helperModel.getSampleData()));
             }
@@ -291,7 +292,7 @@ public class PieChart extends DefaultChartTypeImpl
     private Series getConvertedSeries(Series series)
     {
         // Do not convert base series
-        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl")) //$NON-NLS-1$
         {
             return series;
         }
@@ -369,39 +370,39 @@ public class PieChart extends DefaultChartTypeImpl
 
     private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (!sElement.startsWith("'"))
+            if (!sElement.startsWith("'")) //$NON-NLS-1$
             {
-                sbNewRepresentation.append("'");
+                sbNewRepresentation.append("'"); //$NON-NLS-1$
                 sbNewRepresentation.append(sElement);
-                sbNewRepresentation.append("'");
+                sbNewRepresentation.append("'"); //$NON-NLS-1$
             }
             else
             {
-                if (sElement.startsWith("-")) // Negative Number
+                if (sElement.startsWith("-")) // Negative Number //$NON-NLS-1$
                 {
                     sElement = sElement.substring(1); // Convert to positive number since negative values are not
                     // supported for pie charts
                 }
                 sbNewRepresentation.append(sElement);
             }
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT //$NON-NLS-1$
             // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
@@ -409,14 +410,14 @@ public class PieChart extends DefaultChartTypeImpl
             }
             else
             {
-                if (sElement.startsWith("-")) // Negative Number
+                if (sElement.startsWith("-")) // Negative Number //$NON-NLS-1$
                 {
                     sElement = sElement.substring(1); // Convert to positive number since negative values are not
                     // supported for pie charts
                 }
                 sbNewRepresentation.append(sElement);
             }
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
@@ -453,7 +454,7 @@ public class PieChart extends DefaultChartTypeImpl
 
     private ChartDimension getDimensionFor(String sDimension)
     {
-        if (sDimension == null || sDimension.equals("2D"))
+        if (sDimension == null || sDimension.equals("2D")) //$NON-NLS-1$
         {
             return ChartDimension.TWO_DIMENSIONAL_LITERAL;
         }

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -96,13 +97,13 @@ public class InsetsComposite extends Composite implements Listener
 
         grpInsets = new Group(this, SWT.NONE);
         grpInsets.setLayout(glGroup);
-        grpInsets.setText("Insets (in " + sUnits + ")");
+        grpInsets.setText(Messages.getString("InsetsComposite.Lbl.Insets") + sUnits + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 
         Label lblTop = new Label(grpInsets, SWT.NONE);
         GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLTop.heightHint = 20;
         lblTop.setLayoutData(gdLTop);
-        lblTop.setText("Top:");
+        lblTop.setText(Messages.getString("InsetsComposite.Lbl.Top")); //$NON-NLS-1$
 
         txtTop = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTTop = new GridData(GridData.FILL_BOTH);
@@ -110,7 +111,7 @@ public class InsetsComposite extends Composite implements Listener
         gdTTop.widthHint = 45;
         txtTop.setLayoutData(gdTTop);
         double dblPoints = insets.getTop();
-        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtTop.setText(new Double(dblCurrent).toString());
         txtTop.addListener(this);
 
@@ -118,7 +119,7 @@ public class InsetsComposite extends Composite implements Listener
         GridData gdLLeft = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLLeft.heightHint = 20;
         lblLeft.setLayoutData(gdLLeft);
-        lblLeft.setText("Left:");
+        lblLeft.setText(Messages.getString("InsetsComposite.Lbl.Left")); //$NON-NLS-1$
 
         txtLeft = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTLeft = new GridData(GridData.FILL_BOTH);
@@ -126,7 +127,7 @@ public class InsetsComposite extends Composite implements Listener
         gdTLeft.widthHint = 45;
         txtLeft.setLayoutData(gdTLeft);
         dblPoints = insets.getLeft();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtLeft.setText(new Double(dblCurrent).toString());
         txtLeft.addListener(this);
 
@@ -134,7 +135,7 @@ public class InsetsComposite extends Composite implements Listener
         GridData gdLBottom = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLBottom.heightHint = 20;
         lblBottom.setLayoutData(gdLBottom);
-        lblBottom.setText("Bottom:");
+        lblBottom.setText(Messages.getString("InsetsComposite.Lbl.Bottom")); //$NON-NLS-1$
 
         txtBottom = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTBottom = new GridData(GridData.FILL_BOTH);
@@ -142,7 +143,7 @@ public class InsetsComposite extends Composite implements Listener
         gdTBottom.widthHint = 45;
         txtBottom.setLayoutData(gdTBottom);
         dblPoints = insets.getBottom();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtBottom.setText(new Double(dblCurrent).toString());
         txtBottom.addListener(this);
 
@@ -150,7 +151,7 @@ public class InsetsComposite extends Composite implements Listener
         GridData gdLRight = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLRight.heightHint = 20;
         lblRight.setLayoutData(gdLRight);
-        lblRight.setText("Right:");
+        lblRight.setText(Messages.getString("InsetsComposite.Lbl.Right")); //$NON-NLS-1$
 
         txtRight = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTRight = new GridData(GridData.FILL_BOTH);
@@ -158,7 +159,7 @@ public class InsetsComposite extends Composite implements Listener
         gdTRight.widthHint = 45;
         txtRight.setLayoutData(gdTRight);
         dblPoints = insets.getRight();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtRight.setText(new Double(dblCurrent).toString());
         txtRight.addListener(this);
     }
@@ -174,22 +175,22 @@ public class InsetsComposite extends Composite implements Listener
 
         // Update the UI
         double dblPoints = insets.getBottom();
-        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        double dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtBottom.setText(new Double(dblCurrent).toString());
 
         dblPoints = insets.getLeft();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtLeft.setText(new Double(dblCurrent).toString());
 
         dblPoints = insets.getTop();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtTop.setText(new Double(dblCurrent).toString());
 
         dblPoints = insets.getRight();
-        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+        dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtRight.setText(new Double(dblCurrent).toString());
 
-        this.grpInsets.setText("Insets (in " + sUnits + ")");
+        this.grpInsets.setText("Insets (in " + sUnits + ")"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public void addListener(Listener listener)
@@ -216,13 +217,13 @@ public class InsetsComposite extends Composite implements Listener
             try
             {
                 dblCurrent = Double.parseDouble(txtTop.getText());
-                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
                 insets.setTop(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
                 dblPoints = insets.getTop();
-                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
                 txtTop.setText(new Double(dblCurrent).toString());
             }
         }
@@ -231,13 +232,13 @@ public class InsetsComposite extends Composite implements Listener
             try
             {
                 dblCurrent = Double.parseDouble(txtLeft.getText());
-                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
                 insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
                 dblPoints = insets.getLeft();
-                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
                 txtLeft.setText(new Double(dblCurrent).toString());
             }
         }
@@ -246,13 +247,13 @@ public class InsetsComposite extends Composite implements Listener
             try
             {
                 dblCurrent = Double.parseDouble(txtBottom.getText());
-                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
                 insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
                 dblPoints = insets.getBottom();
-                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
                 txtBottom.setText(new Double(dblCurrent).toString());
             }
         }
@@ -261,13 +262,13 @@ public class InsetsComposite extends Composite implements Listener
             try
             {
                 dblCurrent = Double.parseDouble(txtRight.getText());
-                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points");
+                dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
                 insets.setLeft(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
                 dblPoints = insets.getRight();
-                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits);
+                dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
                 txtRight.setText(new Double(dblCurrent).toString());
             }
         }

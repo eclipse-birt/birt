@@ -55,7 +55,7 @@ public class TextEditorComposite extends Composite implements ModifyListener, Fo
 
     private void init()
     {
-        sText = "";
+        sText = ""; //$NON-NLS-1$
         vListeners = new Vector();
         this.setLayout(new FillLayout());
     }

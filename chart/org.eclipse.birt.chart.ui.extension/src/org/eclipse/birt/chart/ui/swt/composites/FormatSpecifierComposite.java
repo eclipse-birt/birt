@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -139,7 +140,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblDataType = new Label(this, SWT.NONE);
         GridData gdLBLDataType = new GridData();
         lblDataType.setLayoutData(gdLBLDataType);
-        lblDataType.setText("Data Type:");
+        lblDataType.setText(Messages.getString("FormatSpecifierComposite.Lbl.DataType")); //$NON-NLS-1$
 
         cmbDataType = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBDataType = new GridData(GridData.FILL_HORIZONTAL);
@@ -150,7 +151,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         GridData gdBTNUndefined = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNUndefined.horizontalSpan = 2;
         btnUndefined.setLayoutData(gdBTNUndefined);
-        btnUndefined.setText("Undefined");
+        btnUndefined.setText(Messages.getString("FormatSpecifierComposite.Lbl.Undefined")); //$NON-NLS-1$
         btnUndefined.addSelectionListener(this);
 
         Label lblDummyStandard = new Label(this, SWT.NONE);
@@ -163,7 +164,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         GridData gdBTNStandard = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNStandard.horizontalSpan = 2;
         btnStandard.setLayoutData(gdBTNStandard);
-        btnStandard.setText("Standard");
+        btnStandard.setText(Messages.getString("FormatSpecifierComposite.Lbl.Standard")); //$NON-NLS-1$
         btnStandard.addSelectionListener(this);
 
         cmpStandardDetails = new Composite(this, SWT.NONE);
@@ -198,7 +199,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblDateType = new Label(cmpDateStandard, SWT.NONE);
         GridData gdLBLDateType = new GridData();
         lblDateType.setLayoutData(gdLBLDateType);
-        lblDateType.setText("Type:");
+        lblDateType.setText(Messages.getString("FormatSpecifierComposite.Lbl.Type")); //$NON-NLS-1$
 
         cmbDateType = new Combo(cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBDateType = new GridData(GridData.FILL_HORIZONTAL);
@@ -208,7 +209,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblDateDetails = new Label(cmpDateStandard, SWT.NONE);
         GridData gdLBLDateDetails = new GridData();
         lblDateDetails.setLayoutData(gdLBLDateDetails);
-        lblDateDetails.setText("Details:");
+        lblDateDetails.setText(Messages.getString("FormatSpecifierComposite.Lbl.Details")); //$NON-NLS-1$
 
         cmbDateForm = new Combo(cmpDateStandard, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBDateForm = new GridData(GridData.FILL_HORIZONTAL);
@@ -240,7 +241,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblPrefix = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLPrefix = new GridData();
         lblPrefix.setLayoutData(gdLBLPrefix);
-        lblPrefix.setText("Prefix:");
+        lblPrefix.setText(Messages.getString("FormatSpecifierComposite.Lbl.Prefix")); //$NON-NLS-1$
 
         txtPrefix = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTPrefix = new GridData(GridData.FILL_HORIZONTAL);
@@ -250,7 +251,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblSuffix = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLSuffix = new GridData();
         lblSuffix.setLayoutData(gdLBLSuffix);
-        lblSuffix.setText("Suffix:");
+        lblSuffix.setText(Messages.getString("FormatSpecifierComposite.Lbl.Suffix")); //$NON-NLS-1$
 
         txtSuffix = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTSuffix = new GridData(GridData.FILL_HORIZONTAL);
@@ -260,7 +261,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblMultiplier = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLMultiplier = new GridData();
         lblMultiplier.setLayoutData(gdLBLMultiplier);
-        lblMultiplier.setText("Multiplier:");
+        lblMultiplier.setText(Messages.getString("FormatSpecifierComposite.Lbl.Multiplier")); //$NON-NLS-1$
 
         txtMultiplier = new Text(cmpNumberStandard, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTMultiplier = new GridData(GridData.FILL_HORIZONTAL);
@@ -270,7 +271,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblFractionDigit = new Label(cmpNumberStandard, SWT.NONE);
         GridData gdLBLFractionDigit = new GridData();
         lblFractionDigit.setLayoutData(gdLBLFractionDigit);
-        lblFractionDigit.setText("Fraction Digits:");
+        lblFractionDigit.setText(Messages.getString("FormatSpecifierComposite.Lbl.FractionDigits")); //$NON-NLS-1$
 
         iscFractionDigits = new IntegerSpinControl(cmpNumberStandard, SWT.NONE, 2);
         GridData gdISCFractionDigits = new GridData(GridData.FILL_HORIZONTAL);
@@ -287,7 +288,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         GridData gdBTNAdvanced = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNAdvanced.horizontalSpan = 2;
         btnAdvanced.setLayoutData(gdBTNAdvanced);
-        btnAdvanced.setText("Advanced");
+        btnAdvanced.setText(Messages.getString("FormatSpecifierComposite.Lbl.Advanced")); //$NON-NLS-1$
         btnAdvanced.addSelectionListener(this);
 
         cmpAdvancedDetails = new Composite(this, SWT.NONE);
@@ -322,7 +323,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblDatePattern = new Label(cmpDateAdvanced, SWT.NONE);
         GridData gdLBLDatePattern = new GridData();
         lblDatePattern.setLayoutData(gdLBLDatePattern);
-        lblDatePattern.setText("Pattern:");
+        lblDatePattern.setText(Messages.getString("FormatSpecifierComposite.Lbl.DatePattern")); //$NON-NLS-1$
 
         txtDatePattern = new Text(cmpDateAdvanced, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTDatePattern = new GridData(GridData.FILL_HORIZONTAL);
@@ -354,7 +355,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblAdvMultiplier = new Label(cmpNumberAdvanced, SWT.NONE);
         GridData gdLBLAdvMultiplier = new GridData();
         lblAdvMultiplier.setLayoutData(gdLBLAdvMultiplier);
-        lblAdvMultiplier.setText("Multiplier:");
+        lblAdvMultiplier.setText(Messages.getString("FormatSpecifierComposite.Lbl.Multiplier")); //$NON-NLS-1$
 
         txtAdvMultiplier = new Text(cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTAdvMultiplier = new GridData(GridData.FILL_HORIZONTAL);
@@ -364,7 +365,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         Label lblNumberPattern = new Label(cmpNumberAdvanced, SWT.NONE);
         GridData gdLBLNumberPattern = new GridData();
         lblNumberPattern.setLayoutData(gdLBLNumberPattern);
-        lblNumberPattern.setText("Pattern:");
+        lblNumberPattern.setText(Messages.getString("FormatSpecifierComposite.Lbl.NumberPattern")); //$NON-NLS-1$
 
         txtNumberPattern = new Text(cmpNumberAdvanced, SWT.BORDER | SWT.SINGLE);
         GridData gdTXTNumberPattern = new GridData(GridData.FILL_HORIZONTAL);
@@ -377,12 +378,19 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
     private void populateLists()
     {
         this.bEnableEvents = false;
-        cmbDataType.add("Date/Time");
-        cmbDataType.add("Number");
+        cmbDataType.add("Number"); //$NON-NLS-1$
+        cmbDataType.add("Date/Time"); //$NON-NLS-1$
 
-        if (formatspecifier instanceof DateFormatSpecifier || formatspecifier instanceof JavaDateFormatSpecifier)
+        if (formatspecifier == null)
         {
             cmbDataType.select(0);
+            btnUndefined.setSelection(true);
+            slStandardDetails.topControl = this.cmpStandardNumberDetails;
+            slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+        }
+        else if (formatspecifier instanceof DateFormatSpecifier || formatspecifier instanceof JavaDateFormatSpecifier)
+        {
+            cmbDataType.select(1);
             if (formatspecifier instanceof DateFormatSpecifier)
             {
                 btnStandard.setSelection(true);
@@ -400,7 +408,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         }
         else
         {
-            cmbDataType.select(1);
+            cmbDataType.select(0);
             if (formatspecifier instanceof NumberFormatSpecifier)
             {
                 btnStandard.setSelection(true);
@@ -429,6 +437,10 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                 cmbDateType.select(iDT);
             }
         }
+        if(cmbDateType.getSelectionIndex() == -1)
+        {
+            cmbDateType.select(0);
+        }
 
         // Populate Date Details
         Object[] oArrDD = DateFormatDetail.VALUES.toArray();
@@ -441,13 +453,17 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                 cmbDateForm.select(iDD);
             }
         }
-        String str = "";
+        if(cmbDateForm.getSelectionIndex() == -1)
+        {
+            cmbDateForm.select(0);
+        }
+        String str = ""; //$NON-NLS-1$
         if (formatspecifier instanceof JavaDateFormatSpecifier)
         {
             str = ((JavaDateFormatSpecifier) formatspecifier).getPattern();
             if (str == null)
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtDatePattern.setText(str);
         }
@@ -456,13 +472,13 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             str = ((NumberFormatSpecifier) formatspecifier).getPrefix();
             if (str == null)
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtPrefix.setText(str);
             str = ((NumberFormatSpecifier) formatspecifier).getSuffix();
             if (str == null)
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtSuffix.setText(str);
             str = String.valueOf(((NumberFormatSpecifier) formatspecifier).getMultiplier());
@@ -470,7 +486,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                 || !((NumberFormatSpecifier) formatspecifier).eIsSet(AttributePackage.eINSTANCE
                     .getNumberFormatSpecifier_Multiplier()))
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtMultiplier.setText(str);
             iscFractionDigits.setValue(((NumberFormatSpecifier) formatspecifier).getFractionDigits());
@@ -478,15 +494,16 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         if (formatspecifier instanceof JavaNumberFormatSpecifier)
         {
             str = String.valueOf(((JavaNumberFormatSpecifier) formatspecifier).getMultiplier());
-            if (str == null)
+            if (str == null || !((JavaNumberFormatSpecifier) formatspecifier).eIsSet(AttributePackage.eINSTANCE
+                .getJavaNumberFormatSpecifier_Multiplier()))
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtAdvMultiplier.setText(str);
             str = ((JavaNumberFormatSpecifier) formatspecifier).getPattern();
             if (str == null)
             {
-                str = "";
+                str = ""; //$NON-NLS-1$
             }
             txtNumberPattern.setText(str);
         }
@@ -508,7 +525,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
     private FormatSpecifier buildFormatSpecifier()
     {
         FormatSpecifier fs = null;
-        if (cmbDataType.getText().equals("Date/Time"))
+        if (cmbDataType.getText().equals("Date/Time")) //$NON-NLS-1$
         {
             if (this.btnAdvanced.getSelection())
             {
@@ -549,7 +566,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
     private void updateUIState()
     {
-        if (cmbDataType.getText().equals("Number"))
+        if (cmbDataType.getText().equals("Number")) //$NON-NLS-1$
         {
             if (this.btnStandard.getSelection())
             {
@@ -639,7 +656,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         }
         if (e.getSource().equals(cmbDataType))
         {
-            if (cmbDataType.getText().equals("Number"))
+            if (cmbDataType.getText().equals("Number")) //$NON-NLS-1$
             {
                 slStandardDetails.topControl = cmpStandardNumberDetails;
                 slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
@@ -684,7 +701,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             if (!(formatspecifier instanceof JavaDateFormatSpecifier))
             {
-                formatspecifier = JavaDateFormatSpecifierImpl.create("");
+                formatspecifier = JavaDateFormatSpecifierImpl.create(""); //$NON-NLS-1$
             }
             ((JavaDateFormatSpecifier) formatspecifier).setPattern(txtDatePattern.getText());
         }
@@ -701,6 +718,11 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                     if (str.length() > 0)
                     {
                         ((NumberFormatSpecifier) formatspecifier).setMultiplier(new Double(str).doubleValue());
+                    }
+                    else
+                    {
+                        ((NumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
+                            .getNumberFormatSpecifier_Multiplier());
                     }
                 }
                 catch (NumberFormatException e1 )
@@ -725,6 +747,11 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
                     {
                         ((NumberFormatSpecifier) formatspecifier).setMultiplier(new Double(str).doubleValue());
                     }
+                    else
+                    {
+                        ((NumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
+                            .getNumberFormatSpecifier_Multiplier());
+                    }
                 }
                 catch (NumberFormatException e1 )
                 {
@@ -745,7 +772,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             try
             {
-                if ("".equals(txtMultiplier.getText()))
+                if ("".equals(txtMultiplier.getText())) //$NON-NLS-1$
                 {
                     ((NumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
                         .getNumberFormatSpecifier_Multiplier());
@@ -770,7 +797,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             try
             {
-                if ("".equals(txtAdvMultiplier.getText()))
+                if ("".equals(txtAdvMultiplier.getText())) //$NON-NLS-1$
                 {
                     ((JavaNumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
                         .getJavaNumberFormatSpecifier_Multiplier());
@@ -791,7 +818,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             if (!(formatspecifier instanceof JavaNumberFormatSpecifier))
             {
-                formatspecifier = JavaNumberFormatSpecifierImpl.create("");
+                formatspecifier = JavaNumberFormatSpecifierImpl.create(""); //$NON-NLS-1$
             }
             ((JavaNumberFormatSpecifier) formatspecifier).setPattern(txtNumberPattern.getText());
         }

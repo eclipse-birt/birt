@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -121,7 +122,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
             gdCBVisible.horizontalSpan = 6;
             cbVisible.setLayoutData(gdCBVisible);
-            cbVisible.setText("Is Visible");
+            cbVisible.setText(Messages.getString("LineAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.setSelection(laCurrent.isVisible());
             cbVisible.addSelectionListener(this);
         }
@@ -131,7 +132,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             Label lblStyle = new Label(cmpContent, SWT.NONE);
             GridData gdLStyle = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblStyle.setLayoutData(gdLStyle);
-            lblStyle.setText("Style:");
+            lblStyle.setText(Messages.getString("LineAttributesComposite.Lbl.Style")); //$NON-NLS-1$
 
             cmbStyle = new LineStyleChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY,
                 getSWTLineStyle(laCurrent.getStyle()));
@@ -146,7 +147,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             Label lblWidth = new Label(cmpContent, SWT.NONE);
             GridData gdLWidth = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblWidth.setLayoutData(gdLWidth);
-            lblWidth.setText("Width:");
+            lblWidth.setText(Messages.getString("LineAttributesComposite.Lbl.Width")); //$NON-NLS-1$
 
             cmbWidth = new LineWidthChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, laCurrent
                 .getThickness());
@@ -159,7 +160,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         Label lblColor = new Label(cmpContent, SWT.NONE);
         GridData gdLColor = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
         lblColor.setLayoutData(gdLColor);
-        lblColor.setText("Color:");
+        lblColor.setText(Messages.getString("LineAttributesComposite.Lbl.Color")); //$NON-NLS-1$
 
         cmbColor = new FillChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, this.laCurrent.getColor(),
             false, false);

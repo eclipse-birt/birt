@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -50,8 +51,8 @@ public class BarSeriesAttributeComposite extends Composite implements SelectionL
         super(parent, style);
         if (!(series instanceof BarSeries))
         {
-            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName()
-                + " is an invalid argument for BarSeriesAttributeComposite.");
+            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName() //$NON-NLS-1$
+                + Messages.getString("BarSeriesAttributeComposite.Exception.IllegalArgument")); //$NON-NLS-1$
         }
         this.series = series;
         init();
@@ -78,7 +79,7 @@ public class BarSeriesAttributeComposite extends Composite implements SelectionL
         Label lblRiserType = new Label(this, SWT.NONE);
         GridData gdLBLRiserType = new GridData();
         lblRiserType.setLayoutData(gdLBLRiserType);
-        lblRiserType.setText("Riser Type:");
+        lblRiserType.setText(Messages.getString("BarSeriesAttributeComposite.Lbl.RiserType")); //$NON-NLS-1$
 
         this.cmbRiserTypes = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBRiserTypes = new GridData(GridData.FILL_HORIZONTAL);
@@ -89,7 +90,7 @@ public class BarSeriesAttributeComposite extends Composite implements SelectionL
         Label lblRiserOutline = new Label(this, SWT.NONE);
         GridData gdLBLRiserOutline = new GridData();
         lblRiserOutline.setLayoutData(gdLBLRiserOutline);
-        lblRiserOutline.setText("Riser Outline:");
+        lblRiserOutline.setText(Messages.getString("BarSeriesAttributeComposite.Lbl.RiserOutline")); //$NON-NLS-1$
 
         this.fccRiserOutline = new FillChooserComposite(this, SWT.NONE, ((BarSeries) series).getRiserOutline(), false,
             false);

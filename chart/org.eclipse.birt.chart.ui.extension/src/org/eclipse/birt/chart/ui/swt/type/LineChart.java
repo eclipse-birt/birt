@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -57,13 +58,13 @@ import org.eclipse.swt.graphics.Image;
 public class LineChart extends DefaultChartTypeImpl
 {
 
-    private static final String sType = "Line Chart";
+    private static final String sType = "Line Chart"; //$NON-NLS-1$
 
-    private static final String sStackedDescription = "Stacked Line charts show lines stacked one above the other. The positive and negative values are stacked separately above and below the origin.";
+    private static final String sStackedDescription = Messages.getString("LineChart.Txt.StackedDescription"); //$NON-NLS-1$
 
-    private static final String sPercentStackedDescription = "Percent Stacked Line charts show lines stacked one over the other in such a way that the total height of the stacked lines (from the lowest point to the highest in each unit) is 100.";
+    private static final String sPercentStackedDescription = Messages.getString("LineChart.Txt.PercentStackedDescription"); //$NON-NLS-1$
 
-    private static final String sOverlayDescription = "Overlay Line charts show lines from each series independent of the others. The lines are shown joining the values for the series.";
+    private static final String sOverlayDescription = Messages.getString("LineChart.Txt.OverlayDescription"); //$NON-NLS-1$
 
     private transient Image imgIcon = null;
 
@@ -83,12 +84,12 @@ public class LineChart extends DefaultChartTypeImpl
 
     private static final String[] saDimensions = new String[]
     {
-        "2D", "2D With Depth"
+        "2D", "2D With Depth" //$NON-NLS-1$ //$NON-NLS-2$
     };
 
     public LineChart()
     {
-        imgIcon = UIHelper.getImage("images/linecharticon.gif");
+        imgIcon = UIHelper.getImage("images/linecharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -119,8 +120,8 @@ public class LineChart extends DefaultChartTypeImpl
     public IHelpContent getHelp()
     {
         return new HelpContentImpl(
-            "Line Chart",
-            "A line represents each series being rendered. Optional markers may be used to highlight the points for which data is being plotted. Stacked lines show each category point relative to the position of the line series data point below it. Stacked percent lines shows each data value plotted as a percentage of the total for the category.");
+            "Line Chart", //$NON-NLS-1$
+            Messages.getString("LineChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
     /*
@@ -131,54 +132,54 @@ public class LineChart extends DefaultChartTypeImpl
     public Collection getChartSubtypes(String sDimension, Orientation orientation)
     {
         Vector vSubTypes = new Vector();
-        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName()))
+        if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStacked = UIHelper.getImage("images/stackedlinechartimage.gif");
-                imgPercentStacked = UIHelper.getImage("images/percentstackedlinechartimage.gif");
-                imgSideBySide = UIHelper.getImage("images/sidebysidelinechartimage.gif");
+                imgStacked = UIHelper.getImage("images/stackedlinechartimage.gif"); //$NON-NLS-1$
+                imgPercentStacked = UIHelper.getImage("images/percentstackedlinechartimage.gif"); //$NON-NLS-1$
+                imgSideBySide = UIHelper.getImage("images/sidebysidelinechartimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                imgStacked = UIHelper.getImage("images/horizontalstackedlinechartimage.gif");
-                imgPercentStacked = UIHelper.getImage("images/horizontalpercentstackedlinechartimage.gif");
-                imgSideBySide = UIHelper.getImage("images/horizontalsidebysidelinechartimage.gif");
+                imgStacked = UIHelper.getImage("images/horizontalstackedlinechartimage.gif"); //$NON-NLS-1$
+                imgPercentStacked = UIHelper.getImage("images/horizontalpercentstackedlinechartimage.gif"); //$NON-NLS-1$
+                imgSideBySide = UIHelper.getImage("images/horizontalsidebysidelinechartimage.gif"); //$NON-NLS-1$
             }
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStacked, sStackedDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStacked, sStackedDescription)); //$NON-NLS-1$
             vSubTypes
-                .add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStacked, sPercentStackedDescription));
-            vSubTypes.add(new DefaultChartSubTypeImpl("Overlay", imgSideBySide, sOverlayDescription));
+                .add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStacked, sPercentStackedDescription)); //$NON-NLS-1$
+            vSubTypes.add(new DefaultChartSubTypeImpl("Overlay", imgSideBySide, sOverlayDescription)); //$NON-NLS-1$
         }
-        else if (sDimension.equals("2D With Depth")
+        else if (sDimension.equals("2D With Depth") //$NON-NLS-1$
             || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName()))
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStackedWithDepth = UIHelper.getImage("images/stackedlinechartwithdepthimage.gif");
-                imgPercentStackedWithDepth = UIHelper.getImage("images/percentstackedlinechartwithdepthimage.gif");
-                imgSideBySideWithDepth = UIHelper.getImage("images/sidebysidelinechartwithdepthimage.gif");
+                imgStackedWithDepth = UIHelper.getImage("images/stackedlinechartwithdepthimage.gif"); //$NON-NLS-1$
+                imgPercentStackedWithDepth = UIHelper.getImage("images/percentstackedlinechartwithdepthimage.gif"); //$NON-NLS-1$
+                imgSideBySideWithDepth = UIHelper.getImage("images/sidebysidelinechartwithdepthimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                imgStackedWithDepth = UIHelper.getImage("images/horizontalstackedlinechartwithdepthimage.gif");
+                imgStackedWithDepth = UIHelper.getImage("images/horizontalstackedlinechartwithdepthimage.gif"); //$NON-NLS-1$
                 imgPercentStackedWithDepth = UIHelper
-                    .getImage("images/horizontalpercentstackedlinechartwithdepthimage.gif");
-                imgSideBySideWithDepth = UIHelper.getImage("images/horizontalsidebysidelinechartwithdepthimage.gif");
+                    .getImage("images/horizontalpercentstackedlinechartwithdepthimage.gif"); //$NON-NLS-1$
+                imgSideBySideWithDepth = UIHelper.getImage("images/horizontalsidebysidelinechartwithdepthimage.gif"); //$NON-NLS-1$
 
             }
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStackedWithDepth, sStackedDescription));
-            vSubTypes.add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth,
+            vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStackedWithDepth, sStackedDescription)); //$NON-NLS-1$
+            vSubTypes.add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
                 sPercentStackedDescription));
-            vSubTypes.add(new DefaultChartSubTypeImpl("Overlay", imgSideBySideWithDepth, sOverlayDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Overlay", imgSideBySideWithDepth, sOverlayDescription)); //$NON-NLS-1$
         }
-        else if (sDimension.equals("3D") || sDimension.equals(ChartDimension.THREE_DIMENSIONAL_LITERAL.getName()))
+        else if (sDimension.equals("3D") || sDimension.equals(ChartDimension.THREE_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
-            imgSideBySide3D = UIHelper.getImage("images/sidebysidelinechart3dimage.gif");
+            imgSideBySide3D = UIHelper.getImage("images/sidebysidelinechart3dimage.gif"); //$NON-NLS-1$
 
-            vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide3D, sOverlayDescription));
+            vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide3D, sOverlayDescription)); //$NON-NLS-1$
         }
         return vSubTypes;
     }
@@ -205,7 +206,7 @@ public class LineChart extends DefaultChartTypeImpl
         newChart.setSubType(sSubType);
         newChart.setOrientation(orientation);
         newChart.setDimension(getDimensionFor(sDimension));
-        newChart.setUnits("Points");
+        newChart.setUnits("Points"); //$NON-NLS-1$
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
@@ -216,9 +217,9 @@ public class LineChart extends DefaultChartTypeImpl
         sdX.getSeries().add(categorySeries);
         ((Axis) newChart.getAxes().get(0)).getSeriesDefinitions().add(sdX);
 
-        newChart.getTitle().getLabel().getCaption().setValue("Line Chart Title");
+        newChart.getTitle().getLabel().getCaption().setValue(Messages.getString("LineChart.Txt.DefaultLineChartTitle")); //$NON-NLS-1$
 
-        if (sSubType.equalsIgnoreCase("Stacked"))
+        if (sSubType.equalsIgnoreCase("Stacked")) //$NON-NLS-1$
         {
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0))
                 .setOrientation(Orientation.VERTICAL_LITERAL);
@@ -233,7 +234,7 @@ public class LineChart extends DefaultChartTypeImpl
             sdY.getSeries().add(valueSeries);
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
         }
-        else if (sSubType.equalsIgnoreCase("Percent Stacked"))
+        else if (sSubType.equalsIgnoreCase("Percent Stacked")) //$NON-NLS-1$
         {
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0))
                 .setOrientation(Orientation.VERTICAL_LITERAL);
@@ -249,7 +250,7 @@ public class LineChart extends DefaultChartTypeImpl
             sdY.getSeries().add(valueSeries);
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
         }
-        else if (sSubType.equalsIgnoreCase("Overlay"))
+        else if (sSubType.equalsIgnoreCase("Overlay")) //$NON-NLS-1$
         {
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0))
                 .setOrientation(Orientation.VERTICAL_LITERAL);
@@ -276,12 +277,12 @@ public class LineChart extends DefaultChartTypeImpl
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("A, B, C");
+        sdBase.setDataSetRepresentation("A, B, C"); //$NON-NLS-1$
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)
         OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
-        oSample.setDataSetRepresentation("5,-4,12");
+        oSample.setDataSetRepresentation("5,-4,12"); //$NON-NLS-1$
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
@@ -307,7 +308,7 @@ public class LineChart extends DefaultChartTypeImpl
                     EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
                     for (int i = 0; i < axes.size(); i++)
                     {
-                        if (sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        if (sNewSubType.equalsIgnoreCase("Percent Stacked")) //$NON-NLS-1$
                         {
                             ((Axis) axes.get(i)).setPercent(true);
                         }
@@ -319,8 +320,8 @@ public class LineChart extends DefaultChartTypeImpl
                         for (int j = 0; j < seriesdefinitions.size(); j++)
                         {
                             Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
-                            if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType
-                                .equalsIgnoreCase("Percent Stacked")))
+                            if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType //$NON-NLS-1$
+                                .equalsIgnoreCase("Percent Stacked"))) //$NON-NLS-1$
                             {
                                 series.setStacked(true);
                             }
@@ -332,10 +333,10 @@ public class LineChart extends DefaultChartTypeImpl
                     }
                 }
             }
-            else if (currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart")
-                || currentChart.getType().equals("Scatter Chart"))
+            else if (currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart") //$NON-NLS-1$ //$NON-NLS-2$
+                || currentChart.getType().equals("Scatter Chart")) //$NON-NLS-1$
             {
-                if (!currentChart.getType().equals("Bar Chart"))
+                if (!currentChart.getType().equals("Bar Chart")) //$NON-NLS-1$
                 {
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
                 }
@@ -344,7 +345,7 @@ public class LineChart extends DefaultChartTypeImpl
                 EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
                 for (int i = 0; i < axes.size(); i++)
                 {
-                    if (sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                    if (sNewSubType.equalsIgnoreCase("Percent Stacked")) //$NON-NLS-1$
                     {
                         ((Axis) axes.get(i)).setPercent(true);
                     }
@@ -357,7 +358,7 @@ public class LineChart extends DefaultChartTypeImpl
                     {
                         Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
                         series = getConvertedSeries(series);
-                        if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                        if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked"))) //$NON-NLS-1$ //$NON-NLS-2$
                         {
                             series.setStacked(true);
                         }
@@ -402,7 +403,7 @@ public class LineChart extends DefaultChartTypeImpl
             currentChart.setSeriesThickness(helperModel.getSeriesThickness());
             currentChart.setUnits(helperModel.getUnits());
 
-            if (helperModel.getType().equals("Pie Chart"))
+            if (helperModel.getType().equals("Pie Chart")) //$NON-NLS-1$
             {
                 // Clear existing series definitions
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
@@ -441,7 +442,7 @@ public class LineChart extends DefaultChartTypeImpl
                 {
                     series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
                     series = getConvertedSeries(series);
-                    if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                    if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked"))) //$NON-NLS-1$ //$NON-NLS-2$
                     {
                         series.setStacked(true);
                     }
@@ -475,7 +476,7 @@ public class LineChart extends DefaultChartTypeImpl
     private Series getConvertedSeries(Series series)
     {
         // Do not convert base series
-        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl")) //$NON-NLS-1$
         {
             return series;
         }
@@ -560,34 +561,34 @@ public class LineChart extends DefaultChartTypeImpl
 
     private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (!sElement.startsWith("'"))
+            if (!sElement.startsWith("'")) //$NON-NLS-1$
             {
-                sbNewRepresentation.append("'");
+                sbNewRepresentation.append("'"); //$NON-NLS-1$
                 sbNewRepresentation.append(sElement);
-                sbNewRepresentation.append("'");
+                sbNewRepresentation.append("'"); //$NON-NLS-1$
             }
             else
             {
                 sbNewRepresentation.append(sElement);
             }
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
     {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
+        StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT //$NON-NLS-1$
             // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
@@ -597,7 +598,7 @@ public class LineChart extends DefaultChartTypeImpl
             {
                 sbNewRepresentation.append(sElement);
             }
-            sbNewRepresentation.append(",");
+            sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
@@ -634,11 +635,11 @@ public class LineChart extends DefaultChartTypeImpl
 
     private ChartDimension getDimensionFor(String sDimension)
     {
-        if (sDimension == null || sDimension.equals("2D"))
+        if (sDimension == null || sDimension.equals("2D")) //$NON-NLS-1$
         {
             return ChartDimension.TWO_DIMENSIONAL_LITERAL;
         }
-        if (sDimension.equals("3D"))
+        if (sDimension.equals("3D")) //$NON-NLS-1$
         {
             return ChartDimension.THREE_DIMENSIONAL_LITERAL;
         }

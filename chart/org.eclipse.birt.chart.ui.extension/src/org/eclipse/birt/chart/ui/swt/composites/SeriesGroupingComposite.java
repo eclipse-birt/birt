@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -84,20 +85,20 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         // Content composite
         grpContent = new Group(this, SWT.NONE);
         grpContent.setLayout(glContent);
-        grpContent.setText("Grouping");
+        grpContent.setText(Messages.getString("SeriesGroupingComposite.Lbl.Grouping")); //$NON-NLS-1$
 
         btnEnabled = new Button(grpContent, SWT.CHECK);
         GridData gdBTNEnabled = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
         gdBTNEnabled.horizontalSpan = 4;
         btnEnabled.setLayoutData(gdBTNEnabled);
-        btnEnabled.setText("Enabled");
+        btnEnabled.setText(Messages.getString("SeriesGroupingComposite.Lbl.Enabled")); //$NON-NLS-1$
         btnEnabled.addSelectionListener(this);
         btnEnabled.setSelection(getGrouping().isEnabled());
 
         Label lblType = new Label(grpContent, SWT.NONE);
         GridData gdLBLType = new GridData();
         lblType.setLayoutData(gdLBLType);
-        lblType.setText("Type:");
+        lblType.setText(Messages.getString("SeriesGroupingComposite.Lbl.Type")); //$NON-NLS-1$
         lblType.setEnabled(bTypeEnabled);
 
         cmbType = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -109,7 +110,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         lblUnit = new Label(grpContent, SWT.NONE);
         GridData gdLBLUnit = new GridData();
         lblUnit.setLayoutData(gdLBLUnit);
-        lblUnit.setText("Unit:");
+        lblUnit.setText(Messages.getString("SeriesGroupingComposite.Lbl.Unit")); //$NON-NLS-1$
         lblUnit.setEnabled(false);
 
         cmbUnit = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -121,7 +122,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         Label lblInterval = new Label(grpContent, SWT.NONE);
         GridData gdLBLInterval = new GridData();
         lblInterval.setLayoutData(gdLBLInterval);
-        lblInterval.setText("Interval:");
+        lblInterval.setText(Messages.getString("SeriesGroupingComposite.Lbl.Interval")); //$NON-NLS-1$
 
         int iGroupInterval = 0;
         if (sd.getGrouping() != null)
@@ -157,7 +158,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         Label lblAggregate = new Label(cmpAggregate, SWT.NONE);
         GridData gdLBLAggregate = new GridData();
         lblAggregate.setLayoutData(gdLBLAggregate);
-        lblAggregate.setText("Aggregate Expression:");
+        lblAggregate.setText(Messages.getString("SeriesGroupingComposite.Lbl.AggregateExpression")); //$NON-NLS-1$
 
         cmbAggregate = new Combo(cmpAggregate, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBAggregate = new GridData();
@@ -172,9 +173,9 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         SeriesGrouping grouping = getGrouping();
 
         // Populate grouping type combo
-        cmbType.add("Text");
-        cmbType.add("Number");
-        cmbType.add("Date/Time");
+        cmbType.add("Text"); //$NON-NLS-1$
+        cmbType.add("Number"); //$NON-NLS-1$
+        cmbType.add("Date/Time"); //$NON-NLS-1$
         if (grouping.getGroupType() != null)
         {
             cmbType.setText(getGrouping().getGroupType());
@@ -185,15 +186,15 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         }
 
         // Populate grouping unit combo (applicable only if type is Date/Time
-        cmbUnit.add("Seconds");
-        cmbUnit.add("Minutes");
-        cmbUnit.add("Hours");
-        cmbUnit.add("Days");
-        cmbUnit.add("Weeks");
-        cmbUnit.add("Months");
-        cmbUnit.add("Quarters");
-        cmbUnit.add("Years");
-        if (grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time")
+        cmbUnit.add("Seconds"); //$NON-NLS-1$
+        cmbUnit.add("Minutes"); //$NON-NLS-1$
+        cmbUnit.add("Hours"); //$NON-NLS-1$
+        cmbUnit.add("Days"); //$NON-NLS-1$
+        cmbUnit.add("Weeks"); //$NON-NLS-1$
+        cmbUnit.add("Months"); //$NON-NLS-1$
+        cmbUnit.add("Quarters"); //$NON-NLS-1$
+        cmbUnit.add("Years"); //$NON-NLS-1$
+        if (grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time") //$NON-NLS-1$
             && grouping.getGroupingUnit() != null)
         {
             cmbUnit.setText(grouping.getGroupingUnit());
@@ -204,8 +205,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         }
 
         // Populate grouping aggregate expression combo
-        cmbAggregate.add("Sum");
-        cmbAggregate.add("Average");
+        cmbAggregate.add("Sum"); //$NON-NLS-1$
+        cmbAggregate.add("Average"); //$NON-NLS-1$
         if (grouping.getAggregateExpression() != null)
         {
             cmbAggregate.setText(grouping.getAggregateExpression());
@@ -234,7 +235,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         Object oSource = e.getSource();
         if (oSource.equals(cmbType))
         {
-            if (cmbType.getText().equals("Date/Time"))
+            if (cmbType.getText().equals("Date/Time")) //$NON-NLS-1$
             {
                 lblUnit.setEnabled(true);
                 cmbUnit.setEnabled(true);

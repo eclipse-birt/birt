@@ -21,9 +21,9 @@ public class NodeImpl implements INode
 
     private HelpContentImpl help = null;
 
-    private String sLabel = "";
+    private String sLabel = ""; //$NON-NLS-1$
 
-    private String sPath = "";
+    private String sPath = ""; //$NON-NLS-1$
 
     private Image imgIcon = null;
 

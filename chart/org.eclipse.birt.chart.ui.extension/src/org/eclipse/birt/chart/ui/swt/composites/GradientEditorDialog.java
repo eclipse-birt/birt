@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -86,7 +87,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText("Gradient Editor:");
+        shell.setText(Messages.getString("GradientEditorDialog.Lbl.GradientEditor")); //$NON-NLS-1$
         shell.setSize(400, 320);
         UIHelper.centerOnScreen(shell);
         shell.layout();
@@ -123,7 +124,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         Label lblStartColor = new Label(cmpGeneral, SWT.NONE);
         GridData gdLBLStartColor = new GridData();
         lblStartColor.setLayoutData(gdLBLStartColor);
-        lblStartColor.setText("Start Color:");
+        lblStartColor.setText(Messages.getString("GradientEditorDialog.Lbl.StartColor")); //$NON-NLS-1$
 
         fccStartColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getStartColor(), false, false);
         GridData gdFCCStartColor = new GridData(GridData.FILL_HORIZONTAL);
@@ -133,7 +134,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         Label lblEndColor = new Label(cmpGeneral, SWT.NONE);
         GridData gdLBLEndColor = new GridData();
         lblEndColor.setLayoutData(gdLBLEndColor);
-        lblEndColor.setText("End Color:");
+        lblEndColor.setText(Messages.getString("GradientEditorDialog.Lbl.EndColor")); //$NON-NLS-1$
 
         fccEndColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getEndColor(), false, false);
         GridData gdFCCEndColor = new GridData(GridData.FILL_HORIZONTAL);
@@ -157,7 +158,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         gdGRPPreview.horizontalSpan = 2;
         grpPreview.setLayoutData(gdGRPPreview);
         grpPreview.setLayout(new FillLayout());
-        grpPreview.setText("Preview");
+        grpPreview.setText(Messages.getString("GradientEditorDialog.Lbl.Preview")); //$NON-NLS-1$
 
         cnvPreview = new FillCanvas(grpPreview, SWT.NO_FOCUS);
         cnvPreview.setFill(gCurrent);
@@ -179,14 +180,14 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("   OK   ");
+        btnAccept.setText(Messages.getString("GradientEditorDialog.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText("Cancel");
+        btnCancel.setText(Messages.getString("GradientEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
     }
 
@@ -203,7 +204,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         gdGRPRotation.heightHint = 180;
         grpRotation.setLayoutData(gdGRPRotation);
         grpRotation.setLayout(glRotation);
-        grpRotation.setText("Rotation");
+        grpRotation.setText(Messages.getString("GradientEditorDialog.Lbl.Rotation")); //$NON-NLS-1$
 
         ascRotation = new AngleSelectorComposite(grpRotation, SWT.BORDER, (int) gCurrent.getDirection(), Display
             .getCurrent().getSystemColor(SWT.COLOR_WHITE));
