@@ -458,8 +458,10 @@ final class SwingTextRenderer implements IConstants
                         dXOffset = -ins.getLeft() + (dFW - dW) / 2;
                     }
 
-                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()), (float) (((dY - dD) - (dH * (iLC - i))) + ins
-                        .getTop()));
+                    tl.draw(g2d, 
+                        (float) (dX + dXOffset + ins.getLeft()), 
+                        (float) (((dY - dD) - (dH * (iLC - i - 1))) + ins.getTop())
+                    );
                 }
 
                 // RENDER THE OUTLINE/BORDER
