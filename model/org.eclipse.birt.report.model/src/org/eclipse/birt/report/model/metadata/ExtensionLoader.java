@@ -38,13 +38,13 @@ public class ExtensionLoader
 
 	public static final String EXTENSION_POINT = "org.eclipse.birt.report.model.reportitem"; //$NON-NLS-1$
 
-	private static final String ELEMENT_TAG = "Element"; //$NON-NLS-1$
-	private static final String PROPERTY_TAG = "Property"; //$NON-NLS-1$
-	private static final String CHOICE_TAG = "Choice"; //$NON-NLS-1$
-	private static final String STYLE_PROPERTY_TAG = "StyleProperty"; //$NON-NLS-1$
-	private static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
-	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
-	private static final String PROPERTY_INVISIBLE_TAG = "PropertyVisibility"; //$NON-NLS-1$
+	private static final String ELEMENT_TAG = "element"; //$NON-NLS-1$
+	private static final String PROPERTY_TAG = "property"; //$NON-NLS-1$
+	private static final String CHOICE_TAG = "choice"; //$NON-NLS-1$
+	private static final String STYLE_PROPERTY_TAG = "styleProperty"; //$NON-NLS-1$
+	private static final String PROPERTY_GROUP_TAG = "propertyGroup"; //$NON-NLS-1$
+	private static final String METHOD_TAG = "method"; //$NON-NLS-1$
+	private static final String PROPERTY_INVISIBLE_TAG = "propertyVisibility"; //$NON-NLS-1$
 
 	private static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
 	private static final String NAME = "name"; //$NON-NLS-1$

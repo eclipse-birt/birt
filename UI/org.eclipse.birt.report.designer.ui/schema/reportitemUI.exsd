@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.designer.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="reportElementUI" name="%designer.ui.extensionPointName"/>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="reportitemUI" name="%designer.ui.extensionPointName"/>
       </appInfo>
       <documentation>
          This extension point is used in conjonction with the BIRT Report Object Model extension point to register the GUI to be used for the Extended Element.
@@ -13,7 +13,7 @@
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="ReportItemUI"/>
+            <element ref="reportItemUI"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -39,7 +39,7 @@
       </complexType>
    </element>
 
-   <element name="ReportItemUI">
+   <element name="reportItemUI">
       <complexType>
          <sequence>
             <element ref="builder" minOccurs="0" maxOccurs="1"/>

@@ -29,7 +29,7 @@
    </requires>
    <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
-      <ReportItemUI
+      <reportItemUI
             class="org.eclipse.birt.chart.reportitem.ChartReportItemUIImpl"
             extensionName="Chart">
          <builder
@@ -42,22 +42,22 @@
                canResize="false"
                showInDesigner="true"/>
          <outline icon="icons/palette_icon.gif"/>
-      </ReportItemUI>
+      </reportItemUI>
    </extension>
    <extension
          id="chart"
          name="A sample chart"
          point="org.eclipse.birt.report.model.reportitem">
-      <Element
+      <element
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
             isNameRequired="true"
             displayNameID="Element.Chart"
             extensionName="Chart">
-         <Property
+         <property
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
-      </Element>
+      </element>
    </extension>
    <extension
          point="org.eclipse.birt.report.engine.reportitemGeneration">
