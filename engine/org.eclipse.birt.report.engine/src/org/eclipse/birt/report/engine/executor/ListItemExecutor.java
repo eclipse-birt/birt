@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item. 
  * 
- * @version $Revision: #5 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -62,9 +62,9 @@ public class ListItemExecutor extends ListingElementExecutor
 			return;
 		}
 		list = (ListItemDesign) item;
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "start list item" );
+			logger.trace( "start list item" );
 		}
 		//execute the on start script
 		context.execute( list.getOnStart( ) );
@@ -77,7 +77,15 @@ public class ListItemExecutor extends ListingElementExecutor
 		setVisibility( item, listContent );
 		setStyles( listContent, item );
 		emitter.getContainerEmitter( ).start( listContent );
+		if ( logger.isTraceEnabled() )
+		{
+			logger.trace( "start get list data" );
+		}
 		rs = openResultSet( list );
+		if ( logger.isTraceEnabled() )
+		{
+			logger.trace( "end get list data" );
+		}
 
 		boolean isRowAvailable = false;
 		if ( rs != null )
@@ -97,9 +105,9 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		emitter.getContainerEmitter( ).end( );
 		context.execute( list.getOnFinish( ) );
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "end list item" );
+			logger.trace( "end list item" );
 		}
 	}
 

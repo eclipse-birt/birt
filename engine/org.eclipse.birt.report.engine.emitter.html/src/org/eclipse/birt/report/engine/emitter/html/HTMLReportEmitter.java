@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/11 18:12:08 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/18 05:40:20 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -255,9 +255,9 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startReport( Report report )
 	{
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
+			logger.trace( "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 		}
 
 		this.report = report;
@@ -327,9 +327,9 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endReport( )
 	{
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
+			logger.trace( "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
 		}
 
 		writer.closeTag( "html" ); //$NON-NLS-1$
@@ -344,9 +344,9 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startBody( )
 	{
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled( ) )
 		{
-			logger.info( "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
+			logger.trace( "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 		}
 
 		writer.openTag( "body" ); //$NON-NLS-1$
@@ -359,9 +359,9 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endBody( )
 	{
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
+			logger.trace( "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		}
 
 		writer.closeTag( "body" ); //$NON-NLS-1$

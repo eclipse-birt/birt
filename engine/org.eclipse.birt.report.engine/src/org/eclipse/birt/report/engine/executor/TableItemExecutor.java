@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * Defines execution logic for a List report item. <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: #6 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -103,9 +103,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		this.emitter = emitter;
 
 		table = (TableItemDesign) item;
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled() )
 		{
-			logger.info( "start table item" );
+			logger.trace( "start table item" );
 		}
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
@@ -119,7 +119,15 @@ public class TableItemExecutor extends ListingElementExecutor
 		if (bookmarkStr != null)
 			tableObj.setBookmarkValue(bookmarkStr);
 		
+		if ( logger.isTraceEnabled() )
+		{
+			logger.trace( "start get table data" );
+		}
 		rs = openResultSet( table );
+		if ( logger.isTraceEnabled() )
+		{
+			logger.trace( "end get table data" );
+		}
 		boolean isRowAvailable = false;
 		if ( rs != null )
 		{
@@ -148,9 +156,9 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		closeResultSet( rs );
 
-		if ( logger.isInfoEnabled( ) )
+		if ( logger.isTraceEnabled( ) )
 		{
-			logger.info( "end table item" );
+			logger.trace( "end table item" );
 		}
 		//execute the on finish script
 		context.execute( table.getOnFinish( ) );
