@@ -159,45 +159,42 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					.iterator( ), children );
 		}
 
-		removePhantomCells(children);
+		removePhantomCells( children );
 		return children;
 	}
 
 	/**
-	 * Some cells might not be relevant, because overriden by colspan/rowspan of other cells
-	 * Example in a three columns table:
-	 *  <row>
-     *           <cell>
-     *               <property name="colSpan">3</property>
-     *               <property name="rowSpan">1</property>
-     *           <cell>
-     *           <cell/>
-     *           <cell/>
-     *   <row>
-     * 
-     * The last two cells are phantom, the layout cannot handle them so we remove them
-     * at that stage. Ideally the model should not return those cells.
+	 * Some cells might not be relevant, because overriden by colspan/rowspan of
+	 * other cells Example in a three columns table: <row><cell><property
+	 * name="colSpan">3 </property> <property name="rowSpan">1 </property>
+	 * <cell><cell/><cell/><row>
+	 * 
+	 * The last two cells are phantom, the layout cannot handle them so we
+	 * remove them at that stage. Ideally the model should not return those
+	 * cells.
+	 * 
 	 * @param children
 	 */
-	protected void removePhantomCells(List children)
+	protected void removePhantomCells( List children )
 	{
-		
-		ArrayList phantomCells = new ArrayList();
-		for ( Iterator iter = children.iterator(); iter.hasNext();)
+
+		ArrayList phantomCells = new ArrayList( );
+		for ( Iterator iter = children.iterator( ); iter.hasNext( ); )
 		{
-			Object cell = iter.next();
+			Object cell = iter.next( );
 			CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
-			.getCellHandleAdapter( cell );
-			if ( cellAdapt.getRowNumber() == 0 || cellAdapt.getColumnNumber() == 0)
+					.getCellHandleAdapter( cell );
+			if ( cellAdapt.getRowNumber( ) == 0
+					|| cellAdapt.getColumnNumber( ) == 0 )
 			{
 				phantomCells.add( cell );
 			}
 		}
-		for ( Iterator iter = phantomCells.iterator();iter.hasNext();)
+		for ( Iterator iter = phantomCells.iterator( ); iter.hasNext( ); )
 		{
-			children.remove(iter.next());
+			children.remove( iter.next( ) );
 		}
-		
+
 	}
 
 	private ListIterator convertIteratorToListIterator( Iterator iterator )
@@ -298,14 +295,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		group = getTableHandle( ).getGroups( );
 
-		number = 0;
-		for ( Iterator it = group.iterator( ); it.hasNext( ); )
-		{
+		number = group.getCount( );
 
-			TableGroupHandle tableGroups = (TableGroupHandle) it.next( );
-			SlotHandle groupFooters = tableGroups.getSlot( GroupElement.FOOTER_SLOT );
-			number++;
-		}
 		for ( ListIterator it = convertIteratorToListIterator( group.iterator( ) ); it.hasPrevious( ); )
 		{
 
@@ -399,7 +390,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Get GUI infromation of row. For CSS table support auto layout, the GUI
-	 * infor is different with model info.
+	 * info is different with model info.
 	 * 
 	 * @param row
 	 * @return
@@ -421,11 +412,11 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		super.reload( );
 		initRowsInfo( );
-		if (getModelAdaptHelper() != null)
+		if ( getModelAdaptHelper( ) != null )
 		{
 			getModelAdaptHelper( ).markDirty( false );
 		}
-		
+
 	}
 
 	/**
@@ -489,7 +480,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		Object obj = getRow( rowNumber );
 		TableHandleAdapter.RowUIInfomation info = getRowInfo( obj );
-		Object retValue = info.getAllChildren( ).get( columnNumber - 1 );
+		Object retValue = null;
+		if ( info != null
+				&& columnNumber >= 1
+				&& info.getAllChildren( ).size( ) >= columnNumber )
+		{
+			retValue = info.getAllChildren( ).get( columnNumber - 1 );
+		}
 		if ( bool )
 		{
 			return retValue;
@@ -887,9 +884,6 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		List copyChildren = new ArrayList( );
 		for ( int i = 0; i < rowNumber; i++ )
 		{
-
-			RowHandle row = (RowHandle) getRow( i + 1 );
-
 			TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( getRow( i + 1 ) );
 			List rowList = rowInfo.getAllChildren( );
 
@@ -1475,7 +1469,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Gets the cell handle copoy to support row/column insert.
+	 * Gets the cell handle copy to support row/column insert.
 	 * 
 	 * @param cellHandle
 	 * @return
