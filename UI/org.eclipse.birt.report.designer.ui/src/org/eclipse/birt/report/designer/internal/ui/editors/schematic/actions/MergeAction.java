@@ -11,16 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Merges cells action
  */
-public class MergeAction extends SelectionAction
+public class MergeAction extends ContextSelectionAction
 {
 
 	private static final String ACTION_MSG_MERGE = Messages.getString( "MergeAction.actionMsg.merge" ); //$NON-NLS-1$
@@ -58,35 +55,10 @@ public class MergeAction extends SelectionAction
 	 */
 	public void run( )
 	{
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		if ( getTableEditPart( ) != null )
 		{
 			// merge cells
-			part.merge( );
+			getTableEditPart( ).merge( );
 		}
-	}
-
-	/**
-	 * Gets current table edit part.
-	 * 
-	 * @return table edit part
-	 */
-	private TableEditPart getTableEditPart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		Object obj = getSelectedObjects( ).get( 0 );
-
-		TableEditPart part = null;
-
-		if ( obj instanceof TableEditPart )
-		{
-			part = (TableEditPart) part;
-		}
-		else if ( obj instanceof TableCellEditPart )
-		{
-			part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-		}
-		return part;
 	}
 }

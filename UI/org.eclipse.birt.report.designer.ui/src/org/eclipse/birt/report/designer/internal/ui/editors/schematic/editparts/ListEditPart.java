@@ -33,7 +33,6 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.command.PropertyEvent;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;

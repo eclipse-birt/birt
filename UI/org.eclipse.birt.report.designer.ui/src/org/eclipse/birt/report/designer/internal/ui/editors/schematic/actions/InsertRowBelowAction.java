@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -39,17 +38,26 @@ public class InsertRowBelowAction extends InsertRowAction
 		setText( ACTION_MSG_ROW_BELOW );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
+	protected boolean calculateEnabled( )
+	{
+		return getRowHandles( ).size( ) == 1;
+	}
+
 	/**
 	 * Runs action.
 	 *  
 	 */
 	public void run( )
 	{
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		if ( getTableEditPart( ) != null && getRowHandles( ).size( ) == 1 )
 		{
 			// insert row below the current selected row.
-			part.insertRow( 1, getRowNumber( ) );
+			getTableEditPart( ).insertRow( 1, getRowNumber( ) );
 		}
 	}
 }

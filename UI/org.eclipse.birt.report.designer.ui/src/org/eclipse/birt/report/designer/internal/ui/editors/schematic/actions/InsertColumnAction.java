@@ -11,24 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: #2 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
-public class InsertColumnAction extends SelectionAction
+public class InsertColumnAction extends ContextSelectionAction
 {
 
 	private static final String ACTION_MSG_INSERT = Messages.getString( "InsertColumnAction.actionMsg.insert" ); //$NON-NLS-1$
@@ -56,7 +49,7 @@ public class InsertColumnAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getColumnObject( ) != null;
+		return getColumnHandles( ).size( ) == 1;
 	}
 
 	/**
@@ -65,60 +58,10 @@ public class InsertColumnAction extends SelectionAction
 	 */
 	public void run( )
 	{
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
 		{
-			part.insertColumn( getColumnNumber( ) );
+			getTableEditPart( ).insertColumn( getColumnNumber( ) );
 		}
-	}
-
-	/**
-	 * Gets table edit part.
-	 * 
-	 * @return table edit part
-	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			if ( obj instanceof TableEditPart )
-			{
-				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-		}
-		return part;
-	}
-
-	/**
-	 * Gets selected column object.
-	 * 
-	 * @return the seleceted column object
-	 */
-	public Object getColumnObject( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		Object obj = getSelectedObjects( ).get( 0 );
-
-		if ( obj instanceof DummyEditpart )
-		{
-			if ( ( (DummyEditpart) obj ).getModel( ) instanceof ColumnHandle )
-			{
-				return ( (DummyEditpart) obj ).getModel( );
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -129,7 +72,7 @@ public class InsertColumnAction extends SelectionAction
 	public int getColumnNumber( )
 	{
 		return HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( getColumnObject( ) )
+				.getColumnHandleAdapter( getColumnHandles( ).get( 0 ) )
 				.getColumnNumber( );
 	}
 }

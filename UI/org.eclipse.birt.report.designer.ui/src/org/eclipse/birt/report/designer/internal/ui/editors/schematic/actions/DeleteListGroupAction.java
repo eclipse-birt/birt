@@ -11,20 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- *  Delete List Group Action
+ * Delete List Group Action
  */
-public class DeleteListGroupAction extends SelectionAction
+public class DeleteListGroupAction extends ContextSelectionAction
 {
 
 	private static final String ACTION_MSG_DELETE_GROUP = Messages.getString( "DeleteListGroupAction.actionMsg.deleteGroup" ); //$NON-NLS-1$
@@ -48,52 +41,7 @@ public class DeleteListGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getListBandEditpart( ) != null;
-	}
-
-	protected ListEditPart getListEditpart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			if ( obj instanceof ListEditPart )
-			{
-				part = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-			}
-		}
-		return part;
-	}
-
-	protected ListBandEditPart getListBandEditpart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		if ( size != 1 )
-		{
-			return null;
-		}
-		if ( list.get( 0 ) instanceof ListBandEditPart )
-		{
-			ListBandEditPart part = (ListBandEditPart) list.get( 0 );
-			if ( ( (ListBandProxy) part.getModel( ) ).getElemtHandle( ) instanceof ListGroupHandle )
-			{
-				return part;
-			}
-
-		}
-		return null;
+		return getListGroup( ) != null;
 	}
 
 	/**
@@ -101,6 +49,9 @@ public class DeleteListGroupAction extends SelectionAction
 	 */
 	public void run( )
 	{
-		getListEditpart( ).removeGroup( getListBandEditpart( ).getModel( ) );
+		if ( getListGroup( ) != null )
+		{
+			getListEditPart( ).removeGroup( getListGroup( ) );
+		}
 	}
 }

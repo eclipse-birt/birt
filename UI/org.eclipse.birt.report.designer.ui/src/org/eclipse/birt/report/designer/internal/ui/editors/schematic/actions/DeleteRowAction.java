@@ -11,18 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -32,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
  * Action delete a row of a table or a grid.
  *  
  */
-public class DeleteRowAction extends SelectionAction
+public class DeleteRowAction extends ContextSelectionAction
 {
 
 	/** action text */
@@ -82,59 +76,6 @@ public class DeleteRowAction extends SelectionAction
 			part.deleteRow( getRowNumbers( ) );
 			viewer.select( part );
 		}
-	}
-
-	/**
-	 * Gets table edit part.
-	 * 
-	 * @return the table edit part
-	 */
-	private TableEditPart getTableEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-			return null;
-		TableEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof TableEditPart )
-			{
-				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-		}
-		return part;
-	}
-
-	/**
-	 * Gets the current selected row objects.
-	 * 
-	 * @return The current selected row objects.
-	 */
-
-	public List getRowHandles( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-
-		List rowHandles = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof DummyEditpart )
-			{
-				if ( ( (DummyEditpart) obj ).getModel( ) instanceof RowHandle )
-				{
-					rowHandles.add( ( (DummyEditpart) obj ).getModel( ) );
-				}
-			}
-		}
-		return rowHandles;
 	}
 
 	/**

@@ -15,39 +15,46 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action of inserting a column on the left of current column
+ * Delete group action
  */
-public class InsertColumnLeftAction extends InsertColumnAction
+
+public class DeleteTableGroupAction extends ContextSelectionAction
 {
 
-	private static final String ACTION_MSG_COLUMN_TO_THE_LEFT = Messages.getString( "InsertColumnLeftAction.actionMsg.columnToLeft" ); //$NON-NLS-1$
+	public static String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
-	/** action ID */
-	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction"; //$NON-NLS-1$
+	private String ACTION_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.actionMsg.deleteGroup" ); //$NON-NLS-1$
 
 	/**
-	 * Constructs new instance
-	 * 
 	 * @param part
-	 *            current work bench part
 	 */
-	public InsertColumnLeftAction( IWorkbenchPart part )
+	public DeleteTableGroupAction( IWorkbenchPart part )
 	{
 		super( part );
 		setId( ID );
-		setText( ACTION_MSG_COLUMN_TO_THE_LEFT );
+		setText( ACTION_MSG_DELETE_GROUP );
 	}
 
-	/**
-	 * Runs action.
-	 *  
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
+	protected boolean calculateEnabled( )
+	{
+		return getTableGroup( ) != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	public void run( )
 	{
-		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
+		if ( getTableGroup( ) != null )
 		{
-			// inserts a column to the left.
-			getTableEditPart( ).insertColumn( -1, getColumnNumber( ) );
+			getTableEditPart( ).removeGroup( getTableGroup( ) );
 		}
 	}
 }

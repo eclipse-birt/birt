@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -45,11 +44,10 @@ public class InsertColumnRightAction extends InsertColumnAction
 	 */
 	public void run( )
 	{
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
 		{
-			// inserts a column to the right.
-			part.insertColumn( 1, getColumnNumber( ) );
+			// inserts a column to the left.
+			getTableEditPart( ).insertColumn( 1, getColumnNumber( ) );
 		}
 	}
 }

@@ -16,16 +16,14 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Splits cell action
  *  
  */
-public class SplitAction extends SelectionAction
+public class SplitAction extends ContextSelectionAction
 {
 
 	private static final String ACTION_MSG_SPLIT_CELLS = Messages.getString( "SplitAction.actionMsg.splitCells" ); //$NON-NLS-1$
@@ -80,35 +78,10 @@ public class SplitAction extends SelectionAction
 	 */
 	public void run( )
 	{
-		getTableEditPart( ).splitCell( getCellEditPart( ) );
-	}
-
-	/**
-	 * Gets current table edit part.
-	 * 
-	 * @return the current table edit part
-	 */
-	private TableEditPart getTableEditPart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
+		if ( getTableEditPart( ) != null )
 		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			if ( obj instanceof TableEditPart )
-			{
-				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
+			getTableEditPart( ).splitCell( getTableCellEditPart( ) );
 		}
-		return part;
 	}
 
 	/**
@@ -116,7 +89,7 @@ public class SplitAction extends SelectionAction
 	 * 
 	 * @return current table cell edit part
 	 */
-	private TableCellEditPart getCellEditPart( )
+	private TableCellEditPart getTableCellEditPart( )
 	{
 		return (TableCellEditPart) getSelectedObjects( ).get( 0 );
 	}

@@ -19,9 +19,9 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleRuleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertListGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
@@ -178,7 +178,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		// special for dealing with multi selected elements (items).
 		if ( multiSelection == Object.class // report design and slot
-				// multi  ?
+				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
 				|| multiSelection == ReportDesignHandle.class
@@ -241,7 +241,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				action = getAction( GEFActionConstants.DIRECT_EDIT );
 				action.setAccelerator( SWT.F2 );
-				action.setText( Messages.getString("SchematicContextMenuProvider.ActionText.editLabel") ); //$NON-NLS-1$
+				action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						action );
 			}
@@ -334,9 +334,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( InsertGroupAction.ID ) );
+					getAction( InsertTableGroupAction.ID ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( DeleteGroupAction.ID ) );
+					getAction( DeleteTableGroupAction.ID ) );
 			if ( getTableEditParts( ).size( ) == 1 )
 			{
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
