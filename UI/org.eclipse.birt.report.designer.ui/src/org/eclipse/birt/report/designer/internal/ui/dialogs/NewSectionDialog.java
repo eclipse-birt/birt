@@ -102,15 +102,10 @@ public class NewSectionDialog extends SelectionDialog
 
 		} );
 		list.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		new Label( compo, SWT.NONE );
 
-		//		Label sufLabel = new Label( compo, SWT.NONE );
-		//		preLabel.setFont( new Font( Display.getCurrent( ),
-		//				"Dialog", 12, SWT.NORMAL ) );//$NON-NLS-1$
-		preLabel.setFont( FontManager.getFont( "Dialog", 12, SWT.NORMAL ) ); //$NON-NLS-1$
-
+		preLabel.setFont( FontManager.getFont( "Dialog", 8, SWT.NORMAL ) ); //$NON-NLS-1$
 		preLabel.setText( LABEL_PRE );
-		intiList( );
+		initList( );
 		return compo;
 	}
 
@@ -128,9 +123,9 @@ public class NewSectionDialog extends SelectionDialog
 	/**
 	 * Initializes the list. Sets the list data.
 	 */
-	private void intiList( )
+	private void initList( )
 	{
-		list.setFont( new Font( Display.getCurrent( ), "Dialog", 10, SWT.NORMAL ) );//$NON-NLS-1$
+		list.setFont( new Font( Display.getCurrent( ), "Dialog", 8, SWT.NORMAL ) );//$NON-NLS-1$
 		for ( Iterator itor = contents.iterator( ); itor.hasNext( ); )
 		{
 			ElementDefn defn = (ElementDefn) itor.next( );
