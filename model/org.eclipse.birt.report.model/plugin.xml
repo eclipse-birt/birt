@@ -18,7 +18,7 @@
       </library>
    </runtime>
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.junit"/>
    </requires>
    <extension-point id="reportitem" name="reportitem" schema="schema/element.exsd"/>   
