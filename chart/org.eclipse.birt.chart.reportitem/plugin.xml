@@ -39,7 +39,7 @@
                showInMasterPage="false"
                canResize="false"
                showInDesigner="true"/>
-         <outline icon="icons/cell.gif"/>
+         <outline icon="icons/palette_icon.gif"/>
       </ReportItemUI>
    </extension>
    <extension
