@@ -15,8 +15,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editparts.GridLayer;
@@ -70,11 +75,12 @@ public class TableGridLayer extends GridLayer
 
 		if ( !getColumns( ).isEmpty( ) )
 		{
-
+			drawColumns(g);
 		}
 
 		if ( !getRows( ).isEmpty( ) )
 		{
+			drawRows(g);
 		}
 
 	}
@@ -87,10 +93,12 @@ public class TableGridLayer extends GridLayer
 		int height = 0;
 		for ( int i = 0; i < size; i++ )
 		{
-			height = height + getRowHeight( rows.get( i ) );
-			if ( height < clip.y + clip.height )
+			
+			//if ( height < clip.y + clip.height )
 			{
-				g.drawLine( clip.x, height, clip.x + clip.width, height );
+				//g.fillRectangle( clip.x, height, clip.x + clip.width, height );
+				drawBackgroud( rows.get( i ), g, new Rectangle(clip.x, height, clip.x + clip.width, getRowHeight( rows.get( i ))));
+				height = height + getRowHeight( rows.get( i ) );
 			}
 		}
 
@@ -98,18 +106,20 @@ public class TableGridLayer extends GridLayer
 
 	protected void drawColumns( Graphics g )
 	{
+		g.setBackgroundColor(ReportColorConstants.greyFillColor);
 		Rectangle clip = g.getClip( Rectangle.SINGLETON );
 		List columns = getColumns( );
 		int size = columns.size( );
 		int width = 0;
 		for ( int i = 0; i < size; i++ )
 		{
-			width = width + getColumnWidth( columns.get( i ) );
-			if ( width < clip.x + clip.width )
+			 
+			//if ( width < clip.x + clip.width )
 			{
-				g.drawLine( width, clip.y, width, clip.y + clip.height );
-
+				//g.fillRectangle( width, clip.y, width, clip.y + clip.height );
+				drawBackgroud( columns.get( i ), g, new Rectangle(width, clip.y, getColumnWidth( columns.get( i )), clip.y + clip.height));
 			}
+			width = width + getColumnWidth( columns.get( i ) );
 		}
 
 	}
@@ -124,6 +134,32 @@ public class TableGridLayer extends GridLayer
 		return TableUtil.caleVisualWidth( source, column );
 	}
 
+	
+	/*
+	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
+	 *  
+	 */
+	public void drawBackgroud( Object model,Graphics g, Rectangle rect )
+	{
+		assert model instanceof DesignElementHandle;
+		DesignElementHandle handle = (DesignElementHandle)model;
+		Object obj = handle.getProperty( Style.BACKGROUND_COLOR_PROP );
+
+		if ( obj != null )
+		{
+			int color = 0xFFFFFF;
+			if ( obj instanceof String )
+			{
+				color = ColorUtil.parseColor( (String) obj );
+			}
+			else
+			{
+				color = ( (Integer) obj ).intValue( );
+			}
+			g.setBackgroundColor( ColorManager.getColor( color ) );
+			g.fillRectangle(rect);
+		}
+	}
 	/**
 	 * Sorter to be used to sort the rows with row number
 	 * 
