@@ -42,6 +42,8 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 public class ChoiceSetFactory
 {
 
+	public static final String CHOICE_NONE = "None"; //$NON-NLS-1$
+
 	/**
 	 * Gets the collection that given property value can selected from them.
 	 * 
@@ -385,7 +387,7 @@ public class ChoiceSetFactory
 	public static String[] getStyles( )
 	{
 		ArrayList list = new ArrayList( );
-		list.add("");
+		list.add( CHOICE_NONE );
 		ReportDesign design = SessionHandleAdapter.getInstance( )
 				.getReportDesign( );
 		ReportDesignHandle handle = (ReportDesignHandle) design.getHandle( design );
