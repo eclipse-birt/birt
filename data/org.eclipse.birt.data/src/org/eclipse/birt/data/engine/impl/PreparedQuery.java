@@ -392,11 +392,6 @@ abstract class PreparedQuery
 		{
 		}
 		
-		/** Adds computed column data */ 
-		protected void setComputedColumns( ) throws DataException
-		{
-		}
-		
 		/**
 		 * Constructor
 		 */
@@ -450,9 +445,6 @@ abstract class PreparedQuery
 			// Set the Javascript "rows" object and bind it to our result
 			rowsObject = new JSRows( outerResults, rowObject );
 			scope.put( "rows", scope, rowsObject );
-			    
-		    // Add computed column data
-		    setComputedColumns();
 
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
