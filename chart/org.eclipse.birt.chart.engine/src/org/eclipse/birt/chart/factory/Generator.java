@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.OverlapException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.ScriptException;
+import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -33,6 +34,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -103,16 +105,26 @@ public final class Generator
      * This method builds the chart (offscreen) using the provided display server
      * 
      * @param xs
-     * @param cm
+     * @param cmDesignTime
+     * @param scParent
      * @param bo
      * @param lo
-     * 
-     * @return @throws
-     *         GenerationException
+     * @return
+     * @throws GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime, Scriptable scParent, Bounds bo,
-        Locale lo) throws GenerationException
+    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime,
+        Scriptable scParent, Bounds bo, Locale lo) throws GenerationException
     {
+        if (xs == null || cmDesignTime == null || bo == null)
+        {
+            throw new GenerationException("Illegal 'null' value passed as an argument to build a chart");
+        }
+        
+        if (cmDesignTime.getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL)
+        {
+            throw new GenerationException(new UnsupportedFeatureException("3D charts are not yet supported"));
+        }
+        
         Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
         if (lo == null)
         {
@@ -266,8 +278,7 @@ public final class Generator
      * This method may be used to minimize re-computation of the chart if ONLY the dataset content has changed.
      * Attribute changes require a new chart build.
      * 
-     * @param gcs
-     *            A previously built chart
+     * @param gcs	A previously built chart
      * 
      * @throws GenerationException
      */
@@ -382,8 +393,11 @@ public final class Generator
 
     /**
      * 
+     * @param boContainer
      * @param lg
-     * @param an
+     * @param ids
+     * @param cm
+     * @throws GenerationException
      */
     private static final void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm)
         throws GenerationException

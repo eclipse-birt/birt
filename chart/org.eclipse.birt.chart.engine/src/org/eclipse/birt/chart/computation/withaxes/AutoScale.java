@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -1109,7 +1110,7 @@ public final class AutoScale extends Methods implements Cloneable
      * 
      * @return
      */
-    final boolean checkFit(IDisplayServer xs, Label la, int iLabelLocation)
+    final boolean checkFit(IDisplayServer xs, Label la, int iLabelLocation) throws GenerationException
     {
         if (iType == TEXT || bCategoryScale)
         {
@@ -1135,8 +1136,12 @@ public final class AutoScale extends Methods implements Cloneable
             double dAxisValue = asDouble(getMinimum()).doubleValue();
             final double dAxisStep = asDouble(getStep()).doubleValue();
             String sText;
-            final DecimalFormat df = new DecimalFormat(getNumericPattern());
-            NumberDataElement nde = NumberDataElementImpl.create(0);
+            DecimalFormat df = null;
+            if (fs == null) // CREATE IF FORMAT SPECIFIER IS UNDEFINED
+            {
+                df = new DecimalFormat(getNumericPattern());
+            }
+            final NumberDataElement nde = NumberDataElementImpl.create(0);
 
             for (int i = 0; i < da.length; i++)
             {
@@ -1161,7 +1166,12 @@ public final class AutoScale extends Methods implements Cloneable
                 }
 
                 la.getCaption().setValue(sText);
-                rr = computePolygon(xs, iLabelLocation, la, x, y);
+                try {
+                    rr = computePolygon(xs, iLabelLocation, la, x, y);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
 
                 Point p = rr.getPoint(iPointToCheck);
                 if (rrPrev != null && (rrPrev.contains(p) || rrPrev.getPoint(iPointToCheck).equals(p)))
@@ -1203,7 +1213,12 @@ public final class AutoScale extends Methods implements Cloneable
                 }
 
                 la.getCaption().setValue(sText);
-                rr = computePolygon(xs, iLabelLocation, la, x, y);
+                try {
+                    rr = computePolygon(xs, iLabelLocation, la, x, y);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
 
                 Point p = rr.getPoint(iPointToCheck);
                 if (rrPrev != null && (rrPrev.contains(p) || rrPrev.getPoint(iPointToCheck).equals(p)))
@@ -1234,7 +1249,12 @@ public final class AutoScale extends Methods implements Cloneable
                     y = da[i];
 
                 la.getCaption().setValue(sText);
-                rr = computePolygon(xs, iLabelLocation, la, x, y);
+                try {
+                    rr = computePolygon(xs, iLabelLocation, la, x, y);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
 
                 Point p = rr.getPoint(iPointToCheck);
                 if (rrPrev != null && (rrPrev.contains(p) || rrPrev.getPoint(iPointToCheck).equals(p)))
@@ -1802,7 +1822,7 @@ public final class AutoScale extends Methods implements Cloneable
      * @param iLocation
      * @param aax
      */
-    final void computeAxisStartEndShifts(IDisplayServer xs, Label la, int iOrientation, int iLocation, AllAxes aax)
+    final void computeAxisStartEndShifts(IDisplayServer xs, Label la, int iOrientation, int iLocation, AllAxes aax) throws GenerationException
     {
         final double dMaxSS = (aax != null && iOrientation == aax.getOrientation()) ? aax.getMaxStartShift() : 0;
         final double dMaxES = (aax != null && iOrientation == aax.getOrientation()) ? aax.getMaxEndShift() : 0;
@@ -1825,7 +1845,13 @@ public final class AutoScale extends Methods implements Cloneable
 
             // ADJUST THE START POSITION
             la.getCaption().setValue(formatCategoryValue(getType(), dsi.first(), iDateTimeUnit));
-            BoundingBox bb = computeBox(xs, iLocation, la, 0, 0);
+            BoundingBox bb = null;
+            try {
+                bb = computeBox(xs, iLocation, la, 0, 0);
+            } catch (UnexpectedInputException uiex)
+            {
+                throw new GenerationException(uiex);
+            }
             if (iOrientation == VERTICAL) // VERTICAL AXIS
             {
                 dStartShift = Math.max(dMaxSS, (dUnitSize > bb.getHeight()) ? 0 : (bb.getHeight() - dUnitSize) / 2);
@@ -1837,15 +1863,15 @@ public final class AutoScale extends Methods implements Cloneable
 
             // ADJUST THE END POSITION
             la.getCaption().setValue(formatCategoryValue(getType(), dsi.last(), iDateTimeUnit));
-            bb = computeBox(xs, iLocation, la, 0, dEnd);
+            try {
+                bb = computeBox(xs, iLocation, la, 0, dEnd);
+            } catch (UnexpectedInputException uiex)
+            {
+                throw new GenerationException(uiex);
+            }
             if (iOrientation == VERTICAL) // VERTICAL AXIS
             {
-                dEndShift = Math.max(dMaxES, (dUnitSize > bb.getHeight()) ? 0 : (bb.getHeight() - dUnitSize) / 2 /*
-                                                                                                                  * COMPENSATION
-                                                                                                                  * FOR
-                                                                                                                  * VISUAL
-                                                                                                                  * ERROR
-                                                                                                                  */);
+                dEndShift = Math.max(dMaxES, (dUnitSize > bb.getHeight()) ? 0 : (bb.getHeight() - dUnitSize) / 2);
             }
             else if (iOrientation == HORIZONTAL) // HORIZONTAL AXIS
             {
@@ -1873,7 +1899,13 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                BoundingBox bb = computeBox(xs, iLocation, la, 0, 0);
+                BoundingBox bb = null;
+                try {
+                    bb = computeBox(xs, iLocation, la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
                 if (iOrientation == VERTICAL) // VERTICAL AXIS
                 {
                     dStartShift = Math.max(dMaxSS, (bb.getHeight() - bb.getHotPoint()));
@@ -1894,7 +1926,12 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                bb = computeBox(xs, iLocation, la, 0, 0);
+                try {
+                    bb = computeBox(xs, iLocation, la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
 
                 if (iOrientation == VERTICAL) // VERTICAL AXIS
                 {
@@ -1925,7 +1962,13 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                BoundingBox bb = computeBox(xs, iLocation, la, 0, 0);
+                BoundingBox bb = null;
+                try {
+                    bb = computeBox(xs, iLocation, la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
                 if (iOrientation == VERTICAL) // VERTICAL AXIS
                 {
                     dStartShift = Math.max(dMaxSS, (bb.getHeight() - bb.getHotPoint()));
@@ -1951,7 +1994,12 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                bb = computeBox(xs, iLocation, la, 0, 0);
+                try {
+                    bb = computeBox(xs, iLocation, la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new GenerationException(uiex);
+                }
 
                 if (iOrientation == VERTICAL) // VERTICAL AXIS
                 {
@@ -1991,7 +2039,13 @@ public final class AutoScale extends Methods implements Cloneable
             }
             la.getCaption().setValue(sText);
 
-            BoundingBox bb = computeBox(xs, iLocation, la, 0, 0);
+            BoundingBox bb = null;
+            try {
+                bb = computeBox(xs, iLocation, la, 0, 0);
+            } catch (UnexpectedInputException uiex)
+            {
+                throw new GenerationException(uiex);
+            }
             if (iOrientation == VERTICAL) // VERTICAL AXIS
             {
                 dStartShift = Math.max(dMaxSS, (bb.getHeight() - bb.getHotPoint()));
@@ -2013,7 +2067,12 @@ public final class AutoScale extends Methods implements Cloneable
                 sText = IConstants.NULL_STRING;
             }
             la.getCaption().setValue(sText);
-            bb = computeBox(xs, iLocation, la, 0, dEnd);
+            try {
+                bb = computeBox(xs, iLocation, la, 0, dEnd);
+            } catch (UnexpectedInputException uiex)
+            {
+                throw new GenerationException(uiex);
+            }
             if (iOrientation == VERTICAL) // VERTICAL AXIS
             {
                 dEndShift = Math.max(dMaxES, bb.getHotPoint());

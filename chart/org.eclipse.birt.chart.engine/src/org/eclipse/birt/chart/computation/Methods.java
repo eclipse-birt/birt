@@ -329,7 +329,7 @@ public class Methods implements IConstants
      * @return
      */
     public static final RotatedRectangle computePolygon(IDisplayServer xs, int iLabelLocation, Label la, double dX,
-        double dY)
+        double dY) throws UnexpectedInputException 
     {
         double dAngleInDegrees = la.getCaption().getFont().getRotation();
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
@@ -501,9 +501,23 @@ public class Methods implements IConstants
         return rr;
     }
 
-    public static final BoundingBox computeBox(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY)
+    /**
+     * 
+     * @param xs
+     * @param iLabelLocation
+     * @param la
+     * @param dX
+     * @param dY
+     * @return
+     * @throws UnexpectedInputException
+     */
+    public static final BoundingBox computeBox(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY) throws UnexpectedInputException
     {
         double dAngleInDegrees = la.getCaption().getFont().getRotation();
+        if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
+        {
+            throw new UnexpectedInputException("The rotation angle (-90 <= ANGLE <= 90) was incorrectly specified for label " + la);
+        }
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
         final double dSineTheta = Math.abs(Math.sin(dAngleInRadians));
         final double dCosTheta = Math.abs(Math.cos(dAngleInRadians));
@@ -621,7 +635,7 @@ public class Methods implements IConstants
     /**
      * Converts to internal (non public-model) data structures
      * 
-     * @param ax
+     * @param lp
      * @return
      */
     public static final int getLabelPosition(Position lp)
