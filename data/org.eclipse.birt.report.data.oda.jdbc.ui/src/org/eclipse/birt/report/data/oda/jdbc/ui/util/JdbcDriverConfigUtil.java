@@ -18,6 +18,7 @@ import org.eclipse.birt.data.oda.util.driverconfig.DriverLibraries;
 import org.eclipse.birt.data.oda.util.driverconfig.DriverSetup;
 import org.eclipse.birt.data.oda.util.driverconfig.LibrariesForOS;
 import org.eclipse.birt.data.oda.util.driverconfig.OpenDataAccessConfig;
+import org.eclipse.birt.data.oda.util.driverconfig.Property;
 import org.eclipse.birt.data.oda.util.driverconfig.RunTimeInterface;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
@@ -142,4 +143,42 @@ public class JdbcDriverConfigUtil
 		return files;
 
 	}
+    
+    public String getURLFormat(String className)
+    {
+        registerDriver();
+        ConfigManager configMgr = ConfigManager.getInstance( );
+
+        OpenDataAccessConfig config = null;
+
+        try
+        {
+            config = configMgr.getDriverConfig( driverName );
+        }
+        catch ( FileNotFoundException e )
+        {
+            ExceptionHandler.handle( e );
+        }
+        catch ( Exception e )
+        {
+            ExceptionHandler.handle( e );
+        }
+
+        if ( config == null )
+        {
+            return null;
+        }
+        
+        //We always assume there is one item and the first item contains the properties we need
+        Property[] properties = config.getConnection().getDesignerSpecificProperties().getDesignerSpecific(0).getListOfProperties().getProperty();
+        for(int n = 0; n < properties.length; n++)
+        {
+            if(properties[n].getName().equals(className))
+            {
+                return properties[n].getValue();
+            }
+        }
+        
+        return null;
+    }
 }

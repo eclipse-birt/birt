@@ -90,17 +90,19 @@ public class JdbcToolKit
 			{
                 JDBCDriverInformation info = JDBCDriverInformation.getInstance("sun.jdbc.odbc.JdbcOdbcDriver", classPathURLs);
 				// Adding the odbc-jdbc driver
+                info.setUrlFormat("jdbc:odbc:<data source name>");
 				jdbcDrivers.add( info ); //$NON-NLS-1$
 			}
 			catch ( Exception e )
 			{
 
 			}
+            JdbcDriverConfigUtil driverConfigUtil = null;
 
 			ArrayList driverFiles = null;
 			try
 			{
-				JdbcDriverConfigUtil driverConfigUtil = new JdbcDriverConfigUtil( driverName );
+				driverConfigUtil = new JdbcDriverConfigUtil( driverName );
 				driverFiles = driverConfigUtil.getDriverFiles( );
 			}
 			catch ( Exception e )
@@ -175,6 +177,10 @@ public class JdbcToolKit
 										if ( !isAbstract )
 										{
                                             JDBCDriverInformation info = JDBCDriverInformation.getInstance(aClass, classPathURLs);
+                                            if(driverConfigUtil != null)
+                                            {
+                                                info.setUrlFormat(driverConfigUtil.getURLFormat(info.getDriverClassName()));
+                                            }
 											jdbcDrivers.add( info );
 										}
 									}

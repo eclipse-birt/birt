@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
 
 public abstract class AbstractPropertyPage implements IPropertyPage
@@ -25,6 +25,7 @@ public abstract class AbstractPropertyPage implements IPropertyPage
 	private transient String name = null;
 
 	private transient Image image = null;
+    
 
 	/**
 	 *  
@@ -117,5 +118,4 @@ public abstract class AbstractPropertyPage implements IPropertyPage
 	public void performHelp( )
 	{
 	}
-
 }

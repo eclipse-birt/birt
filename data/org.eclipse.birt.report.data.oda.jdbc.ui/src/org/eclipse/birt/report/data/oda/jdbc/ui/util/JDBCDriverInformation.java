@@ -25,7 +25,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: #1 $ $Date: Feb 10, 2005 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/11 02:51:08 $
  */
 public final class JDBCDriverInformation
 {
@@ -33,6 +33,7 @@ public final class JDBCDriverInformation
     private String driverClassName = null;
     private int majorVersion = 0;
     private int minorVersion = 0;
+    private String urlFormat = null;
 
     /**
      * 
@@ -114,5 +115,20 @@ public final class JDBCDriverInformation
         buffer.append(minorVersion);
         buffer.append(")");
         return buffer.toString();
+    }
+
+    /**
+     * @return Returns the urlFormat.
+     */
+    public String getUrlFormat()
+    {
+        return urlFormat;
+    }
+    /**
+     * @param urlFormat The urlFormat to set.
+     */
+    protected void setUrlFormat(String urlFormat)
+    {
+        this.urlFormat = urlFormat;
     }
 }
