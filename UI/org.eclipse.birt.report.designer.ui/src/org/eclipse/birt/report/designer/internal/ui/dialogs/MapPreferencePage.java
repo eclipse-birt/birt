@@ -135,8 +135,6 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		final Table table = new Table( parent, SWT.BORDER | SWT.FULL_SELECTION );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
-		data.widthHint = convertWidthInCharsToPixels( 3 );
-		data.heightHint = convertHeightInCharsToPixels( 10 );
 		table.setLayoutData( data );
 
 		table.setHeaderVisible( true );
