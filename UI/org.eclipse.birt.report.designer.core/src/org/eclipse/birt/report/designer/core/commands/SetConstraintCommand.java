@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
@@ -36,8 +37,6 @@ public class SetConstraintCommand extends Command
 {
 
 	private static final String TRANS_LABEL_SET_CONSTRAINT = Messages.getString( "SetConstraintCommand.transLabel.setConstraint" ); //$NON-NLS-1$
-
-	private static final String COMMAND_ERROR_MSG = Messages.getString( "SetConstraintCommand.Error.SetConstraintError" ); //$NON-NLS-1$
 
 	private ReportItemHandle model;
 
@@ -75,6 +74,25 @@ public class SetConstraintCommand extends Command
 						.getTableHandleAdapter( model )
 						.ajustSize( newSize );
 			}
+			else if ( model instanceof ImageHandle )
+			{
+				int width = newSize.width;
+				int height = newSize.height;
+
+				if ( width <= 0 )
+				{
+					width = 1;
+				}
+				if ( height <= 0 )
+				{
+					height = 1;
+				}
+				model.setWidth( String.valueOf( width )
+						+ DesignChoiceConstants.UNITS_PX );
+				model.setHeight( String.valueOf( height )
+						+ DesignChoiceConstants.UNITS_PX );
+
+			}
 			else
 			{
 				double width = MetricUtility.pixelToPixelInch( newSize.width );
@@ -92,15 +110,10 @@ public class SetConstraintCommand extends Command
 						+ DesignChoiceConstants.UNITS_IN );
 				model.setHeight( String.valueOf( height )
 						+ DesignChoiceConstants.UNITS_IN );
-				//				model.setWidth( new Integer(newSize.width).toString() +
-				// DesignChoiceConstants.UNITS_PX);
-				//				model.setHeight( new Integer(newSize.height).toString() +
-				// DesignChoiceConstants.UNITS_PX );
 			}
 		}
 		catch ( SemanticException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 			stack.rollback( );
 		}

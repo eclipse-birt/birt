@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
-import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -111,10 +110,8 @@ public class ImageHandleAdapter extends DesignElementHandleAdapter
 
 	public void setSize( Dimension size )
 	{
-		String w = MetricUtility.pixelToPixelInch( size.width )
-				+ DesignChoiceConstants.UNITS_IN;
-		String h = MetricUtility.pixelToPixelInch( size.height )
-				+ DesignChoiceConstants.UNITS_IN;
+		String w = size.width + DesignChoiceConstants.UNITS_PX;
+		String h = size.height + DesignChoiceConstants.UNITS_PX;
 
 		try
 		{
