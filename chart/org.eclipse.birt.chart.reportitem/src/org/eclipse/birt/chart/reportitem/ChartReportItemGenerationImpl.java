@@ -101,7 +101,9 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
      */
     public void finish()
     {
+        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: finish(...) - start");
         super.finish();
+        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: finish(...) - end");
     }
 
     /**
@@ -112,18 +114,22 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: nextQuery(...) - start");
         if (iQueryCount > 0) // ONLY 1 QUERY ASSOCIATED WITH A CHART
         {
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: nextQuery(...) - end(nomore)");
             return null;
         }
         
+    	// BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
         final QueryDefinition qd = new QueryDefinition((BaseQueryDefinition) ibdqParent);
         try {
             QueryHelper.instance().build(eih, qd, cm);
 	        iQueryCount++;
         } catch (GenerationException gex)
         {
-            DefaultLoggerImpl.instance().log(gex);
-            return null;
+    	    DefaultLoggerImpl.instance().log(gex);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: nextQuery(...) - exception");
+            throw new BirtException("nextQuery", gex);
         }
+        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: nextQuery(...) - end");
         return qd;
     }
     
@@ -152,6 +158,8 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     	} catch (GenerationException gex)
     	{
     	    DefaultLoggerImpl.instance().log(gex);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: process(...) - exception");
+            throw new BirtException("process", gex);
     	}
     	
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: process(...) - end");

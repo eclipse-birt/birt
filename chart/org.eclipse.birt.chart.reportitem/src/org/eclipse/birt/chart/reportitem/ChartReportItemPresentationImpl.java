@@ -116,8 +116,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Writing to PNG at " + fChartImage.getPath());
         } catch (IOException ioex)
         {
-            ioex.printStackTrace();
-            //throw new GenerationException(ioex);
+            throw new BirtException("tmp png file creation", ioex);
         }
         
         // FETCH A HANDLE TO THE DEVICE RENDERER
@@ -127,7 +126,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         } catch (PluginException pex)
         {
             DefaultLoggerImpl.instance().log(pex);
-            //throw new GenerationException(ioex);
+            throw new BirtException("png24 device retrieval", pex);
         }
         
         // BUILD THE CHART
@@ -145,7 +144,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
 	    } catch (GenerationException gex)
 	    {
 	        DefaultLoggerImpl.instance().log(gex);
-            //throw new GenerationException(ioex);
+            throw new BirtException("chart build", gex);
 	    }        
         
         // WRITE TO THE PNG FILE
@@ -155,7 +154,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         } catch (RenderingException rex)
         {
             DefaultLoggerImpl.instance().log(rex);
-            //throw new GenerationException(ioex);
+            throw new BirtException("chart render", rex);
         }
         
         // RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
@@ -164,7 +163,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         } catch (IOException ioex)
         {
             DefaultLoggerImpl.instance().log(ioex);
-            //throw new GenerationException(ioex);
+            throw new BirtException("input stream creation", ioex);
         }
         
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: process(...) - end");
@@ -183,7 +182,6 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         } catch (IOException ioex)
         {
             DefaultLoggerImpl.instance().log(ioex);
-            //throw new GenerationException(ioex);
         }
         
         // DELETE THE TEMP CHART IMAGE FILE CREATED
