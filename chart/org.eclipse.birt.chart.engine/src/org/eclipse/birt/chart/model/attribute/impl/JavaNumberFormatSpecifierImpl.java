@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
@@ -301,9 +302,10 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
      * 
      * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(double)
      */
-    public final String format(double dValue)
+    public final String format(double dValue, Locale lo)
     {
-        final DecimalFormat df = new DecimalFormat(getPattern());
-        return df.format(dValue);
+        final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(lo);
+        df.applyLocalizedPattern(getPattern());
+        return isSetMultiplier() ? df.format(dValue * getMultiplier()) : df.format(dValue);
     }
 } //JavaNumberFormatSpecifierImpl

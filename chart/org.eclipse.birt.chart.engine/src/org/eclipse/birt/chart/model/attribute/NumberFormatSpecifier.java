@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import java.util.Locale;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Number Format Specifier</b></em>'. <!--
  * end-user-doc -->
@@ -216,5 +218,5 @@ public interface NumberFormatSpecifier extends FormatSpecifier
      * 
      * @return A formatted string representation of the numerical value provided
      */
-    String format(double dValue);
+    String format(double dValue, Locale lo);
 } // NumberFormatSpecifier

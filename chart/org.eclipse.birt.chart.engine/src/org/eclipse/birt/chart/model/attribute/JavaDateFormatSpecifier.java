@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.attribute;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java Date Format Specifier</b></em>'. <!--
@@ -71,7 +72,8 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier
      * NOTE: Manually written
      * 
      * @param c
+     * @param lcl
      * @return
      */
-    String format(Calendar c);
+    String format(Calendar c, Locale lcl);
 } // JavaDateFormatSpecifier

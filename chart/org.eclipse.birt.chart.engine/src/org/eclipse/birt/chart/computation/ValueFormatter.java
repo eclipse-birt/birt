@@ -110,13 +110,13 @@ public final class ValueFormatter
         {
             final NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
             final double dValue = asPrimitiveDouble(oValue);
-            return correctNumber(nfs.format(dValue), dValue);
+            return correctNumber(nfs.format(dValue, lcl), dValue);
         }
         else if (JavaNumberFormatSpecifier.class.isInstance(fs))
         {
             final JavaNumberFormatSpecifier nfs = (JavaNumberFormatSpecifier) fs;
             final double dValue = asPrimitiveDouble(oValue);
-            return correctNumber(nfs.format(dValue), dValue);
+            return correctNumber(nfs.format(dValue, lcl), dValue);
         }
         else if (DateFormatSpecifier.class.isInstance(fs))
         {
@@ -126,7 +126,7 @@ public final class ValueFormatter
         else if (JavaDateFormatSpecifier.class.isInstance(fs))
         {
             final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
-            return jdfs.format(asCalendar(oValue));
+            return jdfs.format(asCalendar(oValue), lcl);
         }
         else
         {

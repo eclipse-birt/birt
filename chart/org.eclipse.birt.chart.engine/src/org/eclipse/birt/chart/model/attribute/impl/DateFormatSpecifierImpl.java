@@ -214,39 +214,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         return result.toString();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#format(java.util.Calendar)
-     */
-    public String format(Calendar c, Locale lo)
-    {
-        DateFormat df = null;
-        if (getDetail().getValue() == DateFormatDetail.DATE_TIME)
-        {
-            try
-            {
-                df = DateFormat.getDateTimeInstance(getJavaType(), getJavaType(), lo);
-            }
-            catch (UndefinedValueException uex )
-            {
-                return c.toString();
-            }
-        }
-        else if (getDetail().getValue() == DateFormatDetail.DATE)
-        {
-            try
-            {
-                df = DateFormat.getDateInstance(getJavaType(), lo);
-            }
-            catch (UndefinedValueException uex )
-            {
-                return c.toString();
-            }
-        }
-        return df.format(c.getTime());
-    }
-
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -376,4 +343,38 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         return detailESet;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#format(java.util.Calendar)
+     */
+    public String format(Calendar c, Locale lcl)
+    {
+        DateFormat df = null;
+        if (getDetail().getValue() == DateFormatDetail.DATE_TIME)
+        {
+            try
+            {
+                df = DateFormat.getDateTimeInstance(getJavaType(), getJavaType(), lcl);
+            }
+            catch (UndefinedValueException uex )
+            {
+                return c.toString();
+            }
+        }
+        else if (getDetail().getValue() == DateFormatDetail.DATE)
+        {
+            try
+            {
+                df = DateFormat.getDateInstance(getJavaType(), lcl);
+            }
+            catch (UndefinedValueException uex )
+            {
+                return c.toString();
+            }
+        }
+        return df.format(c.getTime());
+    }
+
+    
 } //DateFormatSpecifierImpl

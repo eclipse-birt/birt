@@ -164,8 +164,8 @@ public interface DateFormatSpecifier extends FormatSpecifier
      * NOTE: Manually written
      * 
      * @param c
-     * @param lo
+     * @param lcl
      * @return
      */
-    String format(Calendar c, Locale lo);
+    String format(Calendar c, Locale lcl);
 } // DateFormatSpecifier

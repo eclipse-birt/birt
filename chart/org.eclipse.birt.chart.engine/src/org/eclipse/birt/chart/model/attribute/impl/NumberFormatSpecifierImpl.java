@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
+
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
@@ -452,8 +455,25 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * 
      * @see org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#format(double)
      */
-    public final String format(double dValue)
+    public final String format(double dValue, Locale lo)
     {
-        return null;
+        final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(lo);
+        if (isSetFractionDigits())
+        {
+            df.setMinimumFractionDigits(getFractionDigits());
+            df.setMaximumFractionDigits(getFractionDigits());
+        }
+        final StringBuffer sb = new StringBuffer();
+        if (getPrefix() != null)
+        {
+            sb.append(getPrefix());
+        }
+        sb.append(df.toLocalizedPattern());
+        if (getSuffix() != null)
+        {
+            sb.append(getSuffix());
+        }
+        df.applyLocalizedPattern(sb.toString());
+        return isSetMultiplier() ? df.format(dValue * getMultiplier()) : df.format(dValue);
     }
 } //NumberFormatSpecifierImpl
