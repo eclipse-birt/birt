@@ -218,6 +218,126 @@ public class ChoiceSetFactory
 	}
 
 	/**
+	 * Gets property 's display names given element name and the property name.
+	 * 
+	 * @param elemenName
+	 *            The design element name.
+	 * @param property
+	 *            The property name.
+	 * @return The given property 's display names
+	 */
+	public static String[] getPropertyDisplayNames( String elementName,
+			String property )
+	{
+		ChoiceSet choiceSet = getElementChoiceSet( elementName, property );
+		return getDisplayNamefromChoiceSet( choiceSet );
+	}
+
+	/**
+	 * Gets property 's display name given element name, property name and the
+	 * property's value.
+	 * 
+	 * @param elemenName
+	 *            The design element name.
+	 * @param property
+	 *            The property name.
+	 * @param valule
+	 *            The property 's value.
+	 * @return The given property 's display name
+	 */
+	public static String getPropDisplayName( String elementName,
+			String property, String value )
+	{
+		ChoiceSet set = getElementChoiceSet( elementName, property );
+		return getDisplayNameFromChoiceSet( value, set );
+	}
+
+	/**
+	 * Gets property value given element name, property name and its the
+	 * property's display name.
+	 * 
+	 * @param elemenName
+	 *            The design element name.
+	 * @param property
+	 *            The property name.
+	 * @param displayName
+	 *            The property 's display name.
+	 * @return The given property 's value
+	 */
+	public static String getPropValue( String elementName, String property,
+			String displayName )
+	{
+		ChoiceSet set = getElementChoiceSet( elementName, property );
+		return getValueFromChoiceSet( displayName, set );
+	}
+
+	/**
+	 * Gets UI display name from a choice set given the the value and the choice
+	 * set name.
+	 * 
+	 * @param value
+	 *            The value corresponding to the display name.
+	 * @param set
+	 *            The choice set name from which to get display name.
+	 * @return The display name of the given value
+	 */
+	public static String getDisplayNameFromChoiceSet( String value,
+			ChoiceSet set )
+	{
+		String name = value;
+		if ( set == null )
+		{
+			return name;
+		}
+		Choice[] choices = set.getChoices( );
+		if ( choices == null )
+		{
+			return name;
+		}
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getName( ).equals( value ) )
+			{
+				return (String) choices[i].getDisplayName( );
+			}
+		}
+		return name;
+	}
+
+	/**
+	 * Gets the value from a choice set given the UI display name and the choice
+	 * set name.
+	 * 
+	 * @param displayName
+	 *            The UI display name corresponding to the value.
+	 * @param set
+	 *            The choice set name from which to get property value.
+	 * @return The value of the given UI display name.
+	 */
+	public static String getValueFromChoiceSet( String displayName,
+			ChoiceSet set )
+	{
+		String value = displayName;
+		if ( set == null )
+		{
+			return value;
+		}
+		Choice[] choices = set.getChoices( );
+		if ( choices == null )
+		{
+			return value;
+		}
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			if ( choices[i].getDisplayName( ).equals( displayName ) )
+			{
+				return (String) choices[i].getName( );
+			}
+		}
+		return value;
+	}
+
+	/**
 	 * Gets the collection that given property value can selected from them.
 	 * 
 	 * @param property
