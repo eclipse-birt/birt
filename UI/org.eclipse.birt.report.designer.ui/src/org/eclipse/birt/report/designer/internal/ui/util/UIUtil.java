@@ -11,20 +11,31 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.command.ContentException;
+import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.elements.ListItem;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -211,43 +222,171 @@ public class UIUtil
 	{
 		Assert.isNotNull( parent );
 		ElementFactory factory = parent.getElementFactory( );
-		GroupHandle groupHandle = null;
-		SlotHandle slotHandle = null;
 		try
 		{
-
-			if ( parent instanceof TableHandle )
-			{
-				groupHandle = factory.newTableGroup( );
-				slotHandle = ( (TableHandle) parent ).getGroups( );
-				int columnCount = ( (TableHandle) parent ).getColumnCount( );
-				groupHandle.getHeader( )
-						.add( factory.newTableRow( columnCount ) );
-				groupHandle.getFooter( )
-						.add( factory.newTableRow( columnCount ) );
-			}
-			else if ( parent instanceof ListHandle )
-			{
-				groupHandle = factory.newListGroup( );
-				slotHandle = ( (ListHandle) parent ).getGroups( );
-			}
-			if ( groupHandle != null )
-			{
-				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
-				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
-				dialog.setInput( groupHandle );
-				if ( dialog.open( ) == Window.OK )
-				{
-					slotHandle.add( groupHandle );
-					return true;
-				}
-			}
-			return false;
+			return addGroup( factory, parent, -1 );
 		}
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 			return false;
 		}
+	}
+
+	public static boolean createTableGroup( RowHandle row )
+	{
+		Assert.isNotNull( row );
+		ElementFactory factory = row.getElementFactory( );
+		try
+		{
+			TableHandle table = null;
+			DesignElementHandle container = row.getContainer( );
+			int slotId = row.getContainerSlotHandle( ).getSlotID( );
+			int position = -1;
+
+			if ( container instanceof TableGroupHandle )
+			{
+				table = (TableHandle) ( (TableGroupHandle) container ).getContainer( );
+				position = DEUtil.findInsertPosition( table.getGroups( )
+						.getElementHandle( ), container, table.getGroups( )
+						.getSlotID( ) );
+			}
+			else if ( container instanceof TableHandle )
+			{
+				table = (TableHandle) container;
+				if ( slotId == TableItem.DETAIL_SLOT )
+				{
+					position = -1;
+				}
+				else if ( slotId == TableItem.HEADER_SLOT
+						|| slotId == TableItem.FOOTER_SLOT )
+				{
+					position = 0;
+				}
+			}
+			else
+			{
+				return false;
+			}
+
+			return addGroup( factory, table, position );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+	}
+
+	public static boolean createListGroup( ListBandProxy listBand )
+	{
+		Assert.isNotNull( listBand );
+		ElementFactory factory = listBand.getElemtHandle( ).getElementFactory( );
+		try
+		{
+			ListHandle list = null;
+			DesignElementHandle container = listBand.getElemtHandle( );
+			int slotId = listBand.getSlotId( );
+			int position = -1;
+
+			if ( container instanceof ListGroupHandle )
+			{
+				list = (ListHandle) ( (ListGroupHandle) container ).getContainer( );
+				position = DEUtil.findInsertPosition( list.getGroups( )
+						.getElementHandle( ), container, list.getGroups( )
+						.getSlotID( ) );
+			}
+			else if ( container instanceof ListHandle )
+			{
+				list = (ListHandle) container;
+				if ( slotId == ListItem.DETAIL_SLOT )
+				{
+					position = -1;
+				}
+				else if ( slotId == ListItem.HEADER_SLOT
+						|| slotId == ListItem.FOOTER_SLOT )
+				{
+					position = 0;
+				}
+			}
+			else
+			{
+				return false;
+			}
+
+			return addGroup( factory, list, position );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+	}
+
+	private static boolean addGroup( ElementFactory factory,
+			DesignElementHandle parent, int position ) throws ContentException,
+			NameException
+	{
+		GroupHandle groupHandle = null;
+		SlotHandle slotHandle = null;
+		if ( parent instanceof TableHandle )
+		{
+			groupHandle = factory.newTableGroup( );
+			slotHandle = ( (TableHandle) parent ).getGroups( );
+			int columnCount = ( (TableHandle) parent ).getColumnCount( );
+			groupHandle.getHeader( ).add( factory.newTableRow( columnCount ) );
+			groupHandle.getFooter( ).add( factory.newTableRow( columnCount ) );
+		}
+		else if ( parent instanceof ListHandle )
+		{
+			groupHandle = factory.newListGroup( );
+			slotHandle = ( (ListHandle) parent ).getGroups( );
+		}
+
+		if ( groupHandle != null && slotHandle != null )
+		{
+			GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
+			dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
+			dialog.setInput( groupHandle );
+			if ( dialog.open( ) == Window.OK )
+			{
+				slotHandle.add( groupHandle, position );
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Gets the first selected editpart in layout editor. Whenever the user has
+	 * deselected all editparts, the contents editpart should be returned.
+	 * 
+	 * @return the first selected EditPart or root editpart
+	 */
+	public static EditPart getCurrentEditPart( )
+	{
+		EditPartViewer viewer = getLayoutEditPartViewer( );
+		if ( viewer == null )
+			return null;
+		IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
+		if ( targets.isEmpty( ) )
+			return null;
+		return (EditPart) targets.getFirstElement( );
+	}
+
+	/**
+	 * Gets EditPartViewer in layout editor.
+	 * 
+	 * @return EditPartViewer in layout editor. Return null if not found.
+	 */
+	public static EditPartViewer getLayoutEditPartViewer( )
+	{
+		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getActivePage( )
+				.getActiveEditor( );
+		if ( !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
+			return null;
+		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
 	}
 }

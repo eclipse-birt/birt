@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.core.commands;
 
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -29,8 +30,6 @@ import org.eclipse.gef.commands.Command;
 public class CreateCommand extends Command
 {
 
-	private static final String KEY_NEWOBJECT = "newObject"; //$NON-NLS-1$
-
 	private Object parent;
 
 	private Object after;
@@ -38,11 +37,9 @@ public class CreateCommand extends Command
 	private Map extendsData;
 
 	/**
-	 * constructor
+	 * Constructor
 	 * 
-	 * @param newObject
-	 * @param size
-	 * @param location
+	 * @param extendsData
 	 */
 	public CreateCommand( Map extendsData )
 	{
@@ -55,7 +52,7 @@ public class CreateCommand extends Command
 	 */
 	public void execute( )
 	{
-		DesignElementHandle newObject = (DesignElementHandle) extendsData.get( KEY_NEWOBJECT );
+		DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 		try
 		{
 			// For all virtual model node keep the SlotHandle
@@ -104,6 +101,7 @@ public class CreateCommand extends Command
 
 	/**
 	 * Gets the parent edit part the new report element be added on.
+	 * 
 	 * @return Returns the parent.
 	 */
 	public Object getParent( )
@@ -113,6 +111,7 @@ public class CreateCommand extends Command
 
 	/**
 	 * Sets the parent edit part the new report element be added on.
+	 * 
 	 * @param parent
 	 *            The parent to set.
 	 */
@@ -122,8 +121,9 @@ public class CreateCommand extends Command
 	}
 
 	/**
-	 * Gets the  edit part the new report element be added after.
-	 * @param after
+	 * Gets the edit part the new report element be added after.
+	 * 
+	 * @param model
 	 *            The model after the new element
 	 */
 	public void setAfter( Object model )

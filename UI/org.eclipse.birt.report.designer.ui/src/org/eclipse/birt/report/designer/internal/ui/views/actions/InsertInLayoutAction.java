@@ -22,11 +22,10 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportDesigner;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -48,9 +47,9 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Action to insert object to layout.
@@ -185,17 +184,13 @@ public class InsertInLayoutAction extends AbstractViewAction
 	public boolean isEnabled( )
 	{
 		selections = getSelectionObject( );
-		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( )
-				.getActiveEditor( );
-
-		if ( !( reportEditor.getActiveEditor( ) instanceof ReportDesigner ) )
+		EditPartViewer viewer = UIUtil.getLayoutEditPartViewer( );
+		if ( viewer == null )
+		{
 			return false;
+		}
 
-		targets = (IStructuredSelection) ( (ReportDesigner) reportEditor.getActiveEditor( ) ).getGraphicalViewer( )
-				.getSelection( );
-
+		targets = (IStructuredSelection) viewer.getSelection( );
 		if ( selections.isEmpty( ) || targets.isEmpty( ) )
 			return false;
 		for ( Iterator i = selections.iterator( ); i.hasNext( ); )

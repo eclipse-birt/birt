@@ -19,11 +19,14 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportSelectionSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportDesigner;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PaletteToolEntryEditPart;
+import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.views.NonGEFSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
@@ -47,6 +50,7 @@ import org.eclipse.gef.ui.palette.CustomizeAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.LayoutAction;
 import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
+import org.eclipse.gef.ui.palette.PaletteEditPartFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
@@ -85,7 +89,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.5 $ $Date: 2005/02/22 02:39:04 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/16 07:52:47 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -181,12 +185,12 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 						GEFActionConstants.addStandardActionGroups( menu );
 
 						List lst = getPaletteViewer( ).getSelectedEditParts( );
-						
-						if (lst.size() == 0)
+
+						if ( lst.size( ) == 0 )
 						{
 							return;
 						}
-						
+
 						Object selectedPart = lst.get( 0 );
 						if ( selectedPart instanceof DrawerEditPart
 								&& ( (DrawerEditPart) selectedPart ).canBePinned( ) )
@@ -250,26 +254,38 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 				viewer.addDragSourceListener( new TemplateTransferDragSourceListener( viewer ) );
 			}
 
-			protected void hookPaletteViewer( PaletteViewer viewer )
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.gef.ui.palette.PaletteViewerProvider#createPaletteViewer(org.eclipse.swt.widgets.Composite)
+			 */
+			public PaletteViewer createPaletteViewer( Composite parent )
 			{
-				super.hookPaletteViewer( viewer );
-				//					final CopyTemplateAction copy = (CopyTemplateAction)
-				// getActionRegistry( )
-				//							.getAction( ActionFactory.COPY.getId( ) );
-				//					if(copy !=null)
-				//					{
-				//						viewer.addSelectionChangedListener( copy );
-				//					}
-				//					if ( menuListener == null )
-				//						menuListener = new IMenuListener( ) {
-				//	
-				//							public void menuAboutToShow( IMenuManager manager )
-				//							{
-				//								manager.appendToGroup(
-				//										GEFActionConstants.GROUP_COPY, copy );
-				//							}
-				//						};
-				//					viewer.getContextMenu( ).addMenuListener( menuListener );
+				PaletteViewer pViewer = new PaletteViewer( );
+
+				//Replace with new factory
+				pViewer.setEditPartFactory( new PaletteEditPartFactory( ) {
+
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @see org.eclipse.gef.ui.palette.PaletteEditPartFactory#createEntryEditPart(org.eclipse.gef.EditPart,
+					 *      java.lang.Object)
+					 */
+					protected EditPart createEntryEditPart(
+							EditPart parentEditPart, Object model )
+					{
+						if ( model instanceof ReportCombinedTemplateCreationEntry )
+						{
+							return new PaletteToolEntryEditPart( (ReportCombinedTemplateCreationEntry) model );
+						}
+						return super.createEntryEditPart( parentEditPart, model );
+					}
+				} );
+				pViewer.createControl( parent );
+				configurePaletteViewer( pViewer );
+				hookPaletteViewer( pViewer );
+				return pViewer;
 			}
 		};
 
@@ -297,7 +313,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		addEditorAction( saveAction );
 
 		addAction( new CopyTemplateAction( this ) );
-		
+
 	}
 
 	/**
@@ -464,7 +480,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		configureGraphicalViewer( );
 		hookGraphicalViewer( );
 		initializeGraphicalViewer( );
-		//addAction ( new ToggleRulerVisibilityAction( this.getGraphicalViewer() ));
+		//addAction ( new ToggleRulerVisibilityAction(
+		// this.getGraphicalViewer() ));
 	}
 
 	/**

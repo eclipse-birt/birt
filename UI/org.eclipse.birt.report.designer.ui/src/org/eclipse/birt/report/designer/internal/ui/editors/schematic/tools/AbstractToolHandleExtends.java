@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * Abstrct creation tool extension. 
- * 
+ * Abstrct creation tool extension.
+ *  
  */
 public abstract class AbstractToolHandleExtends
 {
@@ -31,13 +32,13 @@ public abstract class AbstractToolHandleExtends
 
 	/**
 	 * Process before mouse up.
-	 * @return
 	 */
 	public boolean preHandleMouseUp( )
 	{
 		if ( model != null )
 		{
-			getRequest( ).getExtendedData( ).put( "newObject", model ); //$NON-NLS-1$
+			getRequest( ).getExtendedData( )
+					.put( DesignerConstants.KEY_NEWOBJECT, model );
 			return true;
 		}
 
@@ -64,6 +65,7 @@ public abstract class AbstractToolHandleExtends
 
 	/**
 	 * Set target edit part.
+	 * 
 	 * @param part
 	 */
 	public void setTargetEditPart( EditPart part )
@@ -81,6 +83,7 @@ public abstract class AbstractToolHandleExtends
 
 	/**
 	 * Set model.
+	 * 
 	 * @param obj
 	 */
 	protected void setModel( Object obj )

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
@@ -20,8 +21,12 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
@@ -95,13 +100,49 @@ public class ReportCreationTool extends CreationTool
 
 	}
 
+	/**
+	 * Performs the creation. Runs the creation via simulating the mouse move event.
+	 * 
+	 * @param editPart
+	 *            the current EditPart
+	 */
+	public void performCreation( EditPart editPart )
+	{
+		if ( editPart == null )
+			return;
+		setTargetEditPart( editPart );
+		boolean validateCurr = handleValidatePalette( getFactory( ).getObjectType( ),
+				getTargetEditPart( ) );
+		if ( !validateCurr )
+		{
+			//Validates the parent part
+			setTargetEditPart( editPart.getParent( ) );
+		}
+		if ( validateCurr
+				|| handleValidatePalette( getFactory( ).getObjectType( ),
+						getTargetEditPart( ) ) )
+		{
+			//Sets the insertion point
+			IFigure figure = ( (GraphicalEditPart) editPart ).getFigure( );
+			Rectangle rect = figure.getBounds( ).getCopy( );
+			figure.translateToAbsolute( rect );
+			Point point = rect.getRight( );
+			point.performTranslate( 1, 1 );
+			getCreateRequest( ).setLocation( point );
+
+			setCurrentCommand( getCommand( ) );
+			performCreation( MOUSE_BUTTON1 );
+		}
+		eraseTargetFeedback( );
+	}
+
 	/*
 	 * Add the newly created object to the viewer's selected objects.
 	 */
 	private void selectAddedObject( )
 	{
 		final Object model = getCreateRequest( ).getExtendedData( )
-				.get( "newObject" ); //$NON-NLS-1$
+				.get( DesignerConstants.KEY_NEWOBJECT );
 		final EditPartViewer viewer = getCurrentViewer( );
 		selectAddedObject( model, viewer );
 	}
@@ -159,7 +200,7 @@ public class ReportCreationTool extends CreationTool
 
 	protected static String getCreationType( String template )
 	{
-		String type = "";
+		String type = ""; //$NON-NLS-1$
 		if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( template ) )
 		{
 			type = ReportDesignConstants.IMAGE_ITEM;
