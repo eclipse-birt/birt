@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -66,7 +66,7 @@ public class CellState extends ReportElementState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
 	 */
-	
+
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new Cell( );
@@ -108,9 +108,10 @@ public class CellState extends ReportElementState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
 			return new ExtendedItemState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )
-			return new MultiLineDataItemState( handler, element,
-					Cell.CONTENT_SLOT );
+				.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
+				|| tagName
+						.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+			return new TextDataItemState( handler, element, Cell.CONTENT_SLOT );
 		return super.startElement( tagName );
 	}
 

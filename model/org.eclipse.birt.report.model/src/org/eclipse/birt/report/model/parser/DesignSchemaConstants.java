@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -95,7 +95,6 @@ public interface DesignSchemaConstants
 	static final String	MARGINS_TAG								= "margins";					//$NON-NLS-1$
 	static final String MASK_ATTRIB								= "mask"; 						//$NON-NLS-1$
 	static final String METHOD_TAG								= "method";						//$NON-NLS-1$
-	static final String MULTI_LINE_DATA_TAG 					= "multi-line-data"; 			//$NON-NLS-1$
 	static final String	NAME_ATTRIB								= "name";						//$NON-NLS-1$ 
 	static final String	NUMBER_ALIGN_ATTRIB						= "number-align";				//$NON-NLS-1$ 
 	static final String	NUMBER_FORMAT_ATTRIB					= "number-format";				//$NON-NLS-1$
@@ -145,6 +144,7 @@ public interface DesignSchemaConstants
 	static final String	TEMPLATE_TAG							= "template";					//$NON-NLS-1$ 
 	static final String	TEXT_ALIGN_ATTRIB						= "text-align";					//$NON-NLS-1$
 	static final String	TEXT_INDENT_ATTRIB						= "text-indent";				//$NON-NLS-1$
+	static final String TEXT_DATA_TAG							= "text-data";					//$NON-NLS-1$
 	static final String	TEXT_LETTER_SPACING_ATTRIB				= "letter-spacing";				//$NON-NLS-1$
 	static final String	TEXT_LINE_HEIGHT_ATTRIB					= "line-height";				//$NON-NLS-1$
 	static final String	TEXT_LINE_THROUGH_ATTRIB				= "text-line-through";			//$NON-NLS-1$
@@ -164,5 +164,11 @@ public interface DesignSchemaConstants
 	static final String	VALUE_TAG								= "value";						//$NON-NLS-1$
 	static final String	VERTICAL_ALIGN_ATTRIB					= "vertical-align";				//$NON-NLS-1$ 
 	static final String XML_PROPERTY_TAG						= "xml-property"; 				//$NON-NLS-1$
-}
+	
+	/**
+	 * @deprecated by the {@link #TEXT_DATA_TAG}
+	 */
 
+	static final String MULTI_LINE_DATA_TAG = "multi-line-data"; //$NON-NLS-1$
+	
+}

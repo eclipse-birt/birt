@@ -1569,7 +1569,7 @@
       <Type name="Table" />
       <Type name="Text" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
     <Slot name="body" displayNameID="Element.ReportDesign.slot.body" multipleCardinality="true">
       <Type name="FreeForm" />
@@ -1581,7 +1581,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
     <Slot name="scratchPad" displayNameID="Element.ReportDesign.slot.scratchPad" multipleCardinality="true">
       <Type name="FreeForm" />
@@ -1595,7 +1595,7 @@
       <Type name="Table" />
       <Type name="Text" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
   </Element>
   <Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none">
@@ -2045,7 +2045,7 @@
       <Type name="List" />
       <Type name="Table" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
   </Element>
   <Element name="Data" javaClass="org.eclipse.birt.report.model.elements.DataItem" displayNameID="Element.Data" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
@@ -2205,7 +2205,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
     <Slot name="group" displayNameID="Element.List.slot.group" multipleCardinality="true" selector="group">
       <Type name="ListGroup" />
@@ -2221,7 +2221,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
     <Slot name="footer" displayNameID="Element.List.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="FreeForm" />
@@ -2233,7 +2233,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
   </Element>
   <Element name="ListGroup" javaClass="org.eclipse.birt.report.model.elements.ListGroup" displayNameID="Element.ListGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="list-group">
@@ -2247,7 +2247,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
     <Slot name="footer" displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" selector="footer">
       <Type name="FreeForm" />
@@ -2259,7 +2259,7 @@
       <Type name="Data" />
       <Type name="Image" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
   </Element>
   <Element name="Table" javaClass="org.eclipse.birt.report.model.elements.TableItem" displayNameID="Element.Table" isAbstract="false" extends="Listing" allowsUserProperties="true" canExtend="true" hasStyle="false" isNameRequired="false" selector="table">
@@ -2407,7 +2407,7 @@
       <Type name="Grid" />
       <Type name="Line" />
       <Type name="ExtendedItem" />
-      <Type name="MultiLineData" />
+      <Type name="TextData" />
     </Slot>
   </Element>
   <Element name="Image" javaClass="org.eclipse.birt.report.model.elements.ImageItem" displayNameID="Element.Image" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
@@ -2519,9 +2519,9 @@
     <StyleProperty name="borderRightColor" />
     <StyleProperty name="display" />
   </Element>
-  <Element name="MultiLineData" javaClass="org.eclipse.birt.report.model.elements.MultiLineDataItem" displayNameID="Element.MultiLineData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="multi-line-data">
-    <Property name="valueExpr" displayNameID="Element.MultiLineData.valueExpr" type="expression" />
-    <Property name="contentTypeExpr" displayNameID="Element.MultiLineData.contentTypeExpr" type="expression" />
+  <Element name="TextData" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" displayNameID="Element.TextData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="multi-line-data">
+    <Property name="valueExpr" displayNameID="Element.TextData.valueExpr" type="expression" />
+    <Property name="contentTypeExpr" displayNameID="Element.TextData.contentTypeExpr" type="expression" />
     <StyleProperty name="backgroundAttachment" />
     <StyleProperty name="backgroundImage" />
     <StyleProperty name="backgroundPositionX" />
@@ -2699,10 +2699,10 @@
   <Style name="toc7" displayNameID="Style.Toc7" reference="Table-of-contents level 7" />
   <Style name="toc8" displayNameID="Style.Toc8" reference="Table-of-contents level 8" />
   <Style name="toc9" displayNameID="Style.Toc9" reference="Table-of-contents level 9" />
-  <Style name="free-form" displayNameID="Style.FreeForm" reference="Free-form item" />
+  <Style name="freeform" displayNameID="Style.FreeForm" reference="Free-form item" />
   <Style name="line" displayNameID="Style.Line" reference="Line item" />
   <Style name="rectangle" displayNameID="Style.Rectangle" reference="Rectangel item" />
-  <Style name="multi-line-data" displayNameID="Style.MultiLineData" reference="Multi line data item" />
-  <Style name="extended-item" displayNameID="Style.ExtendedItem" reference="Extended item" />
+  <Style name="textdata" displayNameID="Style.TextData" reference="Text data item" />
+  <Style name="extendeditem" displayNameID="Style.ExtendedItem" reference="Extended item" />
 </ReportMetaData>
 

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -88,8 +88,7 @@ public class FreeFormState extends ReportItemState
 	}
 
 	/**
-	 * Represents the ReportItems tag. This tag contains a list of report
-	 * items.
+	 * Represents the ReportItems tag. This tag contains a list of report items.
 	 */
 
 	class ReportItemsState extends AbstractParseState
@@ -105,7 +104,7 @@ public class FreeFormState extends ReportItemState
 		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 		 */
-		
+
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
@@ -147,12 +146,13 @@ public class FreeFormState extends ReportItemState
 				return new ExtendedItemState( handler, element,
 						FreeForm.REPORT_ITEMS_SLOT );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )
-				return new MultiLineDataItemState( handler, element,
+					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
+					|| tagName
+							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+				return new TextDataItemState( handler, element,
 						FreeForm.REPORT_ITEMS_SLOT );
 			return super.startElement( tagName );
 		}
-
 	}
 
 }

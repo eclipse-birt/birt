@@ -21,7 +21,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a list item.
- *  
+ * 
  */
 
 public class ListItemState extends ListingItemState
@@ -197,8 +197,10 @@ public class ListItemState extends ListingItemState
 					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
 				return new ExtendedItemState( handler, container, slotID );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )
-				return new MultiLineDataItemState( handler, container, slotID );
+					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
+					|| tagName
+							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+				return new TextDataItemState( handler, container, slotID );
 			return super.startElement( tagName );
 		}
 

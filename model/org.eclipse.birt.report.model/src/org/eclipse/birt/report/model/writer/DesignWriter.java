@@ -43,7 +43,7 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.MultiLineDataItem;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
@@ -487,17 +487,17 @@ public class DesignWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiLineDataItem(org.eclipse.birt.report.model.elements.MultiLineDataItem)
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiLineDataItem(org.eclipse.birt.report.model.elements.TextDataItem)
 	 */
 
-	public void visitMultiLineDataItem( MultiLineDataItem obj )
+	public void visitTextDataItem( TextDataItem obj )
 	{
-		writer.startElement( DesignSchemaConstants.MULTI_LINE_DATA_TAG );
+		writer.startElement( DesignSchemaConstants.TEXT_DATA_TAG );
 
-		super.visitMultiLineDataItem( obj );
+		super.visitTextDataItem( obj );
 
-		property( obj, MultiLineDataItem.VALUE_EXPR_PROP );
-		property( obj, MultiLineDataItem.CONTENT_TYPE_EXPR_PROP );
+		property( obj, TextDataItem.VALUE_EXPR_PROP );
+		property( obj, TextDataItem.CONTENT_TYPE_EXPR_PROP );
 
 		writer.endElement( );
 	}

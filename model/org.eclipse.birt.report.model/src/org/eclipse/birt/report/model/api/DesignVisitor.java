@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.MultiLineDataItem;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -460,7 +460,7 @@ public class DesignVisitor
 	 *            the handle of a multi-line data to traverse
 	 */
 
-	protected void visitMultiLineDataItem( MultiLineDataHandle obj )
+	protected void visitTextDataItem( TextDataHandle obj )
 	{
 		visitReportItem( obj );
 	}
@@ -798,9 +798,9 @@ public class DesignVisitor
 		 *            the multiline data to traverse
 		 */
 
-		public void visitMultiLineDataItem( MultiLineDataItem obj )
+		public void visitTextDataItem( TextDataItem obj )
 		{
-			DesignVisitor.this.visitMultiLineDataItem( obj.handle( design ) );
+			DesignVisitor.this.visitTextDataItem( obj.handle( design ) );
 		}
 
 		/**

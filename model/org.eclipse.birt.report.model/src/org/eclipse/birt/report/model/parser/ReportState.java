@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class provides parser state for the top-level Report element.
- *  
+ * 
  */
 
 public class ReportState extends DesignParseState
@@ -159,8 +159,8 @@ public class ReportState extends DesignParseState
 					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG ) )
 				return new ScriptDataSourceState( handler );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SOURCE_TAG )||tagName
-					.equalsIgnoreCase( "extended-data-source" ) ) //$NON-NLS-1$
+					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SOURCE_TAG )
+					|| tagName.equalsIgnoreCase( "extended-data-source" ) ) //$NON-NLS-1$
 			{
 				return new OdaDataSourceState( handler );
 			}
@@ -187,8 +187,8 @@ public class ReportState extends DesignParseState
 					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SET_TAG ) )
 				return new ScriptDataSetState( handler );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )||tagName
-					.equalsIgnoreCase("extended-data-set" ) ) //$NON-NLS-1$
+					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )
+					|| tagName.equalsIgnoreCase( "extended-data-set" ) ) //$NON-NLS-1$
 			{
 				return new OdaDataSetState( handler );
 			}
@@ -237,8 +237,9 @@ public class ReportState extends DesignParseState
 
 			if ( StringUtil.isBlank( key ) )
 			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
 				return;
 			}
 
@@ -299,8 +300,9 @@ public class ReportState extends DesignParseState
 
 			if ( design.findTranslation( resourceKey, locale ) != null )
 			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
 				return;
 			}
 
@@ -396,8 +398,10 @@ public class ReportState extends DesignParseState
 				return new ExtendedItemState( handler, design,
 						ReportDesign.BODY_SLOT );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )
-				return new MultiLineDataItemState( handler, design,
+					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
+					|| tagName
+							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+				return new TextDataItemState( handler, design,
 						ReportDesign.BODY_SLOT );
 			return super.startElement( tagName );
 		}
@@ -466,10 +470,11 @@ public class ReportState extends DesignParseState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG ) )
-				return new MultiLineDataItemState( handler, design, slotID );
+					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
+					|| tagName
+							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
+				return new TextDataItemState( handler, design, slotID );
 			return super.startElement( tagName );
 		}
 	}
 }
-

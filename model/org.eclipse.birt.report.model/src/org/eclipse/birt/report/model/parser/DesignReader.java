@@ -66,7 +66,7 @@ public final class DesignReader
 		if ( !inputStream.markSupported( ) )
 			internalStream = new BufferedInputStream( inputStream );
 
-		assert inputStream.markSupported( );
+		assert internalStream.markSupported( );
 
 		// set file name of the design file. Used to search relative path
 		// to the file.

@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.MultiLineDataItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
@@ -40,6 +39,7 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -93,8 +93,8 @@ public class ElementFactory
 	public DesignElementHandle newElement( String elementTypeName, String name )
 	{
 
-		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
-				elementTypeName );
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( elementTypeName );
 
 		if ( elemDefn == null )
 			return null;
@@ -575,11 +575,27 @@ public class ElementFactory
 	 * @param name
 	 *            the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
+	 * 
+	 * @deprecated by the method {@link #newTextData(String)}
 	 */
 
-	public MultiLineDataHandle newMultiLineData( String name )
+	public TextDataHandle newMultiLineData( String name )
 	{
-		MultiLineDataItem element = new MultiLineDataItem( name );
+		TextDataItem element = new TextDataItem( name );
+		return element.handle( design );
+	}
+
+	/**
+	 * Creates a new multi line data item.
+	 * 
+	 * @param name
+	 *            the optional multi line data name. Can be <code>null</code>.
+	 * @return a handle to multi line data item
+	 */
+
+	public TextDataHandle newTextData( String name )
+	{
+		TextDataItem element = new TextDataItem( name );
 		return element.handle( design );
 	}
 
@@ -591,13 +607,14 @@ public class ElementFactory
 	 * @param extensionName
 	 *            the required extension name
 	 * @return a handle to extended item, return <code>null</code> if the
-	 *         definition with the given extension name is not found 
+	 *         definition with the given extension name is not found
 	 */
 
 	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn)dd.getExtension( extensionName );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( extensionName );
 		if ( extDefn == null )
 			return null;
 		ExtendedItem element = new ExtendedItem( name );
@@ -605,16 +622,16 @@ public class ElementFactory
 		ExtendedItemHandle handle = element.handle( design );
 		try
 		{
-			handle.loadExtendedElement();
+			handle.loadExtendedElement( );
 		}
 		catch ( ExtendedElementException e )
 		{
 			// It's impossible to fail when deserializing.
-			
+
 			assert false;
 		}
 		return handle;
-		
+
 	}
 
 	/**

@@ -119,7 +119,7 @@ public class ElementVisitor
 	 *            the multi-line data item to traverse
 	 */
 
-	public void visitMultiLineDataItem( MultiLineDataItem obj )
+	public void visitTextDataItem( TextDataItem obj )
 	{
 		visitReportItem( obj );
 	}
