@@ -96,7 +96,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 */
     public Collection getParameterMetaData() throws DataException
 	{
-    	throw new UnsupportedOperationException();
+    	throw new DataException( ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED );
 	}
     
 	/**

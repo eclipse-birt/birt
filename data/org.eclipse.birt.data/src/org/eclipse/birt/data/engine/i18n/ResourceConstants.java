@@ -92,10 +92,10 @@ public class ResourceConstants
 	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
 	
 	public final static String QUERY_FAILURE = "QUERY_FAILURE";
-	public final static String NULL_POINTER = "NULL_POINTER";
 	
 	public final static String INVALID_EXPR = "INVALID_EXPR";
 	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
+	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
 	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
