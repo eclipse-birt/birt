@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,70 +35,68 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  *  
  */
-public class GradientEditorDialog implements SelectionListener, Listener, IAngleChangeListener 
+public class GradientEditorDialog implements SelectionListener, Listener, IAngleChangeListener
 {
-	private transient Composite cmpContent = null;
-	
-	private transient Composite cmpGeneral = null;
-	
-	private transient Composite cmpButtons = null;
-	
-	private transient Button btnAccept = null;
-	
-	private transient Button btnCancel = null;
-	
-	private transient FillChooserComposite fccStartColor = null;
-	
-	private transient FillChooserComposite fccEndColor = null;
-	
-	private transient Button cbCyclic = null;
-	
-	private transient Group grpRotation = null;
-	
-	private transient AngleSelectorComposite ascRotation = null;
-	
-	private transient IntegerSpinControl iscRotation = null;
-	
-	private transient Gradient gCurrent = null;
-	
-	private transient Gradient gBackup = null;
-	
-	private transient FillCanvas cnvPreview = null;
-	
-	private transient Display display = null;
-	
-	private transient Shell shell = null;
-	
-	public static void main(String[] args) 
-	{
-		GradientEditorDialog editor = new GradientEditorDialog(null);
-	}
+    private transient Composite cmpContent = null;
 
-	/**
-	 * 
-	 */
-	public GradientEditorDialog(Gradient gSelected) 
-	{
-		this.gCurrent = gSelected;
-		if(gCurrent != null)
-		{
-			gBackup = (Gradient) EcoreUtil.copy(gSelected);
-		}
-		else
-		{
-			gCurrent = AttributeFactory.eINSTANCE.createGradient();
-			gCurrent.setStartColor(ColorDefinitionImpl.create(254, 0, 0));
-			gCurrent.setEndColor(ColorDefinitionImpl.create(0, 0, 254));
-		}
-		display = Display.getCurrent();
+    private transient Composite cmpGeneral = null;
+
+    private transient Composite cmpButtons = null;
+
+    private transient Button btnAccept = null;
+
+    private transient Button btnCancel = null;
+
+    private transient FillChooserComposite fccStartColor = null;
+
+    private transient FillChooserComposite fccEndColor = null;
+
+    private transient Button cbCyclic = null;
+
+    private transient Group grpRotation = null;
+
+    private transient AngleSelectorComposite ascRotation = null;
+
+    private transient IntegerSpinControl iscRotation = null;
+
+    private transient Gradient gCurrent = null;
+
+    private transient Gradient gBackup = null;
+
+    private transient FillCanvas cnvPreview = null;
+
+    private transient Display display = null;
+
+    private transient Shell shell = null;
+
+    public static void main(String[] args)
+    {
+        GradientEditorDialog editor = new GradientEditorDialog(null);
+    }
+
+    /**
+     *  
+     */
+    public GradientEditorDialog(Gradient gSelected)
+    {
+        this.gCurrent = gSelected;
+        if (gCurrent != null)
+        {
+            gBackup = (Gradient) EcoreUtil.copy(gSelected);
+        }
+        else
+        {
+            gCurrent = AttributeFactory.eINSTANCE.createGradient();
+            gCurrent.setStartColor(ColorDefinitionImpl.create(254, 0, 0));
+            gCurrent.setEndColor(ColorDefinitionImpl.create(0, 0, 254));
+        }
+        display = Display.getCurrent();
         shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE/* | SWT.APPLICATION_MODAL */);
         shell.setLayout(new FillLayout());
-		placeComponents();
+        placeComponents();
         shell.setText("Gradient Editor:");
         shell.setSize(400, 320);
-        shell.setLocation(Display.getCurrent().getClientArea().width / 2 - (shell.getSize().x / 2), Display
-            .getCurrent().getClientArea().height
-            / 2 - (shell.getSize().y / 2));
+        UIHelper.centerOnScreen(shell);
         shell.open();
         while (!shell.isDisposed())
         {
@@ -106,100 +105,98 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
                 shell.getDisplay().sleep();
             }
         }
-	}
-	
-	private void placeComponents()
-	{
-		GridLayout glContent = new GridLayout();
-		glContent.numColumns = 2;
-		glContent.horizontalSpacing = 5;
-		glContent.verticalSpacing = 5;
-		
-		cmpContent = new Composite(shell, SWT.NONE);
-		cmpContent.setLayout(glContent);
-		
-		GridLayout glGeneral = new GridLayout();
-		glContent.numColumns = 2;
-		glContent.horizontalSpacing = 5;
-		glContent.verticalSpacing = 5;
-		
-		cmpGeneral = new Composite(cmpContent, SWT.NONE);
-		GridData gdCMPGeneral = new GridData(GridData.FILL_BOTH);
-		cmpGeneral.setLayoutData(gdCMPGeneral);
-		cmpGeneral.setLayout(glGeneral);
+    }
 
-		Label lblStartColor = new Label(cmpGeneral, SWT.NONE);
-		GridData gdLBLStartColor = new GridData();
-		lblStartColor.setLayoutData(gdLBLStartColor);
-		lblStartColor.setText("Start Color:");
-		
-		fccStartColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getStartColor(), false, false);
-		GridData gdFCCStartColor = new GridData(GridData.FILL_HORIZONTAL);
-		fccStartColor.setLayoutData(gdFCCStartColor);
-		fccStartColor.addListener(this);
-		
-		Label lblEndColor = new Label(cmpGeneral, SWT.NONE);
-		GridData gdLBLEndColor = new GridData();
-		lblEndColor.setLayoutData(gdLBLEndColor);
-		lblEndColor.setText("End Color:");
-		
-		fccEndColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getEndColor(), false, false);
-		GridData gdFCCEndColor = new GridData(GridData.FILL_HORIZONTAL);
-		fccEndColor.setLayoutData(gdFCCEndColor);
-		fccEndColor.addListener(this);
-		
-		Label lblDummy = new Label(cmpGeneral, SWT.NONE);
-		GridData gdLBLDummy = new GridData(GridData.FILL_BOTH);
-		lblDummy.setLayoutData(gdLBLDummy);
-		
-		createRotationPanel();
+    private void placeComponents()
+    {
+        GridLayout glContent = new GridLayout();
+        glContent.numColumns = 2;
+        glContent.horizontalSpacing = 5;
+        glContent.verticalSpacing = 5;
 
-		/*		cbCyclic = new Button(cmpContent, SWT.CHECK);
-		GridData gdCBCyclic = new GridData(GridData.FILL_HORIZONTAL);
-		gdCBCyclic.horizontalSpan = 4;
-		cbCyclic.setLayoutData(gdCBCyclic);
-		cbCyclic.setText("Is Cyclic");
-		cbCyclic.setSelection(gCurrent.isCyclic());
-*/		
-		
-		Group grpPreview = new Group(cmpContent, SWT.NONE);
-		GridData gdGRPPreview = new GridData(GridData.FILL_BOTH);
-		gdGRPPreview.horizontalSpan = 2;
-		grpPreview.setLayoutData(gdGRPPreview);
-		grpPreview.setLayout(new FillLayout());
-		grpPreview.setText("Preview");
-		
-		cnvPreview = new FillCanvas(grpPreview, SWT.NO_FOCUS);
-		cnvPreview.setFill(gCurrent);
-		
-		GridLayout glButtons = new GridLayout();
-		glButtons.numColumns = 2;
-		glButtons.horizontalSpacing = 5;
-		glButtons.verticalSpacing = 5;
-		glButtons.marginHeight = 2;
-		glButtons.marginWidth = 7;
-		
-		cmpButtons = new Composite(cmpContent, SWT.NONE);
-		GridData gdCMPButtons = new GridData(GridData.FILL_HORIZONTAL);
-		gdCMPButtons.horizontalSpan = 4;
-		cmpButtons.setLayoutData(gdCMPButtons);
-		cmpButtons.setLayout(glButtons);
-		
-		btnAccept = new Button(cmpButtons, SWT.PUSH);
-		GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
-		gdBTNAccept.grabExcessHorizontalSpace = true;
-		btnAccept.setLayoutData(gdBTNAccept);
-		btnAccept.setText("Ok");
-		btnAccept.addSelectionListener(this);
-		
-		btnCancel = new Button(cmpButtons, SWT.PUSH);
-		GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		gdBTNCancel.grabExcessHorizontalSpace = false;
-		btnCancel.setLayoutData(gdBTNCancel);
-		btnCancel.setText("Cancel");
-		btnCancel.addSelectionListener(this);
-	}
-	
+        cmpContent = new Composite(shell, SWT.NONE);
+        cmpContent.setLayout(glContent);
+
+        GridLayout glGeneral = new GridLayout();
+        glContent.numColumns = 2;
+        glContent.horizontalSpacing = 5;
+        glContent.verticalSpacing = 5;
+
+        cmpGeneral = new Composite(cmpContent, SWT.NONE);
+        GridData gdCMPGeneral = new GridData(GridData.FILL_BOTH);
+        cmpGeneral.setLayoutData(gdCMPGeneral);
+        cmpGeneral.setLayout(glGeneral);
+
+        Label lblStartColor = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLBLStartColor = new GridData();
+        lblStartColor.setLayoutData(gdLBLStartColor);
+        lblStartColor.setText("Start Color:");
+
+        fccStartColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getStartColor(), false, false);
+        GridData gdFCCStartColor = new GridData(GridData.FILL_HORIZONTAL);
+        fccStartColor.setLayoutData(gdFCCStartColor);
+        fccStartColor.addListener(this);
+
+        Label lblEndColor = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLBLEndColor = new GridData();
+        lblEndColor.setLayoutData(gdLBLEndColor);
+        lblEndColor.setText("End Color:");
+
+        fccEndColor = new FillChooserComposite(cmpGeneral, SWT.NONE, gCurrent.getEndColor(), false, false);
+        GridData gdFCCEndColor = new GridData(GridData.FILL_HORIZONTAL);
+        fccEndColor.setLayoutData(gdFCCEndColor);
+        fccEndColor.addListener(this);
+
+        Label lblDummy = new Label(cmpGeneral, SWT.NONE);
+        GridData gdLBLDummy = new GridData(GridData.FILL_BOTH);
+        lblDummy.setLayoutData(gdLBLDummy);
+
+        createRotationPanel();
+
+        /*
+         * cbCyclic = new Button(cmpContent, SWT.CHECK); GridData gdCBCyclic = new GridData(GridData.FILL_HORIZONTAL);
+         * gdCBCyclic.horizontalSpan = 4; cbCyclic.setLayoutData(gdCBCyclic); cbCyclic.setText("Is Cyclic");
+         * cbCyclic.setSelection(gCurrent.isCyclic());
+         */
+
+        Group grpPreview = new Group(cmpContent, SWT.NONE);
+        GridData gdGRPPreview = new GridData(GridData.FILL_BOTH);
+        gdGRPPreview.horizontalSpan = 2;
+        grpPreview.setLayoutData(gdGRPPreview);
+        grpPreview.setLayout(new FillLayout());
+        grpPreview.setText("Preview");
+
+        cnvPreview = new FillCanvas(grpPreview, SWT.NO_FOCUS);
+        cnvPreview.setFill(gCurrent);
+
+        GridLayout glButtons = new GridLayout();
+        glButtons.numColumns = 2;
+        glButtons.horizontalSpacing = 5;
+        glButtons.verticalSpacing = 5;
+        glButtons.marginHeight = 2;
+        glButtons.marginWidth = 7;
+
+        cmpButtons = new Composite(cmpContent, SWT.NONE);
+        GridData gdCMPButtons = new GridData(GridData.FILL_HORIZONTAL);
+        gdCMPButtons.horizontalSpan = 4;
+        cmpButtons.setLayoutData(gdCMPButtons);
+        cmpButtons.setLayout(glButtons);
+
+        btnAccept = new Button(cmpButtons, SWT.PUSH);
+        GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
+        gdBTNAccept.grabExcessHorizontalSpace = true;
+        btnAccept.setLayoutData(gdBTNAccept);
+        btnAccept.setText("Ok");
+        btnAccept.addSelectionListener(this);
+
+        btnCancel = new Button(cmpButtons, SWT.PUSH);
+        GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
+        gdBTNCancel.grabExcessHorizontalSpace = false;
+        btnCancel.setLayoutData(gdBTNCancel);
+        btnCancel.setText("Cancel");
+        btnCancel.addSelectionListener(this);
+    }
+
     private void createRotationPanel()
     {
         GridLayout glRotation = new GridLayout();
@@ -233,69 +230,76 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         iscRotation.addListener(this);
     }
 
-	
-	public Gradient getGradient()
-	{
-		return gCurrent;
-	}
+    public Gradient getGradient()
+    {
+        return gCurrent;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected(SelectionEvent e) 
-	{
-		if(e.getSource().equals(cbCyclic))
-		{
-			gCurrent.setCyclic(cbCyclic.getSelection());
-		}
-		else if(e.getSource().equals(btnAccept))
-		{
-			shell.dispose();
-		}
-		else if(e.getSource().equals(btnCancel))
-		{
-			gCurrent = gBackup;
-			shell.dispose();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+     */
+    public void widgetSelected(SelectionEvent e)
+    {
+        if (e.getSource().equals(cbCyclic))
+        {
+            gCurrent.setCyclic(cbCyclic.getSelection());
+        }
+        else if (e.getSource().equals(btnAccept))
+        {
+            shell.dispose();
+        }
+        else if (e.getSource().equals(btnCancel))
+        {
+            gCurrent = gBackup;
+            shell.dispose();
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected(SelectionEvent e) 
-	{
-		// TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+     */
+    public void widgetDefaultSelected(SelectionEvent e)
+    {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
-	public void handleEvent(Event event)
-	{
-		if(event.widget.equals(fccStartColor))
-		{
-			gCurrent.setStartColor((ColorDefinition) event.data);
-		}
-		else if(event.widget.equals(fccEndColor))
-		{
-			gCurrent.setEndColor((ColorDefinition) event.data);
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+     */
+    public void handleEvent(Event event)
+    {
+        if (event.widget.equals(fccStartColor))
+        {
+            gCurrent.setStartColor((ColorDefinition) event.data);
+        }
+        else if (event.widget.equals(fccEndColor))
+        {
+            gCurrent.setEndColor((ColorDefinition) event.data);
+        }
         else if (event.widget.equals(iscRotation))
         {
             gCurrent.setDirection(iscRotation.getValue());
             ascRotation.setAngle(iscRotation.getValue());
             ascRotation.redraw();
         }
-		cnvPreview.redraw();
-	}
+        cnvPreview.redraw();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged(int)
-	 */
-	public void angleChanged(int iNewAngle)
-	{
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged(int)
+     */
+    public void angleChanged(int iNewAngle)
+    {
         iscRotation.setValue(iNewAngle);
-		gCurrent.setDirection(iNewAngle);
-	}
+        gCurrent.setDirection(iNewAngle);
+    }
 }

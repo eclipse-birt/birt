@@ -82,6 +82,8 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
     private transient FormatSpecifier formatspecifier = null;
 
+    private transient boolean bEnableEvents = true;
+
     /**
      * @param parent
      * @param style
@@ -299,6 +301,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
     private void populateLists()
     {
+        this.bEnableEvents = false;
         cmbDataType.add("Date/Time");
         cmbDataType.add("Number");
 
@@ -363,12 +366,12 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             else
             {
-                str = String.valueOf(((NumberFormatSpecifier) formatspecifier).getMultiplier());
+                str = String.valueOf(((JavaNumberFormatSpecifier) formatspecifier).getMultiplier());
                 if (str == null)
                 {
                     str = "";
                 }
-                txtMultiplier.setText(str);
+                txtAdvMultiplier.setText(str);
                 str = ((JavaNumberFormatSpecifier) formatspecifier).getPattern();
                 if (str == null)
                 {
@@ -378,6 +381,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             cmpDetails.layout();
         }
+        this.bEnableEvents = true;
     }
 
     public FormatSpecifier getFormatSpecifier()
@@ -400,6 +404,10 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
      */
     public void widgetSelected(SelectionEvent e)
     {
+        if (!bEnableEvents)
+        {
+            return;
+        }
         if (e.getSource().equals(cmbDataType))
         {
             if (cmbDataType.getText().equals("Number"))
@@ -461,6 +469,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
     public void modifyText(ModifyEvent e)
     {
         Object oSource = e.getSource();
+        this.bEnableEvents = false;
         if (oSource.equals(txtDatePattern))
         {
             if (!(formatspecifier instanceof JavaDateFormatSpecifier))
@@ -560,6 +569,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             ((JavaNumberFormatSpecifier) formatspecifier).setPattern(txtNumberPattern.getText());
         }
+        this.bEnableEvents = true;
     }
 
     /*
@@ -569,6 +579,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
      */
     public void handleEvent(Event event)
     {
+        this.bEnableEvents = false;
         if (event.widget.equals(iscFractionDigits))
         {
             if (!(formatspecifier instanceof NumberFormatSpecifier))
@@ -592,6 +603,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             ((NumberFormatSpecifier) formatspecifier).setFractionDigits(((Integer) event.data).intValue());
         }
+        this.bEnableEvents = true;
     }
 
 }

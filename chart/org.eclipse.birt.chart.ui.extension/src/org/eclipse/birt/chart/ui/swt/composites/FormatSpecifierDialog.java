@@ -10,7 +10,9 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -48,7 +50,15 @@ public class FormatSpecifierDialog implements SelectionListener
     {
         super();
         this.formatspecifier = formatspecifier;
-        fsBackup = (FormatSpecifier) EcoreUtil.copy(formatspecifier);
+        if (formatspecifier == null)
+        {
+            this.formatspecifier = AttributeFactory.eINSTANCE.createNumberFormatSpecifier();
+            fsBackup = (FormatSpecifier) EcoreUtil.copy(this.formatspecifier);
+        }
+        else
+        {
+            fsBackup = null;
+        }
 
         shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         GridLayout gridLayout = new GridLayout();
@@ -57,9 +67,7 @@ public class FormatSpecifierDialog implements SelectionListener
         placeComponents();
         shell.setText("Format Specifier Dialog:");
         shell.setSize(332, 255);
-        shell.setLocation(Display.getCurrent().getClientArea().width / 2 - (shell.getSize().x / 2), Display
-            .getCurrent().getClientArea().height
-            / 2 - (shell.getSize().y / 2));
+        UIHelper.centerOnScreen(shell);
         shell.open();
         while (!shell.isDisposed())
         {

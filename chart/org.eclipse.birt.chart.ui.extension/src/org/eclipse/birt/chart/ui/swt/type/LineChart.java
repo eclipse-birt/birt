@@ -211,7 +211,6 @@ public class LineChart implements IChartType
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = LineSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -228,7 +227,6 @@ public class LineChart implements IChartType
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setPercent(true);
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = LineSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -244,7 +242,6 @@ public class LineChart implements IChartType
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
 
             SeriesDefinition sdY = SeriesDefinitionImpl.create();
-            sdY.getQuery().setDefinition("Expr(\"Column\")");
             sdY.getSeriesPalette().update(0);
             Series valueSeries = LineSeriesImpl.create();
             valueSeries.getLabel().setVisible(true);
@@ -265,7 +262,7 @@ public class LineChart implements IChartType
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("New York, Chicago, San Francisco");
+        sdBase.setDataSetRepresentation("Category-A, Category-B, Category-C");
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)

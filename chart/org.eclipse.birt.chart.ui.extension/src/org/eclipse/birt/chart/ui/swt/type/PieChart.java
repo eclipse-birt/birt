@@ -138,6 +138,10 @@ public class PieChart implements IChartType
             newChart.setType(sType);
             newChart.setSubType(sSubType);
             newChart.setDimension(getDimensionFor(sDimension));
+            if (newChart.getDimension().equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL))
+            {
+                newChart.setSeriesThickness(15);
+            }
         }
         else
         {
@@ -152,7 +156,6 @@ public class PieChart implements IChartType
         sdX.getQuery().setDefinition("Base Series");
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series valueSeries = PieSeriesImpl.create();
         valueSeries.getLabel().setVisible(true);
@@ -177,7 +180,7 @@ public class PieChart implements IChartType
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("New York, Chicago, San Francisco");
+        sdBase.setDataSetRepresentation("Category-A, Category-B, Category-C");
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)

@@ -58,6 +58,12 @@
             nodePath="Data.Y Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseSeriesDataSheetImpl"
+            nodePath="Data.Base Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.OrthogonalSeriesDataSheetImpl"
+            nodePath="Data.Orthogonal Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseSeriesDataSheetImpl"
             nodePath="Data.X Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.OrthogonalSeriesDataSheetImpl"

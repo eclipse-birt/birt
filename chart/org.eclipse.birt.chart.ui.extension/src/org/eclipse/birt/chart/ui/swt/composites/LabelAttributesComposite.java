@@ -26,6 +26,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -44,6 +45,8 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private transient Group grpAttributes = null;
 
     private transient Group grpOutline = null;
+
+    private transient Button cbVisible = null;
 
     private transient Combo cmbPosition = null;
 
@@ -75,23 +78,25 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient Vector vListeners = null;
 
-    public static final int POSITION_CHANGED_EVENT = 1;
+    public static final int VISIBILITY_CHANGED_EVENT = 1;
 
-    public static final int FONT_CHANGED_EVENT = 2;
+    public static final int POSITION_CHANGED_EVENT = 2;
 
-    public static final int BACKGROUND_CHANGED_EVENT = 3;
+    public static final int FONT_CHANGED_EVENT = 3;
 
-    public static final int SHADOW_CHANGED_EVENT = 4;
+    public static final int BACKGROUND_CHANGED_EVENT = 4;
 
-    public static final int OUTLINE_STYLE_CHANGED_EVENT = 5;
+    public static final int SHADOW_CHANGED_EVENT = 5;
 
-    public static final int OUTLINE_WIDTH_CHANGED_EVENT = 6;
+    public static final int OUTLINE_STYLE_CHANGED_EVENT = 6;
 
-    public static final int OUTLINE_COLOR_CHANGED_EVENT = 7;
+    public static final int OUTLINE_WIDTH_CHANGED_EVENT = 7;
 
-    public static final int OUTLINE_VISIBILITY_CHANGED_EVENT = 8;
+    public static final int OUTLINE_COLOR_CHANGED_EVENT = 8;
 
-    public static final int INSETS_CHANGED_EVENT = 9;
+    public static final int OUTLINE_VISIBILITY_CHANGED_EVENT = 9;
+
+    public static final int INSETS_CHANGED_EVENT = 10;
 
     private transient boolean bPositionEnabled = true;
 
@@ -157,6 +162,13 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         GridData gdCMPGeneral = new GridData(GridData.FILL_HORIZONTAL);
         cmpGeneral.setLayoutData(gdCMPGeneral);
         cmpGeneral.setLayout(glGeneral);
+
+        cbVisible = new Button(cmpGeneral, SWT.CHECK);
+        GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
+        gdCBVisible.horizontalSpan = 2;
+        cbVisible.setLayoutData(gdCBVisible);
+        cbVisible.setText("Is Visible");
+        cbVisible.addSelectionListener(this);
 
         if (bPositionEnabled)
         {
@@ -266,6 +278,11 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         {
             eLabel.data = Position.get(cmbPosition.getText());
             eLabel.type = POSITION_CHANGED_EVENT;
+        }
+        else if (e.getSource().equals(cbVisible))
+        {
+            eLabel.data = new Boolean(cbVisible.getSelection());
+            eLabel.type = VISIBILITY_CHANGED_EVENT;
         }
         fireEvent(eLabel);
     }

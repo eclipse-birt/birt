@@ -12,6 +12,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
@@ -59,9 +60,7 @@ public class TriggerEditorDialog implements SelectionListener
         placeComponents();
         shell.setText("Trigger Editor Dialog:");
         shell.setSize(400, 340);
-        shell.setLocation(Display.getCurrent().getClientArea().width / 2 - (shell.getSize().x / 2), Display
-            .getCurrent().getClientArea().height
-            / 2 - (shell.getSize().y / 2));
+        UIHelper.centerOnScreen(shell);
         shell.open();
         while (!shell.isDisposed())
         {

@@ -155,7 +155,6 @@ public class StockChart implements IChartType
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series valueSeries = StockSeriesImpl.create();
         valueSeries.getLabel().setVisible(true);

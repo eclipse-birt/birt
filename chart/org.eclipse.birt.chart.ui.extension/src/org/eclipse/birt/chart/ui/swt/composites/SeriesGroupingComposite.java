@@ -86,6 +86,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         gdBTNEnabled.horizontalSpan = 4;
         btnEnabled.setLayoutData(gdBTNEnabled);
         btnEnabled.setText("Enabled");
+        btnEnabled.addSelectionListener(this);
+        btnEnabled.setSelection(getGrouping().isEnabled());
 
         Label lblType = new Label(grpContent, SWT.NONE);
         GridData gdLBLType = new GridData();
@@ -159,11 +161,20 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
     private void populateLists()
     {
+        SeriesGrouping grouping = getGrouping();
+
         // Populate grouping type combo
         cmbType.add("Text");
         cmbType.add("Number");
         cmbType.add("Date/Time");
-        cmbType.select(0);
+        if (grouping.getGroupType() != null)
+        {
+            cmbType.setText(getGrouping().getGroupType());
+        }
+        else
+        {
+            cmbType.select(0);
+        }
 
         // Populate grouping unit combo (applicable only if type is Date/Time
         cmbUnit.add("Seconds");
@@ -174,11 +185,23 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         cmbUnit.add("Months");
         cmbUnit.add("Quarters");
         cmbUnit.add("Years");
-        cmbUnit.select(0);
+        if (grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time")
+            && grouping.getGroupingUnit() != null)
+        {
+            cmbUnit.setText(grouping.getGroupingUnit());
+        }
+        else
+        {
+            cmbUnit.select(0);
+        }
 
         // Populate grouping aggregate expression combo
         cmbAggregate.add("Sum");
         cmbAggregate.add("Average");
+        if (grouping.getAggregateExpression() != null)
+        {
+            cmbAggregate.setText(grouping.getAggregateExpression());
+        }
         cmbAggregate.select(0);
     }
 
@@ -247,7 +270,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
     {
         if (event.widget.equals(iscInterval))
         {
-            sd.getGrouping().setGroupingInterval(((Integer) event.data).intValue());
+            getGrouping().setGroupingInterval(((Integer) event.data).intValue());
         }
     }
 

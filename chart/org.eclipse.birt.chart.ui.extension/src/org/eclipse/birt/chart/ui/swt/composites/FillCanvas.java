@@ -29,10 +29,9 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
-
 /**
  * @author Administrator
- *
+ *  
  */
 class FillCanvas extends Canvas implements PaintListener
 {
@@ -66,10 +65,21 @@ class FillCanvas extends Canvas implements PaintListener
         {
             if (fCurrent instanceof ColorDefinition)
             {
-                cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
-                    ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
-                gc.setBackground(cBackground);
-                gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
+                if (((ColorDefinition) fCurrent).getTransparency() == 0)
+                {
+                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
+                    Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
+                    gc.setForeground(cBlack);
+                    gc.drawText("Transparent", 2, 2);
+                    cBlack.dispose();
+                }
+                else
+                {
+                    cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
+                        ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
+                    gc.setBackground(cBackground);
+                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
+                }
             }
             else if (fCurrent instanceof Image)
             {
@@ -78,24 +88,25 @@ class FillCanvas extends Canvas implements PaintListener
             }
             else if (fCurrent instanceof Gradient)
             {
-            	if(((Gradient) fCurrent).getStartColor() == null && ((Gradient) fCurrent).getEndColor() == null)
-            	{
-            		return;
-            	}
-            	Color clrStart = null;
-            	Color clrEnd = null;
-            	if(((Gradient) fCurrent).getStartColor() != null)
-            	{
-		        	clrStart = new Color(Display.getDefault(), ((Gradient) fCurrent).getStartColor().getRed(),
-		        			((Gradient) fCurrent).getStartColor().getGreen(), ((Gradient) fCurrent).getStartColor().getBlue());
-	            	gc.setForeground(clrStart);
-            	}
-            	if(((Gradient) fCurrent).getEndColor() != null)
-            	{
-	            	clrEnd = new Color(Display.getDefault(), ((Gradient) fCurrent).getEndColor().getRed(),
-	            			((Gradient) fCurrent).getEndColor().getGreen(), ((Gradient) fCurrent).getEndColor().getBlue());
-	            	gc.setBackground(clrEnd);
-            	}
+                if (((Gradient) fCurrent).getStartColor() == null && ((Gradient) fCurrent).getEndColor() == null)
+                {
+                    return;
+                }
+                Color clrStart = null;
+                Color clrEnd = null;
+                if (((Gradient) fCurrent).getStartColor() != null)
+                {
+                    clrStart = new Color(Display.getDefault(), ((Gradient) fCurrent).getStartColor().getRed(),
+                        ((Gradient) fCurrent).getStartColor().getGreen(), ((Gradient) fCurrent).getStartColor()
+                            .getBlue());
+                    gc.setForeground(clrStart);
+                }
+                if (((Gradient) fCurrent).getEndColor() != null)
+                {
+                    clrEnd = new Color(Display.getDefault(), ((Gradient) fCurrent).getEndColor().getRed(),
+                        ((Gradient) fCurrent).getEndColor().getGreen(), ((Gradient) fCurrent).getEndColor().getBlue());
+                    gc.setBackground(clrEnd);
+                }
                 gc.fillGradientRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4, false);
             }
         }

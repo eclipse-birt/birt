@@ -130,9 +130,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         populateLists();
         shell.setText("Font Descriptor:");
         shell.setSize(450, 480);
-        shell.setLocation(Display.getCurrent().getClientArea().width / 2 - (shell.getSize().x / 2), Display
-            .getCurrent().getClientArea().height
-            / 2 - (shell.getSize().y / 2));
+        UIHelper.centerOnScreen(shell);
         shell.open();
         while (!shell.isDisposed())
         {

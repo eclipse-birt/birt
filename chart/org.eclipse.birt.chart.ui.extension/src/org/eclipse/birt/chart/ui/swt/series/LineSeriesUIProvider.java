@@ -12,6 +12,7 @@ package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionBuilder;
@@ -52,20 +53,21 @@ public class LineSeriesUIProvider implements ISeriesUIProvider
      * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
      */
-    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder, Object oContext)
+    public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
+        IExpressionBuilder builder, Object oContext)
     {
         Query query = null;
-        if (series.getDataDefinition().size() > 0)
+        if (seriesdefinition.getDesignTimeSeries().getDataDefinition().size() > 0)
         {
-            query = ((Query) series.getDataDefinition().get(0));
+            query = ((Query) seriesdefinition.getDesignTimeSeries().getDataDefinition().get(0));
         }
         else
         {
             query = QueryImpl.create("");
-            series.getDataDefinition().add(query);
+            seriesdefinition.getDesignTimeSeries().getDataDefinition().add(query);
         }
 
-        return new DataDefinitionComposite(parent, SWT.NONE, query, null, builder, oContext);
+        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext);
     }
 
     /*

@@ -157,11 +157,10 @@ public class ScatterChart implements IChartType
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
 
         SeriesDefinition sdY = SeriesDefinitionImpl.create();
-        sdY.getQuery().setDefinition("Expr(\"Column\")");
         sdY.getSeriesPalette().update(0);
         Series orthogonalSeries = ScatterSeriesImpl.create();
         orthogonalSeries.getLabel().setVisible(true);
-        ((ScatterSeries) orthogonalSeries).setStacked(true);
+        ((ScatterSeries) orthogonalSeries).setStacked(false);
         sdY.getSeries().add(orthogonalSeries);
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
 
