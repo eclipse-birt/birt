@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
+import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.IElementDefn;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -1460,6 +1462,33 @@ public abstract class DesignElementHandle
 
 		return getElement( ).canContain( getDesign( ), slotId,
 				content.getElement( ) );
+	}
+
+	/**
+	 * Gets the effective dimension value of the input value. The input value
+	 * may have a default units, which is defined by the report design or the
+	 * session handle. The returned dimension value is the calculated value,
+	 * which is the measure/units pair.
+	 * 
+	 * @param value
+	 *            the original dimension value
+	 * @return the dimension value with the same measure with the original
+	 *         dimension and with a calculated units
+	 */
+	
+	public DimensionValue getEffectiveDimensionValue( DimensionValue value )
+	{
+		if ( value == null )
+			return null;
+		String units = value.getUnits( );
+		if ( !StringUtil.isBlank( units ) )
+			return value;
+		units = design.getUnits( );
+		if ( StringUtil.isBlank( units ) )
+			return new DimensionValue( value.getMeasure( ), units );
+		units = design.getSession( ).getUnits( );
+
+		return new DimensionValue( value.getMeasure( ), units );
 	}
 
 }
