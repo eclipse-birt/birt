@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.data.DataElement;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -34,8 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAxisOrigin()
  * @model @generated
  */
-public interface AxisOrigin extends EObject
-{
+public interface AxisOrigin extends EObject{
 
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is <code>"Min"</code>. The
@@ -59,12 +60,10 @@ public interface AxisOrigin extends EObject
     IntersectionType getType();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}'
-     * attribute. <!-- begin-user-doc --> Gets the type of the origin value. If it is 'Min' or 'Max', its value is
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}' attribute.
+     * <!-- begin-user-doc --> Gets the type of the origin value. If it is 'Min' or 'Max', its value is
      * determined at runtime. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Type</em>' attribute.
+     * @param value the new value of the '<em>Type</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.IntersectionType
      * @see #isSetType()
      * @see #unsetType()
@@ -74,9 +73,8 @@ public interface AxisOrigin extends EObject
     void setType(IntersectionType value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetType()
      * @see #getType()
      * @see #setType(IntersectionType)
@@ -112,18 +110,16 @@ public interface AxisOrigin extends EObject
      * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" required="true"
      * @generated
      */
-    Object getValue();
+    DataElement getValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getValue <em>Value</em>}'
-     * attribute. <!-- begin-user-doc --> Gets the value of the intersection point on the primary axis perpendicular to
-     * this one. Setting its contents makes sence only if the type for origin is set to 'Value'. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Value</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getValue <em>Value</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Value</em>' containment reference.
      * @see #getValue()
      * @generated
      */
-    void setValue(Object value);
+    void setValue(DataElement value);
 
 } // AxisOrigin

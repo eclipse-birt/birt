@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
@@ -30,7 +30,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected NumberDataSetImpl()
@@ -40,7 +39,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -50,7 +48,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -65,7 +62,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -73,7 +69,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.NUMBER_DATA_SET__VALUES:
-                setValues((Object) newValue);
+                setValues((Object)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -81,7 +77,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -97,7 +92,6 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

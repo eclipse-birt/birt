@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.layout.util;
 
+import org.eclipse.birt.chart.model.layout.*;
+
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -26,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It provides an adapter <code>createXXX</code>
  * method for each class of the model. <!-- end-user-doc -->
- * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
@@ -34,15 +35,15 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 {
 
     /**
-     * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The cached model package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected static LayoutPackage modelPackage;
 
     /**
-     * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates an instance of the adapter factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public LayoutAdapterFactory()
@@ -54,10 +55,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Returns whether this factory is applicable for the type of the object. <!-- begin-user-doc --> This
+     * Returns whether this factory is applicable for the type of the object.
+     * <!-- begin-user-doc --> This
      * implementation returns <code>true</code> if the object is either the model's package or is an instance object
      * of the model. <!-- end-user-doc -->
-     * 
      * @return whether this factory is applicable for the type of the object.
      * @generated
      */
@@ -69,72 +70,66 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
         }
         if (object instanceof EObject)
         {
-            return ((EObject) object).eClass().getEPackage() == modelPackage;
+            return ((EObject)object).eClass().getEPackage() == modelPackage;
         }
         return false;
     }
 
     /**
-     * The switch the delegates to the <code>createXXX</code> methods. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The switch the delegates to the <code>createXXX</code> methods.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    protected LayoutSwitch modelSwitch = new LayoutSwitch()
-    {
-        public Object caseBlock(Block object)
+    protected LayoutSwitch modelSwitch =
+        new LayoutSwitch()
         {
-            return createBlockAdapter();
-        }
-
-        public Object caseClientArea(ClientArea object)
-        {
-            return createClientAreaAdapter();
-        }
-
-        public Object caseLabelBlock(LabelBlock object)
-        {
-            return createLabelBlockAdapter();
-        }
-
-        public Object caseLegend(Legend object)
-        {
-            return createLegendAdapter();
-        }
-
-        public Object casePlot(Plot object)
-        {
-            return createPlotAdapter();
-        }
-
-        public Object caseTitleBlock(TitleBlock object)
-        {
-            return createTitleBlockAdapter();
-        }
-
-        public Object defaultCase(EObject object)
-        {
-            return createEObjectAdapter();
-        }
-    };
+            public Object caseBlock(Block object)
+            {
+                return createBlockAdapter();
+            }
+            public Object caseClientArea(ClientArea object)
+            {
+                return createClientAreaAdapter();
+            }
+            public Object caseLabelBlock(LabelBlock object)
+            {
+                return createLabelBlockAdapter();
+            }
+            public Object caseLegend(Legend object)
+            {
+                return createLegendAdapter();
+            }
+            public Object casePlot(Plot object)
+            {
+                return createPlotAdapter();
+            }
+            public Object caseTitleBlock(TitleBlock object)
+            {
+                return createTitleBlockAdapter();
+            }
+            public Object defaultCase(EObject object)
+            {
+                return createEObjectAdapter();
+            }
+        };
 
     /**
-     * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param target
-     *            the object to adapt.
+     * Creates an adapter for the <code>target</code>.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param target the object to adapt.
      * @return the adapter for the <code>target</code>.
      * @generated
      */
     public Adapter createAdapter(Notifier target)
     {
-        return (Adapter) modelSwitch.doSwitch((EObject) target);
+        return (Adapter)modelSwitch.doSwitch((EObject)target);
     }
+
 
     /**
      * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Block <em>Block</em>}'.
      * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
      * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.Block
      * @generated
@@ -145,11 +140,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'. <!-- begin-user-doc --> This
+     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
+     * <!-- begin-user-doc --> This
      * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
      * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.ClientArea
      * @generated
@@ -160,11 +154,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'. <!-- begin-user-doc --> This
+     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
+     * <!-- begin-user-doc --> This
      * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
      * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.LabelBlock
      * @generated
@@ -178,7 +171,6 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
      * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Legend <em>Legend</em>}'.
      * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
      * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.Legend
      * @generated
@@ -192,7 +184,6 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
      * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Plot <em>Plot</em>}'.
      * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
      * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.Plot
      * @generated
@@ -203,11 +194,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'. <!-- begin-user-doc --> This
+     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'.
+     * <!-- begin-user-doc --> This
      * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
      * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.layout.TitleBlock
      * @generated
@@ -218,9 +208,9 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for the default case. <!-- begin-user-doc --> This default implementation returns null.
+     * Creates a new adapter for the default case.
+     * <!-- begin-user-doc --> This default implementation returns null.
      * <!-- end-user-doc -->
-     * 
      * @return the new adapter.
      * @generated
      */

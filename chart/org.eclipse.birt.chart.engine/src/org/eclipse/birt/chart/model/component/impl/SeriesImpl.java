@@ -45,22 +45,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}
- * </li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getFormatSpecifier <em>Format Specifier</em>}
- * </li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SeriesImpl extends EObjectImpl implements Series
@@ -240,7 +238,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected SeriesImpl()
@@ -250,7 +247,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -260,7 +256,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isVisible()
@@ -270,7 +265,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setVisible(boolean newVisible)
@@ -280,13 +274,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         boolean oldVisibleESet = visibleESet;
         visibleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__VISIBLE, oldVisible,
-                visible, !oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__VISIBLE, oldVisible, visible, !oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetVisible()
@@ -296,13 +288,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         visible = VISIBLE_EDEFAULT;
         visibleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__VISIBLE, oldVisible,
-                VISIBLE_EDEFAULT, oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__VISIBLE, oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetVisible()
@@ -312,7 +302,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Label getLabel()
@@ -322,7 +311,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
@@ -331,19 +319,14 @@ public class SeriesImpl extends EObjectImpl implements Series
         label = newLabel;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.SERIES__LABEL, oldLabel, newLabel);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__LABEL, oldLabel, newLabel);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLabel(Label newLabel)
@@ -352,14 +335,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         {
             NotificationChain msgs = null;
             if (label != null)
-                msgs = ((InternalEObject) label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__LABEL, null, msgs);
+                msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__LABEL, null, msgs);
             if (newLabel != null)
-                msgs = ((InternalEObject) newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__LABEL, null, msgs);
+                msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__LABEL, null, msgs);
             msgs = basicSetLabel(newLabel, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__LABEL, newLabel, newLabel));
@@ -367,7 +347,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getDataDefinition()
@@ -381,31 +360,28 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public String getSeriesIdentifier()
+    public Object getSeriesIdentifier()
     {
         return seriesIdentifier;
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-    public void setSeriesIdentifier(String newSeriesIdentifier)
+    public void setSeriesIdentifier(Object newSeriesIdentifier)
     {
-        String oldSeriesIdentifier = seriesIdentifier;
+        Object oldSeriesIdentifier = seriesIdentifier;
         seriesIdentifier = newSeriesIdentifier;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__SERIES_IDENTIFIER,
-                oldSeriesIdentifier, seriesIdentifier));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__SERIES_IDENTIFIER, oldSeriesIdentifier, seriesIdentifier));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPoint getDataPoint()
@@ -415,7 +391,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetDataPoint(DataPoint newDataPoint, NotificationChain msgs)
@@ -424,19 +399,14 @@ public class SeriesImpl extends EObjectImpl implements Series
         dataPoint = newDataPoint;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.SERIES__DATA_POINT, oldDataPoint, newDataPoint);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_POINT, oldDataPoint, newDataPoint);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setDataPoint(DataPoint newDataPoint)
@@ -445,23 +415,18 @@ public class SeriesImpl extends EObjectImpl implements Series
         {
             NotificationChain msgs = null;
             if (dataPoint != null)
-                msgs = ((InternalEObject) dataPoint).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__DATA_POINT, null, msgs);
+                msgs = ((InternalEObject)dataPoint).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__DATA_POINT, null, msgs);
             if (newDataPoint != null)
-                msgs = ((InternalEObject) newDataPoint).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__DATA_POINT, null, msgs);
+                msgs = ((InternalEObject)newDataPoint).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__DATA_POINT, null, msgs);
             msgs = basicSetDataPoint(newDataPoint, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_POINT, newDataPoint,
-                newDataPoint));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_POINT, newDataPoint, newDataPoint));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataSet getDataSet()
@@ -471,7 +436,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetDataSet(DataSet newDataSet, NotificationChain msgs)
@@ -480,19 +444,14 @@ public class SeriesImpl extends EObjectImpl implements Series
         dataSet = newDataSet;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.SERIES__DATA_SET, oldDataSet, newDataSet);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_SET, oldDataSet, newDataSet);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setDataSet(DataSet newDataSet)
@@ -501,23 +460,18 @@ public class SeriesImpl extends EObjectImpl implements Series
         {
             NotificationChain msgs = null;
             if (dataSet != null)
-                msgs = ((InternalEObject) dataSet).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__DATA_SET, null, msgs);
+                msgs = ((InternalEObject)dataSet).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__DATA_SET, null, msgs);
             if (newDataSet != null)
-                msgs = ((InternalEObject) newDataSet).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__DATA_SET, null, msgs);
+                msgs = ((InternalEObject)newDataSet).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__DATA_SET, null, msgs);
             msgs = basicSetDataSet(newDataSet, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_SET, newDataSet,
-                newDataSet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__DATA_SET, newDataSet, newDataSet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FormatSpecifier getFormatSpecifier()
@@ -527,7 +481,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
@@ -536,19 +489,14 @@ public class SeriesImpl extends EObjectImpl implements Series
         formatSpecifier = newFormatSpecifier;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.SERIES__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
@@ -557,23 +505,18 @@ public class SeriesImpl extends EObjectImpl implements Series
         {
             NotificationChain msgs = null;
             if (formatSpecifier != null)
-                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__FORMAT_SPECIFIER, null, msgs);
             if (newFormatSpecifier != null)
-                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.SERIES__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SERIES__FORMAT_SPECIFIER, null, msgs);
             msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__FORMAT_SPECIFIER,
-                newFormatSpecifier, newFormatSpecifier));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Position getLabelPosition()
@@ -583,7 +526,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLabelPosition(Position newLabelPosition)
@@ -593,13 +535,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         boolean oldLabelPositionESet = labelPositionESet;
         labelPositionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__LABEL_POSITION,
-                oldLabelPosition, labelPosition, !oldLabelPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__LABEL_POSITION, oldLabelPosition, labelPosition, !oldLabelPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetLabelPosition()
@@ -609,13 +549,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         labelPosition = LABEL_POSITION_EDEFAULT;
         labelPositionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__LABEL_POSITION,
-                oldLabelPosition, LABEL_POSITION_EDEFAULT, oldLabelPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__LABEL_POSITION, oldLabelPosition, LABEL_POSITION_EDEFAULT, oldLabelPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetLabelPosition()
@@ -625,7 +563,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isStacked()
@@ -635,7 +572,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setStacked(boolean newStacked)
@@ -645,13 +581,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         boolean oldStackedESet = stackedESet;
         stackedESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__STACKED, oldStacked,
-                stacked, !oldStackedESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__STACKED, oldStacked, stacked, !oldStackedESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetStacked()
@@ -661,13 +595,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         stacked = STACKED_EDEFAULT;
         stackedESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__STACKED, oldStacked,
-                STACKED_EDEFAULT, oldStackedESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__STACKED, oldStacked, STACKED_EDEFAULT, oldStackedESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetStacked()
@@ -677,7 +609,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getTriggers()
@@ -691,7 +622,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isTranslucent()
@@ -701,7 +631,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTranslucent(boolean newTranslucent)
@@ -711,13 +640,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         boolean oldTranslucentESet = translucentESet;
         translucentESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__TRANSLUCENT, oldTranslucent,
-                translucent, !oldTranslucentESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SERIES__TRANSLUCENT, oldTranslucent, translucent, !oldTranslucentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetTranslucent()
@@ -727,13 +654,11 @@ public class SeriesImpl extends EObjectImpl implements Series
         translucent = TRANSLUCENT_EDEFAULT;
         translucentESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__TRANSLUCENT,
-                oldTranslucent, TRANSLUCENT_EDEFAULT, oldTranslucentESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SERIES__TRANSLUCENT, oldTranslucent, TRANSLUCENT_EDEFAULT, oldTranslucentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetTranslucent()
@@ -743,11 +668,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -756,7 +679,7 @@ public class SeriesImpl extends EObjectImpl implements Series
                 case ComponentPackage.SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case ComponentPackage.SERIES__DATA_DEFINITION:
-                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case ComponentPackage.SERIES__DATA_SET:
@@ -764,7 +687,7 @@ public class SeriesImpl extends EObjectImpl implements Series
                 case ComponentPackage.SERIES__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
                 case ComponentPackage.SERIES__TRIGGERS:
-                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -774,7 +697,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -809,7 +731,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -817,39 +738,39 @@ public class SeriesImpl extends EObjectImpl implements Series
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.SERIES__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
             case ComponentPackage.SERIES__LABEL:
-                setLabel((Label) newValue);
+                setLabel((Label)newValue);
                 return;
             case ComponentPackage.SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection) newValue);
+                getDataDefinition().addAll((Collection)newValue);
                 return;
             case ComponentPackage.SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((String) newValue);
+                setSeriesIdentifier((Object)newValue);
                 return;
             case ComponentPackage.SERIES__DATA_POINT:
-                setDataPoint((DataPoint) newValue);
+                setDataPoint((DataPoint)newValue);
                 return;
             case ComponentPackage.SERIES__DATA_SET:
-                setDataSet((DataSet) newValue);
+                setDataSet((DataSet)newValue);
                 return;
             case ComponentPackage.SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
             case ComponentPackage.SERIES__LABEL_POSITION:
-                setLabelPosition((Position) newValue);
+                setLabelPosition((Position)newValue);
                 return;
             case ComponentPackage.SERIES__STACKED:
-                setStacked(((Boolean) newValue).booleanValue());
+                setStacked(((Boolean)newValue).booleanValue());
                 return;
             case ComponentPackage.SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection) newValue);
+                getTriggers().addAll((Collection)newValue);
                 return;
             case ComponentPackage.SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean) newValue).booleanValue());
+                setTranslucent(((Boolean)newValue).booleanValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -857,7 +778,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -868,7 +788,7 @@ public class SeriesImpl extends EObjectImpl implements Series
                 unsetVisible();
                 return;
             case ComponentPackage.SERIES__LABEL:
-                setLabel((Label) null);
+                setLabel((Label)null);
                 return;
             case ComponentPackage.SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -877,13 +797,13 @@ public class SeriesImpl extends EObjectImpl implements Series
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case ComponentPackage.SERIES__DATA_POINT:
-                setDataPoint((DataPoint) null);
+                setDataPoint((DataPoint)null);
                 return;
             case ComponentPackage.SERIES__DATA_SET:
-                setDataSet((DataSet) null);
+                setDataSet((DataSet)null);
                 return;
             case ComponentPackage.SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
             case ComponentPackage.SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -903,7 +823,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -917,8 +836,7 @@ public class SeriesImpl extends EObjectImpl implements Series
             case ComponentPackage.SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case ComponentPackage.SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
-                    .equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
             case ComponentPackage.SERIES__DATA_POINT:
                 return dataPoint != null;
             case ComponentPackage.SERIES__DATA_SET:
@@ -939,37 +857,23 @@ public class SeriesImpl extends EObjectImpl implements Series
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (visible: ");
-        if (visibleESet)
-            result.append(visible);
-        else
-            result.append("<unset>");
+        if (visibleESet) result.append(visible); else result.append("<unset>");
         result.append(", seriesIdentifier: ");
         result.append(seriesIdentifier);
         result.append(", labelPosition: ");
-        if (labelPositionESet)
-            result.append(labelPosition);
-        else
-            result.append("<unset>");
+        if (labelPositionESet) result.append(labelPosition); else result.append("<unset>");
         result.append(", stacked: ");
-        if (stackedESet)
-            result.append(stacked);
-        else
-            result.append("<unset>");
+        if (stackedESet) result.append(stacked); else result.append("<unset>");
         result.append(", translucent: ");
-        if (translucentESet)
-            result.append(translucent);
-        else
-            result.append("<unset>");
+        if (translucentESet) result.append(translucent); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

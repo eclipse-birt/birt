@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getSize <em>Size</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getSize <em>Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MarkerImpl extends EObjectImpl implements Marker
@@ -113,7 +113,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected MarkerImpl()
@@ -123,7 +122,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -133,7 +131,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public MarkerType getType()
@@ -143,7 +140,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(MarkerType newType)
@@ -153,13 +149,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         boolean oldTypeESet = typeESet;
         typeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__TYPE, oldType, type,
-                !oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__TYPE, oldType, type, !oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -169,13 +163,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__TYPE, oldType,
-                TYPE_EDEFAULT, oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -185,7 +177,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public int getSize()
@@ -195,7 +186,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSize(int newSize)
@@ -205,13 +195,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         boolean oldSizeESet = sizeESet;
         sizeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__SIZE, oldSize, size,
-                !oldSizeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__SIZE, oldSize, size, !oldSizeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetSize()
@@ -221,13 +209,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         size = SIZE_EDEFAULT;
         sizeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__SIZE, oldSize,
-                SIZE_EDEFAULT, oldSizeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__SIZE, oldSize, SIZE_EDEFAULT, oldSizeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetSize()
@@ -237,7 +223,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isVisible()
@@ -247,7 +232,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setVisible(boolean newVisible)
@@ -257,13 +241,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         boolean oldVisibleESet = visibleESet;
         visibleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__VISIBLE, oldVisible,
-                visible, !oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MARKER__VISIBLE, oldVisible, visible, !oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetVisible()
@@ -273,13 +255,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
         visible = VISIBLE_EDEFAULT;
         visibleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__VISIBLE, oldVisible,
-                VISIBLE_EDEFAULT, oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.MARKER__VISIBLE, oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetVisible()
@@ -289,7 +269,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -308,7 +287,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -316,13 +294,13 @@ public class MarkerImpl extends EObjectImpl implements Marker
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.MARKER__TYPE:
-                setType((MarkerType) newValue);
+                setType((MarkerType)newValue);
                 return;
             case AttributePackage.MARKER__SIZE:
-                setSize(((Integer) newValue).intValue());
+                setSize(((Integer)newValue).intValue());
                 return;
             case AttributePackage.MARKER__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -330,7 +308,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -352,7 +329,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -371,30 +347,19 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(", size: ");
-        if (sizeESet)
-            result.append(size);
-        else
-            result.append("<unset>");
+        if (sizeESet) result.append(size); else result.append("<unset>");
         result.append(", visible: ");
-        if (visibleESet)
-            result.append(visible);
-        else
-            result.append("<unset>");
+        if (visibleESet) result.append(visible); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

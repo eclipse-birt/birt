@@ -15,38 +15,37 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Style Map</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents the style map for the chart. It includes a list of supported chart components and the styles
- * associated with them.
- * 
+ * 			This type represents the style map for the chart. It includes a list of supported chart components and the styles associated with them.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface StyleMap extends EObject
-{
+public interface StyleMap extends EObject{
 
     /**
-     * Returns the value of the '<em><b>Component Name</b></em>' attribute. The default value is
-     * <code>"Chart_Title"</code>. The literals are from the enumeration
-     * {@link org.eclipse.birt.chart.model.attribute.StyledComponent}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Component Name</b></em>' attribute.
+     * The default value is <code>"Chart_Title"</code>.
+     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.StyledComponent}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies the name of a chart component that can have styles associated with it.
-     * 
+     * 					Specifies the name of a chart component that can have styles associated with it.
+     * 					
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Component Name</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.StyledComponent
      * @see #isSetComponentName()
@@ -59,12 +58,9 @@ public interface StyleMap extends EObject
     StyledComponent getComponentName();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Component Name</em>' attribute.
+     * @param value the new value of the '<em>Component Name</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.StyledComponent
      * @see #isSetComponentName()
      * @see #unsetComponentName()
@@ -74,10 +70,8 @@ public interface StyleMap extends EObject
     void setComponentName(StyledComponent value);
 
     /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute.
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see #isSetComponentName()
      * @see #getComponentName()
      * @see #setComponentName(StyledComponent)
@@ -86,10 +80,8 @@ public interface StyleMap extends EObject
     void unsetComponentName();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute is
-     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getComponentName <em>Component Name</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Component Name</em>' attribute is set.
      * @see #unsetComponentName()
      * @see #getComponentName()
@@ -99,13 +91,13 @@ public interface StyleMap extends EObject
     boolean isSetComponentName();
 
     /**
-     * Returns the value of the '<em><b>Style</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Style</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Defines the style identifier(s) to be associated with this entry.
-     * 
+     * 					Defines the style identifier(s) to be associated with this entry.
+     * 					
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Style</em>' attribute.
      * @see #setStyle(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_Style()
@@ -115,11 +107,9 @@ public interface StyleMap extends EObject
     String getStyle();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Style</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Style</em>' attribute.
      * @see #getStyle()
      * @generated
      */

@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class NumberDataElementImpl extends DataElementImpl implements NumberDataElement
@@ -61,7 +61,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected NumberDataElementImpl()
@@ -71,7 +70,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -81,7 +79,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getValue()
@@ -91,7 +88,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValue(double newValue)
@@ -101,13 +97,11 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
         boolean oldValueESet = valueESet;
         valueESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
-                value, !oldValueESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue, value, !oldValueESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetValue()
@@ -117,13 +111,11 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
         value = VALUE_EDEFAULT;
         valueESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
-                VALUE_EDEFAULT, oldValueESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue, VALUE_EDEFAULT, oldValueESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetValue()
@@ -133,7 +125,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -148,7 +139,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -156,7 +146,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.NUMBER_DATA_ELEMENT__VALUE:
-                setValue(((Double) newValue).doubleValue());
+                setValue(((Double)newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -164,7 +154,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -180,7 +169,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -195,20 +183,15 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (value: ");
-        if (valueESet)
-            result.append(value);
-        else
-            result.append("<unset>");
+        if (valueESet) result.append(value); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

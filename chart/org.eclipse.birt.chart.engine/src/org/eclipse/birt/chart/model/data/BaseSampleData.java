@@ -16,27 +16,25 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Base Sample Data</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type sample data for a base series.
- * 
+ * 			This type sample data for a base series.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getBaseSampleData()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface BaseSampleData extends EObject
-{
+public interface BaseSampleData extends EObject{
 
     /**
      * Returns the value of the '<em><b>Data Set Representation</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -56,12 +54,9 @@ public interface BaseSampleData extends EObject
     String getDataSetRepresentation();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Data Set Representation</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Data Set Representation</em>' attribute.
      * @see #getDataSetRepresentation()
      * @generated
      */

@@ -29,10 +29,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DateTimeDataElementImpl extends DataElementImpl implements DateTimeDataElement
@@ -65,7 +65,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected DateTimeDataElementImpl()
@@ -75,7 +74,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -85,7 +83,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public long getValue()
@@ -95,7 +92,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValue(long newValue)
@@ -105,13 +101,11 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
         boolean oldValueESet = valueESet;
         valueESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
-                value, !oldValueESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue, value, !oldValueESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetValue()
@@ -121,13 +115,11 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
         value = VALUE_EDEFAULT;
         valueESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE,
-                oldValue, VALUE_EDEFAULT, oldValueESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue, VALUE_EDEFAULT, oldValueESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetValue()
@@ -137,7 +129,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -152,7 +143,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -160,7 +150,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE:
-                setValue(((Long) newValue).longValue());
+                setValue(((Long)newValue).longValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -168,7 +158,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -184,7 +173,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -199,20 +187,15 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (value: ");
-        if (valueESet)
-            result.append(value);
-        else
-            result.append("<unset>");
+        if (valueESet) result.append(value); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

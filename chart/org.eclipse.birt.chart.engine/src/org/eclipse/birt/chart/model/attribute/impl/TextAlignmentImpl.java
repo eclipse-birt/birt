@@ -28,15 +28,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getHorizontalAlignment <em>Horizontal Alignment</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getVerticalAlignment <em>Vertical Alignment</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getHorizontalAlignment <em>Horizontal Alignment</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getVerticalAlignment <em>Vertical Alignment</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
@@ -94,7 +90,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected TextAlignmentImpl()
@@ -104,7 +99,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -114,7 +108,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public HorizontalAlignment getHorizontalAlignment()
@@ -124,7 +117,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setHorizontalAlignment(HorizontalAlignment newHorizontalAlignment)
@@ -134,14 +126,11 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
         boolean oldHorizontalAlignmentESet = horizontalAlignmentESet;
         horizontalAlignmentESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT, oldHorizontalAlignment, horizontalAlignment,
-                !oldHorizontalAlignmentESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT, oldHorizontalAlignment, horizontalAlignment, !oldHorizontalAlignmentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetHorizontalAlignment()
@@ -151,14 +140,11 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
         horizontalAlignment = HORIZONTAL_ALIGNMENT_EDEFAULT;
         horizontalAlignmentESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET,
-                AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT, oldHorizontalAlignment,
-                HORIZONTAL_ALIGNMENT_EDEFAULT, oldHorizontalAlignmentESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT, oldHorizontalAlignment, HORIZONTAL_ALIGNMENT_EDEFAULT, oldHorizontalAlignmentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetHorizontalAlignment()
@@ -168,7 +154,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public VerticalAlignment getVerticalAlignment()
@@ -178,7 +163,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setVerticalAlignment(VerticalAlignment newVerticalAlignment)
@@ -188,13 +172,11 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
         boolean oldVerticalAlignmentESet = verticalAlignmentESet;
         verticalAlignmentESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT,
-                oldVerticalAlignment, verticalAlignment, !oldVerticalAlignmentESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT, oldVerticalAlignment, verticalAlignment, !oldVerticalAlignmentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetVerticalAlignment()
@@ -204,14 +186,11 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
         verticalAlignment = VERTICAL_ALIGNMENT_EDEFAULT;
         verticalAlignmentESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET,
-                AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT, oldVerticalAlignment, VERTICAL_ALIGNMENT_EDEFAULT,
-                oldVerticalAlignmentESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT, oldVerticalAlignment, VERTICAL_ALIGNMENT_EDEFAULT, oldVerticalAlignmentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetVerticalAlignment()
@@ -221,7 +200,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -238,7 +216,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -246,10 +223,10 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT:
-                setHorizontalAlignment((HorizontalAlignment) newValue);
+                setHorizontalAlignment((HorizontalAlignment)newValue);
                 return;
             case AttributePackage.TEXT_ALIGNMENT__VERTICAL_ALIGNMENT:
-                setVerticalAlignment((VerticalAlignment) newValue);
+                setVerticalAlignment((VerticalAlignment)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -257,7 +234,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -276,7 +252,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -293,25 +268,17 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (horizontalAlignment: ");
-        if (horizontalAlignmentESet)
-            result.append(horizontalAlignment);
-        else
-            result.append("<unset>");
+        if (horizontalAlignmentESet) result.append(horizontalAlignment); else result.append("<unset>");
         result.append(", verticalAlignment: ");
-        if (verticalAlignmentESet)
-            result.append(verticalAlignment);
-        else
-            result.append("<unset>");
+        if (verticalAlignmentESet) result.append(verticalAlignment); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

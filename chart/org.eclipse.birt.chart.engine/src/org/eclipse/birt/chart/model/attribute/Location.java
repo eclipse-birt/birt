@@ -15,31 +15,31 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Location</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the location of an element.
- * 
+ * 			This type defines the location of an element.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface Location extends EObject
-{
+public interface Location extends EObject{
 
     /**
-     * Returns the value of the '<em><b>X</b></em>' attribute. <!-- begin-user-doc --> Returns the 'X' co-ordinate
+     * Returns the value of the '<em><b>X</b></em>' attribute.
+     * <!-- begin-user-doc --> Returns the 'X' co-ordinate
      * component of the location. <!-- end-user-doc -->
-     * 
      * @return the value of the '<em>X</em>' attribute.
      * @see #isSetX()
      * @see #unsetX()
@@ -66,7 +66,6 @@ public interface Location extends EObject
     /**
      * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see #isSetX()
      * @see #getX()
      * @see #setX(double)
@@ -75,9 +74,8 @@ public interface Location extends EObject
     void unsetX();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>X</em>' attribute is set.
      * @see #unsetX()
      * @see #getX()
@@ -87,9 +85,9 @@ public interface Location extends EObject
     boolean isSetX();
 
     /**
-     * Returns the value of the '<em><b>Y</b></em>' attribute. <!-- begin-user-doc --> Returns the 'Y' co-ordinate
+     * Returns the value of the '<em><b>Y</b></em>' attribute.
+     * <!-- begin-user-doc --> Returns the 'Y' co-ordinate
      * component of the location. <!-- end-user-doc -->
-     * 
      * @return the value of the '<em>Y</em>' attribute.
      * @see #isSetY()
      * @see #unsetY()
@@ -116,7 +114,6 @@ public interface Location extends EObject
     /**
      * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see #isSetY()
      * @see #getY()
      * @see #setY(double)
@@ -125,9 +122,8 @@ public interface Location extends EObject
     void unsetY();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Y</em>' attribute is set.
      * @see #unsetY()
      * @see #getY()

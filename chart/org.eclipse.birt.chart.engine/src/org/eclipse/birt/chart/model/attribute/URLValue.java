@@ -13,41 +13,38 @@ package org.eclipse.birt.chart.model.attribute;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>URL Value</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the value for a 'URL_Redirect' action.
- * 
+ * 			This type defines the value for a 'URL_Redirect' action.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseParameterName <em>Base Parameter Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}
- * </li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseParameterName <em>Base Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface URLValue extends ActionValue
-{
+public interface URLValue extends ActionValue{
 
     /**
-     * Returns the value of the '<em><b>Base Url</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Base Url</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Holds the base URL. This should include any static parameters like login information etc. and should NOT be
-     * encoded.
-     * 
+     * 							Holds the base URL. This should include any static parameters like login information etc. and should NOT be encoded.
+     * 							
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Base Url</em>' attribute.
      * @see #setBaseUrl(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_BaseUrl()
@@ -57,24 +54,22 @@ public interface URLValue extends ActionValue
     String getBaseUrl();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Base Url</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Base Url</em>' attribute.
      * @see #getBaseUrl()
      * @generated
      */
     void setBaseUrl(String value);
 
     /**
-     * Returns the value of the '<em><b>Target</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Target</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * This element defines the target value to be used for the browser.
-     * 
+     * 							This element defines the target value to be used for the browser.
+     * 							
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Target</em>' attribute.
      * @see #setTarget(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_Target()
@@ -84,11 +79,9 @@ public interface URLValue extends ActionValue
     String getTarget();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Target</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Target</em>' attribute.
      * @see #getTarget()
      * @generated
      */
@@ -112,12 +105,9 @@ public interface URLValue extends ActionValue
     String getBaseParameterName();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseParameterName <em>Base Parameter Name</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Base Parameter Name</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseParameterName <em>Base Parameter Name</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Base Parameter Name</em>' attribute.
      * @see #getBaseParameterName()
      * @generated
      */
@@ -141,12 +131,9 @@ public interface URLValue extends ActionValue
     String getValueParameterName();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Value Parameter Name</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Value Parameter Name</em>' attribute.
      * @see #getValueParameterName()
      * @generated
      */
@@ -170,12 +157,9 @@ public interface URLValue extends ActionValue
     String getSeriesParameterName();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Series Parameter Name</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Series Parameter Name</em>' attribute.
      * @see #getSeriesParameterName()
      * @generated
      */

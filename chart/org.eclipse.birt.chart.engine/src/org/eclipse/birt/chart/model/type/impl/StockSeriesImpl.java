@@ -72,7 +72,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected StockSeriesImpl()
@@ -82,7 +81,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -92,7 +90,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Fill getFill()
@@ -102,7 +99,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs)
@@ -111,19 +107,14 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         fill = newFill;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.STOCK_SERIES__FILL, oldFill, newFill);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__FILL, oldFill, newFill);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setFill(Fill newFill)
@@ -132,14 +123,11 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         {
             NotificationChain msgs = null;
             if (fill != null)
-                msgs = ((InternalEObject) fill).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.STOCK_SERIES__FILL, null, msgs);
+                msgs = ((InternalEObject)fill).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
             if (newFill != null)
-                msgs = ((InternalEObject) newFill).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.STOCK_SERIES__FILL, null, msgs);
+                msgs = ((InternalEObject)newFill).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
             msgs = basicSetFill(newFill, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__FILL, newFill, newFill));
@@ -147,7 +135,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineAttributes getLineAttributes()
@@ -157,7 +144,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
@@ -166,19 +152,14 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLineAttributes(LineAttributes newLineAttributes)
@@ -187,27 +168,21 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         {
             NotificationChain msgs = null;
             if (lineAttributes != null)
-                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
             if (newLineAttributes != null)
-                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLineAttributes(newLineAttributes, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
-                newLineAttributes, newLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -216,7 +191,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
                 case TypePackage.STOCK_SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case TypePackage.STOCK_SERIES__DATA_DEFINITION:
-                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
                 case TypePackage.STOCK_SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case TypePackage.STOCK_SERIES__DATA_SET:
@@ -224,7 +199,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
                 case TypePackage.STOCK_SERIES__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
                 case TypePackage.STOCK_SERIES__TRIGGERS:
-                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
                 case TypePackage.STOCK_SERIES__FILL:
                     return basicSetFill(null, msgs);
                 case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
@@ -238,7 +213,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -277,7 +251,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -285,45 +258,45 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case TypePackage.STOCK_SERIES__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.STOCK_SERIES__LABEL:
-                setLabel((Label) newValue);
+                setLabel((Label)newValue);
                 return;
             case TypePackage.STOCK_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection) newValue);
+                getDataDefinition().addAll((Collection)newValue);
                 return;
             case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((String) newValue);
+                setSeriesIdentifier((Object)newValue);
                 return;
             case TypePackage.STOCK_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) newValue);
+                setDataPoint((DataPoint)newValue);
                 return;
             case TypePackage.STOCK_SERIES__DATA_SET:
-                setDataSet((DataSet) newValue);
+                setDataSet((DataSet)newValue);
                 return;
             case TypePackage.STOCK_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
             case TypePackage.STOCK_SERIES__LABEL_POSITION:
-                setLabelPosition((Position) newValue);
+                setLabelPosition((Position)newValue);
                 return;
             case TypePackage.STOCK_SERIES__STACKED:
-                setStacked(((Boolean) newValue).booleanValue());
+                setStacked(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.STOCK_SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection) newValue);
+                getTriggers().addAll((Collection)newValue);
                 return;
             case TypePackage.STOCK_SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean) newValue).booleanValue());
+                setTranslucent(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.STOCK_SERIES__FILL:
-                setFill((Fill) newValue);
+                setFill((Fill)newValue);
                 return;
             case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes) newValue);
+                setLineAttributes((LineAttributes)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -331,7 +304,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -342,7 +314,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
                 unsetVisible();
                 return;
             case TypePackage.STOCK_SERIES__LABEL:
-                setLabel((Label) null);
+                setLabel((Label)null);
                 return;
             case TypePackage.STOCK_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -351,13 +323,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case TypePackage.STOCK_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) null);
+                setDataPoint((DataPoint)null);
                 return;
             case TypePackage.STOCK_SERIES__DATA_SET:
-                setDataSet((DataSet) null);
+                setDataSet((DataSet)null);
                 return;
             case TypePackage.STOCK_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
             case TypePackage.STOCK_SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -372,10 +344,10 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
                 unsetTranslucent();
                 return;
             case TypePackage.STOCK_SERIES__FILL:
-                setFill((Fill) null);
+                setFill((Fill)null);
                 return;
             case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes) null);
+                setLineAttributes((LineAttributes)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -383,7 +355,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -397,8 +368,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
             case TypePackage.STOCK_SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
-                    .equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
             case TypePackage.STOCK_SERIES__DATA_POINT:
                 return dataPoint != null;
             case TypePackage.STOCK_SERIES__DATA_SET:

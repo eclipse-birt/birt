@@ -77,28 +77,30 @@ public final class LeaderLineStyle extends AbstractEnumerator
         "Stretch_To_Side");
 
     /**
-     * An array of all the '<em><b>Leader Line Style</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Leader Line Style</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final LeaderLineStyle[] VALUES_ARRAY = new LeaderLineStyle[]
-    {
-        FIXED_LENGTH_LITERAL, STRETCH_TO_SIDE_LITERAL,
-    };
+    private static final LeaderLineStyle[] VALUES_ARRAY =
+        new LeaderLineStyle[]
+        {
+            FIXED_LENGTH_LITERAL,
+            STRETCH_TO_SIDE_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators. <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static LeaderLineStyle get(String name)
@@ -115,26 +117,24 @@ public final class LeaderLineStyle extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static LeaderLineStyle get(int value)
     {
         switch (value)
         {
-            case FIXED_LENGTH:
-                return FIXED_LENGTH_LITERAL;
-            case STRETCH_TO_SIDE:
-                return STRETCH_TO_SIDE_LITERAL;
+            case FIXED_LENGTH: return FIXED_LENGTH_LITERAL;
+            case STRETCH_TO_SIDE: return STRETCH_TO_SIDE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private LeaderLineStyle(int value, String name)

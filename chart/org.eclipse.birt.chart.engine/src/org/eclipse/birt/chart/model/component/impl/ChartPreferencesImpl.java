@@ -32,11 +32,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getLabels <em>Labels</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getBlocks <em>Blocks</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getLabels <em>Labels</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getBlocks <em>Blocks</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ChartPreferencesImpl extends EObjectImpl implements ChartPreferences
@@ -62,7 +62,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ChartPreferencesImpl()
@@ -72,7 +71,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -82,7 +80,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getLabels()
@@ -96,7 +93,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getBlocks()
@@ -110,20 +106,18 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case ComponentPackage.CHART_PREFERENCES__LABELS:
-                    return ((InternalEList) getLabels()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getLabels()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-                    return ((InternalEList) getBlocks()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getBlocks()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -133,7 +127,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -150,7 +143,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -159,11 +151,11 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
         {
             case ComponentPackage.CHART_PREFERENCES__LABELS:
                 getLabels().clear();
-                getLabels().addAll((Collection) newValue);
+                getLabels().addAll((Collection)newValue);
                 return;
             case ComponentPackage.CHART_PREFERENCES__BLOCKS:
                 getBlocks().clear();
-                getBlocks().addAll((Collection) newValue);
+                getBlocks().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -171,7 +163,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -190,7 +181,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

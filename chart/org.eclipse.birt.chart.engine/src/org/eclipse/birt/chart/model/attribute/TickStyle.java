@@ -142,27 +142,32 @@ public final class TickStyle extends AbstractEnumerator
     public static final TickStyle ACROSS_LITERAL = new TickStyle(ACROSS, "Across");
 
     /**
-     * An array of all the '<em><b>Tick Style</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Tick Style</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final TickStyle[] VALUES_ARRAY = new TickStyle[]
-    {
-        LEFT_LITERAL, RIGHT_LITERAL, ABOVE_LITERAL, BELOW_LITERAL, ACROSS_LITERAL,
-    };
+    private static final TickStyle[] VALUES_ARRAY =
+        new TickStyle[]
+        {
+            LEFT_LITERAL,
+            RIGHT_LITERAL,
+            ABOVE_LITERAL,
+            BELOW_LITERAL,
+            ACROSS_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Tick Style</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Tick Style</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Tick Style</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Tick Style</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static TickStyle get(String name)
@@ -179,32 +184,27 @@ public final class TickStyle extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Tick Style</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Tick Style</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static TickStyle get(int value)
     {
         switch (value)
         {
-            case LEFT:
-                return LEFT_LITERAL;
-            case RIGHT:
-                return RIGHT_LITERAL;
-            case ABOVE:
-                return ABOVE_LITERAL;
-            case BELOW:
-                return BELOW_LITERAL;
-            case ACROSS:
-                return ACROSS_LITERAL;
+            case LEFT: return LEFT_LITERAL;
+            case RIGHT: return RIGHT_LITERAL;
+            case ABOVE: return ABOVE_LITERAL;
+            case BELOW: return BELOW_LITERAL;
+            case ACROSS: return ACROSS_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private TickStyle(int value, String name)

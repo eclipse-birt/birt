@@ -35,11 +35,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getName <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getEntries <em>Entries</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getEntries <em>Entries</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class PaletteImpl extends EObjectImpl implements Palette
@@ -74,7 +74,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected PaletteImpl()
@@ -84,7 +83,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -94,7 +92,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getName()
@@ -104,7 +101,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setName(String newName)
@@ -117,7 +113,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getEntries()
@@ -131,18 +126,16 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case AttributePackage.PALETTE__ENTRIES:
-                    return ((InternalEList) getEntries()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getEntries()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -152,7 +145,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -169,7 +161,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -177,11 +168,11 @@ public class PaletteImpl extends EObjectImpl implements Palette
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.PALETTE__NAME:
-                setName((String) newValue);
+                setName((String)newValue);
                 return;
             case AttributePackage.PALETTE__ENTRIES:
                 getEntries().clear();
-                getEntries().addAll((Collection) newValue);
+                getEntries().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -189,7 +180,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -208,7 +198,6 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -225,13 +214,11 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (name: ");

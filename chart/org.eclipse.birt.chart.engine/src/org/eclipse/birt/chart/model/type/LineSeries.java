@@ -39,8 +39,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries()
  * @model @generated
  */
-public interface LineSeries extends Series
-{
+public interface LineSeries extends Series{
 
     /**
      * Returns the value of the '<em><b>Marker</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -59,11 +58,9 @@ public interface LineSeries extends Series
     Marker getMarker();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Marker</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}' containment reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Marker</em>' containment reference.
      * @see #getMarker()
      * @generated
      */
@@ -86,26 +83,22 @@ public interface LineSeries extends Series
     LineAttributes getLineAttributes();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Line Attributes</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Line Attributes</em>' containment reference.
      * @see #getLineAttributes()
      * @generated
      */
     void setLineAttributes(LineAttributes value);
 
     /**
-     * Returns the value of the '<em><b>Curve</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Curve</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Indicates whether the line segments joining data points in the series are to be drawn as curves or as straight
-     * lines.
-     * 
+     * 							Indicates whether the line segments joining data points in the series are to be drawn as curves or as straight lines.
+     * 							
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Curve</em>' attribute.
      * @see #isSetCurve()
      * @see #unsetCurve()
@@ -119,9 +112,7 @@ public interface LineSeries extends Series
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Curve</em>' attribute.
+     * @param value the new value of the '<em>Curve</em>' attribute.
      * @see #isSetCurve()
      * @see #unsetCurve()
      * @see #isCurve()
@@ -130,9 +121,8 @@ public interface LineSeries extends Series
     void setCurve(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetCurve()
      * @see #isCurve()
      * @see #setCurve(boolean)
@@ -141,9 +131,8 @@ public interface LineSeries extends Series
     void unsetCurve();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Curve</em>' attribute is set.
      * @see #unsetCurve()
      * @see #isCurve()
@@ -169,11 +158,9 @@ public interface LineSeries extends Series
     ColorDefinition getShadowColor();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Shadow Color</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}' containment reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Shadow Color</em>' containment reference.
      * @see #getShadowColor()
      * @generated
      */

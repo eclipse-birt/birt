@@ -39,16 +39,15 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class LabelImpl extends EObjectImpl implements Label
@@ -135,7 +134,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected LabelImpl()
@@ -145,7 +143,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -155,7 +152,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Text getCaption()
@@ -165,7 +161,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetCaption(Text newCaption, NotificationChain msgs)
@@ -174,19 +169,14 @@ public class LabelImpl extends EObjectImpl implements Label
         caption = newCaption;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__CAPTION, oldCaption, newCaption);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__CAPTION, oldCaption, newCaption);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setCaption(Text newCaption)
@@ -195,79 +185,18 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             NotificationChain msgs = null;
             if (caption != null)
-                msgs = ((InternalEObject) caption).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__CAPTION, null, msgs);
+                msgs = ((InternalEObject)caption).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__CAPTION, null, msgs);
             if (newCaption != null)
-                msgs = ((InternalEObject) newCaption).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__CAPTION, null, msgs);
+                msgs = ((InternalEObject)newCaption).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__CAPTION, null, msgs);
             msgs = basicSetCaption(newCaption, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__CAPTION, newCaption,
-                newCaption));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__CAPTION, newCaption, newCaption));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public FormatSpecifier getFormatSpecifier()
-    {
-        return formatSpecifier;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
-    {
-        FormatSpecifier oldFormatSpecifier = formatSpecifier;
-        formatSpecifier = newFormatSpecifier;
-        if (eNotificationRequired())
-        {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
-    {
-        if (newFormatSpecifier != formatSpecifier)
-        {
-            NotificationChain msgs = null;
-            if (formatSpecifier != null)
-                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__FORMAT_SPECIFIER, null, msgs);
-            if (newFormatSpecifier != null)
-                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__FORMAT_SPECIFIER, null, msgs);
-            msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-            if (msgs != null)
-                msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__FORMAT_SPECIFIER,
-                newFormatSpecifier, newFormatSpecifier));
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Fill getBackground()
@@ -277,7 +206,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs)
@@ -286,19 +214,14 @@ public class LabelImpl extends EObjectImpl implements Label
         background = newBackground;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__BACKGROUND, oldBackground, newBackground);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__BACKGROUND, oldBackground, newBackground);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setBackground(Fill newBackground)
@@ -307,23 +230,18 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             NotificationChain msgs = null;
             if (background != null)
-                msgs = ((InternalEObject) background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject)background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__BACKGROUND, null, msgs);
             if (newBackground != null)
-                msgs = ((InternalEObject) newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject)newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__BACKGROUND, null, msgs);
             msgs = basicSetBackground(newBackground, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__BACKGROUND, newBackground,
-                newBackground));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__BACKGROUND, newBackground, newBackground));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineAttributes getOutline()
@@ -333,7 +251,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs)
@@ -342,19 +259,14 @@ public class LabelImpl extends EObjectImpl implements Label
         outline = newOutline;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__OUTLINE, oldOutline, newOutline);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__OUTLINE, oldOutline, newOutline);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setOutline(LineAttributes newOutline)
@@ -363,23 +275,18 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             NotificationChain msgs = null;
             if (outline != null)
-                msgs = ((InternalEObject) outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__OUTLINE, null, msgs);
+                msgs = ((InternalEObject)outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__OUTLINE, null, msgs);
             if (newOutline != null)
-                msgs = ((InternalEObject) newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__OUTLINE, null, msgs);
+                msgs = ((InternalEObject)newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__OUTLINE, null, msgs);
             msgs = basicSetOutline(newOutline, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__OUTLINE, newOutline,
-                newOutline));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__OUTLINE, newOutline, newOutline));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getShadowColor()
@@ -389,7 +296,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs)
@@ -398,19 +304,14 @@ public class LabelImpl extends EObjectImpl implements Label
         shadowColor = newShadowColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__SHADOW_COLOR, oldShadowColor, newShadowColor);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__SHADOW_COLOR, oldShadowColor, newShadowColor);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setShadowColor(ColorDefinition newShadowColor)
@@ -419,23 +320,18 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             NotificationChain msgs = null;
             if (shadowColor != null)
-                msgs = ((InternalEObject) shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject)shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__SHADOW_COLOR, null, msgs);
             if (newShadowColor != null)
-                msgs = ((InternalEObject) newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject)newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__SHADOW_COLOR, null, msgs);
             msgs = basicSetShadowColor(newShadowColor, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__SHADOW_COLOR, newShadowColor,
-                newShadowColor));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__SHADOW_COLOR, newShadowColor, newShadowColor));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Insets getInsets()
@@ -445,7 +341,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs)
@@ -454,19 +349,14 @@ public class LabelImpl extends EObjectImpl implements Label
         insets = newInsets;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.LABEL__INSETS, oldInsets, newInsets);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__INSETS, oldInsets, newInsets);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setInsets(Insets newInsets)
@@ -475,14 +365,11 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             NotificationChain msgs = null;
             if (insets != null)
-                msgs = ((InternalEObject) insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__INSETS, null, msgs);
+                msgs = ((InternalEObject)insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__INSETS, null, msgs);
             if (newInsets != null)
-                msgs = ((InternalEObject) newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.LABEL__INSETS, null, msgs);
+                msgs = ((InternalEObject)newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.LABEL__INSETS, null, msgs);
             msgs = basicSetInsets(newInsets, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__INSETS, newInsets, newInsets));
@@ -490,7 +377,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isVisible()
@@ -500,7 +386,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setVisible(boolean newVisible)
@@ -510,13 +395,11 @@ public class LabelImpl extends EObjectImpl implements Label
         boolean oldVisibleESet = visibleESet;
         visibleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__VISIBLE, oldVisible, visible,
-                !oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.LABEL__VISIBLE, oldVisible, visible, !oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetVisible()
@@ -526,13 +409,11 @@ public class LabelImpl extends EObjectImpl implements Label
         visible = VISIBLE_EDEFAULT;
         visibleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.LABEL__VISIBLE, oldVisible,
-                VISIBLE_EDEFAULT, oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.LABEL__VISIBLE, oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetVisible()
@@ -542,11 +423,9 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -554,8 +433,6 @@ public class LabelImpl extends EObjectImpl implements Label
             {
                 case ComponentPackage.LABEL__CAPTION:
                     return basicSetCaption(null, msgs);
-                case ComponentPackage.LABEL__FORMAT_SPECIFIER:
-                    return basicSetFormatSpecifier(null, msgs);
                 case ComponentPackage.LABEL__BACKGROUND:
                     return basicSetBackground(null, msgs);
                 case ComponentPackage.LABEL__OUTLINE:
@@ -573,7 +450,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -582,8 +458,6 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             case ComponentPackage.LABEL__CAPTION:
                 return getCaption();
-            case ComponentPackage.LABEL__FORMAT_SPECIFIER:
-                return getFormatSpecifier();
             case ComponentPackage.LABEL__BACKGROUND:
                 return getBackground();
             case ComponentPackage.LABEL__OUTLINE:
@@ -600,7 +474,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -608,25 +481,22 @@ public class LabelImpl extends EObjectImpl implements Label
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.LABEL__CAPTION:
-                setCaption((Text) newValue);
-                return;
-            case ComponentPackage.LABEL__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setCaption((Text)newValue);
                 return;
             case ComponentPackage.LABEL__BACKGROUND:
-                setBackground((Fill) newValue);
+                setBackground((Fill)newValue);
                 return;
             case ComponentPackage.LABEL__OUTLINE:
-                setOutline((LineAttributes) newValue);
+                setOutline((LineAttributes)newValue);
                 return;
             case ComponentPackage.LABEL__SHADOW_COLOR:
-                setShadowColor((ColorDefinition) newValue);
+                setShadowColor((ColorDefinition)newValue);
                 return;
             case ComponentPackage.LABEL__INSETS:
-                setInsets((Insets) newValue);
+                setInsets((Insets)newValue);
                 return;
             case ComponentPackage.LABEL__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -634,7 +504,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -642,22 +511,19 @@ public class LabelImpl extends EObjectImpl implements Label
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.LABEL__CAPTION:
-                setCaption((Text) null);
-                return;
-            case ComponentPackage.LABEL__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setCaption((Text)null);
                 return;
             case ComponentPackage.LABEL__BACKGROUND:
-                setBackground((Fill) null);
+                setBackground((Fill)null);
                 return;
             case ComponentPackage.LABEL__OUTLINE:
-                setOutline((LineAttributes) null);
+                setOutline((LineAttributes)null);
                 return;
             case ComponentPackage.LABEL__SHADOW_COLOR:
-                setShadowColor((ColorDefinition) null);
+                setShadowColor((ColorDefinition)null);
                 return;
             case ComponentPackage.LABEL__INSETS:
-                setInsets((Insets) null);
+                setInsets((Insets)null);
                 return;
             case ComponentPackage.LABEL__VISIBLE:
                 unsetVisible();
@@ -668,7 +534,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -677,8 +542,6 @@ public class LabelImpl extends EObjectImpl implements Label
         {
             case ComponentPackage.LABEL__CAPTION:
                 return caption != null;
-            case ComponentPackage.LABEL__FORMAT_SPECIFIER:
-                return formatSpecifier != null;
             case ComponentPackage.LABEL__BACKGROUND:
                 return background != null;
             case ComponentPackage.LABEL__OUTLINE:
@@ -695,20 +558,15 @@ public class LabelImpl extends EObjectImpl implements Label
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (visible: ");
-        if (visibleESet)
-            result.append(visible);
-        else
-            result.append("<unset>");
+        if (visibleESet) result.append(visible); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

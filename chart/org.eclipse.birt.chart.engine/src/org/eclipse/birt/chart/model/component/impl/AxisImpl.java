@@ -53,32 +53,31 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubtitle <em>Subtitle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}
- * </li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubtitle <em>Subtitle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class AxisImpl extends EObjectImpl implements Axis
@@ -442,7 +441,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -452,7 +450,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AxisType getType()
@@ -462,7 +459,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(AxisType newType)
@@ -472,13 +468,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldTypeESet = typeESet;
         typeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TYPE, oldType, type,
-                !oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TYPE, oldType, type, !oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -488,13 +482,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__TYPE, oldType,
-                TYPE_EDEFAULT, oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -504,7 +496,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Label getTitle()
@@ -514,7 +505,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetTitle(Label newTitle, NotificationChain msgs)
@@ -523,19 +513,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         title = newTitle;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__TITLE, oldTitle, newTitle);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TITLE, oldTitle, newTitle);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTitle(Label newTitle)
@@ -544,14 +529,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (title != null)
-                msgs = ((InternalEObject) title).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__TITLE, null, msgs);
+                msgs = ((InternalEObject)title).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__TITLE, null, msgs);
             if (newTitle != null)
-                msgs = ((InternalEObject) newTitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__TITLE, null, msgs);
+                msgs = ((InternalEObject)newTitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__TITLE, null, msgs);
             msgs = basicSetTitle(newTitle, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TITLE, newTitle, newTitle));
@@ -559,7 +541,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Label getSubtitle()
@@ -569,7 +550,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetSubtitle(Label newSubtitle, NotificationChain msgs)
@@ -578,19 +558,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         subtitle = newSubtitle;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__SUBTITLE, oldSubtitle, newSubtitle);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SUBTITLE, oldSubtitle, newSubtitle);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSubtitle(Label newSubtitle)
@@ -599,23 +574,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (subtitle != null)
-                msgs = ((InternalEObject) subtitle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SUBTITLE, null, msgs);
+                msgs = ((InternalEObject)subtitle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__SUBTITLE, null, msgs);
             if (newSubtitle != null)
-                msgs = ((InternalEObject) newSubtitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SUBTITLE, null, msgs);
+                msgs = ((InternalEObject)newSubtitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__SUBTITLE, null, msgs);
             msgs = basicSetSubtitle(newSubtitle, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SUBTITLE, newSubtitle,
-                newSubtitle));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SUBTITLE, newSubtitle, newSubtitle));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Position getTitlePosition()
@@ -625,7 +595,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTitlePosition(Position newTitlePosition)
@@ -635,13 +604,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldTitlePositionESet = titlePositionESet;
         titlePositionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TITLE_POSITION,
-                oldTitlePosition, titlePosition, !oldTitlePositionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__TITLE_POSITION, oldTitlePosition, titlePosition, !oldTitlePositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetTitlePosition()
@@ -651,13 +618,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         titlePosition = TITLE_POSITION_EDEFAULT;
         titlePositionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__TITLE_POSITION,
-                oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__TITLE_POSITION, oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetTitlePosition()
@@ -667,7 +632,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getAssociatedAxes()
@@ -681,22 +645,19 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getSeriesDefinitions()
     {
         if (seriesDefinitions == null)
         {
-            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this,
-                ComponentPackage.AXIS__SERIES_DEFINITIONS);
+            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this, ComponentPackage.AXIS__SERIES_DEFINITIONS);
         }
         return seriesDefinitions;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getGapWidth()
@@ -706,7 +667,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setGapWidth(double newGapWidth)
@@ -716,13 +676,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldGapWidthESet = gapWidthESet;
         gapWidthESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__GAP_WIDTH, oldGapWidth,
-                gapWidth, !oldGapWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__GAP_WIDTH, oldGapWidth, gapWidth, !oldGapWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetGapWidth()
@@ -732,13 +690,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         gapWidth = GAP_WIDTH_EDEFAULT;
         gapWidthESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__GAP_WIDTH, oldGapWidth,
-                GAP_WIDTH_EDEFAULT, oldGapWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__GAP_WIDTH, oldGapWidth, GAP_WIDTH_EDEFAULT, oldGapWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetGapWidth()
@@ -748,7 +704,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Orientation getOrientation()
@@ -758,7 +713,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setOrientation(Orientation newOrientation)
@@ -768,13 +722,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldOrientationESet = orientationESet;
         orientationESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__ORIENTATION, oldOrientation,
-                orientation, !oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__ORIENTATION, oldOrientation, orientation, !oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetOrientation()
@@ -784,13 +736,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         orientation = ORIENTATION_EDEFAULT;
         orientationESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__ORIENTATION, oldOrientation,
-                ORIENTATION_EDEFAULT, oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__ORIENTATION, oldOrientation, ORIENTATION_EDEFAULT, oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetOrientation()
@@ -800,7 +750,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineAttributes getLineAttributes()
@@ -810,7 +759,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
@@ -819,19 +767,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLineAttributes(LineAttributes newLineAttributes)
@@ -840,23 +783,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (lineAttributes != null)
-                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__LINE_ATTRIBUTES, null, msgs);
             if (newLineAttributes != null)
-                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLineAttributes(newLineAttributes, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LINE_ATTRIBUTES,
-                newLineAttributes, newLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Label getLabel()
@@ -866,7 +804,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
@@ -875,19 +812,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         label = newLabel;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__LABEL, oldLabel, newLabel);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LABEL, oldLabel, newLabel);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLabel(Label newLabel)
@@ -896,14 +828,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (label != null)
-                msgs = ((InternalEObject) label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__LABEL, null, msgs);
+                msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__LABEL, null, msgs);
             if (newLabel != null)
-                msgs = ((InternalEObject) newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__LABEL, null, msgs);
+                msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__LABEL, null, msgs);
             msgs = basicSetLabel(newLabel, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LABEL, newLabel, newLabel));
@@ -911,7 +840,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FormatSpecifier getFormatSpecifier()
@@ -921,7 +849,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
@@ -930,19 +857,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         formatSpecifier = newFormatSpecifier;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
@@ -951,23 +873,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (formatSpecifier != null)
-                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__FORMAT_SPECIFIER, null, msgs);
             if (newFormatSpecifier != null)
-                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__FORMAT_SPECIFIER, null, msgs);
             msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__FORMAT_SPECIFIER,
-                newFormatSpecifier, newFormatSpecifier));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Position getLabelPosition()
@@ -977,7 +894,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLabelPosition(Position newLabelPosition)
@@ -987,13 +903,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldLabelPositionESet = labelPositionESet;
         labelPositionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LABEL_POSITION,
-                oldLabelPosition, labelPosition, !oldLabelPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__LABEL_POSITION, oldLabelPosition, labelPosition, !oldLabelPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetLabelPosition()
@@ -1003,13 +917,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         labelPosition = LABEL_POSITION_EDEFAULT;
         labelPositionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__LABEL_POSITION,
-                oldLabelPosition, LABEL_POSITION_EDEFAULT, oldLabelPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__LABEL_POSITION, oldLabelPosition, LABEL_POSITION_EDEFAULT, oldLabelPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetLabelPosition()
@@ -1019,7 +931,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isStaggered()
@@ -1029,7 +940,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setStaggered(boolean newStaggered)
@@ -1039,13 +949,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldStaggeredESet = staggeredESet;
         staggeredESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__STAGGERED, oldStaggered,
-                staggered, !oldStaggeredESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__STAGGERED, oldStaggered, staggered, !oldStaggeredESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetStaggered()
@@ -1055,13 +963,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         staggered = STAGGERED_EDEFAULT;
         staggeredESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__STAGGERED, oldStaggered,
-                STAGGERED_EDEFAULT, oldStaggeredESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__STAGGERED, oldStaggered, STAGGERED_EDEFAULT, oldStaggeredESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetStaggered()
@@ -1071,7 +977,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getMarkerLines()
@@ -1085,7 +990,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getMarkerRanges()
@@ -1099,7 +1003,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Grid getMajorGrid()
@@ -1109,7 +1012,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetMajorGrid(Grid newMajorGrid, NotificationChain msgs)
@@ -1118,19 +1020,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         majorGrid = newMajorGrid;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__MAJOR_GRID, oldMajorGrid, newMajorGrid);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MAJOR_GRID, oldMajorGrid, newMajorGrid);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setMajorGrid(Grid newMajorGrid)
@@ -1139,23 +1036,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (majorGrid != null)
-                msgs = ((InternalEObject) majorGrid).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__MAJOR_GRID, null, msgs);
+                msgs = ((InternalEObject)majorGrid).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__MAJOR_GRID, null, msgs);
             if (newMajorGrid != null)
-                msgs = ((InternalEObject) newMajorGrid).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__MAJOR_GRID, null, msgs);
+                msgs = ((InternalEObject)newMajorGrid).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__MAJOR_GRID, null, msgs);
             msgs = basicSetMajorGrid(newMajorGrid, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MAJOR_GRID, newMajorGrid,
-                newMajorGrid));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MAJOR_GRID, newMajorGrid, newMajorGrid));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Grid getMinorGrid()
@@ -1165,7 +1057,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetMinorGrid(Grid newMinorGrid, NotificationChain msgs)
@@ -1174,19 +1065,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         minorGrid = newMinorGrid;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__MINOR_GRID, oldMinorGrid, newMinorGrid);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MINOR_GRID, oldMinorGrid, newMinorGrid);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setMinorGrid(Grid newMinorGrid)
@@ -1195,23 +1081,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (minorGrid != null)
-                msgs = ((InternalEObject) minorGrid).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__MINOR_GRID, null, msgs);
+                msgs = ((InternalEObject)minorGrid).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__MINOR_GRID, null, msgs);
             if (newMinorGrid != null)
-                msgs = ((InternalEObject) newMinorGrid).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__MINOR_GRID, null, msgs);
+                msgs = ((InternalEObject)newMinorGrid).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__MINOR_GRID, null, msgs);
             msgs = basicSetMinorGrid(newMinorGrid, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MINOR_GRID, newMinorGrid,
-                newMinorGrid));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__MINOR_GRID, newMinorGrid, newMinorGrid));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Scale getScale()
@@ -1221,7 +1102,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetScale(Scale newScale, NotificationChain msgs)
@@ -1230,19 +1110,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         scale = newScale;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__SCALE, oldScale, newScale);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SCALE, oldScale, newScale);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setScale(Scale newScale)
@@ -1251,14 +1126,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (scale != null)
-                msgs = ((InternalEObject) scale).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SCALE, null, msgs);
+                msgs = ((InternalEObject)scale).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__SCALE, null, msgs);
             if (newScale != null)
-                msgs = ((InternalEObject) newScale).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SCALE, null, msgs);
+                msgs = ((InternalEObject)newScale).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__SCALE, null, msgs);
             msgs = basicSetScale(newScale, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SCALE, newScale, newScale));
@@ -1266,7 +1138,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AxisOrigin getOrigin()
@@ -1276,7 +1147,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetOrigin(AxisOrigin newOrigin, NotificationChain msgs)
@@ -1285,19 +1155,14 @@ public class AxisImpl extends EObjectImpl implements Axis
         origin = newOrigin;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__ORIGIN, oldOrigin, newOrigin);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__ORIGIN, oldOrigin, newOrigin);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setOrigin(AxisOrigin newOrigin)
@@ -1306,14 +1171,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         {
             NotificationChain msgs = null;
             if (origin != null)
-                msgs = ((InternalEObject) origin).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__ORIGIN, null, msgs);
+                msgs = ((InternalEObject)origin).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__ORIGIN, null, msgs);
             if (newOrigin != null)
-                msgs = ((InternalEObject) newOrigin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__ORIGIN, null, msgs);
+                msgs = ((InternalEObject)newOrigin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.AXIS__ORIGIN, null, msgs);
             msgs = basicSetOrigin(newOrigin, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__ORIGIN, newOrigin, newOrigin));
@@ -1321,7 +1183,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isPrimaryAxis()
@@ -1331,7 +1192,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setPrimaryAxis(boolean newPrimaryAxis)
@@ -1341,13 +1201,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldPrimaryAxisESet = primaryAxisESet;
         primaryAxisESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__PRIMARY_AXIS, oldPrimaryAxis,
-                primaryAxis, !oldPrimaryAxisESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__PRIMARY_AXIS, oldPrimaryAxis, primaryAxis, !oldPrimaryAxisESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetPrimaryAxis()
@@ -1357,13 +1215,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         primaryAxis = PRIMARY_AXIS_EDEFAULT;
         primaryAxisESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__PRIMARY_AXIS,
-                oldPrimaryAxis, PRIMARY_AXIS_EDEFAULT, oldPrimaryAxisESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__PRIMARY_AXIS, oldPrimaryAxis, PRIMARY_AXIS_EDEFAULT, oldPrimaryAxisESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetPrimaryAxis()
@@ -1373,7 +1229,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isCategoryAxis()
@@ -1383,7 +1238,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setCategoryAxis(boolean newCategoryAxis)
@@ -1393,13 +1247,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldCategoryAxisESet = categoryAxisESet;
         categoryAxisESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__CATEGORY_AXIS,
-                oldCategoryAxis, categoryAxis, !oldCategoryAxisESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__CATEGORY_AXIS, oldCategoryAxis, categoryAxis, !oldCategoryAxisESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetCategoryAxis()
@@ -1409,13 +1261,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         categoryAxis = CATEGORY_AXIS_EDEFAULT;
         categoryAxisESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__CATEGORY_AXIS,
-                oldCategoryAxis, CATEGORY_AXIS_EDEFAULT, oldCategoryAxisESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__CATEGORY_AXIS, oldCategoryAxis, CATEGORY_AXIS_EDEFAULT, oldCategoryAxisESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetCategoryAxis()
@@ -1425,7 +1275,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isPercent()
@@ -1435,7 +1284,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setPercent(boolean newPercent)
@@ -1445,13 +1293,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         boolean oldPercentESet = percentESet;
         percentESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__PERCENT, oldPercent, percent,
-                !oldPercentESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__PERCENT, oldPercent, percent, !oldPercentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetPercent()
@@ -1461,13 +1307,11 @@ public class AxisImpl extends EObjectImpl implements Axis
         percent = PERCENT_EDEFAULT;
         percentESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__PERCENT, oldPercent,
-                PERCENT_EDEFAULT, oldPercentESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.AXIS__PERCENT, oldPercent, PERCENT_EDEFAULT, oldPercentESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetPercent()
@@ -1477,11 +1321,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -1492,9 +1334,9 @@ public class AxisImpl extends EObjectImpl implements Axis
                 case ComponentPackage.AXIS__SUBTITLE:
                     return basicSetSubtitle(null, msgs);
                 case ComponentPackage.AXIS__ASSOCIATED_AXES:
-                    return ((InternalEList) getAssociatedAxes()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getAssociatedAxes()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__SERIES_DEFINITIONS:
-                    return ((InternalEList) getSeriesDefinitions()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getSeriesDefinitions()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__LINE_ATTRIBUTES:
                     return basicSetLineAttributes(null, msgs);
                 case ComponentPackage.AXIS__LABEL:
@@ -1502,9 +1344,9 @@ public class AxisImpl extends EObjectImpl implements Axis
                 case ComponentPackage.AXIS__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
                 case ComponentPackage.AXIS__MARKER_LINES:
-                    return ((InternalEList) getMarkerLines()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getMarkerLines()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__MARKER_RANGES:
-                    return ((InternalEList) getMarkerRanges()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getMarkerRanges()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__MAJOR_GRID:
                     return basicSetMajorGrid(null, msgs);
                 case ComponentPackage.AXIS__MINOR_GRID:
@@ -1522,7 +1364,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -1579,7 +1420,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -1587,74 +1427,74 @@ public class AxisImpl extends EObjectImpl implements Axis
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.AXIS__TYPE:
-                setType((AxisType) newValue);
+                setType((AxisType)newValue);
                 return;
             case ComponentPackage.AXIS__TITLE:
-                setTitle((Label) newValue);
+                setTitle((Label)newValue);
                 return;
             case ComponentPackage.AXIS__SUBTITLE:
-                setSubtitle((Label) newValue);
+                setSubtitle((Label)newValue);
                 return;
             case ComponentPackage.AXIS__TITLE_POSITION:
-                setTitlePosition((Position) newValue);
+                setTitlePosition((Position)newValue);
                 return;
             case ComponentPackage.AXIS__ASSOCIATED_AXES:
                 getAssociatedAxes().clear();
-                getAssociatedAxes().addAll((Collection) newValue);
+                getAssociatedAxes().addAll((Collection)newValue);
                 return;
             case ComponentPackage.AXIS__SERIES_DEFINITIONS:
                 getSeriesDefinitions().clear();
-                getSeriesDefinitions().addAll((Collection) newValue);
+                getSeriesDefinitions().addAll((Collection)newValue);
                 return;
             case ComponentPackage.AXIS__GAP_WIDTH:
-                setGapWidth(((Double) newValue).doubleValue());
+                setGapWidth(((Double)newValue).doubleValue());
                 return;
             case ComponentPackage.AXIS__ORIENTATION:
-                setOrientation((Orientation) newValue);
+                setOrientation((Orientation)newValue);
                 return;
             case ComponentPackage.AXIS__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes) newValue);
+                setLineAttributes((LineAttributes)newValue);
                 return;
             case ComponentPackage.AXIS__LABEL:
-                setLabel((Label) newValue);
+                setLabel((Label)newValue);
                 return;
             case ComponentPackage.AXIS__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
             case ComponentPackage.AXIS__LABEL_POSITION:
-                setLabelPosition((Position) newValue);
+                setLabelPosition((Position)newValue);
                 return;
             case ComponentPackage.AXIS__STAGGERED:
-                setStaggered(((Boolean) newValue).booleanValue());
+                setStaggered(((Boolean)newValue).booleanValue());
                 return;
             case ComponentPackage.AXIS__MARKER_LINES:
                 getMarkerLines().clear();
-                getMarkerLines().addAll((Collection) newValue);
+                getMarkerLines().addAll((Collection)newValue);
                 return;
             case ComponentPackage.AXIS__MARKER_RANGES:
                 getMarkerRanges().clear();
-                getMarkerRanges().addAll((Collection) newValue);
+                getMarkerRanges().addAll((Collection)newValue);
                 return;
             case ComponentPackage.AXIS__MAJOR_GRID:
-                setMajorGrid((Grid) newValue);
+                setMajorGrid((Grid)newValue);
                 return;
             case ComponentPackage.AXIS__MINOR_GRID:
-                setMinorGrid((Grid) newValue);
+                setMinorGrid((Grid)newValue);
                 return;
             case ComponentPackage.AXIS__SCALE:
-                setScale((Scale) newValue);
+                setScale((Scale)newValue);
                 return;
             case ComponentPackage.AXIS__ORIGIN:
-                setOrigin((AxisOrigin) newValue);
+                setOrigin((AxisOrigin)newValue);
                 return;
             case ComponentPackage.AXIS__PRIMARY_AXIS:
-                setPrimaryAxis(((Boolean) newValue).booleanValue());
+                setPrimaryAxis(((Boolean)newValue).booleanValue());
                 return;
             case ComponentPackage.AXIS__CATEGORY_AXIS:
-                setCategoryAxis(((Boolean) newValue).booleanValue());
+                setCategoryAxis(((Boolean)newValue).booleanValue());
                 return;
             case ComponentPackage.AXIS__PERCENT:
-                setPercent(((Boolean) newValue).booleanValue());
+                setPercent(((Boolean)newValue).booleanValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -1662,7 +1502,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -1673,10 +1512,10 @@ public class AxisImpl extends EObjectImpl implements Axis
                 unsetType();
                 return;
             case ComponentPackage.AXIS__TITLE:
-                setTitle((Label) null);
+                setTitle((Label)null);
                 return;
             case ComponentPackage.AXIS__SUBTITLE:
-                setSubtitle((Label) null);
+                setSubtitle((Label)null);
                 return;
             case ComponentPackage.AXIS__TITLE_POSITION:
                 unsetTitlePosition();
@@ -1694,13 +1533,13 @@ public class AxisImpl extends EObjectImpl implements Axis
                 unsetOrientation();
                 return;
             case ComponentPackage.AXIS__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes) null);
+                setLineAttributes((LineAttributes)null);
                 return;
             case ComponentPackage.AXIS__LABEL:
-                setLabel((Label) null);
+                setLabel((Label)null);
                 return;
             case ComponentPackage.AXIS__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
             case ComponentPackage.AXIS__LABEL_POSITION:
                 unsetLabelPosition();
@@ -1715,16 +1554,16 @@ public class AxisImpl extends EObjectImpl implements Axis
                 getMarkerRanges().clear();
                 return;
             case ComponentPackage.AXIS__MAJOR_GRID:
-                setMajorGrid((Grid) null);
+                setMajorGrid((Grid)null);
                 return;
             case ComponentPackage.AXIS__MINOR_GRID:
-                setMinorGrid((Grid) null);
+                setMinorGrid((Grid)null);
                 return;
             case ComponentPackage.AXIS__SCALE:
-                setScale((Scale) null);
+                setScale((Scale)null);
                 return;
             case ComponentPackage.AXIS__ORIGIN:
-                setOrigin((AxisOrigin) null);
+                setOrigin((AxisOrigin)null);
                 return;
             case ComponentPackage.AXIS__PRIMARY_AXIS:
                 unsetPrimaryAxis();
@@ -1741,7 +1580,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -1798,60 +1636,31 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(", titlePosition: ");
-        if (titlePositionESet)
-            result.append(titlePosition);
-        else
-            result.append("<unset>");
+        if (titlePositionESet) result.append(titlePosition); else result.append("<unset>");
         result.append(", gapWidth: ");
-        if (gapWidthESet)
-            result.append(gapWidth);
-        else
-            result.append("<unset>");
+        if (gapWidthESet) result.append(gapWidth); else result.append("<unset>");
         result.append(", orientation: ");
-        if (orientationESet)
-            result.append(orientation);
-        else
-            result.append("<unset>");
+        if (orientationESet) result.append(orientation); else result.append("<unset>");
         result.append(", labelPosition: ");
-        if (labelPositionESet)
-            result.append(labelPosition);
-        else
-            result.append("<unset>");
+        if (labelPositionESet) result.append(labelPosition); else result.append("<unset>");
         result.append(", staggered: ");
-        if (staggeredESet)
-            result.append(staggered);
-        else
-            result.append("<unset>");
+        if (staggeredESet) result.append(staggered); else result.append("<unset>");
         result.append(", primaryAxis: ");
-        if (primaryAxisESet)
-            result.append(primaryAxis);
-        else
-            result.append("<unset>");
+        if (primaryAxisESet) result.append(primaryAxis); else result.append("<unset>");
         result.append(", categoryAxis: ");
-        if (categoryAxisESet)
-            result.append(categoryAxis);
-        else
-            result.append("<unset>");
+        if (categoryAxisESet) result.append(categoryAxis); else result.append("<unset>");
         result.append(", percent: ");
-        if (percentESet)
-            result.append(percent);
-        else
-            result.append("<unset>");
+        if (percentESet) result.append(percent); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

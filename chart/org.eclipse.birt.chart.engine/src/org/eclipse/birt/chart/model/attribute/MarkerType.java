@@ -120,27 +120,31 @@ public final class MarkerType extends AbstractEnumerator
     public static final MarkerType CIRCLE_LITERAL = new MarkerType(CIRCLE, "Circle");
 
     /**
-     * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Marker Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final MarkerType[] VALUES_ARRAY = new MarkerType[]
-    {
-        CROSSHAIR_LITERAL, TRIANGLE_LITERAL, BOX_LITERAL, CIRCLE_LITERAL,
-    };
+    private static final MarkerType[] VALUES_ARRAY =
+        new MarkerType[]
+        {
+            CROSSHAIR_LITERAL,
+            TRIANGLE_LITERAL,
+            BOX_LITERAL,
+            CIRCLE_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Marker Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static MarkerType get(String name)
@@ -157,30 +161,26 @@ public final class MarkerType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Marker Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Marker Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static MarkerType get(int value)
     {
         switch (value)
         {
-            case CROSSHAIR:
-                return CROSSHAIR_LITERAL;
-            case TRIANGLE:
-                return TRIANGLE_LITERAL;
-            case BOX:
-                return BOX_LITERAL;
-            case CIRCLE:
-                return CIRCLE_LITERAL;
+            case CROSSHAIR: return CROSSHAIR_LITERAL;
+            case TRIANGLE: return TRIANGLE_LITERAL;
+            case BOX: return BOX_LITERAL;
+            case CIRCLE: return CIRCLE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private MarkerType(int value, String name)

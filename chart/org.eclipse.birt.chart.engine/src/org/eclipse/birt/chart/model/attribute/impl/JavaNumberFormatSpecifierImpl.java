@@ -27,14 +27,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements JavaNumberFormatSpecifier
@@ -85,7 +82,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected JavaNumberFormatSpecifierImpl()
@@ -95,7 +91,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -105,7 +100,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getPattern()
@@ -115,7 +109,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setPattern(String newPattern)
@@ -123,13 +116,11 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
         String oldPattern = pattern;
         pattern = newPattern;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN, oldPattern, pattern));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN, oldPattern, pattern));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getMultiplier()
@@ -139,7 +130,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setMultiplier(double newMultiplier)
@@ -149,14 +139,11 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
         boolean oldMultiplierESet = multiplierESet;
         multiplierESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, multiplier,
-                !oldMultiplierESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, multiplier, !oldMultiplierESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetMultiplier()
@@ -166,14 +153,11 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
         multiplier = MULTIPLIER_EDEFAULT;
         multiplierESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET,
-                AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT,
-                oldMultiplierESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT, oldMultiplierESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetMultiplier()
@@ -183,7 +167,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -200,7 +183,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -208,10 +190,10 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN:
-                setPattern((String) newValue);
+                setPattern((String)newValue);
                 return;
             case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
-                setMultiplier(((Double) newValue).doubleValue());
+                setMultiplier(((Double)newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -219,7 +201,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -238,7 +219,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -255,22 +235,17 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (pattern: ");
         result.append(pattern);
         result.append(", multiplier: ");
-        if (multiplierESet)
-            result.append(multiplier);
-        else
-            result.append("<unset>");
+        if (multiplierESet) result.append(multiplier); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

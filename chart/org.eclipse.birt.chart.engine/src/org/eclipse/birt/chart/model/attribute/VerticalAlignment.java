@@ -98,28 +98,31 @@ public final class VerticalAlignment extends AbstractEnumerator
     public static final VerticalAlignment BOTTOM_LITERAL = new VerticalAlignment(BOTTOM, "Bottom");
 
     /**
-     * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final VerticalAlignment[] VALUES_ARRAY = new VerticalAlignment[]
-    {
-        TOP_LITERAL, CENTER_LITERAL, BOTTOM_LITERAL,
-    };
+    private static final VerticalAlignment[] VALUES_ARRAY =
+        new VerticalAlignment[]
+        {
+            TOP_LITERAL,
+            CENTER_LITERAL,
+            BOTTOM_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators. <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static VerticalAlignment get(String name)
@@ -136,28 +139,25 @@ public final class VerticalAlignment extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static VerticalAlignment get(int value)
     {
         switch (value)
         {
-            case TOP:
-                return TOP_LITERAL;
-            case CENTER:
-                return CENTER_LITERAL;
-            case BOTTOM:
-                return BOTTOM_LITERAL;
+            case TOP: return TOP_LITERAL;
+            case CENTER: return CENTER_LITERAL;
+            case BOTTOM: return BOTTOM_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private VerticalAlignment(int value, String name)

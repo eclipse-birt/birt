@@ -76,27 +76,29 @@ public final class Orientation extends AbstractEnumerator
     public static final Orientation VERTICAL_LITERAL = new Orientation(VERTICAL, "Vertical");
 
     /**
-     * An array of all the '<em><b>Orientation</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Orientation</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final Orientation[] VALUES_ARRAY = new Orientation[]
-    {
-        HORIZONTAL_LITERAL, VERTICAL_LITERAL,
-    };
+    private static final Orientation[] VALUES_ARRAY =
+        new Orientation[]
+        {
+            HORIZONTAL_LITERAL,
+            VERTICAL_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Orientation</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Orientation</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Orientation</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Orientation</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Orientation get(String name)
@@ -113,26 +115,24 @@ public final class Orientation extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Orientation</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Orientation</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Orientation get(int value)
     {
         switch (value)
         {
-            case HORIZONTAL:
-                return HORIZONTAL_LITERAL;
-            case VERTICAL:
-                return VERTICAL_LITERAL;
+            case HORIZONTAL: return HORIZONTAL_LITERAL;
+            case VERTICAL: return VERTICAL_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private Orientation(int value, String name)

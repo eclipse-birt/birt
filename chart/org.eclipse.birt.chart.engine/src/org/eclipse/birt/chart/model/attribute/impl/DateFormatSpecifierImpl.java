@@ -31,11 +31,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail <em>Detail</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail <em>Detail</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements DateFormatSpecifier
@@ -93,7 +93,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected DateFormatSpecifierImpl()
@@ -103,7 +102,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -113,7 +111,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -130,7 +127,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -138,10 +134,10 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.DATE_FORMAT_SPECIFIER__TYPE:
-                setType((DateFormatType) newValue);
+                setType((DateFormatType)newValue);
                 return;
             case AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL:
-                setDetail((DateFormatDetail) newValue);
+                setDetail((DateFormatDetail)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -149,7 +145,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -168,7 +163,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -185,25 +179,17 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(", detail: ");
-        if (detailESet)
-            result.append(detail);
-        else
-            result.append("<unset>");
+        if (detailESet) result.append(detail); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }
@@ -243,7 +229,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateFormatType getType()
@@ -278,7 +263,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(DateFormatType newType)
@@ -288,13 +272,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         boolean oldTypeESet = typeESet;
         typeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE,
-                oldType, type, !oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE, oldType, type, !oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -304,13 +286,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE,
-                oldType, TYPE_EDEFAULT, oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -320,7 +300,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateFormatDetail getDetail()
@@ -330,7 +309,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setDetail(DateFormatDetail newDetail)
@@ -340,13 +318,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         boolean oldDetailESet = detailESet;
         detailESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
-                oldDetail, detail, !oldDetailESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL, oldDetail, detail, !oldDetailESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetDetail()
@@ -356,13 +332,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         detail = DETAIL_EDEFAULT;
         detailESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
-                oldDetail, DETAIL_EDEFAULT, oldDetailESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL, oldDetail, DETAIL_EDEFAULT, oldDetailESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetDetail()

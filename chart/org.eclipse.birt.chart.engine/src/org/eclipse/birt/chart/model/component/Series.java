@@ -20,36 +20,35 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Series</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be
- * associated with a numerical axis.
- * 
+ * 			This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be associated with a numerical axis.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getDataDefinition <em>Data Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getSeriesIdentifier <em>Series Identifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getFormatSpecifier <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getLabelPosition <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#getTriggers <em>Triggers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getDataDefinition <em>Data Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getSeriesIdentifier <em>Series Identifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getSeries()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface Series extends EObject
-{
+public interface Series extends EObject{
 
     /**
      * Returns the value of the '<em><b>Visible</b></em>' attribute. The default value is <code>"true"</code>.
@@ -70,11 +69,9 @@ public interface Series extends EObject
     boolean isVisible();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}'
-     * attribute. <!-- begin-user-doc --> Sets visibility of the series. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Visible</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}' attribute.
+     * <!-- begin-user-doc --> Sets visibility of the series. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
      * @see #isVisible()
@@ -83,9 +80,8 @@ public interface Series extends EObject
     void setVisible(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetVisible()
      * @see #isVisible()
      * @see #setVisible(boolean)
@@ -123,11 +119,9 @@ public interface Series extends EObject
     Label getLabel();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Label</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}' containment reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Label</em>' containment reference.
      * @see #getLabel()
      * @generated
      */
@@ -166,24 +160,17 @@ public interface Series extends EObject
      * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
      * @generated
      */
-    String getSeriesIdentifier();
+    Object getSeriesIdentifier();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Series#getSeriesIdentifier <em>Series Identifier</em>}' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getSeriesIdentifier <em>Series Identifier</em>}' attribute.
      * <!-- begin-user-doc -->
-     * 
-     * Specifies an identifier that represents the seriesKey runtime value which is rendered in the legend (if grouped
-     * by series)
-     * 
      * <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Series Identifier</em>' attribute.
+     * @param value the new value of the '<em>Series Identifier</em>' attribute.
      * @see #getSeriesIdentifier()
      * @generated
      */
-    void setSeriesIdentifier(String value);
+    void setSeriesIdentifier(Object value);
 
     /**
      * Returns the value of the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -202,11 +189,9 @@ public interface Series extends EObject
     DataPoint getDataPoint();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Data Point</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}' containment reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Data Point</em>' containment reference.
      * @see #getDataPoint()
      * @generated
      */
@@ -230,12 +215,10 @@ public interface Series extends EObject
     DataSet getDataSet();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}'
-     * containment reference. <!-- begin-user-doc --> Sets the runtime DataSet for this series. This contains the
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}' containment reference.
+     * <!-- begin-user-doc --> Sets the runtime DataSet for this series. This contains the
      * complete data to be plotted for the series. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Data Set</em>' containment reference.
+     * @param value the new value of the '<em>Data Set</em>' containment reference.
      * @see #getDataSet()
      * @generated
      */
@@ -258,12 +241,9 @@ public interface Series extends EObject
     FormatSpecifier getFormatSpecifier();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Series#getFormatSpecifier <em>Format Specifier</em>}' containment
-     * reference. <!-- begin-user-doc --> Sets the label formatting for series labels. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Format Specifier</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+     * <!-- begin-user-doc --> Sets the label formatting for series labels. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Format Specifier</em>' containment reference.
      * @see #getFormatSpecifier()
      * @generated
      */
@@ -318,10 +298,8 @@ public interface Series extends EObject
     void unsetLabelPosition();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Series#getLabelPosition <em>Label Position</em>}' attribute is
-     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Series#getLabelPosition <em>Label Position</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Label Position</em>' attribute is set.
      * @see #unsetLabelPosition()
      * @see #getLabelPosition()
@@ -331,13 +309,13 @@ public interface Series extends EObject
     boolean isSetLabelPosition();
 
     /**
-     * Returns the value of the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Stacked</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies whether the series is to be rendered stacked.
-     * 
+     * 					Specifies whether the series is to be rendered stacked.
+     * 					
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Stacked</em>' attribute.
      * @see #isSetStacked()
      * @see #unsetStacked()
@@ -349,11 +327,9 @@ public interface Series extends EObject
     boolean isStacked();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Stacked</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Stacked</em>' attribute.
      * @see #isSetStacked()
      * @see #unsetStacked()
      * @see #isStacked()
@@ -362,9 +338,8 @@ public interface Series extends EObject
     void setStacked(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetStacked()
      * @see #isStacked()
      * @see #setStacked(boolean)
@@ -422,11 +397,9 @@ public interface Series extends EObject
     boolean isTranslucent();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Translucent</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Translucent</em>' attribute.
      * @see #isSetTranslucent()
      * @see #unsetTranslucent()
      * @see #isTranslucent()

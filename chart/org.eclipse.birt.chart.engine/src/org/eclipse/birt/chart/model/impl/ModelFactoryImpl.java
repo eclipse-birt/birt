@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.impl;
 
+import org.eclipse.birt.chart.model.*;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -22,15 +24,14 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 {
 
     /**
-     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public ModelFactoryImpl()
@@ -40,19 +41,15 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EObject create(EClass eClass)
     {
         switch (eClass.getClassifierID())
         {
-            case ModelPackage.CHART:
-                return createChart();
-            case ModelPackage.CHART_WITH_AXES:
-                return createChartWithAxes();
-            case ModelPackage.CHART_WITHOUT_AXES:
-                return createChartWithoutAxes();
+            case ModelPackage.CHART: return createChart();
+            case ModelPackage.CHART_WITH_AXES: return createChartWithAxes();
+            case ModelPackage.CHART_WITHOUT_AXES: return createChartWithoutAxes();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -60,7 +57,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Chart createChart()
@@ -71,7 +67,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ChartWithAxes createChartWithAxes()
@@ -82,7 +77,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ChartWithoutAxes createChartWithoutAxes()
@@ -93,18 +87,17 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ModelPackage getModelPackage()
     {
-        return (ModelPackage) getEPackage();
+        return (ModelPackage)getEPackage();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @deprecated @generated
+     * @deprecated
+     * @generated
      */
     public static ModelPackage getPackage()
     {

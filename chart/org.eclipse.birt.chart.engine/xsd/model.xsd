@@ -135,6 +135,20 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="WallFill" type="attribute:Fill">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the fill to be used for the chart wall (for charts with depth).
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="FloorFill" type="attribute:Fill">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the fill to be used for the chart floor (for charts with depth).
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 					<xsd:element name="Orientation" type="attribute:Orientation">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">

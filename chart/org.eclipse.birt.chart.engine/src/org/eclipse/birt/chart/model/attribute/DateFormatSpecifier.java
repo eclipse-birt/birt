@@ -17,26 +17,26 @@ import java.util.Locale;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Date Format Specifier</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds the format specifier properties for a date label.
- * 
+ * 			This type holds the format specifier properties for a date label.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail <em>Detail</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail <em>Detail</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatSpecifier()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface DateFormatSpecifier extends FormatSpecifier
-{
+public interface DateFormatSpecifier extends FormatSpecifier{
 
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is <code>"Long"</code>. The
@@ -59,11 +59,9 @@ public interface DateFormatSpecifier extends FormatSpecifier
     DateFormatType getType();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Type</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Type</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.DateFormatType
      * @see #isSetType()
      * @see #unsetType()
@@ -145,10 +143,8 @@ public interface DateFormatSpecifier extends FormatSpecifier
     void unsetDetail();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail <em>Detail</em>}' attribute is set.
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getDetail <em>Detail</em>}' attribute is set.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return whether the value of the '<em>Detail</em>' attribute is set.
      * @see #unsetDetail()
      * @see #getDetail()

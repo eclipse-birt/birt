@@ -30,13 +30,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getType <em>Type</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getFormatSpecifier <em>Format Specifier</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DataPointComponentImpl extends EObjectImpl implements DataPointComponent
@@ -78,7 +76,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected DataPointComponentImpl()
@@ -88,7 +85,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -98,7 +94,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPointComponentType getType()
@@ -108,7 +103,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(DataPointComponentType newType)
@@ -118,13 +112,11 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
         boolean oldTypeESet = typeESet;
         typeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT_COMPONENT__TYPE, oldType,
-                type, !oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT_COMPONENT__TYPE, oldType, type, !oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -134,13 +126,11 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATA_POINT_COMPONENT__TYPE,
-                oldType, TYPE_EDEFAULT, oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATA_POINT_COMPONENT__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -150,7 +140,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FormatSpecifier getFormatSpecifier()
@@ -160,7 +149,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
@@ -169,19 +157,14 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
         formatSpecifier = newFormatSpecifier;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
@@ -190,23 +173,18 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
         {
             NotificationChain msgs = null;
             if (formatSpecifier != null)
-                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
             if (newFormatSpecifier != null)
-                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject)newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, null, msgs);
             msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -227,7 +205,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -244,7 +221,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -252,10 +228,10 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.DATA_POINT_COMPONENT__TYPE:
-                setType((DataPointComponentType) newValue);
+                setType((DataPointComponentType)newValue);
                 return;
             case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -263,7 +239,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -274,7 +249,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
                 unsetType();
                 return;
             case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -282,7 +257,6 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -299,20 +273,15 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

@@ -16,35 +16,35 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Palette</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents a palette of Fills.
- * 
+ * 			This type represents a palette of Fills.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface Palette extends EObject
-{
+public interface Palette extends EObject{
 
     /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies the name that uniquely identifies this palette.
-     * 
+     * 					Specifies the name that uniquely identifies this palette.
+     * 					
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Name()
@@ -56,9 +56,7 @@ public interface Palette extends EObject
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}' attribute.
      * <!-- begin-user-doc --> Sets the name for the palette. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Name</em>' attribute.
+     * @param value the new value of the '<em>Name</em>' attribute.
      * @see #getName()
      * @generated
      */

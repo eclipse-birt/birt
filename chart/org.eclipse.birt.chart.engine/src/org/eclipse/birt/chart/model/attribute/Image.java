@@ -13,25 +13,25 @@ package org.eclipse.birt.chart.model.attribute;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Image</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents an image.
- * 
+ * 			This type represents an image.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getImage()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface Image extends Fill
-{
+public interface Image extends Fill{
 
     /**
      * Returns the value of the '<em><b>URL</b></em>' attribute. <!-- begin-user-doc --> Gets the URL for the
@@ -52,9 +52,7 @@ public interface Image extends Fill
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}' attribute.
      * <!-- begin-user-doc --> Sets the URL for the image. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>URL</em>' attribute.
+     * @param value the new value of the '<em>URL</em>' attribute.
      * @see #getURL()
      * @generated
      */

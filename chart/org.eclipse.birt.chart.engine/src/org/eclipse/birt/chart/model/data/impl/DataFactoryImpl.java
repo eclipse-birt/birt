@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -36,15 +38,14 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 {
 
     /**
-     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public DataFactoryImpl()
@@ -54,47 +55,29 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EObject create(EClass eClass)
     {
         switch (eClass.getClassifierID())
         {
-            case DataPackage.ACTION:
-                return createAction();
-            case DataPackage.BASE_SAMPLE_DATA:
-                return createBaseSampleData();
-            case DataPackage.DATA_ELEMENT:
-                return createDataElement();
-            case DataPackage.DATA_SET:
-                return createDataSet();
-            case DataPackage.DATE_TIME_DATA_ELEMENT:
-                return createDateTimeDataElement();
-            case DataPackage.DATE_TIME_DATA_SET:
-                return createDateTimeDataSet();
-            case DataPackage.NUMBER_DATA_ELEMENT:
-                return createNumberDataElement();
-            case DataPackage.NUMBER_DATA_SET:
-                return createNumberDataSet();
-            case DataPackage.ORTHOGONAL_SAMPLE_DATA:
-                return createOrthogonalSampleData();
-            case DataPackage.QUERY:
-                return createQuery();
-            case DataPackage.RULE:
-                return createRule();
-            case DataPackage.SAMPLE_DATA:
-                return createSampleData();
-            case DataPackage.SERIES_DEFINITION:
-                return createSeriesDefinition();
-            case DataPackage.SERIES_GROUPING:
-                return createSeriesGrouping();
-            case DataPackage.STOCK_DATA_SET:
-                return createStockDataSet();
-            case DataPackage.TEXT_DATA_SET:
-                return createTextDataSet();
-            case DataPackage.TRIGGER:
-                return createTrigger();
+            case DataPackage.ACTION: return createAction();
+            case DataPackage.BASE_SAMPLE_DATA: return createBaseSampleData();
+            case DataPackage.DATA_ELEMENT: return createDataElement();
+            case DataPackage.DATA_SET: return createDataSet();
+            case DataPackage.DATE_TIME_DATA_ELEMENT: return createDateTimeDataElement();
+            case DataPackage.DATE_TIME_DATA_SET: return createDateTimeDataSet();
+            case DataPackage.NUMBER_DATA_ELEMENT: return createNumberDataElement();
+            case DataPackage.NUMBER_DATA_SET: return createNumberDataSet();
+            case DataPackage.ORTHOGONAL_SAMPLE_DATA: return createOrthogonalSampleData();
+            case DataPackage.QUERY: return createQuery();
+            case DataPackage.RULE: return createRule();
+            case DataPackage.SAMPLE_DATA: return createSampleData();
+            case DataPackage.SERIES_DEFINITION: return createSeriesDefinition();
+            case DataPackage.SERIES_GROUPING: return createSeriesGrouping();
+            case DataPackage.STOCK_DATA_SET: return createStockDataSet();
+            case DataPackage.TEXT_DATA_SET: return createTextDataSet();
+            case DataPackage.TRIGGER: return createTrigger();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -102,7 +85,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Action createAction()
@@ -113,7 +95,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public BaseSampleData createBaseSampleData()
@@ -124,7 +105,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataElement createDataElement()
@@ -135,7 +115,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataSet createDataSet()
@@ -146,7 +125,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateTimeDataElement createDateTimeDataElement()
@@ -157,7 +135,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateTimeDataSet createDateTimeDataSet()
@@ -168,7 +145,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NumberDataElement createNumberDataElement()
@@ -179,7 +155,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NumberDataSet createNumberDataSet()
@@ -190,7 +165,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public OrthogonalSampleData createOrthogonalSampleData()
@@ -201,7 +175,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Query createQuery()
@@ -212,7 +185,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Rule createRule()
@@ -223,7 +195,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SampleData createSampleData()
@@ -234,7 +205,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SeriesDefinition createSeriesDefinition()
@@ -245,7 +215,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SeriesGrouping createSeriesGrouping()
@@ -256,7 +225,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public StockDataSet createStockDataSet()
@@ -267,7 +235,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public TextDataSet createTextDataSet()
@@ -278,7 +245,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Trigger createTrigger()
@@ -289,18 +255,17 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPackage getDataPackage()
     {
-        return (DataPackage) getEPackage();
+        return (DataPackage)getEPackage();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @deprecated @generated
+     * @deprecated
+     * @generated
      */
     public static DataPackage getPackage()
     {

@@ -149,7 +149,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 			<xsd:element name="Origin" type="attribute:AxisOrigin">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the location on the axis that should co-incide with the origin of the chart.
+					Specifies the location on the perpendicular primary axis that should be considered as the point of intersection for this axis.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -204,7 +204,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SeriesIdentifier" type="xsd:string">
+			<xsd:element name="SeriesIdentifier" type="xsd:anySimpleType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies an identifier to link the series with its definition at runtime. 
@@ -273,13 +273,6 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					The string content displayed in the label.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Specifies formatting information for the label.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -413,13 +406,6 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="attribute:Position">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Specifies where the label associated with this line is to be positioned with respect to the marker range itself.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
 			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
@@ -512,13 +498,6 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the number of minor grids per unit of the scale.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="Type" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Form that the values change by (Linear, Exponential etc.)
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

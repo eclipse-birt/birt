@@ -1037,7 +1037,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Value" type="xsd:anySimpleType">
+			<xsd:element name="Value" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the actual value of the axis origin.

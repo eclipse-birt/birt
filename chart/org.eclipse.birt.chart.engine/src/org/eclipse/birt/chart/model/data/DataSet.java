@@ -15,34 +15,34 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Set</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds the data associated with a series.
- * 
+ * 			This type holds the data associated with a series.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface DataSet extends EObject
-{
+public interface DataSet extends EObject{
 
     /**
-     * Returns the value of the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Values</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Holds data values for the series.
-     * 
+     * 					Holds data values for the series.
+     * 					
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Values</em>' attribute.
      * @see #setValues(Object)
      * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet_Values()
@@ -54,9 +54,7 @@ public interface DataSet extends EObject
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Values</em>' attribute.
+     * @param value the new value of the '<em>Values</em>' attribute.
      * @see #getValues()
      * @generated
      */

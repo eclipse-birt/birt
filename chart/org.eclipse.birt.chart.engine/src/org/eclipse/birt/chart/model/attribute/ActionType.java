@@ -121,27 +121,31 @@ public final class ActionType extends AbstractEnumerator
     public static final ActionType INVOKE_SCRIPT_LITERAL = new ActionType(INVOKE_SCRIPT, "Invoke_Script");
 
     /**
-     * An array of all the '<em><b>Action Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Action Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final ActionType[] VALUES_ARRAY = new ActionType[]
-    {
-        URL_REDIRECT_LITERAL, SHOW_TOOLTIP_LITERAL, TOGGLE_VISIBILITY_LITERAL, INVOKE_SCRIPT_LITERAL,
-    };
+    private static final ActionType[] VALUES_ARRAY =
+        new ActionType[]
+        {
+            URL_REDIRECT_LITERAL,
+            SHOW_TOOLTIP_LITERAL,
+            TOGGLE_VISIBILITY_LITERAL,
+            INVOKE_SCRIPT_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Action Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Action Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Action Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Action Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static ActionType get(String name)
@@ -158,30 +162,26 @@ public final class ActionType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Action Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Action Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static ActionType get(int value)
     {
         switch (value)
         {
-            case URL_REDIRECT:
-                return URL_REDIRECT_LITERAL;
-            case SHOW_TOOLTIP:
-                return SHOW_TOOLTIP_LITERAL;
-            case TOGGLE_VISIBILITY:
-                return TOGGLE_VISIBILITY_LITERAL;
-            case INVOKE_SCRIPT:
-                return INVOKE_SCRIPT_LITERAL;
+            case URL_REDIRECT: return URL_REDIRECT_LITERAL;
+            case SHOW_TOOLTIP: return SHOW_TOOLTIP_LITERAL;
+            case TOGGLE_VISIBILITY: return TOGGLE_VISIBILITY_LITERAL;
+            case INVOKE_SCRIPT: return INVOKE_SCRIPT_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private ActionType(int value, String name)

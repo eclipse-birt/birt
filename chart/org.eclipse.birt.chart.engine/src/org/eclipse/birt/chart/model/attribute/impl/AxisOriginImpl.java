@@ -17,8 +17,12 @@ import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -83,7 +87,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected AxisOriginImpl()
@@ -93,7 +96,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -103,7 +105,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public IntersectionType getType()
@@ -113,7 +114,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(IntersectionType newType)
@@ -123,13 +123,11 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
         boolean oldTypeESet = typeESet;
         typeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__TYPE, oldType, type,
-                !oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__TYPE, oldType, type, !oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -139,13 +137,11 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.AXIS_ORIGIN__TYPE, oldType,
-                TYPE_EDEFAULT, oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.AXIS_ORIGIN__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -155,30 +151,73 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public Object getValue()
+    public DataElement getValue()
     {
         return value;
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-    public void setValue(Object newValue)
+    public NotificationChain basicSetValue(DataElement newValue, NotificationChain msgs)
     {
-        Object oldValue = value;
+        DataElement oldValue = value;
         value = newValue;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__VALUE, oldValue, value));
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__VALUE, oldValue, newValue);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setValue(DataElement newValue)
+    {
+        if (newValue != value)
+        {
+            NotificationChain msgs = null;
+            if (value != null)
+                msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
+            if (newValue != null)
+                msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
+            msgs = basicSetValue(newValue, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__VALUE, newValue, newValue));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    {
+        if (featureID >= 0)
+        {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass))
+            {
+                case AttributePackage.AXIS_ORIGIN__VALUE:
+                    return basicSetValue(null, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -195,7 +234,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -203,10 +241,10 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.AXIS_ORIGIN__TYPE:
-                setType((IntersectionType) newValue);
+                setType((IntersectionType)newValue);
                 return;
             case AttributePackage.AXIS_ORIGIN__VALUE:
-                setValue((Object) newValue);
+                setValue((DataElement)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -214,7 +252,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -225,7 +262,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
                 unsetType();
                 return;
             case AttributePackage.AXIS_ORIGIN__VALUE:
-                setValue(VALUE_EDEFAULT);
+                setValue((DataElement)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -233,7 +270,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -243,29 +279,22 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
             case AttributePackage.AXIS_ORIGIN__TYPE:
                 return isSetType();
             case AttributePackage.AXIS_ORIGIN__VALUE:
-                return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+                return value != null;
         }
         return eDynamicIsSet(eFeature);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
-        result.append(", value: ");
-        result.append(value);
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

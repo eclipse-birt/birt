@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DataSetImpl extends EObjectImpl implements DataSet
@@ -53,7 +53,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected DataSetImpl()
@@ -63,7 +62,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -73,7 +71,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object getValues()
@@ -83,7 +80,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValues(Object newValues)
@@ -96,7 +92,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -111,7 +106,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -119,7 +113,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.DATA_SET__VALUES:
-                setValues((Object) newValue);
+                setValues((Object)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -127,7 +121,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -143,7 +136,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -158,13 +150,11 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (values: ");

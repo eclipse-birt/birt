@@ -208,28 +208,35 @@ public final class Anchor extends AbstractEnumerator
     public static final Anchor NORTH_WEST_LITERAL = new Anchor(NORTH_WEST, "North_West");
 
     /**
-     * An array of all the '<em><b>Anchor</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Anchor</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final Anchor[] VALUES_ARRAY = new Anchor[]
-    {
-        NORTH_LITERAL, NORTH_EAST_LITERAL, EAST_LITERAL, SOUTH_EAST_LITERAL, SOUTH_LITERAL, SOUTH_WEST_LITERAL,
-        WEST_LITERAL, NORTH_WEST_LITERAL,
-    };
+    private static final Anchor[] VALUES_ARRAY =
+        new Anchor[]
+        {
+            NORTH_LITERAL,
+            NORTH_EAST_LITERAL,
+            EAST_LITERAL,
+            SOUTH_EAST_LITERAL,
+            SOUTH_LITERAL,
+            SOUTH_WEST_LITERAL,
+            WEST_LITERAL,
+            NORTH_WEST_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Anchor</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Anchor</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Anchor get(String name)
@@ -246,38 +253,30 @@ public final class Anchor extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Anchor</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Anchor</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Anchor get(int value)
     {
         switch (value)
         {
-            case NORTH:
-                return NORTH_LITERAL;
-            case NORTH_EAST:
-                return NORTH_EAST_LITERAL;
-            case EAST:
-                return EAST_LITERAL;
-            case SOUTH_EAST:
-                return SOUTH_EAST_LITERAL;
-            case SOUTH:
-                return SOUTH_LITERAL;
-            case SOUTH_WEST:
-                return SOUTH_WEST_LITERAL;
-            case WEST:
-                return WEST_LITERAL;
-            case NORTH_WEST:
-                return NORTH_WEST_LITERAL;
+            case NORTH: return NORTH_LITERAL;
+            case NORTH_EAST: return NORTH_EAST_LITERAL;
+            case EAST: return EAST_LITERAL;
+            case SOUTH_EAST: return SOUTH_EAST_LITERAL;
+            case SOUTH: return SOUTH_LITERAL;
+            case SOUTH_WEST: return SOUTH_WEST_LITERAL;
+            case WEST: return WEST_LITERAL;
+            case NORTH_WEST: return NORTH_WEST_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private Anchor(int value, String name)

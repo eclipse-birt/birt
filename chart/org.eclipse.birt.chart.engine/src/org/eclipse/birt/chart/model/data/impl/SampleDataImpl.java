@@ -64,7 +64,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected SampleDataImpl()
@@ -74,7 +73,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -84,50 +82,44 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getBaseSampleData()
     {
         if (baseSampleData == null)
         {
-            baseSampleData = new EObjectContainmentEList(BaseSampleData.class, this,
-                DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA);
+            baseSampleData = new EObjectContainmentEList(BaseSampleData.class, this, DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA);
         }
         return baseSampleData;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getOrthogonalSampleData()
     {
         if (orthogonalSampleData == null)
         {
-            orthogonalSampleData = new EObjectContainmentEList(OrthogonalSampleData.class, this,
-                DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA);
+            orthogonalSampleData = new EObjectContainmentEList(OrthogonalSampleData.class, this, DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA);
         }
         return orthogonalSampleData;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA:
-                    return ((InternalEList) getBaseSampleData()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getBaseSampleData()).basicRemove(otherEnd, msgs);
                 case DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA:
-                    return ((InternalEList) getOrthogonalSampleData()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getOrthogonalSampleData()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -137,7 +129,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -154,7 +145,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -163,11 +153,11 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
         {
             case DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA:
                 getBaseSampleData().clear();
-                getBaseSampleData().addAll((Collection) newValue);
+                getBaseSampleData().addAll((Collection)newValue);
                 return;
             case DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA:
                 getOrthogonalSampleData().clear();
-                getOrthogonalSampleData().addAll((Collection) newValue);
+                getOrthogonalSampleData().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -175,7 +165,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -194,7 +183,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

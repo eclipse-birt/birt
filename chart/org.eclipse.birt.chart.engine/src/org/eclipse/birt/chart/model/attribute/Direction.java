@@ -76,27 +76,29 @@ public final class Direction extends AbstractEnumerator
     public static final Direction TOP_BOTTOM_LITERAL = new Direction(TOP_BOTTOM, "Top_Bottom");
 
     /**
-     * An array of all the '<em><b>Direction</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Direction</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final Direction[] VALUES_ARRAY = new Direction[]
-    {
-        LEFT_RIGHT_LITERAL, TOP_BOTTOM_LITERAL,
-    };
+    private static final Direction[] VALUES_ARRAY =
+        new Direction[]
+        {
+            LEFT_RIGHT_LITERAL,
+            TOP_BOTTOM_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Direction</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Direction</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Direction</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Direction</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Direction get(String name)
@@ -113,26 +115,24 @@ public final class Direction extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Direction</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Direction</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Direction get(int value)
     {
         switch (value)
         {
-            case LEFT_RIGHT:
-                return LEFT_RIGHT_LITERAL;
-            case TOP_BOTTOM:
-                return TOP_BOTTOM_LITERAL;
+            case LEFT_RIGHT: return LEFT_RIGHT_LITERAL;
+            case TOP_BOTTOM: return TOP_BOTTOM_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private Direction(int value, String name)

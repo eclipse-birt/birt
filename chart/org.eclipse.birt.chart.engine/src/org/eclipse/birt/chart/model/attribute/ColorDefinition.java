@@ -14,28 +14,28 @@ package org.eclipse.birt.chart.model.attribute;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Color Definition</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents a color.
- * 
+ * 			This type represents a color.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getColorDefinition()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface ColorDefinition extends Fill
-{
+public interface ColorDefinition extends Fill{
 
     /**
      * Returns the value of the '<em><b>Transparency</b></em>' attribute. <!-- begin-user-doc --> Gets the
@@ -56,12 +56,9 @@ public interface ColorDefinition extends Fill
     int getTransparency();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute.
      * <!-- begin-user-doc --> Sets the transparency for the color. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Transparency</em>' attribute.
+     * @param value the new value of the '<em>Transparency</em>' attribute.
      * @see #isSetTransparency()
      * @see #unsetTransparency()
      * @see #getTransparency()
@@ -70,10 +67,8 @@ public interface ColorDefinition extends Fill
     void setTransparency(int value);
 
     /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute.
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see #isSetTransparency()
      * @see #getTransparency()
      * @see #setTransparency(int)
@@ -82,10 +77,8 @@ public interface ColorDefinition extends Fill
     void unsetTransparency();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute
-     * is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getTransparency <em>Transparency</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Transparency</em>' attribute is set.
      * @see #unsetTransparency()
      * @see #getTransparency()
@@ -114,11 +107,9 @@ public interface ColorDefinition extends Fill
     int getRed();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the 'Red' component for the color. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Red</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}' attribute.
+     * <!-- begin-user-doc --> Sets the 'Red' component for the color. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Red</em>' attribute.
      * @see #isSetRed()
      * @see #unsetRed()
      * @see #getRed()
@@ -127,9 +118,8 @@ public interface ColorDefinition extends Fill
     void setRed(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetRed()
      * @see #getRed()
      * @see #setRed(int)
@@ -151,30 +141,27 @@ public interface ColorDefinition extends Fill
     boolean isSetRed();
 
     /**
-     * Returns the value of the '<em><b>Blue</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Blue</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies the 'Blue' component for the color.
-     * 
+     * 							Specifies the 'Blue' component for the color.
+     * 							
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Blue</em>' attribute.
      * @see #isSetBlue()
      * @see #unsetBlue()
      * @see #setBlue(int)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getColorDefinition_Blue()
-     * @model unique="false" unsettable="true" dataType="org.eclipse.birt.chart.model.attribute.RGBValue"
-     *        required="true"
+     * @model unique="false" unsettable="true" dataType="org.eclipse.birt.chart.model.attribute.RGBValue" required="true"
      * @generated
      */
     int getBlue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the 'Blue' component for the color. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Blue</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}' attribute.
+     * <!-- begin-user-doc --> Sets the 'Blue' component for the color. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Blue</em>' attribute.
      * @see #isSetBlue()
      * @see #unsetBlue()
      * @see #getBlue()
@@ -183,9 +170,8 @@ public interface ColorDefinition extends Fill
     void setBlue(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetBlue()
      * @see #getBlue()
      * @see #setBlue(int)
@@ -207,30 +193,27 @@ public interface ColorDefinition extends Fill
     boolean isSetBlue();
 
     /**
-     * Returns the value of the '<em><b>Green</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Green</b></em>' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies the 'Green' component for the color.
-     * 
+     * 							Specifies the 'Green' component for the color.
+     * 							
      * <!-- end-model-doc -->
-     * 
      * @return the value of the '<em>Green</em>' attribute.
      * @see #isSetGreen()
      * @see #unsetGreen()
      * @see #setGreen(int)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getColorDefinition_Green()
-     * @model unique="false" unsettable="true" dataType="org.eclipse.birt.chart.model.attribute.RGBValue"
-     *        required="true"
+     * @model unique="false" unsettable="true" dataType="org.eclipse.birt.chart.model.attribute.RGBValue" required="true"
      * @generated
      */
     int getGreen();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the 'Green' component for the color. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Green</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}' attribute.
+     * <!-- begin-user-doc --> Sets the 'Green' component for the color. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Green</em>' attribute.
      * @see #isSetGreen()
      * @see #unsetGreen()
      * @see #getGreen()
@@ -239,9 +222,8 @@ public interface ColorDefinition extends Fill
     void setGreen(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetGreen()
      * @see #getGreen()
      * @see #setGreen(int)

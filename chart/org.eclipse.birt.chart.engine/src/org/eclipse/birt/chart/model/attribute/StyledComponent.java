@@ -277,30 +277,39 @@ public final class StyledComponent extends AbstractEnumerator
     public static final StyledComponent SERIES_LABEL_LITERAL = new StyledComponent(SERIES_LABEL, "Series_Label");
 
     /**
-     * An array of all the '<em><b>Styled Component</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Styled Component</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final StyledComponent[] VALUES_ARRAY = new StyledComponent[]
-    {
-        CHART_TITLE_LITERAL, CHART_BACKGROUND_LITERAL, PLOT_BACKGROUND_LITERAL, LEGEND_BACKGROUND_LITERAL,
-        LEGEND_LABEL_LITERAL, DATA_LABEL_LITERAL, AXIS_TITLE_LITERAL, AXIS_LABEL_LITERAL, AXIS_LINE_LITERAL,
-        SERIES_TITLE_LITERAL, SERIES_LABEL_LITERAL,
-    };
+    private static final StyledComponent[] VALUES_ARRAY =
+        new StyledComponent[]
+        {
+            CHART_TITLE_LITERAL,
+            CHART_BACKGROUND_LITERAL,
+            PLOT_BACKGROUND_LITERAL,
+            LEGEND_BACKGROUND_LITERAL,
+            LEGEND_LABEL_LITERAL,
+            DATA_LABEL_LITERAL,
+            AXIS_TITLE_LITERAL,
+            AXIS_LABEL_LITERAL,
+            AXIS_LINE_LITERAL,
+            SERIES_TITLE_LITERAL,
+            SERIES_LABEL_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Styled Component</b></em>' enumerators. <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Styled Component</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Styled Component</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Styled Component</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static StyledComponent get(String name)
@@ -317,44 +326,33 @@ public final class StyledComponent extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Styled Component</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Styled Component</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static StyledComponent get(int value)
     {
         switch (value)
         {
-            case CHART_TITLE:
-                return CHART_TITLE_LITERAL;
-            case CHART_BACKGROUND:
-                return CHART_BACKGROUND_LITERAL;
-            case PLOT_BACKGROUND:
-                return PLOT_BACKGROUND_LITERAL;
-            case LEGEND_BACKGROUND:
-                return LEGEND_BACKGROUND_LITERAL;
-            case LEGEND_LABEL:
-                return LEGEND_LABEL_LITERAL;
-            case DATA_LABEL:
-                return DATA_LABEL_LITERAL;
-            case AXIS_TITLE:
-                return AXIS_TITLE_LITERAL;
-            case AXIS_LABEL:
-                return AXIS_LABEL_LITERAL;
-            case AXIS_LINE:
-                return AXIS_LINE_LITERAL;
-            case SERIES_TITLE:
-                return SERIES_TITLE_LITERAL;
-            case SERIES_LABEL:
-                return SERIES_LABEL_LITERAL;
+            case CHART_TITLE: return CHART_TITLE_LITERAL;
+            case CHART_BACKGROUND: return CHART_BACKGROUND_LITERAL;
+            case PLOT_BACKGROUND: return PLOT_BACKGROUND_LITERAL;
+            case LEGEND_BACKGROUND: return LEGEND_BACKGROUND_LITERAL;
+            case LEGEND_LABEL: return LEGEND_LABEL_LITERAL;
+            case DATA_LABEL: return DATA_LABEL_LITERAL;
+            case AXIS_TITLE: return AXIS_TITLE_LITERAL;
+            case AXIS_LABEL: return AXIS_LABEL_LITERAL;
+            case AXIS_LINE: return AXIS_LINE_LITERAL;
+            case SERIES_TITLE: return SERIES_TITLE_LITERAL;
+            case SERIES_LABEL: return SERIES_LABEL_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private StyledComponent(int value, String name)

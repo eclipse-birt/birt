@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.component.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.component.*;
+
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -30,23 +32,21 @@ import org.eclipse.emf.ecore.EObject;
  * {@link #doSwitch(EObject) doSwitch(object)}to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object and proceeding up the inheritance hierarchy until a non-null result is
  * returned, which is the result of the switch. <!-- end-user-doc -->
- * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage
  * @generated
  */
-public class ComponentSwitch
-{
+public class ComponentSwitch {
 
     /**
-     * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The cached model package
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected static ComponentPackage modelPackage;
 
     /**
-     * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates an instance of the switch.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public ComponentSwitch()
@@ -58,9 +58,8 @@ public class ComponentSwitch
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
-     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -70,9 +69,8 @@ public class ComponentSwitch
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
-     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -85,14 +83,16 @@ public class ComponentSwitch
         else
         {
             List eSuperTypes = theEClass.getESuperTypes();
-            return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch((EClass) eSuperTypes.get(0), theEObject);
+            return
+                eSuperTypes.isEmpty() ?
+                    defaultCase(theEObject) :
+                    doSwitch((EClass)eSuperTypes.get(0), theEObject);
         }
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
-     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -102,79 +102,69 @@ public class ComponentSwitch
         {
             case ComponentPackage.AXIS:
             {
-                Axis axis = (Axis) theEObject;
+                Axis axis = (Axis)theEObject;
                 Object result = caseAxis(axis);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.CHART_PREFERENCES:
             {
-                ChartPreferences chartPreferences = (ChartPreferences) theEObject;
+                ChartPreferences chartPreferences = (ChartPreferences)theEObject;
                 Object result = caseChartPreferences(chartPreferences);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.GRID:
             {
-                Grid grid = (Grid) theEObject;
+                Grid grid = (Grid)theEObject;
                 Object result = caseGrid(grid);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.LABEL:
             {
-                Label label = (Label) theEObject;
+                Label label = (Label)theEObject;
                 Object result = caseLabel(label);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.MARKER_LINE:
             {
-                MarkerLine markerLine = (MarkerLine) theEObject;
+                MarkerLine markerLine = (MarkerLine)theEObject;
                 Object result = caseMarkerLine(markerLine);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.MARKER_RANGE:
             {
-                MarkerRange markerRange = (MarkerRange) theEObject;
+                MarkerRange markerRange = (MarkerRange)theEObject;
                 Object result = caseMarkerRange(markerRange);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.SCALE:
             {
-                Scale scale = (Scale) theEObject;
+                Scale scale = (Scale)theEObject;
                 Object result = caseScale(scale);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case ComponentPackage.SERIES:
             {
-                Series series = (Series) theEObject;
+                Series series = (Series)theEObject;
                 Object result = caseSeries(series);
-                if (result == null)
-                    result = defaultCase(theEObject);
+                if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            default:
-                return defaultCase(theEObject);
+            default: return defaultCase(theEObject);
         }
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Axis</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Axis</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Axis</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -201,11 +191,10 @@ public class ComponentSwitch
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Grid</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Grid</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Grid</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -216,11 +205,10 @@ public class ComponentSwitch
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Label</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Label</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Label</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -263,11 +251,10 @@ public class ComponentSwitch
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Scale</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Scale</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Scale</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -278,11 +265,10 @@ public class ComponentSwitch
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Series</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Series</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Series</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -293,12 +279,11 @@ public class ComponentSwitch
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'. <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+     * <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
      * case anyway. <!-- end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
+     * @param object the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject)
      * @generated

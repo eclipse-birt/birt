@@ -15,25 +15,25 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Fill</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds background information for a chart element.
- * 
+ * 			This type holds background information for a chart element.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFill()
- * @model @generated
+ * @model 
+ * @generated
  */
-public interface Fill extends EObject
-{
+public interface Fill extends EObject{
 
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> Gets the type of the
@@ -56,9 +56,7 @@ public interface Fill extends EObject
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}' attribute.
      * <!-- begin-user-doc --> Sets the type of the background element. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Type</em>' attribute.
+     * @param value the new value of the '<em>Type</em>' attribute.
      * @see #isSetType()
      * @see #unsetType()
      * @see #getType()
@@ -69,7 +67,6 @@ public interface Fill extends EObject
     /**
      * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see #isSetType()
      * @see #getType()
      * @see #setType(int)
@@ -78,9 +75,8 @@ public interface Fill extends EObject
     void unsetType();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Type</em>' attribute is set.
      * @see #unsetType()
      * @see #getType()

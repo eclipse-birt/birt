@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -47,12 +48,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes <em>Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes <em>Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getWallFill <em>Wall Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill <em>Floor Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
@@ -66,6 +69,26 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * @generated @ordered
      */
     protected EList axes = null;
+
+    /**
+     * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getWallFill()
+     * @generated
+     * @ordered
+     */
+    protected Fill wallFill = null;
+
+    /**
+     * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFloorFill()
+     * @generated
+     * @ordered
+     */
+    protected Fill floorFill = null;
 
     /**
      * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute. <!-- begin-user-doc -->
@@ -119,7 +142,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ChartWithAxesImpl()
@@ -129,7 +151,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -139,7 +160,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getAxes()
@@ -152,8 +172,103 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Fill getWallFill()
+    {
+        return wallFill;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetWallFill(Fill newWallFill, NotificationChain msgs)
+    {
+        Fill oldWallFill = wallFill;
+        wallFill = newWallFill;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__WALL_FILL, oldWallFill, newWallFill);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setWallFill(Fill newWallFill)
+    {
+        if (newWallFill != wallFill)
+        {
+            NotificationChain msgs = null;
+            if (wallFill != null)
+                msgs = ((InternalEObject)wallFill).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__WALL_FILL, null, msgs);
+            if (newWallFill != null)
+                msgs = ((InternalEObject)newWallFill).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__WALL_FILL, null, msgs);
+            msgs = basicSetWallFill(newWallFill, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__WALL_FILL, newWallFill, newWallFill));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Fill getFloorFill()
+    {
+        return floorFill;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetFloorFill(Fill newFloorFill, NotificationChain msgs)
+    {
+        Fill oldFloorFill = floorFill;
+        floorFill = newFloorFill;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__FLOOR_FILL, oldFloorFill, newFloorFill);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFloorFill(Fill newFloorFill)
+    {
+        if (newFloorFill != floorFill)
+        {
+            NotificationChain msgs = null;
+            if (floorFill != null)
+                msgs = ((InternalEObject)floorFill).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__FLOOR_FILL, null, msgs);
+            if (newFloorFill != null)
+                msgs = ((InternalEObject)newFloorFill).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__FLOOR_FILL, null, msgs);
+            msgs = basicSetFloorFill(newFloorFill, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__FLOOR_FILL, newFloorFill, newFloorFill));
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Orientation getOrientation()
@@ -163,7 +278,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setOrientation(Orientation newOrientation)
@@ -173,13 +287,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         boolean oldOrientationESet = orientationESet;
         orientationESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__ORIENTATION,
-                oldOrientation, orientation, !oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__ORIENTATION, oldOrientation, orientation, !oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetOrientation()
@@ -189,13 +301,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         orientation = ORIENTATION_EDEFAULT;
         orientationESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__ORIENTATION,
-                oldOrientation, ORIENTATION_EDEFAULT, oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__ORIENTATION, oldOrientation, ORIENTATION_EDEFAULT, oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetOrientation()
@@ -205,7 +315,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getUnitSpacing()
@@ -215,7 +324,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setUnitSpacing(double newUnitSpacing)
@@ -225,13 +333,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         boolean oldUnitSpacingESet = unitSpacingESet;
         unitSpacingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING,
-                oldUnitSpacing, unitSpacing, !oldUnitSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING, oldUnitSpacing, unitSpacing, !oldUnitSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetUnitSpacing()
@@ -241,13 +347,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         unitSpacing = UNIT_SPACING_EDEFAULT;
         unitSpacingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING,
-                oldUnitSpacing, UNIT_SPACING_EDEFAULT, oldUnitSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING, oldUnitSpacing, UNIT_SPACING_EDEFAULT, oldUnitSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetUnitSpacing()
@@ -257,11 +361,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -274,11 +376,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
                     return basicSetSeriesHints(null, msgs);
                 case ModelPackage.CHART_WITH_AXES__EXTENDED_PROPERTIES:
-                    return ((InternalEList) getExtendedProperties()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getExtendedProperties()).basicRemove(otherEnd, msgs);
                 case ModelPackage.CHART_WITH_AXES__SAMPLE_DATA:
                     return basicSetSampleData(null, msgs);
                 case ModelPackage.CHART_WITH_AXES__AXES:
-                    return ((InternalEList) getAxes()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getAxes()).basicRemove(otherEnd, msgs);
+                case ModelPackage.CHART_WITH_AXES__WALL_FILL:
+                    return basicSetWallFill(null, msgs);
+                case ModelPackage.CHART_WITH_AXES__FLOOR_FILL:
+                    return basicSetFloorFill(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -288,7 +394,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -323,6 +428,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 return getSampleData();
             case ModelPackage.CHART_WITH_AXES__AXES:
                 return getAxes();
+            case ModelPackage.CHART_WITH_AXES__WALL_FILL:
+                return getWallFill();
+            case ModelPackage.CHART_WITH_AXES__FLOOR_FILL:
+                return getFloorFill();
             case ModelPackage.CHART_WITH_AXES__ORIENTATION:
                 return getOrientation();
             case ModelPackage.CHART_WITH_AXES__UNIT_SPACING:
@@ -333,7 +442,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -341,54 +449,60 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITH_AXES__VERSION:
-                setVersion((String) newValue);
+                setVersion((String)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__TYPE:
-                setType((String) newValue);
+                setType((String)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__SUB_TYPE:
-                setSubType((String) newValue);
+                setSubType((String)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__DESCRIPTION:
-                setDescription((Text) newValue);
+                setDescription((Text)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__BLOCK:
-                setBlock((Block) newValue);
+                setBlock((Block)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__DIMENSION:
-                setDimension((ChartDimension) newValue);
+                setDimension((ChartDimension)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__SCRIPT:
-                setScript((String) newValue);
+                setScript((String)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__UNITS:
-                setUnits((String) newValue);
+                setUnits((String)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__SERIES_THICKNESS:
-                setSeriesThickness(((Double) newValue).doubleValue());
+                setSeriesThickness(((Double)newValue).doubleValue());
                 return;
             case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) newValue);
+                setSeriesHints((SeriesHint)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
-                setGridColumnCount(((Integer) newValue).intValue());
+                setGridColumnCount(((Integer)newValue).intValue());
                 return;
             case ModelPackage.CHART_WITH_AXES__EXTENDED_PROPERTIES:
                 getExtendedProperties().clear();
-                getExtendedProperties().addAll((Collection) newValue);
+                getExtendedProperties().addAll((Collection)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__SAMPLE_DATA:
-                setSampleData((SampleData) newValue);
+                setSampleData((SampleData)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__AXES:
                 getAxes().clear();
-                getAxes().addAll((Collection) newValue);
+                getAxes().addAll((Collection)newValue);
+                return;
+            case ModelPackage.CHART_WITH_AXES__WALL_FILL:
+                setWallFill((Fill)newValue);
+                return;
+            case ModelPackage.CHART_WITH_AXES__FLOOR_FILL:
+                setFloorFill((Fill)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__ORIENTATION:
-                setOrientation((Orientation) newValue);
+                setOrientation((Orientation)newValue);
                 return;
             case ModelPackage.CHART_WITH_AXES__UNIT_SPACING:
-                setUnitSpacing(((Double) newValue).doubleValue());
+                setUnitSpacing(((Double)newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -396,7 +510,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -413,10 +526,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 setSubType(SUB_TYPE_EDEFAULT);
                 return;
             case ModelPackage.CHART_WITH_AXES__DESCRIPTION:
-                setDescription((Text) null);
+                setDescription((Text)null);
                 return;
             case ModelPackage.CHART_WITH_AXES__BLOCK:
-                setBlock((Block) null);
+                setBlock((Block)null);
                 return;
             case ModelPackage.CHART_WITH_AXES__DIMENSION:
                 unsetDimension();
@@ -431,7 +544,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 unsetSeriesThickness();
                 return;
             case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) null);
+                setSeriesHints((SeriesHint)null);
                 return;
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
                 unsetGridColumnCount();
@@ -440,10 +553,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 getExtendedProperties().clear();
                 return;
             case ModelPackage.CHART_WITH_AXES__SAMPLE_DATA:
-                setSampleData((SampleData) null);
+                setSampleData((SampleData)null);
                 return;
             case ModelPackage.CHART_WITH_AXES__AXES:
                 getAxes().clear();
+                return;
+            case ModelPackage.CHART_WITH_AXES__WALL_FILL:
+                setWallFill((Fill)null);
+                return;
+            case ModelPackage.CHART_WITH_AXES__FLOOR_FILL:
+                setFloorFill((Fill)null);
                 return;
             case ModelPackage.CHART_WITH_AXES__ORIENTATION:
                 unsetOrientation();
@@ -457,7 +576,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -492,6 +610,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 return sampleData != null;
             case ModelPackage.CHART_WITH_AXES__AXES:
                 return axes != null && !axes.isEmpty();
+            case ModelPackage.CHART_WITH_AXES__WALL_FILL:
+                return wallFill != null;
+            case ModelPackage.CHART_WITH_AXES__FLOOR_FILL:
+                return floorFill != null;
             case ModelPackage.CHART_WITH_AXES__ORIENTATION:
                 return isSetOrientation();
             case ModelPackage.CHART_WITH_AXES__UNIT_SPACING:
@@ -502,25 +624,17 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (orientation: ");
-        if (orientationESet)
-            result.append(orientation);
-        else
-            result.append("<unset>");
+        if (orientationESet) result.append(orientation); else result.append("<unset>");
         result.append(", unitSpacing: ");
-        if (unitSpacingESet)
-            result.append(unitSpacing);
-        else
-            result.append("<unset>");
+        if (unitSpacingESet) result.append(unitSpacing); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

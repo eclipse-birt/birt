@@ -76,27 +76,29 @@ public final class SortOption extends AbstractEnumerator
     public static final SortOption DESCENDING_LITERAL = new SortOption(DESCENDING, "Descending");
 
     /**
-     * An array of all the '<em><b>Sort Option</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Sort Option</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final SortOption[] VALUES_ARRAY = new SortOption[]
-    {
-        ASCENDING_LITERAL, DESCENDING_LITERAL,
-    };
+    private static final SortOption[] VALUES_ARRAY =
+        new SortOption[]
+        {
+            ASCENDING_LITERAL,
+            DESCENDING_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Sort Option</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Sort Option</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Sort Option</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Sort Option</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static SortOption get(String name)
@@ -113,26 +115,24 @@ public final class SortOption extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Sort Option</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Sort Option</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static SortOption get(int value)
     {
         switch (value)
         {
-            case ASCENDING:
-                return ASCENDING_LITERAL;
-            case DESCENDING:
-                return DESCENDING_LITERAL;
+            case ASCENDING: return ASCENDING_LITERAL;
+            case DESCENDING: return DESCENDING_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private SortOption(int value, String name)

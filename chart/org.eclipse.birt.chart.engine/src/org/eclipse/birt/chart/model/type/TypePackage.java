@@ -34,41 +34,39 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.type.TypeFactory
  * @generated
  */
-public interface TypePackage extends EPackage
-{
+public interface TypePackage extends EPackage{
 
     /**
-     * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNAME = "type";
 
     /**
-     * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace URI.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_URI = "http://www.birt.eclipse.org/ChartModelType";
 
     /**
-     * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_PREFIX = "type";
 
     /**
-     * The singleton instance of the package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The singleton instance of the package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     TypePackage eINSTANCE = org.eclipse.birt.chart.model.type.impl.TypePackageImpl.init();
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl <em>Bar Series</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl <em>Bar Series</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.type.impl.BarSeriesImpl
      * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getBarSeries()
      * @generated
@@ -185,9 +183,8 @@ public interface TypePackage extends EPackage
     int BAR_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl <em>Line Series</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl <em>Line Series</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.type.impl.LineSeriesImpl
      * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getLineSeries()
      * @generated
@@ -320,9 +317,8 @@ public interface TypePackage extends EPackage
     int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.type.impl.PieSeriesImpl
      * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getPieSeries()
      * @generated
@@ -615,9 +611,8 @@ public interface TypePackage extends EPackage
     int SCATTER_SERIES_FEATURE_COUNT = LINE_SERIES_FEATURE_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.type.impl.StockSeriesImpl
      * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getStockSeries()
      * @generated
@@ -737,7 +732,6 @@ public interface TypePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Bar Series</em>'.
      * @see org.eclipse.birt.chart.model.type.BarSeries
      * @generated
@@ -745,10 +739,9 @@ public interface TypePackage extends EPackage
     EClass getBarSeries();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Riser</em>'.
      * @see org.eclipse.birt.chart.model.type.BarSeries#getRiser()
      * @see #getBarSeries()
@@ -757,10 +750,9 @@ public interface TypePackage extends EPackage
     EAttribute getBarSeries_Riser();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser Outline</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser Outline</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Riser Outline</em>'.
      * @see org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline()
      * @see #getBarSeries()
@@ -771,7 +763,6 @@ public interface TypePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Line Series</em>'.
      * @see org.eclipse.birt.chart.model.type.LineSeries
      * @generated
@@ -779,10 +770,9 @@ public interface TypePackage extends EPackage
     EClass getLineSeries();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Marker</em>'.
      * @see org.eclipse.birt.chart.model.type.LineSeries#getMarker()
      * @see #getLineSeries()
@@ -803,10 +793,9 @@ public interface TypePackage extends EPackage
     EReference getLineSeries_LineAttributes();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Curve</em>'.
      * @see org.eclipse.birt.chart.model.type.LineSeries#isCurve()
      * @see #getLineSeries()
@@ -815,10 +804,9 @@ public interface TypePackage extends EPackage
     EAttribute getLineSeries_Curve();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Shadow Color</em>'.
      * @see org.eclipse.birt.chart.model.type.LineSeries#getShadowColor()
      * @see #getLineSeries()
@@ -829,7 +817,6 @@ public interface TypePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Pie Series</em>'.
      * @see org.eclipse.birt.chart.model.type.PieSeries
      * @generated
@@ -837,10 +824,9 @@ public interface TypePackage extends EPackage
     EClass getPieSeries();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Explosion</em>'.
      * @see org.eclipse.birt.chart.model.type.PieSeries#getExplosion()
      * @see #getPieSeries()
@@ -849,10 +835,9 @@ public interface TypePackage extends EPackage
     EAttribute getPieSeries_Explosion();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Title</em>'.
      * @see org.eclipse.birt.chart.model.type.PieSeries#getTitle()
      * @see #getPieSeries()
@@ -873,10 +858,8 @@ public interface TypePackage extends EPackage
     EAttribute getPieSeries_TitlePosition();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}'.
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Leader Line Attributes</em>'.
      * @see org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes()
      * @see #getPieSeries()
@@ -909,10 +892,9 @@ public interface TypePackage extends EPackage
     EAttribute getPieSeries_LeaderLineLength();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Slice Outline</em>'.
      * @see org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline()
      * @see #getPieSeries()
@@ -921,10 +903,9 @@ public interface TypePackage extends EPackage
     EReference getPieSeries_SliceOutline();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Scatter Series</em>'.
      * @see org.eclipse.birt.chart.model.type.ScatterSeries
      * @generated
@@ -934,7 +915,6 @@ public interface TypePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.StockSeries <em>Stock Series</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Stock Series</em>'.
      * @see org.eclipse.birt.chart.model.type.StockSeries
      * @generated
@@ -942,10 +922,9 @@ public interface TypePackage extends EPackage
     EClass getStockSeries();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Fill</em>'.
      * @see org.eclipse.birt.chart.model.type.StockSeries#getFill()
      * @see #getStockSeries()
@@ -966,8 +945,8 @@ public interface TypePackage extends EPackage
     EReference getStockSeries_LineAttributes();
 
     /**
-     * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the factory that creates the instances of the model.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the factory that creates the instances of the model.
      * @generated
      */

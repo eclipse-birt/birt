@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class TextImpl extends EObjectImpl implements Text
@@ -79,7 +79,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected TextImpl()
@@ -89,7 +88,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -99,7 +97,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getValue()
@@ -109,7 +106,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValue(String newValue)
@@ -122,7 +118,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FontDefinition getFont()
@@ -132,7 +127,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetFont(FontDefinition newFont, NotificationChain msgs)
@@ -141,19 +135,14 @@ public class TextImpl extends EObjectImpl implements Text
         font = newFont;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__FONT,
-                oldFont, newFont);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__FONT, oldFont, newFont);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setFont(FontDefinition newFont)
@@ -162,14 +151,11 @@ public class TextImpl extends EObjectImpl implements Text
         {
             NotificationChain msgs = null;
             if (font != null)
-                msgs = ((InternalEObject) font).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.TEXT__FONT, null, msgs);
+                msgs = ((InternalEObject)font).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__FONT, null, msgs);
             if (newFont != null)
-                msgs = ((InternalEObject) newFont).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.TEXT__FONT, null, msgs);
+                msgs = ((InternalEObject)newFont).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__FONT, null, msgs);
             msgs = basicSetFont(newFont, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__FONT, newFont, newFont));
@@ -177,7 +163,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getColor()
@@ -187,7 +172,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetColor(ColorDefinition newColor, NotificationChain msgs)
@@ -196,19 +180,14 @@ public class TextImpl extends EObjectImpl implements Text
         color = newColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                AttributePackage.TEXT__COLOR, oldColor, newColor);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__COLOR, oldColor, newColor);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setColor(ColorDefinition newColor)
@@ -217,14 +196,11 @@ public class TextImpl extends EObjectImpl implements Text
         {
             NotificationChain msgs = null;
             if (color != null)
-                msgs = ((InternalEObject) color).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.TEXT__COLOR, null, msgs);
+                msgs = ((InternalEObject)color).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__COLOR, null, msgs);
             if (newColor != null)
-                msgs = ((InternalEObject) newColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.TEXT__COLOR, null, msgs);
+                msgs = ((InternalEObject)newColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.TEXT__COLOR, null, msgs);
             msgs = basicSetColor(newColor, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TEXT__COLOR, newColor, newColor));
@@ -232,7 +208,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -255,7 +230,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -274,7 +248,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -282,13 +255,13 @@ public class TextImpl extends EObjectImpl implements Text
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.TEXT__VALUE:
-                setValue((String) newValue);
+                setValue((String)newValue);
                 return;
             case AttributePackage.TEXT__FONT:
-                setFont((FontDefinition) newValue);
+                setFont((FontDefinition)newValue);
                 return;
             case AttributePackage.TEXT__COLOR:
-                setColor((ColorDefinition) newValue);
+                setColor((ColorDefinition)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -296,7 +269,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -307,10 +279,10 @@ public class TextImpl extends EObjectImpl implements Text
                 setValue(VALUE_EDEFAULT);
                 return;
             case AttributePackage.TEXT__FONT:
-                setFont((FontDefinition) null);
+                setFont((FontDefinition)null);
                 return;
             case AttributePackage.TEXT__COLOR:
-                setColor((ColorDefinition) null);
+                setColor((ColorDefinition)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -318,7 +290,6 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -337,13 +308,11 @@ public class TextImpl extends EObjectImpl implements Text
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (value: ");

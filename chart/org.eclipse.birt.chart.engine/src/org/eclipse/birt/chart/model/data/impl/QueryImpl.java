@@ -32,11 +32,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class QueryImpl extends EObjectImpl implements Query
@@ -70,7 +70,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected QueryImpl()
@@ -80,7 +79,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -90,7 +88,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getDefinition()
@@ -100,7 +97,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setDefinition(String newDefinition)
@@ -108,13 +104,11 @@ public class QueryImpl extends EObjectImpl implements Query
         String oldDefinition = definition;
         definition = newDefinition;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__DEFINITION, oldDefinition,
-                definition));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__DEFINITION, oldDefinition, definition));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList getRules()
@@ -128,18 +122,16 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case DataPackage.QUERY__RULES:
-                    return ((InternalEList) getRules()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getRules()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -149,7 +141,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -166,7 +157,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -174,11 +164,11 @@ public class QueryImpl extends EObjectImpl implements Query
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.QUERY__DEFINITION:
-                setDefinition((String) newValue);
+                setDefinition((String)newValue);
                 return;
             case DataPackage.QUERY__RULES:
                 getRules().clear();
-                getRules().addAll((Collection) newValue);
+                getRules().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -186,7 +176,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -205,7 +194,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -222,13 +210,11 @@ public class QueryImpl extends EObjectImpl implements Query
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (definition: ");

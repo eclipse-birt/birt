@@ -37,15 +37,14 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTextAlignment()
  * @model @generated
  */
-public interface TextAlignment extends EObject
-{
+public interface TextAlignment extends EObject{
 
     /**
-     * Returns the value of the '<em><b>Horizontal Alignment</b></em>' attribute. The default value is
-     * <code>"Left"</code>. The literals are from the enumeration
-     * {@link org.eclipse.birt.chart.model.attribute.HorizontalAlignment}. <!-- begin-user-doc --> Gets the horizontal
+     * Returns the value of the '<em><b>Horizontal Alignment</b></em>' attribute.
+     * The default value is <code>"Left"</code>.
+     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.HorizontalAlignment}.
+     * <!-- begin-user-doc --> Gets the horizontal
      * component of the text alignment. <!-- end-user-doc -->
-     * 
      * @return the value of the '<em>Horizontal Alignment</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.HorizontalAlignment
      * @see #isSetHorizontalAlignment()
@@ -58,12 +57,9 @@ public interface TextAlignment extends EObject
     HorizontalAlignment getHorizontalAlignment();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the horizontal component of the text alignment. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Horizontal Alignment</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}' attribute.
+     * <!-- begin-user-doc --> Sets the horizontal component of the text alignment. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Horizontal Alignment</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.HorizontalAlignment
      * @see #isSetHorizontalAlignment()
      * @see #unsetHorizontalAlignment()
@@ -73,10 +69,8 @@ public interface TextAlignment extends EObject
     void setHorizontalAlignment(HorizontalAlignment value);
 
     /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetHorizontalAlignment()
      * @see #getHorizontalAlignment()
      * @see #setHorizontalAlignment(HorizontalAlignment)
@@ -85,10 +79,8 @@ public interface TextAlignment extends EObject
     void unsetHorizontalAlignment();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Horizontal Alignment</em>' attribute is set.
      * @see #unsetHorizontalAlignment()
      * @see #getHorizontalAlignment()
@@ -98,11 +90,11 @@ public interface TextAlignment extends EObject
     boolean isSetHorizontalAlignment();
 
     /**
-     * Returns the value of the '<em><b>Vertical Alignment</b></em>' attribute. The default value is
-     * <code>"Top"</code>. The literals are from the enumeration
-     * {@link org.eclipse.birt.chart.model.attribute.VerticalAlignment}. <!-- begin-user-doc --> Gets the vertical
+     * Returns the value of the '<em><b>Vertical Alignment</b></em>' attribute.
+     * The default value is <code>"Top"</code>.
+     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.VerticalAlignment}.
+     * <!-- begin-user-doc --> Gets the vertical
      * component of the text alignment. <!-- end-user-doc -->
-     * 
      * @return the value of the '<em>Vertical Alignment</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.VerticalAlignment
      * @see #isSetVerticalAlignment()
@@ -115,12 +107,9 @@ public interface TextAlignment extends EObject
     VerticalAlignment getVerticalAlignment();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the horizontal component of the text alignment. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Vertical Alignment</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}' attribute.
+     * <!-- begin-user-doc --> Sets the horizontal component of the text alignment. <!-- end-user-doc -->
+     * @param value the new value of the '<em>Vertical Alignment</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.VerticalAlignment
      * @see #isSetVerticalAlignment()
      * @see #unsetVerticalAlignment()
@@ -130,10 +119,8 @@ public interface TextAlignment extends EObject
     void setVerticalAlignment(VerticalAlignment value);
 
     /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isSetVerticalAlignment()
      * @see #getVerticalAlignment()
      * @see #setVerticalAlignment(VerticalAlignment)
@@ -142,10 +129,8 @@ public interface TextAlignment extends EObject
     void unsetVerticalAlignment();
 
     /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return whether the value of the '<em>Vertical Alignment</em>' attribute is set.
      * @see #unsetVerticalAlignment()
      * @see #getVerticalAlignment()
@@ -153,4 +138,5 @@ public interface TextAlignment extends EObject
      * @generated
      */
     boolean isSetVerticalAlignment();
+
 } // TextAlignment

@@ -98,28 +98,31 @@ public final class HorizontalAlignment extends AbstractEnumerator
     public static final HorizontalAlignment RIGHT_LITERAL = new HorizontalAlignment(RIGHT, "Right");
 
     /**
-     * An array of all the '<em><b>Horizontal Alignment</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Horizontal Alignment</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final HorizontalAlignment[] VALUES_ARRAY = new HorizontalAlignment[]
-    {
-        LEFT_LITERAL, CENTER_LITERAL, RIGHT_LITERAL,
-    };
+    private static final HorizontalAlignment[] VALUES_ARRAY =
+        new HorizontalAlignment[]
+        {
+            LEFT_LITERAL,
+            CENTER_LITERAL,
+            RIGHT_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Horizontal Alignment</b></em>' enumerators. <!-- begin-user-doc
+     * A public read-only list of all the '<em><b>Horizontal Alignment</b></em>' enumerators.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static HorizontalAlignment get(String name)
@@ -136,28 +139,25 @@ public final class HorizontalAlignment extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Horizontal Alignment</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static HorizontalAlignment get(int value)
     {
         switch (value)
         {
-            case LEFT:
-                return LEFT_LITERAL;
-            case CENTER:
-                return CENTER_LITERAL;
-            case RIGHT:
-                return RIGHT_LITERAL;
+            case LEFT: return LEFT_LITERAL;
+            case CENTER: return CENTER_LITERAL;
+            case RIGHT: return RIGHT_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private HorizontalAlignment(int value, String name)

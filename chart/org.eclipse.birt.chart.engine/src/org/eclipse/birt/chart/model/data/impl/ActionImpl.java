@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ActionImpl extends EObjectImpl implements Action
@@ -75,7 +75,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ActionImpl()
@@ -85,7 +84,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -95,7 +93,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ActionType getType()
@@ -105,7 +102,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(ActionType newType)
@@ -120,7 +116,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetType()
@@ -130,13 +125,11 @@ public class ActionImpl extends EObjectImpl implements Action
         type = TYPE_EDEFAULT;
         typeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.ACTION__TYPE, oldType, TYPE_EDEFAULT,
-                oldTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.ACTION__TYPE, oldType, TYPE_EDEFAULT, oldTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetType()
@@ -146,7 +139,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ActionValue getValue()
@@ -156,7 +148,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetValue(ActionValue newValue, NotificationChain msgs)
@@ -165,19 +156,14 @@ public class ActionImpl extends EObjectImpl implements Action
         value = newValue;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.ACTION__VALUE,
-                oldValue, newValue);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.ACTION__VALUE, oldValue, newValue);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValue(ActionValue newValue)
@@ -186,14 +172,11 @@ public class ActionImpl extends EObjectImpl implements Action
         {
             NotificationChain msgs = null;
             if (value != null)
-                msgs = ((InternalEObject) value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - DataPackage.ACTION__VALUE, null, msgs);
+                msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DataPackage.ACTION__VALUE, null, msgs);
             if (newValue != null)
-                msgs = ((InternalEObject) newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - DataPackage.ACTION__VALUE, null, msgs);
+                msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DataPackage.ACTION__VALUE, null, msgs);
             msgs = basicSetValue(newValue, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.ACTION__VALUE, newValue, newValue));
@@ -201,7 +184,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -222,7 +204,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -239,7 +220,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -247,10 +227,10 @@ public class ActionImpl extends EObjectImpl implements Action
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.ACTION__TYPE:
-                setType((ActionType) newValue);
+                setType((ActionType)newValue);
                 return;
             case DataPackage.ACTION__VALUE:
-                setValue((ActionValue) newValue);
+                setValue((ActionValue)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -258,7 +238,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -269,7 +248,7 @@ public class ActionImpl extends EObjectImpl implements Action
                 unsetType();
                 return;
             case DataPackage.ACTION__VALUE:
-                setValue((ActionValue) null);
+                setValue((ActionValue)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -277,7 +256,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -294,20 +272,15 @@ public class ActionImpl extends EObjectImpl implements Action
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
-        if (typeESet)
-            result.append(type);
-        else
-            result.append("<unset>");
+        if (typeESet) result.append(type); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

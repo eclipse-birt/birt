@@ -101,15 +101,18 @@ public final class DataPointComponentType extends AbstractEnumerator
         "Series_Value");
 
     /**
-     * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final DataPointComponentType[] VALUES_ARRAY = new DataPointComponentType[]
-    {
-        BASE_VALUE_LITERAL, ORTHOGONAL_VALUE_LITERAL, SERIES_VALUE_LITERAL,
-    };
+    private static final DataPointComponentType[] VALUES_ARRAY =
+        new DataPointComponentType[]
+        {
+            BASE_VALUE_LITERAL,
+            ORTHOGONAL_VALUE_LITERAL,
+            SERIES_VALUE_LITERAL,
+        };
 
     /**
      * A public read-only list of all the '<em><b>Data Point Component Type</b></em>' enumerators. <!--
@@ -120,9 +123,9 @@ public final class DataPointComponentType extends AbstractEnumerator
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name. <!-- begin-user-doc
+     * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static DataPointComponentType get(String name)
@@ -148,19 +151,16 @@ public final class DataPointComponentType extends AbstractEnumerator
     {
         switch (value)
         {
-            case BASE_VALUE:
-                return BASE_VALUE_LITERAL;
-            case ORTHOGONAL_VALUE:
-                return ORTHOGONAL_VALUE_LITERAL;
-            case SERIES_VALUE:
-                return SERIES_VALUE_LITERAL;
+            case BASE_VALUE: return BASE_VALUE_LITERAL;
+            case ORTHOGONAL_VALUE: return ORTHOGONAL_VALUE_LITERAL;
+            case SERIES_VALUE: return SERIES_VALUE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private DataPointComponentType(int value, String name)

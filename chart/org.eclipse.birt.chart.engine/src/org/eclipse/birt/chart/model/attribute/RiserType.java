@@ -76,27 +76,29 @@ public final class RiserType extends AbstractEnumerator
     public static final RiserType TRIANGLE_LITERAL = new RiserType(TRIANGLE, "Triangle");
 
     /**
-     * An array of all the '<em><b>Riser Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Riser Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final RiserType[] VALUES_ARRAY = new RiserType[]
-    {
-        RECTANGLE_LITERAL, TRIANGLE_LITERAL,
-    };
+    private static final RiserType[] VALUES_ARRAY =
+        new RiserType[]
+        {
+            RECTANGLE_LITERAL,
+            TRIANGLE_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Riser Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Riser Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static RiserType get(String name)
@@ -113,26 +115,24 @@ public final class RiserType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Riser Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Riser Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static RiserType get(int value)
     {
         switch (value)
         {
-            case RECTANGLE:
-                return RECTANGLE_LITERAL;
-            case TRIANGLE:
-                return TRIANGLE_LITERAL;
+            case RECTANGLE: return RECTANGLE_LITERAL;
+            case TRIANGLE: return TRIANGLE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private RiserType(int value, String name)

@@ -191,7 +191,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected PieSeriesImpl()
@@ -201,7 +200,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -211,7 +209,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public int getExplosion()
@@ -221,7 +218,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setExplosion(int newExplosion)
@@ -231,13 +227,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         boolean oldExplosionESet = explosionESet;
         explosionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion,
-                explosion, !oldExplosionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion, explosion, !oldExplosionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetExplosion()
@@ -247,13 +241,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         explosion = EXPLOSION_EDEFAULT;
         explosionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion,
-                EXPLOSION_EDEFAULT, oldExplosionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__EXPLOSION, oldExplosion, EXPLOSION_EDEFAULT, oldExplosionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetExplosion()
@@ -263,7 +255,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Label getTitle()
@@ -273,7 +264,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetTitle(Label newTitle, NotificationChain msgs)
@@ -282,19 +272,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         title = newTitle;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.PIE_SERIES__TITLE, oldTitle, newTitle);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE, oldTitle, newTitle);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTitle(Label newTitle)
@@ -303,14 +288,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         {
             NotificationChain msgs = null;
             if (title != null)
-                msgs = ((InternalEObject) title).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__TITLE, null, msgs);
+                msgs = ((InternalEObject)title).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__TITLE, null, msgs);
             if (newTitle != null)
-                msgs = ((InternalEObject) newTitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__TITLE, null, msgs);
+                msgs = ((InternalEObject)newTitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__TITLE, null, msgs);
             msgs = basicSetTitle(newTitle, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE, newTitle, newTitle));
@@ -318,7 +300,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Position getTitlePosition()
@@ -328,7 +309,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTitlePosition(Position newTitlePosition)
@@ -338,13 +318,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         boolean oldTitlePositionESet = titlePositionESet;
         titlePositionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE_POSITION,
-                oldTitlePosition, titlePosition, !oldTitlePositionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__TITLE_POSITION, oldTitlePosition, titlePosition, !oldTitlePositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetTitlePosition()
@@ -354,13 +332,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         titlePosition = TITLE_POSITION_EDEFAULT;
         titlePositionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__TITLE_POSITION,
-                oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__TITLE_POSITION, oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetTitlePosition()
@@ -370,7 +346,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineAttributes getLeaderLineAttributes()
@@ -380,7 +355,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetLeaderLineAttributes(LineAttributes newLeaderLineAttributes, NotificationChain msgs)
@@ -389,19 +363,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         leaderLineAttributes = newLeaderLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, oldLeaderLineAttributes, newLeaderLineAttributes);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, oldLeaderLineAttributes, newLeaderLineAttributes);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLeaderLineAttributes(LineAttributes newLeaderLineAttributes)
@@ -410,23 +379,18 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         {
             NotificationChain msgs = null;
             if (leaderLineAttributes != null)
-                msgs = ((InternalEObject) leaderLineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)leaderLineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
             if (newLeaderLineAttributes != null)
-                msgs = ((InternalEObject) newLeaderLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject)newLeaderLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLeaderLineAttributes(newLeaderLineAttributes, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES,
-                newLeaderLineAttributes, newLeaderLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES, newLeaderLineAttributes, newLeaderLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LeaderLineStyle getLeaderLineStyle()
@@ -436,7 +400,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLeaderLineStyle(LeaderLineStyle newLeaderLineStyle)
@@ -446,13 +409,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         boolean oldLeaderLineStyleESet = leaderLineStyleESet;
         leaderLineStyleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE,
-                oldLeaderLineStyle, leaderLineStyle, !oldLeaderLineStyleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE, oldLeaderLineStyle, leaderLineStyle, !oldLeaderLineStyleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetLeaderLineStyle()
@@ -462,13 +423,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         leaderLineStyle = LEADER_LINE_STYLE_EDEFAULT;
         leaderLineStyleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE,
-                oldLeaderLineStyle, LEADER_LINE_STYLE_EDEFAULT, oldLeaderLineStyleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_STYLE, oldLeaderLineStyle, LEADER_LINE_STYLE_EDEFAULT, oldLeaderLineStyleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetLeaderLineStyle()
@@ -478,7 +437,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getLeaderLineLength()
@@ -488,7 +446,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setLeaderLineLength(double newLeaderLineLength)
@@ -498,13 +455,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         boolean oldLeaderLineLengthESet = leaderLineLengthESet;
         leaderLineLengthESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH,
-                oldLeaderLineLength, leaderLineLength, !oldLeaderLineLengthESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH, oldLeaderLineLength, leaderLineLength, !oldLeaderLineLengthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetLeaderLineLength()
@@ -514,13 +469,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         leaderLineLength = LEADER_LINE_LENGTH_EDEFAULT;
         leaderLineLengthESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH,
-                oldLeaderLineLength, LEADER_LINE_LENGTH_EDEFAULT, oldLeaderLineLengthESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.PIE_SERIES__LEADER_LINE_LENGTH, oldLeaderLineLength, LEADER_LINE_LENGTH_EDEFAULT, oldLeaderLineLengthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetLeaderLineLength()
@@ -530,7 +483,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getSliceOutline()
@@ -540,7 +492,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetSliceOutline(ColorDefinition newSliceOutline, NotificationChain msgs)
@@ -549,19 +500,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         sliceOutline = newSliceOutline;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.PIE_SERIES__SLICE_OUTLINE, oldSliceOutline, newSliceOutline);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__SLICE_OUTLINE, oldSliceOutline, newSliceOutline);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSliceOutline(ColorDefinition newSliceOutline)
@@ -570,27 +516,21 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         {
             NotificationChain msgs = null;
             if (sliceOutline != null)
-                msgs = ((InternalEObject) sliceOutline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
+                msgs = ((InternalEObject)sliceOutline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
             if (newSliceOutline != null)
-                msgs = ((InternalEObject) newSliceOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
+                msgs = ((InternalEObject)newSliceOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.PIE_SERIES__SLICE_OUTLINE, null, msgs);
             msgs = basicSetSliceOutline(newSliceOutline, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__SLICE_OUTLINE,
-                newSliceOutline, newSliceOutline));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.PIE_SERIES__SLICE_OUTLINE, newSliceOutline, newSliceOutline));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -599,7 +539,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 case TypePackage.PIE_SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case TypePackage.PIE_SERIES__DATA_DEFINITION:
-                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
                 case TypePackage.PIE_SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case TypePackage.PIE_SERIES__DATA_SET:
@@ -607,7 +547,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 case TypePackage.PIE_SERIES__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
                 case TypePackage.PIE_SERIES__TRIGGERS:
-                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
                 case TypePackage.PIE_SERIES__TITLE:
                     return basicSetTitle(null, msgs);
                 case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES:
@@ -623,7 +563,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -672,7 +611,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -680,60 +618,60 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case TypePackage.PIE_SERIES__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.PIE_SERIES__LABEL:
-                setLabel((Label) newValue);
+                setLabel((Label)newValue);
                 return;
             case TypePackage.PIE_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection) newValue);
+                getDataDefinition().addAll((Collection)newValue);
                 return;
             case TypePackage.PIE_SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((String) newValue);
+                setSeriesIdentifier((Object)newValue);
                 return;
             case TypePackage.PIE_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) newValue);
+                setDataPoint((DataPoint)newValue);
                 return;
             case TypePackage.PIE_SERIES__DATA_SET:
-                setDataSet((DataSet) newValue);
+                setDataSet((DataSet)newValue);
                 return;
             case TypePackage.PIE_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
             case TypePackage.PIE_SERIES__LABEL_POSITION:
-                setLabelPosition((Position) newValue);
+                setLabelPosition((Position)newValue);
                 return;
             case TypePackage.PIE_SERIES__STACKED:
-                setStacked(((Boolean) newValue).booleanValue());
+                setStacked(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.PIE_SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection) newValue);
+                getTriggers().addAll((Collection)newValue);
                 return;
             case TypePackage.PIE_SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean) newValue).booleanValue());
+                setTranslucent(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.PIE_SERIES__EXPLOSION:
-                setExplosion(((Integer) newValue).intValue());
+                setExplosion(((Integer)newValue).intValue());
                 return;
             case TypePackage.PIE_SERIES__TITLE:
-                setTitle((Label) newValue);
+                setTitle((Label)newValue);
                 return;
             case TypePackage.PIE_SERIES__TITLE_POSITION:
-                setTitlePosition((Position) newValue);
+                setTitlePosition((Position)newValue);
                 return;
             case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES:
-                setLeaderLineAttributes((LineAttributes) newValue);
+                setLeaderLineAttributes((LineAttributes)newValue);
                 return;
             case TypePackage.PIE_SERIES__LEADER_LINE_STYLE:
-                setLeaderLineStyle((LeaderLineStyle) newValue);
+                setLeaderLineStyle((LeaderLineStyle)newValue);
                 return;
             case TypePackage.PIE_SERIES__LEADER_LINE_LENGTH:
-                setLeaderLineLength(((Double) newValue).doubleValue());
+                setLeaderLineLength(((Double)newValue).doubleValue());
                 return;
             case TypePackage.PIE_SERIES__SLICE_OUTLINE:
-                setSliceOutline((ColorDefinition) newValue);
+                setSliceOutline((ColorDefinition)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -741,7 +679,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -752,7 +689,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 unsetVisible();
                 return;
             case TypePackage.PIE_SERIES__LABEL:
-                setLabel((Label) null);
+                setLabel((Label)null);
                 return;
             case TypePackage.PIE_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -761,13 +698,13 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case TypePackage.PIE_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) null);
+                setDataPoint((DataPoint)null);
                 return;
             case TypePackage.PIE_SERIES__DATA_SET:
-                setDataSet((DataSet) null);
+                setDataSet((DataSet)null);
                 return;
             case TypePackage.PIE_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
             case TypePackage.PIE_SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -785,13 +722,13 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 unsetExplosion();
                 return;
             case TypePackage.PIE_SERIES__TITLE:
-                setTitle((Label) null);
+                setTitle((Label)null);
                 return;
             case TypePackage.PIE_SERIES__TITLE_POSITION:
                 unsetTitlePosition();
                 return;
             case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES:
-                setLeaderLineAttributes((LineAttributes) null);
+                setLeaderLineAttributes((LineAttributes)null);
                 return;
             case TypePackage.PIE_SERIES__LEADER_LINE_STYLE:
                 unsetLeaderLineStyle();
@@ -800,7 +737,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
                 unsetLeaderLineLength();
                 return;
             case TypePackage.PIE_SERIES__SLICE_OUTLINE:
-                setSliceOutline((ColorDefinition) null);
+                setSliceOutline((ColorDefinition)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -808,7 +745,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -822,8 +758,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
             case TypePackage.PIE_SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case TypePackage.PIE_SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
-                    .equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
             case TypePackage.PIE_SERIES__DATA_POINT:
                 return dataPoint != null;
             case TypePackage.PIE_SERIES__DATA_SET:
@@ -858,35 +793,21 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (explosion: ");
-        if (explosionESet)
-            result.append(explosion);
-        else
-            result.append("<unset>");
+        if (explosionESet) result.append(explosion); else result.append("<unset>");
         result.append(", titlePosition: ");
-        if (titlePositionESet)
-            result.append(titlePosition);
-        else
-            result.append("<unset>");
+        if (titlePositionESet) result.append(titlePosition); else result.append("<unset>");
         result.append(", leaderLineStyle: ");
-        if (leaderLineStyleESet)
-            result.append(leaderLineStyle);
-        else
-            result.append("<unset>");
+        if (leaderLineStyleESet) result.append(leaderLineStyle); else result.append("<unset>");
         result.append(", leaderLineLength: ");
-        if (leaderLineLengthESet)
-            result.append(leaderLineLength);
-        else
-            result.append("<unset>");
+        if (leaderLineLengthESet) result.append(leaderLineLength); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

@@ -164,27 +164,33 @@ public final class Position extends AbstractEnumerator
     public static final Position OUTSIDE_LITERAL = new Position(OUTSIDE, "Outside");
 
     /**
-     * An array of all the '<em><b>Position</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Position</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final Position[] VALUES_ARRAY = new Position[]
-    {
-        ABOVE_LITERAL, BELOW_LITERAL, LEFT_LITERAL, RIGHT_LITERAL, INSIDE_LITERAL, OUTSIDE_LITERAL,
-    };
+    private static final Position[] VALUES_ARRAY =
+        new Position[]
+        {
+            ABOVE_LITERAL,
+            BELOW_LITERAL,
+            LEFT_LITERAL,
+            RIGHT_LITERAL,
+            INSIDE_LITERAL,
+            OUTSIDE_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Position</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Position</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Position</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Position</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Position get(String name)
@@ -201,34 +207,28 @@ public final class Position extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Position</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Position</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Position get(int value)
     {
         switch (value)
         {
-            case ABOVE:
-                return ABOVE_LITERAL;
-            case BELOW:
-                return BELOW_LITERAL;
-            case LEFT:
-                return LEFT_LITERAL;
-            case RIGHT:
-                return RIGHT_LITERAL;
-            case INSIDE:
-                return INSIDE_LITERAL;
-            case OUTSIDE:
-                return OUTSIDE_LITERAL;
+            case ABOVE: return ABOVE_LITERAL;
+            case BELOW: return BELOW_LITERAL;
+            case LEFT: return LEFT_LITERAL;
+            case RIGHT: return RIGHT_LITERAL;
+            case INSIDE: return INSIDE_LITERAL;
+            case OUTSIDE: return OUTSIDE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private Position(int value, String name)

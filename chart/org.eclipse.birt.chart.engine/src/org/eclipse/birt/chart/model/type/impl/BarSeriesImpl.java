@@ -86,7 +86,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected BarSeriesImpl()
@@ -96,7 +95,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -106,7 +104,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RiserType getRiser()
@@ -116,7 +113,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setRiser(RiserType newRiser)
@@ -126,13 +122,11 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         boolean oldRiserESet = riserESet;
         riserESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER, oldRiser, riser,
-                !oldRiserESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER, oldRiser, riser, !oldRiserESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetRiser()
@@ -142,13 +136,11 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         riser = RISER_EDEFAULT;
         riserESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BAR_SERIES__RISER, oldRiser,
-                RISER_EDEFAULT, oldRiserESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BAR_SERIES__RISER, oldRiser, RISER_EDEFAULT, oldRiserESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetRiser()
@@ -158,7 +150,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getRiserOutline()
@@ -168,7 +159,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetRiserOutline(ColorDefinition newRiserOutline, NotificationChain msgs)
@@ -177,19 +167,14 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         riserOutline = newRiserOutline;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                TypePackage.BAR_SERIES__RISER_OUTLINE, oldRiserOutline, newRiserOutline);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER_OUTLINE, oldRiserOutline, newRiserOutline);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setRiserOutline(ColorDefinition newRiserOutline)
@@ -198,27 +183,21 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         {
             NotificationChain msgs = null;
             if (riserOutline != null)
-                msgs = ((InternalEObject) riserOutline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
+                msgs = ((InternalEObject)riserOutline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
             if (newRiserOutline != null)
-                msgs = ((InternalEObject) newRiserOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
+                msgs = ((InternalEObject)newRiserOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
             msgs = basicSetRiserOutline(newRiserOutline, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER_OUTLINE,
-                newRiserOutline, newRiserOutline));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER_OUTLINE, newRiserOutline, newRiserOutline));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
-        NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -227,7 +206,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
                 case TypePackage.BAR_SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case TypePackage.BAR_SERIES__DATA_DEFINITION:
-                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
                 case TypePackage.BAR_SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case TypePackage.BAR_SERIES__DATA_SET:
@@ -235,7 +214,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
                 case TypePackage.BAR_SERIES__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
                 case TypePackage.BAR_SERIES__TRIGGERS:
-                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
                 case TypePackage.BAR_SERIES__RISER_OUTLINE:
                     return basicSetRiserOutline(null, msgs);
                 default:
@@ -247,7 +226,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -286,7 +264,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -294,45 +271,45 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case TypePackage.BAR_SERIES__VISIBLE:
-                setVisible(((Boolean) newValue).booleanValue());
+                setVisible(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.BAR_SERIES__LABEL:
-                setLabel((Label) newValue);
+                setLabel((Label)newValue);
                 return;
             case TypePackage.BAR_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection) newValue);
+                getDataDefinition().addAll((Collection)newValue);
                 return;
             case TypePackage.BAR_SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((String) newValue);
+                setSeriesIdentifier((Object)newValue);
                 return;
             case TypePackage.BAR_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) newValue);
+                setDataPoint((DataPoint)newValue);
                 return;
             case TypePackage.BAR_SERIES__DATA_SET:
-                setDataSet((DataSet) newValue);
+                setDataSet((DataSet)newValue);
                 return;
             case TypePackage.BAR_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) newValue);
+                setFormatSpecifier((FormatSpecifier)newValue);
                 return;
             case TypePackage.BAR_SERIES__LABEL_POSITION:
-                setLabelPosition((Position) newValue);
+                setLabelPosition((Position)newValue);
                 return;
             case TypePackage.BAR_SERIES__STACKED:
-                setStacked(((Boolean) newValue).booleanValue());
+                setStacked(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.BAR_SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection) newValue);
+                getTriggers().addAll((Collection)newValue);
                 return;
             case TypePackage.BAR_SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean) newValue).booleanValue());
+                setTranslucent(((Boolean)newValue).booleanValue());
                 return;
             case TypePackage.BAR_SERIES__RISER:
-                setRiser((RiserType) newValue);
+                setRiser((RiserType)newValue);
                 return;
             case TypePackage.BAR_SERIES__RISER_OUTLINE:
-                setRiserOutline((ColorDefinition) newValue);
+                setRiserOutline((ColorDefinition)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -340,7 +317,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -351,7 +327,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
                 unsetVisible();
                 return;
             case TypePackage.BAR_SERIES__LABEL:
-                setLabel((Label) null);
+                setLabel((Label)null);
                 return;
             case TypePackage.BAR_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -360,13 +336,13 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case TypePackage.BAR_SERIES__DATA_POINT:
-                setDataPoint((DataPoint) null);
+                setDataPoint((DataPoint)null);
                 return;
             case TypePackage.BAR_SERIES__DATA_SET:
-                setDataSet((DataSet) null);
+                setDataSet((DataSet)null);
                 return;
             case TypePackage.BAR_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier) null);
+                setFormatSpecifier((FormatSpecifier)null);
                 return;
             case TypePackage.BAR_SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -384,7 +360,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
                 unsetRiser();
                 return;
             case TypePackage.BAR_SERIES__RISER_OUTLINE:
-                setRiserOutline((ColorDefinition) null);
+                setRiserOutline((ColorDefinition)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -392,7 +368,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -406,8 +381,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
             case TypePackage.BAR_SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case TypePackage.BAR_SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
-                    .equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
             case TypePackage.BAR_SERIES__DATA_POINT:
                 return dataPoint != null;
             case TypePackage.BAR_SERIES__DATA_SET:
@@ -432,20 +406,15 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (riser: ");
-        if (riserESet)
-            result.append(riser);
-        else
-            result.append("<unset>");
+        if (riserESet) result.append(riser); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

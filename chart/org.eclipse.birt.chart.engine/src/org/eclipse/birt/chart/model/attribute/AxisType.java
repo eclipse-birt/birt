@@ -120,27 +120,31 @@ public final class AxisType extends AbstractEnumerator
     public static final AxisType DATE_TIME_LITERAL = new AxisType(DATE_TIME, "DateTime");
 
     /**
-     * An array of all the '<em><b>Axis Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Axis Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final AxisType[] VALUES_ARRAY = new AxisType[]
-    {
-        LINEAR_LITERAL, LOGARITHMIC_LITERAL, TEXT_LITERAL, DATE_TIME_LITERAL,
-    };
+    private static final AxisType[] VALUES_ARRAY =
+        new AxisType[]
+        {
+            LINEAR_LITERAL,
+            LOGARITHMIC_LITERAL,
+            TEXT_LITERAL,
+            DATE_TIME_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Axis Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Axis Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static AxisType get(String name)
@@ -157,30 +161,26 @@ public final class AxisType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Axis Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Axis Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static AxisType get(int value)
     {
         switch (value)
         {
-            case LINEAR:
-                return LINEAR_LITERAL;
-            case LOGARITHMIC:
-                return LOGARITHMIC_LITERAL;
-            case TEXT:
-                return TEXT_LITERAL;
-            case DATE_TIME:
-                return DATE_TIME_LITERAL;
+            case LINEAR: return LINEAR_LITERAL;
+            case LOGARITHMIC: return LOGARITHMIC_LITERAL;
+            case TEXT: return TEXT_LITERAL;
+            case DATE_TIME: return DATE_TIME_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private AxisType(int value, String name)

@@ -98,28 +98,31 @@ public final class IntersectionType extends AbstractEnumerator
     public static final IntersectionType VALUE_LITERAL = new IntersectionType(VALUE, "Value");
 
     /**
-     * An array of all the '<em><b>Intersection Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Intersection Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final IntersectionType[] VALUES_ARRAY = new IntersectionType[]
-    {
-        MIN_LITERAL, MAX_LITERAL, VALUE_LITERAL,
-    };
+    private static final IntersectionType[] VALUES_ARRAY =
+        new IntersectionType[]
+        {
+            MIN_LITERAL,
+            MAX_LITERAL,
+            VALUE_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators. <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static IntersectionType get(String name)
@@ -136,28 +139,25 @@ public final class IntersectionType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static IntersectionType get(int value)
     {
         switch (value)
         {
-            case MIN:
-                return MIN_LITERAL;
-            case MAX:
-                return MAX_LITERAL;
-            case VALUE:
-                return VALUE_LITERAL;
+            case MIN: return MIN_LITERAL;
+            case MAX: return MAX_LITERAL;
+            case VALUE: return VALUE_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private IntersectionType(int value, String name)

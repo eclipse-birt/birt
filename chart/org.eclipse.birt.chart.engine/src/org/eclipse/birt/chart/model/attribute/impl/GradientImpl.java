@@ -27,14 +27,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getStartColor <em>Start Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getEndColor <em>End Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getDirection <em>Direction</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#isCyclic <em>Cyclic</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getTransparency <em>Transparency</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getStartColor <em>Start Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getEndColor <em>End Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getDirection <em>Direction</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#isCyclic <em>Cyclic</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl#getTransparency <em>Transparency</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class GradientImpl extends FillImpl implements Gradient
@@ -135,7 +135,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected GradientImpl()
@@ -145,7 +144,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -155,7 +153,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getStartColor()
@@ -165,7 +162,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetStartColor(ColorDefinition newStartColor, NotificationChain msgs)
@@ -174,19 +170,14 @@ public class GradientImpl extends FillImpl implements Gradient
         startColor = newStartColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                AttributePackage.GRADIENT__START_COLOR, oldStartColor, newStartColor);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__START_COLOR, oldStartColor, newStartColor);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setStartColor(ColorDefinition newStartColor)
@@ -195,23 +186,18 @@ public class GradientImpl extends FillImpl implements Gradient
         {
             NotificationChain msgs = null;
             if (startColor != null)
-                msgs = ((InternalEObject) startColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.GRADIENT__START_COLOR, null, msgs);
+                msgs = ((InternalEObject)startColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.GRADIENT__START_COLOR, null, msgs);
             if (newStartColor != null)
-                msgs = ((InternalEObject) newStartColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.GRADIENT__START_COLOR, null, msgs);
+                msgs = ((InternalEObject)newStartColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.GRADIENT__START_COLOR, null, msgs);
             msgs = basicSetStartColor(newStartColor, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__START_COLOR,
-                newStartColor, newStartColor));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__START_COLOR, newStartColor, newStartColor));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition getEndColor()
@@ -221,7 +207,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetEndColor(ColorDefinition newEndColor, NotificationChain msgs)
@@ -230,19 +215,14 @@ public class GradientImpl extends FillImpl implements Gradient
         endColor = newEndColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                AttributePackage.GRADIENT__END_COLOR, oldEndColor, newEndColor);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__END_COLOR, oldEndColor, newEndColor);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setEndColor(ColorDefinition newEndColor)
@@ -251,23 +231,18 @@ public class GradientImpl extends FillImpl implements Gradient
         {
             NotificationChain msgs = null;
             if (endColor != null)
-                msgs = ((InternalEObject) endColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.GRADIENT__END_COLOR, null, msgs);
+                msgs = ((InternalEObject)endColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AttributePackage.GRADIENT__END_COLOR, null, msgs);
             if (newEndColor != null)
-                msgs = ((InternalEObject) newEndColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - AttributePackage.GRADIENT__END_COLOR, null, msgs);
+                msgs = ((InternalEObject)newEndColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AttributePackage.GRADIENT__END_COLOR, null, msgs);
             msgs = basicSetEndColor(newEndColor, msgs);
-            if (msgs != null)
-                msgs.dispatch();
+            if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__END_COLOR, newEndColor,
-                newEndColor));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__END_COLOR, newEndColor, newEndColor));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public double getDirection()
@@ -277,7 +252,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setDirection(double newDirection)
@@ -287,13 +261,11 @@ public class GradientImpl extends FillImpl implements Gradient
         boolean oldDirectionESet = directionESet;
         directionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__DIRECTION, oldDirection,
-                direction, !oldDirectionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__DIRECTION, oldDirection, direction, !oldDirectionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetDirection()
@@ -303,13 +275,11 @@ public class GradientImpl extends FillImpl implements Gradient
         direction = DIRECTION_EDEFAULT;
         directionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__DIRECTION, oldDirection,
-                DIRECTION_EDEFAULT, oldDirectionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__DIRECTION, oldDirection, DIRECTION_EDEFAULT, oldDirectionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetDirection()
@@ -319,7 +289,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isCyclic()
@@ -329,7 +298,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setCyclic(boolean newCyclic)
@@ -339,13 +307,11 @@ public class GradientImpl extends FillImpl implements Gradient
         boolean oldCyclicESet = cyclicESet;
         cyclicESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__CYCLIC, oldCyclic, cyclic,
-                !oldCyclicESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__CYCLIC, oldCyclic, cyclic, !oldCyclicESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetCyclic()
@@ -355,13 +321,11 @@ public class GradientImpl extends FillImpl implements Gradient
         cyclic = CYCLIC_EDEFAULT;
         cyclicESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__CYCLIC, oldCyclic,
-                CYCLIC_EDEFAULT, oldCyclicESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__CYCLIC, oldCyclic, CYCLIC_EDEFAULT, oldCyclicESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetCyclic()
@@ -371,7 +335,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public int getTransparency()
@@ -381,7 +344,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTransparency(int newTransparency)
@@ -391,13 +353,11 @@ public class GradientImpl extends FillImpl implements Gradient
         boolean oldTransparencyESet = transparencyESet;
         transparencyESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__TRANSPARENCY,
-                oldTransparency, transparency, !oldTransparencyESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.GRADIENT__TRANSPARENCY, oldTransparency, transparency, !oldTransparencyESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void unsetTransparency()
@@ -407,13 +367,11 @@ public class GradientImpl extends FillImpl implements Gradient
         transparency = TRANSPARENCY_EDEFAULT;
         transparencyESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__TRANSPARENCY,
-                oldTransparency, TRANSPARENCY_EDEFAULT, oldTransparencyESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.GRADIENT__TRANSPARENCY, oldTransparency, TRANSPARENCY_EDEFAULT, oldTransparencyESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean isSetTransparency()
@@ -423,7 +381,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -446,7 +403,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -471,7 +427,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -479,22 +434,22 @@ public class GradientImpl extends FillImpl implements Gradient
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.GRADIENT__TYPE:
-                setType(((Integer) newValue).intValue());
+                setType(((Integer)newValue).intValue());
                 return;
             case AttributePackage.GRADIENT__START_COLOR:
-                setStartColor((ColorDefinition) newValue);
+                setStartColor((ColorDefinition)newValue);
                 return;
             case AttributePackage.GRADIENT__END_COLOR:
-                setEndColor((ColorDefinition) newValue);
+                setEndColor((ColorDefinition)newValue);
                 return;
             case AttributePackage.GRADIENT__DIRECTION:
-                setDirection(((Double) newValue).doubleValue());
+                setDirection(((Double)newValue).doubleValue());
                 return;
             case AttributePackage.GRADIENT__CYCLIC:
-                setCyclic(((Boolean) newValue).booleanValue());
+                setCyclic(((Boolean)newValue).booleanValue());
                 return;
             case AttributePackage.GRADIENT__TRANSPARENCY:
-                setTransparency(((Integer) newValue).intValue());
+                setTransparency(((Integer)newValue).intValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -502,7 +457,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -513,10 +467,10 @@ public class GradientImpl extends FillImpl implements Gradient
                 unsetType();
                 return;
             case AttributePackage.GRADIENT__START_COLOR:
-                setStartColor((ColorDefinition) null);
+                setStartColor((ColorDefinition)null);
                 return;
             case AttributePackage.GRADIENT__END_COLOR:
-                setEndColor((ColorDefinition) null);
+                setEndColor((ColorDefinition)null);
                 return;
             case AttributePackage.GRADIENT__DIRECTION:
                 unsetDirection();
@@ -533,7 +487,6 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -558,30 +511,19 @@ public class GradientImpl extends FillImpl implements Gradient
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (direction: ");
-        if (directionESet)
-            result.append(direction);
-        else
-            result.append("<unset>");
+        if (directionESet) result.append(direction); else result.append("<unset>");
         result.append(", cyclic: ");
-        if (cyclicESet)
-            result.append(cyclic);
-        else
-            result.append("<unset>");
+        if (cyclicESet) result.append(cyclic); else result.append("<unset>");
         result.append(", transparency: ");
-        if (transparencyESet)
-            result.append(transparency);
-        else
-            result.append("<unset>");
+        if (transparencyESet) result.append(transparency); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

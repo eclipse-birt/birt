@@ -24,20 +24,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class URLValueImpl extends ActionValueImpl implements URLValue
@@ -135,7 +129,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected URLValueImpl()
@@ -145,7 +138,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -155,7 +147,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getBaseUrl()
@@ -165,7 +156,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setBaseUrl(String newBaseUrl)
@@ -173,13 +163,11 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
         String oldBaseUrl = baseUrl;
         baseUrl = newBaseUrl;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_URL, oldBaseUrl,
-                baseUrl));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_URL, oldBaseUrl, baseUrl));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getTarget()
@@ -189,7 +177,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setTarget(String newTarget)
@@ -202,7 +189,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getBaseParameterName()
@@ -212,7 +198,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setBaseParameterName(String newBaseParameterName)
@@ -220,13 +205,11 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
         String oldBaseParameterName = baseParameterName;
         baseParameterName = newBaseParameterName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_PARAMETER_NAME,
-                oldBaseParameterName, baseParameterName));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_PARAMETER_NAME, oldBaseParameterName, baseParameterName));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getValueParameterName()
@@ -236,7 +219,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setValueParameterName(String newValueParameterName)
@@ -244,13 +226,11 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
         String oldValueParameterName = valueParameterName;
         valueParameterName = newValueParameterName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME,
-                oldValueParameterName, valueParameterName));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME, oldValueParameterName, valueParameterName));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getSeriesParameterName()
@@ -260,7 +240,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSeriesParameterName(String newSeriesParameterName)
@@ -268,13 +247,11 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
         String oldSeriesParameterName = seriesParameterName;
         seriesParameterName = newSeriesParameterName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME,
-                oldSeriesParameterName, seriesParameterName));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME, oldSeriesParameterName, seriesParameterName));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -297,7 +274,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -305,19 +281,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.URL_VALUE__BASE_URL:
-                setBaseUrl((String) newValue);
+                setBaseUrl((String)newValue);
                 return;
             case AttributePackage.URL_VALUE__TARGET:
-                setTarget((String) newValue);
+                setTarget((String)newValue);
                 return;
             case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
-                setBaseParameterName((String) newValue);
+                setBaseParameterName((String)newValue);
                 return;
             case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
-                setValueParameterName((String) newValue);
+                setValueParameterName((String)newValue);
                 return;
             case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
-                setSeriesParameterName((String) newValue);
+                setSeriesParameterName((String)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -325,7 +301,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -353,7 +328,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -365,27 +339,22 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
             case AttributePackage.URL_VALUE__TARGET:
                 return TARGET_EDEFAULT == null ? target != null : !TARGET_EDEFAULT.equals(target);
             case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
-                return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null : !BASE_PARAMETER_NAME_EDEFAULT
-                    .equals(baseParameterName);
+                return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null : !BASE_PARAMETER_NAME_EDEFAULT.equals(baseParameterName);
             case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
-                return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null
-                    : !VALUE_PARAMETER_NAME_EDEFAULT.equals(valueParameterName);
+                return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null : !VALUE_PARAMETER_NAME_EDEFAULT.equals(valueParameterName);
             case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
-                return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
-                    : !SERIES_PARAMETER_NAME_EDEFAULT.equals(seriesParameterName);
+                return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null : !SERIES_PARAMETER_NAME_EDEFAULT.equals(seriesParameterName);
         }
         return eDynamicIsSet(eFeature);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (baseUrl: ");

@@ -33,33 +33,32 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.layout.LayoutFactory
  * @generated
  */
-public interface LayoutPackage extends EPackage
-{
+public interface LayoutPackage extends EPackage{
 
     /**
-     * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNAME = "layout";
 
     /**
-     * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace URI.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_URI = "http://www.birt.eclipse.org/ChartModelLayout";
 
     /**
-     * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_PREFIX = "layout";
 
     /**
-     * The singleton instance of the package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The singleton instance of the package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl.init();
@@ -67,7 +66,6 @@ public interface LayoutPackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.layout.impl.BlockImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getBlock()
      * @generated
@@ -188,9 +186,8 @@ public interface LayoutPackage extends EPackage
     int BLOCK_FEATURE_COUNT = 14;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl <em>Client Area</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getClientArea()
      * @generated
@@ -238,9 +235,8 @@ public interface LayoutPackage extends EPackage
     int CLIENT_AREA_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLabelBlock()
      * @generated
@@ -371,7 +367,6 @@ public interface LayoutPackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl <em>Legend</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.layout.impl.LegendImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getLegend()
      * @generated
@@ -563,7 +558,6 @@ public interface LayoutPackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.layout.impl.PlotImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getPlot()
      * @generated
@@ -708,9 +702,8 @@ public interface LayoutPackage extends EPackage
     int PLOT_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 3;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title Block</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl <em>Title Block</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl
      * @see org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl#getTitleBlock()
      * @generated
@@ -849,10 +842,9 @@ public interface LayoutPackage extends EPackage
     EClass getBlock();
 
     /**
-     * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getChildren <em>Children</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.layout.Block#getChildren <em>Children</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference list '<em>Children</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getChildren()
      * @see #getBlock()
@@ -861,10 +853,9 @@ public interface LayoutPackage extends EPackage
     EReference getBlock_Children();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Bounds</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getBounds()
      * @see #getBlock()
@@ -873,10 +864,9 @@ public interface LayoutPackage extends EPackage
     EReference getBlock_Bounds();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Anchor</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getAnchor()
      * @see #getBlock()
@@ -885,10 +875,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Anchor();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Stretch</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getStretch()
      * @see #getBlock()
@@ -897,10 +886,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Stretch();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Insets</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getInsets()
      * @see #getBlock()
@@ -911,7 +899,6 @@ public interface LayoutPackage extends EPackage
     /**
      * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Row</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getRow()
      * @see #getBlock()
@@ -920,10 +907,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Row();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Column</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getColumn()
      * @see #getBlock()
@@ -932,10 +918,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Column();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Rowspan</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getRowspan()
      * @see #getBlock()
@@ -944,10 +929,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Rowspan();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Columnspan</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getColumnspan()
      * @see #getBlock()
@@ -956,10 +940,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Columnspan();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Min Size</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getMinSize()
      * @see #getBlock()
@@ -968,10 +951,9 @@ public interface LayoutPackage extends EPackage
     EReference getBlock_MinSize();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Outline</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getOutline()
      * @see #getBlock()
@@ -980,10 +962,9 @@ public interface LayoutPackage extends EPackage
     EReference getBlock_Outline();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Background</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getBackground()
      * @see #getBlock()
@@ -992,10 +973,9 @@ public interface LayoutPackage extends EPackage
     EReference getBlock_Background();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Visible</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#isVisible()
      * @see #getBlock()
@@ -1004,10 +984,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getBlock_Visible();
 
     /**
-     * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference list '<em>Triggers</em>'.
      * @see org.eclipse.birt.chart.model.layout.Block#getTriggers()
      * @see #getBlock()
@@ -1018,7 +997,6 @@ public interface LayoutPackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Client Area</em>'.
      * @see org.eclipse.birt.chart.model.layout.ClientArea
      * @generated
@@ -1026,10 +1004,9 @@ public interface LayoutPackage extends EPackage
     EClass getClientArea();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Background</em>'.
      * @see org.eclipse.birt.chart.model.layout.ClientArea#getBackground()
      * @see #getClientArea()
@@ -1038,10 +1015,9 @@ public interface LayoutPackage extends EPackage
     EReference getClientArea_Background();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Outline</em>'.
      * @see org.eclipse.birt.chart.model.layout.ClientArea#getOutline()
      * @see #getClientArea()
@@ -1062,10 +1038,9 @@ public interface LayoutPackage extends EPackage
     EReference getClientArea_ShadowColor();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Insets</em>'.
      * @see org.eclipse.birt.chart.model.layout.ClientArea#getInsets()
      * @see #getClientArea()
@@ -1076,7 +1051,6 @@ public interface LayoutPackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Label Block</em>'.
      * @see org.eclipse.birt.chart.model.layout.LabelBlock
      * @generated
@@ -1084,10 +1058,9 @@ public interface LayoutPackage extends EPackage
     EClass getLabelBlock();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Label</em>'.
      * @see org.eclipse.birt.chart.model.layout.LabelBlock#getLabel()
      * @see #getLabelBlock()
@@ -1130,10 +1103,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getLegend_VerticalSpacing();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getClientArea <em>Client Area</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getClientArea <em>Client Area</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Client Area</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getClientArea()
      * @see #getLegend()
@@ -1142,10 +1114,9 @@ public interface LayoutPackage extends EPackage
     EReference getLegend_ClientArea();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getText <em>Text</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getText <em>Text</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Text</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getText()
      * @see #getLegend()
@@ -1154,10 +1125,9 @@ public interface LayoutPackage extends EPackage
     EReference getLegend_Text();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getOrientation <em>Orientation</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getOrientation <em>Orientation</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Orientation</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getOrientation()
      * @see #getLegend()
@@ -1166,10 +1136,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getLegend_Orientation();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getDirection <em>Direction</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getDirection <em>Direction</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Direction</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getDirection()
      * @see #getLegend()
@@ -1178,10 +1147,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getLegend_Direction();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getSeparator <em>Separator</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Legend#getSeparator <em>Separator</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Separator</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getSeparator()
      * @see #getLegend()
@@ -1190,10 +1158,9 @@ public interface LayoutPackage extends EPackage
     EReference getLegend_Separator();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getPosition <em>Position</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getPosition <em>Position</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Position</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getPosition()
      * @see #getLegend()
@@ -1202,10 +1169,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getLegend_Position();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item Type</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item Type</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Item Type</em>'.
      * @see org.eclipse.birt.chart.model.layout.Legend#getItemType()
      * @see #getLegend()
@@ -1248,10 +1214,9 @@ public interface LayoutPackage extends EPackage
     EAttribute getPlot_VerticalSpacing();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client Area</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client Area</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Client Area</em>'.
      * @see org.eclipse.birt.chart.model.layout.Plot#getClientArea()
      * @see #getPlot()
@@ -1262,7 +1227,6 @@ public interface LayoutPackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Title Block</em>'.
      * @see org.eclipse.birt.chart.model.layout.TitleBlock
      * @generated
@@ -1270,8 +1234,8 @@ public interface LayoutPackage extends EPackage
     EClass getTitleBlock();
 
     /**
-     * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the factory that creates the instances of the model.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the factory that creates the instances of the model.
      * @generated
      */

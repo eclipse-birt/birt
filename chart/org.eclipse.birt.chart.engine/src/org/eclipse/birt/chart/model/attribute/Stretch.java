@@ -98,27 +98,30 @@ public final class Stretch extends AbstractEnumerator
     public static final Stretch BOTH_LITERAL = new Stretch(BOTH, "Both");
 
     /**
-     * An array of all the '<em><b>Stretch</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Stretch</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final Stretch[] VALUES_ARRAY = new Stretch[]
-    {
-        HORIZONTAL_LITERAL, VERTICAL_LITERAL, BOTH_LITERAL,
-    };
+    private static final Stretch[] VALUES_ARRAY =
+        new Stretch[]
+        {
+            HORIZONTAL_LITERAL,
+            VERTICAL_LITERAL,
+            BOTH_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Stretch</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Stretch</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Stretch</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Stretch</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Stretch get(String name)
@@ -135,28 +138,25 @@ public final class Stretch extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Stretch</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Stretch</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static Stretch get(int value)
     {
         switch (value)
         {
-            case HORIZONTAL:
-                return HORIZONTAL_LITERAL;
-            case VERTICAL:
-                return VERTICAL_LITERAL;
-            case BOTH:
-                return BOTH_LITERAL;
+            case HORIZONTAL: return HORIZONTAL_LITERAL;
+            case VERTICAL: return VERTICAL_LITERAL;
+            case BOTH: return BOTH_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private Stretch(int value, String name)

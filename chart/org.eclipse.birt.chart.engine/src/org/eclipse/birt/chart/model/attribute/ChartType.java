@@ -164,27 +164,33 @@ public final class ChartType extends AbstractEnumerator
     public static final ChartType STOCK_LITERAL = new ChartType(STOCK, "Stock");
 
     /**
-     * An array of all the '<em><b>Chart Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Chart Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final ChartType[] VALUES_ARRAY = new ChartType[]
-    {
-        PIE_LITERAL, BAR_LITERAL, LINE_LITERAL, COMBO_LITERAL, SCATTER_LITERAL, STOCK_LITERAL,
-    };
+    private static final ChartType[] VALUES_ARRAY =
+        new ChartType[]
+        {
+            PIE_LITERAL,
+            BAR_LITERAL,
+            LINE_LITERAL,
+            COMBO_LITERAL,
+            SCATTER_LITERAL,
+            STOCK_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Chart Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static ChartType get(String name)
@@ -201,34 +207,28 @@ public final class ChartType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Chart Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static ChartType get(int value)
     {
         switch (value)
         {
-            case PIE:
-                return PIE_LITERAL;
-            case BAR:
-                return BAR_LITERAL;
-            case LINE:
-                return LINE_LITERAL;
-            case COMBO:
-                return COMBO_LITERAL;
-            case SCATTER:
-                return SCATTER_LITERAL;
-            case STOCK:
-                return STOCK_LITERAL;
+            case PIE: return PIE_LITERAL;
+            case BAR: return BAR_LITERAL;
+            case LINE: return LINE_LITERAL;
+            case COMBO: return COMBO_LITERAL;
+            case SCATTER: return SCATTER_LITERAL;
+            case STOCK: return STOCK_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private ChartType(int value, String name)

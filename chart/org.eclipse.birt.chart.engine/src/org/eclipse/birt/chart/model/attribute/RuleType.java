@@ -96,27 +96,30 @@ public final class RuleType extends AbstractEnumerator
     public static final RuleType LINK_LITERAL = new RuleType(LINK, "Link");
 
     /**
-     * An array of all the '<em><b>Rule Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * An array of all the '<em><b>Rule Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    private static final RuleType[] VALUES_ARRAY = new RuleType[]
-    {
-        FILTER_LITERAL, SUPPRESS_LITERAL, LINK_LITERAL,
-    };
+    private static final RuleType[] VALUES_ARRAY =
+        new RuleType[]
+        {
+            FILTER_LITERAL,
+            SUPPRESS_LITERAL,
+            LINK_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Rule Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Rule Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Rule Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Rule Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static RuleType get(String name)
@@ -133,28 +136,25 @@ public final class RuleType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Rule Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Rule Type</b></em>' literal with the specified value.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static RuleType get(int value)
     {
         switch (value)
         {
-            case FILTER:
-                return FILTER_LITERAL;
-            case SUPPRESS:
-                return SUPPRESS_LITERAL;
-            case LINK:
-                return LINK_LITERAL;
+            case FILTER: return FILTER_LITERAL;
+            case SUPPRESS: return SUPPRESS_LITERAL;
+            case LINK: return LINK_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private RuleType(int value, String name)

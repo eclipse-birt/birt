@@ -35,33 +35,32 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.attribute.AttributeFactory
  * @generated
  */
-public interface AttributePackage extends EPackage
-{
+public interface AttributePackage extends EPackage{
 
     /**
-     * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNAME = "attribute";
 
     /**
-     * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace URI.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_URI = "http://www.birt.eclipse.org/ChartModelAttribute";
 
     /**
-     * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The package namespace name.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     String eNS_PREFIX = "attribute";
 
     /**
-     * The singleton instance of the package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The singleton instance of the package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     AttributePackage eINSTANCE = org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl.init();
@@ -119,9 +118,8 @@ public interface AttributePackage extends EPackage
     int AXIS_ORIGIN_FEATURE_COUNT = 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl <em>Bounds</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl <em>Bounds</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.BoundsImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getBounds()
      * @generated
@@ -167,7 +165,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl <em>Fill</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.impl.FillImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFill()
      * @generated
@@ -293,10 +290,8 @@ public interface AttributePackage extends EPackage
     int DATA_POINT_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl <em>Data Point Component</em>}' class.
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl <em>Data Point Component</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponent()
      * @generated
@@ -357,10 +352,8 @@ public interface AttributePackage extends EPackage
     int FORMAT_SPECIFIER_FEATURE_COUNT = 0;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl <em>Date Format Specifier</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl <em>Date Format Specifier</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatSpecifier()
      * @generated
@@ -496,9 +489,8 @@ public interface AttributePackage extends EPackage
     int FONT_DEFINITION_FEATURE_COUNT = 9;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl <em>Gradient</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl <em>Gradient</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.GradientImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getGradient()
      * @generated
@@ -559,9 +551,8 @@ public interface AttributePackage extends EPackage
     int GRADIENT_FEATURE_COUNT = FILL_FEATURE_COUNT + 5;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl <em>Image</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl <em>Image</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.ImageImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImage()
      * @generated
@@ -591,9 +582,8 @@ public interface AttributePackage extends EPackage
     int IMAGE_FEATURE_COUNT = FILL_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl <em>Insets</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl <em>Insets</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.InsetsImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getInsets()
      * @generated
@@ -637,10 +627,8 @@ public interface AttributePackage extends EPackage
     int INSETS_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl <em>Java Date Format Specifier</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl <em>Java Date Format Specifier</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaDateFormatSpecifier()
      * @generated
@@ -663,10 +651,8 @@ public interface AttributePackage extends EPackage
     int JAVA_DATE_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl <em>Java Number Format Specifier</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl <em>Java Number Format Specifier</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaNumberFormatSpecifier()
      * @generated
@@ -744,9 +730,8 @@ public interface AttributePackage extends EPackage
     int LINE_ATTRIBUTES_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl <em>Location</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl <em>Location</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.LocationImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLocation()
      * @generated
@@ -776,9 +761,8 @@ public interface AttributePackage extends EPackage
     int LOCATION_FEATURE_COUNT = 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl <em>Marker</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl <em>Marker</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.MarkerImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarker()
      * @generated
@@ -815,10 +799,8 @@ public interface AttributePackage extends EPackage
     int MARKER_FEATURE_COUNT = 3;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getNumberFormatSpecifier()
      * @generated
@@ -863,9 +845,8 @@ public interface AttributePackage extends EPackage
     int NUMBER_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 4;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl <em>Palette</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl <em>Palette</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.PaletteImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPalette()
      * @generated
@@ -984,7 +965,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl <em>Text</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.impl.TextImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getText()
      * @generated
@@ -994,7 +974,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl <em>Size</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.impl.SizeImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSize()
      * @generated
@@ -1024,9 +1003,8 @@ public interface AttributePackage extends EPackage
     int SIZE_FEATURE_COUNT = 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl <em>Style Map</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl <em>Style Map</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyleMap()
      * @generated
@@ -1156,9 +1134,8 @@ public interface AttributePackage extends EPackage
     int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl <em>URL Value</em>}'
-     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl <em>URL Value</em>}' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.URLValueImpl
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getURLValue()
      * @generated
@@ -1212,9 +1189,8 @@ public interface AttributePackage extends EPackage
     int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 5;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}'
-     * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}' enum.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.ActionType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getActionType()
      * @generated
@@ -1234,7 +1210,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ChartType <em>Chart Type</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.ChartType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getChartType()
      * @generated
@@ -1242,10 +1217,8 @@ public interface AttributePackage extends EPackage
     int CHART_TYPE = 34;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPointComponentType <em>Data Point Component Type</em>}' enum.
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponentType <em>Data Point Component Type</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.DataPointComponentType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponentType()
      * @generated
@@ -1277,7 +1250,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Direction <em>Direction</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.Direction
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDirection()
      * @generated
@@ -1331,7 +1303,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LineStyle <em>Line Style</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.LineStyle
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineStyle()
      * @generated
@@ -1339,9 +1310,8 @@ public interface AttributePackage extends EPackage
     int LINE_STYLE = 43;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type</em>}'
-     * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type</em>}' enum.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.MarkerType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarkerType()
      * @generated
@@ -1349,9 +1319,8 @@ public interface AttributePackage extends EPackage
     int MARKER_TYPE = 44;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation</em>}'
-     * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation</em>}' enum.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.Orientation
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getOrientation()
      * @generated
@@ -1361,7 +1330,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Position <em>Position</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.Position
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPosition()
      * @generated
@@ -1371,7 +1339,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.RiserType <em>Riser Type</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.RiserType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRiserType()
      * @generated
@@ -1381,7 +1348,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.RuleType <em>Rule Type</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.RuleType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRuleType()
      * @generated
@@ -1389,10 +1355,9 @@ public interface AttributePackage extends EPackage
     int RULE_TYPE = 48;
 
     /**
-     * The meta object id for the '
-     * {@link org.eclipse.birt.chart.model.attribute.ScaleUnitType <em>Scale Unit Type</em>}' enum. <!-- begin-user-doc
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ScaleUnitType <em>Scale Unit Type</em>}' enum.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScaleUnitType()
      * @generated
@@ -1400,9 +1365,8 @@ public interface AttributePackage extends EPackage
     int SCALE_UNIT_TYPE = 49;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option</em>}'
-     * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option</em>}' enum.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.SortOption
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSortOption()
      * @generated
@@ -1433,7 +1397,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.TickStyle <em>Tick Style</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.TickStyle
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTickStyle()
      * @generated
@@ -1473,8 +1436,8 @@ public interface AttributePackage extends EPackage
     int ACTION_TYPE_OBJECT = 56;
 
     /**
-     * The meta object id for the '<em>Anchor Object</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '<em>Anchor Object</em>' data type.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.Anchor
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getAnchorObject()
      * @generated
@@ -1492,9 +1455,9 @@ public interface AttributePackage extends EPackage
     int AXIS_TYPE_OBJECT = 58;
 
     /**
-     * The meta object id for the '<em>Chart Dimension Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Chart Dimension Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.ChartDimension
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getChartDimensionObject()
      * @generated
@@ -1504,7 +1467,6 @@ public interface AttributePackage extends EPackage
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.AxisType <em>Axis Type</em>}' enum.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.AxisType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getAxisType()
      * @generated
@@ -1533,9 +1495,9 @@ public interface AttributePackage extends EPackage
     int CHART_TYPE_OBJECT = 60;
 
     /**
-     * The meta object id for the '<em>Data Point Component Type Object</em>' data type. <!-- begin-user-doc -->
+     * The meta object id for the '<em>Data Point Component Type Object</em>' data type.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.DataPointComponentType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponentTypeObject()
      * @generated
@@ -1543,9 +1505,9 @@ public interface AttributePackage extends EPackage
     int DATA_POINT_COMPONENT_TYPE_OBJECT = 61;
 
     /**
-     * The meta object id for the '<em>Date Format Detail Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Date Format Detail Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.DateFormatDetail
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatDetailObject()
      * @generated
@@ -1553,9 +1515,9 @@ public interface AttributePackage extends EPackage
     int DATE_FORMAT_DETAIL_OBJECT = 62;
 
     /**
-     * The meta object id for the '<em>Date Format Type Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Date Format Type Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.DateFormatType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatTypeObject()
      * @generated
@@ -1573,9 +1535,9 @@ public interface AttributePackage extends EPackage
     int DIRECTION_OBJECT = 64;
 
     /**
-     * The meta object id for the '<em>Horizontal Alignment Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Horizontal Alignment Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.HorizontalAlignment
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getHorizontalAlignmentObject()
      * @generated
@@ -1583,8 +1545,8 @@ public interface AttributePackage extends EPackage
     int HORIZONTAL_ALIGNMENT_OBJECT = 65;
 
     /**
-     * The meta object id for the '<em>ID</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '<em>ID</em>' data type.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see java.lang.String
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getID()
      * @generated
@@ -1592,9 +1554,9 @@ public interface AttributePackage extends EPackage
     int ID = 66;
 
     /**
-     * The meta object id for the '<em>Intersection Type Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Intersection Type Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.IntersectionType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getIntersectionTypeObject()
      * @generated
@@ -1602,9 +1564,9 @@ public interface AttributePackage extends EPackage
     int INTERSECTION_TYPE_OBJECT = 67;
 
     /**
-     * The meta object id for the '<em>Leader Line Style Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Leader Line Style Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLeaderLineStyleObject()
      * @generated
@@ -1612,9 +1574,9 @@ public interface AttributePackage extends EPackage
     int LEADER_LINE_STYLE_OBJECT = 68;
 
     /**
-     * The meta object id for the '<em>Legend Item Type Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Legend Item Type Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.LegendItemType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLegendItemTypeObject()
      * @generated
@@ -1652,8 +1614,8 @@ public interface AttributePackage extends EPackage
     int ORIENTATION_OBJECT = 72;
 
     /**
-     * The meta object id for the '<em>Percentage</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '<em>Percentage</em>' data type.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPercentage()
      * @generated
      */
@@ -1680,8 +1642,8 @@ public interface AttributePackage extends EPackage
     int POSITION_OBJECT = 75;
 
     /**
-     * The meta object id for the '<em>RGB Value</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '<em>RGB Value</em>' data type.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRGBValue()
      * @generated
      */
@@ -1718,9 +1680,9 @@ public interface AttributePackage extends EPackage
     int RULE_TYPE_OBJECT = 79;
 
     /**
-     * The meta object id for the '<em>Scale Unit Type Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Scale Unit Type Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScaleUnitTypeObject()
      * @generated
@@ -1738,8 +1700,8 @@ public interface AttributePackage extends EPackage
     int SORT_OPTION_OBJECT = 81;
 
     /**
-     * The meta object id for the '<em>Stretch Object</em>' data type. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The meta object id for the '<em>Stretch Object</em>' data type.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.birt.chart.model.attribute.Stretch
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStretchObject()
      * @generated
@@ -1747,9 +1709,9 @@ public interface AttributePackage extends EPackage
     int STRETCH_OBJECT = 82;
 
     /**
-     * The meta object id for the '<em>Styled Component Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Styled Component Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.StyledComponent
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyledComponentObject()
      * @generated
@@ -1767,9 +1729,9 @@ public interface AttributePackage extends EPackage
     int TICK_STYLE_OBJECT = 84;
 
     /**
-     * The meta object id for the '<em>Trigger Condition Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Trigger Condition Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTriggerConditionObject()
      * @generated
@@ -1777,9 +1739,9 @@ public interface AttributePackage extends EPackage
     int TRIGGER_CONDITION_OBJECT = 85;
 
     /**
-     * The meta object id for the '<em>Vertical Alignment Object</em>' data type. <!-- begin-user-doc --> <!--
+     * The meta object id for the '<em>Vertical Alignment Object</em>' data type.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @see org.eclipse.birt.chart.model.attribute.VerticalAlignment
      * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getVerticalAlignmentObject()
      * @generated
@@ -1787,10 +1749,9 @@ public interface AttributePackage extends EPackage
     int VERTICAL_ALIGNMENT_OBJECT = 86;
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.ActionValue <em>Action Value</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.ActionValue <em>Action Value</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Action Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ActionValue
      * @generated
@@ -1798,10 +1759,9 @@ public interface AttributePackage extends EPackage
     EClass getActionValue();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.AxisOrigin <em>Axis Origin</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin <em>Axis Origin</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Axis Origin</em>'.
      * @see org.eclipse.birt.chart.model.attribute.AxisOrigin
      * @generated
@@ -1809,10 +1769,9 @@ public interface AttributePackage extends EPackage
     EClass getAxisOrigin();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getType <em>Type</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.AxisOrigin#getType()
      * @see #getAxisOrigin()
@@ -1821,16 +1780,15 @@ public interface AttributePackage extends EPackage
     EAttribute getAxisOrigin_Type();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getValue <em>Value</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.AxisOrigin#getValue <em>Value</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Value</em>'.
+     * @return the meta object for the containment reference '<em>Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.AxisOrigin#getValue()
      * @see #getAxisOrigin()
      * @generated
      */
-    EAttribute getAxisOrigin_Value();
+    EReference getAxisOrigin_Value();
 
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Bounds <em>Bounds</em>}'. <!--
@@ -1843,10 +1801,9 @@ public interface AttributePackage extends EPackage
     EClass getBounds();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Left</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Bounds#getLeft()
      * @see #getBounds()
@@ -1855,10 +1812,9 @@ public interface AttributePackage extends EPackage
     EAttribute getBounds_Left();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Top</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Bounds#getTop()
      * @see #getBounds()
@@ -1867,10 +1823,9 @@ public interface AttributePackage extends EPackage
     EAttribute getBounds_Top();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth <em>Width</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth <em>Width</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Width</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Bounds#getWidth()
      * @see #getBounds()
@@ -1879,10 +1834,9 @@ public interface AttributePackage extends EPackage
     EAttribute getBounds_Width();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Height</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Bounds#getHeight()
      * @see #getBounds()
@@ -1891,10 +1845,9 @@ public interface AttributePackage extends EPackage
     EAttribute getBounds_Height();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition <em>Color Definition</em>}'. <!-- begin-user-doc
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition <em>Color Definition</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Color Definition</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ColorDefinition
      * @generated
@@ -1914,10 +1867,9 @@ public interface AttributePackage extends EPackage
     EAttribute getColorDefinition_Transparency();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed <em>Red</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Red</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ColorDefinition#getRed()
      * @see #getColorDefinition()
@@ -1926,10 +1878,9 @@ public interface AttributePackage extends EPackage
     EAttribute getColorDefinition_Red();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue <em>Blue</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Blue</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ColorDefinition#getBlue()
      * @see #getColorDefinition()
@@ -1938,10 +1889,9 @@ public interface AttributePackage extends EPackage
     EAttribute getColorDefinition_Blue();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen <em>Green</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Green</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ColorDefinition#getGreen()
      * @see #getColorDefinition()
@@ -1952,7 +1902,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.DataPoint <em>Data Point</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Data Point</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPoint
      * @generated
@@ -1960,10 +1909,9 @@ public interface AttributePackage extends EPackage
     EClass getDataPoint();
 
     /**
-     * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPoint#getComponents <em>Components</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getComponents <em>Components</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference list '<em>Components</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPoint#getComponents()
      * @see #getDataPoint()
@@ -1972,10 +1920,9 @@ public interface AttributePackage extends EPackage
     EReference getDataPoint_Components();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix <em>Prefix</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix <em>Prefix</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Prefix</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix()
      * @see #getDataPoint()
@@ -1984,10 +1931,9 @@ public interface AttributePackage extends EPackage
     EAttribute getDataPoint_Prefix();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix <em>Suffix</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix <em>Suffix</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Suffix</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix()
      * @see #getDataPoint()
@@ -1996,10 +1942,9 @@ public interface AttributePackage extends EPackage
     EAttribute getDataPoint_Suffix();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator <em>Separator</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator <em>Separator</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Separator</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator()
      * @see #getDataPoint()
@@ -2019,10 +1964,9 @@ public interface AttributePackage extends EPackage
     EClass getDataPointComponent();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPointComponent#getType()
      * @see #getDataPointComponent()
@@ -2031,10 +1975,8 @@ public interface AttributePackage extends EPackage
     EAttribute getDataPointComponent_Type();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier <em>Format Specifier</em>}'.
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier <em>Format Specifier</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Format Specifier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier()
      * @see #getDataPointComponent()
@@ -2054,10 +1996,9 @@ public interface AttributePackage extends EPackage
     EClass getDateFormatSpecifier();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType <em>Type</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DateFormatSpecifier#getType()
      * @see #getDateFormatSpecifier()
@@ -2078,10 +2019,9 @@ public interface AttributePackage extends EPackage
     EAttribute getDateFormatSpecifier_Detail();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.ExtendedProperty <em>Extended Property</em>}'. <!-- begin-user-doc
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty <em>Extended Property</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Extended Property</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ExtendedProperty
      * @generated
@@ -2089,10 +2029,9 @@ public interface AttributePackage extends EPackage
     EClass getExtendedProperty();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName()
      * @see #getExtendedProperty()
@@ -2101,10 +2040,9 @@ public interface AttributePackage extends EPackage
     EAttribute getExtendedProperty_Name();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue()
      * @see #getExtendedProperty()
@@ -2123,10 +2061,9 @@ public interface AttributePackage extends EPackage
     EClass getFill();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Fill#getType <em>Type</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Fill#getType()
      * @see #getFill()
@@ -2135,10 +2072,9 @@ public interface AttributePackage extends EPackage
     EAttribute getFill_Type();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition <em>Font Definition</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.FontDefinition <em>Font Definition</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Font Definition</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FontDefinition
      * @generated
@@ -2146,10 +2082,9 @@ public interface AttributePackage extends EPackage
     EClass getFontDefinition();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FontDefinition#getName()
      * @see #getFontDefinition()
@@ -2158,10 +2093,9 @@ public interface AttributePackage extends EPackage
     EAttribute getFontDefinition_Name();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Size</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FontDefinition#getSize()
      * @see #getFontDefinition()
@@ -2170,10 +2104,9 @@ public interface AttributePackage extends EPackage
     EAttribute getFontDefinition_Size();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Bold</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FontDefinition#isBold()
      * @see #getFontDefinition()
@@ -2182,10 +2115,9 @@ public interface AttributePackage extends EPackage
     EAttribute getFontDefinition_Bold();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Italic</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic()
      * @see #getFontDefinition()
@@ -2254,10 +2186,9 @@ public interface AttributePackage extends EPackage
     EAttribute getFontDefinition_Rotation();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.FormatSpecifier <em>Format Specifier</em>}'. <!-- begin-user-doc
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.FormatSpecifier <em>Format Specifier</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Format Specifier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.FormatSpecifier
      * @generated
@@ -2267,7 +2198,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Gradient <em>Gradient</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Gradient</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Gradient
      * @generated
@@ -2275,10 +2205,9 @@ public interface AttributePackage extends EPackage
     EClass getGradient();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.Gradient#getStartColor <em>Start Color</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Gradient#getStartColor <em>Start Color</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Start Color</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Gradient#getStartColor()
      * @see #getGradient()
@@ -2287,10 +2216,9 @@ public interface AttributePackage extends EPackage
     EReference getGradient_StartColor();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.Gradient#getEndColor <em>End Color</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Gradient#getEndColor <em>End Color</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>End Color</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Gradient#getEndColor()
      * @see #getGradient()
@@ -2299,10 +2227,9 @@ public interface AttributePackage extends EPackage
     EReference getGradient_EndColor();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Gradient#getDirection <em>Direction</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Gradient#getDirection <em>Direction</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Direction</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Gradient#getDirection()
      * @see #getGradient()
@@ -2311,10 +2238,9 @@ public interface AttributePackage extends EPackage
     EAttribute getGradient_Direction();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Gradient#isCyclic <em>Cyclic</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Gradient#isCyclic <em>Cyclic</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Cyclic</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Gradient#isCyclic()
      * @see #getGradient()
@@ -2345,10 +2271,9 @@ public interface AttributePackage extends EPackage
     EClass getImage();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>URL</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Image#getURL()
      * @see #getImage()
@@ -2367,10 +2292,9 @@ public interface AttributePackage extends EPackage
     EClass getInsets();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Top</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Insets#getTop()
      * @see #getInsets()
@@ -2379,10 +2303,9 @@ public interface AttributePackage extends EPackage
     EAttribute getInsets_Top();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Left</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Insets#getLeft()
      * @see #getInsets()
@@ -2391,10 +2314,9 @@ public interface AttributePackage extends EPackage
     EAttribute getInsets_Left();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Insets#getBottom <em>Bottom</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom <em>Bottom</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Bottom</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Insets#getBottom()
      * @see #getInsets()
@@ -2403,10 +2325,9 @@ public interface AttributePackage extends EPackage
     EAttribute getInsets_Bottom();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Insets#getRight <em>Right</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Insets#getRight <em>Right</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Right</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Insets#getRight()
      * @see #getInsets()
@@ -2415,10 +2336,8 @@ public interface AttributePackage extends EPackage
     EAttribute getInsets_Right();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier <em>Java Date Format Specifier</em>}'.
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier <em>Java Date Format Specifier</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Java Date Format Specifier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier
      * @generated
@@ -2438,10 +2357,8 @@ public interface AttributePackage extends EPackage
     EAttribute getJavaDateFormatSpecifier_Pattern();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier <em>Java Number Format Specifier</em>}'.
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier <em>Java Number Format Specifier</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Java Number Format Specifier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier
      * @generated
@@ -2461,10 +2378,8 @@ public interface AttributePackage extends EPackage
     EAttribute getJavaNumberFormatSpecifier_Pattern();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Multiplier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier()
      * @see #getJavaNumberFormatSpecifier()
@@ -2473,10 +2388,9 @@ public interface AttributePackage extends EPackage
     EAttribute getJavaNumberFormatSpecifier_Multiplier();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.LineAttributes <em>Line Attributes</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.LineAttributes <em>Line Attributes</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Line Attributes</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineAttributes
      * @generated
@@ -2484,10 +2398,9 @@ public interface AttributePackage extends EPackage
     EClass getLineAttributes();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Style</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle()
      * @see #getLineAttributes()
@@ -2508,10 +2421,9 @@ public interface AttributePackage extends EPackage
     EAttribute getLineAttributes_Thickness();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Color</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineAttributes#getColor()
      * @see #getLineAttributes()
@@ -2520,10 +2432,9 @@ public interface AttributePackage extends EPackage
     EReference getLineAttributes_Color();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Visible</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible()
      * @see #getLineAttributes()
@@ -2534,7 +2445,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Location <em>Location</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Location</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Location
      * @generated
@@ -2542,10 +2452,9 @@ public interface AttributePackage extends EPackage
     EClass getLocation();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Location#getX <em>X</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>X</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Location#getX()
      * @see #getLocation()
@@ -2554,10 +2463,9 @@ public interface AttributePackage extends EPackage
     EAttribute getLocation_X();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Location#getY <em>Y</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Y</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Location#getY()
      * @see #getLocation()
@@ -2576,10 +2484,9 @@ public interface AttributePackage extends EPackage
     EClass getMarker();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Marker#getType()
      * @see #getMarker()
@@ -2588,10 +2495,9 @@ public interface AttributePackage extends EPackage
     EAttribute getMarker_Type();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Size</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Marker#getSize()
      * @see #getMarker()
@@ -2600,10 +2506,9 @@ public interface AttributePackage extends EPackage
     EAttribute getMarker_Size();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Visible</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Marker#isVisible()
      * @see #getMarker()
@@ -2659,10 +2564,8 @@ public interface AttributePackage extends EPackage
     EAttribute getNumberFormatSpecifier_Multiplier();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Fraction Digits</em>'.
      * @see org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits()
      * @see #getNumberFormatSpecifier()
@@ -2673,7 +2576,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Palette <em>Palette</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Palette</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Palette
      * @generated
@@ -2681,10 +2583,9 @@ public interface AttributePackage extends EPackage
     EClass getPalette();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Palette#getName()
      * @see #getPalette()
@@ -2693,10 +2594,9 @@ public interface AttributePackage extends EPackage
     EAttribute getPalette_Name();
 
     /**
-     * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the containment reference list '<em>Entries</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Palette#getEntries()
      * @see #getPalette()
@@ -2705,10 +2605,9 @@ public interface AttributePackage extends EPackage
     EReference getPalette_Entries();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.ScriptValue <em>Script Value</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.ScriptValue <em>Script Value</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Script Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ScriptValue
      * @generated
@@ -2716,10 +2615,9 @@ public interface AttributePackage extends EPackage
     EClass getScriptValue();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Script</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ScriptValue#getScript()
      * @see #getScriptValue()
@@ -2728,10 +2626,9 @@ public interface AttributePackage extends EPackage
     EAttribute getScriptValue_Script();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.SeriesHint <em>Series Hint</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.SeriesHint <em>Series Hint</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Series Hint</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SeriesHint
      * @generated
@@ -2751,10 +2648,9 @@ public interface AttributePackage extends EPackage
     EAttribute getSeriesHint_SeriesClass();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.SeriesHint#getModifier <em>Modifier</em>}'. <!-- begin-user-doc
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.SeriesHint#getModifier <em>Modifier</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Modifier</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SeriesHint#getModifier()
      * @see #getSeriesHint()
@@ -2763,10 +2659,9 @@ public interface AttributePackage extends EPackage
     EAttribute getSeriesHint_Modifier();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.SeriesValue <em>Series Value</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.SeriesValue <em>Series Value</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for class '<em>Series Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SeriesValue
      * @generated
@@ -2774,10 +2669,9 @@ public interface AttributePackage extends EPackage
     EClass getSeriesValue();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SeriesValue#getName()
      * @see #getSeriesValue()
@@ -2796,10 +2690,9 @@ public interface AttributePackage extends EPackage
     EClass getSize();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Size#getHeight <em>Height</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Size#getHeight <em>Height</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Height</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Size#getHeight()
      * @see #getSize()
@@ -2808,10 +2701,9 @@ public interface AttributePackage extends EPackage
     EAttribute getSize_Height();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Size#getWidth <em>Width</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Size#getWidth <em>Width</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Width</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Size#getWidth()
      * @see #getSize()
@@ -2822,7 +2714,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.StyleMap <em>Style Map</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Style Map</em>'.
      * @see org.eclipse.birt.chart.model.attribute.StyleMap
      * @generated
@@ -2842,10 +2733,9 @@ public interface AttributePackage extends EPackage
     EAttribute getStyleMap_ComponentName();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Style</em>'.
      * @see org.eclipse.birt.chart.model.attribute.StyleMap#getStyle()
      * @see #getStyleMap()
@@ -2864,10 +2754,9 @@ public interface AttributePackage extends EPackage
     EClass getText();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.Text#getValue <em>Value</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Text#getValue <em>Value</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Text#getValue()
      * @see #getText()
@@ -2876,10 +2765,9 @@ public interface AttributePackage extends EPackage
     EAttribute getText_Value();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Font</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Text#getFont()
      * @see #getText()
@@ -2888,10 +2776,9 @@ public interface AttributePackage extends EPackage
     EReference getText_Font();
 
     /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the containment reference '<em>Color</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Text#getColor()
      * @see #getText()
@@ -2900,10 +2787,9 @@ public interface AttributePackage extends EPackage
     EReference getText_Color();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment <em>Text Alignment</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.TextAlignment <em>Text Alignment</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Text Alignment</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TextAlignment
      * @generated
@@ -2911,10 +2797,8 @@ public interface AttributePackage extends EPackage
     EClass getTextAlignment();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment <em>Horizontal Alignment</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Horizontal Alignment</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TextAlignment#getHorizontalAlignment()
      * @see #getTextAlignment()
@@ -2923,10 +2807,8 @@ public interface AttributePackage extends EPackage
     EAttribute getTextAlignment_HorizontalAlignment();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment <em>Vertical Alignment</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Vertical Alignment</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TextAlignment#getVerticalAlignment()
      * @see #getTextAlignment()
@@ -2935,10 +2817,9 @@ public interface AttributePackage extends EPackage
     EAttribute getTextAlignment_VerticalAlignment();
 
     /**
-     * Returns the meta object for class '
-     * {@link org.eclipse.birt.chart.model.attribute.TooltipValue <em>Tooltip Value</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.TooltipValue <em>Tooltip Value</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>Tooltip Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TooltipValue
      * @generated
@@ -2946,10 +2827,9 @@ public interface AttributePackage extends EPackage
     EClass getTooltipValue();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.TooltipValue#getText <em>Text</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getText <em>Text</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Text</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TooltipValue#getText()
      * @see #getTooltipValue()
@@ -2958,10 +2838,9 @@ public interface AttributePackage extends EPackage
     EAttribute getTooltipValue_Text();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Delay</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay()
      * @see #getTooltipValue()
@@ -2972,7 +2851,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.URLValue <em>URL Value</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for class '<em>URL Value</em>'.
      * @see org.eclipse.birt.chart.model.attribute.URLValue
      * @generated
@@ -2980,10 +2858,9 @@ public interface AttributePackage extends EPackage
     EClass getURLValue();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl <em>Base Url</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Base Url</em>'.
      * @see org.eclipse.birt.chart.model.attribute.URLValue#getBaseUrl()
      * @see #getURLValue()
@@ -2992,10 +2869,9 @@ public interface AttributePackage extends EPackage
     EAttribute getURLValue_BaseUrl();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.URLValue#getTarget <em>Target</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Target</em>'.
      * @see org.eclipse.birt.chart.model.attribute.URLValue#getTarget()
      * @see #getURLValue()
@@ -3016,10 +2892,8 @@ public interface AttributePackage extends EPackage
     EAttribute getURLValue_BaseParameterName();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Value Parameter Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName()
      * @see #getURLValue()
@@ -3028,10 +2902,8 @@ public interface AttributePackage extends EPackage
     EAttribute getURLValue_ValueParameterName();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}'.
+     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for the attribute '<em>Series Parameter Name</em>'.
      * @see org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName()
      * @see #getURLValue()
@@ -3042,7 +2914,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Action Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ActionType
      * @generated
@@ -3062,7 +2933,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ChartType <em>Chart Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Chart Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ChartType
      * @generated
@@ -3092,10 +2962,9 @@ public interface AttributePackage extends EPackage
     EEnum getDateFormatDetail();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.DateFormatType <em>Date Format Type</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.DateFormatType <em>Date Format Type</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Date Format Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DateFormatType
      * @generated
@@ -3105,7 +2974,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.Direction <em>Direction</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Direction</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Direction
      * @generated
@@ -3124,10 +2992,9 @@ public interface AttributePackage extends EPackage
     EEnum getHorizontalAlignment();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Intersection Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.IntersectionType
      * @generated
@@ -3135,10 +3002,9 @@ public interface AttributePackage extends EPackage
     EEnum getIntersectionType();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle <em>Leader Line Style</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle <em>Leader Line Style</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Leader Line Style</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
      * @generated
@@ -3146,10 +3012,9 @@ public interface AttributePackage extends EPackage
     EEnum getLeaderLineStyle();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.LegendItemType <em>Legend Item Type</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.LegendItemType <em>Legend Item Type</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Legend Item Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LegendItemType
      * @generated
@@ -3159,7 +3024,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.LineStyle <em>Line Style</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Line Style</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineStyle
      * @generated
@@ -3169,7 +3033,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Marker Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.MarkerType
      * @generated
@@ -3177,10 +3040,9 @@ public interface AttributePackage extends EPackage
     EEnum getMarkerType();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Orientation</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Orientation
      * @generated
@@ -3190,7 +3052,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.Position <em>Position</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Position</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Position
      * @generated
@@ -3200,7 +3061,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.RiserType <em>Riser Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Riser Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.RiserType
      * @generated
@@ -3210,7 +3070,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.RuleType <em>Rule Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Rule Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.RuleType
      * @generated
@@ -3218,10 +3077,9 @@ public interface AttributePackage extends EPackage
     EEnum getRuleType();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.ScaleUnitType <em>Scale Unit Type</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ScaleUnitType <em>Scale Unit Type</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Scale Unit Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
      * @generated
@@ -3231,7 +3089,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Sort Option</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SortOption
      * @generated
@@ -3241,7 +3098,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.Stretch <em>Stretch</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Stretch</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Stretch
      * @generated
@@ -3249,10 +3105,9 @@ public interface AttributePackage extends EPackage
     EEnum getStretch();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.StyledComponent <em>Styled Component</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.StyledComponent <em>Styled Component</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Styled Component</em>'.
      * @see org.eclipse.birt.chart.model.attribute.StyledComponent
      * @generated
@@ -3262,7 +3117,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.TickStyle <em>Tick Style</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Tick Style</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TickStyle
      * @generated
@@ -3270,10 +3124,9 @@ public interface AttributePackage extends EPackage
     EEnum getTickStyle();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.TriggerCondition <em>Trigger Condition</em>}'. <!-- begin-user-doc
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.TriggerCondition <em>Trigger Condition</em>}'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Trigger Condition</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
      * @generated
@@ -3292,10 +3145,9 @@ public interface AttributePackage extends EPackage
     EEnum getVerticalAlignment();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Action Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ActionType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.ActionType"
@@ -3304,10 +3156,9 @@ public interface AttributePackage extends EPackage
     EDataType getActionTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.Anchor <em>Anchor Object</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.Anchor <em>Anchor Object</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Anchor Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Anchor
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.Anchor"
@@ -3316,10 +3167,9 @@ public interface AttributePackage extends EPackage
     EDataType getAnchorObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.AxisType <em>Axis Type Object</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.AxisType <em>Axis Type Object</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Axis Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.AxisType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.AxisType"
@@ -3342,7 +3192,6 @@ public interface AttributePackage extends EPackage
     /**
      * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.AxisType <em>Axis Type</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Axis Type</em>'.
      * @see org.eclipse.birt.chart.model.attribute.AxisType
      * @generated
@@ -3350,10 +3199,9 @@ public interface AttributePackage extends EPackage
     EEnum getAxisType();
 
     /**
-     * Returns the meta object for enum '
-     * {@link org.eclipse.birt.chart.model.attribute.ChartDimension <em>Chart Dimension</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ChartDimension <em>Chart Dimension</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for enum '<em>Chart Dimension</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ChartDimension
      * @generated
@@ -3361,10 +3209,9 @@ public interface AttributePackage extends EPackage
     EEnum getChartDimension();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.ChartType <em>Chart Type Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.ChartType <em>Chart Type Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Chart Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.ChartType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.ChartType"
@@ -3373,10 +3220,8 @@ public interface AttributePackage extends EPackage
     EDataType getChartTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.DataPointComponentType <em>Data Point Component Type Object</em>}'.
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.DataPointComponentType <em>Data Point Component Type Object</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Data Point Component Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.DataPointComponentType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.DataPointComponentType"
@@ -3409,10 +3254,9 @@ public interface AttributePackage extends EPackage
     EDataType getDateFormatTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.Direction <em>Direction Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.Direction <em>Direction Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Direction Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Direction
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.Direction"
@@ -3433,9 +3277,9 @@ public interface AttributePackage extends EPackage
     EDataType getHorizontalAlignmentObject();
 
     /**
-     * Returns the meta object for data type '{@link java.lang.String <em>ID</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link java.lang.String <em>ID</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>ID</em>'.
      * @see java.lang.String
      * @model instanceClass="java.lang.String"
@@ -3480,10 +3324,9 @@ public interface AttributePackage extends EPackage
     EDataType getLegendItemTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.LineStyle <em>Line Style Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.LineStyle <em>Line Style Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Line Style Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.LineStyle
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.LineStyle"
@@ -3492,10 +3335,9 @@ public interface AttributePackage extends EPackage
     EDataType getLineStyleObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Marker Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.MarkerType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.MarkerType"
@@ -3504,10 +3346,9 @@ public interface AttributePackage extends EPackage
     EDataType getMarkerTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Orientation Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Orientation
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.Orientation"
@@ -3516,8 +3357,8 @@ public interface AttributePackage extends EPackage
     EDataType getOrientationObject();
 
     /**
-     * Returns the meta object for data type '<em>Percentage</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the meta object for data type '<em>Percentage</em>'.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the meta object for data type '<em>Percentage</em>'.
      * @model instanceClass="double"
      * @generated
@@ -3536,10 +3377,9 @@ public interface AttributePackage extends EPackage
     EDataType getPercentageObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.Position <em>Position Object</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.Position <em>Position Object</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Position Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Position
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.Position"
@@ -3548,8 +3388,8 @@ public interface AttributePackage extends EPackage
     EDataType getPositionObject();
 
     /**
-     * Returns the meta object for data type '<em>RGB Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the meta object for data type '<em>RGB Value</em>'.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the meta object for data type '<em>RGB Value</em>'.
      * @model instanceClass="int"
      * @generated
@@ -3568,10 +3408,9 @@ public interface AttributePackage extends EPackage
     EDataType getRGBValueObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.RiserType <em>Riser Type Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.RiserType <em>Riser Type Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Riser Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.RiserType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.RiserType"
@@ -3580,10 +3419,9 @@ public interface AttributePackage extends EPackage
     EDataType getRiserTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.RuleType <em>Rule Type Object</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.RuleType <em>Rule Type Object</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Rule Type Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.RuleType
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.RuleType"
@@ -3604,10 +3442,9 @@ public interface AttributePackage extends EPackage
     EDataType getScaleUnitTypeObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Sort Option Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.SortOption
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.SortOption"
@@ -3616,10 +3453,9 @@ public interface AttributePackage extends EPackage
     EDataType getSortOptionObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.Stretch <em>Stretch Object</em>}'. <!-- begin-user-doc --> <!--
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.Stretch <em>Stretch Object</em>}'.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Stretch Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.Stretch
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.Stretch"
@@ -3640,10 +3476,9 @@ public interface AttributePackage extends EPackage
     EDataType getStyledComponentObject();
 
     /**
-     * Returns the meta object for data type '
-     * {@link org.eclipse.birt.chart.model.attribute.TickStyle <em>Tick Style Object</em>}'. <!-- begin-user-doc -->
+     * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.TickStyle <em>Tick Style Object</em>}'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @return the meta object for data type '<em>Tick Style Object</em>'.
      * @see org.eclipse.birt.chart.model.attribute.TickStyle
      * @model instanceClass="org.eclipse.birt.chart.model.attribute.TickStyle"
@@ -3676,8 +3511,8 @@ public interface AttributePackage extends EPackage
     EDataType getVerticalAlignmentObject();
 
     /**
-     * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the factory that creates the instances of the model.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the factory that creates the instances of the model.
      * @generated
      */

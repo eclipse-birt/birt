@@ -53,7 +53,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ScriptValueImpl()
@@ -63,7 +62,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -73,7 +71,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getScript()
@@ -83,7 +80,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setScript(String newScript)
@@ -91,13 +87,11 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
         String oldScript = script;
         script = newScript;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SCRIPT_VALUE__SCRIPT, oldScript,
-                script));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SCRIPT_VALUE__SCRIPT, oldScript, script));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -112,7 +106,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -120,7 +113,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.SCRIPT_VALUE__SCRIPT:
-                setScript((String) newValue);
+                setScript((String)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -128,7 +121,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -144,7 +136,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -159,13 +150,11 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy())
-            return super.toString();
+        if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (script: ");

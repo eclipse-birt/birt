@@ -76,28 +76,30 @@ public final class DateFormatDetail extends AbstractEnumerator
     public static final DateFormatDetail DATE_TIME_LITERAL = new DateFormatDetail(DATE_TIME, "Date_Time");
 
     /**
-     * An array of all the '<em><b>Date Format Detail</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Date Format Detail</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
-    private static final DateFormatDetail[] VALUES_ARRAY = new DateFormatDetail[]
-    {
-        DATE_LITERAL, DATE_TIME_LITERAL,
-    };
+    private static final DateFormatDetail[] VALUES_ARRAY =
+        new DateFormatDetail[]
+        {
+            DATE_LITERAL,
+            DATE_TIME_LITERAL,
+        };
 
     /**
-     * A public read-only list of all the '<em><b>Date Format Detail</b></em>' enumerators. <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Date Format Detail</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static DateFormatDetail get(String name)
@@ -114,26 +116,24 @@ public final class DateFormatDetail extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified value. <!-- begin-user-doc -->
+     * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static DateFormatDetail get(int value)
     {
         switch (value)
         {
-            case DATE:
-                return DATE_LITERAL;
-            case DATE_TIME:
-                return DATE_TIME_LITERAL;
+            case DATE: return DATE_LITERAL;
+            case DATE_TIME: return DATE_TIME_LITERAL;
         }
-        return null;
+        return null;	
     }
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private DateFormatDetail(int value, String name)

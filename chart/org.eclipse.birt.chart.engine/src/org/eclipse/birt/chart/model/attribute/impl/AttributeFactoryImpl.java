@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -78,15 +80,14 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFactory
 {
 
     /**
-     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public AttributeFactoryImpl()
@@ -96,73 +97,42 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EObject create(EClass eClass)
     {
         switch (eClass.getClassifierID())
         {
-            case AttributePackage.ACTION_VALUE:
-                return createActionValue();
-            case AttributePackage.AXIS_ORIGIN:
-                return createAxisOrigin();
-            case AttributePackage.BOUNDS:
-                return createBounds();
-            case AttributePackage.COLOR_DEFINITION:
-                return createColorDefinition();
-            case AttributePackage.DATA_POINT:
-                return createDataPoint();
-            case AttributePackage.DATA_POINT_COMPONENT:
-                return createDataPointComponent();
-            case AttributePackage.DATE_FORMAT_SPECIFIER:
-                return createDateFormatSpecifier();
-            case AttributePackage.EXTENDED_PROPERTY:
-                return createExtendedProperty();
-            case AttributePackage.FILL:
-                return createFill();
-            case AttributePackage.FONT_DEFINITION:
-                return createFontDefinition();
-            case AttributePackage.FORMAT_SPECIFIER:
-                return createFormatSpecifier();
-            case AttributePackage.GRADIENT:
-                return createGradient();
-            case AttributePackage.IMAGE:
-                return createImage();
-            case AttributePackage.INSETS:
-                return createInsets();
-            case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER:
-                return createJavaDateFormatSpecifier();
-            case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER:
-                return createJavaNumberFormatSpecifier();
-            case AttributePackage.LINE_ATTRIBUTES:
-                return createLineAttributes();
-            case AttributePackage.LOCATION:
-                return createLocation();
-            case AttributePackage.MARKER:
-                return createMarker();
-            case AttributePackage.NUMBER_FORMAT_SPECIFIER:
-                return createNumberFormatSpecifier();
-            case AttributePackage.PALETTE:
-                return createPalette();
-            case AttributePackage.SCRIPT_VALUE:
-                return createScriptValue();
-            case AttributePackage.SERIES_HINT:
-                return createSeriesHint();
-            case AttributePackage.SERIES_VALUE:
-                return createSeriesValue();
-            case AttributePackage.SIZE:
-                return createSize();
-            case AttributePackage.STYLE_MAP:
-                return createStyleMap();
-            case AttributePackage.TEXT:
-                return createText();
-            case AttributePackage.TEXT_ALIGNMENT:
-                return createTextAlignment();
-            case AttributePackage.TOOLTIP_VALUE:
-                return createTooltipValue();
-            case AttributePackage.URL_VALUE:
-                return createURLValue();
+            case AttributePackage.ACTION_VALUE: return createActionValue();
+            case AttributePackage.AXIS_ORIGIN: return createAxisOrigin();
+            case AttributePackage.BOUNDS: return createBounds();
+            case AttributePackage.COLOR_DEFINITION: return createColorDefinition();
+            case AttributePackage.DATA_POINT: return createDataPoint();
+            case AttributePackage.DATA_POINT_COMPONENT: return createDataPointComponent();
+            case AttributePackage.DATE_FORMAT_SPECIFIER: return createDateFormatSpecifier();
+            case AttributePackage.EXTENDED_PROPERTY: return createExtendedProperty();
+            case AttributePackage.FILL: return createFill();
+            case AttributePackage.FONT_DEFINITION: return createFontDefinition();
+            case AttributePackage.FORMAT_SPECIFIER: return createFormatSpecifier();
+            case AttributePackage.GRADIENT: return createGradient();
+            case AttributePackage.IMAGE: return createImage();
+            case AttributePackage.INSETS: return createInsets();
+            case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER: return createJavaDateFormatSpecifier();
+            case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER: return createJavaNumberFormatSpecifier();
+            case AttributePackage.LINE_ATTRIBUTES: return createLineAttributes();
+            case AttributePackage.LOCATION: return createLocation();
+            case AttributePackage.MARKER: return createMarker();
+            case AttributePackage.NUMBER_FORMAT_SPECIFIER: return createNumberFormatSpecifier();
+            case AttributePackage.PALETTE: return createPalette();
+            case AttributePackage.SCRIPT_VALUE: return createScriptValue();
+            case AttributePackage.SERIES_HINT: return createSeriesHint();
+            case AttributePackage.SERIES_VALUE: return createSeriesValue();
+            case AttributePackage.SIZE: return createSize();
+            case AttributePackage.STYLE_MAP: return createStyleMap();
+            case AttributePackage.TEXT: return createText();
+            case AttributePackage.TEXT_ALIGNMENT: return createTextAlignment();
+            case AttributePackage.TOOLTIP_VALUE: return createTooltipValue();
+            case AttributePackage.URL_VALUE: return createURLValue();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -170,7 +140,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Object createFromString(EDataType eDataType, String initialValue)
@@ -180,209 +149,157 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
             case AttributePackage.ACTION_TYPE:
             {
                 ActionType result = ActionType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.ANCHOR:
             {
                 Anchor result = Anchor.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.AXIS_TYPE:
             {
                 AxisType result = AxisType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.CHART_DIMENSION:
             {
                 ChartDimension result = ChartDimension.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.CHART_TYPE:
             {
                 ChartType result = ChartType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.DATA_POINT_COMPONENT_TYPE:
             {
                 DataPointComponentType result = DataPointComponentType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.DATE_FORMAT_DETAIL:
             {
                 DateFormatDetail result = DateFormatDetail.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.DATE_FORMAT_TYPE:
             {
                 DateFormatType result = DateFormatType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.DIRECTION:
             {
                 Direction result = Direction.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.HORIZONTAL_ALIGNMENT:
             {
                 HorizontalAlignment result = HorizontalAlignment.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.INTERSECTION_TYPE:
             {
                 IntersectionType result = IntersectionType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.LEADER_LINE_STYLE:
             {
                 LeaderLineStyle result = LeaderLineStyle.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.LEGEND_ITEM_TYPE:
             {
                 LegendItemType result = LegendItemType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.LINE_STYLE:
             {
                 LineStyle result = LineStyle.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.MARKER_TYPE:
             {
                 MarkerType result = MarkerType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.ORIENTATION:
             {
                 Orientation result = Orientation.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.POSITION:
             {
                 Position result = Position.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.RISER_TYPE:
             {
                 RiserType result = RiserType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.RULE_TYPE:
             {
                 RuleType result = RuleType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.SCALE_UNIT_TYPE:
             {
                 ScaleUnitType result = ScaleUnitType.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.SORT_OPTION:
             {
                 SortOption result = SortOption.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.STRETCH:
             {
                 Stretch result = Stretch.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.STYLED_COMPONENT:
             {
                 StyledComponent result = StyledComponent.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.TICK_STYLE:
             {
                 TickStyle result = TickStyle.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.TRIGGER_CONDITION:
             {
                 TriggerCondition result = TriggerCondition.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.VERTICAL_ALIGNMENT:
             {
                 VerticalAlignment result = VerticalAlignment.get(initialValue);
-                if (result == null)
-                    throw new IllegalArgumentException("The value '" + initialValue
-                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
             case AttributePackage.ACTION_TYPE_OBJECT:
@@ -448,14 +365,12 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
             case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
                 return createVerticalAlignmentObjectFromString(eDataType, initialValue);
             default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName()
-                    + "' is not a valid classifier");
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertToString(EDataType eDataType, Object instanceValue)
@@ -577,14 +492,12 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
             case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
                 return convertVerticalAlignmentObjectToString(eDataType, instanceValue);
             default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName()
-                    + "' is not a valid classifier");
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ActionValue createActionValue()
@@ -595,7 +508,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AxisOrigin createAxisOrigin()
@@ -606,7 +518,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Bounds createBounds()
@@ -617,7 +528,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ColorDefinition createColorDefinition()
@@ -628,7 +538,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPoint createDataPoint()
@@ -639,7 +548,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPointComponent createDataPointComponent()
@@ -650,7 +558,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateFormatSpecifier createDateFormatSpecifier()
@@ -661,7 +568,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ExtendedProperty createExtendedProperty()
@@ -672,7 +578,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Fill createFill()
@@ -683,7 +588,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FontDefinition createFontDefinition()
@@ -694,7 +598,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public FormatSpecifier createFormatSpecifier()
@@ -705,7 +608,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Gradient createGradient()
@@ -716,7 +618,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Image createImage()
@@ -727,7 +628,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Insets createInsets()
@@ -738,7 +638,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public JavaDateFormatSpecifier createJavaDateFormatSpecifier()
@@ -749,7 +648,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public JavaNumberFormatSpecifier createJavaNumberFormatSpecifier()
@@ -760,7 +658,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineAttributes createLineAttributes()
@@ -771,7 +668,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Location createLocation()
@@ -782,7 +678,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Marker createMarker()
@@ -793,7 +688,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NumberFormatSpecifier createNumberFormatSpecifier()
@@ -804,7 +698,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Palette createPalette()
@@ -815,7 +708,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ScriptValue createScriptValue()
@@ -826,7 +718,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SeriesHint createSeriesHint()
@@ -837,7 +728,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SeriesValue createSeriesValue()
@@ -848,7 +738,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Size createSize()
@@ -859,7 +748,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public StyleMap createStyleMap()
@@ -870,7 +758,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Text createText()
@@ -881,7 +768,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public TextAlignment createTextAlignment()
@@ -892,7 +778,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public TooltipValue createTooltipValue()
@@ -903,7 +788,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public URLValue createURLValue()
@@ -914,18 +798,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ActionType createActionTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (ActionType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getActionType(),
-            initialValue);
+        return (ActionType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getActionType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertActionTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -935,18 +816,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Anchor createAnchorObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Anchor) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getAnchor(),
-            initialValue);
+        return (Anchor)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getAnchor(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertAnchorObjectToString(EDataType eDataType, Object instanceValue)
@@ -956,18 +834,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AxisType createAxisTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (AxisType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getAxisType(),
-            initialValue);
+        return (AxisType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getAxisType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertAxisTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -977,40 +852,33 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ChartDimension createChartDimensionObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (ChartDimension) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getChartDimension(), initialValue);
+        return (ChartDimension)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getChartDimension(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertChartDimensionObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE
-            .convertToString(AttributePackage.eINSTANCE.getChartDimension(), instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getChartDimension(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ChartType createChartTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (ChartType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getChartType(),
-            initialValue);
+        return (ChartType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getChartType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertChartTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -1020,84 +888,69 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DataPointComponentType createDataPointComponentTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (DataPointComponentType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getDataPointComponentType(), initialValue);
+        return (DataPointComponentType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDataPointComponentType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertDataPointComponentTypeObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDataPointComponentType(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDataPointComponentType(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateFormatDetail createDateFormatDetailObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (DateFormatDetail) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getDateFormatDetail(), initialValue);
+        return (DateFormatDetail)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDateFormatDetail(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertDateFormatDetailObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDateFormatDetail(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDateFormatDetail(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public DateFormatType createDateFormatTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (DateFormatType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getDateFormatType(), initialValue);
+        return (DateFormatType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDateFormatType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertDateFormatTypeObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE
-            .convertToString(AttributePackage.eINSTANCE.getDateFormatType(), instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDateFormatType(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Direction createDirectionObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Direction) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDirection(),
-            initialValue);
+        return (Direction)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDirection(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertDirectionObjectToString(EDataType eDataType, Object instanceValue)
@@ -1107,39 +960,33 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public HorizontalAlignment createHorizontalAlignmentObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (HorizontalAlignment) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getHorizontalAlignment(), initialValue);
+        return (HorizontalAlignment)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getHorizontalAlignment(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertHorizontalAlignmentObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getHorizontalAlignment(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getHorizontalAlignment(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String createIDFromString(EDataType eDataType, String initialValue)
     {
-        return (String) XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
+        return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertIDToString(EDataType eDataType, Object instanceValue)
@@ -1149,84 +996,69 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public IntersectionType createIntersectionTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (IntersectionType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getIntersectionType(), initialValue);
+        return (IntersectionType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getIntersectionType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertIntersectionTypeObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getIntersectionType(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getIntersectionType(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LeaderLineStyle createLeaderLineStyleObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (LeaderLineStyle) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getLeaderLineStyle(), initialValue);
+        return (LeaderLineStyle)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getLeaderLineStyle(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertLeaderLineStyleObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getLeaderLineStyle(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getLeaderLineStyle(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LegendItemType createLegendItemTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (LegendItemType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getLegendItemType(), initialValue);
+        return (LegendItemType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getLegendItemType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertLegendItemTypeObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE
-            .convertToString(AttributePackage.eINSTANCE.getLegendItemType(), instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getLegendItemType(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public LineStyle createLineStyleObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (LineStyle) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getLineStyle(),
-            initialValue);
+        return (LineStyle)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getLineStyle(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertLineStyleObjectToString(EDataType eDataType, Object instanceValue)
@@ -1236,18 +1068,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public MarkerType createMarkerTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (MarkerType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getMarkerType(),
-            initialValue);
+        return (MarkerType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getMarkerType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertMarkerTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -1257,18 +1086,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Orientation createOrientationObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Orientation) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getOrientation(),
-            initialValue);
+        return (Orientation)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getOrientation(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertOrientationObjectToString(EDataType eDataType, Object instanceValue)
@@ -1278,17 +1104,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Double createPercentageFromString(EDataType eDataType, String initialValue)
     {
-        return (Double) XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDouble(), initialValue);
+        return (Double)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDouble(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertPercentageToString(EDataType eDataType, Object instanceValue)
@@ -1298,18 +1122,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Double createPercentageObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Double) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getPercentage(),
-            initialValue);
+        return (Double)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getPercentage(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertPercentageObjectToString(EDataType eDataType, Object instanceValue)
@@ -1319,18 +1140,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Position createPositionObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Position) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getPosition(),
-            initialValue);
+        return (Position)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getPosition(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertPositionObjectToString(EDataType eDataType, Object instanceValue)
@@ -1340,17 +1158,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Integer createRGBValueFromString(EDataType eDataType, String initialValue)
     {
-        return (Integer) XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
+        return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertRGBValueToString(EDataType eDataType, Object instanceValue)
@@ -1360,18 +1176,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Integer createRGBValueObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Integer) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRGBValue(),
-            initialValue);
+        return (Integer)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRGBValue(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertRGBValueObjectToString(EDataType eDataType, Object instanceValue)
@@ -1381,18 +1194,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RiserType createRiserTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (RiserType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRiserType(),
-            initialValue);
+        return (RiserType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRiserType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertRiserTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -1402,18 +1212,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RuleType createRuleTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (RuleType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRuleType(),
-            initialValue);
+        return (RuleType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getRuleType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertRuleTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -1423,18 +1230,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ScaleUnitType createScaleUnitTypeObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (ScaleUnitType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getScaleUnitType(), initialValue);
+        return (ScaleUnitType)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getScaleUnitType(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertScaleUnitTypeObjectToString(EDataType eDataType, Object instanceValue)
@@ -1444,18 +1248,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public SortOption createSortOptionObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (SortOption) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getSortOption(),
-            initialValue);
+        return (SortOption)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getSortOption(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertSortOptionObjectToString(EDataType eDataType, Object instanceValue)
@@ -1465,18 +1266,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Stretch createStretchObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (Stretch) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getStretch(),
-            initialValue);
+        return (Stretch)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getStretch(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertStretchObjectToString(EDataType eDataType, Object instanceValue)
@@ -1486,40 +1284,33 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public StyledComponent createStyledComponentObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (StyledComponent) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getStyledComponent(), initialValue);
+        return (StyledComponent)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getStyledComponent(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertStyledComponentObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getStyledComponent(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getStyledComponent(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public TickStyle createTickStyleObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (TickStyle) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getTickStyle(),
-            initialValue);
+        return (TickStyle)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getTickStyle(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertTickStyleObjectToString(EDataType eDataType, Object instanceValue)
@@ -1529,62 +1320,53 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public TriggerCondition createTriggerConditionObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (TriggerCondition) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getTriggerCondition(), initialValue);
+        return (TriggerCondition)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getTriggerCondition(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertTriggerConditionObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getTriggerCondition(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getTriggerCondition(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public VerticalAlignment createVerticalAlignmentObjectFromString(EDataType eDataType, String initialValue)
     {
-        return (VerticalAlignment) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
-            .getVerticalAlignment(), initialValue);
+        return (VerticalAlignment)AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getVerticalAlignment(), initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertVerticalAlignmentObjectToString(EDataType eDataType, Object instanceValue)
     {
-        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getVerticalAlignment(),
-            instanceValue);
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getVerticalAlignment(), instanceValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AttributePackage getAttributePackage()
     {
-        return (AttributePackage) getEPackage();
+        return (AttributePackage)getEPackage();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @deprecated @generated
+     * @deprecated
+     * @generated
      */
     public static AttributePackage getPackage()
     {
