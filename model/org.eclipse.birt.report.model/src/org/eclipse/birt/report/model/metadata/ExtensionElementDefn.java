@@ -267,6 +267,9 @@ public class ExtensionElementDefn extends ElementDefn
 
 	private void createCachedSystemProperties( )
 	{
+		if ( propVisibilites == null )
+			return;
+
 		// DO NOT override buildProperties(). It is only for semantic check.
 
 		for ( Iterator iter = propVisibilites.keySet( ).iterator( ); iter
