@@ -100,7 +100,10 @@ public class UserPropertyStructureState extends StructureState
 		}
 		catch ( MetaDataException e )
 		{
-			handler.semanticError( e );
+			handler.semanticError( new UserPropertyException( element,
+					( (UserPropertyDefn) struct ).getName( ),
+					UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFINITION,
+					e ) );
 		}
 	}
 
@@ -151,8 +154,9 @@ public class UserPropertyStructureState extends StructureState
 
 			if ( !UserPropertyDefn.CHOICES_MEMBER.equalsIgnoreCase( name ) )
 			{
-				handler.semanticWarning( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+				handler
+						.semanticWarning( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 				valid = false;
 				return;
 			}
@@ -284,9 +288,11 @@ public class UserPropertyStructureState extends StructureState
 					}
 					catch ( PropertyValueException e )
 					{
-						handler.semanticError( new UserPropertyException(
-								element, name,
-								UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
+						handler
+								.semanticError( new UserPropertyException(
+										element,
+										name,
+										UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
 						return;
 					}
 				}
@@ -387,9 +393,11 @@ public class UserPropertyStructureState extends StructureState
 				PropertyType typeDefn = dictionary.getPropertyType( value );
 				if ( typeDefn == null )
 				{
-					handler.semanticError( new UserPropertyException( element,
-							( (UserPropertyDefn) struct ).getName( ),
-							UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+					handler
+							.semanticError( new UserPropertyException(
+									element,
+									( (UserPropertyDefn) struct ).getName( ),
+									UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 					return;
 				}
 

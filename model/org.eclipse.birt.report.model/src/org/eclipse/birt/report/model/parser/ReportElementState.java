@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.ExtendsException;
@@ -106,46 +105,6 @@ public abstract class ReportElementState extends DesignParseState
 	 */
 
 	public abstract DesignElement getElement( );
-
-	/**
-	 * The property values may be before the definition, so there will be the
-	 * check if the value is valid. If valid, we set property value, otherwise
-	 * throws semantic error.
-	 * <p>
-	 * The property masks may also be before the definition, so there will be
-	 * the check if the mask is valid. If valid, we keep property mask,
-	 * otherwise throws semantic error.
-	 * 
-	 * @throws SAXException
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-	 */
-
-	public void end( ) throws SAXException
-	{
-
-		DesignElement element = getElement( );
-
-		if ( propValues != null )
-		{
-			Iterator iter = propValues.keySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object name = iter.next( );
-				if ( element.getPropertyDefn( name.toString( ) ) == null )
-				{
-					handler
-							.semanticError( new UserPropertyException( element,
-									name.toString( ),
-									UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND ) );
-				}
-				else
-				{
-					setProperty( name.toString( ), propValues.get( name )
-							.toString( ) );
-				}
-			}
-		}
-	}
 
 	/**
 	 * Convenience class for the inner classes used to parse parts of the
