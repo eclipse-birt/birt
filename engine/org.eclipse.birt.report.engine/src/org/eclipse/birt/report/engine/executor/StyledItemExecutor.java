@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -243,57 +243,53 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param formattedStr
 	 *            The <code>StringBuffer</code> object to which the formatted
 	 *            string will be appended.
-	 * @return A <code>boolean</code> value indicating whether a proper format
-	 *         pattern is applied for not.
 	 */
-	protected boolean formatValue( Object value, String formatStr,
+	protected void formatValue( Object value, String formatStr,
 			StyleDesign style, StringBuffer formattedStr )
 	{
 		if ( value == null )
 		{
-			return false;
+			return;
 		}
 
 		assert style != null && formattedStr != null;
-		assert context.getLocale( ) != null;
 
 		if ( ( value instanceof Number ) )
 		{
-
-			NumberFormatter numberFormat;
+			NumberFormatter numberFormat = null;
 			if ( formatStr == null || formatStr.length( ) == 0 )
 			{
 				numberFormat = style.getNumberFormatObject( );
 				//initial number-format for the first time
 				if ( numberFormat == null )
 				{
-					numberFormat = new NumberFormatter( context.getLocale( ) );
-
 					formatStr = style.getNumberFormat( );
+
 					if ( formatStr != null )
 					{
-						numberFormat.applyPattern( formatStr );
+						numberFormat = new NumberFormatter( formatStr, context.getLocale( ) );
+						style.setNumberFormatObject( numberFormat );
 					}
-					style.setNumberFormatObject( numberFormat );
-				}
-				else
-				{
-					formatStr = numberFormat.getPattern( );
 				}
 			}
 			else
 			//deal with value-of for text item
 			{
-				numberFormat = new NumberFormatter( context.getLocale( ) );
-				numberFormat.applyPattern( formatStr );
+				numberFormat = new NumberFormatter( formatStr, context.getLocale( ) );
 			}
-
+			
+			if (numberFormat == null)
+			{
+				numberFormat = new NumberFormatter( context.getLocale( ) );
+			}
+			
 			formattedStr.append( numberFormat.format( ( (Number) value )
 					.doubleValue( ) ) );
+			return;
 		}
 		else if ( value instanceof Date )
 		{
-			DateFormatter dateFormat;
+			DateFormatter dateFormat = null;
 			if ( formatStr == null || formatStr.length( ) == 0 )
 			{
 				dateFormat = style.getDateFormatObject( );
@@ -301,31 +297,31 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				//initial date-format for the first time
 				if ( dateFormat == null )
 				{
-					dateFormat = new DateFormatter( context.getLocale( ) );
 					formatStr = style.getDateTimeFormat( );
 					if ( formatStr != null )
 					{
-						dateFormat.applyPattern( formatStr );
+						dateFormat = new DateFormatter( formatStr, context.getLocale( ) );
+						style.setDateFormatObject( dateFormat );
 					}
-					style.setDateFormatObject( dateFormat );
-				}
-				else
-				{
-					formatStr = dateFormat.getPattern( );
 				}
 			}
 			else
 			//deal with value-of for text item
 			{
-				dateFormat = new DateFormatter( context.getLocale( ) );
-				dateFormat.applyPattern( formatStr );
+				dateFormat = new DateFormatter( formatStr, context.getLocale( ) );
 			}
 
+			if( dateFormat == null )
+			{
+				dateFormat = new DateFormatter( context.getLocale( ) );
+			}
+			
 			formattedStr.append( dateFormat.format( (Date) value ) );
+			return;
 		}
 		else if ( value instanceof String )
 		{
-			StringFormatter stringFormat;
+			StringFormatter stringFormat = null;
 			if ( formatStr == null || formatStr.length( ) == 0 )
 			{
 				stringFormat = style.getStringFormatObject( );
@@ -333,45 +329,30 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				//initial string-format for the first time
 				if ( stringFormat == null )
 				{
-					stringFormat = new StringFormatter( );
-
-					//use default stringFormat
-					stringFormat.setLocale( context.getLocale( ) );
 					//get format pattern from style
 					formatStr = style.getStringFormat( );
 					if ( formatStr != null )
 					{
-						stringFormat.applyPattern( formatStr );
+						//use default stringFormat
+						stringFormat = new StringFormatter( formatStr, context.getLocale( ) );
+						style.setStringFormatObject( stringFormat );
 					}
-					style.setStringFormatObject( stringFormat );
-				}
-				else
-				{
-					formatStr = stringFormat.getPattern( );
 				}
 			}
 			else
 			//deal with value-of for text item
 			{
-				stringFormat = new StringFormatter( );
-				stringFormat.setLocale( context.getLocale( ) );
-				stringFormat.applyPattern( formatStr );
+				stringFormat = new StringFormatter( formatStr, context.getLocale( ) );
 			}
 
-			formattedStr.append( stringFormat.format( value.toString( ) ) );
-		}
-		else
-		{
-			formattedStr.append( value.toString( ) );
-			return false;
-		}
-
-		if ( formatStr == null || formatStr.length( ) == 0 )
-		{
-			return false;
+			if( stringFormat != null )
+			{
+				formattedStr.append( stringFormat.format( value.toString( ) ) );
+				return;
+			}
 		}
 
-		return true;
+		formattedStr.append( value.toString( ) );
 	}
 
 	/**

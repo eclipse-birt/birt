@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/25 $ 
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $ 
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -121,6 +121,7 @@ public class NumberFormatter
 			if ( this.formatPattern == null )
 			{
 				numberFormat = NumberFormat.getInstance( locale );
+				numberFormat.setGroupingUsed( false );
 				return;
 			}
 			
@@ -136,7 +137,7 @@ public class NumberFormatter
 		}
 		catch ( Exception illeagueE )
 		{
-			logger.error( "The pattern is illeague:" + illeagueE );
+			logger.error( "The pattern is illeague:" + illeagueE ); //$NON-NLS-1$
 		}
 	}
 
@@ -150,7 +151,7 @@ public class NumberFormatter
 		{
 			if ( Double.isNaN( num ) )
 			{
-				return "NaN";
+				return "NaN"; //$NON-NLS-1$
 			}
 			
 			if ( hexFlag == true )
@@ -164,11 +165,11 @@ public class NumberFormatter
 		}
 		catch ( Exception e )
 		{
-			logger.error( "Format failed:" + e );
+			logger.error( "Format failed:" + e ); //$NON-NLS-1$
 			return null;
 		}
 	}
-
+	
 	/**
 	 * format(BigDecimal) method, return the format string for the BigDecimal
 	 * parameter. 
@@ -216,22 +217,22 @@ public class NumberFormatter
 				return;
 			case 'F' :
 			case 'f' :
-				numberFormat = new DecimalFormat( "#0.00",
+				numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale ) );
 				return;
 			case 'N' :
 			case 'n' :
-				numberFormat = new DecimalFormat( "###,##0.00",
+				numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale ) );
 				return;
 			case 'P' :
 			case 'p' :
-				numberFormat = new DecimalFormat( "###,##0.00 %",
+				numberFormat = new DecimalFormat( "###,##0.00 %", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale ) );
 				return;
 			case 'E' :
 			case 'e' :
-				numberFormat = new DecimalFormat( "0.000000E00",
+				numberFormat = new DecimalFormat( "0.000000E00", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale ) );
 				return;
 			case 'X' :
@@ -253,42 +254,43 @@ public class NumberFormatter
 	
 	private void handleNamedFormats( String patternStr )
 	{
-		if ( patternStr.equals( "General Number" ) )
+		if ( patternStr.equals( "General Number" ) ) //$NON-NLS-1$
 		{
 			numberFormat = NumberFormat.getInstance( locale );
+			numberFormat.setGroupingUsed( false );
+			return;
+		}
+		if ( patternStr.equals( "Currency" ) ) //$NON-NLS-1$
+		{
+			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
+					new DecimalFormatSymbols( locale ) );
+			// numberFormat = NumberFormat.getCurrencyInstance( locale );
 			return;
 		
 		}
-		if ( patternStr.equals( "Currency" ) )
+		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
-			//numberFormat.applyPattern("??###,##0.00");
-			numberFormat = NumberFormat.getCurrencyInstance( locale );
-			return;
-		
-		}
-		if ( patternStr.equals( "Fixed" ) )
-		{
-			numberFormat = new DecimalFormat( "#0.00",
+			numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
 		
 		}
-		if ( patternStr.equals( "Percent" ) )
+		if ( patternStr.equals( "Percent" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "0.00%",
+			numberFormat = new DecimalFormat( "0.00%", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
 		}
-		if ( patternStr.equals( "Scientific" ) )
+		if ( patternStr.equals( "Scientific" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "0.00E00",
+			numberFormat = new DecimalFormat( "0.00E00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
 		
 		}
-		if ( patternStr.equals( "Standard" ) )
+		if ( patternStr.equals( "Standard" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "###,##0.00",
+			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
 		

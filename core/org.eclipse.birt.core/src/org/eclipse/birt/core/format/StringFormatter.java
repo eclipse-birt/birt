@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/25 $ 
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $ 
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date formatting, 
  * locale is irrelevant in string formatting
@@ -53,7 +53,7 @@ public class StringFormatter
 	 */
 	private void init( )
 	{
-		formatPattern = "";
+		formatPattern = ""; //$NON-NLS-1$
 		chcase = ' ';
 		nand = 0;
 		natt = 0;
@@ -63,8 +63,9 @@ public class StringFormatter
 	/**
 	 * constructor with no formatting string 
 	 */
-	public StringFormatter( )
+	public StringFormatter( Locale locale )
 	{
+		this.locale = locale;
 		init( );
 	}
 
@@ -73,8 +74,9 @@ public class StringFormatter
 	 
 	 * @param format the format string
 	 */
-	public StringFormatter( String format )
+	public StringFormatter( String format, Locale locale )
 	{
+		this.locale = locale;
 		init( );
 		applyPattern( format );
 	}
@@ -172,7 +174,7 @@ public class StringFormatter
 		int ext = 0;
 		StringBuffer orig = new StringBuffer( str );
 		StringBuffer fstr = new StringBuffer( this.formatPattern );
-		StringBuffer ret = new StringBuffer( "" );
+		StringBuffer ret = new StringBuffer( "" ); //$NON-NLS-1$
 		int i = 0;
 		//offset of the process position.
 		int pos = 0;
