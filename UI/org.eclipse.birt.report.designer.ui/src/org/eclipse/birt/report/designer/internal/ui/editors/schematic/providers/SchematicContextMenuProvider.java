@@ -233,6 +233,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new CopyAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new PasteAction( selectedElements ) );
+			//			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+			//					new DeleteAction( selectedElements ) );
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
@@ -254,7 +256,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				insertMenu.add( getAction( InsertRowBelowAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						insertMenu );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( DeleteRowAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( MergeAction.ID ) );
@@ -268,7 +270,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				subMenu.add( getAction( InsertColumnLeftAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						subMenu );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( DeleteColumnAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( MergeAction.ID ) );

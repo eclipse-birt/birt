@@ -21,7 +21,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.swt.SWT;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Action delete a row of a table or a grid.
@@ -47,6 +50,11 @@ public class DeleteRowAction extends SelectionAction
 		super( part );
 		setId( ID );
 		setText( ACTION_MSG_DELETE );
+		ISharedImages shareImages = PlatformUI.getWorkbench( )
+				.getSharedImages( );
+		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
+		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE_DISABLED ) );
+		setAccelerator( SWT.DEL );
 	}
 
 	/*
