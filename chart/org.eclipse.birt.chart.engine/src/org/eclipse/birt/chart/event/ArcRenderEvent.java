@@ -233,14 +233,8 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
      */
     public final Bounds getBounds()
     {
-        if (getStyle() == SECTOR) // NOT YET NEEDED
-        {
-            return null;
-        }
-
         double dMinY = -1, dMinX = -1, dMaxY = -1, dMaxX = -1;
 
-        // TODO: NORMALIZE THESE VALUES
         final double dStart = getStartAngle();
         final double dEnd = dStart + getAngleExtent();
         final int iQStart = getQuadrant(dStart);
@@ -304,6 +298,15 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
             dMaxY = Math.max(dY1, dY2);
         }
 
+        if (getStyle() == SECTOR) // ALSO INCLUDE THE ARC CIRCLE CENTER
+        {
+            final double dCenterX = loTopLeft.getX() + dWidth / 2;
+            final double dCenterY = loTopLeft.getY() + dHeight / 2;
+            dMinX = Math.min(dCenterX, dMinX);
+            dMaxX = Math.max(dCenterX, dMaxX);
+            dMinY = Math.min(dCenterY, dMinY);
+            dMaxY = Math.max(dCenterY, dMaxY);
+        }
         return BoundsImpl.create(dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY);
     }
 
