@@ -335,7 +335,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			//			sample.setForeground( new Color( Display.getCurrent( ),
 			//					color.getColorSelector( ).getColorValue( ) ) );
 			sample.setForeground( ColorManager.getColor( color.getColorSelector( )
-					.getColorValue( ) ) );
+					.getRGB( ) ) );
 
 			sample.setUnderline( docoration.getUnderLinePropControl( null )
 					.getSelection( ) );

@@ -11,25 +11,38 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ColorBuilder;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.jface.preference.FieldEditor;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * A field editor for a color type preference.
  */
 
-public class ColorFieldEditor extends
-		org.eclipse.jface.preference.ColorFieldEditor
+public class ColorFieldEditor extends FieldEditor
 {
+
+	/**
+	 * The color builder, or <code>null</code> if none.
+	 */
+	private ColorBuilder colorSelector;
 
 	/**
 	 * Creates a new color field editor
 	 */
-	public ColorFieldEditor( )
+	protected ColorFieldEditor( )
 	{
-		super( );
 	}
 
 	/**
@@ -48,9 +61,30 @@ public class ColorFieldEditor extends
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.ColorFieldEditor#doLoad()
+	 * (non-Javadoc) Method declared on FieldEditor.
+	 */
+	protected void adjustForNumColumns( int numColumns )
+	{
+		( (GridData) colorSelector.getLayoutData( ) ).horizontalSpan = numColumns - 1;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on FieldEditor.
+	 */
+	protected void doFillIntoGrid( Composite parent, int numColumns )
+	{
+		Control control = getLabelControl( parent );
+		GridData gd = new GridData( );
+		gd.horizontalSpan = numColumns - 1;
+		control.setLayoutData( gd );
+
+		Composite ctrl = getChangeControl( parent );
+		gd = new GridData( );
+		ctrl.setLayoutData( gd );
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
 	protected void doLoad( )
 	{
@@ -58,22 +92,95 @@ public class ColorFieldEditor extends
 
 		if ( rgb != null )
 		{
-			getColorSelector( ).setColorValue( rgb );
+			getColorSelector( ).setRGB( rgb );
 		}
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on FieldEditor.
+	 */
+	protected void doLoadDefault( )
+	{
+		if ( colorSelector == null )
+			return;
+		colorSelector.setRGB( PreferenceConverter.getDefaultColor( getPreferenceStore( ),
+				getPreferenceName( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on FieldEditor.
+	 */
+	protected void doStore( )
+	{
+		RGB rgb = getColorSelector( ).getRGB( );
+
+		getPreferenceStore( ).setValue( getPreferenceName( ),
+				( rgb == null ) ? null
+						: ( ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getRGB( ) ),
+								ColorUtil.HTML_FORMAT ) ) );
+	}
+
+	/**
+	 * Get the color selector used by the receiver.
+	 * 
+	 * @return ColorSelector/
+	 */
+	public ColorBuilder getColorSelector( )
+	{
+		return colorSelector;
+	}
+
+	/**
+	 * Returns the change button for this field editor.
+	 * 
+	 * @param parent
+	 *            The control to create the button in if required.
+	 * @return the change button
+	 */
+	protected Composite getChangeControl( Composite parent )
+	{
+		if ( colorSelector == null )
+		{
+			colorSelector = new ColorBuilder( parent, 0 );
+			colorSelector.setChoiceSet( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+					getPreferenceName( ) ) );
+			colorSelector.addListener( SWT.Modify, new Listener( ) {
+
+				// forward the property change of the color selector
+				public void handleEvent( Event event )
+				{
+					ColorFieldEditor.this.fireValueChanged( VALUE,
+							colorSelector.getRGB( ),
+							colorSelector.getRGB( ) );
+				}
+			} );
+		}
+		else
+		{
+			checkParent( colorSelector, parent );
+		}
+
+		return colorSelector;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on FieldEditor.
+	 */
+	public int getNumberOfControls( )
+	{
+		return 2;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.ColorFieldEditor#doStore()
+	 * @see org.eclipse.jface.preference.FieldEditor#setEnabled(boolean,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
-	protected void doStore( )
+	public void setEnabled( boolean enabled, Composite parent )
 	{
-		RGB rgb = getColorSelector( ).getColorValue( );
-
-		getPreferenceStore( ).setValue( getPreferenceName( ),
-				( rgb == null ) ? null
-						: ( ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getColorValue( ) ),
-								ColorUtil.HTML_FORMAT ) ) );
+		super.setEnabled( enabled, parent );
+		getChangeControl( parent ).setEnabled( enabled );
 	}
+
 }
