@@ -181,6 +181,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
+			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+			if ( action != null )
+			{
+				action.setEnabled( action.isEnabled( ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+						action );
+			}
+
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
@@ -271,6 +279,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
+			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+			if ( action != null )
+			{
+				action.setEnabled( action.isEnabled( ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+						action );
+			}
+
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
@@ -279,6 +295,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new PasteAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new DeleteAction( selectedElements ) );
+
 			createInsertElementMenu( menuManager, GEFActionConstants.GROUP_EDIT );
 		}
 		else
