@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.data"
@@ -31,6 +31,7 @@
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.core"/>      
+      <import plugin="org.eclipse.birt.report.data.oda.flatfile"/>      
    </requires>
    <extension-point id="oda" name="BIRT Open Data Access" schema="schema/oda.exsd"/>
 
