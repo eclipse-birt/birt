@@ -82,7 +82,10 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof DesignElementHandle )
 		{
-			dropSourceElementHandle( (DesignElementHandle) source );
+			if ( ( (DesignElementHandle) source ).getContainer( ) != null )
+			{
+				( (DesignElementHandle) source ).drop( );
+			}
 		}
 		else if ( source instanceof SlotHandle )
 		{
@@ -98,29 +101,13 @@ public class DeleteCommand extends Command
 		}
 	}
 
-	protected void dropSourceElementHandle( DesignElementHandle handle )
-			throws SemanticException
-	{
-		if ( handle.getContainer( ) != null )
-		{
-			if ( handle instanceof CellHandle )
-			{
-				dropSourceSlotHandle( ( (CellHandle) handle ).getContent( ) );
-			}
-			else
-			{
-				handle.drop( );
-			}
-		}
-	}
-
 	protected void dropSourceSlotHandle( SlotHandle slot )
 			throws SemanticException
 	{
 		List list = slot.getContents( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
+			( (DesignElementHandle) list.get( i ) ).drop( );
 		}
 	}
 
@@ -172,9 +159,11 @@ public class DeleteCommand extends Command
 		else if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
-			return slot.getElementHandle( ) instanceof ListHandle;
+			DesignElementHandle elementHandle = slot.getElementHandle( );
+			return elementHandle instanceof ListHandle && slot.getCount( ) > 0;
 		}
 		return source instanceof ReportElementHandle
+				&& !( source instanceof CellHandle )
 				&& !( source instanceof MasterPageHandle );
 
 	}

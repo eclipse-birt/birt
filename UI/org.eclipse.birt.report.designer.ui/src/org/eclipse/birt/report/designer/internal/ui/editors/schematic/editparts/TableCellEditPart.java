@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
@@ -277,8 +276,7 @@ public class TableCellEditPart extends ReportElementEditPart
 	 */
 	protected void createEditPolicies( )
 	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+		installEditPolicy( EditPolicy.COMPONENT_ROLE, null );
 		installEditPolicy( EditPolicy.LAYOUT_ROLE,
 				new ReportFlowLayoutEditPolicy( ) );
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
