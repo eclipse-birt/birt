@@ -667,16 +667,16 @@ public class BasePaletteFactory
 			else
 				return;
 
-			for ( int i = 0, count = columns.getCount( ); i < count; i++ )
-			{
-				int currentPercent = i == count - 1 ? percentAll : 1000 / count;
-				percentAll -= currentPercent;
-
-				( (ColumnHandle) columns.get( i ) ).getWidth( )
-						.setStringValue( (double) currentPercent
-								/ precision
-								+ DesignChoiceConstants.UNITS_PERCENTAGE );
-			}
+//			for ( int i = 0, count = columns.getCount( ); i < count; i++ )
+//			{
+//				int currentPercent = i == count - 1 ? percentAll : 1000 / count;
+//				percentAll -= currentPercent;
+//
+//				( (ColumnHandle) columns.get( i ) ).getWidth( )
+//						.setStringValue( (double) currentPercent
+//								/ precision
+//								+ DesignChoiceConstants.UNITS_PERCENTAGE );
+//			}
 		}
 		catch ( SemanticException e )
 		{
