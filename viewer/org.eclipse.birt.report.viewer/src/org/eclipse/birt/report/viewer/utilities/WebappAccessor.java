@@ -28,8 +28,7 @@ import org.osgi.framework.Bundle;
 
 /**
  * Singleton class for web application.
- * 
- * @version $
+ * <p>
  */
 public class WebappAccessor
 {

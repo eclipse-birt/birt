@@ -22,8 +22,7 @@ import org.eclipse.swt.browser.Browser;
 
 /**
  * Static accessor to display an arbitary url.
- * 
- * @version $
+ * <p>
  */
 public class WebViewer
 {

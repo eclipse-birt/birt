@@ -23,8 +23,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * Wrapper class for embedded web application server.
- * 
- * @version $
+ * <p>
  */
 public class AppServerWrapper
 {

@@ -18,8 +18,7 @@ import org.eclipse.swt.program.Program;
 /**
  * Derived from HELP's SystemBrowserAdapter. System browser only works in win32
  * system.
- * 
- * @version $
+ * <p>
  */
 public class SystemBrowserAdapter implements IBrowser
 {

@@ -44,10 +44,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 
 /**
- * Preview browser employing SWT Browser widget
+ * Preview browser employing SWT Browser widget.
  * Original implementation is from HELP
- * 
- * @version $
+ * <p>
  */
 public class EmbeddedBrowser
 {

@@ -28,8 +28,7 @@ import org.eclipse.osgi.service.environment.Constants;
 
 /**
  * Singlton class manage registered browsers.
- * 
- * @version $
+ * <p>
  */
 public class BrowserManager
 {

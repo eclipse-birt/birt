@@ -18,7 +18,9 @@ import org.eclipse.help.browser.*;
 import org.eclipse.osgi.service.environment.*;
 
 /**
- *  
+ * Custom browser implementation.
+ * The original implementation is from HELP.
+ * <p>
  */
 public class CustomBrowser implements IBrowser
 {

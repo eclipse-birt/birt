@@ -13,8 +13,7 @@ import org.eclipse.help.browser.IBrowserFactory;
 
 /**
  * Browser descriptor class.
- * 
- * @version $
+ * <p>
  */
 public class BrowserDescriptor
 {

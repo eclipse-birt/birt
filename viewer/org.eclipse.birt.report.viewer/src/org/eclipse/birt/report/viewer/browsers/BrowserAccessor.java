@@ -15,8 +15,7 @@ import org.eclipse.help.browser.IBrowser;
 
 /**
  * Static accessor class for available borwsers.
- * 
- * @version $
+ * <p>
  */
 public class BrowserAccessor
 {

@@ -18,8 +18,7 @@ import org.eclipse.osgi.service.environment.Constants;
 
 /**
  * The System browser factory is derived from Help's SystemBrowserFactory.
- * 
- * @version $
+ * <p>
  */
 public class SystemBrowserFactory implements IBrowserFactory
 {

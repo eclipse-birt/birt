@@ -15,10 +15,9 @@ import org.eclipse.help.browser.IBrowser;
 import org.eclipse.help.browser.IBrowserFactory;
 
 /**
- * Produces Custom Browser
+ * Produces Custom Browser.
  * The original implementation is from HELP.
- * 
- * @version $
+ * <p>
  */
 public class CustomBrowserFactory implements IBrowserFactory
 {

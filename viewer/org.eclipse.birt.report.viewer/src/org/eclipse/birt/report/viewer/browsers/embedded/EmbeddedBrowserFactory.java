@@ -16,9 +16,8 @@ import org.eclipse.help.browser.IBrowserFactory;
 
 /**
  * Implementation of Embedded browser factory.
- * Original implementation is from HELP
- * 
- * @version $
+ * Original implementation is from HELP.
+ * <p>
  */
 public class EmbeddedBrowserFactory implements IBrowserFactory
 {

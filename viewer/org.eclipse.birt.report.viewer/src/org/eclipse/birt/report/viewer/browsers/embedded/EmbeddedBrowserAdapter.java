@@ -16,9 +16,8 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * Embedded web browser.
- * Original implementation is from HELP
- * 
- * @version $
+ * Original implementation is from HELP.
+ * <p>
  */
 public class EmbeddedBrowserAdapter implements IBrowser
 {

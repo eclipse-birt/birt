@@ -25,8 +25,7 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 /**
  * Log for messages output by external browser processes.
  * The original implementation is from HELP.
- * 
- * @version $
+ * <p>
  */
 public class BrowserLog
 {

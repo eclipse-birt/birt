@@ -15,9 +15,8 @@ import org.eclipse.help.browser.IBrowser;
 
 /**
  * Wrapper for individual browsers contributed through extension point.
- * The original implmentation is from Help
- * 
- * @version $
+ * The original implmentation is from Help.
+ * <p>
  */
 public class CurrentBrowser implements IBrowser
 {

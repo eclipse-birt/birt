@@ -22,8 +22,7 @@ import org.eclipse.osgi.service.environment.Constants;
 /**
  * Custom browser implementation.
  * The original implementation is from HELP.
- * 
- * @version $
+ * <p>
  */
 public class CustomBrowserAdapter implements IBrowser
 {
