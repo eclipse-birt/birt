@@ -15,13 +15,16 @@ import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.model.data.DataSet;
 
 /**
- * This class provides a no-op implementation of the IDataSetProcessor interface to be
- * subclassed by each extension writer as needed.
+ * This class provides a no-op implementation of the IDataSetProcessor interface to be subclassed by each extension
+ * writer as needed.
  */
 public class DataSetAdapter extends Methods implements IDataSetProcessor
 {
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.String, org.eclipse.birt.chart.model.data.DataSet)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.String,
+     *      org.eclipse.birt.chart.model.data.DataSet)
      */
     public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws DataSetException
     {
@@ -29,8 +32,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object, org.eclipse.birt.chart.model.data.DataSet)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
+     *      org.eclipse.birt.chart.model.data.DataSet)
      */
     public void populate(Object oResultSetDef, DataSet ds) throws DataSetException
     {
@@ -38,7 +44,9 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet, int)
      */
     public Object getMinimum(DataSet ds, int iAxisType) throws DataSetException
@@ -47,7 +55,9 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet, int)
      */
     public Object getMaximum(DataSet ds, int iAxisType) throws DataSetException
@@ -56,7 +66,9 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getExpectedStringFormat()
      */
     public String getExpectedStringFormat()

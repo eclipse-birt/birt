@@ -416,15 +416,16 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
     }
 
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.Chart#clearSections(int)
      */
     public final void clearSections(int iSectionType)
     {
-        if (( iSectionType & IConstants.RUN_TIME) == IConstants.RUN_TIME)
+        if ((iSectionType & IConstants.RUN_TIME) == IConstants.RUN_TIME)
         {
             recursivelyRemoveRuntimeSeries(getSeriesDefinitions(), 0, -1);
         }
     }
-    
+
 } //ChartWithoutAxesImpl

@@ -31,7 +31,7 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * 
+ *  
  */
 public class Methods implements IConstants
 {

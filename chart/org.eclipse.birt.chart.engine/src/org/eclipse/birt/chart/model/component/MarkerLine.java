@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -43,114 +46,173 @@ public interface MarkerLine extends EObject
 {
 
     /**
-     * Returns the value of the '<em><b>Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc --> <!-- begin-model-doc -->
      * 
      * Specify the line properties.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Attributes</em>' containment reference.
-     * @see #setAttributes(LineAttributes)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Attributes()
+     * @return the value of the '<em>Line Attributes</em>' containment reference.
+     * @see #setLineAttributes(LineAttributes)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_LineAttributes()
      * @model containment="true" resolveProxies="false" required="true"
      * @generated
      */
-    LineAttributes getAttributes();
+    LineAttributes getLineAttributes();
 
     /**
      * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getAttributes <em>Attributes</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Attributes</em>' containment reference.
-     * @see #getAttributes()
+     *            the new value of the '<em>Line Attributes</em>' containment reference.
+     * @see #getLineAttributes()
      * @generated
      */
-    void setAttributes(LineAttributes value);
+    void setLineAttributes(LineAttributes value);
 
     /**
-     * Returns the value of the '<em><b>Position</b></em>' attribute. <!-- begin-user-doc --> Gets where this line
-     * is to be positioned w.r.t the axis. <!-- end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc -->
      * 
      * Defines where this line is to be positioned w.r.t the axis. (Can be a value on the axis or a category name).
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Position</em>' attribute.
-     * @see #setPosition(Object)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Position()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" required="true"
+     * @return the value of the '<em>Value</em>' containment reference.
+     * @see #setValue(DataElement)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Value()
+     * @model containment="true" resolveProxies="false" required="true"
      * @generated
      */
-    Object getPosition();
+    DataElement getValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getPosition <em>Position</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Position</em>' attribute.
-     * @see #getPosition()
+     *            the new value of the '<em>Value</em>' containment reference.
+     * @see #getValue()
      * @generated
      */
-    void setPosition(Object value);
+    void setValue(DataElement value);
 
     /**
-     * Returns the value of the '<em><b>Associated Label</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc -->
      * 
      * Specifies the label associated with this line.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Associated Label</em>' containment reference.
-     * @see #setAssociatedLabel(Label)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_AssociatedLabel()
+     * @return the value of the '<em>Label</em>' containment reference.
+     * @see #setLabel(Label)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Label()
      * @model containment="true" resolveProxies="false" required="true"
      * @generated
      */
-    Label getAssociatedLabel();
+    Label getLabel();
 
     /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getAssociatedLabel <em>Associated Label</em>}'
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}'
      * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Associated Label</em>' containment reference.
-     * @see #getAssociatedLabel()
+     *            the new value of the '<em>Label</em>' containment reference.
+     * @see #getLabel()
      * @generated
      */
-    void setAssociatedLabel(Label value);
+    void setLabel(Label value);
 
     /**
-     * Returns the value of the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Label Anchor</b></em>' attribute. The default value is <code>"North"</code>.
+     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.Anchor}. <!-- begin-user-doc
+     * --> <!-- end-user-doc --> <!-- begin-model-doc -->
      * 
-     * Specifies where the label associated with this line is to be positioned w.r.t the line itself.
+     * Specifies where the label associated with this line is to be positioned with respect to the line itself.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Label Position</em>' attribute.
-     * @see #setLabelPosition(String)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_LabelPosition()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+     * @return the value of the '<em>Label Anchor</em>' attribute.
+     * @see org.eclipse.birt.chart.model.attribute.Anchor
+     * @see #isSetLabelAnchor()
+     * @see #unsetLabelAnchor()
+     * @see #setLabelAnchor(Anchor)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_LabelAnchor()
+     * @model default="North" unique="false" unsettable="true" required="true"
      * @generated
      */
-    String getLabelPosition();
+    Anchor getLabelAnchor();
 
     /**
      * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelPosition <em>Label Position</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Label Position</em>' attribute.
-     * @see #getLabelPosition()
+     *            the new value of the '<em>Label Anchor</em>' attribute.
+     * @see org.eclipse.birt.chart.model.attribute.Anchor
+     * @see #isSetLabelAnchor()
+     * @see #unsetLabelAnchor()
+     * @see #getLabelAnchor()
      * @generated
      */
-    void setLabelPosition(String value);
+    void setLabelAnchor(Anchor value);
+
+    /**
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #isSetLabelAnchor()
+     * @see #getLabelAnchor()
+     * @see #setLabelAnchor(Anchor)
+     * @generated
+     */
+    void unsetLabelAnchor();
+
+    /**
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute is
+     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
+     * @see #unsetLabelAnchor()
+     * @see #getLabelAnchor()
+     * @see #setLabelAnchor(Anchor)
+     * @generated
+     */
+    boolean isSetLabelAnchor();
+
+    /**
+     * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc --> <!-- begin-model-doc -->
+     * 
+     * Specifies the formatting for marker line labels.
+     * 
+     * <!-- end-model-doc -->
+     * 
+     * @return the value of the '<em>Format Specifier</em>' containment reference.
+     * @see #setFormatSpecifier(FormatSpecifier)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_FormatSpecifier()
+     * @model containment="true" resolveProxies="false"
+     * @generated
+     */
+    FormatSpecifier getFormatSpecifier();
+
+    /**
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Format Specifier</em>' containment reference.
+     * @see #getFormatSpecifier()
+     * @generated
+     */
+    void setFormatSpecifier(FormatSpecifier value);
 
 } // MarkerLine

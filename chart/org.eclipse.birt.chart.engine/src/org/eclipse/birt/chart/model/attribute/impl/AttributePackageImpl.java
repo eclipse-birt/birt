@@ -767,37 +767,37 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
-        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
         TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(TypePackage.eNS_URI)
             : TypePackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
         DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(DataPackage.eNS_URI)
             : DataPackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theAttributePackage.createPackageContents();
-        theComponentPackage.createPackageContents();
-        theModelPackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
         theTypePackage.createPackageContents();
+        theModelPackage.createPackageContents();
+        theComponentPackage.createPackageContents();
         theDataPackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theAttributePackage.initializePackageContents();
-        theComponentPackage.initializePackageContents();
-        theModelPackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
         theTypePackage.initializePackageContents();
+        theModelPackage.initializePackageContents();
+        theComponentPackage.initializePackageContents();
         theDataPackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
 
         // Register package validator
         EValidator.Registry.INSTANCE.put(theAttributePackage, new EValidator.Descriptor()

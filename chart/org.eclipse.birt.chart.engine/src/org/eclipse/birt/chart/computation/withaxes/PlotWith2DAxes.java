@@ -469,7 +469,7 @@ public final class PlotWith2DAxes extends PlotContent
         else
         {
             oaxPrimaryOrthogonal.set(axPrimaryOrthogonal.getLabel(), axPrimaryOrthogonal.getTitle()); // ASSOCIATE FONT,
-                                                                                                      // ETC
+            // ETC
         }
         oaxPrimaryOrthogonal.set(getIntersection(axPrimaryOrthogonal));
         oaxPrimaryOrthogonal.set(axPrimaryOrthogonal.getLineAttributes());

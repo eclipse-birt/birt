@@ -111,17 +111,17 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MarkerLine" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="MarkerLines" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines a marker for a position on the axis scale displayed as a line across the plot at that location.
+					Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MarkerRange" type="MarkerRange" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="MarkerRanges" type="MarkerRange" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines a marker area for a range of values on the axis displayed as a filled rectangle extending across the plot between the start and end positions.
+					Defines a set of marker areas for a range of values on the axis displayed as filled rectangles extending across the plot between the start and end positions.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -327,31 +327,38 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Attributes" type="attribute:LineAttributes">
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specify the line properties.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Position" type="xsd:anySimpleType">
+			<xsd:element name="Value" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines where this line is to be positioned w.r.t the axis. (Can be a value on the axis or a category name).
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AssociatedLabel" type="Label">
+			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the label associated with this line.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="xsd:string">
+			<xsd:element name="LabelAnchor" type="attribute:Anchor">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the label associated with this line is to be positioned w.r.t the line itself.
+					Specifies where the label associated with this line is to be positioned with respect to the line itself.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting for marker line labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -378,31 +385,45 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="StartPosition" type="xsd:anySimpleType">
+			<xsd:element name="StartValue" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines where this area starts relative to the axis scale.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="EndPosition" type="xsd:anySimpleType">
+			<xsd:element name="EndValue" type="data:DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines where this area is ends relative to the axis scale.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AssociatedLabel" type="Label">
+			<xsd:element name="Label" type="Label">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the label associated with this area.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelPosition" type="xsd:string">
+			<xsd:element name="LabelAnchor" type="attribute:Anchor">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies where the label associated with this range is to be positioned relative to the area itself.
+					Specifies where the label associated with this line is to be positioned within respect to the marker range itself.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelPosition" type="attribute:Position">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the label associated with this line is to be positioned with respect to the marker range itself.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting for marker range labels.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

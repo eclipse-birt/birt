@@ -306,14 +306,15 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
     }
 
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
      */
     public final boolean canBeStacked()
     {
         return false;
     }
-    
+
     /**
      * A convenience method to create an initialized 'Series' instance
      * 

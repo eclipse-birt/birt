@@ -108,14 +108,14 @@ public final class Generator
      * @return
      * @throws GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cm,
-        Scriptable scParent, Bounds bo, Locale lo) throws GenerationException
+    public final GeneratedChartState build(IDisplayServer xs, Chart cm, Scriptable scParent, Bounds bo, Locale lo)
+        throws GenerationException
     {
         if (lo == null)
         {
             lo = Locale.getDefault();
         }
-        
+
         final String sScriptContent = cm.getScript();
         ScriptHandler sh = null;
         if (sScriptContent != null)
@@ -125,7 +125,7 @@ public final class Generator
             sh.setRunTimeModel(cm);
             cm.setScriptHandler(sh);
             sh.register(sScriptContent);
-            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cm); 
+            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cm);
         }
 
         // SETUP THE COMPUTATIONS
@@ -169,7 +169,7 @@ public final class Generator
         // PERFORM THE BLOCKS' LAYOUT
         Block bl = cm.getBlock();
         final LayoutManager lm = new LayoutManager(bl);
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cm); 
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cm);
         try
         {
             lm.doLayout_tmp(xs, cm, bo);
@@ -178,14 +178,14 @@ public final class Generator
         {
             throw new GenerationException(oex);
         }
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_LAYOUT, cm); 
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_LAYOUT, cm);
 
         // COMPUTE THE PLOT AREA
         Bounds boPlot = cm.getPlot().getBounds();
         Insets insPlot = cm.getPlot().getInsets();
         boPlot = boPlot.adjustedInstance(insPlot);
 
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTATIONS, cm, oComputations); 
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTATIONS, cm, oComputations);
         long lTimer = System.currentTimeMillis();
         if (iChartType == WITH_AXES)
         {
@@ -212,7 +212,7 @@ public final class Generator
                 throw new GenerationException(ex);
             }
         }
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTATIONS, cm, oComputations); 
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTATIONS, cm, oComputations);
 
         final Collection co = lhmRenderers.values();
         final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray(EMPTY_LIRHA);
@@ -234,21 +234,22 @@ public final class Generator
                 {
                     br.set(((PlotWith2DAxes) br.getComputations()).getSeriesRenderingHints(br.getSeries()));
                 }
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTE_SERIES, br.getSeries()); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTE_SERIES, br.getSeries());
                 br.compute(bo, cm.getPlot(), br.getSeriesRenderingHints());
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTE_SERIES, br.getSeries()); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTE_SERIES, br.getSeries());
             }
             catch (Exception ex )
             {
                 throw new GenerationException(ex);
             }
         }
-        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer) + " ms");
+        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer)
+            + " ms");
         final GeneratedChartState gcs = new GeneratedChartState(xs, cm, lhmRenderers, oComputations);
         if (sh != null)
         {
             sh.setGeneratedChartState(gcs);
-            ScriptHandler.callFunction(sh, ScriptHandler.FINISH_GENERATION, gcs); 
+            ScriptHandler.callFunction(sh, ScriptHandler.FINISH_GENERATION, gcs);
         }
         return gcs;
     }
@@ -257,7 +258,8 @@ public final class Generator
      * This method may be used to minimize re-computation of the chart if ONLY the dataset content has changed.
      * Attribute changes require a new chart build.
      * 
-     * @param gcs	A previously built chart
+     * @param gcs
+     *            A previously built chart
      * 
      * @throws GenerationException
      */
@@ -317,7 +319,7 @@ public final class Generator
     {
         final Chart cm = gcs.getChartModel();
         ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.START_RENDERING, gcs);
-        
+
         Legend lg = cm.getLegend();
         lg.updateLayout(cm); // RE-ORGANIZE BLOCKS IF REQUIRED
         if (lg.getPosition() == Position.INSIDE_LITERAL)
@@ -347,7 +349,8 @@ public final class Generator
 
         // USE SAME BOUNDS FOR RENDERING AS THOSE USED TO PREVIOUSLY COMPUTE THE CHART OFFSCREEN
         final Bounds bo = gcs.getChartModel().getBlock().getBounds();
-        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo.scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
+        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo
+            .scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
         idr.before(); // INITIALIZATION BEFORE RENDERING BEGINS
         for (int i = 0; i < iSize; i++)
         {

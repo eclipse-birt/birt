@@ -162,37 +162,37 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
-        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
         TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(TypePackage.eNS_URI)
             : TypePackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
         DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(DataPackage.eNS_URI)
             : DataPackageImpl.eINSTANCE);
+        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theComponentPackage.createPackageContents();
-        theAttributePackage.createPackageContents();
-        theModelPackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
         theTypePackage.createPackageContents();
+        theModelPackage.createPackageContents();
         theDataPackage.createPackageContents();
+        theAttributePackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theComponentPackage.initializePackageContents();
-        theAttributePackage.initializePackageContents();
-        theModelPackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
         theTypePackage.initializePackageContents();
+        theModelPackage.initializePackageContents();
         theDataPackage.initializePackageContents();
+        theAttributePackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theComponentPackage.freeze();
@@ -345,7 +345,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getAxis_MarkerLine()
+    public EReference getAxis_MarkerLines()
     {
         return (EReference) axisEClass.getEStructuralFeatures().get(13);
     }
@@ -355,7 +355,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getAxis_MarkerRange()
+    public EReference getAxis_MarkerRanges()
     {
         return (EReference) axisEClass.getEStructuralFeatures().get(14);
     }
@@ -615,7 +615,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getMarkerLine_Attributes()
+    public EReference getMarkerLine_LineAttributes()
     {
         return (EReference) markerLineEClass.getEStructuralFeatures().get(0);
     }
@@ -625,9 +625,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EAttribute getMarkerLine_Position()
+    public EReference getMarkerLine_Value()
     {
-        return (EAttribute) markerLineEClass.getEStructuralFeatures().get(1);
+        return (EReference) markerLineEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -635,7 +635,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getMarkerLine_AssociatedLabel()
+    public EReference getMarkerLine_Label()
     {
         return (EReference) markerLineEClass.getEStructuralFeatures().get(2);
     }
@@ -645,9 +645,19 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EAttribute getMarkerLine_LabelPosition()
+    public EAttribute getMarkerLine_LabelAnchor()
     {
         return (EAttribute) markerLineEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EReference getMarkerLine_FormatSpecifier()
+    {
+        return (EReference) markerLineEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -685,9 +695,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EAttribute getMarkerRange_StartPosition()
+    public EReference getMarkerRange_StartValue()
     {
-        return (EAttribute) markerRangeEClass.getEStructuralFeatures().get(2);
+        return (EReference) markerRangeEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -695,9 +705,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EAttribute getMarkerRange_EndPosition()
+    public EReference getMarkerRange_EndValue()
     {
-        return (EAttribute) markerRangeEClass.getEStructuralFeatures().get(3);
+        return (EReference) markerRangeEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -705,7 +715,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getMarkerRange_AssociatedLabel()
+    public EReference getMarkerRange_Label()
     {
         return (EReference) markerRangeEClass.getEStructuralFeatures().get(4);
     }
@@ -715,9 +725,29 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EAttribute getMarkerRange_LabelPosition()
+    public EAttribute getMarkerRange_LabelAnchor()
     {
         return (EAttribute) markerRangeEClass.getEStructuralFeatures().get(5);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getMarkerRange_LabelPosition()
+    {
+        return (EAttribute) markerRangeEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EReference getMarkerRange_FormatSpecifier()
+    {
+        return (EReference) markerRangeEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -954,8 +984,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         createEReference(axisEClass, AXIS__FORMAT_SPECIFIER);
         createEAttribute(axisEClass, AXIS__LABEL_POSITION);
         createEAttribute(axisEClass, AXIS__STAGGERED);
-        createEReference(axisEClass, AXIS__MARKER_LINE);
-        createEReference(axisEClass, AXIS__MARKER_RANGE);
+        createEReference(axisEClass, AXIS__MARKER_LINES);
+        createEReference(axisEClass, AXIS__MARKER_RANGES);
         createEReference(axisEClass, AXIS__MAJOR_GRID);
         createEReference(axisEClass, AXIS__MINOR_GRID);
         createEReference(axisEClass, AXIS__SCALE);
@@ -985,18 +1015,21 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         createEAttribute(labelEClass, LABEL__VISIBLE);
 
         markerLineEClass = createEClass(MARKER_LINE);
-        createEReference(markerLineEClass, MARKER_LINE__ATTRIBUTES);
-        createEAttribute(markerLineEClass, MARKER_LINE__POSITION);
-        createEReference(markerLineEClass, MARKER_LINE__ASSOCIATED_LABEL);
-        createEAttribute(markerLineEClass, MARKER_LINE__LABEL_POSITION);
+        createEReference(markerLineEClass, MARKER_LINE__LINE_ATTRIBUTES);
+        createEReference(markerLineEClass, MARKER_LINE__VALUE);
+        createEReference(markerLineEClass, MARKER_LINE__LABEL);
+        createEAttribute(markerLineEClass, MARKER_LINE__LABEL_ANCHOR);
+        createEReference(markerLineEClass, MARKER_LINE__FORMAT_SPECIFIER);
 
         markerRangeEClass = createEClass(MARKER_RANGE);
         createEReference(markerRangeEClass, MARKER_RANGE__OUTLINE);
         createEReference(markerRangeEClass, MARKER_RANGE__FILL);
-        createEAttribute(markerRangeEClass, MARKER_RANGE__START_POSITION);
-        createEAttribute(markerRangeEClass, MARKER_RANGE__END_POSITION);
-        createEReference(markerRangeEClass, MARKER_RANGE__ASSOCIATED_LABEL);
+        createEReference(markerRangeEClass, MARKER_RANGE__START_VALUE);
+        createEReference(markerRangeEClass, MARKER_RANGE__END_VALUE);
+        createEReference(markerRangeEClass, MARKER_RANGE__LABEL);
+        createEAttribute(markerRangeEClass, MARKER_RANGE__LABEL_ANCHOR);
         createEAttribute(markerRangeEClass, MARKER_RANGE__LABEL_POSITION);
+        createEReference(markerRangeEClass, MARKER_RANGE__FORMAT_SPECIFIER);
 
         scaleEClass = createEClass(SCALE);
         createEReference(scaleEClass, SCALE__MIN);
@@ -1093,10 +1126,10 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
             IS_ORDERED);
         initEAttribute(getAxis_Staggered(), theXMLTypePackage.getBoolean(), "staggered", null, 1, 1, Axis.class,
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAxis_MarkerLine(), this.getMarkerLine(), null, "markerLine", null, 0, -1, Axis.class,
+        initEReference(getAxis_MarkerLines(), this.getMarkerLine(), null, "markerLines", null, 0, -1, Axis.class,
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
-        initEReference(getAxis_MarkerRange(), this.getMarkerRange(), null, "markerRange", null, 0, -1, Axis.class,
+        initEReference(getAxis_MarkerRanges(), this.getMarkerRange(), null, "markerRanges", null, 0, -1, Axis.class,
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
         initEReference(getAxis_MajorGrid(), this.getGrid(), null, "majorGrid", null, 1, 1, Axis.class, !IS_TRANSIENT,
@@ -1165,18 +1198,21 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
         initEClass(markerLineEClass, MarkerLine.class, "MarkerLine", !IS_ABSTRACT, !IS_INTERFACE,
             IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getMarkerLine_Attributes(), theAttributePackage.getLineAttributes(), null, "attributes", null,
-            1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
-            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarkerLine_Position(), theXMLTypePackage.getAnySimpleType(), "position", null, 1, 1,
-            MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
-        initEReference(getMarkerLine_AssociatedLabel(), this.getLabel(), null, "associatedLabel", null, 1, 1,
+        initEReference(getMarkerLine_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes",
+            null, 1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getMarkerLine_Value(), theDataPackage.getDataElement(), null, "value", null, 1, 1,
             MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
             !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarkerLine_LabelPosition(), theXMLTypePackage.getString(), "labelPosition", null, 1, 1,
-            MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+        initEReference(getMarkerLine_Label(), this.getLabel(), null, "label", null, 1, 1, MarkerLine.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarkerLine_LabelAnchor(), theAttributePackage.getAnchor(), "labelAnchor", "North", 1, 1,
+            MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getMarkerLine_FormatSpecifier(), theAttributePackage.getFormatSpecifier(), null,
+            "formatSpecifier", null, 0, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(markerRangeEClass, MarkerRange.class, "MarkerRange", !IS_ABSTRACT, !IS_INTERFACE,
             IS_GENERATED_INSTANCE_CLASS);
@@ -1186,18 +1222,24 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         initEReference(getMarkerRange_Fill(), theAttributePackage.getFill(), null, "fill", null, 1, 1,
             MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
             !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarkerRange_StartPosition(), theXMLTypePackage.getAnySimpleType(), "startPosition", null, 1,
-            1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarkerRange_EndPosition(), theXMLTypePackage.getAnySimpleType(), "endPosition", null, 1, 1,
-            MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
-        initEReference(getMarkerRange_AssociatedLabel(), this.getLabel(), null, "associatedLabel", null, 1, 1,
+        initEReference(getMarkerRange_StartValue(), theDataPackage.getDataElement(), null, "startValue", null, 1, 1,
             MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
             !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarkerRange_LabelPosition(), theXMLTypePackage.getString(), "labelPosition", null, 1, 1,
-            MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+        initEReference(getMarkerRange_EndValue(), theDataPackage.getDataElement(), null, "endValue", null, 1, 1,
+            MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getMarkerRange_Label(), this.getLabel(), null, "label", null, 1, 1, MarkerRange.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarkerRange_LabelAnchor(), theAttributePackage.getAnchor(), "labelAnchor", "North", 1, 1,
+            MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarkerRange_LabelPosition(), theAttributePackage.getPosition(), "labelPosition", "Above", 1,
+            1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getMarkerRange_FormatSpecifier(), theAttributePackage.getFormatSpecifier(), null,
+            "formatSpecifier", null, 0, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(scaleEClass, Scale.class, "Scale", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getScale_Min(), theDataPackage.getDataElement(), null, "min", null, 1, 1, Scale.class,
@@ -1322,13 +1364,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         {
             "kind", "element", "name", "Staggered"
         });
-        addAnnotation(getAxis_MarkerLine(), source, new String[]
+        addAnnotation(getAxis_MarkerLines(), source, new String[]
         {
-            "kind", "element", "name", "MarkerLine"
+            "kind", "element", "name", "MarkerLines"
         });
-        addAnnotation(getAxis_MarkerRange(), source, new String[]
+        addAnnotation(getAxis_MarkerRanges(), source, new String[]
         {
-            "kind", "element", "name", "MarkerRange"
+            "kind", "element", "name", "MarkerRanges"
         });
         addAnnotation(getAxis_MajorGrid(), source, new String[]
         {
@@ -1430,21 +1472,25 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         {
             "name", "MarkerLine", "kind", "elementOnly"
         });
-        addAnnotation(getMarkerLine_Attributes(), source, new String[]
+        addAnnotation(getMarkerLine_LineAttributes(), source, new String[]
         {
-            "kind", "element", "name", "Attributes"
+            "kind", "element", "name", "LineAttributes"
         });
-        addAnnotation(getMarkerLine_Position(), source, new String[]
+        addAnnotation(getMarkerLine_Value(), source, new String[]
         {
-            "kind", "element", "name", "Position"
+            "kind", "element", "name", "Value"
         });
-        addAnnotation(getMarkerLine_AssociatedLabel(), source, new String[]
+        addAnnotation(getMarkerLine_Label(), source, new String[]
         {
-            "kind", "element", "name", "AssociatedLabel"
+            "kind", "element", "name", "Label"
         });
-        addAnnotation(getMarkerLine_LabelPosition(), source, new String[]
+        addAnnotation(getMarkerLine_LabelAnchor(), source, new String[]
         {
-            "kind", "element", "name", "LabelPosition"
+            "kind", "element", "name", "LabelAnchor"
+        });
+        addAnnotation(getMarkerLine_FormatSpecifier(), source, new String[]
+        {
+            "kind", "element", "name", "FormatSpecifier"
         });
         addAnnotation(markerRangeEClass, source, new String[]
         {
@@ -1458,21 +1504,29 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         {
             "kind", "element", "name", "Fill"
         });
-        addAnnotation(getMarkerRange_StartPosition(), source, new String[]
+        addAnnotation(getMarkerRange_StartValue(), source, new String[]
         {
-            "kind", "element", "name", "StartPosition"
+            "kind", "element", "name", "StartValue"
         });
-        addAnnotation(getMarkerRange_EndPosition(), source, new String[]
+        addAnnotation(getMarkerRange_EndValue(), source, new String[]
         {
-            "kind", "element", "name", "EndPosition"
+            "kind", "element", "name", "EndValue"
         });
-        addAnnotation(getMarkerRange_AssociatedLabel(), source, new String[]
+        addAnnotation(getMarkerRange_Label(), source, new String[]
         {
-            "kind", "element", "name", "AssociatedLabel"
+            "kind", "element", "name", "Label"
+        });
+        addAnnotation(getMarkerRange_LabelAnchor(), source, new String[]
+        {
+            "kind", "element", "name", "LabelAnchor"
         });
         addAnnotation(getMarkerRange_LabelPosition(), source, new String[]
         {
             "kind", "element", "name", "LabelPosition"
+        });
+        addAnnotation(getMarkerRange_FormatSpecifier(), source, new String[]
+        {
+            "kind", "element", "name", "FormatSpecifier"
         });
         addAnnotation(scaleEClass, source, new String[]
         {

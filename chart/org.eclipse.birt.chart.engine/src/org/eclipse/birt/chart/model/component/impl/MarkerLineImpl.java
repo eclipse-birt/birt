@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -50,64 +52,72 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 {
 
     /**
-     * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference. <!--
+     * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getAttributes()
+     * @see #getLineAttributes()
      * @generated
      * @ordered
      */
-    protected LineAttributes attributes = null;
+    protected LineAttributes lineAttributes = null;
 
     /**
-     * The default value of the '{@link #getPosition() <em>Position</em>}' attribute. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * 
-     * @see #getPosition()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected static final Object POSITION_EDEFAULT = null;
+    protected DataElement value = null;
 
     /**
-     * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * 
-     * @see #getPosition()
+     * @see #getLabel()
      * @generated
      * @ordered
      */
-    protected Object position = POSITION_EDEFAULT;
+    protected Label label = null;
 
     /**
-     * The cached value of the '{@link #getAssociatedLabel() <em>Associated Label</em>}' containment reference. <!--
+     * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getLabelAnchor()
+     * @generated
+     * @ordered
+     */
+    protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getLabelAnchor()
+     * @generated
+     * @ordered
+     */
+    protected Anchor labelAnchor = LABEL_ANCHOR_EDEFAULT;
+
+    /**
+     * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    protected boolean labelAnchorESet = false;
+
+    /**
+     * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getAssociatedLabel()
+     * @see #getFormatSpecifier()
      * @generated
      * @ordered
      */
-    protected Label associatedLabel = null;
-
-    /**
-     * The default value of the '{@link #getLabelPosition() <em>Label Position</em>}' attribute. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-     * 
-     * @see #getLabelPosition()
-     * @generated
-     * @ordered
-     */
-    protected static final String LABEL_POSITION_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getLabelPosition() <em>Label Position</em>}' attribute. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-     * 
-     * @see #getLabelPosition()
-     * @generated
-     * @ordered
-     */
-    protected String labelPosition = LABEL_POSITION_EDEFAULT;
+    protected FormatSpecifier formatSpecifier = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -134,9 +144,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public LineAttributes getAttributes()
+    public LineAttributes getLineAttributes()
     {
-        return attributes;
+        return lineAttributes;
     }
 
     /**
@@ -144,14 +154,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public NotificationChain basicSetAttributes(LineAttributes newAttributes, NotificationChain msgs)
+    public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
     {
-        LineAttributes oldAttributes = attributes;
-        attributes = newAttributes;
+        LineAttributes oldLineAttributes = lineAttributes;
+        lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.MARKER_LINE__ATTRIBUTES, oldAttributes, newAttributes);
+                ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
             if (msgs == null)
                 msgs = notification;
             else
@@ -165,24 +175,24 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public void setAttributes(LineAttributes newAttributes)
+    public void setLineAttributes(LineAttributes newLineAttributes)
     {
-        if (newAttributes != attributes)
+        if (newLineAttributes != lineAttributes)
         {
             NotificationChain msgs = null;
-            if (attributes != null)
-                msgs = ((InternalEObject) attributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_LINE__ATTRIBUTES, null, msgs);
-            if (newAttributes != null)
-                msgs = ((InternalEObject) newAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_LINE__ATTRIBUTES, null, msgs);
-            msgs = basicSetAttributes(newAttributes, msgs);
+            if (lineAttributes != null)
+                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
+            if (newLineAttributes != null)
+                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
+            msgs = basicSetLineAttributes(newLineAttributes, msgs);
             if (msgs != null)
                 msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__ATTRIBUTES,
-                newAttributes, newAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+                newLineAttributes, newLineAttributes));
     }
 
     /**
@@ -190,9 +200,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public Object getPosition()
+    public DataElement getValue()
     {
-        return position;
+        return value;
     }
 
     /**
@@ -200,38 +210,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public void setPosition(Object newPosition)
+    public NotificationChain basicSetValue(DataElement newValue, NotificationChain msgs)
     {
-        Object oldPosition = position;
-        position = newPosition;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__POSITION, oldPosition,
-                position));
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public Label getAssociatedLabel()
-    {
-        return associatedLabel;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public NotificationChain basicSetAssociatedLabel(Label newAssociatedLabel, NotificationChain msgs)
-    {
-        Label oldAssociatedLabel = associatedLabel;
-        associatedLabel = newAssociatedLabel;
+        DataElement oldValue = value;
+        value = newValue;
         if (eNotificationRequired())
         {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL, oldAssociatedLabel, newAssociatedLabel);
+                ComponentPackage.MARKER_LINE__VALUE, oldValue, newValue);
             if (msgs == null)
                 msgs = notification;
             else
@@ -245,24 +231,24 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public void setAssociatedLabel(Label newAssociatedLabel)
+    public void setValue(DataElement newValue)
     {
-        if (newAssociatedLabel != associatedLabel)
+        if (newValue != value)
         {
             NotificationChain msgs = null;
-            if (associatedLabel != null)
-                msgs = ((InternalEObject) associatedLabel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL, null, msgs);
-            if (newAssociatedLabel != null)
-                msgs = ((InternalEObject) newAssociatedLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL, null, msgs);
-            msgs = basicSetAssociatedLabel(newAssociatedLabel, msgs);
+            if (value != null)
+                msgs = ((InternalEObject) value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
+            if (newValue != null)
+                msgs = ((InternalEObject) newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
+            msgs = basicSetValue(newValue, msgs);
             if (msgs != null)
                 msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL,
-                newAssociatedLabel, newAssociatedLabel));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__VALUE, newValue,
+                newValue));
     }
 
     /**
@@ -270,9 +256,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public String getLabelPosition()
+    public Label getLabel()
     {
-        return labelPosition;
+        return label;
     }
 
     /**
@@ -280,13 +266,153 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * 
      * @generated
      */
-    public void setLabelPosition(String newLabelPosition)
+    public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
     {
-        String oldLabelPosition = labelPosition;
-        labelPosition = newLabelPosition;
+        Label oldLabel = label;
+        label = newLabel;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL_POSITION,
-                oldLabelPosition, labelPosition));
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__LABEL, oldLabel, newLabel);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setLabel(Label newLabel)
+    {
+        if (newLabel != label)
+        {
+            NotificationChain msgs = null;
+            if (label != null)
+                msgs = ((InternalEObject) label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
+            if (newLabel != null)
+                msgs = ((InternalEObject) newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
+            msgs = basicSetLabel(newLabel, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL, newLabel,
+                newLabel));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Anchor getLabelAnchor()
+    {
+        return labelAnchor;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setLabelAnchor(Anchor newLabelAnchor)
+    {
+        Anchor oldLabelAnchor = labelAnchor;
+        labelAnchor = newLabelAnchor == null ? LABEL_ANCHOR_EDEFAULT : newLabelAnchor;
+        boolean oldLabelAnchorESet = labelAnchorESet;
+        labelAnchorESet = true;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+                oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void unsetLabelAnchor()
+    {
+        Anchor oldLabelAnchor = labelAnchor;
+        boolean oldLabelAnchorESet = labelAnchorESet;
+        labelAnchor = LABEL_ANCHOR_EDEFAULT;
+        labelAnchorESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+                oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean isSetLabelAnchor()
+    {
+        return labelAnchorESet;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public FormatSpecifier getFormatSpecifier()
+    {
+        return formatSpecifier;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
+    {
+        FormatSpecifier oldFormatSpecifier = formatSpecifier;
+        formatSpecifier = newFormatSpecifier;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
+    {
+        if (newFormatSpecifier != formatSpecifier)
+        {
+            NotificationChain msgs = null;
+            if (formatSpecifier != null)
+                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
+            if (newFormatSpecifier != null)
+                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
+            msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
+                newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
@@ -301,10 +427,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
-                case ComponentPackage.MARKER_LINE__ATTRIBUTES:
-                    return basicSetAttributes(null, msgs);
-                case ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL:
-                    return basicSetAssociatedLabel(null, msgs);
+                case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
+                    return basicSetLineAttributes(null, msgs);
+                case ComponentPackage.MARKER_LINE__VALUE:
+                    return basicSetValue(null, msgs);
+                case ComponentPackage.MARKER_LINE__LABEL:
+                    return basicSetLabel(null, msgs);
+                case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
+                    return basicSetFormatSpecifier(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -321,14 +451,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
     {
         switch (eDerivedStructuralFeatureID(eFeature))
         {
-            case ComponentPackage.MARKER_LINE__ATTRIBUTES:
-                return getAttributes();
-            case ComponentPackage.MARKER_LINE__POSITION:
-                return getPosition();
-            case ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL:
-                return getAssociatedLabel();
-            case ComponentPackage.MARKER_LINE__LABEL_POSITION:
-                return getLabelPosition();
+            case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
+                return getLineAttributes();
+            case ComponentPackage.MARKER_LINE__VALUE:
+                return getValue();
+            case ComponentPackage.MARKER_LINE__LABEL:
+                return getLabel();
+            case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
+                return getLabelAnchor();
+            case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
+                return getFormatSpecifier();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -342,17 +474,20 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
     {
         switch (eDerivedStructuralFeatureID(eFeature))
         {
-            case ComponentPackage.MARKER_LINE__ATTRIBUTES:
-                setAttributes((LineAttributes) newValue);
+            case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
+                setLineAttributes((LineAttributes) newValue);
                 return;
-            case ComponentPackage.MARKER_LINE__POSITION:
-                setPosition((Object) newValue);
+            case ComponentPackage.MARKER_LINE__VALUE:
+                setValue((DataElement) newValue);
                 return;
-            case ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL:
-                setAssociatedLabel((Label) newValue);
+            case ComponentPackage.MARKER_LINE__LABEL:
+                setLabel((Label) newValue);
                 return;
-            case ComponentPackage.MARKER_LINE__LABEL_POSITION:
-                setLabelPosition((String) newValue);
+            case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
+                setLabelAnchor((Anchor) newValue);
+                return;
+            case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -367,17 +502,20 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
     {
         switch (eDerivedStructuralFeatureID(eFeature))
         {
-            case ComponentPackage.MARKER_LINE__ATTRIBUTES:
-                setAttributes((LineAttributes) null);
+            case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
+                setLineAttributes((LineAttributes) null);
                 return;
-            case ComponentPackage.MARKER_LINE__POSITION:
-                setPosition(POSITION_EDEFAULT);
+            case ComponentPackage.MARKER_LINE__VALUE:
+                setValue((DataElement) null);
                 return;
-            case ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL:
-                setAssociatedLabel((Label) null);
+            case ComponentPackage.MARKER_LINE__LABEL:
+                setLabel((Label) null);
                 return;
-            case ComponentPackage.MARKER_LINE__LABEL_POSITION:
-                setLabelPosition(LABEL_POSITION_EDEFAULT);
+            case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
+                unsetLabelAnchor();
+                return;
+            case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -392,15 +530,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
     {
         switch (eDerivedStructuralFeatureID(eFeature))
         {
-            case ComponentPackage.MARKER_LINE__ATTRIBUTES:
-                return attributes != null;
-            case ComponentPackage.MARKER_LINE__POSITION:
-                return POSITION_EDEFAULT == null ? position != null : !POSITION_EDEFAULT.equals(position);
-            case ComponentPackage.MARKER_LINE__ASSOCIATED_LABEL:
-                return associatedLabel != null;
-            case ComponentPackage.MARKER_LINE__LABEL_POSITION:
-                return LABEL_POSITION_EDEFAULT == null ? labelPosition != null : !LABEL_POSITION_EDEFAULT
-                    .equals(labelPosition);
+            case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
+                return lineAttributes != null;
+            case ComponentPackage.MARKER_LINE__VALUE:
+                return value != null;
+            case ComponentPackage.MARKER_LINE__LABEL:
+                return label != null;
+            case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
+                return isSetLabelAnchor();
+            case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
+                return formatSpecifier != null;
         }
         return eDynamicIsSet(eFeature);
     }
@@ -416,10 +555,11 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (position: ");
-        result.append(position);
-        result.append(", labelPosition: ");
-        result.append(labelPosition);
+        result.append(" (labelAnchor: ");
+        if (labelAnchorESet)
+            result.append(labelAnchor);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }
@@ -433,17 +573,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
     public static final MarkerLine create(Axis ax, DataElement de)
     {
         final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine();
-        ml.setAttributes(LineAttributesImpl.create(ColorDefinitionImpl.RED(), LineStyle.DASHED_LITERAL, 1));
-        ml.setPosition(de);
-        ml.setAssociatedLabel(LabelImpl.create());
-        /*ml.setAnchor(
-            ax.getOrientation().getValue() == Orientation.HORIZONTAL
-            ? Anchor.NORTH_EAST_LITERAL
-            : Anchor.NORTH_WEST_LITERAL
-        );*/
-        ax.getMarkerLine().add(ml);
+        ml.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl.RED(), LineStyle.DASHED_LITERAL, 1));
+        ml.setValue(de);
+        ml.setLabel(LabelImpl.create());
+        /*
+         * ml.setAnchor( ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL :
+         * Anchor.NORTH_WEST_LITERAL );
+         */
+        ax.getMarkerLines().add(ml);
         //ml.setFormatSpecifier(ax.getFormatSpecifier());
         return ml;
     }
-    
+
 } //MarkerLineImpl

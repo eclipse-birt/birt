@@ -189,22 +189,22 @@ public interface ComponentPackage extends EPackage
     int AXIS__STAGGERED = 12;
 
     /**
-     * The feature id for the '<em><b>Marker Line</b></em>' containment reference list. <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Marker Lines</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int AXIS__MARKER_LINE = 13;
+    int AXIS__MARKER_LINES = 13;
 
     /**
-     * The feature id for the '<em><b>Marker Range</b></em>' containment reference list. <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Marker Ranges</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int AXIS__MARKER_RANGE = 14;
+    int AXIS__MARKER_RANGES = 14;
 
     /**
      * The feature id for the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -469,39 +469,49 @@ public interface ComponentPackage extends EPackage
     int MARKER_LINE = 4;
 
     /**
-     * The feature id for the '<em><b>Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int MARKER_LINE__ATTRIBUTES = 0;
+    int MARKER_LINE__LINE_ATTRIBUTES = 0;
 
     /**
-     * The feature id for the '<em><b>Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The feature id for the '<em><b>Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int MARKER_LINE__POSITION = 1;
+    int MARKER_LINE__VALUE = 1;
 
     /**
-     * The feature id for the '<em><b>Associated Label</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int MARKER_LINE__ASSOCIATED_LABEL = 2;
+    int MARKER_LINE__LABEL = 2;
 
     /**
-     * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
      * @generated
      * @ordered
      */
-    int MARKER_LINE__LABEL_POSITION = 3;
+    int MARKER_LINE__LABEL_ANCHOR = 3;
+
+    /**
+     * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int MARKER_LINE__FORMAT_SPECIFIER = 4;
 
     /**
      * The number of structural features of the the '<em>Marker Line</em>' class. <!-- begin-user-doc --> <!--
@@ -510,7 +520,7 @@ public interface ComponentPackage extends EPackage
      * @generated
      * @ordered
      */
-    int MARKER_LINE_FEATURE_COUNT = 4;
+    int MARKER_LINE_FEATURE_COUNT = 5;
 
     /**
      * The meta object id for the '
@@ -542,31 +552,40 @@ public interface ComponentPackage extends EPackage
     int MARKER_RANGE__FILL = 1;
 
     /**
-     * The feature id for the '<em><b>Start Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+     * The feature id for the '<em><b>Start Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int MARKER_RANGE__START_VALUE = 2;
+
+    /**
+     * The feature id for the '<em><b>End Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int MARKER_RANGE__END_VALUE = 3;
+
+    /**
+     * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int MARKER_RANGE__LABEL = 4;
+
+    /**
+     * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
      * @generated
      * @ordered
      */
-    int MARKER_RANGE__START_POSITION = 2;
-
-    /**
-     * The feature id for the '<em><b>End Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int MARKER_RANGE__END_POSITION = 3;
-
-    /**
-     * The feature id for the '<em><b>Associated Label</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int MARKER_RANGE__ASSOCIATED_LABEL = 4;
+    int MARKER_RANGE__LABEL_ANCHOR = 5;
 
     /**
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -575,7 +594,16 @@ public interface ComponentPackage extends EPackage
      * @generated
      * @ordered
      */
-    int MARKER_RANGE__LABEL_POSITION = 5;
+    int MARKER_RANGE__LABEL_POSITION = 6;
+
+    /**
+     * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int MARKER_RANGE__FORMAT_SPECIFIER = 7;
 
     /**
      * The number of structural features of the the '<em>Marker Range</em>' class. <!-- begin-user-doc --> <!--
@@ -584,7 +612,7 @@ public interface ComponentPackage extends EPackage
      * @generated
      * @ordered
      */
-    int MARKER_RANGE_FEATURE_COUNT = 6;
+    int MARKER_RANGE_FEATURE_COUNT = 8;
 
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}'
@@ -940,27 +968,27 @@ public interface ComponentPackage extends EPackage
 
     /**
      * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerLine <em>Marker Line</em>}'. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}'. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the containment reference list '<em>Marker Line</em>'.
-     * @see org.eclipse.birt.chart.model.component.Axis#getMarkerLine()
+     * @return the meta object for the containment reference list '<em>Marker Lines</em>'.
+     * @see org.eclipse.birt.chart.model.component.Axis#getMarkerLines()
      * @see #getAxis()
      * @generated
      */
-    EReference getAxis_MarkerLine();
+    EReference getAxis_MarkerLines();
 
     /**
      * Returns the meta object for the containment reference list '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerRange <em>Marker Range</em>}'. <!-- begin-user-doc
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the containment reference list '<em>Marker Range</em>'.
-     * @see org.eclipse.birt.chart.model.component.Axis#getMarkerRange()
+     * @return the meta object for the containment reference list '<em>Marker Ranges</em>'.
+     * @see org.eclipse.birt.chart.model.component.Axis#getMarkerRanges()
      * @see #getAxis()
      * @generated
      */
-    EReference getAxis_MarkerRange();
+    EReference getAxis_MarkerRanges();
 
     /**
      * Returns the meta object for the containment reference '
@@ -1258,51 +1286,63 @@ public interface ComponentPackage extends EPackage
 
     /**
      * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getAttributes <em>Attributes</em>}'. <!--
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the containment reference '<em>Attributes</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerLine#getAttributes()
+     * @return the meta object for the containment reference '<em>Line Attributes</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes()
      * @see #getMarkerLine()
      * @generated
      */
-    EReference getMarkerLine_Attributes();
-
-    /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getPosition <em>Position</em>}'. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Position</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerLine#getPosition()
-     * @see #getMarkerLine()
-     * @generated
-     */
-    EAttribute getMarkerLine_Position();
+    EReference getMarkerLine_LineAttributes();
 
     /**
      * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getAssociatedLabel <em>Associated Label</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}'. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
      * 
-     * @return the meta object for the containment reference '<em>Associated Label</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerLine#getAssociatedLabel()
+     * @return the meta object for the containment reference '<em>Value</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerLine#getValue()
      * @see #getMarkerLine()
      * @generated
      */
-    EReference getMarkerLine_AssociatedLabel();
+    EReference getMarkerLine_Value();
+
+    /**
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}'. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @return the meta object for the containment reference '<em>Label</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerLine#getLabel()
+     * @see #getMarkerLine()
+     * @generated
+     */
+    EReference getMarkerLine_Label();
 
     /**
      * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelPosition <em>Label Position</em>}'. <!--
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the attribute '<em>Label Position</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerLine#getLabelPosition()
+     * @return the meta object for the attribute '<em>Label Anchor</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor()
      * @see #getMarkerLine()
      * @generated
      */
-    EAttribute getMarkerLine_LabelPosition();
+    EAttribute getMarkerLine_LabelAnchor();
+
+    /**
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the containment reference '<em>Format Specifier</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier()
+     * @see #getMarkerLine()
+     * @generated
+     */
+    EReference getMarkerLine_FormatSpecifier();
 
     /**
      * Returns the meta object for class '
@@ -1340,40 +1380,52 @@ public interface ComponentPackage extends EPackage
     EReference getMarkerRange_Fill();
 
     /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getStartPosition <em>Start Position</em>}'. <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getStartValue <em>Start Value</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the attribute '<em>Start Position</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerRange#getStartPosition()
+     * @return the meta object for the containment reference '<em>Start Value</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerRange#getStartValue()
      * @see #getMarkerRange()
      * @generated
      */
-    EAttribute getMarkerRange_StartPosition();
-
-    /**
-     * Returns the meta object for the attribute '
-     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getEndPosition <em>End Position</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>End Position</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerRange#getEndPosition()
-     * @see #getMarkerRange()
-     * @generated
-     */
-    EAttribute getMarkerRange_EndPosition();
+    EReference getMarkerRange_StartValue();
 
     /**
      * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getAssociatedLabel <em>Associated Label</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue <em>End Value</em>}'. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the containment reference '<em>Associated Label</em>'.
-     * @see org.eclipse.birt.chart.model.component.MarkerRange#getAssociatedLabel()
+     * @return the meta object for the containment reference '<em>End Value</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerRange#getEndValue()
      * @see #getMarkerRange()
      * @generated
      */
-    EReference getMarkerRange_AssociatedLabel();
+    EReference getMarkerRange_EndValue();
+
+    /**
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel <em>Label</em>}'. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return the meta object for the containment reference '<em>Label</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerRange#getLabel()
+     * @see #getMarkerRange()
+     * @generated
+     */
+    EReference getMarkerRange_Label();
+
+    /**
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor <em>Label Anchor</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute '<em>Label Anchor</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor()
+     * @see #getMarkerRange()
+     * @generated
+     */
+    EAttribute getMarkerRange_LabelAnchor();
 
     /**
      * Returns the meta object for the attribute '
@@ -1386,6 +1438,18 @@ public interface ComponentPackage extends EPackage
      * @generated
      */
     EAttribute getMarkerRange_LabelPosition();
+
+    /**
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getFormatSpecifier <em>Format Specifier</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the containment reference '<em>Format Specifier</em>'.
+     * @see org.eclipse.birt.chart.model.component.MarkerRange#getFormatSpecifier()
+     * @see #getMarkerRange()
+     * @generated
+     */
+    EReference getMarkerRange_FormatSpecifier();
 
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Scale <em>Scale</em>}'. <!--

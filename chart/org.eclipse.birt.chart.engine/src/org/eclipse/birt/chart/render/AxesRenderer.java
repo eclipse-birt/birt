@@ -80,8 +80,8 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * This class provides a base framework for custom series rendering extensions that
- * are interested in being rendered in a pre-computed plot containing axes.  
+ * This class provides a base framework for custom series rendering extensions that are interested in being rendered in
+ * a pre-computed plot containing axes.
  */
 public abstract class AxesRenderer extends BaseRenderer
 {
@@ -127,10 +127,10 @@ public abstract class AxesRenderer extends BaseRenderer
             final BlockGenerationEvent bge = new BlockGenerationEvent(bl);
 
             // ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
             bge.updateBlock(bl);
             renderBlock(idr, bl);
-            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
 
             while (e.hasMoreElements())
             {
@@ -139,9 +139,9 @@ public abstract class AxesRenderer extends BaseRenderer
                 bge.updateBlock(bl);
                 if (bl instanceof Plot)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderPlot(idr, (Plot) bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                     if (!bLastInSequence)
                     {
                         break; // STOP AT THE PLOT IF NOT ALSO THE LAST IN THE SEQUENCE
@@ -149,27 +149,27 @@ public abstract class AxesRenderer extends BaseRenderer
                 }
                 else if (bl instanceof TitleBlock)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderTitle(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof LabelBlock)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderLabel(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof Legend)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderLegend(idr, (Legend) bl, htRenderers);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderBlock(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
             }
         }
@@ -192,33 +192,33 @@ public abstract class AxesRenderer extends BaseRenderer
                 bge.updateBlock(bl);
                 if (bl instanceof Plot)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderPlot(idr, (Plot) bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof TitleBlock)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderTitle(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof LabelBlock)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderLabel(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else if (bl instanceof Legend)
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderLegend(idr, (Legend) bl, htRenderers);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
                 else
                 {
-                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                     renderBlock(idr, bl);
-                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                    ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 }
             }
         }
@@ -228,9 +228,9 @@ public abstract class AxesRenderer extends BaseRenderer
             final BlockGenerationEvent bge = new BlockGenerationEvent(this);
             Plot p = cm.getPlot();
             bge.updateBlock(p);
-            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p); 
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p);
             renderPlot(idr, p);
-            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p); 
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, p);
         }
 
         lTimer = System.currentTimeMillis() - lTimer;
@@ -259,25 +259,24 @@ public abstract class AxesRenderer extends BaseRenderer
      */
     private static final int compare(DataElement de1, DataElement de2) throws DataFormatException
     {
-        if (de1 == null && de2 == null) return IConstants.EQUAL; 
-        if (de1 == null || de2 == null) return IConstants.SOME_NULL;
+        if (de1 == null && de2 == null)
+            return IConstants.EQUAL;
+        if (de1 == null || de2 == null)
+            return IConstants.SOME_NULL;
         final Class c1 = de1.getClass();
         final Class c2 = de2.getClass();
         if (c1.equals(c2))
         {
             if (de1 instanceof NumberDataElement)
             {
-                return Double.compare(
-                    ((NumberDataElement) de1).getValue(), 
-                    ((NumberDataElement) de2).getValue()
-                ); 
+                return Double.compare(((NumberDataElement) de1).getValue(), ((NumberDataElement) de2).getValue());
             }
             else if (de1 instanceof DateTimeDataElement)
             {
                 final long l1 = ((DateTimeDataElement) de1).getValue();
                 final long l2 = ((DateTimeDataElement) de1).getValue();
-            	return (l1<l1 ? IConstants.LESS : (l1==l2 ? IConstants.EQUAL : IConstants.MORE));
-            	
+                return (l1 < l1 ? IConstants.LESS : (l1 == l2 ? IConstants.EQUAL : IConstants.MORE));
+
             }
             else if (de1 instanceof TextDataElement)
             {
@@ -285,7 +284,8 @@ public abstract class AxesRenderer extends BaseRenderer
             }
             else
             {
-                throw new DataFormatException("Unsupported data elements provided for comparison DE1=" + de1 + " and DE2=" + de2);
+                throw new DataFormatException("Unsupported data elements provided for comparison DE1=" + de1
+                    + " and DE2=" + de2);
             }
         }
         else
@@ -293,17 +293,18 @@ public abstract class AxesRenderer extends BaseRenderer
             throw new DataFormatException("Mixed data elements provided for comparison DE1=" + de1 + " and DE2=" + de2);
         }
     }
-    
+
     /**
      * Renders all marker ranges associated with all axes (base and orthogonal) in the plot
      * 
-     * @param oaxa 				An array containing all axes
-     * @param boPlotClientArea	The bounds of the actual client area
+     * @param oaxa
+     *            An array containing all axes
+     * @param boPlotClientArea
+     *            The bounds of the actual client area
      * 
      * @throws RenderingException
      */
-    private final void renderMarkerRanges(OneAxis[] oaxa, Bounds boPlotClientArea) 
-    	throws RenderingException
+    private final void renderMarkerRanges(OneAxis[] oaxa, Bounds boPlotClientArea) throws RenderingException
     {
         Axis ax;
         EList el;
@@ -314,63 +315,71 @@ public abstract class AxesRenderer extends BaseRenderer
         AutoScale asc;
         double dMin = 0, dMax = 0;
         int iOrientation, iCompare = IConstants.EQUAL;
-        
+
         final Bounds bo = BoundsImpl.create(0, 0, 0, 0);
         final IDeviceRenderer idr = getDevice();
         final ScriptHandler sh = getModel().getScriptHandler();
-        
+
         for (int i = 0; i < iAxisCount; i++)
         {
             ax = oaxa[i].getModelAxis();
             iOrientation = ax.getOrientation().getValue();
             asc = oaxa[i].getScale();
-            el = ax.getMarkerRange();
+            el = ax.getMarkerRanges();
             iRangeCount = el.size();
-            
+
             for (int j = 0; j < iRangeCount; j++)
             {
                 mr = (MarkerRange) el.get(j);
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_RANGE, ax, mr); 
-                
-                deStart = (DataElement) mr.getStartPosition();
-                deEnd = (DataElement) mr.getEndPosition();
-                try {
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_RANGE, ax, mr);
+
+                deStart = (DataElement) mr.getStartValue();
+                deEnd = (DataElement) mr.getEndValue();
+                try
+                {
                     iCompare = compare(deStart, deEnd);
-                } catch (DataFormatException dfex)
+                }
+                catch (DataFormatException dfex )
                 {
                     throw new RenderingException(dfex);
                 }
-                
+
                 // IF OUT OF ORDER, SWAP
-                if (iCompare == IConstants.MORE) 
+                if (iCompare == IConstants.MORE)
                 {
                     final DataElement deTemp = deStart;
                     deStart = deEnd;
                     deEnd = deTemp;
                 }
-                
+
                 // COMPUTE THE START BOUND
-                try {
-                    dMin = (deStart == null) 
-                	? ((iOrientation == Orientation.HORIZONTAL) ? boPlotClientArea.getLeft() : boPlotClientArea.getTop() + boPlotClientArea.getHeight())
-                    : PlotWith2DAxes.getLocation(asc, deStart);
-                } catch (Exception ex)
+                try
                 {
-                    DefaultLoggerImpl.instance().log(ILogger.WARNING, "Could not locate range start for value " + deStart + " contained in marker range " + mr);
+                    dMin = (deStart == null) ? ((iOrientation == Orientation.HORIZONTAL) ? boPlotClientArea.getLeft()
+                        : boPlotClientArea.getTop() + boPlotClientArea.getHeight()) : PlotWith2DAxes.getLocation(asc,
+                        deStart);
+                }
+                catch (Exception ex )
+                {
+                    DefaultLoggerImpl.instance().log(ILogger.WARNING,
+                        "Could not locate range start for value " + deStart + " contained in marker range " + mr);
                     continue; // TRY NEXT MARKER RANGE
                 }
-                	
+
                 // COMPUTE THE END BOUND
-                try {
-	                dMax = (deEnd == null) 
-                	? ((iOrientation == Orientation.HORIZONTAL) ? boPlotClientArea.getLeft() + boPlotClientArea.getWidth() : boPlotClientArea.getTop())
-                    : PlotWith2DAxes.getLocation(asc, deEnd);
-	            } catch (Exception ex)
-	            {
-	                DefaultLoggerImpl.instance().log(ILogger.WARNING, "Could not locate range end for value " + deEnd + " contained in marker range " + mr);
-	                continue; // TRY NEXT MARKER RANGE
-	            }
-                    
+                try
+                {
+                    dMax = (deEnd == null) ? ((iOrientation == Orientation.HORIZONTAL) ? boPlotClientArea.getLeft()
+                        + boPlotClientArea.getWidth() : boPlotClientArea.getTop()) : PlotWith2DAxes.getLocation(asc,
+                        deEnd);
+                }
+                catch (Exception ex )
+                {
+                    DefaultLoggerImpl.instance().log(ILogger.WARNING,
+                        "Could not locate range end for value " + deEnd + " contained in marker range " + mr);
+                    continue; // TRY NEXT MARKER RANGE
+                }
+
                 rre = (RectangleRenderEvent) ((EventObjectCache) idr).getEventObject(mr, RectangleRenderEvent.class);
                 if (iOrientation == Orientation.HORIZONTAL)
                 {
@@ -379,7 +388,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         dMax = boPlotClientArea.getLeft() + boPlotClientArea.getWidth();
                     }
-                    
+
                     // RESTRICT LEFT EDGE
                     if (dMin < boPlotClientArea.getLeft())
                     {
@@ -394,7 +403,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         dMax = boPlotClientArea.getTop();
                     }
-                    
+
                     // RESTRICT BOTTOM EDGE
                     if (dMin > boPlotClientArea.getTop() + boPlotClientArea.getHeight())
                     {
@@ -407,12 +416,12 @@ public abstract class AxesRenderer extends BaseRenderer
                 rre.setBackground(mr.getFill());
                 idr.fillRectangle(rre);
                 idr.drawRectangle(rre);
-                
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_RANGE, ax, mr); 
+
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_RANGE, ax, mr);
             }
         }
     }
-    
+
     /**
      * Ths background is the first component rendered within the plot block. This is rendered with Z-order=0
      */
@@ -474,10 +483,10 @@ public abstract class AxesRenderer extends BaseRenderer
         {
             oaxa[2 + i] = aax.getOverlay(i);
         }
-        
+
         // RENDER MARKER RANGES (MARKER LINES ARE DRAWN LATER)
         renderMarkerRanges(oaxa, bo);
-        
+
         // RENDER GRID LINES (MAJOR=DONE; MINOR=DONE)
         double x = 0, y = 0;
         LineAttributes lia;
@@ -756,9 +765,9 @@ public abstract class AxesRenderer extends BaseRenderer
             throw new RenderingException(ex);
         }
 
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this); 
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this); 
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
 
         if (bLastInSequence)
         {
@@ -772,7 +781,7 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 throw new RenderingException(ex);
             }
-            
+
             // SETUP AXIS ARRAY
             final PlotWith2DAxes pwa = (PlotWith2DAxes) getComputations();
             final AllAxes aax = pwa.getAxes();
@@ -785,10 +794,10 @@ public abstract class AxesRenderer extends BaseRenderer
             }
             final ClientArea ca = p.getClientArea();
             Bounds bo = pwa.getPlotBounds();
-            
+
             // RENDER MARKER LINES
             renderMarkerLines(oaxa, bo);
-            
+
             // RENDER AXIS LABELS LAST
             renderAxesLabels(ipr, p);
         }
@@ -801,100 +810,102 @@ public abstract class AxesRenderer extends BaseRenderer
      * 
      * @throws RenderingException
      */
-    private final void renderMarkerLines(OneAxis[] oaxa, Bounds boPlotClientArea) 
-		throws RenderingException
-	{
-	    Axis ax;
-	    EList el;
-	    int iLineCount, iAxisCount = oaxa.length;
-	    MarkerLine ml;
-	    LineRenderEvent lre;
-	    DataElement deValue;
-	    AutoScale asc;
-	    double dCoordinate = 0;
-	    int iOrientation, iCompare = IConstants.EQUAL;
-	    
-	    final IDeviceRenderer idr = getDevice();
-	    final ScriptHandler sh = getModel().getScriptHandler();
-	    final Location loStart = LocationImpl.create(0, 0);
-	    final Location loEnd = LocationImpl.create(0, 0);
-	    
-	    for (int i = 0; i < iAxisCount; i++)
-	    {
-	        ax = oaxa[i].getModelAxis();
-	        iOrientation = ax.getOrientation().getValue();
-	        asc = oaxa[i].getScale();
-	        el = ax.getMarkerLine();
-	        iLineCount = el.size();
-	        
-	        for (int j = 0; j < iLineCount; j++)
-	        {
-	            ml = (MarkerLine) el.get(j);
-	            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_LINE, ax, ml); 
-	            
-	            deValue = (DataElement) ml.getPosition();
-	            if (deValue == null)
-	            {
-	                throw new RenderingException("Unable to plot a render line for a null value as defined in marker line " + ml);
-	            }
-	            
-	            // COMPUTE THE LOCATION
-	            try {
-	                dCoordinate = PlotWith2DAxes.getLocation(asc, deValue);  
-	            } catch (Exception ex)
-	            {
-	                DefaultLoggerImpl.instance().log(ILogger.WARNING, "Could not locate value " + deValue + " contained in marker line " + ml);
-	                continue; // TRY NEXT MARKER RANGE
-	            }
-	            	
-	            lre = (LineRenderEvent) ((EventObjectCache) idr).getEventObject(ml, LineRenderEvent.class);
-	            if (iOrientation == Orientation.HORIZONTAL)
-	            {
-	                // RESTRICT RIGHT EDGE
-	                if (dCoordinate > boPlotClientArea.getLeft() + boPlotClientArea.getWidth())
-	                {
-	                    dCoordinate = boPlotClientArea.getLeft() + boPlotClientArea.getWidth();
-	                }
-	                
-	                // RESTRICT LEFT EDGE
-	                if (dCoordinate < boPlotClientArea.getLeft())
-	                {
-	                    dCoordinate = boPlotClientArea.getLeft();
-	                }
-	                
-	                // SETUP THE TWO POINTS
-	                loStart.set(dCoordinate, boPlotClientArea.getTop());
-	                loEnd.set(dCoordinate, boPlotClientArea.getTop() + boPlotClientArea.getHeight());
-	            }
-	            else
-	            {
-	                // RESTRICT TOP EDGE
-	                if (dCoordinate < boPlotClientArea.getTop())
-	                {
-	                    dCoordinate = boPlotClientArea.getTop();
-	                }
-	                
-	                // RESTRICT BOTTOM EDGE
-	                if (dCoordinate > boPlotClientArea.getTop() + boPlotClientArea.getHeight())
-	                {
-	                    dCoordinate = boPlotClientArea.getTop() + boPlotClientArea.getHeight();
-	                }
-	                
-	                // SETUP THE TWO POINTS
-	                loStart.set(boPlotClientArea.getLeft(), dCoordinate);
-	                loEnd.set(boPlotClientArea.getLeft() + boPlotClientArea.getWidth(), dCoordinate);
-	            }
-	            lre.setStart(loStart);
-	            lre.setEnd(loEnd);
-	            lre.setLineAttributes(ml.getAttributes());
-	            idr.drawLine(lre);
-	            
-	            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_LINE, ax, ml); 
-	        }
-	    }
-	}
-    
-    
+    private final void renderMarkerLines(OneAxis[] oaxa, Bounds boPlotClientArea) throws RenderingException
+    {
+        Axis ax;
+        EList el;
+        int iLineCount, iAxisCount = oaxa.length;
+        MarkerLine ml;
+        LineRenderEvent lre;
+        DataElement deValue;
+        AutoScale asc;
+        double dCoordinate = 0;
+        int iOrientation, iCompare = IConstants.EQUAL;
+
+        final IDeviceRenderer idr = getDevice();
+        final ScriptHandler sh = getModel().getScriptHandler();
+        final Location loStart = LocationImpl.create(0, 0);
+        final Location loEnd = LocationImpl.create(0, 0);
+
+        for (int i = 0; i < iAxisCount; i++)
+        {
+            ax = oaxa[i].getModelAxis();
+            iOrientation = ax.getOrientation().getValue();
+            asc = oaxa[i].getScale();
+            el = ax.getMarkerLines();
+            iLineCount = el.size();
+
+            for (int j = 0; j < iLineCount; j++)
+            {
+                ml = (MarkerLine) el.get(j);
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_MARKER_LINE, ax, ml);
+
+                deValue = (DataElement) ml.getValue();
+                if (deValue == null)
+                {
+                    throw new RenderingException(
+                        "Unable to plot a render line for a null value as defined in marker line " + ml);
+                }
+
+                // COMPUTE THE LOCATION
+                try
+                {
+                    dCoordinate = PlotWith2DAxes.getLocation(asc, deValue);
+                }
+                catch (Exception ex )
+                {
+                    DefaultLoggerImpl.instance().log(ILogger.WARNING,
+                        "Could not locate value " + deValue + " contained in marker line " + ml);
+                    continue; // TRY NEXT MARKER RANGE
+                }
+
+                lre = (LineRenderEvent) ((EventObjectCache) idr).getEventObject(ml, LineRenderEvent.class);
+                if (iOrientation == Orientation.HORIZONTAL)
+                {
+                    // RESTRICT RIGHT EDGE
+                    if (dCoordinate > boPlotClientArea.getLeft() + boPlotClientArea.getWidth())
+                    {
+                        dCoordinate = boPlotClientArea.getLeft() + boPlotClientArea.getWidth();
+                    }
+
+                    // RESTRICT LEFT EDGE
+                    if (dCoordinate < boPlotClientArea.getLeft())
+                    {
+                        dCoordinate = boPlotClientArea.getLeft();
+                    }
+
+                    // SETUP THE TWO POINTS
+                    loStart.set(dCoordinate, boPlotClientArea.getTop());
+                    loEnd.set(dCoordinate, boPlotClientArea.getTop() + boPlotClientArea.getHeight());
+                }
+                else
+                {
+                    // RESTRICT TOP EDGE
+                    if (dCoordinate < boPlotClientArea.getTop())
+                    {
+                        dCoordinate = boPlotClientArea.getTop();
+                    }
+
+                    // RESTRICT BOTTOM EDGE
+                    if (dCoordinate > boPlotClientArea.getTop() + boPlotClientArea.getHeight())
+                    {
+                        dCoordinate = boPlotClientArea.getTop() + boPlotClientArea.getHeight();
+                    }
+
+                    // SETUP THE TWO POINTS
+                    loStart.set(boPlotClientArea.getLeft(), dCoordinate);
+                    loEnd.set(boPlotClientArea.getLeft() + boPlotClientArea.getWidth(), dCoordinate);
+                }
+                lre.setStart(loStart);
+                lre.setEnd(loEnd);
+                lre.setLineAttributes(ml.getLineAttributes());
+                idr.drawLine(lre);
+
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_LINE, ax, ml);
+            }
+        }
+    }
+
     /**
      * 
      * 
@@ -929,7 +940,7 @@ public abstract class AxesRenderer extends BaseRenderer
         double dSeriesThickness = pwa.getSeriesThickness();
         final NumberDataElement nde = NumberDataElementImpl.create(0);
         final FormatSpecifier fs = ax.getFormatSpecifier();
-        
+
         DecimalFormat df = null;
 
         LineAttributes lia = ax.getLineAttributes();
@@ -1021,7 +1032,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     for (int i = 0; i < da.length - 1; i++)
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
-                        
+
                         tl = xs.getTextMetrics(la);
                         dH = tl.getFullHeight();
                         dW = tl.getFullWidth();
@@ -1121,13 +1132,13 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // RENDER AXIS LABELS ONLY IF REQUESTED
                     {
                         lo.set(x, y + dOffset);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                 }
                 y = (int) da[da.length - 1];
@@ -1192,22 +1203,22 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     if (bRenderAxisLabels) // PERFORM COMPUTATIONS ONLY IF AXIS LABEL IS VISIBLE
                     {
-	                    if (fs == null)
-	                    {
-	                        df = new DecimalFormat(sc.getNumericPattern(dAxisValue));
-	                    }
-	                    nde.setValue(dAxisValue);
-	                    try
-	                    {
-	                        sText = ValueFormatter.format(nde, fs, ax.getLocale(), df); 
-	                    }
-	                    catch (DataFormatException dfex )
-	                    {
-	                        DefaultLoggerImpl.instance().log(dfex);
-	                        sText = IConstants.NULL_STRING;
-	                    }
+                        if (fs == null)
+                        {
+                            df = new DecimalFormat(sc.getNumericPattern(dAxisValue));
+                        }
+                        nde.setValue(dAxisValue);
+                        try
+                        {
+                            sText = ValueFormatter.format(nde, fs, ax.getLocale(), df);
+                        }
+                        catch (DataFormatException dfex )
+                        {
+                            DefaultLoggerImpl.instance().log(dfex);
+                            sText = IConstants.NULL_STRING;
+                        }
                     }
-                    
+
                     y = (int) da[i];
 
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
@@ -1229,15 +1240,15 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // RENDER LABELS ONLY IF REQUESTED
                     {
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                     dAxisValue *= dAxisStep;
                 }
@@ -1313,16 +1324,16 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels)
                     {
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
 
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                     dAxisValue += dAxisStep;
                 }
@@ -1397,15 +1408,15 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels)
                     {
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
 
                     cdt = cdtAxisValue.forward(iUnit, iStep * (i + 1)); // ALWAYS W.R.T START VALUE
@@ -1415,7 +1426,7 @@ public abstract class AxesRenderer extends BaseRenderer
             la = ax.getTitle(); // TEMPORARILY USE FOR AXIS TITLE
             if (la.isVisible())
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
                 final BoundingBox bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
                 final Bounds boPlot = pl.getBounds();
 
@@ -1427,9 +1438,9 @@ public abstract class AxesRenderer extends BaseRenderer
                 tre.setBlockAlignment(null);
                 tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
                 ipr.drawText(tre);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
             }
-            la = ax.getLabel(); 
+            la = ax.getLabel();
 
             if (iv != null && iv.getType() == IntersectionValue.MAX && iDimension == IConstants.TWO_5_D)
             {
@@ -1566,49 +1577,49 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR REQUESTED FOR
                     {
-	                    la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
-	                    ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
-	                    tl = xs.getTextMetrics(la);
-	                    dH = tl.getFullHeight();
-	                    dW = tl.getFullWidth();
-	                    dHSineTheta = dH * dSineTheta;
-	                    if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
-	                    {
-	                        if (iLabelLocation == IConstants.ABOVE)
-	                        {
-	                            dOffset = dUnitSize / 2 - (dW * dCosTheta + dHSineTheta) / 2 + dHSineTheta;
-	                        }
-	                        else if (iLabelLocation == IConstants.BELOW)
-	                        {
-	                            dOffset = dUnitSize + dHSineTheta - (dUnitSize - dW * dCosTheta + dHSineTheta) / 2
-	                                - dHSineTheta;
-	                        }
-	                    }
-	                    else if (dAngleInDegrees < 0 && dAngleInDegrees > -90)
-	                    {
-	                        if (iLabelLocation == IConstants.ABOVE)
-	                        {
-	                            dOffset = dUnitSize / 2 - dHSineTheta / 2 + (dW * dCosTheta + dHSineTheta) / 2;
-	                        }
-	                        else if (iLabelLocation == IConstants.BELOW)
-	                        {
-	                            dOffset = (dUnitSize - dW * dCosTheta + dHSineTheta) / 2;
-	                        }
-	                    }
-	                    else if (dAngleInDegrees == 0 || dAngleInDegrees == 90 || dAngleInDegrees == -90)
-	                    {
-	                        dOffset = dUnitSize / 2;
-	                    }
+                        la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
+                        tl = xs.getTextMetrics(la);
+                        dH = tl.getFullHeight();
+                        dW = tl.getFullWidth();
+                        dHSineTheta = dH * dSineTheta;
+                        if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
+                        {
+                            if (iLabelLocation == IConstants.ABOVE)
+                            {
+                                dOffset = dUnitSize / 2 - (dW * dCosTheta + dHSineTheta) / 2 + dHSineTheta;
+                            }
+                            else if (iLabelLocation == IConstants.BELOW)
+                            {
+                                dOffset = dUnitSize + dHSineTheta - (dUnitSize - dW * dCosTheta + dHSineTheta) / 2
+                                    - dHSineTheta;
+                            }
+                        }
+                        else if (dAngleInDegrees < 0 && dAngleInDegrees > -90)
+                        {
+                            if (iLabelLocation == IConstants.ABOVE)
+                            {
+                                dOffset = dUnitSize / 2 - dHSineTheta / 2 + (dW * dCosTheta + dHSineTheta) / 2;
+                            }
+                            else if (iLabelLocation == IConstants.BELOW)
+                            {
+                                dOffset = (dUnitSize - dW * dCosTheta + dHSineTheta) / 2;
+                            }
+                        }
+                        else if (dAngleInDegrees == 0 || dAngleInDegrees == 90 || dAngleInDegrees == -90)
+                        {
+                            dOffset = dUnitSize / 2;
+                        }
                         lo.set(x + dOffset, y);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                 }
-                
+
                 // ONE LAST TICK
                 x = (int) da[da.length - 1];
                 if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
@@ -1689,7 +1700,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR REQUESTED FOR
                     {
                         nde.setValue(dAxisValue);
@@ -1705,9 +1716,9 @@ public abstract class AxesRenderer extends BaseRenderer
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                     dAxisValue += dAxisStep;
                 }
@@ -1773,7 +1784,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR REQUESTED FOR
                     {
                         if (ax.getFormatSpecifier() == null)
@@ -1793,9 +1804,9 @@ public abstract class AxesRenderer extends BaseRenderer
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
                     dAxisValue *= dAxisStep;
                 }
@@ -1863,7 +1874,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             }
                         }
                     }
-                    
+
                     if (bRenderAxisLabels) // OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR REQUESTED FOR
                     {
                         try
@@ -1878,9 +1889,9 @@ public abstract class AxesRenderer extends BaseRenderer
                         lo.set(x, y);
                         la.getCaption().setValue(sText);
                         tre.setAction(TextRenderEvent.RENDER_TEXT_AT_LOCATION);
-                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
                         ipr.drawText(tre);
-                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la); 
+                        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_LABEL, axModel, la);
                     }
 
                     cdt = cdtAxisValue.forward(iUnit, iStep * (i + 1)); // ALWAYS W.R.T START VALUE
@@ -1891,7 +1902,7 @@ public abstract class AxesRenderer extends BaseRenderer
             la = ax.getTitle(); // TEMPORARILY USE FOR AXIS TITLE
             if (la.isVisible())
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
                 final BoundingBox bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
                 final Bounds boPlot = pl.getBounds();
 
@@ -1903,7 +1914,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 tre.setBlockAlignment(null);
                 tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
                 ipr.drawText(tre);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
             }
             la = ax.getLabel(); // RESTORE BACK TO AXIS LABEL
 

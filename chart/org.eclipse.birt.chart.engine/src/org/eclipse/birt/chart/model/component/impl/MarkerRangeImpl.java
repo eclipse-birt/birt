@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -73,54 +76,62 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
     protected Fill fill = null;
 
     /**
-     * The default value of the '{@link #getStartPosition() <em>Start Position</em>}' attribute. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-     * 
-     * @see #getStartPosition()
-     * @generated
-     * @ordered
-     */
-    protected static final Object START_POSITION_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getStartPosition() <em>Start Position</em>}' attribute. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
-     * 
-     * @see #getStartPosition()
-     * @generated
-     * @ordered
-     */
-    protected Object startPosition = START_POSITION_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getEndPosition() <em>End Position</em>}' attribute. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * 
-     * @see #getEndPosition()
-     * @generated
-     * @ordered
-     */
-    protected static final Object END_POSITION_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getEndPosition() <em>End Position</em>}' attribute. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * 
-     * @see #getEndPosition()
-     * @generated
-     * @ordered
-     */
-    protected Object endPosition = END_POSITION_EDEFAULT;
-
-    /**
-     * The cached value of the '{@link #getAssociatedLabel() <em>Associated Label</em>}' containment reference. <!--
+     * The cached value of the '{@link #getStartValue() <em>Start Value</em>}' containment reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getAssociatedLabel()
+     * @see #getStartValue()
      * @generated
      * @ordered
      */
-    protected Label associatedLabel = null;
+    protected DataElement startValue = null;
+
+    /**
+     * The cached value of the '{@link #getEndValue() <em>End Value</em>}' containment reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * 
+     * @see #getEndValue()
+     * @generated
+     * @ordered
+     */
+    protected DataElement endValue = null;
+
+    /**
+     * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getLabel()
+     * @generated
+     * @ordered
+     */
+    protected Label label = null;
+
+    /**
+     * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getLabelAnchor()
+     * @generated
+     * @ordered
+     */
+    protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getLabelAnchor()
+     * @generated
+     * @ordered
+     */
+    protected Anchor labelAnchor = LABEL_ANCHOR_EDEFAULT;
+
+    /**
+     * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    protected boolean labelAnchorESet = false;
 
     /**
      * The default value of the '{@link #getLabelPosition() <em>Label Position</em>}' attribute. <!-- begin-user-doc
@@ -130,7 +141,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * @generated
      * @ordered
      */
-    protected static final String LABEL_POSITION_EDEFAULT = null;
+    protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
     /**
      * The cached value of the '{@link #getLabelPosition() <em>Label Position</em>}' attribute. <!-- begin-user-doc
@@ -140,7 +151,25 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * @generated
      * @ordered
      */
-    protected String labelPosition = LABEL_POSITION_EDEFAULT;
+    protected Position labelPosition = LABEL_POSITION_EDEFAULT;
+
+    /**
+     * This is true if the Label Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    protected boolean labelPositionESet = false;
+
+    /**
+     * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getFormatSpecifier()
+     * @generated
+     * @ordered
+     */
+    protected FormatSpecifier formatSpecifier = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -278,9 +307,9 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * 
      * @generated
      */
-    public Object getStartPosition()
+    public DataElement getStartValue()
     {
-        return startPosition;
+        return startValue;
     }
 
     /**
@@ -288,62 +317,14 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * 
      * @generated
      */
-    public void setStartPosition(Object newStartPosition)
+    public NotificationChain basicSetStartValue(DataElement newStartValue, NotificationChain msgs)
     {
-        Object oldStartPosition = startPosition;
-        startPosition = newStartPosition;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__START_POSITION,
-                oldStartPosition, startPosition));
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public Object getEndPosition()
-    {
-        return endPosition;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public void setEndPosition(Object newEndPosition)
-    {
-        Object oldEndPosition = endPosition;
-        endPosition = newEndPosition;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__END_POSITION,
-                oldEndPosition, endPosition));
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public Label getAssociatedLabel()
-    {
-        return associatedLabel;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public NotificationChain basicSetAssociatedLabel(Label newAssociatedLabel, NotificationChain msgs)
-    {
-        Label oldAssociatedLabel = associatedLabel;
-        associatedLabel = newAssociatedLabel;
+        DataElement oldStartValue = startValue;
+        startValue = newStartValue;
         if (eNotificationRequired())
         {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL, oldAssociatedLabel, newAssociatedLabel);
+                ComponentPackage.MARKER_RANGE__START_VALUE, oldStartValue, newStartValue);
             if (msgs == null)
                 msgs = notification;
             else
@@ -357,24 +338,24 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * 
      * @generated
      */
-    public void setAssociatedLabel(Label newAssociatedLabel)
+    public void setStartValue(DataElement newStartValue)
     {
-        if (newAssociatedLabel != associatedLabel)
+        if (newStartValue != startValue)
         {
             NotificationChain msgs = null;
-            if (associatedLabel != null)
-                msgs = ((InternalEObject) associatedLabel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL, null, msgs);
-            if (newAssociatedLabel != null)
-                msgs = ((InternalEObject) newAssociatedLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL, null, msgs);
-            msgs = basicSetAssociatedLabel(newAssociatedLabel, msgs);
+            if (startValue != null)
+                msgs = ((InternalEObject) startValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__START_VALUE, null, msgs);
+            if (newStartValue != null)
+                msgs = ((InternalEObject) newStartValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__START_VALUE, null, msgs);
+            msgs = basicSetStartValue(newStartValue, msgs);
             if (msgs != null)
                 msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL,
-                newAssociatedLabel, newAssociatedLabel));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__START_VALUE,
+                newStartValue, newStartValue));
     }
 
     /**
@@ -382,7 +363,171 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * 
      * @generated
      */
-    public String getLabelPosition()
+    public DataElement getEndValue()
+    {
+        return endValue;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetEndValue(DataElement newEndValue, NotificationChain msgs)
+    {
+        DataElement oldEndValue = endValue;
+        endValue = newEndValue;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_RANGE__END_VALUE, oldEndValue, newEndValue);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setEndValue(DataElement newEndValue)
+    {
+        if (newEndValue != endValue)
+        {
+            NotificationChain msgs = null;
+            if (endValue != null)
+                msgs = ((InternalEObject) endValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__END_VALUE, null, msgs);
+            if (newEndValue != null)
+                msgs = ((InternalEObject) newEndValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__END_VALUE, null, msgs);
+            msgs = basicSetEndValue(newEndValue, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__END_VALUE,
+                newEndValue, newEndValue));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Label getLabel()
+    {
+        return label;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
+    {
+        Label oldLabel = label;
+        label = newLabel;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_RANGE__LABEL, oldLabel, newLabel);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setLabel(Label newLabel)
+    {
+        if (newLabel != label)
+        {
+            NotificationChain msgs = null;
+            if (label != null)
+                msgs = ((InternalEObject) label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__LABEL, null, msgs);
+            if (newLabel != null)
+                msgs = ((InternalEObject) newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__LABEL, null, msgs);
+            msgs = basicSetLabel(newLabel, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__LABEL, newLabel,
+                newLabel));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Anchor getLabelAnchor()
+    {
+        return labelAnchor;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setLabelAnchor(Anchor newLabelAnchor)
+    {
+        Anchor oldLabelAnchor = labelAnchor;
+        labelAnchor = newLabelAnchor == null ? LABEL_ANCHOR_EDEFAULT : newLabelAnchor;
+        boolean oldLabelAnchorESet = labelAnchorESet;
+        labelAnchorESet = true;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__LABEL_ANCHOR,
+                oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void unsetLabelAnchor()
+    {
+        Anchor oldLabelAnchor = labelAnchor;
+        boolean oldLabelAnchorESet = labelAnchorESet;
+        labelAnchor = LABEL_ANCHOR_EDEFAULT;
+        labelAnchorESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_RANGE__LABEL_ANCHOR,
+                oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean isSetLabelAnchor()
+    {
+        return labelAnchorESet;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Position getLabelPosition()
     {
         return labelPosition;
     }
@@ -392,13 +537,97 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * 
      * @generated
      */
-    public void setLabelPosition(String newLabelPosition)
+    public void setLabelPosition(Position newLabelPosition)
     {
-        String oldLabelPosition = labelPosition;
-        labelPosition = newLabelPosition;
+        Position oldLabelPosition = labelPosition;
+        labelPosition = newLabelPosition == null ? LABEL_POSITION_EDEFAULT : newLabelPosition;
+        boolean oldLabelPositionESet = labelPositionESet;
+        labelPositionESet = true;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__LABEL_POSITION,
-                oldLabelPosition, labelPosition));
+                oldLabelPosition, labelPosition, !oldLabelPositionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void unsetLabelPosition()
+    {
+        Position oldLabelPosition = labelPosition;
+        boolean oldLabelPositionESet = labelPositionESet;
+        labelPosition = LABEL_POSITION_EDEFAULT;
+        labelPositionESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_RANGE__LABEL_POSITION,
+                oldLabelPosition, LABEL_POSITION_EDEFAULT, oldLabelPositionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean isSetLabelPosition()
+    {
+        return labelPositionESet;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public FormatSpecifier getFormatSpecifier()
+    {
+        return formatSpecifier;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
+    {
+        FormatSpecifier oldFormatSpecifier = formatSpecifier;
+        formatSpecifier = newFormatSpecifier;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
+    {
+        if (newFormatSpecifier != formatSpecifier)
+        {
+            NotificationChain msgs = null;
+            if (formatSpecifier != null)
+                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, null, msgs);
+            if (newFormatSpecifier != null)
+                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER, null, msgs);
+            msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER,
+                newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
@@ -417,8 +646,14 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
                     return basicSetOutline(null, msgs);
                 case ComponentPackage.MARKER_RANGE__FILL:
                     return basicSetFill(null, msgs);
-                case ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL:
-                    return basicSetAssociatedLabel(null, msgs);
+                case ComponentPackage.MARKER_RANGE__START_VALUE:
+                    return basicSetStartValue(null, msgs);
+                case ComponentPackage.MARKER_RANGE__END_VALUE:
+                    return basicSetEndValue(null, msgs);
+                case ComponentPackage.MARKER_RANGE__LABEL:
+                    return basicSetLabel(null, msgs);
+                case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER:
+                    return basicSetFormatSpecifier(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -439,14 +674,18 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
                 return getOutline();
             case ComponentPackage.MARKER_RANGE__FILL:
                 return getFill();
-            case ComponentPackage.MARKER_RANGE__START_POSITION:
-                return getStartPosition();
-            case ComponentPackage.MARKER_RANGE__END_POSITION:
-                return getEndPosition();
-            case ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL:
-                return getAssociatedLabel();
+            case ComponentPackage.MARKER_RANGE__START_VALUE:
+                return getStartValue();
+            case ComponentPackage.MARKER_RANGE__END_VALUE:
+                return getEndValue();
+            case ComponentPackage.MARKER_RANGE__LABEL:
+                return getLabel();
+            case ComponentPackage.MARKER_RANGE__LABEL_ANCHOR:
+                return getLabelAnchor();
             case ComponentPackage.MARKER_RANGE__LABEL_POSITION:
                 return getLabelPosition();
+            case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER:
+                return getFormatSpecifier();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -466,17 +705,23 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
             case ComponentPackage.MARKER_RANGE__FILL:
                 setFill((Fill) newValue);
                 return;
-            case ComponentPackage.MARKER_RANGE__START_POSITION:
-                setStartPosition((Object) newValue);
+            case ComponentPackage.MARKER_RANGE__START_VALUE:
+                setStartValue((DataElement) newValue);
                 return;
-            case ComponentPackage.MARKER_RANGE__END_POSITION:
-                setEndPosition((Object) newValue);
+            case ComponentPackage.MARKER_RANGE__END_VALUE:
+                setEndValue((DataElement) newValue);
                 return;
-            case ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL:
-                setAssociatedLabel((Label) newValue);
+            case ComponentPackage.MARKER_RANGE__LABEL:
+                setLabel((Label) newValue);
+                return;
+            case ComponentPackage.MARKER_RANGE__LABEL_ANCHOR:
+                setLabelAnchor((Anchor) newValue);
                 return;
             case ComponentPackage.MARKER_RANGE__LABEL_POSITION:
-                setLabelPosition((String) newValue);
+                setLabelPosition((Position) newValue);
+                return;
+            case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -497,17 +742,23 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
             case ComponentPackage.MARKER_RANGE__FILL:
                 setFill((Fill) null);
                 return;
-            case ComponentPackage.MARKER_RANGE__START_POSITION:
-                setStartPosition(START_POSITION_EDEFAULT);
+            case ComponentPackage.MARKER_RANGE__START_VALUE:
+                setStartValue((DataElement) null);
                 return;
-            case ComponentPackage.MARKER_RANGE__END_POSITION:
-                setEndPosition(END_POSITION_EDEFAULT);
+            case ComponentPackage.MARKER_RANGE__END_VALUE:
+                setEndValue((DataElement) null);
                 return;
-            case ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL:
-                setAssociatedLabel((Label) null);
+            case ComponentPackage.MARKER_RANGE__LABEL:
+                setLabel((Label) null);
+                return;
+            case ComponentPackage.MARKER_RANGE__LABEL_ANCHOR:
+                unsetLabelAnchor();
                 return;
             case ComponentPackage.MARKER_RANGE__LABEL_POSITION:
-                setLabelPosition(LABEL_POSITION_EDEFAULT);
+                unsetLabelPosition();
+                return;
+            case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -526,16 +777,18 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
                 return outline != null;
             case ComponentPackage.MARKER_RANGE__FILL:
                 return fill != null;
-            case ComponentPackage.MARKER_RANGE__START_POSITION:
-                return START_POSITION_EDEFAULT == null ? startPosition != null : !START_POSITION_EDEFAULT
-                    .equals(startPosition);
-            case ComponentPackage.MARKER_RANGE__END_POSITION:
-                return END_POSITION_EDEFAULT == null ? endPosition != null : !END_POSITION_EDEFAULT.equals(endPosition);
-            case ComponentPackage.MARKER_RANGE__ASSOCIATED_LABEL:
-                return associatedLabel != null;
+            case ComponentPackage.MARKER_RANGE__START_VALUE:
+                return startValue != null;
+            case ComponentPackage.MARKER_RANGE__END_VALUE:
+                return endValue != null;
+            case ComponentPackage.MARKER_RANGE__LABEL:
+                return label != null;
+            case ComponentPackage.MARKER_RANGE__LABEL_ANCHOR:
+                return isSetLabelAnchor();
             case ComponentPackage.MARKER_RANGE__LABEL_POSITION:
-                return LABEL_POSITION_EDEFAULT == null ? labelPosition != null : !LABEL_POSITION_EDEFAULT
-                    .equals(labelPosition);
+                return isSetLabelPosition();
+            case ComponentPackage.MARKER_RANGE__FORMAT_SPECIFIER:
+                return formatSpecifier != null;
         }
         return eDynamicIsSet(eFeature);
     }
@@ -551,16 +804,19 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (startPosition: ");
-        result.append(startPosition);
-        result.append(", endPosition: ");
-        result.append(endPosition);
+        result.append(" (labelAnchor: ");
+        if (labelAnchorESet)
+            result.append(labelAnchor);
+        else
+            result.append("<unset>");
         result.append(", labelPosition: ");
-        result.append(labelPosition);
+        if (labelPositionESet)
+            result.append(labelPosition);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }
-
 
     /**
      * A convenience method provided to add a marker range instance to an axis
@@ -574,17 +830,16 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
         final LineAttributes liaOutline = LineAttributesImpl.create(null, LineStyle.SOLID_LITERAL, 1);
         mr.setOutline(liaOutline);
         mr.setFill(f);
-        mr.setStartPosition(deStart);
-        mr.setEndPosition(deEnd);
-        mr.setAssociatedLabel(LabelImpl.create());
-        /*mr.setAnchor(
-            ax.getOrientation().getValue() == Orientation.HORIZONTAL
-            ? Anchor.NORTH_EAST_LITERAL
-            : Anchor.NORTH_WEST_LITERAL
-        );*/
-        ax.getMarkerRange().add(mr);
+        mr.setStartValue(deStart);
+        mr.setEndValue(deEnd);
+        mr.setLabel(LabelImpl.create());
+        /*
+         * mr.setAnchor( ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL :
+         * Anchor.NORTH_WEST_LITERAL );
+         */
+        ax.getMarkerRanges().add(mr);
         //mr.setFormatSpecifier(ax.getFormatSpecifier());
         return mr;
     }
-    
+
 } //MarkerRangeImpl

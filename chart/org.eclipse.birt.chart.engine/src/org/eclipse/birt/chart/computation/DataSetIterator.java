@@ -584,7 +584,7 @@ public final class DataSetIterator implements Iterator
         }
 
         final int iUnit = CDateTime.computeUnit(cdta); //CDateTime.getDifference( new CDateTime( caMin ), new
-                                                       // CDateTime( caMax ) );
+        // CDateTime( caMax ) );
         for (i = 0; i < cdta.length; i++)
         {
             cdta[i].clearBelow(iUnit);

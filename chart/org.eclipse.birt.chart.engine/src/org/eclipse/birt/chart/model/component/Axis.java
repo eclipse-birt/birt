@@ -46,8 +46,8 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLine <em>Marker Line</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRange <em>Marker Range</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}</li>
@@ -600,37 +600,37 @@ public interface Axis extends EObject
     boolean isSetStaggered();
 
     /**
-     * Returns the value of the '<em><b>Marker Line</b></em>' containment reference list. The list contents are of
-     * type {@link org.eclipse.birt.chart.model.component.MarkerLine}. <!-- begin-user-doc --> Gets the list of marker
-     * lines associated with this axis. <!-- end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Marker Lines</b></em>' containment reference list. The list contents are of
+     * type {@link org.eclipse.birt.chart.model.component.MarkerLine}. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
      * 
-     * Defines the area where the actual chart is to be plotted.
+     * Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Marker Line</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLine()
+     * @return the value of the '<em>Marker Lines</em>' containment reference list.
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLines()
      * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true" resolveProxies="false"
      * @generated
      */
-    EList getMarkerLine();
+    EList getMarkerLines();
 
     /**
-     * Returns the value of the '<em><b>Marker Range</b></em>' containment reference list. The list contents are of
-     * type {@link org.eclipse.birt.chart.model.component.MarkerRange}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Marker Ranges</b></em>' containment reference list. The list contents are
+     * of type {@link org.eclipse.birt.chart.model.component.MarkerRange}. <!-- begin-user-doc --> <!-- end-user-doc
+     * --> <!-- begin-model-doc -->
      * 
-     * Defines a marker area for a range of values on the axis displayed as a filled rectangle extending across the plot
-     * between the start and end positions.
+     * Defines a set of marker areas for a range of values on the axis displayed as filled rectangles extending across
+     * the plot between the start and end positions.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Marker Range</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerRange()
+     * @return the value of the '<em>Marker Ranges</em>' containment reference list.
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerRanges()
      * @model type="org.eclipse.birt.chart.model.component.MarkerRange" containment="true" resolveProxies="false"
      * @generated
      */
-    EList getMarkerRange();
+    EList getMarkerRanges();
 
     /**
      * Returns the value of the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--

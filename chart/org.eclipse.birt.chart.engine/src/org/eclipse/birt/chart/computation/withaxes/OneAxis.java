@@ -21,9 +21,8 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * This class provides an internal implementation of the axis class used by the renderer.
- * Note that positions, orientations, rotation angles, etc could be transposed and may not
- * reflect the same values maintained by the model. 
+ * This class provides an internal implementation of the axis class used by the renderer. Note that positions,
+ * orientations, rotation angles, etc could be transposed and may not reflect the same values maintained by the model.
  */
 public final class OneAxis
 {
@@ -48,7 +47,7 @@ public final class OneAxis
     private Grid gr = null;
 
     private boolean bCategoryScale = false;
-    
+
     private final Axis axModel;
 
     public int getCombinedTickStyle()
@@ -115,7 +114,7 @@ public final class OneAxis
     {
         return axModel;
     }
-    
+
     final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, int iMajorTickStyle,
         int iMinorTickStyle, int iMinorUnitsPerMajorUnit)
     {

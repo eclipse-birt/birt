@@ -63,7 +63,7 @@ public interface Chart extends EObject
      * Returns the value of the '<em><b>Version</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * Specifies the version number of this chart. (This will be linked to the version number of the chart library.)
+     * Specifies the version number of this chart.
      * 
      * <!-- end-model-doc -->
      * 
@@ -543,22 +543,21 @@ public interface Chart extends EObject
      *            Possible values are IConstants.RUN_TIME and IConstants.USER_INTERFACE
      */
     void clearSections(int iSectionType);
-    
+
     /**
      * 
      * @param sh
      */
     void setScriptHandler(ScriptHandler sh);
-    
+
     /**
      * 
      * @return
      */
     ScriptHandler getScriptHandler();
-    
+
     /**
-     * Builds runtime series instances for each design-time series based on the sample data
-     * contained in the model 
+     * Builds runtime series instances for each design-time series based on the sample data contained in the model
      */
     void createSampleRuntimeSeries();
 } // Chart

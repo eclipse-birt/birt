@@ -288,10 +288,10 @@ public abstract class BaseRenderer
         if (bFirstInSequence)
         {
             // ALWAYS RENDER THE OUTERMOST BLOCK FIRST
-            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
             bge.updateBlock(bl);
             renderBlock(idr, bl);
-            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
         }
 
         // RENDER ALL BLOCKS EXCEPT FOR THE LEGEND IN THIS ITERATIVE LOOP
@@ -302,9 +302,9 @@ public abstract class BaseRenderer
 
             if (bl instanceof Plot)
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                 renderPlot(ir, (Plot) bl);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
                 if (bFirstInSequence && !bLastInSequence)
                 {
                     break;
@@ -317,27 +317,27 @@ public abstract class BaseRenderer
             }
             else if (bl instanceof TitleBlock && bStarted)
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                 renderTitle(ir, bl);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
             }
             else if (bl instanceof LabelBlock && bStarted)
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                 renderLabel(ir, bl);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
             }
             else if (bl instanceof Legend && bStarted)
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                 renderLegend(idr, (Legend) bl, htRenderers);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
             }
             else if (bStarted)
             {
-                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl);
                 renderBlock(ir, bl);
-                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl);
             }
         }
 
@@ -881,7 +881,7 @@ public abstract class BaseRenderer
         Fill fPaletteEntry, LegendItemRenderingHints lirh) throws RenderingException
     {
         ScriptHandler sh = getModel().getScriptHandler();
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY, la); 
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY, la);
         final Bounds bo = lirh.getLegendGraphicBounds();
         bo.setLeft(dX + dLeftInset + 1);
         bo.setTop(dY + 1);
@@ -923,12 +923,13 @@ public abstract class BaseRenderer
                     iev.addTrigger(tg);
                 }
             }
-            final PolygonRenderEvent pre = (PolygonRenderEvent) ((EventObjectCache) ipr).getEventObject(lg, PolygonRenderEvent.class);
+            final PolygonRenderEvent pre = (PolygonRenderEvent) ((EventObjectCache) ipr).getEventObject(lg,
+                PolygonRenderEvent.class);
             pre.setPoints(loaHotspot);
             iev.setHotSpot(pre);
             ipr.enableInteraction(iev);
         }
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_LEGEND_ENTRY, la); 
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_LEGEND_ENTRY, la);
     }
 
     /**
@@ -948,9 +949,9 @@ public abstract class BaseRenderer
             renderBackground(ipr, p);
         }
 
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this); 
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this); 
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
 
         if (bLastInSequence)
         {
@@ -1118,7 +1119,7 @@ public abstract class BaseRenderer
             else
             {
                 final SeriesDefinition sdBase = (SeriesDefinition) elBase.get(0); // ONLY 1 SERIES DEFINITION MAY BE
-                                                                                  // ASSOCIATED
+                // ASSOCIATED
                 // WITH THE BASE AXIS
                 alRunTimeSeries = sdBase.getRunTimeSeries();
                 if (alRunTimeSeries.isEmpty())
@@ -1327,7 +1328,8 @@ public abstract class BaseRenderer
             {
                 fDarker = ((ColorDefinition) fDarker).darker();
                 ColorDefinition cdD = (ColorDefinition) fDarker;
-                System.out.println("darker Creating color " + cdD.getRed() + ", "+ cdD.getGreen()+ ", "+cdD.getBlue());
+                System.out.println("darker Creating color " + cdD.getRed() + ", " + cdD.getGreen() + ", "
+                    + cdD.getBlue());
             }
             fBrighter = f;
             if (fBrighter instanceof ColorDefinition)

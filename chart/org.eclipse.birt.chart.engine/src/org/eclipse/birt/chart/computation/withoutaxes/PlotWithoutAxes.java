@@ -49,7 +49,7 @@ public final class PlotWithoutAxes
     private final ChartWithoutAxes cwoa;
 
     /**
-     * 
+     *  
      */
     private final Locale lcl;
 
@@ -59,22 +59,22 @@ public final class PlotWithoutAxes
     private transient double dPointToPixel = 0;
 
     /**
-     * 
+     *  
      */
     private transient Size szCell = null;
 
     /**
-     * 
+     *  
      */
     private transient int iRows = 0, iColumns = 0, iSeries = 0;
 
     /**
-     * 
+     *  
      */
     private transient Bounds boPlot = null;
 
     /**
-     * 
+     *  
      */
     private transient Insets insCA = null;
 
@@ -202,8 +202,9 @@ public final class PlotWithoutAxes
         final DataPointHints[] dpha = new DataPointHints[iCount];
         for (int i = 0; i < iCount; i++)
         {
-            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), seOrthogonal.getSeriesIdentifier(),
-                seOrthogonal.getDataPoint(), seBase.getFormatSpecifier(), seOrthogonal.getFormatSpecifier(), null, -1, lcl);
+            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), seOrthogonal
+                .getSeriesIdentifier(), seOrthogonal.getDataPoint(), seBase.getFormatSpecifier(), seOrthogonal
+                .getFormatSpecifier(), null, -1, lcl);
         }
 
         return new SeriesRenderingHints(dpha);

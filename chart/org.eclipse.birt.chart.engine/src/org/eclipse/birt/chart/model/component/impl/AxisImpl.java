@@ -66,8 +66,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLine <em>Marker Line</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRange <em>Marker Range</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
@@ -322,24 +322,24 @@ public class AxisImpl extends EObjectImpl implements Axis
     protected boolean staggeredESet = false;
 
     /**
-     * The cached value of the '{@link #getMarkerLine() <em>Marker Line</em>}' containment reference list. <!--
+     * The cached value of the '{@link #getMarkerLines() <em>Marker Lines</em>}' containment reference list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getMarkerLine()
+     * @see #getMarkerLines()
      * @generated
      * @ordered
      */
-    protected EList markerLine = null;
+    protected EList markerLines = null;
 
     /**
-     * The cached value of the '{@link #getMarkerRange() <em>Marker Range</em>}' containment reference list. <!--
+     * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}' containment reference list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getMarkerRange()
+     * @see #getMarkerRanges()
      * @generated
      * @ordered
      */
-    protected EList markerRange = null;
+    protected EList markerRanges = null;
 
     /**
      * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference. <!--
@@ -1113,13 +1113,13 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * @generated
      */
-    public EList getMarkerLine()
+    public EList getMarkerLines()
     {
-        if (markerLine == null)
+        if (markerLines == null)
         {
-            markerLine = new EObjectContainmentEList(MarkerLine.class, this, ComponentPackage.AXIS__MARKER_LINE);
+            markerLines = new EObjectContainmentEList(MarkerLine.class, this, ComponentPackage.AXIS__MARKER_LINES);
         }
-        return markerLine;
+        return markerLines;
     }
 
     /**
@@ -1127,13 +1127,13 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * @generated
      */
-    public EList getMarkerRange()
+    public EList getMarkerRanges()
     {
-        if (markerRange == null)
+        if (markerRanges == null)
         {
-            markerRange = new EObjectContainmentEList(MarkerRange.class, this, ComponentPackage.AXIS__MARKER_RANGE);
+            markerRanges = new EObjectContainmentEList(MarkerRange.class, this, ComponentPackage.AXIS__MARKER_RANGES);
         }
-        return markerRange;
+        return markerRanges;
     }
 
     /**
@@ -1540,10 +1540,10 @@ public class AxisImpl extends EObjectImpl implements Axis
                     return basicSetLabel(null, msgs);
                 case ComponentPackage.AXIS__FORMAT_SPECIFIER:
                     return basicSetFormatSpecifier(null, msgs);
-                case ComponentPackage.AXIS__MARKER_LINE:
-                    return ((InternalEList) getMarkerLine()).basicRemove(otherEnd, msgs);
-                case ComponentPackage.AXIS__MARKER_RANGE:
-                    return ((InternalEList) getMarkerRange()).basicRemove(otherEnd, msgs);
+                case ComponentPackage.AXIS__MARKER_LINES:
+                    return ((InternalEList) getMarkerLines()).basicRemove(otherEnd, msgs);
+                case ComponentPackage.AXIS__MARKER_RANGES:
+                    return ((InternalEList) getMarkerRanges()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__MAJOR_GRID:
                     return basicSetMajorGrid(null, msgs);
                 case ComponentPackage.AXIS__MINOR_GRID:
@@ -1594,10 +1594,10 @@ public class AxisImpl extends EObjectImpl implements Axis
                 return getLabelPosition();
             case ComponentPackage.AXIS__STAGGERED:
                 return isStaggered() ? Boolean.TRUE : Boolean.FALSE;
-            case ComponentPackage.AXIS__MARKER_LINE:
-                return getMarkerLine();
-            case ComponentPackage.AXIS__MARKER_RANGE:
-                return getMarkerRange();
+            case ComponentPackage.AXIS__MARKER_LINES:
+                return getMarkerLines();
+            case ComponentPackage.AXIS__MARKER_RANGES:
+                return getMarkerRanges();
             case ComponentPackage.AXIS__MAJOR_GRID:
                 return getMajorGrid();
             case ComponentPackage.AXIS__MINOR_GRID:
@@ -1666,13 +1666,13 @@ public class AxisImpl extends EObjectImpl implements Axis
             case ComponentPackage.AXIS__STAGGERED:
                 setStaggered(((Boolean) newValue).booleanValue());
                 return;
-            case ComponentPackage.AXIS__MARKER_LINE:
-                getMarkerLine().clear();
-                getMarkerLine().addAll((Collection) newValue);
+            case ComponentPackage.AXIS__MARKER_LINES:
+                getMarkerLines().clear();
+                getMarkerLines().addAll((Collection) newValue);
                 return;
-            case ComponentPackage.AXIS__MARKER_RANGE:
-                getMarkerRange().clear();
-                getMarkerRange().addAll((Collection) newValue);
+            case ComponentPackage.AXIS__MARKER_RANGES:
+                getMarkerRanges().clear();
+                getMarkerRanges().addAll((Collection) newValue);
                 return;
             case ComponentPackage.AXIS__MAJOR_GRID:
                 setMajorGrid((Grid) newValue);
@@ -1747,11 +1747,11 @@ public class AxisImpl extends EObjectImpl implements Axis
             case ComponentPackage.AXIS__STAGGERED:
                 unsetStaggered();
                 return;
-            case ComponentPackage.AXIS__MARKER_LINE:
-                getMarkerLine().clear();
+            case ComponentPackage.AXIS__MARKER_LINES:
+                getMarkerLines().clear();
                 return;
-            case ComponentPackage.AXIS__MARKER_RANGE:
-                getMarkerRange().clear();
+            case ComponentPackage.AXIS__MARKER_RANGES:
+                getMarkerRanges().clear();
                 return;
             case ComponentPackage.AXIS__MAJOR_GRID:
                 setMajorGrid((Grid) null);
@@ -1813,10 +1813,10 @@ public class AxisImpl extends EObjectImpl implements Axis
                 return isSetLabelPosition();
             case ComponentPackage.AXIS__STAGGERED:
                 return isSetStaggered();
-            case ComponentPackage.AXIS__MARKER_LINE:
-                return markerLine != null && !markerLine.isEmpty();
-            case ComponentPackage.AXIS__MARKER_RANGE:
-                return markerRange != null && !markerRange.isEmpty();
+            case ComponentPackage.AXIS__MARKER_LINES:
+                return markerLines != null && !markerLines.isEmpty();
+            case ComponentPackage.AXIS__MARKER_RANGES:
+                return markerRanges != null && !markerRanges.isEmpty();
             case ComponentPackage.AXIS__MAJOR_GRID:
                 return majorGrid != null;
             case ComponentPackage.AXIS__MINOR_GRID:

@@ -320,7 +320,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * A transient script handler capable of processing/executing scripts
      */
     private transient ScriptHandler sh = null;
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -1206,27 +1206,30 @@ public class ChartImpl extends EObjectImpl implements Chart
     {
         // TODO: Recursively walk through the model and clear unwanted sections as requested
     }
-    
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.Chart#setScriptHandler(org.eclipse.birt.chart.model.ScriptHandler)
      */
     public void setScriptHandler(ScriptHandler sh)
     {
         this.sh = sh;
     }
-    
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.Chart#getScriptHandler()
      */
     public ScriptHandler getScriptHandler()
     {
         return sh;
     }
-    
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.Chart#createSampleRuntimeSeries()
      */
     public final void createSampleRuntimeSeries()
@@ -1241,24 +1244,25 @@ public class ChartImpl extends EObjectImpl implements Chart
         try
         {
             // Process Base SeriesDefinitions
-            Series seriesBaseRuntime = (Series) EcoreUtil.copy(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries());
-            
+            Series seriesBaseRuntime = (Series) EcoreUtil.copy(getBaseSeriesDefinitionForProcessing()
+                .getDesignTimeSeries());
+
             // Clear existing values from the dataset
             seriesBaseRuntime.setDataSet(null);
-            
+
             // Clear any existing Runtime Series
             chart.clearSections(IConstants.RUN_TIME);
-            
+
             // Get the BaseSampleData and use it to construct dataset
             seriesBaseRuntime.setDataSet((PluginSettings.instance()
                 .getDataSetProcessor(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries().getClass()))
                 .fromString(((BaseSampleData) sd.getBaseSampleData().get(0)).getDataSetRepresentation(),
                     seriesBaseRuntime.getDataSet()));
             getBaseSeriesDefinitionForProcessing().getSeries().add(seriesBaseRuntime);
-            
+
             // Set sample series identifier
             seriesBaseRuntime.setSeriesIdentifier("Category 1");
-            
+
             // Process Orthogonal SeriesDefinitions
             Vector vOSD = getOrthogonalSeriesDefinitions();
             int[] iOSD = new int[vOSD.size()];
@@ -1362,5 +1366,5 @@ public class ChartImpl extends EObjectImpl implements Chart
             return vTmp;
         }
     }
-    
+
 } //ChartImpl

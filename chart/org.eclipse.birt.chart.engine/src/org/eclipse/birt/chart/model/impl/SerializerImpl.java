@@ -86,7 +86,7 @@ public class SerializerImpl implements Serializer
     {
         // REMOVE ANY TRANSIENT RUNTIME SERIES
         cModel.clearSections(IConstants.RUN_TIME);
-        
+
         // Create and setup local ResourceSet
         ResourceSet rsChart = new ResourceSetImpl();
         rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", new ModelResourceFactoryImpl());
@@ -115,7 +115,7 @@ public class SerializerImpl implements Serializer
     {
         // REMOVE ANY TRANSIENT RUNTIME SERIES
         cModel.clearSections(IConstants.RUN_TIME);
-        
+
         // Create and setup local ResourceSet
         ResourceSet rsChart = new ResourceSetImpl();
         rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", new ModelResourceFactoryImpl());
@@ -147,7 +147,7 @@ public class SerializerImpl implements Serializer
     {
         // REMOVE ANY TRANSIENT RUNTIME SERIES
         cModel.clearSections(IConstants.RUN_TIME);
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // Create and setup local ResourceSet

@@ -118,7 +118,7 @@ public interface IConstants
     public final int NON_PRIMITIVE_ARRAY = 3;
 
     public static final String EMPTY_STRING = "";
-    
+
     public static final String ONE_SPACE = " ";
 
     public static final String UNDEFINED_STRING = "<undefined>";
@@ -126,7 +126,7 @@ public interface IConstants
     public static final String NULL_STRING = "null";
 
     public final int SOME_NULL = -2;
-    
+
     public final int LESS = -1;
 
     public final int EQUAL = 0;

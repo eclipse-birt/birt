@@ -769,9 +769,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
         return (SeriesDefinition[]) al.toArray(SeriesDefinition.EMPTY_ARRAY);
     }
-    
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.Chart#clearSections(int)
      */
     public final void clearSections(int iSectionType)
@@ -805,4 +806,4 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
             }
         }
     }
-} 
+}

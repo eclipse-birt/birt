@@ -225,9 +225,10 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
     {
         return BoundsImpl.create(loTopLeft.getX(), loTopLeft.getY(), dWidth, dHeight);
     }
-    
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
      */
     public final Bounds getBounds()
