@@ -18,10 +18,9 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -34,7 +33,6 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
@@ -112,7 +110,7 @@ public class BasePaletteFactory
 						.getReportDesignHandle( )
 						.getElementFactory( )
 						.newTableItem( null, 3 );
-				setInitWidth( table );
+				InsertInLayoutUtil.setInitWidth( table );
 				setModel( table );
 				return super.preHandleMouseUp( );
 			}
@@ -462,7 +460,7 @@ public class BasePaletteFactory
 			{
 				return false;
 			}
-			setInitWidth( grid );
+			InsertInLayoutUtil.setInitWidth( grid );
 			setModel( grid );
 			return super.preHandleMouseUp( );
 		}
@@ -491,17 +489,14 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseUp( )
 		{
-			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
-			if ( object instanceof DataSetHandle )
+			if ( getRequest( ).getNewObjectType( ) instanceof DataSetHandle )
 			{
 				try
 				{
-					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
 							getTargetEditPart( ) );
 					if ( newHandle == null )
 						return false;
-
-					setInitWidth( newHandle );
 					setModel( newHandle );
 					return super.preHandleMouseUp( );
 				}
@@ -539,12 +534,11 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseUp( )
 		{
-			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
-			if ( object instanceof DataSetItemModel )
+			if ( getRequest( ).getNewObjectType( ) instanceof DataSetItemModel )
 			{
 				try
 				{
-					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
 							getTargetEditPart( ) );
 					if ( newHandle == null )
 						return false;
@@ -585,12 +579,11 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseUp( )
 		{
-			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
-			if ( object instanceof ScalarParameterHandle )
+			if ( getRequest( ).getNewObjectType( ) instanceof ScalarParameterHandle )
 			{
 				try
 				{
-					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+					Object newHandle = InsertInLayoutUtil.performInsert( getRequest( ).getNewObject( ),
 							getTargetEditPart( ) );
 					if ( newHandle == null )
 						return false;
@@ -617,90 +610,4 @@ public class BasePaletteFactory
 		}
 	}
 
-	/**
-	 * Provides element building support for parameter.
-	 */
-	public static class LayoutToolExtends extends AbstractToolHandleExtends
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
-		 */
-		public boolean preHandleMouseUp( )
-		{
-			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
-			return DNDUtil.moveHandles( object,
-					getTargetEditPart( ).getModel( ),
-					-1 );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
-		 */
-		public boolean preHandleMouseDown( )
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Gets single transfer data from TemplateTransfer
-	 * 
-	 * @param template
-	 *            object transfered by TemplateTransfer
-	 * @return single transfer data in array or itself
-	 */
-	static Object getSingleTransferData( Object template )
-	{
-		if ( template instanceof Object[] )
-		{
-			return ( (Object[]) template )[0];
-		}
-		return template;
-	}
-
-	public static void setInitWidth( Object object )
-	{
-		final int precision = 10;
-		int percentAll = 100 * precision;
-		SlotHandle columns = null;
-		try
-		{
-			if ( object instanceof TableHandle )
-			{
-				TableHandle table = (TableHandle) object;
-				columns = table.getColumns( );
-				table.setWidth( percentAll
-						/ precision + DesignChoiceConstants.UNITS_PERCENTAGE );
-			}
-			else if ( object instanceof GridHandle )
-			{
-				GridHandle grid = (GridHandle) object;
-				columns = grid.getColumns( );
-				grid.setWidth( percentAll
-						/ precision + DesignChoiceConstants.UNITS_PERCENTAGE );
-			}
-			else
-				return;
-
-			//			for ( int i = 0, count = columns.getCount( ); i < count; i++ )
-			//			{
-			//				int currentPercent = i == count - 1 ? percentAll : 1000 / count;
-			//				percentAll -= currentPercent;
-			//
-			//				( (ColumnHandle) columns.get( i ) ).getWidth( )
-			//						.setStringValue( (double) currentPercent
-			//								/ precision
-			//								+ DesignChoiceConstants.UNITS_PERCENTAGE );
-			//			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-	}
 }

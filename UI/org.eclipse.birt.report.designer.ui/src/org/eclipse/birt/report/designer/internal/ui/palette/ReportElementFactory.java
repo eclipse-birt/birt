@@ -20,6 +20,7 @@ public class ReportElementFactory implements CreationFactory
 {
 
 	private Object elementName;
+	private Object newObject;
 
 	/**
 	 * Constructor
@@ -31,6 +32,17 @@ public class ReportElementFactory implements CreationFactory
 		elementName = name;
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 */
+	public ReportElementFactory( Object name, Object newObject )
+	{
+		this.elementName = name;
+		this.newObject = newObject;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,7 +50,7 @@ public class ReportElementFactory implements CreationFactory
 	 */
 	public Object getNewObject( )
 	{
-		return null;
+		return newObject;
 	}
 
 	/*

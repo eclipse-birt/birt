@@ -780,9 +780,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 * Insert a row to a specific position.
 	 * 
 	 * @param rowNumber
-	 *            The row number.
+	 *            The row number. 1 insert after position. -1 insert before
+	 *            position
 	 * @param parentRowNumber
-	 *            The row number of parent.
+	 *            The row number in the table.
 	 * @throws SemanticException
 	 */
 	public void insertRow( int rowNumber, int parentRowNumber )
@@ -854,10 +855,35 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
+	 * Insert multiple rows to a specific position.
+	 * 
+	 * @param rowCount
+	 *            The row insert count. Positive number will insert after
+	 *            position, negative insert before the position
+	 * @param rowNumber
+	 *            The row position in the table.
+	 * @throws SemanticException
+	 */
+	public void insertRows( int rowCount, int rowNumber )
+			throws SemanticException
+	{
+		transStar( TRANS_LABEL_INSERT_ROW );
+		int absoluteCount = Math.abs( rowCount );
+		int sign = rowCount / absoluteCount;
+		for ( int i = 0; i < absoluteCount; i++ )
+		{
+			insertRow( sign, rowNumber );
+			rowNumber += sign;
+		}
+		transEnd( );
+	}
+
+	/**
 	 * Insert a column to a specific position.
 	 * 
 	 * @param columnNumber
-	 *            The column number.
+	 *            The column insert sign. 1 insert after position. -1 insert
+	 *            before position
 	 * @param parentColumnNumber
 	 *            The column number of parent.
 	 * @throws SemanticException
@@ -938,6 +964,30 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
+	 * Insert multiple columns to a specific position.
+	 * 
+	 * @param columnCount
+	 *            The column insert count. Positive number will insert after
+	 *            position, negative insert before the position
+	 * @param columnNumber
+	 *            The column position in the table.
+	 * @throws SemanticException
+	 */
+	public void insertColumns( int columnCount, int columnNumber )
+			throws SemanticException
+	{
+		transStar( TRANS_LABEL_INSERT_COLUMN );
+		int absoluteCount = Math.abs( columnCount );
+		int sign = columnCount / absoluteCount;
+		for ( int i = 0; i < absoluteCount; i++ )
+		{
+			insertColumn( sign, columnNumber );
+			columnNumber += sign;
+		}
+		transEnd( );
+	}
+
+	/**
 	 * @param model
 	 *            The object to be removed.
 	 * @throws SemanticException
@@ -959,9 +1009,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public void deleteColumn( int[] columns ) throws SemanticException
 	{
 
-		if (columns == null)
+		if ( columns == null )
 		{
-			return ;
+			return;
 		}
 		transStar( TRANS_LABEL_DELETE_COLUMNS );
 		if ( getColumnCount( ) == columns.length )
@@ -971,18 +1021,19 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			return;
 		}
 		Arrays.sort( columns );
-		List temp = new ArrayList();
+		List temp = new ArrayList( );
 		int len = columns.length;
 		for ( int i = 0; i < len; i++ )
 		{
-			temp.add(getColumn(columns[i]));
+			temp.add( getColumn( columns[i] ) );
 		}
-		
-		
+
 		for ( int i = 0; i < len; i++ )
 		{
 			//deleteColumn( columns[i] );
-			deleteColumn( HandleAdapterFactory.getInstance().getColumnHandleAdapter(temp.get(i)).getColumnNumber());
+			deleteColumn( HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( temp.get( i ) )
+					.getColumnNumber( ) );
 		}
 		transEnd( );
 	}
@@ -1058,9 +1109,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public void deleteRow( int[] rows ) throws SemanticException
 	{
 
-		if (rows == null)
+		if ( rows == null )
 		{
-			return ;
+			return;
 		}
 		transStar( TRANS_LABEL_DELETE_ROWS );
 		if ( getRowCount( ) == rows.length )
@@ -1069,20 +1120,21 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			transEnd( );
 			return;
 		}
-		
+
 		Arrays.sort( rows );
-		List temp = new ArrayList();
+		List temp = new ArrayList( );
 		int len = rows.length;
 		for ( int i = 0; i < len; i++ )
 		{
-			temp.add(getRow(rows[i]));
+			temp.add( getRow( rows[i] ) );
 		}
-		
 
 		for ( int i = len - 1; i >= 0; i-- )
 		{
 			//deleteRow( rows[i] );
-			deleteRow( HandleAdapterFactory.getInstance().getRowHandleAdapter(temp.get(i)).getRowNumber());
+			deleteRow( HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( temp.get( i ) )
+					.getRowNumber( ) );
 		}
 		transEnd( );
 	}

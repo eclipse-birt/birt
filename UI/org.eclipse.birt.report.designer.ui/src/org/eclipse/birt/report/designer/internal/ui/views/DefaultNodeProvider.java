@@ -21,11 +21,12 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -115,6 +116,14 @@ public class DefaultNodeProvider implements INodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
+		menu.add( new Separator( ) );
+
+		InsertInLayoutAction insertAction = new InsertInLayoutAction( object );
+		if ( insertAction.isTypeAvailable( ) )
+		{
+			menu.add( insertAction );
+		}
+
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 		// Rename action
 		RenameAction renameAction = new RenameAction( sourceViewer );
@@ -318,13 +327,13 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( ReportDesignConstants.TABLE_ITEM.equals( type ) )
 		{
 			TableHandle table = factory.newTableItem( null, 3 );
-			BasePaletteFactory.setInitWidth( table );
+			InsertInLayoutUtil.setInitWidth( table );
 			return table;
 		}
 		else if ( ReportDesignConstants.GRID_ITEM.equals( type ) )
 		{
 			GridHandle grid = factory.newGridItem( null, 3, 3 );
-			BasePaletteFactory.setInitWidth( grid );
+			InsertInLayoutUtil.setInitWidth( grid );
 			return grid;
 		}
 		else if ( ReportDesignConstants.IMAGE_ITEM.equals( type ) )
@@ -474,7 +483,9 @@ public class DefaultNodeProvider implements INodeProvider
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#hasChildren(java.lang.Object)
 	 */
 	public boolean hasChildren( Object object )

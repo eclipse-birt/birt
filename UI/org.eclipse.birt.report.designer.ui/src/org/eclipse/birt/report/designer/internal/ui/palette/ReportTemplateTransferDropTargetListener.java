@@ -1,9 +1,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.palette;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
@@ -33,8 +35,9 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 /**
  * Drag&Drop listener
  */
-public class ReportTemplateTransferDropTargetListener extends
-		TemplateTransferDropTargetListener
+public class ReportTemplateTransferDropTargetListener
+		extends
+			TemplateTransferDropTargetListener
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
@@ -58,7 +61,12 @@ public class ReportTemplateTransferDropTargetListener extends
 	{
 		if ( handleValidateDrag( template ) )
 		{
-			return new ReportElementFactory( template );
+			if ( template instanceof String )
+			{
+				return new ReportElementFactory( template );
+			}
+			return new ReportElementFactory( getSingleTransferData( template ),
+					template );
 		}
 		return null;
 	}
@@ -79,8 +87,10 @@ public class ReportTemplateTransferDropTargetListener extends
 		updateTargetEditPart( );
 
 		AbstractToolHandleExtends preHandle = null;
+		String transName = null;
 		if ( template instanceof String )
 		{
+			transName = TRANS_LABEL_CREATE_ELEMENT;
 			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) template ) )
 			{
 				preHandle = new ImageToolExtends( );
@@ -128,16 +138,17 @@ public class ReportTemplateTransferDropTargetListener extends
 		}
 		else if ( handleValidateInsert( template ) )
 		{
-			Object singleSelection = BasePaletteFactory.getSingleTransferData( template );
-			if ( singleSelection instanceof DataSetHandle )
+			transName = InsertInLayoutAction.DISPLAY_TEXT;
+			Object objectType = getFactory( template ).getObjectType( );
+			if ( objectType instanceof DataSetHandle )
 			{
 				preHandle = new DataSetToolExtends( );
 			}
-			else if ( singleSelection instanceof DataSetItemModel )
+			else if ( objectType instanceof DataSetItemModel )
 			{
 				preHandle = new DataSetColumnToolExtends( );
 			}
-			else if ( singleSelection instanceof ScalarParameterHandle )
+			else if ( objectType instanceof ScalarParameterHandle )
 			{
 				preHandle = new ParameterToolExtends( );
 			}
@@ -148,7 +159,7 @@ public class ReportTemplateTransferDropTargetListener extends
 			SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
 					.getCommandStack( )
-					.startTrans( TRANS_LABEL_CREATE_ELEMENT );
+					.startTrans( transName );
 			preHandle.setRequest( this.getCreateRequest( ) );
 			preHandle.setTargetEditPart( getTargetEditPart( ) );
 
@@ -202,8 +213,8 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateInsert( Object template )
 	{
-		return InsertInLayoutAction.handleValidateInsert( template )
-				&& ( getTargetEditPart( ) == null || InsertInLayoutAction.handleValidateInsertToLayout( template,
+		return InsertInLayoutUtil.handleValidateInsert( template )
+				&& ( getTargetEditPart( ) == null || InsertInLayoutUtil.handleValidateInsertToLayout( template,
 						getTargetEditPart( ) ) );
 	}
 
@@ -238,10 +249,26 @@ public class ReportTemplateTransferDropTargetListener extends
 	private void selectAddedObject( )
 	{
 		final Object model = getCreateRequest( ).getExtendedData( )
-				.get( "newObject" ); //$NON-NLS-1$
+				.get( DesignerConstants.KEY_NEWOBJECT ); 
 		final EditPartViewer viewer = getViewer( );
 		viewer.getControl( ).setFocus( );
 		ReportCreationTool.selectAddedObject( model, viewer );
+	}
+
+	/**
+	 * Gets single transfer data from TemplateTransfer
+	 * 
+	 * @param template
+	 *            object transfered by TemplateTransfer
+	 * @return single transfer data in array or itself
+	 */
+	private Object getSingleTransferData( Object template )
+	{
+		if ( template instanceof Object[] )
+		{
+			return ( (Object[]) template )[0];
+		}
+		return template;
 	}
 
 }
