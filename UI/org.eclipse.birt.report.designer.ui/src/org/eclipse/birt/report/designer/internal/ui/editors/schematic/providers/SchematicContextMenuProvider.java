@@ -29,9 +29,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Ed
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeListDetailAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeListFooterAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeListHeaderAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupAction;
@@ -56,20 +53,25 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -170,139 +172,142 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		GEFActionConstants.addStandardActionGroups( menuManager );
 
-		// undo , redo
-		appendActionToUndoGroup( getAction( ActionFactory.UNDO.getId( ) ),
-				menuManager );
-		appendActionToUndoGroup( getAction( ActionFactory.REDO.getId( ) ),
-				menuManager );
-
-		appendActionToEditGroup( getAction( GEFActionConstants.DIRECT_EDIT ),
-				menuManager );
-		appendActionToEditGroup( getAction( MergeAction.ID ), menuManager );
-		appendActionToEditGroup( getAction( SplitAction.ID ), menuManager );
-		appendActionToAddGroup( getAction( InsertListGroupAction.ID ),
-				menuManager );
-		appendActionToAddGroup( getAction( DeleteListGroupAction.ID ),
-				menuManager );
-
-		/** Gets the current selected object, local */
-		Object selectedFirstElement = getFirstElement( );
+		Object firstSelectedElement = getFirstElement( );
 		Object selectedElements = getSelectedElement( );
 
-		// Adds cut, copy, paste group actions
-		appendActionToCopyGroup( new CutAction( selectedElements ), menuManager );
-		appendActionToCopyGroup( new CopyAction( selectedElements ),
-				menuManager );
-		appendActionToCopyGroup( new PasteAction( selectedElements ),
-				menuManager );
-		// adds save
-		appendActionToSaveGroup( getAction( ActionFactory.SAVE.getId( ) ),
-				menuManager );
-
-		// selecting a row
-		if ( selectedFirstElement instanceof RowHandle )
+		if ( firstSelectedElement instanceof DesignElementHandle )
 		{
-			createInsertRowMenu( menuManager, GEFActionConstants.GROUP_EDIT );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.UNDO.getId( ) ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.REDO.getId( ) ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CutAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CopyAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new PasteAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new DeleteAction( selectedElements ) );
 
-			if ( !( getTableEditParts( ).get( 0 ) instanceof GridEditPart ) )
+			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
+
+			if ( firstSelectedElement instanceof ReportDesignHandle )
 			{
-				createShowMenu( menuManager, GEFActionConstants.GROUP_EDIT );
-				appendActionToAddGroup( getAction( InsertGroupAction.ID ),
-						menuManager );
-				Separator separator = new Separator( EditBindingAction.ID );
-				menuManager.add( separator );
-				menuManager.appendToGroup( EditBindingAction.ID,
-						getAction( EditBindingAction.ID ) );
 			}
-			appendActionToEditGroup( getAction( DeleteRowAction.ID ),
-					menuManager );
-			appendActionToAddGroup( getAction( DeleteGroupAction.ID ),
-					menuManager );
-
+			if ( firstSelectedElement instanceof MasterPageHandle )
+			{
+			}
+			if ( firstSelectedElement instanceof ReportItemHandle )
+			{
+				if ( firstSelectedElement instanceof ListingHandle )
+				{
+					if ( firstSelectedElement instanceof ListHandle )
+					{
+					}
+					else if ( firstSelectedElement instanceof TableHandle )
+					{
+						MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
+						subMenu.add( getAction( IncludeHeaderAction.ID ) );
+						subMenu.add( getAction( IncludeDetailAction.ID ) );
+						subMenu.add( getAction( IncludeFooterAction.ID ) );
+						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+								subMenu );
+					}
+					else if ( firstSelectedElement instanceof GridHandle )
+					{
+					}
+					else
+					{
+						//
+					}
+				}
+			}
+			else if ( firstSelectedElement instanceof RowHandle )
+			{
+				MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+				insertMenu.add( getAction( InsertRowAboveAction.ID ) );
+				insertMenu.add( getAction( InsertRowBelowAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						insertMenu );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( DeleteRowAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( MergeAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( SplitAction.ID ) );
+			}
+			else if ( firstSelectedElement instanceof ColumnHandle )
+			{
+				MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+				subMenu.add( getAction( InsertColumnRightAction.ID ) );
+				subMenu.add( getAction( InsertColumnLeftAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						subMenu );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( DeleteColumnAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( MergeAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( SplitAction.ID ) );
+			}
+			else if ( firstSelectedElement instanceof CellHandle )
+			{
+				createInsertElementMenu( menuManager,
+						GEFActionConstants.GROUP_EDIT );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( MergeAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( SplitAction.ID ) );
+			}
+			else
+			{
+				//
+			}
 		}
-		// selecting a column
-		else if ( selectedFirstElement instanceof ColumnHandle )
+		else if ( firstSelectedElement instanceof SlotHandle )
 		{
-			createInsertColumnMenu( menuManager, GEFActionConstants.GROUP_EDIT );
-			appendActionToEditGroup( getAction( DeleteColumnAction.ID ),
-					menuManager );
-		}
-		// selecting a cell of table, grid or list.
-		else if ( selectedFirstElement instanceof CellHandle
-				|| selectedFirstElement instanceof SlotHandle )
-		{
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.UNDO.getId( ) ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.REDO.getId( ) ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CutAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CopyAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new PasteAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new DeleteAction( selectedElements ) );
 			createInsertElementMenu( menuManager, GEFActionConstants.GROUP_EDIT );
 		}
 		else
 		{
-			appendActionToCopyGroup( new DeleteAction( selectedElements ),
-					menuManager );
+			//
 		}
-
-		// selecting a list
-		// to be considered.
-		//if ( getListEditParts( ) != null && getListEditParts( ).size( ) == 1)
+		if ( getTableEditParts( ) != null )
+		{
+			if ( !( getTableEditParts( ).get( 0 ) instanceof GridEditPart ) )
+			{
+				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+						getAction( InsertGroupAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+						getAction( DeleteGroupAction.ID ) );
+				Separator separator = new Separator( EditBindingAction.ID );
+				menuManager.add( separator );
+				menuManager.appendToGroup( EditBindingAction.ID,
+						getAction( EditBindingAction.ID ) );
+				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+			}
+		}
 		if ( getListEditParts( ) != null )
 		{
-			createListMenu( menuManager, GEFActionConstants.GROUP_EDIT );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+					getAction( InsertListGroupAction.ID ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+					getAction( DeleteListGroupAction.ID ) );
+			createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 		}
-
-		createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-		createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
-	}
-
-	/**
-	 * Creats sub menu in the specified action group of the specified menu
-	 * manager.
-	 * 
-	 * @param menuManager
-	 *            The menu manager contains the action group.
-	 * @param group_name
-	 *            The action group contains the sub menu.
-	 */
-	private void createShowMenu( IMenuManager menuManager, String group_name )
-	{
-		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
-		subMenu.add( getAction( IncludeHeaderAction.ID ) );
-		subMenu.add( getAction( IncludeDetailAction.ID ) );
-		subMenu.add( getAction( IncludeFooterAction.ID ) );
-		appendMenuToGroup( subMenu, group_name, menuManager );
-	}
-
-	/**
-	 * Creats sub menu in the specified action group of the specified menu
-	 * manager.
-	 * 
-	 * @param menuManager
-	 *            The menu manager contains the action group.
-	 * @param group_name
-	 *            The action group contains the sub menu.
-	 */
-	private void createInsertRowMenu( IMenuManager menuManager,
-			String group_name )
-	{
-		MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
-		subMenu.add( getAction( InsertRowAboveAction.ID ) );
-		subMenu.add( getAction( InsertRowBelowAction.ID ) );
-		appendMenuToGroup( subMenu, group_name, menuManager );
-	}
-
-	/**
-	 * Creats sub menu in the specified action group of the specified menu
-	 * manager.
-	 * 
-	 * @param menuManager
-	 *            The menu manager contains the action group.
-	 * @param group_name
-	 *            The action group contains the sub menu.
-	 */
-	private void createInsertColumnMenu( IMenuManager menuManager,
-			String group_name )
-	{
-		MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
-		subMenu.add( getAction( InsertColumnRightAction.ID ) );
-		subMenu.add( getAction( InsertColumnLeftAction.ID ) );
-		appendMenuToGroup( subMenu, group_name, menuManager );
 	}
 
 	/**
@@ -347,25 +352,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
 		subMenu.add( action );
 
-		appendMenuToGroup( subMenu, group_name, menuManager );
-	}
-
-	/**
-	 * Creats sub menu in the specified action group of the specified menu
-	 * manager.
-	 * 
-	 * @param menuManager
-	 *            The menu manager contains the action group.
-	 * @param group_name
-	 *            The action group contains the sub menu.
-	 */
-	private void createListMenu( IMenuManager menuManager, String group_name )
-	{
-		MenuManager subMenu = new MenuManager( LIST_MENU_ITEM_TEXT );
-		subMenu.add( getAction( IncludeListHeaderAction.ID ) );
-		subMenu.add( getAction( IncludeListDetailAction.ID ) );
-		subMenu.add( getAction( IncludeListFooterAction.ID ) );
-		appendMenuToGroup( subMenu, group_name, menuManager );
+		menuManager.appendToGroup( group_name, subMenu );
 	}
 
 	/**
@@ -384,13 +371,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		SharedStyleHandle oldStyle = getStyleHandle( );
 
-		ApplyStyleAction resetAction = new ApplyStyleAction( null );
-		resetAction.setSelection( getSelection( ) );
+		ApplyStyleAction reset = new ApplyStyleAction( null );
+		reset.setSelection( getSelection( ) );
 		if ( oldStyle == null )
 		{
-			resetAction.setChecked( true );
+			reset.setChecked( true );
 		}
-		subMenu.add( resetAction );
+		subMenu.add( reset );
 		subMenu.add( new Separator( ) );
 
 		Iterator iter = SessionHandleAdapter.getInstance( )
@@ -416,7 +403,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
 		menu.add( getAction( AddStyleRuleAction.ID ) );
-		appendMenuToGroup( menu, group_name, menuManager );
+		menuManager.appendToGroup( group_name, menu );
 	}
 
 	/**
@@ -439,7 +426,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				Action action = new EditGroupAction( null,
 						(TableGroupHandle) container );
 				action.setText( EDIT_GROUP_MENU_ITEM_TEXT );
-				appendActionToAddGroup( action, menuManager );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, action );
 				return;
 			}
 		}
@@ -452,7 +439,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				Action action = new EditGroupAction( null,
 						(ListGroupHandle) container );
 				action.setText( EDIT_GROUP_MENU_ITEM_TEXT );
-				appendActionToAddGroup( action, menuManager );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, action );
 				return;
 			}
 		}
@@ -489,7 +476,35 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			GroupHandle groupHandle = (GroupHandle) iter.next( );
 			subMenu.add( new EditGroupAction( null, groupHandle ) );
 		}
-		appendMenuToGroup( subMenu, group_name, menuManager );
+		menuManager.appendToGroup( group_name, subMenu );
+	}
+
+	/**
+	 * Gets elements.
+	 * 
+	 * @return elements in the form of array
+	 */
+	protected Object[] getElements( )
+	{
+		List list = getSelectedObjects( );
+		if ( list == null || list.isEmpty( ) )
+			return null;
+
+		List result = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof ReportElementEditPart )
+			{
+				Object model = ( (ReportElementEditPart) obj ).getModel( );
+				if ( model instanceof ListBandProxy )
+				{
+					model = ( (ListBandProxy) model ).getSlotHandle( );
+				}
+				result.add( model );
+			}
+		}
+		return result.toArray( );
 	}
 
 	/**
@@ -521,34 +536,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			return array[0];
 		}
 		return null;
-	}
-
-	/**
-	 * Gets elements.
-	 * 
-	 * @return elements in the form of array
-	 */
-	protected Object[] getElements( )
-	{
-		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
-
-		List result = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof ReportElementEditPart )
-			{
-				Object model = ( (ReportElementEditPart) obj ).getModel( );
-				if ( model instanceof ListBandProxy )
-				{
-					model = ( (ListBandProxy) model ).getSlotHandle( );
-				}
-				result.add( model );
-			}
-		}
-		return result.toArray( );
 	}
 
 	/**
@@ -673,142 +660,5 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 		}
 		return listParts;
-	}
-
-	/**
-	 * Appends a sub menu into a specified group of a menu with given the group
-	 * Name and the menuManager.
-	 * 
-	 * @param subMenu
-	 *            the sub menu item to be added into the group of the menu.
-	 * @param groupName
-	 *            the group contains the sub menu.
-	 * @param menu
-	 *            the menuManager contains the action group.
-	 */
-	private void appendMenuToGroup( IContributionItem subMenu,
-			String groupName, IMenuManager menu )
-
-	{
-		if ( null != subMenu && subMenu.isEnabled( ) )
-			menu.appendToGroup( groupName, subMenu );
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToUndoGroup( IAction action, IMenuManager menu )
-	{
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_UNDO, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToCopyGroup( IAction action, IMenuManager menu )
-	{
-		if ( null != action
-				&& ( action.isEnabled( ) || action instanceof PasteAction ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_COPY, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToEditGroup( IAction action, IMenuManager menu )
-	{
-
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_EDIT, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToAddGroup( IAction action, IMenuManager menu )
-	{
-
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_ADD, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToRestGroup( IAction action, IMenuManager menu )
-	{
-
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_REST, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToAddtionGroup( IAction action, IMenuManager menu )
-	{
-
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.MB_ADDITIONS, action );
-		}
-	}
-
-	/**
-	 * Appends the specified action to the specified menu group.
-	 * 
-	 * @param menu
-	 *            The menu manager containing menu groups and action items
-	 * @param action
-	 *            The action
-	 */
-	private void appendActionToSaveGroup( IAction action, IMenuManager menu )
-	{
-
-		if ( null != action && action.isEnabled( ) )
-		{
-			menu.appendToGroup( GEFActionConstants.GROUP_SAVE, action );
-		}
 	}
 }

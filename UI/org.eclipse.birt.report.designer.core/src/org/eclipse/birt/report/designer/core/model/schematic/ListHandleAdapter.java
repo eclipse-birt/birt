@@ -226,7 +226,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public void insertGroup( ) throws ContentException, NameException
+	public ListGroupHandle insertGroup( ) throws ContentException, NameException
 	{
 
 		transStar( TRANS_LABEL_INSERT_GROUP );
@@ -237,6 +237,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		handle.add( groupHandle );
 
 		transEnd( );
+		return groupHandle;
 	}
 
 	/**

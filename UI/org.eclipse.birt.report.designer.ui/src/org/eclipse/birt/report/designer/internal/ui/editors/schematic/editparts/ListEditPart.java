@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.NameException;
@@ -227,11 +228,12 @@ public class ListEditPart extends ReportElementEditPart
 	/**
 	 * Insert group in list element
 	 */
-	public void insertGroup( )
+	public ListGroupHandle insertGroup( )
 	{
+		ListGroupHandle groupHandle = null;
 		try
 		{
-			getListHandleAdapt( ).insertGroup( );
+			groupHandle = getListHandleAdapt( ).insertGroup( );
 		}
 		catch ( ContentException e )
 		{
@@ -241,6 +243,7 @@ public class ListEditPart extends ReportElementEditPart
 		{
 			ExceptionHandler.handle( e );
 		}
+		return groupHandle;
 	}
 
 	/**

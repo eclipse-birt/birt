@@ -15,12 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * add comment here
@@ -52,9 +58,27 @@ public class InsertListGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		// Judges whether a ( or some ) listEditPart ( or list element/s ) is
-		// (are) currently selected, if none, then disenable this action.
 		return getListEditParts( ) != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#isEnabled()
+	 */
+	public boolean isEnabled( )
+	{
+		if ( getListEditParts( ) == null )
+		{
+			return false;
+		}
+		ListEditPart tep = (ListEditPart) getListEditParts( ).get( 0 );
+		if ( tep == null )
+		{
+			return false;
+		}
+		return !DEUtil.getDataSetList( (DesignElementHandle) tep.getModel( ) )
+				.isEmpty( );
 	}
 
 	/*
@@ -65,23 +89,25 @@ public class InsertListGroupAction extends SelectionAction
 
 	public void run( )
 	{
-
-		// create a CommandStack object here to support UNDO/REDO command for
-		// multi-insert action.
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getActivityStack( );
 		stack.startTrans( STACK_MSG_INSERT_GROUP );
 
-		ArrayList parts = getListEditParts( );
-
-		// Performs insertGroup() for each listEditPart ( or list element )
-		// contained in the arrayList, which are currently selected objects.
-		for ( int i = 0; i < parts.size( ); i++ )
+		ListEditPart part = (ListEditPart) getListEditParts( ).get( 0 );
+		ListGroupHandle handle = part.insertGroup( );
+		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ) );
+		dialog.setInput( handle );
+		dialog.setDataSetList( DEUtil.getDataSetList( handle ) );
+		if ( dialog.open( ) == Window.OK )
 		{
-			( (ListEditPart) parts.get( i ) ).insertGroup( );
+			stack.commit( );
 		}
-
-		stack.commit( );
+		else
+		{
+			stack.rollbackAll( );
+		}
 	}
 
 	/**
