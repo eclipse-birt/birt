@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.Date;
 
-import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.SelectionDialog;
@@ -21,7 +20,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 /**
  * A cell editor that manages a date-time property.
  */
-public class DateTimeCellEditor extends DialogCellEditor
+public class DateTimeCellEditor extends CDialogCellEditor
 {
 
 	/**

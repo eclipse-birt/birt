@@ -186,7 +186,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 */
 	public String getUnitName( )
 	{
-		if ( unitData == 0 || unitData > ( unitNames.length - 1 )
+		if (  unitData > ( unitNames.length - 1 )
 				|| unitData < 0 )
 			return ""; //$NON-NLS-1$
 		return unitNames[unitData];

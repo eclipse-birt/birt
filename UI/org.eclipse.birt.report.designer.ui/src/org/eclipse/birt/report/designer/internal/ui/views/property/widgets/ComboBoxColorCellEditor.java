@@ -13,13 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.Arrays;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.jface.viewers.DialogCellEditor;
-import org.eclipse.osgi.framework.msg.MessageFormat;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -35,8 +33,6 @@ import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-;
-
 /**
  * The Color Cell Editor of IARD. The editor inlucde a combo box and a builder
  * button. All system predefined and customer defined color are listed in the
@@ -44,7 +40,7 @@ import org.eclipse.swt.widgets.Control;
  * the comobox or click the builder button to open the color dialog to select
  * the right color.
  */
-public class ComboBoxColorCellEditor extends DialogCellEditor
+public class ComboBoxColorCellEditor extends CDialogCellEditor
 {
 
 	/**
@@ -71,6 +67,8 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 * The composite to keep the combobox and button together
 	 */
 	private Composite composite;
+
+	private int inProcessing = 0;
 
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
@@ -180,16 +178,11 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 			public void widgetDefaultSelected( SelectionEvent event )
 			{
 				applyEditorValueAndDeactivate( );
-				ComboBoxColorCellEditor.this.fireApplyEditorValue();
 			}
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				selection = comboBox.getSelectionIndex( );
-				comboBox.select( selection );
-				doSetValue( comboBox.getItem( selection ) );
 				applyEditorValueAndDeactivate( );
-				ComboBoxColorCellEditor.this.fireApplyEditorValue();
 			}
 		} );
 
@@ -230,21 +223,43 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 */
 	void applyEditorValueAndDeactivate( )
 	{
+		inProcessing = 1;
+		if ( selection != comboBox.getSelectionIndex( ) )
+		{
+			markDirty( );
+		}
+
 		//	must set the selection before getting value
 		selection = comboBox.getSelectionIndex( );
-		Object newValue = doGetValue( );
 
-		markDirty( );
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
-		if ( !isValid )
+		Object newValue = null;
+		if ( selection == -1 )
 		{
-			// try to insert the current value into the error message.
-			setErrorMessage( MessageFormat.format( getErrorMessage( ),
-					new Object[]{items[selection]} ) );
+			newValue = comboBox.getText( );
 		}
-		//fireApplyEditorValue( );
+		else
+		{
+			newValue = comboBox.getItem( selection );
+		}
+
+		if ( newValue != null )
+		{
+			boolean newValidState = isCorrect( newValue );
+			if ( newValidState )
+			{
+				doSetValue( newValue );
+				markDirty( );
+			}
+			else
+			{
+				// try to insert the current value into the error message.
+				//setErrorMessage(MessageFormat.format(getErrorMessage(), new
+				// Object[] { newValue.toString()}));
+			}
+		}
+		fireApplyEditorValue( );
 		deactivate( );
+		inProcessing = 0;
 	}
 
 	/*
@@ -277,11 +292,18 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 		}
 
 		value = dialog.open( );
-		if ( dialog.getRGB( ) != null )
+		if ( value != null && dialog.getRGB( ) != null )
 		{
+			//TODO: temp solution, remove following line after the equals
+			// method
+			// is ok
+			deactivate( );
 			return ColorUtil.format( dialog.getRGB( ).hashCode( ),
 					ColorUtil.HTML_FORMAT );
 		}
+		//TODO: temp solution, remove following line after the equals method
+		// is ok
+		deactivate( );
 
 		return value;
 	}
@@ -327,9 +349,26 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 		}
 		else if ( keyEvent.character == '\r' )
 		{ // Return key
-			doSetValue(comboBox.getText());
-			fireApplyEditorValue();
-			deactivate();
+			applyEditorValueAndDeactivate( );
+		}
+	}
+
+	/**
+	 * Processes a focus lost event that occurred in this cell editor.
+	 * <p>
+	 * The default implementation of this framework method applies the current
+	 * value and deactivates the cell editor. Subclasses should call this method
+	 * at appropriate times. Subclasses may also extend or reimplement.
+	 * </p>
+	 */
+	protected void focusLost( )
+	{
+		if ( inProcessing  == 1 )
+			return;
+		if ( isActivated( ) )
+		{
+			fireApplyEditorValue( );
+			deactivate( );
 		}
 	}
 }

@@ -15,14 +15,13 @@ import java.util.Arrays;
 
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
  * A cell editor that manages a dimension field.
  */
-public class DimensionCellEditor extends DialogCellEditor
+public class DimensionCellEditor extends CDialogCellEditor
 {
 
 	private String[] units;

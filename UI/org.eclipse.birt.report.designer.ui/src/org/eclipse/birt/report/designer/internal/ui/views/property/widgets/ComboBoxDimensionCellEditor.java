@@ -11,15 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+
 import java.util.Arrays;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.jface.viewers.DialogCellEditor;
-import org.eclipse.osgi.framework.msg.MessageFormat;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -33,8 +33,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-;
-
 /**
  * The Color Cell Editor of IARD. The editor inlucde a combo box and a builder
  * button. All system predefined and customer defined color are listed in the
@@ -42,7 +40,7 @@ import org.eclipse.swt.widgets.Control;
  * the comobox or click the builder button to open the color dialog to select
  * the right color.
  */
-public class ComboBoxDimensionCellEditor extends DialogCellEditor
+public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 {
 
 	/**
@@ -71,8 +69,10 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 	private Composite composite;
 
 	private String unitName;
+
+	private String[] units;
 	
-	private String[] units;	
+	private int inProcessing = 0;
 
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
@@ -113,7 +113,8 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 	 * @param style
 	 *            the style of this editor
 	 */
-	public ComboBoxDimensionCellEditor( Composite parent, String[] items, int style )
+	public ComboBoxDimensionCellEditor( Composite parent, String[] items,
+			int style )
 	{
 		super( parent, style );
 		if ( items != null )
@@ -165,10 +166,18 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Control createContents( Composite cell )
+	protected Control createContents( final Composite cell )
 	{
 
 		Color bg = cell.getBackground( );
+
+		cell.addFocusListener( new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
+			{
+				ComboBoxDimensionCellEditor.this.focusLost( );
+			}
+		} );
 		composite = new Composite( cell, getStyle( ) );
 		composite.setBackground( bg );
 		composite.setLayout( new FillLayout( ) );
@@ -182,16 +191,11 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 			public void widgetDefaultSelected( SelectionEvent event )
 			{
 				applyEditorValueAndDeactivate( );
-				ComboBoxDimensionCellEditor.this.fireApplyEditorValue();
 			}
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				selection = comboBox.getSelectionIndex( );
-				comboBox.select( selection );
-				doSetValue( comboBox.getItem( selection ) );
 				applyEditorValueAndDeactivate( );
-				ComboBoxDimensionCellEditor.this.fireApplyEditorValue();
 			}
 		} );
 
@@ -232,21 +236,38 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 	 */
 	void applyEditorValueAndDeactivate( )
 	{
+		inProcessing =1;
+		if(selection != comboBox.getSelectionIndex( ))
+		{
+			markDirty();
+		}		
 		//	must set the selection before getting value
 		selection = comboBox.getSelectionIndex( );
-		Object newValue = doGetValue( );
-
-		markDirty( );
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
-		if ( !isValid )
+		Object newValue=null;
+		if(selection == -1)
 		{
-			// try to insert the current value into the error message.
-			setErrorMessage( MessageFormat.format( getErrorMessage( ),
-					new Object[]{items[selection]} ) );
+			newValue = comboBox.getText();
 		}
-		//fireApplyEditorValue( );
+		else
+		{
+			newValue = comboBox.getItem(selection);
+		}
+		
+		if ( newValue != null )
+		{
+			boolean newValidState = isCorrect( newValue );
+			if ( newValidState )
+			{
+				doSetValue(newValue);
+				markDirty( );
+			}
+			else
+			{
+			}
+		}
+		fireApplyEditorValue();
 		deactivate( );
+		inProcessing =0;
 	}
 
 	/*
@@ -256,7 +277,8 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 	 */
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
-		DimensionBuilderDialog dialog = new DimensionBuilderDialog( cellEditorWindow.getShell( ) );
+		DimensionBuilderDialog dialog = new DimensionBuilderDialog(
+				cellEditorWindow.getShell( ) );
 
 		DimensionValue value;
 		try
@@ -267,19 +289,25 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 		{
 			value = null;
 		}
-		
+
 		dialog.setUnitNames( units );
-		dialog.setUnitData(Arrays.asList(units).indexOf(unitName));
+		dialog.setUnitData( Arrays.asList( units ).indexOf( unitName ) );
 
 		if ( value != null )
 		{
 			dialog.setMeasureData( new Double( value.getMeasure( ) ) );
 		}
-		
-		dialog.open( );
-		deactivate( );
 
-		return dialog.getMeasureData( ).toString( ) + dialog.getUnitName( );
+		if(Window.OK == dialog.open())
+		{
+			deactivate( );
+			return dialog.getMeasureData( ).toString( ) + dialog.getUnitName( );
+		}
+		else
+		{
+			deactivate( );
+			return null;
+		}
 	}
 
 	/*
@@ -295,8 +323,8 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 		{
 			text = value.toString( );
 		}
-		
-		comboBox.setText( text);
+
+		comboBox.setText( text );
 	}
 
 	/*
@@ -316,28 +344,61 @@ public class ComboBoxDimensionCellEditor extends DialogCellEditor
 		}
 		else if ( keyEvent.character == '\r' )
 		{ // Return key
+			applyEditorValueAndDeactivate( );
+		}
+	}
+
+	/**
+	 * Set current units
+	 * 
+	 * @param units
+	 */
+	public void setUnits( String units )
+	{
+		this.unitName = units;
+	}
+
+	/**
+	 * Set units list the needed by dimension dialog
+	 * 
+	 * @param unitsList
+	 */
+	public void setUnitsList( String[] unitsList )
+	{
+		this.units = unitsList;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on CellEditor. The focus is set to the cell
+	 * editor's ComboBox.
+	 */
+//	protected void doSetFocus( )
+//	{
+//		comboBox.setFocus( );
+//	}
+
+	/**
+	 * Processes a focus lost event that occurred in this cell editor.
+	 * <p>
+	 * The default implementation of this framework method applies the current
+	 * value and deactivates the cell editor.
+	 * Subclasses should call this method at appropriate times. 
+	 * Subclasses may also extend or reimplement.
+	 * </p>
+	 */
+	protected void focusLost() {
+		if(inProcessing==1) return;
+		if(comboBox.getSelectionIndex() ==-1)
+		{
+			if(comboBox.getText().equals(doGetValue()))  //$NON-NLS-1$
+			{
+				markDirty();
+			}
 			doSetValue(comboBox.getText());
+		}
+		if (isActivated()) {
 			fireApplyEditorValue();
 			deactivate();
 		}
-	}
-	
-	/**
-	 * Set current units
-	 * @param units
-	 */
-	public void setUnits(String units)
-	{
-		this.unitName = units; 
-	}
-	
-	
-	/**
-	 * Set units list the needed by dimension dialog
-	 * @param unitsList
-	 */
-	public void setUnitsList(String[] unitsList)
-	{
-		this.units = unitsList;
 	}
 }
