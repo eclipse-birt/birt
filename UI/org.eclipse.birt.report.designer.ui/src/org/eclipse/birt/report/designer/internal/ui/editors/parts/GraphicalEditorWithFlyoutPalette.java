@@ -34,6 +34,7 @@ import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.SaveAction;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.StackAction;
+import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
@@ -80,7 +81,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: #4 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider
@@ -285,7 +286,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		addEditorAction( saveAction );
 
 		addAction( new CopyTemplateAction( this ) );
-
+		
 	}
 
 	/**
@@ -442,6 +443,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		configureGraphicalViewer( );
 		hookGraphicalViewer( );
 		initializeGraphicalViewer( );
+		addAction ( new ToggleRulerVisibilityAction( this.getGraphicalViewer() ));
 	}
 
 	/**
