@@ -27,7 +27,7 @@ public interface ITestConstants
 	String ATTRIBUTES_VIEW_ID = "org.eclipse.birt.report.designer.ui.attributes.AttributeView";
 	String DATA_EXPLORER_ID = "org.eclipse.birt.report.designer.ui.views.data.DataView";
 
-	String PERSPECTIVE_NAME = "BIRT Designer";
+	String PERSPECTIVE_NAME = "Report Design";
 	String EDITOR_NAME = "Report Editor";
 	String ATTRIBUTES_VIEW_NAME = "Property Edit View";
 	String DATA_EXPLORER_NAME = "Data Explorer";
