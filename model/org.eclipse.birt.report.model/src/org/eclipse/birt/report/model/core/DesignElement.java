@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
 import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
-import org.eclipse.birt.report.model.elements.TableItem;
 
 ;
 
@@ -1003,7 +1002,7 @@ public abstract class DesignElement implements IPropertySet
 
 		if ( prop.isStyleProperty( ) )
 		{
-			String selector = ((ElementDefn) getDefn( ) ).getSelector( );
+			String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
 			value = getPropertyFromSelector( design, prop, selector );
 			if ( value != null )
 				return value;
@@ -1048,7 +1047,7 @@ public abstract class DesignElement implements IPropertySet
 		while ( e != null )
 		{
 			// Check if this element or parent provides the value
-			
+
 			value = e.getPropertyFromElement( design, prop );
 			if ( value != null )
 				return value;
@@ -1059,7 +1058,7 @@ public abstract class DesignElement implements IPropertySet
 			// Check if the container/slot predefined style provides
 			// the value
 
-			value = e.getPropertyFromContainerSlotSelector( design, prop );
+			value = e.getPropertyRelatedToContainer( design, prop );
 			if ( value != null )
 				return value;
 
@@ -1167,8 +1166,9 @@ public abstract class DesignElement implements IPropertySet
 	}
 
 	/**
-	 * Returns the property value from the selector style which represents the
-	 * combination of container and slot.
+	 * Returns the property value which is related to container. It may be from
+	 * the selector style which represents the slot or combination of container
+	 * and slot.
 	 * 
 	 * @param design
 	 *            the report design
@@ -1177,7 +1177,7 @@ public abstract class DesignElement implements IPropertySet
 	 * @return the property value, or null if no value is set.
 	 */
 
-	Object getPropertyFromContainerSlotSelector( ReportDesign design,
+	protected Object getPropertyRelatedToContainer( ReportDesign design,
 			ElementPropertyDefn prop )
 	{
 		if ( getContainer( ) == null )
@@ -1765,7 +1765,8 @@ public abstract class DesignElement implements IPropertySet
 	{
 		// Look for the property defined on this element.
 
-		ElementPropertyDefn prop = (ElementPropertyDefn) getDefn( ).getProperty( propName );
+		ElementPropertyDefn prop = (ElementPropertyDefn) getDefn( )
+				.getProperty( propName );
 		if ( prop == null )
 			prop = getUserPropertyDefn( propName );
 		return prop;
@@ -2296,15 +2297,15 @@ public abstract class DesignElement implements IPropertySet
 
 	public final List validateWithContents( ReportDesign design )
 	{
-//		List list = validate( design );
+		//		List list = validate( design );
 
 		ElementDefn elementDefn = (ElementDefn) getDefn( );
 		List validatorList = ValidationExecutor.getValidationNodes( this,
-				elementDefn.getTriggerDefnSet( ), true ) ;
+				elementDefn.getTriggerDefnSet( ), true );
 
-		ValidationExecutor executor = design.getValidationExecutor();
+		ValidationExecutor executor = design.getValidationExecutor( );
 		List list = executor.perform( validatorList, true );
-		
+
 		int count = getDefn( ).getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{

@@ -230,40 +230,40 @@ public class Cell extends StyledElement
 	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	public Object getPropertyFromElement( ReportDesign design,
-			ElementPropertyDefn prop )
-	{
-		// Get property from cell itself.
-
-		Object value = super.getPropertyFromElement( design, prop );
-		if ( value != null )
-			return value;
-
-		if ( !prop.canInherit( ) || !prop.isStyleProperty( ) )
-			return null; 
-
-		// Get property from the container of this cell. If the container
-		// has column, get property from column.
-
-		DesignElement e = getContainer( );
-		while ( e != null )
-		{
-			value = e.getPropertyFromElement( design, prop );
-			if ( value != null )
-				return value;
-
-			// check property values on the columns.
-
-			if ( e.getContainer( ) instanceof TableItem
-					|| e.getContainer( ) instanceof GridItem )
-				return getColumnProperty( design, e.getContainer( ), this, prop );
-
-			e = e.getContainer( );
-		}
-
-		return null;
-	}
-
+//	public Object getPropertyFromElement( ReportDesign design,
+//			ElementPropertyDefn prop )
+//	{
+//		// Get property from cell itself.
+//
+//		Object value = super.getPropertyFromElement( design, prop );
+//		if ( value != null )
+//			return value;
+//
+//		if ( !prop.canInherit( ) || !prop.isStyleProperty( ) )
+//			return null; 
+//
+//		// Get property from the container of this cell. If the container
+//		// has column, get property from column.
+//
+//		DesignElement e = getContainer( );
+//		while ( e != null )
+//		{
+//			value = e.getPropertyFromElement( design, prop );
+//			if ( value != null )
+//				return value;
+//
+//			// check property values on the columns.
+//
+//			if ( e.getContainer( ) instanceof TableItem
+//					|| e.getContainer( ) instanceof GridItem )
+//				return getColumnProperty( design, e.getContainer( ), this, prop );
+//
+//			e = e.getContainer( );
+//		}
+//
+//		return null;
+//	}
+//
 	/**
 	 * Gets a property value on the container column with the given definition.
 	 * If <code>prop</code> is a style property definition, also check style
@@ -297,5 +297,39 @@ public class Cell extends StyledElement
 		}
 
 		return value;
+	}
+	
+	
+	/* 
+	 * Gets a property value given its definition. If <code>prop</code> is a
+	 * style property definition, also check style values defined on the Table
+	 * columns.
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	
+	protected Object getPropertyRelatedToContainer( ReportDesign design,
+			ElementPropertyDefn prop )
+	{
+		// Get property from the container of this cell. If the container
+		// has column, get property from column.
+
+		DesignElement e = getContainer( );
+		while ( e != null )
+		{
+			Object value = e.getPropertyFromElement( design, prop );
+			if ( value != null )
+				return value;
+
+			// check property values on the columns.
+
+			if ( e.getContainer( ) instanceof TableItem
+					|| e.getContainer( ) instanceof GridItem )
+				return getColumnProperty( design, e.getContainer( ), this, prop );
+
+			e = e.getContainer( );
+		}
+
+		return super.getPropertyRelatedToContainer( design, prop );
 	}
 }
