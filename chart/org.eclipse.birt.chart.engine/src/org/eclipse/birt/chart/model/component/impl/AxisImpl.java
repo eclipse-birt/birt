@@ -1944,20 +1944,20 @@ public class AxisImpl extends EObjectImpl implements Axis
 
         // MAJOR GRID
         Grid gr = ComponentFactory.eINSTANCE.createGrid();
-        lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+        lia = LineAttributesImpl.create(ColorDefinitionImpl.create(196, 196, 196), LineStyle.SOLID_LITERAL, 1);
         lia.setVisible(false);
         gr.setLineAttributes(lia);
-        lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+        lia = LineAttributesImpl.create(ColorDefinitionImpl.create(196, 196, 196), LineStyle.SOLID_LITERAL, 1);
         gr.setTickAttributes(lia);
         gr.setTickStyle(TickStyle.ACROSS_LITERAL);
         setMajorGrid(gr);
 
         // MINOR GRID
         gr = ComponentFactory.eINSTANCE.createGrid();
-        lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+        lia = LineAttributesImpl.create(ColorDefinitionImpl.create(225, 225, 225), LineStyle.SOLID_LITERAL, 1);
         lia.setVisible(false);
         gr.setLineAttributes(lia);
-        lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+        lia = LineAttributesImpl.create(ColorDefinitionImpl.create(225, 225, 225), LineStyle.SOLID_LITERAL, 1);
         lia.setVisible(false);
         gr.setTickAttributes(lia);
         gr.setTickStyle(TickStyle.ACROSS_LITERAL);
