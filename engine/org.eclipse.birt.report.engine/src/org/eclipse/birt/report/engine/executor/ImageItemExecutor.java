@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -53,7 +52,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -125,9 +124,6 @@ public class ImageItemExecutor extends StyledItemExecutor
 				{
 					//imageFile is a file name
 				}
-
-				File file = new File( context.getReport( ).getBasePath( ),
-						imageFile );
 
 				imageFile = FileUtil.getAbsolutePath( context.getReport( )
 						.getBasePath( ), imageFile );

@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * container content object
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/17 07:57:03 $
  */
 public class ContainerContent extends ReportItemContent
 		implements
@@ -96,8 +96,7 @@ public class ContainerContent extends ReportItemContent
 	{
 		if ( type == REPORTITEM_CONTAINER )
 			return super.getHeight( );
-		else
-			return null;
+		return null;
 	}
 
 	/**
@@ -107,8 +106,7 @@ public class ContainerContent extends ReportItemContent
 	{
 		if ( type == REPORTITEM_CONTAINER )
 			return super.getWidth( );
-		else
-			return null;
+		return null;
 	}
 
 	/**
@@ -118,8 +116,7 @@ public class ContainerContent extends ReportItemContent
 	{
 		if ( type == REPORTITEM_CONTAINER )
 			return super.getX( );
-		else
-			return null;
+		return null;
 	}
 
 	/**
@@ -129,7 +126,6 @@ public class ContainerContent extends ReportItemContent
 	{
 		if ( type == REPORTITEM_CONTAINER )
 			return super.getY( );
-		else
-			return null;
+		return null;
 	}
 }

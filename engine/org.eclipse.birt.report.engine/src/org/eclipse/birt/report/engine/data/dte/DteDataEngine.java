@@ -44,7 +44,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/16 08:17:21 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -322,10 +322,7 @@ public class DteDataEngine implements IDataEngine
 				{
 					return context.jsToJava( value );
 				}
-				else
-				{
-					return null;
-				}
+				return null;
 			}
 			catch ( DataException e )
 			{
@@ -333,20 +330,19 @@ public class DteDataEngine implements IDataEngine
 				return null;
 			}
 		}
-		else	// Rhino handles evaluation
+		
+		// Rhino handles evaluation
+		if ( expr instanceof IScriptExpression )
 		{
-			if ( expr instanceof IScriptExpression )
-			{
-				return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
-			}
-			else if (expr instanceof IConditionalExpression)
-			{
-				return evaluateCondExpr((IConditionalExpression)expr);
-			}
-			
-			//unsupported expression type
-			assert(false);
+			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
 		}
+		if (expr instanceof IConditionalExpression)
+		{
+			return evaluateCondExpr((IConditionalExpression)expr);
+		}
+			
+		//unsupported expression type
+		assert(false);
 		return null;
 	}
 	

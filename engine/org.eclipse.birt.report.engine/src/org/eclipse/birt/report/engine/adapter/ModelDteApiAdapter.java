@@ -86,10 +86,10 @@ public class ModelDteApiAdapter
     	throws EngineException
     {
         if ( dataSource instanceof OdaDataSourceHandle )
-            return (IBaseDataSourceDesign) newExtendedDataSource( (OdaDataSourceHandle) dataSource );
+            return newExtendedDataSource( (OdaDataSourceHandle) dataSource );
         
         if ( dataSource instanceof ScriptDataSourceHandle )
-            return (IBaseDataSourceDesign) newScriptDataSource( (ScriptDataSourceHandle) dataSource );
+            return newScriptDataSource( (ScriptDataSourceHandle) dataSource );
 
         // any other types are not supported
         assert false;
@@ -100,10 +100,10 @@ public class ModelDteApiAdapter
     	throws EngineException
     {
         if ( dataSet instanceof OdaDataSetHandle )
-            return (IBaseDataSetDesign) newExtendedDataSet( (OdaDataSetHandle) dataSet );       
+            return newExtendedDataSet( (OdaDataSetHandle) dataSet );       
         
         if ( dataSet instanceof ScriptDataSetHandle )
-            return (IBaseDataSetDesign) newScriptDataSet( (ScriptDataSetHandle) dataSet );
+            return newScriptDataSet( (ScriptDataSetHandle) dataSet );
 
         // any other types are not supported
         assert false;

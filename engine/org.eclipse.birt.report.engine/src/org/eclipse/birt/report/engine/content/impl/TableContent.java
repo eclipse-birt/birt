@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public class TableContent extends ReportItemContent implements ITableContent
 {
@@ -42,12 +42,9 @@ public class TableContent extends ReportItemContent implements ITableContent
 		{
 			return ( (TableItemDesign) designReference ).getRepeatHeader( );
 		}
-		else
-		{
-			assert false;
-			return false;
-		}
 
+		assert false;
+		return false;
 	}
 
 	/**

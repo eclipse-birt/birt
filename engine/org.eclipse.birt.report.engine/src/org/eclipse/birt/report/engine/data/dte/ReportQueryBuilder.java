@@ -90,7 +90,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.16 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.17 $ $Date: 2005/03/15 03:29:37 $
  */
 public class ReportQueryBuilder
 {
@@ -902,7 +902,6 @@ public class ReportQueryBuilder
 		{
 			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
-				Element ele = (Element) node;
 				if ( node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$
 				{
 					if ( !text.hasExpression( node.getFirstChild( )

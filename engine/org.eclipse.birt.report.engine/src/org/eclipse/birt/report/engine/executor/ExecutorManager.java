@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * report item executor manager
  * 
  * @author liugang
- * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:37 $
  */
 public class ExecutorManager
 {
@@ -128,13 +128,12 @@ public class ExecutorManager
             busyList[type].add( ret );
             return ret;
 		}
-		else
-		{          
-            ret = (ReportItemExecutor) freeList[type].getFirst();
-            freeList[type].remove( ret );
-            busyList[type].add( ret );
-            return ret;
-		}
+
+		// the free list is non-empty
+        ret = (ReportItemExecutor) freeList[type].getFirst();
+        freeList[type].remove( ret );
+        busyList[type].add( ret );
+        return ret;
 	}
 
     /**

@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
@@ -35,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:36 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -194,7 +193,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	private TableBandDesign getGroupHeader( int index, TableItemDesign table )
 	{
-		return ( (TableGroupDesign) ( table.getGroup( index ) ) ).getHeader( );
+		return table.getGroup( index ).getHeader( );
 	}
 
 	/**
@@ -206,7 +205,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	private TableBandDesign getGroupFooter( int index, TableItemDesign table )
 	{
-		return ( (TableGroupDesign) ( table.getGroup( index ) ) ).getFooter( );
+		return table.getGroup( index ).getFooter( );
 	}
 
 	/**

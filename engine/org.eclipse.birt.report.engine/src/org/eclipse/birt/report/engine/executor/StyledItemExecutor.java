@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -110,11 +110,11 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		//TODO performance may be enhanced in this function. Also we only
 		// handle the highlight of this item's style.
 		StyleDesign style = new StyleDesign( );
-		Expression defaultTestExp = null;
-		if ( item instanceof DataItemDesign )
-		{
-			defaultTestExp = ( (DataItemDesign) item ).getValue( );
-		}
+		//Expression defaultTestExp = null;
+		//if ( item instanceof DataItemDesign )
+		//{
+		//	defaultTestExp = ( (DataItemDesign) item ).getValue( );
+		//}
 		style = mergeStyle( style, item );
 		handleBackgroundImage( style );
 		//selector style
@@ -175,8 +175,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
 		{
-			HighlightRuleDesign rule = (HighlightRuleDesign) ( highlight
-					.getRule( i ) );
+			HighlightRuleDesign rule = highlight.getRule( i ) ;
 			if ( rule != null )
 			{
 				Object value = context.evaluate( rule.getConditionExpr( ) );
@@ -210,15 +209,12 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			{
 				return oldVal;
 			}
-			else
-			{
-				return ""; //$NON-NLS-1$
-			}
+			return ""; //$NON-NLS-1$
 		}
 
 		for ( int i = 0; i < map.getRuleCount( ); i++ )
 		{
-			MapRuleDesign rule = (MapRuleDesign) ( map.getRule( i ) );
+			MapRuleDesign rule = map.getRule( i );
 			if ( rule != null )
 			{
 				Object value = context.evaluate( rule.getConditionExpr( ) );

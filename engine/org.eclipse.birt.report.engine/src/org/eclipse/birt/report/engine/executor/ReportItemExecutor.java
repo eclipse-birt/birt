@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/15 03:29:37 $
  */
 public abstract class ReportItemExecutor
 {
@@ -138,10 +138,7 @@ public abstract class ReportItemExecutor
 			{
 				return rs;
 			}
-			else
-			{
-				context.exitScope( );
-			}
+			context.exitScope( );
 		}
 		return null;
 

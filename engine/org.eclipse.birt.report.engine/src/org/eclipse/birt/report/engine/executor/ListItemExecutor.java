@@ -18,14 +18,13 @@ import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
-import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -116,7 +115,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	private ListBandDesign getGroupHeader( int index, ListItemDesign list )
 	{
 		assert ( index >= 0 ) && ( index < list.getGroupCount( ) );
-		return ( (ListGroupDesign) ( list.getGroup( index ) ) ).getHeader( );
+		return ( ( list.getGroup( index ) ) ).getHeader( );
 	}
 
 	/**
@@ -162,7 +161,7 @@ public class ListItemExecutor extends ListingElementExecutor
 	private ListBandDesign getGroupFooter( int index, ListItemDesign list )
 	{
 		assert ( index >= 0 ) && ( index < list.getGroupCount( ) );
-		return ( (ListGroupDesign) ( list.getGroup( index ) ) ).getFooter( );
+		return list.getGroup( index ).getFooter( );
 	}
 
 	/*
