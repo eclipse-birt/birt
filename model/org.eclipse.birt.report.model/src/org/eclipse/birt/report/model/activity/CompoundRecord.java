@@ -96,7 +96,7 @@ public class CompoundRecord extends ActivityRecord
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 			record.undo( );
 			record.setState( ActivityRecord.UNDONE_STATE );
-			record.sendNotifcations( );
+			record.sendNotifcations( true );
 		}
 	}
 
@@ -116,7 +116,7 @@ public class CompoundRecord extends ActivityRecord
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 			record.redo( );
 			record.setState( ActivityRecord.REDONE_STATE );
-			record.sendNotifcations( );
+			record.sendNotifcations( true );
 		}
 	}
 
@@ -216,10 +216,10 @@ public class CompoundRecord extends ActivityRecord
 	 * This is a null operation in a composite record. Instead, notifications
 	 * must have been sent when executing, undoing or redoing each sub-record.
 	 * 
-	 * @see ActivityRecord#sendNotifcations()
+	 * @see ActivityRecord#sendNotifcations( boolean transactionStarted )
 	 */
 
-	protected void sendNotifcations( )
+	protected void sendNotifcations( boolean transactionStarted )
 	{
 		// Ignore this operation. Notifications were sent when doing
 		// the operations on the contained records.

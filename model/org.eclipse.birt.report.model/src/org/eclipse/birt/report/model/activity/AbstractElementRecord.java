@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.activity;
 
@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * activity record performs one operation. The <em>target element</em> is the
  * one that is changed. This class provides a standard implementation for
  * sending change notifications.
- * 
+ *  
  */
 
 public abstract class AbstractElementRecord extends ActivityRecord
@@ -53,12 +53,15 @@ public abstract class AbstractElementRecord extends ActivityRecord
 	abstract public NotificationEvent getEvent( );
 
 	/**
-	 * Sends the notifications. This implementation uses <code>getEvent( )</code>
-	 * to produce the notification, and sends the event to the element returned
-	 * by <code>getTarget( )</code>.
+	 * Sends the notifications. This implementation uses
+	 * <code>getEvent( )</code> to produce the notification, and sends the
+	 * event to the element returned by <code>getTarget( )</code>.
+	 * 
+	 * @param transactionStarted
+	 *            whether this record is executed in transaction.
 	 */
 
-	protected void sendNotifcations( )
+	protected void sendNotifcations( boolean transactionStarted )
 	{
 		// Get the target element. There should be one unless this is a
 		// "null command" that does nothing.
@@ -70,6 +73,8 @@ public abstract class AbstractElementRecord extends ActivityRecord
 
 		NotificationEvent event = getEvent( );
 		assert event != null;
+
+		event.setInTransaction( transactionStarted );
 
 		// Include the sender if this is the original execution.
 		// The sender is not sent for undo, redo because such actions are

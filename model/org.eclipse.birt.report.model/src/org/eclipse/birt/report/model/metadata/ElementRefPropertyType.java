@@ -102,38 +102,12 @@ public class ElementRefPropertyType extends PropertyType
 		if ( value instanceof String )
 		{
 			String name = StringUtil.trimString( (String) value );
-			NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
-			DesignElement target = ns.getElement( name );
-
-			// Element is unresolved.
-
-			if ( target == null )
-				return new ElementRefValue( name );
-
-			// Check type.
-
-			if ( !targetDefn.isKindOf( target.getDefn( ) ) )
-				throw new PropertyValueException( target.getName( ),
-						PropertyValueException.WRONG_ELEMENT_TYPE,
-						PropertyType.ELEMENT_REF_TYPE );
-
-			// Resolved reference.
-
-			return new ElementRefValue( target );
+			return validateStringValue( design, targetDefn, name );
 		}
 		if ( value instanceof DesignElement )
 		{
-			// Check type.
-
 			DesignElement target = (DesignElement) value;
-			if ( !targetDefn.isKindOf( target.getDefn( ) ) )
-				throw new PropertyValueException( target.getName( ),
-						PropertyValueException.WRONG_ELEMENT_TYPE,
-						PropertyType.ELEMENT_REF_TYPE );
-
-			// Resolved reference.
-
-			return new ElementRefValue( target );
+			return validateElementValue( design, targetDefn, target );
 		}
 
 		// Invalid property value.
@@ -141,6 +115,74 @@ public class ElementRefPropertyType extends PropertyType
 		throw new PropertyValueException( value,
 				PropertyValueException.INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
+	}
+
+	/**
+	 * Validates the element name.
+	 * 
+	 * @param design
+	 *            report design
+	 * @param targetDefn
+	 *            definition of target element
+	 * @param name
+	 *            element name
+	 * @return the resolved element reference value
+	 * @throws PropertyValueException
+	 *             if the type of target element is not that target definition,
+	 *             or the element with the given name is not in name space.
+	 */
+
+	private ElementRefValue validateStringValue( ReportDesign design,
+			ElementDefn targetDefn, String name ) throws PropertyValueException
+	{
+		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
+		DesignElement target = ns.getElement( name );
+
+		// Element is unresolved.
+
+		if ( target == null )
+			return new ElementRefValue( name );
+
+		// Check type.
+
+		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
+			throw new PropertyValueException( target.getName( ),
+					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyType.ELEMENT_REF_TYPE );
+
+		// Resolved reference.
+
+		return new ElementRefValue( target );
+	}
+
+	/**
+	 * Validates the element value.
+	 * 
+	 * @param design
+	 *            report design
+	 * @param targetDefn
+	 *            definition of target element
+	 * @param target
+	 *            target element
+	 * @return the resolved element reference value
+	 * @throws PropertyValueException
+	 *             if the type of target element is not that target definition.
+	 */
+
+	private ElementRefValue validateElementValue( ReportDesign design,
+			ElementDefn targetDefn, DesignElement target )
+			throws PropertyValueException
+	{
+		// Check type.
+
+		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
+			throw new PropertyValueException( target.getName( ),
+					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyType.ELEMENT_REF_TYPE );
+
+		// Resolved reference.
+
+		return new ElementRefValue( target );
 	}
 
 	/**

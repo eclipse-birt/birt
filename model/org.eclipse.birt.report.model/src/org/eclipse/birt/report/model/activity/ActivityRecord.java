@@ -352,9 +352,12 @@ public abstract class ActivityRecord
 	
 	/**
 	 * Sends element change notifications for this record.
+	 * 
+	 * @param transactionStarted
+	 *            whether this record is executed in transaction.
 	 */
 	
-    protected abstract void sendNotifcations( );
+    protected abstract void sendNotifcations( boolean transactionStarted );
     
 	/**
 	 * Returns the optional UI hint to be sent with the execute notification

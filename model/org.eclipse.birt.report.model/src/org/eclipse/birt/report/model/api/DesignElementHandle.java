@@ -27,24 +27,32 @@ import org.eclipse.birt.report.model.command.ExtendsException;
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.command.PropertyNameException;
 import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.StyleException;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.Listener;
+import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -1275,6 +1283,106 @@ public abstract class DesignElementHandle
 		}
 
 		return null;
+	}
+
+	/**
+	 * Copies all properties to the target element. The following properties
+	 * will not be copied.
+	 * <ul>
+	 * <li><code>DesignElement.NAME_PROP</code>
+	 * <li><code>DesignElement.EXTENDS_PROP</code>
+	 * </ul>
+	 * 
+	 * The <code>targetHandle</code> should be in the same report as this
+	 * element. And this method should be called in one transaction.
+	 * 
+	 * @param propName
+	 *            name of the property to copy
+	 * @param targetHandle
+	 *            the target element handle
+	 * @throws SemanticException
+	 *             if the target element type is not as same as this element
+	 *             type, or property is not defined .
+	 * @throws IllegalArgumentException
+	 *             if the target element is not in the same report as this
+	 *             element.
+	 */
+
+	public void copyPropertyTo( String propName,
+			DesignElementHandle targetHandle ) throws SemanticException
+	{
+		assert ( targetHandle.getDesign( ) == getDesign( ) );
+
+		if ( targetHandle.getDesign( ) != getDesign( ) )
+			throw new IllegalArgumentException(
+					"The target element should be in the same report !" ); //$NON-NLS-1$
+
+		if ( targetHandle.getDefn( ) != getDefn( ) )
+			throw new PropertyValueException(
+					targetHandle.getDefn( ).getName( ),
+					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyType.ELEMENT_REF_TYPE );
+
+		PropertyDefn propDefn = getDefn( ).getProperty( propName );
+		if ( propDefn == null )
+			throw new PropertyNameException( getElement( ), propName );
+
+		propDefn = targetHandle.getDefn( ).getProperty( propName );
+		if ( propDefn == null )
+			throw new PropertyNameException( targetHandle.getElement( ),
+					propName );
+
+		Object value = getElement( ).getLocalProperty( design,
+				propDefn.getName( ) );
+		if ( value == null )
+		{
+			targetHandle.setProperty( propName, null );
+			return;
+		}
+
+		if ( DesignElement.NAME_PROP.equals( propName )
+				|| DesignElement.EXTENDS_PROP.equals( propName ) )
+		{
+			throw new SemanticError( getElement( ), new String[]{propName},
+					SemanticError.PROPERTY_COPY_FORBIDDEN );
+		}
+
+		switch ( propDefn.getTypeCode( ) )
+		{
+			case PropertyType.ELEMENT_REF_TYPE :
+				ElementRefValue refValue = (ElementRefValue) value;
+
+				if ( refValue.isResolved( ) )
+					targetHandle.setProperty( propDefn.getName( ), refValue
+							.getElement( ) );
+				else
+					targetHandle.setProperty( propDefn.getName( ), refValue
+							.getName( ) );
+				break;
+
+			case PropertyType.STRUCT_TYPE :
+				if ( propDefn.isList( ) )
+				{
+					PropertyHandle propHandle = targetHandle
+							.getPropertyHandle( propName );
+
+					Iterator strcutIter = ( (List) value ).iterator( );
+					while ( strcutIter.hasNext( ) )
+					{
+						Structure struct = (Structure) strcutIter.next( );
+						propHandle.addItem( struct.copy( ) );
+					}
+				}
+				else
+				{
+					IStructure struct = (IStructure) value;
+					targetHandle.setProperty( propName, struct.copy( ) );
+				}
+				break;
+
+			default :
+				targetHandle.setProperty( propName, value );
+		}
 	}
 
 	/**

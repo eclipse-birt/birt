@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.command.ContentException;
@@ -976,6 +977,14 @@ public abstract class DesignElement implements IPropertySet
 
 		if ( !prop.canInherit( ) )
 		{
+			if ( prop.isStyleProperty( ) )
+			{
+				String selector = getDefn( ).getSelector( );
+				value = getPropertyFromSelector( design, prop, selector );
+				if ( value != null )
+					return value;
+			}
+
 			return getDefaultValue( design, prop );
 		}
 
@@ -3255,6 +3264,7 @@ public abstract class DesignElement implements IPropertySet
 	 *             if clone is not supported.
 	 *  
 	 */
+	
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		DesignElement element = (DesignElement) super.clone( );

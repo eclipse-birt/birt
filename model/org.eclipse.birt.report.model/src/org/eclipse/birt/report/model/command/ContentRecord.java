@@ -232,7 +232,7 @@ public class ContentRecord extends SimpleRecord
 	 * deleted, and we must tell the content that it has been deleted.
 	 */
 
-	protected void sendNotifcations( )
+	protected void sendNotifcations( boolean transactionStarted )
 	{
 		// Send the content changed event to the container.
 
@@ -242,6 +242,8 @@ public class ContentRecord extends SimpleRecord
 		else
 			event = new ContentEvent( container, slotID, ContentEvent.REMOVE );
 
+		event.setInTransaction( transactionStarted );
+		
 		// Include the sender if this is the original execution.
 		// The sender is not sent for undo, redo because such actions are
 		// triggered by the activity stack, not dialog or editor.

@@ -27,18 +27,19 @@ public final class ExtensionActivityRecord extends ActivityRecord
 
 	private IElementCommand extRecord = null;
 
-//	/**
-//	 * The design element, that is, a report element. All report element classes
-//	 * derives from DesignElement
-//	 */
-//
-//	private DesignElement element = null;
-//	
-//	/**
-//	 * The extension property name.
-//	 */
-//	
-//	private String propName = null;
+	//	/**
+	//	 * The design element, that is, a report element. All report element
+	// classes
+	//	 * derives from DesignElement
+	//	 */
+	//
+	//	private DesignElement element = null;
+	//	
+	//	/**
+	//	 * The extension property name.
+	//	 */
+	//	
+	//	private String propName = null;
 
 	/**
 	 * Constructs the extension activity record with the effective extended
@@ -131,45 +132,50 @@ public final class ExtensionActivityRecord extends ActivityRecord
 		extRecord.redo( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(
+	 *      boolean transactionStarted )
 	 */
-	
-	protected void sendNotifcations( )
+
+	protected void sendNotifcations( boolean transactionStarted )
 	{
-		return;		
+		return;
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
-//	 */
-//	public DesignElement getTarget( )
-//	{
-//		return element;
-//	}
+	//	/*
+	//	 * (non-Javadoc)
+	//	 *
+	//	 * @see
+	// org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	//	 */
+	//	public DesignElement getTarget( )
+	//	{
+	//		return element;
+	//	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
-//	 */
-//	
-//	public NotificationEvent getEvent( )
-//	{
-//		// Use the same notification for the done/redone and undone states.
-//		
-//		assert element instanceof ExtendedItem;
-//		
-//		IElement extElement = ((ExtendedItem)element).getExtendedElement( );
-//		assert extElement != null;
-//		
-//		if ( extElement.refreshPropertyDefinition( ) )
-//		{
-//			return new ExtensionPropertyDefinitionEvent( element );	
-//		}
-//
-//		return new PropertyEvent( element, propName );
-//	}	
+	//	/*
+	//	 * (non-Javadoc)
+	//	 *
+	//	 * @see
+	// org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	//	 */
+	//	
+	//	public NotificationEvent getEvent( )
+	//	{
+	//		// Use the same notification for the done/redone and undone states.
+	//		
+	//		assert element instanceof ExtendedItem;
+	//		
+	//		IElement extElement = ((ExtendedItem)element).getExtendedElement( );
+	//		assert extElement != null;
+	//		
+	//		if ( extElement.refreshPropertyDefinition( ) )
+	//		{
+	//			return new ExtensionPropertyDefinitionEvent( element );
+	//		}
+	//
+	//		return new PropertyEvent( element, propName );
+	//	}
 }

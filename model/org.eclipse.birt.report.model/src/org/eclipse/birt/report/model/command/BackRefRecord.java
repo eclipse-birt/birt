@@ -108,8 +108,7 @@ public class BackRefRecord extends SimpleRecord
 	 * to send out the notification.
 	 */
 
-	protected void sendNotifcations( )
+	protected void sendNotifcations( boolean transactionStarted )
 	{
 	}
-
 }

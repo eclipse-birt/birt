@@ -345,7 +345,7 @@ public final class ActivityStack implements CommandStack
 
 		// Send out notifications about the action just completed.
 
-		record.sendNotifcations( );
+		record.sendNotifcations( ! transStack.isEmpty( ) );
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
@@ -399,7 +399,7 @@ public final class ActivityStack implements CommandStack
 
 		// Send notifications.
 
-		record.sendNotifcations( );
+		record.sendNotifcations( true );
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.UNDONE ) );
@@ -433,7 +433,7 @@ public final class ActivityStack implements CommandStack
 
 		// Send notifications.
 
-		record.sendNotifcations( );
+		record.sendNotifcations( true );
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.REDONE ) );
