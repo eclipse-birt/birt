@@ -49,18 +49,6 @@
                path="/"
                name="%datasource.editor.page.connection"
                id="org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor.connection"/>
-         <data-source-editor-page
-               class="org.eclipse.birt.report.data.oda.jdbc.ui.wizards.ExternalEditorConfigurationWizardPage"
-               name="External Editor Configuration"
-               id="org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor-page1"/>
       </data-source>
     </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="org.eclipse.birt.report.data.oda.jdbc.ui.preference.ExternalEditorPreferencePage"
-            category="birt"
-            name="%preference.externalEditor.title"
-            id="org.eclipse.birt.data.oda.jdbc.externalEditor"/>
-   </extension>
    </plugin>

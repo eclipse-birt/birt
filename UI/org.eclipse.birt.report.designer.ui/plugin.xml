@@ -158,6 +158,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
             name="Preview"
             id="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"/>
       <page
@@ -168,7 +169,7 @@
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
             name="%preference.birt"
-            id="birt"/>
+            id="org.eclipse.birt.report.designer.ui.preferences"/>
    </extension>
 
    <!-- Preview browsers -->
