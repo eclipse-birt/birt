@@ -66,6 +66,16 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		return command.unwrap( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCloneCommand(org.eclipse.gef.requests.ChangeBoundsRequest)
+	 */
+	protected Command getCloneCommand( ChangeBoundsRequest request )
+	{
+		return getAddCommand( request );
+	}
+
 	/**
 	 * @param parent
 	 * @param child
@@ -300,8 +310,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			return new NonResizableEditPolicy( );
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
-				| PositionConstants.EAST
-				| PositionConstants.SOUTH_EAST );
+				| PositionConstants.EAST | PositionConstants.SOUTH_EAST );
 		return policy;
 	}
 
