@@ -31,25 +31,38 @@ import java.util.ResourceBundle;
  * avoiding the need to create exceltion subclasses such as BirtEngineException, 
  * BirtDtEException, etc.    
  *  
+ * Note that the resource key (or error code), message arguments and resource bundle
+ * are immutable.
+ *  
  */
 public class BirtException extends Exception {
 
     /**
-     * the error code
+     * The resource key that represents the internal error code used in fetching an externalized message
      */
-    protected String errorCode;  
-    protected ResourceBundle resourceBundle = null;
-    protected String[] args = null;
+    protected final String sResourceKey;
+    
+    /**
+     * Optional arguments to be used with a resource key to build the error message
+     */
+    protected final Object[] oaMessageArguments;
+    
+    /**
+     * The resource bundle that holds a collection of messages for a specific locale 
+     */
+    protected final ResourceBundle rb;
     
     /**
      * Constructs a new Birt exception with no cause object.
      * @param errorCode used to retrieve a piece of externalized message displayed to end user.
      * @param resourceBundle the resourceBundle used to translate the message.    
      */
-    BirtException(String errorCode, ResourceBundle bundle) {
+    public BirtException(String errorCode, ResourceBundle bundle) 
+    {
         super();
-        this.errorCode = errorCode;
-        this.resourceBundle = bundle;
+        this.sResourceKey = errorCode;
+        this.rb = bundle;
+        this.oaMessageArguments = null;
     }
     
     /**
@@ -57,11 +70,12 @@ public class BirtException extends Exception {
      * @param resourceBundle the resourceBundle used to translate the message.        
      * @param cause the nested exception
       */
-    BirtException(String errorCode, ResourceBundle bundle, Throwable cause)
+    public BirtException(String errorCode, ResourceBundle bundle, Throwable cause)
     {
         super(cause);
-        this.errorCode = errorCode;
-        this.resourceBundle = bundle;
+        this.sResourceKey = errorCode;
+        this.rb = bundle;
+        this.oaMessageArguments = null;
     }
 
     /**
@@ -69,12 +83,12 @@ public class BirtException extends Exception {
      * @param resourceBundle the resourceBundle used to translate the message.            
      * @param args string arguments used to format error messages
       */
-    BirtException(String errorCode, ResourceBundle bundle, Throwable cause, String[] args)
+    public BirtException(String errorCode, Object[] args, ResourceBundle bundle, Throwable cause)
     {
         super(cause);
-        this.errorCode = errorCode;
-        this.args = args;
-        this.resourceBundle = bundle;
+        this.sResourceKey = errorCode;
+        this.oaMessageArguments = args;
+        this.rb = bundle;
     }
 
     /**
@@ -83,14 +97,13 @@ public class BirtException extends Exception {
      * @param cause the nested exception
      * @param arg0 first argument used to format error messages
      */
-    BirtException(String errorCode, ResourceBundle bundle, Throwable cause, String arg0)
+    public BirtException(String errorCode, Object arg0, ResourceBundle bundle, Throwable cause)
     {
         super(cause);
-        this.errorCode = errorCode;
-        this.resourceBundle = bundle;
+        this.sResourceKey = errorCode;
+        this.rb = bundle;
         
-        this.args = new String[1];
-        this.args[0] = arg0;
+        this.oaMessageArguments = new Object[] { arg0 };
     }
     
     /**
@@ -98,12 +111,12 @@ public class BirtException extends Exception {
      * @param resourceBundle the resourceBundle used to translate the message.            
      * @param args string arguments used to format error messages
       */
-    BirtException(String errorCode, ResourceBundle bundle, String[] args)
+    public BirtException(String errorCode, Object[] args, ResourceBundle bundle)
     {
         super();
-        this.errorCode = errorCode;
-        this.args = args;
-        this.resourceBundle = bundle;
+        this.sResourceKey = errorCode;
+        this.oaMessageArguments = args;
+        this.rb = bundle;
     }
 
     /**
@@ -112,27 +125,24 @@ public class BirtException extends Exception {
      * @param cause the nested exception
      * @param arg0 first argument used to format error messages
      */
-    BirtException(String errorCode, ResourceBundle bundle, String arg0)
+    public BirtException(String errorCode, Object arg0, ResourceBundle bundle)
     {
         super();
-        this.errorCode = errorCode;
-        this.resourceBundle = bundle;
-        
-        this.args = new String[1];
-        this.args[0] = arg0;
+        this.sResourceKey = errorCode;
+        this.rb = bundle;
+        this.oaMessageArguments = new Object[] { arg0 };
     }
     
     /**
      * @param errorCode used to retrieve a piece of externalized message displayed to end user.    
      * @param arg0 first argument used to format error messages
       */
-    BirtException(String errorCode, String arg0)
+    public BirtException(String errorCode, Object arg0)
     {
         super();
-        
-        this.errorCode = errorCode;
-        this.args = new String[1];
-        this.args[0] = arg0;
+        this.sResourceKey = errorCode;
+        this.oaMessageArguments = new Object[] { arg0 };
+        this.rb = null;
     }
     
     /**
@@ -140,32 +150,28 @@ public class BirtException extends Exception {
      * @param cause the nested exception
      * @param args string arguments used to format error messages
       */
-    BirtException(String errorCode, Throwable cause, String[] args)
+    public BirtException(String errorCode, Object[] args, Throwable cause)
     {
         super(cause);
-        this.errorCode = errorCode;
-        this.args = args;
+        this.sResourceKey = errorCode;
+        this.oaMessageArguments = args;
+        this.rb = null;
     }
     
     /**
      * @return Returns the errorCode.
      */
-    public String getErrorCode() {
-        return errorCode;
-    }
-    
-    /**
-     * @param errorCode The errorCode to set.
-     */
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public String getErrorCode() 
+    {
+        return sResourceKey;
     }
     
      /* (non-Javadoc)
      * @see java.lang.Throwable#getLocalizedMessage()
      */
-    public String getLocalizedMessage() {
-        return getLocalizedMessage(errorCode);
+    public String getLocalizedMessage() 
+    {
+        return getLocalizedMessage(sResourceKey);
     }
     
     /**
@@ -178,13 +184,15 @@ public class BirtException extends Exception {
     protected String getLocalizedMessage(String errorCode)
     {
         String localizedMessage;
-        if (resourceBundle == null)
+        if (rb == null)
+        {
             return "";	// $NON-NLS-1$
+        }
         else
         {
             try
             {
-                localizedMessage = resourceBundle.getString(errorCode);
+                localizedMessage = rb.getString(errorCode);
             }
             catch (Exception e)
             {
@@ -192,6 +200,6 @@ public class BirtException extends Exception {
             }
         }     
         MessageFormat form = new MessageFormat(localizedMessage);
-        return form.format(args);
+        return form.format(oaMessageArguments);
     }
 }
