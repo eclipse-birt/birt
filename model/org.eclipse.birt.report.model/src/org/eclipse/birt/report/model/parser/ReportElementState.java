@@ -107,33 +107,6 @@ public abstract class ReportElementState extends DesignParseState
 
 	public abstract DesignElement getElement( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMMENTS_TAG ) )
-			return new TextState( handler, getElement( ),
-					DesignElement.COMMENTS_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DISPLAY_NAME_TAG ) )
-			return new ExternalTextState( handler, getElement( ),
-					DesignElement.DISPLAY_NAME_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_DEFN_TAG ) )
-			return new UserPropertyDefnState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_MASK_TAG ) )
-			return new PropertyMaskState( );
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_VALUE_TAG ) )
-			return new PropertyValueState( );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUSTOM_TAG ) )
-			return new TextState( handler, getElement( ),
-					DesignElement.CUSTOM_XML_PROP );
-		return super.startElement( tagName );
-	}
-
 	/**
 	 * The property values may be before the definition, so there will be the
 	 * check if the value is valid. If valid, we set property value, otherwise

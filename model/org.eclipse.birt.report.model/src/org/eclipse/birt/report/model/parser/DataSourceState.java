@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 
 /**
  * This class parses the data source element.
@@ -48,18 +47,5 @@ public abstract class DataSourceState extends ReportElementState
 	public DesignElement getElement( )
 	{
 		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-	
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName ) )
-			return new MethodState( handler, element );
-		return super.startElement( tagName );
 	}
 }

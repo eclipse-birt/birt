@@ -65,9 +65,6 @@ public class TableRowState extends ReportElementState
 		element = new TableRow( );
 		if ( !addToSlot( container, slotID, element ) )
 			return;
-
-		setProperty( TableRow.HEIGHT_PROP, attrs
-				.getValue( DesignSchemaConstants.HEIGHT_ATTRIB ) );
 	}
 
 	/*
@@ -78,13 +75,6 @@ public class TableRowState extends ReportElementState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.BOOKMARK_TAG ) )
-			return new TextState( handler, element, TableRow.BOOKMARK_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-			return new StyleState( handler, element );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.VISIBILITY_TAG ) )
-			return new VisibilityState( handler, element,
-					TableRow.VISIBILITY_PROP );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CELL_TAG ) )
 			return new CellState( handler, element, TableRow.CONTENT_SLOT );
 		return super.startElement( tagName );

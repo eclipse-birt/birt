@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextItem;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -55,19 +54,6 @@ public class TextItemState extends ReportItemState
 	{
 		element = new TextItem( );
 		initElement( attrs );
-		setProperty( TextItem.CONTENT_TYPE_PROP, attrs, DesignSchemaConstants.CONTENT_TYPE_ATTRIB );
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-	
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CONTENT_TAG ) )
-			return new ExternalTextState( handler, element,	TextItem.CONTENT_PROP );
-		
-		return super.startElement( tagName );
 	}
 	
 	/*

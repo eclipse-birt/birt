@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.elements.OdaDataSource;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -48,31 +47,4 @@ public class OdaDataSourceState extends DataSourceState
 	{
 		initElement( attrs, true );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( DesignSchemaConstants.DRIVER_NAME_ATTRIB
-				.equalsIgnoreCase( tagName ) )
-			return new TextState( handler, element,
-					OdaDataSource.DRIVER_NAME_PROP );
-
-		if ( DesignSchemaConstants.PUBLIC_DRIVER_PROPERTIES_TAG
-				.equalsIgnoreCase( tagName ) )
-			return new PropertiesState( handler, element,
-					OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
-
-		if ( DesignSchemaConstants.PRIVATE_DRIVER_PROPERTIES_TAG
-				.equalsIgnoreCase( tagName ) )
-			return new PropertiesState( handler, element,
-					OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
-
-		return super.startElement( tagName );
-	}
-
 }

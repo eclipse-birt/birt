@@ -49,14 +49,6 @@ public class GraphicMasterPageState extends MasterPageState
 	{
 		element = new GraphicMasterPage( );
 		initElement( attrs, true );
-
-		super.parseAttrs( attrs );
-
-		setProperty( GraphicMasterPage.COLUMNS_PROP, attrs
-				.getValue( DesignSchemaConstants.COLUMNS_ATTRIB ) );
-		setProperty( GraphicMasterPage.COLUMN_SPACING_PROP, attrs
-				.getValue( DesignSchemaConstants.COLUMN_SPACING_ATTRIB ) );
-
 	}
 
 	/*

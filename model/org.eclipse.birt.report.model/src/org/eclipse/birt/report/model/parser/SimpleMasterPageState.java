@@ -46,14 +46,6 @@ public class SimpleMasterPageState extends MasterPageState
 	{
 		element = new SimpleMasterPage( );
 		initElement( attrs, true );
-		super.parseAttrs( attrs );
-
-		setProperty( SimpleMasterPage.SHOW_HEADER_ON_FIRST_PROP, attrs,
-				DesignSchemaConstants.SHOW_HEADER_ON_FIST_ATTRIB );
-		setProperty( SimpleMasterPage.SHOW_FOOTER_ON_LAST_PROP, attrs,
-				DesignSchemaConstants.SHOW_FOOTER_ON_LAST_ATTRIB );
-		setProperty( SimpleMasterPage.FLOATING_FOOTER, attrs,
-				DesignSchemaConstants.FLOATING_FOOTER );
 	}
 
 	/*

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -45,18 +44,5 @@ public class ScriptDataSourceState extends DataSourceState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		initElement( attrs, true );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-	
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName ) )
-			return new MethodState( handler, element );
-		return super.startElement( tagName );
 	}
 }

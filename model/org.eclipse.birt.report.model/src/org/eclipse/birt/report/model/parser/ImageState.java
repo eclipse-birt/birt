@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.util.URIUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -35,12 +34,6 @@ public class ImageState extends ReportItemState
 	 */
 
 	protected ImageItem image;
-
-	/**
-	 * Temporary variable to track the type of the image reference.
-	 */
-
-	private int imageRef = -1;
 
 	/**
 	 * Constructs the image item state with the design parser handler, the
@@ -82,79 +75,8 @@ public class ImageState extends ReportItemState
 		image = new ImageItem( );
 
 		initElement( attrs );
-		setProperty( ImageItem.SIZE_PROP, attrs,
-				DesignSchemaConstants.IMAGE_SIZE_ATTRIB );
-		setProperty( ImageItem.SCALE_PROP, attrs,
-				DesignSchemaConstants.IMAGE_SCALE_ATTRIB );
-		super.parseAttrs( attrs );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ALT_TEXT_TAG ) )
-			return new ExternalTextState( handler, image,
-					ImageItem.ALT_TEXT_PROP );
-
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HELP_TEXT_TAG ) )
-			return new ExternalTextState( handler, image,
-					ImageItem.HELP_TEXT_PROP );
-
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ACTION_TAG ) )
-			return new ActionState( handler, image, ImageItem.ACTION_PROP );
-
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_REF_URI_TAG ) )
-		{
-			if ( imageRef != -1 )
-			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
-			}
-
-			imageRef = 0;
-			return new TextState( handler, image, ImageItem.URI_PROP );
-		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.IMAGE_REF_IMAGENAME_TAG ) )
-		{
-			if ( imageRef != -1 )
-			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
-			}
-			imageRef = 1;
-			return new TextState( handler, image, ImageItem.IMAGE_NAME_PROP );
-		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.IMAGE_REF_VALUE_EXPR_TAG ) )
-		{
-			if ( imageRef == 0 || imageRef == 1 )
-			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
-			}
-			imageRef = 2;
-			return new TextState( handler, image, ImageItem.VALUE_EXPR_PROP );
-		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.IMAGE_REF_TYPE_EXPR_TAG ) )
-		{
-			if ( imageRef == 0 || imageRef == 1 )
-			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
-			}
-			imageRef = 2;
-			return new TextState( handler, image, ImageItem.TYPE_EXPR_PROP );
-		}
-		return super.startElement( tagName );
-	}
-
+	
 	/**
 	 * Check whether the source type conflicts, and set the proper source type.
 	 */

@@ -61,9 +61,6 @@ public class ParameterGroupState extends ReportElementState
     
     public AbstractParseState startElement( String tagName )
     {
-        if( tagName.equalsIgnoreCase( DesignSchemaConstants.HELP_TEXT_TAG ) )
-            return new ExternalTextState( handler, paramGroup,
-                    ParameterGroup.HELP_TEXT_PROP );
         if( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
             return new ParametersState( handler, paramGroup,
                     ParameterGroup.PARAMETERS_SLOT );
@@ -81,7 +78,5 @@ public class ParameterGroupState extends ReportElementState
     {
         paramGroup = new ParameterGroup();
         initElement( attrs, true );
-        setProperty( ParameterGroup.START_EXPANDED_PROP, attrs,
-                DesignSchemaConstants.START_EXPANDED_ATTRIB );
     }
 }

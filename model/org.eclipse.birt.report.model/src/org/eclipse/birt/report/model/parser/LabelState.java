@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Label;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -59,24 +58,6 @@ public class LabelState extends ReportItemState
 	{
 		element = new Label( );
 		initElement( attrs );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
-			return new ExternalTextState( handler, element, Label.TEXT_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HELP_TEXT_TAG ) )
-			return new ExternalTextState( handler, element,
-					Label.HELP_TEXT_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ACTION_TAG ) )
-			 return new ActionState( handler, element, Label.ACTION_PROP );
-     	return super.startElement( tagName );
 	}
 
 	/*

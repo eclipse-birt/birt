@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -61,18 +60,4 @@ public class ScriptDataSetState extends DataSetState
 		element = new ScriptDataSet( );
 		super.parseAttrs( attrs );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName ) )
-			return new MethodState( handler, element );
-		return super.startElement( tagName );
-	}
-
 }

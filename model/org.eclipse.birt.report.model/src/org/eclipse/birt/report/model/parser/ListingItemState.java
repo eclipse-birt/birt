@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 
 /**
  * This class parses common properties for both list and table report items.
@@ -58,23 +57,4 @@ public abstract class ListingItemState extends ReportItemState
 	{
 		return element;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SORT_TAG ) )
-			return new SortState( handler, element, ListingElement.SORT_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FILTER_TAG ) )
-			return new FiltersState( handler, element,
-					ListingElement.FILTER_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-			return new MethodState( handler, getElement( ) );
-		return super.startElement( tagName );
-	}
-
 }

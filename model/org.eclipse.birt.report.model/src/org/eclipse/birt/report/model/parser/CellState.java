@@ -72,19 +72,6 @@ public class CellState extends ReportElementState
 		element = new Cell( );
 		if ( !addToSlot( container, slotID, element ) )
 			return;
-
-		setProperty( Cell.COLUMN_PROP, attrs
-				.getValue( DesignSchemaConstants.COLUMN_ATTRIB ) );
-		setProperty( Cell.COL_SPAN_PROP, attrs
-				.getValue( DesignSchemaConstants.COL_SPAN_ATTRIB ) );
-		setProperty( Cell.ROW_SPAN_PROP, attrs
-				.getValue( DesignSchemaConstants.ROW_SPAN_ATTRIB ) );
-		setProperty( Cell.DROP_PROP, attrs
-				.getValue( DesignSchemaConstants.DROP_ATTRIB ) );
-		setProperty( Cell.HEIGHT_PROP, attrs
-				.getValue( DesignSchemaConstants.HEIGHT_ATTRIB ) );
-		setProperty( Cell.WIDTH_PROP, attrs
-				.getValue( DesignSchemaConstants.WIDTH_ATTRIB ) );
 	}
 
 	/*
@@ -95,8 +82,6 @@ public class CellState extends ReportElementState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-			return new StyleState( handler, element );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 			return new TextItemState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
@@ -120,7 +105,7 @@ public class CellState extends ReportElementState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
 			return new ImageState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
-			return new AnyElementState( handler );
+			return new LineItemState( handler, element, Cell.CONTENT_SLOT );
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
 			return new AnyElementState( handler );

@@ -13,8 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.TableGroup;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -63,39 +61,7 @@ abstract class GroupState extends ReportElementState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		setProperty( GroupElement.GROUP_NAME_PROP, attrs
-				.getValue( DesignSchemaConstants.NAME_ATTRIB ) );
-		setProperty( TableGroup.INTERVAL_PROP, attrs
-				.getValue( DesignSchemaConstants.INTERVAL_ATTRIB ) );
-		setProperty( TableGroup.INTERVAL_RANGE_PROP, attrs
-				.getValue( DesignSchemaConstants.INTERVAL_RANGE_ATTRIB ) );
-		setProperty( TableGroup.SORT_DIRECTION_PROP, attrs
-				.getValue( DesignSchemaConstants.SORT_DIRECTION_ATTRIB ) );
-
 		if ( !addToSlot( container, slotID, group ) )
 			return;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.KEY_EXPR_TAG ) )
-			return new TextState( handler, group, TableGroup.KEY_EXPR_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FILTER_TAG ) )
-			return new FiltersState( handler, group,
-					GroupElement.FILTER_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SORT_TAG ) )
-			return new SortState( handler, group, GroupElement.SORT_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
-			return new TextState( handler, group, TableGroup.TOC_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-			return new MethodState( handler, getElement( ) );
-		return super.startElement( tagName );
-	}
-
 }

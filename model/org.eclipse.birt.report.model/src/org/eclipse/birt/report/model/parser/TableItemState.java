@@ -55,10 +55,6 @@ public class TableItemState extends ListingItemState
 	{
 		element = new TableItem( );
 		initElement( attrs );
-		setProperty( TableItem.REPEAT_HEADER_PROP, attrs
-				.getValue( DesignSchemaConstants.REPEAT_HEADER_ATTRIB ) );
-
-		super.parseAttrs( attrs );
 	}
 
 	/*
@@ -69,9 +65,6 @@ public class TableItemState extends ListingItemState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CAPTION_TAG ) )
-			return new ExternalTextState( handler, element,
-					TableItem.CAPTION_PROP );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
 			return new TableColumnState( handler, element,
 					TableItem.COLUMN_SLOT );

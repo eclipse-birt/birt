@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableColumn;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -66,23 +65,5 @@ class TableColumnState extends ReportElementState
 		element = new TableColumn( );
 		if ( !addToSlot( container, slotID, element ) )
 			return;
-
-		setProperty( TableColumn.REPEAT_PROP, attrs
-				.getValue( DesignSchemaConstants.REPEAT_ATTRIB ) );
-		setProperty( TableColumn.WIDTH_PROP, attrs
-				.getValue( DesignSchemaConstants.WIDTH_ATTRIB ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-			return new StyleState( handler, element );
-		return super.startElement( tagName );
 	}
 }

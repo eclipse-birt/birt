@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.SemanticError;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -28,7 +27,6 @@ import org.xml.sax.Attributes;
 
 public class ExtendedItemState extends ReportItemState
 {
-
 	/**
 	 * The extended item being created.
 	 */
@@ -87,24 +85,7 @@ public class ExtendedItemState extends ReportItemState
 		initElement( attrs );
 
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-	public AbstractParseState startElement( String tagName )
-	{
-//		if ( StringUtil.isBlank( element.getExtendsName( ) )
-//				|| MetaDataDictionary.getInstance( ).getExtension(
-//						element.getExtendsName( ) ) == null )
-//		{
-//			return new AnyElementState( getHandler( ) );
-//		}
-
-		return super.startElement( tagName );
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -59,28 +58,6 @@ public class DataItemState extends ReportItemState
 	{
 		element = new DataItem( );
 		initElement( attrs );
-		setProperty( DataItem.DISTINCT_PROP, attrs
-				.getValue( DesignSchemaConstants.DISTINCT_ATTRIB ) );
-		setProperty( DataItem.DISTINCT_RESET_PROP, attrs
-				.getValue( DesignSchemaConstants.DISTINCT_RESET_ATTRIB ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-	 */
-
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.VALUE_EXPR_TAG ) )
-			return new TextState( handler, element, DataItem.VALUE_EXPR_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ACTION_TAG ) )
-			return new ActionState( handler, element, DataItem.ACTION_PROP );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HELP_TEXT_TAG ) )
-			return new ExternalTextState( handler, element,
-					DataItem.HELP_TEXT_PROP );
-		return super.startElement( tagName );
 	}
 
 	/*

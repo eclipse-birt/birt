@@ -59,9 +59,6 @@ public class LineItemState extends ReportItemState
 	{
 		element = new LineItem( );
 		initElement( attrs );
-
-		setProperty( LineItem.ORIENTATION_PROP, attrs
-				.getValue( DesignSchemaConstants.ORIENTATION_ATTRIB ) );
 	}
 
 	/*
