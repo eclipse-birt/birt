@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: #4 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
  */
 public class AttributeBuilder
 {
@@ -503,9 +503,56 @@ public class AttributeBuilder
 	 */
 	private static void addURLValue( StringBuffer content, String url )
 	{
-		if ( url != null && url.length( ) > 0 )
+		if ( url == null )
 		{
-			// TODO: escape URL string
+			return;
+		}
+
+		// escape the URL string
+		StringBuffer escapedUrl = null;
+		for ( int i = 0, max = url.length( ), delta = 0; i < max; i++ )
+		{
+			char c = url.charAt( i );
+			String replacement = null;
+			if ( c == '\\' )
+			{
+				replacement = "%5c"; //$NON-NLS-1$
+			}
+			else if ( c == '#' )
+			{
+				replacement = "%23";
+			}
+			else if ( c == '%' )
+			{
+				replacement = "%25"; //$NON-NLS-1$
+			}
+			else if ( c == '\'' )
+			{
+				replacement = "%27"; //$NON-NLS-1$
+			}
+			else if ( c >= 0x80 )
+			{
+				replacement = '%' + Integer.toHexString( c );
+			}
+
+			if ( replacement != null )
+			{
+				if ( escapedUrl == null )
+				{
+					escapedUrl = new StringBuffer( url );
+				}
+				escapedUrl.replace( i + delta, i + delta + 1, replacement );
+				delta += ( replacement.length( ) - 1 );
+			}
+		}
+
+		if ( escapedUrl != null )
+		{
+			url = escapedUrl.toString( );
+		}
+
+		if ( url.length( ) > 0 )
+		{
 			content.append( " url('" ); //$NON-NLS-1$
 			content.append( url );
 			content.append( "')" ); //$NON-NLS-1$
