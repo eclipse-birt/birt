@@ -123,6 +123,11 @@ public class ScriptEvalUtil
 	
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
+		if ( obj1 == null || obj2 == null )
+		{
+			throw new DataException( ResourceConstants.NULL_POINTER );
+		}
+		
 		if ( isSameType( obj1, obj2 ) )
 		{
 			return ( (Comparable) obj1 ).compareTo( obj2 );

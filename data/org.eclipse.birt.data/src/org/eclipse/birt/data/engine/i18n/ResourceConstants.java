@@ -90,4 +90,5 @@ public class ResourceConstants
 	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
 	
 	public final static String QUERY_FAILURE = "QUERY_FAILURE";
+	public final static String NULL_POINTER = "NULL_POINTER";
 }
