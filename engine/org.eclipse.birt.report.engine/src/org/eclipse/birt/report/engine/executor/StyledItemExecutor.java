@@ -13,12 +13,12 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.Date;
 
-import org.eclipse.birt.report.engine.content.ReportItemContent;
-import org.eclipse.birt.report.engine.content.RowContent;
-import org.eclipse.birt.report.engine.content.StyledElementContent;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.content.ReportItemContent;
+import org.eclipse.birt.report.engine.content.RowContent;
+import org.eclipse.birt.report.engine.content.StyledElementContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
@@ -36,11 +36,11 @@ import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * Defines an abstract base class for all styled element executors, including
- * <code>DataItemExecutor</code>, <code>TextItemExecutor</code>, etc.. The class 
- * provides methods for style manipulation, such as applying highlight and 
+ * <code>DataItemExecutor</code>,<code>TextItemExecutor</code>, etc.. The
+ * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: #3 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -48,8 +48,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	/**
 	 * constructor
 	 * 
-	 * @param context the execution context.
-	 * @param visitor the visitor for report execution
+	 * @param context
+	 *            the execution context.
+	 * @param visitor
+	 *            the visitor for report execution
 	 */
 	protected StyledItemExecutor( ExecutionContext context,
 			ReportExecutorVisitor visitor )
@@ -59,11 +61,13 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 	/**
 	 * Gets the style from the original design object, calculates the highlight
-	 * style, merges the teo styles and then sets them on the corresponding content
-	 * object.
+	 * style, merges the teo styles and then sets them on the corresponding
+	 * content object.
 	 * 
-	 * @param content the target content object.
-	 * @param design  the original design object.
+	 * @param content
+	 *            the target content object.
+	 * @param design
+	 *            the original design object.
 	 */
 	protected void setStyles( StyledElementContent content,
 			StyledElementDesign design )
@@ -102,7 +106,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected StyleDesign getActualStyle( StyledElementDesign item )
 	{
-		//TODO performance may be enhanced in this function. Also we only 
+		//TODO performance may be enhanced in this function. Also we only
 		// handle the highlight of this item's style.
 		StyleDesign style = new StyleDesign( );
 		Expression defaultTestExp = null;
@@ -137,9 +141,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	private StyleDesign mergeStyle( StyleDesign mergingStyle,
 			StyledElementDesign item )
 	{
-		if ( item.getStyle() != null )
+		if ( item.getStyle( ) != null )
 		{
-			mergingStyle = mergingStyle.mergeWithInlineStyle( item.getStyle() );
+			mergingStyle = mergingStyle.mergeWithInlineStyle( item.getStyle( ) );
 			StyleDesign highlightStyle = getStyleFromHighlight( item );
 			if ( highlightStyle != null )
 			{
@@ -153,27 +157,30 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	/**
 	 * Get the highlight style.
 	 * 
-	 * @param style The style with highlight.
-	 * @param defaultTestExp the test expression
+	 * @param style
+	 *            The style with highlight.
+	 * @param defaultTestExp
+	 *            the test expression
 	 * @return The highlight style.
 	 */
 	private StyleDesign getStyleFromHighlight( StyledElementDesign item )
 	{
-		
+
 		HighlightDesign highlight = item.getHighlight( );
 		if ( highlight == null )
 		{
 			return null;
 		}
-		
+
 		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
 		{
 			HighlightRuleDesign rule = (HighlightRuleDesign) ( highlight
 					.getRule( i ) );
-			if(rule!=null)
+			if ( rule != null )
 			{
-				Object value = context.evaluate(rule.getConditionExpr());
-				if((value != null) && (value instanceof Boolean) && (( (Boolean) value ).booleanValue( ) ))
+				Object value = context.evaluate( rule.getConditionExpr( ) );
+				if ( ( value != null ) && ( value instanceof Boolean )
+						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
 					return rule.getStyle( );
 				}
@@ -185,14 +192,17 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	/**
 	 * Get the mapped value.
 	 * 
-	 * @param oldVal the old value.
-	 * @param style the style with map.
-	 * @param defaultTestExp the default test expression and only useful for data item
+	 * @param oldVal
+	 *            the old value.
+	 * @param style
+	 *            the style with map.
+	 * @param defaultTestExp
+	 *            the default test expression and only useful for data item
 	 * @return the old value if no map rule matched, the mapping value otherwise
 	 */
 	protected Object getMapVal( Object oldVal, StyledElementDesign item )
 	{
-		MapDesign map = item.getMap();
+		MapDesign map = item.getMap( );
 		if ( map == null )
 		{
 			if ( oldVal != null )
@@ -204,14 +214,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				return ""; //$NON-NLS-1$
 			}
 		}
-		
+
 		for ( int i = 0; i < map.getRuleCount( ); i++ )
 		{
 			MapRuleDesign rule = (MapRuleDesign) ( map.getRule( i ) );
-			if(rule!=null)
+			if ( rule != null )
 			{
-				Object value = context.evaluate(rule.getConditionExpr());
-				if((value != null) && (value instanceof Boolean) && (( (Boolean) value ).booleanValue( ) ))
+				Object value = context.evaluate( rule.getConditionExpr( ) );
+				if ( ( value != null ) && ( value instanceof Boolean )
+						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
 					return getLocalizedString( rule.getDisplayKey( ), rule
 							.getDisplayText( ) );
@@ -268,6 +279,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					style.setNumberFormatObject( numberFormat );
 				}
+				else
+				{
+					formatStr = numberFormat.getPattern( );
+				}
 			}
 			else
 			//deal with value-of for text item
@@ -278,10 +293,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 			formattedStr.append( numberFormat.format( ( (Number) value )
 					.doubleValue( ) ) );
-			return true;
-
 		}
-
 		else if ( value instanceof Date )
 		{
 			DateFormatter dateFormat;
@@ -300,6 +312,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					style.setDateFormatObject( dateFormat );
 				}
+				else
+				{
+					formatStr = dateFormat.getPattern( );
+				}
 			}
 			else
 			//deal with value-of for text item
@@ -309,7 +325,6 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			}
 
 			formattedStr.append( dateFormat.format( (Date) value ) );
-			return true;
 		}
 		else if ( value instanceof String )
 		{
@@ -333,6 +348,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					style.setStringFormatObject( stringFormat );
 				}
+				else
+				{
+					formatStr = stringFormat.getPattern( );
+				}
 			}
 			else
 			//deal with value-of for text item
@@ -343,20 +362,27 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			}
 
 			formattedStr.append( stringFormat.format( value.toString( ) ) );
-			return true;
 		}
 		else
 		{
 			formattedStr.append( value.toString( ) );
 			return false;
 		}
+
+		if ( formatStr == null || formatStr.length( ) == 0 )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Checks the background image property. If it is given as a relative path,
 	 * gets its absolute path and sets it back to the style.
 	 * 
-	 * @param style the style that defines background image related properties
+	 * @param style
+	 *            the style that defines background image related properties
 	 */
 	protected void handleBackgroundImage( StyleDesign style )
 	{
@@ -445,7 +471,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				{
 					if ( logger.isErrorEnabled( ) )
 					{
-						logger.error( "The following visibility expression does not evaluate to a legal boolean value: " //$NON-NLS-1$
+						logger
+								.error( "The following visibility expression does not evaluate to a legal boolean value: " //$NON-NLS-1$
 										+ rule.getExpression( ).getExpr( ) );
 					}
 					continue;
