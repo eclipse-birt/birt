@@ -27,6 +27,7 @@
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.help.base"/>
       <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.report.engine"/>

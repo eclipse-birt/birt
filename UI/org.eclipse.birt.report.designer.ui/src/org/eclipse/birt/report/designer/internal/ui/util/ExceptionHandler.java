@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -54,6 +55,10 @@ public class ExceptionHandler
 
 	private static final String MSG_OCURR = Messages.getString( "ExceptionHandler.Meesage.Occur" ); //$NON-NLS-1$
 
+	private static final String LABEL_ERROR_MESSAGE = Messages.getString("ExceptionHandler.Label.ErrorMessage"); //$NON-NLS-1$
+
+	private static final String LABEL_ERROR_CODE = Messages.getString("ExceptionHandler.Label.ErrorCode"); //$NON-NLS-1$
+
 	private static List ExpectedExceptionList;
 
 	static
@@ -62,6 +67,7 @@ public class ExceptionHandler
 		ExpectedExceptionList.add( SemanticException.class );
 		ExpectedExceptionList.add( IOException.class );
 		ExpectedExceptionList.add( DataException.class );
+		ExpectedExceptionList.add( BirtException.class );
 	}
 
 	/**
@@ -160,12 +166,29 @@ public class ExceptionHandler
 		}
 		if ( e instanceof DesignFileException )
 		{
-			detail = e.toString( ).split( "\n" );
+			detail = e.toString( ).split( "\n" ); //$NON-NLS-1$
 			reason = detail[0];
+		}
+		else if ( e instanceof BirtException )
+		{
+			BirtException birtException = (BirtException) e;
+			detail = new String[]{
+					LABEL_ERROR_CODE + ":" + birtException.getErrorCode( ), //$NON-NLS-1$
+					LABEL_ERROR_MESSAGE
+							+ ":" //$NON-NLS-1$
+							+ birtException.getLocalizedMessage( ),
+			};
+			reason = ( (BirtException) e ).getErrorCode( )
+					+ " " //$NON-NLS-1$
+					+ MSG_OCURR
+					+ "\n" //$NON-NLS-1$
+					+ LABEL_ERROR_CODE
+					+ ":" //$NON-NLS-1$
+					+ birtException.getErrorCode( );
 		}
 		else
 		{
-			reason = e.getClass( ).getName( ) + " " + MSG_OCURR;
+			reason = e.getClass( ).getName( ) + " " + MSG_OCURR; //$NON-NLS-1$
 			if ( e.getLocalizedMessage( ) != null )
 			{
 				detail = new String[]{
