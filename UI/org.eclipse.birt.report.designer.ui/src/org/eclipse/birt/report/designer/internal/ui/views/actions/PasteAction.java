@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -66,7 +67,6 @@ public class PasteAction extends AbstractViewAction
 		Object transferData = TemplateTransfer.getInstance( ).getTemplate( );
 		Object targetObj = getSelection( );
 		DNDUtil.copyHandles( transferData, targetObj, -1 );
-
 		TemplateTransfer.getInstance( )
 				.setTemplate( DNDUtil.cloneSource( transferData ) );
 	}
@@ -83,6 +83,16 @@ public class PasteAction extends AbstractViewAction
 				&& DNDUtil.handleValidateTargetCanContainMore( getSelection( ),
 						DNDUtil.getObjectLength( TemplateTransfer.getInstance( )
 								.getTemplate( ) ) );
+	}
+
+	public Object getSelection( )
+	{
+		Object selection = super.getSelection( );
+		if ( selection instanceof StructuredSelection )
+		{
+			selection = ( (StructuredSelection) selection ).getFirstElement( );
+		}
+		return selection;
 	}
 
 }

@@ -14,9 +14,11 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -51,6 +53,16 @@ public class ExceptionHandler
 	private static final String MSG_PART_INIT_ERROR = Messages.getString( "ExceptionHandler.Message.PartInitError" ); //$NON-NLS-1$
 
 	private static final String MSG_OCURR = Messages.getString( "ExceptionHandler.Meesage.Occur" ); //$NON-NLS-1$
+
+	private static List ExpectedExceptionList;
+
+	static
+	{
+		ExpectedExceptionList = new ArrayList( );
+		ExpectedExceptionList.add( SemanticException.class );
+		ExpectedExceptionList.add( IOException.class );
+		ExpectedExceptionList.add( DataException.class );
+	}
 
 	/**
 	 * Handles the exception
@@ -184,9 +196,12 @@ public class ExceptionHandler
 
 	private static boolean needNotLog( Throwable e )
 	{
-		if ( e instanceof SemanticException || e instanceof IOException )
+		for ( Iterator itor = ExpectedExceptionList.iterator( ); itor.hasNext( ); )
 		{
-			return true;
+			if ( ( (Class) itor.next( ) ).isInstance( e ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
