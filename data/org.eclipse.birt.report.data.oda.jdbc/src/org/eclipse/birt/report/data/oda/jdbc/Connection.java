@@ -199,28 +199,17 @@ public class Connection implements IConnection
 			String className = connProperties.getProperty( "ODA:driver-class" );
 			try
 			{
-				if ( className != null )
-				{
-					Class.forName( className );
-					Driver driver = (Driver) Class.forName( className).newInstance( );
-                    DriverManager.registerDriver( driver );
-				}
+				Properties props = new Properties( );
 				String user = connProperties.getProperty( "ODA:user" );
 				String pwd = connProperties.getProperty( "ODA:password" );
+				//set value of ODA:user ODA:password to props
 				if ( user != null )
-				{
-					JDBCConnectionFactory.log( Level.INFO_LEVEL,
-							"Use data source" );
-					JDBCConnectionFactory.log( Level.INFO_LEVEL,
-							"DriverManager.getConnection( " + url + ", " + user
-									+ ", *** ) " );
-					jdbcConn = DriverManager.getConnection( url, user, pwd );
-				}
+					props.setProperty( "user", user );
 				else
 				{
-					Properties props = new Properties( );
-					for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration
-							.hasMoreElements( ); )
+					// copy connProperties's to props,if one of user is null
+					for ( Enumeration enumeration = connProperties
+							.propertyNames( ); enumeration.hasMoreElements( ); )
 					{
 						String propName = (String) enumeration.nextElement( );
 						if ( !propName.startsWith( "ODA:" ) )
@@ -229,26 +218,32 @@ public class Connection implements IConnection
 									.getProperty( propName ) );
 						}
 					}
-					if ( props.size( ) > 0 )
-					{
-						// TODO not logging password, which may be contained in
-						// the props
-						JDBCConnectionFactory.log( Level.INFO_LEVEL,
-								"DriverManager.getConnection( url, properties). url = "
-										+ url + ", properties = "
-										+ props.toString( ) );
-						jdbcConn = DriverManager.getConnection( url, props );
-					}
-					else
-					{
-						// TODO not logging password, which may be contained in
-						// the url
-						JDBCConnectionFactory.log( Level.INFO_LEVEL,
-								"DriverManager.getConnection( url ). url = "
-										+ url );
-						jdbcConn = DriverManager.getConnection( url );
-					}
 				}
+				if ( pwd != null )
+					props.setProperty( "password", pwd );
+
+				// TODO not logging password, which may be contained in the
+				// props
+				JDBCConnectionFactory.log( Level.INFO_LEVEL,
+						"DriverManager.getConnection( url, properties). url = "
+								+ url + ", properties = " + props.toString( ) );
+				
+				Class.forName( className );
+				try
+				{
+					jdbcConn = getConnection( url, props );
+				}
+				catch ( Exception ex )
+				{
+					//Just ignore this
+					//this will happen if the driver is not registered
+				}
+				if ( jdbcConn == null )
+				{
+					registerDriver( className );
+					jdbcConn = getConnection( url, props );
+				}
+
 			}
 			catch ( SQLException e )
 			{
@@ -259,6 +254,34 @@ public class Connection implements IConnection
 				throw new DriverException( e );
 			}
 		}
+	}
+
+	/**
+	 * @param url
+	 * @param props
+	 * @throws SQLException
+	 */
+	private java.sql.Connection getConnection( String url, Properties props ) throws SQLException
+	{
+		if ( props.getProperty( "user" ) != null )
+			return DriverManager.getConnection( url, props );
+		else
+			return DriverManager.getConnection( url );
+	}
+
+	/*
+	 * @param className
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private void registerDriver( String className )
+			throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException
+	{
+		Driver driver = (Driver) Class.forName( className ).newInstance( );
+		DriverManager.registerDriver( driver );
 	}
 
 	/*
@@ -293,5 +316,6 @@ public class Connection implements IConnection
 					DriverException.ERROR_NO_CONNECTION );
 		}
 	}
-	 
+	
+ 
 }
