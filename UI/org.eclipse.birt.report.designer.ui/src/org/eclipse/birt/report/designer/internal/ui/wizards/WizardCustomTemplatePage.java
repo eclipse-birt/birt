@@ -16,6 +16,7 @@ import java.io.File;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -87,7 +88,7 @@ public class WizardCustomTemplatePage extends WizardPage
                 	dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
                 dialog.setFilterExtensions(new String[]{"*.rptdesign"}); //$NON-NLS-1$
                     dialog.open();
-                    inputText.setText(dialog.getFilterPath() + "\\" + dialog.getFileName()); //$NON-NLS-1$
+                    inputText.setText(dialog.getFilterPath() + IPath.SEPARATOR + dialog.getFileName()); //$NON-NLS-1$
  
             }});
 		
