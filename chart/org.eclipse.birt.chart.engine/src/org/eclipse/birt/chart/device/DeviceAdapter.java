@@ -28,7 +28,7 @@ import org.eclipse.birt.chart.exception.RenderingException;
 /**
  *  
  */
-public class DeviceAdapter extends EventObjectCache implements IDeviceRenderer
+public abstract class DeviceAdapter extends EventObjectCache implements IDeviceRenderer
 {
 
     /*
@@ -262,4 +262,12 @@ public class DeviceAdapter extends EventObjectCache implements IDeviceRenderer
 
     }
 
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.Exception)
+     */
+    public void presentException(Exception cexp)
+    {
+        // TODO Auto-generated method stub
+    }
 }
