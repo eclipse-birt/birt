@@ -51,6 +51,10 @@ public final class ValueFormatter
         {
             return null;
         }
+        else if (oValue instanceof String)
+        {
+            return (String) oValue;
+        }
 
         if (fs == null) // IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE VALUE
         {
