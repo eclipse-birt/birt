@@ -64,6 +64,7 @@ public class ResourceConstants
 	
 	public final static String INVALID_TYPE = "INVALID_TYPE";
 	public final static String UNSUPPORTED_DATA_TYPE = "UNSUPPORTED_DATA_TYPE";
+	public final static String UNSUPPORTTED_OPERATOR = "UNSUPPORTTED_OPERATOR";
 	
 	public final static String ILLEGAL_PARAMETER = "ILLEGAL_PARAMETER";
 	public final static String ILLEGAL_DATA = "ILLEGAL_DATA";

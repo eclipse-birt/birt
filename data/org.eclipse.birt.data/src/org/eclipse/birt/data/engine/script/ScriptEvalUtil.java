@@ -11,6 +11,8 @@
 package org.eclipse.birt.data.engine.script;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -84,34 +86,39 @@ public class ScriptEvalUtil
 				result = resultObject != null ;
 				break;
 			case IConditionalExpression.OP_TRUE :
-				result = ( resultObject instanceof Boolean) && ((Boolean)resultObject).equals( Boolean.TRUE );
+				validateExpression( resultObject );
+				result = DataTypeUtil.toBoolean( resultObject ).equals(	Boolean.TRUE );
 				break;
 			case IConditionalExpression.OP_FALSE :
-				result = ( resultObject instanceof Boolean) && ((Boolean)resultObject).equals( Boolean.FALSE );
+				validateExpression( resultObject );
+				result = DataTypeUtil.toBoolean( resultObject ).equals(	Boolean.FALSE );
 				break;
 			case IConditionalExpression.OP_LIKE :
-				//TODO
+				validateExpression( resultObject, resultOp1 );
+				result = like( resultObject, resultOp1 );
 				break;
 			case IConditionalExpression.OP_TOP_N :
 				//TODO
-				break;
 			case IConditionalExpression.OP_BOTTOM_N :
 				//TODO
-				break;
 			case IConditionalExpression.OP_TOP_PERCENT :
 				//TODO
-				break;
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
 				//TODO
-				break;
 			case IConditionalExpression.OP_ANY :
 				//TODO
-				break;
 			default :
-				result = false;
-				break;
+				throw new DataException( ResourceConstants.UNSUPPORTTED_OPERATOR );
 		}
 		return new Boolean( result );
+	}
+
+	private static void validateExpression( Object ob1 ) throws DataException
+	{
+		if ( ob1 == null )
+		{
+			throw new DataException( ResourceConstants.INVALID_EXPR );
+		}
 	}
 
 	private static void validateExpression( Object ob1, Object ob2 )
@@ -122,6 +129,7 @@ public class ScriptEvalUtil
 			throw new DataException( ResourceConstants.INVALID_EXPR );
 		}
 	}
+
 
 	private static void validateExpression( Object ob1, Object ob2, Object ob3 )
 			throws DataException
@@ -248,8 +256,8 @@ public class ScriptEvalUtil
 			IScriptExpression jsExpr = (IScriptExpression) expr;
 			return evaluateJSExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
-		
 	}
+	
 	
 	/**
 	 * Converts an exception which occurred in the evaluation of a ROM script to a DataException,
@@ -292,4 +300,19 @@ public class ScriptEvalUtil
 		
 	}
 
+	private static boolean like( Object obj1, Object pattern ) throws DataException
+	{
+		boolean b = false;
+		try
+		{
+			Pattern p = Pattern.compile( pattern.toString( ) );
+			Matcher m = p.matcher( obj1.toString( ) );
+			b = m.matches( );
+		}
+		catch ( RuntimeException e )
+		{
+			throw new DataException( ResourceConstants.INVALID_TYPE, e );
+		}
+		return b;
+	}
 }
