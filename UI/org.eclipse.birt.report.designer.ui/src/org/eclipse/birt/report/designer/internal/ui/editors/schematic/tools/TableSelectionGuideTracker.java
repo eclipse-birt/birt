@@ -43,11 +43,16 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
 		return super.handleButtonUp( button );
 	}
 
-	protected void performSelection( )
+	protected void performConditionalSelection( )
 	{
+		super.performConditionalSelection();
 		select( );
 	}
 
+	protected void performSelection() 
+	{
+		
+	}
 	protected boolean handleDragInProgress( )
 	{
 		return true;

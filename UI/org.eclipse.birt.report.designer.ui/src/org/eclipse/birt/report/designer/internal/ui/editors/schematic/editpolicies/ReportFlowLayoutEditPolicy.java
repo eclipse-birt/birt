@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TextEditPart;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -310,6 +311,10 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 				|| child instanceof TextEditPart
 				|| child instanceof ListEditPart )
 			return new NonResizableEditPolicy( );
+		if (child instanceof TableEditPart)
+		{
+			return new TableResizeEditPolice();
+		}
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
 				| PositionConstants.EAST | PositionConstants.SOUTH_EAST );
