@@ -56,12 +56,6 @@ public class TableColumn extends StyledElement
 	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$
 
 	/**
-	 * Name of the column alignment property.
-	 */
-
-	public static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
-
-	/**
 	 * Default Constructor.
 	 */
 

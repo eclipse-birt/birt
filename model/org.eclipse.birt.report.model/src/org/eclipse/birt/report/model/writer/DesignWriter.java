@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.writer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -72,13 +71,10 @@ import org.eclipse.birt.report.model.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.elements.structures.MapRule;
-import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -704,7 +700,6 @@ public class DesignWriter extends ElementVisitor
 		super.visitColumn( obj );
 
 		property( obj, TableColumn.WIDTH_PROP );
-		property( obj, TableColumn.ALIGNMENT_PROP );
 		property( obj, TableColumn.REPEAT_PROP );
 
 		writeStyle( obj );

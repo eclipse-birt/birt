@@ -71,8 +71,6 @@ class TableColumnState extends ReportElementState
 				.getValue( DesignSchemaConstants.REPEAT_ATTRIB ) );
 		setProperty( TableColumn.WIDTH_PROP, attrs
 				.getValue( DesignSchemaConstants.WIDTH_ATTRIB ) );
-		setProperty( TableColumn.ALIGNMENT_PROP, attrs
-				.getValue( DesignSchemaConstants.ALIGNMENT_ATTRIB ) );
 	}
 
 	/*

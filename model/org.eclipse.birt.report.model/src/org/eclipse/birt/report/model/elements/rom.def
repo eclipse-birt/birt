@@ -2240,9 +2240,6 @@
       <Default>1</Default>
     </Property>
     <Property name="width" displayNameID="Element.Column.width" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property name="alignment" displayNameID="Element.Column.alignment" type="choice" detailType="columnAlign">
-      <Default>left</Default>
-    </Property>
     <StyleProperty name="fontFamily" />
     <StyleProperty name="fontSize" />
     <StyleProperty name="fontStyle" />

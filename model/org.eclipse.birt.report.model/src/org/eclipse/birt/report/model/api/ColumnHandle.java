@@ -90,39 +90,30 @@ public class ColumnHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the column alignment. The possible values are defined in
-	 * <code>DesignChoiceConstants</code> as followed:
-	 * <ul>
-	 * <li>COLUMN_ALIGN_LEFT
-	 * <li>COLUMN_ALIGN_CENTER
-	 * <li>COLUMN_ALIGN_RIGHT
-	 * </ul>
+	 * Gets the column alignment. 
 	 * 
 	 * @return the column alignment
+	 * 
+	 * @deprecated by the {@link StyleHandle#getTextAlign()}
 	 */
 
 	public String getAlignment( )
 	{
-		return getStringProperty( TableColumn.ALIGNMENT_PROP );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
-	 * Sets the column alignment. The allowed values are defined in
-	 * <code>DesignChoiceConstants</code> as followed:
-	 * <ul>
-	 * <li>COLUMN_ALIGN_LEFT
-	 * <li>COLUMN_ALIGN_CENTER
-	 * <li>COLUMN_ALIGN_RIGHT
-	 * </ul>
+	 * Sets the column alignment. 
 	 * 
 	 * @param alignment
 	 *            the alignment to set
 	 * @throws SemanticException
 	 *             if the value is not in choice.
+	 * 
+	 * @deprecated by the {@link StyleHandle#setTextAlign(String)}
 	 */
 
 	public void setAlignment( String alignment ) throws SemanticException
 	{
-		setStringProperty( TableColumn.ALIGNMENT_PROP, alignment );
 	}
 }
