@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import java.util.Map;
 
-import org.eclipse.birt.report.engine.api.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 /**
  * Implements the <code>IHyperlinkAction</code> interface for passing action

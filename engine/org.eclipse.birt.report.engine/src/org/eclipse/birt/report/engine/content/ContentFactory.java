@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import org.eclipse.birt.report.engine.api.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/25 07:28:37 $
  */
 public class ContentFactory
 {

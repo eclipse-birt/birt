@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.api.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
  */
 public abstract class ReportItemExecutor
 {
