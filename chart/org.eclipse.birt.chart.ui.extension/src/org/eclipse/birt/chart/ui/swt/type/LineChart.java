@@ -341,7 +341,6 @@ public class LineChart extends DefaultChartTypeImpl
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
                 }
                 currentChart.setType(sType);
-                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
                 currentChart.setSubType(sNewSubType);
                 EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
                 for (int i = 0; i < axes.size(); i++)

@@ -333,7 +333,6 @@ public class BarChart extends DefaultChartTypeImpl
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
                 }
                 currentChart.setType(sType);
-                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
                 currentChart.setSubType(sNewSubType);
                 EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
                 for (int i = 0; i < axes.size(); i++)
@@ -576,7 +575,7 @@ public class BarChart extends DefaultChartTypeImpl
         {
             String sElement = strtok.nextToken().trim();
             if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
-                                          // be text
+            // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
                 sbNewRepresentation.append(strStockTokenizer.nextToken().trim().substring(1));
