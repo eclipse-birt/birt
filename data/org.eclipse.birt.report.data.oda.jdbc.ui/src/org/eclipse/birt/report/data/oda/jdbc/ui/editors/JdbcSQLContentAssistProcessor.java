@@ -43,7 +43,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/24 04:48:35 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -64,10 +64,10 @@ public class JdbcSQLContentAssistProcessor implements
 		handle = (OdaDataSetHandle) ds;
 		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
 		metaData = ConnectionMetaDataManager.getInstance( )
-				.getMetaData( dataSourceHandle.getPublicDriverProperty( "ODA:driver-class" ),//$NON-NLS-1$
-						dataSourceHandle.getPublicDriverProperty( "ODA:url" ),//$NON-NLS-1$
-						dataSourceHandle.getPublicDriverProperty( "ODA:user" ),//$NON-NLS-1$
-						dataSourceHandle.getPublicDriverProperty( "ODA:password" ), //$NON-NLS-1$
+				.getMetaData( dataSourceHandle.getPrivateDriverProperty( "ODA:driver-class" ),//$NON-NLS-1$
+						dataSourceHandle.getPrivateDriverProperty( "ODA:url" ),//$NON-NLS-1$
+						dataSourceHandle.getPrivateDriverProperty( "ODA:user" ),//$NON-NLS-1$
+						dataSourceHandle.getPrivateDriverProperty( "ODA:password" ), //$NON-NLS-1$
 						JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getDriverName( ) ),
 						null );
 	}
