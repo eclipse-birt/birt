@@ -19,7 +19,7 @@ import java.util.Properties;
  * a file. In case the file does not contain a specified config var, the system config
  * var manager is used as backup. 
  */
-public class FileConfigVarManager extends SystemConfigVarManage {
+public class FileConfigVarManager extends SystemConfigVarManager {
 	
     /**
      * Configuration variables retrieved from file
