@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -268,4 +270,17 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
         return result.toString();
     }
 
+    /**
+     * 
+     * @param it
+     * @param de
+     * @return
+     */
+    public static final AxisOrigin create(IntersectionType it, DataElement de)
+    {
+        final AxisOrigin ao = AttributeFactory.eINSTANCE.createAxisOrigin();
+        ao.setType(it);
+        ao.setValue(de);
+        return ao;
+    }
 } //AxisOriginImpl
