@@ -103,9 +103,6 @@ public abstract class PropertyDefn implements IPropertyDefn
 	 * <dt><strong>Structure definition </strong></dt>
 	 * <dd>details holds an object of type <code>StructureDefn</code> that
 	 * defines the structures in the list.</li>
-	 * 
-	 * <dt><strong>Argument List </strong></dt>
-	 * <dd>details holds a list of argument <code>ArgumentDefn</code>.</li>
 	 * </dl>
 	 */
 

@@ -11,13 +11,21 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -130,12 +138,69 @@ public class PropertyHandle extends SimpleValueHandle
 	 * 
 	 * @return <code>true</code> if the local value is set, otherwise
 	 *         <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean isLocal( )
 	{
 		Object value = getElement( ).getLocalProperty( getDesign( ), propDefn );
 		return ( value != null );
+	}
+
+	/**
+	 * Returns true if the two property handle has the same element and the same
+	 * property.
+	 * 
+	 * @param propertyHandle
+	 *            the property handle
+	 * @return true if the two property handles are same.
+	 */
+	public boolean equals( Object propertyHandle )
+	{
+		if ( !( propertyHandle instanceof PropertyHandle ) )
+			return false;
+
+		DesignElement element = ( (PropertyHandle) propertyHandle )
+				.getElement( );
+		IPropertyDefn propDefn = ( (PropertyHandle) propertyHandle ).getDefn( );
+
+		return ( element == getElement( ) ) && ( propDefn == getDefn( ) );
+
+	}
+
+	/**
+	 * returns the element reference value list if the property is element
+	 * referenceable type.
+	 * 
+	 * @return list of the reference element value.
+	 */
+
+	public List getReferenceableElementList( )
+	{
+		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+			return Collections.EMPTY_LIST;
+
+		List list = new ArrayList( );
+
+		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
+		assert elementDefn != null;
+
+		ReportDesignHandle designHandle = ( (ReportDesignHandle) getDesign( )
+				.getHandle( getDesign( ) ) );
+
+		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
+				.getName( ) ) )
+			return designHandle.getDataSets( ).getContents( );
+
+		else if ( elementDefn.getName( ).equals(
+				ReportDesignConstants.DATA_SOURCE_ELEMENT ) )
+			return designHandle.getDataSources( ).getContents( );
+
+		else if ( elementDefn.getName( ).equals(
+				ReportDesignConstants.STYLE_ELEMENT ) )
+			return designHandle.getStyles( ).getContents( );
+
+		return list;
+
 	}
 }
