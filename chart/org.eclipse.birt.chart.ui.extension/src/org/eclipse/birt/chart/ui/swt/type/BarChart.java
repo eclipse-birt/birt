@@ -10,14 +10,20 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -28,19 +34,24 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class BarChart implements IChartType
+public class BarChart extends DefaultChartTypeImpl
 {
 
     private static final String sType = "Bar Chart";
@@ -67,8 +78,6 @@ public class BarChart implements IChartType
 
     private transient Image imgSideBySide3D = null;
 
-    private ChartWithAxes newChart = null;
-
     private static final String[] saDimensions = new String[]
     {
         "2D", "2D With Depth"
@@ -76,7 +85,7 @@ public class BarChart implements IChartType
 
     public BarChart()
     {
-        imgIcon = UIHelper.getImage("images/BarChartIcon.gif");
+        imgIcon = UIHelper.getImage("images/barcharticon.gif");
     }
 
     /*
@@ -123,15 +132,15 @@ public class BarChart implements IChartType
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStacked = UIHelper.getImage("images/StackedBarChartImage.gif");
-                imgPercentStacked = UIHelper.getImage("images/PercentStackedBarChartImage.gif");
-                imgSideBySide = UIHelper.getImage("images/SideBySideBarChartImage.gif");
+                imgStacked = UIHelper.getImage("images/stackedbarchartimage.gif");
+                imgPercentStacked = UIHelper.getImage("images/percentstackedbarchartimage.gif");
+                imgSideBySide = UIHelper.getImage("images/sidebysidebarchartimage.gif");
             }
             else
             {
-                imgStacked = UIHelper.getImage("images/HorizontalStackedBarChartImage.gif");
-                imgPercentStacked = UIHelper.getImage("images/HorizontalPercentStackedBarChartImage.gif");
-                imgSideBySide = UIHelper.getImage("images/HorizontalSideBySideBarChartImage.gif");
+                imgStacked = UIHelper.getImage("images/horizontalstackedbarchartimage.gif");
+                imgPercentStacked = UIHelper.getImage("images/horizontalpercentstackedbarchartimage.gif");
+                imgSideBySide = UIHelper.getImage("images/horizontalsidebysidebarchartimage.gif");
             }
 
             vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStacked, sStackedDescription));
@@ -144,16 +153,16 @@ public class BarChart implements IChartType
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStackedWithDepth = UIHelper.getImage("images/StackedBarChartWithDepthImage.gif");
-                imgPercentStackedWithDepth = UIHelper.getImage("images/PercentStackedBarChartWithDepthImage.gif");
-                imgSideBySideWithDepth = UIHelper.getImage("images/SideBySideBarChartWithDepthImage.gif");
+                imgStackedWithDepth = UIHelper.getImage("images/stackedbarchartwithdepthimage.gif");
+                imgPercentStackedWithDepth = UIHelper.getImage("images/percentstackedbarchartwithdepthimage.gif");
+                imgSideBySideWithDepth = UIHelper.getImage("images/sidebysidebarchartwithdepthimage.gif");
             }
             else
             {
-                imgStackedWithDepth = UIHelper.getImage("images/HorizontalStackedBarChartWithDepthImage.gif");
+                imgStackedWithDepth = UIHelper.getImage("images/horizontalstackedbarchartwithdepthimage.gif");
                 imgPercentStackedWithDepth = UIHelper
-                    .getImage("images/HorizontalPercentStackedBarChartWithDepthImage.gif");
-                imgSideBySideWithDepth = UIHelper.getImage("images/HorizontalSideBySideBarChartWithDepthImage.gif");
+                    .getImage("images/horizontalpercentstackedbarchartwithdepthimage.gif");
+                imgSideBySideWithDepth = UIHelper.getImage("images/horizontalsidebysidebarchartwithdepthimage.gif");
             }
             vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStackedWithDepth, sStackedDescription));
             vSubTypes.add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth,
@@ -164,11 +173,11 @@ public class BarChart implements IChartType
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgSideBySide3D = UIHelper.getImage("images/SideBySideBarChart3DImage.gif");
+                imgSideBySide3D = UIHelper.getImage("images/sidebysidebarchart3dimage.gif");
             }
             else
             {
-                imgSideBySide3D = UIHelper.getImage("images/HorizontalSideBySideBarChart3DImage.gif");
+                imgSideBySide3D = UIHelper.getImage("images/horizontalsidebysidebarchart3dimage.gif");
             }
             vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide3D, sSideBySideDescription));
         }
@@ -181,20 +190,22 @@ public class BarChart implements IChartType
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public Chart getModel(String sSubType, Orientation orientation, String sDimension)
+    public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart)
     {
-        if (newChart == null)
+        ChartWithAxes newChart = null;
+        if(currentChart != null)
         {
-            newChart = ChartWithAxesImpl.create();
-            newChart.setType(sType);
-            newChart.setSubType(sSubType);
-            newChart.setOrientation(orientation);
-            newChart.setDimension(getDimensionFor(sDimension));
+            newChart = (ChartWithAxes) getConvertedChart(currentChart, sSubType, orientation, sDimension);
+            if(newChart != null)
+            {
+                return newChart;
+            }
         }
-        else
-        {
-            return newChart;
-        }
+        newChart = ChartWithAxesImpl.create();
+        newChart.setType(sType);
+        newChart.setSubType(sSubType);
+        newChart.setOrientation(orientation);
+        newChart.setDimension(getDimensionFor(sDimension));
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
@@ -250,11 +261,11 @@ public class BarChart implements IChartType
             sdY.getSeries().add(valueSeries);
             ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
         }
-        addSampleData();
+        addSampleData(newChart);
         return newChart;
     }
 
-    private void addSampleData()
+    private void addSampleData(Chart newChart)
     {
         SampleData sd = DataFactory.eINSTANCE.createSampleData();
         sd.getBaseSampleData().clear();
@@ -271,12 +282,295 @@ public class BarChart implements IChartType
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
-        /*
-         * OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
-         * oSample2.setDataSetRepresentation("7,22,14"); oSample2.setSeriesDefinitionIndex(0);
-         * sd.getOrthogonalSampleData().add(oSample2);
-         */
         newChart.setSampleData(sd);
+    }
+    
+    private Chart getConvertedChart(Chart currentChart, String sNewSubType, Orientation newOrientation, String sNewDimension)
+    {
+        Chart helperModel = (Chart) EcoreUtil.copy(currentChart);
+        if((currentChart instanceof ChartWithAxes))	// Chart is ChartWithAxes
+        {
+            if(currentChart.getType().equals(sType))	// Original chart is of this type (BarChart)
+            {
+                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is of the required subtype
+                {
+                    currentChart.setSubType(sNewSubType);
+                    EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                    for(int i = 0; i < axes.size(); i++)
+                    {
+                        if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        {
+                            ((Axis) axes.get(i)).setPercent(true);
+                        }
+                        else
+                        {
+                            ((Axis) axes.get(i)).setPercent(false);
+                        }
+                        EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                        for(int j = 0; j < seriesdefinitions.size(); j++)
+                        {
+                            Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                            if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                            {
+                                series.setStacked(true);
+                            }
+                            else
+                            {
+                                series.setStacked(false);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(currentChart.getType().equals("Line Chart") || currentChart.getType().equals("Stock Chart") || currentChart.getType().equals("Scatter Chart"))
+            {
+                if(!currentChart.getType().equals("Line Chart"))
+                {
+                    currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
+                }
+                currentChart.setType(sType);
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is not of the required subtype
+                {
+                    currentChart.setSubType(sNewSubType);
+                    EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                    for(int i = 0; i < axes.size(); i++)
+                    {
+                        if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        {
+                            ((Axis) axes.get(i)).setPercent(true);
+                        }
+                        else
+                        {
+                            ((Axis) axes.get(i)).setPercent(false);
+                        }
+                        EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                        for(int j = 0; j < seriesdefinitions.size(); j++)
+                        {
+                            Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                            series = getConvertedSeries(series);
+                            if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                            {
+                                series.setStacked(true);
+                            }
+                            else
+                            {
+                                series.setStacked(false);
+                            }
+                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().set(j, series);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            // Create a new instance of the correct type and set initial properties
+            currentChart = ChartWithAxesImpl.create();
+            currentChart.setType(sType);
+            currentChart.setSubType(sNewSubType);
+            ((ChartWithAxes) currentChart).setOrientation(newOrientation);
+            currentChart.setDimension(getDimensionFor(sNewDimension));
+
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+            
+            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
+            .setOrientation(Orientation.VERTICAL_LITERAL);
+            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
+            
+            // Copy generic chart properties from the old chart
+            currentChart.setBlock(helperModel.getBlock());
+            currentChart.setDescription(helperModel.getDescription());
+            currentChart.setGridColumnCount(helperModel.getGridColumnCount());
+            currentChart.setSampleData(helperModel.getSampleData());
+            currentChart.setScript(helperModel.getScript());
+            currentChart.setSeriesThickness(helperModel.getSeriesThickness());
+            currentChart.setUnits(helperModel.getUnits());
+            
+            if(helperModel.getType().equals("Pie Chart"))
+            {
+                // Clear existing series definitions
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
+                
+                // Copy base series definitions
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().add(((ChartWithoutAxes) helperModel).getSeriesDefinitions().get(0));
+                
+                // Clear existing series definitions
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().clear();
+                
+                // Copy orthogonal series definitions
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().addAll(((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeriesDefinitions());
+
+                // Update the base series
+                Series series = ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getDesignTimeSeries();
+                series = getConvertedSeries(series);
+                
+                // Clear existing series
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().clear();
+                
+                // Add converted series
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().add(series);
+                
+                // Update the orthogonal series
+                EList seriesdefinitions = ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions();
+                for(int j = 0; j < seriesdefinitions.size(); j++)
+                {
+                    series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                    series = getConvertedSeries(series);
+                    if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                    {
+                        series.setStacked(true);
+                    }
+                    else
+                    {
+                        series.setStacked(false);
+                    }
+                    // Clear any existing series
+                    ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
+                    // Add the new series
+                    ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        if(currentChart instanceof ChartWithAxes && !((ChartWithAxes) currentChart).getOrientation().equals(newOrientation))
+        {
+            ((ChartWithAxes) currentChart).setOrientation(newOrientation);
+        }
+        if(!currentChart.getDimension().equals(getDimensionFor(sNewDimension)))
+        {
+            currentChart.setDimension(getDimensionFor(sNewDimension));
+        }
+        return currentChart;
+    }
+    
+    private Series getConvertedSeries(Series series)
+    {
+        // Do not convert base series
+        if(series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        {
+            return series;
+        }
+        BarSeries barseries = (BarSeries) BarSeriesImpl.create();
+        barseries.setRiser(RiserType.RECTANGLE_LITERAL);
+        
+        // Copy generic series properties
+        barseries.setLabel(series.getLabel());
+        if(series.getLabelPosition().equals(Position.INSIDE_LITERAL) || series.getLabelPosition().equals(Position.OUTSIDE_LITERAL))
+        {
+            barseries.setLabelPosition(series.getLabelPosition());
+        }
+        else
+        {
+            barseries.setLabelPosition(Position.OUTSIDE_LITERAL);
+        }
+        barseries.setVisible(series.isVisible());
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_Triggers()))
+        {
+            barseries.getTriggers().addAll(series.getTriggers());
+        }
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataPoint()))
+        {
+            barseries.setDataPoint(series.getDataPoint());
+        }
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
+        {
+            barseries.getDataDefinition().addAll(series.getDataDefinition());
+        }
+
+
+        // Copy series specific properties
+        if(series instanceof LineSeries)
+        {
+            barseries.setRiserOutline(((LineSeries) series).getLineAttributes().getColor());
+        }
+        else if(series instanceof PieSeries)
+        {
+            barseries.setRiserOutline(((PieSeries) series).getSliceOutline());
+        }
+        else if(series instanceof StockSeries)
+        {
+            barseries.setRiserOutline(((StockSeries) series).getLineAttributes().getColor());
+        }
+        return barseries;
+    }
+    
+    private SampleData getConvertedSampleData(SampleData currentSampleData)
+    {
+        // Convert base sample data
+        EList bsdList = currentSampleData.getBaseSampleData();
+        Vector vNewBaseSampleData = new Vector();
+        for(int i = 0; i < bsdList.size(); i++)
+        {
+            BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
+            bsd.setDataSetRepresentation(getConvertedBaseSampleDataRepresentation(bsd.getDataSetRepresentation()));
+            vNewBaseSampleData.add(bsd);
+        }
+        currentSampleData.getBaseSampleData().clear();
+        currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
+        
+        // Convert orthogonal sample data
+        EList osdList = currentSampleData.getOrthogonalSampleData();
+        Vector vNewOrthogonalSampleData = new Vector();
+        for(int i = 0; i < osdList.size(); i++)
+        {
+            OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
+            osd.setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
+            vNewOrthogonalSampleData.add(osd);
+        }
+        currentSampleData.getOrthogonalSampleData().clear();
+        currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
+        return currentSampleData;
+    }
+    
+    private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
+    {
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringBuffer sbNewRepresentation = new StringBuffer("");
+        while(strtok.hasMoreTokens())
+        {
+            String sElement = strtok.nextToken().trim();
+            if(!sElement.startsWith("'"))
+            {
+	            sbNewRepresentation.append("'");
+	            sbNewRepresentation.append(sElement);
+	            sbNewRepresentation.append("'");
+            }
+            else
+            {
+                sbNewRepresentation.append(sElement);
+            }
+            sbNewRepresentation.append(",");
+        }
+        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
+    }
+    
+    private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
+    {
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringBuffer sbNewRepresentation = new StringBuffer("");
+        while(strtok.hasMoreTokens())
+        {
+            String sElement = strtok.nextToken().trim();
+            if(sElement.startsWith("H"))	// Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT be text
+            {
+	            sbNewRepresentation.append(sElement.substring(1));
+            }
+            else
+            {
+                sbNewRepresentation.append(sElement);
+            }
+            sbNewRepresentation.append(",");
+        }
+        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     /*
@@ -323,5 +617,13 @@ public class BarChart implements IChartType
         {
             return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart, java.util.Hashtable)
+     */
+    public boolean canAdapt(Chart cModel, Hashtable htModelHints)
+    {
+        return false;
     }
 }

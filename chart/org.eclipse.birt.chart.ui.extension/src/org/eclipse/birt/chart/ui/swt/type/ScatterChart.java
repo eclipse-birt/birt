@@ -11,15 +11,24 @@
 
 package org.eclipse.birt.chart.ui.swt.type;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Collection;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -29,20 +38,26 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
+import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class ScatterChart implements IChartType
+public class ScatterChart extends DefaultChartTypeImpl
 {
 
     private static final String sType = "Scatter Chart";
@@ -62,7 +77,7 @@ public class ScatterChart implements IChartType
 
     public ScatterChart()
     {
-        imgIcon = UIHelper.getImage("images/ScatterChartIcon.gif");
+        imgIcon = UIHelper.getImage("images/scattercharticon.gif");
     }
 
     /*
@@ -109,11 +124,11 @@ public class ScatterChart implements IChartType
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                img2D = UIHelper.getImage("images/ScatterChartImage.gif");
+                img2D = UIHelper.getImage("images/scatterchartimage.gif");
             }
             else
             {
-                img2D = UIHelper.getImage("images/HorizontalScatterChartImage.gif");
+                img2D = UIHelper.getImage("images/horizontalscatterchartimage.gif");
             }
 
             vSubTypes.add(new DefaultChartSubTypeImpl("Standard Scatter Chart", img2D, sStandardDescription));
@@ -127,23 +142,26 @@ public class ScatterChart implements IChartType
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public Chart getModel(String sSubType, Orientation orientation, String sDimension)
+    public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart)
     {
-        if (newChart == null)
+        ChartWithAxes newChart = null;
+        if(currentChart != null)
         {
-            newChart = ChartWithAxesImpl.create();
-            newChart.setType(sType);
-            newChart.setSubType(sSubType);
-            newChart.setOrientation(orientation);
-            newChart.setDimension(getDimensionFor(sDimension));
+            newChart = (ChartWithAxes) getConvertedChart(currentChart, sSubType, orientation, sDimension);
+            if(newChart != null)
+            {
+                return newChart;
+            }
         }
-        else
-        {
-            return newChart;
-        }
+        newChart = ChartWithAxesImpl.create();
+        newChart.setType(sType);
+        newChart.setSubType(sSubType);
+        newChart.setOrientation(orientation);
+        newChart.setDimension(getDimensionFor(sDimension));
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
+        ((Axis) newChart.getAxes().get(0)).setCategoryAxis(false);
 
         SeriesDefinition sdX = SeriesDefinitionImpl.create();
         Series baseSeries = SeriesImpl.create();
@@ -168,11 +186,11 @@ public class ScatterChart implements IChartType
         {
             newChart.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
         }
-        addSampleData();
+        addSampleData(newChart);
         return newChart;
     }
 
-    private void addSampleData()
+    private void addSampleData(Chart newChart)
     {
         SampleData sd = DataFactory.eINSTANCE.createSampleData();
         sd.getBaseSampleData().clear();
@@ -197,6 +215,270 @@ public class ScatterChart implements IChartType
         newChart.setSampleData(sd);
     }
 
+    private Chart getConvertedChart(Chart currentChart, String sNewSubType, Orientation newOrientation, String sNewDimension)
+    {
+        Chart helperModel = (Chart) EcoreUtil.copy(currentChart);
+        if((currentChart instanceof ChartWithAxes))	// Chart is ChartWithAxes
+        {
+            if(currentChart.getType().equals(sType))	// Original chart is of this type (LineChart)
+            {
+                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is of the required subtype
+                {
+                    if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is of the required subtype
+                    {
+                        currentChart.setSubType(sNewSubType);
+                        EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                        for(int i = 0; i < axes.size(); i++)
+                        {
+                            ((Axis) axes.get(i)).setPercent(false);
+                            EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                            for(int j = 0; j < seriesdefinitions.size(); j++)
+                            {
+                                Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                                series.setStacked(false);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart") || currentChart.getType().equals("Line Chart"))
+            {
+                currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
+                currentChart.setType(sType);
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(false);
+
+                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is not of the required subtype
+                {
+                    currentChart.setSubType(sNewSubType);
+                    EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                    for(int i = 0; i < axes.size(); i++)
+                    {
+                        ((Axis) axes.get(i)).setPercent(false);
+                        EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                        for(int j = 0; j < seriesdefinitions.size(); j++)
+                        {
+                            Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                            series = getConvertedSeries(series);
+                            series.setStacked(false);
+                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
+                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
+                        }
+                    }
+                }
+                ((ChartWithAxes) currentChart).setOrientation(newOrientation);
+                currentChart.setDimension(getDimensionFor(sNewDimension));
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            // Create a new instance of the correct type and set initial properties
+            currentChart = ChartWithAxesImpl.create();
+            currentChart.setType(sType);
+            currentChart.setSubType(sNewSubType);
+            ((ChartWithAxes) currentChart).setOrientation(newOrientation);
+            currentChart.setDimension(getDimensionFor(sNewDimension));
+
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(false);
+            
+            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
+            .setOrientation(Orientation.VERTICAL_LITERAL);
+            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
+            
+            // Copy generic chart properties from the old chart
+            currentChart.setBlock(helperModel.getBlock());
+            currentChart.setDescription(helperModel.getDescription());
+            currentChart.setGridColumnCount(helperModel.getGridColumnCount());
+            currentChart.setSampleData(getConvertedSampleData(helperModel.getSampleData()));
+            currentChart.setScript(helperModel.getScript());
+            currentChart.setSeriesThickness(helperModel.getSeriesThickness());
+            currentChart.setUnits(helperModel.getUnits());
+            
+            if(helperModel.getType().equals("Pie Chart"))
+            {
+                // Clear existing series definitions
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
+                
+                // Copy base series definitions
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().add(((ChartWithoutAxes) helperModel).getSeriesDefinitions().get(0));
+                
+                // Clear existing series definitions
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().clear();
+                
+                // Copy orthogonal series definitions
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().addAll(((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeriesDefinitions());
+
+                // Update the base series
+                Series series = ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getDesignTimeSeries();
+                series = getConvertedSeries(series);
+                
+                // Clear existing series
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().clear();
+                
+                // Add converted series
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().add(series);
+                
+                // Update the orthogonal series
+                EList seriesdefinitions = ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions();
+                for(int j = 0; j < seriesdefinitions.size(); j++)
+                {
+                    series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                    series = getConvertedSeries(series);
+                    series.setStacked(false);
+                    // Clear any existing series
+                    ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
+                    // Add the new series
+                    ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        if(currentChart instanceof ChartWithAxes && !((ChartWithAxes) currentChart).getOrientation().equals(newOrientation))
+        {
+            ((ChartWithAxes) currentChart).setOrientation(newOrientation);
+        }
+        if(!currentChart.getDimension().equals(getDimensionFor(sNewDimension)))
+        {
+            currentChart.setDimension(getDimensionFor(sNewDimension));
+        }
+        return currentChart;
+    }
+    
+    private Series getConvertedSeries(Series series)
+    {
+        // Do not convert base series
+        if(series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        {
+            return series;
+        }
+        ScatterSeries scatterseries = (ScatterSeries) ScatterSeriesImpl.create();
+        scatterseries.getLineAttributes().setVisible(false);
+        if(!(series instanceof LineSeries))
+        {
+	        Marker marker = AttributeFactory.eINSTANCE.createMarker();
+	        marker.setSize(5);
+	        marker.setType(MarkerType.BOX_LITERAL);
+	        marker.setVisible(true);
+	        scatterseries.setMarker(marker);
+        }
+        else
+        {
+            scatterseries.setMarker(((LineSeries) series).getMarker());
+        }
+        
+        // Copy generic series properties
+        scatterseries.setLabel(series.getLabel());
+        if(series.getLabelPosition().equals(Position.INSIDE_LITERAL) || series.getLabelPosition().equals(Position.OUTSIDE_LITERAL))
+        {
+            scatterseries.setLabelPosition(Position.ABOVE_LITERAL);
+        }
+        else
+        {
+            scatterseries.setLabelPosition(series.getLabelPosition());
+        }
+
+        scatterseries.setVisible(series.isVisible());
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_Triggers()))
+        {
+            scatterseries.getTriggers().addAll(series.getTriggers());
+        }
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataPoint()))
+        {
+            scatterseries.setDataPoint(series.getDataPoint());
+        }
+        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
+        {
+            scatterseries.getDataDefinition().addAll(series.getDataDefinition());
+        }
+
+
+        // Copy series specific properties
+        if(series instanceof BarSeries)
+        {
+            scatterseries.getLineAttributes().setColor(((BarSeries) series).getRiserOutline());
+        }
+        else if(series instanceof PieSeries)
+        {
+            scatterseries.getLineAttributes().setColor(((PieSeries) series).getSliceOutline());
+        }
+        else if(series instanceof StockSeries)
+        {
+            scatterseries.getLineAttributes().setColor(((StockSeries) series).getLineAttributes().getColor());
+        }
+        return scatterseries;
+    }
+    
+    private SampleData getConvertedSampleData(SampleData currentSampleData)
+    {
+        // Convert base sample data
+        EList bsdList = currentSampleData.getBaseSampleData();
+        Vector vNewBaseSampleData = new Vector();
+        for(int i = 0; i < bsdList.size(); i++)
+        {
+            BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
+            bsd.setDataSetRepresentation(getConvertedSampleDataRepresentation(bsd.getDataSetRepresentation()));
+            vNewBaseSampleData.add(bsd);
+        }
+        currentSampleData.getBaseSampleData().clear();
+        currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
+        
+        // Convert orthogonal sample data
+        EList osdList = currentSampleData.getOrthogonalSampleData();
+        Vector vNewOrthogonalSampleData = new Vector();
+        for(int i = 0; i < osdList.size(); i++)
+        {
+            OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
+            osd.setDataSetRepresentation(getConvertedSampleDataRepresentation(osd.getDataSetRepresentation()));
+            vNewOrthogonalSampleData.add(osd);
+        }
+        currentSampleData.getOrthogonalSampleData().clear();
+        currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
+        return currentSampleData;
+    }
+    
+    private String getConvertedSampleDataRepresentation(String sOldRepresentation)
+    {
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        StringBuffer sbNewRepresentation = new StringBuffer("");
+        int iValueCount = 0;
+        while(strtok.hasMoreTokens())
+        {
+            String sElement = strtok.nextToken().trim();
+            try
+            {
+                double dbl = nf.parse(sElement).doubleValue();
+                if(dbl < 0)
+                {
+                    // If the value is negative, use an arbitrary positive value
+                    sElement = String.valueOf(4.0 + iValueCount);
+                    iValueCount++;
+                }
+                else
+                {
+                    sElement = String.valueOf(dbl);
+                }
+            }
+            catch (ParseException e )
+            {
+                sElement = String.valueOf(6.0 + iValueCount);
+                iValueCount++;
+            }
+            sbNewRepresentation.append(sElement);
+            sbNewRepresentation.append(",");
+        }
+        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
+    }
+    
     /*
      * (non-Javadoc)
      * 

@@ -130,6 +130,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         btnMarkerVisible.setLayoutData(gdBTNVisible);
         btnMarkerVisible.setText("Is Visible");
         btnMarkerVisible.addSelectionListener(this);
+        btnMarkerVisible.setSelection(((LineSeries) series).getMarker().isVisible());
 
         Label lblType = new Label(grpMarker, SWT.NONE);
         GridData gdLBLType = new GridData();

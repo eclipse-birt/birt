@@ -515,7 +515,6 @@ public final class PaletteEditorComposite extends Composite
         {
             return;
         }
-        System.out.println("Updating selected entry with " + f);
         elPaletteEntries.set(iSelectedIndex, f);
         coPaletteEntries.redraw();
     }

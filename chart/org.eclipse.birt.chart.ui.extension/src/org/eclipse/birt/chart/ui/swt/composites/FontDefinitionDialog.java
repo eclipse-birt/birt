@@ -291,7 +291,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopLeft = new GridData(GridData.FILL_BOTH);
         btnATopLeft.setToolTipText("Alignment - Top Left");
-        btnATopLeft.setImage(UIHelper.getImage("images/AlignmentTopLeft.gif"));
+        btnATopLeft.setImage(UIHelper.getImage("images/alignmenttopleft.gif"));
         btnATopLeft.setLayoutData(gdBATopLeft);
         btnATopLeft.addSelectionListener(this);
         btnATopLeft.getImage().setBackground(btnATopLeft.getBackground());
@@ -299,7 +299,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopCenter = new GridData(GridData.FILL_BOTH);
         btnATopCenter.setToolTipText("Alignment - Top Center");
-        btnATopCenter.setImage(UIHelper.getImage("images/AlignmentTopCenter.gif"));
+        btnATopCenter.setImage(UIHelper.getImage("images/alignmenttopcenter.gif"));
         btnATopCenter.setLayoutData(gdBATopCenter);
         btnATopCenter.addSelectionListener(this);
         btnATopCenter.getImage().setBackground(btnATopCenter.getBackground());
@@ -307,7 +307,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopRight = new GridData(GridData.FILL_BOTH);
         btnATopRight.setToolTipText("Alignment - Top Right");
-        btnATopRight.setImage(UIHelper.getImage("images/AlignmentTopRight.gif"));
+        btnATopRight.setImage(UIHelper.getImage("images/alignmenttopright.gif"));
         btnATopRight.setLayoutData(gdBATopRight);
         btnATopRight.addSelectionListener(this);
         btnATopRight.getImage().setBackground(btnATopRight.getBackground());
@@ -315,7 +315,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenterLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterLeft = new GridData(GridData.FILL_BOTH);
         btnACenterLeft.setToolTipText("Alignment - Center Left");
-        btnACenterLeft.setImage(UIHelper.getImage("images/AlignmentCenterLeft.gif"));
+        btnACenterLeft.setImage(UIHelper.getImage("images/alignmentcenterleft.gif"));
         btnACenterLeft.setLayoutData(gdBACenterLeft);
         btnACenterLeft.addSelectionListener(this);
         btnACenterLeft.getImage().setBackground(btnACenterLeft.getBackground());
@@ -323,7 +323,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenter = new GridData(GridData.FILL_BOTH);
         btnACenter.setToolTipText("Alignment - Center");
-        btnACenter.setImage(UIHelper.getImage("images/AlignmentCenter.gif"));
+        btnACenter.setImage(UIHelper.getImage("images/alignmentcenter.gif"));
         btnACenter.setLayoutData(gdBACenter);
         btnACenter.addSelectionListener(this);
         btnACenter.getImage().setBackground(btnACenter.getBackground());
@@ -331,7 +331,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenterRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterRight = new GridData(GridData.FILL_BOTH);
         btnACenterRight.setToolTipText("Alignment - Center Right");
-        btnACenterRight.setImage(UIHelper.getImage("images/AlignmentCenterRight.gif"));
+        btnACenterRight.setImage(UIHelper.getImage("images/alignmentcenterright.gif"));
         btnACenterRight.setLayoutData(gdBACenterRight);
         btnACenterRight.addSelectionListener(this);
         btnACenterRight.getImage().setBackground(btnACenterRight.getBackground());
@@ -339,7 +339,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomLeft = new GridData(GridData.FILL_BOTH);
         btnABottomLeft.setToolTipText("Alignment - Bottom Left");
-        btnABottomLeft.setImage(UIHelper.getImage("images/AlignmentBottomLeft.gif"));
+        btnABottomLeft.setImage(UIHelper.getImage("images/alignmentbottomleft.gif"));
         btnABottomLeft.setLayoutData(gdBABottomLeft);
         btnABottomLeft.addSelectionListener(this);
         btnABottomLeft.getImage().setBackground(btnABottomLeft.getBackground());
@@ -347,7 +347,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomCenter = new GridData(GridData.FILL_BOTH);
         btnABottomCenter.setToolTipText("Alignment - Bottom Center");
-        btnABottomCenter.setImage(UIHelper.getImage("images/AlignmentBottomCenter.gif"));
+        btnABottomCenter.setImage(UIHelper.getImage("images/alignmentbottomcenter.gif"));
         btnABottomCenter.setLayoutData(gdBABottomCenter);
         btnABottomCenter.addSelectionListener(this);
         btnABottomCenter.getImage().setBackground(btnABottomCenter.getBackground());
@@ -355,7 +355,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomRight = new GridData(GridData.FILL_BOTH);
         btnABottomRight.setToolTipText("Alignment - Bottom Right");
-        btnABottomRight.setImage(UIHelper.getImage("images/AlignmentBottomRight.gif"));
+        btnABottomRight.setImage(UIHelper.getImage("images/alignmentbottomright.gif"));
         btnABottomRight.setLayoutData(gdBABottomRight);
         btnABottomRight.addSelectionListener(this);
         btnABottomRight.getImage().setBackground(btnABottomRight.getBackground());

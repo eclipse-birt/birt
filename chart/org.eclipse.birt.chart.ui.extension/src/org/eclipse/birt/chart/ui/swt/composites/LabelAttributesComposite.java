@@ -71,6 +71,8 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private transient ColorDefinition cdFont = null;
 
     private transient LineAttributes laCurrent = null;
+    
+    private transient org.eclipse.birt.chart.model.component.Label lblCurrent = null;
 
     private transient Insets insets = null;
 
@@ -110,6 +112,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         super(parent, style);
         this.sGroupName = sGroupName;
         this.lpCurrent = lpCurrent;
+        this.lblCurrent = lblCurrent;
         this.fdCurrent = lblCurrent.getCaption().getFont();
         this.cdFont = lblCurrent.getCaption().getColor();
         this.fBackground = lblCurrent.getBackground();
@@ -167,6 +170,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
         gdCBVisible.horizontalSpan = 2;
         cbVisible.setLayoutData(gdCBVisible);
+        cbVisible.setSelection(this.lblCurrent.isVisible());
         cbVisible.setText("Is Visible");
         cbVisible.addSelectionListener(this);
 
