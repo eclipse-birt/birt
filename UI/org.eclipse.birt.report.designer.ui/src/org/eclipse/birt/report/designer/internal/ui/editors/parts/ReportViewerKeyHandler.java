@@ -49,9 +49,6 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 	{
 		super( viewer );
 		this.actionRegistry = actionRegistry;
-		put( (char) 3, 'c', SWT.CTRL, ActionFactory.COPY.getId( ) );
-		//		put( (char) 24, 'x', SWT.CTRL, ActionFactory.CUT.getId( ) );
-		put( (char) 22, 'v', SWT.CTRL, ActionFactory.PASTE.getId( ) );
 
 		put( SWT.DEL, SWT.DEL, NO_MASK, ActionFactory.DELETE.getId( ) );
 

@@ -60,7 +60,8 @@ public class PastePartAction extends WrapperSelectionAction
 		{
 			target = ( (IStructuredSelection) model ).getFirstElement( );
 		}
-		return new PasteAction( target );
+		PasteAction action = new PasteAction( target );
+		setEnabled(action.isEnabled());
+		return action ;
 	}
-
 }
