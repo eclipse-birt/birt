@@ -42,17 +42,22 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
     /**
      *  
      */
-    private Image img = null;
+    private Image _img = null;
 
     /**
      *  
      */
-    private Object oOutputIdentifier = null;
+    private Object _oOutputIdentifier = null;
  
     /**
      * 
      */
-    private Bounds bo = null;
+    private Bounds _bo = null;
+    
+    /**
+     * 
+     */
+    private transient boolean _bImageExternallySpecified = false;
     
     /**
      * 
@@ -72,22 +77,42 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
      */
     protected void updateWriterParameters(ImageWriteParam iwp)
     {
-        // IMPLEMENTED BY SUBCLASS
+        // OPTIONALLY IMPLEMENTED BY SUBCLASS
     }
     
     /**
-     * 
      * @return
      */
     protected String getMimeType()
     {
+        // OPTIONALLY IMPLEMENTED BY SUBCLASS
         return null;
     }
     
-    /**
-     * 
-     * @param os
-     * @throws RenderingException
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDeviceRenderer#before()
+     */
+    public final void before() throws RenderingException
+    {
+        super.before();
+        _bImageExternallySpecified = (_img != null);
+        
+        // IF A CACHED IMAGE STRATEGY IS NOT USED, CREATE A NEW INSTANCE EVERYTIME 
+        if (!_bImageExternallySpecified)
+        {
+            if (_bo == null) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING BEGINS
+            {
+                throw new RenderingException("The bounds of the image must be specified before rendering begins");
+            }
+            
+            // CREATE THE IMAGE INSTANCE
+            _img = new BufferedImage((int) _bo.getWidth(), (int) _bo.getHeight(), getImageType());
+        }
+        super.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics());
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
      */
     public final void after() throws RenderingException
     {
@@ -122,19 +147,31 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         final ImageWriter iw = (ImageWriter) it.next();
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Using "+getFormat()+" image writer " + iw.getClass().getName());
         
-        final Object o = (oOutputIdentifier instanceof String) ? new File((String) oOutputIdentifier) : oOutputIdentifier;
+        // WRITE TO SPECIFIC FILE FORMAT
+        final Object o = (_oOutputIdentifier instanceof String) ? new File((String) _oOutputIdentifier) : _oOutputIdentifier;
         try
         {
             final ImageOutputStream ios = ImageIO.createImageOutputStream(o);
             updateWriterParameters(iw.getDefaultWriteParam()); // SET ANY OUTPUT FORMAT SPECIFIC PARAMETERS IF NEEDED
             iw.setOutput(ios);
-            iw.write((BufferedImage) img);
+            iw.write((BufferedImage) _img);
             ios.close();
         }
         catch (Exception ex)
         {
             throw new RenderingException(ex);
         }
+        
+        // FLUSH AND RESTORE STATE OF INTERNALLY CREATED IMAGE
+        if (!_bImageExternallySpecified)
+        {
+            _img.flush();
+            _img = null;
+        }
+        
+        // ALWAYS DISPOSE THE GRAPHICS CONTEXT THAT WAS CREATED FROM THE IMAGE
+        _g2d.dispose();
+        _g2d = null;
     }
     
     /*
@@ -147,13 +184,15 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         super.setProperty(sProperty, oValue);
         if (sProperty.equals(IDeviceRenderer.EXPECTED_BOUNDS))
         {
-            bo = (Bounds) oValue;
-            img = new BufferedImage((int) bo.getWidth(), (int) bo.getHeight(), getImageType());
-            super.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, img.getGraphics());
+            _bo = (Bounds) oValue;
+        }
+        else if (sProperty.equals(IDeviceRenderer.CACHED_IMAGE))
+        {
+            _img = (Image) oValue;
         }
         else if (sProperty.equals(IDeviceRenderer.FILE_IDENTIFIER))
         {
-            oOutputIdentifier = oValue;
+            _oOutputIdentifier = oValue;
         }
     }
 
@@ -172,9 +211,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
      */
     public void presentException(Exception cexp)
     {
-        if (bo == null)
+        if (_bo == null)
         {
-            bo = BoundsImpl.create(0, 0, 400, 300);
+            _bo = BoundsImpl.create(0, 0, 400, 300);
         }
         String sWrappedException = cexp.getClass().getName();
         while (cexp.getCause() != null)
@@ -188,7 +227,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         }
         String sMessage = cexp.getMessage();
         StackTraceElement[] stea = cexp.getStackTrace();
-        Dimension d = new Dimension((int) bo.getWidth(), (int) bo.getHeight());
+        Dimension d = new Dimension((int) _bo.getWidth(), (int) _bo.getHeight());
         
         Font fo = new Font("Monospaced", Font.BOLD, 14);
         _g2d.setFont(fo);
