@@ -45,7 +45,7 @@ import org.eclipse.swt.graphics.Image;
 public class ListBandControlFigure extends Figure
 {
 
-	public static final Dimension CONTROL_SIZE = new Dimension( 73, 19 );
+	public static final Dimension CONTROL_SIZE = new Dimension( 88, 19 );
 
 	private static final String TOOLTIP_LIST_DETAIL = Messages.getString( "ListBandControlFigure.tooltip.ListDetail" ); //$NON-NLS-1$
 	private static final String TOOLTIP_LIST_HEADER = Messages.getString( "ListBandControlFigure.tooltip.ListHeader" ); //$NON-NLS-1$
@@ -216,7 +216,7 @@ public class ListBandControlFigure extends Figure
 			super( );
 			this.owner = owner;
 
-			setBounds( new Rectangle( 35, 0, 35, 19 ) );
+			setBounds( new Rectangle( 35, 0, 50, 19 ) );
 			setBorder( new MarginBorder( 8, 0, 0, 0 ) );
 		}
 

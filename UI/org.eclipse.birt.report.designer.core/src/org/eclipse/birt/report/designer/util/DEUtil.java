@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Font;
@@ -80,7 +81,16 @@ public class DEUtil
 	/** Target's parent can contain source */
 	public static final int CONTAIN_PARENT = 2;
 
+	/**
+	 * Property name for element labelContent.
+	 */
 	public static final String ELEMENT_LABELCONTENT_PROPERTY = "labelContent"; //$NON-NLS-1$
+
+	/**
+	 * A default quick button height which if different in win32 from other OS.
+	 */
+	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
+			.equals( Platform.OS_WIN32 ) ? 20 : 22;
 
 	private static HashMap propertiesMap = new HashMap( );
 
@@ -662,7 +672,8 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 )
+				| ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -949,22 +960,22 @@ public class DEUtil
 		{
 			ReportElementModel targetModel = (ReportElementModel) targetObj;
 			return targetModel.getElementHandle( )
-					.canContain( targetModel.getSlotId( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
 			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getSlotID( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
 			ListBandProxy targetHandle = (ListBandProxy) targetObj;
 			return targetHandle.getElemtHandle( )
-					.canContain( targetHandle.getSlotId( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else
 		{
