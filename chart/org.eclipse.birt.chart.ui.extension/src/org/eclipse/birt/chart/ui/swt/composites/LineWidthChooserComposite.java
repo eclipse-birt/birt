@@ -174,6 +174,13 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
         return this.iCurrentWidth;
     }
 
+    public void setLineWidth(int iWidth)
+    {
+        iCurrentWidth = iWidth;
+        cnvSelection.setLineWidth(iWidth);
+        cnvSelection.redraw();
+    }
+
     public void addListener(Listener listener)
     {
         vListeners.add(listener);

@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.composites.StockSeriesDataDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionBuilder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -52,7 +52,7 @@ public class StockSeriesUIProvider implements ISeriesUIProvider
      * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
      */
     public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
-        IExpressionBuilder builder, Object oContext)
+        IUIServiceProvider builder, Object oContext)
     {
         return new StockSeriesDataDefinitionComposite(parent, SWT.NONE, seriesdefinition, builder, oContext);
     }

@@ -78,11 +78,17 @@
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisLabelAttributeSheetImpl"
             nodePath="Attributes.X Axis.Labels"/>
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisMarkerAttributeSheetImpl"
+            nodePath="Attributes.X Axis.Markers"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisAttributeSheetImpl"
             nodePath="Attributes.Y Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisLabelAttributeSheetImpl"
             nodePath="Attributes.Y Axis.Labels"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisMarkerAttributeSheetImpl"
+            nodePath="Attributes.Y Axis.Markers"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseSeriesAttributeSheetImpl"
             nodePath="Attributes.Base Series"/>

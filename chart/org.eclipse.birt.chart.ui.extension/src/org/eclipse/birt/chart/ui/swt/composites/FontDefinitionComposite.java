@@ -123,6 +123,18 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         return this.cdCurrent;
     }
 
+    public void setFontDefinition(FontDefinition fd)
+    {
+        this.fdCurrent = fd;
+        cnvSelection.setFontDefinition(fdCurrent);
+        cnvSelection.redraw();
+    }
+
+    public void setFontColor(ColorDefinition cd)
+    {
+        this.cdCurrent = cd;
+    }
+
     public void addListener(Listener listener)
     {
         vListeners.add(listener);

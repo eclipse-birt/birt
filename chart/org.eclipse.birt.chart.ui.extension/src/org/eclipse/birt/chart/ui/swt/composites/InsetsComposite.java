@@ -155,6 +155,21 @@ public class InsetsComposite extends Composite implements ModifyListener
         txtRight.addModifyListener(this);
     }
 
+    public void setInsets(Insets insets)
+    {
+        if (insets == null)
+        {
+            return;
+        }
+        this.insets = insets;
+
+        // Update the UI
+        this.txtBottom.setText(String.valueOf(insets.getBottom()));
+        this.txtLeft.setText(String.valueOf(insets.getLeft()));
+        this.txtTop.setText(String.valueOf(insets.getTop()));
+        this.txtRight.setText(String.valueOf(insets.getRight()));
+    }
+
     public void addListener(Listener listener)
     {
         vListeners.add(listener);

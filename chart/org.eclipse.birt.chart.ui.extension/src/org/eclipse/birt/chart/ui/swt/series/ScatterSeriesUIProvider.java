@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionBuilder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -54,7 +54,7 @@ public class ScatterSeriesUIProvider implements ISeriesUIProvider
      * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
      */
     public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
-        IExpressionBuilder builder, Object oContext)
+        IUIServiceProvider builder, Object oContext)
     {
         Query query = null;
         if (seriesdefinition.getDesignTimeSeries().getDataDefinition().size() > 0)

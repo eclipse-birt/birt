@@ -262,6 +262,39 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         }
     }
 
+    public void setLabel(org.eclipse.birt.chart.model.component.Label lbl)
+    {
+        this.lblCurrent = lbl;
+        this.fdCurrent = lblCurrent.getCaption().getFont();
+        this.cdFont = lblCurrent.getCaption().getColor();
+        this.fBackground = lblCurrent.getBackground();
+        this.cdShadow = lblCurrent.getShadowColor();
+        this.laCurrent = lblCurrent.getOutline();
+        this.insets = lblCurrent.getInsets();
+
+        // update the UI
+        if (this.bVisibilityEnabled)
+        {
+            this.cbVisible.setSelection(lblCurrent.isVisible());
+        }
+        this.fdcFont.setFontDefinition(fdCurrent);
+        this.fdcFont.setFontColor(cdFont);
+        this.fccBackground.setFill(fBackground);
+        this.fccShadow.setFill(cdShadow);
+        this.liacOutline.setLineAttributes(laCurrent);
+        this.icInsets.setInsets(insets);
+        redraw();
+    }
+
+    public void setLabelPosition(Position pos)
+    {
+        this.lpCurrent = pos;
+        if (this.bPositionEnabled)
+        {
+            this.cmbPosition.setText(lpCurrent.getName());
+        }
+    }
+
     public void addListener(Listener listener)
     {
         vListeners.add(listener);

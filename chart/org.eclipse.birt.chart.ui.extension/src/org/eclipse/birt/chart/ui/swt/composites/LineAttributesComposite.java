@@ -195,6 +195,30 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         vListeners.add(listener);
     }
 
+    public void setLineAttributes(LineAttributes attributes)
+    {
+        if (attributes == null)
+        {
+            return;
+        }
+        laCurrent = attributes;
+        if (bEnableVisibility)
+        {
+            cbVisible.setSelection(attributes.isVisible());
+        }
+        if (bEnableStyles)
+        {
+            cmbStyle.setLineStyle(getSWTLineStyle(attributes.getStyle()));
+        }
+        if (this.bEnableWidths)
+        {
+            cmbWidth.setLineWidth(attributes.getThickness());
+        }
+        cmbColor.setFill(attributes.getColor());
+        cmbColor.redraw();
+        redraw();
+    }
+
     /*
      * (non-Javadoc)
      * 

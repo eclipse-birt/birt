@@ -175,6 +175,13 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
         return this.iCurrentStyle;
     }
 
+    public void setLineStyle(int iStyle)
+    {
+        iCurrentStyle = iStyle;
+        cnvSelection.setLineStyle(iCurrentStyle);
+        cnvSelection.redraw();
+    }
+
     public void addListener(Listener listener)
     {
         vListeners.add(listener);

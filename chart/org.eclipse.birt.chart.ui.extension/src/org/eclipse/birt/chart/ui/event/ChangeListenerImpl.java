@@ -77,12 +77,12 @@ public class ChangeListenerImpl implements IChangeListener
 
     private static final String[] BASE_AXIS_SHEETS = new String[]
     {
-        "Data.X Axis", "Attributes.X Axis", "Attributes.X Axis.Labels"
+        "Data.X Axis", "Attributes.X Axis", "Attributes.X Axis.Labels", "Attributes.X Axis.Markers"
     };
 
     private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[]
     {
-        "Data.Y Axis", "Attributes.Y Axis", "Attributes.Y Axis.Labels"
+        "Data.Y Axis", "Attributes.Y Axis", "Attributes.Y Axis.Labels", "Attributes.Y Axis.Markers"
     };
 
     private static final String[] LABEL_BLOCK_SHEETS = new String[]
