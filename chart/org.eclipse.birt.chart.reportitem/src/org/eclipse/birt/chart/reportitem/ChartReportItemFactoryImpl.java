@@ -23,10 +23,10 @@ import org.eclipse.birt.report.model.extension.IReportItemFactory;
  */
 public class ChartReportItemFactoryImpl implements IReportItemFactory
 {
-	/**
-	 * Messages for I18N
-	 */
-	
+    /**
+     * Messages for I18N
+     */
+
     private static final String CHART_EXTENSION = "Element.Chart";
 
     /**
@@ -38,7 +38,7 @@ public class ChartReportItemFactoryImpl implements IReportItemFactory
     }
 
     /**
-     * To be removed soon 
+     * To be removed soon
      */
     public Object getIcon()
     {
@@ -55,21 +55,21 @@ public class ChartReportItemFactoryImpl implements IReportItemFactory
         return new ChartReportItemImpl();
     }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
-	 */
-	public IMessages getMessages( )
-	{
-	    return new IMessages()
-		{
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
+     */
+    public IMessages getMessages()
+    {
+        return new IMessages()
+        {
             public String getMessage(String key, Locale locale)
             {
                 System.out.println("Request for resource key=" + key);
                 return key + "_value";
             }
-		};
-	}
+        };
+    }
 
 }

@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
+import java.io.FileOutputStream;
 import java.util.HashMap;
 
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -19,32 +20,45 @@ import org.eclipse.birt.report.engine.extension.DefaultReportItemGenerationImpl;
 import org.eclipse.birt.report.engine.extension.Size;
 
 /**
- *
+ *  
  */
 public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationImpl
 {
     /**
-     * 
+     *  
      */
     private transient Chart cm = null;
-    
+
     /**
-     * 
+     *  
      */
     public ChartReportItemGenerationImpl()
     {
         super();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#initialize(org.apache.batik.dom.util.HashTable)
      */
     public void initialize(HashMap parameters)
     {
         super.initialize(parameters);
+        try
+        {
+            final FileOutputStream fos = new FileOutputStream("c:\\generation.txt");
+            fos.write("Called generation.initialize()".getBytes());
+            fos.close();
+        }
+        catch (Exception ex )
+        {
+            ex.printStackTrace();
+        }
         cm = getModelFromWrapper(parameters.get(MODEL_OBJ));
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Called generation.initialize()");
     }
-    
+
     /**
      * 
      * @param oReportItemImpl
@@ -58,12 +72,15 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         }
         else
         {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "Unable to retrieve chart model from wrapper " + oReportItemImpl);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR,
+                "Unable to retrieve chart model from wrapper " + oReportItemImpl);
             return null;
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#getSize()
      */
     public Size getSize()
@@ -79,7 +96,9 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         return super.getSize();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#finish()
      */
     public void finish()

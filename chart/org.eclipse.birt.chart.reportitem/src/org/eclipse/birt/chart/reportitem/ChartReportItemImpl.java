@@ -29,21 +29,22 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public final class ChartReportItemImpl implements IReportItem
 {
-    static {
+    static
+    {
         DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR);
     };
-    
+
     private Chart cm = null;
-    
+
     public ChartReportItemImpl()
     {
     }
-    
+
     public void setModel(Chart cm)
     {
         this.cm = cm;
     }
-    
+
     public final Chart getModel()
     {
         return cm;
@@ -58,16 +59,16 @@ public final class ChartReportItemImpl implements IReportItem
     {
         if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
         {
-	        try
-	        {
-	            return SerializerImpl.instance().asXml(cm, true);
-	        }
-	        catch (IOException e )
-	        {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	            return new ByteArrayOutputStream();
-	        }
+            try
+            {
+                return SerializerImpl.instance().asXml(cm, true);
+            }
+            catch (IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return new ByteArrayOutputStream();
+            }
         }
         return null;
     }
@@ -81,16 +82,16 @@ public final class ChartReportItemImpl implements IReportItem
     {
         if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
         {
-	        try
-	        {
-	            cm = SerializerImpl.instance().fromXml(data, true);
-	        }
-	        catch (IOException e )
-	        {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	            cm = null;
-	        }
+            try
+            {
+                cm = SerializerImpl.instance().fromXml(data, true);
+            }
+            catch (IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                cm = null;
+            }
         }
     }
 

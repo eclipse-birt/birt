@@ -10,17 +10,22 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
+import java.io.FileOutputStream;
+import java.util.HashMap;
+
+import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.report.engine.extension.DefaultReportItemPresentationImpl;
 
 /**
  * @author Actuate Corporation
- *
+ *  
  */
 public class ChartReportItemPresentationImpl extends DefaultReportItemPresentationImpl
 {
 
     /**
-     * 
+     *  
      */
     public ChartReportItemPresentationImpl()
     {
@@ -28,4 +33,19 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         // TODO Auto-generated constructor stub
     }
 
+    public final void initialize(HashMap hm)
+    {
+        super.initialize(hm);
+        try
+        {
+            final FileOutputStream fos = new FileOutputStream("c:\\presentation.txt");
+            fos.write("Called presentation.initialize()".getBytes());
+            fos.close();
+        }
+        catch (Exception ex )
+        {
+            ex.printStackTrace();
+        }
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Called presentation.initialize()");
+    }
 }
