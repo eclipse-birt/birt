@@ -31,6 +31,7 @@ public class GridHandleAdapter extends TableHandleAdapter
 
 	/**
 	 * Constructor
+	 * 
 	 * @param table
 	 * @param mark
 	 */
@@ -53,8 +54,7 @@ public class GridHandleAdapter extends TableHandleAdapter
 
 		for ( Iterator it = rows.iterator( ); it.hasNext( ); )
 		{
-			insertIteratorToList( ( (RowHandle) it.next( ) ).getCells( )
-					.iterator( ), children );
+			children.addAll( ( (RowHandle) it.next( ) ).getCells( ).getContents( ) );
 		}
 		removePhantomCells( children );
 		return children;
@@ -67,9 +67,7 @@ public class GridHandleAdapter extends TableHandleAdapter
 	 */
 	public List getColumns( )
 	{
-		List list = new ArrayList( );
-		insertIteratorToList( getGridHandle( ).getColumns( ).iterator( ), list );
-		return list;
+		return getGridHandle( ).getColumns( ).getContents( );
 	}
 
 	private GridHandle getGridHandle( )
@@ -82,19 +80,11 @@ public class GridHandleAdapter extends TableHandleAdapter
 	 * 
 	 * @return The rows list.
 	 */
-	public List initRowsInfo( )
+	protected void buildRowInfo( )
 	{
-		clearBuffer( );
-		// shoudl return all cells
-		SlotHandle gridRows = getGridHandle( ).getRows( );
-
-		insertIteratorToList( gridRows.iterator( ),
-				rows,
+		insertRowInfo( getGridHandle( ).getRows( ),
 				TableHandleAdapter.RowUIInfomation.GRID_ROW,
 				TableHandleAdapter.RowUIInfomation.GRID_ROW );
-		caleRowInfo( rows );
-		return rows;
-
 	}
 
 	/**

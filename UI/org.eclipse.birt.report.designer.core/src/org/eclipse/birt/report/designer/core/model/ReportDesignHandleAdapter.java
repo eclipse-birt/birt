@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -71,28 +70,22 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public List getChildren( )
 	{
-		List list = new ArrayList( );
-
-		insertIteratorToList( getReportDesignHandle( ).getBody( ).iterator( ),
-				list );
-
-		return list;
+		return getReportDesignHandle( ).getBody( ).getContents( );
 	}
 
 	/**
 	 * Gets the data source binding to report element.
+	 * 
 	 * @return
 	 */
 	public List getDataSources( )
 	{
-		List list = new ArrayList( );
-		insertIteratorToList( getReportDesignHandle( ).getDataSources( )
-				.iterator( ), list );
-		return list;
+		return getReportDesignHandle( ).getDataSources( ).getContents( );
 	}
 
 	/**
 	 * Gets data source handle binding to report element
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -103,6 +96,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Provides naming check logic of data source name.
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -113,6 +107,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Provides naming check logic of data set name.
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -123,6 +118,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Sets the ReportDesignHandle be adapted.
+	 * 
 	 * @param handle
 	 */
 	public void setReportDesignHandle( ReportDesignHandle handle )
@@ -140,6 +136,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Gets the master page instace of Report Design with specific position.
+	 * 
 	 * @param pos
 	 * @return handle of masterpage.
 	 */

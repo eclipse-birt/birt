@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -83,24 +84,6 @@ public abstract class DesignElementHandleAdapter
 	}
 
 	/**
-	 * Inserts the iterator to the given list
-	 * 
-	 * @param iterator
-	 *            the iterator
-	 * @param list
-	 *            the list
-	 */
-
-	protected void insertIteratorToList( Iterator iterator, List list )
-	{
-		for ( Iterator it = iterator; it.hasNext( ); )
-		{
-			list.add( it.next( ) );
-		}
-
-	}
-
-	/**
 	 * @return Returns the handle.
 	 */
 	public DesignElementHandle getHandle( )
@@ -120,7 +103,12 @@ public abstract class DesignElementHandleAdapter
 
 	protected ReportDesign getReportDesign( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesign( );
+		return elementHandle.getDesign( );
+	}
+
+	protected ReportDesignHandle getReportDesignHandle( )
+	{
+		return elementHandle.getDesignHandle( );
 	}
 
 	/**
@@ -281,14 +269,14 @@ public abstract class DesignElementHandleAdapter
 		Object prop = getHandle( ).getProperty( Style.MARGIN_TOP_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			px = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+			px = DEUtil.convertToPixel( prop, fontSize );
 		}
 
 		double py = 0;
 		prop = getHandle( ).getProperty( Style.MARGIN_BOTTOM_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			py = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+			py = DEUtil.convertToPixel( prop, fontSize );
 		}
 
 		retValue.top = (int) px;
@@ -298,13 +286,13 @@ public abstract class DesignElementHandleAdapter
 		prop = getHandle( ).getProperty( Style.MARGIN_LEFT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			px = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+			px = DEUtil.convertToPixel( prop, fontSize );
 		}
 
 		prop = getHandle( ).getProperty( Style.MARGIN_RIGHT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			py = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+			py = DEUtil.convertToPixel( prop, fontSize );
 		}
 
 		retValue.left = (int) px;

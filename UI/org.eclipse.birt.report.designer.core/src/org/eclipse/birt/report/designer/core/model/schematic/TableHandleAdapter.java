@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -70,7 +69,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	private static final String TRANS_LABEL_DELETE_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.deleteColumn" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_DELETE_COLUMNS = Messages.getString( "TableHandleAdapter.transLabel.deleteColumns" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_INSERT_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.insertColumn" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_GROUP = Messages.getString("TableHandleAdapter.transLable.deleteGroup"); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_GROUP = Messages.getString( "TableHandleAdapter.transLable.deleteGroup" ); //$NON-NLS-1$
 	public static final int HEADER = TableItem.HEADER_SLOT;
 	public static final int DETAIL = TableItem.DETAIL_SLOT;
 	public static final int FOOTER = TableItem.FOOTER_SLOT;
@@ -83,7 +82,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/* the name model should support */
 	private HashMap rowInfo = new HashMap( );
-	protected List rows = new ArrayList( );
+	private List rows = new ArrayList( );
 
 	/**
 	 * Constructor
@@ -109,51 +108,50 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		SlotHandle header = getTableHandle( ).getHeader( );
 
-		for ( Iterator it = header.iterator( ); it.hasNext( ); )
+		for ( Iterator headerIter = header.iterator( ); headerIter.hasNext( ); )
 		{
-			insertIteratorToList( ( (RowHandle) it.next( ) ).getCells( )
-					.iterator( ), children );
+			children.addAll( ( (RowHandle) headerIter.next( ) ).getCells( )
+					.getContents( ) );
 		}
 
 		SlotHandle group = getTableHandle( ).getGroups( );
 
-		for ( Iterator it = group.iterator( ); it.hasNext( ); )
+		for ( Iterator groupIter = group.iterator( ); groupIter.hasNext( ); )
 		{
-			TableGroupHandle tableGroups = (TableGroupHandle) it.next( );
-			SlotHandle groupHeaders = tableGroups.getSlot( GroupElement.HEADER_SLOT );
-			for ( Iterator heards = groupHeaders.iterator( ); heards.hasNext( ); )
+			TableGroupHandle tableGroups = (TableGroupHandle) groupIter.next( );
+			SlotHandle groupHeaders = tableGroups.getHeader( );
+			for ( Iterator groupHeaderIter = groupHeaders.iterator( ); groupHeaderIter.hasNext( ); )
 			{
-				insertIteratorToList( ( (RowHandle) heards.next( ) ).getCells( )
-						.iterator( ), children );
+				children.addAll( ( (RowHandle) groupHeaderIter.next( ) ).getCells( )
+						.getContents( ) );
 			}
 		}
 
 		SlotHandle detail = getTableHandle( ).getDetail( );
 
-		for ( Iterator detailRows = detail.iterator( ); detailRows.hasNext( ); )
+		for ( Iterator detailIter = detail.iterator( ); detailIter.hasNext( ); )
 		{
-			insertIteratorToList( ( (RowHandle) detailRows.next( ) ).getCells( )
-					.iterator( ), children );
+			children.addAll( ( (RowHandle) detailIter.next( ) ).getCells( )
+					.getContents( ) );
 		}
 
-		group = getTableHandle( ).getGroups( );
-
-		for ( ListIterator it = convertIteratorToListIterator( group.iterator( ) ); it.hasPrevious( ); )
+		for ( ListIterator groupIter = group.getContents( )
+				.listIterator( group.getCount( ) ); groupIter.hasPrevious( ); )
 		{
-			TableGroupHandle tableGroups = (TableGroupHandle) it.previous( );
-			SlotHandle groupFooters = tableGroups.getSlot( GroupElement.FOOTER_SLOT );
-			for ( Iterator heards = groupFooters.iterator( ); heards.hasNext( ); )
+			TableGroupHandle tableGroups = (TableGroupHandle) groupIter.previous( );
+			SlotHandle groupFooters = tableGroups.getFooter( );
+			for ( Iterator groupFooterIter = groupFooters.iterator( ); groupFooterIter.hasNext( ); )
 			{
-				insertIteratorToList( ( (RowHandle) heards.next( ) ).getCells( )
-						.iterator( ), children );
+				children.addAll( ( (RowHandle) groupFooterIter.next( ) ).getCells( )
+						.getContents( ) );
 			}
 		}
 
 		SlotHandle footer = getTableHandle( ).getFooter( );
-		for ( Iterator footerIT = footer.iterator( ); footerIT.hasNext( ); )
+		for ( Iterator footerIter = footer.iterator( ); footerIter.hasNext( ); )
 		{
-			insertIteratorToList( ( (RowHandle) footerIT.next( ) ).getCells( )
-					.iterator( ), children );
+			children.addAll( ( (RowHandle) footerIter.next( ) ).getCells( )
+					.getContents( ) );
 		}
 
 		removePhantomCells( children );
@@ -161,10 +159,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Some cells might not be relevant, because overriden by colspan/rowspan of
-	 * other cells Example in a three columns table: <row><cell><property
-	 * name="colSpan">3 </property> <property name="rowSpan">1 </property>
-	 * <cell><cell/><cell/><row>
+	 * Some cells might not be relevant, because overriden by column span/row
+	 * span of other cells Example in a three columns table: <row><cell>
+	 * <property name="colSpan">3 </property> <property name="rowSpan">1
+	 * </property> <cell><cell/><cell/><row>
 	 * 
 	 * The last two cells are phantom, the layout cannot handle them so we
 	 * remove them at that stage. Ideally the model should not return those
@@ -194,46 +192,29 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	}
 
-	private ListIterator convertIteratorToListIterator( Iterator iterator )
-	{
-		ArrayList list = new ArrayList( );
-		for ( Iterator it = iterator; it.hasNext( ); )
-		{
-			list.add( it.next( ) );
-		}
-		return list.listIterator( list.size( ) );
-	}
-
-	private void insertIteratorToList( Iterator iterator,
-			TableHandleAdapter.RowUIInfomation info )
-	{
-		List addList = new ArrayList( );
-		for ( Iterator it = iterator; it.hasNext( ); )
-		{
-			addList.add( it.next( ) );
-		}
-		info.addChildren( addList );
-	}
-
 	/**
-	 * Inserts the iterator to the given list
+	 * Inserts a slot into the row info list
 	 * 
-	 * @param iterator
-	 *            The iterator
-	 * @param list
-	 *            The list
+	 * @param rowInfoList
+	 *            The list of row info
+	 * @param slotHandle
+	 *            The slot to insert
+	 * @param displayName
+	 *            The display name of the slot
+	 * @param type
+	 *            the type of the slot
 	 */
-	protected void insertIteratorToList( Iterator iterator, List list,
-			String displayName, String type )
+	protected void insertRowInfo( SlotHandle slotHandle, String displayName,
+			String type )
 	{
-		for ( Iterator it = iterator; it.hasNext( ); )
+		for ( Iterator it = slotHandle.iterator( ); it.hasNext( ); )
 		{
 			RowHandle handle = (RowHandle) it.next( );
-			list.add( handle );
+			rows.add( handle );
 			TableHandleAdapter.RowUIInfomation info = new TableHandleAdapter.RowUIInfomation( getColumnCount( ) );
 			info.setType( type );
 			info.setRowDisplayName( displayName );
-			insertIteratorToList( handle.getCells( ).iterator( ), info );
+			info.addChildren( handle.getCells( ).getContents( ) );
 			rowInfo.put( handle, info );
 		}
 
@@ -259,61 +240,50 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 * 
 	 * @return The rows list.
 	 */
-	public List initRowsInfo( )
+	public void initRowsInfo( )
 	{
 		clearBuffer( );
+		buildRowInfo( );
+		caleRowInfo( rows );
+	}
 
-		SlotHandle header = getTableHandle( ).getHeader( );
-
-		insertIteratorToList( header.iterator( ),
-				rows,
+	protected void buildRowInfo( )
+	{
+		insertRowInfo( getTableHandle( ).getHeader( ),
 				TABLE_HEADER,
 				TABLE_HEADER );
 
-		SlotHandle group = getTableHandle( ).getGroups( );
+		SlotHandle groups = getTableHandle( ).getGroups( );
 
 		int number = 0;
-		for ( Iterator it = group.iterator( ); it.hasNext( ); )
+		for ( Iterator itor = groups.iterator( ); itor.hasNext( ); )
 		{
 			number++;
-			TableGroupHandle tableGroups = (TableGroupHandle) it.next( );
-			SlotHandle groupHeaders = tableGroups.getSlot( GroupElement.HEADER_SLOT );
-			insertIteratorToList( groupHeaders.iterator( ),
-					rows,
+			TableGroupHandle tableGroup = (TableGroupHandle) itor.next( );
+			insertRowInfo( tableGroup.getHeader( ),
 					Integer.toString( number ),
 					TABLE_GROUP_HEADER );
 		}
 
-		SlotHandle detail = getTableHandle( ).getDetail( );
-		insertIteratorToList( detail.iterator( ),
-				rows,
+		insertRowInfo( getTableHandle( ).getDetail( ),
 				TABLE_DETAIL,
 				TABLE_DETAIL );
 
-		group = getTableHandle( ).getGroups( );
+		number = groups.getCount( );
 
-		number = group.getCount( );
-
-		for ( ListIterator it = convertIteratorToListIterator( group.iterator( ) ); it.hasPrevious( ); )
+		for ( ListIterator itor = groups.getContents( )
+				.listIterator( number ); itor.hasPrevious( ); )
 		{
-
-			TableGroupHandle tableGroups = (TableGroupHandle) it.previous( );
-			SlotHandle groupFooters = tableGroups.getSlot( GroupElement.FOOTER_SLOT );
-			insertIteratorToList( groupFooters.iterator( ),
-					rows,
+			TableGroupHandle tableGroup = (TableGroupHandle) itor.previous( );
+			insertRowInfo( tableGroup.getFooter( ),
 					Integer.toString( number ),
 					TABLE_GROUP_FOOTER );
 			number--;
 		}
 
-		SlotHandle footer = getTableHandle( ).getFooter( );
-		insertIteratorToList( footer.iterator( ),
-				rows,
+		insertRowInfo( getTableHandle( ).getFooter( ),
 				TABLE_FOOTER,
 				TABLE_FOOTER );
-
-		caleRowInfo( rows );
-		return rows;
 	}
 
 	/**
@@ -386,7 +356,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Get GUI infromation of row. For CSS table support auto layout, the GUI
+	 * Get GUI information of row. For CSS table support auto layout, the GUI
 	 * info is different with model info.
 	 * 
 	 * @param row
@@ -423,9 +393,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public List getColumns( )
 	{
-		List list = new ArrayList( );
-		insertIteratorToList( getTableHandle( ).getColumns( ).iterator( ), list );
-		return list;
+		return getTableHandle( ).getColumns( ).getContents( );
 	}
 
 	/**

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.TableRow;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -53,6 +51,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Constructor
+	 * 
 	 * @param row
 	 */
 	public RowHandleAdapter( RowHandle row )
@@ -62,6 +61,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Constructor
+	 * 
 	 * @param row
 	 * @param mark
 	 */
@@ -133,11 +133,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public List getChildren( )
 	{
-		ArrayList list = new ArrayList( );
-
-		SlotHandle cells = getRowHandle( ).getSlot( TableRow.CONTENT_SLOT );
-		insertIteratorToList( cells.iterator( ), list );
-		return list;
+		return getRowHandle( ).getCells( ).getContents( );
 	}
 
 	/**
@@ -228,8 +224,9 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( ) )
 			{
-				//retValue.setProperty( key, getRowHandle( ).getProperty( key ) );
-				getRowHandle( ).copyPropertyTo( key, retValue);
+				//retValue.setProperty( key, getRowHandle( ).getProperty( key )
+				// );
+				getRowHandle( ).copyPropertyTo( key, retValue );
 			}
 		}
 
@@ -251,6 +248,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 
 	/**
 	 * Set row height
+	 * 
 	 * @param rowHeight
 	 * @throws SemanticException
 	 */

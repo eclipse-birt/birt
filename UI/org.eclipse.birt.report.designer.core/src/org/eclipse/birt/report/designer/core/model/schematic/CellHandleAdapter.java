@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
@@ -44,7 +43,8 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 *            The cell handle.
 	 * @param mark
 	 */
-	public CellHandleAdapter( ReportElementHandle cellHandle, IModelAdapterHelper mark )
+	public CellHandleAdapter( ReportElementHandle cellHandle,
+			IModelAdapterHelper mark )
 	{
 		super( cellHandle, mark );
 	}
@@ -58,9 +58,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 
 	public List getChildren( )
 	{
-		List list = new ArrayList( );
-		insertIteratorToList( getCellHandle( ).getContent( ).iterator( ), list );
-		return list;
+		return getCellHandle( ).getContent( ).getContents( );
 	}
 
 	/**
