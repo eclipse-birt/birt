@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -192,18 +190,5 @@ public class SimpleMasterPage extends MasterPage
 	public DesignElementHandle getHandle( ReportDesign design )
 	{
 		return handle( design );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
-	 */
-
-	public List validate( ReportDesign design )
-	{
-		List list = super.validate( design );
-		
-		return list;
 	}
 }

@@ -13,16 +13,16 @@ package org.eclipse.birt.report.model.core;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.command.StyleException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
 
 /**
  * Base class for all report elements with a style. Implements operations that
  * are specific to styled elements.
- *  
+ * 
  */
 
 public abstract class StyledElement extends DesignElement
@@ -90,7 +90,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 *  
+	 * 
 	 */
 	public StyleElement getLocalStyle( )
 	{
@@ -118,7 +118,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. null if this element didn't define a style on it.
 	 * 
-	 *  
+	 * 
 	 */
 	public StyleElement getStyle( )
 	{
@@ -207,21 +207,8 @@ public abstract class StyledElement extends DesignElement
 
 		// Resolve style
 
-		if ( style != null && !style.isResolved( ) )
-		{
-			NameSpace ns = design.getNameSpace( RootElement.STYLE_NAME_SPACE );
-			StyleElement theStyle = (StyleElement) ns.getElement( style
-					.getName( ) );
-			if ( theStyle == null )
-			{
-				list.add( new StyleException( this, style.getName( ),
-						StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
-			}
-			else
-			{
-				setStyle( theStyle );
-			}
-		}
+		list.addAll( StyleReferenceValidator.getInstance( ).validate( design,
+				this, style ) );
 
 		list.addAll( Style.validateStyleProperties( design, this ) );
 

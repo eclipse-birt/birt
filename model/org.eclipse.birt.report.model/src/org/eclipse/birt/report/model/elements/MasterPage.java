@@ -1,17 +1,16 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -19,14 +18,15 @@ import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.Point;
 import org.eclipse.birt.report.model.util.Rectangle;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.MasterPageSizeValidator;
+import org.eclipse.birt.report.model.validators.MasterPageTypeValidator;
 
 /**
  * This class represents a Master Page element in the report design. This class
  * provides methods to access the most common properties. Use the
  * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change
  * the properties.
- *  
+ * 
  */
 
 public abstract class MasterPage extends StyledElement
@@ -86,53 +86,53 @@ public abstract class MasterPage extends StyledElement
 	 */
 
 	public static final String LEFT_MARGIN_PROP = "leftMargin"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the dimension property that gives the height of the header.
 	 */
 
 	public static final String HEADER_HEIGHT_PROP = "headerHeight"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the dimension property that gives the height of the footer.
 	 */
 
 	public static final String FOOTER_HEIGHT_PROP = "footerHeight"; //$NON-NLS-1$
-	
+
 	/**
 	 * Height of the US Letter page.
 	 */
-	
+
 	public static final String US_LETTER_HEIGHT = "11in"; //$NON-NLS-1$
-	
+
 	/**
 	 * Width of the US Letter page.
 	 */
-	
+
 	public static final String US_LETTER_WIDTH = "8.5in"; //$NON-NLS-1$
-	
+
 	/**
 	 * Height of the US Legal page.
 	 */
-	
+
 	public static final String US_LEGAL_HEIGHT = "14in"; //$NON-NLS-1$
-	
+
 	/**
 	 * Width of the US Legal page.
 	 */
-	
+
 	public static final String US_LEGAL_WIDTH = "8.5in"; //$NON-NLS-1$
-	
+
 	/**
 	 * Height of the A4 page.
 	 */
-	
+
 	public static final String A4_HEIGHT = "297mm"; //$NON-NLS-1$
-	
+
 	/**
 	 * Width of the A4 page.
 	 */
-	
+
 	public static final String A4_WIDTH = "210mm"; //$NON-NLS-1$
 
 	/**
@@ -224,7 +224,7 @@ public abstract class MasterPage extends StyledElement
 			width = temp;
 		}
 
-		//Convert to application units.
+		// Convert to application units.
 		try
 		{
 			size.y = DimensionUtil.convertTo( height, design.getUnits( ),
@@ -274,79 +274,19 @@ public abstract class MasterPage extends StyledElement
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
-		List pageSizeErrors = validatePageSize( design );
-		if ( ! pageSizeErrors.isEmpty( ) )
+
+		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
+				design, this );
+		if ( !pageSizeErrors.isEmpty( ) )
 		{
 			list.addAll( pageSizeErrors );
 			return list;
 		}
-		
-		// Validate the size. Must be positive in both dimensions.
 
-		Point size = getSize( design );
-		if ( size.x <= 0 || size.y <= 0 )
-		{
-			list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_SIZE ) );
-		}
-		else
-		{
-			// Check margins. Must start on the page and not be of negative
-			// size.
-
-			Rectangle margins = getContentArea( design );
-			if ( margins.x >= size.x || margins.y >= size.y
-					|| margins.height <= 0 || margins.width <= 0 )
-			{
-				list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS ) );
-			}
-		}
+		list.addAll( MasterPageSizeValidator.getInstance( ).validate( design,
+				this ) );
 
 		return list;
 	}
-	
-	/**
-	 * Tests whether this master page has valid page size. This check should be
-	 * performs by the semantic check of derived class first, because the
-	 * following semantic check will assume the page size is find.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @return true if the page size is valid.
-	 */
-	
-	protected List validatePageSize( ReportDesign design )
-	{
-		List list = new ArrayList();
-		
-		String type = getStringProperty( design, TYPE_PROP );
-		String height = getStringProperty( design, HEIGHT_PROP );
-		String width = getStringProperty( design, WIDTH_PROP );
 
-		// if type is CUSTOM type, height and width must be specified.
-
-		if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase( type ) )
-		{
-			// if type is CUSTOM type, height and width must be specified.
-
-			if ( StringUtil.isBlank( height ) || StringUtil.isBlank( width ) )
-			{
-				list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_MISSING_PAGE_SIZE ) );
-			}
-		}
-		else
-		{
-			// if type is not CUSTOM type, height and width can not be
-			// specified.
-
-			if ( !StringUtil.isBlank( height ) || !StringUtil.isBlank( width ) )
-			{
-				list.add( new SemanticError( this,
-						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE ) );
-			}
-		}
-		
-		return list;
-	}
-	
 }

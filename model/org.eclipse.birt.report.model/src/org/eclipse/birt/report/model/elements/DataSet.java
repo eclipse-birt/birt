@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
+import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
 /**
  * This class represents a data set: a query, stored procedure, or other source
@@ -153,20 +153,13 @@ public abstract class DataSet extends ReferenceableElement
 	{
 		List list = super.validate( design );
 		
-		String value = getStringProperty( design, DATA_SOURCE_PROP );
-		if ( StringUtil.isBlank( value ) )
-		{
-			list.add( new PropertyValueException( this, DATA_SOURCE_PROP,
-					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
+		// Check the data source value is required
+		
+		list.addAll( ValueRequiredValidator.getInstance().validate( design, this, DATA_SOURCE_PROP ) );
 
 		// Check the element reference of dataSource property
 
-		if ( !checkElementReference( design, DATA_SOURCE_PROP ) )
-		{
-			list.add( new SemanticError( this, new String[]{DATA_SOURCE_PROP},
-					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
-		}
+		list.addAll( ElementReferenceValidator.getInstance().validate( design, this, DATA_SOURCE_PROP ) );
 
 		// Check input parameter structure list
 

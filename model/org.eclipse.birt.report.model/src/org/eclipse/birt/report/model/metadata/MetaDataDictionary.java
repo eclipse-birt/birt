@@ -180,11 +180,11 @@ public final class MetaDataDictionary
 		addPropertyType( new ChoicePropertyType( ) );
 		addPropertyType( new BooleanPropertyType( ) );
 		addPropertyType( new ExpressionPropertyType( ) );
-		addPropertyType( new HtmlPropertyType( ) );
+		addPropertyType( new HTMLPropertyType( ) );
 		addPropertyType( new ResourceKeyPropertyType( ) );
-		addPropertyType( new UriPropertyType( ) );
+		addPropertyType( new URIPropertyType( ) );
 		addPropertyType( new DateTimePropertyType( ) );
-		addPropertyType( new XmlPropertyType( ) );
+		addPropertyType( new XMLPropertyType( ) );
 		addPropertyType( new NamePropertyType( ) );
 		addPropertyType( new FloatPropertyType( ) );
 		addPropertyType( new ElementRefPropertyType( ) );

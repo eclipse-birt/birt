@@ -11,19 +11,19 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.GroupNameValidator;
 
 /**
  * This class represents the properties and slots common to the List and Table
  * elements.
- *  
+ * 
  */
 
 public abstract class ListingElement extends ReportItem
@@ -258,118 +258,8 @@ public abstract class ListingElement extends ReportItem
 		{
 			// do the check of the group name
 
-			ArrayList names = new ArrayList( );
-
-			list.addAll( validateGroupName( design, names, null ) );
-			list.addAll( validateContents( design, this, names, null ) );
-
-		}
-
-		return list;
-	}
-
-	/**
-	 * Checks whether the group names in the group slot of list or table are
-	 * duplicate. If <code>checkedName</code> is not <code>null</code> or
-	 * empty, only checks existed group names with the <code>checkedName</code>.
-	 * Otherwise, checks all group names in the listing element.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param names
-	 *            the array list to store all the group names
-	 * @param checkedName
-	 *            the name to check
-	 * @return the list of the errors found in validation, each of which is the
-	 *         <code>SemanticException</code> object.
-	 */
-
-	private List validateGroupName( ReportDesign design, List names,
-			String checkedName )
-	{
-		List list = new ArrayList( );
-
-		// check the groups in the group slot itself
-
-		boolean checkOnlyInputName = !StringUtil.isBlank( checkedName );
-		Iterator iter = getGroups( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			GroupElement group = (GroupElement) iter.next( );
-			String name = group.getStringProperty( design,
-					GroupElement.GROUP_NAME_PROP );
-
-			if ( !StringUtil.isBlank( name ) )
-			{
-				// The following cases will report error:
-				// 
-				// 1. The name to check equals this group name
-				// 2. The name to check is not provided, and this 
-				//    group name exists in the set.
-
-				if ( name.equalsIgnoreCase( checkedName )
-						|| ( ! checkOnlyInputName
-						&& names.contains( name ) ) )
-				{
-					list.add( new SemanticError( this, new String[]{name},
-							SemanticError.DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME ) );
-				}
-				else
-				{
-					names.add( name );
-				}
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Checks all the slot of the given design element to find whether all the
-	 * group names are duplicate. If <code>checkedName</code> is not
-	 * <code>null</code> or empty, only checks existed group names with the
-	 * <code>checkedName</code>. Otherwise, checks all group names in the all
-	 * slots.
-	 * 
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param element
-	 *            the design element to check
-	 * @param names
-	 *            the array list to store all the group names
-	 * @param checkedName
-	 *            the name to check
-	 * @return the list of the errors found in validation, each of which is the
-	 *         <code>SemanticException</code> object.
-	 */
-
-	private List validateContents( ReportDesign design, DesignElement element,
-			List names, String checkedName )
-	{
-		assert element != null;
-
-		List list = new ArrayList( );
-
-		// Check contents.
-
-		int count = element.getDefn( ).getSlotCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			Iterator iter = element.getSlot( i ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement e = (DesignElement) iter.next( );
-
-				if ( e instanceof ListingElement )
-				{
-					if ( ( (ListingElement) e ).getDataSetElement( design ) != null )
-						continue;
-					list.addAll( ( (ListingElement) e ).validateGroupName(
-							design, names, checkedName ) );
-				}
-				list.addAll( validateContents( design, e, names, checkedName ) );
-			}
+			list.addAll( GroupNameValidator.getInstance( ).validate(
+					(ListingHandle) getHandle( design ) ) );
 		}
 
 		return list;
@@ -399,42 +289,9 @@ public abstract class ListingElement extends ReportItem
 			if ( StringUtil.isBlank( checkedName ) )
 				return errors;
 
-			// if the table already has a duplicate group name. return this
-			// error.
-
-			List names = new ArrayList( );
-			errors.addAll( validateGroupName( design, names, checkedName ) );
-			if ( !errors.isEmpty( ) )
-				return errors;
-
-			ListingElement topListingElement = null;
-			DesignElement tmpContainer = this;
-
-			// finds out the top level listing element for checking
-
-			do
-			{
-				if ( ( tmpContainer instanceof ListingElement )
-						&& ( (ListingElement) tmpContainer )
-								.getDataSetElement( design ) != null )
-
-					topListingElement = (ListingElement) tmpContainer;
-
-				tmpContainer = tmpContainer.getContainer( );
-
-			} while ( tmpContainer != null );
-
-			if ( topListingElement == null )
-				return errors;
-
-			// do the duplicate group name check
-
-			names = new ArrayList( );
-			errors.addAll( topListingElement.validateGroupName( design, names,
-					checkedName ) );
-			errors.addAll( topListingElement.validateContents( design,
-					topListingElement, names, checkedName ) );
-
+			errors.addAll( GroupNameValidator.getInstance( )
+					.validateForAddingGroup(
+							(ListingHandle) getHandle( design ), checkedName ) );
 		}
 
 		return errors;

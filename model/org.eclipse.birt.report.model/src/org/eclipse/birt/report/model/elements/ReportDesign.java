@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.MasterPageRequiredValidator;
 
 /**
  * This class represents the root element in the report design hierarchy.
@@ -50,7 +51,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- *  
+ * 
  */
 
 public class ReportDesign extends RootElement
@@ -384,7 +385,7 @@ public class ReportDesign extends RootElement
 		int id = design.getNextID( );
 		element.setID( id );
 		design.addElementID( element );
-		//design.idMap.put( new Integer(id), element);
+		// design.idMap.put( new Integer(id), element);
 
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
@@ -491,11 +492,9 @@ public class ReportDesign extends RootElement
 
 		// Must there is more than one master page in setup page
 
-		if ( getSlot( ReportDesign.PAGE_SLOT ).getCount( ) == 0 )
-		{
-			list.add( new SemanticError( this,
-					SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE ) );
-		}
+		list
+				.addAll( MasterPageRequiredValidator.getInstance( ).validate(
+						this ) );
 
 		list.addAll( validateStructureList( design, IMAGES_PROP ) );
 		list.addAll( validateStructureList( design, COLOR_PALETTE_PROP ) );
@@ -1064,7 +1063,8 @@ public class ReportDesign extends RootElement
 	public List getErrorList( )
 	{
 		List list = getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
-		list.addAll( getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
+		list
+				.addAll( getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
 		return list;
 	}
 
@@ -1206,7 +1206,7 @@ public class ReportDesign extends RootElement
 	 *            <ul>
 	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
 	 *            <li><code>DesignFileException.SEMANTIC_WARNING</code>
-	 * 			  <li><code>DesignFileException.SYNTAX_ERROR</code>
+	 *            <li><code>DesignFileException.SYNTAX_ERROR</code>
 	 *            </ul>
 	 * @return a list containing specified semantic errors. Each element in the
 	 *         list is <code>ErrorDetail</code>.

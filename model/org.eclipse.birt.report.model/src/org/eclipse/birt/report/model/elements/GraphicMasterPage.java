@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.util.Point;
 import org.eclipse.birt.report.model.util.Rectangle;
+import org.eclipse.birt.report.model.validators.MasterPageTypeValidator;
 
 /**
  * This class represents a Graphic Master Page element in the report design. A
@@ -32,9 +33,9 @@ import org.eclipse.birt.report.model.util.Rectangle;
  * area can be divided into multiple columns. That is, a page has one content
  * area. If a page has multiple columns, the column layout is ¡°overlayed¡± on top
  * of the content area. Use the
- * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to access
- * the content slot of the graphic master page.
- *  
+ * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
+ * access the content slot of the graphic master page.
+ * 
  */
 public class GraphicMasterPage extends MasterPage
 {
@@ -149,8 +150,9 @@ public class GraphicMasterPage extends MasterPage
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
-		List pageSizeErrors = validatePageSize( design );
+
+		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
+				design, this );
 		if ( pageSizeErrors.isEmpty( ) )
 		{
 			// Check margins. Must start on the page and not be of negative
@@ -166,7 +168,10 @@ public class GraphicMasterPage extends MasterPage
 						GraphicMasterPage.COLUMN_SPACING_PROP );
 				if ( margins.width < ( columns - 1 ) * columnSpacing )
 				{
-					list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_MULTI_COLUMN ) );
+					list
+							.add( new SemanticError(
+									this,
+									SemanticError.DESIGN_EXCEPTION_INVALID_MULTI_COLUMN ) );
 				}
 			}
 		}

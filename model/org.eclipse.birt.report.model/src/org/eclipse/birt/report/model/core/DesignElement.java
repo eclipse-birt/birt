@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -44,6 +43,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.StructureListValidator;
 
 /**
  * Base class for all design elements in BIRT. This class provides a number of
@@ -2344,14 +2344,8 @@ public abstract class DesignElement implements IPropertySet
 
 	protected List validateStructureList( ReportDesign design, String propName )
 	{
-		ElementPropertyDefn propDefn = getPropertyDefn( propName );
-
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE
-				&& propDefn.isList( );
-
-		List list = (List) getLocalProperty( design, propDefn );
-
-		return doCheckStructureList( design, propDefn, list, null );
+		return StructureListValidator.getInstance( ).validate(
+				design, this, propName );
 	}
 
 	/**
@@ -2376,109 +2370,14 @@ public abstract class DesignElement implements IPropertySet
 	public void checkStructureList( ReportDesign design, PropertyDefn propDefn,
 			List list, IStructure toAdd ) throws PropertyValueException
 	{
-		List errorList = doCheckStructureList( design, propDefn, list, toAdd );
+		List errorList = StructureListValidator.getInstance( ).validateForAdding(
+				getHandle( design ), propDefn, list, toAdd );
 		if ( errorList.size( ) > 0 )
 		{
 			throw (PropertyValueException) errorList.get( 0 );
 		}
 	}
 
-	/**
-	 * Checks all structures in the specific property whose type is structure
-	 * list property type.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param propDefn
-	 *            the property definition of the list property
-	 * @param list
-	 *            the structure list to check
-	 * @param toAdd
-	 *            the structure to add. This parameter maybe is
-	 *            <code>null</code>.
-	 * @return the error list
-	 */
-
-	private List doCheckStructureList( ReportDesign design,
-			PropertyDefn propDefn, List list, IStructure toAdd )
-	{
-		boolean checkList = toAdd == null;
-
-		List errorList = new ArrayList( );
-
-		if ( list == null || list.size( ) == 0 )
-			return errorList;
-
-		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
-
-		// Get the unique member whose value should be unique in the
-		// structure list.
-		// The type of unique member is name property type.
-		// Note: The first unique member is considered.
-
-		PropertyDefn uniqueMember = null;
-
-		Iterator iter = propDefn.getStructDefn( ).getPropertyIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-
-			if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE )
-			{
-				uniqueMember = memberDefn;
-				break;
-			}
-		}
-
-		HashSet values = new HashSet( );
-
-		// Check whether there two structure has the same value of
-		// the unique member.
-
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Structure struct = (Structure) list.get( i );
-
-			if ( checkList )
-				errorList.addAll( struct.validate( design, this ) );
-
-			if ( uniqueMember != null )
-			{
-				String value = (String) struct.getProperty( design,
-						uniqueMember );
-				if ( values.contains( value ) )
-				{
-					if ( checkList )
-						errorList.add( new PropertyValueException( this,
-								propDefn, value,
-								PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
-				}
-				else
-				{
-					values.add( value );
-				}
-			}
-		}
-
-		// If the toAdd structure is added the structure list, check whether
-		// there is a structure in the list has the same value of the unique
-		// member.
-
-		if ( uniqueMember != null && toAdd != null )
-		{
-			String value = (String) toAdd.getProperty( design, uniqueMember );
-			if ( values.contains( value ) )
-			{
-				errorList
-						.add( new PropertyValueException( this, propDefn
-								.getName( ), value,
-								PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
-			}
-		}
-
-		return errorList;
-	}
 
 	/**
 	 * Checks the parent element.
@@ -2513,7 +2412,8 @@ public abstract class DesignElement implements IPropertySet
 		}
 		else if ( parent.isKindOf( this ) )
 		{
-			throw new ExtendsException( this, parent, ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
+			throw new ExtendsException( this, parent,
+					ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 
 	}
@@ -2545,7 +2445,10 @@ public abstract class DesignElement implements IPropertySet
 			if ( containerDefn.getName( ).equalsIgnoreCase( containerName )
 					&& curSlotID == slotID )
 			{
-				throw new ContentException( curContainer, curSlotID, this,
+				throw new ContentException(
+						curContainer,
+						curSlotID,
+						this,
 						ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 			}
 
@@ -3261,9 +3164,9 @@ public abstract class DesignElement implements IPropertySet
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 *  
+	 * 
 	 */
-	
+
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		DesignElement element = (DesignElement) super.clone( );
@@ -3275,7 +3178,7 @@ public abstract class DesignElement implements IPropertySet
 		element.cachedDefn = null;
 		element.handle = null;
 
-		//System Properties
+		// System Properties
 
 		Iterator it = propValues.keySet( ).iterator( );
 		element.propValues = new HashMap( );
@@ -3314,7 +3217,7 @@ public abstract class DesignElement implements IPropertySet
 				element.propValues.put( key, propValues.get( key ) );
 		}
 
-		//User Properties
+		// User Properties
 		if ( userProperties != null )
 		{
 			element.userProperties = new HashMap( );

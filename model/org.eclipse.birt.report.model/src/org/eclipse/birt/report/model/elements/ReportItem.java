@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 
 /**
  * Base class for all report items. Represents anything that can be placed in a
@@ -73,8 +73,7 @@ public abstract class ReportItem extends StyledElement
 	public static final String TOC_PROP = "toc"; //$NON-NLS-1$
 
 	/**
-	 * Name of the visibility property. Same as
-	 * {@link DesignSchemaConstants#VISIBILITY_TAG}.
+	 * Name of the visibility property. 
 	 */
 
 	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
@@ -151,12 +150,8 @@ public abstract class ReportItem extends StyledElement
 
 		// Check the element reference of dataSet property
 
-		if ( !checkElementReference( design, DATA_SET_PROP ) )
-		{
-			list.add( new SemanticError( this, new String[]{DATA_SET_PROP},
-					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
-		}
-
+		list.addAll( ElementReferenceValidator.getInstance().validate( design, this, DATA_SET_PROP ) );
+		
 		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );
 
 		return list;
