@@ -99,8 +99,7 @@ public abstract class BaseDialog extends Dialog
 	{
 		super( parentShell );
 		this.title = title;
-		//Disables help button
-		helpAvailable = false;
+		helpAvailable = needHelp;
 	}
 
 	/**
@@ -355,7 +354,7 @@ public abstract class BaseDialog extends Dialog
 	}
 
 	/**
-	 * Gets the dialog result.
+	 * Get the dialog result.
 	 * 
 	 * @return the dialog result.
 	 */
