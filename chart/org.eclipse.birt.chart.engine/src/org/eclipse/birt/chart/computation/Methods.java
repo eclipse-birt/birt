@@ -31,9 +31,7 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * This class ...
  * 
- * @author Actuate Corporation
  */
 public class Methods implements IConstants
 {
@@ -213,6 +211,11 @@ public class Methods implements IConstants
             double dStep = asDouble(sc.getStep()).doubleValue();
             double[] da = sc.getTickCordinates();
             return da[0] - (((dValue - dMinimum) / dStep) * (da[0] - da[1]));
+        }
+        else if ((sc.getType() & IConstants.TEXT) == IConstants.TEXT)
+        {
+            double[] da = sc.getTickCordinates();
+            return da[0] + (da[1] - da[0]) * dValue;
         }
         else if ((sc.getType() & IConstants.LOGARITHMIC) == IConstants.LOGARITHMIC)
         {
