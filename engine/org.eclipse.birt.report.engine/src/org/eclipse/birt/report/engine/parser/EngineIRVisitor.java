@@ -133,14 +133,15 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/17 09:10:04 $
+ * @version $Revision: 1.7 $ $Date: 2005/02/24 08:29:31 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
+
 	/**
 	 * logger used to log the error.
 	 */
-	protected static Log logger = LogFactory.getLog(EngineIRVisitor.class );
+	protected static Log logger = LogFactory.getLog( EngineIRVisitor.class );
 
 	/**
 	 * current report element created by visitor
@@ -156,7 +157,7 @@ class EngineIRVisitor extends DesignVisitor
 	 * Factory IR created by this visitor
 	 */
 	protected Report report;
-	
+
 	protected ReportDesignHandle handle;
 
 	/**
@@ -168,7 +169,7 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	EngineIRVisitor( ReportDesignHandle handle )
 	{
-		super(  );
+		super( );
 		this.handle = handle;
 	}
 
@@ -180,8 +181,8 @@ class EngineIRVisitor extends DesignVisitor
 	public Report translate( )
 	{
 		report = new Report( );
-		report.setReportDesign(handle.getDesign() );
-		apply(handle);
+		report.setReportDesign( handle.getDesign( ) );
+		apply( handle );
 		return report;
 	}
 
@@ -329,6 +330,9 @@ class EngineIRVisitor extends DesignVisitor
 		//setup the base master page property.
 		setupMasterPage( page, handle );
 
+		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
+		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
+
 		SlotHandle headerSlot = handle.getPageHeader( );
 		for ( int i = 0; i < headerSlot.getCount( ); i++ )
 		{
@@ -445,7 +449,8 @@ class EngineIRVisitor extends DesignVisitor
 		scalarParameter.setAllowBlank( handle.allowBlank( ) );
 		scalarParameter.setAllowNull( handle.allowNull( ) );
 		scalarParameter.setControlType( handle.getControlType( ) );
-		scalarParameter.setDefaultValue( getValue(handle.getDefaultValue( ), handle.getDataType() ));
+		scalarParameter.setDefaultValue( getValue( handle.getDefaultValue( ),
+				handle.getDataType( ) ) );
 		//DE doesn't provide this method
 		scalarParameter.setDisplayName( handle.getDisplayNameKey( ), handle
 				.getDisplayName( ) );
@@ -467,7 +472,8 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
 					.next( );
-			SelectionChoice selectionChoice = new SelectionChoice( handle.getDesign() );
+			SelectionChoice selectionChoice = new SelectionChoice( handle
+					.getDesign( ) );
 			selectionChoice.setLabel( selection.getLabelKey( ), selection
 					.getLabel( ) );
 			selectionChoice.setValue( selection.getValue( ) );
@@ -1667,43 +1673,45 @@ class EngineIRVisitor extends DesignVisitor
 
 		return IConditionalExpression.OP_NONE;
 	}
-	
+
 	/**
 	 * get value
+	 * 
 	 * @param value
-	 * @param type the data type
+	 * @param type
+	 *            the data type
 	 * @return
 	 */
-	protected Object getValue(String value, String type)
+	protected Object getValue( String value, String type )
 	{
 		try
 		{
-			if(DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type))
+			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 			{
-				return DataTypeUtil.toBoolean(value);
+				return DataTypeUtil.toBoolean( value );
 			}
-			else if(DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type))
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 			{
-				return DataTypeUtil.toDate(value);
+				return DataTypeUtil.toDate( value );
 			}
-			else if(DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type))
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
 			{
-				return DataTypeUtil.toBigDecimal(value);
+				return DataTypeUtil.toBigDecimal( value );
 			}
-			else if(DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type))
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 			{
-				return DataTypeUtil.toDouble(value);
+				return DataTypeUtil.toDouble( value );
 			}
 			else
 			{
 				return value;
 			}
 		}
-		catch(DataException e)
+		catch ( DataException e )
 		{
-			if(logger.isErrorEnabled())
+			if ( logger.isErrorEnabled( ) )
 			{
-				logger.error(e);
+				logger.error( e );
 			}
 			return null;
 		}

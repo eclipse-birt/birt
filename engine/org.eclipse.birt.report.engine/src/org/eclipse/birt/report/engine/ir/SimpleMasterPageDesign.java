@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * a simple master page contains a header, and a footer.
  * 
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class SimpleMasterPageDesign extends MasterPageDesign
 {
@@ -45,6 +45,15 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	 * show the footer under the page content
 	 */
 	private boolean floatingFooter = false;
+
+	/**
+	 * The height of the header
+	 */
+	private DimensionType headerHeight;
+	/**
+	 * The height of the footer
+	 */
+	private DimensionType footerHeight;
 
 	/**
 	 * @return Returns the floatingFooter.
@@ -180,5 +189,33 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	public void addHeader( ReportItemDesign item )
 	{
 		this.header.add( item );
+	}
+	/**
+	 * @return Returns the footerHeight.
+	 */
+	public DimensionType getFooterHeight( )
+	{
+		return footerHeight;
+	}
+	/**
+	 * @param footerHeight The footerHeight to set.
+	 */
+	public void setFooterHeight( DimensionType footerHeight )
+	{
+		this.footerHeight = footerHeight;
+	}
+	/**
+	 * @return Returns the headerHeight.
+	 */
+	public DimensionType getHeaderHeight( )
+	{
+		return headerHeight;
+	}
+	/**
+	 * @param headerHeight The headerHeight to set.
+	 */
+	public void setHeaderHeight( DimensionType headerHeight )
+	{
+		this.headerHeight = headerHeight;
 	}
 }
