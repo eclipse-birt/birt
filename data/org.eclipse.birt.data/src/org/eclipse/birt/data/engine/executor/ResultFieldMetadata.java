@@ -27,15 +27,18 @@ public class ResultFieldMetadata
 	private String m_label;
 	private String m_alias;
 	private Class m_dataType;
+	private String m_nativeTypeName;
 	private boolean m_isCustom;
 
 	public ResultFieldMetadata( int driverPosition, String name, 
-						 		String label, Class dataType, boolean isCustom )
+						 		String label, Class dataType,
+								String nativeTypeName, boolean isCustom )
 	{
 		m_driverPosition = driverPosition;
 		m_name = name;
 		m_label = label;
 		m_dataType = dataType;
+		m_nativeTypeName = nativeTypeName;
 		m_isCustom = isCustom;
 	}
 	
@@ -81,6 +84,16 @@ public class ResultFieldMetadata
 		        dataType == Timestamp.class );
 		
 		m_dataType = dataType;
+	}
+	
+	public String getNativeTypeName()
+	{
+		return m_nativeTypeName;
+	}
+	
+	public void setNativeTypeName( String nativeTypeName )
+	{
+		m_nativeTypeName = nativeTypeName;
 	}
 	
 	public String getLabel()

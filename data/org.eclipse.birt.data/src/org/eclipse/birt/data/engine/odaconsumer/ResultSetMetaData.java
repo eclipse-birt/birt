@@ -118,6 +118,25 @@ public class ResultSetMetaData
 		return odaType;
 	}
 	
+	/**
+	 * Returns the native type name at the specified column index.
+	 * @param index	the column index.
+	 * @return		the native type name.
+	 * @throws DataException	if data source error occurs.
+	 */
+	public String getColumnNativeTypeName( int index ) throws DataException
+	{
+		try
+		{
+			return m_metadata.getColumnTypeName( index );
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
+									 new Object[] { new Integer( index ) } );
+		}
+	}
+
 	private int doGetColumnType( int index ) throws DataException
 	{
 		try

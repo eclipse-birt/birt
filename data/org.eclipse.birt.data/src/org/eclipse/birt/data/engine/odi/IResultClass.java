@@ -128,4 +128,13 @@ public interface IResultClass
 	 */
 	public String getFieldLabel( int index ) throws DataException;
 
+	/**
+	 * Gets the native type name of the field at the specified index 
+	 * position.
+	 * @param index	The 1-based index of a field.
+	 * @return		The native type name of the specified field; 
+	 * 				null if none is defined.
+	 * @throws DataException	if given index is invalid.
+	 */
+	public String getFieldNativeTypeName( int index ) throws DataException;
 }

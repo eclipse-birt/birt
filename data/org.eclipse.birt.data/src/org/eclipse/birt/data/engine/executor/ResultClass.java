@@ -144,7 +144,6 @@ public class ResultClass implements IResultClass
 	{
 		int index = getFieldIndex( fieldName );
 		
-		// TODO externalize message text
 		if( index <= 0 )
 			throw new DataException( ResourceConstants.INVALID_FIELD_NAME, fieldName );
 		
@@ -190,8 +189,13 @@ public class ResultClass implements IResultClass
 	// field indices are 1-based
     private void validateFieldIndex( int index ) throws DataException
     {
-    	// TODO externalize message text
         if ( index < 1 || index > getFieldCount() )
             throw new DataException( ResourceConstants.INVALID_FIELD_INDEX, new Integer(index) );
     }
+
+	public String getFieldNativeTypeName( int index ) throws DataException 
+	{
+		ResultFieldMetadata column = findColumn( index );
+		return column.getNativeTypeName();
+	}
 }

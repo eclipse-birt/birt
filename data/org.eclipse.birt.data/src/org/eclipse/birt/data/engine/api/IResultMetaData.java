@@ -63,12 +63,19 @@ public interface IResultMetaData
 	public int getColumnType( int index ) throws DataException;
 
 	/**
-	 * Returns the data type name of the column at the specified index.
+	 * Returns the Data Engine data type name of the column at the specified index.
 	 * @param index	The projected column index.
-	 * @return		The data type name of the specified column.
+	 * @return		The Data Engine data type name of the specified column.
 	 * @throws DataException	if given index is invalid.
 	 */
 	public String getColumnTypeName( int index ) throws DataException;
+	
+	/**
+	 * Returns the data provider specific data type name of the specified column.
+	 * @return	the data type name as defined by the data provider.
+	 * @throws DataException	if given index is invalid.
+	 */
+	public String getColumnNativeTypeName( int index ) throws DataException;
 
 	/**
 	 * Gets the label or display name of the column at
@@ -78,5 +85,18 @@ public interface IResultMetaData
 	 * @throws DataException	if given index is invalid.
 	 */
 	public String getColumnLabel( int index ) throws DataException;
+	
+	/**
+	 * Indicates whether the specified projected column is defined
+	 * as a computed column,
+	 * i.e. one that is not retrieved from the underlying data provider.
+	 * Only those computed columns declared explicitly in a data set design 
+	 * are considered as "computed" columns.
+	 * @param index	The projected column index.
+	 * @return		true if the given column is a computed column;
+	 * 				false otherwise.
+	 * @throws DataException	if given index is invalid.
+	 */
+	public boolean isComputedColumn( int index ) throws DataException;
 	
 }

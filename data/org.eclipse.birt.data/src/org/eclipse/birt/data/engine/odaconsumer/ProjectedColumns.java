@@ -43,9 +43,11 @@ class ProjectedColumns
 			String name = runtimeMetaData.getColumnName( i );
 			String label = runtimeMetaData.getColumnLabel( i );
 			Class dataType = runtimeMetaData.getColumnTypeAsJavaClass( i );
+			String nativeTypeName = runtimeMetaData.getColumnNativeTypeName( i );
 			ResultFieldMetadata column = 
 					new ResultFieldMetadata( i, name, label, 
-					                         dataType, false /* isCustom */ );
+					                         dataType, nativeTypeName, 
+											 false /* isCustom */ );
 			m_columns.add( column );
 		}
 	}
@@ -135,7 +137,8 @@ class ProjectedColumns
 		// Custom column has no driver position; -1 is used for this value
 		ResultFieldMetadata column = 
 			new ResultFieldMetadata( -1, columnName, columnName, 
-			                         columnType, true /* isCustom */ );
+			                         columnType, null /* nativeTypeName */, 
+									 true /* isCustom */ );
 		m_columns.add( column );
 		
 		doGetCustomColumns().add( new PreparedStatement.CustomColumn( columnName,

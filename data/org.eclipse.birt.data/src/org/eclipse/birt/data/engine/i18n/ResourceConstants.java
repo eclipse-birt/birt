@@ -183,4 +183,5 @@ public class ResourceConstants
 	public final static String CANNOT_SET_TIMESTAMP_PARAMETER = "odaconsumer.CannotSetTimestampParameter";
 	public final static String CANNOT_CLEAR_IN_PARAMETERS = "odaconsumer.CannotClearInParameters";
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
+	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
 }

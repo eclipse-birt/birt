@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,11 +13,6 @@
  */
 
 package org.eclipse.birt.data.engine.impl;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -51,14 +46,7 @@ class ResultMetaData implements IResultMetaData
      */
     public String getColumnName( int index ) throws DataException
     {
-        try
-        {
-            return m_odiResultClass.getFieldName( index );
-        }
-        catch ( DataException e )
-        {
-            throw e;
-        }
+        return m_odiResultClass.getFieldName( index );
     }
 
     /* (non-Javadoc)
@@ -66,14 +54,7 @@ class ResultMetaData implements IResultMetaData
      */
     public String getColumnAlias( int index ) throws DataException
     {
-        try
-        {
-            return m_odiResultClass.getFieldAlias( index );
-        }
-        catch ( DataException e )
-        {
-            throw e;
-        }
+    	return m_odiResultClass.getFieldAlias( index );
     }
 
     /* (non-Javadoc)
@@ -81,37 +62,8 @@ class ResultMetaData implements IResultMetaData
      */
     public int getColumnType( int index ) throws DataException
     {
-        Class odiDataType = null;
-        try
-        {
-            odiDataType = m_odiResultClass.getFieldValueClass( index );
-        }
-        catch ( DataException e )
-        {
-            throw e;
-        }
- 
-		if( odiDataType == null )
-			return DataType.UNKNOWN_TYPE;
-
-		// maps odi data type to Dte api DataType
-		if( odiDataType == Integer.class )
-		    return DataType.INTEGER_TYPE;
-		if( odiDataType == Double.class )
-		    return DataType.DOUBLE_TYPE;
-		if( odiDataType == String.class )
-			return DataType.STRING_TYPE;
-		if( odiDataType == BigDecimal.class )
-			return DataType.DECIMAL_TYPE;
-		if( odiDataType == Date.class ||
-			odiDataType == Time.class ||
-			odiDataType == Timestamp.class )
-			return DataType.DATE_TYPE;
-		
-		// any other types are not recognized nor supported;
-		// BOOLEAN_TYPE and BLOB_TYPE are not supported yet
-		assert false;
-		return DataType.UNKNOWN_TYPE;
+        Class odiDataType = m_odiResultClass.getFieldValueClass( index );
+        return DataTypeUtil.toApiDataType( odiDataType );
     }
 
     /* (non-Javadoc)
@@ -123,18 +75,27 @@ class ResultMetaData implements IResultMetaData
     }
 
     /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnNativeTypeName(int)
+     */
+	public String getColumnNativeTypeName( int index ) throws DataException
+	{
+		return m_odiResultClass.getFieldNativeTypeName( index );
+	}
+
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnLabel(int)
      */
     public String getColumnLabel( int index ) throws DataException
     {
-        try
-        {
-            return m_odiResultClass.getFieldLabel( index );
-        }
-        catch ( DataException e )
-        {
-            throw e;
-        }
+        return m_odiResultClass.getFieldLabel( index );
     }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IResultMetaData#isComputedColumn(int)
+     */
+	public boolean isComputedColumn( int index ) throws DataException
+	{
+	    return m_odiResultClass.isCustomField( index );
+	}
 
 }

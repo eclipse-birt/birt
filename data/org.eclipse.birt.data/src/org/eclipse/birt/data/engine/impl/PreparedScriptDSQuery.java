@@ -95,6 +95,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 						columnDefn.getColumnName( ),
 						columnDefn.getColumnName( ),
 						DataType.getClass( columnDefn.getDataType( ) ),
+						null /* nativeTypeName */, 
 						true );
 				columnsList.add( columnMetaData );
 			}
