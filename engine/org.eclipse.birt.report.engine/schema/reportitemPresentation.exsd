@@ -62,7 +62,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="supportedFormars" type="string">
+         <attribute name="supportedFormats" type="string">
             <annotation>
                <documentation>
                   The supported rendering formats for this extended item. The value for this attribute is a comma-separated string, i.e., &quot;HTML,PDF,EXCEL&apos;, etc. The string is case-insensitive.
