@@ -226,14 +226,6 @@
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
       </perspectiveExtension>
-      <perspectiveExtension targetID="org.eclipse.birt.report.designer.ui.ReportPerspective">
-         <viewShortcut id="org.eclipse.birt.report.designer.ui.views.data.DataView"/>
-         <viewShortcut id="org.eclipse.birt.report.designer.ui.attributes.AttributeView"/>
-         <viewShortcut id="org.eclipse.pde.runtime.LogView"/>
-         <perspectiveShortcut id="org.eclipse.ui.resourcePerspective"/>
-         <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
-         <viewShortcut id="org.eclipse.ui.cheatsheets.views.CheatSheetView"/>
-      </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
       </perspectiveExtension>
