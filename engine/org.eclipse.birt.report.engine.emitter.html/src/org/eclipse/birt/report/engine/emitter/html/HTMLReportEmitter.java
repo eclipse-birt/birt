@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/25 05:26:08 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/25 06:02:39 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -314,7 +314,7 @@ public class HTMLReportEmitter implements IReportEmitter
 						for ( m = 0; m < styleNum; m++ )
 						{
 							tempStyle = (StyleDesign) styleList.get( m );
-							if ( style.equals( tempStyle ) )
+							if ( style.isSameStyle( tempStyle ) )
 							{
 								styleNameMapping.put( style.getName( ),
 										tempStyle.getName( ) );
