@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -43,7 +45,7 @@ public class MethodInfo extends LocalizableInfo
 
 	private boolean isConstructor = false;
 
-	private Object arguments;
+	private List arguments;
 
 	/**
 	 * Constructs method definition.
@@ -60,66 +62,34 @@ public class MethodInfo extends LocalizableInfo
 	}
 
 	/**
-	 * Adds argument to this method definition.
+	 * Adds an optional argument list to the method information.
 	 * 
-	 * @param argument
-	 *            the argument definition to add
-	 * @throws MetaDataException
-	 *             if the argument name exists.
+	 * @param argumentList
+	 *            an optional argument list
+	 *  
 	 */
 
-	void addArgument( ArgumentInfo argument ) throws MetaDataException
+	void addArgumentList( ArgumentInfoList argumentList )
 	{
 		if ( arguments == null )
 			arguments = new ArrayList( );
 
-		if ( getArgument( argument.getName( ) ) != null )
-		{
-			throw new MetaDataException(
-					new String[]{name, argument.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
-		}
-		( (ArrayList) arguments ).add( argument );
+		( (ArrayList) arguments ).add( argumentList );
 	}
 
 	/**
-	 * Returns the argument definition given the name.
-	 * 
-	 * @param argumentName
-	 *            name of the argument to get
-	 * @return the argument definition with the specified name.
-	 */
-
-	public ArgumentInfo getArgument( String argumentName )
-	{
-		if ( arguments == null )
-			return null;
-
-		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
-				.hasNext( ); )
-		{
-			ArgumentInfo argument = (ArgumentInfo) iter.next( );
-
-			if ( argument.name.equalsIgnoreCase( argumentName ) )
-				return argument;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the iterator of argument definition. Each one is
-	 * <code>ArgumentDefn</code>.
+	 * Returns the iterator of argument definition. Each one is a list that
+	 * contains <code>ArgumentInfoList</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentsIterator( )
+	public Iterator argumentListIterator( )
 	{
 		if ( arguments == null )
-			return null;
+			return Collections.EMPTY_LIST.iterator( );
 
-		return ( (ArrayList) arguments ).iterator( );
+		return  arguments.iterator( );
 	}
 
 	/**

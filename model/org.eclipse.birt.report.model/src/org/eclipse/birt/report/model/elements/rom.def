@@ -245,8 +245,8 @@
     <Choice displayNameID="Choices.filterOperator.not-null" name="not-null" />
     <Choice displayNameID="Choices.filterOperator.true" name="true" />
     <Choice displayNameID="Choices.filterOperator.false" name="false" />
-    <!-- DTE doesn't support the following operator
     <Choice displayNameID="Choices.filterOperator.like" name="like" />
+	<!-- DTE doesn't support the following operator
     <Choice displayNameID="Choices.filterOperator.top-n" name="top-n" />
     <Choice displayNameID="Choices.filterOperator.bottom-n" name="bottom-n" />
     <Choice displayNameID="Choices.filterOperator.top-percent" name="top-percent" />

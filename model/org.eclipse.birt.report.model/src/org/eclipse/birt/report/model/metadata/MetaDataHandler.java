@@ -91,8 +91,6 @@ class MetaDataHandler extends XMLParserHandler
 	protected SlotDefn slotDefn = null;
 	protected SystemPropertyDefn propDefn = null;
 	protected StructureDefn struct = null;
-	protected MethodInfo methodInfo = null;
-	protected ClassInfo classInfo = null;
 	protected ArrayList choices = new ArrayList( );
 
 	/**
@@ -252,7 +250,8 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					semanticError( new MetaDataParserException( e,
+					semanticError( new MetaDataParserException(
+							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
@@ -287,7 +286,8 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					semanticError( new MetaDataParserException( e,
+					semanticError( new MetaDataParserException(
+							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
@@ -563,7 +563,7 @@ class MetaDataHandler extends XMLParserHandler
 			if ( tagName.equalsIgnoreCase( SLOT_TAG ) )
 				return new SlotState( );
 			if ( tagName.equalsIgnoreCase( METHOD_TAG ) )
-				return new MethodState( true, false );
+				return new ElementMethodState( elementDefn );
 
 			return super.startElement( tagName );
 		}
@@ -933,7 +933,8 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					semanticError( new MetaDataParserException( e,
+					semanticError( new MetaDataParserException(
+							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 
@@ -1122,21 +1123,193 @@ class MetaDataHandler extends XMLParserHandler
 		}
 	}
 
-	class MethodState extends InnerParseState
+	/**
+	 * The state to parse a method under a class.	
+	 */
+	
+	class ClassMethodState extends AbstractMethodState
 	{
 
-		private boolean constructor;
-		private boolean elementMethod;
+		private boolean isConstructor = false;
 
-		MethodState( boolean elementMethod, boolean constructor )
+		ClassMethodState( Object obj, boolean isConstructor )
 		{
-			// Element method cannot be constructor.
-
-			assert !elementMethod || !constructor;
-
-			this.constructor = constructor;
-			this.elementMethod = elementMethod;
+			super( obj );
+			this.isConstructor = isConstructor;
 		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#getMethodInfo()
+		 */
+
+		MethodInfo getMethodInfo( String name )
+		{
+			ClassInfo classInfo = (ClassInfo) owner;
+
+			if ( classInfo != null )
+			{
+				if ( isConstructor )
+					methodInfo = classInfo.getConstructor( );
+				else
+					methodInfo = classInfo.findMethod( name );
+			}
+
+			if ( methodInfo == null )
+				methodInfo = new MethodInfo( isConstructor );
+
+			return methodInfo;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#addDefnTo()
+		 */
+
+		void addDefnTo( )
+		{
+			assert owner instanceof ClassInfo;
+
+			ClassInfo classInfo = (ClassInfo) owner;
+			try
+			{
+				if ( isConstructor )
+				{
+					if ( classInfo.getConstructor( ) == null )
+						classInfo.setConstructor( methodInfo );
+				}
+				else
+				{
+					if ( classInfo.findMethod( methodInfo.getName( ) ) == null )
+						classInfo.addMethod( methodInfo );
+				}
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataParserException( e,
+						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+			}
+
+		}
+	}
+	
+	/**
+	 * The state to parse a method under an element.	
+	 */
+	
+	class ElementMethodState extends AbstractMethodState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#getMethodInfo()
+		 */
+
+		MethodInfo getMethodInfo( String name )
+		{
+			return new MethodInfo( false );
+		}
+
+		ElementMethodState( Object obj )
+		{
+			super( obj );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.metadata.MetaDataHandler.AbstractMethodState#addDefnTo()
+		 */
+
+		void addDefnTo( )
+		{
+			assert owner instanceof ElementDefn;
+
+			PropertyType typeDefn = dictionary
+					.getPropertyType( PropertyType.SCRIPT_TYPE );
+
+			SystemPropertyDefn propDefn = new SystemPropertyDefn( );
+			String name = methodInfo.getName( );
+			String displayNameID = methodInfo.getDisplayNameKey( );
+
+			propDefn.setName( name );
+			propDefn.setDisplayNameID( displayNameID );
+			propDefn.setType( typeDefn );
+			propDefn.setGroupNameKey( null );
+			propDefn.setCanInherit( true );
+			propDefn.setIntrinsic( false );
+			propDefn.setStyleProperty( false );
+			propDefn.setDetails( methodInfo );
+			try
+			{
+				( (ElementDefn) owner ).addProperty( propDefn );
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataParserException( e,
+						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+			}
+		}
+	}
+
+	/**
+	 * Parses an method state either under an element or class tag.
+	 */
+
+	abstract class AbstractMethodState extends InnerParseState
+	{
+
+		/**
+		 * The element contains this state. Can be either a
+		 * <code>ElementDefn</code> or <code>ClassInfo</code>.
+		 */
+
+		protected Object owner = null;
+
+		/**
+		 * The cached <code>MethodInfo</code> for the state.
+		 */
+
+		protected MethodInfo methodInfo = null;
+
+		/**
+		 * The cached argument list.
+		 */
+
+		private ArgumentInfoList argumentList = null;
+
+		/**
+		 * Constructs a <code>MethodState</code> with the given owner.
+		 * 
+		 * @param obj
+		 *            the parent object of this state
+		 */
+
+		AbstractMethodState( Object obj )
+		{
+			assert obj != null;
+			this.owner = obj;
+		}
+
+		/**
+		 * Addes method information to the ElementDefn or ClassInfo.
+		 */
+
+		abstract void addDefnTo( );
+
+		/**
+		 * Returns method information with the given method name.
+		 * 
+		 * @param name
+		 *            the method name
+		 * @return the <code>MethodInfo</code> object
+		 *  
+		 */
+
+		abstract MethodInfo getMethodInfo( String name );
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -1163,60 +1336,18 @@ class MetaDataHandler extends XMLParserHandler
 			if ( !ok )
 				return;
 
-			methodInfo = new MethodInfo( constructor );
+			// Note that here ROM supports overloadding, while JavaScript not.
+			// finds the method info if it has been parsed.
+
+			methodInfo = getMethodInfo( name );
+
 			methodInfo.setName( name );
 			methodInfo.setDisplayNameKey( displayNameID );
 			methodInfo.setReturnType( returnType );
 			methodInfo.setToolTipKey( toolTipID );
 			methodInfo.setStatic( isStatic );
 
-			try
-			{
-				if ( elementMethod )
-				{
-					assert elementDefn != null;
-
-					PropertyType typeDefn = dictionary
-							.getPropertyType( PropertyType.SCRIPT_TYPE );
-
-					propDefn = new SystemPropertyDefn( );
-					propDefn.setName( name );
-					propDefn.setDisplayNameID( displayNameID );
-					propDefn.setType( typeDefn );
-					propDefn.setGroupNameKey( null );
-					propDefn.setCanInherit( true );
-					propDefn.setIntrinsic( false );
-					propDefn.setStyleProperty( false );
-					propDefn.setDetails( methodInfo );
-					try
-					{
-						elementDefn.addProperty( propDefn );
-					}
-					catch ( MetaDataException e )
-					{
-						semanticError( new MetaDataParserException( e,
-								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
-					}
-				}
-				else if ( constructor )
-				{
-					assert classInfo != null;
-
-					classInfo.addConstructor( methodInfo );
-				}
-				else
-				{
-					assert classInfo != null;
-
-					classInfo.addMethod( methodInfo );
-				}
-			}
-			catch ( MetaDataException e )
-			{
-				semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
-			}
-
+			addDefnTo( );
 		}
 
 		public AbstractParseState startElement( String tagName )
@@ -1228,6 +1359,11 @@ class MetaDataHandler extends XMLParserHandler
 
 		public void end( ) throws SAXException
 		{
+			if ( argumentList == null )
+				argumentList = new ArgumentInfoList( );
+
+			methodInfo.addArgumentList( argumentList );
+
 			methodInfo = null;
 			propDefn = null;
 		}
@@ -1249,13 +1385,17 @@ class MetaDataHandler extends XMLParserHandler
 				argument.setType( type );
 				argument.setDisplayNameKey( tagID );
 
+				if ( argumentList == null )
+					argumentList = new ArgumentInfoList( );
+
 				try
 				{
-					methodInfo.addArgument( argument );
+					argumentList.addArgument( argument );
 				}
 				catch ( MetaDataException e )
 				{
-					semanticError( new MetaDataParserException( e,
+					semanticError( new MetaDataParserException(
+							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
@@ -1264,6 +1404,8 @@ class MetaDataHandler extends XMLParserHandler
 
 	class ClassState extends InnerParseState
 	{
+
+		ClassInfo classInfo = null;
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -1313,11 +1455,11 @@ class MetaDataHandler extends XMLParserHandler
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( CONSTRUCTOR_TAG ) )
-				return new MethodState( false, true );
+				return new ClassMethodState( classInfo, true );
 			if ( tagName.equalsIgnoreCase( MEMBER_TAG ) )
 				return new MemberState( );
 			if ( tagName.equalsIgnoreCase( METHOD_TAG ) )
-				return new MethodState( false, false );
+				return new ClassMethodState( classInfo, false );
 
 			return super.startElement( tagName );
 		}
@@ -1378,7 +1520,8 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					semanticError( new MetaDataParserException( e,
+					semanticError( new MetaDataParserException(
+							e,
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}

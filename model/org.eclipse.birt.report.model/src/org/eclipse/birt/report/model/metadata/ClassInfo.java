@@ -12,7 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.util.StringUtil;
@@ -30,19 +31,19 @@ public class ClassInfo extends LocalizableInfo
 	 * The constructor definition.
 	 */
 
-	private List constructors;
+	private MethodInfo constructor;
 
 	/**
 	 * The list of method definitions.
 	 */
 
-	private List methods;
+	private LinkedHashMap methods;
 
 	/**
 	 * The list of member definitions.
 	 */
 
-	private List members;
+	private LinkedHashMap members;
 
 	/**
 	 * The flag indicates if an object is native or not.
@@ -62,15 +63,13 @@ public class ClassInfo extends LocalizableInfo
 	void addMethod( MethodInfo methodInfo ) throws MetaDataException
 	{
 		if ( methods == null )
-		{
-			methods = new ArrayList( );
-		}
+			methods = new LinkedHashMap( );
 
 		if ( StringUtil.isBlank( methodInfo.getName( ) ) )
 			throw new MetaDataException( new String[]{methodInfo.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 
-		methods.add( methodInfo );
+		methods.put( methodInfo.getName( ).toLowerCase( ), methodInfo );
 	}
 
 	/**
@@ -85,9 +84,7 @@ public class ClassInfo extends LocalizableInfo
 	void addMemberDefn( MemberInfo memberDefn ) throws MetaDataException
 	{
 		if ( members == null )
-		{
-			members = new ArrayList( );
-		}
+			members = new LinkedHashMap( );
 
 		if ( StringUtil.isBlank( memberDefn.getName( ) ) )
 			throw new MetaDataException( new String[]{memberDefn.getName( )},
@@ -96,24 +93,26 @@ public class ClassInfo extends LocalizableInfo
 		if ( findMember( memberDefn.getName( ) ) != null )
 		{
 			throw new MetaDataException( new String[]{memberDefn.getName( ),
-					name}, MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME );
+					name},
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME );
 		}
 
-		members.add( memberDefn );
+		members.put( memberDefn.getName( ).toLowerCase( ), memberDefn );
 	}
 
 	/**
-	 * Returns the method definition list.
+	 * Returns the method definition list. For methods that have the same name,
+	 * only return one method.
 	 * 
-	 * @return list of method definitions
+	 * @return a list of method definitions
 	 */
 
 	public List getMethods( )
 	{
 		if ( methods != null )
-			return new ArrayList( methods );
+			return new ArrayList( methods.values( ) );
 
-		return new ArrayList( );
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -124,26 +123,9 @@ public class ClassInfo extends LocalizableInfo
 	 * @return the definition of the method to get
 	 */
 
-	public List getMethod( String name )
+	public MethodInfo getMethod( String name )
 	{
-		List methodsToReturn = new ArrayList( );
-
-		if ( methods == null )
-		{
-			return methodsToReturn;
-		}
-
-		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
-		{
-			MethodInfo methodDefn = (MethodInfo) iter.next( );
-
-			if ( methodDefn.getName( ).equalsIgnoreCase( name ) )
-			{
-				methodsToReturn.add( methodDefn );
-			}
-		}
-
-		return methodsToReturn;
+		return (MethodInfo) findInfo( methods, name );
 	}
 
 	/**
@@ -155,7 +137,7 @@ public class ClassInfo extends LocalizableInfo
 	public List getMembers( )
 	{
 		if ( members != null )
-			return new ArrayList( members );
+			return new ArrayList( members.values( ) );
 
 		return new ArrayList( );
 	}
@@ -183,34 +165,51 @@ public class ClassInfo extends LocalizableInfo
 
 	private MemberInfo findMember( String name )
 	{
-		if ( members == null )
-		{
-			return null;
-		}
-
-		for ( Iterator iter = members.iterator( ); iter.hasNext( ); )
-		{
-			MemberInfo memberDefn = (MemberInfo) iter.next( );
-
-			if ( memberDefn.getName( ).equals( name ) )
-				return memberDefn;
-		}
-
-		return null;
+		return (MemberInfo) findInfo( members, name );
 	}
 
 	/**
 	 * Returns the constructor definition.
 	 * 
-	 * @return the constructor definition of this class
+	 * @return the constructor definition
 	 */
 
-	public List getConstructors( )
+	public MethodInfo getConstructor( )
 	{
-		if ( constructors != null )
-			return new ArrayList( constructors );
+		return constructor;
+	}
 
-		return new ArrayList( );
+	/**
+	 * Returns the member definition given method name.
+	 * 
+	 * @param name
+	 *            name of the member to find
+	 * @return the member definition to find
+	 */
+
+	MethodInfo findMethod( String name )
+	{
+		return (MethodInfo) findInfo( methods, name );
+	}
+
+	/**
+	 * Finds out the member/method information of a <code>ClassInfo</code>.
+	 * 
+	 * @param objs
+	 *            the colllection contains member/method information
+	 * @param name
+	 *            the name of a member/method
+	 * 
+	 * @return a <code>MemberInfo</code> or a <code>MethodInfo</code>
+	 *         corresponding to <code>objs</code>
+	 */
+
+	private Object findInfo( LinkedHashMap objs, String name )
+	{
+		if ( objs == null || name == null )
+			return null;
+
+		return objs.get( name.toLowerCase( ) );
 	}
 
 	/**
@@ -223,18 +222,15 @@ public class ClassInfo extends LocalizableInfo
 	 *             if the constructor's name is empty.
 	 */
 
-	void addConstructor( MethodInfo constructor ) throws MetaDataException
+	void setConstructor( MethodInfo constructor ) throws MetaDataException
 	{
-		if ( constructors == null )
-		{
-			constructors = new ArrayList( );
-		}
+		assert constructor != null;
 
 		if ( StringUtil.isBlank( constructor.getName( ) ) )
 			throw new MetaDataException( new String[]{constructor.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 
-		constructors.add( constructor );
+		this.constructor = constructor;
 	}
 
 	/**
