@@ -16,12 +16,13 @@ package org.eclipse.birt.core.framework;
  * Defines the Platform interface that allows BIRT to be run in Eclipse and 
  * server environments 
  * 
- * @version $Revision: #1 $ $Date: 2005/02/01 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
  */
 public interface IPlatform
 {
 	/**
 	 * @return the global extension registry
 	 */
-	public IExtensionRegistry getExtensionRegistry();
+	IExtensionRegistry getExtensionRegistry();
+	IBundle getBundle(String symblicName);
 }

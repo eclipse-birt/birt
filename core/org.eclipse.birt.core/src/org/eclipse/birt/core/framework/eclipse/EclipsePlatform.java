@@ -11,17 +11,19 @@
 
 package org.eclipse.birt.core.framework.eclipse;
 
+import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/02/01 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
  */
 public class EclipsePlatform implements IPlatform
 {
@@ -32,6 +34,16 @@ public class EclipsePlatform implements IPlatform
 	public IExtensionRegistry getExtensionRegistry()
 	{
 		return new EclipseExtensionRegistry(Platform.getExtensionRegistry());
+	}
+	
+	public IBundle getBundle(String symbolicName)
+	{
+		Bundle bundle = Platform.getBundle(symbolicName);
+		if (bundle != null)
+		{
+			return new EclipseBundle(bundle);
+		}
+		return null;
 	}
 	
 	static IConfigurationElement wrap(org.eclipse.core.runtime.IConfigurationElement object)
@@ -107,5 +119,4 @@ public class EclipsePlatform implements IPlatform
 		}
 		return object;
 	}
-	
 }
