@@ -89,7 +89,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/11 19:25:13 $
+ * @version $Revision: 1.7 $ $Date: 2005/02/12 02:52:48 $
  */
 public class ReportQueryBuilder
 {
@@ -398,6 +398,7 @@ public class ReportQueryBuilder
 				ColumnDesign column = table.getColumn( i );
 				handleStyle( column.getStyle( ) );
 			}
+			pushExpressions( query.getBeforeExpressions() );
 			handleTableBand( table.getHeader( ) );
 			popExpressions( );
 			SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
