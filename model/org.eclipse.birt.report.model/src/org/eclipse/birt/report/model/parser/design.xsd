@@ -208,9 +208,9 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReportItemType">
-				<xs:attribute name="plug-in" type="xs:string" use="required">
+				<xs:attribute name="extensionName" type="xs:string" use="required">
 					<xs:annotation>
-						<xs:documentation>Name of a Java class that provides a design-time UI for building the item.</xs:documentation>
+						<xs:documentation>Name of the extension plugin that provides a design-time UI for building the item.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>

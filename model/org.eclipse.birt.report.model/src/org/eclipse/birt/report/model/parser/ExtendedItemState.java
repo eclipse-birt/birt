@@ -22,11 +22,12 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the Extended Item (extended item) tag.
- *  
+ * 
  */
 
 public class ExtendedItemState extends ReportItemState
 {
+
 	/**
 	 * The extended item being created.
 	 */
@@ -60,9 +61,20 @@ public class ExtendedItemState extends ReportItemState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new ExtendedItem( );
+		boolean oldDesign = false;
 
 		String extension = getAttrib( attrs,
-				DesignSchemaConstants.EXTENSION_ATTRIB );
+				DesignSchemaConstants.EXTENSION_NAME_ATTRIB );
+
+		// check if the design file is old, uses the extension but not
+		// extension_name
+		if ( StringUtil.isBlank( extension ) )
+		{
+			extension = getAttrib( attrs,
+					DesignSchemaConstants.EXTENSION_ATTRIB );
+			oldDesign = true;
+		}
+
 		if ( StringUtil.isBlank( extension ) )
 		{
 			handler.semanticWarning( new SemanticError( element,
@@ -79,13 +91,19 @@ public class ExtendedItemState extends ReportItemState
 						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
 			}
 		}
-		setProperty( ExtendedItem.EXTENSION_PROP, attrs,
-				DesignSchemaConstants.EXTENSION_ATTRIB );
+		
+		// here is for the deprecate property name "extension"
+		if ( oldDesign )
+			setProperty( ExtendedItem.EXTENSION_PROP, attrs,
+					DesignSchemaConstants.EXTENSION_ATTRIB );
+		else
+			setProperty( ExtendedItem.EXTENSION_PROP, attrs,
+					DesignSchemaConstants.EXTENSION_NAME_ATTRIB );
 
 		initElement( attrs );
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

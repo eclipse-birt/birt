@@ -2519,6 +2519,7 @@
   </Element>
   <Element name="ExtendedItem" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" displayNameID="Element.ExtendedItem" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="extended-item">
     <Property name="extension" displayNameID="Element.ExtendedItem.extension" type="string" isIntrinsic="true"/>
+    <Property name="extensionName" displayNameID="Element.ExtendedItem.extensionName" type="string" isIntrinsic="true"/>
   </Element>
   <Style name="report" displayNameID="Style.Report" reference="Overall default" />
   <Style name="list" displayNameID="Style.List" reference="List. Applies to all slots within the list" />

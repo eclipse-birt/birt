@@ -72,7 +72,7 @@ public class ExtendedItem extends ReportItem
 	 * the property to find extension definition in our meta-data dictionary.
 	 */
 
-	public static final String EXTENSION_PROP = "extension"; //$NON-NLS-1$
+	public static final String EXTENSION_PROP = "extensionName"; //$NON-NLS-1$
 
 	/**
 	 * Extended item can support extension. It has a unique name to identify the

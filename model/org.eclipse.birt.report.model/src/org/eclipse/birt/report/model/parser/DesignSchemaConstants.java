@@ -129,7 +129,7 @@ public interface DesignSchemaConstants
 	static final String	EXTENDED_ITEM_TAG						= "extended-item";				//$NON-NLS-1$ 
 	static final String	EXTENDS_ATTRIB							= "extends";					//$NON-NLS-1$
 	static final String EXTENSION_ATTRIB						= "extension";					//$NON-NLS-1$
-	static final String EXTENSION_NAME_ATTRIB 					= "extension-name"; 			//$NON-NLS-1$
+	static final String EXTENSION_NAME_ATTRIB 					= "extensionName"; 			//$NON-NLS-1$
 	static final String FETCH_TAG								= "fetch"; //$NON-NLS-1$
 	static final String FILE_NAME_ATTRIB 						= "file-name"; 					//$NON-NLS-1$
 	static final String	FILTER_PARAMETER_TAG					= "filter-parameter";			//$NON-NLS-1$ 

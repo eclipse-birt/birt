@@ -46,7 +46,8 @@ public class ExtensionLoader
 	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
 	private static final String PROPERTY_INVISIBLE_TAG = "PropertyInvisible"; //$NON-NLS-1$
 
-	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
+	private static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
+	private static final String NAME = "name"; //$NON-NLS-1$
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
 	private static final String HAS_STYLE_ATTRIB = "hasStyle"; //$NON-NLS-1$
 	private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
@@ -168,7 +169,7 @@ public class ExtensionLoader
 		IReportItemFactory romExtension = null;
 		ExtensionElementDefn elementDefn = null;
 
-		String name = elementTag.getAttribute( NAME_ATTRIB );
+		String extensionName = elementTag.getAttribute( EXTENSION_NAME_ATTRIB );
 		String displayNameID = elementTag.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 		String hasStyle = elementTag.getAttribute( HAS_STYLE_ATTRIB );
 		String defaultStyle = elementTag.getAttribute( DEFAULT_STYLE_ATTRIB );
@@ -176,7 +177,7 @@ public class ExtensionLoader
 				.getAttribute( IS_NAME_REQUIRED_ATTRIB );
 		String className = elementTag.getAttribute( CLASS_ATTRIB );
 
-		checkRequiredAttribute( NAME_ATTRIB, name );
+		checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName );
 		checkRequiredAttribute( CLASS_ATTRIB, className );
 
 		try
@@ -184,7 +185,7 @@ public class ExtensionLoader
 			romExtension = (IReportItemFactory) elementTag
 					.createExecutableExtension( CLASS_ATTRIB );
 
-			elementDefn = new ExtensionElementDefn( name, romExtension );
+			elementDefn = new ExtensionElementDefn( extensionName, romExtension );
 			elementDefn.setAbstract( false );
 			elementDefn.setAllowsUserProperties( false );
 			elementDefn.setCanExtend( true );
@@ -218,8 +219,8 @@ public class ExtensionLoader
 				else if ( PROPERTY_INVISIBLE_TAG.equalsIgnoreCase( elements[i]
 						.getName( ) ) )
 				{
-					String propName = elements[i].getAttribute( NAME_ATTRIB );
-					checkRequiredAttribute( NAME_ATTRIB, propName );
+					String propName = elements[i].getAttribute( NAME );
+					checkRequiredAttribute( NAME, propName );
 					elementDefn.addInvisibleProperty( propName );
 				}
 				else if ( PROPERTY_GROUP_TAG.equalsIgnoreCase( elements[i]
@@ -267,7 +268,7 @@ public class ExtensionLoader
 			IConfigurationElement elementTag, IConfigurationElement propTag,
 			ExtensionElementDefn elementDefn ) throws ExtensionException
 	{
-		String name = propTag.getAttribute( NAME_ATTRIB );
+		String name = propTag.getAttribute( NAME );
 		String displayNameID = propTag.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 		String type = propTag.getAttribute( TYPE_ATTRIB );
 		String canInherit = propTag.getAttribute( CAN_INHERIT_ATTRIB );
@@ -277,7 +278,7 @@ public class ExtensionLoader
 		String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
 		String isVisible = propTag.getAttribute( IS_VISIBLE_ATTRIB );
 
-		checkRequiredAttribute( NAME_ATTRIB, name );
+		checkRequiredAttribute( NAME, name );
 		checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
 		checkRequiredAttribute( TYPE_ATTRIB, type );
 
@@ -401,11 +402,11 @@ public class ExtensionLoader
 	{
 		ExtensionChoice choice = new ExtensionChoice( messages );
 
-		String name = choiceTag.getAttribute( NAME_ATTRIB );
+		String name = choiceTag.getAttribute( NAME );
 		String value = choiceTag.getAttribute( VALUE_ATTRIB );
 		String displayNameID = choiceTag.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 
-		checkRequiredAttribute( NAME_ATTRIB, name );
+		checkRequiredAttribute( NAME, name );
 		checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
 
 		choice.setName( name );

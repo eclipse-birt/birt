@@ -513,7 +513,7 @@ public class DesignWriter extends ElementVisitor
 	public void visitExtendedItem( ExtendedItem obj )
 	{
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
-		attribute( obj, DesignSchemaConstants.EXTENSION_ATTRIB,
+		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_PROP );
 		super.visitExtendedItem( obj );
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
