@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolic
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.HandleKit;
@@ -78,7 +79,7 @@ public class TableCellResizeEditPolicy extends ResizableEditPolicy
 
 	protected void addSelectionHandles( )
 	{
-		if ( getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
+		if ( ((ReportElementEditPart)getHost()).isDelete() || getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
 		{
 			return;
 		}

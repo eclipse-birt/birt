@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolic
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.HandleKit;
 import org.eclipse.draw2d.IFigure;
@@ -40,7 +41,7 @@ public class TableResizeEditPolice extends ReportElementResizePolicy
 	protected void addSelectionHandles( )
 	{
 		super.addSelectionHandles( );
-		if ( getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
+		if (  ((ReportElementEditPart)getHost()).isDelete() || getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
 		{
 			return;
 		}

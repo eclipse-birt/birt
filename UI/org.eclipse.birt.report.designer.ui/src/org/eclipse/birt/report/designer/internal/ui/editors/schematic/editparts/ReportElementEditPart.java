@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.Listener;
@@ -181,6 +182,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private IFigure getHandleLayer( )
 	{
+		super.getLayer(LayerConstants.HANDLE_LAYER);
 		LayerManager manager = (LayerManager) getViewer( ).getEditPartRegistry( )
 				.get( LayerManager.ID );
 		return manager.getLayer( LayerConstants.HANDLE_LAYER );
@@ -792,5 +794,22 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			return false;
 		}
 
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.EditPart#isActive()
+	 */
+	public boolean isDelete( )
+	{
+		boolean bool = false;
+		if (getModel() instanceof DesignElementHandle)
+		{
+			if (!(getModel() instanceof ReportDesignHandle))
+			{
+				bool = ((DesignElementHandle)getModel()).getContainer() == null;
+			}
+		}
+		return bool;
 	}
 }
