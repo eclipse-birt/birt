@@ -230,8 +230,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new CopyAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new PasteAction( selectedElements ) );
-			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
-					new DeleteAction( selectedElements ) );
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
@@ -271,10 +269,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 						getAction( MergeAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( SplitAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+						new DeleteAction( selectedElements ) );
 			}
 			else
 			{
-				//
+				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+						new DeleteAction( selectedElements ) );
 			}
 		}
 		else if ( firstSelectedElement instanceof SlotHandle )
