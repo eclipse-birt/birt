@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
@@ -36,6 +37,7 @@ public class LabelEditManager extends DirectEditManager
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param source
 	 * @param editorType
 	 * @param locator
@@ -64,7 +66,11 @@ public class LabelEditManager extends DirectEditManager
 		Text text = (Text) getCellEditor( ).getControl( );
 
 		LabelFigure labelFigure = (LabelFigure) getEditPart( ).getFigure( );
-		String initialLabelText = labelFigure.getText( );
+		String initialLabelText = ( (LabelHandle) ( getEditPart( ).getModel( ) ) ).getText( );
+		if ( initialLabelText == null )
+		{
+			initialLabelText = ""; //$NON-NLS-1$
+		}
 		getCellEditor( ).setValue( initialLabelText );
 		IFigure figure = getEditPart( ).getFigure( );
 		scaledFont = figure.getFont( );

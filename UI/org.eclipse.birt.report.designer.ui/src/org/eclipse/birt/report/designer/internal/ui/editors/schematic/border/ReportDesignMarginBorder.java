@@ -21,7 +21,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Presents border of magin
+ * Presents border of margin
  *  
  */
 public class ReportDesignMarginBorder extends MarginBorder
@@ -29,6 +29,7 @@ public class ReportDesignMarginBorder extends MarginBorder
 
 	/**
 	 * Constructor
+	 * 
 	 * @param insets
 	 */
 	public ReportDesignMarginBorder( Insets insets )
@@ -72,7 +73,10 @@ public class ReportDesignMarginBorder extends MarginBorder
 		graphics.setBackgroundColor( oldBackgroundColor );
 
 		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
-		graphics.drawRectangle( figure.getBounds( ).getCopy( ).crop( margin ) );
+		graphics.drawRectangle( figure.getBounds( )
+				.getCopy( )
+				.crop( margin )
+				.shrink( -1, -1 ) );
 		graphics.setForegroundColor( oldForegroundColor );
 	}
 }

@@ -123,7 +123,7 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	private ListBandControlFigure createControlFigure( )
 	{
-		controlFigure = new ListBandControlFigure( );
+		controlFigure = new ListBandControlFigure( this );
 
 		controlFigure.add( new ListControlDispalyNameFigure( this ) );
 

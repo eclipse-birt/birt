@@ -43,15 +43,15 @@ public class ListBandProxy
 
 	protected static final String LIST_GROUP_FOOTER = Messages.getString( "ListBandProxy.list.groupFooter" ); //$NON-NLS-1$
 
-	protected static final int LIST_HEADER_TYPE = 1;
+	public static final int LIST_HEADER_TYPE = 1;
 
-	protected static final int LIST_FOOTER_TYPE = 5;
+	public static final int LIST_FOOTER_TYPE = 5;
 
-	protected static final int LIST_DETAIL_TYPE = 3;
+	public static final int LIST_DETAIL_TYPE = 3;
 
-	protected static final int LIST_GROUP_HEADER_TYPE = 2;
+	public static final int LIST_GROUP_HEADER_TYPE = 2;
 
-	protected static final int LIST_GROUP_FOOTER_TYPE = 4;
+	public static final int LIST_GROUP_FOOTER_TYPE = 4;
 
 	/**
 	 * constructor

@@ -45,7 +45,7 @@ public abstract class BaseDialog extends Dialog
 
 	private boolean helpAvailable;
 
-	private Object result;
+	protected Object result;
 
 	/**
 	 * 
@@ -68,8 +68,6 @@ public abstract class BaseDialog extends Dialog
 	 * button. This constructor is equivalent to calling
 	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
 	 * 
-	 * @param parentShell
-	 *            the parent shell
 	 * @param title
 	 *            the title of the dialog
 	 */
@@ -343,7 +341,7 @@ public abstract class BaseDialog extends Dialog
 	/**
 	 * Returns if help button available.
 	 * 
-	 * @return
+	 * @return true if help button available, else false.
 	 */
 	public boolean isHelpAvaiable( )
 	{
@@ -351,9 +349,9 @@ public abstract class BaseDialog extends Dialog
 	}
 
 	/**
-	 * Returns the dialog result.
+	 * Get the dialog result.
 	 * 
-	 * @return
+	 * @return the dialog result.
 	 */
 	public Object getResult( )
 	{

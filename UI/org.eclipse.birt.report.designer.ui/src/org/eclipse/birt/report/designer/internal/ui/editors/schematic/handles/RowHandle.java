@@ -18,14 +18,17 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigu
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.IContainer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RowTracker;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.Locator;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
@@ -40,6 +43,14 @@ import org.eclipse.swt.graphics.Image;
  */
 public class RowHandle extends AbstractHandle implements IContainer
 {
+
+	private static final String TOOLTIP_TABLE_DETAIL = Messages.getString( "RowHandle.tooltip.TableDetail" ); //$NON-NLS-1$
+	private static final String TOOLTIP_TABLE_HEADER = Messages.getString( "RowHandle.tooltip.TableHeader" ); //$NON-NLS-1$
+	private static final String TOOLTIP_TABLE_FOOTER = Messages.getString( "RowHandle.tooltip.TableFooter" ); //$NON-NLS-1$
+	private static final String TOOLTIP_GROUP_HEADER = Messages.getString( "RowHandle.tooltip.GroupHeader" ); //$NON-NLS-1$
+	private static final String TOOLTIP_GROUP_FOOTER = Messages.getString( "RowHandle.tooltip.GroupFooter" ); //$NON-NLS-1$
+
+	private static final String TOOLTIP_GRID_ROW = Messages.getString( "RowHandle.tooltip.GridRow" ); //$NON-NLS-1$
 
 	private int rowNumber;
 
@@ -82,7 +93,9 @@ public class RowHandle extends AbstractHandle implements IContainer
 		initialize( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
 	public boolean containsPoint( int x, int y )
@@ -111,6 +124,14 @@ public class RowHandle extends AbstractHandle implements IContainer
 	{
 		setOpaque( true );
 		setBorder( new LineBorder( 1 ) );
+
+		String tp = getTooltipText( );
+		if ( tp != null )
+		{
+			Label tooltip = new Label( tp );
+			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+			setToolTip( tooltip );
+		}
 
 		setCursor( Cursors.ARROW );
 	}
@@ -185,6 +206,36 @@ public class RowHandle extends AbstractHandle implements IContainer
 	public void setRowNumber( int rowNumber )
 	{
 		this.rowNumber = rowNumber;
+	}
+
+	private String getTooltipText( )
+	{
+		TableEditPart part = (TableEditPart) getOwner( );
+		String type = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( part.getRow( getRowNumber( ) ) )
+				.getType( );
+		if ( TableHandleAdapter.TABLE_HEADER.equals( type ) )
+		{
+			return TOOLTIP_TABLE_HEADER;
+		}
+		else if ( TableHandleAdapter.TABLE_DETAIL.equals( type ) )
+		{
+			return TOOLTIP_TABLE_DETAIL;
+		}
+		else if ( TableHandleAdapter.TABLE_FOOTER.equals( type ) )
+		{
+			return TOOLTIP_TABLE_FOOTER;
+		}
+		else if ( TableHandleAdapter.TABLE_GROUP_HEADER.equals( type ) )
+		{
+			return TOOLTIP_GROUP_HEADER;
+		}
+		else if ( TableHandleAdapter.TABLE_GROUP_FOOTER.equals( type ) )
+		{
+			return TOOLTIP_GROUP_FOOTER;
+		}
+
+		return TOOLTIP_GRID_ROW;
 	}
 
 	private Image getImage( )

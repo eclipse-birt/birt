@@ -15,9 +15,7 @@ import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * <p>
  * Color Constants
- * </p>
  *  
  */
 public interface ReportColorConstants
@@ -37,5 +35,8 @@ public interface ReportColorConstants
 			244 );//0xC5DFF4
 	public final static Color ListControlFillColor = ColorManager.getColor( 238,
 			236,
-			246 );//0xEEECF6	
+			246 );//0xEEECF6
+	public final static Color InnerLineColor = ColorManager.getColor( 204,
+			204,
+			204 );//0xCCCCCC
 }

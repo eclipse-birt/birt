@@ -61,6 +61,7 @@ public class MasterPageEditPart extends ReportElementEditPart
 			case NotificationEvent.PROPERTY_EVENT :
 			case NotificationEvent.STYLE_EVENT :
 			{
+				markDirty(true);
 				refresh( );
 				//The children of master page edit part keep
 				//virtual model

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
@@ -26,6 +27,7 @@ import org.eclipse.swt.SWT;
 
 public class CellBorder extends BaseBorder
 {
+
 	private static final Insets DEFAULTINSETS = new Insets( 2, 2, 2, 2 );
 
 	/*
@@ -87,7 +89,8 @@ public class CellBorder extends BaseBorder
 	private void drawBorder( IFigure figure, Graphics g, String side,
 			int style, int width, String color )
 	{
-		Rectangle r = figure.getBounds( ).getCopy( ).crop( DEFAULTINSETS );// figure.getInsets( ) );
+		Rectangle r = figure.getBounds( ).getCopy( ).crop( DEFAULTINSETS );// figure.getInsets(
+																		   // ) );
 
 		//draw line
 		if ( style != 0 )
@@ -112,10 +115,11 @@ public class CellBorder extends BaseBorder
 		{
 			//if the border style is set to solid, draw a 1 width line in
 			// gray as default
+			g.setForegroundColor( ReportColorConstants.InnerLineColor );
 			drawDefaultLine( figure, g, side, r, width );
 		}
-		
-		g.restoreState();
+
+		g.restoreState( );
 	}
 
 	/**

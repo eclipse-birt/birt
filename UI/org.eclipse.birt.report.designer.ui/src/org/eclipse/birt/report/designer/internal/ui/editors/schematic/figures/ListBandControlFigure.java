@@ -15,10 +15,12 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.MouseEvent;
@@ -42,9 +44,25 @@ public class ListBandControlFigure extends Figure
 
 	public static final Dimension CONTROL_SIZE = new Dimension( 73, 19 );
 
-	public ListBandControlFigure( )
-	{
+	private static final String TOOLTIP_LIST_DETAIL = Messages.getString( "ListBandControlFigure.tooltip.ListDetail" ); //$NON-NLS-1$
+	private static final String TOOLTIP_LIST_HEADER = Messages.getString( "ListBandControlFigure.tooltip.ListHeader" ); //$NON-NLS-1$
+	private static final String TOOLTIP_LIST_FOOTER = Messages.getString( "ListBandControlFigure.tooltip.ListFooter" ); //$NON-NLS-1$
+	private static final String TOOLTIP_GROUP_HEADER = Messages.getString( "ListBandControlFigure.tooltip.GroupHeader" ); //$NON-NLS-1$
+	private static final String TOOLTIP_GROUP_FOOTER = Messages.getString( "ListBandControlFigure.tooltip.GroupFooter" ); //$NON-NLS-1$
 
+	private ListBandEditPart owner;
+
+	public ListBandControlFigure( ListBandEditPart owner )
+	{
+		this.owner = owner;
+
+		String tp = getTooltipText( );
+		if ( tp != null )
+		{
+			Label tooltip = new Label( tp );
+			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+			setToolTip( tooltip );
+		}
 	}
 
 	/*
@@ -60,6 +78,31 @@ public class ListBandControlFigure extends Figure
 		graphics.fillRectangle( getBounds( ).getCopy( ).shrink( 3, 2 ) );
 	}
 
+	private String getTooltipText( )
+	{
+		int type = ( (ListBandProxy) owner.getModel( ) ).getType( );
+
+		switch ( type )
+		{
+			case ListBandProxy.LIST_HEADER_TYPE :
+				return TOOLTIP_LIST_HEADER;
+
+			case ListBandProxy.LIST_DETAIL_TYPE :
+				return TOOLTIP_LIST_DETAIL;
+
+			case ListBandProxy.LIST_FOOTER_TYPE :
+				return TOOLTIP_LIST_FOOTER;
+
+			case ListBandProxy.LIST_GROUP_HEADER_TYPE :
+				return TOOLTIP_GROUP_HEADER;
+
+			case ListBandProxy.LIST_GROUP_FOOTER_TYPE :
+				return TOOLTIP_GROUP_FOOTER;
+		}
+
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -70,9 +113,8 @@ public class ListBandControlFigure extends Figure
 		return CONTROL_SIZE;
 	}
 
-	public static class ListBandControVisible extends Figure
-			implements
-				MouseListener
+	public static class ListBandControVisible extends Figure implements
+			MouseListener
 	{
 
 		private ListBandEditPart owner;

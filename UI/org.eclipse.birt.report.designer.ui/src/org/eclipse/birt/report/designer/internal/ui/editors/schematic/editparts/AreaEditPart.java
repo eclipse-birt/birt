@@ -101,7 +101,7 @@ public class AreaEditPart extends ReportElementEditPart
 	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
 	{
 		markDirty( true );
-		refreshVisuals( );
+		refresh( );
 	}
 
 	/*
@@ -124,7 +124,6 @@ public class AreaEditPart extends ReportElementEditPart
 	private Rectangle getConstraint( )
 	{
 		IFigure parent = ( (MasterPageEditPart) getParent( ) ).getFigure( );
-		AreaFigure figure = (AreaFigure) getFigure( );
 
 		Rectangle region = parent.getClientArea( );
 		Rectangle rect = new Rectangle( );
