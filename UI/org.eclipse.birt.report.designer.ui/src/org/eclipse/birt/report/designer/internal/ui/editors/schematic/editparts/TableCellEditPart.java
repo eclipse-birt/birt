@@ -152,7 +152,7 @@ public class TableCellEditPart extends ReportElementEditPart
 
 	}
 
-	private Dimension getCellDimension( )
+	protected Dimension getCellDimension( )
 	{
 		int h = 0;
 		int w = 0;
@@ -185,12 +185,8 @@ public class TableCellEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		Insets ist = getCellAdapter( ).getPadding( getFigure( ).getInsets( ) );
-		Dimension dim = getCellDimension( );
 
-		if ( ist.getHeight( ) < dim.height && ist.getWidth( ) < dim.width )
-		{
-			( (CellPaddingBorder) ( getFigure( ).getBorder( ) ) ).setInsets( ist );
-		}
+		( (CellPaddingBorder) ( getFigure( ).getBorder( ) ) ).setInsets( ist );
 
 		StyleHandle style = ( (CellHandle) getModel( ) ).getPrivateStyle( );
 
