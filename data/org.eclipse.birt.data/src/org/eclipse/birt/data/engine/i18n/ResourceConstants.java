@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.i18n;
 
 /**
- * 
+ * Define resource key constants for need be localized resource.
  */
 
 public class ResourceConstants
@@ -88,4 +88,6 @@ public class ResourceConstants
 	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";	
 	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
 	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
+	
+	public final static String QUERY_FAILURE = "QUERY_FAILURE";
 }
