@@ -17,6 +17,7 @@ import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
@@ -238,6 +239,11 @@ public abstract class BaseBorder extends AbstractBorder
 	{
 		g.setLineStyle( style );
 
+		Rectangle oldClip = g.getClip( new Rectangle( ) );
+
+		Rectangle clip = new Rectangle( );
+		Point p2 = new Point( );
+
 		switch ( side )
 		{
 			case BOTTOM :
@@ -247,14 +253,20 @@ public abstract class BaseBorder extends AbstractBorder
 				}
 				for ( int i = 0; i < actualWidth; i++ )
 				{
-					g.drawLine( r.x
-							+ getGap( width[BOTTOM], width[LEFT], i + startPos ),
-							r.y + r.height - i - startPos,
-							r.x
-									+ r.width
-									- getGap( width[BOTTOM], width[RIGHT], i
-											+ startPos ),
-							r.y + r.height - i - startPos );
+					clip.width = 0;
+					clip.height = 0;
+					clip.x = r.x
+							+ getGap( width[BOTTOM], width[LEFT], i + startPos );
+					clip.y = r.y + r.height - i - startPos;
+					p2.x = r.x
+							+ r.width
+							- getGap( width[BOTTOM], width[RIGHT], i + startPos ) - 1;
+					p2.y = r.y + r.height - i - startPos;
+					clip.union( p2 );
+					g.setClip( clip );
+
+					g.drawLine( r.x, r.y + r.height - i - startPos, r.x
+							+ r.width, r.y + r.height - i - startPos );
 				}
 				break;
 			case TOP :
@@ -264,14 +276,21 @@ public abstract class BaseBorder extends AbstractBorder
 				}
 				for ( int i = 0; i < actualWidth; i++ )
 				{
-					g.drawLine( r.x
-							+ getGap( width[TOP], width[LEFT], i + startPos ),
-							r.y + i + startPos,
-							r.x
-									+ r.width
-									- getGap( width[TOP], width[RIGHT], i
-											+ startPos ),
-							r.y + i + startPos );
+					clip.width = 0;
+					clip.height = 0;
+					clip.x = r.x
+							+ getGap( width[TOP], width[LEFT], i + startPos );
+					clip.y = r.y + i + startPos;
+					p2.x = r.x
+							+ r.width
+							- getGap( width[TOP], width[RIGHT], i + startPos ) - 1;
+					p2.y = r.y + i + startPos;
+					clip.union( p2 );
+					g.setClip( clip );
+
+					g.drawLine( r.x, r.y + i + startPos, r.x + r.width, r.y
+							+ i
+							+ startPos );
 				}
 				break;
 			case LEFT :
@@ -281,15 +300,22 @@ public abstract class BaseBorder extends AbstractBorder
 				}
 				for ( int i = 0; i < actualWidth; i++ )
 				{
+					clip.width = 0;
+					clip.height = 0;
+					clip.x = r.x + i + startPos;
+					clip.y = r.y
+							+ getGap( width[LEFT], width[TOP], i + startPos );
+					p2.x = r.x + i + startPos;
+					p2.y = r.y
+							+ r.height
+							- getGap( width[LEFT], width[BOTTOM], i + startPos ) - 1;
+					clip.union( p2 );
+					g.setClip( clip );
+
 					g.drawLine( r.x + i + startPos,
-							r.y
-									+ getGap( width[LEFT], width[TOP], i
-											+ startPos ),
+							r.y,
 							r.x + i + startPos,
-							r.y
-									+ r.height
-									- getGap( width[LEFT], width[BOTTOM], i
-											+ startPos ) );
+							r.y + r.height );
 				}
 				break;
 			case RIGHT :
@@ -299,18 +325,27 @@ public abstract class BaseBorder extends AbstractBorder
 				}
 				for ( int i = 0; i < actualWidth; i++ )
 				{
-					g.drawLine( r.x + r.width - i - startPos,
-							r.y
-									+ getGap( width[RIGHT], width[TOP], i
-											+ startPos ),
-							r.x + r.width - i - startPos,
-							r.y
-									+ r.height
-									- getGap( width[RIGHT], width[BOTTOM], i
-											+ startPos ) );
+					clip.width = 0;
+					clip.height = 0;
+					clip.x = r.x + r.width - i - startPos;
+					clip.y = r.y
+							+ getGap( width[RIGHT], width[TOP], i + startPos );
+					p2.x = r.x + r.width - i - startPos;
+					p2.y = r.y
+							+ r.height
+							- getGap( width[RIGHT], width[BOTTOM], i + startPos );
+					clip.union( p2 );
+					g.setClip( clip );
+
+					g.drawLine( r.x + r.width - i - startPos, r.y, r.x
+							+ r.width
+							- i
+							- startPos, r.y + r.height );
 				}
 				break;
 		}
+
+		g.setClip( oldClip );
 	}
 
 	/**
