@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.LabelHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -147,6 +149,11 @@ public class LabelEditPart extends ReportElementEditPart
 		refreshVisuals( );
 	}
 
+	protected LabelHandleAdapter getLabelAdapter( )
+	{
+		return (LabelHandleAdapter) getModelAdapter( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -171,7 +178,12 @@ public class LabelEditPart extends ReportElementEditPart
 				getFigure( ),
 				getConstraint( ) );
 		( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
+
 		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+
+		Insets ist = getLabelAdapter( ).getPadding( getFigure( ).getInsets( ) );
+
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setInsets( ist );
 
 		if ( !hasText( ) )
 			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorConstants.lightGray );

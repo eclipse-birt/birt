@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.core.model.schematic;
 
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
-import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
 /**
@@ -21,7 +20,7 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
  *  
  */
 
-public class TextItemHandleAdapter extends ReportItemtHandleAdapter
+public class TextItemHandleAdapter extends LabelHandleAdapter
 {
 
 	/**

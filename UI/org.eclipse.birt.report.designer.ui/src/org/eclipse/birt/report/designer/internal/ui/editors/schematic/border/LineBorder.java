@@ -34,6 +34,8 @@ public class LineBorder extends BaseBorder
 
 	private static final Insets DEFAULT_CROP = new Insets( 0, 0, 1, 1 );
 
+	private Insets insets = new Insets( );
+
 	private static final int TOP = 0;
 	private static final int RIGHT = 1;
 	private static final int BOTTOM = 2;
@@ -94,7 +96,37 @@ public class LineBorder extends BaseBorder
 			}
 		}
 
-		return new Insets( t, l, b, r );
+		return new Insets( t, l, b, r ).add(insets);
+	}
+
+	/**
+	 * Sets the insets for the border.
+	 * 
+	 * @param in
+	 */
+	public void setInsets( Insets in )
+	{
+		if ( in == null )
+		{
+			return;
+		}
+
+		if ( in.top >= 0 )
+		{
+			insets.top = in.top;
+		}
+		if ( in.bottom >= 0 )
+		{
+			insets.bottom = in.bottom;
+		}
+		if ( in.left >= 0 )
+		{
+			insets.left = in.left;
+		}
+		if ( in.right >= 0 )
+		{
+			insets.right = in.right;
+		}
 	}
 
 	/*
@@ -181,8 +213,8 @@ public class LineBorder extends BaseBorder
 			// black as default
 			drawDefaultLine( figure, g, side, width, r );
 		}
-		
-		g.restoreState();
+
+		g.restoreState( );
 	}
 
 	private void drawDoubleLine( IFigure figure, Graphics g, int side,
@@ -211,7 +243,8 @@ public class LineBorder extends BaseBorder
 				for ( int j = 0; j < width; j++ )
 				{
 					g.drawLine( r.x + leftGap, r.y + j + width + 1, r.x
-							+ r.width - rightGap, r.y + j + width + 1 );
+							+ r.width
+							- rightGap, r.y + j + width + 1 );
 				}
 				break;
 			case LEFT :
@@ -219,7 +252,9 @@ public class LineBorder extends BaseBorder
 				for ( int j = 0; j < width; j++ )
 				{
 					g.drawLine( r.x + width + 1 + j, r.y + topGap, r.x
-							+ width + 1 + j, r.y + r.height - bottomGap );
+							+ width
+							+ 1
+							+ j, r.y + r.height - bottomGap );
 				}
 				break;
 			case RIGHT :
@@ -247,7 +282,8 @@ public class LineBorder extends BaseBorder
 				for ( int i = 0; i < width; i++ )
 				{
 					g.drawLine( r.x, r.y + r.height - i, r.x + r.width, r.y
-							+ r.height - i );
+							+ r.height
+							- i );
 				}
 				break;
 			case TOP :
