@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.series;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -65,7 +66,44 @@ public class SeriesUIProvider implements ISeriesUIProvider
             seriesdefinition.getDesignTimeSeries().getDataDefinition().add(query);
         }
 
-        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext);
+        String sPrefix = "";
+        // If container is Axis, chart is of type ChartWithAxes
+        if (seriesdefinition.eContainer() instanceof org.eclipse.birt.chart.model.component.impl.AxisImpl)
+        {
+            // If container of container is Chart, series is Base Series
+            if (seriesdefinition.eContainer().eContainer() instanceof Chart)
+            {
+                sPrefix = "X ";
+            }
+            else
+            {
+                sPrefix = "Y ";
+            }
+        }
+        else
+        {
+            // If container of container is Chart, series is Base Series
+            if (seriesdefinition.eContainer().eContainer() instanceof Chart)
+            {
+                sPrefix = "Base ";
+            }
+            else
+            {
+                sPrefix = "Orthogonal ";
+            }
+        }
+
+        String sTitle = query.getDefinition();
+        if (sTitle == null || "".equals(sTitle))
+        {
+            sTitle = sPrefix + "Series Definition";
+        }
+        else
+        {
+            sTitle = sPrefix + "Series Definition (" + sTitle + ")";
+        }
+
+        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext, sTitle);
     }
 
     /*

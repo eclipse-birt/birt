@@ -47,7 +47,7 @@ public class FormatSpecifierDialog implements SelectionListener
     /**
      *  
      */
-    public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier)
+    public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier, String sTitle)
     {
         super();
         if (formatspecifier == null)
@@ -66,7 +66,7 @@ public class FormatSpecifierDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText("Format Specifier Dialog:");
+        shell.setText("Format Specifier - " + sTitle);
         shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();

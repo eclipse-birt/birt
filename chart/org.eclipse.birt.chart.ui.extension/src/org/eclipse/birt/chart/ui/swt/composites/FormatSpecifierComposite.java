@@ -11,6 +11,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
@@ -465,7 +466,9 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             txtSuffix.setText(str);
             str = String.valueOf(((NumberFormatSpecifier) formatspecifier).getMultiplier());
-            if (str == null)
+            if (str == null
+                || !((NumberFormatSpecifier) formatspecifier).eIsSet(AttributePackage.eINSTANCE
+                    .getNumberFormatSpecifier_Multiplier()))
             {
                 str = "";
             }
@@ -742,8 +745,16 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             try
             {
-                ((NumberFormatSpecifier) formatspecifier).setMultiplier(new Double(txtMultiplier.getText())
-                    .doubleValue());
+                if ("".equals(txtMultiplier.getText()))
+                {
+                    ((NumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
+                        .getNumberFormatSpecifier_Multiplier());
+                }
+                else
+                {
+                    ((NumberFormatSpecifier) formatspecifier).setMultiplier(new Double(txtMultiplier.getText())
+                        .doubleValue());
+                }
             }
             catch (NumberFormatException e1 )
             {
@@ -759,8 +770,16 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
             }
             try
             {
-                ((JavaNumberFormatSpecifier) formatspecifier).setMultiplier(new Double(txtAdvMultiplier.getText())
-                    .doubleValue());
+                if ("".equals(txtAdvMultiplier.getText()))
+                {
+                    ((JavaNumberFormatSpecifier) formatspecifier).eUnset(AttributePackage.eINSTANCE
+                        .getJavaNumberFormatSpecifier_Multiplier());
+                }
+                else
+                {
+                    ((JavaNumberFormatSpecifier) formatspecifier).setMultiplier(new Double(txtAdvMultiplier.getText())
+                        .doubleValue());
+                }
             }
             catch (NumberFormatException e1 )
             {

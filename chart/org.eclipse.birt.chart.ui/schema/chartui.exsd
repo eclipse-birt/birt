@@ -48,6 +48,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="nodePath" type="string">
+            <annotation>
+               <documentation>
+                  The node path is the path in the Chart Builder tree that shows hierarchy of the node representing the custom sheet.
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="classDefinition" type="string">
             <annotation>
                <documentation>

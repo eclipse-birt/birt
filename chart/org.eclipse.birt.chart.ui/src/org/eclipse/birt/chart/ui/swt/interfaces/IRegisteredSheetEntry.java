@@ -18,5 +18,7 @@ public interface IRegisteredSheetEntry
 {
     public int getNodeIndex();
 
+    public String getNodePath();
+
     public ISheet getSheet();
 }

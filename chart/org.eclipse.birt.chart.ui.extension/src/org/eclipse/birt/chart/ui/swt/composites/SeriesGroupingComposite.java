@@ -39,6 +39,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
     private transient Combo cmbType = null;
 
+    private transient Label lblUnit = null;
+
     private transient Combo cmbUnit = null;
 
     private transient IntegerSpinControl iscInterval = null;
@@ -47,14 +49,17 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
     private transient SeriesDefinition sd = null;
 
+    private transient boolean bTypeEnabled = true;
+
     /**
      * @param parent
      * @param style
      */
-    public SeriesGroupingComposite(Composite parent, int style, SeriesDefinition sd)
+    public SeriesGroupingComposite(Composite parent, int style, SeriesDefinition sd, boolean bTypeEnabled)
     {
         super(parent, style);
         this.sd = sd;
+        this.bTypeEnabled = bTypeEnabled;
         init();
         placeComponents();
     }
@@ -93,16 +98,19 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         GridData gdLBLType = new GridData();
         lblType.setLayoutData(gdLBLType);
         lblType.setText("Type:");
+        lblType.setEnabled(bTypeEnabled);
 
         cmbType = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBType = new GridData(GridData.FILL_HORIZONTAL);
         cmbType.setLayoutData(gdCMBType);
         cmbType.addSelectionListener(this);
+        cmbType.setEnabled(bTypeEnabled);
 
-        Label lblUnit = new Label(grpContent, SWT.NONE);
+        lblUnit = new Label(grpContent, SWT.NONE);
         GridData gdLBLUnit = new GridData();
         lblUnit.setLayoutData(gdLBLUnit);
         lblUnit.setText("Unit:");
+        lblUnit.setEnabled(false);
 
         cmbUnit = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBUnit = new GridData(GridData.FILL_HORIZONTAL);
@@ -228,10 +236,12 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         {
             if (cmbType.getText().equals("Date/Time"))
             {
+                lblUnit.setEnabled(true);
                 cmbUnit.setEnabled(true);
             }
             else
             {
+                lblUnit.setEnabled(false);
                 cmbUnit.setEnabled(false);
             }
             getGrouping().setGroupType(cmbType.getText());

@@ -77,6 +77,7 @@
          point="org.eclipse.birt.chart.ui.uisheets">
       <propertySheet
             classDefinition="org.eclipse.birt.chart.reportitem.ui.ChartDataSetBindingSheetImpl"
+            nodePath="Data"
             nodeIndex="50"/>
    </extension>
 </plugin>

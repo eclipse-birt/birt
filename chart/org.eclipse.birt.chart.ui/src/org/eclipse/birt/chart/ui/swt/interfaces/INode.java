@@ -12,9 +12,8 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author Vishal Jain
- * 
- * TODO BIRT PROJECT CHART WIZARD
+ * @author Actuate Corporation
+ *  
  */
 public interface INode
 {

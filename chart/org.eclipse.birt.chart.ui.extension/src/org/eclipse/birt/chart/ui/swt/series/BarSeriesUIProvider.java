@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.series;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -65,7 +66,28 @@ public class BarSeriesUIProvider implements ISeriesUIProvider
             seriesdefinition.getDesignTimeSeries().getDataDefinition().add(query);
         }
 
-        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext);
+        String sPrefix = "";
+        // If container of container is chart, it is a base series
+        if (seriesdefinition.eContainer().eContainer() instanceof Chart)
+        {
+            sPrefix = "X ";
+        }
+        else
+        {
+            sPrefix = "Y ";
+        }
+
+        String sTitle = query.getDefinition();
+        if (sTitle == null || "".equals(sTitle))
+        {
+            sTitle = sPrefix + "Series Definition";
+        }
+        else
+        {
+            sTitle = sPrefix + "Series Definition (" + sTitle + ")";
+        }
+
+        return new DataDefinitionComposite(parent, SWT.NONE, query, seriesdefinition, builder, oContext, sTitle);
     }
 
     /*

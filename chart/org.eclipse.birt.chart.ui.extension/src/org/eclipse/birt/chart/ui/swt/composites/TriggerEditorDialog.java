@@ -46,7 +46,7 @@ public class TriggerEditorDialog implements SelectionListener
     /**
      *  
      */
-    public TriggerEditorDialog(Shell shellParent, EList triggers)
+    public TriggerEditorDialog(Shell shellParent, EList triggers, String sTitle)
     {
         super();
         this.triggers = triggers;
@@ -57,7 +57,7 @@ public class TriggerEditorDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText("Trigger Editor Dialog:");
+        shell.setText("Trigger Editor - " + sTitle);
         shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();

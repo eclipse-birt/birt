@@ -54,10 +54,12 @@ public interface IUIServiceProvider
      *            the expression to be displayed in the builder (after re-entry)
      * @param oContext
      *            the application-specific context used by the Expression Builder for each invocation
+     * @param sTitle
+     *            the title to be used for the Expression Builder Dialog
      * 
      * @return The final expression string built by the user in the expression builder
      */
-    public String invoke(String sExpression, Object Context);
+    public String invoke(String sExpression, Object Context, String sTitle);
 
     /**
      * This method will be used by the Chart Builder UI to validate the model and show any error messages before the
