@@ -762,6 +762,18 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
     /*
      * (non-Javadoc)
      * 
+     * @see org.eclipse.birt.chart.model.attribute.ColorDefinition#transparent()
+     */
+    public final ColorDefinition transparent()
+    {
+        final ColorDefinition cd = (ColorDefinition) EcoreUtil.copy(this);
+        cd.setTransparency(0);
+        return cd;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.attribute.ColorDefinition#opaque()
      */
     public final ColorDefinition opaque()
