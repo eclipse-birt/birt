@@ -13,9 +13,14 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerRange;
+import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -556,4 +561,30 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
         return result.toString();
     }
 
+
+    /**
+     * A convenience method provided to add a marker range instance to an axis
+     * 
+     * @param ax
+     * @param de
+     */
+    public static final MarkerRange create(Axis ax, DataElement deStart, DataElement deEnd, Fill f)
+    {
+        final MarkerRange mr = ComponentFactory.eINSTANCE.createMarkerRange();
+        final LineAttributes liaOutline = LineAttributesImpl.create(null, LineStyle.SOLID_LITERAL, 1);
+        mr.setOutline(liaOutline);
+        mr.setFill(f);
+        mr.setStartPosition(deStart);
+        mr.setEndPosition(deEnd);
+        mr.setAssociatedLabel(LabelImpl.create());
+        /*mr.setAnchor(
+            ax.getOrientation().getValue() == Orientation.HORIZONTAL
+            ? Anchor.NORTH_EAST_LITERAL
+            : Anchor.NORTH_WEST_LITERAL
+        );*/
+        ax.getMarkerRange().add(mr);
+        //mr.setFormatSpecifier(ax.getFormatSpecifier());
+        return mr;
+    }
+    
 } //MarkerRangeImpl

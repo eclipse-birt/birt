@@ -12,9 +12,15 @@
 package org.eclipse.birt.chart.model.component.impl;
 
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
+import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -418,4 +424,26 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         return result.toString();
     }
 
+    /**
+     * A convenience method provided to add a marker line instance to an axis
+     * 
+     * @param ax
+     * @param de
+     */
+    public static final MarkerLine create(Axis ax, DataElement de)
+    {
+        final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine();
+        ml.setAttributes(LineAttributesImpl.create(ColorDefinitionImpl.RED(), LineStyle.DASHED_LITERAL, 1));
+        ml.setPosition(de);
+        ml.setAssociatedLabel(LabelImpl.create());
+        /*ml.setAnchor(
+            ax.getOrientation().getValue() == Orientation.HORIZONTAL
+            ? Anchor.NORTH_EAST_LITERAL
+            : Anchor.NORTH_WEST_LITERAL
+        );*/
+        ax.getMarkerLine().add(ml);
+        //ml.setFormatSpecifier(ax.getFormatSpecifier());
+        return ml;
+    }
+    
 } //MarkerLineImpl
