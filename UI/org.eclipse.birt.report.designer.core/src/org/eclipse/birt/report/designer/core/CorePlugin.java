@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.core;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
@@ -52,7 +53,6 @@ public class CorePlugin extends AbstractUIPlugin
 		}
 	}
 
-
 	/**
 	 * Returns the shared instance.
 	 */
@@ -66,16 +66,9 @@ public class CorePlugin extends AbstractUIPlugin
 	 * Returns the string from the plugin's resource bundle, or 'key' if not
 	 * found.
 	 */
-
 	public static String getResourceString( String key )
 	{
-		// TODO: Need a better way to avoid deprecated method, now loading
-		// plugin.properties file.
-		ResourceBundle bundle = CorePlugin.getDefault( )
-				.getDescriptor( )
-				.getResourceBundle( );
-		//		ResourceBundle bundle = CorePlugin.getDefault( ).getResourceBundle(
-		// );
+		ResourceBundle bundle = Platform.getResourceBundle( getDefault( ).getBundle( ) );
 
 		try
 		{

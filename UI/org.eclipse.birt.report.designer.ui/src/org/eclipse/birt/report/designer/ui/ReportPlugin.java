@@ -12,11 +12,14 @@
 package org.eclipse.birt.report.designer.ui;
 
 import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -43,11 +46,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private static ReportPlugin plugin;
 
-    /**
-     *  The cursor for selecting cells
-     */
+	/**
+	 * The cursor for selecting cells
+	 */
 	private Cursor cellLeftCursor, cellRightCursor;
-	
 
 	/**
 	 * The constructor.
@@ -74,44 +76,83 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		getPreferenceStore( ).setDefault( IPreferenceConstants.PALETTE_STATE,
 				IPreferenceConstants.DEFAULT_PALETTE_STATE );
-		
-		initCellCursor( ); 
-		
+
+		initCellCursor( );
 
 	}
 
 	/**
-     *  Initialize the cell Cursor instance
-     */
-    private void initCellCursor( )
-    {
-        ImageData source = ReportPlugin.getImageDescriptor("icons/cellcursor.bmp").getImageData();
-		ImageData mask = ReportPlugin.getImageDescriptor("icons/cellcursormask.bmp").getImageData();
-		cellLeftCursor = new Cursor(null, source, mask, 16, 16);
-		
-		source = ReportPlugin.getImageDescriptor("icons/cellrightcursor.bmp").getImageData();
-		mask = ReportPlugin.getImageDescriptor("icons/cellrightcursormask.bmp").getImageData();
-		cellRightCursor  = new Cursor(null, source, mask, 16, 16);
-    }
+	 * Returns the version info for this plugin.
+	 * 
+	 * @return Version string.
+	 */
+	public static String getVersion( )
+	{
+		return (String) getDefault( ).getBundle( )
+				.getHeaders( )
+				.get( org.osgi.framework.Constants.BUNDLE_VERSION );
+	}
 
-    /**
-     * 
-     * @return the cursor used to select cells in the table
-     */
-    public Cursor getLeftCellCursor( )
-    {
-        return cellLeftCursor;
-    }
-    
-    /**
-     * 
-     * @return the cursor used to select cells in the table
-     */
-    public Cursor getRightCellCursor( )
-    {
-        return cellRightCursor;
-    }
-    /**
+	public static String getBuildInfo( )
+	{
+		return getResourceString( "Build" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns the string from the plugin's resource bundle, or 'key' if not
+	 * found.
+	 */
+	public static String getResourceString( String key )
+	{
+		ResourceBundle bundle = Platform.getResourceBundle( getDefault( ).getBundle( ) );
+
+		try
+		{
+			return ( bundle != null ) ? bundle.getString( key ) : key;
+		}
+		catch ( MissingResourceException e )
+		{
+			return key;
+		}
+	}
+
+	/**
+	 * Initialize the cell Cursor instance
+	 */
+	private void initCellCursor( )
+	{
+		ImageData source = ReportPlugin.getImageDescriptor( "icons/cellcursor.bmp" )
+				.getImageData( );
+		ImageData mask = ReportPlugin.getImageDescriptor( "icons/cellcursormask.bmp" )
+				.getImageData( );
+		cellLeftCursor = new Cursor( null, source, mask, 16, 16 );
+
+		source = ReportPlugin.getImageDescriptor( "icons/cellrightcursor.bmp" )
+				.getImageData( );
+		mask = ReportPlugin.getImageDescriptor( "icons/cellrightcursormask.bmp" )
+				.getImageData( );
+		cellRightCursor = new Cursor( null, source, mask, 16, 16 );
+	}
+
+	/**
+	 * 
+	 * @return the cursor used to select cells in the table
+	 */
+	public Cursor getLeftCellCursor( )
+	{
+		return cellLeftCursor;
+	}
+
+	/**
+	 * 
+	 * @return the cursor used to select cells in the table
+	 */
+	public Cursor getRightCellCursor( )
+	{
+		return cellRightCursor;
+	}
+
+	/**
 	 * This method is called when the plug-in is stopped
 	 */
 	public void stop( BundleContext context ) throws Exception
@@ -134,35 +175,35 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * 
 	 * @param key
 	 * @return an Image descriptor, this is useful to preserve the original
-	 * color depth for instance.
+	 *         color depth for instance.
 	 */
 	public static ImageDescriptor getImageDescriptor( String key )
 	{
 		ImageRegistry imageRegistry = ReportPlugin.getDefault( )
-		.getImageRegistry( );
+				.getImageRegistry( );
 
 		ImageDescriptor imageDescriptor = imageRegistry.getDescriptor( key );
-		
+
 		if ( imageDescriptor == null )
 		{
 			URL url = ReportPlugin.getDefault( ).find( new Path( key ) );
-		
+
 			if ( null != url )
 			{
-			    imageDescriptor = ImageDescriptor.createFromURL( url );
+				imageDescriptor = ImageDescriptor.createFromURL( url );
 			}
-		
+
 			if ( imageDescriptor == null )
 			{
-			    imageDescriptor = ImageDescriptor.getMissingImageDescriptor( );
+				imageDescriptor = ImageDescriptor.getMissingImageDescriptor( );
 			}
-		
+
 			imageRegistry.put( key, imageDescriptor );
 		}
-		
+
 		return imageDescriptor;
 	}
-	
+
 	/**
 	 * Relative to UI plugin directory, example: "icons/usertableicon.gif".
 	 * 
@@ -219,7 +260,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
-	 *  Set the show cheatsheet preference in workspace root. Used by wizards
+	 * Set the show cheatsheet preference in workspace root. Used by wizards
 	 */
 	public static void writeCheatSheetPreference( boolean value )
 	{
