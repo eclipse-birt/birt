@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -74,7 +75,9 @@ public class ContextSelectionAction extends SelectionAction
 	{
 		List list = getSelectedObjects( );
 		if ( list.isEmpty( ) )
+		{
 			return null;
+		}
 		TableEditPart part = null;
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -101,7 +104,9 @@ public class ContextSelectionAction extends SelectionAction
 	{
 		List list = getSelectedObjects( );
 		if ( list.isEmpty( ) )
+		{
 			return null;
+		}
 		ListEditPart part = null;
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -119,15 +124,15 @@ public class ContextSelectionAction extends SelectionAction
 	}
 
 	/**
-	 * Gets list edit part.
+	 * Gets list group.
 	 * 
-	 * @return The current selected list edit part, null if no list edit part is
+	 * @return The current selected list group part, null if no list group is
 	 *         selected.
 	 */
 	protected Object getListGroup( )
 	{
 		List list = getSelectedObjects( );
-		if ( list.size( ) != 1 )
+		if ( list.isEmpty( ) )
 		{
 			return null;
 		}
@@ -150,23 +155,47 @@ public class ContextSelectionAction extends SelectionAction
 	protected Object getTableGroup( )
 	{
 		List list = getSelectedObjects( );
-		if ( list.size( ) != 1 )
+		if ( list.isEmpty( ) )
 		{
 			return null;
 		}
-		if ( list.get( 0 ) instanceof DummyEditpart )
+		List groups = new ArrayList( );
+		TableGroupHandle groupHandle = null;
+		for ( Iterator itor = list.iterator( ); itor.hasNext( ); )
 		{
-			DummyEditpart part = (DummyEditpart) list.get( 0 );
-			if ( part.getModel( ) instanceof RowHandle )
+			Object obj = itor.next( );
+			if ( obj instanceof DummyEditpart )
 			{
-				RowHandle group = (RowHandle) part.getModel( );
-				if ( group.getContainer( ) instanceof TableGroupHandle )
+				DummyEditpart part = (DummyEditpart) obj;
+				if ( part.getModel( ) instanceof RowHandle )
 				{
-					return group;
+					RowHandle group = (RowHandle) part.getModel( );
+					if ( group.getContainer( ) instanceof TableGroupHandle )
+					{
+						TableGroupHandle handle = (TableGroupHandle) group.getContainer( );
+						if ( groupHandle != handle )
+						{
+							// stores different group row handles.
+							groups.add( group );
+							groupHandle = handle;
+						}
+					}
+					else
+					{
+						return null;
+					}
 				}
 			}
 		}
-		return null;
+		// only returns one group row handle, if more, returns null.
+		if ( groups.size( ) == 1 )
+		{
+			return groups.get( 0 );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -178,7 +207,9 @@ public class ContextSelectionAction extends SelectionAction
 	{
 		List list = getSelectedObjects( );
 		if ( list.isEmpty( ) )
+		{
 			return Collections.EMPTY_LIST;
+		}
 		List columnHandles = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -204,7 +235,9 @@ public class ContextSelectionAction extends SelectionAction
 	{
 		List list = getSelectedObjects( );
 		if ( list.isEmpty( ) )
+		{
 			return Collections.EMPTY_LIST;
+		}
 		List rowHandles = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -229,7 +262,9 @@ public class ContextSelectionAction extends SelectionAction
 	{
 		List list = getSelectedObjects( );
 		if ( list.isEmpty( ) )
+		{
 			return Collections.EMPTY_LIST;
+		}
 		List handles = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{

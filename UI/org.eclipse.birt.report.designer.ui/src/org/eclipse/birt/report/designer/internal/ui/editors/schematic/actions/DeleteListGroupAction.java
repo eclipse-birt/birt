@@ -49,7 +49,7 @@ public class DeleteListGroupAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-		if ( getListGroup( ) != null )
+		if ( getListGroup( ) != null && getListEditPart( ) != null )
 		{
 			getListEditPart( ).removeGroup( getListGroup( ) );
 		}

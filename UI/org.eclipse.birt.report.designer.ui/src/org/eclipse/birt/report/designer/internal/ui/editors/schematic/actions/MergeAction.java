@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -45,7 +46,12 @@ public class MergeAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getTableEditPart( ) != null && getTableEditPart( ).canMerge( );
+		if ( getRowHandles( ).isEmpty( ) && getColumnHandles( ).isEmpty( ) )
+		{
+			return getTableEditPart( ) != null
+					&& getTableEditPart( ).canMerge( );
+		}
+		return false;
 	}
 
 	/*
@@ -55,10 +61,10 @@ public class MergeAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-		if ( getTableEditPart( ) != null )
+		TableEditPart part = getTableEditPart( );
+		if ( part != null && part.canMerge( ) )
 		{
-			// merge cells
-			getTableEditPart( ).merge( );
+			part.merge( );
 		}
 	}
 }

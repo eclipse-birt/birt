@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Delete group action
+ * Delete table group action
  */
 
 public class DeleteTableGroupAction extends ContextSelectionAction
@@ -42,7 +44,7 @@ public class DeleteTableGroupAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getTableGroup( ) != null;
+		return getRowHandles( ).size( ) == 1 && getTableGroup( ) != null;
 	}
 
 	/*
@@ -52,9 +54,12 @@ public class DeleteTableGroupAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-		if ( getTableGroup( ) != null )
+		if ( getTableGroup( ) != null && getTableEditPart( ) != null )
 		{
-			getTableEditPart( ).removeGroup( getTableGroup( ) );
+			TableEditPart part = getTableEditPart( );
+			EditPartViewer viewer = part.getViewer( );
+			part.removeGroup( getTableGroup( ) );
+			viewer.select( part );
 		}
 	}
 }

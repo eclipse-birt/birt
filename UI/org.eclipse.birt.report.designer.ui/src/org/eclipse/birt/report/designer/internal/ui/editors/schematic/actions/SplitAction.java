@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
@@ -51,15 +49,25 @@ public class SplitAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return false;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		if ( size != 1 )
+		if ( getRowHandles( ).isEmpty( ) && getColumnHandles( ).isEmpty( ) )
+		{
+			return getTableEditPart( ) != null && cellCanSplit( );
+		}
+		return false;
+	}
+
+	/**
+	 * Determines whether selected cell can be splited.
+	 * 
+	 * @return
+	 */
+	private boolean cellCanSplit( )
+	{
+		if ( getSelectedObjects( ).size( ) != 1 )
 		{
 			return false;
 		}
-		Object obj = list.get( 0 );
+		Object obj = getSelectedObjects( ).get( 0 );
 		if ( obj instanceof TableCellEditPart )
 		{
 			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( )

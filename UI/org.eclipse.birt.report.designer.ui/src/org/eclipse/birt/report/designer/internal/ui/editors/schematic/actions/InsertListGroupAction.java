@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.ui.IWorkbenchPart;
@@ -47,12 +45,7 @@ public class InsertListGroupAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		ListEditPart part = getListEditPart( );
-		if ( part == null )
-		{
-			return false;
-		}
-		return true;
+		return getListEditPart( ) != null;
 	}
 
 	/*
@@ -63,16 +56,18 @@ public class InsertListGroupAction extends ContextSelectionAction
 
 	public void run( )
 	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getActivityStack( );
-		stack.startTrans( STACK_MSG_INSERT_GROUP );
-		if ( getListEditPart( ).insertGroup( ) )
+		if ( getListEditPart( ) != null )
 		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
+			CommandStack stack = getActiveCommandStack( );
+			stack.startTrans( STACK_MSG_INSERT_GROUP );
+			if ( getListEditPart( ).insertGroup( ) )
+			{
+				stack.commit( );
+			}
+			else
+			{
+				stack.rollbackAll( );
+			}
 		}
 	}
 }

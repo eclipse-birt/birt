@@ -989,7 +989,7 @@ public class TableEditPart extends ReportElementEditPart implements
 		int size = selections.size( );
 		TableCellEditPart[] parts = new TableCellEditPart[size];
 		selections.toArray( parts );
-
+		
 		TableCellEditPart[] caleNumber = getMinAndMaxNumber( parts );
 		TableCellEditPart minRow = caleNumber[0];
 
@@ -1137,7 +1137,12 @@ public class TableEditPart extends ReportElementEditPart implements
 		List temp = new ArrayList( );
 		for ( int i = 0; i < size; i++ )
 		{
-			temp.add( ( (EditPart) list.get( i ) ).getModel( ) );
+			ReportElementEditPart part = (ReportElementEditPart) list.get( i );
+			if ( part.isDelete( ) )
+			{
+				return false;
+			}
+			temp.add( part.getModel( ) );
 		}
 		return getTableAdapter( ).canMerge( temp );
 	}

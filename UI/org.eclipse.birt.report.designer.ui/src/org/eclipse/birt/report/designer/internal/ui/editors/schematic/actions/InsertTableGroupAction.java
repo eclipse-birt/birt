@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.ui.IWorkbenchPart;
@@ -49,12 +48,7 @@ public class InsertTableGroupAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		TableEditPart part = getTableEditPart( );
-		if ( part == null )
-		{
-			return false;
-		}
-		return true;
+		return getTableEditPart( ) != null;
 	}
 
 	/**
@@ -62,15 +56,18 @@ public class InsertTableGroupAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_ADD_GROUP );
-		if ( getTableEditPart( ).insertGroup( ) )
+		if ( getTableEditPart( ) != null )
 		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
+			CommandStack stack = getActiveCommandStack( );
+			stack.startTrans( STACK_MSG_ADD_GROUP );
+			if ( getTableEditPart( ).insertGroup( ) )
+			{
+				stack.commit( );
+			}
+			else
+			{
+				stack.rollbackAll( );
+			}
 		}
 	}
 }
