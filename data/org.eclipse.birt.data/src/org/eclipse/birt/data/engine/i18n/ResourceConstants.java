@@ -97,6 +97,8 @@ public class ResourceConstants
 	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
 	
+	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
+	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
