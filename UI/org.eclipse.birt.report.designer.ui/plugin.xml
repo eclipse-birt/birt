@@ -211,6 +211,22 @@
             contentFile="templates/dual_column_listing.xml"
             name="%cheatsheet.dualcolumnlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting"/>
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="templates/chart_listing.xml"
+            name="%cheatsheet.chartlisting"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting"/>
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="templates/dual_chart_listing.xml"
+            name="%cheatsheet.dualchartlisting"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting"/>
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="templates/sidebyside_chart_listing.xml"
+            name="%cheatsheet.sidebysidechartlisting"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting"/>
+       
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
