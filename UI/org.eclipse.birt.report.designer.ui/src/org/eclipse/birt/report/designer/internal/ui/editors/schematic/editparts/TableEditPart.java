@@ -528,10 +528,22 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public void selectColumn( int[] numbers )
 	{
+		if (numbers == null || numbers.length == 0)
+		{
+			return ;
+		}
 		ArrayList list = new ArrayList( );
 		int size = numbers.length;
+		int width = 0;
+		
+		int minColumnnumber =  numbers[0];
 		for ( int i = 0; i < size; i++ )
 		{
+			if (minColumnnumber > numbers[i])
+			{
+				minColumnnumber = numbers[i];
+			}
+			width = width + TableUtil.caleVisualWidth( this, getColumn( numbers[i] ) );
 			list.add( new DummyColumnEditPart( getColumn( numbers[i] ) ) );
 		}
 		for ( int i = 0; i < size; i++ )
@@ -546,8 +558,8 @@ public class TableEditPart extends ReportElementEditPart implements
 				}
 			}
 		}
-		int width = TableUtil.caleVisualWidth( this, getColumn( numbers[0] ) );
-		int x = TableUtil.caleX( this, numbers[0] );
+		
+		int x = TableUtil.caleX( this, minColumnnumber );
 		Rectangle rect = new Rectangle( x,
 				0,
 				width,
@@ -596,13 +608,25 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @param numbers
 	 */
 	public void selectRow( int[] numbers )
-	{
+	{	
+		if (numbers == null || numbers.length == 0)
+		{
+			return ;
+		}
 		ArrayList list = new ArrayList( );
 		int size = numbers.length;
+		int height = 0;
+		int minRownumber =  numbers[0];
 
 		//add row object in the list first
 		for ( int i = 0; i < size; i++ )
 		{
+			
+			if (minRownumber > numbers[i])
+			{
+				minRownumber = numbers[i];
+			}
+			height = height + TableUtil.caleVisualHeight( this, getRow( numbers[i] ) );
 			list.add( new DummyRowEditPart( getRow( numbers[i] ) ) );
 		}
 
@@ -619,8 +643,8 @@ public class TableEditPart extends ReportElementEditPart implements
 				}
 			}
 		}
-		int height = TableUtil.caleVisualHeight( this, getRow( numbers[0] ) );
-		int y = TableUtil.caleY( this, numbers[0] );
+		
+		int y = TableUtil.caleY( this, minRownumber );
 		Rectangle rect = new Rectangle( 0,
 				y,
 				getFigure( ).getBounds( ).width
@@ -1267,6 +1291,11 @@ public class TableEditPart extends ReportElementEditPart implements
 			};
 			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
 		}
+		
+		public int getColumnNumber()
+		{
+			return HandleAdapterFactory.getInstance().getColumnHandleAdapter(getModel()).getColumnNumber();
+		}
 	}
 
 	/**
@@ -1302,6 +1331,11 @@ public class TableEditPart extends ReportElementEditPart implements
 				}
 			};
 			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
+		}
+		
+		public int getRowNumber()
+		{
+			return HandleAdapterFactory.getInstance().getRowHandleAdapter(getModel()).getRowNumber();
 		}
 	}
 }

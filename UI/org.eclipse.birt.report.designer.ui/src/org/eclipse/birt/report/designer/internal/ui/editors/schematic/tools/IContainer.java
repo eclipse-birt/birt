@@ -27,4 +27,6 @@ public interface IContainer
 	 * @return
 	 */
 	boolean contains( Point pt );
+	
+	boolean isSelect();
 }

@@ -10,6 +10,9 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.ColumnHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.RowHandle;
+import org.eclipse.gef.Handle;
 
 /**
  * RowTracker
@@ -36,6 +39,10 @@ public class RowTracker extends TableSelectionGuideTracker
 	 */
 	public void select( )
 	{
+		if (container.isSelect() && getCurrentInput().isMouseButtonDown(3) )
+		{
+			return ;
+		}
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		part.selectRow( new int[]{
 			getNumber( )
@@ -73,5 +80,40 @@ public class RowTracker extends TableSelectionGuideTracker
 		}
 
 		return rlt;
+	}
+	
+	public boolean isDealwithDrag()
+	{
+		Handle handle = getHandleUnderMouse();
+		if (handle instanceof RowHandle)
+		{
+			return ((RowHandle)handle).getOwner() == getSourceEditPart();
+		}
+		return false;
+		//EditPart part = getEditPartUnderMouse();
+		//return part instanceof TableEditPart.DummyColumnEditPart || isSameTable();
+	}
+	
+	public void selectDrag( )
+	{
+		RowHandle handle = (RowHandle)getHandleUnderMouse();
+		
+		int rowNumber = handle.getRowNumber();
+		int number = getNumber();
+		int[] rows = new int[]{};
+		for (int i=number; i<=number + Math.abs(number - rowNumber); i++)
+		{
+			int lenegth = rows.length;
+			int[] temp = new int[lenegth + 1];
+
+			System.arraycopy( rows, 0, temp, 0, lenegth );
+			temp[lenegth] = number > rowNumber ? number - (i - number): i;
+			rows = temp;
+		}
+		if (rows.length > 0)
+		{
+			TableEditPart tableEditpart = (TableEditPart) getSourceEditPart( );
+			tableEditpart.selectRow( rows);
+		}
 	}
 }

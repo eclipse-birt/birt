@@ -26,6 +26,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.swt.SWT;
 
@@ -169,7 +170,7 @@ public class ColumnHandle extends AbstractHandle implements IContainer
 	 * 
 	 * @return true if selected, else false.
 	 */
-	protected boolean isSelect( )
+	public boolean isSelect( )
 	{
 		TableEditPart part = (TableEditPart) getOwner( );
 		List list = part.getViewer( ).getSelectedEditParts( );
@@ -183,5 +184,15 @@ public class ColumnHandle extends AbstractHandle implements IContainer
 			}
 		}
 		return false;
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.handles.AbstractHandle#getOwner()
+	 */
+	public GraphicalEditPart getOwner( )
+	{
+		// TODO Auto-generated method stub
+		return super.getOwner( );
 	}
 }

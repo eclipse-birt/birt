@@ -9,7 +9,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.gef.Handle;
 import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 
@@ -55,6 +57,11 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
 	}
 	protected boolean handleDragInProgress( )
 	{
+		if (isDealwithDrag())
+		{
+			selectDrag();
+		}
+		
 		return true;
 	}
 
@@ -79,5 +86,61 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
 	 * Provides select feature for tracker.
 	 */
 	public abstract void select( );
-
+	
+	public boolean isDealwithDrag()
+	{
+		return true;
+	}
+	
+	public void selectDrag( )
+	{
+		
+	}
+	
+//	protected boolean isSameTable()
+//	{
+//		if (getHandleUnderMouse() == null)
+//		{
+//			return false;
+//		}
+//		Object  obj  = getEditPartUnderMouse().getModel();
+//		if (obj instanceof DesignElementHandle)
+//		{
+//			return false;
+//		}
+//		DesignElementHandle handle = (DesignElementHandle)obj;
+//		DesignElementHandle parent = handle.getContainer();
+//		while (parent != null)
+//		{
+//			if (parent != getSourceEditPart().getModel())
+//			{
+//				return true;
+//			}
+//			parent = parent.getContainer();
+//		}
+//		return false;
+//	}
+	
+	/**
+	 * Updates the target editpart and returns <code>true</code> if the target changes.  The
+	 * target is updated by using the target conditional and the target request.  If the
+	 * target has been locked, this method does nothing and returns <code>false</code>.
+	 * @return <code>true</code> if the target was changed
+	 */
+//	protected EditPart getEditPartUnderMouse() {
+//		
+//			Collection exclude = getExclusionSet();
+//			EditPart editPart = getCurrentViewer().findObjectAtExcluding(
+//				getLocation(),
+//				exclude,
+//				getTargetingConditional());
+//			if (editPart != null)
+//				return editPart.getTargetEditPart(getTargetRequest());
+//			return null;
+//			
+//	}
+	protected Handle getHandleUnderMouse()
+	{
+		return ((DeferredGraphicalViewer)(getSourceEditPart().getViewer())).findHandleAt(getLocation());
+	}
 }
