@@ -14,7 +14,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.ISubqueryDefn;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -40,7 +40,7 @@ class PreparedSubquery extends PreparedQuery
 	 * If 0, subquery is defined outside of any groups.
 	 * @throws DataException
 	 */
-	PreparedSubquery( ISubqueryDefn subquery, PreparedQuery parentQuery, int groupLevel )
+	PreparedSubquery( ISubqueryDefinition subquery, PreparedQuery parentQuery, int groupLevel )
 		throws DataException
 	{
 		super( parentQuery.getDataEngine(), subquery);

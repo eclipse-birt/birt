@@ -21,10 +21,10 @@ import java.util.Iterator;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSetDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IReportQueryDefn;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -183,8 +183,8 @@ public class DataEngineImpl extends DataEngine
 			throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE, dataSourceName );
 		
 		Class dSourceClass;
-		if ( dataSet instanceof IExtendedDataSetDesign )
-			dSourceClass = IExtendedDataSourceDesign.class;
+		if ( dataSet instanceof IOdaDataSetDesign )
+			dSourceClass = IOdaDataSourceDesign.class;
 		else if ( dataSet instanceof IScriptDataSetDesign )
 			dSourceClass = IScriptDataSourceDesign.class;
 		else
@@ -241,7 +241,7 @@ public class DataEngineImpl extends DataEngine
 	 * 				ReportQuery ready for execution.
 	 * @throws 		DataException if error occurs in Data Engine
 	 */
-	public IPreparedQuery prepare( IReportQueryDefn querySpec )
+	public IPreparedQuery prepare( IQueryDefinition querySpec )
 			throws DataException
 	{ 
 		PreparedDataSourceQuery result = PreparedDataSourceQuery.newInstance( this,

@@ -15,10 +15,10 @@ package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IReportQueryDefn;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
@@ -40,7 +40,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 * @throws DataException
 	 */
 	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
-			IReportQueryDefn queryDefn ) throws DataException
+			IQueryDefinition queryDefn ) throws DataException
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
@@ -54,7 +54,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		{
 			return new PreparedScriptDSQuery( dataEngine, queryDefn, dset );
 		}
-		if ( dset instanceof IExtendedDataSetDesign )
+		if ( dset instanceof IOdaDataSetDesign )
 		{
 			return new PreparedExtendedDSQuery( dataEngine, queryDefn, dset );
 		}
@@ -64,7 +64,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		}
 	}
 	
-	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IReportQueryDefn queryDefn, 
+	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
 			IBaseDataSetDesign dataSetDesign)
 		throws DataException
 	{
@@ -83,10 +83,10 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 	 */
-	public IReportQueryDefn getReportQueryDefn()
+	public IQueryDefinition getReportQueryDefn()
 	{
-	    assert getQueryDefn() instanceof IReportQueryDefn;
-		return (IReportQueryDefn) getQueryDefn();
+	    assert getQueryDefn() instanceof IQueryDefinition;
+		return (IQueryDefinition) getQueryDefn();
 	}
 	
 	/**

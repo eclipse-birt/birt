@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 
 /**
@@ -65,7 +65,7 @@ abstract public class BaseTransform implements IBaseTransform
 	/**
 	 * Add one filter to the filter list
 	 */
-	public void addFilter( IFilterDefn filter) 
+	public void addFilter( IFilterDefinition filter) 
 	{
 		filters.add(filter);
 	}
@@ -86,7 +86,7 @@ abstract public class BaseTransform implements IBaseTransform
 	 * Add a subquery to the list
 	 * @param subquery one subquery to add to the subquery set
 	 */
-	public void addSubquery( SubqueryDefn subquery) 
+	public void addSubquery( SubqueryDefinition subquery) 
 	{
 	    subqueries.add(subquery);
 	}
@@ -105,7 +105,7 @@ abstract public class BaseTransform implements IBaseTransform
 	/**
 	 * Appends one sort definition to the list of sort criteria
 	 */
-	public void addSort( SortDefn sort) 
+	public void addSort( SortDefinition sort) 
 	{
 		sorts.add(sort);
 	}

@@ -12,13 +12,13 @@
 package org.eclipse.birt.report.engine.data;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
  * Defines a set of data-related functions that engine needs from a data engine 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 public interface IDataEngine
 {
@@ -44,7 +44,7 @@ public interface IDataEngine
 	 * @param the query to be executed
 	 * @return IResultSet object or null if the query is null
 	 */
-	IResultSet execute(IBaseQueryDefn query);
+	IResultSet execute(IBaseQueryDefinition query);
 	
 	/**
 	 * close the IResultSet of the last executing operator

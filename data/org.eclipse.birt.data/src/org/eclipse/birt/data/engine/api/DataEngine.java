@@ -97,7 +97,7 @@ abstract public class DataEngine
 	 * 				ReportQuery ready for execution.
 	 * @throws 		DataException if error occurs in Data Engine
 	 */
-	abstract public IPreparedQuery prepare( IReportQueryDefn querySpec )
+	abstract public IPreparedQuery prepare( IQueryDefinition querySpec )
 			throws DataException;
 	
 	/**

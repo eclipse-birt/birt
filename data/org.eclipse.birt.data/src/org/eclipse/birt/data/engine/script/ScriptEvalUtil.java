@@ -15,7 +15,7 @@ import java.util.Date;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IJSExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataTypeUtil;
@@ -245,7 +245,7 @@ public class ScriptEvalUtil
 		}
 		else
 		{
-			IJSExpression jsExpr = (IJSExpression) expr;
+			IScriptExpression jsExpr = (IScriptExpression) expr;
 			return evaluateJSExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
 		

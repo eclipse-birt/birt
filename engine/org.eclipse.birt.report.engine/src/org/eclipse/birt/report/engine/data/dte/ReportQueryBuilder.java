@@ -20,22 +20,22 @@ import java.util.LinkedList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefn;
-import org.eclipse.birt.data.engine.api.IGroupDefn;
-import org.eclipse.birt.data.engine.api.IInputParamBinding;
-import org.eclipse.birt.data.engine.api.ISortDefn;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefn;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefn;
-import org.eclipse.birt.data.engine.api.querydefn.InputParamBinding;
-import org.eclipse.birt.data.engine.api.querydefn.JSExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ReportQueryDefn;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefn;
-import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefn;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
@@ -89,7 +89,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.7 $ $Date: 2005/02/12 02:52:48 $
+ * @version $Revision: 1.8 $ $Date: 2005/02/16 02:32:46 $
  */
 public class ReportQueryBuilder
 {
@@ -186,9 +186,9 @@ public class ReportQueryBuilder
 		 * 
 		 * @param item report item
 		 */
-		private BaseQueryDefn prepareVisit( ReportItemDesign item )
+		private BaseQueryDefinition prepareVisit( ReportItemDesign item )
 		{
-			BaseQueryDefn tempQuery = null;
+			BaseQueryDefinition tempQuery = null;
 			if (item instanceof ListingDesign)
 				tempQuery = createQuery( (ListingDesign)item );
 			else
@@ -205,7 +205,7 @@ public class ReportQueryBuilder
 		/**
 		 * Clean up stack after visiting a report item
 		 */
-		private void finishVisit( BaseQueryDefn query )
+		private void finishVisit( BaseQueryDefinition query )
 		{
 			if (query != null)
 			{
@@ -221,7 +221,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitFreeFormItem( FreeFormItemDesign container )
 		{
-			BaseQueryDefn query = prepareVisit( container );
+			BaseQueryDefinition query = prepareVisit( container );
 						
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this );
@@ -236,7 +236,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitGridItem( GridItemDesign grid )
 		{
-			BaseQueryDefn query = prepareVisit( grid );
+			BaseQueryDefinition query = prepareVisit( grid );
 
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
@@ -255,7 +255,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitImageItem( ImageItemDesign image )
 		{
-			BaseQueryDefn query = prepareVisit( image );
+			BaseQueryDefinition query = prepareVisit( image );
 
 			handleAction( image.getAction( ) );
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
@@ -274,7 +274,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitLabelItem( LabelItemDesign label )
 		{
-			BaseQueryDefn query = prepareVisit( label );
+			BaseQueryDefinition query = prepareVisit( label );
 			handleAction( label.getAction( ) );
 			finishVisit( query ); 
 		}
@@ -305,8 +305,8 @@ public class ReportQueryBuilder
 				// parameters.put(IReportItemGeneration.PARENT_QUERY, getParentQuery());
 				itemGeneration.initialize(parameters);
 				
-				IBaseQueryDefn query = null;
-				IBaseQueryDefn parentQuery = getParentQuery();
+				IBaseQueryDefinition query = null;
+				IBaseQueryDefinition parentQuery = getParentQuery();
 				boolean first = true;
 				while ( (query = itemGeneration.nextQuery( parentQuery ) ) != null)
 				{
@@ -334,7 +334,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitListItem( ListItemDesign list )
 		{
-			BaseQueryDefn query = prepareVisit( list );
+			BaseQueryDefinition query = prepareVisit( list );
 			assert query != null;
 			
 			visitListBand( list.getHeader( ) );
@@ -368,7 +368,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitTextItem( TextItemDesign text )
 		{
-			BaseQueryDefn query = prepareVisit( text );
+			BaseQueryDefinition query = prepareVisit( text );
 			if ( text.getDomTree( ) == null )
 			{
 				String content = getLocalizedString( text.getContentKey( ),
@@ -391,7 +391,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitTableItem( TableItemDesign table )
 		{
-			BaseQueryDefn query = prepareVisit( table );
+			BaseQueryDefinition query = prepareVisit( table );
 
 			for ( int i = 0; i < table.getColumnCount( ); i++ )
 			{
@@ -430,7 +430,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitMultiLineItem( MultiLineItemDesign multiLine )
 		{
-			BaseQueryDefn query = prepareVisit( multiLine );
+			BaseQueryDefinition query = prepareVisit( multiLine );
 
 			addExpression( multiLine.getContent( ) );
 			addExpression( multiLine.getContentType( ) );
@@ -442,7 +442,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitDataItem( DataItemDesign data )
 		{
-			BaseQueryDefn query = prepareVisit( data );
+			BaseQueryDefinition query = prepareVisit( data );
 			handleReportItemExpressions( data );
 			handleAction( data.getAction( ) );
 			addExpression( data.getValue( ) );
@@ -488,7 +488,7 @@ public class ReportQueryBuilder
 		protected void handleListGroup( ListGroupDesign group,
 				GroupHandle handle )
 		{
-			IGroupDefn groupDefn = handleGroup( group, handle );
+			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
 			visitListBand( group.getHeader( ) );
@@ -503,10 +503,10 @@ public class ReportQueryBuilder
 		/**
 		 * processes a table/list group 
 		 */
-		protected IGroupDefn handleGroup( GroupDesign group, GroupHandle handle )
+		protected IGroupDefinition handleGroup( GroupDesign group, GroupHandle handle )
 		{
-			GroupDefn groupDefn = new GroupDefn( group.getName( ) );
-			groupDefn.setKeyExpresion( handle.getKeyExpr( ) );
+			GroupDefinition groupDefn = new GroupDefinition( group.getName( ) );
+			groupDefn.setKeyExpression( handle.getKeyExpr( ) );
 			String interval = handle.getInterval( );
 			if ( interval != null )
 			{
@@ -543,7 +543,7 @@ public class ReportQueryBuilder
 		protected void handleTableGroup( TableGroupDesign group,
 				GroupHandle handle )
 		{
-			IGroupDefn groupDefn = handleGroup( group, handle );
+			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
 			handleTableBand( group.getHeader( ) );
@@ -712,15 +712,15 @@ public class ReportQueryBuilder
 		/**
 		 * @return the parent query for the current report item
 		 */
-		protected BaseQueryDefn getParentQuery( )
+		protected BaseQueryDefinition getParentQuery( )
 		{
 			if ( queryStack.isEmpty( ) )
 				return null;
 			
 			for ( int i = queryStack.size( ) - 1; i >= 0; i-- )
 			{
-				if ( queryStack.get( i ) instanceof BaseQueryDefn )
-					return (BaseQueryDefn) queryStack.get( i );
+				if ( queryStack.get( i ) instanceof BaseQueryDefinition )
+					return (BaseQueryDefinition) queryStack.get( i );
 			}
 			return null;
 
@@ -749,7 +749,7 @@ public class ReportQueryBuilder
 		 * @param item report item
 		 * @return a report query
 		 */
-		protected BaseQueryDefn createQuery( ReportItemDesign item )
+		protected BaseQueryDefinition createQuery( ReportItemDesign item )
 		{
 			DataSetHandle dsHandle = (DataSetHandle) ( (ReportItemHandle) item
 					.getHandle( ) ).getDataSet( );
@@ -757,7 +757,7 @@ public class ReportQueryBuilder
 			if ( dsHandle != null )
 			{
 				ReportItemHandle riHandle =(ReportItemHandle)item.getHandle();
-				ReportQueryDefn query = new ReportQueryDefn( getParentQuery( ) );
+				QueryDefinition query = new QueryDefinition( getParentQuery( ) );
 				query.setDataSetName( dsHandle.getName( ) );
 
 				query.getInputParamBindings( ).addAll(
@@ -775,10 +775,10 @@ public class ReportQueryBuilder
 		 * @param listing the listing item
 		 * @return a report query definition
 		 */
-		protected BaseQueryDefn createQuery( ListingDesign listing )
+		protected BaseQueryDefinition createQuery( ListingDesign listing )
 		{
 			// creates its own query
-			BaseQueryDefn query = createQuery((ReportItemDesign)listing);
+			BaseQueryDefinition query = createQuery((ReportItemDesign)listing);
 			if (query != null)
 			{
 				query.getSorts( ).addAll( createSorts( listing ) );
@@ -788,7 +788,7 @@ public class ReportQueryBuilder
 			
 			// creates a subquery, instead
 			String name = createUniqueQueryName( );
-			SubqueryDefn subQuery = new SubqueryDefn( name );
+			SubqueryDefinition subQuery = new SubqueryDefinition( name );
 			listing.setQuery( subQuery );
 			subQuery.getSorts( ).addAll( createSorts( listing ) );
 			subQuery.getFilters( ).addAll( createFilters( listing ) );
@@ -892,7 +892,7 @@ public class ReportQueryBuilder
 		 * @param handle a filter condition handle
 		 * @return the filter
 		 */
-		private IFilterDefn createFilter( FilterConditionHandle handle )
+		private IFilterDefinition createFilter( FilterConditionHandle handle )
 		{
 			String filterExpr = handle.getExpr( );
 			if ( filterExpr == null || filterExpr.length( ) == 0 )
@@ -901,7 +901,7 @@ public class ReportQueryBuilder
 			// converts to DtE exprFilter if there is no operator
 			String filterOpr = handle.getOperator( );
 			if ( filterOpr == null || filterOpr.length( ) == 0 )
-				return new FilterDefn( new JSExpression( filterExpr ) );
+				return new FilterDefinition( new ScriptExpression( filterExpr ) );
 
 			/*
 			 * has operator defined, try to convert filter condition to
@@ -912,7 +912,7 @@ public class ReportQueryBuilder
 			int dteOpr = toDteFilterOperator( filterOpr );
 			String operand1 = handle.getValue1( );
 			String operand2 = handle.getValue2( );
-			return new FilterDefn( new ConditionalExpression( column, dteOpr,
+			return new FilterDefinition( new ConditionalExpression( column, dteOpr,
 					operand1, operand2 ) );
 		}
 
@@ -932,7 +932,7 @@ public class ReportQueryBuilder
 				{
 					FilterConditionHandle filterHandle = (FilterConditionHandle) iter
 							.next( );
-					IFilterDefn filter = createFilter( filterHandle );
+					IFilterDefinition filter = createFilter( filterHandle );
 					filters.add( filter );
 				}
 			}
@@ -979,9 +979,9 @@ public class ReportQueryBuilder
 		 * @param handle the SortKeyHandle
 		 * @return the sort object
 		 */
-		private ISortDefn createSort( SortKeyHandle handle )
+		private ISortDefinition createSort( SortKeyHandle handle )
 		{
-			SortDefn sort = new SortDefn( );
+			SortDefinition sort = new SortDefinition( );
 			sort.setExpression( handle.getKey( ) );
 			sort.setSortDirection( handle.getDirection( ).equals(
 					DesignChoiceConstants.SORT_DIRECTION_ASC ) ? 0 : 1 );
@@ -1040,14 +1040,14 @@ public class ReportQueryBuilder
 		 * @param handle
 		 * @return
 		 */
-		protected IInputParamBinding createParamBinding(
+		protected IInputParameterBinding createParamBinding(
 				ParamBindingHandle handle )
 		{
 			if ( handle.getExpression( ) == null )
 				return null; // no expression is bound
-			JSExpression expr = new JSExpression( handle.getExpression( ) );
+			ScriptExpression expr = new ScriptExpression( handle.getExpression( ) );
 			// model provides binding by name only
-			return new InputParamBinding( handle.getParamName( ), expr );
+			return new InputParameterBinding( handle.getParamName( ), expr );
 
 		}
 		
@@ -1065,7 +1065,7 @@ public class ReportQueryBuilder
 	            while ( iter.hasNext() )
 	            {
 	                ParamBindingHandle modelParamBinding = (ParamBindingHandle) iter.next();
-	                IInputParamBinding binding = createParamBinding( modelParamBinding );
+	                IInputParameterBinding binding = createParamBinding( modelParamBinding );
 	                if(binding != null)
 	                	list.add(binding);
 	            }
@@ -1080,45 +1080,45 @@ public class ReportQueryBuilder
 		{
 			if ( DesignChoiceConstants.INTERVAL_YEAR.equals( interval ) ) 
 			{
-				return IGroupDefn.YEAR_INTERVAL;
+				return IGroupDefinition.YEAR_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_MONTH.equals( interval ) ) 
 			{
-				return IGroupDefn.MONTH_INTERVAL;
+				return IGroupDefinition.MONTH_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_WEEK.equals( interval ) ) // 
 			{
-				return IGroupDefn.WEEK_INTERVAL;
+				return IGroupDefinition.WEEK_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_QUARTER.equals( interval ) ) 
 			{
-				return IGroupDefn.QUARTER_INTERVAL;
+				return IGroupDefinition.QUARTER_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_DAY.equals( interval ) ) 
 			{
-				return IGroupDefn.DAY_INTERVAL;
+				return IGroupDefinition.DAY_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_HOUR.equals( interval ) ) 
 			{
-				return IGroupDefn.HOUR_INTERVAL;
+				return IGroupDefinition.HOUR_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_MINUTE.equals( interval ) ) 
 			{
-				return IGroupDefn.MINUTE_INTERVAL;
+				return IGroupDefinition.MINUTE_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_PREFIX.equals( interval ) ) 
 			{
-				return IGroupDefn.STRING_PREFIX_INTERVAL;
+				return IGroupDefinition.STRING_PREFIX_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_SECOND.equals( interval ) ) 
 			{
-				return IGroupDefn.SECOND_INTERVAL;
+				return IGroupDefinition.SECOND_INTERVAL;
 			}
 			if ( DesignChoiceConstants.INTERVAL_INTERVAL.equals( interval ) ) 
 			{
-				return IGroupDefn.NUMERIC_INTERVAL;
+				return IGroupDefinition.NUMERIC_INTERVAL;
 			}
-			return IGroupDefn.NO_INTERVAL;
+			return IGroupDefinition.NO_INTERVAL;
 		}
 
 		/**
@@ -1128,9 +1128,9 @@ public class ReportQueryBuilder
 		protected int parseSortDirection( String direction )
 		{
 			if ( "asc".equals( direction ) ) // $NON-NLS-1$
-				return ISortDefn.SORT_ASC;
+				return ISortDefinition.SORT_ASC;
 			if ( "desc".equals( direction ) ) // $NON-NLS-1$
-				return ISortDefn.SORT_DESC;
+				return ISortDefinition.SORT_DESC;
 			assert false;
 			return 0;
 		}

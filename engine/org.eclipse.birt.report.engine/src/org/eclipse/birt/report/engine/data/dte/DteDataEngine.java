@@ -19,14 +19,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IJSExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IReportQueryDefn;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.ISubqueryDefn;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -44,7 +44,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -207,7 +207,7 @@ public class DteDataEngine implements IDataEngine
 		// prepare report queries
 		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
 		{
-			IReportQueryDefn query = (IReportQueryDefn) report.getQueries( )
+			IQueryDefinition query = (IQueryDefinition) report.getQueries( )
 					.get( i );
 			try
 			{
@@ -230,12 +230,12 @@ public class DteDataEngine implements IDataEngine
 	 * 
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.model.elements.ReportItemDesign)
 	 */
-	public IResultSet execute( IBaseQueryDefn query )
+	public IResultSet execute( IBaseQueryDefinition query )
 	{
 		if ( query == null )
 			return null;
 		
-		if ( query instanceof IReportQueryDefn )
+		if ( query instanceof IQueryDefinition )
 		{
 			Scriptable scope = context.getScope( );
 			IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
@@ -269,14 +269,14 @@ public class DteDataEngine implements IDataEngine
 				}
 			}
 		}
-		else if ( query instanceof ISubqueryDefn )
+		else if ( query instanceof ISubqueryDefinition )
 		{
 			assert ( rsStack.getLast() instanceof DteResultSet );
 
 			try
 			{
 				IResultIterator ri = ( (DteResultSet) rsStack.getLast() ).getRs()
-						.getSecondaryIterator( ( (ISubqueryDefn) query )
+						.getSecondaryIterator( ( (ISubqueryDefinition) query )
 								.getName( ), context.getScope( ) );
 				assert ri != null;
 				DteResultSet dRS = new DteResultSet( ri, this );
@@ -356,9 +356,9 @@ public class DteDataEngine implements IDataEngine
 		}
 		else	// Rhino handles evaluation
 		{
-			if ( expr instanceof IJSExpression )
+			if ( expr instanceof IScriptExpression )
 			{
-				return context.evaluate( ( (IJSExpression) expr ).getText( ) );
+				return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
 			}
 			else if (expr instanceof IConditionalExpression)
 			{
@@ -401,9 +401,9 @@ public class DteDataEngine implements IDataEngine
 			return new Boolean(false);
 		
 		int operator = expr.getOperator( );
-		IJSExpression testExpr = expr.getExpression( );
-		IJSExpression v1 = expr.getOperand1( );
-		IJSExpression v2 = expr.getOperand2( );
+		IScriptExpression testExpr = expr.getExpression( );
+		IScriptExpression v1 = expr.getOperand1( );
+		IScriptExpression v2 = expr.getOperand2( );
 
 		if ( testExpr == null )
 			return new Boolean(false);

@@ -131,7 +131,7 @@ public interface IConditionalExpression extends IBaseExpression
 	/**
 	 * Gets the main expression
 	 */
-	public IJSExpression getExpression();
+	public IScriptExpression getExpression();
 	
 	/**
 	 * Gets the operator. 
@@ -143,10 +143,10 @@ public interface IConditionalExpression extends IBaseExpression
 	/**
 	 * Gets the expression for operand 1.
 	 */
-	public IJSExpression getOperand1();
+	public IScriptExpression getOperand1();
 	
 	/**
 	 * Gets the expression for operand 2.
 	 */
-	public IJSExpression getOperand2();
+	public IScriptExpression getOperand2();
 }

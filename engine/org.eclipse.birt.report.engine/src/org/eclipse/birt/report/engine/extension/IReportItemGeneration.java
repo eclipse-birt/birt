@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 import java.util.HashMap;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 
@@ -62,12 +62,12 @@ public interface IReportItemGeneration {
     /**
      * @return an IReportQueryDefn object that the fatory can pass to DTE 
      */
-    public IBaseQueryDefn nextQuery(IBaseQueryDefn parent);   
+    public IBaseQueryDefinition nextQuery(IBaseQueryDefinition parent);   
     
 	/**
 	 * @param query a prepared query
 	 */
-	public void pushPreparedQuery(IBaseQueryDefn query, IPreparedQuery preparedQuery);
+	public void pushPreparedQuery(IBaseQueryDefinition query, IPreparedQuery preparedQuery);
 	
     /**
      * @param dataEngine a data engine instance on which the extension developer calls <code>execute</code> method  

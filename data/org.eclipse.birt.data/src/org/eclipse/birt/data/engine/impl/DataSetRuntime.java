@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Collection;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -112,9 +112,9 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 			PreparedQuery.Executor queryExecutor ) throws DataException
 	{
 		DataSetRuntime dataSet = null;
-		if ( dataSetDefn instanceof IExtendedDataSetDesign )
+		if ( dataSetDefn instanceof IOdaDataSetDesign )
 		{
-			dataSet = new ExtendedDataSetRuntime( (IExtendedDataSetDesign) dataSetDefn );
+			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn );
 		}
 		else if ( dataSetDefn instanceof IScriptDataSetDesign )
 		{

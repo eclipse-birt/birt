@@ -15,7 +15,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -148,9 +148,9 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	public static DataSourceRuntime newInstance( IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine ) 
 			throws DataException
 	{
-		if ( dataSource instanceof IExtendedDataSourceDesign )
+		if ( dataSource instanceof IOdaDataSourceDesign )
 		{
-			return new ExtendedDataSourceRuntime( (IExtendedDataSourceDesign) dataSource,
+			return new OdaDataSourceRuntime( (IOdaDataSourceDesign) dataSource,
 						dataEngine);
 		}
 		else if ( dataSource instanceof IScriptDataSourceDesign )

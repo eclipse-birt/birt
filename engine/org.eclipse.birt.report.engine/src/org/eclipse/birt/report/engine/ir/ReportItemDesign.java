@@ -13,12 +13,12 @@ package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 
 /**
  * Report Item
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -43,7 +43,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * query used to create the data set.
 	 */
-	protected IBaseQueryDefn query;
+	protected IBaseQueryDefinition query;
 	/**
 	 * book-mark associated with this element.
 	 */
@@ -164,14 +164,14 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the query.
 	 */
-	public IBaseQueryDefn getQuery( )
+	public IBaseQueryDefinition getQuery( )
 	{
 		return query;
 	}
 	/**
 	 * @param query The query to set.
 	 */
-	public void setQuery( IBaseQueryDefn query )
+	public void setQuery( IBaseQueryDefinition query )
 	{
 		this.query = query;
 	}

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import org.eclipse.birt.data.engine.api.DataType;
-import org.eclipse.birt.data.engine.api.querydefn.InputParamDefn;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.InputParameterHint;
@@ -67,17 +67,17 @@ final class CustomField
     }
 }
 
-class ParamBinding{
+class ParameterBinding{
 	private String name;
 	private int position=-1;
 	private String value;
 	
-	ParamBinding(String name,String value){
+	ParameterBinding(String name,String value){
 		this.name=name;
 		this.value=value;
 	}
 	
-	ParamBinding(int position,String value){
+	ParameterBinding(int position,String value){
 		this.position=position;
 		this.value=value;
 	}
@@ -367,7 +367,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			throws DataException
 	{
 
-		ParamBinding pb = new ParamBinding( inputParamName,
+		ParameterBinding pb = new ParameterBinding( inputParamName,
 				 paramValue.toString( )  );
 		inputParams.add( pb );
 	}
@@ -375,7 +375,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	public void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException
 	{
-		ParamBinding pb = new ParamBinding( inputParamPos,
+		ParameterBinding pb = new ParameterBinding( inputParamPos,
 				 paramValue.toString( )  );
 		inputParams.add( pb );
 	}
@@ -392,7 +392,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 				list = inputParamHints.iterator( );
 				while ( list.hasNext( ) )
 				{
-					InputParamDefn paramDef = (InputParamDefn) list.next( );
+					InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
 					InputParameterHint parameterHint = new InputParameterHint(
 							paramDef.getName( ) );
 					parameterHint.setPosition( paramDef.getPosition( ) );
@@ -403,7 +403,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			list = inputParams.iterator( );
 			while ( list.hasNext( ) )
 			{
-				ParamBinding paramBind = (ParamBinding) list.next( );
+				ParameterBinding paramBind = (ParameterBinding) list.next( );
 				if ( paramBind.getPosition( ) != -1 )
 					odaStatement.setParameterValue( paramBind.getPosition( ),
 							paramBind.getValue() );

@@ -19,7 +19,7 @@ import java.sql.Blob;
 import java.util.Date;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -65,7 +65,7 @@ class ResultIterator implements IResultIterator
 		this.query = queryResults.getQuery();
 		assert query != null;
 		
-		IBaseQueryDefn queryDefn = query.getQueryDefn( );
+		IBaseQueryDefinition queryDefn = query.getQueryDefn( );
 		assert queryDefn != null;
 		this.useDetails = queryDefn.usesDetails( );
 		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
@@ -161,10 +161,10 @@ class ResultIterator implements IResultIterator
 		{
 	    	// Special case for DirectColRefExpr: it's faster to directly access
 	    	// column value using the Odi IResultIterator.
-		    if ( expr instanceof DirectColRefExpr )
+		    if ( expr instanceof ColumnReferenceExpression )
 		    {
 		        // Direct column reference
-		        DirectColRefExpr colref = (DirectColRefExpr) expr;
+		        ColumnReferenceExpression colref = (ColumnReferenceExpression) expr;
 			    if ( colref.isIndexed())
 			    {
 			        int idx = colref.getColumnindex();

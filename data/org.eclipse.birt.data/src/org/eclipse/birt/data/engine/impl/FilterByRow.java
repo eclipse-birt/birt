@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -51,7 +51,7 @@ class FilterByRow implements IFilter
 			scriptObj.setRowObject( row, false );
 			while ( filterIt.hasNext( ) )
 			{
-				IFilterDefn filter = (IFilterDefn) filterIt.next( );
+				IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
 				IBaseExpression expr = filter.getExpression( );
 	
 				Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, "Filter", 0 );

@@ -20,29 +20,29 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IColumnDefn;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IExtendedDataSetDesign;
-import org.eclipse.birt.data.engine.api.IExtendedDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IFilterDefn;
-import org.eclipse.birt.data.engine.api.IInputParamBinding;
-import org.eclipse.birt.data.engine.api.IInputParamDefn;
-import org.eclipse.birt.data.engine.api.IOutputParamDefn;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.querydefn.ColumnDefn;
+import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ExtendedDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.ExtendedDataSourceDesign;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefn;
-import org.eclipse.birt.data.engine.api.querydefn.InputParamBinding;
-import org.eclipse.birt.data.engine.api.querydefn.InputParamDefn;
-import org.eclipse.birt.data.engine.api.querydefn.JSExpression;
-import org.eclipse.birt.data.engine.api.querydefn.OutputParamDefn;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.OutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -111,9 +111,9 @@ public class ModelDteApiAdapter
         return null;
     }
     
-    IExtendedDataSourceDesign newExtendedDataSource( ExtendedDataSourceHandle source ) throws EngineException
+    IOdaDataSourceDesign newExtendedDataSource( ExtendedDataSourceHandle source ) throws EngineException
     {
-        ExtendedDataSourceDesign dteSource = new ExtendedDataSourceDesign( source.getName() );
+        OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source.getName() );
         
         // Adapt base class properties
         adaptBaseDataSource( source, dteSource );
@@ -189,9 +189,9 @@ public class ModelDteApiAdapter
         dest.setAfterCloseScript( source.getAfterClose() );
     }
         
-    IExtendedDataSetDesign newExtendedDataSet( ExtendedDataSetHandle modelDataSet )
+    IOdaDataSetDesign newExtendedDataSet( ExtendedDataSetHandle modelDataSet )
     {
-        ExtendedDataSetDesign dteDataSet = new ExtendedDataSetDesign( modelDataSet.getName() );
+        OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getName() );
             
         // Adapt base class properties
         adaptBaseDataSet( modelDataSet, dteDataSet );
@@ -312,7 +312,7 @@ public class ModelDteApiAdapter
             while ( elmtIter.hasNext() )
             {
                 FilterConditionHandle modelFilter = (FilterConditionHandle) elmtIter.next();
-                IFilterDefn dteFilter = newFilter( modelFilter );
+                IFilterDefinition dteFilter = newFilter( modelFilter );
                 dteDataSet.addFilter( dteFilter );
             }
         }
@@ -340,7 +340,7 @@ public class ModelDteApiAdapter
             while ( elmtIter.hasNext() )
             {
                 ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next();
-                ColumnDefn existDefn = findColumnDefn( columnDefns, modelColumn.getColumnName() );
+                ColumnDefinition existDefn = findColumnDefn( columnDefns, modelColumn.getColumnName() );
                 if ( existDefn != null )
                     updateColumnDefn( existDefn, modelColumn );
                 else
@@ -350,9 +350,9 @@ public class ModelDteApiAdapter
 
     }
     
-    IInputParamDefn newInputParam( InputParameterHandle modelInputParam )
+    IInputParameterDefinition newInputParam( InputParameterHandle modelInputParam )
     {
-        InputParamDefn dteInputParam = new InputParamDefn();
+        InputParameterDefinition dteInputParam = new InputParameterDefinition();
 
         dteInputParam.setName( modelInputParam.getName() );
         if ( modelInputParam.getPosition() != null )
@@ -363,9 +363,9 @@ public class ModelDteApiAdapter
         return dteInputParam;
     }
 
-    IOutputParamDefn newOutputParam( OutputParameterHandle modelOutputParam )
+    IOutputParameterDefinition newOutputParam( OutputParameterHandle modelOutputParam )
     {
-        OutputParamDefn dteOutputParam = new OutputParamDefn();
+        OutputParameterDefinition dteOutputParam = new OutputParameterDefinition();
 
         dteOutputParam.setName( modelOutputParam.getName() );
         if ( modelOutputParam.getPosition() != null )
@@ -378,13 +378,13 @@ public class ModelDteApiAdapter
     /** Creates a new DtE API InputParamBinding from a model's binding.
      * Could return null if no expression is bound.
      */
-    IInputParamBinding newInputParamBinding( ParamBindingHandle modelInputParamBndg )
+    IInputParameterBinding newInputParamBinding( ParamBindingHandle modelInputParamBndg )
     {
         if ( modelInputParamBndg.getExpression() == null )
             return null;	// no expression is bound
-        JSExpression expr = new JSExpression( modelInputParamBndg.getExpression() );
+        ScriptExpression expr = new ScriptExpression( modelInputParamBndg.getExpression() );
         // model provides binding by name only
-        return new InputParamBinding( modelInputParamBndg.getParamName(), expr );
+        return new InputParameterBinding( modelInputParamBndg.getParamName(), expr );
     }
     
     /** Creates a new DtE API Computed Column from a model computed column.
@@ -404,7 +404,7 @@ public class ModelDteApiAdapter
      * a model's filter condition.
      * Could return null if no expression nor column operator is defined.
      */
-    IFilterDefn newFilter( FilterConditionHandle modelFilter )
+    IFilterDefinition newFilter( FilterConditionHandle modelFilter )
     {
         String filterExpr = modelFilter.getExpr();
         if ( filterExpr == null || filterExpr.length() == 0 )
@@ -413,7 +413,7 @@ public class ModelDteApiAdapter
         // converts to DtE exprFilter if there is no operator
         String filterOpr = modelFilter.getOperator();
         if ( filterOpr == null || filterOpr.length() == 0 )
-            return new FilterDefn( new JSExpression( filterExpr ) );
+            return new FilterDefinition( new ScriptExpression( filterExpr ) );
         
         /* has operator defined, try to convert filter condition
          * to operator/operand style column filter with 0 to 2 operands
@@ -423,18 +423,18 @@ public class ModelDteApiAdapter
         int dteOpr = toDteFilterOperator( filterOpr );
         String operand1 = modelFilter.getValue1();
         String operand2 = modelFilter.getValue2();
-        return new FilterDefn( new ConditionalExpression( 
+        return new FilterDefinition( new ConditionalExpression( 
         			column, dteOpr, operand1, operand2 ));
     }
     
-    IColumnDefn newColumnDefn( ResultSetColumnHandle modelColumn )
+    IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
     {
-        ColumnDefn newColumn = new ColumnDefn( modelColumn.getColumnName() );
+        ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName() );
         updateColumnDefn( newColumn, modelColumn );
         return newColumn;
     }
         
-    void updateColumnDefn( ColumnDefn dteColumn, ResultSetColumnHandle modelColumn )
+    void updateColumnDefn( ColumnDefinition dteColumn, ResultSetColumnHandle modelColumn )
     {
         assert dteColumn.getColumnName().equals( modelColumn.getColumnName() );
         if ( modelColumn.getPosition() != null )
@@ -442,19 +442,19 @@ public class ModelDteApiAdapter
         dteColumn.setDataType( toDteDataType( modelColumn.getDataType() ) );
     }
     
-    IColumnDefn newColumnDefn( ColumnHintHandle modelColumnHint )
+    IColumnDefinition newColumnDefn( ColumnHintHandle modelColumnHint )
     {
-        ColumnDefn newColumn = new ColumnDefn( modelColumnHint.getColumnName() );
+        ColumnDefinition newColumn = new ColumnDefinition( modelColumnHint.getColumnName() );
         newColumn.setAlias( modelColumnHint.getAlias() );
         
         String exportConstant = modelColumnHint.getExport();
         if ( exportConstant != null )
         {
-            int exportHint = IColumnDefn.DONOT_EXPORT;	// default value
+            int exportHint = IColumnDefinition.DONOT_EXPORT;	// default value
             if ( exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_IF_REALIZED ) )
-                exportHint = IColumnDefn.EXPORT_IF_REALIZED;
+                exportHint = IColumnDefinition.EXPORT_IF_REALIZED;
             else if ( exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_ALWAYS ) )
-                exportHint = IColumnDefn.ALWAYS_EXPORT;
+                exportHint = IColumnDefinition.ALWAYS_EXPORT;
             else 
                 assert exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_NONE );
 
@@ -464,11 +464,11 @@ public class ModelDteApiAdapter
         String searchConstant = modelColumnHint.getSearching();
         if ( searchConstant != null )
         {
-        	int searchHint = IColumnDefn.NOT_SEARCHABLE;
+        	int searchHint = IColumnDefinition.NOT_SEARCHABLE;
         	if ( searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_INDEXED ) )
-        	    searchHint = IColumnDefn.SEARCHABLE_IF_INDEXED;
+        	    searchHint = IColumnDefinition.SEARCHABLE_IF_INDEXED;
         	else if ( searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_ANY ) )
-        	    searchHint = IColumnDefn.ALWAYS_SEARCHABLE;
+        	    searchHint = IColumnDefinition.ALWAYS_SEARCHABLE;
         	else
         	    assert searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_NONE );
 
@@ -481,7 +481,7 @@ public class ModelDteApiAdapter
     /** Find the DtE columnDefn from the given list of columnDefns
      * that matches the given columnName.
      */
-    private ColumnDefn findColumnDefn( List columnDefns, String columnName )
+    private ColumnDefinition findColumnDefn( List columnDefns, String columnName )
     {
         assert columnName != null;
         if ( columnDefns == null )
@@ -494,7 +494,7 @@ public class ModelDteApiAdapter
         // specified column name
         while( iter.hasNext() )
         {
-            ColumnDefn column = (ColumnDefn) iter.next();
+            ColumnDefinition column = (ColumnDefinition) iter.next();
             if ( columnName.equals( column.getColumnName() ) )
                 return column;
         }

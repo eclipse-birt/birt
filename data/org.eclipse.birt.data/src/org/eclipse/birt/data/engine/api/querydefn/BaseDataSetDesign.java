@@ -15,11 +15,11 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
-import org.eclipse.birt.data.engine.api.IFilterDefn;
-import org.eclipse.birt.data.engine.api.IInputParamDefn;
-import org.eclipse.birt.data.engine.api.IOutputParamDefn;
-import org.eclipse.birt.data.engine.api.IColumnDefn;
-import org.eclipse.birt.data.engine.api.IInputParamBinding;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -139,7 +139,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 * Ignores given filter if null.
 	 * @param filter	Could be null.
 	 */
-	public void addFilter( IFilterDefn filter )
+	public void addFilter( IFilterDefinition filter )
 	{
 	    if ( filter != null )
 	        getFilters().add( filter );
@@ -161,7 +161,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	/**
 	 * Adds an input paramter definition to the data set.
 	 */
-	public void addInputParameter( IInputParamDefn param )
+	public void addInputParameter( IInputParameterDefinition param )
 	{
 	    if ( param != null )
 	        getInputParameters().add( param );
@@ -183,7 +183,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	/**
 	 * Adds an output paramter definition to the list.
 	 */
-	public void addOutputParameter( IOutputParamDefn param )
+	public void addOutputParameter( IOutputParameterDefinition param )
 	{
 	    if ( param != null )
 	        getOutputParameters().add( param );
@@ -208,7 +208,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 * Adds a column to the result set hints definition.
 	 * @param col
 	 */
-	public void addResultSetHint( IColumnDefn col )
+	public void addResultSetHint( IColumnDefinition col )
 	{
 	    if ( col != null )
 	        getResultSetHints().add( col );
@@ -232,7 +232,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 * Ignores given binding if null.
 	 * @param binding	Could be null.
 	 */
-	public void addInuptParamBinding( IInputParamBinding binding )
+	public void addInuptParamBinding( IInputParameterBinding binding )
 	{
 	    if ( binding != null )
 	        getInputParamBindings().add( binding );

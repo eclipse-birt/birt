@@ -17,12 +17,12 @@ import org.eclipse.birt.data.engine.api.DataType;
 /**
  * Expression Type. see report design schema for reference.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class Expression
 		implements
 
-			org.eclipse.birt.data.engine.api.IJSExpression
+			org.eclipse.birt.data.engine.api.IScriptExpression
 {
 
 	String expression;

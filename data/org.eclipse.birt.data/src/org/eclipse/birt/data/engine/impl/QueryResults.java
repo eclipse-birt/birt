@@ -131,7 +131,7 @@ class QueryResults implements IQueryResults
 	    queryExecutor = null;
 	}
 	
-	AggrCalc getAggrResult()
+	AggregateCalculator getAggrResult()
 	{
 		return queryExecutor.aggregates;
 	}

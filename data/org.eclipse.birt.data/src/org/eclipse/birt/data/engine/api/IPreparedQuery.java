@@ -29,7 +29,7 @@ public interface IPreparedQuery
      * @return	The IReportQueryDefn object used in prepare phase 
      * 			to produce this.  
      */
-    public IReportQueryDefn getReportQueryDefn();
+    public IQueryDefinition getReportQueryDefn();
 
     /**
      * Executes the prepared execution plan.  This returns

@@ -17,17 +17,17 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IJSExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 /**
  * 
  */
 public class ConditionalExpression extends BaseExpression implements IConditionalExpression
 {
-	protected IJSExpression		expr;
+	protected IScriptExpression		expr;
 	protected int				operator;
-	protected IJSExpression		op1;
-	protected IJSExpression 	op2;
+	protected IScriptExpression		op1;
+	protected IScriptExpression 	op2;
 	
 	public ConditionalExpression( String expr, int operator  )
 	{
@@ -45,8 +45,8 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 				newJSExpression(operand1), newJSExpression(operand2) );
 	}
 	
-	public ConditionalExpression(IJSExpression expr, int operator, 
-			IJSExpression op1, IJSExpression op2)
+	public ConditionalExpression(IScriptExpression expr, int operator, 
+			IScriptExpression op1, IScriptExpression op2)
 	{
 		this.expr = expr;
 		this.operator = operator;
@@ -57,7 +57,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getExpression()
 	 */
-	public IJSExpression getExpression()
+	public IScriptExpression getExpression()
 	{
 		return expr;
 	}
@@ -73,7 +73,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand1()
 	 */
-	public IJSExpression getOperand1()
+	public IScriptExpression getOperand1()
 	{
 		return op1;
 	}
@@ -81,7 +81,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IConditionalExpression#getOperand2()
 	 */
-	public IJSExpression getOperand2()
+	public IScriptExpression getOperand2()
 	{
 		return op2;
 	}
@@ -101,7 +101,7 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 			throw new UnsupportedOperationException("setDataType not supported for conditional expression.");
 	}
 	
-	private static JSExpression newJSExpression(String expr){
-		return expr==null?null:new JSExpression(expr);
+	private static ScriptExpression newJSExpression(String expr){
+		return expr==null?null:new ScriptExpression(expr);
 	}
 }

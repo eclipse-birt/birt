@@ -17,10 +17,10 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IColumnDefn;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IReportQueryDefn;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -42,7 +42,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 class PreparedScriptDSQuery extends PreparedDataSourceQuery 
 	implements	IPreparedQuery
 {
-	PreparedScriptDSQuery( DataEngineImpl dataEngine, IReportQueryDefn queryDefn, 
+	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
 			IBaseDataSetDesign dataSetDesign ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign );
@@ -87,7 +87,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			Iterator it = resultHints.iterator( );
 			for ( int j = 0; it.hasNext( ); j++ )
 			{
-				IColumnDefn columnDefn = (IColumnDefn) it.next( );
+				IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
 				
 				// All columns are declared as custom to allow as to set column value
 				// at runtime

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/17 07:58:02 $
  */
 public class Report
 {
@@ -67,7 +67,7 @@ public class Report
 	/**
 	 * queries used by this report.
 	 * 
-	 * @see org.eclipse.birt.report.engine.anlyzer.IReportQueryDefn
+	 * @see org.eclipse.birt.report.engine.anlyzer.IQueryDefinition
 	 */
 	protected ArrayList queries = new ArrayList( );
 

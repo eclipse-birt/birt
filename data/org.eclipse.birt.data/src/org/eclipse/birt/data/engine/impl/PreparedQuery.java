@@ -22,14 +22,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IGroupDefn;
-import org.eclipse.birt.data.engine.api.IJSExpression;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.ISortDefn;
-import org.eclipse.birt.data.engine.api.ISubqueryDefn;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
@@ -48,33 +48,33 @@ import org.mozilla.javascript.Scriptable;
  */
 abstract class PreparedQuery 
 {
-	private 	IBaseQueryDefn 	queryDefn;
+	private 	IBaseQueryDefinition 	queryDefn;
 	private 	DataEngineImpl	engine;
-	private  	AggrExprTable	aggrTable;
+	private  	AggregateTable	aggrTable;
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
 	
 	
-	PreparedQuery( DataEngineImpl engine, IBaseQueryDefn queryDefn )
+	PreparedQuery( DataEngineImpl engine, IBaseQueryDefinition queryDefn )
 		throws DataException
 	{
 	    assert engine != null && queryDefn != null;
 		this.engine = engine;
 		this.queryDefn = queryDefn;
-		this.aggrTable = new AggrExprTable(this);
+		this.aggrTable = new AggregateTable(this);
 		
 		prepare();
 	}
 	
 	/** Gets the IBaseQueryDefn instance which defines this query */
-	protected IBaseQueryDefn getQueryDefn( )
+	protected IBaseQueryDefinition getQueryDefn( )
 	{
 		return queryDefn;
 	}
 	
 	/** Gets the registry of all aggregate expression */
-	AggrExprTable getAggrTable()
+	AggregateTable getAggrTable()
 	{
 		return aggrTable;
 	}
@@ -107,7 +107,7 @@ abstract class PreparedQuery
 				if ( i == 0 )
 					groupDefn = queryDefn;
 				else
-					groupDefn = (IGroupDefn) groups.get( i - 1);
+					groupDefn = (IGroupDefinition) groups.get( i - 1);
 				prepareGroup( groupDefn, i, cx );
 			}			
 			
@@ -155,9 +155,9 @@ abstract class PreparedQuery
 	    {
 	        CompiledExpression ce = compiler.compile( 
 	                			expr, null, cx);
-	        if ( ce instanceof DirectColRefExpr )
+	        if ( ce instanceof ColumnReferenceExpression )
 	        {
-	            colName = ((DirectColRefExpr)ce).getColumnName();
+	            colName = ((ColumnReferenceExpression)ce).getColumnName();
 	        }
 	    }
 	    catch ( DataException e )
@@ -180,7 +180,7 @@ abstract class PreparedQuery
 		Iterator subIt = subQueries.iterator( );
 		while ( subIt.hasNext( ) )
 		{
-			ISubqueryDefn subquery = (ISubqueryDefn) subIt.next( );
+			ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
 			PreparedSubquery pq = new PreparedSubquery( subquery, this, groupLevel );
 			subQueryMap.put( subquery.getName(), pq);
 		}
@@ -209,9 +209,9 @@ abstract class PreparedQuery
 	{
 	    ExpressionCompiler compiler = this.engine.getExpressionCompiler();
 	    
-	    if ( expr instanceof IJSExpression )
+	    if ( expr instanceof IScriptExpression )
 	    {
-	    	String exprText = ((IJSExpression) expr).getText();
+	    	String exprText = ((IScriptExpression) expr).getText();
 	    	CompiledExpression handle = compiler.compile( exprText, reg, cx);
 	    	expr.setHandle( handle );
 	    }
@@ -243,7 +243,7 @@ abstract class PreparedQuery
 	 * @param src
 	 * @return
 	 */
-	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefn src )
+	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src )
 	{
 		String groupKey = src.getKeyColumn();
 		if ( groupKey == null || groupKey.length() == 0 )
@@ -251,7 +251,7 @@ abstract class PreparedQuery
 			// Group key expressed as expression; convert it to column name
 			// TODO support key expression in the future by creating implicit
 			// computed columns
-			groupKey = getColNameFromJSExpr( cx, src.getKeyExpresion() );
+			groupKey = getColNameFromJSExpr( cx, src.getKeyExpression() );
 		}
 		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupKey );
 		dest.setName( src.getName() );
@@ -311,10 +311,10 @@ abstract class PreparedQuery
 		List groups = queryDefn.getGroups();
 		for ( int i = 0; i < groups.size(); i++)
 		{
-			IGroupDefn group = (IGroupDefn) groups.get(i);
+			IGroupDefinition group = (IGroupDefinition) groups.get(i);
 			if ( groupText.equals( group.getName()) ||
 				 groupText.equals( group.getKeyColumn() ) ||
-				 groupText.equals( group.getKeyExpresion()) )
+				 groupText.equals( group.getKeyExpression()) )
 			 {
 				return i + 1;			// Note that group index is 1-based
 			 }
@@ -346,7 +346,7 @@ abstract class PreparedQuery
 		protected 	IDataSource		odiDataSource;
 		protected 	DataSourceRuntime	dataSource;
 		protected	DataSetRuntime	dataSet;
-		protected 	AggrCalc		aggregates;
+		protected 	AggregateCalculator		aggregates;
 		protected 	IResultIterator	odiResult;
 		protected 	JSRowObject		rowObject;
 		protected 	JSRows			rowsObject;
@@ -433,7 +433,7 @@ abstract class PreparedQuery
 		    setComputedColumns();
 
 		    // Calculate aggregate values
-		    aggregates = new AggrCalc( aggrTable, odiResult );
+		    aggregates = new AggregateCalculator( aggrTable, odiResult );
 			    
 		    // Set up the internal JS _aggr_value object and bind it to the aggregate calc engine
 		    Scriptable aggrObj = aggregates.getJSAggrValueObject();
@@ -570,7 +570,7 @@ abstract class PreparedQuery
 					Iterator it = groups.iterator();
 					for ( int i = 0; it.hasNext(); i++ )
 					{
-						IGroupDefn src = (IGroupDefn) it.next();
+						IGroupDefinition src = (IGroupDefinition) it.next();
 						IQuery.GroupSpec dest = groupDefnToSpec(cx, src);
 						groupSpecs[i] = dest;
 					}
@@ -585,7 +585,7 @@ abstract class PreparedQuery
 					Iterator it = sorts.iterator();
 					for ( int i = 0; it.hasNext(); i++ )
 					{
-						ISortDefn src = (ISortDefn) it.next();
+						ISortDefinition src = (ISortDefinition) it.next();
 						String sortKey = src.getColumn();
 						if ( sortKey == null || sortKey.length() == 0 )
 						{
@@ -595,7 +595,7 @@ abstract class PreparedQuery
 							sortKey = getColNameFromJSExpr( cx, src.getExpression() );
 						}
 						IQuery.SortSpec dest = 	new IQuery.SortSpec( sortKey, 
-									src.getSortDirection() == ISortDefn.SORT_ASC );
+									src.getSortDirection() == ISortDefinition.SORT_ASC );
 						sortSpecs[i] = dest;
 					}
 					odiQuery.setOrdering( Arrays.asList( sortSpecs));
