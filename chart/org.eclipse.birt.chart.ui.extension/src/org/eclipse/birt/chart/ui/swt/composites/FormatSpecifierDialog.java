@@ -22,7 +22,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -46,7 +45,7 @@ public class FormatSpecifierDialog implements SelectionListener
     /**
      *  
      */
-    public FormatSpecifierDialog(FormatSpecifier formatspecifier)
+    public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier)
     {
         super();
         this.formatspecifier = formatspecifier;
@@ -60,13 +59,13 @@ public class FormatSpecifierDialog implements SelectionListener
             fsBackup = null;
         }
 
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+        shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
         shell.setText("Format Specifier Dialog:");
-        shell.setSize(332, 255);
+        shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();
@@ -90,7 +89,7 @@ public class FormatSpecifierDialog implements SelectionListener
         cmpContent.setLayout(glContent);
 
         editor = new FormatSpecifierComposite(cmpContent, SWT.NONE, formatspecifier);
-        GridData gdEditor = new GridData(GridData.FILL_HORIZONTAL);
+        GridData gdEditor = new GridData(GridData.FILL_BOTH);
         editor.setLayoutData(gdEditor);
 
         GridLayout glButtons = new GridLayout();
@@ -99,6 +98,7 @@ public class FormatSpecifierDialog implements SelectionListener
 
         Composite cmpButtons = new Composite(cmpContent, SWT.NONE);
         GridData gdButtons = new GridData(GridData.FILL_HORIZONTAL);
+        gdButtons.heightHint = 32;
         cmpButtons.setLayoutData(gdButtons);
         cmpButtons.setLayout(glButtons);
 

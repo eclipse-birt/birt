@@ -23,7 +23,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -47,19 +46,19 @@ public class TriggerEditorDialog implements SelectionListener
     /**
      *  
      */
-    public TriggerEditorDialog(EList triggers)
+    public TriggerEditorDialog(Shell shellParent, EList triggers)
     {
         super();
         this.triggers = triggers;
         vOriginalTriggers = EcoreUtil.copyAll(triggers);
 
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+        shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
         shell.setText("Trigger Editor Dialog:");
-        shell.setSize(400, 340);
+        shell.pack();
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();

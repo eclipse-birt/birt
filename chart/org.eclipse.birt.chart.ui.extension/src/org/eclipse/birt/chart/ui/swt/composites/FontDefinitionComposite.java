@@ -151,7 +151,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         if (oSource.equals(btnEllipsis))
         {
             // TODO: Launch the font selection dialog
-            FontDefinitionDialog fontDlg = new FontDefinitionDialog(fdCurrent, cdCurrent);
+            FontDefinitionDialog fontDlg = new FontDefinitionDialog(this.getShell(), fdCurrent, cdCurrent);
             fdCurrent = fontDlg.getFontDefinition();
             cdCurrent = fontDlg.getFontColor();
             cnvSelection.setFontDefinition(fdCurrent);

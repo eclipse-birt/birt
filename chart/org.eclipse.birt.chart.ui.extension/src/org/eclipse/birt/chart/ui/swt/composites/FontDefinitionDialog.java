@@ -118,13 +118,13 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
      * @param parent
      * @param style
      */
-    public FontDefinitionDialog(FontDefinition fdCurrent, ColorDefinition cdCurrent)
+    public FontDefinitionDialog(Shell shellParent, FontDefinition fdCurrent, ColorDefinition cdCurrent)
     {
         this.fdCurrent = (FontDefinition) EcoreUtil.copy(fdCurrent);
         this.cdCurrent = (ColorDefinition) EcoreUtil.copy(cdCurrent);
         this.fdBackup = (FontDefinition) EcoreUtil.copy(fdCurrent);
         this.cdBackup = (ColorDefinition) EcoreUtil.copy(cdCurrent);
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+        shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         placeComponents();
         populateLists();

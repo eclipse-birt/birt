@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -14,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -29,12 +38,10 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -44,7 +51,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * This class implements a palette editor widget capable of maintaining a list of fill definitions. Entries may be
@@ -118,32 +124,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
      *  
      */
     private IDisplayServer idsSWT = null;
-
-    /**
-     * A test entry point
-     * 
-     * @param sa
-     */
-    public static final void main(String[] sa)
-    {
-        Display d = new Display();
-        Shell shell = new Shell(d);
-        shell.setLayout(new FillLayout());
-
-        // A SAMPLE PALETTE
-        PaletteEditorComposite pe = new PaletteEditorComposite(shell, PaletteImpl.create(1, false));
-
-        shell.setSize(300, 500);
-        shell.layout();
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!d.readAndDispatch())
-            {
-                d.sleep();
-            }
-        }
-    }
 
     /**
      * The constructor expects a default palette
@@ -249,8 +229,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         int iAvailableItems = Math.min(iVisibleCount, elPaletteEntries.size() - iStartIndex);
         int iY = -(iViewY % iItemHeight);
 
-        ColorDefinitionImpl cdi;
-        Color clr;
         gc.setForeground(d.getSystemColor(SWT.COLOR_GRAY));
 
         final RectangleRenderEvent rre = (RectangleRenderEvent) ((EventObjectCache) idrSWT).getEventObject(this,
@@ -445,7 +423,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         {
             iStartIndex = 0;
         }
-        int iAvailableItems = Math.min(iVisibleCount, elPaletteEntries.size() - iStartIndex);
         int iY = -(iViewY % iItemHeight);
         int iClickedIndex = iStartIndex + (iClickedY - iY) / iItemHeight;
         if (iClickedIndex < 0 || iClickedIndex > elPaletteEntries.size())
