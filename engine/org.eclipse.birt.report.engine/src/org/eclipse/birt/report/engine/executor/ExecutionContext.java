@@ -43,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * such as <code>report.params</code>, <code>report.config</code>, 
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -124,7 +124,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public void close( )
 	{
-		scriptContext.terminate( );
+		scriptContext.exit( );
 	}
 
 	/**
