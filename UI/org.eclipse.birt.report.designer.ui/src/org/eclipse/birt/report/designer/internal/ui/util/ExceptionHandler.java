@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.core.runtime.CoreException;
@@ -77,7 +79,7 @@ public class ExceptionHandler
 			title = TITLE_PART_INIT_ERROR;
 			message = MSG_PART_INIT_ERROR;
 		}
-		
+
 		handle( e, title, message );
 	}
 
@@ -142,18 +144,14 @@ public class ExceptionHandler
 		Throwable exception = null;
 		String reason = null;
 		String[] detail = null;
-		if ( e instanceof NullPointerException
-				|| e instanceof ArrayIndexOutOfBoundsException
-				|| e instanceof SWTException
-				|| e instanceof CoreException )
+		if ( !needNotLog( e ) )
 		{
 			exception = e;
 		}
-		else if ( e instanceof DesignFileException )
+		if ( e instanceof DesignFileException )
 		{
 			detail = e.toString( ).split( "\n" );
 			reason = detail[0];
-
 		}
 		else
 		{
@@ -184,6 +182,15 @@ public class ExceptionHandler
 			status.addCause( cause );
 		}
 		return status;
+	}
+
+	private static boolean needNotLog( Throwable e )
+	{
+		if ( e instanceof SemanticException || e instanceof IOException )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private static ErrorStatus createErrorStatus( List list )
