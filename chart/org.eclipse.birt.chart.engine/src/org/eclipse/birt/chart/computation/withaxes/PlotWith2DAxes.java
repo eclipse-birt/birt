@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.PlotContent;
-import org.eclipse.birt.chart.datafeed.DataSetProcessor;
+import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.DataSetException;
@@ -406,7 +406,7 @@ public final class PlotWith2DAxes extends PlotContent
         AxisOrigin ao;
 
         // SETUP THE PRIMARY BASE-AXIS PROPERTIES AND ITS SCALE
-        final OneAxis oaxPrimaryBase = new OneAxis();
+        final OneAxis oaxPrimaryBase = new OneAxis(axPrimaryBase);
         l = axPrimaryBase.getLabel();
         Text t = l.getCaption();
         FontDefinition fd = t.getFont();
@@ -441,7 +441,7 @@ public final class PlotWith2DAxes extends PlotContent
         aax.definePrimary(oaxPrimaryBase); // ADD TO AXIS SET
 
         // SETUP THE PRIMARY ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
-        final OneAxis oaxPrimaryOrthogonal = new OneAxis();
+        final OneAxis oaxPrimaryOrthogonal = new OneAxis(axPrimaryOrthogonal);
         l = axPrimaryOrthogonal.getLabel();
         t = l.getCaption();
         fd = t.getFont();
@@ -484,7 +484,7 @@ public final class PlotWith2DAxes extends PlotContent
             t = l.getCaption();
             fd = t.getFont();
 
-            oaxOverlayOrthogonal = new OneAxis();
+            oaxOverlayOrthogonal = new OneAxis(axaOverlayOrthogonal[i]);
             oaxOverlayOrthogonal.set(getOrientation(IConstants.ORTHOGONAL), transposeLabelPosition(
                 IConstants.ORTHOGONAL, getLabelPosition(axaOverlayOrthogonal[i].getLabelPosition())),
                 transposeLabelPosition(IConstants.ORTHOGONAL, getLabelPosition(axaOverlayOrthogonal[i]
@@ -607,7 +607,7 @@ public final class PlotWith2DAxes extends PlotContent
         DataElement de;
 
         PluginSettings ps = PluginSettings.instance();
-        DataSetProcessor iDSP = null;
+        IDataSetProcessor iDSP = null;
         Class cDSP = null;
         boolean bAnyStacked = false; // ANY STACKED SERIES ASSOCIATED WITH AXIS
         // 'ax'
@@ -2649,8 +2649,8 @@ public final class PlotWith2DAxes extends PlotContent
 
             dLength = (i < iTickCount - 1) ? daTickCoordinates[i + 1] - daTickCoordinates[i] : 0;
 
-            dpa[i] = new DataPointHints(oDataBase, oDataOrthogonal, se.getDataPoint(), null,
-                JavaNumberFormatSpecifierImpl.create("0.000"), null, lo, dLength, lcl);
+            dpa[i] = new DataPointHints(oDataBase, oDataOrthogonal, se.getSeriesIdentifier(), se.getDataPoint(), null,
+                JavaNumberFormatSpecifierImpl.create("0.000"), lo, dLength, lcl);
         }
 
         return new SeriesRenderingHints(this, oaxBase.getAxisCoordinate(), scOrthogonal.getStart(), dOrthogonalZero,
