@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.DataSetRequiredValidator;
 import org.eclipse.birt.report.model.validators.GroupNameValidator;
 
 /**
@@ -221,45 +222,15 @@ public abstract class ListingElement extends ReportItem
 
 		if ( getDataSetElement( design ) == null )
 		{
-			DesignElement container = this;
-			int slot = getContainerSlot( );
-
-			boolean dataSetFound = false;
-			while ( container.getContainer( ) != null && !dataSetFound )
-			{
-				if ( ReportDesignConstants.LIST_ITEM
-						.equalsIgnoreCase( container.getElementName( ) )
-						|| ReportDesignConstants.TABLE_ITEM
-								.equalsIgnoreCase( container.getElementName( ) ) )
-				{
-
-					if ( ( (ListingElement) container )
-							.getDataSetElement( design ) != null )
-					{
-						dataSetFound = true;
-					}
-				}
-
-				slot = container.getContainerSlot( );
-				container = container.getContainer( );
-			}
-
-			// Since element in components slot is considered as incompletely
-			// defined.
-			// data set is not required on table in components.
-
-			if ( !dataSetFound && ReportDesign.COMPONENT_SLOT != slot )
-			{
-				list.add( new SemanticError( this,
-						SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
-			}
+			list.addAll( DataSetRequiredValidator.getInstance( ).validate(
+					design, this ) );
 		}
 		else
 		{
 			// do the check of the group name
 
 			list.addAll( GroupNameValidator.getInstance( ).validate(
-					(ListingHandle) getHandle( design ) ) );
+					design, this ) );
 		}
 
 		return list;

@@ -22,7 +22,6 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.ExtendsException;
 import org.eclipse.birt.report.model.command.PropertyNameException;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -2416,45 +2415,6 @@ public abstract class DesignElement implements IPropertySet
 					ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 
-	}
-
-	/**
-	 * Performs the semantic check on this element on context containment. This
-	 * method checks whether this element can appear nested directly in the slot
-	 * or anywhere up the containment hierarchy.
-	 * 
-	 * @param containerName
-	 *            container name that is defined in metadata
-	 * @param slotID
-	 *            slot id
-	 * @throws ContentException
-	 *             if this element can not be contained in the specified slot of
-	 *             the container.
-	 */
-
-	public void checkContextContainment( String containerName, int slotID )
-			throws ContentException
-	{
-		DesignElement curContainer = getContainer( );
-		int curSlotID = getContainerSlot( );
-
-		while ( curContainer != null )
-		{
-			ElementDefn containerDefn = curContainer.getDefn( );
-
-			if ( containerDefn.getName( ).equalsIgnoreCase( containerName )
-					&& curSlotID == slotID )
-			{
-				throw new ContentException(
-						curContainer,
-						curSlotID,
-						this,
-						ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
-			}
-
-			curSlotID = curContainer.getContainerSlot( );
-			curContainer = curContainer.getContainer( );
-		}
 	}
 
 	/**

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.command.ContentException;
+import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
 
 /**
  * This class represents a List element. List is a free-form layout driven by
@@ -107,18 +107,12 @@ public class ListItem extends ListingElement
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
+
 		// Check header slot context containment of table.
 
-		try
-		{
-			checkContextContainment( ReportDesignConstants.TABLE_ITEM,
-					TableItem.HEADER_SLOT );
-		}
-		catch ( ContentException e )
-		{
-			list.add( e );
-		}
+		list.addAll( ContextContainmentValidator.getInstance( ).validate(
+				design, this, ReportDesignConstants.TABLE_ITEM,
+				TableItem.HEADER_SLOT ) );
 
 		return list;
 	}

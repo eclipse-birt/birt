@@ -16,13 +16,13 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.validators.CellOverlappingValidator;
 
 /**
  * This class represents a row in a Grid or a table.
- *  
+ * 
  */
 
 public class TableRow extends StyledElement
@@ -42,7 +42,7 @@ public class TableRow extends StyledElement
 	public static final String HEIGHT_PROP = "height"; //$NON-NLS-1$	
 
 	/**
-	 * Name of the visibility property. 
+	 * Name of the visibility property.
 	 */
 
 	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
@@ -197,103 +197,10 @@ public class TableRow extends StyledElement
 	{
 		List list = super.validate( design );
 
-		// The height must be non-negative.
+		list.addAll( CellOverlappingValidator.getInstance( ).validate( design,
+				this ) );
 
-		// Get the slot containing this row
-
-		int slotId = getContainer( ).findSlotOf( this );
-		ContainerSlot slot = getContainer( ).getSlot( slotId );
-
-		// Verify that no cells overlap.
-
-		int colCount = getColumnCount( design );
-
-		// if the column count is zero or negative, it means that the
-		// cells in the row may have some semantic errors. Since the check
-		// of the cells is done before the check of the row, the semantic
-		// errors are collected correctly. Therefore, we can jump it if
-		// the column count is not positive.
-
-		if ( colCount <= 0 )
-			return list;
-
-		boolean ok = true;
-		DesignElement cols[] = new DesignElement[colCount];
-		int rowPosn = slot.findPosn( this );
-		int rowCount = slot.getCount( );
-		int cellCount = contents.getCount( );
-		int impliedPosn = 0;
-		for ( int i = 0; i < cellCount; i++ )
-		{
-			Cell cell = (Cell) contents.getContent( i );
-			int colPosn = cell.getColumn( design );
-			int colSpan = cell.getColSpan( design );
-			int rowSpan = cell.getRowSpan( design );
-
-			if ( colPosn > 0 )
-				colPosn--;
-			else
-				colPosn = impliedPosn;
-
-			// Check the horizontal and vertical cell span
-
-			if ( !checkColSpan( cols, cell, colPosn, colSpan )
-					|| !checkRowSpan( rowCount, rowPosn, rowSpan ) )
-				ok = false;
-
-			impliedPosn = colPosn + colSpan;
-		}
-
-		if ( !ok )
-			list.add( new SemanticError( getContainer( ),
-					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_TABLE_CELLS ) );
-		
 		return list;
 	}
 
-	/**
-	 * Checks whether the cell horizontal overlap exists.
-	 * 
-	 * @param cols
-	 *            column array which records the cell allocation
-	 * @param cell
-	 *            cell element to check
-	 * @param colPosn
-	 *            column position of the cell
-	 * @param colSpan
-	 *            column span of the cell
-	 * @return whether the horizontal overlap exists
-	 */
-
-	private boolean checkColSpan( DesignElement cols[], Cell cell, int colPosn,
-			int colSpan )
-	{
-		boolean ok = true;
-
-		for ( int j = 0; j < colSpan; j++ )
-		{
-			if ( cols[colPosn + j] != null )
-				ok = false;
-			cols[colPosn + j] = cell;
-		}
-
-		return ok;
-	}
-
-	/**
-	 * Checks whether the cell vertical overlap exists.
-	 * 
-	 * @param rowCount
-	 *            row count of the band this cell belongs to
-	 * @param rowPosn
-	 *            row position of this cell in the band
-	 * @param rowSpan
-	 *            row span of the cell
-	 * @return whether the vertical overlap exists
-	 */
-
-	private boolean checkRowSpan( int rowCount, int rowPosn, int rowSpan )
-	{
-		return ( rowCount - rowPosn - rowSpan ) >= 0;
-	}
 }

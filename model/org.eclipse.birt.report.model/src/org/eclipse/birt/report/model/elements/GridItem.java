@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
 
 /**
  * This class represents a Grid item. A grid item contains a set of report
@@ -78,7 +79,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * <dd>how to align items within a row. Options are top, middle, bottom or
  * baseline.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class GridItem extends ReportItem
@@ -235,7 +236,7 @@ public class GridItem extends ReportItem
 	 * @return the number of columns described by column definitions
 	 */
 
-	private int getColDefnCount( ReportDesign design )
+	public int getColDefnCount( ReportDesign design )
 	{
 		int colCount = 0;
 		ContainerSlot cols = getSlot( COLUMN_SLOT );
@@ -256,7 +257,7 @@ public class GridItem extends ReportItem
 	 * @return the maximum number of columns
 	 */
 
-	private int findMaxCols( ReportDesign design )
+	public int findMaxCols( ReportDesign design )
 	{
 		ContainerSlot rows = getSlot( ROW_SLOT );
 		int maxCols = 0;
@@ -293,7 +294,7 @@ public class GridItem extends ReportItem
 		ContainerSlot columnSlot = slots[COLUMN_SLOT];
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
-		
+
 		int columnNum = findCellColumn( design, target );
 
 		assert columnNum > 0;
@@ -301,7 +302,7 @@ public class GridItem extends ReportItem
 				slots[COLUMN_SLOT], columnNum );
 
 		if ( column != null )
-			return column.getPropertyFromElement(design, prop);
+			return column.getPropertyFromElement( design, prop );
 
 		return null;
 	}
@@ -358,15 +359,8 @@ public class GridItem extends ReportItem
 	{
 		List list = super.validate( design );
 
-		// If column definitions are defined, then they must describe the
-		// number of columns actually used by the table. It is legal to
-		// have a table with zero columns.
-
-		int colDefnCount = getColDefnCount( design );
-		int maxCols = findMaxCols( design );
-		if ( colDefnCount != maxCols && colDefnCount != 0 )
-			list.add( new SemanticError( this,
-					SemanticError.DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT ) );
+		list.addAll( InconsistentColumnsValidator.getInstance( ).validate(
+				design, this ) );
 
 		return list;
 	}

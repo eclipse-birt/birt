@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.util.URIUtil;
+import org.eclipse.birt.report.model.validators.FileExistingValidator;
 
 /**
  * This class represents an image item. Reports often display images in various
@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.util.URIUtil;
  * below.)</li>
  * <li>Adjust the element size to fit the image.</li>
  * <p>
- *  
+ * 
  */
 
 public class ImageItem extends ReportItem
@@ -115,7 +115,7 @@ public class ImageItem extends ReportItem
 	 * Name of the action property, which defines what action can be performed
 	 * when clicking this image.
 	 */
-	
+
 	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
 
 	/**
@@ -239,16 +239,9 @@ public class ImageItem extends ReportItem
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 				.equalsIgnoreCase( getStringProperty( design, SOURCE_PROP ) ) )
 		{
-			String uri = getStringProperty( design, URI_PROP );
-			String filePath = URIUtil.getLocalPath( uri );
-
-			if ( ( filePath != null ) && !design.isFileExist( filePath ) )
-			{
-				setValid( false );
-				list.add( new SemanticError( this, new String[]{filePath},
-						SemanticError.DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST,
-						SemanticError.WARNING ) );
-			}
+			String uri = getStringProperty( design, ImageItem.URI_PROP );
+			list.addAll( FileExistingValidator.getInstance( ).validate( design,
+					this, uri ) );
 		}
 
 		return list;
@@ -296,4 +289,3 @@ public class ImageItem extends ReportItem
 		return displayLabel;
 	}
 }
-

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.validators.ExtensionValidator;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -650,18 +651,8 @@ public class ExtendedItem extends ReportItem
 		// }
 		// }
 
-		if ( extElement != null )
-		{
-			try
-			{
-				extElement.validate( );
-			}
-			catch ( ExtendedElementException e )
-			{
-				list.add( e );
-			}
-		}
-
+		list.addAll( ExtensionValidator.getInstance().validate( design, this ));
+		
 		return list;
 	}
 

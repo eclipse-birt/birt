@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
 
@@ -170,11 +171,7 @@ public abstract class DataSet extends ReferenceableElement
 		list.addAll( validateStructureList( design, COLUMN_HINTS_PROP ) );
 		list.addAll( validateStructureList( design, FILTER_PROP ) );
 		
-		List columns = (List) getProperty( design, RESULT_SET_PROP );
-		if ( columns != null && columns.size( ) == 0 )
-		{
-			list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_AT_LEAST_ONE_COLUMN ) );
-		}
+		list.addAll( DataSetResultSetValidator.getInstance().validate( design, this ) );
 
 		return list; 
 	}

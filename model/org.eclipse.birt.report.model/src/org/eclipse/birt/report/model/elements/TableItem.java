@@ -11,17 +11,18 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.validators.TablelDroppingValidator;
+import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
+import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
 
 /**
  * This class represents a table in design.A table is a list that is structured
@@ -30,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * is defined by a series of bands. A table defines the same bands as a list.
  * Like a list, each band is divided into a number of sections. Each section
  * contains one or more rows. Each row is further divided into a set of cells.
- *  
+ * 
  */
 
 public class TableItem extends ListingElement
@@ -162,7 +163,7 @@ public class TableItem extends ListingElement
 	 * @return the maximum column count in the table
 	 */
 
-	private int findMaxCols( ReportDesign design )
+	public int findMaxCols( ReportDesign design )
 	{
 		int maxCols = 0;
 		maxCols = findMaxCols( design, this, HEADER_SLOT, maxCols );
@@ -191,7 +192,7 @@ public class TableItem extends ListingElement
 	 * @return the number of columns described by column definitions
 	 */
 
-	private int getColDefnCount( ReportDesign design )
+	public int getColDefnCount( ReportDesign design )
 	{
 		int colCount = 0;
 		ContainerSlot cols = getSlot( COLUMN_SLOT );
@@ -267,7 +268,7 @@ public class TableItem extends ListingElement
 				slots[COLUMN_SLOT], columnNum );
 
 		if ( column != null )
-			return column.getPropertyFromElement(design, prop);
+			return column.getPropertyFromElement( design, prop );
 
 		return null;
 	}
@@ -280,22 +281,19 @@ public class TableItem extends ListingElement
 		// number of columns actually used by the table. It is legal to
 		// have a table with zero columns.
 
-		int colDefnCount = getColDefnCount( design );
-		int maxCols = findMaxCols( design );
-		if ( colDefnCount != maxCols && colDefnCount != 0 )
-			list.add( new SemanticError( this,
-					SemanticError.DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT ) );
+		list.addAll( InconsistentColumnsValidator.getInstance( ).validate(
+				design, this ) );
 
 		// Check table's slot context containment.
 
-		list.addAll( checkTableHeaderContainment( this ) );
+		list.addAll( ContextContainmentValidator.getInstance( ).validate(
+				design, this, ReportDesignConstants.TABLE_ITEM,
+				TableItem.HEADER_SLOT ) );
 
 		// check whether there is any overlapping cells with drop properties in
 		// the group headers.
 
-		if ( DroppingHelper.isGHDroppingValid( design, this ) == false )
-			list.add( new SemanticError( this,
-					SemanticError.DESIGN_EXCEPTION_INCONSITENT_DROP_HEADINGS ) );
+		list.addAll( TablelDroppingValidator.getInstance( ).validate( design, this ) );
 
 		return list;
 	}
@@ -318,7 +316,11 @@ public class TableItem extends ListingElement
 		if ( !containsListingElement( content ) )
 			return errors;
 
-		return checkTableHeaderContainment( container );
+		errors.addAll( ContextContainmentValidator.getInstance( ).validate(
+				design, container, ReportDesignConstants.TABLE_ITEM,
+				TableItem.HEADER_SLOT ) );
+
+		return errors; // checkTableHeaderContainment( container );
 	}
 
 	/*
@@ -341,7 +343,11 @@ public class TableItem extends ListingElement
 						ReportDesignConstants.LISTING_ITEM ) )
 			return errors;
 
-		return checkTableHeaderContainment( container );
+		errors.addAll( ContextContainmentValidator.getInstance( ).validate(
+				design, container, ReportDesignConstants.TABLE_ITEM,
+				TableItem.HEADER_SLOT ) );
+
+		return errors; // checkTableHeaderContainment( container );
 	}
 
 	/**
@@ -356,7 +362,7 @@ public class TableItem extends ListingElement
 	 *         <code>false</code>.
 	 */
 
-	private boolean containsListingElement( DesignElement element )
+	private static boolean containsListingElement( DesignElement element )
 	{
 		if ( element instanceof ListingElement )
 			return true;
@@ -380,33 +386,5 @@ public class TableItem extends ListingElement
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks whether the element <code>container</code> recursively resides
-	 * in the TABLE_HEADER slot of a table item.
-	 * 
-	 * @param container
-	 *            the element to check
-	 * 
-	 * @return <code>true</code> if it resides in in the TABLE_HEADER slot of
-	 *         a table item. Otherwise <code>false</code>.
-	 */
-
-	private List checkTableHeaderContainment( DesignElement container )
-	{
-		List errors = new ArrayList( );
-
-		try
-		{
-			container.checkContextContainment(
-					ReportDesignConstants.TABLE_ITEM, TableItem.HEADER_SLOT );
-		}
-		catch ( ContentException e )
-		{
-			errors.add( e );
-		}
-
-		return errors;
 	}
 }
