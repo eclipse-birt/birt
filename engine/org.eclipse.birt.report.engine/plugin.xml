@@ -9,22 +9,7 @@
       <library name="engine.jar">
          <export name="*"/>
       </library>
-      <library name="lib/avalon-framework-cvs-20020806.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/batik.jar">
-         <export name="*"/>
-      </library>
       <library name="lib/commons-cli-1.0.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/commons-logging.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/fop.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/js.jar">
          <export name="*"/>
       </library>
       <library name="lib/Tidy.jar">

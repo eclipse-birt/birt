@@ -11,8 +11,7 @@
 package org.eclipse.birt.report.engine.extension;
 
 import java.io.OutputStream;
-
-import org.apache.batik.dom.util.HashTable;
+import java.util.HashMap;
 
 /**
  * Represents the extended item generation extension, which performs tasks such as:<p>
@@ -56,7 +55,7 @@ public interface IReportItemGeneration {
      *  MODEL_OBJ		Required
      *  FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
      */
-    public void initialize(HashTable parameters);
+    public void initialize(HashMap parameters);
     
     /**
      * @return an IReportQuery object that the fatory can pass to DTE 

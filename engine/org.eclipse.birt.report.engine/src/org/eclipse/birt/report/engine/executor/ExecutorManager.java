@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
  * report item executor manager
  * 
  * @author liugang
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ExecutorManager
 {
@@ -40,11 +40,12 @@ public class ExecutorManager
 	public static final int MULTILINEITEM = 5;
 	public static final int TEXTITEM = 6;
 	public static final int DATAITEM = 7;
+	public static final int EXTENDEDITEM = 8;
     
     /**
      * the number of suppported executor
      */
-    public static final int NUMBER = 8;
+    public static final int NUMBER = 9;
 
 	protected static Log log = LogFactory.getLog( ExecutorManager.class );
 
@@ -120,6 +121,9 @@ public class ExecutorManager
                 case DATAITEM :
                     ret = new DataItemExecutor( context, visitor );
                     break;
+                case EXTENDEDITEM:
+                	ret = new ExtendedItemExecutor(context, visitor);
+                	break;
                 default :
                     throw new UnsupportedOperationException("unsupported executor!");
             }

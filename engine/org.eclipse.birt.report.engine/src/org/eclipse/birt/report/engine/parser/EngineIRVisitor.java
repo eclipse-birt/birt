@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -68,6 +69,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
@@ -126,7 +128,7 @@ import org.xml.sax.Attributes;
  * used in the "Design Adaptation" phase of report geenration, which is also the first
  * step in report generation after DE loads the report in.  
  *  
- * @version $Revision: #3 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -829,6 +831,17 @@ class EngineIRVisitor extends DesignVisitor
 		currentElement = textItem;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitExtendedItem(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 */
+	protected void visitExtendedItem( ExtendedItemHandle obj )
+	{
+		ExtendedItemDesign extendedItem = new ExtendedItemDesign();
+		setupReportItem(extendedItem, obj);
+		
+		currentElement = extendedItem;
+	}
+	
 	protected void setupGroup( GroupDesign group, GroupHandle handle )
 	{
 

@@ -11,8 +11,7 @@
 package org.eclipse.birt.report.engine.extension;
 
 import java.io.OutputStream;
-
-import org.apache.batik.dom.util.HashTable;
+import java.util.HashMap;
 
 /**
  * Implements a default generation peer that does nothing
@@ -28,7 +27,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IGenerationPeer#initialize(java.util.HashMap)
      */
-    public void initialize(HashTable parameters) {  
+    public void initialize(HashMap parameters) {  
     }
 
     /* (non-Javadoc)
