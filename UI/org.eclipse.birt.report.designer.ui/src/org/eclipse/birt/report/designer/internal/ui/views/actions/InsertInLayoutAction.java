@@ -382,7 +382,9 @@ public class InsertInLayoutAction extends AbstractViewAction
 
 		else if ( insertObj instanceof DataSetHandle )
 		{
-			return handleValidateDataSet( targetPart );
+			return ( (DataSetHandle) insertObj ).isValid( )
+					&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
+					&& handleValidateDataSet( targetPart );
 		}
 		else if ( insertObj instanceof DataSetItemModel )
 		{
