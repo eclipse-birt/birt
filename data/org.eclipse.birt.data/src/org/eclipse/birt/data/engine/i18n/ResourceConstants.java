@@ -70,7 +70,6 @@ public class ResourceConstants
 	public final static String ILLEGAL_DATA = "ILLEGAL_DATA";
 	public final static String NO_SOLUTION_FOUND = "NO_SOLUTION_FOUND";
 	public final static String INVALID_FETCH_SCIRPT = "INVALID_FETCH_SCIRPT";
-	public final static String CONVERT_FAILS = "CONVERT_FAILS";
 	public final static String TYPE_NOT_SUPPORTED = "TYPE_NOT_SUPPORTED";
 	public final static String INVALID_FIELD_NAME = "INVALID_FIELD_NAME";
 	public final static String NOT_SUPPORTED_TYPE = "NOT_SUPPORTED_TYPE";
@@ -98,6 +97,7 @@ public class ResourceConstants
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
 	
 	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
+	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
 	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";

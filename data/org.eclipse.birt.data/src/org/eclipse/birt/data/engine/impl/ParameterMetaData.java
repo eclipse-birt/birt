@@ -14,7 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import org.eclipse.birt.data.engine.api.DataType;
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IParameterMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 

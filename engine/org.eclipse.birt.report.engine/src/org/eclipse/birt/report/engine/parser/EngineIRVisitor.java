@@ -17,10 +17,10 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.DataTypeUtil;
 import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/03 02:37:20 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/03 22:15:34 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1707,7 +1707,7 @@ class EngineIRVisitor extends DesignVisitor
 				return value;
 			}
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
 			if ( logger.isErrorEnabled( ) )
 			{

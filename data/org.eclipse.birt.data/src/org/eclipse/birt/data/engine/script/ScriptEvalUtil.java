@@ -14,13 +14,14 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.DataTypeUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
@@ -39,19 +40,20 @@ public class ScriptEvalUtil
 	 * Javascript expressions themselves).
 	 * @return A Boolean result
 	 */
-	public static Object evalConditionalExpr( Object resultObject, int operator, Object resultOp1,
-			Object resultOp2 ) throws DataException
+	public static Object evalConditionalExpr( Object resultObject,
+			int operator, Object resultOp1, Object resultOp2 )
+			throws DataException
 	{
 		boolean result = false;
 		switch ( operator )
 		{
 			case IConditionalExpression.OP_EQ :
-				validateExpression( resultObject, resultOp1 );				
-				result = compare( resultObject, resultOp1 ) == 0 ;
+				validateExpression( resultObject, resultOp1 );
+				result = compare( resultObject, resultOp1 ) == 0;
 				break;
 			case IConditionalExpression.OP_NE :
 				validateExpression( resultObject, resultOp1 );
-				result = compare( resultObject, resultOp1 ) != 0 ;
+				result = compare( resultObject, resultOp1 ) != 0;
 				break;
 			case IConditionalExpression.OP_LT :
 				validateExpression( resultObject, resultOp1 );
@@ -67,48 +69,49 @@ public class ScriptEvalUtil
 				break;
 			case IConditionalExpression.OP_GT :
 				validateExpression( resultObject, resultOp1 );
-				result = compare( resultObject, resultOp1 ) > 0 ;
+				result = compare( resultObject, resultOp1 ) > 0;
 				break;
 			case IConditionalExpression.OP_BETWEEN :
 				validateExpression( resultObject, resultOp1, resultOp2 );
 				result = compare( resultObject, resultOp1 ) >= 0
-						&& compare( resultObject, resultOp2 ) <= 0 ;
+						&& compare( resultObject, resultOp2 ) <= 0;
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
 				validateExpression( resultObject, resultOp1, resultOp2 );
-				result = !(compare( resultObject, resultOp1 ) >= 0
-						&& compare( resultObject, resultOp2 ) <= 0 );
+				result = !( compare( resultObject, resultOp1 ) >= 0 && compare(
+						resultObject, resultOp2 ) <= 0 );
 				break;
 			case IConditionalExpression.OP_NULL :
-				result = resultObject == null ;
+				result = resultObject == null;
 				break;
 			case IConditionalExpression.OP_NOT_NULL :
-				result = resultObject != null ;
+				result = resultObject != null;
 				break;
 			case IConditionalExpression.OP_TRUE :
 				validateExpression( resultObject );
-				result = DataTypeUtil.toBoolean( resultObject ).equals(	Boolean.TRUE );
+				result = isTrue( resultObject );
 				break;
 			case IConditionalExpression.OP_FALSE :
 				validateExpression( resultObject );
-				result = DataTypeUtil.toBoolean( resultObject ).equals(	Boolean.FALSE );
+				result = !isTrue( resultObject );
 				break;
 			case IConditionalExpression.OP_LIKE :
 				validateExpression( resultObject, resultOp1 );
 				result = like( resultObject, resultOp1 );
 				break;
 			case IConditionalExpression.OP_TOP_N :
-				//TODO
+			//TODO
 			case IConditionalExpression.OP_BOTTOM_N :
-				//TODO
+			//TODO
 			case IConditionalExpression.OP_TOP_PERCENT :
-				//TODO
+			//TODO
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
-				//TODO
+			//TODO
 			case IConditionalExpression.OP_ANY :
-				//TODO
+			//TODO
 			default :
-				throw new DataException( ResourceConstants.UNSUPPORTTED_OPERATOR );
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_OPERATOR );
 		}
 		return new Boolean( result );
 	}
@@ -155,26 +158,46 @@ public class ScriptEvalUtil
 		return ( result instanceof Date ) || ( result instanceof String );
 	}
 	
+	private static boolean isTrue( Object obj ) throws DataException
+	{
+		assert obj != null;
+		try
+		{
+			return DataTypeUtil.toBoolean( obj ).equals( Boolean.TRUE );
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
+	}
+	
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
 		assert obj1 != null && obj2 != null;
 		
-		if ( isSameType( obj1, obj2 ) )
+		try
 		{
-			return ( (Comparable) obj1 ).compareTo( obj2 );
+			if ( isSameType( obj1, obj2 ) )
+			{
+				return ( (Comparable) obj1 ).compareTo( obj2 );
+			}
+			else if ( isNumericOrString( obj1 ) && isNumericOrString( obj2 ) )
+			{
+				return DataTypeUtil.toDouble( obj1 ).compareTo(
+						DataTypeUtil.toDouble( obj2 ) );
+			}
+			else if ( isDateOrString( obj1 ) && isDateOrString( obj2 ) )
+			{
+				return DataTypeUtil.toDate( obj1 ).compareTo(
+						DataTypeUtil.toDate( obj2 ) );
+			}
+			else
+				throw new DataException( ResourceConstants.INVALID_TYPE_IN_EXPR );
 		}
-		else if ( isNumericOrString( obj1 ) && isNumericOrString( obj2 ) )
+		catch ( BirtException e )
 		{
-			return DataTypeUtil.toDouble( obj1 ).compareTo(
-					DataTypeUtil.toDouble( obj2 ) );
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
 		}
-		else if ( isDateOrString( obj1 ) && isDateOrString( obj2 ) )
-		{
-			return DataTypeUtil.toDate( obj1 ).compareTo(
-					DataTypeUtil.toDate( obj2 ) );
-		}
-		else
-			throw new DataException( ResourceConstants.INVALID_TYPE_IN_EXPR );
 	}
 	
 	/**

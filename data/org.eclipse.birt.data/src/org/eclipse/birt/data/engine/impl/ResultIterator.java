@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -272,7 +274,14 @@ class ResultIterator implements IResultIterator
 	public Boolean getBoolean( IBaseExpression dataExpr )
 		throws DataException
 	{
-		return DataTypeUtil.toBoolean( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toBoolean( getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -292,7 +301,14 @@ class ResultIterator implements IResultIterator
 	public Integer getInteger( IBaseExpression dataExpr )
 			throws DataException
 	{
-		return DataTypeUtil.toInteger( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toInteger( getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -312,7 +328,14 @@ class ResultIterator implements IResultIterator
 	public Double getDouble( IBaseExpression dataExpr )
 			throws DataException
 	{
-		return DataTypeUtil.toDouble( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toDouble( getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -332,7 +355,14 @@ class ResultIterator implements IResultIterator
 	public String getString( IBaseExpression dataExpr )
 		throws DataException
 	{
-		return DataTypeUtil.toString( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toString( getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -352,7 +382,14 @@ class ResultIterator implements IResultIterator
 	public BigDecimal getBigDecimal( IBaseExpression dataExpr )
 		throws DataException
 	{
-		return DataTypeUtil.toBigDecimal( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toBigDecimal( getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -372,7 +409,14 @@ class ResultIterator implements IResultIterator
 	public Date getDate( IBaseExpression dataExpr )
 		throws DataException
 	{
-		return DataTypeUtil.toDate( getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toDate( getValue( dataExpr ));
+		}		
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**
@@ -390,7 +434,14 @@ class ResultIterator implements IResultIterator
 	public Blob getBlob( IBaseExpression dataExpr )
 		throws DataException
 	{
-		return DataTypeUtil.toBlob(getValue( dataExpr ));
+		try
+		{
+			return DataTypeUtil.toBlob(getValue( dataExpr ));
+		}
+		catch ( BirtException e )
+		{
+			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+		}
 	}
 	
 	/**

@@ -14,9 +14,12 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.JSRowObject;
@@ -55,11 +58,18 @@ class FilterByRow implements IFilter
 				IBaseExpression expr = filter.getExpression( );
 	
 				Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, "Filter", 0 );
-				// filter in
-				if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == false )
+				try
 				{
-					isAccepted = false;
-					break;
+					// filter in
+					if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == false )
+					{
+						isAccepted = false;
+						break;
+					}
+				}
+				catch ( BirtException e )
+				{
+					throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
 				}
 			}
 			return isAccepted;

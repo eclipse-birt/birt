@@ -15,7 +15,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 
 
-import org.eclipse.birt.data.engine.api.DataType;
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 

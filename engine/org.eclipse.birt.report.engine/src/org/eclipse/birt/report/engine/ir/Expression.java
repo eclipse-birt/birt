@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.data.engine.api.DataType;
+import org.eclipse.birt.core.data.DataType;
 
 
 /**
  * Expression Type. see report design schema for reference.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/21 01:14:42 $
  */
 public class Expression
 		implements

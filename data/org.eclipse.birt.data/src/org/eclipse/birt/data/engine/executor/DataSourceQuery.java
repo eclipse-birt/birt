@@ -16,7 +16,8 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import org.eclipse.birt.data.engine.api.DataType;
+
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -69,14 +70,14 @@ final class CustomField
 class ParameterBinding{
 	private String name;
 	private int position=-1;
-	private String value;
+	private Object value;
 	
-	ParameterBinding(String name,String value){
+	ParameterBinding(String name,Object value){
 		this.name=name;
 		this.value=value;
 	}
 	
-	ParameterBinding(int position,String value){
+	ParameterBinding(int position,Object value){
 		this.position=position;
 		this.value=value;
 	}
@@ -89,7 +90,7 @@ class ParameterBinding{
 		return name;
 	}
 
-	public String getValue(){
+	public Object getValue(){
 		return value;
 	}
 }
@@ -397,16 +398,14 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			throws DataException
 	{
 
-		ParameterBinding pb = new ParameterBinding( inputParamName,
-				 paramValue.toString( )  );
+		ParameterBinding pb = new ParameterBinding( inputParamName, paramValue );
 		inputParams.add( pb );
 	}
 
 	public void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException
 	{
-		ParameterBinding pb = new ParameterBinding( inputParamPos,
-				 paramValue.toString( )  );
+		ParameterBinding pb = new ParameterBinding( inputParamPos, paramValue );
 		inputParams.add( pb );
 	}
     
