@@ -140,7 +140,7 @@ public abstract class PropertyDefn
 	 * Reference to validator applied to the property.
 	 */
 
-	private String validator = null;
+	protected String validator = null;
 
 	/**
 	 * Indicates whether this property is a list. It is useful only when the

@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
@@ -39,6 +43,18 @@ public class ExtensionElementDefn extends ElementDefn
 	 */
 
 	protected IReportItemFactory elementFactory = null;
+
+	/**
+	 * The list contains the hidden properties in plugin.xml
+	 */
+
+	protected List invisibleProps = new ArrayList( );
+
+	/**
+	 * The list contains the cached system properties.
+	 */
+
+	protected Map cachedSystemProps = null;
 
 	/**
 	 * Constructs the extended element with the internal and element factory.
@@ -69,8 +85,9 @@ public class ExtensionElementDefn extends ElementDefn
 		if ( isBuilt )
 			return;
 
-		extendsFrom = ReportDesignConstants.REPORT_ITEM;
-
+		if ( extendsFrom == null )
+			extendsFrom = ReportDesignConstants.REPORT_ITEM;
+		
 		buildDefn( );
 
 		// Handle parent-specific tasks.
@@ -81,7 +98,8 @@ public class ExtensionElementDefn extends ElementDefn
 		{
 			parent = dd.getElement( extendsFrom );
 			if ( parent == null )
-				throw new MetaDataException( new String[]{extendsFrom, name},
+				throw new MetaDataException(
+						new String[]{extendsFrom, name},
 						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
 			parent.build( );
 
@@ -160,13 +178,15 @@ public class ExtensionElementDefn extends ElementDefn
 
 		buildSlots( );
 
+		createCachedSystemProperties( );
+
 		// TODO: check if the javaClass is valid for concrete element type
 
 		isBuilt = true;
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the properties only defined in extension element.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#getProperties()
 	 */
@@ -177,7 +197,7 @@ public class ExtensionElementDefn extends ElementDefn
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the property only defined in extension element.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#getProperty(java.lang.String)
 	 */
@@ -222,5 +242,104 @@ public class ExtensionElementDefn extends ElementDefn
 		}
 
 		return getName( );
+	}
+
+	/**
+	 * Adds an invisible property to the list.
+	 * 
+	 * @param propName
+	 *            the property name
+	 */
+
+	protected void addInvisibleProperty( String propName )
+	{
+		invisibleProps.add( propName );
+	}
+
+	/**
+	 * Creates the cached system properties for <code>PropertyInvisible</code>
+	 * tags.
+	 *  
+	 */
+
+	private void createCachedSystemProperties( )
+	{
+		// DO NOT override buildProperties(). It is only for semantic check.
+
+		for ( Iterator iter = invisibleProps.iterator( ); iter.hasNext( ); )
+		{
+			String propName = (String) iter.next( );
+			SystemPropertyDefn sysDefn = parent.getProperty( propName );
+
+			if ( sysDefn != null && sysDefn.isVisible( ) )
+			{
+				if ( cachedSystemProps == null )
+					cachedSystemProps = new HashMap( );
+
+				SystemPropertyDefn defn = createPropertyDefn( sysDefn );
+				defn.setVisible( false );
+				cachedSystemProps.put( propName, defn );
+			}
+		}
+	}
+
+	/**
+	 * Returns a cached system property definition.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * 
+	 * @return the <code>SystemPropertyDefn</code> of the corresponding
+	 *         <code>propName</code>.
+	 */
+
+	public SystemPropertyDefn getCachedSystemProperty( String propName )
+	{
+		if ( cachedSystemProps == null )
+			return null;
+
+		return (SystemPropertyDefn) cachedSystemProps.get( propName );
+	}
+
+	/**
+	 * Creates a new <code>SystemPropertyDefn</code> with a given
+	 * <code>SystemPropertyDefn</code>.
+	 * 
+	 * @param defn
+	 *            the given system property definition
+	 * @return the new created <code>SystemPropertyDefn</code>
+	 */
+
+	private static SystemPropertyDefn createPropertyDefn(
+			SystemPropertyDefn defn )
+	{
+		assert defn != null;
+
+		SystemPropertyDefn newDefn = new SystemPropertyDefn( );
+
+		// 10 members on the PropertyDefn
+
+		newDefn.setDefault( defn.getDefault( ) );
+		newDefn.setAllowedChoices( defn.getAllowedChoices( ) );
+		newDefn.setDisplayNameID( defn.getDisplayNameID( ) );
+		newDefn.setIntrinsic( defn.isIntrinsic( ) );
+		newDefn.setExtended( defn.isExtended( ) );
+		newDefn.setIsList( defn.isList( ) );
+		newDefn.setName( defn.getName( ) );
+		newDefn.setType( defn.getType( ) );
+		newDefn.setValidator( defn.validator );
+		newDefn.details = defn.details;
+
+		// 3 members on the ElementPropertyDefn
+
+		newDefn.setStyleProperty( defn.isStyleProperty( ) );
+		newDefn.setVisible( defn.isVisible( ) );
+		newDefn.setGroupNameKey( defn.getGroupNameKey( ) );
+
+		// 1 member on the SystemPropertyDefn
+
+		newDefn.setStyleProperty( defn.isStyleProperty( ) );
+
+		return newDefn;
 	}
 }

@@ -44,6 +44,7 @@ public class ExtensionLoader
 	private static final String STYLE_PROPERTY_TAG = "StyleProperty"; //$NON-NLS-1$
 	private static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
 	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
+	private static final String PROPERTY_INVISIBLE_TAG = "PropertyInvisible"; //$NON-NLS-1$
 
 	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
@@ -58,7 +59,7 @@ public class ExtensionLoader
 	private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
 	private static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
 	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
-	
+
 	/**
 	 * Loads the extended elements in plug-ins, and add them into metadata
 	 * dictionary.
@@ -214,6 +215,13 @@ public class ExtensionLoader
 					// Unique check is performed in addProperty()
 					elementDefn.addProperty( extPropDefn );
 				}
+				else if ( PROPERTY_INVISIBLE_TAG.equalsIgnoreCase( elements[i]
+						.getName( ) ) )
+				{
+					String propName = elements[i].getAttribute( NAME_ATTRIB );
+					checkRequiredAttribute( NAME_ATTRIB, propName );
+					elementDefn.addInvisibleProperty( propName );
+				}
 				else if ( PROPERTY_GROUP_TAG.equalsIgnoreCase( elements[i]
 						.getName( ) ) )
 				{
@@ -268,7 +276,7 @@ public class ExtensionLoader
 		String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
 		String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
 		String isVisible = propTag.getAttribute( IS_VISIBLE_ATTRIB );
-		
+
 		checkRequiredAttribute( NAME_ATTRIB, name );
 		checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
 		checkRequiredAttribute( TYPE_ATTRIB, type );
@@ -303,9 +311,9 @@ public class ExtensionLoader
 					.booleanValue( ) );
 
 		if ( !StringUtil.isBlank( isVisible ) )
-			extPropDefn.setVisible( Boolean.valueOf( isVisible )
-					.booleanValue( ) );
-		
+			extPropDefn
+					.setVisible( Boolean.valueOf( isVisible ).booleanValue( ) );
+
 		List choiceList = new ArrayList( );
 
 		IConfigurationElement[] elements = propTag.getChildren( );

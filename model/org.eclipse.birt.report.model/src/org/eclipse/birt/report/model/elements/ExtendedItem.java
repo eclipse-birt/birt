@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
@@ -287,6 +288,8 @@ public class ExtendedItem extends ReportItem
 
 		ElementPropertyDefn defn = super.getPropertyDefn( propName );
 
+		ExtensionElementDefn extDefn = getExtDefn( );
+
 		// if the extended item has the extension, then check the
 		// style masks first
 
@@ -294,12 +297,22 @@ public class ExtendedItem extends ReportItem
 		{
 			if ( isMasked( defn.getName( ) ) )
 				return null;
+
+			if ( extDefn != null )
+			{
+				// if there is a cached system property definition, use it.
+
+				SystemPropertyDefn cachedDefn = extDefn
+						.getCachedSystemProperty( propName );
+				if ( cachedDefn != null )
+					return cachedDefn;
+			}
+
 			return defn;
 		}
 
 		// check whether the property is defined by extension
 
-		ExtensionElementDefn extDefn = getExtDefn( );
 		if ( extDefn == null )
 			return null;
 
@@ -344,15 +357,27 @@ public class ExtendedItem extends ReportItem
 			return props;
 
 		List temp = new ArrayList( );
+		ExtensionElementDefn extDefn = getExtDefn( );
+
 		for ( int i = 0; i < props.size( ); i++ )
 		{
-			PropertyDefn prop = (PropertyDefn) props.get( i );
+			ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
 			if ( !isMasked( prop.getName( ) ) )
-				temp.add( prop );
+			{
+				// if extension redefined the property visibility, uses it.
+
+				SystemPropertyDefn cachedDefn = extDefn
+						.getCachedSystemProperty( prop.getName( ) );
+
+				if ( cachedDefn != null )
+					temp.add( cachedDefn );
+				else
+					temp.add( prop );
+			}
 		}
+
 		props = temp;
 
-		ExtensionElementDefn extDefn = getExtDefn( );
 		assert extDefn != null;
 
 		if ( extDefn.getProperties( ) != null )
