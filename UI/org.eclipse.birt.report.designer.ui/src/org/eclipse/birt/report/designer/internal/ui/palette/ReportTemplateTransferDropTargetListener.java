@@ -4,6 +4,7 @@ package org.eclipse.birt.report.designer.internal.ui.palette;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
@@ -32,9 +33,8 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 /**
  * Drag&Drop listener
  */
-public class ReportTemplateTransferDropTargetListener
-		extends
-			TemplateTransferDropTargetListener
+public class ReportTemplateTransferDropTargetListener extends
+		TemplateTransferDropTargetListener
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
@@ -72,6 +72,7 @@ public class ReportTemplateTransferDropTargetListener
 	{
 		Object template = TemplateTransfer.getInstance( ).getTemplate( );
 		Assert.isNotNull( template );
+
 		Assert.isTrue( handleValidateDrag( template ) );
 
 		updateTargetRequest( );
@@ -118,6 +119,11 @@ public class ReportTemplateTransferDropTargetListener
 			else if ( IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase( (String) template ) )
 			{
 				preHandle = new ListToolExtends( );
+			}
+			else if ( ( (String) template ).startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
+			{
+				String extensionName = ( (String) template ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
+				preHandle = new ExtendedElementToolExtends( extensionName );
 			}
 		}
 		else if ( handleValidateInsert( template ) )

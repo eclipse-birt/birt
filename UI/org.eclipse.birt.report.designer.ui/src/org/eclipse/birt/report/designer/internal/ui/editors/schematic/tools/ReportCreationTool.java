@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -93,7 +92,7 @@ public class ReportCreationTool extends CreationTool
 				.getCommandStack( )
 				.commit( );
 		selectAddedObject( );
-		
+
 	}
 
 	/*
@@ -126,7 +125,7 @@ public class ReportCreationTool extends CreationTool
 			public void run( )
 			{
 				Object editpart = viewer.getEditPartRegistry( ).get( model );
-				
+
 				if ( editpart instanceof EditPart )
 				{
 					viewer.flush( );
@@ -153,7 +152,7 @@ public class ReportCreationTool extends CreationTool
 
 					( (LabelEditPart) editpart ).performDirectEdit( );
 				}
-				viewer.reveal((EditPart)editpart);
+				viewer.reveal( (EditPart) editpart );
 			}
 		} );
 	}
@@ -198,11 +197,9 @@ public class ReportCreationTool extends CreationTool
 		{
 			type = ReportDesignConstants.LIST_ITEM;
 		}
-		//added by gao for extenedItemHandle
 		else
 		{
-			if ( template != null
-					&& template.indexOf( GuiExtensionManager.PALETTE_PRE ) == 0 )
+			if ( template.startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 			{
 				type = ReportDesignConstants.EXTENDED_ITEM;
 			}

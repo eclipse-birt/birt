@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.extension
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
@@ -22,7 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategroy;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEdit;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
@@ -191,22 +191,15 @@ public class GuiExtensionManager
 				return root;
 			}
 			String category = (String) point.getAttribute( IExtensionConstants.PALETTE_CATEGORY );
-			String name = MetaDataDictionary.getInstance( )
-					.getExtension( point.getExtensionName( ) )
-					.getDisplayName( );
+
 			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.PALETTE_ICON );
 
 			IReportItemUI UI = point.getReportItemUI( );
-			IReportItemBuilder builder = null;
-			if ( UI != null )
-			{
-				builder = UI.getBuilder( );
-			}
-
-			if ( builder == null )
+			if ( UI == null )
 			{
 				return root;
 			}
+
 			if ( PALETTE_DESIGNER.equals( type ) )
 			{
 				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER );
@@ -223,16 +216,17 @@ public class GuiExtensionManager
 					continue;
 				}
 			}
-
-			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( name,
-					name,
-					name,
-					new ReportElementFactory( PALETTE_PRE + name ),
+			String displayName = MetaDataDictionary.getInstance( )
+					.getExtension( point.getExtensionName( ) )
+					.getDisplayName( );
+			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,
+					displayName,
+					IReportElementConstants.REPORT_ELEMENT_EXTENDED
+							+ point.getExtensionName( ),
+					new ReportElementFactory( PALETTE_PRE + displayName ),
 					icon,
 					icon,
-					new ExtendedElementToolExtends( point.getExtensionName( ),
-							builder ) );
-
+					new ExtendedElementToolExtends( point.getExtensionName( ) ) );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
 			{

@@ -49,6 +49,8 @@ public interface IReportElementConstants
 	public static final String REPORT_ELEMENT_DATA = "Data";//$NON-NLS-1$
 
 	public static final String REPORT_ELEMENT_CELL = "Cell";//$NON-NLS-1$
+	
+	public static final String REPORT_ELEMENT_EXTENDED = "Extended";//$NON-NLS-1$
 
 	public static final String DATA_COLUMN_PREFIX = "row";//$NON-NLS-1$
 
