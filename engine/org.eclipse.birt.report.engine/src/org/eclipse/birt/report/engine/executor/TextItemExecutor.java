@@ -37,7 +37,7 @@ import org.w3c.dom.Text;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/07 07:11:21 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -86,13 +86,14 @@ public class TextItemExecutor extends StyledItemExecutor
 		HTMLProcessor htmlProcessor = new HTMLProcessor( context );
 		if ( textItem.getDomTree( ) == null )
 		{
-			//Should never happen.
+			//Only when the Text is in the master page.
 			//Because ExpressionBuilder has parsed the content. And the style
 			// has not been extracted yet.
 			String content = getLocalizedString( textItem.getTextKey( ),
 					textItem.getText( ) );
 			textItem.setDomTree( new TextParser( ).parse( content, textItem
 					.getTextType( ) ) );
+			textContent.setDomTree( textItem.getDomTree( ) );
 		}
 		Document doc = textItem.getDomTree( );
 		Element body = null;
@@ -291,7 +292,8 @@ public class TextItemExecutor extends StyledItemExecutor
 				}
 				else
 				{
-				    logger.log(Level.SEVERE, "can't handle image element in HTML" );
+					logger.log( Level.SEVERE,
+							"can't handle image element in HTML" );
 				}
 
 				return;
