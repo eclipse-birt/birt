@@ -45,6 +45,11 @@ public abstract class BaseDialog extends Dialog
 
 	private boolean helpAvailable;
 
+	/**
+	 * The OK button
+	 */
+	protected Button okButton;
+
 	protected Object result;
 
 	/**
@@ -187,7 +192,7 @@ public abstract class BaseDialog extends Dialog
 			} );
 		}
 		// create OK and Cancel buttons by default
-		createButton( parent, IDialogConstants.OK_ID, okLabel, true );
+		okButton = createButton( parent, IDialogConstants.OK_ID, okLabel, true );
 		createButton( parent,
 				IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL,
