@@ -1191,21 +1191,23 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 	}
 
-	public void showTargetFeedback( Request request )
+	public void showTargetFeedback(Request request)
 	{
-		if ( this.getSelected( ) == 0
-				&& request.getType( ) == RequestConstants.REQ_SELECTION )
-		{
-			this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-					.getCellCursor( ) );
-		}
-		super.showTargetFeedback( request );
+	    if ( this.getSelected() == 0 &&
+	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
+	    {
+		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
+	    }
+	    super.showTargetFeedback( request );
 	}
-
-	public void eraseTargetFeedback( Request request )
+	
+	public void eraseTargetFeedback( Request request)
 	{
-		this.getViewer( ).setCursor( null );
-		super.eraseTargetFeedback( request );
+		if (isActive())
+		{
+			this.getViewer().setCursor( null );
+		}
+	    super.eraseTargetFeedback( request );
 	}
 
 	protected void addChildVisual( EditPart part, int index )

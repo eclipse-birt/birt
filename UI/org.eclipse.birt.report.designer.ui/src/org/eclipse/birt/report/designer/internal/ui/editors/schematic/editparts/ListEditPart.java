@@ -309,7 +309,8 @@ public class ListEditPart extends ReportElementEditPart
 	
 	public void showTargetFeedback(Request request)
 	{
-	    if ( this.getSelected() == 0 && request.getType() == RequestConstants.REQ_SELECTION )
+	    if ( this.getSelected() == 0 &&
+	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
 	    {
 		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
 	    }
@@ -318,7 +319,10 @@ public class ListEditPart extends ReportElementEditPart
 	
 	public void eraseTargetFeedback( Request request)
 	{
-	    this.getViewer().setCursor( null );
+		if (isActive())
+		{
+			this.getViewer().setCursor( null );
+		}
 	    super.eraseTargetFeedback( request );
 	}
 	
