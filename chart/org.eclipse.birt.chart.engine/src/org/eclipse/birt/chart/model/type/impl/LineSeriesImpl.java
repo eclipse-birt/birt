@@ -37,9 +37,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
-import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
@@ -675,15 +673,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         }
 
         // Copy series specific properties
-        if (series instanceof BarSeries)
-        {
-            this.getLineAttributes().setColor(((BarSeries) series).getRiserOutline());
-        }
-        else if (series instanceof PieSeries)
-        {
-            this.getLineAttributes().setColor(((PieSeries) series).getSliceOutline());
-        }
-        else if (series instanceof StockSeries)
+        if (series instanceof StockSeries)
         {
             this.getLineAttributes().setColor(((StockSeries) series).getLineAttributes().getColor());
         }
