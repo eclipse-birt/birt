@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Ce
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -406,5 +407,20 @@ public class TableCellEditPart extends ReportElementEditPart
 	protected CellHandleAdapter getCellAdapter( )
 	{
 		return (CellHandleAdapter) getModelAdapter( );
+	}
+	
+	public void showTargetFeedback(Request request)
+	{
+	    if ( this.getSelected() == 0 )
+	    {
+		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
+	    }
+	    super.showTargetFeedback( request );
+	}
+	
+	public void eraseTargetFeedback( Request request)
+	{
+	    this.getViewer().setCursor( null );
+	    super.eraseTargetFeedback( request );
 	}
 }
