@@ -89,6 +89,8 @@ public class ExpressionBuilder extends BaseDialog
 
 	private List dataSetList = null;
 
+	private String text;
+
 	private ExpressionTreeSupport treeCommon = new ExpressionTreeSupport( );
 
 	class EBTextAction extends TextEditorAction
@@ -215,6 +217,21 @@ public class ExpressionBuilder extends BaseDialog
 		return topLevel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 */
+	protected boolean initDialog( )
+	{
+		if ( text != null && expressionViewer != null )
+		{
+			expressionViewer.getTextWidget( ).setText( text );
+		}
+
+		return super.initDialog( );
+	}
+
 	/**
 	 * create the left tree
 	 * 
@@ -247,7 +264,10 @@ public class ExpressionBuilder extends BaseDialog
 	{
 		IVerticalRuler ruler = null;
 		expressionViewer = new SourceViewer( parent, ruler, SWT.WRAP
-				| SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.MULTI
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
 		treeCommon.setExpressionViewer( expressionViewer );
 
@@ -367,16 +387,20 @@ public class ExpressionBuilder extends BaseDialog
 				.toUpperCase( );
 		if ( ( e.stateMask & SWT.CTRL ) != 0 )
 			keyString = ModifierKey.CTRL.toString( )
-					+ KeyStroke.KEY_DELIMITER + keyString;
+					+ KeyStroke.KEY_DELIMITER
+					+ keyString;
 		if ( ( e.stateMask & SWT.ALT ) != 0 )
 			keyString = ModifierKey.ALT.toString( )
-					+ KeyStroke.KEY_DELIMITER + keyString;
+					+ KeyStroke.KEY_DELIMITER
+					+ keyString;
 		if ( ( e.stateMask & SWT.SHIFT ) != 0 )
 			keyString = ModifierKey.SHIFT.toString( )
-					+ KeyStroke.KEY_DELIMITER + keyString;
+					+ KeyStroke.KEY_DELIMITER
+					+ keyString;
 		if ( ( e.stateMask & SWT.COMMAND ) != 0 )
 			keyString = ModifierKey.COMMAND.toString( )
-					+ KeyStroke.KEY_DELIMITER + keyString;
+					+ KeyStroke.KEY_DELIMITER
+					+ keyString;
 		try
 		{
 			return KeySequence.getInstance( KeyStroke.getInstance( keyString ) );
@@ -404,6 +428,16 @@ public class ExpressionBuilder extends BaseDialog
 	public void setDataSetList( List dataSetList )
 	{
 		this.dataSetList = dataSetList;
+	}
+
+	/**
+	 * Sets the initial text.
+	 * 
+	 * @param text
+	 */
+	public void setText( String text )
+	{
+		this.text = text;
 	}
 
 }
