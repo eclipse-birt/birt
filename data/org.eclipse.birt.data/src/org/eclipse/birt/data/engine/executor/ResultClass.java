@@ -30,7 +30,7 @@ public class ResultClass implements IResultClass
 	private String[] m_fieldNames;
 	private int[] m_fieldDriverPositions;
 	
-	public ResultClass( List projectedColumns ) throws DataException
+	public ResultClass( List projectedColumns )
 	{	
 		assert( projectedColumns != null );
 		

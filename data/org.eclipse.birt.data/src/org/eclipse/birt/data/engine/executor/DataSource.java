@@ -15,15 +15,13 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.Map;
 import java.util.Properties;
-
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.oda.OdaException;
 
 /**
  * Implementation of ODI's IDataSource interface
@@ -113,16 +111,8 @@ class DataSource implements IDataSource
         if ( driverName == null || driverName.length() == 0 )
         	return;
         
-        try
-        {
-			ConnectionManager connManager = ConnectionManager.getInstance();
-			odaConnection = connManager.openConnection( driverName, connectionProps );
-        }
-		catch ( OdaException e)
-		{
-		    odaConnection = null;
-		    throw new DataException( ResourceConstants.DS_OPEN_ERROR, e );
-		}
+		ConnectionManager connManager = ConnectionManager.getInstance();
+		odaConnection = connManager.openConnection( driverName, connectionProps );
     }
 
     /**
@@ -149,7 +139,7 @@ class DataSource implements IDataSource
             // initiates immediate release of resources
             odaConnection.close();	
 		}
-		catch ( OdaException e ) 
+		catch ( DataException e ) 
 		{
 		    // ignore close exception
 		}

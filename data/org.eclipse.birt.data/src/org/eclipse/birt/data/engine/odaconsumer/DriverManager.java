@@ -1,19 +1,22 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */  
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.oda.IConnectionFactory;
-import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.driverconfig.Connection;
 import org.eclipse.birt.data.oda.util.driverconfig.OpenDataAccessConfig;
 
@@ -53,7 +56,7 @@ class DriverManager
 	 * @return	an <code>IConnectionFactory</code> instance.
 	 */
 	IConnectionFactory getConnectionFactory( String driverName )
-		throws OdaException
+		throws DataException
 	{
 		Driver driver = getDriver( driverName );
 		return driver.getConnectionFactory();
@@ -66,7 +69,7 @@ class DriverManager
 	 * @return	the connection class name for <code>IConnectionFactory.getConnection</code>.
 	 */
 	String getConnectionClassName( String driverName ) 
-		throws OdaException
+		throws DataException
 	{
 		Driver driver = getDriver( driverName );
 		OpenDataAccessConfig config = driver.getDriverConfig();
@@ -84,7 +87,7 @@ class DriverManager
 	 */
 	int getNativeToOdaMapping( String driverName, 
 							   String dataSetType, 
-							   int nativeType ) throws OdaException
+							   int nativeType ) throws DataException
 	{
 		Driver driver = getDriver( driverName );
 		return driver.getTypeMapping( dataSetType, nativeType );

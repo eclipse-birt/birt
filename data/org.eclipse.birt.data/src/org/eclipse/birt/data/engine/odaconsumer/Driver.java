@@ -21,6 +21,8 @@ import java.net.URLClassLoader;
 import java.sql.Types;
 import java.util.Hashtable;
 import java.util.Locale;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.manager.OdaConnectionFactory;
 import org.eclipse.birt.data.engine.odaconsumer.manager.OdaURLClassLoader;
 import org.eclipse.birt.data.oda.IConnectionFactory;
@@ -54,7 +56,7 @@ class Driver
 		m_driverName = driverName;
 	}
 
-	OpenDataAccessConfig getDriverConfig() throws OdaException
+	OpenDataAccessConfig getDriverConfig() throws DataException
 	{
 		try
 		{
@@ -66,17 +68,13 @@ class Driver
 		}
 		catch( Exception ex )
 		{
-			// TODO externalize for i18n
-			OdaException odaEx = 
-				new OdaException( "Cannot process the (" + m_driverName +
-								  ") driver's odaconfig.xml." );
-			odaEx.initCause( ex );
-			throw odaEx;
+			throw new DataException( ResourceConstants.CANNOT_PROCESS_ODA_CONFIG_FILE, ex, 
+				                     new Object[] { m_driverName } );
 		}
 	}
 	
 	// gets the connection factory for this driver using the driver's URLClassLoader
-	IConnectionFactory getConnectionFactory() throws OdaException
+	IConnectionFactory getConnectionFactory() throws DataException
 	{
 		RunTimeInterface runtime = 
 			getDriverConfig().getRunTimeInterface();
@@ -98,18 +96,14 @@ class Driver
 			                                 m_classLoader, 
 			                                 setJavaThreadContextClassLoader );
 		}
-		catch( Exception ex )
+		catch( OdaException ex )
 		{
-			// TODO externalize for i18n
-			OdaException odaEx = 
-				new OdaException( initEntryPoint + " cannot be found or " +
-								  "cannot be instantiated." );
-			odaEx.initCause( ex );
-			throw odaEx;
+			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
+                                     new Object[] { initEntryPoint } );
 		}
 	}
 	
-	private LibrariesForOS findLibsForOS( DriverLibraries driverLibs ) throws OdaException
+	private LibrariesForOS findLibsForOS( DriverLibraries driverLibs ) throws DataException
 	{
 		// find the current platform through the system property
 		String systemOS = System.getProperty( "os.name" );
@@ -143,15 +137,15 @@ class Driver
 			}
 		}
 		
-		// TODO externalize for i18n
 		if( libsForOS == null )
-			throw new OdaException( "The driver (" + m_driverName + 
-									") does not support " + systemOS + "." );
+			throw new DataException( ResourceConstants.ODA_DRIVER_ON_UNSUPPORTED_PLATFORM, 
+				                     new Object[] { m_driverName, systemOS } );
+		
 		return libsForOS;
 	}
 
 	private URL[] getURLs( LibrariesForOS libsForOS ) 
-		throws OdaException
+		throws DataException
 	{
 		String[] filenames = libsForOS.getLibraryName();
 		String location = libsForOS.getLocation();
@@ -172,11 +166,8 @@ class Driver
 			}
 			catch( MalformedURLException ex )
 			{
-				// TODO externalize for i18n
-				OdaException odaEx = 
-					new OdaException( "Cannot generate URLs for the classloader." );
-				odaEx.initCause( ex );
-				throw odaEx;
+				throw new DataException( ResourceConstants.CANNOT_GENERATE_URL, ex,
+				                         new Object[] { f } );
 			}
 		}
 		
@@ -185,7 +176,7 @@ class Driver
 
 	// gets the specific native-to-oda type mapping for the specified data set type 
 	// in this driver
-	int getTypeMapping( String dataSetType, int nativeType ) throws OdaException
+	int getTypeMapping( String dataSetType, int nativeType ) throws DataException
 	{
 		Hashtable typeMappingForDS = 
 			(Hashtable) getDSTypeMappings().get( dataSetType );
@@ -196,11 +187,12 @@ class Driver
 			getDSTypeMappings().put( dataSetType, typeMappingForDS );
 		}
 		
-		Integer i = (Integer) typeMappingForDS.get( new Integer( nativeType ) );
-		// TODO externalize for i18n
+		Integer theNativeType = new Integer( nativeType );
+		Integer i = (Integer) typeMappingForDS.get( theNativeType );
 		if( i == null )
-			throw new OdaException( "Unsupported native type (" + nativeType +
-									") for: " + m_driverName + "-" + dataSetType );
+			throw new DataException( ResourceConstants.UNSUPPORTED_NATIVE_TYPE,
+				                     new Object[] { theNativeType, m_driverName, 
+													dataSetType } );
 		
 		return i.intValue();
 	}
@@ -252,7 +244,7 @@ class Driver
 		return typeMappingForDS;
 	}
 
-	private DataSetType findDataSet( String dataSetType ) throws OdaException
+	private DataSetType findDataSet( String dataSetType ) throws DataException
 	{
 		// need to check the configuration to see if it has the data set type
 		DataSetTypes dataSets = getDriverConfig().getDataSetTypes();
@@ -264,10 +256,8 @@ class Driver
 				return dataSet;
 		}
 
-		// TODO externalize for i18n
-		throw new OdaException( "The data set type (" + dataSetType + 
-								") is not supported by this driver (" +
-								m_driverName + ")." );
+		throw new DataException( ResourceConstants.UNSUPPORTED_DATA_SET_TYPE,
+			                     new Object[] { dataSetType, m_driverName } );
 	}
 
 	private Hashtable getDSTypeMappings()

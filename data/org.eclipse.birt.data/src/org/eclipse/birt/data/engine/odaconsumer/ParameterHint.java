@@ -1,13 +1,16 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */ 
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
@@ -15,6 +18,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * <code>ParameterHint</code> provides hints to map static  
@@ -34,9 +39,12 @@ class ParameterHint
 	 */
 	ParameterHint( String parameterName )
 	{
-		// TODO externalize
 		if( parameterName == null || parameterName.length() == 0 )
-			throw new IllegalArgumentException( "Parameter name cannot be empty or null." );
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL );
+			throw new IllegalArgumentException( localizedMessage );
+		}
 		
 		m_name = parameterName;
 	}
@@ -58,9 +66,12 @@ class ParameterHint
 	 */
 	public void setPosition( int position )
 	{
-		// TODO externalize
 		if( position < 1 )
-			throw new IllegalArgumentException( "Parameter position cannot be less than 1." );
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE );
+			throw new IllegalArgumentException( localizedMessage );
+		}
 		
 		m_position = position;
 	}
@@ -111,7 +122,12 @@ class ParameterHint
 	void updateHint( ParameterHint hint )
 	{
 		m_name = hint.m_name;
-		m_position = hint.m_position;
-		m_dataType = hint.m_dataType;
+		
+		// don't update if the other hint has the default values
+		if( hint.m_position != 0 )
+			m_position = hint.m_position;
+		
+		if( hint.m_dataType != null )
+			m_dataType = hint.m_dataType;
 	}
 }

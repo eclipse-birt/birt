@@ -1,17 +1,22 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */ 
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Properties;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IConnectionFactory;
 import org.eclipse.birt.data.oda.OdaException;
@@ -49,19 +54,27 @@ public class ConnectionManager
 	 * @param driverName	name of the driver.
 	 * @param connectionProperties	connection properties to open the underlying connection.
 	 * @return	an opened <code>Connection</code> instance. 
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
 	public Connection openConnection( String driverName, 
 									  Properties connectionProperties ) 
-		throws OdaException
+		throws DataException
 	{
-		IConnectionFactory factory = 
-			DriverManager.getInstance().getConnectionFactory( driverName );
-		String connectionName = 
-			DriverManager.getInstance().getConnectionClassName( driverName );
-		IConnection connection = factory.getConnection( connectionName );
-		connection.open( connectionProperties );
-		
-		return ( new Connection( connection, driverName ) );
+		try
+		{
+			IConnectionFactory factory = 
+				DriverManager.getInstance().getConnectionFactory( driverName );
+			String connectionName = 
+				DriverManager.getInstance().getConnectionClassName( driverName );
+			IConnection connection = factory.getConnection( connectionName );
+			connection.open( connectionProperties );
+			
+			return ( new Connection( connection, driverName ) );
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
+			                         new Object[] { driverName } );
+		}
 	}
 }

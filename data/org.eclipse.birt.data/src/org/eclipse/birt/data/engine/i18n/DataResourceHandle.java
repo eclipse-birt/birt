@@ -21,6 +21,15 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
 
 public class DataResourceHandle extends ResourceHandle
 {
+	private static DataResourceHandle sm_resourceHandle;
+	
+	public static DataResourceHandle getInstance()
+	{
+		if( sm_resourceHandle == null )
+			sm_resourceHandle = new DataResourceHandle( Locale.getDefault() );
+		
+		return sm_resourceHandle;
+	}
 
 	/**
 	 * @param locale

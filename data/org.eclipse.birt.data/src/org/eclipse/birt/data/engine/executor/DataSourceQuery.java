@@ -18,18 +18,17 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.InputParameterHint;
-import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
+import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.oda.OdaException;
 
 // Structure to hold definition of a custom column
 final class CustomField
@@ -281,30 +280,21 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         if ( odaStatement != null )
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
+        odaStatement = dataSource.getConnection().prepareStatement( queryText, queryType );
         
-        try
-        {
-            odaStatement = dataSource.getConnection().prepareStatement( queryText, queryType );
-            
-            // Ordering is important for the following operations. Column hints should be defined
-            // after custom fields are declared (since hints may be given to those custom fields).
-            // Column projection comes last because it needs hints and custom column information
-            addCustomFields( odaStatement );
-            addColumnHints( odaStatement );
-            odaStatement.setColumnsProjection( this.projectedFields );
-        }
-        catch ( OdaException e )
-        {
-            odaStatement = null;
-            throw new DataException( ResourceConstants.DS_COLUMN_HINTS_ERROR, e );
-        }
+        // Ordering is important for the following operations. Column hints should be defined
+        // after custom fields are declared (since hints may be given to those custom fields).
+        // Column projection comes last because it needs hints and custom column information
+        addCustomFields( odaStatement );
+        addColumnHints( odaStatement );
+        odaStatement.setColumnsProjection( this.projectedFields );
 
         // If ODA can provide result metadata, get it now
         try
         {
             resultMetadata = odaStatement.getMetaData();
         }
-        catch ( OdaException e )
+        catch ( DataException e )
         {
             // Assume metadata not available at prepare time; ignore the exception
         	resultMetadata = null;
@@ -329,20 +319,13 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     		colHint.setDataType( DataType.getClass(hint.getDataType()));
     		if ( hint.getPosition() > 0 )
     			colHint.setPosition( hint.getPosition());
-    		try
-			{
-    			stmt.addColumnHint( colHint );
-			}
-    		catch (OdaException e )
-			{
-    			throw new DataException( ResourceConstants.DS_COLUMN_HINTS_ERROR,
-						e );
-			}
+
+   			stmt.addColumnHint( colHint );
     	}
 	}
     
     // Declares custom fields on Oda statement
-    private void addCustomFields( PreparedStatement stmt ) throws OdaException
+    private void addCustomFields( PreparedStatement stmt ) throws DataException
 	{
     	if ( this.customFields != null )
     	{
@@ -383,58 +366,48 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     public IResultIterator execute( ) throws DataException
     {
     	assert odaStatement != null;
-		
-		try
+
+		Iterator list;
+		if ( inputParamHints != null )
 		{
-			Iterator list;
-			if ( inputParamHints != null )
-			{
-				list = inputParamHints.iterator( );
-				while ( list.hasNext( ) )
-				{
-					InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
-					InputParameterHint parameterHint = new InputParameterHint(
-							paramDef.getName( ) );
-					parameterHint.setPosition( paramDef.getPosition( ) );
-					parameterHint.setIsOptional( paramDef.isOptional( ) );
-					odaStatement.addInputParameterHint( parameterHint );
-				}
-			}
-			list = inputParams.iterator( );
+			list = inputParamHints.iterator( );
 			while ( list.hasNext( ) )
 			{
-				ParameterBinding paramBind = (ParameterBinding) list.next( );
-				if ( paramBind.getPosition( ) != -1 )
-					odaStatement.setParameterValue( paramBind.getPosition( ),
-							paramBind.getValue() );
-				else
-					odaStatement.setParameterValue( paramBind.getName( ),
-							paramBind.getValue() );
+				InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
+				InputParameterHint parameterHint = new InputParameterHint(
+						paramDef.getName( ) );
+				parameterHint.setPosition( paramDef.getPosition( ) );
+				parameterHint.setIsOptional( paramDef.isOptional( ) );
+				odaStatement.addInputParameterHint( parameterHint );
 			}
-			
-			// Execute the prepared statement
-			if ( ! odaStatement.execute() )
-				throw new DataException(ResourceConstants.NO_RESULT_SET);
-			ResultSet rs = odaStatement.getResultSet();
-			
-			// If we did not get a result set metadata at prepare() time, get it now
-			if ( resultMetadata == null )
-			{
-				resultMetadata = rs.getMetaData();
-	            if ( resultMetadata == null )
-	    			throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
-			}
-			
-			// Initialize CachedResultSet using the ODA result set
-			return new CachedResultSet( this, resultMetadata, rs );
 		}
-		
-		catch ( OdaException e )
+		list = inputParams.iterator( );
+		while ( list.hasNext( ) )
 		{
-		    throw new DataException( ResourceConstants.DS_PARAMETER_ERROR, e );
+			ParameterBinding paramBind = (ParameterBinding) list.next( );
+			if ( paramBind.getPosition( ) != -1 )
+				odaStatement.setParameterValue( paramBind.getPosition( ),
+						paramBind.getValue() );
+			else
+				odaStatement.setParameterValue( paramBind.getName( ),
+						paramBind.getValue() );
 		}
 		
+		// Execute the prepared statement
+		if ( ! odaStatement.execute() )
+			throw new DataException(ResourceConstants.NO_RESULT_SET);
+		ResultSet rs = odaStatement.getResultSet();
 		
+		// If we did not get a result set metadata at prepare() time, get it now
+		if ( resultMetadata == null )
+		{
+			resultMetadata = rs.getMetaData();
+            if ( resultMetadata == null )
+    			throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
+		}
+		
+		// Initialize CachedResultSet using the ODA result set
+		return new CachedResultSet( this, resultMetadata, rs );
     }
     
     public void close()
@@ -445,7 +418,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	        {
 	            odaStatement.close();
 	        }
-	        catch ( OdaException e )
+	        catch ( DataException e )
 	        {
 	            // TODO log exception
 	            e.printStackTrace();

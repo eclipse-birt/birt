@@ -1,20 +1,24 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */ 
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 class ProjectedColumns
 {
@@ -28,7 +32,7 @@ class ProjectedColumns
 	private ArrayList m_columnHints;
 	private String[] m_projectedColumns;
 	
-	ProjectedColumns( ResultSetMetaData runtimeMetaData ) throws OdaException
+	ProjectedColumns( ResultSetMetaData runtimeMetaData ) throws DataException
 	{
 		assert( runtimeMetaData != null );
 		m_columns = new ArrayList();
@@ -48,7 +52,7 @@ class ProjectedColumns
 	
 	// it's possible that a hint may not match any of the runtime metadata, 
 	// it's not an error when that happens
-	void addHint( ColumnHint columnHint ) throws OdaException
+	void addHint( ColumnHint columnHint ) throws DataException
 	{
 		assert( columnHint != null );
 		
@@ -103,7 +107,7 @@ class ProjectedColumns
 
 	private void updateDataTypeAndAlias( ResultFieldMetadata column,
 									  	 String columnHintAlias, 
-									  	 Class columnHintType ) throws OdaException
+									  	 Class columnHintType )
 	{
 		if( column.getDataType() == null && columnHintType != null )
 			column.setDataType( columnHintType );
@@ -120,7 +124,7 @@ class ProjectedColumns
 	}
 	
 	void addCustomColumn( String columnName, Class columnType )
-		throws OdaException
+		throws DataException
 	{
 		assert( columnName != null && columnName.length() > 0 );
 		
@@ -146,7 +150,7 @@ class ProjectedColumns
 		return m_customColumns;
 	}
 
-	void setProjectedNames( String[] projectedColumns ) throws OdaException
+	void setProjectedNames( String[] projectedColumns ) throws DataException
 	{
 		// can project since declared custom columns don't need to be 
 		// projected to be added to the IResultClass.  this allows us 
@@ -162,7 +166,7 @@ class ProjectedColumns
 	// returns the projected columns based on the runtime 
 	// metadata, column hints, and the projected column names.
 	// returns an empty List if there are no projected columns.
-	List getColumnsMetadata() throws OdaException
+	List getColumnsMetadata()
 	{
 		// if the projected indices array is null, then that 
 		// means the caller didn't call setProjectedNames()
@@ -195,7 +199,7 @@ class ProjectedColumns
 	}
 	
 	private void projectSelectedBaseColumns( String[] projectedColumns ) 
-		throws OdaException
+		throws DataException
 	{
 		// only project non-custom columns
 		ArrayList projectedIndices = new ArrayList();
@@ -224,10 +228,9 @@ class ProjectedColumns
 	
 			// couldn't find a match to the projected column name to 
 			// the base metadata
-			// TODO externalize message text
 			projectedIndices = null;
-			throw new OdaException( "Unrecognized projected column name: " + 
-									projectedName + "." );
+			throw new DataException( ResourceConstants.UNRECOGNIZED_PROJECTED_COLUMN_NAME,
+			                         new Object[] { projectedName } );
 		}
 		
 		int size = projectedIndices.size();
@@ -264,7 +267,7 @@ class ProjectedColumns
 	// column doesn't conflict with existing column names or aliases
 	private void validateNewNameOrAlias( String newColumnNameOrAlias, 
 										 int driverIndex )
-		throws OdaException
+		throws DataException
 	{
 		assert( newColumnNameOrAlias != null && 
 		        newColumnNameOrAlias.length() > 0 );
@@ -283,11 +286,8 @@ class ProjectedColumns
 				  column.getName().equals( newColumnNameOrAlias ) ) ||
 				( column.getAlias() != null &&
 				  column.getAlias().equals( newColumnNameOrAlias ) ) )
-				// TODO externalize message text
-				throw new OdaException( "The new column name or alias (" + 
-				                        newColumnNameOrAlias + ") is already " +
-				                        "used by the column at index " +
-				                        (i + 1) );
+				throw new DataException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED, 
+				                         new Object[] { newColumnNameOrAlias, new Integer( i + 1 ) } );
 		}
 	}
 	

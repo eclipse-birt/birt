@@ -1,17 +1,22 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */ 
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IConnectionMetaData;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
@@ -40,12 +45,20 @@ public class Connection
 	 * Returns the maximum number of active connections that can supported.
 	 * @return	the maximum number of connections that can be opened concurrently, 
 	 * 			or 0 if there is no limit or the limit is unknown.
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
-	public int getMaxConnections() throws OdaException
+	public int getMaxConnections() throws DataException
 	{
 		IConnectionMetaData connMetaData = getCachedConnMetaData();
-		return connMetaData.getMaxConnections( );
+		
+		try
+		{
+			return connMetaData.getMaxConnections( );
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_MAX_CONNECTIONS, ex );
+		}
 	}
 	
 	/**
@@ -53,12 +66,20 @@ public class Connection
 	 * that the driver can support per active connection.
 	 * @return	the maximum number of any type of statements that can be supported 
 	 * 			concurrently, or 0 if there is no limit or the limit is unknown.
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
-	public int getMaxStatements() throws OdaException
+	public int getMaxStatements() throws DataException
 	{
 		IConnectionMetaData connMetaData = getCachedConnMetaData();
-		return connMetaData.getMaxStatements();
+		
+		try
+		{
+			return connMetaData.getMaxStatements();
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_MAX_STATEMENTS, ex );
+		}
 	}
 	
 	/**
@@ -66,16 +87,26 @@ public class Connection
 	 * @param dataSetType	name of the data set type.
 	 * @return	the <code>DataSetCapabilities</code> instance reflecting the specified 
 	 * 			data set type.
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
-	public DataSetCapabilities getMetaData( String dataSetType ) throws OdaException
+	public DataSetCapabilities getMetaData( String dataSetType ) throws DataException
 	{
 		DataSetCapabilities capabilities = 
 			(DataSetCapabilities) getCachedDsMetaData( ).get( dataSetType );
 		
 		if( capabilities == null )
 		{
-			IDataSetMetaData dsMetaData = m_connection.getMetaData( dataSetType );
+			IDataSetMetaData dsMetaData = null;
+			try
+			{
+				dsMetaData = m_connection.getMetaData( dataSetType );
+			}
+			catch( OdaException ex )
+			{
+				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
+				                         new Object[] { dataSetType } );
+			}
+			
 			capabilities = new DataSetCapabilities( dsMetaData );
 			getCachedDsMetaData( ).put( dataSetType, capabilities );
 		}
@@ -91,11 +122,11 @@ public class Connection
 	 * @param query	the statement query to be executed.
 	 * @return	a <code>PreparedStatement</code> of the specified type with the specified 
 	 * 			statement query.
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
 	public PreparedStatement prepareStatement( String query, 
 											   String dataSetType )
-		throws OdaException
+		throws DataException
 	{
 		IStatement statement = prepareOdaStatement( query, dataSetType );
 		return ( new PreparedStatement( statement, dataSetType, this, 
@@ -104,17 +135,33 @@ public class Connection
 	
 	/**
 	 * Closes this <code>Connection</code>.
-	 * @throws OdaException	if data source error occurs.
+	 * @throws DataException	if data source error occurs.
 	 */
-	public void close( ) throws OdaException
+	public void close( ) throws DataException
 	{
-		m_connection.close( );
+		try
+		{
+			m_connection.close( );
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
+		}
 	}
 	
-	private IConnectionMetaData getCachedConnMetaData() throws OdaException
+	private IConnectionMetaData getCachedConnMetaData() throws DataException
 	{
 		if( m_cachedConnMetaData == null )
-			m_cachedConnMetaData = m_connection.getMetaData();
+		{
+			try
+			{
+				m_cachedConnMetaData = m_connection.getMetaData();
+			}
+			catch( OdaException ex )
+			{
+				throw new DataException( ResourceConstants.CANNOT_GET_CONNECTION_METADATA, ex );
+			}
+		}
 		
 		return m_cachedConnMetaData;
 	}
@@ -135,11 +182,19 @@ public class Connection
 	}
 	
 	IStatement prepareOdaStatement( String query, String dataSetType ) 
-		throws OdaException
+		throws DataException
 	{
-		assert( m_connection.isOpened( ) );
-		IStatement statement = m_connection.createStatement( dataSetType );
-		statement.prepare( query );
-		return statement;
+		try
+		{
+			assert( m_connection.isOpened( ) );
+			IStatement statement = m_connection.createStatement( dataSetType );
+			statement.prepare( query );
+			return statement;
+		}
+		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
+			                         new Object[] { query, dataSetType } );
+		}
 	}
 }

@@ -1,13 +1,16 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *****************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *
+ ******************************************************************************
+ */  
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
@@ -15,6 +18,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * <code>ColumnHint</code> provides hints to merge static design time 
@@ -35,10 +40,13 @@ public class ColumnHint
 	 */
 	public ColumnHint( String columnName )
 	{
-		// TODO externalize message text
 		if( columnName == null || columnName.length() == 0 )
-			throw new IllegalArgumentException( "Column name cannot be empty or null." );
-		
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL );
+			throw new IllegalArgumentException( localizedMessage );
+		}
+			
 		m_name = columnName;
 	}
 
@@ -58,9 +66,12 @@ public class ColumnHint
 	 */
 	public void setPosition( int position )
 	{
-		// TODO externalize message text
 		if( position < 1 )
-			throw new IllegalArgumentException( "Column position cannot be less than 1." );
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE );
+			throw new IllegalArgumentException( localizedMessage );
+		}
 		
 		m_position = position;
 	}
@@ -110,9 +121,12 @@ public class ColumnHint
 	{
 		// ok to set the alias as null, meaning no alias.  but not
 		// ok to have an empty alias
-		// TODO externalize message text
 		if( alias != null && alias.length() == 0 )
-			throw new IllegalArgumentException( "Column alias cannot be an empty string." );
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.COLUMN_ALIAS_CANNOT_BE_EMPTY );
+			throw new IllegalArgumentException( localizedMessage );
+		}
 		
 		m_alias = alias;
 	}
