@@ -125,6 +125,8 @@ public interface IConstants
 
     public static final String NULL_STRING = "null";
 
+    public final int SOME_NULL = -2;
+    
     public final int LESS = -1;
 
     public final int EQUAL = 0;
