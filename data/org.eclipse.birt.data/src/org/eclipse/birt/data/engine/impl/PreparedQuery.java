@@ -37,7 +37,6 @@ import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
-import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
