@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.Control;
  * list or direct input.
  */
 
-public class EditableComboFieldEditor extends FieldEditor
+public class EditableComboFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -37,26 +36,23 @@ public class EditableComboFieldEditor extends FieldEditor
 	protected Combo fCombo;
 
 	/**
-	 * The value (not the name) of the currently selected item in the Combo
-	 * widget.
-	 */
-	protected String fValue;
-
-	private String oldValue;
-
-	/**
 	 * The names (labels) and underlying values to populate the combo widget.
 	 * These should be arranged as: { {name1, value1}, {name2, value2}, ...}
 	 */
 	protected String[][] fEntryNamesAndValues;
 
 	/**
-	 * The constructor.
+	 * Creates a editable combo field editor.
 	 * 
 	 * @param name
+	 *            the name of the preference this field editor works on
 	 * @param labelText
+	 *            the label text of the field editor
 	 * @param entryNamesAndValues
+	 *            the entyr name and value choices of the combox of the field
+	 *            editor
 	 * @param parent
+	 *            the parent of the field editor's control
 	 */
 	public EditableComboFieldEditor( String name, String labelText,
 			String[][] entryNamesAndValues, Composite parent )
@@ -145,12 +141,11 @@ public class EditableComboFieldEditor extends FieldEditor
 	}
 
 	/**
-	 * Set the name in the combo widget to match the specified value.
+	 * Sets the name in the combo widget to match the specified value.
 	 */
 	protected void updateComboForValue( String value )
 	{
-		fValue = value;
-		oldValue = value;
+		setOldValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
 			if ( fEntryNamesAndValues[i][1].equals( value ) )
@@ -168,31 +163,15 @@ public class EditableComboFieldEditor extends FieldEditor
 		{
 			fCombo.setText( value );
 		}
-	}
-
-	/*
-	 * @see FieldEditor#doStore()
-	 */
-	protected void doStore( )
-	{
-		if ( fValue == null )
-		{
-			getPreferenceStore( ).setToDefault( getPreferenceName( ) );
-			return;
-		}
-
-		if ( ( oldValue != null ) && oldValue.equals( fValue ) )
-		{
-			return;
-		}
-		getPreferenceStore( ).setValue( getPreferenceName( ), fValue );
+		setOldValue( getStringValue( ) );
 	}
 
 	/**
-	 * Lazily create and return the Combo control.
+	 * Lazily creates and returns the Combo control.
 	 * 
 	 * @param parent
-	 * @return
+	 *            The parent composite to contain the field editor
+	 * @return Combo The combo box of the field editor
 	 */
 	public Combo getComboBoxControl( Composite parent )
 	{
@@ -208,23 +187,16 @@ public class EditableComboFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					String oldValue = fValue;
-					String name = fCombo.getText( );
-					fValue = getValueForName( name );
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fValue );
+					valueChanged( VALUE );
 				}
+
 			} );
 
 			fCombo.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					String oldValue = fValue;
-					String name = fCombo.getText( );
-					fValue = name;
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fValue );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -244,6 +216,24 @@ public class EditableComboFieldEditor extends FieldEditor
 				return entry[1];
 			}
 		}
-		return null;
+		return name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 */
+	protected String getStringValue( )
+	{
+		if ( fCombo != null )
+		{
+			return getValueForName( fCombo.getText( ) );
+		}
+		else
+		{
+			return getPreferenceStore( ).getString( getPreferenceName( ) );
+		}
+
 	}
 }

@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
 
 /**
  * Provides general preference page.

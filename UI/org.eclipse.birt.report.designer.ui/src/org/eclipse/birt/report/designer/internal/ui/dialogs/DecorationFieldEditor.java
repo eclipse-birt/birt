@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,7 +25,7 @@ import org.eclipse.swt.widgets.Control;
  *  
  */
 
-public class DecorationFieldEditor extends FieldEditor
+public class DecorationFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -35,32 +34,41 @@ public class DecorationFieldEditor extends FieldEditor
 	private Composite parent;
 
 	/**
-	 * The <code>Button</code> widgets.
-	 */
-	private Button bUnderLine;
-
-	private Button bOverLine;
-
-	private Button bLineThrough;
-
-	/**
 	 * The field editor's label text.
 	 */
 	private String labelText;
 
 	/**
+	 * The <code>Button</code> widgets.
+	 */
+	private Button bUnderLine;
+
+	private boolean wasSelected1;
+	private boolean isSelected1;
+	private boolean isDirty1;
+
+	private Button bOverLine;
+
+	private boolean wasSelected2;
+	private boolean isSelected2;
+	private boolean isDirty2;
+
+	private Button bLineThrough;
+
+	private boolean wasSelected3;
+	private boolean isSelected3;
+	private boolean isDirty3;
+
+	/**
 	 * The names of the preferences displayed in this field editor.
 	 */
 	private String underline_prop;
-
-	private String overline_prop;
-
-	private String line_through_prop;
-
 	private String underline_text;
 
+	private String overline_prop;
 	private String overline_text;
 
+	private String line_through_prop;
 	private String line_through_text;
 
 	/**
@@ -165,8 +173,15 @@ public class DecorationFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
+					boolean isSelected = bUnderLine.getSelection( );
 					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, null, null );
+					if ( isSelected1 != isSelected )
+					{
+						fireValueChanged( VALUE, null, null );
+						fireStateChanged( VALUE, isSelected1, isSelected );
+						isSelected1 = isSelected;
+						isDirty1 = true;
+					}
 				}
 			} );
 
@@ -191,8 +206,15 @@ public class DecorationFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
+					boolean isSelected = bOverLine.getSelection( );
 					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, null, null );
+					if ( isSelected2 != isSelected )
+					{
+						fireValueChanged( VALUE, null, null );
+						fireStateChanged( VALUE, isSelected2, isSelected );
+						isSelected2 = isSelected;
+						isDirty2 = true;
+					}
 				}
 			} );
 
@@ -217,8 +239,15 @@ public class DecorationFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
+					boolean isSelected = bLineThrough.getSelection( );
 					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, null, null );
+					if ( isSelected3 != isSelected )
+					{
+						fireValueChanged( VALUE, null, null );
+						fireStateChanged( VALUE, isSelected3, isSelected );
+						isSelected3 = isSelected;
+						isDirty3 = true;
+					}
 				}
 			} );
 
@@ -234,19 +263,21 @@ public class DecorationFieldEditor extends FieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getUnderlinePropName( ) );
-			bUnderLine.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value ) );
+			wasSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
+			bUnderLine.setSelection( wasSelected1 );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getOverLinePropName( ) );
-			bOverLine.setSelection( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value ) );
+			wasSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
+			bOverLine.setSelection( wasSelected2 );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getString( getLineThroughPropName( ) );
-			bLineThrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value ) );
+			wasSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
+			bLineThrough.setSelection( wasSelected3 );
 		}
-
 	}
 
 	/*
@@ -257,17 +288,20 @@ public class DecorationFieldEditor extends FieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getUnderlinePropName( ) );
-			bUnderLine.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value ) );
+			wasSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
+			bUnderLine.setSelection( wasSelected1 );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getOverLinePropName( ) );
-			bOverLine.setSelection( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value ) );
+			wasSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
+			bOverLine.setSelection( wasSelected2 );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getLineThroughPropName( ) );
-			bLineThrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value ) );
+			wasSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
+			bLineThrough.setSelection( wasSelected3 );
 		}
 	}
 
@@ -276,11 +310,41 @@ public class DecorationFieldEditor extends FieldEditor
 	 */
 	protected void doStore( )
 	{
+		//		checkDirty( );
+		if ( isDirty1 )
+		{
+			getPreferenceStore( ).setValue( underline_prop,
+					getUnderLinePropValue( ) );
+		}
+		if ( isDirty2 )
+		{
+			getPreferenceStore( ).setValue( overline_prop,
+					getOverLinePropValue( ) );
+		}
+		if ( isDirty3 )
+		{
+			getPreferenceStore( ).setValue( line_through_prop,
+					getLineThroughPropValue( ) );
+		}
+	}
 
-		getPreferenceStore( ).setValue( underline_prop, getUnderLinePropValue( ) );
-		getPreferenceStore( ).setValue( overline_prop, getOverLinePropValue( ) );
-		getPreferenceStore( ).setValue( line_through_prop,
-				getLineThroughPropValue( ) );
+	/**
+	 * Checks whether the field eidtors is(are) modifed.
+	 */
+	private void checkDirty( )
+	{
+		if ( wasSelected1 != isSelected1 )
+		{
+			isDirty1 = true;
+		}
+		if ( wasSelected2 != isSelected2 )
+		{
+			isDirty2 = true;
+		}
+		if ( wasSelected3 != isSelected3 )
+		{
+			isDirty3 = true;
+		}
 	}
 
 	/**
@@ -372,5 +436,15 @@ public class DecorationFieldEditor extends FieldEditor
 		{
 			return DesignChoiceConstants.TEXT_LINE_THROUGH_NONE;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 */
+	protected String getStringValue( )
+	{
+		return null;
 	}
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -30,7 +29,7 @@ import org.eclipse.swt.widgets.Text;
  * file name.
  */
 
-public class BgImageFieldEditor extends FieldEditor
+public class BgImageFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -42,13 +41,6 @@ public class BgImageFieldEditor extends FieldEditor
 	 * the button widget.
 	 */
 	private Button fButton;
-
-	/**
-	 * value of the field editor.
-	 */
-	protected String fValue;
-
-	private String oldValue;
 
 	/**
 	 * @param name
@@ -67,7 +59,7 @@ public class BgImageFieldEditor extends FieldEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.EditableComboFieldEditor#getNumberOfControls()
+	 * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
 	 */
 	public int getNumberOfControls( )
 	{
@@ -81,12 +73,16 @@ public class BgImageFieldEditor extends FieldEditor
 	 */
 	protected void doLoad( )
 	{
-		oldValue = getPreferenceStore( ).getString( getPreferenceName( ) );
-		if ( oldValue != null )
+		String value = getPreferenceStore( ).getString( getPreferenceName( ) );
+		if ( value != null )
 		{
-			fValue = oldValue;
-			fText.setText( fValue );
+			fText.setText( value );
 		}
+		else
+		{
+			fText.setText( "" );
+		}
+		setOldValue( getStringValue( ) );
 	}
 
 	/*
@@ -96,34 +92,21 @@ public class BgImageFieldEditor extends FieldEditor
 	 */
 	protected void doLoadDefault( )
 	{
-		oldValue = getPreferenceStore( ).getDefaultString( getPreferenceName( ) );
-		if ( oldValue != null )
+		String value = getPreferenceStore( ).getDefaultString( getPreferenceName( ) );
+		if ( value != null )
 		{
-			fValue = oldValue;
-			fText.setText( fValue );
+			fText.setText( value );
 		}
+		else
+		{
+			fText.setText( "" );
+		}
+		setOldValue( getStringValue( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditor#doStore()
-	 */
-	protected void doStore( )
-	{
-		if ( fValue == null )
-		{
-			getPreferenceStore( ).setToDefault( getPreferenceName( ) );
-			return;
-		}
-		if ( ( oldValue != null ) && oldValue.equals( fValue ) )
-		{
-			return;
-		}
-		getPreferenceStore( ).setValue( getPreferenceName( ), fValue );
-	}
-
-	/*
 	 * @see EditableComboFieldEditor#adjustForNumColumns(int)
 	 */
 	protected void adjustForNumColumns( int numColumns )
@@ -139,14 +122,13 @@ public class BgImageFieldEditor extends FieldEditor
 		numColumns--;
 
 		( (GridData) getButtonControl( null ).getLayoutData( ) ).horizontalSpan = numColumns;
-		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = 65;
+		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = 85;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.EditableComboFieldEditor#doFillIntoGrid(org.eclipse.swt.widgets.Composite,
-	 *      int)
+	 * @see org.eclipse.jface.preference.FieldEditor#doFillIntoGrid()
 	 */
 	protected void doFillIntoGrid( Composite parent, int numColumns )
 	{
@@ -162,10 +144,13 @@ public class BgImageFieldEditor extends FieldEditor
 	}
 
 	/**
-	 * @param object
-	 * @return
+	 * Lazily creates and returns the text control.
+	 * 
+	 * @param parent
+	 *            The parent composite to hold the field editor.
+	 * @return Text The text control
 	 */
-	private Text getTextControl( Composite parent )
+	public Text getTextControl( Composite parent )
 	{
 		if ( fText == null )
 		{
@@ -175,10 +160,7 @@ public class BgImageFieldEditor extends FieldEditor
 
 				public void modifyText( ModifyEvent e )
 				{
-					String oldValue = fValue;
-					fValue = fText.getText( );
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fValue );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -190,7 +172,7 @@ public class BgImageFieldEditor extends FieldEditor
 	 * 
 	 * @param parent
 	 *            The parent Composite contains the control.
-	 * @return button
+	 * @return Button The button control
 	 */
 	protected Button getButtonControl( final Composite parent )
 	{
@@ -215,15 +197,30 @@ public class BgImageFieldEditor extends FieldEditor
 					String file = fd.open( );
 					if ( file != null )
 					{
-						String oldValue = getTextControl( null ).getText( );
 						getTextControl( null ).setText( file );
-						fValue = file;
-						fireValueChanged( VALUE, oldValue, fValue );
+						valueChanged( VALUE );
 					}
 				}
 			} );
 		}
 		return fButton;
+	}
+
+	/**
+	 * Gets string value of the field editor.
+	 * 
+	 * @return the field editor 's string value.
+	 */
+	protected String getStringValue( )
+	{
+		if ( fText != null )
+		{
+			return fText.getText( );
+		}
+		else
+		{
+			return getPreferenceStore( ).getString( getPreferenceName( ) );
+		}
 	}
 
 }

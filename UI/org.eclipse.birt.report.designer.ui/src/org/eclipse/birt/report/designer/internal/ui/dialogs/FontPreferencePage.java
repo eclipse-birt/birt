@@ -77,15 +77,17 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		this.model = model;
 	}
 
-	/**
-	 * Adjust the layout of the field editors so that they are properly aligned.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
 	protected void adjustGridLayout( )
 	{
 		super.adjustGridLayout( );
 
 		( (GridData) name.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 165;
 
 		( (GridData) style.getComboBoxControl( getFieldEditorParent( ) )
 				.getLayoutData( ) ).widthHint = 170;
@@ -221,12 +223,12 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		{
 			String fontFamily = name.getValueForName( name.getComboBoxControl( null )
 					.getText( ) );
-			
-			if (fontFamily == null)
+
+			if ( fontFamily == null )
 			{
 				fontFamily = "Times New Roman"; //$NON-NLS-1$
 			}
-			
+
 			String familyValue = (String) DesignerConstants.familyMap.get( fontFamily );
 
 			if ( familyValue == null )

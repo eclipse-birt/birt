@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
@@ -30,7 +29,7 @@ import org.eclipse.swt.widgets.Listener;
  * A field editor for a color type preference.
  */
 
-public class ColorFieldEditor extends FieldEditor
+public class ColorFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -66,6 +65,7 @@ public class ColorFieldEditor extends FieldEditor
 	protected void adjustForNumColumns( int numColumns )
 	{
 		( (GridData) colorSelector.getLayoutData( ) ).horizontalSpan = numColumns - 1;
+		( (GridData) colorSelector.getLayoutData( ) ).widthHint = 85;
 	}
 
 	/*
@@ -89,8 +89,8 @@ public class ColorFieldEditor extends FieldEditor
 	protected void doLoad( )
 	{
 		RGB rgb = DEUtil.getRGBValue( ColorUtil.parseColor( getPreferenceStore( ).getString( getPreferenceName( ) ) ) );
-
 		getColorSelector( ).setRGB( rgb );
+		setOldValue( getStringValue( ) );
 	}
 
 	/*
@@ -102,19 +102,7 @@ public class ColorFieldEditor extends FieldEditor
 			return;
 		colorSelector.setRGB( PreferenceConverter.getDefaultColor( getPreferenceStore( ),
 				getPreferenceName( ) ) );
-	}
-
-	/*
-	 * (non-Javadoc) Method declared on FieldEditor.
-	 */
-	protected void doStore( )
-	{
-		RGB rgb = getColorSelector( ).getRGB( );
-
-		getPreferenceStore( ).setValue( getPreferenceName( ),
-				( rgb == null ) ? null
-						: ( ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getRGB( ) ),
-								ColorUtil.HTML_FORMAT ) ) );
+		setOldValue( getStringValue( ) );
 	}
 
 	/**
@@ -146,9 +134,7 @@ public class ColorFieldEditor extends FieldEditor
 				// forward the property change of the color selector
 				public void handleEvent( Event event )
 				{
-					ColorFieldEditor.this.fireValueChanged( VALUE,
-							colorSelector.getRGB( ),
-							colorSelector.getRGB( ) );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -180,4 +166,22 @@ public class ColorFieldEditor extends FieldEditor
 		getChangeControl( parent ).setEnabled( enabled );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 */
+	protected String getStringValue( )
+	{
+		RGB rgb = getColorSelector( ).getRGB( );
+		if ( rgb == null )
+		{
+			return null;
+		}
+		else
+		{
+			return ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getRGB( ) ),
+					ColorUtil.HTML_FORMAT );
+		}
+	}
 }

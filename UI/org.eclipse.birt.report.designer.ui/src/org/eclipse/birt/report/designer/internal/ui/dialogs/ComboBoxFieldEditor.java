@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -27,7 +26,7 @@ import org.eclipse.swt.widgets.Control;
  * org.eclipse.debug.internal.ui.preferences This class was customized a little.
  */
 
-public class ComboBoxFieldEditor extends FieldEditor
+public class ComboBoxFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -36,17 +35,24 @@ public class ComboBoxFieldEditor extends FieldEditor
 	private Combo fCombo;
 
 	/**
-	 * The value (not the name) of the currently selected item in the Combo
-	 * widget.
-	 */
-	private String fValue;
-
-	/**
 	 * The names (labels) and underlying values to populate the combo widget.
 	 * These should be arranged as: { {name1, value1}, {name2, value2}, ...}
 	 */
 	private String[][] fEntryNamesAndValues;
 
+	/**
+	 * Creates a editable combo field editor.
+	 * 
+	 * @param name
+	 *            the name of the preference this field editor works on
+	 * @param labelText
+	 *            the label text of the field editor
+	 * @param entryNamesAndValues
+	 *            the entyr name and value choices of the combox of the field
+	 *            editor
+	 * @param parent
+	 *            the parent of the field editor's control
+	 */
 	public ComboBoxFieldEditor( String name, String labelText,
 			String[][] entryNamesAndValues, Composite parent )
 	{
@@ -81,6 +87,8 @@ public class ComboBoxFieldEditor extends FieldEditor
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see FieldEditor#adjustForNumColumns(int)
 	 */
 	protected void adjustForNumColumns( int numColumns )
@@ -95,6 +103,8 @@ public class ComboBoxFieldEditor extends FieldEditor
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see FieldEditor#doFillIntoGrid(Composite, int)
 	 */
 	protected void doFillIntoGrid( Composite parent, int numColumns )
@@ -110,6 +120,8 @@ public class ComboBoxFieldEditor extends FieldEditor
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see FieldEditor#doLoad()
 	 */
 	protected void doLoad( )
@@ -126,24 +138,8 @@ public class ComboBoxFieldEditor extends FieldEditor
 	}
 
 	/*
-	 * @see FieldEditor#doStore()
-	 */
-	protected void doStore( )
-	{
-		if ( fValue == null )
-		{
-			getPreferenceStore( ).setToDefault( getPreferenceName( ) );
-			return;
-		}
-
-		if ( fCombo.getSelectionIndex( ) == -1 )
-		{
-			return;
-		}
-		getPreferenceStore( ).setValue( getPreferenceName( ), fValue );
-	}
-
-	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see FieldEditor#getNumberOfControls()
 	 */
 	public int getNumberOfControls( )
@@ -168,11 +164,7 @@ public class ComboBoxFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					String oldValue = fValue;
-					String name = fCombo.getText( );
-					fValue = getValueForName( name );
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fValue );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -192,15 +184,15 @@ public class ComboBoxFieldEditor extends FieldEditor
 				return entry[1];
 			}
 		}
-		return null;
+		return name;
 	}
 
 	/**
-	 * Set the name in the combo widget to match the specified value.
+	 * Sets the name in the combo widget to match the specified value.
 	 */
 	protected void updateComboForValue( String value )
 	{
-		fValue = value;
+		setOldValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
 			if ( value.equals( fEntryNamesAndValues[i][1] ) )
@@ -209,6 +201,32 @@ public class ComboBoxFieldEditor extends FieldEditor
 				return;
 			}
 		}
-		fCombo.setText( "" ); //$NON-NLS-1$
+		if ( value == null )
+		{
+			fCombo.setText( "" ); //$NON-NLS-1$
+		}
+		else
+		{
+			fCombo.setText( value );
+		}
+		setOldValue( getStringValue( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 */
+	protected String getStringValue( )
+	{
+		if ( fCombo != null )
+		{
+			return getValueForName( fCombo.getText( ) );
+		}
+		else
+		{
+			return getPreferenceStore( ).getString( getPreferenceName( ) );
+		}
+
 	}
 }

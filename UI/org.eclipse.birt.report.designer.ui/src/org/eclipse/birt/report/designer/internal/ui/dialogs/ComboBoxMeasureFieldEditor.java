@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -30,7 +29,7 @@ import org.eclipse.swt.widgets.Text;
  * a list of items, with a additional combo box for adjusting measurements.
  */
 
-public class ComboBoxMeasureFieldEditor extends FieldEditor
+public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 {
 
 	/**
@@ -52,17 +51,6 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	 * the combo widget for measure.
 	 */
 	private Combo fmeasure;
-
-	/**
-	 * The value (not the name) of the currently selected item in the Combo
-	 * widget for the preference.
-	 */
-
-	private String fBoxValue;
-
-	private String oldValue;
-
-	private String newValue;
 
 	// indicator for having a Combo Box or a Text control.
 	private boolean hasChoice;
@@ -107,13 +95,17 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	}
 
 	/**
-	 * Creates a fieldEditor with text input and measure choice. Put the editor
-	 * working in Text Mode.
+	 * Creates a editable combo field editor.
 	 * 
-	 * @param prop_name
+	 * @param name
+	 *            the name of the preference this field editor works on
 	 * @param labelText
-	 * @param measureNamesAndValues
+	 *            the label text of the field editor
+	 * @param entryNamesAndValues
+	 *            the entyr name and value choices of the combox of the field
+	 *            editor
 	 * @param parent
+	 *            the parent of the field editor's control
 	 */
 	public ComboBoxMeasureFieldEditor( String prop_name, String labelText,
 			String[][] measureNamesAndValues, Composite parent )
@@ -222,24 +214,23 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see FieldEditor#doLoad()
 	 */
 	protected void doLoad( )
 	{
 		// oldValue for storing the value got from preference store.
-		oldValue = getPreferenceStore( ).getString( getPreferenceName( ) );
-
+		String value = getPreferenceStore( ).getString( getPreferenceName( ) );
 		// split the total value to insert it into the combos.
-		String[] sptValue = DEUtil.splitString( oldValue );
+		String[] sptValue = DEUtil.splitString( value );
 
+		//		System.out.println( "sptValue: " + sptValue[0] + " --" + sptValue[1]
+		// );
 		if ( hasChoice )
-		{
-			// has combo box.
-
+		{// has combo box.
 			if ( sptValue[0] == null )
 			{
-				fBoxValue = sptValue[1];
-
 				// value is only for combo.
 				if ( !( updateComboForValue( sptValue[1] ) ) )
 				{
@@ -249,27 +240,24 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 			}
 			else
 			{
-				fBoxValue = sptValue[0];
 				// value for custom input.
 				fCombo.setText( resolveNull( sptValue[0] ) );
 				updateMeasureForValue( sptValue[1] );
 			}
 		}
 		else
-		{
-			// has text box.
+		{// has text box.
 			if ( sptValue[0] == null )
 			{
-				fBoxValue = sptValue[1];
 				fText.setText( resolveNull( sptValue[1] ) );
 			}
 			else
 			{
-				fBoxValue = sptValue[0];
 				fText.setText( resolveNull( sptValue[0] ) );
 				updateMeasureForValue( sptValue[1] );
 			}
 		}
+		setOldValue( getStringValue( ) );
 	}
 
 	/**
@@ -303,7 +291,7 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 		// "inch".
 		if ( value == null )
 		{
-			fmeasure.setText( fMeasureNamesAndValues[0][0] );
+			fmeasure.setText( "" );
 			return;
 		}
 
@@ -319,7 +307,7 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 		// for illegal value of the measure(unit), set it default also.
 		if ( fMeasureNamesAndValues.length > 0 )
 		{
-			fmeasure.setText( fMeasureNamesAndValues[0][0] );
+			fmeasure.setText( "" );
 		}
 	}
 
@@ -334,59 +322,27 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 		return src == null ? "" : src; //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#valueChanged()
-	 */
-	protected void doStore( )
-	{
-		newValue = getValue( );
-
-		if ( newValue == null )
-		{
-			getPreferenceStore( ).setToDefault( getPreferenceName( ) );
-			return;
-		}
-
-		if ( ( oldValue != null ) && oldValue.equals( newValue ) )
-		{
-			// no modificatin has occured, do nothing in doStore().
-			return;
-		}
-		getPreferenceStore( ).setValue( getPreferenceName( ), newValue );
-	}
-
 	/**
 	 * Gets value for the preference property of this field editor.
 	 * 
 	 * @return the value
 	 */
-	private String getValue( )
+	protected String getStringValue( )
 	{
 		if ( hasChoice )
 		{
-			// has a combo box.
 			if ( InComboNamesList( getComboBoxControl( parent ).getText( ) ) )
 			{
-				// selecting text( names ) from the combo, then store only the
-				// corresponding value for the name.
 				return getBoxValueForName( getComboBoxControl( parent ).getText( ) );
 			}
 			else
 			{
-				// custom inputting text into the combo, then store the text(
-				// regularly numbers ), adding the measure( unit ) from measure
-				// control box.
 				return getComboBoxControl( parent ).getText( )
 						+ getMeasureValueForName( getMeasureControl( parent ).getText( ) );
 			}
 		}
 		else
 		{
-			// has a text box.
-			// stores the text in the Text box, adding the measure( unit ) from
-			// measure control box.
 			return getTextControl( parent ).getText( )
 					+ getMeasureValueForName( getMeasureControl( parent ).getText( ) );
 		}
@@ -424,12 +380,10 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	{
 		if ( hasChoice )
 		{
-			// creats combo control.
 			return getComboBoxControl( parent );
 		}
 		else
 		{
-			// creates Text control.
 			return getTextControl( parent );
 		}
 	}
@@ -443,16 +397,10 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	 */
 	public Text getTextControl( Composite parent )
 	{
-		// if should not have a Text( hasChoice == true ), return null
-		// directly, avoid creating the
-		// Text control. Because this mechod is called in various places, this
-		// judgement is necessary.
 		if ( hasChoice )
 		{
 			return null;
 		}
-
-		// lazily creates and returns the Text control.
 		if ( fText == null )
 		{
 			fText = new Text( parent, SWT.BORDER );
@@ -461,10 +409,7 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 
 				public void modifyText( ModifyEvent e )
 				{
-					String oldValue = fBoxValue;
-					fBoxValue = fText.getText( );
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fBoxValue );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -477,16 +422,10 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 	 */
 	public Combo getComboBoxControl( Composite parent )
 	{
-		// if should not have a choice( hasChoice == false ), return null
-		// directly, avoid creating the
-		// choice combo. Because this mechod is called in various places, this
-		// judgement is necessary.
 		if ( !hasChoice )
 		{
 			return null;
 		}
-
-		// lazily creates and returns the combo box control.
 		if ( fCombo == null )
 		{
 			fCombo = new Combo( parent, SWT.DROP_DOWN );
@@ -499,47 +438,33 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					String oldValue = fBoxValue;
-					String name = fCombo.getText( );
-					fBoxValue = getBoxValueForName( name );
 					if ( fmeasure != null )
 					{
 						fmeasure.setEnabled( false );
 					}
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fBoxValue );
+					valueChanged( VALUE );
 				}
 			} );
 			fCombo.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					boolean userInput = !InComboNamesList( fCombo.getText( ) );
+					boolean cusType = !InComboNamesList( fCombo.getText( ) );
 
 					if ( fmeasure != null )
 					{
-						if ( userInput && !( fmeasure.isEnabled( ) ) )
+						if ( cusType && !( fmeasure.isEnabled( ) ) )
 						{
-							fmeasure.select( 0 );
+							//default unit is point.
+							fmeasure.select( 3 );
 						}
-						fmeasure.setEnabled( userInput );
+						fmeasure.setEnabled( cusType );
 					}
-
-					String oldValue = fBoxValue;
-					String name = fCombo.getText( );
-					if ( userInput )
+					if ( !cusType )
 					{
-						fBoxValue = name;
-					}
-					else
-					{
-						fBoxValue = getBoxValueForName( name );
-						// clear the measure box, only this method(
-						// deselectAll() ) works.
 						fmeasure.deselectAll( );
 					}
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, oldValue, fBoxValue );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -565,15 +490,14 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 			if ( getTextControl( parent ) != null
 					&& getTextControl( parent ).getText( ) != null )
 			{
-				fmeasure.select( 0 );
+				//				fmeasure.select( 0 );
 			}
 			fmeasure.setFont( parent.getFont( ) );
 			fmeasure.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					setPresentsDefaultValue( false );
-					fireValueChanged( VALUE, null, null );
+					valueChanged( VALUE );
 				}
 			} );
 		}
@@ -595,7 +519,7 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 			}
 		}
 		// for illegal names, return null.
-		return null;
+		return name;
 	}
 
 	/**
@@ -613,6 +537,6 @@ public class ComboBoxMeasureFieldEditor extends FieldEditor
 			}
 		}
 		// for illegal names, return null.
-		return null;
+		return name;
 	}
 }
