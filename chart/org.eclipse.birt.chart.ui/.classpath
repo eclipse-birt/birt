@@ -5,6 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/org.eclipse.birt.chart.engine.extension"/>
 	<classpathentry kind="src" path="/org.eclipse.birt.chart.device.extension"/>
-	<classpathentry kind="lib" path="/org.eclipse.birt.chart.engine/lib/js.jar"/>
+	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
