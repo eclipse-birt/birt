@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.ui.swt.composites.SeriesDataDefinitionComposite;
+import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionBuilder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.swt.SWT;
@@ -50,7 +50,7 @@ public class SeriesUIProvider implements ISeriesUIProvider
      * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
      */
-    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder)
+    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder, Object oContext)
     {
         Query query = null;
         if (series.getDataDefinition().size() > 0)
@@ -62,7 +62,8 @@ public class SeriesUIProvider implements ISeriesUIProvider
             query = QueryImpl.create("");
             series.getDataDefinition().add(query);
         }
-        return new SeriesDataDefinitionComposite(parent, SWT.NONE, query, builder);
+
+        return new DataDefinitionComposite(parent, SWT.NONE, query, null, builder, oContext);
     }
 
     /*

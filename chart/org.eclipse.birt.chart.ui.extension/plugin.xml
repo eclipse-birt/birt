@@ -51,6 +51,12 @@
             classDefinition="org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl"
             nodePath="General"/>
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseAxisDataSheetImpl"
+            nodePath="Data.X Axis"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.OrthogonalAxisDataSheetImpl"
+            nodePath="Data.Y Axis"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseSeriesDataSheetImpl"
             nodePath="Data.X Series"/>
       <propertySheet

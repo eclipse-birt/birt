@@ -21,11 +21,8 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -43,7 +40,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  *  
  */
-public class FontDefinitionDialog implements SelectionListener, MouseListener, Listener
+public class FontDefinitionDialog implements SelectionListener, Listener, IAngleChangeListener
 {
 
     public static final int MIN_FONT_SIZE = 8;
@@ -99,7 +96,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
 
     private transient Group grpRotation = null;
 
-    private transient RotationCanvas cnvRotation = null;
+    private transient AngleSelectorComposite ascRotation = null;
 
     private transient IntegerSpinControl iscRotation = null;
 
@@ -127,14 +124,17 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         this.cdCurrent = (ColorDefinition) EcoreUtil.copy(cdCurrent);
         this.fdBackup = (FontDefinition) EcoreUtil.copy(fdCurrent);
         this.cdBackup = (ColorDefinition) EcoreUtil.copy(cdCurrent);
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE/* | SWT.APPLICATION_MODAL */);
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
         populateLists();
-        shell.setText("Font Definition Dialog:");
+        shell.setText("Font Descriptor:");
         shell.setSize(450, 480);
+        shell.setLocation(Display.getCurrent().getClientArea().width / 2 - (shell.getSize().x / 2), Display
+            .getCurrent().getClientArea().height
+            / 2 - (shell.getSize().y / 2));
         shell.open();
         while (!shell.isDisposed())
         {
@@ -187,7 +187,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         GridData gdLForeground = new GridData();
         gdLForeground.horizontalSpan = 2;
         lblForeground.setLayoutData(gdLForeground);
-        lblForeground.setText("Foreground Color:");
+        lblForeground.setText("Color:");
 
         fccColor = new FillChooserComposite(cmpContent, SWT.NONE, cdCurrent, false, false);
         GridData gdFCCColor = new GridData(GridData.FILL_HORIZONTAL);
@@ -271,7 +271,6 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         grpPreview.setLayout(flPreview);
 
         fcPreview = new FontCanvas(grpPreview, SWT.NONE, fdCurrent, cdCurrent, true, true, true);
-        fcPreview.setBackground(new Color(Display.getDefault(), 254, 254, 254));
 
         createButtonPanel();
     }
@@ -295,12 +294,11 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
 
         btnATopLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopLeft = new GridData(GridData.FILL_BOTH);
-        //        gdBATopLeft.heightHint = 40;
-        //        gdBATopLeft.widthHint = 46;
         btnATopLeft.setToolTipText("Alignment - Top Left");
         btnATopLeft.setImage(UIHelper.getImage("images/AlignmentTopLeft.gif"));
         btnATopLeft.setLayoutData(gdBATopLeft);
         btnATopLeft.addSelectionListener(this);
+        btnATopLeft.getImage().setBackground(btnATopLeft.getBackground());
 
         btnATopCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopCenter = new GridData(GridData.FILL_BOTH);
@@ -308,6 +306,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnATopCenter.setImage(UIHelper.getImage("images/AlignmentTopCenter.gif"));
         btnATopCenter.setLayoutData(gdBATopCenter);
         btnATopCenter.addSelectionListener(this);
+        btnATopCenter.getImage().setBackground(btnATopCenter.getBackground());
 
         btnATopRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopRight = new GridData(GridData.FILL_BOTH);
@@ -315,6 +314,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnATopRight.setImage(UIHelper.getImage("images/AlignmentTopRight.gif"));
         btnATopRight.setLayoutData(gdBATopRight);
         btnATopRight.addSelectionListener(this);
+        btnATopRight.getImage().setBackground(btnATopRight.getBackground());
 
         btnACenterLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterLeft = new GridData(GridData.FILL_BOTH);
@@ -322,6 +322,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnACenterLeft.setImage(UIHelper.getImage("images/AlignmentCenterLeft.gif"));
         btnACenterLeft.setLayoutData(gdBACenterLeft);
         btnACenterLeft.addSelectionListener(this);
+        btnACenterLeft.getImage().setBackground(btnACenterLeft.getBackground());
 
         btnACenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenter = new GridData(GridData.FILL_BOTH);
@@ -329,6 +330,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnACenter.setImage(UIHelper.getImage("images/AlignmentCenter.gif"));
         btnACenter.setLayoutData(gdBACenter);
         btnACenter.addSelectionListener(this);
+        btnACenter.getImage().setBackground(btnACenter.getBackground());
 
         btnACenterRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterRight = new GridData(GridData.FILL_BOTH);
@@ -336,6 +338,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnACenterRight.setImage(UIHelper.getImage("images/AlignmentCenterRight.gif"));
         btnACenterRight.setLayoutData(gdBACenterRight);
         btnACenterRight.addSelectionListener(this);
+        btnACenterRight.getImage().setBackground(btnACenterRight.getBackground());
 
         btnABottomLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomLeft = new GridData(GridData.FILL_BOTH);
@@ -343,6 +346,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnABottomLeft.setImage(UIHelper.getImage("images/AlignmentBottomLeft.gif"));
         btnABottomLeft.setLayoutData(gdBABottomLeft);
         btnABottomLeft.addSelectionListener(this);
+        btnABottomLeft.getImage().setBackground(btnABottomLeft.getBackground());
 
         btnABottomCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomCenter = new GridData(GridData.FILL_BOTH);
@@ -350,6 +354,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnABottomCenter.setImage(UIHelper.getImage("images/AlignmentBottomCenter.gif"));
         btnABottomCenter.setLayoutData(gdBABottomCenter);
         btnABottomCenter.addSelectionListener(this);
+        btnABottomCenter.getImage().setBackground(btnABottomCenter.getBackground());
 
         btnABottomRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomRight = new GridData(GridData.FILL_BOTH);
@@ -357,6 +362,7 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         btnABottomRight.setImage(UIHelper.getImage("images/AlignmentBottomRight.gif"));
         btnABottomRight.setLayoutData(gdBABottomRight);
         btnABottomRight.addSelectionListener(this);
+        btnABottomRight.getImage().setBackground(btnABottomRight.getBackground());
     }
 
     private void createRotationPanel()
@@ -376,12 +382,13 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         grpRotation.setLayout(glRotation);
         grpRotation.setText("Rotation");
 
-        cnvRotation = new RotationCanvas(grpRotation, SWT.BORDER, fdCurrent.getRotation());
-        cnvRotation.setBackground(new Color(Display.getDefault(), 254, 254, 254));
-        GridData gdCNVRotation = new GridData(GridData.FILL_BOTH);
-        gdCNVRotation.horizontalSpan = 1;
-        gdCNVRotation.verticalSpan = 3;
-        cnvRotation.setLayoutData(gdCNVRotation);
+        ascRotation = new AngleSelectorComposite(grpRotation, SWT.BORDER, (int) fdCurrent.getRotation(), Display
+            .getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        GridData gdASCRotation = new GridData(GridData.FILL_BOTH);
+        gdASCRotation.horizontalSpan = 1;
+        gdASCRotation.verticalSpan = 3;
+        ascRotation.setLayoutData(gdASCRotation);
+        ascRotation.setAngleChangeListener(this);
 
         iscRotation = new IntegerSpinControl(grpRotation, SWT.NONE, (int) fdCurrent.getRotation());
         GridData gdISCRotation = new GridData(GridData.FILL_HORIZONTAL);
@@ -633,8 +640,8 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
         else if (e.widget.equals(iscRotation))
         {
             fdCurrent.setRotation(iscRotation.getValue());
-            cnvRotation.setRotation(fdCurrent.getRotation());
-            cnvRotation.redraw();
+            ascRotation.setAngle(iscRotation.getValue());
+            ascRotation.redraw();
             // TODO: Enable this if support for rotated text is added to
             // fontcanvas
             // updatePreview();
@@ -661,33 +668,11 @@ public class FontDefinitionDialog implements SelectionListener, MouseListener, L
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
+     * @see org.eclipse.birt.chart.ui.swt.composites.IAngleChangeListener#angleChanged(int)
      */
-    public void mouseDoubleClick(MouseEvent e)
+    public void angleChanged(int iNewAngle)
     {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
-     */
-    public void mouseDown(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.MouseEvent)
-     */
-    public void mouseUp(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
-
+        iscRotation.setValue(iNewAngle);
+        fdCurrent.setRotation(iNewAngle);
     }
 }

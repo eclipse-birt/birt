@@ -220,7 +220,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getDisplay(), SWT.APPLICATION_MODAL);
+        Shell shell = new Shell(this.getDisplay(), SWT.NONE/* SWT.APPLICATION_MODAL */);
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);

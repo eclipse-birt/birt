@@ -195,11 +195,11 @@ public class ScatterChart implements IChartType
         oSample.setSeriesDefinitionIndex(0);
         sd.getOrthogonalSampleData().add(oSample);
 
-        OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
-        oSample2.setDataSetRepresentation("2,27,35");
-        oSample2.setSeriesDefinitionIndex(0);
-        sd.getOrthogonalSampleData().add(oSample2);
-
+        /*
+         * OrthogonalSampleData oSample2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+         * oSample2.setDataSetRepresentation("2,27,35"); oSample2.setSeriesDefinitionIndex(0);
+         * sd.getOrthogonalSampleData().add(oSample2);
+         */
         newChart.setSampleData(sd);
     }
 

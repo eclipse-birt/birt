@@ -50,9 +50,9 @@ public class StockSeriesUIProvider implements ISeriesUIProvider
      * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesDataSheet(org.eclipse.swt.widgets.Composite)
      */
-    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder)
+    public Composite getSeriesDataSheet(Composite parent, Series series, IExpressionBuilder builder, Object oContext)
     {
-        return new StockSeriesDataDefinitionComposite(parent, SWT.NONE, series, builder);
+        return new StockSeriesDataDefinitionComposite(parent, SWT.NONE, series, builder, oContext);
     }
 
     /*

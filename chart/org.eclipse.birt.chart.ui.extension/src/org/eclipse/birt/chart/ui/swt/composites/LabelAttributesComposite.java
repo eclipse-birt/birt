@@ -93,12 +93,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     public static final int INSETS_CHANGED_EVENT = 9;
 
+    private transient boolean bPositionEnabled = true;
+
     /**
      * @param parent
      * @param style
      */
     public LabelAttributesComposite(Composite parent, int style, String sGroupName, Position lpCurrent,
-        org.eclipse.birt.chart.model.component.Label lblCurrent)
+        org.eclipse.birt.chart.model.component.Label lblCurrent, boolean bPositionEnabled)
     {
         super(parent, style);
         this.sGroupName = sGroupName;
@@ -109,6 +111,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         this.cdShadow = lblCurrent.getShadowColor();
         this.laCurrent = lblCurrent.getOutline();
         this.insets = lblCurrent.getInsets();
+        this.bPositionEnabled = bPositionEnabled;
         init();
         placeComponents();
     }
@@ -128,13 +131,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private void placeComponents()
     {
         FillLayout flMain = new FillLayout();
-        flMain.marginHeight = 1;
-        flMain.marginWidth = 1;
+        flMain.marginHeight = 0;
+        flMain.marginWidth = 0;
 
         GridLayout glAttributes = new GridLayout();
+        glAttributes.horizontalSpacing = 5;
         glAttributes.verticalSpacing = 5;
-        glAttributes.marginHeight = 2;
-        glAttributes.marginWidth = 2;
+        glAttributes.marginHeight = 7;
+        glAttributes.marginWidth = 7;
 
         GridLayout glGeneral = new GridLayout();
         glGeneral.numColumns = 2;
@@ -154,15 +158,18 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         cmpGeneral.setLayoutData(gdCMPGeneral);
         cmpGeneral.setLayout(glGeneral);
 
-        Label lblPosition = new Label(cmpGeneral, SWT.NONE);
-        GridData gdLBLPosition = new GridData();
-        lblPosition.setLayoutData(gdLBLPosition);
-        lblPosition.setText("Position:");
+        if (bPositionEnabled)
+        {
+            Label lblPosition = new Label(cmpGeneral, SWT.NONE);
+            GridData gdLBLPosition = new GridData();
+            lblPosition.setLayoutData(gdLBLPosition);
+            lblPosition.setText("Position:");
 
-        cmbPosition = new Combo(cmpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY);
-        GridData gdCMBPosition = new GridData(GridData.FILL_BOTH);
-        cmbPosition.setLayoutData(gdCMBPosition);
-        cmbPosition.addSelectionListener(this);
+            cmbPosition = new Combo(cmpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY);
+            GridData gdCMBPosition = new GridData(GridData.FILL_BOTH);
+            cmbPosition.setLayoutData(gdCMBPosition);
+            cmbPosition.addSelectionListener(this);
+        }
 
         Label lblFont = new Label(cmpGeneral, SWT.NONE);
         GridData gdLFont = new GridData();
@@ -220,12 +227,15 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private void populateLists()
     {
-        for (int iC = 0; iC < Position.VALUES.size(); iC++)
+        if (bPositionEnabled)
         {
-            cmbPosition.add(Position.get(iC).getName());
-            if (Position.get(iC).equals(lpCurrent))
+            for (int iC = 0; iC < Position.VALUES.size(); iC++)
             {
-                cmbPosition.select(iC);
+                cmbPosition.add(Position.get(iC).getName());
+                if (Position.get(iC).equals(lpCurrent))
+                {
+                    cmbPosition.select(iC);
+                }
             }
         }
     }
@@ -273,8 +283,12 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     public Point getPreferredSize()
     {
-        //		return new Point( 300, 335 );
-        return new Point(300, 190);
+        Point ptSize = new Point(300, 160);
+        if (bPositionEnabled)
+        {
+            ptSize.y += 30;
+        }
+        return ptSize;
     }
 
     /*
