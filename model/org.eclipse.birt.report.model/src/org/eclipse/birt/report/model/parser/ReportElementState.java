@@ -11,28 +11,19 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.ExtendsException;
 import org.eclipse.birt.report.model.command.NameException;
-import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 /**
  * Base class for all report element parse states.
@@ -54,18 +45,6 @@ public abstract class ReportElementState extends DesignParseState
 	 */
 
 	protected int slotID = 0;
-
-	/**
-	 * Values for the local property values. The contents are of type Object.
-	 */
-
-	protected HashMap propValues;
-
-	/**
-	 * Temporary storage of the list of property masks.
-	 */
-
-	protected ArrayList propMasks;
 
 	/**
 	 * Constructs the report element state with the design parser handler, the
@@ -105,73 +84,7 @@ public abstract class ReportElementState extends DesignParseState
 	 */
 
 	public abstract DesignElement getElement( );
-
-	/**
-	 * Convenience class for the inner classes used to parse parts of the
-	 * ReportElement tag.
-	 */
-
-	class InnerParseState extends AbstractParseState
-	{
-
-		public XMLParserHandler getHandler( )
-		{
-			return handler;
-		}
-	}
-
-	/**
-	 * Parses the "PropertyValue" tag which provides the value of a user-defined
-	 * property. The name of the property value is required and the property
-	 * definition of the same name must exist in the element or its parent. The
-	 * value of the property must be valid for the property type.
-	 */
-
-	class PropertyValueState extends InnerParseState
-	{
-
-		protected String name;
-		protected String value;
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-		 */
-
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
-			if ( StringUtil.isBlank( name ) )
-			{
-				handler.semanticError( new UserPropertyException(
-						getElement( ), name,
-						UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-		 */
-
-		public void end( ) throws SAXException
-		{
-			value = text.toString( );
-			if ( ! StringUtil.isBlank( name ) && ! StringUtil.isBlank( value ) )
-			{
-				// The design file may provide two or more values for the same
-				// property. The general rule is that the last value "wins"; any
-				// previous values are ignored without warning.
-
-				if ( propValues == null )
-					propValues = new HashMap( );
-				propValues.put( name, value );
-			}
-		}
-	}
-
+	
 	/**
 	 * Adds an element to the given slot. Records a semantic error and returns
 	 * false if an error occurs. (Does not throw an exception because we don't
@@ -351,80 +264,6 @@ public abstract class ReportElementState extends DesignParseState
 		catch ( ExtendsException ex )
 		{
 			handler.semanticError( ex );
-		}
-	}
-
-	/**
-	 * Parses the "PropertyMask" tag which provides the mask of a BIRT or user
-	 * defined property. The name of the property mask is required and the
-	 * property definition of the same name must exist in the element or its
-	 * parent. The value of the mask must be valid for PropertyMask choices in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}.
-	 */
-
-	class PropertyMaskState extends InnerParseState
-	{
-
-		/**
-		 * The temporary storage of one property mask.
-		 */
-
-		private PropertyMask mask;
-
-		/**
-		 * Creates a new PropertyMaskState according to the design file.
-		 */
-
-		public PropertyMaskState( )
-		{
-			propMasks = (ArrayList) getElement( ).getLocalProperty(
-					handler.design, DesignElement.PROPERTY_MASKS_PROP );
-
-			if ( propMasks == null )
-				propMasks = new ArrayList( );
-
-			mask = new PropertyMask( );
-
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-		 */
-
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			String name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
-			setMember( mask, DesignElement.PROPERTY_MASKS_PROP,
-					PropertyMask.NAME_MEMBER, name );
-
-			String value = attrs.getValue( DesignSchemaConstants.MASK_ATTRIB );
-			if ( !StringUtil.isBlank( value ) )
-			{
-				setMember( mask, DesignElement.PROPERTY_MASKS_PROP,
-						PropertyMask.MASK_MEMBER, value );
-			}
-			super.parseAttrs( attrs );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-		 */
-
-		public void end( ) throws SAXException
-		{
-			if ( propMasks != null )
-			{
-				propMasks.add( mask );
-			}
-			getElement( ).setProperty( DesignElement.PROPERTY_MASKS_PROP,
-					propMasks );
-
-			propMasks = null;
-			super.end( );
 		}
 	}
 
