@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 07:11:21 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
@@ -89,8 +89,7 @@ public class TextItemDesign extends ReportItemDesign
 	{
 		if ( exprMap.containsKey( key ) )
 			return (Expression) exprMap.get( key );
-		else
-			return null;
+		return null;
 	}
 
 	/**

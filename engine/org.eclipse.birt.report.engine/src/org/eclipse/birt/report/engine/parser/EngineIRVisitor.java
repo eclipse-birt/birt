@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.14 $ $Date: 2005/03/17 07:57:03 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1242,7 +1242,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		//		 hightlight Rules
 		Iterator iter = handle.highlightRulesIterator( );
-		String expr = (String) handle.getHighlightTestExpr( );
+		String expr = handle.getHighlightTestExpr( );
 
 		if ( iter == null )
 		{
@@ -1312,7 +1312,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		MapDesign map = new MapDesign( );
 
-		String expr = (String) handle.getMapTestExpr( );
+		String expr = handle.getMapTestExpr( );
 		if ( expr != null && ( !"".equals( expr ) ) ) //$NON-NLS-1$
 		{
 			map.setTestExpression( expr );
