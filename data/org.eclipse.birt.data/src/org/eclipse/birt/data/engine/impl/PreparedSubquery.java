@@ -56,7 +56,7 @@ class PreparedSubquery extends PreparedQuery
 		throws DataException
 	{
 		this.parentIterator = parentIterator;
-		return doExecute( null,scope );
+		return doPrepare( null,scope );
 	}
 	
 	/* (non-Javadoc)

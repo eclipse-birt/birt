@@ -51,9 +51,8 @@ class QueryResults implements IQueryResults
 		assert executor != null;
 	    assert query != null;
 	    assert reportQuery != null;
-	    assert executor.odiResult != null;
 	    assert executor.scope != null;
-	    assert executor.aggregates != null;
+	    
 	    
 	    this.reportQuery = reportQuery;
 	    this.query = query;
@@ -83,7 +82,8 @@ class QueryResults implements IQueryResults
 	{ 
 	    if ( iterator == null )
 	    {
-			iterator = new ResultIterator( this, queryExecutor.odiResult, queryExecutor.scope);
+	    	queryExecutor.execute();
+	    	iterator = new ResultIterator( this, queryExecutor.odiResult, queryExecutor.scope);
 	    }
 		return iterator;
 	}
@@ -96,7 +96,7 @@ class QueryResults implements IQueryResults
 	{
 		try
 		{
-			return new ResultMetaData( queryExecutor.odiResult.getResultClass() );
+			return queryExecutor.getResultMetaData();
 		}
 		catch ( DataException e )
 		{
@@ -131,8 +131,9 @@ class QueryResults implements IQueryResults
 	    queryExecutor = null;
 	}
 	
-	AggregateCalculator getAggrResult()
+	AggregateCalculator getAggrResult() throws DataException
 	{
+		queryExecutor.execute();
 		return queryExecutor.aggregates;
 	}
 	
@@ -144,8 +145,9 @@ class QueryResults implements IQueryResults
 		return this.query;
 	}
 	
-	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult()
+	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult() throws DataException
 	{
+		queryExecutor.execute();
 		return queryExecutor.odiResult;
 	}
 	

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
@@ -34,7 +35,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
 import org.eclipse.birt.data.engine.odi.IDataSource;
+import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
@@ -119,13 +122,13 @@ abstract class PreparedQuery
 	} 
 
 	/**
-	 * Executes the PreparedQuery, handle data transforms and aggregation calculation. 
+	 * Return the QueryResults. But the execution of query would be deferred 
 	 * @param outerResults If query is nested within another query, this is the outer query's query 
 	 *        result handle.
 	 * @param scope The ElementState object for the report item using the query; this acts as the 
 	 *    JS scope for evaluating script expressions.
 	 */
-	protected QueryResults doExecute( IQueryResults outerResults, Scriptable scope ) throws DataException
+	protected QueryResults doPrepare( IQueryResults outerResults, Scriptable scope ) throws DataException
 	{
 		if ( this.queryDefn == null )
 		{
@@ -140,8 +143,9 @@ abstract class PreparedQuery
 	    {
 			scope = DataEngineImpl.createSubscope( getDataEngine().getSharedScope() );
 	    }
-		
-		executor.execute( outerResults, scope );
+		//here prepare the execution. After the preparation the result metadata is available by
+		//calling getResultClass, and the query is ready for execution.
+		executor.prepareExecution( outerResults, scope );
 	    return new QueryResults( getDataSourceQuery(), this, executor);
 	}
 	
@@ -357,7 +361,9 @@ abstract class PreparedQuery
 		protected 	JSRowObject		rowObject;
 		protected 	JSRows			rowsObject;
 		protected	Scriptable		scope;
-		
+		private 	IQueryResults outerResults;
+		private 	boolean 		isPrepared = false;
+		private 	boolean			isExecuted = false;
 		/**
 		 * Overridden by subclass to create a new unopened odiDataSource given the data 
 		 * source runtime definition
@@ -383,7 +389,7 @@ abstract class PreparedQuery
 		 * Executes the ODI query to reproduce a ODI result set
 		 */
 		abstract protected IResultIterator executeOdiQuery(
-				IQueryResults outerResults ) throws DataException;
+				IQueryResults outerRts ) throws DataException;
 
 		/**
 		 * Prepares the ODI query
@@ -399,14 +405,17 @@ abstract class PreparedQuery
 		{
 		}
 		
-		/**
-		 * Executes the PreparedQuery, handle data transforms and aggregation calculation. 
+		/*
+		 * Prepare Executor so that it is ready to execute the query
+		 * 
 		 */
-		public void execute( IQueryResults outerResults, Scriptable scope ) throws DataException
+		private void prepareExecution( IQueryResults outerRts, Scriptable scope ) throws DataException
 		{
+			if(isPrepared)return;
+			
 			assert scope != null;
 			this.scope = scope;
-			
+			this.outerResults = outerRts;
 			// Create the data set runtime
 			// Since data set runtime contains the execution result, a new data set
 			// runtime is needed for each execute
@@ -429,9 +438,20 @@ abstract class PreparedQuery
 			odiQuery = createOdiQuery( );
 			populateOdiQuery( );
 			prepareOdiQuery( );
-				
-			// Execute the query
-			odiResult = executeOdiQuery( outerResults );
+			isPrepared = true;
+		}
+		
+		public IResultMetaData getResultMetaData( ) throws DataException
+		{
+			return new ResultMetaData(((IPreparedDSQuery)odiQuery).getResultClass());
+		}
+		
+		public void execute() throws DataException
+		{
+			if(this.isExecuted)
+				return;
+			//			 Execute the query
+			odiResult = executeOdiQuery( this.outerResults );
 
 			// Data set is open in executeOdiQuery; now run aferOpen script
 			if ( dataSet != null )
@@ -443,7 +463,7 @@ abstract class PreparedQuery
 			rowObject.setResultSet( odiResult, false );
 				
 			// Set the Javascript "rows" object and bind it to our result
-			rowsObject = new JSRows( outerResults, rowObject );
+			rowsObject = new JSRows( this.outerResults, rowObject );
 			scope.put( "rows", scope, rowsObject );
 
 		    // Calculate aggregate values
@@ -465,8 +485,9 @@ abstract class PreparedQuery
 				Context.exit();
 			}
 			
+			this.isExecuted = true;
 		}
-		
+
 		/**
 		 * Closes the executor; release all odi resources
 		 */

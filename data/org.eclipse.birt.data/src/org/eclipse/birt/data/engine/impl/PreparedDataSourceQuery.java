@@ -111,7 +111,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 */
 	public IQueryResults execute( Scriptable scope ) throws DataException
 	{ 
-    	return doExecute( null, scope );
+    	return doPrepare( null, scope );
 	}
 
 	/**
@@ -126,7 +126,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
 		throws DataException
 	{ 
-		return doExecute( outerResults, scope );
+		return doPrepare( outerResults, scope );
 	}
 	
 	abstract class DSQueryExecutor extends PreparedQuery.Executor
