@@ -176,7 +176,7 @@ public final class ChartReportItemImpl extends ReportItem
                 PropertyType.STRING_TYPE, null, null, cm.getTitle().getLabel().getCaption().getValue()),
 
             new ChartPropertyDefinitionImpl(null, "title.font.rotation", "property.title.font.rotation", false,
-                PropertyType.NUMBER_TYPE, null, null, new Double(cm.getTitle().getLabel().getCaption().getFont()
+                PropertyType.FLOAT_TYPE, null, null, new Double(cm.getTitle().getLabel().getCaption().getFont()
                     .getRotation())),
 
             /*
