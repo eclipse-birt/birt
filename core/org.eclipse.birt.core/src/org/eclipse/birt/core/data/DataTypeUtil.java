@@ -232,28 +232,7 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof String )
 		{
-			DateFormat dateFormat = DateFormat
-					.getDateInstance( DateFormat.SHORT );
-			Date resultDate;
-			try
-			{
-				resultDate = dateFormat.parse( (String) source );
-			}
-			catch ( ParseException e )
-			{
-				dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
-						Locale.US );
-				try
-				{
-					resultDate = dateFormat.parse( (String) source );
-				}
-				catch ( ParseException e1 )
-				{
-					throw new BirtException( ResourceConstants.CONVERT_FAILS,
-							"Date", resourceBundle, e1 );
-				}
-			}
-			return resultDate;
+			return convertStringtoDate( (String) source );
 		}
 		else
 			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
@@ -376,6 +355,101 @@ public final class DataTypeUtil
 		// BOOLEAN_TYPE and BLOB_TYPE are not supported yet
 		assert false;
 		return DataType.UNKNOWN_TYPE;
+	}
+	
+	
+	/**
+	 * convert String to java.util.Date
+	 * 
+	 * @param source
+	 *            the String to be convert
+	 * @return result Date
+	 */
+	private static Date convertStringtoDate( String source )
+			throws BirtException
+	{
+		DateFormat dateFormat = null;
+		Date resultDate = null;
+
+		//For each pattern, we try to format a date for a default Locale
+		//If format fails, we format it for Locale.US
+
+		//Date style is SHORT such as 12.13.52
+		//Time sytle is MEDIUM such as 3:30:32pm
+		try
+		{
+			dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
+					DateFormat.MEDIUM );
+			resultDate = dateFormat.parse( source );
+		}
+		catch ( ParseException e )
+		{
+			try
+			{
+				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
+						DateFormat.MEDIUM, Locale.US );
+				resultDate = dateFormat.parse( source );
+			}
+			catch ( ParseException e1 )
+			{
+			}
+		}
+
+		if ( resultDate == null )
+		{
+			//Date style is SHORT such as 12.13.52
+			//Time sytle is SHORT such as 3:30pm
+			try
+			{
+				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
+						DateFormat.SHORT );
+				resultDate = dateFormat.parse( source );
+			}
+			catch ( ParseException e )
+			{
+				try
+				{
+					dateFormat = DateFormat.getDateTimeInstance(
+							DateFormat.SHORT, DateFormat.SHORT, Locale.US );
+					resultDate = dateFormat.parse( source );
+				}
+				catch ( ParseException e1 )
+				{
+				}
+			}
+		}
+
+		if ( resultDate == null )
+		{
+			//Date style is SHORT such as 12.13.52
+			//No Time sytle
+			try
+			{
+				dateFormat = DateFormat.getDateInstance( DateFormat.SHORT );
+				resultDate = dateFormat.parse( source );
+			}
+			catch ( ParseException e )
+			{
+				try
+				{
+					dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
+							Locale.US );
+					resultDate = dateFormat.parse( source );
+				}
+				catch ( ParseException e1 )
+				{
+				}
+			}
+		}
+		
+		// for the String can not be parsed, throws a BirtException
+		if ( resultDate == null )
+		{
+			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
+					resourceBundle );
+		}
+		
+		return resultDate;
 	}
 
 }
