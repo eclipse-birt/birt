@@ -12,9 +12,9 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.UndefinedValueException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
@@ -32,7 +32,7 @@ import org.eclipse.emf.common.util.EList;
 public final class DataPointHints
 {
 
-    private final Locale lcl;
+    private final RunTimeContext rtc;
 
     /**
      *  
@@ -83,7 +83,7 @@ public final class DataPointHints
     public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue, 
         DataPoint _dp, // FOR COMBINED VALUE RETRIEVAL
         FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries, 
-        Location _lo, double _dSize, Locale _lcl) throws UndefinedValueException
+        Location _lo, double _dSize, RunTimeContext _rtc) throws UndefinedValueException
     {
         if (_dp == null)
         {
@@ -99,7 +99,7 @@ public final class DataPointHints
         fsSeries = _fsSeries;
         
         lo = _lo;
-        lcl = (_lcl == null) ? Locale.getDefault() : _lcl;
+        rtc = _rtc;
         dSize = _dSize;
     }
 
@@ -187,7 +187,7 @@ public final class DataPointHints
         }
         try
         {
-            return ValueFormatter.format(oBaseValue, fs, lcl, null);
+            return ValueFormatter.format(oBaseValue, fs, rtc.getLocale(), null);
         }
         catch (Exception ex )
         {
@@ -209,7 +209,7 @@ public final class DataPointHints
         }
         try
         {
-            return ValueFormatter.format(oOrthogonalValue, fs, lcl, null);
+            return ValueFormatter.format(oOrthogonalValue, fs, rtc.getLocale(), null);
         }
         catch (Exception ex )
         {
@@ -231,7 +231,7 @@ public final class DataPointHints
         }
         try
         {
-            return ValueFormatter.format(oSeriesValue, fs, lcl, null);
+            return ValueFormatter.format(oSeriesValue, fs, rtc.getLocale(), null);
         }
         catch (Exception ex )
         {

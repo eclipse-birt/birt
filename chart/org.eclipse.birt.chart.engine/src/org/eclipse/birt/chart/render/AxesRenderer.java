@@ -116,7 +116,7 @@ public abstract class AxesRenderer extends BaseRenderer
         long lTimer = System.currentTimeMillis();
         final Chart cm = getModel();
         final IDeviceRenderer idr = getDevice();
-        final ScriptHandler sh = cm.getScriptHandler();
+        final ScriptHandler sh = getRunTimeContext().getScriptHandler();
 
         if (bFirstInSequence) // SEQUENCE OF MULTIPLE SERIES RENDERERS (POSSIBLY PARTICIPATING IN A COMBINATION CHART)
         {
@@ -368,7 +368,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
         final Bounds bo = BoundsImpl.create(0, 0, 0, 0);
         final IDeviceRenderer idr = getDevice();
-        final ScriptHandler sh = getModel().getScriptHandler();
+        final ScriptHandler sh = getRunTimeContext().getScriptHandler();
         final boolean bTransposed = ((ChartWithAxes) getModel()).isTransposed();
         final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
         final StringBuffer sb = new StringBuffer();
@@ -502,9 +502,9 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         sb.delete(0, sb.length());
                         sb.append('[');
-                        sb.append(ValueFormatter.format(deStart, mr.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                        sb.append(ValueFormatter.format(deStart, mr.getFormatSpecifier(), oaxa[i].getRunTimeContext().getLocale(), null));
                         sb.append(" to ");
-                        sb.append(ValueFormatter.format(deEnd, mr.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                        sb.append(ValueFormatter.format(deEnd, mr.getFormatSpecifier(), oaxa[i].getRunTimeContext().getLocale(), null));
                         sb.append(']');
                         la.getCaption().setValue(sb.toString());
                     }
@@ -940,9 +940,9 @@ public abstract class AxesRenderer extends BaseRenderer
             throw new RenderingException(ex);
         }
 
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
+        ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
+        ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
 
         if (bLastInSequence)
         {
@@ -997,7 +997,7 @@ public abstract class AxesRenderer extends BaseRenderer
         int iOrientation;
 
         final IDeviceRenderer idr = getDevice();
-        final ScriptHandler sh = getModel().getScriptHandler();
+        final ScriptHandler sh = getRunTimeContext().getScriptHandler();
         final Location loStart = LocationImpl.create(0, 0);
         final Location loEnd = LocationImpl.create(0, 0);
 
@@ -1039,7 +1039,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 try
                 {
                     la.getCaption().setValue(
-                        ValueFormatter.format(deValue, ml.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                        ValueFormatter.format(deValue, ml.getFormatSpecifier(), oaxa[i].getRunTimeContext().getLocale(), null));
                 }
                 catch (DataFormatException dfex )
                 {
@@ -1287,7 +1287,7 @@ public abstract class AxesRenderer extends BaseRenderer
         final Axis axModel = ax.getModelAxis();
         final PlotWith2DAxes pwa = (PlotWith2DAxes) getComputations();
         final Insets insCA = pwa.getAxes().getInsets();
-        final ScriptHandler sh = getModel().getScriptHandler();
+        final ScriptHandler sh = getRunTimeContext().getScriptHandler();
         double dLocation = ax.getAxisCoordinate();
         double dAngleInDegrees = ax.getLabel().getCaption().getFont().getRotation();
         AutoScale sc = ax.getScale();
@@ -1544,7 +1544,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             nde.setValue(dAxisValue);
                             try
                             {
-                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getLocale(), df);
+                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), df);
                             }
                             catch (DataFormatException dfex )
                             {
@@ -1575,7 +1575,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         nde.setValue(dAxisValue);
                         try
                         {
-                            sText = ValueFormatter.format(nde, fs, ax.getLocale(), df);
+                            sText = ValueFormatter.format(nde, fs, ax.getRunTimeContext().getLocale(), df);
                         }
                         catch (DataFormatException dfex )
                         {
@@ -1664,7 +1664,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     nde.setValue(dAxisValue);
                     try
                     {
-                        sText = ValueFormatter.format(nde, fs, ax.getLocale(), df);
+                        sText = ValueFormatter.format(nde, fs, ax.getRunTimeContext().getLocale(), df);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -1728,7 +1728,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         {
                             try
                             {
-                                sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getLocale(), sdf);
+                                sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), sdf);
                             }
                             catch (DataFormatException dfex )
                             {
@@ -1750,7 +1750,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     try
                     {
-                        sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getLocale(), sdf);
+                        sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), sdf);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2035,7 +2035,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             nde.setValue(dAxisValue);
                             try
                             {
-                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getLocale(), df);
+                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), df);
                             }
                             catch (DataFormatException dfex )
                             {
@@ -2081,7 +2081,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         nde.setValue(dAxisValue);
                         try
                         {
-                            sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getLocale(), df);
+                            sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), df);
                         }
                         catch (DataFormatException dfex )
                         {
@@ -2119,7 +2119,7 @@ public abstract class AxesRenderer extends BaseRenderer
                             nde.setValue(dAxisValue);
                             try
                             {
-                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getLocale(), df);
+                                sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), df);
                             }
                             catch (DataFormatException dfex )
                             {
@@ -2169,7 +2169,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         nde.setValue(dAxisValue);
                         try
                         {
-                            sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getLocale(), df);
+                            sText = ValueFormatter.format(nde, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), df);
                         }
                         catch (DataFormatException dfex )
                         {
@@ -2210,7 +2210,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         {
                             try
                             {
-                                sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getLocale(), sdf);
+                                sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), sdf);
                             }
                             catch (DataFormatException dfex )
                             {
@@ -2254,7 +2254,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         try
                         {
-                            sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getLocale(), sdf);
+                            sText = ValueFormatter.format(cdt, ax.getFormatSpecifier(), ax.getRunTimeContext().getLocale(), sdf);
                         }
                         catch (DataFormatException dfex )
                         {

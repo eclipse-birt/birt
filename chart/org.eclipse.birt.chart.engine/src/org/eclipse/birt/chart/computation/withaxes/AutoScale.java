@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -28,6 +27,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
@@ -103,7 +103,7 @@ public final class AutoScale extends Methods implements Cloneable
     /**
      *  
      */
-    Locale lcl;
+    private RunTimeContext rtc;;
 
     /**
      * A default numeric pattern for integer number representation of axis labels
@@ -274,7 +274,7 @@ public final class AutoScale extends Methods implements Cloneable
         sc.bMinimumFixed = bMinimumFixed;
         sc.bStepFixed = bStepFixed;
         sc.fs = fs;
-        sc.lcl = lcl;
+        sc.rtc = rtc;
         sc.bCategoryScale = bCategoryScale;
         return sc;
     }
@@ -1137,7 +1137,7 @@ public final class AutoScale extends Methods implements Cloneable
                 nde.setValue(dAxisValue);
                 try
                 {
-                    sText = ValueFormatter.format(nde, fs, lcl, df);
+                    sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -1190,7 +1190,7 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 try
                 {
-                    sText = ValueFormatter.format(nde, fs, lcl, df);
+                    sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -1325,8 +1325,9 @@ public final class AutoScale extends Methods implements Cloneable
      * 
      * @return
      */
-    static final AutoScale computeScale(IDisplayServer xs, OneAxis ax, DataSetIterator dsi, int iType, double dStart,
-        double dEnd, DataElement oMinimum, DataElement oMaximum, Double oStep, FormatSpecifier fs, Locale lcl)
+    static final AutoScale computeScale(IDisplayServer xs, OneAxis ax, DataSetIterator dsi, int iType, 
+        double dStart, double dEnd, DataElement oMinimum, DataElement oMaximum,
+        Double oStep, FormatSpecifier fs, RunTimeContext rtc)
         throws GenerationException
     {
         final Label la = ax.getLabel();
@@ -1340,7 +1341,7 @@ public final class AutoScale extends Methods implements Cloneable
         {
             sc = new AutoScale(iType);
             sc.fs = fs;
-            sc.lcl = lcl;
+            sc.rtc = rtc;
             sc.bCategoryScale = true;
             sc.setData(dsi);
             sc.computeTicks(xs, ax.getLabel(), iLabelLocation, iOrientation, dStart, dEnd, false, null);
@@ -1379,7 +1380,7 @@ public final class AutoScale extends Methods implements Cloneable
             sc = new AutoScale(iType, new Double(0), new Double(0), new Double(dStep));
             sc.setData(dsi);
             sc.fs = fs; // FORMAT SPECIFIER
-            sc.lcl = lcl; // LOCALE
+            sc.rtc = rtc; // LOCALE
 
             // OVERRIDE MINIMUM IF SPECIFIED
             if (oMinimum != null)
@@ -1527,7 +1528,7 @@ public final class AutoScale extends Methods implements Cloneable
 
             sc = new AutoScale(iType, new Double(0), new Double(0), new Double(10));
             sc.fs = fs; // FORMAT SPECIFIER
-            sc.lcl = lcl; // LOCALE
+            sc.rtc = rtc; // LOCALE
             sc.setData(dsi);
             sc.updateAxisMinMax(oMinValue, oMaxValue);
             if ((iType & PERCENT) == PERCENT)
@@ -1682,7 +1683,7 @@ public final class AutoScale extends Methods implements Cloneable
             sc = new AutoScale(DATE_TIME, cdtMinAxis, cdtMaxAxis, new Integer(iUnit), new Integer(1));
             sc.computeTicks(xs, la, iLabelLocation, iOrientation, dStart, dEnd, false, null);
             sc.fs = fs; // FORMAT SPECIFIER
-            sc.lcl = lcl; // LOCALE
+            sc.rtc = rtc; // LOCALE
             dStart = sc.dStart;
             dEnd = sc.dEnd;
 
@@ -1830,7 +1831,7 @@ public final class AutoScale extends Methods implements Cloneable
             // ADJUST THE START POSITION
             try
             {
-                return ValueFormatter.format(ca, fs, lcl, sdf);
+                return ValueFormatter.format(ca, fs, rtc.getLocale(), sdf);
             }
             catch (DataFormatException dfex )
             {
@@ -1847,7 +1848,7 @@ public final class AutoScale extends Methods implements Cloneable
             }
             try
             {
-                return ValueFormatter.format(oValue, fs, lcl, df);
+                return ValueFormatter.format(oValue, fs, rtc.getLocale(), df);
             }
             catch (DataFormatException dfex )
             {
@@ -1942,7 +1943,7 @@ public final class AutoScale extends Methods implements Cloneable
                 String sValue = null;
                 try
                 {
-                    sValue = ValueFormatter.format(getMinimum(), fs, lcl, df);
+                    sValue = ValueFormatter.format(getMinimum(), fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -1971,7 +1972,7 @@ public final class AutoScale extends Methods implements Cloneable
                 // ADJUST THE END POSITION
                 try
                 {
-                    sValue = ValueFormatter.format(getMaximum(), fs, lcl, df);
+                    sValue = ValueFormatter.format(getMaximum(), fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -2009,7 +2010,7 @@ public final class AutoScale extends Methods implements Cloneable
                 String sValue = null;
                 try
                 {
-                    sValue = ValueFormatter.format(getMinimum(), fs, lcl, df);
+                    sValue = ValueFormatter.format(getMinimum(), fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -2043,7 +2044,7 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 try
                 {
-                    sValue = ValueFormatter.format(getMaximum(), fs, lcl, df);
+                    sValue = ValueFormatter.format(getMaximum(), fs, rtc.getLocale(), df);
                 }
                 catch (DataFormatException dfex )
                 {
@@ -2087,7 +2088,7 @@ public final class AutoScale extends Methods implements Cloneable
             // ADJUST THE START POSITION
             try
             {
-                sText = ValueFormatter.format(cdt, fs, lcl, sdf);
+                sText = ValueFormatter.format(cdt, fs, rtc.getLocale(), sdf);
             }
             catch (DataFormatException dfex )
             {
@@ -2118,7 +2119,7 @@ public final class AutoScale extends Methods implements Cloneable
             cdt = asDateTime(getMaximum());
             try
             {
-                sText = ValueFormatter.format(cdt, fs, lcl, sdf);
+                sText = ValueFormatter.format(cdt, fs, rtc.getLocale(), sdf);
             }
             catch (DataFormatException dfex )
             {
@@ -2192,7 +2193,7 @@ public final class AutoScale extends Methods implements Cloneable
                     nde.setValue(dAxisValue);
                     try
                     {
-                        sText = ValueFormatter.format(nde, fs, lcl, df);
+                        sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2221,7 +2222,7 @@ public final class AutoScale extends Methods implements Cloneable
                     nde.setValue(dAxisValue);
                     try
                     {
-                        sText = ValueFormatter.format(nde, fs, lcl, df);
+                        sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2249,7 +2250,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     try
                     {
-                        sText = ValueFormatter.format(cdtAxisValue, fs, lcl, sdf);
+                        sText = ValueFormatter.format(cdtAxisValue, fs, rtc.getLocale(), sdf);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2300,7 +2301,7 @@ public final class AutoScale extends Methods implements Cloneable
                     nde.setValue(dAxisValue);
                     try
                     {
-                        sText = ValueFormatter.format(nde, fs, lcl, df);
+                        sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2329,7 +2330,7 @@ public final class AutoScale extends Methods implements Cloneable
                     nde.setValue(dAxisValue);
                     try
                     {
-                        sText = ValueFormatter.format(nde, fs, lcl, df);
+                        sText = ValueFormatter.format(nde, fs, rtc.getLocale(), df);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2357,7 +2358,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     try
                     {
-                        sText = ValueFormatter.format(cdtAxisValue, fs, lcl, sdf);
+                        sText = ValueFormatter.format(cdtAxisValue, fs, rtc.getLocale(), sdf);
                     }
                     catch (DataFormatException dfex )
                     {
@@ -2430,5 +2431,10 @@ public final class AutoScale extends Methods implements Cloneable
         }
         da[iMinorUnitsPerMajor - 1] = dUnit;
         return da;
+    }
+    
+    public RunTimeContext getRunTimeContext()
+    {
+        return rtc;
     }
 }

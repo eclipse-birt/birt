@@ -102,22 +102,25 @@ public final class Generator
     }
 
     /**
-     * This method builds the chart (offscreen) using the provided display server
-     * 
-     * @param xs
+     * This method builds the chart (offscreen) using the provided display server 
+     * @param ids
      * @param cmDesignTime
      * @param scParent
      * @param bo
-     * @param lo
+     * @param rtc       Encapsulates the runtime environment for the build process
      * @return
      * @throws GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime, Scriptable scParent, Bounds bo,
-        Locale lo) throws GenerationException
+    public final GeneratedChartState build(IDisplayServer ids, Chart cmDesignTime,
+        Scriptable scParent, Bounds bo, RunTimeContext rtc) throws GenerationException
     {
-        if (xs == null || cmDesignTime == null || bo == null)
+        if (ids == null || cmDesignTime == null || bo == null)
         {
             throw new GenerationException("Illegal 'null' value passed as an argument to build a chart");
+        }
+        if (rtc == null)
+        {
+            rtc = new RunTimeContext();
         }
 
         if (cmDesignTime.getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL)
@@ -125,14 +128,14 @@ public final class Generator
             throw new GenerationException(new UnsupportedFeatureException("3D charts are not yet supported"));
         }
 
-        Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
-        if (lo == null)
+        final Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
+        if (rtc.getLocale() == null)
         {
-            lo = Locale.getDefault();
+            rtc.setLocale(Locale.getDefault());
         }
 
         final String sScriptContent = cmRunTime.getScript();
-        ScriptHandler sh = cmDesignTime.getScriptHandler();
+        ScriptHandler sh = rtc.getScriptHandler();
         if (sh == null && sScriptContent != null) // NOT PREVIOUSLY DEFINED BY REPORTITEM ADAPTER
         {
             sh = new ScriptHandler();
@@ -140,7 +143,7 @@ public final class Generator
             {
                 sh.init(scParent);
                 sh.setRunTimeModel(cmRunTime);
-                cmRunTime.setScriptHandler(sh);
+                rtc.setScriptHandler(sh);
                 sh.register(sScriptContent);
             }
             catch (ScriptException sx )
@@ -150,8 +153,9 @@ public final class Generator
         }
         else if (sh != null) // COPY SCRIPTS FROM DESIGNTIME TO RUNTIME INSTANCE
         {
-            cmRunTime.setScriptHandler(sh);
+            rtc.setScriptHandler(sh);
         }
+        rtc.setScriptHandler(sh);
 
         // SETUP THE COMPUTATIONS
         ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
@@ -160,12 +164,12 @@ public final class Generator
         if (cmRunTime instanceof ChartWithAxes)
         {
             iChartType = WITH_AXES;
-            oComputations = new PlotWith2DAxes(xs, (ChartWithAxes) cmRunTime, lo);
+            oComputations = new PlotWith2DAxes(ids, (ChartWithAxes) cmRunTime, rtc);
         }
         else if (cmRunTime instanceof ChartWithoutAxes)
         {
             iChartType = WITHOUT_AXES;
-            oComputations = new PlotWithoutAxes(xs, (ChartWithoutAxes) cmRunTime, lo);
+            oComputations = new PlotWithoutAxes(ids, (ChartWithoutAxes) cmRunTime, rtc);
         }
 
         if (oComputations == null)
@@ -179,7 +183,7 @@ public final class Generator
         BaseRenderer[] brna = null;
         try
         {
-            brna = BaseRenderer.instances(cmRunTime, oComputations);
+            brna = BaseRenderer.instances(cmRunTime, rtc, oComputations);
             for (int i = 0; i < brna.length; i++)
             {
                 lhmRenderers.put(brna[i].getSeries(), new LegendItemRenderingHints(brna[i], BoundsImpl.create(0, 0, 0,
@@ -198,7 +202,7 @@ public final class Generator
         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cmRunTime);
         try
         {
-            lm.doLayout_tmp(xs, cmRunTime, bo);
+            lm.doLayout_tmp(ids, cmRunTime, bo);
         }
         catch (OverlapException oex )
         {
@@ -249,7 +253,8 @@ public final class Generator
         {
             br = lirha[i].getRenderer();
             br.set(brna);
-            br.set(xs);
+            br.set(ids);
+            br.set(rtc);
             try
             {
                 if (br.getComputations() instanceof PlotWithoutAxes)
@@ -271,7 +276,7 @@ public final class Generator
         }
         il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer)
             + " ms");
-        final GeneratedChartState gcs = new GeneratedChartState(xs, cmRunTime, lhmRenderers, oComputations);
+        final GeneratedChartState gcs = new GeneratedChartState(ids, cmRunTime, lhmRenderers, rtc, oComputations);
         if (sh != null)
         {
             sh.setGeneratedChartState(gcs);
@@ -292,7 +297,7 @@ public final class Generator
     public final void refresh(GeneratedChartState gcs) throws GenerationException
     {
         Chart cm = gcs.getChartModel();
-        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.BEFORE_COMPUTATIONS, gcs);
+        ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_COMPUTATIONS, gcs);
 
         // COMPUTE THE PLOT AREA
         long lTimer = System.currentTimeMillis();
@@ -330,7 +335,7 @@ public final class Generator
             il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = "
                 + (System.currentTimeMillis() - lTimer) + " ms");
         }
-        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.AFTER_COMPUTATIONS, gcs);
+        ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_COMPUTATIONS, gcs);
     }
 
     /**
@@ -344,7 +349,7 @@ public final class Generator
     public final void render(IDeviceRenderer idr, GeneratedChartState gcs) throws RenderingException
     {
         final Chart cm = gcs.getChartModel();
-        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.START_RENDERING, gcs);
+        ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.START_RENDERING, gcs);
 
         Legend lg = cm.getLegend();
         lg.updateLayout(cm); // RE-ORGANIZE BLOCKS IF REQUIRED
@@ -383,6 +388,7 @@ public final class Generator
             br = lirha[i].getRenderer();
             br.set(dc);
             br.set(idr);
+            br.set(gcs.getRunTimeContext());
             try
             {
                 br.render(lhm, bo); // 'bo' MUST BE CLIENT AREA WITHIN ANY
@@ -395,7 +401,7 @@ public final class Generator
             }
         }
         idr.after(); // ANY CLEANUP AFTER THE CHART HAS BEEN RENDERED
-        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.FINISH_RENDERING, gcs);
+        ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.FINISH_RENDERING, gcs);
     }
 
     /**

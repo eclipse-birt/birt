@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -31,6 +30,7 @@ import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.exception.ValidationException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -108,9 +108,9 @@ public final class PlotWith2DAxes extends PlotContent
     private StackedSeriesLookup ssl = null;
 
     /**
-     * The locale (specified at generation time) associated with the chart being computed
+     * The runtime context associated with chart generation
      */
-    private final Locale lcl;
+    private final RunTimeContext rtc;
     
     /**
      * 
@@ -125,11 +125,11 @@ public final class PlotWith2DAxes extends PlotContent
      * @param _cwa
      *            An instance of the model (ChartWithAxes)
      */
-    public PlotWith2DAxes(IDisplayServer _ids, ChartWithAxes _cwa, Locale _lcl)
+    public PlotWith2DAxes(IDisplayServer _ids, ChartWithAxes _cwa, RunTimeContext _rtc)
     {
         cwa = _cwa;
         ids = _ids;
-        lcl = _lcl;
+        rtc = _rtc;
         ssl = new StackedSeriesLookup();
         dPointToPixel = ids.getDpiResolution() / 72d;
         try
@@ -1188,7 +1188,7 @@ public final class PlotWith2DAxes extends PlotContent
         dStart = (aax.areAxesSwapped()) ? dY + dH : dX;
         dEnd = (aax.areAxesSwapped()) ? dY : dStart + dW;
         scPrimaryBase = AutoScale.computeScale(ids, oaxPrimaryBase, dsi, iAxisType, dStart, dEnd, sc.getMin(), sc
-            .getMax(), sc.isSetStep() ? new Double(sc.getStep()) : null, axPrimaryBase.getFormatSpecifier(), lcl);
+            .getMax(), sc.isSetStep() ? new Double(sc.getStep()) : null, axPrimaryBase.getFormatSpecifier(), rtc);
         oaxPrimaryBase.set(scPrimaryBase); // UPDATE SCALE ON PRIMARY-BASE
         // AXIS
 
@@ -1211,7 +1211,7 @@ public final class PlotWith2DAxes extends PlotContent
         sc = axPrimaryOrthogonal.getScale();
         scPrimaryOrthogonal = AutoScale.computeScale(ids, oaxPrimaryOrthogonal, dsi, iAxisType, dStart, dEnd, sc
             .getMin(), sc.getMax(), sc.isSetStep() ? new Double(sc.getStep()) : null, axPrimaryOrthogonal
-            .getFormatSpecifier(), lcl);
+            .getFormatSpecifier(), rtc);
         oaxPrimaryOrthogonal.set(scPrimaryOrthogonal); // UPDATE SCALE ON
         // PRIMARY-ORTHOGONAL
         // AXIS
@@ -1409,7 +1409,7 @@ public final class PlotWith2DAxes extends PlotContent
             scModel = axaOrthogonal[j].getScale();
             sc = AutoScale.computeScale(ids, oaxOverlay, new DataSetIterator(getMinMax(axaOrthogonal[j], iAxisType),
                 iAxisType), iAxisType, dAxisStart, dAxisEnd, scModel.getMin(), scModel.getMax(),
-                scModel.isSetStep() ? new Double(scModel.getStep()) : null, axaOrthogonal[j].getFormatSpecifier(), lcl);
+                scModel.isSetStep() ? new Double(scModel.getStep()) : null, axaOrthogonal[j].getFormatSpecifier(), rtc);
 
             oaxOverlay.set(sc);
             iv = oaxOverlay.getIntersectionValue();
@@ -2847,7 +2847,7 @@ public final class PlotWith2DAxes extends PlotContent
                 seOrthogonal.getSeriesIdentifier(), 
                 seOrthogonal.getDataPoint(),
                 fsBase, fsOrthogonal, fsSeries,
-                lo, dLength, lcl
+                lo, dLength, rtc
             );
         }
 

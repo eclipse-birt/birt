@@ -38,7 +38,7 @@ public final class GeneratedChartState
     /**
      *  
      */
-    private final IDisplayServer _xs;
+    private final IDisplayServer _ids;
 
     /**
      *  
@@ -49,6 +49,11 @@ public final class GeneratedChartState
      *  
      */
     private final int _iType;
+    
+    /**
+     * 
+     */
+    private final RunTimeContext _rtc;
 
     /**
      * 
@@ -57,12 +62,13 @@ public final class GeneratedChartState
      * @param lhmRenderers
      * @param oComputations
      */
-    GeneratedChartState(IDisplayServer xs, Chart cm, LinkedHashMap lhmRenderers, Object oComputations)
+    GeneratedChartState(IDisplayServer xs, Chart cm, LinkedHashMap lhmRenderers, RunTimeContext rtc, Object oComputations)
     {
         _lhmRenderers = lhmRenderers;
         _oComputations = oComputations;
-        _xs = xs;
+        _ids = xs;
         _cm = cm;
+        _rtc = rtc;
         if (cm instanceof ChartWithAxes)
         {
             _iType = Generator.WITH_AXES;
@@ -101,7 +107,7 @@ public final class GeneratedChartState
      */
     public final IDisplayServer getDisplayServer()
     {
-        return _xs;
+        return _ids;
     }
 
     /**
@@ -113,6 +119,15 @@ public final class GeneratedChartState
         return _cm;
     }
 
+    /**
+     * 
+     * @return
+     */
+    public final RunTimeContext getRunTimeContext()
+    {
+        return _rtc;
+    }
+    
     /**
      * 
      * @return

@@ -11,7 +11,6 @@
 package org.eclipse.birt.chart.computation.withoutaxes;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -22,6 +21,7 @@ import org.eclipse.birt.chart.exception.NullValueException;
 import org.eclipse.birt.chart.exception.OutOfSyncException;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
@@ -55,7 +55,7 @@ public final class PlotWithoutAxes
     /**
      *  
      */
-    private final Locale lcl;
+    private final RunTimeContext rtc;
 
     /**
      *  
@@ -87,11 +87,11 @@ public final class PlotWithoutAxes
      * @param xs
      * @param cwoa
      */
-    public PlotWithoutAxes(IDisplayServer xs, ChartWithoutAxes cwoa, Locale lcl)
+    public PlotWithoutAxes(IDisplayServer xs, ChartWithoutAxes cwoa, RunTimeContext rtc)
     {
         this.xs = xs;
         this.cwoa = cwoa;
-        this.lcl = lcl;
+        this.rtc = rtc;
         dPointToPixel = xs.getDpiResolution() / 72d;
     }
 
@@ -235,7 +235,7 @@ public final class PlotWithoutAxes
                 seOrthogonal.getSeriesIdentifier(), 
                 seOrthogonal.getDataPoint(), 
                 fsBase, fsOrthogonal, fsSeries,
-                null, -1, lcl);
+                null, -1, rtc);
         }
 
         return new SeriesRenderingHints(dpha);

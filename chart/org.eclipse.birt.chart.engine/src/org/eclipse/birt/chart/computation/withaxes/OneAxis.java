@@ -11,9 +11,8 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
-import java.util.Locale;
-
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -195,8 +194,8 @@ public final class OneAxis
         return axModel.getFormatSpecifier();
     }
 
-    public final Locale getLocale()
+    public final RunTimeContext getRunTimeContext()
     {
-        return sc.lcl;
+        return sc.getRunTimeContext();
     }
 }

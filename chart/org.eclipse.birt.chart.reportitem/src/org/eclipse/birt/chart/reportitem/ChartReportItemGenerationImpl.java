@@ -11,10 +11,13 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.ScriptException;
+import org.eclipse.birt.chart.factory.IMessageLookup;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -28,6 +31,7 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.extension.DefaultReportItemGenerationImpl;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.extension.IReportItem;
@@ -42,6 +46,11 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
      *  
      */
     private transient Chart cm = null;
+    
+    /**
+     * 
+     */
+    private transient RunTimeContext rtc = null;
     
     /**
      * 
@@ -91,7 +100,8 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     {
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: initialize(...) - start");
         super.initialize(hm);
-        cm = getModelFromWrapper(hm.get(MODEL_OBJ));
+        final ExtendedItemHandle eih = (ExtendedItemHandle) hm.get(MODEL_OBJ);
+        cm = getModelFromWrapper(eih);
         final String sStage = (String) hm.get(GENERATION_STAGE);
         if (sStage.equals(GENERATION_STAGE_PREPARATION))
         {
@@ -106,6 +116,9 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         // NOTIFY THE SCRIPT HANDLER AT EXECUTION TIME ONLY
         if (iStage == EXECUTION)
         {
+            rtc = new RunTimeContext();
+            rtc.setMessageLookup(new ExternalizedMessageLookup(eih.getDesignHandle()));
+            
             // SETUP THE SCRIPTABLE INSTANCE
             final Scriptable scParent = null;
             final String sScriptContent = cm.getScript();
@@ -117,7 +130,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
                 {
                     sh.init(scParent);
                     sh.setRunTimeModel(cm);
-                    cm.setScriptHandler(sh);
+                    rtc.setScriptHandler(sh);
                     sh.register(sScriptContent);
                 }
                 catch (ScriptException sx)
@@ -164,7 +177,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     	// BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
         final QueryDefinition qd = new QueryDefinition((BaseQueryDefinition) ibdqParent);
         try {
-            QueryHelper.instance().build(eih, qd, cm);
+            QueryHelper.instance(rtc).build(eih, qd, cm);
 	        iQueryCount++;
         } catch (GenerationException gex)
         {
@@ -193,14 +206,15 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: process(...) - start");
         
         // EXECUTE THE PREVIOUSLY BUILT QUERY
-        final ScriptHandler sh = cm.getScriptHandler();
+        final QueryHelper qh = QueryHelper.instance(rtc);
+        final ScriptHandler sh = rtc.getScriptHandler();
         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_QUERY_EXECUTION, ibqd);
-        final ResultSetWrapper rsw = QueryHelper.instance().execute(ide, ibqd, cm);
+        final ResultSetWrapper rsw = qh.execute(ide, ibqd, cm);
         ScriptHandler.callFunction(sh, ScriptHandler.AFTER_QUERY_EXECUTION, rsw);
     	
     	// POPULATE THE CHART MODEL WITH THE RESULTSET
     	try {
-    	    QueryHelper.instance().generateRuntimeSeries(cm, rsw);
+    	    qh.generateRuntimeSeries(cm, rsw);
     	} catch (GenerationException gex)
     	{
     	    DefaultLoggerImpl.instance().log(gex);
@@ -251,11 +265,58 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     {
         if (iStage == EXECUTION)
         {
-            final ScriptHandler sh = cm.getScriptHandler();
+            final ScriptHandler sh = rtc.getScriptHandler();
         	ScriptHandler.callFunction(sh, ScriptHandler.FINISH_DATA_BINDING, cm);
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: finish(...) - start");
         super.finish();
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: finish(...) - end");
     }
+    
+    /**
+     *
+     */
+    private static final class ExternalizedMessageLookup implements IMessageLookup
+    {
+        /**
+         * 
+         */
+        private final ReportDesignHandle rdh;
+        
+        /**
+         * 
+         * @param rdh
+         */
+        ExternalizedMessageLookup(ReportDesignHandle rdh)
+        {
+            this.rdh = rdh;
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Initializing externalized text lookup - " + rdh.getMessageBaseName());
+        }
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String, java.util.Locale)
+         */
+        public String getMessageValue(String sChartKey, Locale lcl)
+        {
+            final int iKeySeparator = sChartKey.indexOf('=');
+            if (iKeySeparator != -1)
+            {
+                final String sKey = sChartKey.substring(0, iKeySeparator);
+                final String sMessage = (iKeySeparator == 0) ? null : rdh.getMessage(sKey, lcl);
+                if (sMessage == null) // BECAUSE [KEY NOT FOUND] OR [PROP FILE NOT FOUND]
+                {
+                    // VALUE ON RHS OF '='
+                    return sChartKey.substring(iKeySeparator + 1);
+                }
+                else
+                {
+                    // VALUE FROM PROPERTIES FILE
+                    return sMessage;
+                }
+            }
+            // FOR [BACKWARD COMPATIBILITY] OR [VALUES NOT CONTAINING A KEY]
+            return sChartKey;
+        }
+    }
 }
+

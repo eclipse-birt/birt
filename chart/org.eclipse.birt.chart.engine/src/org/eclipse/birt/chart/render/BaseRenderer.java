@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
 import org.eclipse.birt.chart.factory.DeferredCache;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -166,6 +167,11 @@ public abstract class BaseRenderer
     protected static final ColorDefinition LIGHT_GLASS = ColorDefinitionImpl.create(196, 196, 196, 127);
 
     /**
+     * 
+     */
+    private transient RunTimeContext rtc = null;
+    
+    /**
      * The internal constructor that must be defined as public
      * 
      * @param _ir
@@ -212,6 +218,11 @@ public abstract class BaseRenderer
         brna = _brna;
     }
 
+    public final void set(RunTimeContext _rtc)
+    {
+        rtc = _rtc;
+    }
+    
     public final ISeriesRenderingHints getSeriesRenderingHints()
     {
         return srh;
@@ -269,6 +280,11 @@ public abstract class BaseRenderer
     {
         return brna[iIndex];
     }
+    
+    public final RunTimeContext getRunTimeContext()
+    {
+        return rtc;
+    }
 
     /**
      * 
@@ -297,7 +313,7 @@ public abstract class BaseRenderer
         final Enumeration e = bl.children(true);
         final BlockGenerationEvent bge = new BlockGenerationEvent(this);
         final IDeviceRenderer idr = getDevice();
-        final ScriptHandler sh = getModel().getScriptHandler();
+        final ScriptHandler sh = getRunTimeContext().getScriptHandler();
 
         if (bFirstInSequence)
         {
@@ -864,7 +880,7 @@ public abstract class BaseRenderer
         double dItemHeight, double dFullHeight, double dLeftInset, double dHorizontalSpacing, Series se,
         Fill fPaletteEntry, LegendItemRenderingHints lirh) throws RenderingException
     {
-        ScriptHandler sh = getModel().getScriptHandler();
+        ScriptHandler sh = getRunTimeContext().getScriptHandler();
         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY, la);
         final Bounds bo = lirh.getLegendGraphicBounds();
         bo.setLeft(dX + dLeftInset + 1);
@@ -931,9 +947,9 @@ public abstract class BaseRenderer
             renderBackground(ipr, p);
         }
 
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
+        ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this);
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR
-        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
+        ScriptHandler.callFunction(getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this);
 
         if (bLastInSequence)
         {
@@ -1054,12 +1070,13 @@ public abstract class BaseRenderer
      * @param oComputations
      * @return
      */
-    private static final BaseRenderer[] createEmptyInstance(Chart cm, Object oComputations)
+    private static final BaseRenderer[] createEmptyInstance(Chart cm, RunTimeContext rtc, Object oComputations)
     {
         final BaseRenderer[] brna = new BaseRenderer[1];
         final AxesRenderer ar = new EmptyWithAxes();
         ar.iSeriesIndex = 0;
         ar.set(cm, oComputations, null, null, null);
+        ar.set(rtc);
         brna[0] = ar;
         return brna;
     }
@@ -1068,14 +1085,14 @@ public abstract class BaseRenderer
      * This method returns appropriate renderers for the given chart model. It uses extension points to identify a
      * renderer corresponding to a custom series.
      * 
-     * @param ir
      * @param cm
+     * @param rtc
      * @param oComputations
      * 
      * @return
      * @throws PluginException
      */
-    public static final BaseRenderer[] instances(Chart cm, Object oComputations) throws PluginException
+    public static final BaseRenderer[] instances(Chart cm, RunTimeContext rtc, Object oComputations) throws PluginException
     {
         final PluginSettings ps = PluginSettings.instance();
         BaseRenderer[] brna = null;
@@ -1099,7 +1116,7 @@ public abstract class BaseRenderer
             elBase = axPrimaryBase.getSeriesDefinitions();
             if (elBase.isEmpty()) // NO SERIES DEFINITIONS
             {
-                return createEmptyInstance(cm, oComputations);
+                return createEmptyInstance(cm, rtc, oComputations);
             }
             else
             {
@@ -1109,7 +1126,7 @@ public abstract class BaseRenderer
                 alRunTimeSeries = sdBase.getRunTimeSeries();
                 if (alRunTimeSeries.isEmpty())
                 {
-                    return createEmptyInstance(cm, oComputations);
+                    return createEmptyInstance(cm, rtc, oComputations);
                 }
                 se = (Series) alRunTimeSeries.get(0); // ONLY 1 SERIES MAY BE
                 // ASSOCIATED WITH THE
@@ -1117,9 +1134,8 @@ public abstract class BaseRenderer
                 // DEFINITION
                 ar = (se.getClass() == SeriesImpl.class) ? new EmptyWithAxes() : (AxesRenderer) ps.getRenderer(se
                     .getClass());
-                ar.set(cm, oComputations, se, axPrimaryBase, sdBase); // INITIALIZE
-                // THE
-                // RENDERER
+                ar.set(cm, oComputations, se, axPrimaryBase, sdBase); // INITIALIZE THE RENDERER
+                ar.set(rtc);
                 ar.iSeriesIndex = iSI++;
                 al.add(ar);
 
@@ -1183,9 +1199,8 @@ public abstract class BaseRenderer
                 se = (Series) alRuntimeSeries.get(0);
                 brna[iSI] = (se.getClass() == SeriesImpl.class) ? new EmptyWithoutAxes() : ps
                     .getRenderer(se.getClass());
-                brna[iSI].set(cm, oComputations, se, null, sdBase); // INITIALIZE
-                // THE
-                // RENDERER
+                brna[iSI].set(cm, oComputations, se, null, sdBase); // INITIALIZE THE RENDERER
+                brna[iSI].set(rtc);
                 brna[iSI].iSeriesIndex = iSI++;
 
                 elOrthogonal = ((SeriesDefinition) elBase.get(i)).getSeriesDefinitions();

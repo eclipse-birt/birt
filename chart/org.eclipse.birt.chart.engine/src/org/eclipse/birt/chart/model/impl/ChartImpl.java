@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
-import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.SeriesHint;
@@ -315,11 +314,6 @@ public class ChartImpl extends EObjectImpl implements Chart
      * @ordered
      */
     protected SampleData sampleData = null;
-
-    /**
-     * A transient script handler capable of processing/executing scripts
-     */
-    private transient ScriptHandler sh = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1206,26 +1200,6 @@ public class ChartImpl extends EObjectImpl implements Chart
     public void clearSections(int iSectionType)
     {
         // TODO: Recursively walk through the model and clear unwanted sections as requested
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.model.Chart#setScriptHandler(org.eclipse.birt.chart.model.ScriptHandler)
-     */
-    public void setScriptHandler(ScriptHandler sh)
-    {
-        this.sh = sh;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.model.Chart#getScriptHandler()
-     */
-    public ScriptHandler getScriptHandler()
-    {
-        return sh;
     }
 
     /*
