@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Style;
@@ -45,9 +46,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 		StringFieldEditor name = new StringFieldEditor( StyleElement.NAME_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.NAME_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleElement.NAME_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 
 		addField( name );
@@ -55,16 +56,16 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		addField( new SeparatorFieldEditor( getFieldEditorParent( ) ) );
 
 		BooleanFieldEditor shrink = new BooleanFieldEditor( Style.CAN_SHRINK_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.CAN_SHRINK_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.CAN_SHRINK_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 		addField( shrink );
 
 		BooleanFieldEditor blank = new BooleanFieldEditor( Style.SHOW_IF_BLANK_PROP,
-				( (StyleHandle) model ).getPropertyHandle( Style.SHOW_IF_BLANK_PROP )
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.SHOW_IF_BLANK_PROP )
 						.getDefn( )
-						.getDisplayName( ),
+						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 		addField( blank );
 	}
