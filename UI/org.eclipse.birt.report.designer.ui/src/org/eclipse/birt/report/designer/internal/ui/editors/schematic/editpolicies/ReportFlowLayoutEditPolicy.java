@@ -304,7 +304,9 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			return new TableResizeEditPolice( );
 		}
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
-		policy.setResizeDirections( PositionConstants.NSEW );
+		policy.setResizeDirections( PositionConstants.SOUTH
+				| PositionConstants.EAST
+				| PositionConstants.SOUTH_EAST );
 		return policy;
 	}
 
