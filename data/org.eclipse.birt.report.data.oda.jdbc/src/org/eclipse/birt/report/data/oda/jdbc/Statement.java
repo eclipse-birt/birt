@@ -370,7 +370,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 	}
 
@@ -406,7 +406,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 	}
 
@@ -448,7 +448,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 	}
 
@@ -484,7 +484,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -519,7 +519,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -555,7 +555,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -597,7 +597,7 @@ public class Statement implements IStatement
 		}
 		catch ( RuntimeException e1 )
 		{
-			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -709,4 +709,18 @@ public class Statement implements IStatement
 	{
 		return source.replaceAll("\n"," ");
 	}
+	
+	/**
+	 * Converts a RuntimeException which occurred in the setting parameter value
+	 * of a ROM script to an OdaException, and rethrows such exception. This
+	 * method never returns.
+	 */
+	private static void rethrowRunTimeException( RuntimeException e, String msg )
+			throws OdaException
+	{
+		OdaException odaException = new OdaException( msg );
+		odaException.initCause( e );
+		throw odaException;
+	}
+
 }
