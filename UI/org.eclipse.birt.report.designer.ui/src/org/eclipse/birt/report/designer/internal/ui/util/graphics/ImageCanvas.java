@@ -436,7 +436,9 @@ public class ImageCanvas extends Canvas
 		{
 			sourceImage.dispose( );
 			sourceImage = null;
-			paint( new GC( this ) );
+			GC clearGC = new GC( this );
+			paint( clearGC );
+			clearGC.dispose( );
 		}
 	}
 
