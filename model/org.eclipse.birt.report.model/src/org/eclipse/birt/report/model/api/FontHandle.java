@@ -43,7 +43,7 @@ import org.eclipse.birt.report.model.metadata.ChoiceSet;
  * Please note that for a list of font names, blanks are allowed between two
  * neighboring font names.
  * <p>
- * The application generally does not create color handles directly. It uses the
+ * The application generally does not create font handles directly. It uses the
  * method in <code>DesignElementHandle</code> to get a color handle like:
  * 
  * <pre>

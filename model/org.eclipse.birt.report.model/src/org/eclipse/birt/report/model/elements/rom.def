@@ -1360,10 +1360,10 @@
     <Member name="borderRightWidth" displayNameID="Structure.HighlightRule.border.right.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderRightColor" displayNameID="Structure.HighlightRule.border.right.color" type="color" />
     <Member name="backgroundColor" displayNameID="Structure.HighlightRule.background.color" type="color" />
-    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="string" />
-    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="string" />
+    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="format" detailType="dateTimeFormat"/>
+    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="format" detailType="numberFormat"/>
     <Member name="numberAlign" displayNameID="Structure.HighlightRule.format.number.align" type="choice" detailType="textAlign" />
-    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="string" />
+    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="format" detailType="stringFormat"/>
     <Member name="fontFamily" displayNameID="Structure.HighlightRule.font.family" type="string" detailType="fontFamily" />
     <Member name="fontSize" displayNameID="Structure.HighlightRule.font.size" type="dimension" detailType="fontSize" validator="PositiveValueValidator"/>
     <Member name="fontStyle" displayNameID="Structure.HighlightRule.font.style" type="choice" detailType="fontStyle" />
@@ -1871,12 +1871,12 @@
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
-      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="string" detailType="dateTimeFormat" isStyleProperty="true" />
-      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="string" detailType="numberFormat" isStyleProperty="true" />
+      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="format" detailType="dateTimeFormat" isStyleProperty="true" />
+      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="format" detailType="numberFormat" isStyleProperty="true" />
       <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true">
         <Default>left</Default>
       </Property>
-      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="string" detailType="stringFormat" isStyleProperty="true" />
+      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="format" detailType="stringFormat" isStyleProperty="true" />
     </PropertyGroup>
     <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" propertyVisibility="hide">
       <Default>true</Default>

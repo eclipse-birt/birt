@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.StringUtil;
 
