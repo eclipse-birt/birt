@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.osgi.framework.msg.MessageFormat;
@@ -217,6 +218,27 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	{
 		ColorDialog dialog = new ColorDialog( cellEditorWindow.getShell( ) );
 		Object value = getValue( );
+
+		try
+		{
+			int color;
+
+			if ( value instanceof String )
+			{
+				color = ColorUtil.parseColor( (String) value );
+			}
+			else
+			{
+				color = ( (Integer) value ).intValue( );
+			}
+
+			dialog.setRGB( DEUtil.getRGBValue( color ) );
+
+		}
+		catch ( Exception e )
+		{
+			//ignore.
+		}
 
 		value = dialog.open( );
 		if ( dialog.getRGB( ) != null )
