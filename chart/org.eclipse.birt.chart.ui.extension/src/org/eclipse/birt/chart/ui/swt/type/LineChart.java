@@ -37,9 +37,7 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
@@ -196,10 +194,10 @@ public class LineChart extends DefaultChartTypeImpl
     public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart)
     {
         ChartWithAxes newChart = null;
-        if(currentChart != null)
+        if (currentChart != null)
         {
             newChart = (ChartWithAxes) getConvertedChart(currentChart, sSubType, orientation, sDimension);
-            if(newChart != null)
+            if (newChart != null)
             {
                 return newChart;
             }
@@ -295,20 +293,21 @@ public class LineChart extends DefaultChartTypeImpl
         newChart.setSampleData(sd);
     }
 
-    private Chart getConvertedChart(Chart currentChart, String sNewSubType, Orientation newOrientation, String sNewDimension)
+    private Chart getConvertedChart(Chart currentChart, String sNewSubType, Orientation newOrientation,
+        String sNewDimension)
     {
         Chart helperModel = (Chart) EcoreUtil.copy(currentChart);
-        if((currentChart instanceof ChartWithAxes))	// Chart is ChartWithAxes
+        if ((currentChart instanceof ChartWithAxes)) // Chart is ChartWithAxes
         {
-            if(currentChart.getType().equals(sType))	// Original chart is of this type (LineChart)
+            if (currentChart.getType().equals(sType)) // Original chart is of this type (LineChart)
             {
-                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is of the required subtype
+                if (!currentChart.getSubType().equals(sNewSubType)) // Original chart is of the required subtype
                 {
                     currentChart.setSubType(sNewSubType);
                     EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
-                    for(int i = 0; i < axes.size(); i++)
+                    for (int i = 0; i < axes.size(); i++)
                     {
-                        if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        if (sNewSubType.equalsIgnoreCase("Percent Stacked"))
                         {
                             ((Axis) axes.get(i)).setPercent(true);
                         }
@@ -317,10 +316,11 @@ public class LineChart extends DefaultChartTypeImpl
                             ((Axis) axes.get(i)).setPercent(false);
                         }
                         EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
-                        for(int j = 0; j < seriesdefinitions.size(); j++)
+                        for (int j = 0; j < seriesdefinitions.size(); j++)
                         {
                             Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
-                            if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                            if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType
+                                .equalsIgnoreCase("Percent Stacked")))
                             {
                                 series.setStacked(true);
                             }
@@ -332,21 +332,22 @@ public class LineChart extends DefaultChartTypeImpl
                     }
                 }
             }
-            else if(currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart") || currentChart.getType().equals("Scatter Chart"))
+            else if (currentChart.getType().equals("Bar Chart") || currentChart.getType().equals("Stock Chart")
+                || currentChart.getType().equals("Scatter Chart"))
             {
-                if(!currentChart.getType().equals("Bar Chart"))
+                if (!currentChart.getType().equals("Bar Chart"))
                 {
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
                 }
                 currentChart.setType(sType);
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
-                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is not of the required subtype
+                if (!currentChart.getSubType().equals(sNewSubType)) // Original chart is not of the required subtype
                 {
                     currentChart.setSubType(sNewSubType);
                     EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
-                    for(int i = 0; i < axes.size(); i++)
+                    for (int i = 0; i < axes.size(); i++)
                     {
-                        if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        if (sNewSubType.equalsIgnoreCase("Percent Stacked"))
                         {
                             ((Axis) axes.get(i)).setPercent(true);
                         }
@@ -355,11 +356,12 @@ public class LineChart extends DefaultChartTypeImpl
                             ((Axis) axes.get(i)).setPercent(false);
                         }
                         EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
-                        for(int j = 0; j < seriesdefinitions.size(); j++)
+                        for (int j = 0; j < seriesdefinitions.size(); j++)
                         {
                             Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
                             series = getConvertedSeries(series);
-                            if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                            if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType
+                                .equalsIgnoreCase("Percent Stacked")))
                             {
                                 series.setStacked(true);
                             }
@@ -388,11 +390,12 @@ public class LineChart extends DefaultChartTypeImpl
 
             ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
             ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
-            
+
             ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
-            .setOrientation(Orientation.VERTICAL_LITERAL);
-            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).setType(AxisType.LINEAR_LITERAL);
-            
+                .setOrientation(Orientation.VERTICAL_LITERAL);
+            ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
+                .setType(AxisType.LINEAR_LITERAL);
+
             // Copy generic chart properties from the old chart
             currentChart.setBlock(helperModel.getBlock());
             currentChart.setDescription(helperModel.getDescription());
@@ -401,38 +404,47 @@ public class LineChart extends DefaultChartTypeImpl
             currentChart.setScript(helperModel.getScript());
             currentChart.setSeriesThickness(helperModel.getSeriesThickness());
             currentChart.setUnits(helperModel.getUnits());
-            
-            if(helperModel.getType().equals("Pie Chart"))
+
+            if (helperModel.getType().equals("Pie Chart"))
             {
                 // Clear existing series definitions
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().clear();
-                
+
                 // Copy base series definitions
-                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().add(((ChartWithoutAxes) helperModel).getSeriesDefinitions().get(0));
-                
+                ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().add(
+                    ((ChartWithoutAxes) helperModel).getSeriesDefinitions().get(0));
+
                 // Clear existing series definitions
-                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().clear();
-                
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
+                    .getSeriesDefinitions().clear();
+
                 // Copy orthogonal series definitions
-                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().addAll(((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeriesDefinitions());
+                ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
+                    .getSeriesDefinitions().addAll(
+                        ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0))
+                            .getSeriesDefinitions().get(0)).getSeriesDefinitions());
 
                 // Update the base series
-                Series series = ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getDesignTimeSeries();
+                Series series = ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0))
+                    .getSeriesDefinitions().get(0)).getDesignTimeSeries();
                 series = getConvertedSeries(series);
-                
+
                 // Clear existing series
-                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().clear();
-                
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions()
+                    .get(0)).getSeries().clear();
+
                 // Add converted series
-                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions().get(0)).getSeries().add(series);
-                
+                ((SeriesDefinition) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getSeriesDefinitions()
+                    .get(0)).getSeries().add(series);
+
                 // Update the orthogonal series
-                EList seriesdefinitions = ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions();
-                for(int j = 0; j < seriesdefinitions.size(); j++)
+                EList seriesdefinitions = ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0))
+                    .getAssociatedAxes().get(0)).getSeriesDefinitions();
+                for (int j = 0; j < seriesdefinitions.size(); j++)
                 {
                     series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
                     series = getConvertedSeries(series);
-                    if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
+                    if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
                     {
                         series.setStacked(true);
                     }
@@ -451,43 +463,45 @@ public class LineChart extends DefaultChartTypeImpl
                 return null;
             }
         }
-        if(currentChart instanceof ChartWithAxes && !((ChartWithAxes) currentChart).getOrientation().equals(newOrientation))
+        if (currentChart instanceof ChartWithAxes
+            && !((ChartWithAxes) currentChart).getOrientation().equals(newOrientation))
         {
             ((ChartWithAxes) currentChart).setOrientation(newOrientation);
         }
-        if(!currentChart.getDimension().equals(getDimensionFor(sNewDimension)))
+        if (!currentChart.getDimension().equals(getDimensionFor(sNewDimension)))
         {
             currentChart.setDimension(getDimensionFor(sNewDimension));
         }
         return currentChart;
     }
-    
+
     private Series getConvertedSeries(Series series)
     {
         // Do not convert base series
-        if(series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
+        if (series.getClass().getName().equals("org.eclipse.birt.chart.model.component.impl.SeriesImpl"))
         {
             return series;
         }
         LineSeries lineseries = (LineSeries) LineSeriesImpl.create();
         lineseries.getLineAttributes().setVisible(true);
         lineseries.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
-        if(!(series instanceof ScatterSeries))
+        if (!(series instanceof ScatterSeries))
         {
-	        Marker marker = AttributeFactory.eINSTANCE.createMarker();
-	        marker.setSize(5);
-	        marker.setType(MarkerType.BOX_LITERAL);
-	        marker.setVisible(true);
-	        lineseries.setMarker(marker);
+            Marker marker = AttributeFactory.eINSTANCE.createMarker();
+            marker.setSize(5);
+            marker.setType(MarkerType.BOX_LITERAL);
+            marker.setVisible(true);
+            lineseries.setMarker(marker);
         }
         else
         {
             lineseries.setMarker(((ScatterSeries) series).getMarker());
         }
-        
+
         // Copy generic series properties
         lineseries.setLabel(series.getLabel());
-        if(series.getLabelPosition().equals(Position.INSIDE_LITERAL) || series.getLabelPosition().equals(Position.OUTSIDE_LITERAL))
+        if (series.getLabelPosition().equals(Position.INSIDE_LITERAL)
+            || series.getLabelPosition().equals(Position.OUTSIDE_LITERAL))
         {
             lineseries.setLabelPosition(Position.ABOVE_LITERAL);
         }
@@ -497,42 +511,33 @@ public class LineChart extends DefaultChartTypeImpl
         }
 
         lineseries.setVisible(series.isVisible());
-        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_Triggers()))
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_Triggers()))
         {
             lineseries.getTriggers().addAll(series.getTriggers());
         }
-        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataPoint()))
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataPoint()))
         {
             lineseries.setDataPoint(series.getDataPoint());
         }
-        if(series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
         {
             lineseries.getDataDefinition().addAll(series.getDataDefinition());
         }
 
-
         // Copy series specific properties
-        if(series instanceof BarSeries)
-        {
-            lineseries.getLineAttributes().setColor(((BarSeries) series).getRiserOutline());
-        }
-        else if(series instanceof PieSeries)
-        {
-            lineseries.getLineAttributes().setColor(((PieSeries) series).getSliceOutline());
-        }
-        else if(series instanceof StockSeries)
+        if (series instanceof StockSeries)
         {
             lineseries.getLineAttributes().setColor(((StockSeries) series).getLineAttributes().getColor());
         }
         return lineseries;
     }
-    
+
     private SampleData getConvertedSampleData(SampleData currentSampleData)
     {
         // Convert base sample data
         EList bsdList = currentSampleData.getBaseSampleData();
         Vector vNewBaseSampleData = new Vector();
-        for(int i = 0; i < bsdList.size(); i++)
+        for (int i = 0; i < bsdList.size(); i++)
         {
             BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
             bsd.setDataSetRepresentation(getConvertedBaseSampleDataRepresentation(bsd.getDataSetRepresentation()));
@@ -540,33 +545,34 @@ public class LineChart extends DefaultChartTypeImpl
         }
         currentSampleData.getBaseSampleData().clear();
         currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
-        
+
         // Convert orthogonal sample data
         EList osdList = currentSampleData.getOrthogonalSampleData();
         Vector vNewOrthogonalSampleData = new Vector();
-        for(int i = 0; i < osdList.size(); i++)
+        for (int i = 0; i < osdList.size(); i++)
         {
             OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
-            osd.setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
+            osd
+                .setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
             vNewOrthogonalSampleData.add(osd);
         }
         currentSampleData.getOrthogonalSampleData().clear();
         currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
         return currentSampleData;
     }
-    
+
     private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
     {
         StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
         StringBuffer sbNewRepresentation = new StringBuffer("");
-        while(strtok.hasMoreTokens())
+        while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if(!sElement.startsWith("'"))
+            if (!sElement.startsWith("'"))
             {
-	            sbNewRepresentation.append("'");
-	            sbNewRepresentation.append(sElement);
-	            sbNewRepresentation.append("'");
+                sbNewRepresentation.append("'");
+                sbNewRepresentation.append(sElement);
+                sbNewRepresentation.append("'");
             }
             else
             {
@@ -576,17 +582,18 @@ public class LineChart extends DefaultChartTypeImpl
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
-    
+
     private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
     {
         StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
         StringBuffer sbNewRepresentation = new StringBuffer("");
-        while(strtok.hasMoreTokens())
+        while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if(sElement.startsWith("H"))	// Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT be text
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+                                          // be text
             {
-	            sbNewRepresentation.append(sElement.substring(1));
+                sbNewRepresentation.append(sElement.substring(1));
             }
             else
             {

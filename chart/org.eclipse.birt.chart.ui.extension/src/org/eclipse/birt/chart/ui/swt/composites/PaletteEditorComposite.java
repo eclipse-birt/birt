@@ -47,82 +47,78 @@ import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This class implements a palette editor widget capable of
- * maintaining a list of fill definitions. Entries may be
- * updated, new entries added at the end or the existing
- * fill entries may be removed.  
+ * This class implements a palette editor widget capable of maintaining a list of fill definitions. Entries may be
+ * updated, new entries added at the end or the existing fill entries may be removed.
  */
-public final class PaletteEditorComposite extends Composite 
-	implements PaintListener, ControlListener, DisposeListener,
-	SelectionListener, MouseListener, Listener
+public final class PaletteEditorComposite extends Composite implements PaintListener, ControlListener, DisposeListener,
+    SelectionListener, MouseListener, Listener
 {
     /**
      * An internally maintained list of fills directly referenced into a palette
      */
     private final EList elPaletteEntries;
-    
+
     /**
      * Used in offscreen image creation
      */
-    private static final PaletteData PALETTE_DATA = new PaletteData(
-        0xFF0000, 0xFF00, 0xFF
-    );
-    
+    private static final PaletteData PALETTE_DATA = new PaletteData(0xFF0000, 0xFF00, 0xFF);
+
     /**
-     * Miscellaneous variables used in 
+     * Miscellaneous variables used in
      */
     private int iViewY = 0, iViewHeight = 0, iVisibleCount = 0, iSelectedIndex = 0;
-    
+
     /**
      * The height of each color entry in the palette
      */
     private final int iItemHeight = 30;
-    
+
     /**
      * The vertical scrollbar associated with the widget
      */
     private final ScrollBar sb;
-    
+
     /**
-     * An offscreen image used to render the palette entries using double buffering. This image is re-created when a composite resize occurs.
+     * An offscreen image used to render the palette entries using double buffering. This image is re-created when a
+     * composite resize occurs.
      */
     private Image imgBuffer = null;
-    
+
     /**
      * Associated with the offscreen image and whose lifecycle depends on the buffered image's lifecycle
      */
     private GC gc = null;
-    
+
     /**
      * Used to edit the color definition in-place
      */
     private Control coEditor = null;
-    
+
     /**
      * Buttons provided to alter the contents of the palette
      */
     private Button btnAdd, btnRemove, btnUp, btnDown;
-    
+
     /**
-     * 
+     *  
      */
     private FillChooserComposite fccNewEntry = null;
-    
+
     /**
-     * 
+     *  
      */
     private Composite coPaletteEntries = null;
-    
+
     /**
-     * 
+     *  
      */
     private IDeviceRenderer idrSWT = null;
-    
+
     /**
-     * 
+     *  
      */
     private IDisplayServer idsSWT = null;
-    
+
     /**
      * A test entry point
      * 
@@ -133,21 +129,21 @@ public final class PaletteEditorComposite extends Composite
         Display d = new Display();
         Shell shell = new Shell(d);
         shell.setLayout(new FillLayout());
-        
+
         // A SAMPLE PALETTE
         PaletteEditorComposite pe = new PaletteEditorComposite(shell, PaletteImpl.create(1, false));
-        
+
         shell.setSize(300, 500);
         shell.open();
         while (!shell.isDisposed())
         {
             if (!d.readAndDispatch())
-            {    
+            {
                 d.sleep();
             }
         }
     }
-    
+
     /**
      * The constructor expects a default palette
      * 
@@ -162,14 +158,14 @@ public final class PaletteEditorComposite extends Composite
         gl.makeColumnsEqualWidth = true;
         setLayout(gl);
         //setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
-        
+
         coPaletteEntries = new Composite(this, SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_BOTH);
         coPaletteEntries.setLayoutData(gd);
         elPaletteEntries = pa.getEntries();
         sb = coPaletteEntries.getVerticalBar();
         sb.addSelectionListener(this);
-        
+
         Composite coControlPanel = new Composite(this, SWT.NONE);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         coControlPanel.setLayoutData(gd);
@@ -179,33 +175,39 @@ public final class PaletteEditorComposite extends Composite
         btnAdd = new Button(coControlPanel, SWT.PUSH);
         gd = new GridData();
         btnAdd.setLayoutData(gd);
-        btnAdd.setText("Add"); btnAdd.addSelectionListener(this);
+        btnAdd.setText("Add");
+        btnAdd.addSelectionListener(this);
         fccNewEntry = new FillChooserComposite(coControlPanel, SWT.NONE, ColorDefinitionImpl.WHITE(), true, true);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fccNewEntry.setLayoutData(gd);
         btnRemove = new Button(coControlPanel, SWT.PUSH);
         gd = new GridData();
         btnRemove.setLayoutData(gd);
-        btnRemove.setText("Remove"); btnRemove.addSelectionListener(this);
+        btnRemove.setText("Remove");
+        btnRemove.addSelectionListener(this);
         btnUp = new Button(coControlPanel, SWT.ARROW | SWT.UP);
         gd = new GridData();
         btnUp.setLayoutData(gd);
-        btnUp.setText("Up"); btnUp.addSelectionListener(this);
+        btnUp.setText("Up");
+        btnUp.addSelectionListener(this);
         btnDown = new Button(coControlPanel, SWT.ARROW | SWT.DOWN);
         gd = new GridData();
         btnDown.setLayoutData(gd);
-        btnDown.setText("Down"); btnDown.addSelectionListener(this);
-        
+        btnDown.setText("Down");
+        btnDown.addSelectionListener(this);
+
         addControlListener(this);
         addDisposeListener(this);
         coPaletteEntries.addPaintListener(this);
         coPaletteEntries.addMouseListener(this);
-        
+
         final PluginSettings ps = PluginSettings.instance();
-        try {
+        try
+        {
             idrSWT = ps.getDevice("dv.SWT");
             idsSWT = idrSWT.getDisplayServer();
-        } catch (PluginException pex)
+        }
+        catch (PluginException pex )
         {
             DefaultLoggerImpl.instance().log(pex);
             return;
@@ -213,7 +215,7 @@ public final class PaletteEditorComposite extends Composite
     }
 
     /**
-     * Repaints the palette content 
+     * Repaints the palette content
      */
     public final void paintControl(PaintEvent pev)
     {
@@ -227,7 +229,7 @@ public final class PaletteEditorComposite extends Composite
             coEditor.setBounds(3, 3, rCA.width - 6, iItemHeight - 6);
             ((FillChooserComposite) coEditor).addListener(this);
         }
-        
+
         if (imgBuffer == null)
         {
             imgBuffer = new Image(d, rCA.width, rCA.height);
@@ -236,7 +238,7 @@ public final class PaletteEditorComposite extends Composite
         }
         gc.setBackground(getBackground());
         gc.fillRectangle(rCA);
-        
+
         iViewHeight = rCA.height;
         int iStartIndex = iViewY / iItemHeight;
         if (iStartIndex < 0)
@@ -246,26 +248,29 @@ public final class PaletteEditorComposite extends Composite
         iVisibleCount = iViewHeight / iItemHeight + 2;
         int iAvailableItems = Math.min(iVisibleCount, elPaletteEntries.size() - iStartIndex);
         int iY = -(iViewY % iItemHeight);
-        
+
         ColorDefinitionImpl cdi;
         Color clr;
         gc.setForeground(d.getSystemColor(SWT.COLOR_GRAY));
-        
-        final RectangleRenderEvent rre = (RectangleRenderEvent) ((EventObjectCache) idrSWT).getEventObject(this, RectangleRenderEvent.class);
-        final Bounds bo = BoundsImpl.create(0,0,0,0);
+
+        final RectangleRenderEvent rre = (RectangleRenderEvent) ((EventObjectCache) idrSWT).getEventObject(this,
+            RectangleRenderEvent.class);
+        final Bounds bo = BoundsImpl.create(0, 0, 0, 0);
         rre.setOutline(LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1));
         rre.setBounds(bo);
         Fill fi;
-        
+
         for (int i = iStartIndex; i < iStartIndex + iAvailableItems; i++)
         {
             fi = (Fill) elPaletteEntries.get(i);
             bo.set(3, iY + 3, rCA.width - 6, iItemHeight - 6);
             rre.setBackground(fi);
-            try {
+            try
+            {
                 idrSWT.fillRectangle(rre);
                 idrSWT.drawRectangle(rre);
-            } catch (RenderingException rex)
+            }
+            catch (RenderingException rex )
             {
                 DefaultLoggerImpl.instance().log(rex);
             }
@@ -281,7 +286,7 @@ public final class PaletteEditorComposite extends Composite
             }
             iY += iItemHeight;
         }
-        
+
         // OUT OF RANGE; HIDE EDITOR
         if (iSelectedIndex < iStartIndex || iSelectedIndex >= iStartIndex + iAvailableItems)
         {
@@ -292,9 +297,9 @@ public final class PaletteEditorComposite extends Composite
         }
         gcComposite.drawImage(imgBuffer, rCA.x, rCA.y);
     }
-    
+
     /**
-     * The scrollbar's thumb is updated based on the palette entry count and the current selection 
+     * The scrollbar's thumb is updated based on the palette entry count and the current selection
      */
     private final void updateScrollBar()
     {
@@ -302,7 +307,7 @@ public final class PaletteEditorComposite extends Composite
         sb.setMaximum(iItemHeight * elPaletteEntries.size() - iViewHeight);
         sb.setSelection(iViewY);
     }
-    
+
     /**
      * 
      * @param iIndex
@@ -313,17 +318,18 @@ public final class PaletteEditorComposite extends Composite
         {
             return;
         }
-        
+
         int iStartIndex = iViewY / iItemHeight;
         if (iStartIndex < 0)
         {
             iStartIndex = 0;
         }
-        
+
         if (iIndex > iStartIndex && iIndex < iStartIndex + iVisibleCount - 1)
         {
             iViewY = (iIndex * iItemHeight) - iViewHeight + iItemHeight;
-            if (iViewY < 0) iViewY = 0;
+            if (iViewY < 0)
+                iViewY = 0;
         }
         else if (iIndex <= iStartIndex)
         {
@@ -335,31 +341,33 @@ public final class PaletteEditorComposite extends Composite
             iViewY = iMoveUpTo * iItemHeight;
         }
         else
-        {    
-	        // ADJUST LOWER END IF WE GO BEYOND
-	        int iY = (iIndex - iStartIndex) * iItemHeight - (iViewY % iItemHeight);
-	        if (iY + iItemHeight > iViewHeight) // BELOW THE LOWER EDGE
-	        {
-	            iViewY += iY + iItemHeight - iViewHeight;
-	        }
-	    }
+        {
+            // ADJUST LOWER END IF WE GO BEYOND
+            int iY = (iIndex - iStartIndex) * iItemHeight - (iViewY % iItemHeight);
+            if (iY + iItemHeight > iViewHeight) // BELOW THE LOWER EDGE
+            {
+                iViewY += iY + iItemHeight - iViewHeight;
+            }
+        }
         updateScrollBar();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
      */
     public void controlResized(ControlEvent arg0)
     {
         updateScrollBar();
         if (imgBuffer != null)
-        {    
+        {
             gc.dispose();
             imgBuffer.dispose();
             gc = null;
             imgBuffer = null;
         }
-        
+
         if (coEditor != null)
         {
             final Rectangle rCA = coPaletteEntries.getClientArea();
@@ -367,37 +375,34 @@ public final class PaletteEditorComposite extends Composite
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
      */
     public void widgetDisposed(DisposeEvent arg0)
     {
-        sb.dispose();
         if (imgBuffer != null)
-        {    
+        {
             gc.dispose();
             imgBuffer.dispose();
             gc = null;
             imgBuffer = null;
         }
-        coEditor.dispose();
-        btnAdd.dispose();
-        btnRemove.dispose();
-        btnUp.dispose();
-        btnDown.dispose();
-        fccNewEntry.dispose();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
      */
     public void widgetSelected(SelectionEvent sev)
     {
         if (sev.getSource() == sb)
-        {    
-	        int iSelection = sb.getSelection();
-	        iViewY = iSelection;
-	        coPaletteEntries.redraw();
+        {
+            int iSelection = sb.getSelection();
+            iViewY = iSelection;
+            coPaletteEntries.redraw();
         }
         else
         {
@@ -427,7 +432,9 @@ public final class PaletteEditorComposite extends Composite
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
      */
     public void mouseDown(MouseEvent mev)
@@ -445,7 +452,7 @@ public final class PaletteEditorComposite extends Composite
         {
             return;
         }
-        
+
         iSelectedIndex = iClickedIndex;
         coPaletteEntries.redraw();
     }
@@ -459,7 +466,7 @@ public final class PaletteEditorComposite extends Composite
     {
         return iSelectedIndex;
     }
-    
+
     /**
      * Returns the currently selected fill
      * 
@@ -469,7 +476,7 @@ public final class PaletteEditorComposite extends Composite
     {
         return (ColorDefinitionImpl) elPaletteEntries.get(iSelectedIndex);
     }
-    
+
     /**
      * Removes an entry from the list at the specified index
      * 
@@ -481,7 +488,7 @@ public final class PaletteEditorComposite extends Composite
         {
             return;
         }
-        
+
         elPaletteEntries.remove(iIndex);
         if (iIndex < iSelectedIndex)
         {
@@ -494,7 +501,7 @@ public final class PaletteEditorComposite extends Composite
                 iSelectedIndex--;
             }
         }
-        
+
         if (elPaletteEntries.isEmpty())
         {
             iSelectedIndex = -1;
@@ -503,7 +510,7 @@ public final class PaletteEditorComposite extends Composite
         scrollToView(iSelectedIndex);
         coPaletteEntries.redraw();
     }
-    
+
     /**
      * Updates the current selected entry with the specified fill
      * 
@@ -518,7 +525,7 @@ public final class PaletteEditorComposite extends Composite
         elPaletteEntries.set(iSelectedIndex, f);
         coPaletteEntries.redraw();
     }
-    
+
     /**
      * Appends a new fill to the end of the palette list and selects it
      * 
@@ -535,7 +542,7 @@ public final class PaletteEditorComposite extends Composite
         scrollToView(iSelectedIndex);
         coPaletteEntries.redraw();
     }
-    
+
     /**
      * Swap two consecutive entries
      * 
@@ -551,8 +558,8 @@ public final class PaletteEditorComposite extends Composite
         elPaletteEntries.remove(iSmaller);
         if (iIndex1 < iIndex2)
         {
-	        elPaletteEntries.add(iSmaller, o1);
-	        elPaletteEntries.add(iSmaller, o2);
+            elPaletteEntries.add(iSmaller, o1);
+            elPaletteEntries.add(iSmaller, o2);
         }
         else
         {
@@ -571,17 +578,21 @@ public final class PaletteEditorComposite extends Composite
         coPaletteEntries.redraw();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
      */
     public void handleEvent(Event ev)
     {
         updateSelectionFill((Fill) ev.data);
     }
-    
+
     // UNUSED INTERFACE METHODS:
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
      */
     public void controlMoved(ControlEvent arg0)
@@ -589,7 +600,9 @@ public final class PaletteEditorComposite extends Composite
         // NO ACTION HERE
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
      */
     public void widgetDefaultSelected(SelectionEvent sev)
@@ -597,7 +610,9 @@ public final class PaletteEditorComposite extends Composite
         // NO ACTION HERE
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
      */
     public void mouseDoubleClick(MouseEvent arg0)
@@ -605,7 +620,9 @@ public final class PaletteEditorComposite extends Composite
         // NO ACTION HERE
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.MouseEvent)
      */
     public void mouseUp(MouseEvent arg0)
