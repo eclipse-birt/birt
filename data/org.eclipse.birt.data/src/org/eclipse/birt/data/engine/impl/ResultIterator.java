@@ -187,7 +187,8 @@ class ResultIterator implements IResultIterator
 		    }
 		    else
 		    {
-	            return expr.evaluate( cx, scope );
+				return ScriptEvalUtil.convertNativeObjToJavaObj( 
+						expr.evaluate(cx, scope ) );
 		    }
 		}
 	    catch ( DataException e )

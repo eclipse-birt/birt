@@ -161,32 +161,39 @@ public class ScriptEvalUtil
 		{
 			RethrowJSEvalException(e);
 		}
-		
-		if ( result instanceof Scriptable) 
+		return convertNativeObjToJavaObj(result);
+	}
+	
+	/**
+	 * Converts the result type into one accepted by BIRT:
+	 * Double (for all numeric types), java.util.Date, String, Boolean. 
+	 */	
+	public static Object convertNativeObjToJavaObj(Object inputObj){
+		if ( inputObj instanceof Scriptable) 
 		{
 			// Return type is a Javascript native object
 			// Convert to Java object with same value
-			String jsClass = ((Scriptable) result).getClassName();
+			String jsClass = ((Scriptable) inputObj).getClassName();
 			if (jsClass.equals("Date")) 
 			{
-				return new Date((long) Context.toNumber(result));
+				return new Date((long) Context.toNumber(inputObj));
 			} 
 			else if (jsClass.equals("Boolean")) 
 			{
-				return new Boolean(Context.toBoolean(result));
+				return new Boolean(Context.toBoolean(inputObj));
 			} 
 			else if (jsClass.equals("Number")) 
 			{
-				return new Double(Context.toNumber(result));
+				return new Double(Context.toNumber(inputObj));
 			} 
 			else 
 			{
 				// For JS "String" type, toString gives the correct result
 				// For all other types that we cannot handle, toString is the best we can do
-				return result.toString();
+				return inputObj.toString();
 			}
 		}
-		return result;
+		return inputObj;
 	}
 	
 	/**
