@@ -164,14 +164,11 @@ public class WebappAccessor
 		{
 			String webappLocation = Platform.asLocalURL( Platform.resolve( webappURL ) )
 					.getFile( );
-
-			webappLocation += "viewer/"; //$NON-NLS-1$
-
+			webappLocation += "birt-viewer/"; //$NON-NLS-1$
 			return new Path( webappLocation );
 		}
 		catch ( IOException ioe )
 		{
-			
 			throw new CoreException(new Status(IStatus.ERROR,
 					AppserverPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
 							.getFormattedResourceString("viewer.appserver.cannotresolvepath", //$NON-NLS-1$
