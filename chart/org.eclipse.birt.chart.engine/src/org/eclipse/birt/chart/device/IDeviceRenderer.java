@@ -50,6 +50,16 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
     public static final String EXPECTED_BOUNDS = "device.bounds";
 
     /**
+     * A property name that identifies an instance of a cached java.awt.Image that may
+     * be passed in for potential reuse. In general, the image device renderers are
+     * configured to create a new image instance for every chart image generation
+     * request if a cached image is not specified. Ensure that the image passed in
+     * externally uses the correct size in pixels equivalent to the expected bounds
+     * specified in points.  
+     */
+    public static final String CACHED_IMAGE = "cached.image";
+    
+    /**
      * Device-specific write-only properties that may be set for each device renderer
      * 
      * @param sProperty
