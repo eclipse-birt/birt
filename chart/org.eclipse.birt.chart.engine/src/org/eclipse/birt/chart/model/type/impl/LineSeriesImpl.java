@@ -660,6 +660,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         final Marker m = AttributeFactory.eINSTANCE.createMarker();
         m.setType(MarkerType.BOX_LITERAL);
         m.setSize(5);
+        m.setVisible(true);
         setMarker(m);
     }
 
