@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
@@ -67,7 +68,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
      * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#initialize(org.apache.batik.dom.util.HashTable)
      */
-    public void initialize(HashMap hm)
+    public void initialize(HashMap hm) throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: initialize(...) - start");
         super.initialize(hm);
@@ -106,7 +107,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     /**
      * 
      */
-    public final IBaseQueryDefinition nextQuery(IBaseQueryDefinition ibdqParent)
+    public final IBaseQueryDefinition nextQuery(IBaseQueryDefinition ibdqParent) throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: nextQuery(...) - start");
         if (iQueryCount > 0) // ONLY 1 QUERY ASSOCIATED WITH A CHART
@@ -138,7 +139,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#process(org.eclipse.birt.report.engine.data.IDataEngine)
      */
-    public final void process(IDataEngine ide)
+    public final void process(IDataEngine ide) throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: process(...) - start");
         

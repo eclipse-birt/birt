@@ -19,6 +19,7 @@ import java.util.LinkedList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
@@ -32,8 +33,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
@@ -61,7 +63,6 @@ import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -89,7 +90,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.10 $ $Date: 2005/02/25 13:19:21 $
+ * @version $Revision: 1.11 $ $Date: 2005/03/03 22:15:34 $
  */
 public class ReportQueryBuilder {
 
@@ -277,32 +278,39 @@ public class ReportQueryBuilder {
 
 			IReportItemGeneration itemGeneration = ExtensionManager
 					.getInstance().createGenerationItem(tagName);
-			if (itemGeneration == null) {
-				// Add Log
-				return;
-			} else {
-				// handle the parameters passed to extension writers
-				HashMap parameters = new HashMap();
-				parameters.put(IReportItemGeneration.MODEL_OBJ, handle);
-				// parameters.put(IReportItemGeneration.PARENT_QUERY, getParentQuery());
-				itemGeneration.initialize(parameters);
-
-				IBaseQueryDefinition query = null;
-				IBaseQueryDefinition parentQuery = getParentQuery();
-				boolean first = true;
-				while ((query = itemGeneration.nextQuery(parentQuery)) != null) {
-					this.queries.add(query);
-					item.setQuery(query);
-
-					// Add other expressions only tot he first query
-					if (first) {
-						pushQuery(query);
-						pushExpressions(query.getRowExpressions());
-						handleReportItemExpressions(item);
-						// handleActionExpressions(item.getAction());
-						popExpressions();
-						popQuery();
+			if (itemGeneration != null) {
+				try
+				{
+					// handle the parameters passed to extension writers
+					HashMap parameters = new HashMap();
+					parameters.put(IReportItemGeneration.MODEL_OBJ, handle);
+					// parameters.put(IReportItemGeneration.PARENT_QUERY, getParentQuery());
+					itemGeneration.initialize(parameters);
+	
+					IBaseQueryDefinition query = null;
+					IBaseQueryDefinition parentQuery = getParentQuery();
+					boolean first = true;
+					while ((query = itemGeneration.nextQuery(parentQuery)) != null) {
+						this.queries.add(query);
+						item.setQuery(query);
+	
+						// Add other expressions only tot he first query
+						if (first) {
+							first = false;
+							pushQuery(query);
+							pushExpressions(query.getRowExpressions());
+							handleReportItemExpressions(item);
+							// handleActionExpressions(item.getAction());
+							popExpressions();
+							popQuery();
+						}
 					}
+				}
+				catch(BirtException ex)
+				{
+				}
+				finally {
+					itemGeneration.finish();
 				}
 			}
 		}

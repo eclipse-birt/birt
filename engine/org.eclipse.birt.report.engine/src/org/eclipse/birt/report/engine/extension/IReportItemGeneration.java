@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -57,12 +58,12 @@ public interface IReportItemGeneration {
      *  SCALING_FACTOR	optional, default is 1.0
      *  MODEL_OBJ		Required
      */
-    public void initialize(HashMap parameters);
+    public void initialize(HashMap parameters) throws BirtException;
     
     /**
      * @return an IReportQueryDefn object that the fatory can pass to DTE 
      */
-    public IBaseQueryDefinition nextQuery(IBaseQueryDefinition parent);   
+    public IBaseQueryDefinition nextQuery(IBaseQueryDefinition parent) throws BirtException;   
     
 	/**
 	 * @param query a prepared query
@@ -72,7 +73,7 @@ public interface IReportItemGeneration {
     /**
      * @param dataEngine a data engine instance on which the extension developer calls <code>execute</code> method  
      */
-    public void process(IDataEngine dataEngine);
+    public void process(IDataEngine dataEngine) throws BirtException;
 
     /**
      * Get the size of the extended item. The size is a Dimension object. The width and height
@@ -94,7 +95,7 @@ public interface IReportItemGeneration {
      * @param ostream output stream so that the peer can serialize its content
      * @return the number of bytes that the extended item has written 
      */
-    public long serialize(OutputStream ostream);
+    public long serialize(OutputStream ostream) throws BirtException;
     
     /**
      * Performs clean up

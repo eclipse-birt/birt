@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.DefaultReportItemPresentationImpl;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -69,7 +70,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     /**
      * 
      */
-    public final void initialize(HashMap hm)
+    public final void initialize(HashMap hm) throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: initialize(...) - start");
         super.initialize(hm);
@@ -106,7 +107,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#process()
      */
-    public Object process() 
+    public Object process() throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: process(...) - start");
         // SETUP A TEMP FILE FOR STREAMING

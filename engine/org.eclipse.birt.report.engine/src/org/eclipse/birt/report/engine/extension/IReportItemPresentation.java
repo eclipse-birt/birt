@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * Represents the extended item presentation time extension. 
  *  
@@ -58,7 +60,7 @@ public interface IReportItemPresentation {
      *  FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
      *  
      */
-    public void initialize(HashMap parameters);
+    public void initialize(HashMap parameters) throws BirtException;
     
     /**
      * De-serializes the peer state that was serialized during generation time. 
@@ -66,7 +68,7 @@ public interface IReportItemPresentation {
      * 
      * @param instream input stream so that the peer can de-serialize its state
      */
-    public void restore(InputStream instream);
+    public void restore(InputStream instream) throws BirtException;
     
     /**
      * @param format the output format for the request 
@@ -85,7 +87,7 @@ public interface IReportItemPresentation {
      * For text and html text, a Java String; For drawing, returns ??; For custom format,
      * engine does not care and passes the Object to emitter.   
      */
-    public Object process( );
+    public Object process( ) throws BirtException;
 
     /**
      * Get the size of the extended item. The size is a Dimension object. The width and height

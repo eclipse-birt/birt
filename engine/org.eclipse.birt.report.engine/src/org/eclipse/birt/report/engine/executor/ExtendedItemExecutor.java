@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IExtendedItemContent;
 import org.eclipse.birt.report.engine.content.IImageItemContent;
@@ -80,25 +81,34 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			return;
 		}
 
-		// handle the parameters passed to extension writers
-		HashMap parameters = new HashMap( );
-		parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-		// TODO Add other parameters, i.e., bounds, dpi and scaling factor
-		itemGeneration.initialize( parameters );
-
-		itemGeneration.pushPreparedQuery( item.getQuery( ), null );
-
-		// Get the dirty work done
-		itemGeneration.process( context.getDataEngine( ) );
-
-		// No serialization support now
-		itemGeneration.serialize( null );
-
-		// call getSize
-		// Size size = getSize();
-
-		// clean up
-		itemGeneration.finish( );
+		try
+		{
+			// handle the parameters passed to extension writers
+			HashMap parameters = new HashMap( );
+			parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
+			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
+			itemGeneration.initialize( parameters );
+	
+			itemGeneration.pushPreparedQuery( item.getQuery( ), null );
+	
+			// Get the dirty work done
+			itemGeneration.process( context.getDataEngine( ) );
+	
+			// No serialization support now
+			itemGeneration.serialize( null );
+	
+			// call getSize
+			// Size size = getSize();
+		}
+		catch(BirtException ex)
+		{
+			return;
+		}
+		finally
+		{
+			// clean up
+			itemGeneration.finish( );
+		}
 
 		//call the presentation peer to create the content object
 		IReportItemPresentation itemPresentation = ExtensionManager
@@ -110,29 +120,37 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			return;
 		}
 
-		HashMap parameters2 = new HashMap( );
-		parameters2.put( IReportItemPresentation.MODEL_OBJ, handle );
-		parameters2.put( IReportItemPresentation.SUPPORTED_FILE_FORMATS,
-				"GIF;PNG;JPG;BMP" ); // $NON-NLS-1$
-		// TODO Add other parameters, i.e., bounds, dpi and scaling factor
-		itemPresentation.initialize( parameters2 );
-
-		// No de-serialization support for now
-		itemPresentation.restore( null );
-
-		// Do the dirty work
-		Object output = itemPresentation.process( );
-		
-		if (output != null)
+		try
 		{
-			//output the content created by IReportItemPresentation
-			String format = emitter.getOutputFormat( );
-			String mimeType = ""; // $NON-NLS-1$
-			int type = itemPresentation.getOutputType( format, mimeType );
-			handleItemContent(item, emitter, content, type, output);
+			HashMap parameters2 = new HashMap( );
+			parameters2.put( IReportItemPresentation.MODEL_OBJ, handle );
+			parameters2.put( IReportItemPresentation.SUPPORTED_FILE_FORMATS,
+					"GIF;PNG;JPG;BMP" ); // $NON-NLS-1$
+			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
+			itemPresentation.initialize( parameters2 );
+	
+			// No de-serialization support for now
+			itemPresentation.restore( null );
+	
+			// Do the dirty work
+			Object output = itemPresentation.process( );
+			
+			if (output != null)
+			{
+				//output the content created by IReportItemPresentation
+				String format = emitter.getOutputFormat( );
+				String mimeType = ""; // $NON-NLS-1$
+				int type = itemPresentation.getOutputType( format, mimeType );
+				handleItemContent(item, emitter, content, type, output);
+			}
 		}
-		
-		itemPresentation.finish( );
+		catch(BirtException ex)
+		{
+		}
+		finally
+		{
+			itemPresentation.finish( );
+		}
 	}
 	
 	
