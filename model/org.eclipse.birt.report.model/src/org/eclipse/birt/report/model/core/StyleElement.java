@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * is called a <em>client</em> element. This class manages the inverse
  * style-to-client relationship. It also handles sending notifications to the
  * client elements.
- *  
  */
 
 public abstract class StyleElement extends ReferenceableElement
@@ -67,7 +66,6 @@ public abstract class StyleElement extends ReferenceableElement
 	 * Returns true if the element is style.
 	 * 
 	 * @return true if the element is style, otherwise return false.
-	 *  
 	 */
 
 	public boolean isStyle( )
@@ -82,14 +80,13 @@ public abstract class StyleElement extends ReferenceableElement
 	 *            the report design
 	 * @param prop
 	 *            definition of the property to get
-	 * 
 	 * @return the value of the property.
 	 */
 
 	public Object getFactoryProperty( ReportDesign design,
 			ElementPropertyDefn prop )
 	{
-		return getProperty( design, prop );
+		return getLocalProperty( design, prop );
 	}
 
 	/**
@@ -97,7 +94,6 @@ public abstract class StyleElement extends ReferenceableElement
 	 * element is not allowed to extend.
 	 * 
 	 * @return null
-	 *  
 	 */
 	public DesignElement getExtendsElement( )
 	{
@@ -196,12 +192,12 @@ public abstract class StyleElement extends ReferenceableElement
 	 * Broadcasts the event to all elements in the given slot if the elements
 	 * are selected by selector style.
 	 * 
-	 * @param ev
-	 *            the event to send
 	 * @param design
 	 *            the report design
 	 * @param slot
 	 *            the slot to send
+	 * @param selectorName
+	 *            the selector name
 	 */
 
 	private void broadcastToSelectedElementsInSlot( ReportDesign design,
@@ -217,7 +213,7 @@ public abstract class StyleElement extends ReferenceableElement
 			assert element != null;
 
 			event = new StyleEvent( element );
-			event.setDeliveryPath(NotificationEvent.STYLE_CLIENT);
+			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
 
 			// Broadcast the element which is selected by this style
 
@@ -230,7 +226,7 @@ public abstract class StyleElement extends ReferenceableElement
 				continue;
 			}
 
-			//check if the element slot has the selector with the same name as
+			// check if the element slot has the selector with the same name as
 			// the given selector name.
 
 			if ( checkSlotSelector( element, selectorName, event, design ) )
