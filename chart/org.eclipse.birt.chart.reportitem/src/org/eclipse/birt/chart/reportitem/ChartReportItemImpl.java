@@ -204,7 +204,7 @@ public final class ChartReportItemImpl implements IReportItem
      */
     public final Object getProperty(String propName)
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "getProperty(...) - " + propName);
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "getProperty(...) - " + propName);
         if (propName.equals("title.value"))
         {
             return cm.getTitle().getLabel().getCaption().getValue();
@@ -239,7 +239,7 @@ public final class ChartReportItemImpl implements IReportItem
      */
     public void checkProperty(String propName, Object value) throws ExtendedElementException
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "checkProperty(...) - " + propName + " with value " + value);
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "checkProperty(...) - " + propName + " with value " + value);
     }
 
     /*
@@ -249,7 +249,7 @@ public final class ChartReportItemImpl implements IReportItem
      */
     public void setProperty(String propName, Object value)
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "setProperty(...) - " + propName + " with value " + value);
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "setProperty(...) - " + propName + " with value " + value);
         if (propName.equals("title.value"))
         {
             cm.getTitle().getLabel().getCaption().setValue((String) value);

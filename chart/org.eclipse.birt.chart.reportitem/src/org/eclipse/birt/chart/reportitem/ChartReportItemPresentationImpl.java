@@ -72,10 +72,10 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
      */
     public final void initialize(HashMap hm) throws BirtException
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: initialize(...) - start");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: initialize(...) - start");
         super.initialize(hm);
         cm = getModelFromWrapper(hm.get(MODEL_OBJ));
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: initialize(...) - end");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: initialize(...) - end");
     }
 
     /* (non-Javadoc)
@@ -93,12 +93,12 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     {
         if (cm != null)
         {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: getSize(...) - start");
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: getSize(...) - start");
             final Size sz = new Size();
             sz.setWidth((float) cm.getBlock().getBounds().getWidth());
             sz.setHeight((float) cm.getBlock().getBounds().getHeight());
             sz.setUnit(Size.UNITS_PT);
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: getSize(...) - end");
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: getSize(...) - end");
             return sz;
         }
         return super.getSize();
@@ -109,7 +109,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
      */
     public Object process() throws BirtException
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: process(...) - start");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - start");
         // SETUP A TEMP FILE FOR STREAMING
         try {
             fChartImage = File.createTempFile("chart", ".png");
@@ -131,7 +131,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         
         // BUILD THE CHART
         final Bounds bo = cm.getBlock().getBounds();
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "Presentation uses bounds bo=" + bo);
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
         final Generator gr = Generator.instance();
         GeneratedChartState gcs = null;
         try {
@@ -166,7 +166,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
             throw new BirtException("input stream creation", ioex);
         }
         
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: process(...) - end");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - end");
         return fis;
     }
     
@@ -175,7 +175,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
      */
     public final void finish() 
     {
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: finish(...) - start");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - start");
         // CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
         try {
             fis.close();
@@ -193,7 +193,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
         {
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Successfully deleted temporary PNG file created at " + fChartImage.getPath());
         }
-        DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: finish(...) - end");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - end");
     }
     
     /**
