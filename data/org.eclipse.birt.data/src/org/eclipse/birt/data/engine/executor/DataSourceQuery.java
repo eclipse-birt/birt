@@ -346,6 +346,32 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return resultMetadata;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterMetaData()
+     */
+    public Collection getParameterMetaData()
+			throws DataException
+	{
+        if ( odaStatement == null )
+			throw new DataException( ResourceConstants.QUERY_HAS_NOT_PREPARED );
+        
+        Collection odaParamsInfo = odaStatement.getParameterMetaData();
+        if ( odaParamsInfo == null || odaParamsInfo.isEmpty() )
+            return null;
+        
+        // iterates thru the most up-to-date collection, and
+        // wraps each of the odaconsumer parameter metadata object
+        ArrayList paramMetaDataList = new ArrayList( odaParamsInfo.size() );
+        Iterator odaParamMDIter = odaParamsInfo.iterator();
+        while ( odaParamMDIter.hasNext() )
+        {
+            org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData odaMetaData = 
+                (org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData) odaParamMDIter.next();
+            paramMetaDataList.add( new ParameterMetaData( odaMetaData ) );
+        }
+        return paramMetaDataList;
+	}
+    
 	public void setInputParamValue( String inputParamName, Object paramValue )
 			throws DataException
 	{

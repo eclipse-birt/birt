@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.api;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
+import java.util.Collection;
 
 /**
  * A prepared report query ready for execution. An instance of this class is compiled from the static
@@ -31,6 +32,21 @@ public interface IPreparedQuery
      */
     public IQueryDefinition getReportQueryDefn();
 
+    /**
+     * Returns a collection of <code>IParameterMetaData</code> that 
+     * each describes the meta-data of a parameter defined in this query.
+     * The sequence in the collection has no implied meaning.
+     * A parameter's position value, if defined, is specified 
+     * in a IParameterMetaData.
+     * Each parameter can be of input and/or output mode.
+     * @return	The collection of IParameterMetaData to describe
+     * 			the meta-data of all parameters defined in this
+     * 			prepared query.  Returns null if no parameters
+     * 			are defined, or if no parameter metadata is available.
+     */
+    public Collection getParameterMetaData()
+    			throws DataException;
+    
     /**
      * Executes the prepared execution plan.  This returns
      * a IQueryResult object at a state ready to return its 
