@@ -39,11 +39,11 @@ public class TableResizeEditPolice extends ReportElementResizePolicy
 
 	protected void addSelectionHandles( )
 	{
+		super.addSelectionHandles( );
 		if ( getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
 		{
 			return;
 		}
-		super.addSelectionHandles( );
 		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
 		ArrayList list = new ArrayList( );
 		HandleKit.addHandles( (TableEditPart) getHost( ), list );
