@@ -35,7 +35,7 @@ public class DesignerConstants
 	private static final String FONT_FAMILY_TIMES_NEW_ROMAN = "Times New Roman"; //$NON-NLS-1$
 
 	/**
-	 * Map between CSS style font family to system font familty
+	 * Map between CSS style font family to system font family
 	 */
 	public static Map familyMap = new HashMap( );
 

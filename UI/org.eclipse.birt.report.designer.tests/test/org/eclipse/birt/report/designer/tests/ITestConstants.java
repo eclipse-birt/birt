@@ -33,5 +33,5 @@ public interface ITestConstants
 	String DATA_EXPLORER_NAME = "Data Explorer";
 	String PLUGIN_PROVIDER = "Eclipse.org";
 
-	String TEST_DESIGN_FILE = "test.iard"; //$NON-NLS-1$
+	String TEST_DESIGN_FILE = "test.rtpdesign"; //$NON-NLS-1$
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.testutil;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -47,8 +48,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void setUp( ) throws Exception
 	{
-		SessionHandleAdapter.getInstance( ).init( "test.iard",
-				BaseTestCase.class.getResourceAsStream( "test.iard" ) );
+		SessionHandleAdapter.getInstance( ).init( ITestConstants.TEST_DESIGN_FILE,
+				BaseTestCase.class.getResourceAsStream( ITestConstants.TEST_DESIGN_FILE ) );
 		report = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}
 
