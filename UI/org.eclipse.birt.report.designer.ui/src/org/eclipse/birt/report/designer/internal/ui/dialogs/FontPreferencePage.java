@@ -85,13 +85,13 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		super.adjustGridLayout( );
 
 		( (GridData) name.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 200;
+				.getLayoutData( ) ).widthHint = 170;
 
 		( (GridData) style.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 200;
+				.getLayoutData( ) ).widthHint = 170;
 
 		( (GridData) weight.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 200;
+				.getLayoutData( ) ).widthHint = 170;
 
 	}
 
