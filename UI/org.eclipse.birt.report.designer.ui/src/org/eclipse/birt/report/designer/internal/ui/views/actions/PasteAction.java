@@ -67,8 +67,6 @@ public class PasteAction extends AbstractViewAction
 		Object transferData = TemplateTransfer.getInstance( ).getTemplate( );
 		Object targetObj = getSelection( );
 		DNDUtil.copyHandles( transferData, targetObj, -1 );
-		TemplateTransfer.getInstance( )
-				.setTemplate( DNDUtil.cloneSource( transferData ) );
 	}
 
 	/*

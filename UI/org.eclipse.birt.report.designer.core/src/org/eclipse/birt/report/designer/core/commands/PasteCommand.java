@@ -47,6 +47,8 @@ public class PasteCommand extends Command
 
 	private int position = -1;
 
+	private boolean isCloned = false;
+
 	/**
 	 * Constructor
 	 * 
@@ -69,6 +71,7 @@ public class PasteCommand extends Command
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
 		this.isCut = isCut;
+		isCloned = true;
 	}
 
 	/**
@@ -93,6 +96,7 @@ public class PasteCommand extends Command
 		this.newContainer = newContainer;
 		this.position = position;
 		this.isCut = isCut;
+		isCloned = true;
 	}
 
 	/**
@@ -113,6 +117,7 @@ public class PasteCommand extends Command
 		this.cloneElement = cloneElement;
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
+		isCloned = false;
 	}
 
 	/**
@@ -133,6 +138,7 @@ public class PasteCommand extends Command
 		this.cloneElement = cloneElement;
 		this.newContainer = newContainer;
 		this.position = position;
+		isCloned = false;
 	}
 
 	/**
@@ -154,11 +160,7 @@ public class PasteCommand extends Command
 			//Adds new handle to report
 			addHandleToReport( newHandle );
 		}
-		catch ( NameException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( SemanticException e )
+		catch ( Exception e )
 		{
 			e.printStackTrace( );
 		}
@@ -216,9 +218,12 @@ public class PasteCommand extends Command
 		}
 	}
 
-	private DesignElementHandle copyNewHandle( DesignElement newElement,
+	private DesignElementHandle copyNewHandle( DesignElement element,
 			ReportDesignHandle currentDesignHandle )
+			throws CloneNotSupportedException
 	{
+		DesignElement newElement = isCloned ? element
+				: (DesignElement) element.clone( );
 		currentDesignHandle.rename( newElement );
 		return newElement.getHandle( currentDesignHandle.getDesign( ) );
 	}
