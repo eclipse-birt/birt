@@ -277,20 +277,35 @@ public abstract class DesignElementHandleAdapter
 			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
 		}
 
-		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_TOP_PROP );
-		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
+		double px = 0;
+		Object prop = getHandle( ).getProperty( Style.MARGIN_TOP_PROP );
+		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
+		{
+			px = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+		}
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_BOTTOM_PROP );
-		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
+		double py = 0;
+		prop = getHandle( ).getProperty( Style.MARGIN_BOTTOM_PROP );
+		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
+		{
+			py = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+		}
 
 		retValue.top = (int) px;
 		retValue.bottom = (int) py;
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_LEFT_PROP );
-		px = DEUtil.convertToPixel( dimensionValue, fontSize );
+		px = py = 0;
+		prop = getHandle( ).getProperty( Style.MARGIN_LEFT_PROP );
+		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
+		{
+			px = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+		}
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_RIGHT_PROP );
-		py = DEUtil.convertToPixel( dimensionValue, fontSize );
+		prop = getHandle( ).getProperty( Style.MARGIN_RIGHT_PROP );
+		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
+		{
+			py = DEUtil.convertToPixel( (DimensionValue) prop, fontSize );
+		}
 
 		retValue.left = (int) px;
 		retValue.right = (int) py;
