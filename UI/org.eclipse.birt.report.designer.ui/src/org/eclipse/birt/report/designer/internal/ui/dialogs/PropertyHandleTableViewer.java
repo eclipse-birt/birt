@@ -80,8 +80,6 @@ public final class PropertyHandleTableViewer
             GridData btnData = new GridData(GridData.CENTER);
             btnData.widthHint = 20;
             btnData.heightHint = 20;
-//            btnData.minimumHeight = 20;
-//            btnData.minimumWidth = 20;
             btnUp = new Button(btnComposite, SWT.ARROW | SWT.UP);
             btnUp.setLayoutData(btnData);
             btnUp.addSelectionListener(new SelectionListener(){
@@ -116,6 +114,9 @@ public final class PropertyHandleTableViewer
                 
             });
             
+            btnData = new GridData(GridData.CENTER);
+            btnData.widthHint = 20;
+            btnData.heightHint = 20;
             btnRemove = new Button(btnComposite, SWT.PUSH);
             btnRemove.setImage(PlatformUI.getWorkbench( ).getSharedImages( ).getImage( ISharedImages.IMG_TOOL_DELETE ));
             btnRemove.setLayoutData(btnData);
@@ -132,6 +133,9 @@ public final class PropertyHandleTableViewer
                 
             });
             
+            btnData = new GridData(GridData.CENTER);
+            btnData.widthHint = 20;
+            btnData.heightHint = 20;
             btnDown = new Button(btnComposite, SWT.ARROW | SWT.DOWN);
             btnDown.setLayoutData(btnData);
             btnDown.addSelectionListener(new SelectionListener(){
