@@ -24,37 +24,36 @@
       <import plugin="org.eclipse.birt.chart.ui"/>
       <import plugin="org.eclipse.birt.chart.engine"/>
       <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.birt.chart.shared"/>
    </requires>
-   <extension
-         point="org.eclipse.birt.report.model.reportitem">
-      <Element
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryAdapter"
-            isNameRequired="false"
-            displayNameID="Chart"
-            hasStyle="false"
-            name="Chart"/>
-   </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
       <ReportItemUI
-            extensionName="Chart"
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemUIAdapter">
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemUIImpl"
+            extensionName="Chart">
          <palette
-               icon="icons/chart_palette_icon.gif"
-               category="Content"
-               name="Chart"/>
+               icon="icons/palette_icon.gif"
+               category="Content"/>
          <editor
+               showInMasterPage="false"
                canResize="false"
                showInDesigner="true"/>
          <outline icon="icons/cell.gif"/>
       </ReportItemUI>
    </extension>
    <extension
-         point="org.eclipse.birt.report.engine.reportitemGeneration">
-      <reportItem
-            createReportQuery="no"
-            class="org.eclipse.birt.chart.reportitem.ChartGenerationAdapter"
-            needSerialization="false"
-            name="Chart"/>
+         id="chart"
+         name="A sample chart"
+         point="org.eclipse.birt.report.model.reportitem">
+      <Element
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
+            isNameRequired="true"
+            displayNameID="Element.Chart"
+            name="Chart">
+         <Property
+               type="xml"
+               displayNameID="Element.Chart.xmlRepresentation"
+               name="xmlRepresentation"/>
+      </Element>
    </extension>
 </plugin>
