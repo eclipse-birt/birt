@@ -43,7 +43,11 @@ public abstract class WrapperSelectionAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return true;
+		if ( actionHandler == null )
+		{
+			return false;
+		}
+		return actionHandler.isEnabled( );
 	}
 
 	/*
@@ -67,9 +71,13 @@ public abstract class WrapperSelectionAction extends SelectionAction
 		super.handleSelectionChanged( );
 		ISelection model = DNDUtil.editPart2Model( getSelection( ) );
 		if ( model.isEmpty( ) )
+		{
 			actionHandler = null;
+		}
 		else
+		{
 			actionHandler = createActionHandler( model );
+		}
 	}
 
 	/**

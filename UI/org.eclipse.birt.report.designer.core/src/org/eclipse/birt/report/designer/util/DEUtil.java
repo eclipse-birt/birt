@@ -646,8 +646,7 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
-				| ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -714,20 +713,17 @@ public class DEUtil
 		if ( model instanceof ParameterHandle )
 		{
 			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\""
-					+ ( (ParameterHandle) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (ParameterHandle) model ).getName( ) + "\"]";
 		}
 		if ( model instanceof DataSetItemModel )
 		{
-			return /* Roll back because engine hasn't support full path yet
+			return /*
+				    * Roll back because engine hasn't support full path yet
 				    * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
 				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
 				    * ).getName( ) + "\"]." +
 				    */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\""
-					+ ( (DataSetItemModel) model ).getName( )
-					+ "\"]";
+					+ "[\"" + ( (DataSetItemModel) model ).getName( ) + "\"]";
 		}
 		return null;
 	}
@@ -934,22 +930,22 @@ public class DEUtil
 			{
 				ReportElementModel targetModel = (ReportElementModel) targetObj;
 				return targetModel.getElementHandle( )
-						.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetModel.getSlotId( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else if ( targetObj instanceof SlotHandle )
 			{
 				SlotHandle targetHandle = (SlotHandle) targetObj;
 				return targetHandle.getElementHandle( )
-						.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetHandle.getSlotID( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else if ( targetObj instanceof ListBandProxy )
 			{
 				ListBandProxy targetHandle = (ListBandProxy) targetObj;
 				return targetHandle.getElemtHandle( )
-						.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
-						: CONTAIN_NO;
+						.canContain( targetHandle.getSlotId( ), childHandle )
+						? CONTAIN_THIS : CONTAIN_NO;
 			}
 			else
 			{
@@ -987,6 +983,11 @@ public class DEUtil
 				}
 			}
 			return true;
+		}
+		else if ( targetObj instanceof SlotHandle )
+		{
+			return handleValidateTargetCanContainMore( new ReportElementModel( (SlotHandle) targetObj ),
+					length );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{

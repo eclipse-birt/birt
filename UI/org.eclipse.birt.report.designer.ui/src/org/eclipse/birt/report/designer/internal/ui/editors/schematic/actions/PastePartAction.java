@@ -40,7 +40,7 @@ public class PastePartAction extends WrapperSelectionAction
 				.getSharedImages( );
 		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE ) );
 		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE_DISABLED ) );
-		setAccelerator( SWT.CTRL | 'V' );  //$NON-NLS-1$
+		setAccelerator( SWT.CTRL | 'V' ); //$NON-NLS-1$
 	}
 
 	public String getId( )
@@ -60,8 +60,6 @@ public class PastePartAction extends WrapperSelectionAction
 		{
 			target = ( (IStructuredSelection) model ).getFirstElement( );
 		}
-		PasteAction action = new PasteAction( target );
-		setEnabled(action.isEnabled());
-		return action ;
+		return new PasteAction( target );
 	}
 }
