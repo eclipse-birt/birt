@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $ 
+ * @version $Revision: 1.3 $ $Date: 2005/03/30 07:38:21 $ 
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -259,14 +259,6 @@ public class NumberFormatter
 			numberFormat = NumberFormat.getInstance( locale );
 			numberFormat.setGroupingUsed( false );
 			return;
-		}
-		if ( patternStr.equals( "Currency" ) ) //$NON-NLS-1$
-		{
-			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
-					new DecimalFormatSymbols( locale ) );
-			// numberFormat = NumberFormat.getCurrencyInstance( locale );
-			return;
-		
 		}
 		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
