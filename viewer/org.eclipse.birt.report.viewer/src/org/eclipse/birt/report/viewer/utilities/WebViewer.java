@@ -136,7 +136,6 @@ public class WebViewer
 	public static void startup( Browser browser )
 	{
 		startWebApp( );
-		browser.setUrl( getBaseURL( ) + "initservlet" ); //$NON-NLS-1$
 	}
 
 	/**
