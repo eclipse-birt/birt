@@ -2,9 +2,9 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.chart.reportitem"
-   name="Adapter Plug-in for BIRT Chart Library"
+   name="BIRT Chart-Report Integration"
    version="1.0.0"
-   provider-name="Actuate Corporation"
+   provider-name="Eclipse.org"
    >
 
    <runtime>
@@ -24,6 +24,7 @@
       <import plugin="org.eclipse.birt.report.engine"/>
       <import plugin="org.eclipse.birt.chart.shared"/>
       <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.birt.data"/>
    </requires>
    <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
@@ -65,8 +66,8 @@
    <extension
          point="org.eclipse.birt.report.engine.reportitemPresentation">
       <reportItem
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
-            supportedFormars="GIF8,PNG32"
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationImpl"
+            supportedFormars="GIF,PNG"
             name="Chart"/>
    </extension>
 </plugin>
