@@ -240,6 +240,24 @@ public abstract class BaseRenderer
      * 
      * @return
      */
+    public final int getSeriesIndex()
+    {
+        return iSeriesIndex;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public final int getSeriesCount()
+    {
+        return iSeriesCount;
+    }
+    
+    /**
+     * 
+     * @return
+     */
     public final DeferredCache getDeferredCache()
     {
         return dc;
