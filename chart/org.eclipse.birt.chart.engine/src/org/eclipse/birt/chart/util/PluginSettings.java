@@ -68,10 +68,25 @@ public final class PluginSettings
             "dv.SWT", "org.eclipse.birt.chart.device.swt.SwtRendererImpl"
         },
         {
-            "dv.PNG24", "org.eclipse.birt.chart.device.image.PngRendererImpl"
+            "dv.PNG24", "org.eclipse.birt.chart.device.image.PngRendererImplOld"
         },
         {
-            "dv.GIF8", "org.eclipse.birt.chart.device.image.GifRendererImpl"
+            "dv.GIF8", "org.eclipse.birt.chart.device.image.GifRendererImplOld"
+        },
+        {
+            "dv.PNG", "org.eclipse.birt.chart.device.image.PngRendererImpl"
+        },
+        {
+            "dv.GIF", "org.eclipse.birt.chart.device.image.GifRendererImpl"
+        },
+        {
+            "dv.JPEG", "org.eclipse.birt.chart.device.image.JpegRendererImpl"
+        },
+        {
+            "dv.JPG", "org.eclipse.birt.chart.device.image.JpegRendererImpl"
+        },
+        {
+            "dv.BMP", "org.eclipse.birt.chart.device.image.BmpRendererImpl"
         }
     };
 
