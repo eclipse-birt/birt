@@ -10,41 +10,97 @@
  *******************************************************************************/
 
 package org.eclipse.birt.core.script;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
+ * Represents the scriptable object for Java object which implements the
+ * interface <code>Map</code>.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/25 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
  */
-class NativeJavaMap extends NativeJavaObject 
+class NativeJavaMap extends NativeJavaObject
 {
 
-    public NativeJavaMap() { }
+	public NativeJavaMap( )
+	{
+	}
 
-    public NativeJavaMap(Scriptable scope, Object javaObject,
-                            Class staticType)
-    {
-    	super(scope, javaObject, staticType);
-    }
+	public NativeJavaMap( Scriptable scope, Object javaObject, Class staticType )
+	{
+		super( scope, javaObject, staticType );
+	}
 
-    public boolean has(String name, Scriptable start) {
-    	
-    	return ((Map)javaObject).containsKey(name);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
 
-    public Object get(String name, Scriptable start) {
-    	return ((Map)javaObject).get(name);
-    }
+	public boolean has( String name, Scriptable start )
+	{
+		return ( (Map) javaObject ).containsKey( name );
+	}
 
-    public void put(String name, Scriptable start, Object value) {
-    	((Map)javaObject).put(name, value);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
 
-    public void delete(String name) {
-    	((Map)javaObject).remove(name);
-    }
+	public Object get( String name, Scriptable start )
+	{
+		// Support the array member "length".
 
+		if ( name.equalsIgnoreCase( "length" ) ) //$NON-NLS-1$
+			return new Integer( ( (Map) javaObject ).values( ).size( ) );
+
+		return ( (Map) javaObject ).get( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.mozilla.javascript.Scriptable#put(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable, java.lang.Object)
+	 */
+
+	public void put( String name, Scriptable start, Object value )
+	{
+		( (Map) javaObject ).put( name, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.mozilla.javascript.Scriptable#delete(java.lang.String)
+	 */
+
+	public void delete( String name )
+	{
+		( (Map) javaObject ).remove( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.mozilla.javascript.Scriptable#get(int,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+
+	public Object get( int index, Scriptable start )
+	{
+		List list = new ArrayList( ( (Map) javaObject ).values( ) );
+		if ( list.size( ) > index )
+			return list.get( index );
+
+		return super.get( index, start );
+	}
 }
