@@ -126,14 +126,14 @@
 	<target name="javadoc" depends="src_javadoc,test_javadoc" />
 	<target name="src_javadoc" depends="build">
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" access="private" windowtitle="Birt Model API" source="1.4" packagenames="org.eclipse.birt.report.model.*">
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" access="protected" windowtitle="Birt Model API" source="1.4" packagenames="org.eclipse.birt.report.model.*">
 			<packageset dir="${src.dir}" defaultexcludes="yes" />
 			<classpath refid="class.path" />
 		</javadoc>
 	</target>
 	<target name="test_javadoc" depends="build">
 		<mkdir dir="${test.javadoc.dir}" />
-		<javadoc destdir="${test.javadoc.dir}" author="true" version="true" use="true" access="private" windowtitle="Birt Model Unit Test API" source="1.4">
+		<javadoc destdir="${test.javadoc.dir}" author="true" version="true" use="true" access="protected" windowtitle="Birt Model Unit Test API" source="1.4">
 			<packageset dir="${test.src.dir}" defaultexcludes="yes" />
 			<classpath refid="class.path" />
 			<classpath>

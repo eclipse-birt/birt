@@ -1124,12 +1124,9 @@ public abstract class DesignElementHandle
 	/**
 	 * Returns an iterator over the elements that derive from this one.
 	 * 
-	 * @return an iterator over the elements that derive from this one. The
-	 *         iterator is of type {@link DerivedElementIterator}and each item
-	 *         returned by the iterator's <code>getNext( )</code> method is of
-	 *         type {@link DesignElementHandle}.
-	 * 
-	 * @see DerivedElementIterator
+	 * @return an iterator over the elements that derive from this one. Each
+	 *         item returned by the iterator's <code>getNext( )</code> method
+	 *         is of type {@link DesignElementHandle}.
 	 */
 
 	public Iterator derivedIterator( )
@@ -1141,13 +1138,10 @@ public abstract class DesignElementHandle
 	 * Returns an iterator over the clients of this element. Useful only for
 	 * styles. Returns a list of all the elements that use this style.
 	 * 
-	 * @return an iterator over the clients of this element. The iterator is of
-	 *         type {@link ClientIterator}and each item returned by the
-	 *         iterator's <code>getNext( )</code> method is of type
+	 * @return an iterator over the clients of this element. Each item returned
+	 *         by the iterator's <code>getNext( )</code> method is of type
 	 *         {@link DesignElementHandle}. Nothing will be iterated over an
 	 *         element that is not <code>ReferenceableElement</code>.
-	 * 
-	 * @see ClientIterator
 	 */
 
 	public Iterator clientsIterator( )
