@@ -90,7 +90,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.13 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.14 $ $Date: 2005/03/08 22:40:59 $
  */
 public class ReportQueryBuilder {
 
@@ -284,7 +284,7 @@ public class ReportQueryBuilder {
 					// handle the parameters passed to extension writers
 					HashMap parameters = new HashMap();
 					parameters.put(IReportItemGeneration.MODEL_OBJ, handle);
-					parameters.put(IReportItemGeneration.CREATED_FOR, IReportItemGeneration.CREATED_FOR_DATA_PREPARATION);					
+					parameters.put(IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_PREPARATION);					
 					// parameters.put(IReportItemGeneration.PARENT_QUERY, getParentQuery());
 					itemGeneration.initialize(parameters);
 	

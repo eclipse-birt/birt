@@ -87,7 +87,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			// handle the parameters passed to extension writers
 			HashMap parameters = new HashMap( );
 			parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-			parameters.put( IReportItemGeneration.CREATED_FOR, IReportItemGeneration.CREATED_FOR_ITEM_INSTANCE );
+			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemGeneration.initialize( parameters );
 	

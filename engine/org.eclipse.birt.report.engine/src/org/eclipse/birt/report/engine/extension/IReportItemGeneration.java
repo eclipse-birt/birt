@@ -43,10 +43,10 @@ public interface IReportItemGeneration {
 	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$
 	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$
 	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$
-	public static String CREATED_FOR				= "createdFor";		// $NON-NLS-1$
+	public static String GENERATION_STAGE			= "generationStage";		// $NON-NLS-1$
 	
-	public static String CREATED_FOR_DATA_PREPARATION		= "data";		// $NON-NLS-1$
-	public static String CREATED_FOR_ITEM_INSTANCE			= "instance";	// $NON-NLS-1$
+	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$
+	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$
 	
     /**
      * Initializes the generation object before it processes the extended item. The 
@@ -57,11 +57,11 @@ public interface IReportItemGeneration {
      * @param parameters a collection of parameters that facilitates initialization of the
      * factory object. To support extension type OUTPUT_AS_IMAGE, the HashMap might contain 
      * the following parameters:
-     * 	ITEM_BOUNDS		optional
-     *  RESOLUTION		optional, but preferred. Otherwise, use implementer's default
-     *  SCALING_FACTOR	optional, default is 1.0
-     *  MODEL_OBJ		Required
-     *  CREATED_FOR		Required
+     * 	ITEM_BOUNDS				optional
+     *  RESOLUTION				optional, but preferred. Otherwise, use implementer's default
+     *  SCALING_FACTOR			optional, default is 1.0
+     *  MODEL_OBJ				Required
+     *  GENERATION_STAGE		Required
      */
     public void initialize(HashMap parameters) throws BirtException;
     
