@@ -38,7 +38,7 @@
    </requires>
    
    <!-- Extension points -->
-   <extension-point id="datasource" name="datasource" schema="schema/datasource.exsd"/>
+   <extension-point id="odadatasource" name="%extension.odadatasource" schema="schema/datasource.exsd"/>
    <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
    
 
