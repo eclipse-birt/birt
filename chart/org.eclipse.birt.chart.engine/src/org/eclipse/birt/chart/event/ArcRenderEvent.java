@@ -217,6 +217,19 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
         setHeight(bo.getHeight());
     }
 
+    /**
+     * 
+     * @return
+     */
+    public final Bounds getEllipseBounds()
+    {
+        return BoundsImpl.create(loTopLeft.getX(), loTopLeft.getY(), dWidth, dHeight);
+    }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
+     */
     public final Bounds getBounds()
     {
         if (getStyle() == SECTOR) // NOT YET NEEDED
