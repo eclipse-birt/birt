@@ -242,8 +242,9 @@ abstract class PreparedQuery
 	 * @param cx
 	 * @param src
 	 * @return
+	 * @throws DataException
 	 */
-	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src )
+	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src ) throws DataException
 	{
 		String groupKey = src.getKeyColumn();
 		if ( groupKey == null || groupKey.length() == 0 )
@@ -253,6 +254,11 @@ abstract class PreparedQuery
 			// computed columns
 			groupKey = getColNameFromJSExpr( cx, src.getKeyExpression() );
 		}
+		if ( groupKey == null )
+		{
+			throw new DataException( ResourceConstants.INVALID_GROUP_EXPR, src.getKeyExpression() );
+		}
+		
 		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupKey );
 		dest.setName( src.getName() );
 		dest.setInterval( src.getInterval());

@@ -93,4 +93,5 @@ public class ResourceConstants
 	public final static String NULL_POINTER = "NULL_POINTER";
 	
 	public final static String INVALID_EXPR = "INVALID_EXPR";
+	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
 }
