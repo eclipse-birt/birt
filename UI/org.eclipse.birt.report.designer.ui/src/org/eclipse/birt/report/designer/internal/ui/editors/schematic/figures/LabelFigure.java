@@ -41,6 +41,8 @@ public class LabelFigure extends ReportElementFigure
 
 	private String display;
 
+	private Dimension recommendSize;
+
 	/**
 	 * Creates a new LabelFigure with a default MarginBorder size 3 and a
 	 * FlowPage containing a TextFlow with the style WORD_WRAP_SOFT.
@@ -73,20 +75,18 @@ public class LabelFigure extends ReportElementFigure
 					FlowBox box;
 
 					int left = Integer.MAX_VALUE, top = left;
-					int bottom = Integer.MIN_VALUE;
 
 					for ( int i = 0; i < list.size( ); i++ )
 					{
 						box = (FlowBox) list.get( i );
 						left = Math.min( left, box.x );
 						top = Math.min( top, box.y );
-						bottom = Math.max( bottom, box.y + box.getHeight( ) );
 					}
 
 					setBounds( new Rectangle( left,
 							top,
 							LabelFigure.this.getClientArea( ).width,
-							bottom - top ) );
+							LabelFigure.this.getClientArea( ).height ) );
 
 					list = getChildren( );
 					for ( int i = 0; i < list.size( ); i++ )
@@ -116,6 +116,32 @@ public class LabelFigure extends ReportElementFigure
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
+	 */
+	public Dimension getPreferredSize( int wHint, int hHint )
+	{
+		Dimension dim = super.getPreferredSize( wHint, hHint );
+
+		int rx = recommendSize != null ? recommendSize.width : 0;
+		int ry = recommendSize != null ? recommendSize.height : 0;
+
+		if ( DesignChoiceConstants.DISPLAY_BLOCK.equals( display ) )
+		{
+			return new Dimension( dim.width, Math.max( dim.height, ry ) );
+		}
+
+		if ( DesignChoiceConstants.DISPLAY_INLINE.equals( display ) )
+		{
+			return new Dimension( Math.max( dim.width, rx ),
+					Math.max( dim.height, ry ) );
+		}
+
+		return dim;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
 	public Dimension getMinimumSize( int wHint, int hHint )
@@ -125,23 +151,31 @@ public class LabelFigure extends ReportElementFigure
 			return ZERO_DIMENSION;
 		}
 
+		int rx = recommendSize != null ? recommendSize.width : 0;
+		int ry = recommendSize != null ? recommendSize.height : 0;
+
 		if ( wHint == -1 && hHint == -1 )
 		{
 			//return ZERO_DIMENSION;
-			return new Dimension( getInsets( ).getWidth( )
-					+ getMinimumFontSize( getFont( ) ),
-					getInsets( ).getHeight( ) );
+			return new Dimension( Math.max( getInsets( ).getWidth( )
+					+ getMinimumFontSize( getFont( ) ), rx ),
+					Math.max( getInsets( ).getHeight( ), ry ) );
 		}
 
 		//return the true minimum size with minimum width;
 		Dimension dim = super.getMinimumSize( -1, hHint );
-		
-		if (dim.width < wHint)
+
+		if ( dim.width < wHint )
 		{
-			return dim; 
+			return new Dimension( Math.max( dim.width, rx ),
+					Math.max( dim.height, ry ) );
 		}
 
-		return super.getMinimumSize( wHint, hHint );
+		dim = super.getMinimumSize( wHint, hHint );
+
+		return new Dimension( Math.max( dim.width, rx ), Math.max( dim.height,
+				ry ) );
+
 	}
 
 	private static int getMinimumFontSize( Font ft )
@@ -152,6 +186,16 @@ public class LabelFigure extends ReportElementFigure
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Sets the recommended size.
+	 * 
+	 * @param recommendSize
+	 */
+	public void setRecommendSize( Dimension recommendSize )
+	{
+		this.recommendSize = recommendSize;
 	}
 
 	/**
