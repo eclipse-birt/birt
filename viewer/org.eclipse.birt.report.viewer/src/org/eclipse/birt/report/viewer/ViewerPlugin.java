@@ -41,15 +41,16 @@ public class ViewerPlugin extends Plugin
 	/**
 	 * The constructor.
 	 */
-	public ViewerPlugin()
+	public ViewerPlugin( )
 	{
-		super();
+		super( );
 		plugin = this;
+		
 		try
 		{
 			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class.getName( ) );
 		}
-		catch (MissingResourceException x)
+		catch ( MissingResourceException x )
 		{
 			resourceBundle = null;
 		}
@@ -61,9 +62,9 @@ public class ViewerPlugin extends Plugin
 	 * @param context bundle context
 	 * @exception Exception
 	 */
-	public void start(BundleContext context) throws Exception
+	public void start( BundleContext context ) throws Exception
 	{
-		super.start(context);
+		super.start( context );
 	}
 
 	/**
@@ -72,9 +73,9 @@ public class ViewerPlugin extends Plugin
 	 * @param context bundle context
 	 * @exception Exception
 	 */
-	public void stop(BundleContext context) throws Exception
+	public void stop( BundleContext context ) throws Exception
 	{
-		super.stop(context);
+		super.stop( context );
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class ViewerPlugin extends Plugin
 	 * 
 	 * @return ViewerPlugin
 	 */
-	public static ViewerPlugin getDefault()
+	public static ViewerPlugin getDefault( )
 	{
 		return plugin;
 	}
@@ -94,14 +95,15 @@ public class ViewerPlugin extends Plugin
 	 * @param key resource key
 	 * @return resource string
 	 */
-	public static String getResourceString(String key)
+	public static String getResourceString( String key )
 	{
-		ResourceBundle bundle = ViewerPlugin.getDefault().getResourceBundle();
+		ResourceBundle bundle = ViewerPlugin.getDefault( ).getResourceBundle( );
+		
 		try
 		{
-			return (bundle != null) ? bundle.getString(key) : key;
+			return ( bundle != null ) ? bundle.getString( key ) : key;
 		}
-		catch (MissingResourceException e)
+		catch ( MissingResourceException e )
 		{
 			return key;
 		}
