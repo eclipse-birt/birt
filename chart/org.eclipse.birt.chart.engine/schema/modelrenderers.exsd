@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="renderers" name="Contains definition of registered chart model renderers"/>
       </appInfo>
       <documentation>
-         This extension point defines all registered renderers for the given model
+         Refer to the documentation provided for each extension point schema element
       </documentation>
    </annotation>
 
@@ -40,18 +40,29 @@
    </element>
 
    <element name="modelRenderer">
+      <annotation>
+         <documentation>
+            A model renderer extension point specifies a mapping entry between a series type implementation class name defined in the chart model against the class name responsible for rendering this series type in the plot and legend area.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="series" type="string">
             <annotation>
                <documentation>
-                  
+                  The series type class name for which a renderer is being defined. Series class implementations are located at org.eclipse.birt.chart.model.type.impl.*
+
+e.g.
+org.eclipse.birt.chart.model.type.impl.BarSeriesImpl
                </documentation>
             </annotation>
          </attribute>
          <attribute name="renderer" type="string">
             <annotation>
                <documentation>
-                  
+                  The renderer implementation class name responsible for rendering the specific series type along with its data set. The renderer class is typically provided by an extension writer.
+
+e.g.
+org.eclipse.birt.chart.render.Bar
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>

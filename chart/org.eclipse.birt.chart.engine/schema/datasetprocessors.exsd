@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="datasetprocessors" name="Contains definition of chart DataSet processors"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Refer to the documentation provided for each extension point schema element
       </documentation>
    </annotation>
 
@@ -40,18 +40,29 @@
    </element>
 
    <element name="datasetProcessor">
+      <annotation>
+         <documentation>
+            A dataset processor extension point specifies a mapping entry between a series type identified by a fully qualified implementing class name against a class that is capable of processing each row of data provided in its dataset. Note that all dataset processor implementations must subclass the base dataset processor implementation provided i.e. org.eclipse.birt.chart.datafeed.DataSetAdapter and override methods as needed. A dataset processor is responsible for introspecting each row of custom data that may be provided in a dataset for use in series rendering.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="series" type="string">
             <annotation>
                <documentation>
-                  
+                  The series type class name for which a dataset processor is being defined. Series class implementations are located at org.eclipse.birt.chart.model.type.impl.*
+
+e.g.
+org.eclipse.birt.chart.model.type.impl.BarSeriesImpl
                </documentation>
             </annotation>
          </attribute>
          <attribute name="processor" type="string">
             <annotation>
                <documentation>
-                  
+                  The dataset processor implementation class name responsible for rendering the specific series type along with its data set. The dataset processor class is typically provided by an extension writer for complex rows of data containing multiple numeric values that may be mapped to a numeric scale.
+
+e.g.
+org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>

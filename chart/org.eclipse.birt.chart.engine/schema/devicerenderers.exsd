@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="devicerenderers" name="Contains definition of chart device renderers"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Refer to the documentation provided for each extension point schema element
       </documentation>
    </annotation>
 
@@ -40,18 +40,23 @@
    </element>
 
    <element name="deviceRenderer">
+      <annotation>
+         <documentation>
+            A device renderer extension point specifies a mapping entry between a device renderer name against the device renderer implementing class name. Note that all device renderer implementations must subclass the base device renderer implementation provided i.e. org.eclipse.birt.chart.device.DeviceAdapter and override methods as needed. A device renderer is responsible for rendering primitive instructions and handling user events in a particular output format.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  The name of the device renderer refers to a tag used to locate the device renderer implementing class. The naming convention uses a prefix of &apos;dv.&apos;. Examples of device renderer names are dv.SWT and dv.SWING
                </documentation>
             </annotation>
          </attribute>
          <attribute name="device" type="string">
             <annotation>
                <documentation>
-                  
+                  The device attribute corresponds to the fully qualified class name that represents the implementing device renderer class. An example of the fully qualified device renderer class name is &apos;org.eclipse.birt.chart.device.swt.SwtRendererImpl&apos;
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>

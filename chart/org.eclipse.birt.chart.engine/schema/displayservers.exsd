@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="xservers" name="Contains definition of chart XServers"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Refer to the documentation provided for each extension point schema element
       </documentation>
    </annotation>
 
@@ -40,18 +40,23 @@
    </element>
 
    <element name="displayserver">
+      <annotation>
+         <documentation>
+            A display server extension point specifies a mapping entry between a display server name against the display server implementing class name. Note that all display server implementations must subclass the base display server implementation provided i.e. org.eclipse.birt.chart.device.DisplayAdapter and override methods as needed. A display server provides generic services to a device renderer such as text metric information, device specific image loading and other system information.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  The name of the display server refers to a tag used to locate the display server implementing class. The naming convention uses a prefix of &apos;ds.&apos;. Examples of display server names are ds.SWT and ds.SWING
                </documentation>
             </annotation>
          </attribute>
          <attribute name="server" type="string">
             <annotation>
                <documentation>
-                  
+                  The server attribute corresponds to the fully qualified class name that represents the implementing display server class. An example of the fully qualified display server class name is &apos;org.eclipse.birt.chart.device.swt.SwtDisplayServer&apos;
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
