@@ -1867,6 +1867,8 @@
     </Property>
     <Property name="height" displayNameID="Element.MasterPage.height" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="width" displayNameID="Element.MasterPage.width" type="dimension" validator="NonNegativeValueValidator"/>
+	<Property name="headerHeight" displayNameID="Element.MasterPage.headerHeight" type="dimension" validator="NonNegativeValueValidator"/>
+	<Property name="footerHeight" displayNameID="Element.MasterPage.footerHeight" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="orientation" displayNameID="Element.MasterPage.orientation" type="string" detailType="pageOrientation">
       <Default>auto</Default>
     </Property>

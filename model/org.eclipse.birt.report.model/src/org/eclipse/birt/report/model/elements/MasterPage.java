@@ -24,9 +24,9 @@ import org.eclipse.birt.report.model.util.StringUtil;
 /**
  * This class represents a Master Page element in the report design. This class
  * provides methods to access the most common properties. Use the
- * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change the
- * properties.
- * 
+ * {@link org.eclipse.birt.report.model.api.MasterPageHandle}class to change
+ * the properties.
+ *  
  */
 
 public abstract class MasterPage extends StyledElement
@@ -86,9 +86,21 @@ public abstract class MasterPage extends StyledElement
 	 */
 
 	public static final String LEFT_MARGIN_PROP = "leftMargin"; //$NON-NLS-1$
-
+	
 	/**
-	 * Height of the US Letter page. 
+	 * Name of the dimension property that gives the height of the header.
+	 */
+
+	public static final String HEADER_HEIGHT_PROP = "headerHeight"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the dimension property that gives the height of the footer.
+	 */
+
+	public static final String FOOTER_HEIGHT_PROP = "footerHeight"; //$NON-NLS-1$
+	
+	/**
+	 * Height of the US Letter page.
 	 */
 	
 	public static final String US_LETTER_HEIGHT = "11in"; //$NON-NLS-1$
@@ -294,11 +306,12 @@ public abstract class MasterPage extends StyledElement
 	}
 	
 	/**
-	 * Tests whether this master page has valid page size. This check should be performs
-	 * by the semantic check of derived class first, because the following semantic check
-	 * will assume the page size is find.
+	 * Tests whether this master page has valid page size. This check should be
+	 * performs by the semantic check of derived class first, because the
+	 * following semantic check will assume the page size is find.
 	 * 
-	 * @param design the report design
+	 * @param design
+	 *            the report design
 	 * @return true if the page size is valid.
 	 */
 	
@@ -335,5 +348,5 @@ public abstract class MasterPage extends StyledElement
 		
 		return list;
 	}
-
+	
 }

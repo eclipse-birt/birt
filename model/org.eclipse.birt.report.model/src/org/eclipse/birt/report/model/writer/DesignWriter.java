@@ -194,7 +194,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, ReportDesign.REFRESH_RATE_PROP );
 		property( obj, ReportDesign.BASE_PROP );
 		property( obj, ReportDesign.MSG_BASE_NAME_PROP );
-        
+
 		resourceKey( obj, ReportDesign.TITLE_ID_PROP, ReportDesign.TITLE_PROP );
 		property( obj, ReportDesign.COMMENTS_PROP );
 
@@ -210,7 +210,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
-       
+
 		// include libraries and scripts
 
 		writeSimpleStructureList( obj, ReportDesign.INCLUDE_LIBRARIES,
@@ -1978,23 +1978,27 @@ public class DesignWriter extends ElementVisitor
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
-        
-        CachedMetaData metadata = (CachedMetaData)obj.getLocalProperty( design, DataSet.CACHED_METADATA_PROP );
-        if( metadata != null )
-        {
-            // Writing cached data set meta-data information.
-        	
-            writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-            writer.attribute( DesignElement.NAME_PROP, DataSet.CACHED_METADATA_PROP );
-            
-            writeStructureList( metadata, CachedMetaData.INPUT_PARAMETERS_MEMBER );
-            writeStructureList( metadata, CachedMetaData.OUTPUT_PARAMETERS_MEMBER );
-            writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
-        
-            writer.endElement();
 
-            // end of writing meta-data information.        
-        }
+		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
+				design, DataSet.CACHED_METADATA_PROP );
+		if ( metadata != null )
+		{
+			// Writing cached data set meta-data information.
+
+			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+			writer.attribute( DesignElement.NAME_PROP,
+					DataSet.CACHED_METADATA_PROP );
+
+			writeStructureList( metadata,
+					CachedMetaData.INPUT_PARAMETERS_MEMBER );
+			writeStructureList( metadata,
+					CachedMetaData.OUTPUT_PARAMETERS_MEMBER );
+			writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
+
+			writer.endElement( );
+
+			// end of writing meta-data information.
+		}
 	}
 
 	/*
@@ -2002,7 +2006,7 @@ public class DesignWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource(org.eclipse.birt.report.model.elements.DataSource)
 	 */
-    
+
 	public void visitDataSource( DataSource obj )
 	{
 		super.visitDataSource( obj );
@@ -2082,6 +2086,8 @@ public class DesignWriter extends ElementVisitor
 		property( obj, MasterPage.LEFT_MARGIN_PROP );
 		property( obj, MasterPage.BOTTOM_MARGIN_PROP );
 		property( obj, MasterPage.RIGHT_MARGIN_PROP );
+		property( obj, MasterPage.HEADER_HEIGHT_PROP );
+		property( obj, MasterPage.FOOTER_HEIGHT_PROP );
 
 		writeStyle( obj );
 	}
@@ -2194,12 +2200,12 @@ public class DesignWriter extends ElementVisitor
 		super.visitOdaDataSet( obj );
 
 		if ( (String) obj.getLocalProperty( design,
-				OdaDataSet.QUERY_SCRIPT_METHOD )!= null )
+				OdaDataSet.QUERY_SCRIPT_METHOD ) != null )
 		{
 			property( obj, OdaDataSet.QUERY_SCRIPT_METHOD );
 		}
 		else if ( (String) obj.getLocalProperty( design,
-				OdaDataSet.QUERY_TEXT_PROP)!= null )
+				OdaDataSet.QUERY_TEXT_PROP ) != null )
 		{
 			property( obj, OdaDataSet.QUERY_TEXT_PROP );
 		}

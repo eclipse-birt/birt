@@ -67,7 +67,7 @@ public class ExtendedItemState extends ReportItemState
 				DesignSchemaConstants.EXTENSION_ATTRIB );
 		if ( StringUtil.isBlank( extension ) )
 		{
-			handler.semanticError( new SemanticError( element,
+			handler.semanticWarning( new SemanticError( element,
 					SemanticError.MISSING_EXTENSION ) );
 		}
 		else
@@ -76,7 +76,7 @@ public class ExtendedItemState extends ReportItemState
 			ExtensionElementDefn extDefn = dd.getExtension( extension );
 			if ( extDefn == null )
 			{
-				handler.semanticError( new SemanticError( element,
+				handler.semanticWarning( new SemanticError( element,
 						new String[]{extension},
 						SemanticError.EXTENSION_NOT_FOUND ) );
 			}
