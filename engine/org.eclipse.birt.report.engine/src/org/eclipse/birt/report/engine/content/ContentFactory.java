@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/25 07:28:37 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/01 01:35:35 $
  */
 public class ContentFactory
 {
@@ -139,9 +139,9 @@ public class ContentFactory
 	 * 
 	 * @return the instance
 	 */
-	public static IExtendedItemContent createExtendedItemContent( )
+	public static IExtendedItemContent createExtendedItemContent( ExtendedItemDesign design)
 	{
-		return new ExtendedItemContent( );
+		return new ExtendedItemContent( design );
 	}
 
 	/**
