@@ -384,8 +384,11 @@ public final class Generator
 
         // USE SAME BOUNDS FOR RENDERING AS THOSE USED TO PREVIOUSLY COMPUTE THE CHART OFFSCREEN
         final Bounds bo = gcs.getChartModel().getBlock().getBounds();
-        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo
-            .scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
+        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo.scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
+        
+        // UPDATE THE STRUCTURE DEFINITION LISTENER MAINTAINED BY THE RUNTIME CONTEXT
+        gcs.getRunTimeContext().setStructureDefinitionListener(idr.needsStructureDefinition() ? idr : null);
+        
         idr.before(); // INITIALIZATION BEFORE RENDERING BEGINS
         for (int i = 0; i < iSize; i++)
         {
