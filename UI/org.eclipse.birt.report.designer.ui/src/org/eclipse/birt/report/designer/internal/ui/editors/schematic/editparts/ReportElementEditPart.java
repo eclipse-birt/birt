@@ -55,6 +55,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.handles.AbstractHandle;
+import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Font;
@@ -748,5 +749,27 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	protected int getBackgroundRepeat( DesignElementHandle handle )
 	{
 		return getModelAdapter( ).getBackgroundRepeat( handle );
+	}
+	
+	protected boolean isFigureLeft(Request request)
+	{
+		if (!(request instanceof SelectionRequest))
+		{
+			return true;
+		}
+		SelectionRequest selctionRequest = (SelectionRequest)request;
+    	Point p = selctionRequest.getLocation();
+		//getFigure().translateToAbsolute(p);
+		getFigure().translateToRelative(p);
+		Point center = getFigure().getBounds().getCenter();
+		if (center.x >= p.x)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 }

@@ -42,7 +42,8 @@ public class ReportPlugin extends AbstractUIPlugin
     /**
      *  The cursor for selecting cells
      */
-	private Cursor cellCursor;
+	private Cursor cellLeftCursor, cellRightCursor;
+	
 
 	/**
 	 * The constructor.
@@ -82,16 +83,29 @@ public class ReportPlugin extends AbstractUIPlugin
     {
         ImageData source = ReportPlugin.getImageDescriptor("icons/cellcursor.bmp").getImageData();
 		ImageData mask = ReportPlugin.getImageDescriptor("icons/cellcursormask.bmp").getImageData();
-		cellCursor =	new Cursor(null, source, mask, 16, 16);
+		cellLeftCursor = new Cursor(null, source, mask, 16, 16);
+		
+		source = ReportPlugin.getImageDescriptor("icons/cellrightcursor.bmp").getImageData();
+		mask = ReportPlugin.getImageDescriptor("icons/cellrightcursormask.bmp").getImageData();
+		cellRightCursor  = new Cursor(null, source, mask, 16, 16);
     }
 
     /**
      * 
      * @return the cursor used to select cells in the table
      */
-    public Cursor getCellCursor( )
+    public Cursor getLeftCellCursor( )
     {
-        return cellCursor;
+        return cellLeftCursor;
+    }
+    
+    /**
+     * 
+     * @return the cursor used to select cells in the table
+     */
+    public Cursor getRightCellCursor( )
+    {
+        return cellRightCursor;
     }
     /**
 	 * This method is called when the plug-in is stopped
@@ -99,7 +113,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void stop( BundleContext context ) throws Exception
 	{
 		super.stop( context );
-		cellCursor.dispose( );
+		cellLeftCursor.dispose( );
 	}
 
 	/**

@@ -1206,7 +1206,15 @@ public class TableEditPart extends ReportElementEditPart implements
 	    if ( this.getSelected() == 0 &&
 	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
 	    {
-		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
+	    	
+	    	if (isFigureLeft(request))
+	    	{
+	    		this.getViewer().setCursor( ReportPlugin.getDefault().getLeftCellCursor() );
+	    	}
+	    	else
+	    	{
+	    		this.getViewer().setCursor( ReportPlugin.getDefault().getRightCellCursor() );
+	    	}
 	    }
 	    super.showTargetFeedback( request );
 	}
