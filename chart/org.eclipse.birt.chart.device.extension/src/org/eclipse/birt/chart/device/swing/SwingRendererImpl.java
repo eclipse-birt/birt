@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -389,7 +390,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            _g2d.setClip(shClip);
+            img.flush(); // RESTORE
+            _g2d.setClip(shClip); // RESTORE
         }
     }
 
@@ -570,7 +572,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            _g2d.setClip(shClip);
+            img.flush(); // RESTORE
+            _g2d.setClip(shClip); // RESTORE
         }
 
         if (pre.iObjIndex > 0)
@@ -658,17 +661,112 @@ public class SwingRendererImpl extends DeviceAdapter
         final Fill flBackground = are.getBackground();
         if (flBackground instanceof ColorDefinition)
         {
+            final Color clrPrevious = _g2d.getColor();
             _g2d.setColor((Color) _ids.getColor((ColorDefinition) flBackground));
             _g2d.fill(new Arc2D.Double(are.getTopLeft().getX(), are.getTopLeft().getY(), are.getWidth(), are
                 .getHeight(), are.getStartAngle(), are.getAngleExtent(), toSwingArcType(are.getStyle())));
+            _g2d.setColor(clrPrevious); // RESTORE
         }
         else if (flBackground instanceof Gradient)
         {
-            // TBD:
+            final Gradient g = (Gradient) flBackground;
+            final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
+            final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
+            boolean bCyclic = g.isCyclic();
+            double dAngleInDegrees = g.getDirection();
+            final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
+            int iAlpha = g.getTransparency();
+            Bounds bo = are.getBounds();
+
+            if (bCyclic)
+            {
+                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
+                // gradients are not supported in "+getClass());
+            }
+
+            if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
+            {
+                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
+                    + "; supported range is [90 >= 0 >= -90]");
+            }
+
+            Point2D.Double p2dStart, p2dEnd;
+            if (dAngleInDegrees == 90)
+            {
+                p2dStart = new Point2D.Double(bo.getLeft(), bo.getTop() + bo.getHeight());
+                p2dEnd = new Point2D.Double(bo.getLeft(), bo.getTop());
+            }
+            else if (dAngleInDegrees == -90)
+            {
+                p2dEnd = new Point2D.Double(bo.getLeft(), bo.getTop() + bo.getHeight());
+                p2dStart = new Point2D.Double(bo.getLeft(), bo.getTop());
+            }
+            else if (dAngleInDegrees > 0)
+            {
+                p2dStart = new Point2D.Double(bo.getLeft(), bo.getTop() + bo.getHeight());
+                p2dEnd = new Point2D.Double(bo.getLeft() + bo.getWidth(), bo.getTop() + bo.getHeight() - bo.getWidth()
+                    * Math.abs(Math.tan(dAngleInRadians)));
+            }
+            else if (dAngleInDegrees < 0)
+            {
+                p2dStart = new Point2D.Double(bo.getLeft(), bo.getTop());
+                p2dEnd = new Point2D.Double(bo.getLeft() + bo.getWidth(), bo.getTop() + bo.getWidth()
+                    * Math.abs(Math.tan(dAngleInRadians)));
+            }
+            else
+            {
+                p2dStart = new Point2D.Double(bo.getLeft(), bo.getTop());
+                p2dEnd = new Point2D.Double(bo.getLeft() + bo.getWidth(), bo.getTop());
+            }
+            final Paint pPrevious = _g2d.getPaint();
+            _g2d.setPaint(new GradientPaint(p2dStart, (Color) _ids.getColor(cdStart), p2dEnd, (Color) _ids
+                .getColor(cdEnd)));
+            _g2d.fill(new Arc2D.Double(are.getTopLeft().getX(), are.getTopLeft().getY(), are.getWidth(), are
+                .getHeight(), are.getStartAngle(), are.getAngleExtent(), toSwingArcType(are.getStyle())));
+            _g2d.setPaint(pPrevious); // RESTORE
         }
         else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image)
         {
-            // TBD:
+            final Bounds bo = are.getBounds();
+            final Rectangle2D.Double r2d = new Rectangle2D.Double(bo.getLeft(), bo.getTop(), bo.getWidth(), bo.getHeight());
+            
+            // SETUP THE CLIPPING AREA
+            final Shape shArc = new Arc2D.Double(are.getTopLeft().getX(), are.getTopLeft().getY(), are.getWidth(), are
+                .getHeight(), are.getStartAngle(), are.getAngleExtent(), toSwingArcType(are.getStyle()));
+            Shape shPreviousClip = _g2d.getClip();
+            _g2d.setClip(shArc);
+
+            // LOAD THE IMAGE
+            final String sUrl = ((org.eclipse.birt.chart.model.attribute.Image) flBackground).getURL();
+            java.awt.Image img = null;
+            try
+            {
+                img = (java.awt.Image) _ids.loadImage(new URL(sUrl));
+            }
+            catch (ImageLoadingException ilex )
+            {
+                throw new RenderingException(ilex);
+            }
+            catch (MalformedURLException muex )
+            {
+                throw new RenderingException(muex);
+            }
+
+            // REPLICATE THE IMAGE AS NEEDED
+            final Size szImage = _ids.getSize(img);
+            int iXRepeat = (int) (Math.ceil(r2d.width / szImage.getWidth()));
+            int iYRepeat = (int) (Math.ceil(r2d.height / szImage.getHeight()));
+            ImageObserver io = (ImageObserver) _ids.getObserver();
+            for (int i = 0; i < iXRepeat; i++)
+            {
+                for (int j = 0; j < iYRepeat; j++)
+                {
+                    _g2d.drawImage(img, (int) (r2d.x + i * szImage.getWidth()),
+                        (int) (r2d.y + j * szImage.getHeight()), io);
+                }
+            }
+            img.flush(); // RESTORE
+            _g2d.setClip(shPreviousClip); // RESTORE
         }
     }
 
@@ -1153,7 +1251,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            _g2d.setClip(shClip);
+            img.flush(); // RESTORE
+            _g2d.setClip(shClip); // RESTORE
         }
     }
 
