@@ -38,13 +38,17 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/11 18:12:08 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
-	public static String OUTPUT_FORMAT_HTML = "HTML";		// $NON-NLS-1$
+
+	public static String OUTPUT_FORMAT_HTML = "HTML"; // $NON-NLS-1$
+
 	public static final String REPORT_FILE = "report.html"; //$NON-NLS-1$
+
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
+
 	public static final String CSS_FILE = "report.css"; //$NON-NLS-1$
 
 	/**
@@ -64,8 +68,8 @@ public class HTMLReportEmitter implements IReportEmitter
 	private HTMLImageEmitter imageEmitter;
 
 	/**
-	 * The <code>HTMLPageSetupEmitter</code> object that outputs page setup information
-	 * content.
+	 * The <code>HTMLPageSetupEmitter</code> object that outputs page setup
+	 * information content.
 	 */
 	private HTMLPageSetupEmitter pageSetupEmitter;
 
@@ -91,8 +95,8 @@ public class HTMLReportEmitter implements IReportEmitter
 	protected Stack stack = new Stack( );
 
 	/**
-	 * An Log object that <code>HTMLReportEmitter</code> use to log the
-	 * error, debug, information messages.
+	 * An Log object that <code>HTMLReportEmitter</code> use to log the error,
+	 * debug, information messages.
 	 */
 	protected static Log logger = LogFactory.getLog( HTMLReportEmitter.class );
 
@@ -105,7 +109,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * A <code>IHyperlinkProcessor</code> object that customizes hyperlink.
 	 */
 	private IHyperlinkProcessor hyperlinkProcessor;
-	
+
 	/**
 	 * emitter services
 	 */
@@ -128,21 +132,22 @@ public class HTMLReportEmitter implements IReportEmitter
 	public HTMLReportEmitter( )
 	{
 	}
-	
-	public void initialize(IEmitterServices services)
+
+	public void initialize( IEmitterServices services )
 	{
 		this.services = services;
-		IRepository repository = services.getRepository();
-		saveImgFile = (services.getEngineMode() == IEmitterServices.ENGINE_STANDALONE_MODE);	
+		IRepository repository = services.getRepository( );
+		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
 
 		writer = new HTMLWriter( );
 
 		resourceManager = new ResourceManager( repository );
 
-		if (services.getEngineMode() == IEmitterServices.ENGINE_EMBEDDED_MODE)
-			hyperlinkProcessor = new EmbeddedHyperlinkProcessor(services.getBaseURL());
-		else if (services.getEngineMode() == IEmitterServices.ENGINE_STANDALONE_MODE)
-			hyperlinkProcessor = new DefaultHyperlinkProcessor();			
+		if ( services.getEngineMode( ) == IEmitterServices.ENGINE_EMBEDDED_MODE )
+			hyperlinkProcessor = new EmbeddedHyperlinkProcessor( services
+					.getBaseURL( ) );
+		else if ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE )
+			hyperlinkProcessor = new DefaultHyperlinkProcessor( );
 
 		imageEmitter = new HTMLImageEmitter( this );
 		pageSetupEmitter = new HTMLPageSetupEmitter( this );
@@ -195,15 +200,15 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getTextEmitter()
 	 */
-	public IReportItemEmitter getEmitter( String type)
+	public IReportItemEmitter getEmitter( String type )
 	{
 		if ( pageSetupEmitter.isStartedMasterPage( ) )
 			return null;
 
-		//TODO: Make this implementation more generic 
-		if (type.equals("image"))
+		//TODO: Make this implementation more generic
+		if ( type.equals( "image" ) )
 			return imageEmitter;
-		else if (type.equals("text"))
+		else if ( type.equals( "text" ) )
 			return textEmitter;
 		else
 			return null;
@@ -260,12 +265,13 @@ public class HTMLReportEmitter implements IReportEmitter
 		OutputStream out = this.resourceManager.openOutputStream( REPORT_FILE );
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
+		writer.openTag( "!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" ); //$NON-NLS-1$
+		writer.closeNoEndTag( );
 		writer.openTag( "html" ); //$NON-NLS-1$
-
 		writer.openTag( "META" ); //$NON-NLS-1$
 		writer.attribute( "http-equiv", "Content-Type" ); //$NON-NLS-1$
 		writer.attribute( "content", "text/html; charset=UTF-8" ); //$NON-NLS-1$
-		writer.closeTag( "META" ); //$NON-NLS-1$
+		writer.closeNoEndTag( );
 
 		writer.openTag( "head" ); //$NON-NLS-1$
 
@@ -276,7 +282,7 @@ public class HTMLReportEmitter implements IReportEmitter
 		{
 			if ( logger.isWarnEnabled( ) )
 			{
-				logger.warn( "[HTMLReportEmitter] Report object is null." );
+				logger.warn( "[HTMLReportEmitter] Report object is null." ); //$NON-NLS-1$
 			}
 		}
 		else
@@ -418,17 +424,23 @@ public class HTMLReportEmitter implements IReportEmitter
 		return saveImgFile;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getEmitterServices()
 	 */
-	public IEmitterServices getEmitterServices() {
+	public IEmitterServices getEmitterServices( )
+	{
 		return services;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getOutputFormat()
-	 */	
-	public String getOutputFormat() {
+	 */
+	public String getOutputFormat( )
+	{
 		// TODO Auto-generated method stub
 		return OUTPUT_FORMAT_HTML;
 	}

@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.StyleDesign;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: #2 $ $Date: 2005/02/01 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: #2 $ $Date: 2005/02/01 $
+	 * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
 	 */
 	private class PersistData
 	{
@@ -219,11 +219,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void start( ReportItemContent item )
 	{
-		TableContent tableObj = (TableContent)item;
+		TableContent tableObj = (TableContent) item;
 		assert tableObj != null;
 
-		reportEmitter.push(tableObj);
-		if(reportEmitter.isHidden())
+		reportEmitter.push( tableObj );
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -278,11 +278,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void end( )
 	{
-		if(reportEmitter.pop())
+		if ( reportEmitter.pop( ) )
 		{
 			return;
 		}
-		
+
 		writer.closeTag( "table" ); //$NON-NLS-1$
 
 		statusStack.pop( );
@@ -318,11 +318,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endColumns( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
-		
+
 		assert ( currentData != null );
 		currentData.createCols( );
 	}
@@ -336,11 +336,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	{
 		assert columnObj != null;
 
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
-		
+
 		int repeat;
 
 		repeat = columnObj.getRepeat( );
@@ -378,11 +378,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endColumn( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
-		writer.closeTag( "col" ); //$NON-NLS-1$
+		writer.closeNoEndTag( );
 	}
 
 	/*
@@ -393,8 +393,8 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	public void startRow( RowContent rowObj )
 	{
 		assert rowObj != null;
-		reportEmitter.push(rowObj);
-		if(reportEmitter.isHidden())
+		reportEmitter.push( rowObj );
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -420,7 +420,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endRow( )
 	{
-		if(reportEmitter.pop())
+		if ( reportEmitter.pop( ) )
 		{
 			return;
 		}
@@ -437,11 +437,11 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void startCell( CellContent cellObj )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
-		
+
 		int span;
 		int columnID;
 
@@ -502,7 +502,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endCell( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -521,7 +521,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void startHeader( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -535,7 +535,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endHeader( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -549,7 +549,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void startFooter( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -563,7 +563,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endFooter( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -577,7 +577,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void startBody( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}
@@ -591,7 +591,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public void endBody( )
 	{
-		if(reportEmitter.isHidden())
+		if ( reportEmitter.isHidden( ) )
 		{
 			return;
 		}

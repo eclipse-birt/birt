@@ -23,28 +23,28 @@ import org.apache.commons.logging.LogFactory;
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class XMLWriter
 {
 
 	/** logger */
-	private Log log = LogFactory.getLog( XMLWriter.class );
+	protected Log log = LogFactory.getLog( XMLWriter.class );
 
 	/** the print writer for outputting */
-	private PrintWriter printWriter;
+	protected PrintWriter printWriter;
 
 	/** character encoding */
-	private String encoding = "UTF-8"; //$NON-NLS-1$
+	protected String encoding = "UTF-8"; //$NON-NLS-1$
 
 	/** the indent count */
-	private int indentCount;
+	protected int indentCount;
 
 	/** whether or not the tag is paired */
-	private boolean bPairedFlag = true;
+	protected boolean bPairedFlag = true;
 
 	/** whether or not the content is indented. */
-	private boolean bIndent = true;
+	protected boolean bIndent = true;
 
 	/**
 	 * whether or not using implicit closing tag.
