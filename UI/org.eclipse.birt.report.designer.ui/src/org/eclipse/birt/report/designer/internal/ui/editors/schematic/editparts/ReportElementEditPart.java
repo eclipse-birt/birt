@@ -86,36 +86,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	{
 		super( );
 		setModel( model );
-		getFigure( ).addMouseMotionListener( new MouseMotionListener.Stub( )
-		{
-
-			public void mouseEntered( MouseEvent me )
-			{
-				//System.out.println("enter");
-				addGuideFeedBack( );
-
-			}
-
-			public void mouseExited( MouseEvent me )
-			{
-				//System.out.println("exit");
-				delayRemoveGuideFeedBack( );
-			}
-
-			public void mouseHover( MouseEvent me )
-			{
-				//System.out.println("hover");
-				addGuideFeedBack( );
-
-			}
-
-			public void mouseMoved( MouseEvent me )
-			{
-				//System.out.println("move");
-				//addGuideFeedBack();
-			}
-
-		} );
 	}
 
 	/**Creates the guide handle, default get from parent.
@@ -225,6 +195,31 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			return;
 		addModelListener( );
 		super.activate( );
+
+		getFigure( ).addMouseMotionListener( new MouseMotionListener.Stub( )
+		{
+
+			public void mouseEntered( MouseEvent me )
+			{
+				addGuideFeedBack( );
+
+			}
+
+			public void mouseExited( MouseEvent me )
+			{
+				delayRemoveGuideFeedBack( );
+			}
+
+			public void mouseHover( MouseEvent me )
+			{
+				addGuideFeedBack( );
+			}
+
+			public void mouseMoved( MouseEvent me )
+			{
+			}
+
+		} );
 	}
 
 	/**
