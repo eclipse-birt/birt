@@ -32,7 +32,6 @@ import org.eclipse.birt.core.framework.Platform;
  */
 public final class PluginSettings
 {
-
     private static final String PLUGIN = "org.eclipse.birt.chart.engine";
 
     private static String[] saSeries =
@@ -90,7 +89,7 @@ public final class PluginSettings
      *  
      */
     private static PluginSettings ps = null;
-
+    
     /**
      *  
      */
@@ -111,7 +110,7 @@ public final class PluginSettings
         }
         return ps;
     }
-
+    
     /**
      * 
      * @param cSeries
@@ -390,7 +389,7 @@ public final class PluginSettings
      * 
      * @return
      */
-    private static boolean inEclipseEnv()
+    private boolean inEclipseEnv()
     {
         return (Platform.getExtensionRegistry() != null);
     }
