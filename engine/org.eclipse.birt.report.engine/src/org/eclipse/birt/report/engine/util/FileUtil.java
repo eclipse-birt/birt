@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class FileUtil
 {
@@ -163,14 +163,14 @@ public class FileUtil
 	 */
 	public static String getExtFromFileName( String fileName, int separatorFlag )
 	{
-		assert fileName != null;
-
-		int lastindex = fileName.lastIndexOf( '.' );
-		if ( lastindex > fileName.lastIndexOf( separators[separatorFlag] ) )
+		if ( fileName != null )
 		{
-			return fileName.substring( lastindex, fileName.length( ) );
+			int lastindex = fileName.lastIndexOf( '.' );
+			if ( lastindex > fileName.lastIndexOf( separators[separatorFlag] ) )
+			{
+				return fileName.substring( lastindex, fileName.length( ) );
+			}
 		}
-
 		return null;
 	}
 
@@ -200,24 +200,17 @@ public class FileUtil
 	 */
 	public static String getAbsolutePath( String path, String fileName )
 	{
-		if ( fileName == null || fileName.length( ) == 0 )
+		File file = new File( fileName );
+		if ( !file.exists( ) )
 		{
-			return null;
+			file = new File( path, fileName );
 		}
 
-		if ( path == null || path.length( ) == 0 || fileName.indexOf( ':' ) > 0 )
+		if ( file.exists( ) )
 		{
-			return fileName;
+			return file.getAbsolutePath( );
 		}
-
-		StringBuffer fullPath = new StringBuffer( );
-		fullPath.append( path );
-		if ( path.charAt( path.length( ) - 1 ) != File.separatorChar )
-		{
-			fullPath.append( File.separatorChar );
-		}
-		fullPath.append( fileName );
-		return fullPath.toString( );
+		return null;
 	}
 
 	/**
@@ -317,14 +310,14 @@ public class FileUtil
 			//Uses the buffered stream to improve the performance.
 			BufferedInputStream in = new BufferedInputStream(
 					new FileInputStream( fileName ) );
-			ByteArrayOutputStream out=new ByteArrayOutputStream();
-			byte[] buf=new byte[1024];
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			byte[] buf = new byte[1024];
 			int len;
-			while((len=in.read(buf))!=-1)
+			while ( ( len = in.read( buf ) ) != -1 )
 			{
-				out.write(buf,0,len);
+				out.write( buf, 0, len );
 			}
-			return out.toByteArray();
+			return out.toByteArray( );
 		}
 		catch ( Exception e )
 		{

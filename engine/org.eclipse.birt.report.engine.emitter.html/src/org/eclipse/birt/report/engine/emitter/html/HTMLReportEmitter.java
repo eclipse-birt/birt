@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/25 06:02:39 $
+ * @version $Revision: 1.7 $ $Date: 2005/02/25 11:03:18 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -283,8 +283,14 @@ public class HTMLReportEmitter implements IReportEmitter
 
 		writer.openTag( "head" ); //$NON-NLS-1$
 
+		writer.openTag( "style" ); //$NON-NLS-1$
+		writer.attribute( "type", //$NON-NLS-1$
+				"text/css" ); //$NON-NLS-1$
+
+		// output general styles
+		writer.style( "table", "border-color: black;", true ); //$NON-NLS-1$ //$NON-NLS-2$
+
 		StyleDesign style;
-		boolean hasStyle = false;
 		StringBuffer styleBuffer = new StringBuffer( );
 		if ( report == null )
 		{
@@ -333,16 +339,8 @@ public class HTMLReportEmitter implements IReportEmitter
 								styleNameMapping.put( style.getName( ), style
 										.getName( ) );
 
-								if ( !hasStyle )
-								{
-									hasStyle = true;
-									writer.openTag( "style" ); //$NON-NLS-1$
-									writer.attribute( "type", //$NON-NLS-1$
-											"text/css" ); //$NON-NLS-1$
-								}
-
 								writer.style( style.getName( ), styleBuffer
-										.toString( ) );
+										.toString( ), false );
 							}
 							else
 							{
@@ -354,10 +352,7 @@ public class HTMLReportEmitter implements IReportEmitter
 			}
 		}
 
-		if ( hasStyle )
-		{
-			writer.closeTag( "style" ); //$NON-NLS-1$
-		}
+		writer.closeTag( "style" ); //$NON-NLS-1$
 
 		writer.closeTag( "head" ); //$NON-NLS-1$
 	}

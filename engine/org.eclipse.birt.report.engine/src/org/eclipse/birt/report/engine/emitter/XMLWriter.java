@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/18 05:40:23 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/24 06:41:07 $
  */
 public class XMLWriter
 {
@@ -322,8 +322,9 @@ public class XMLWriter
 
 	/**
 	 * @param value
+	 * @param isGeneral
 	 */
-	public void style( String name, String value )
+	public void style( String name, String value, boolean isGeneral )
 	{
 		assert name != null && name.length( ) > 0;
 		if ( value == null || value.length( ) == 0 )
@@ -340,7 +341,10 @@ public class XMLWriter
 
 		indentCount++;
 		printWriter.print( indent( ) );
-		printWriter.print( '.' );
+		if ( !isGeneral )
+		{
+			printWriter.print( '.' );
+		}
 		printWriter.print( name );
 		printWriter.print( " {" ); //$NON-NLS-1$
 		printWriter.print( value );
