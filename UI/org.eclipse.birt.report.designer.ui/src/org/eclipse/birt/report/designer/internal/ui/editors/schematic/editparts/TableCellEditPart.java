@@ -43,6 +43,7 @@ import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 
 /**
  * <p>
@@ -411,7 +412,7 @@ public class TableCellEditPart extends ReportElementEditPart
 	
 	public void showTargetFeedback(Request request)
 	{
-	    if ( this.getSelected() == 0 )
+	    if ( this.getSelected() == 0 && request.getType() == RequestConstants.REQ_SELECTION )
 	    {
 		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
 	    }
@@ -423,4 +424,13 @@ public class TableCellEditPart extends ReportElementEditPart
 	    this.getViewer().setCursor( null );
 	    super.eraseTargetFeedback( request );
 	}
+	
+	protected void addChildVisual(EditPart part, int index)
+	{
+	    // make sure we don't keep a select cell cursor after new contents
+	    // are added
+	    this.getViewer().setCursor( null );
+	    super.addChildVisual(part, index);
+	}
+	
 }
