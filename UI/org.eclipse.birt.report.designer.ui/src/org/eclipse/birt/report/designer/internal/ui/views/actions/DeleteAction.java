@@ -88,6 +88,10 @@ public class DeleteAction extends AbstractElementAction
 		Object obj = getSelection( );
 		if ( obj instanceof IStructuredSelection )
 		{
+			if ( ( (IStructuredSelection) obj ).isEmpty( ) )
+			{
+				return false;
+			}
 			for ( Iterator itor = ( (IStructuredSelection) obj ).iterator( ); itor.hasNext( ); )
 			{
 				if ( !canDelete( itor.next( ) ) )
