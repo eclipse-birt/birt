@@ -274,7 +274,11 @@ public class SwingRendererImpl extends DeviceAdapter
             _g2d.setStroke(sCurrent);
         }
         _g2d.setColor(cFG);
-        _g2d.draw(new Rectangle2D.Double(bo.getLeft(), bo.getTop(), bo.getWidth(), bo.getHeight()));
+        _g2d.draw(
+            new Rectangle2D.Double(
+                bo.getLeft(), bo.getTop(), bo.getWidth() - 1, bo.getHeight() - 1
+            )
+        );
         if (sPrevious != null) // RESTORE PREVIOUS STROKE
         {
             _g2d.setStroke(sPrevious);
