@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
@@ -23,7 +22,7 @@ import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
 /**
  * Base class for all report elements with a style. Implements operations that
  * are specific to styled elements.
- *  
+ * 
  */
 
 public abstract class StyledElement extends DesignElement
@@ -91,7 +90,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 *  
+	 * 
 	 */
 	public StyleElement getLocalStyle( )
 	{
@@ -119,7 +118,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. null if this element didn't define a style on it.
 	 * 
-	 *  
+	 * 
 	 */
 	public StyleElement getStyle( )
 	{
@@ -234,63 +233,18 @@ public abstract class StyledElement extends DesignElement
 		if ( !prop.isStyleProperty( ) )
 			return getProperty( design, prop );
 
-		StyledElement e = this;
-		Object value;
-		// 1). If we can find the value here, return it.
-
-		value = e.getLocalProperty( design, prop );
-		if ( value != null )
-			return value;
-
-		// 2). Does the style provide the value of this property ?
-
-		StyleElement style = e.getLocalStyle( );
-		if ( style != null )
+		if ( prop.isIntrinsic( ) )
 		{
-			value = style.getLocalProperty( design, prop );
-			if ( value != null )
-				return value;
+			// This is an intrinsic system-defined property.
+
+			return getIntrinsicProperty( prop.getName( ) );
 		}
 
-		// 3). All the style properties can inherit the value from the
-		// ancestors.
-		// Does the parent provide the value of this property?
+		// Get the value from this element and its parent.
 
-		value = e.getPropertyFromParent( design, prop );
+		Object value = getPropertyFromElement( design, prop );
 		if ( value != null )
 			return value;
-
-		// If the style property can not cascade, then we
-		// need not the context search, and returns null
-
-		if ( !prop.canInherit( ) )
-			return null;
-
-		// 4). Check if this element predefined style provides
-		// the property value
-
-		String selector = ( (ElementDefn) e.getDefn( ) ).getSelector( );
-		value = e.getPropertyFromSelector( design, prop, selector );
-		if ( value != null )
-			return value;
-
-		// Check if the container/slot predefined style provides
-		// the property value
-
-		if ( e.getContainer( ) != null )
-		{
-			// The predefined style of container/slot combination or slot
-			// provides the property value.
-
-			String[] selectors = e.getContainer( ).getSelectors(
-					e.getContainerSlot( ) );
-			for ( int i = 0; i < selectors.length; i++ )
-			{
-				value = e.getPropertyFromSelector( design, prop, selectors[i] );
-				if ( value != null )
-					return value;
-			}
-		}
 
 		return null;
 	}

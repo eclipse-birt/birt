@@ -12,7 +12,11 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
@@ -43,6 +47,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * <pre>
  * 
  * DesignElementHandle elementHandle = element.handle( );DimensionHandle dimensionHandle = elementHandle.getDimensionProperty( Style.FONT_SIZE_PROP );
+
  *  
  * </pre>
  * 
@@ -143,8 +148,8 @@ public class DimensionHandle extends ComplexValueHandle
 	{
 		if ( memberRef == null )
 			return propDefn.getAllowedChoices( ).getChoices( );
-		
-		return memberRef.getMemberDefn().getAllowedChoices().getChoices();
+
+		return memberRef.getMemberDefn( ).getAllowedChoices( ).getChoices( );
 	}
 
 	/**
@@ -190,5 +195,88 @@ public class DimensionHandle extends ComplexValueHandle
 
 			assert false;
 		}
+	}
+
+	/**
+	 * Returns the font size for computing relative value of style property. The
+	 * font size value is retrieved from the element which actually has the
+	 * value of this dimension property. At one of the following conditions, the
+	 * font size value is returned from the current element with the normal
+	 * property search algorithm:
+	 * <ul>
+	 * <li>If this property is not a style property
+	 * <li>If this element is style
+	 * <li>if the unit of this property is not either of
+	 * <code>DesignChoiceConstants.UNITS_EM</code>,
+	 * <code>DesignChoiceConstants.UNITS_EX</code> and
+	 * <code>DesignChoiceConstants.UNITS_PERCENTAGE</code> 
+	 * </ul>
+	 * <p>
+	 * CSS 2.1 specification has the following statements:
+	 * <p>
+	 * Child elements do not inherit the relative values specified for their
+	 * parent; they inherit the computed values.
+	 * <p>
+	 * Example(s):
+	 * <p>
+	 * In the following rules, the computed 'text-indent' value of "h1" elements
+	 * will be 36px, not 45px, if "h1" is a child of the "body" element.
+	 * <p>
+	 * body { font-size: 12px; text-indent: 3em; /* i.e., 36px}}
+	 * <p>
+	 * h1 { font-size: 15px }
+	 * <p>
+	 * 
+	 * So when computing the value of text-indent, with this method, the value
+	 * of font-size is retrieved from body, instead of h1.
+	 * 
+	 * @return the actual font size for computing relative value.
+	 */
+
+	public Object getFactualFontSize( )
+	{
+		DesignElement element = getElement( );
+		ReportDesign design = elementHandle.getDesign( );
+
+		if ( !propDefn.isStyleProperty( ) || element.isStyle( ) )
+			return element.getProperty( design, Style.FONT_SIZE_PROP );
+
+		if ( !DesignChoiceConstants.UNITS_EM.equalsIgnoreCase( getUnits( ) )
+				&& !DesignChoiceConstants.UNITS_EX
+						.equalsIgnoreCase( getUnits( ) )
+				&& !DesignChoiceConstants.UNITS_PERCENTAGE
+						.equalsIgnoreCase( getUnits( ) ) )
+			return element.getProperty( design, Style.FONT_SIZE_PROP );
+
+		Object propValue = null;
+		Object fontSizeValue = null;
+
+		DesignElement e = element;
+		ElementPropertyDefn fontSizeDefn = e
+				.getPropertyDefn( Style.FONT_SIZE_PROP );
+
+		// Located the element which has the property this dimension represents.
+
+		while ( e != null )
+		{
+			propValue = e.getPropertyFromElement( design, propDefn );
+			if ( propValue != null )
+				break;
+
+			// If the property this dimension represents can not be inherited.
+
+			if ( !propDefn.canInherit( ) )
+				break;
+
+			e = e.getContainer( );
+		}
+
+		if ( propValue != null )
+			fontSizeValue = e.getProperty( design, fontSizeDefn );
+
+		if ( fontSizeValue == null )
+			fontSizeValue = element.getDefaultValue( design, fontSizeDefn );
+
+		return fontSizeValue;
 	}
 }

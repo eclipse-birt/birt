@@ -233,24 +233,19 @@ public class Cell extends StyledElement
 	public Object getPropertyFromElement( ReportDesign design,
 			ElementPropertyDefn prop )
 	{
-		Object value;
-
 		// Get property from cell itself.
 
-		value = super.getPropertyFromElement( design, prop );
+		Object value = super.getPropertyFromElement( design, prop );
 		if ( value != null )
 			return value;
 
-		if ( !prop.canInherit( ) )
-			return getDefaultValue( design, prop );
-
-		if ( !prop.isStyleProperty( ) )
-			return getDefaultValue( design, prop );
+		if ( !prop.canInherit( ) || !prop.isStyleProperty( ) )
+			return null; 
 
 		// Get property from the container of this cell. If the container
 		// has column, get property from column.
 
-		DesignElement e = this.getContainer( );
+		DesignElement e = getContainer( );
 		while ( e != null )
 		{
 			value = e.getPropertyFromElement( design, prop );
