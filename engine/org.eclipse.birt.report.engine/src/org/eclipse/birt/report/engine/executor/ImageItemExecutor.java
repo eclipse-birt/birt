@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -140,7 +140,8 @@ public class ImageItemExecutor extends StyledItemExecutor
 
 				if ( imageFile == null )
 				{
-				    logger.log( Level.SEVERE, "[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
+					logger.log( Level.SEVERE,
+							"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
 				}
 				break;
 
@@ -153,18 +154,21 @@ public class ImageItemExecutor extends StyledItemExecutor
 
 				try
 				{
-					EmbeddedImage embededImage = context.getReport( )
+					EmbeddedImage embeddedImage = context.getReport( )
 							.getReportDesign( ).findImage( imageName );
-					imageContent.setData( embededImage.getData( ) );
-					String extension = FileUtil.getExtFromType( embededImage
-							.getType( ) );
-					if ( extension == null )
+					if ( embeddedImage != null )
 					{
-						extension = FileUtil.getExtFromFileName( imageName,
-								FileUtil.SEPARATOR_PATH );
+						imageContent.setData( embeddedImage.getData( ) );
+						String extension = FileUtil
+								.getExtFromType( embeddedImage.getType( ) );
+						if ( extension == null )
+						{
+							extension = FileUtil.getExtFromFileName( imageName,
+									FileUtil.SEPARATOR_PATH );
+						}
+						imageContent.setExtension( extension );
+						imageContent.setUri( imageName );
 					}
-					imageContent.setExtension( extension );
-					imageContent.setUri( imageName );
 				}
 				catch ( Exception e )
 				{

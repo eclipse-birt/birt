@@ -14,12 +14,11 @@ package org.eclipse.birt.report.engine.content;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.ir.ActionDesign;
-import org.w3c.dom.Element;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
  * Provides the interfaces for the Text Content
- * 
  * 
  * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
@@ -64,18 +63,6 @@ public interface ITextContent extends IReportItemContent
 	public HashMap getCssStyleSet( );
 
 	/**
-	 * @return The stringFormatted.
-	 */
-	public boolean isStringFormatted( );
-
-	/**
-	 * Sets the value of stringFormatted.
-	 * 
-	 * @param value
-	 */
-	public void setStringFormatted( boolean value );
-
-	/**
 	 * Adds the image content to the collection in term of the <tt>Node</tt>
 	 * 
 	 * @param node
@@ -94,8 +81,10 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public IImageItemContent getImageContent( Node node );
 
-	public void addExpressionVal(Node expr,Element val);
-	public Element getExpressionVal(Node expr); 
+	public void addExpressionVal( Node expr, Document val );
+
+	public Document getExpressionVal( Node expr );
+
 	/**
 	 * @param helpText
 	 *            The helpText to set.
@@ -121,9 +110,7 @@ public interface ITextContent extends IReportItemContent
 	public void setValue( String value );
 
 	/**
-	 * Gets the action design
-	 * 
-	 * @return
+	 * @return the action design
 	 */
 	public ActionDesign getAction( );
 

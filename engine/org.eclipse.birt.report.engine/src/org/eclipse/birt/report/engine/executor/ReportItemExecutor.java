@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/01 01:35:35 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/07 03:33:25 $
  */
 public abstract class ReportItemExecutor
 {
@@ -228,7 +228,8 @@ public abstract class ReportItemExecutor
 						if ( value != null )
 						{
 							IHyperlinkAction obj = ContentFactory
-									.createActionContent( value.toString( ) );
+									.createActionContent( value.toString( ),
+											action.getTargetWindow( ) );
 							itemContent.setHyperlinkAction( obj );
 						}
 						break;
@@ -238,8 +239,7 @@ public abstract class ReportItemExecutor
 						if ( value != null )
 						{
 							IHyperlinkAction obj = ContentFactory
-									.createActionContent( value.toString( ), value
-											.toString( ) );
+									.createActionContent( value.toString( ) );
 							itemContent.setHyperlinkAction( obj );
 						}
 						break;

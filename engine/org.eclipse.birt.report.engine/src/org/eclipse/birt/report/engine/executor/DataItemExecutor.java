@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -84,8 +84,7 @@ public class DataItemExecutor extends StyledItemExecutor
 		setStyles( textObj, item );
 
 		StringBuffer formattedString = new StringBuffer( );
-		boolean isFormatted = formatValue( value, null, dataItem.getStyle( ),
-				formattedString );
+		formatValue( value, null, dataItem.getStyle( ), formattedString );
 		textObj.setValue( formattedString.toString( ) );
 
 		if ( value != null )
@@ -96,11 +95,7 @@ public class DataItemExecutor extends StyledItemExecutor
 				// set number alignment
 				textObj.setStyleProperty( Style.TEXT_ALIGN_PROP, textObj
 						.getMergedStyle( ).getNumberAlign( ) );
-
 			}
-
-			// set StringFormatted flag
-			textObj.setStringFormatted( isFormatted );
 		}
 
 		setVisibility( item, textObj );

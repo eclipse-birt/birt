@@ -1127,6 +1127,7 @@ class EngineIRVisitor extends DesignVisitor
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
 			action.setHyperlink( new Expression( handle.getHyperlink( ) ) );
+			action.setTargetWindow( handle.getTargetWindow( ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )

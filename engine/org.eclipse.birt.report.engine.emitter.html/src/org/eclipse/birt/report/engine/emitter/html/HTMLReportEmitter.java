@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/04 07:32:23 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/07 03:34:16 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -100,7 +100,8 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * An Log object that <code>HTMLReportEmitter</code> use to log the error,
 	 * debug, information messages.
 	 */
-	protected static Logger logger = Logger.getLogger( HTMLReportEmitter.class.getName() );
+	protected static Logger logger = Logger.getLogger( HTMLReportEmitter.class
+			.getName( ) );
 
 	/**
 	 * A resource manager.
@@ -263,15 +264,14 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startReport( Report report )
 	{
-	    logger.log( Level.FINE,  "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
+		logger.log( Level.FINE, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 
 		this.report = report;
 
 		OutputStream out = this.resourceManager.openOutputStream( REPORT_FILE );
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
-		writer.openTag( "!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" ); //$NON-NLS-1$
-		writer.closeNoEndTag( );
+		writer.startWriter( );
 		writer.openTag( "html" ); //$NON-NLS-1$
 		writer.openTag( "META" ); //$NON-NLS-1$
 		writer.attribute( "http-equiv", "Content-Type" ); //$NON-NLS-1$
@@ -285,13 +285,16 @@ public class HTMLReportEmitter implements IReportEmitter
 				"text/css" ); //$NON-NLS-1$
 
 		// output general styles
-		writer.style( "table", "border-color: black;", true ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer
+				.style(
+						"table", "border-collapse: collapse; border-color: black; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		StyleDesign style;
 		StringBuffer styleBuffer = new StringBuffer( );
 		if ( report == null )
 		{
-		    logger.log( Level.WARNING,  "[HTMLReportEmitter] Report object is null." ); //$NON-NLS-1$
+			logger.log( Level.WARNING,
+					"[HTMLReportEmitter] Report object is null." ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -358,7 +361,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endReport( )
 	{
-	    logger.log( Level.FINE,  "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
+		logger.log( Level.FINE, "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
 		writer.closeTag( "html" ); //$NON-NLS-1$
 		writer.endWriter( );
 		writer.close( );
@@ -371,7 +374,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startBody( )
 	{
-	    logger.log( Level.FINE,  "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
+		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 
 		writer.openTag( "body" ); //$NON-NLS-1$
 	}
@@ -383,7 +386,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endBody( )
 	{
-	    logger.log( Level.FINE,  "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
+		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 
 		writer.closeTag( "body" ); //$NON-NLS-1$
 	}

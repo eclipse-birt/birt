@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/01 01:35:35 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/02 07:40:52 $
  */
 public class ContentFactory
 {
@@ -55,26 +55,27 @@ public class ContentFactory
 	 * Creates the Action Content
 	 * 
 	 * @param actionStr
-	 * @return the action content
+	 *            the action string
+	 * @param target
+	 *            the target frame
+	 * @return the action content instance
 	 */
-	public static IHyperlinkAction createActionContent( String actionStr )
+	public static IHyperlinkAction createActionContent( String actionStr,
+			String target )
 	{
-		return new ActionContent( actionStr );
+		return new ActionContent( actionStr, target );
 	}
 
 	/**
 	 * Creates the Action Content
 	 * 
-	 * @param actionStr
-	 *            the action string
 	 * @param bookmark
 	 *            the book-mark string
 	 * @return the action content instance
 	 */
-	public static IHyperlinkAction createActionContent( String actionStr,
-			String bookmark )
+	public static IHyperlinkAction createActionContent( String bookmark )
 	{
-		return new ActionContent( actionStr, bookmark );
+		return new ActionContent( bookmark );
 	}
 
 	/**
@@ -139,7 +140,8 @@ public class ContentFactory
 	 * 
 	 * @return the instance
 	 */
-	public static IExtendedItemContent createExtendedItemContent( ExtendedItemDesign design)
+	public static IExtendedItemContent createExtendedItemContent(
+			ExtendedItemDesign design )
 	{
 		return new ExtendedItemContent( design );
 	}

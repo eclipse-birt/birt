@@ -14,6 +14,10 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.ByteArrayInputStream;
 import java.util.logging.Level;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IImageItemContent;
@@ -31,13 +35,12 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/07 07:11:21 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/11 06:46:52 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -91,6 +94,7 @@ public class TextItemExecutor extends StyledItemExecutor
 			// has not been extracted yet.
 			String content = getLocalizedString( textItem.getTextKey( ),
 					textItem.getText( ) );
+
 			textItem.setDomTree( new TextParser( ).parse( content, textItem
 					.getTextType( ) ) );
 			textContent.setDomTree( textItem.getDomTree( ) );
@@ -213,7 +217,7 @@ public class TextItemExecutor extends StyledItemExecutor
 							if ( body != null )
 							{
 								htmlProcessor.execute( body, content );
-								content.addExpressionVal( node, body );
+								content.addExpressionVal( node, doc );
 							}
 						}
 					}
@@ -226,11 +230,46 @@ public class TextItemExecutor extends StyledItemExecutor
 						formatValue( value, format, text.getStyle( ),
 								formattedStr );
 						Element appendedNode = null;
-						appendedNode = node.getOwnerDocument( ).createElement(
-								"body" );
-						appendedNode.appendChild( node.getOwnerDocument( )
-								.createTextNode( formattedStr.toString( ) ) );
-						content.addExpressionVal( node, appendedNode );
+
+						Document textDoc;
+						try
+						{
+							textDoc = DocumentBuilderFactory.newInstance( )
+									.newDocumentBuilder( ).newDocument( );
+							if ( textDoc != null
+									&& textDoc.getFirstChild( ) != null
+									&& textDoc.getFirstChild( ) instanceof Element )
+							{
+
+								( (Element) ( textDoc.getFirstChild( ) ) )
+										.setAttribute( "text-type",
+												TextParser.TEXT_TYPE_PLAIN );
+							}
+
+							appendedNode = textDoc.createElement( "body" );
+							textDoc.appendChild( appendedNode );
+							appendedNode
+									.appendChild( textDoc
+											.createTextNode( formattedStr
+													.toString( ) ) );
+							content.addExpressionVal( node, textDoc );
+						}
+						catch ( ParserConfigurationException e )
+						{
+							logger
+									.log(
+											Level.SEVERE,
+											"[TextItemExecutor] Fails to create document for value-of",
+											e );
+						}
+						catch ( FactoryConfigurationError e )
+						{
+							logger
+									.log(
+											Level.SEVERE,
+											"[TextItemExecutor] Fails to create document for value-of",
+											e );
+						}
 					}
 				}
 				return;
@@ -238,9 +277,6 @@ public class TextItemExecutor extends StyledItemExecutor
 			}
 			else if ( node.getNodeName( ).equals( "image" ) )
 			{
-				Element body = node.getOwnerDocument( ).createElement( "body" );
-				Element imgNode = node.getOwnerDocument( )
-						.createElement( "img" );
 
 				IImageItemContent image = ContentFactory
 						.createImageContent( null );
@@ -285,10 +321,38 @@ public class TextItemExecutor extends StyledItemExecutor
 
 				if ( image.getData( ) != null )
 				{
-					content.addImageContent( imgNode, image );
-					// add image node to DOM tree
-					body.appendChild( imgNode );
-					content.addExpressionVal( node, body );
+					try
+					{
+						Document imgDoc;
+						imgDoc = DocumentBuilderFactory.newInstance( )
+								.newDocumentBuilder( ).newDocument( );
+						Element body = imgDoc.createElement( "body" );
+						Element imgNode = imgDoc.createElement( "img" );
+
+						content.addImageContent( imgNode, image );
+						// add image node to DOM tree
+						body.appendChild( imgNode );
+
+						imgDoc.appendChild( body );
+
+						content.addExpressionVal( node, imgDoc );
+					}
+					catch ( ParserConfigurationException e )
+					{
+						logger
+								.log(
+										Level.SEVERE,
+										"[TextItemExecutor] Fails to create document for img",
+										e );
+					}
+					catch ( FactoryConfigurationError e )
+					{
+						logger
+								.log(
+										Level.SEVERE,
+										"[TextItemExecutor] Fails to create document for img",
+										e );
+					}
 				}
 				else
 				{

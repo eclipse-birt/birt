@@ -18,8 +18,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
@@ -30,7 +28,7 @@ public class XMLWriter
 {
 
 	/** logger */
-	protected Logger log = Logger.getLogger( XMLWriter.class.getName() );
+	protected Logger log = Logger.getLogger( XMLWriter.class.getName( ) );
 
 	/** the print writer for outputting */
 	protected PrintWriter printWriter;
@@ -86,7 +84,8 @@ public class XMLWriter
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-		    log.log( Level.SEVERE, "the character encoding {0} unsupported !",  encoding); //$NON-NLS-1$
+			log.log( Level.SEVERE,
+					"the character encoding {0} unsupported !", encoding ); //$NON-NLS-1$
 		}
 	}
 
@@ -149,9 +148,10 @@ public class XMLWriter
 		if ( bIndent )
 		{
 			printWriter.println( );
+			printWriter.print( indent( ) );
 		}
 		bPairedFlag = false;
-		printWriter.print( indent( ) + '<' + tagName );
+		printWriter.print( '<' + tagName );
 		indentCount++;
 	}
 
@@ -180,8 +180,9 @@ public class XMLWriter
 			if ( bIndent )
 			{
 				printWriter.println( );
+				printWriter.print( indent( ) );
 			}
-			printWriter.print( indent( ) + "</" + tagName + '>' ); //$NON-NLS-1$
+			printWriter.print( "</" + tagName + '>' ); //$NON-NLS-1$
 		}
 		bPairedFlag = true;
 		printWriter.flush( );
@@ -202,7 +203,7 @@ public class XMLWriter
 			printWriter.print( ' ' );
 			printWriter.print( attrName );
 			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( getEscapedStr( attrValue, false ) );
+			printWriter.print( escapeAttrValue( attrValue ) );
 			printWriter.print( '\"' );
 		}
 	}
@@ -222,7 +223,7 @@ public class XMLWriter
 			printWriter.print( ' ' );
 			printWriter.print( attrName );
 			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( getEscapedStr( attrValue.toString( ), false ) );
+			printWriter.print( escapeAttrValue( attrValue.toString( ) ) );
 			printWriter.print( '\"' );
 		}
 	}
@@ -277,7 +278,7 @@ public class XMLWriter
 	 */
 	public void text( String value )
 	{
-		text( value, false );
+		text( value, true );
 	}
 
 	/**
@@ -295,18 +296,19 @@ public class XMLWriter
 		{
 			return;
 		}
-		indentCount++;
 		if ( !bPairedFlag )
 		{
 			printWriter.print( '>' );
+			if ( bIndent )
+			{
+				indentCount++;
+				printWriter.println( );
+				printWriter.print( indent( ) );
+				indentCount--;
+			}
+			bPairedFlag = true;
 		}
-		if ( bIndent )
-		{
-			printWriter.println( );
-		}
-		bPairedFlag = true;
-		printWriter.print( indent( ) + getEscapedStr( value, whitespace ) );
-		indentCount--;
+		printWriter.print( getEscapedStr( value, whitespace ) );
 	}
 
 	/**
@@ -321,44 +323,11 @@ public class XMLWriter
 	}
 
 	/**
-	 * @param value
-	 * @param isGeneral
-	 */
-	public void style( String name, String value, boolean isGeneral )
-	{
-		assert name != null && name.length( ) > 0;
-		if ( value == null || value.length( ) == 0 )
-		{
-			return;
-		}
-
-		if ( !bPairedFlag )
-		{
-			printWriter.print( '>' );
-			printWriter.println( );
-			bPairedFlag = true;
-		}
-
-		indentCount++;
-		printWriter.print( indent( ) );
-		if ( !isGeneral )
-		{
-			printWriter.print( '.' );
-		}
-		printWriter.print( name );
-		printWriter.print( " {" ); //$NON-NLS-1$
-		printWriter.print( value );
-		printWriter.print( '}' );
-		printWriter.println( );
-		indentCount--;
-	}
-
-	/**
 	 * Get the indent string
 	 * 
 	 * @return the indent content
 	 */
-	private String indent( )
+	protected String indent( )
 	{
 		if ( !bIndent )
 		{
@@ -395,10 +364,11 @@ public class XMLWriter
 			{
 				//Ignores the illegal character.
 				replacement = "";
-				log.log( Level.WARNING, "Ignore the illegal XML character: 0x{0};",
-						 Integer.toHexString( c )  );
+				log.log( Level.WARNING,
+						"Ignore the illegal XML character: 0x{0};", Integer
+								.toHexString( c ) );
 			}
-			if ( c == '&' )
+			else if ( c == '&' )
 			{
 				replacement = "&amp;"; //$NON-NLS-1$
 			}
@@ -406,25 +376,61 @@ public class XMLWriter
 			{
 				replacement = "&lt;"; //$NON-NLS-1$
 			}
-			else if ( c == '\r' )
-			{
-				replacement = "&#13;"; //$NON-NLS-1$
-			}
 			else if ( c == '>' )
 			{
 				replacement = "&gt;"; //$NON-NLS-1$
+			}
+			else if ( whitespace && c == ' ' && i + 1 < max
+					&& s.charAt( i + 1 ) == ' ' )
+			{
+				replacement = "&#160;"; //$NON-NLS-1$
+			}
+			else if ( c >= 0x80 )
+			{
+				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
+			}
+			if ( replacement != null )
+			{
+				if ( result == null )
+				{
+					result = new StringBuffer( s );
+				}
+				result.replace( i + delta, i + delta + 1, replacement );
+				delta += ( replacement.length( ) - 1 );
+			}
+		}
+		if ( result == null )
+		{
+			return s;
+		}
+		return result.toString( );
+	}
+
+	/**
+	 * Replaces the escape character in attribute value.
+	 * 
+	 * @param s
+	 *            The string needs to be replaced.
+	 * @return the replaced string
+	 */
+	protected String escapeAttrValue( String s )
+	{
+		StringBuffer result = null;
+		for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
+		{
+			char c = s.charAt( i );
+			String replacement = null;
+			if ( c == '&' )
+			{
+				replacement = "&amp;"; //$NON-NLS-1$
 			}
 			else if ( c == '"' )
 			{
 				replacement = "&quot;"; //$NON-NLS-1$
 			}
-			else if ( c == '\'' )
+			else if ( c == '\r' )
 			{
-				replacement = "&apos;"; //$NON-NLS-1$
-			}
-			else if ( whitespace && c == ' ' )
-			{
-				replacement = "&#160;"; //$NON-NLS-1$
+				replacement = "&#13;"; //$NON-NLS-1$
 			}
 			else if ( c >= 0x80 )
 			{

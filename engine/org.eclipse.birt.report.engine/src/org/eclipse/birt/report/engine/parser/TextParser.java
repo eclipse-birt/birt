@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Parses the content of a text-related item.
@@ -35,7 +36,7 @@ import org.w3c.dom.Document;
  * nodes that need to be processed are descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.2 $ $Date: 2005/03/07 02:33:18 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/07 03:33:25 $
  */
 public class TextParser
 {
@@ -51,7 +52,8 @@ public class TextParser
 	/**
 	 * logs syntax errors.
 	 */
-	protected static Logger logger = Logger.getLogger( TextParser.class.getName() );
+	protected static Logger logger = Logger.getLogger( TextParser.class
+			.getName( ) );
 
 	/**
 	 * Parse the input text to get a DOM tree.
@@ -95,8 +97,10 @@ public class TextParser
 				textType = TEXT_TYPE_RTF;
 			else
 				textType = TEXT_TYPE_PLAIN; // Assume plain text in any other
-											// cases
+			// cases
 		}
+
+		Document doc = null;
 
 		if ( TEXT_TYPE_HTML.equalsIgnoreCase( textType ) )
 		{
@@ -104,13 +108,13 @@ public class TextParser
 			{
 				//Convert input string to an input stream because JTidy accepts
 				// a stream only
-				return new HTMLTextParser( )
+				doc = new HTMLTextParser( )
 						.parseHTML( new ByteArrayInputStream( text
-								.getBytes( "UTF-8" ) ) );
+								.getBytes( "UTF-8" ) ) ); //$NON-NLS-1$
 			}
 			catch ( UnsupportedEncodingException e )
 			{
-			    logger.log( Level.SEVERE, e.getMessage(),  e );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;
 			}
 		}
@@ -121,11 +125,23 @@ public class TextParser
 		}
 		else
 		{
-		    if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
-		        logger.log( Level.WARNING, "Invalid text type. The content is treated as plain text." );
-			return new PlainTextParser( ).parsePlainText( text );		    			
+			if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
+				logger
+						.log( Level.WARNING,
+								"Invalid text type. The content is treated as plain text." ); //$NON-NLS-1$
+			doc = new PlainTextParser( ).parsePlainText( text );
 
 		}
+
+		if ( doc != null && doc.getFirstChild( ) != null
+				&& doc.getFirstChild( ) instanceof Element )
+		{
+
+			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type",
+					textType );
+		}
+
+		return doc;
 	}
 
 	/**
@@ -190,25 +206,39 @@ public class TextParser
 			}
 			catch ( IOException e )
 			{
-			    logger.log( Level.SEVERE, e.getMessage(),  e );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;
 			}
 		}
 
+		Document doc = null;
+
 		if ( TEXT_TYPE_HTML.equalsIgnoreCase( textType ) )
-			return new HTMLTextParser( ).parseHTML( tmpInputStream );
+			doc = new HTMLTextParser( ).parseHTML( tmpInputStream );
 		else if ( TEXT_TYPE_RTF.equals( textType ) )
 		{
 			assert false; // not supported
 			return null;
 		}
 		else
-		{		
-		    if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
-		        logger.log( Level.WARNING, "Invalid text type. The content is treated as plain text." );
-	        // All other types are considered as the plain text.
-	        return new PlainTextParser( ).parsePlainText( tmpInputStream );
+		{
+			if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
+				logger
+						.log( Level.WARNING,
+								"Invalid text type. The content is treated as plain text." ); //$NON-NLS-1$
+			// All other types are considered as the plain text.
+			doc = new PlainTextParser( ).parsePlainText( tmpInputStream );
 
 		}
+
+		if ( doc != null && doc.getFirstChild( ) != null
+				&& doc.getFirstChild( ) instanceof Element )
+		{
+
+			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type",
+					textType );
+		}
+
+		return doc;
 	}
 }

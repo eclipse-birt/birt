@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/24 05:32:13 $
  */
 public class AttributeBuilder
 {
@@ -144,7 +144,7 @@ public class AttributeBuilder
 		content.append( " background:" ); //$NON-NLS-1$
 		addPropValue( content, color );
 
-		if ( !"none".equalsIgnoreCase( image )
+		if ( !"none".equalsIgnoreCase( image ) //$NON-NLS-1$
 				&& FileUtil.isRelativePath( image )
 				&& emitter.getReport( ) != null )
 		{
@@ -152,22 +152,22 @@ public class AttributeBuilder
 					.getBasePath( ), image );
 		}
 		if ( image != null && image.length( ) > 0
-				&& !"none".equalsIgnoreCase( image ) )
+				&& !"none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
 		{
 			if ( FileUtil.isLocalResource( image ) )
 			{
 				if ( emitter.needSaveImgFile( ) )
 				{
 					image = emitter.getResourceManager( ).storeResource( image,
-							HTMLReportEmitter.IMAGE_FOLDER ); //$NON-NLS-1$
+							HTMLReportEmitter.IMAGE_FOLDER );
 					if ( image == null )
 					{
-						image = "none";
+						image = "none"; //$NON-NLS-1$
 					}
 				}
 				else
 				{
-					image = "file:" + image;
+					image = "file:" + image; //$NON-NLS-1$
 				}
 				image = emitter.getHyperlinkBuilder( ).createHyperlink(
 						IHyperlinkProcessor.HYPERLINK_IMAGE, image );
@@ -196,29 +196,37 @@ public class AttributeBuilder
 	 */
 	private static void buildBox( StringBuffer content, StyleDesign style )
 	{
-		buildPaddingMargine( content, style.getMarginTop( ), style
-				.getMarginRight( ), style.getMarginBottom( ), style
-				.getMarginLeft( ), false );
+		buildProperty( content, "margin-top", style.getMarginTop( ) ); //$NON-NLS-1$
+		buildProperty( content, "margin-right", style.getMarginRight( ) ); //$NON-NLS-1$
+		buildProperty( content, "margin-bottom", style.getMarginBottom( ) ); //$NON-NLS-1$
+		buildProperty( content, "margin-left", style.getMarginLeft( ) ); //$NON-NLS-1$
 
-		buildPaddingMargine( content, style.getPaddingTop( ), style
-				.getPaddingRight( ), style.getPaddingBottom( ), style
-				.getPaddingLeft( ), true );
+		buildProperty( content, "padding-top", style.getPaddingTop( ) ); //$NON-NLS-1$
+		buildProperty( content, "padding-right", style.getPaddingRight( ) ); //$NON-NLS-1$
+		buildProperty( content, "padding-bottom", style.getPaddingBottom( ) ); //$NON-NLS-1$
+		buildProperty( content, "padding-left", style.getPaddingLeft( ) ); //$NON-NLS-1$
 
-		buildBorder( content, "border-top", //$NON-NLS-1$
-				style.getBorderTopWidth( ), style.getBorderTopStyle( ), style
-						.getBorderTopColor( ) );
+		buildProperty( content, "border-top-style", style.getBorderTopStyle( ) ); //$NON-NLS-1$
+		buildProperty( content, "border-top-color", style.getBorderTopColor( ) ); //$NON-NLS-1$
+		buildProperty( content, "border-top-width", style.getBorderTopWidth( ) ); //$NON-NLS-1$
 
-		buildBorder( content, "border-right", //$NON-NLS-1$
-				style.getBorderRightWidth( ), style.getBorderRightStyle( ),
-				style.getBorderRightColor( ) );
+		buildProperty( content, "border-right-style", style //$NON-NLS-1$
+				.getBorderRightStyle( ) );
+		buildProperty( content, "border-right-color", style //$NON-NLS-1$
+				.getBorderRightColor( ) );
+		buildProperty( content, "border-right-width", style //$NON-NLS-1$
+				.getBorderRightWidth( ) );
 
-		buildBorder( content, "border-bottom", //$NON-NLS-1$
-				style.getBorderBottomWidth( ), style.getBorderBottomStyle( ),
-				style.getBorderBottomColor( ) );
+		buildProperty( content, "border-bottom-style", style //$NON-NLS-1$
+				.getBorderBottomStyle( ) );
+		buildProperty( content, "border-bottom-color", style //$NON-NLS-1$
+				.getBorderBottomColor( ) );
+		buildProperty( content, "border-bottom-width", style //$NON-NLS-1$
+				.getBorderBottomWidth( ) );
 
-		buildBorder( content, "border-left", //$NON-NLS-1$
-				style.getBorderLeftWidth( ), style.getBorderLeftStyle( ), style
-						.getBorderLeftColor( ) );
+		buildProperty( content, "border-left-style", style.getBorderLeftStyle( ) ); //$NON-NLS-1$
+		buildProperty( content, "border-left-color", style.getBorderLeftColor( ) ); //$NON-NLS-1$
+		buildProperty( content, "border-left-width", style.getBorderLeftWidth( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -281,15 +289,15 @@ public class AttributeBuilder
 	{
 		int flag = 0;
 
-		if ( linethrough != null && !"none".equalsIgnoreCase( linethrough ) )
+		if ( linethrough != null && !"none".equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
 		{
 			flag = 1; // linethrough
 		}
-		if ( underline != null && !"none".equalsIgnoreCase( underline ) )
+		if ( underline != null && !"none".equalsIgnoreCase( underline ) ) //$NON-NLS-1$
 		{
 			flag |= 2; // underline
 		}
-		if ( overline != null && !"none".equalsIgnoreCase( overline ) )
+		if ( overline != null && !"none".equalsIgnoreCase( overline ) ) //$NON-NLS-1$
 		{
 			flag |= 4; // overline
 		}
@@ -310,72 +318,6 @@ public class AttributeBuilder
 				addPropValue( content, overline );
 			}
 			content.append( ';' );
-		}
-	}
-
-	/**
-	 * Build the border string.
-	 * 
-	 * @param content
-	 *            The <code>StringBuffer</code> to which the result is output.
-	 * @param name
-	 *            The proerty name.
-	 * @param width
-	 *            The border-width value.
-	 * @param style
-	 *            The border-style value.
-	 * @param color
-	 *            The border-color value
-	 */
-	private static void buildBorder( StringBuffer content, String name,
-			String width, String style, String color )
-	{
-		if ( width == null && style == null && color == null )
-		{
-			return;
-		}
-
-		addPropName( content, name );
-		addPropValue( content, width );
-		addPropValue( content, style );
-		addPropValue( content, color );
-
-		content.append( ';' );
-	}
-
-	/**
-	 * Build Padding/Margin string.
-	 * 
-	 * @param content
-	 *            The <code>StringBuffer</code> to which the result is output.
-	 * @param top -
-	 *            top value
-	 * @param right -
-	 *            right value
-	 * @param bottom -
-	 *            bottom value
-	 * @param left -
-	 *            left value
-	 * @param isPadding -
-	 *            A boolean value; <code>true</code> indicating to build
-	 *            Padding property, otherwise for Margin property
-	 */
-	private static void buildPaddingMargine( StringBuffer content, String top,
-			String right, String bottom, String left, boolean isPadding )
-	{
-		if ( isPadding )
-		{
-			buildProperty( content, "padding-top", top ); //$NON-NLS-1$
-			buildProperty( content, "padding-right", right ); //$NON-NLS-1$
-			buildProperty( content, "padding-bottom", bottom ); //$NON-NLS-1$
-			buildProperty( content, "padding-left", left ); //$NON-NLS-1$
-		}
-		else
-		{
-			buildProperty( content, "margin-top", top ); //$NON-NLS-1$
-			buildProperty( content, "margin-right", right ); //$NON-NLS-1$
-			buildProperty( content, "margin-bottom", bottom ); //$NON-NLS-1$
-			buildProperty( content, "margin-left", left ); //$NON-NLS-1$
 		}
 	}
 
@@ -520,7 +462,7 @@ public class AttributeBuilder
 			}
 			else if ( c == '#' )
 			{
-				replacement = "%23";
+				replacement = "%23"; //$NON-NLS-1$
 			}
 			else if ( c == '%' )
 			{

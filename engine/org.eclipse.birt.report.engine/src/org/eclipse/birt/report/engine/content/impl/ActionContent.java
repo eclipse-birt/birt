@@ -21,61 +21,73 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
  */
 public class ActionContent implements IHyperlinkAction
 {
+
 	/**
 	 * action type
 	 */
 	protected int type;
-	
+
 	/**
 	 * bookmark string
 	 */
 	protected String bookmark;
-	
+
 	/**
 	 * action string. See base interface
 	 */
 	protected String actionString;
-	
+
 	/**
 	 * report name
 	 */
 	protected String reportName;
-	
+
 	/**
 	 * parameters and their values for running drillthrough reports
 	 */
 	protected Map parameterBindings;
-	
+
 	/**
 	 * search keys and their values for searching drillthrough reports
 	 */
 	protected Map searchCriteria;
-	
+
 	/**
-	 * Constrictor for hyperlink action type
-	 * 
-	 * @param actionString action string
+	 * the name of a frame where a document is to be opened.
 	 */
-	public ActionContent(String actionString)
+	protected String target = null;
+
+	/**
+	 * Constructor for hyperline action type
+	 * 
+	 * @param actionString
+	 *            the action string
+	 * @param target
+	 *            the target window
+	 */
+	public ActionContent( String actionString, String target )
 	{
-		this.actionString = actionString;
 		this.type = IHyperlinkAction.ACTION_HYPERLINK;
+		this.actionString = actionString;
+		this.target = target;
 	}
 
 	/**
 	 * Constrictor for bookmark action type
 	 * 
-	 * @param actionString action string. May eb the same as bookmark string
-	 * @param bookmark bookmark value
+	 * @param bookmark
+	 *            the bookmark value.
 	 */
-	public ActionContent(String actionString, String bookmark)
+	public ActionContent( String bookmark )
 	{
-		this.actionString = actionString;
-		this.bookmark = bookmark;
 		this.type = IHyperlinkAction.ACTION_BOOKMARK;
+		this.actionString = bookmark;
+		this.bookmark = bookmark;
 	}
-	
-	public ActionContent(String actionString, String bookmark, String reportName, Map parameterBindings, Map searchCriteria)
+
+	public ActionContent( String actionString, String bookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target )
 	{
 		this.actionString = actionString;
 		this.bookmark = bookmark;
@@ -83,84 +95,130 @@ public class ActionContent implements IHyperlinkAction
 		this.parameterBindings = parameterBindings;
 		this.searchCriteria = searchCriteria;
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
-	}	
-	
-	/* (non-Javadoc)
+		this.target = target;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getType()
 	 */
-	public int getType() {
+	public int getType( )
+	{
 		return type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getBookmark()
 	 */
-	public String getBookmark() {
+	public String getBookmark( )
+	{
 		return bookmark;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getActionString()
 	 */
-	public String getActionString() {
+	public String getActionString( )
+	{
 		return actionString;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getReportName()
 	 */
-	public String getReportName() {
+	public String getReportName( )
+	{
 		return reportName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getParameterbindings()
 	 */
-	public Map getParameterBindings() {
+	public Map getParameterBindings( )
+	{
 		return parameterBindings;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getSearchCriteria()
 	 */
-	public Map getSearchCriteria() {
+	public Map getSearchCriteria( )
+	{
 		return searchCriteria;
 	}
 
-	/**
-	 * @param actionString The actionString to set.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IHyperlinkAction#getTargetWindow()
 	 */
-	public void setActionString(String actionString) {
+	public String getTargetWindow( )
+	{
+		return target;
+	}
+
+	/**
+	 * @param actionString
+	 *            The actionString to set.
+	 */
+	public void setActionString( String actionString )
+	{
 		this.actionString = actionString;
 	}
+
 	/**
-	 * @param bookmark The bookmark to set.
+	 * @param bookmark
+	 *            The bookmark to set.
 	 */
-	public void setBookmark(String bookmark) {
+	public void setBookmark( String bookmark )
+	{
 		this.bookmark = bookmark;
 	}
+
 	/**
-	 * @param parameterBindings The parameterBindings to set.
+	 * @param parameterBindings
+	 *            The parameterBindings to set.
 	 */
-	public void setParameterBindings(Map parameterBindings) {
+	public void setParameterBindings( Map parameterBindings )
+	{
 		this.parameterBindings = parameterBindings;
 	}
+
 	/**
-	 * @param reportName The reportName to set.
+	 * @param reportName
+	 *            The reportName to set.
 	 */
-	public void setReportName(String reportName) {
+	public void setReportName( String reportName )
+	{
 		this.reportName = reportName;
 	}
+
 	/**
-	 * @param searchCriteria The searchCriteria to set.
+	 * @param searchCriteria
+	 *            The searchCriteria to set.
 	 */
-	public void setSearchCriteria(Map searchCriteria) {
+	public void setSearchCriteria( Map searchCriteria )
+	{
 		this.searchCriteria = searchCriteria;
 	}
+
 	/**
-	 * @param type The type to set.
+	 * @param type
+	 *            The type to set.
 	 */
-	public void setType(int type) {
+	public void setType( int type )
+	{
 		this.type = type;
 	}
 }

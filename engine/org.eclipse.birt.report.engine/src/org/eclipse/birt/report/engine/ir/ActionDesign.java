@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Action. Action include: hyperlink, drill through and bookmark.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ActionDesign
 {
@@ -49,6 +49,11 @@ public class ActionDesign
 	 * drill through
 	 */
 	protected DrillThroughActionDesign drillThrough;
+
+	/**
+	 * The name of a frame where a document is to be opened.
+	 */
+	protected String target = null;
 
 	/**
 	 * @return Returns the bookmark.
@@ -88,7 +93,6 @@ public class ActionDesign
 		this.actionType = ActionDesign.ACTION_HYPERLINK;
 	}
 
-	
 	/**
 	 * @return Returns the drillThrough.
 	 */
@@ -97,19 +101,39 @@ public class ActionDesign
 		assert this.actionType == ACTION_DRILLTHROUGH;
 		return drillThrough;
 	}
+
 	/**
-	 * @param drillThrough The drillThrough to set.
+	 * @param drillThrough
+	 *            The drillThrough to set.
 	 */
 	public void setDrillThrough( DrillThroughActionDesign drillThrough )
 	{
 		this.actionType = ACTION_DRILLTHROUGH;
 		this.drillThrough = drillThrough;
 	}
+
 	/**
 	 * @return Returns the type.
 	 */
 	public int getActionType( )
 	{
 		return actionType;
+	}
+
+	/**
+	 * @return the target window.
+	 */
+	public String getTargetWindow( )
+	{
+		return target;
+	}
+
+	/**
+	 * @param target
+	 *            The name of a frame where a document is to be opened.
+	 */
+	public void setTargetWindow( String target )
+	{
+		this.target = target;
 	}
 }
