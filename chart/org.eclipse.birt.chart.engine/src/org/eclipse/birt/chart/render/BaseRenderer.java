@@ -546,6 +546,7 @@ public abstract class BaseRenderer
                     // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                     sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0);
                 }
+                
                 // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
                 seBase = (Series) sdBase.getRunTimeSeries().get(0);
                 pa = sdBase.getSeriesPalette();
@@ -667,11 +668,8 @@ public abstract class BaseRenderer
                         //throw new RenderingException("The primary base axis
                         // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0);
                 }
                 else if (cm instanceof ChartWithoutAxes)
                 {
@@ -681,19 +679,11 @@ public abstract class BaseRenderer
                         //throw new RenderingException("The primary base axis
                         // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); 
                 }
-                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO
-                // ASSUME
-                // THAT 1
-                // BASE
-                // RUNTIME
-                // SERIES
-                // EXISTS
+                // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+                seBase = (Series) sdBase.getRunTimeSeries().get(0);
                 pa = sdBase.getSeriesPalette();
                 elPaletteEntries = pa.getEntries();
                 iPaletteCount = elPaletteEntries.size();

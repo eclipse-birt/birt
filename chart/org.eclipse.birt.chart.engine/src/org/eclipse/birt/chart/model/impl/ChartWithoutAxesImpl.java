@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.SeriesHint;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Series;
@@ -340,6 +341,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
         // INITIALIZE SUPER'S MEMBERS
         super.initialize();
         setGridColumnCount(1);
+        getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
     }
 
     /*
@@ -349,7 +351,16 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
      */
     public final SeriesDefinition[] getSeriesForLegend()
     {
-        return (SeriesDefinition[]) getSeriesDefinitions().toArray();
+        final ArrayList al = new ArrayList();
+        EList elOrthogonalSD; 
+        final EList elBaseSD = getSeriesDefinitions();
+        for (int i = 0; i < elBaseSD.size(); i++)
+        {
+            elOrthogonalSD = ((SeriesDefinition) elBaseSD.get(i)).getSeriesDefinitions();
+            al.addAll(elOrthogonalSD);
+        }
+        
+        return (SeriesDefinition[]) al.toArray(SeriesDefinition.EMPTY_ARRAY);
     }
 
     /*
