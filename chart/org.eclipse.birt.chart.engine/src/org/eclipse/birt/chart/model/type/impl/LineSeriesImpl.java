@@ -674,7 +674,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * 
      * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
      */
-    public final boolean canBeStacked()
+    public boolean canBeStacked()
     {
         return true;
     }
