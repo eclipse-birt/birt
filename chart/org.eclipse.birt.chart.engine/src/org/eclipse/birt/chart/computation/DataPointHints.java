@@ -43,6 +43,11 @@ public final class DataPointHints
      *  
      */
     private final Object oOrthogonalValue;
+    
+    /**
+     * 
+     */
+    private final String sSeriesValue;
 
     /**
      *  
@@ -59,7 +64,10 @@ public final class DataPointHints
      */
     private final DataPoint dp;
 
-    private final FormatSpecifier fsBase, fsOrthogonal, fsSeries;
+    /**
+     * 
+     */
+    private final FormatSpecifier fsBase, fsOrthogonal;
 
     /**
      * 
@@ -68,13 +76,13 @@ public final class DataPointHints
      * @param _lo
      * @param _dSize
      */
-    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, DataPoint _dp, // FOR COMBINED VALUE RETRIEVAL
-        FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries, // FOR INDIVIDUAL USE
+    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, String _sSeriesValue, 
+        DataPoint _dp, // FOR COMBINED VALUE RETRIEVAL
+        FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, // FOR INDIVIDUAL USE
         Location _lo, double _dSize, Locale _lcl) throws UndefinedValueException
     {
         fsBase = _fsBase;
         fsOrthogonal = _fsOrthogonal;
-        fsSeries = _fsSeries;
         if (_dp == null)
         {
             throw new UndefinedValueException("The DataPoint value associated with the series definition is undefined");
@@ -82,6 +90,7 @@ public final class DataPointHints
         dp = _dp;
         oBaseValue = _oBaseValue;
         oOrthogonalValue = _oOrthogonalValue;
+        sSeriesValue = _sSeriesValue;
         lo = _lo;
         lcl = (_lcl == null) ? Locale.getDefault() : _lcl;
         dSize = _dSize;
@@ -123,16 +132,33 @@ public final class DataPointHints
         return dSize;
     }
 
+    /**
+     * 
+     * @return
+     */
     public final String getOrthogonalDisplayValue()
     {
         return getOrthogonalDisplayValue(fsOrthogonal);
     }
 
+    /**
+     * 
+     * @return
+     */
     public final String getBaseDisplayValue()
     {
         return getBaseDisplayValue(fsBase);
     }
 
+    /**
+     * 
+     * @return
+     */
+    public final String getSeriesValue()
+    {
+        return sSeriesValue;
+    }
+    
     /**
      * 
      * @return
@@ -206,6 +232,10 @@ public final class DataPointHints
             {
                 sb.append(getOrthogonalDisplayValue(dpc.getFormatSpecifier()));
             }
+            else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
+            {
+                sb.append(sSeriesValue);
+            }
 
             if (i < el.size() - 1)
             {
@@ -219,6 +249,11 @@ public final class DataPointHints
         return sb.toString();
     }
 
+    /**
+     * 
+     * @param o
+     * @return
+     */
     private final double asDouble(Object o)
     {
         if (o instanceof Double)
@@ -232,6 +267,11 @@ public final class DataPointHints
         return 0;
     }
 
+    /**
+     * 
+     * @param o
+     * @return
+     */
     private final Calendar asCalendar(Object o)
     {
         if (o instanceof Calendar)
@@ -243,5 +283,13 @@ public final class DataPointHints
             return ((DateTimeDataElement) o).getValueAsCalendar();
         }
         return null;
+    }
+    
+    /**
+     * 
+     */
+    public final String toString()
+    {
+        return super.toString() + ":" + getDisplayValue();
     }
 }
