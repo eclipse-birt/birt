@@ -157,18 +157,18 @@ public class FilterModelProvider
 			if(value != null)
 				newValue = value; 
 		}
-		if ( !( element instanceof StructureHandle ) )
-		{
-			FilterCondition filterCond = StructureFactory.createFilterCond( );
-			if ( key.equals( FilterCondition.EXPR_MEMBER ) )
-			{
-				filterCond.setExpr( newValue );
-			}
-			DesignElementHandle handle = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.FILTER_PROP );
-			propertyHandle.addItem( filterCond );
-			element = filterCond.getHandle( propertyHandle );
-		}
+//		if ( !( element instanceof StructureHandle ) )
+//		{
+//			FilterCondition filterCond = StructureFactory.createFilterCond( );
+//			if ( key.equals( FilterCondition.EXPR_MEMBER ) )
+//			{
+//				filterCond.setExpr( newValue );
+//			}
+//			DesignElementHandle handle = (DesignElementHandle) item;
+//			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.FILTER_PROP );
+//			propertyHandle.addItem( filterCond );
+//			element = filterCond.getHandle( propertyHandle );
+//		}
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
@@ -280,6 +280,27 @@ public class FilterModelProvider
 			propertyHandle.removeItem( pos );
 		}
 
+		return true;
+	}
+	
+	/**
+	 * Inserts one item into the given position.
+	 * 
+	 * @param item
+	 *            DesignElement object
+	 * @param pos
+	 *            The position.
+	 * @return True if success, otherwise false.
+	 * @throws SemanticException
+	 */
+	public boolean doAddItem( Object item, int pos ) throws SemanticException
+	{
+		FilterCondition filterCond = StructureFactory.createFilterCond( );
+		filterCond.setExpr("Expression");//$NON-NLS-1$
+		DesignElementHandle handle = (DesignElementHandle) item;
+		PropertyHandle propertyHandle = handle
+				.getPropertyHandle( ListingElement.FILTER_PROP );
+		propertyHandle.addItem( filterCond );
 		return true;
 	}
 }

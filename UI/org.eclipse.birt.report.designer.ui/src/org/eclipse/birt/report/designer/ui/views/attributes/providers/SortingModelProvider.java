@@ -149,19 +149,19 @@ public class SortingModelProvider
 			if(value != null)
 				newValue = value; 
 		}
-		if ( !( element instanceof StructureHandle ) )
-		{
-			SortKey sortkey = StructureFactory.createSortKey( );
-			if ( key.equals( SortKey.KEY_MEMBER ) )
-			{
-				sortkey.setKey( newValue );
-			}
-
-			DesignElementHandle handle = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.SORT_PROP );
-			propertyHandle.addItem( sortkey );
-			element = sortkey.getHandle( propertyHandle );
-		}
+//		if ( !( element instanceof StructureHandle ) )
+//		{
+//			SortKey sortkey = StructureFactory.createSortKey( );
+//			if ( key.equals( SortKey.KEY_MEMBER ) )
+//			{
+//				sortkey.setKey( newValue );
+//			}
+//
+//			DesignElementHandle handle = (DesignElementHandle) item;
+//			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.SORT_PROP );
+//			propertyHandle.addItem( sortkey );
+//			element = sortkey.getHandle( propertyHandle );
+//		}
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
@@ -272,6 +272,30 @@ public class SortingModelProvider
 		PropertyHandle propertyHandle = element.getPropertyHandle( ListingElement.SORT_PROP );
 		if ( propertyHandle.getAt( pos ) != null )
 			propertyHandle.removeItem( pos );
+		return true;
+	}
+	
+	/**
+	 * Inserts one item into the given position.
+	 * 
+	 * @param item
+	 *            DesignElement object
+	 * @param pos
+	 *            The position.
+	 * @return True if success, otherwise false.
+	 * @throws SemanticException
+	 */
+	public boolean doAddItem( Object item, int pos ) throws SemanticException
+	{
+		if ( item instanceof DesignElementHandle )
+		{
+			SortKey sortkey = StructureFactory.createSortKey( );
+			sortkey.setKey( "Key" );//$NON-NLS-1$
+			DesignElementHandle handle = (DesignElementHandle) item;
+			PropertyHandle propertyHandle = handle
+					.getPropertyHandle( ListingElement.SORT_PROP );
+			propertyHandle.addItem( sortkey );
+		}
 		return true;
 	}
 }
