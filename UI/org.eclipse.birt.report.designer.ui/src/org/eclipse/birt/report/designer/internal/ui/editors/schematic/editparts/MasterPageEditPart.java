@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -65,7 +66,7 @@ public class MasterPageEditPart extends ReportElementEditPart
 			case NotificationEvent.PROPERTY_EVENT :
 			case NotificationEvent.STYLE_EVENT :
 			{
-				markDirty(true);
+				markDirty( true );
 				refresh( );
 				//The children of master page edit part keep
 				//virtual model
@@ -86,8 +87,7 @@ public class MasterPageEditPart extends ReportElementEditPart
 	 */
 	protected void createEditPolicies( )
 	{
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new MasterPageEditPolicy( ) );
+		installEditPolicy( EditPolicy.LAYOUT_ROLE, new MasterPageEditPolicy( ) );
 	}
 
 	/*
@@ -127,7 +127,9 @@ public class MasterPageEditPart extends ReportElementEditPart
 				getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
 				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
 
-		getFigure( ).setBorder( new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) ) );
+		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
+		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( Style.BACKGROUND_COLOR_PROP ));
+		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		refreshBackground( (MasterPageHandle) getModel( ) );
 	}
@@ -159,23 +161,27 @@ public class MasterPageEditPart extends ReportElementEditPart
 }
 
 /**
- * Provide getTargetEditPart for GEF framework.
- * When the user click on magin area of master page, the GEF framework need to iterator on 
- * installed edit policies of target editpart to get the target edir part. This simple class
- * is written for this target and can avoid NULL pointer exception.
+ * Provide getTargetEditPart for GEF framework. When the user click on magin
+ * area of master page, the GEF framework need to iterator on installed edit
+ * policies of target editpart to get the target edir part. This simple class is
+ * written for this target and can avoid NULL pointer exception.
  */
+
 class MasterPageEditPolicy extends GraphicalEditPolicy
 {
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
 	 */
-	public EditPart getTargetEditPart(Request request) {
-		if (REQ_ADD.equals(request.getType())
-				|| REQ_MOVE.equals(request.getType())
-				|| REQ_CREATE.equals(request.getType())
-				|| REQ_CLONE.equals(request.getType()))
-				return getHost();
-			return null;
+	public EditPart getTargetEditPart( Request request )
+	{
+		if ( REQ_ADD.equals( request.getType( ) )
+				|| REQ_MOVE.equals( request.getType( ) )
+				|| REQ_CREATE.equals( request.getType( ) )
+				|| REQ_CLONE.equals( request.getType( ) ) )
+			return getHost( );
+		return null;
 	}
 }

@@ -12,7 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -26,6 +27,8 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ReportDesignMarginBorder extends MarginBorder
 {
+
+	private int backgroundColor = 0xFFFFFF;
 
 	/**
 	 * Constructor
@@ -50,8 +53,9 @@ public class ReportDesignMarginBorder extends MarginBorder
 		Color oldForegroundColor = graphics.getForegroundColor( );
 		Rectangle rect = figure.getBounds( ).getCopy( );
 		Insets margin = getInsets( figure );
+		
+		graphics.setBackgroundColor( ColorManager.getColor( backgroundColor ) );
 
-		graphics.setBackgroundColor( ColorConstants.white );
 		Rectangle top = new Rectangle( rect.x, rect.y, rect.width, margin.top );
 		graphics.fillRectangle( top );
 		Rectangle left = new Rectangle( rect.x,
@@ -78,5 +82,20 @@ public class ReportDesignMarginBorder extends MarginBorder
 				.crop( margin )
 				.shrink( -1, -1 ) );
 		graphics.setForegroundColor( oldForegroundColor );
+	}
+
+	public void setBackgroundColor( Object obj )
+	{
+		if ( obj != null )
+		{
+			if ( obj instanceof String )
+			{
+				backgroundColor = ColorUtil.parseColor( (String) obj );
+			}
+			else
+			{
+				backgroundColor = ( (Integer) obj ).intValue( );
+			}
+		}
 	}
 }

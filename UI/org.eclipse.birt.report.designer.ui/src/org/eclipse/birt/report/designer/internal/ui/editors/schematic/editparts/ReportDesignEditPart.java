@@ -25,9 +25,11 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -169,7 +171,10 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 		( (ReportDesignLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 		getFigure( ).setBounds( bounds );
-		getFigure( ).setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+
+		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
+		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( Style.BACKGROUND_COLOR_PROP ));
+		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		int color = getBackgroundColor( masterPageHandle );
 		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
