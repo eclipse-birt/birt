@@ -19,8 +19,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class for embedded viewer web application.
- * 
- * @version
+ * <p>
  */
 public class ViewerPlugin extends Plugin
 {
