@@ -85,7 +85,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.3 $ $Date: 2005/02/17 02:33:21 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/17 07:27:38 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -180,8 +180,14 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 					{
 						GEFActionConstants.addStandardActionGroups( menu );
 
-						Object selectedPart = getPaletteViewer( ).getSelectedEditParts( )
-								.get( 0 );
+						List lst = getPaletteViewer( ).getSelectedEditParts( );
+						
+						if (lst.size() == 0)
+						{
+							return;
+						}
+						
+						Object selectedPart = lst.get( 0 );
 						if ( selectedPart instanceof DrawerEditPart
 								&& ( (DrawerEditPart) selectedPart ).canBePinned( ) )
 						{

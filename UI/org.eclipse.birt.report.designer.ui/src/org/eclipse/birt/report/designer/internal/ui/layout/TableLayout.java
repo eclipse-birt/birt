@@ -75,7 +75,7 @@ public class TableLayout extends XYLayout
 	}
 
 	/**
-	 * Constructor
+	 * Layout given container.
 	 * 
 	 * @param container
 	 * @param bool
@@ -91,7 +91,7 @@ public class TableLayout extends XYLayout
 	}
 
 	/**
-	 * Mark dirty flag to trigger relayou.
+	 * Mark dirty flag to trigger re-layout.
 	 */
 	public void markDirty( )
 	{
@@ -134,11 +134,17 @@ public class TableLayout extends XYLayout
 		// adjust the cell data with calculated width and height
 		caleLayoutData( container );
 
+		//first pass, layout the children.
+		layoutTable( container );
+
+		//reset the row minimum height data.
+		resetRowMinSize( data.rowHeights );
+
 		initRowMinSize( children );
 		initRowMergeMinsize( children );
 		caleRowData( );
 
-		// set figure size with adjusted data
+		//second pass, layout the container itself.
 		layoutTable( container );
 
 		setConstraint( container, data );
@@ -149,7 +155,8 @@ public class TableLayout extends XYLayout
 		boolean hasCell = false;
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( list.get( i ) instanceof TableCellEditPart )
+			if ( list.get( i ) instanceof TableCellEditPart
+					|| list.get( i ) instanceof TableEditPart )
 			{
 				hasCell = true;
 				break;
@@ -233,6 +240,43 @@ public class TableLayout extends XYLayout
 				child.getLayoutManager( ).invalidate( );
 			child.revalidate( );
 		}
+	}
+
+	private void resetRowMinSize( TableLayoutData.RowData[] rowHeights )
+	{
+		int size = rowHeights.length;
+
+		for ( int i = 1; i < size + 1; i++ )
+		{
+			rowHeights[i - 1] = new TableLayoutData.RowData( );
+			rowHeights[i - 1].rowNumber = i;
+			Object obj = getOwner( ).getRow( i );
+			RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( obj );
+			rowHeights[i - 1].height = adapt.getHeight( );
+			rowHeights[i - 1].isForce = adapt.isCustomHeight( );
+
+			//add to handle percentage case.
+			DimensionHandle dim = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) )
+					&& dim.getMeasure( ) > 0 )
+			{
+				rowHeights[i - 1].isPercentage = true;
+				rowHeights[i - 1].percentageHeight = dim.getMeasure( );
+			}
+
+			//add to handle auto case;
+			if ( dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0 )
+			{
+				rowHeights[i - 1].isAuto = true;
+			}
+
+			//add by gao 2004.11.22
+			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage ) ? rowHeights[i - 1].height
+					: rowHeights[i - 1].minRowHeight;
+
+		}
+
 	}
 
 	private void initRowMinSize( List children )
@@ -553,9 +597,6 @@ public class TableLayout extends XYLayout
 		return 0;
 	}
 
-	/**
-	 * @param children
-	 */
 	private void initMinSize( List children )
 	{
 		int size = children.size( );
@@ -604,9 +645,6 @@ public class TableLayout extends XYLayout
 		}
 	}
 
-	/**
-	 * @param children
-	 */
 	private void initMergeMinsize( List children )
 	{
 		int size = children.size( );
