@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.data;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -18,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Defines a set of data-related functions that engine needs from a data engine 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
  */
 public interface IDataEngine
 {
@@ -62,4 +63,10 @@ public interface IDataEngine
 	 * @return the evaluated result for the data engine expression
 	 */
 	Object evaluate(IBaseExpression expr);
+	
+	/**
+	 * return the DTE's data engine.
+	 * @return retuan a dataEngine of DTE.
+	 */
+	DataEngine getDataEngine();
 }
