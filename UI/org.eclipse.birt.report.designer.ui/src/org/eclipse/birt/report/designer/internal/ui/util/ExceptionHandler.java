@@ -61,6 +61,8 @@ public class ExceptionHandler
 
 	private static List ExpectedExceptionList;
 
+	private static boolean isNeedLog;
+
 	static
 	{
 		ExpectedExceptionList = new ArrayList( );
@@ -160,7 +162,7 @@ public class ExceptionHandler
 		Throwable exception = null;
 		String reason = null;
 		String[] detail = null;
-		if ( !needNotLog( e ) )
+		if ( !needNotLog( e ) && isNeedLog)
 		{
 			exception = e;
 		}
@@ -279,5 +281,10 @@ public class ExceptionHandler
 	public static void openErrorMessageBox( String title, String errorMessage )
 	{
 		openMessageBox( title, errorMessage, SWT.ICON_ERROR );
+	}
+	
+	public static void setNeedLog(boolean isNeedLog)
+	{
+		ExceptionHandler.isNeedLog = isNeedLog; 
 	}
 }
