@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -96,7 +97,7 @@ public class DEUtil
 		notSupportList.add( MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
 		notSupportList.add( MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.MULTI_LINE_DATA_ITEM ) );
+				.getElement( ReportDesignConstants.TEXT_DATA_ITEM ) );
 		notSupportList.add( MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
@@ -1072,4 +1073,19 @@ public class DEUtil
 		return targetHandle.canContain( slotId, dragObjType );
 	}
 
+	/**
+	 * Gets the tool used to process multil-selection.
+	 * 
+	 * @param modelList
+	 *            DE model list.
+	 * @return The tool used to process multil-selection.
+	 */
+	public static GroupElementHandle getMultiSelectionHandle( List modelList )
+	{
+		ReportDesign design = SessionHandleAdapter.getInstance( )
+				.getReportDesign( );
+		GroupElementHandle handle = new GroupElementHandle( design, modelList );
+		return handle;
+	}
+	
 }
