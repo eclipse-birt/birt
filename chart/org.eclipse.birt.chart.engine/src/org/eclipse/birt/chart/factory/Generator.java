@@ -132,8 +132,8 @@ public final class Generator
         }
 
         final String sScriptContent = cmRunTime.getScript();
-        ScriptHandler sh = null;
-        if (sScriptContent != null)
+        ScriptHandler sh = cmDesignTime.getScriptHandler();
+        if (sh == null && sScriptContent != null) // NOT PREVIOUSLY DEFINED BY REPORTITEM ADAPTER
         {
             sh = new ScriptHandler();
             try
@@ -142,15 +142,19 @@ public final class Generator
                 sh.setRunTimeModel(cmRunTime);
                 cmRunTime.setScriptHandler(sh);
                 sh.register(sScriptContent);
-                ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
             }
             catch (ScriptException sx )
             {
                 throw new GenerationException(sx);
             }
         }
+        else if (sh != null) // COPY SCRIPTS FROM DESIGNTIME TO RUNTIME INSTANCE
+        {
+            cmRunTime.setScriptHandler(sh);
+        }
 
         // SETUP THE COMPUTATIONS
+        ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
         int iChartType = UNDEFINED;
         Object oComputations = null;
         if (cmRunTime instanceof ChartWithAxes)
