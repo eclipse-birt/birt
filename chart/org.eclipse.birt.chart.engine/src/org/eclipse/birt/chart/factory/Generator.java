@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.OverlapException;
 import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.ScriptException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -123,11 +124,16 @@ public final class Generator
         if (sScriptContent != null)
         {
             sh = new ScriptHandler();
-            sh.init(scParent);
-            sh.setRunTimeModel(cmRunTime);
-            cmRunTime.setScriptHandler(sh);
-            sh.register(sScriptContent);
-            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
+            try {
+	            sh.init(scParent);
+	            sh.setRunTimeModel(cmRunTime);
+	            cmRunTime.setScriptHandler(sh);
+	            sh.register(sScriptContent);
+	            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
+            } catch (ScriptException sx)
+            {
+                throw new GenerationException(sx);
+            }
         }
 
         // SETUP THE COMPUTATIONS
