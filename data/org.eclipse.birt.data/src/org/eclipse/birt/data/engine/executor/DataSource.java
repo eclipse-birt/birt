@@ -108,6 +108,11 @@ class DataSource implements IDataSource
         if ( odaConnection != null )
             return;
         
+        // If no driver name is specified, this is an empty data source used soley for
+        // processing candidate queries. Open() is a no-op.
+        if ( driverName == null || driverName.length() == 0 )
+        	return;
+        
         try
         {
 			ConnectionManager connManager = ConnectionManager.getInstance();

@@ -43,7 +43,10 @@ public interface IPreparedQuery
      * expressions (e.g., those that uses the Javascript "row" object).
      * @return The QueryResults object opened and ready to return
      * 		the results of a report query. 
-     * @param queryScope Javascript defined for this runtime instance of report query.
+     * @param queryScope The Javascript scope for evaluating query's script expressions. 
+     *      This is expected to be a top-level scope with the Data Engine's global scope
+     *      at its top prototype chain. The factory should pass in the ElementState object
+     *      that it maintains for the report item using this query.
      */
     public IQueryResults execute( Scriptable queryScope) 
     			throws DataException;

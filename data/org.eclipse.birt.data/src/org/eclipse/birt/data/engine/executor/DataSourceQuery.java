@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.InputParamDefn;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
-import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.InputParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -384,7 +383,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     public IResultIterator execute( ) throws DataException
     {
     	assert odaStatement != null;
-		Connection conn = dataSource.getConnection();
 		
 		try
 		{

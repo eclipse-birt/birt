@@ -37,21 +37,24 @@ import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.script.JSRowObject;
+import org.eclipse.birt.data.engine.script.JSRows;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+
 /** 
- * Common implementation of a prepared report query or a subquery.
+ * Base class for a prepared query or subquery. 
  */
 abstract class PreparedQuery 
 {
-	protected IBaseQueryDefn 	queryDefn;
-	protected DataEngineImpl	engine;
-	protected AggrExprTable		aggrTable;
-	private IQuery				odiQuery;
+	private 	IBaseQueryDefn 	queryDefn;
+	private 	DataEngineImpl	engine;
+	private  	AggrExprTable	aggrTable;
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
+	
 	
 	PreparedQuery( DataEngineImpl engine, IBaseQueryDefn queryDefn )
 		throws DataException
@@ -64,220 +67,27 @@ abstract class PreparedQuery
 		prepare();
 	}
 	
-	protected IQuery getOdiQuery()
-	{
-	    return odiQuery;
-	}
-	
-	// Gets the OdiDataSource associated with this query
-	abstract protected IDataSource getOdiDataSource();
-	
-	// Gets the DataSetDefn associated with this query
-	abstract protected DataSetDefn getDataSet();
-	
-	// Gets the PreparedReportQuery instance associated with this query
-	abstract protected PreparedReportQuery getReportQuery();
-	
-	// Gets the IBaseQueryDefn instance associated with this query
-	IBaseQueryDefn getQueryDefn( )
+	/** Gets the IBaseQueryDefn instance which defines this query */
+	protected IBaseQueryDefn getQueryDefn( )
 	{
 		return queryDefn;
 	}
 	
-	// Executes the ODI query to reproduce a ODI result set
-	abstract protected IResultIterator executeOdiQuery(
-			IQueryResults outerResults, Scriptable scope ) throws DataException;
-
-	// Prepares the ODI query
-	protected void prepareOdiQuery() throws DataException, DataException
-	{
-	}
-	
-	// Add computed column data 
-	protected void setComputedColumns( IResultIterator odiResult,
-			Scriptable scope ) throws DataException
-	{
-	}
-	
-	// Creates an appropriate subclass of ODI IQuery 
-	abstract protected IQuery createOdiQuery( ) throws DataException;
-	
-	// Gets the registry of all aggregate expression
+	/** Gets the registry of all aggregate expression */
 	AggrExprTable getAggrTable()
 	{
 		return aggrTable;
 	}
 	
-	// Common code to extract the name of a column from a JS expression which is 
-	// in the form of "row.col". If expression is not in expected format, returns null
-	private String getColNameFromJSExpr( Context cx, String expr )
-	{
-	    String colName = null;
-		ExpressionCompiler compiler = engine.getExpressionCompiler();
-	    try
-	    {
-	        CompiledExpression ce = compiler.compile( 
-	                			expr, null, cx);
-	        if ( ce instanceof DirectColRefExpr )
-	        {
-	            colName = ((DirectColRefExpr)ce).getColumnName();
-	        }
-	    }
-	    catch ( DataException e )
-	    {
-	        // Assume this is compilation error; fall through and leave colName unset
-	    }
-	    return colName;
-	}
+	/** Gets the appropriate subclass of the Executor */
+	protected abstract Executor newExecutor();
 	
 	/**
-	 * Populate a ODI query with this query's transform definitions
+	 * Gets the main data source query. For a SubQuery, this returns the top-level
+	 * data source query that contains the SubQuery. For other queries, "this"
+	 * is returned
 	 */
-	protected void setQueryTransforms( IQuery odiQuery, Scriptable scope ) 
-			throws DataException
-	{
-		assert odiQuery != null && scope != null && queryDefn != null;
-		Context cx = Context.enter();
-		try
-		{
-			// Set grouping
-			List groups = queryDefn.getGroups();
-			if ( groups != null && ! groups.isEmpty() )
-			{
-				IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[ groups.size() ];
-				Iterator it = groups.iterator();
-				for ( int i = 0; it.hasNext(); i++ )
-				{
-					IGroupDefn src = (IGroupDefn) it.next();
-					IQuery.GroupSpec dest = groupDefnToSpec(cx, src);
-					groupSpecs[i] = dest;
-				}
-				odiQuery.setGrouping( Arrays.asList( groupSpecs));
-			}
-			
-			// Set sorting
-			List sorts = queryDefn.getSorts();
-			if ( sorts != null && !sorts.isEmpty( ) )
-			{
-				IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[ sorts.size() ];
-				Iterator it = sorts.iterator();
-				for ( int i = 0; it.hasNext(); i++ )
-				{
-					ISortDefn src = (ISortDefn) it.next();
-					String sortKey = src.getColumn();
-					if ( sortKey == null || sortKey.length() == 0 )
-					{
-						// Group key expressed as expression; convert it to column name
-						// TODO support key expression in the future by creating implicit
-						// computed columns
-						sortKey = getColNameFromJSExpr( cx, src.getExpression() );
-					}
-					IQuery.SortSpec dest = 	new IQuery.SortSpec( sortKey, 
-								src.getSortDirection() == ISortDefn.SORT_ASC );
-					sortSpecs[i] = dest;
-				}
-				odiQuery.setOrdering( Arrays.asList( sortSpecs));
-			}
-			
-			// Set filtering
-			// Need to create a JS row object to help with the filtering
-			JSRowObject jsRowObj = new JSRowObject( );
-		    scope.put( "row", scope, jsRowObj );
-
-		    // set filter
-		    List mergedFilters = new ArrayList( );
-		    if ( queryDefn.getFilters( ) != null )
-			{
-				mergedFilters.addAll( queryDefn.getFilters( ) );
-			}
-		    // If query has a data set (i.e., query is not a subquery), merge in 
-		    // the data set's filters
-		    DataSetDefn ds = getDataSet();
-		    
-		    if ( ds != null &&
-		    	 ds.getDesign( ).getFilters( ) != null )
-			{
-				mergedFilters.addAll( ds.getDesign( ).getFilters( ) );
-			}
-		    
-		    if ( mergedFilters.size() > 0 )
-		    {
-				IFilter filter = new FilterByRow( mergedFilters, scope, jsRowObj );
-				odiQuery.setFiltering( filter );
-		    }
-		}
-		catch (DataException e)
-		{
-			throw e;
-		}
-		finally
-		{
-			Context.exit();
-		}
-	}
-	
-	/**
-	 * Executes the query, handle data transforms and aggregation calculation. Sets
-	 * the odiResult, aggrCalc and odiQuery fields.
-	 * @param scope
-	 * @return
-	 */
-	protected QueryResults doExecute(  IQueryResults outerResults,Scriptable scope ) throws DataException
-	{
-		// Create a new sub scope if none is provided
-        // We need a separate scope within which to define our "row" object
-		if ( scope == null )
-	    {
-			scope = DataEngineImpl.createSubscope( getDataEngine().getSharedScope() );
-	    }
-
-		Context cx = Context.enter();
-		try
-		{
-			// Create, populate and prepare Odi query if first time
-			if ( odiQuery == null )
-			{
-				odiQuery = createOdiQuery();
-				setQueryTransforms( odiQuery, scope );
-				prepareOdiQuery();
-			}
-			IResultIterator odiResult;
-			// defer executing odi query till api getResultIterator
-			odiResult = executeOdiQuery( outerResults, scope );
-
-		    // Set up the Javascript "row" object and bind it to our result set
-		    JSRowObject rowObj = new JSRowObject( odiResult );
-		    scope.put( "row", scope, rowObj );
-			//Set the Javascript "rows" object and bind it to our result
-		    
-			JSRows rowsObj = new JSRows( outerResults ,rowObj);
-			scope.put( "rows", scope, rowsObj );
-		    
-		    // Add computed column data
-		    this.setComputedColumns( odiResult, scope );
-
-		    // Calculate aggregate values
-		    AggrCalc aggrCalc = new AggrCalc( aggrTable, odiResult );
-		    
-		    // Set up the internal JS _aggr_value object and bind it to the aggregate calc engine
-		    Scriptable aggrObj = aggrCalc.getJSAggrValueObject();
-		    scope.put( ExpressionCompiler.AGGR_VALUE, scope, aggrObj );
-		    
-		    // Calculate aggregate values
-		    aggrCalc.calculate(cx, scope);
-		    
-		    return new QueryResults( getReportQuery(), this, odiResult, aggrCalc, scope);
-		}
-		catch ( DataException e )
-		{
-			throw e;
-		}
-		finally
-		{
-			Context.exit();
-		}
-		
-	}
+	abstract protected PreparedDataSourceQuery getDataSourceQuery();
 	
 	private void prepare( )	throws DataException
 	{
@@ -308,6 +118,55 @@ abstract class PreparedQuery
 		}
 	} 
 
+	/**
+	 * Executes the PreparedQuery, handle data transforms and aggregation calculation. 
+	 * @param outerResults If query is nested within another query, this is the outer query's query 
+	 *        result handle.
+	 * @param scope The ElementState object for the report item using the query; this acts as the 
+	 *    JS scope for evaluating script expressions.
+	 */
+	protected QueryResults doExecute( IQueryResults outerResults, Scriptable scope ) throws DataException
+	{
+		if ( this.queryDefn == null )
+		{
+			// we are closed
+			throw new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
+		}
+		
+		Executor executor = newExecutor();
+		
+		// Create a new sub scope if none is provided
+		if ( scope == null )
+	    {
+			scope = DataEngineImpl.createSubscope( getDataEngine().getSharedScope() );
+	    }
+		
+		executor.execute( outerResults, scope );
+	    return new QueryResults( getDataSourceQuery(), this, executor);
+	}
+	
+	// Common code to extract the name of a column from a JS expression which is 
+	// in the form of "row.col". If expression is not in expected format, returns null
+	private String getColNameFromJSExpr( Context cx, String expr )
+	{
+	    String colName = null;
+		ExpressionCompiler compiler = engine.getExpressionCompiler();
+	    try
+	    {
+	        CompiledExpression ce = compiler.compile( 
+	                			expr, null, cx);
+	        if ( ce instanceof DirectColRefExpr )
+	        {
+	            colName = ((DirectColRefExpr)ce).getColumnName();
+	        }
+	    }
+	    catch ( DataException e )
+	    {
+	        // Assume this is compilation error; fall through and leave colName unset
+	    }
+	    return colName;
+	}
+	
 	private void prepareGroup( IBaseTransform trans, int groupLevel, Context cx )
 		throws DataException
 	{
@@ -426,6 +285,20 @@ abstract class PreparedQuery
 	}
 	
 	/**
+	 * Closes the prepared query. This instance can no longer be executed after it is closed
+	 * TODO: expose this method in the IPreparedQuery interface
+	 */
+	public void close()
+	{
+		queryDefn = null;
+		this.aggrTable = null;
+		this.engine = null;
+		this.subQueryMap = null;
+		
+		// TODO: close all open QueryResults obtained from this PreparedQuery
+	}
+	
+	/**
 	 * Finds a group given a text identifier of a group. Returns index of group found (1 = outermost
 	 * group, 2 = second level group etc.). The text identifier can be the group name, the group key
 	 * column name, or the group key expression text. Returns -1 if no matching group is found
@@ -458,4 +331,306 @@ abstract class PreparedQuery
 		return queryDefn.getGroups().size();
 	}
 	
+	/**
+	 * PreparedQuery.Executor: executes a prepared query and maintains execute-time data and result
+	 * set associated with an execution.
+	 * 
+	 * A PreparedQuery can be executed multiple times. Each execute is performed by one instance of 
+	 * the Executor.
+	 * 
+	 * Each subclass of PreparedQuery is expected to have its own subclass of the Executor.
+	 */
+	abstract class Executor
+	{
+		protected 	IQuery			odiQuery;
+		protected 	IDataSource		odiDataSource;
+		protected 	DataSourceRuntime	dataSource;
+		protected	DataSetRuntime	dataSet;
+		protected 	AggrCalc		aggregates;
+		protected 	IResultIterator	odiResult;
+		protected 	JSRowObject		rowObject;
+		protected 	JSRows			rowsObject;
+		protected	Scriptable		scope;
+		
+		/**
+		 * Overridden by subclass to create a new unopened odiDataSource given the data 
+		 * source runtime definition
+		 */
+		abstract protected IDataSource createOdiDataSource( ) throws DataException;
+		
+		/**
+		 * Overridden by subclass to provide the actual DataSourceRuntime used for the query.
+		 */
+		abstract protected DataSourceRuntime findDataSource( ) throws DataException;
+		
+		/**
+		 * Overridden by subclass to create a new instance of data set runtime
+		 */
+		abstract protected DataSetRuntime newDataSetRuntime( ) throws DataException;
+
+		/**
+		 * Overridden by sub class to create an emty instance of odi query
+		 */
+		abstract protected IQuery createOdiQuery( ) throws DataException;
+		
+		/**
+		 * Executes the ODI query to reproduce a ODI result set
+		 */
+		abstract protected IResultIterator executeOdiQuery(
+				IQueryResults outerResults ) throws DataException;
+
+		/**
+		 * Prepares the ODI query
+		 */
+		protected void prepareOdiQuery(  ) throws DataException
+		{
+		}
+		
+		/** Adds computed column data */ 
+		protected void setComputedColumns( ) throws DataException
+		{
+		}
+		
+		/**
+		 * Constructor
+		 */
+		public Executor( )
+		{
+		}
+		
+		/**
+		 * Executes the PreparedQuery, handle data transforms and aggregation calculation. 
+		 */
+		public void execute( IQueryResults outerResults, Scriptable scope ) throws DataException
+		{
+			assert scope != null;
+			this.scope = scope;
+			
+			// Create the data set runtime
+			// Since data set runtime contains the execution result, a new data set
+			// runtime is needed for each execute
+			dataSet = newDataSetRuntime();
+				
+		    // Set up the Javascript "row" object; this is needed before executeOdiQuery
+			// since filtering may need the object
+		    rowObject = new JSRowObject( dataSet );
+		    scope.put( "row", scope,  rowObject );
+				
+			// Create, populate and prepare Odi query
+			prepareOdiResources( );
+				
+			// Execute the query
+			odiResult = executeOdiQuery( outerResults );
+
+			// Bind the row object to the odi result set
+			rowObject.setResultSet( odiResult, false );
+				
+			// Set the Javascript "rows" object and bind it to our result
+			rowsObject = new JSRows( outerResults, rowObject );
+			scope.put( "rows", scope, rowsObject );
+			    
+		    // Add computed column data
+		    setComputedColumns();
+
+		    // Calculate aggregate values
+		    aggregates = new AggrCalc( aggrTable, odiResult );
+			    
+		    // Set up the internal JS _aggr_value object and bind it to the aggregate calc engine
+		    Scriptable aggrObj = aggregates.getJSAggrValueObject();
+		    scope.put( ExpressionCompiler.AGGR_VALUE, scope, aggrObj );
+			    
+			Context cx = Context.enter();
+			try
+			{
+			    // Calculate aggregate values
+			    aggregates.calculate(cx, scope);
+			    
+			}
+			finally
+			{
+				Context.exit();
+			}
+			
+		}
+		
+		/**
+		 * Closes the executor; release all odi resources
+		 */
+		public void close()
+		{
+			if ( odiQuery == null )
+				// already closed
+				return;
+			
+		    // Close the data set and associated odi query
+		    try
+			{
+		    	if ( dataSet != null )
+		    		dataSet.beforeClose();
+			}
+		    catch (DataException e )
+			{
+		    	// TODO: log exception
+		    	e.printStackTrace();
+			}
+		    
+		    if ( odiResult != null )
+		    	odiResult.close();
+		    odiQuery.close();
+		    
+		    try
+			{
+		    	if ( dataSet != null )
+		    		dataSet.afterClose();
+			}
+		    catch (DataException e )
+			{
+		    	// TODO: log exception
+		    	e.printStackTrace();
+			}
+		    
+		    dataSet = null;
+			odiQuery = null;
+			odiDataSource = null;
+			dataSource = null;
+			aggregates = null;
+			odiResult = null;
+			rowObject = null;
+			rowsObject = null;
+			scope = null;
+		}
+		
+		/** Creates, opens and prepares required Odi data source and data set */
+		protected void prepareOdiResources( ) throws DataException
+		{
+			assert odiQuery == null;
+			assert odiDataSource == null;
+			
+			// Open the underlying data source
+			dataSource = findDataSource( );
+			if ( dataSource != null  )
+			{
+				if ( ! dataSource.isOpen() )
+				{
+					// Data source is not open; create an Odi Data Source and open it
+					// We should run the beforeOpen script now to give it a chance to modify
+					// runtime data source properties
+					dataSource.beforeOpen();
+					
+					// Let subclass create a new unopened odi data source
+					odiDataSource = createOdiDataSource( ); 
+					
+					// Open the odi data source
+					odiDataSource.open();
+					dataSource.setOdiDataSource( odiDataSource );
+					
+					dataSource.afterOpen();
+				}
+				else
+				{
+					// Use existing odiDataSource created for the data source runtime
+					odiDataSource = dataSource.getOdiDataSource();
+				}
+			}
+			
+			if ( dataSet != null  )
+			{
+				// Run beforeOpen script now so the script can modify the DataSetRuntime properties
+				dataSet.beforeOpen();
+			}
+			
+			// Let subclass create a new and empty intance of the appropriate odi IQuery
+			odiQuery = createOdiQuery( );
+			populateOdiQuery( );
+			prepareOdiQuery( );
+			
+			if ( dataSet != null )
+			{
+				dataSet.afterOpen();
+			}
+		}
+		
+		/**
+		 * Populates odiQuery with this query's definitions
+		 */
+		protected void populateOdiQuery( ) throws DataException
+		{
+			assert odiQuery != null;
+			assert scope != null;
+			assert queryDefn != null;
+			
+			Context cx = Context.enter();
+			try
+			{
+				// Set grouping
+				List groups = queryDefn.getGroups();
+				if ( groups != null && ! groups.isEmpty() )
+				{
+					IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[ groups.size() ];
+					Iterator it = groups.iterator();
+					for ( int i = 0; it.hasNext(); i++ )
+					{
+						IGroupDefn src = (IGroupDefn) it.next();
+						IQuery.GroupSpec dest = groupDefnToSpec(cx, src);
+						groupSpecs[i] = dest;
+					}
+					odiQuery.setGrouping( Arrays.asList( groupSpecs));
+				}
+				
+				// Set sorting
+				List sorts = queryDefn.getSorts();
+				if ( sorts != null && !sorts.isEmpty( ) )
+				{
+					IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[ sorts.size() ];
+					Iterator it = sorts.iterator();
+					for ( int i = 0; it.hasNext(); i++ )
+					{
+						ISortDefn src = (ISortDefn) it.next();
+						String sortKey = src.getColumn();
+						if ( sortKey == null || sortKey.length() == 0 )
+						{
+							// Group key expressed as expression; convert it to column name
+							// TODO support key expression in the future by creating implicit
+							// computed columns
+							sortKey = getColNameFromJSExpr( cx, src.getExpression() );
+						}
+						IQuery.SortSpec dest = 	new IQuery.SortSpec( sortKey, 
+									src.getSortDirection() == ISortDefn.SORT_ASC );
+						sortSpecs[i] = dest;
+					}
+					odiQuery.setOrdering( Arrays.asList( sortSpecs));
+				}
+				
+				// Set filtering
+		    	assert rowObject != null;
+		    	assert scope != null;
+
+			    // set filter
+			    List mergedFilters = new ArrayList( );
+			    if ( queryDefn.getFilters( ) != null )
+				{
+					mergedFilters.addAll( queryDefn.getFilters( ) );
+				}
+			    
+			    if ( dataSet != null &&
+		    		 dataSet.getFilters( ) != null )
+				{
+					mergedFilters.addAll( dataSet.getFilters( ) );
+				}
+			    
+			    if ( mergedFilters.size() > 0 )
+			    {
+					IFilter filter = new FilterByRow( mergedFilters, 
+							scope,  rowObject );
+					odiQuery.setFiltering( filter );
+			    }
+			}
+			finally
+			{
+				Context.exit();
+			}
+		}
+
+		
+	}
 }

@@ -15,13 +15,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefn;
-import org.eclipse.birt.data.engine.api.IJSExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.JSRowObject;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -49,7 +48,7 @@ class FilterByRow implements IFilter
 		{
 			boolean isAccepted = true;
 			Iterator filterIt = filters.iterator( );
-			scriptObj.setRowObject( row );
+			scriptObj.setRowObject( row, false );
 			while ( filterIt.hasNext( ) )
 			{
 				IFilterDefn filter = (IFilterDefn) filterIt.next( );

@@ -285,7 +285,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 */
 	public String getOnFetchScript( )
 	{
-		return afterOpenScript;
+		return onFetchScript;
 	}
 	
 	/**

@@ -31,13 +31,10 @@ import org.mozilla.javascript.Scriptable;
  */
 class QueryResults implements IQueryResults
 {
-	protected PreparedReportQuery 		reportQuery;
+	protected PreparedDataSourceQuery 	reportQuery;
 	protected PreparedQuery				query;
 	protected ResultIterator			iterator;
-	protected org.eclipse.birt.data.engine.odi.IResultIterator			
-										odiResult;
-	protected Scriptable				scope;
-	protected AggrCalc					aggrResult;
+	protected PreparedQuery.Executor	queryExecutor;
 	
 	/**
 	 * @param reportQuery The associated report query.
@@ -47,23 +44,20 @@ class QueryResults implements IQueryResults
 	 * @param scope scope used for this result set
 	 */
 	
-	QueryResults( PreparedReportQuery reportQuery, 
+	QueryResults( PreparedDataSourceQuery reportQuery,
 			PreparedQuery query,
-			org.eclipse.birt.data.engine.odi.IResultIterator odiResult, 
-			AggrCalc aggrResult,
-			Scriptable scope )
+			PreparedQuery.Executor executor )
 	{
+		assert executor != null;
 	    assert query != null;
 	    assert reportQuery != null;
-	    assert odiResult != null;
-	    assert scope != null;
-	    assert aggrResult != null;
+	    assert executor.odiResult != null;
+	    assert executor.scope != null;
+	    assert executor.aggregates != null;
 	    
 	    this.reportQuery = reportQuery;
 	    this.query = query;
-	    this.odiResult = odiResult;
-	    this.scope = scope;
-	    this.aggrResult = aggrResult;
+	    this.queryExecutor = executor;
 	}
 	
 	/**
@@ -89,7 +83,7 @@ class QueryResults implements IQueryResults
 	{ 
 	    if ( iterator == null )
 	    {
-			iterator = new ResultIterator( this, odiResult, scope);
+			iterator = new ResultIterator( this, queryExecutor.odiResult, queryExecutor.scope);
 	    }
 		return iterator;
 	}
@@ -102,7 +96,7 @@ class QueryResults implements IQueryResults
 	{
 		try
 		{
-			return new ResultMetaData( odiResult.getResultClass() );
+			return new ResultMetaData( queryExecutor.odiResult.getResultClass() );
 		}
 		catch ( DataException e )
 		{
@@ -120,21 +114,26 @@ class QueryResults implements IQueryResults
 	 */
 	public void close()
 	{
+		if ( queryExecutor == null )
+			// already closed
+			return;
+		
 	    if ( iterator != null )
 	    {
 	        iterator.close();
 	        iterator = null;
 	    }
+	    
 	    reportQuery = null;
 	    query = null;
-	    odiResult = null;
-	    scope = null;
-	    aggrResult = null;
+
+	    queryExecutor.close();
+	    queryExecutor = null;
 	}
 	
 	AggrCalc getAggrResult()
 	{
-		return this.aggrResult;
+		return queryExecutor.aggregates;
 	}
 	
 	/**
@@ -147,12 +146,12 @@ class QueryResults implements IQueryResults
 	
 	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult()
 	{
-		return this.odiResult;
+		return queryExecutor.odiResult;
 	}
 	
 	Scriptable getScope()
 	{
-		return this.scope;
+		return queryExecutor.scope;
 	}
 }
 

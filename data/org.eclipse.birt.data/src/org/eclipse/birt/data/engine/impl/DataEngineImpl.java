@@ -21,11 +21,16 @@ import java.util.Iterator;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IExtendedDataSetDesign;
+import org.eclipse.birt.data.engine.api.IExtendedDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IReportQueryDefn;
+import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
+import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
 import org.eclipse.birt.data.oda.util.driverconfig.DriverSetup;
 import org.mozilla.javascript.Context;
@@ -40,16 +45,16 @@ public class DataEngineImpl extends DataEngine
 	private Scriptable 				sharedScope;
 	private ExpressionCompiler		compiler;
 	
-	// Map of data source name (string) to DataSourceDefn, for defined data sources
+	// Map of data source name (string) to DataSourceRT, for defined data sources
 	private HashMap					dataSources = new HashMap();
 	
-	// Map of data set name (string) to DataSourceDefn, for defined data sets
-	private HashMap					dataSets = new HashMap();
-	
-	// Map of data source name (string) to instance of opened ODI IDataSource
-	private HashMap					openDataSources = new HashMap();
+	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
+	private HashMap					dataSetDesigns = new HashMap();
 	
 	static private boolean			odaInitialized = false;
+	
+	/** Scripable object implementing "report.dataSources" array */
+	private Scriptable				dataSourcesJSObject;
 	
 	/**
 	 * Constructor to specify the JavaScript Context and shared scope
@@ -135,16 +140,22 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void defineDataSource( IBaseDataSourceDesign dataSource ) throws DataException
 	{
+		if ( dataSource == null )
+			throw new NullPointerException("dataSource param cannot be null ");
+		String name = dataSource.getName();
+		if ( name == null || name.length() == 0 )
+			throw new IllegalArgumentException("Data source has no name");
+		
 	    // See if this data source is already defined; if so update its design
 	    Object existingDefn = dataSources.get( dataSource.getName() );
 	    if ( existingDefn != null )
 	    {
-	        (( DataSourceDefn ) existingDefn).setDesign( dataSource );
+	        (( DataSourceRuntime ) existingDefn).setDesign( dataSource );
 	    }
 	    else
 	    {
 	        // Create a corresponding runtime for the data source and add it to the map
-	        DataSourceDefn newDefn = DataSourceDefn.create( dataSource );
+	        DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource, this );
 	        dataSources.put( newDefn.getName(), newDefn );
 	    }
 	}
@@ -158,40 +169,47 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void defineDataSet( IBaseDataSetDesign dataSet ) throws DataException
 	{
-	    // See if this data set is already defined; if so update its design
-	    DataSetDefn dsetDefn = (DataSetDefn) dataSets.get( dataSet.getName() );
-	    if ( dsetDefn != null )
-	    {
-	        dsetDefn.setDesign( dataSet );
-	    }
-	    else
-	    {
-	        // Create a corresponding runtime for the data source and add it to the map
-	        dsetDefn = DataSetDefn.create( dataSet );
-	        dataSets.put( dsetDefn.getName(), dsetDefn );
-	    }
-	    
-	    // Create or reset data set-> data source association. Note that the data source that this data
-	    // set refers to must have been defined
-	    DataSourceDefn dataSource = getDataSource( dataSet.getDataSourceName() );
-	    if ( dataSource == null )
-	    {
-	        throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE );
-	    }
-	    
-	    dsetDefn.setDataSource( dataSource );
+		if ( dataSet == null )
+			throw new NullPointerException("dataSet param cannot be null ");
+		String name = dataSet.getName();
+		if ( name == null || name.length() == 0 )
+			throw new IllegalArgumentException("Data Set has no name");
+		
+		// Sanity check: a data set must have a data source with the proper type, and
+		// the data source must have be defined
+		String dataSourceName = dataSet.getDataSourceName();
+		DataSourceRuntime dsource = this.getDataSourceRuntime( dataSourceName );
+		if ( dsource == null )
+			throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE, dataSourceName );
+		
+		Class dSourceClass;
+		if ( dataSet instanceof IExtendedDataSetDesign )
+			dSourceClass = IExtendedDataSourceDesign.class;
+		else if ( dataSet instanceof IScriptDataSetDesign )
+			dSourceClass = IScriptDataSourceDesign.class;
+		else
+			throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
+		
+		if ( ! dSourceClass.isInstance(dsource.getDesign()) )
+			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			
+		dataSetDesigns.put( name, dataSet );
 	}
 	
-	// Returns the runtime defn of a data source. If data source is not found, returns null.
-	public DataSourceDefn getDataSource( String name )
+	/**
+	 * Returns the runtime defn of a data source. If data source is not found, returns null.
+	 */
+	DataSourceRuntime getDataSourceRuntime( String name )
 	{
-	    return ( DataSourceDefn) dataSources.get( name );
+	    return ( DataSourceRuntime) dataSources.get( name );
 	}
 
-	// Returns the runtime defn of a data set. If data set is not found, returns null.
-	public DataSetDefn getDataSet( String name )
+	/**
+	 * Returns the design of a data set. If data set is not found, returns null.
+	 */
+	IBaseDataSetDesign getDataSetDesign( String name )
 	{
-	    return ( DataSetDefn) dataSets.get( name );
+	    return ( IBaseDataSetDesign) dataSetDesigns.get( name );
 	}
 	
 	/**
@@ -226,7 +244,7 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedQuery prepare( IReportQueryDefn querySpec )
 			throws DataException
 	{ 
-		PreparedReportQuery result = PreparedReportQuery.getInstance( this,
+		PreparedDataSourceQuery result = PreparedDataSourceQuery.newInstance( this,
 				querySpec );
 		return result;
 	}
@@ -248,13 +266,27 @@ public class DataEngineImpl extends DataEngine
 	public void closeDataSource( String dataSourceName )
 			throws DataException
 	{
-		IDataSource ds = (IDataSource) openDataSources.get( dataSourceName );
+		DataSourceRuntime  ds = getDataSourceRuntime( dataSourceName );
 		if ( ds != null )
 		{
-			ds.close();
-			openDataSources.remove( dataSourceName );
+			closeDataSource( ds );
 		}
-}
+	}
+
+	/** Close the specified DataSourceDefn, if it is open */
+	private static void closeDataSource( DataSourceRuntime ds ) throws DataException
+	{
+		assert ds != null;
+		// Data source is open if it has an associated odi Data Source
+		IDataSource odiDS = ds.getOdiDataSource();
+		if ( odiDS != null )
+		{
+			ds.beforeClose();
+			odiDS.close();
+			ds.setOdiDataSource( null );
+			ds.afterClose();
+		}
+	}
 	
 	/**
 	 * Gets the shared Rhino scope used by this data engine
@@ -264,10 +296,10 @@ public class DataEngineImpl extends DataEngine
 	    return sharedScope; 
 	}
 	
-	/*
+	/**
 	 * Gets the expression compiler used by this data engine
 	 */
-	public ExpressionCompiler getExpressionCompiler()
+	ExpressionCompiler getExpressionCompiler()
 	{
 		return compiler;
 	}
@@ -275,36 +307,38 @@ public class DataEngineImpl extends DataEngine
 	public void shutdown()
 	{
 		// Close all open data sources
-		if ( openDataSources != null )
+		Collection col = dataSources.values();
+		Iterator it = col.iterator();
+		while (it.hasNext())
 		{
-			Collection col = openDataSources.values();
-			Iterator it = col.iterator();
-			while (it.hasNext())
+			DataSourceRuntime ds = (DataSourceRuntime)it.next();
+			try
 			{
-				IDataSource ds = (IDataSource)it.next();
-				ds.close();
+				closeDataSource( ds );
 			}
-			openDataSources = null;
+			catch ( DataException e )
+			{
+				// TODO: log exception here
+				e.printStackTrace();
+			}
 		}
 		
 		sharedScope = null;
-		dataSets = null;
+		dataSetDesigns = null;
 		dataSources = null;
 		compiler = null;
 	}
 	
-	IDataSource getOpenedDataSource( String dataSourceName )
+	/**
+	 * Gets the Scriptable object that implements the "report.dataSources" array
+	 */
+	// TODO: Add this method to DataEngine api 
+	public Scriptable getDataSourcesScriptObject()
 	{
-		IDataSource ds = (IDataSource) openDataSources.get( dataSourceName );
-		assert ( ds == null || ds.isOpen() );
-		return ds;	// data source is already open
+		if ( dataSourcesJSObject == null )
+		{
+			dataSourcesJSObject = new JSDataSources( this.dataSources );
+		}
+		return dataSourcesJSObject;
 	}
-	
-	void addOpenedDataSource( String dataSourceName, IDataSource ds )
-	{
-	    assert dataSourceName != null && dataSourceName.length() > 0;
-		assert ( ds != null && ds.isOpen() );
-	    openDataSources.put( dataSourceName, ds );
-	}
-
 }

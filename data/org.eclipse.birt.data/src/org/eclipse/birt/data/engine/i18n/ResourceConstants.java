@@ -18,10 +18,9 @@ package org.eclipse.birt.data.engine.i18n;
 public class ResourceConstants
 {
 	public final static String UNDEFINED_DATA_SOURCE = "UNDEFINED_DATA_SOURCE";
-	public final static String UNDEFINED_DATASOURCE = "UNDEFINED_DATASOURCE";
+	public final static String UNDEFINED_DATA_SET = "UNDEFINED_DATA_SET";
 	public final static String UNSUPPORTED_DATASOURCE_TYPE = "UNSUPPORTED_DATASOURCE_TYPE";
 	public final static String UNSUPPORTED_DATASET_TYPE = "UNSUPPORTED_DATASET_TYPE";
-	public final static String UNDEFINED_DATASET_USED = "UNDEFINED_DATASET_USED";
 
 	public final static String NOT_END_GROUP  = "NOT_END_GROUP";
 	public final static String INVALID_GROUP_LEVEL  = "INVALID_GROUP_LEVEL";
@@ -87,7 +86,6 @@ public class ResourceConstants
 	public final static String DS_COLUMN_HINTS_ERROR = "DS_COLUMN_HINTS_ERROR";
 	public final static String DS_PARAMETER_ERROR = "DS_PARAMETER_ERROR";
 	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";	
-
 	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
-			
+	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
 }
