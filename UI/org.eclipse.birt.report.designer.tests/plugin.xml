@@ -21,6 +21,7 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.report.designer.core"/>
       <import plugin="org.eclipse.birt.report.designer.ui"/>
