@@ -44,7 +44,7 @@ public class ExtensionLoader
 	private static final String STYLE_PROPERTY_TAG = "StyleProperty"; //$NON-NLS-1$
 	private static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
 	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
-	private static final String PROPERTY_INVISIBLE_TAG = "PropertyInvisible"; //$NON-NLS-1$
+	private static final String PROPERTY_INVISIBLE_TAG = "PropertyVisibility"; //$NON-NLS-1$
 
 	private static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
 	private static final String NAME = "name"; //$NON-NLS-1$
@@ -59,7 +59,7 @@ public class ExtensionLoader
 	private static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
 	private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
 	private static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
-	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
+	private static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
 
 	/**
 	 * Loads the extended elements in plug-ins, and add them into metadata
@@ -232,9 +232,7 @@ public class ExtensionLoader
 				else if ( PROPERTY_INVISIBLE_TAG.equalsIgnoreCase( elements[i]
 						.getName( ) ) )
 				{
-					String propName = elements[i].getAttribute( NAME );
-					checkRequiredAttribute( NAME, propName );
-					elementDefn.addInvisibleProperty( propName );
+					loadPropertyVisibility( elements[i], elementDefn );
 				}
 				else if ( PROPERTY_GROUP_TAG.equalsIgnoreCase( elements[i]
 						.getName( ) ) )
@@ -263,6 +261,27 @@ public class ExtensionLoader
 	}
 
 	/**
+	 * Loads one visibility rule of a system property definition. 
+	 * 
+	 * @param propTag
+	 *            the property tag
+	 * @param elementDefn
+	 *            element definition
+	 * @throws ExtensionException
+	 *             if the class some attribute specifies can not be instanced.
+	 */
+
+	private static void loadPropertyVisibility( IConfigurationElement propTag,
+			ExtensionElementDefn elementDefn ) throws ExtensionException
+	{
+		String name = propTag.getAttribute( NAME );
+		String visible = propTag.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
+
+		checkRequiredAttribute( NAME, name );
+		elementDefn.addPropertyVisibility( name, visible );
+	}
+
+	/**
 	 * Loads one property definition of the given element.
 	 * 
 	 * @param elementTag
@@ -271,7 +290,6 @@ public class ExtensionLoader
 	 *            the property tag
 	 * @param elementDefn
 	 *            element definition
-	 * 
 	 * @return the property definition
 	 * @throws ExtensionException
 	 *             if the class some attribute specifies can not be instanced.
@@ -289,7 +307,7 @@ public class ExtensionLoader
 				.getAttribute( IS_STYLE_PROPERTY_ATTRIB );
 		String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
 		String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
-		String isVisible = propTag.getAttribute( IS_VISIBLE_ATTRIB );
+		String visibility = propTag.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
 
 		checkRequiredAttribute( NAME, name );
 		checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
@@ -324,11 +342,11 @@ public class ExtensionLoader
 			extPropDefn.setCanInherit( Boolean.valueOf( canInherit )
 					.booleanValue( ) );
 
-		if ( !StringUtil.isBlank( isVisible ) )
-			extPropDefn
-					.setVisible( Boolean.valueOf( isVisible ).booleanValue( ) );
+		if ( !StringUtil.isBlank( visibility ) )
+			extPropDefn.setVisibility( visibility );
 		else if ( propType.getTypeCode( ) == PropertyType.STRUCT_TYPE )
-			extPropDefn.setVisible( false );
+			extPropDefn
+					.setVisibility( ElementPropertyDefn.HIDDEN_IN_PROPERTY_SHEET );
 
 		List choiceList = new ArrayList( );
 
@@ -367,7 +385,6 @@ public class ExtensionLoader
 	 *            element definition
 	 * @param propList
 	 *            the property list into which the new property is added.
-	 * 
 	 * @throws MetaDataException
 	 */
 

@@ -1523,7 +1523,7 @@
       <Default>0</Default>
     </Property>
     <Property name="base" displayNameID="Element.ReportDesign.base" type="string" canInherit="false" />
-	<Property name="msgBaseName" displayNameID="Element.ReportDesign.msgBaseName" type="string" canInherit="false" isVisible="false"/>
+	<Property name="msgBaseName" displayNameID="Element.ReportDesign.msgBaseName" type="string" canInherit="false" propertyVisibility="hide"/>
     <Property name="title" displayNameID="Element.ReportDesign.title" type="string" canInherit="false" />
     <Property name="titleID" displayNameID="Element.ReportDesign.titleID" type="resourceKey" canInherit="false" />
     <Property name="description" displayNameID="Element.ReportDesign.description" type="html" canInherit="false" />
@@ -1602,12 +1602,12 @@
     </Slot>
   </Element>
   <Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none">
-    <Property name="displayName" displayNameID="Element.ReportElement.displayName" type="string" isVisible="false" />
-    <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="string" isVisible="false" />
+    <Property name="displayName" displayNameID="Element.ReportElement.displayName" type="string" propertyVisibility="hide" />
+    <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="string" propertyVisibility="hide" />
     <Property name="customXml" displayNameID="Element.ReportElement.customXml" type="xml" />
-    <Property name="comments" displayNameID="Element.ReportElement.comments" type="string" isVisible="false" />
+    <Property name="comments" displayNameID="Element.ReportElement.comments" type="string" propertyVisibility="hide" />
     <Property name="name" displayNameID="Element.ReportElement.name" type="name" isIntrinsic="true" />
-    <Property name="extends" displayNameID="Element.ReportElement.extends" type="extends" isIntrinsic="true" isVisible="false" />
+    <Property name="extends" displayNameID="Element.ReportElement.extends" type="extends" isIntrinsic="true" propertyVisibility="hide" />
     <Property name="propertyMask" displayNameID="Element.ReportElement.propertyMask" type="structure" isList="true" detailType="PropertyMask"/>
   </Element>
   <Element name="DataSource" displayNameID="Element.DataSource" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSource" isNameRequired="true">
@@ -1619,7 +1619,7 @@
   <Element name="OdaDataSource" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" displayNameID="Element.OdaDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Property name="driverName" type="string" displayNameID="Element.OdaDataSource.driverName" valueRequired="true" />
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.publicDriverProperties" />
-    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isVisible="false"/>
+    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" propertyVisibility="hide"/>
   </Element>
   <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" valueRequired="true" />
@@ -1640,7 +1640,7 @@
     <Property name="computedColumns" type="structure" isList="true" detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" />
     <Property name="columnHints" type="structure" isList="true" detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" />
     <Property name="filter" type="structure" isList="true" detailType="FilterCond" displayNameID="Element.DataSet.filter" />
-	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isVisible="false" />
+	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" propertyVisibility="hide" />
   </Element>
   <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSet.open" toolTipID="Element.ScriptDataSet.open.toolTip" />
@@ -1651,10 +1651,10 @@
   <Element name="OdaDataSet" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" displayNameID="Element.OdaDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Property name="queryText" type="string" displayNameID="Element.OdaDataSet.queryText" />
     <Property name="type" type="string" displayNameID="Element.OdaDataSet.type" />
-    <Property name="resultSetName" type="string" displayNameID="Element.OdaDataSet.resultSetName" isVisible="false" />
-    <Property name="privateDriverDesignState" type="string" displayNameID="Element.OdaDataSet.privateDriverDesignState" isVisible="false"/>
+    <Property name="resultSetName" type="string" displayNameID="Element.OdaDataSet.resultSetName" propertyVisibility="hide" />
+    <Property name="privateDriverDesignState" type="string" displayNameID="Element.OdaDataSet.privateDriverDesignState" propertyVisibility="hide"/>
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.publicDriverProperties" />
-    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isVisible="false"/>
+    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" propertyVisibility="hide"/>
     <Method name="queryScript" displayNameID="Element.OdaDataSet.queryScript" toolTipID="Element.OdaDataSet.queryScript.toolTip" returnType="String" />
   </Element>
   <Element name="Parameter" displayNameID="Element.Parameter" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="true" hasStyle="false" nameSpace="parameter" isNameRequired="true">
@@ -1743,18 +1743,18 @@
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.background">
-      <Property name="backgroundAttachment" displayNameID="Element.Style.background.attachment" type="choice" detailType="backgroundAttachment" isStyleProperty="true" canInherit="false" isVisible="false">
+      <Property name="backgroundAttachment" displayNameID="Element.Style.background.attachment" type="choice" detailType="backgroundAttachment" isStyleProperty="true" canInherit="false" propertyVisibility="hide">
         <Default>scroll</Default>
       </Property>
       <Property name="backgroundColor" displayNameID="Element.Style.background.color" type="color" isStyleProperty="true" canInherit="false" />
-      <Property name="backgroundImage" displayNameID="Element.Style.background.image" type="uri" isStyleProperty="true" canInherit="false" isVisible="false"/>
-      <Property name="backgroundPositionX" displayNameID="Element.Style.background.positionX" type="dimension" detailType="backgroundPositionX" isStyleProperty="true" canInherit="false" isVisible="false">
+      <Property name="backgroundImage" displayNameID="Element.Style.background.image" type="uri" isStyleProperty="true" canInherit="false" propertyVisibility="hide"/>
+      <Property name="backgroundPositionX" displayNameID="Element.Style.background.positionX" type="dimension" detailType="backgroundPositionX" isStyleProperty="true" canInherit="false" propertyVisibility="hide">
         <Default>0%</Default>
       </Property>
-      <Property name="backgroundPositionY" displayNameID="Element.Style.background.positionY" type="dimension" detailType="backgroundPositionY" isStyleProperty="true" canInherit="false" isVisible="false">
+      <Property name="backgroundPositionY" displayNameID="Element.Style.background.positionY" type="dimension" detailType="backgroundPositionY" isStyleProperty="true" canInherit="false" propertyVisibility="hide">
         <Default>0%</Default>
       </Property>
-      <Property name="backgroundRepeat" displayNameID="Element.Style.background.repeat" type="choice" detailType="backgroundRepeat" isStyleProperty="true" canInherit="false" isVisible="false">
+      <Property name="backgroundRepeat" displayNameID="Element.Style.background.repeat" type="choice" detailType="backgroundRepeat" isStyleProperty="true" canInherit="false" propertyVisibility="hide">
         <Default>repeat</Default>
       </Property>
     </PropertyGroup>
@@ -1794,7 +1794,7 @@
       <Property name="display" displayNameID="Element.Style.display" type="choice" detailType="display" isStyleProperty="true" canInherit="false">
         <Default>block</Default>
       </Property>
-      <Property name="masterPage" displayNameID="Element.Style.masterPage" type="name" isStyleProperty="true" isVisible="false"/>
+      <Property name="masterPage" displayNameID="Element.Style.masterPage" type="name" isStyleProperty="true" propertyVisibility="hide"/>
       <Property name="pageBreakBefore" displayNameID="Element.Style.pageBreakBefore" type="choice" detailType="pageBreak" isStyleProperty="true" canInherit="false">
         <Default>auto</Default>
       </Property>
@@ -1878,7 +1878,7 @@
       </Property>
       <Property name="stringFormat" displayNameID="Element.Style.format.string" type="string" detailType="stringFormat" isStyleProperty="true" />
     </PropertyGroup>
-    <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" isVisible="false">
+    <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" propertyVisibility="hide">
       <Default>true</Default>
     </Property>
     <Property name="mapTestExpr" displayNameID="Element.Style.map.testExpr" type="expression" isStyleProperty="true" />
@@ -1955,7 +1955,7 @@
   <Element name="SimpleMasterPage" javaClass="org.eclipse.birt.report.model.elements.SimpleMasterPage" displayNameID="Element.SimpleMasterPage" isAbstract="false" extends="MasterPage" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="true" selector="page">
     <Property name="showHeaderOnFirst" displayNameID="Element.SimpleMasterPage.showHeaderOnFirst" type="boolean" />
     <Property name="showFooterOnLast" displayNameID="Element.SimpleMasterPage.showFooterOnLast" type="boolean" />
-    <Property name="floatingFooter" displayNameID="Element.SimpleMasterPage.floatingFooter" type="boolean" isVisible="false"/>
+    <Property name="floatingFooter" displayNameID="Element.SimpleMasterPage.floatingFooter" type="boolean" propertyVisibility="hide"/>
     <Slot name="pageHeader" displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false">
       <Type name="FreeForm" />
       <Type name="Grid" />
@@ -1968,14 +1968,14 @@
     </Slot>
   </Element>
   <Element name="ReportItem" displayNameID="Element.ReportItem" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="true" nameSpace="element" isNameRequired="false">
-    <Property name="bookmark" displayNameID="Element.ReportItem.bookmark" type="expression" isVisible="false"/>
-    <Property name="toc" displayNameID="Element.ReportItem.toc" type="expression" isVisible="false"/>
+    <Property name="bookmark" displayNameID="Element.ReportItem.bookmark" type="expression" propertyVisibility="hide"/>
+    <Property name="toc" displayNameID="Element.ReportItem.toc" type="expression" propertyVisibility="hide"/>
     <Property name="dataSet" displayNameID="Element.ReportItem.dataSet" type="element" detailType="DataSet" >
       <Trigger validator="DataSetRequiredValidator"/>
 	</Property>
     <PropertyGroup displayNameID="Element.ReportItem">
-      <Property name="x" displayNameID="Element.ReportItem.x" type="dimension" isVisible="false"/>
-      <Property name="y" displayNameID="Element.ReportItem.y" type="dimension" isVisible="false"/>
+      <Property name="x" displayNameID="Element.ReportItem.x" type="dimension" propertyVisibility="hide"/>
+      <Property name="y" displayNameID="Element.ReportItem.y" type="dimension" propertyVisibility="hide"/>
       <Property name="height" displayNameID="Element.ReportItem.height" type="dimension" validator="NonNegativeValueValidator"/>
       <Property name="width" displayNameID="Element.ReportItem.width" type="dimension" validator="NonNegativeValueValidator"/>
     </PropertyGroup>
@@ -2178,7 +2178,7 @@
     <Property name="keyExpr" displayNameID="Element.ListingGroup.keyExpr" type="expression" valueRequired="true" />
     <Property name="sort" displayNameID="Element.ListingGroup.sort" type="structure" isList="true" detailType="SortKey" />
     <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCond" />
-    <Property name="toc" displayNameID="Element.ListingGroup.toc" type="expression" isVisible="false"/>
+    <Property name="toc" displayNameID="Element.ListingGroup.toc" type="expression" propertyVisibility="hide"/>
     <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
       <Trigger validator="GroupNameValidator" targetElement="Listing"/>
 	</Property>
@@ -2385,28 +2385,28 @@
   <Element name="Row" javaClass="org.eclipse.birt.report.model.elements.TableRow" displayNameID="Element.Row" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
     <Property name="visibility" displayNameID="Element.Row.visibility" type="structure" isList="true" detailType="Hide" />
     <Property name="height" displayNameID="Element.Row.height" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" isVisible="false" />
+    <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" propertyVisibility="hide" />
     <Slot name="cell" displayNameID="Element.Row.slot.cell" multipleCardinality="true">
       <Type name="Cell" />
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
   </Element>
   <Element name="Cell" javaClass="org.eclipse.birt.report.model.elements.Cell" displayNameID="Element.Cell" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
-    <Property name="column" displayNameID="Element.Cell.column" type="integer" validator="NonNegativeValueValidator" isVisible="false">
+    <Property name="column" displayNameID="Element.Cell.column" type="integer" validator="NonNegativeValueValidator" propertyVisibility="hide">
       <Default>0</Default>
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
-    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator" isVisible="false">
+    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator" propertyVisibility="readonly">
       <Default>1</Default>
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
-    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator" isVisible="false">
+    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator" propertyVisibility="readonly">
       <Default>1</Default>
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
     </Property>
-    <Property name="drop" displayNameID="Element.Cell.drop" type="choice" detailType="dropType" isVisible="false">
+    <Property name="drop" displayNameID="Element.Cell.drop" type="choice" detailType="dropType" propertyVisibility="hide">
       <Default>none</Default>
       <Trigger validator="TableDroppingValidator" targetElement="Table"/>
     </Property>
@@ -2446,8 +2446,8 @@
 	  <Trigger validator="ImageFileExistingValidator"/>
 	</Property>
     <Property name="imageName" displayNameID="Element.Image.imageName" type="expression" />
-    <Property name="valueExpr" displayNameID="Element.Image.valueExpr" type="expression" isVisible="false"/>
-    <Property name="typeExpr" displayNameID="Element.Image.typeExpr" type="expression" isVisible="false"/>
+    <Property name="valueExpr" displayNameID="Element.Image.valueExpr" type="expression" propertyVisibility="hide"/>
+    <Property name="typeExpr" displayNameID="Element.Image.typeExpr" type="expression" propertyVisibility="hide"/>
     <Property name="action" displayNameID="Element.Image.action" type="structure" isList="false" detailType="Action" />
     <StyleProperty name="backgroundColor" />
     <StyleProperty name="borderTopWidth" />
@@ -2500,7 +2500,7 @@
     </Slot>
   </Element>
   <Element name="Line" javaClass="org.eclipse.birt.report.model.elements.LineItem" displayNameID="Element.Line" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="false" isNameRequired="false" selector="line">
-    <Property name="orientation" displayNameID="Element.Line.orientation" type="choice" detailType="lineOrientation" isVisible="false">
+    <Property name="orientation" displayNameID="Element.Line.orientation" type="choice" detailType="lineOrientation" propertyVisibility="hide">
       <Default>horizontal</Default>
     </Property>
     <StyleProperty name="paddingTop" />

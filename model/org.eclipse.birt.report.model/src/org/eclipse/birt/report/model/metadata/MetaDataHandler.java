@@ -28,7 +28,6 @@ import org.xml.sax.SAXException;
 
 /**
  * SAX handler for reading the XML meta data definition file.
- *  
  */
 
 class MetaDataHandler extends XMLParserHandler
@@ -85,10 +84,10 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String VALIDATOR_ATTRIB = "validator"; //$NON-NLS-1$
 	private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 	private static final String NATIVE_ATTRIB = "native"; //$NON-NLS-1$
-	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
 	private static final String PRE_REQUISITE_ATTRIB = "preRequisite"; //$NON-NLS-1$
 	private static final String TARGET_ELEMENT_ATTRIB = "targetElement"; //$NON-NLS-1$
 	private static final String VALUE_REQUIRED_ATTRIB = "valueRequired"; //$NON-NLS-1$
+	private static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -636,6 +635,7 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
+			String visibleInPropertySheet = getAttrib( attrs, PROPERTY_VISIBILITY_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -760,10 +760,11 @@ class MetaDataHandler extends XMLParserHandler
 					IS_INTRINSIC_ATTRIB, false ) );
 			propDefn.setStyleProperty( getBooleanAttrib( attrs,
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
-			propDefn.setVisible( getBooleanAttrib( attrs, IS_VISIBLE_ATTRIB,
-					true ) );
 			propDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
+
+			if ( !StringUtil.isBlank( visibleInPropertySheet ) )
+				propDefn.setVisibility( visibleInPropertySheet );
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
@@ -1283,7 +1284,7 @@ class MetaDataHandler extends XMLParserHandler
 	class ElementMethodState extends AbstractMethodState
 	{
 
-		SystemPropertyDefn propDefn = new SystemPropertyDefn( );
+		SystemPropertyDefn localPropDefn = new SystemPropertyDefn( );
 
 		/*
 		 * (non-Javadoc)
@@ -1309,7 +1310,7 @@ class MetaDataHandler extends XMLParserHandler
 		public void parseAttrs( Attributes attrs )
 		{
 			super.parseAttrs( attrs );
-			propDefn.setValueRequired( getBooleanAttrib( attrs,
+			localPropDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
 		}
 
@@ -1329,17 +1330,17 @@ class MetaDataHandler extends XMLParserHandler
 			String name = methodInfo.getName( );
 			String displayNameID = methodInfo.getDisplayNameKey( );
 
-			propDefn.setName( name );
-			propDefn.setDisplayNameID( displayNameID );
-			propDefn.setType( typeDefn );
-			propDefn.setGroupNameKey( null );
-			propDefn.setCanInherit( true );
-			propDefn.setIntrinsic( false );
-			propDefn.setStyleProperty( false );
-			propDefn.setDetails( methodInfo );
+			localPropDefn.setName( name );
+			localPropDefn.setDisplayNameID( displayNameID );
+			localPropDefn.setType( typeDefn );
+			localPropDefn.setGroupNameKey( null );
+			localPropDefn.setCanInherit( true );
+			localPropDefn.setIntrinsic( false );
+			localPropDefn.setStyleProperty( false );
+			localPropDefn.setDetails( methodInfo );
 			try
 			{
-				( (ElementDefn) owner ).addProperty( propDefn );
+				( (ElementDefn) owner ).addProperty( localPropDefn );
 			}
 			catch ( MetaDataException e )
 			{
@@ -1400,7 +1401,6 @@ class MetaDataHandler extends XMLParserHandler
 		 * @param name
 		 *            the method name
 		 * @return the <code>MethodInfo</code> object
-		 *  
 		 */
 
 		abstract MethodInfo getMethodInfo( String name );
@@ -1674,7 +1674,6 @@ class MetaDataHandler extends XMLParserHandler
 	}
 
 	/**
-	 * 
 	 * Checks if dictionary contains a specified ChoiceSet with the name
 	 * <code>choiceSetName</code>.
 	 * 

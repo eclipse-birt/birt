@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,10 +44,11 @@ public class ExtensionElementDefn extends ElementDefn
 	protected IReportItemFactory elementFactory = null;
 
 	/**
-	 * The list contains the hidden properties in plugin.xml.
+	 * The list contains the information that how the property sheet shows an
+	 * property for an extension element.
 	 */
 
-	protected List invisibleProps = new ArrayList( );
+	protected Map propVisibilites = null;
 
 	/**
 	 * The list contains the cached system properties.
@@ -63,7 +63,6 @@ public class ExtensionElementDefn extends ElementDefn
 	 *            the name of the extended element definition
 	 * @param elementFactory
 	 *            the element factory of the extended element
-	 *  
 	 */
 
 	public ExtensionElementDefn( String name, IReportItemFactory elementFactory )
@@ -87,7 +86,7 @@ public class ExtensionElementDefn extends ElementDefn
 
 		if ( extendsFrom == null )
 			extendsFrom = ReportDesignConstants.REPORT_ITEM;
-		
+
 		buildDefn( );
 
 		// Handle parent-specific tasks.
@@ -96,7 +95,7 @@ public class ExtensionElementDefn extends ElementDefn
 
 		if ( extendsFrom != null )
 		{
-			parent = (ElementDefn)dd.getElement( extendsFrom );
+			parent = (ElementDefn) dd.getElement( extendsFrom );
 			if ( parent == null )
 				throw new MetaDataException(
 						new String[]{extendsFrom, name},
@@ -249,35 +248,42 @@ public class ExtensionElementDefn extends ElementDefn
 	 * 
 	 * @param propName
 	 *            the property name
+	 * @param propVisibility
+	 *            the level that how to show the property in the property sheet.
 	 */
 
-	protected void addInvisibleProperty( String propName )
+	protected void addPropertyVisibility( String propName, String propVisibility )
 	{
-		invisibleProps.add( propName );
+		if ( propVisibilites == null )
+			propVisibilites = new HashMap( );
+
+		propVisibilites.put( propName, propVisibility );
 	}
 
 	/**
 	 * Creates the cached system properties for <code>PropertyInvisible</code>
 	 * tags.
-	 *  
 	 */
 
 	private void createCachedSystemProperties( )
 	{
 		// DO NOT override buildProperties(). It is only for semantic check.
 
-		for ( Iterator iter = invisibleProps.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = propVisibilites.keySet( ).iterator( ); iter
+				.hasNext( ); )
 		{
 			String propName = (String) iter.next( );
-			SystemPropertyDefn sysDefn = (SystemPropertyDefn)parent.getProperty( propName );
+			SystemPropertyDefn sysDefn = (SystemPropertyDefn) parent
+					.getProperty( propName );
 
-			if ( sysDefn != null && sysDefn.isVisible( ) )
+			if ( sysDefn != null
+					&& ( sysDefn.isVisible( ) || !sysDefn.isReadOnly( ) ) )
 			{
 				if ( cachedSystemProps == null )
 					cachedSystemProps = new HashMap( );
 
 				SystemPropertyDefn defn = createPropertyDefn( sysDefn );
-				defn.setVisible( false );
+				defn.setVisibility( (String) propVisibilites.get( propName ) );
 				cachedSystemProps.put( propName, defn );
 			}
 		}
@@ -288,7 +294,6 @@ public class ExtensionElementDefn extends ElementDefn
 	 * 
 	 * @param propName
 	 *            the property name
-	 * 
 	 * @return the <code>SystemPropertyDefn</code> of the corresponding
 	 *         <code>propName</code>.
 	 */
@@ -330,10 +335,10 @@ public class ExtensionElementDefn extends ElementDefn
 		newDefn.setValueValidator( defn.valueValidator );
 		newDefn.details = defn.details;
 
-		// 3 members on the ElementPropertyDefn
+		// 2 members on the ElementPropertyDefn
 
 		newDefn.setStyleProperty( defn.isStyleProperty( ) );
-		newDefn.setVisible( defn.isVisible( ) );
+
 		newDefn.setGroupNameKey( defn.getGroupNameKey( ) );
 
 		// 1 member on the SystemPropertyDefn

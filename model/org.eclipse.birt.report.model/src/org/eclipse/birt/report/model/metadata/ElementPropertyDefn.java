@@ -24,6 +24,18 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 {
 
 	/**
+	 * The property is hidden in the property sheet.
+	 */
+
+	protected final static String HIDDEN_IN_PROPERTY_SHEET = "hide"; //$NON-NLS-1$
+
+	/**
+	 * The property is shown in the property sheet but readonly.
+	 */
+
+	protected final static String READONLY_IN_PROPERTY_SHEET = "readonly"; //$NON-NLS-1$
+
+	/**
 	 * The message ID for the property group name.
 	 */
 
@@ -37,11 +49,11 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	protected boolean isInheritable = true;
 
 	/**
-	 * <code>true</code> if the property definition is visible for the
-	 * property sheet in UI, <code>false</code> if not.
+	 * The visibility of the property definition. Mostly useful in the GUI
+	 * property sheet.
 	 */
 
-	protected boolean isVisible = true;
+	protected String visibility = null;
 
 	/**
 	 * Default constructor.
@@ -87,13 +99,11 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * <th width="20%"></th>
 	 * <th width="40%">can inherit</th>
 	 * <th width="40%">can cascade</th>
-	 * 
 	 * <tr>
 	 * <td>Style property</td>
 	 * <td align="center"><code>false</code></td>
 	 * <td align="center"><code>isInheritable</code></td>
 	 * </tr>
-	 * 
 	 * <tr>
 	 * <td>Non-style property</td>
 	 * <td align="center"><code>isInheritable</code></td>
@@ -184,16 +194,20 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
-	 * Sets whether the property is visible to the property sheet.
+	 * Sets the visibility flag to indicate how to display the property in the
+	 * property sheet.
 	 * 
 	 * @param flag
-	 *            <code>true</code> if the property value is visible,
-	 *            <code>false otherwise.
+	 *            the visibility flag to set
 	 */
 
-	void setVisible( boolean flag )
+	void setVisibility( String flag )
 	{
-		isVisible = flag;
+		if ( !HIDDEN_IN_PROPERTY_SHEET.equals( flag )
+				&& !READONLY_IN_PROPERTY_SHEET.equals( flag ) )
+			assert false;
+
+		visibility = flag;
 	}
 
 	/**
@@ -208,7 +222,24 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 		if ( getTypeCode( ) == PropertyType.STRUCT_TYPE )
 			return false;
 
-		return isVisible;
+		return ( visibility == null || READONLY_IN_PROPERTY_SHEET
+				.equals( visibility ) );
+
+	}
+
+	/**
+	 * Checks whether the property value is read-only in the property sheet.
+	 * 
+	 * @return <code>true</code> if the property value is read-only,
+	 *         <code>false</code> otherwise.
+	 */
+
+	public boolean isReadOnly( )
+	{
+		if ( getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			return false;
+
+		return READONLY_IN_PROPERTY_SHEET.equals( visibility );
 	}
 
 	/**
