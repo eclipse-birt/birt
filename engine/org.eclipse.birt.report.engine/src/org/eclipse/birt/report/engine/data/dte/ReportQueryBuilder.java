@@ -89,7 +89,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/11 18:08:40 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/11 19:25:13 $
  */
 public class ReportQueryBuilder
 {
@@ -162,11 +162,6 @@ public class ReportQueryBuilder
 		protected ExecutionContext context;
 
 		/**
-		 * a temparary query used across multiple functions
-		 */
-		private BaseQueryDefn tempQuery = null;
-		
-		/**
 		 * create report query definitions for this report.
 		 * 
 		 * @param report  entry point to the report
@@ -191,9 +186,9 @@ public class ReportQueryBuilder
 		 * 
 		 * @param item report item
 		 */
-		private void prepareVisit( ReportItemDesign item )
+		private BaseQueryDefn prepareVisit( ReportItemDesign item )
 		{
-			tempQuery = null;
+			BaseQueryDefn tempQuery = null;
 			if (item instanceof ListingDesign)
 				tempQuery = createQuery( (ListingDesign)item );
 			else
@@ -204,14 +199,15 @@ public class ReportQueryBuilder
 				pushExpressions( tempQuery.getRowExpressions( ) );
 			}
 			handleReportItemExpressions( item );
+			return tempQuery;
 		}
 		
 		/**
 		 * Clean up stack after visiting a report item
 		 */
-		private void finishVisit(  )
+		private void finishVisit( BaseQueryDefn query )
 		{
-			if (tempQuery != null)
+			if (query != null)
 			{
 				popExpressions( );
 				popQuery( );			
@@ -225,12 +221,12 @@ public class ReportQueryBuilder
 		 */
 		public void visitFreeFormItem( FreeFormItemDesign container )
 		{
-			prepareVisit( container );
+			BaseQueryDefn query = prepareVisit( container );
 						
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				container.getItem( i ).accept( this );
 			
-			finishVisit( );
+			finishVisit( query );
 		}
 
 		/*
@@ -240,7 +236,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitGridItem( GridItemDesign grid )
 		{
-			prepareVisit( grid );
+			BaseQueryDefn query = prepareVisit( grid );
 
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
@@ -251,7 +247,7 @@ public class ReportQueryBuilder
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 				handleRow( grid.getRow( i ) );
 
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/* (non-Javadoc)
@@ -259,7 +255,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitImageItem( ImageItemDesign image )
 		{
-			prepareVisit( image );
+			BaseQueryDefn query = prepareVisit( image );
 
 			handleAction( image.getAction( ) );
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
@@ -268,7 +264,7 @@ public class ReportQueryBuilder
 				addExpression( image.getImageFormat( ) );
 			}
 
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/*
@@ -278,9 +274,9 @@ public class ReportQueryBuilder
 		 */
 		public void visitLabelItem( LabelItemDesign label )
 		{
-			prepareVisit( label );
+			BaseQueryDefn query = prepareVisit( label );
 			handleAction( label.getAction( ) );
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/* (non-Javadoc)
@@ -338,8 +334,8 @@ public class ReportQueryBuilder
 		 */
 		public void visitListItem( ListItemDesign list )
 		{
-			prepareVisit( list );
-			assert tempQuery != null;
+			BaseQueryDefn query = prepareVisit( list );
+			assert query != null;
 			
 			visitListBand( list.getHeader( ) );
 			popExpressions( );
@@ -353,16 +349,16 @@ public class ReportQueryBuilder
 
 			if ( list.getDetail( ).getContentCount( ) != 0 )
 			{
-				tempQuery.setUsesDetails( true );
+				query.setUsesDetails( true );
 			}
 
-			pushExpressions( tempQuery.getRowExpressions( ) );
+			pushExpressions( query.getRowExpressions( ) );
 			visitListBand( list.getDetail( ) );
 			popExpressions( );
 
-			pushExpressions( tempQuery.getAfterExpressions( ) );
+			pushExpressions( query.getAfterExpressions( ) );
 			visitListBand( list.getFooter( ) );
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/*
@@ -372,7 +368,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitTextItem( TextItemDesign text )
 		{
-			prepareVisit( text );
+			BaseQueryDefn query = prepareVisit( text );
 			if ( text.getDomTree( ) == null )
 			{
 				String content = getLocalizedString( text.getContentKey( ),
@@ -385,7 +381,7 @@ public class ReportQueryBuilder
 			{
 				getEmbeddedExpression( doc.getFirstChild( ), text );
 			}
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/*
@@ -395,8 +391,7 @@ public class ReportQueryBuilder
 		 */
 		public void visitTableItem( TableItemDesign table )
 		{
-			prepareVisit( table );
-			assert tempQuery != null;
+			BaseQueryDefn query = prepareVisit( table );
 
 			for ( int i = 0; i < table.getColumnCount( ); i++ )
 			{
@@ -415,16 +410,16 @@ public class ReportQueryBuilder
 
 			if ( table.getDetail( ).getRowCount( ) != 0 )
 			{
-				tempQuery.setUsesDetails( true );
+				query.setUsesDetails( true );
 			}
 
-			pushExpressions( tempQuery.getRowExpressions( ) );
+			pushExpressions( query.getRowExpressions( ) );
 			handleTableBand( table.getDetail( ) );
 			popExpressions( );
 
-			pushExpressions( tempQuery.getAfterExpressions( ) );
+			pushExpressions( query.getAfterExpressions( ) );
 			handleTableBand( table.getFooter( ) );
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/*
@@ -434,11 +429,11 @@ public class ReportQueryBuilder
 		 */
 		public void visitMultiLineItem( MultiLineItemDesign multiLine )
 		{
-			prepareVisit( multiLine );
+			BaseQueryDefn query = prepareVisit( multiLine );
 
 			addExpression( multiLine.getContent( ) );
 			addExpression( multiLine.getContentType( ) );
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/* (non-Javadoc)
@@ -446,11 +441,11 @@ public class ReportQueryBuilder
 		 */
 		public void visitDataItem( DataItemDesign data )
 		{
-			prepareVisit( data );
+			BaseQueryDefn query = prepareVisit( data );
 			handleReportItemExpressions( data );
 			handleAction( data.getAction( ) );
 			addExpression( data.getValue( ) );
-			finishVisit( ); 
+			finishVisit( query ); 
 		}
 
 		/**
