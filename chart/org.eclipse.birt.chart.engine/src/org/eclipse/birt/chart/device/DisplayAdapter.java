@@ -24,7 +24,11 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public class DisplayAdapter implements IDisplayServer
 {
-
+    public void debug()
+    {
+        
+    }
+    
     /*
      * (non-Javadoc)
      * 

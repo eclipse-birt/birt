@@ -24,7 +24,8 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public interface IDisplayServer
 {
-
+    void debug();
+    
     /**
      * 
      * @param fd
