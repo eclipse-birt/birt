@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.device.swing;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.RenderingHints;
@@ -63,6 +64,12 @@ public class SwingDisplayServer extends DisplayAdapter
      */
     private final java.awt.Panel p = new java.awt.Panel(); // NEEDED FOR IMAGE
 
+    /**
+     * 
+     */
+    private int iDpiResolution = 0;
+    
+    
     // LOADING
 
     /**
@@ -79,14 +86,14 @@ public class SwingDisplayServer extends DisplayAdapter
         _g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         dScale = getDpiResolution() / 72d;
         _g2d.scale(dScale, dScale);
-        il.log(ILogger.INFORMATION, "SWING XServer: " + System.getProperty("java.vendor") + " v"
+        il.log(ILogger.INFORMATION, "SWING Display Server: " + System.getProperty("java.vendor") + " v"
             + System.getProperty("java.version"));
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#createFont(org.eclipse.birt.chart.attribute.FontDefinition)
+     * @see org.eclipse.birt.devices.IDisplayServer#createFont(org.eclipse.birt.chart.attribute.FontDefinition)
      */
     public final Object createFont(FontDefinition fd)
     {
@@ -123,7 +130,7 @@ public class SwingDisplayServer extends DisplayAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#getMetrics(org.eclipse.birt.chart.attribute.FontDefinition,
+     * @see org.eclipse.birt.devices.IDisplayServer#getMetrics(org.eclipse.birt.chart.attribute.FontDefinition,
      *      java.lang.Object)
      */
     public final Object getMetrics(FontDefinition fd)
@@ -134,17 +141,29 @@ public class SwingDisplayServer extends DisplayAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#getDpiResolution()
+     * @see org.eclipse.birt.devices.IDisplayServer#getDpiResolution()
      */
-    public final double getDpiResolution()
+    public final int getDpiResolution()
     {
-        return Toolkit.getDefaultToolkit().getScreenResolution();
+        if (iDpiResolution == 0)
+        {
+	        if (GraphicsEnvironment.isHeadless())
+	        {
+	            // RETURN OS SPECIFIC DEFAULTS
+	            iDpiResolution = super.getDpiResolution();
+	        }
+	        else
+	        {
+	            iDpiResolution = Toolkit.getDefaultToolkit().getScreenResolution();
+	        }
+        }
+        return iDpiResolution;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#loadImage(java.lang.String)
+     * @see org.eclipse.birt.devices.IDisplayServer#loadImage(java.lang.String)
      */
     public final Object loadImage(URL url) throws ImageLoadingException
     {
@@ -184,7 +203,7 @@ public class SwingDisplayServer extends DisplayAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#getSize(java.lang.Object)
+     * @see org.eclipse.birt.devices.IDisplayServer#getSize(java.lang.Object)
      */
     public final Size getSize(Object oImage)
     {
@@ -195,7 +214,7 @@ public class SwingDisplayServer extends DisplayAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.devices.XServer#getObserver()
+     * @see org.eclipse.birt.devices.IDisplayServer#getObserver()
      */
     public final Object getObserver()
     {
@@ -205,7 +224,7 @@ public class SwingDisplayServer extends DisplayAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.chart.device.XServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
+     * @see org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
      */
     public ITextMetrics getTextMetrics(Label la)
     {

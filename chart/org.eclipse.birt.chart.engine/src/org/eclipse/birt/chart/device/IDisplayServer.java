@@ -43,7 +43,7 @@ public interface IDisplayServer
      * 
      * @return
      */
-    double getDpiResolution();
+    int getDpiResolution();
 
     /**
      * 

@@ -52,10 +52,9 @@ public class DisplayAdapter implements IDisplayServer
      * 
      * @see org.eclipse.birt.chart.device.IDisplayServer#getDpiResolution()
      */
-    public double getDpiResolution()
+    public int getDpiResolution()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return 96;
     }
 
     /*
