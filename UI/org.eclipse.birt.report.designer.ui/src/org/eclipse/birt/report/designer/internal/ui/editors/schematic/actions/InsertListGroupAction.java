@@ -11,26 +11,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * add comment here
  *  
  */
-public class InsertListGroupAction extends SelectionAction
+public class InsertListGroupAction extends ContextSelectionAction
 {
 
 	private static final String ACTION_MSG_INSERT_GROUP = Messages.getString( "InsertListGroupAction.actionMsg.insertGroup" ); //$NON-NLS-1$
@@ -56,17 +49,12 @@ public class InsertListGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		List parts = getListEditParts( );
-		if ( parts.size( ) != 1 )
+		ListEditPart part = getListEditPart( );
+		if ( part == null )
 		{
 			return false;
 		}
-		ListEditPart tep = (ListEditPart) parts.get( 0 );
-		if ( tep == null )
-		{
-			return false;
-		}
-		return !DEUtil.getDataSetList( (DesignElementHandle) tep.getModel( ) )
+		return !DEUtil.getDataSetList( (DesignElementHandle) part.getModel( ) )
 				.isEmpty( );
 	}
 
@@ -81,9 +69,7 @@ public class InsertListGroupAction extends SelectionAction
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getActivityStack( );
 		stack.startTrans( STACK_MSG_INSERT_GROUP );
-
-		ListEditPart part = (ListEditPart) getListEditParts( ).get( 0 );
-		if ( part.insertGroup( ) )
+		if ( getListEditPart( ).insertGroup( ) )
 		{
 			stack.commit( );
 		}
@@ -91,40 +77,5 @@ public class InsertListGroupAction extends SelectionAction
 		{
 			stack.rollbackAll( );
 		}
-	}
-
-	/**
-	 * Gets list edit parts.
-	 * 
-	 * @return The current selected list edit parts, null if no list edit part
-	 *         is selected.
-	 */
-	protected List getListEditParts( )
-	{
-		List listParts = new ArrayList( );
-		for ( Iterator iter = getSelectedObjects( ).iterator( ); iter.hasNext( ); )
-		{
-			Object obj = iter.next( );
-			if ( obj instanceof ListEditPart )
-			{
-				if ( !( listParts.contains( obj ) ) )
-				{
-					listParts.add( obj );
-				}
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				Object parent = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-				if ( !( listParts.contains( parent ) ) )
-				{
-					listParts.add( parent );
-				}
-			}
-			else
-			{
-				return Collections.EMPTY_LIST;
-			}
-		}
-		return listParts;
 	}
 }
