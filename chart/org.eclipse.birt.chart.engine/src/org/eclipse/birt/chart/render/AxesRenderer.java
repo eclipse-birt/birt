@@ -51,8 +51,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -117,7 +115,6 @@ public abstract class AxesRenderer extends BaseRenderer
         final ILogger il = DefaultLoggerImpl.instance();
         long lTimer = System.currentTimeMillis();
         final Chart cm = getModel();
-        final Object o = getComputations();
         final IDeviceRenderer idr = getDevice();
         final ScriptHandler sh = cm.getScriptHandler();
 
@@ -596,25 +593,59 @@ public abstract class AxesRenderer extends BaseRenderer
         {
             bo.getTop() + bo.getHeight() + dSeriesThickness, bo.getTop() + dSeriesThickness
         };
+        
         if (pwa.getDimension() == IConstants.TWO_5_D)
         {
-            Fill fDarker = ca.getBackground();
-            if (fDarker instanceof ColorDefinition)
+            Location[] loa = null;
+            
+            // DRAW THE LEFT WALL
+            if (cwa.getWallFill() == null)
             {
-                fDarker = ((ColorDefinition) fDarker).darker();
+	            renderPlane(ipr, p, new Location[]
+	            {
+	                LocationImpl.create(daX[0], daY[0]), LocationImpl.create(daX[0], daY[1])
+	            }, ca.getBackground(), ca.getOutline(), cwa.getDimension(), dSeriesThickness, false);
+            }
+            else
+            {
+                loa = new Location[4];
+                loa[0] = LocationImpl.create(daX[0], daY[0]);
+                loa[1] = LocationImpl.create(daX[0], daY[1]);
+                loa[2] = LocationImpl.create(daX[0] + dSeriesThickness, daY[1] - dSeriesThickness);
+                loa[3] = LocationImpl.create(daX[0] + dSeriesThickness, daY[0] - dSeriesThickness);
+                final PolygonRenderEvent pre = (PolygonRenderEvent) ((EventObjectCache) ipr).getEventObject(p, PolygonRenderEvent.class);
+                pre.setPoints(loa);
+                pre.setBackground(cwa.getWallFill());
+                pre.setOutline(ca.getOutline());
+                ipr.fillPolygon(pre);
+                ipr.drawPolygon(pre);
             }
 
-            // LEFT WALL
-            renderPlane(ipr, p, new Location[]
+            // DRAW THE FLOOR
+            if (cwa.getFloorFill() == null)
             {
-                LocationImpl.create(daX[0], daY[0]), LocationImpl.create(daX[0], daY[1])
-            }, ca.getBackground(), ca.getOutline(), cwa.getDimension(), dSeriesThickness, false);
-
-            // FLOOR
-            renderPlane(ipr, p, new Location[]
+	            renderPlane(ipr, p, new Location[]
+	            {
+	                LocationImpl.create(daX[0], daY[0]), LocationImpl.create(daX[1], daY[0])
+	            }, ca.getBackground(), ca.getOutline(), cwa.getDimension(), dSeriesThickness, false);
+            }
+            else
             {
-                LocationImpl.create(daX[0], daY[0]), LocationImpl.create(daX[1], daY[0])
-            }, ca.getBackground(), ca.getOutline(), cwa.getDimension(), dSeriesThickness, false);
+                if (loa == null)
+                {
+                    loa = new Location[4];
+                }
+                loa[0] = LocationImpl.create(daX[0], daY[0]);
+                loa[1] = LocationImpl.create(daX[1], daY[0]);
+                loa[2] = LocationImpl.create(daX[1] + dSeriesThickness, daY[0] - dSeriesThickness);
+                loa[3] = LocationImpl.create(daX[0] + dSeriesThickness, daY[0] - dSeriesThickness);
+                final PolygonRenderEvent pre = (PolygonRenderEvent) ((EventObjectCache) ipr).getEventObject(p, PolygonRenderEvent.class);
+                pre.setPoints(loa);
+                pre.setBackground(cwa.getFloorFill());
+                pre.setOutline(ca.getOutline());
+                ipr.fillPolygon(pre);
+                ipr.drawPolygon(pre);
+            }
         }
 
         // SETUP AXIS ARRAY
@@ -831,6 +862,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
         if (p.getClientArea().getOutline().isVisible())
         {
+            rre.setBounds(bo);
             ipr.drawRectangle(rre);
         }
     }
@@ -933,7 +965,6 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 oaxa[2 + i] = aax.getOverlay(i);
             }
-            final ClientArea ca = p.getClientArea();
             Bounds bo = pwa.getPlotBounds();
 
             // RENDER MARKER LINES
@@ -963,7 +994,7 @@ public abstract class AxesRenderer extends BaseRenderer
         DataElement deValue;
         AutoScale asc;
         double dCoordinate = 0;
-        int iOrientation, iCompare = IConstants.EQUAL;
+        int iOrientation;
 
         final IDeviceRenderer idr = getDevice();
         final ScriptHandler sh = getModel().getScriptHandler();
@@ -1068,7 +1099,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 // ADJUST FOR 2D PLOTS AS NEEDED
                 if (pw2da.getDimension() == IConstants.TWO_5_D)
                 {
-                    if (iOrientation == Orientation.HORIZONTAL)
+                    /*if (iOrientation == Orientation.HORIZONTAL)
                     {
                         loStart.translate(0, pw2da.getSeriesThickness());
                         loEnd.translate(0, pw2da.getSeriesThickness());
@@ -1077,7 +1108,7 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         loStart.translate(-pw2da.getSeriesThickness(), 0);
                         loEnd.translate(-pw2da.getSeriesThickness(), 0);
-                    }
+                    }*/
                 }
 
                 // DRAW THE MARKER LINE
@@ -1773,8 +1804,6 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     throw new RenderingException(uiex);
                 }
-                final Bounds boPlot = pl.getBounds();
-
                 final Bounds bo = BoundsImpl.create(ax.getTitleCoordinate(), daEndPoints[1], bb.getWidth(),
                     daEndPoints[0] - daEndPoints[1]);
 
@@ -2258,8 +2287,6 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     throw new RenderingException(uiex);
                 }
-                final Bounds boPlot = pl.getBounds();
-
                 final Bounds bo = BoundsImpl.create(daEndPoints[0], ax.getTitleCoordinate(), daEndPoints[1]
                     - daEndPoints[0], bb.getHeight());
 
