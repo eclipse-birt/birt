@@ -110,25 +110,26 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.xml.sax.Attributes;
 
 /**
- * Constructs an internal representation of the report design for report geenration
- * and presentation, based on the internal representation that design engine creates.
- * The DE IR services both the designer UI and factory, and has certain features that
- * are not quite suitable for FPE use. In particular, this step of the reconstruction 
- * is needed for several reasons:
+ * Constructs an internal representation of the report design for report
+ * geenration and presentation, based on the internal representation that design
+ * engine creates. The DE IR services both the designer UI and factory, and has
+ * certain features that are not quite suitable for FPE use. In particular, this
+ * step of the reconstruction is needed for several reasons:
  * <p>
- * <li> Style handling: DE stores all styles in an unflatten version. Factory needs 
- * to reference styles where the element hierarchy has been flattened. 
- * <li> Faster lookup: DE stores various properties as property name/value pairs. 
- * Factory IR might store them as structure. See <code>createHighlightRule()</code>
- * for an example.
- * <li> Merging properties: DE stores custom and default properties separately. In 
- * FPE, theya re merged.</li><p>  
- *  
- * This class visits the Design Engine's IR to create a new IR for FPE. It is usually
- * used in the "Design Adaptation" phase of report geenration, which is also the first
- * step in report generation after DE loads the report in.  
- *  
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * <li>Style handling: DE stores all styles in an unflatten version. Factory
+ * needs to reference styles where the element hierarchy has been flattened.
+ * <li>Faster lookup: DE stores various properties as property name/value
+ * pairs. Factory IR might store them as structure. See
+ * <code>createHighlightRule()</code> for an example.
+ * <li>Merging properties: DE stores custom and default properties separately.
+ * In FPE, theya re merged.</li>
+ * <p>
+ * 
+ * This class visits the Design Engine's IR to create a new IR for FPE. It is
+ * usually used in the "Design Adaptation" phase of report geenration, which is
+ * also the first step in report generation after DE loads the report in.
+ * 
+ * @version $Revision: 1.4 $ $Date: 2005/02/07 09:43:34 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -151,7 +152,8 @@ class EngineIRVisitor extends DesignVisitor
 	/**
 	 * constructor
 	 * 
-	 * @param handle the entry point to the DE report design IR
+	 * @param handle
+	 *            the entry point to the DE report design IR
 	 *  
 	 */
 	EngineIRVisitor( ReportDesignHandle handle )
@@ -172,19 +174,25 @@ class EngineIRVisitor extends DesignVisitor
 		return report;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
 		report.setUnit( handle.getDefaultUnits( ) );
+		if ( handle.getBase( ) != null && !handle.getBase( ).equals( "" ) )
+		{
+			report.setBasePath( handle.getBase( ) );
+		}
 		defaultUnit = report.getUnit( );
 
 		// INCLUDE LIBRARY
 		// INCLUDE SCRIPT
 		// CODE MODULES
 
-		// PARAMETERS:	Handle parameter definitions
+		// PARAMETERS: Handle parameter definitions
 		SlotHandle paramSlot = handle.getParameters( );
 		IParameterDefnBase param;
 		for ( int i = 0; i < paramSlot.getCount( ); i++ )
@@ -621,8 +629,8 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// Create Table Item
 		TableItemDesign table = new TableItemDesign( );
-		table.setRepeatHeader(handle.repeatHeader());
-		
+		table.setRepeatHeader( handle.repeatHeader( ) );
+
 		setupListingItem( table, handle );
 
 		// Handle table caption
@@ -831,17 +839,19 @@ class EngineIRVisitor extends DesignVisitor
 		currentElement = textItem;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitExtendedItem(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	protected void visitExtendedItem( ExtendedItemHandle obj )
 	{
-		ExtendedItemDesign extendedItem = new ExtendedItemDesign();
-		setupReportItem(extendedItem, obj);
-		
+		ExtendedItemDesign extendedItem = new ExtendedItemDesign( );
+		setupReportItem( extendedItem, obj );
+
 		currentElement = extendedItem;
 	}
-	
+
 	protected void setupGroup( GroupDesign group, GroupHandle handle )
 	{
 

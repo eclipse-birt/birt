@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class Report
 {
@@ -82,7 +82,8 @@ public class Report
 	protected ArrayList contents = new ArrayList( );
 
 	/**
-	 * The directory where design file (XML) resides
+	 * The base directory of the relative links. By default it is where design
+	 * file (XML) resides
 	 */
 	protected String basePath;
 
@@ -318,8 +319,11 @@ public class Report
 	public void setReportDesign( ReportDesign reportDesign )
 	{
 		this.reportDesign = reportDesign;
-		File file = new File( reportDesign.getFileName( ) );
-		basePath = file.getParent( );
+		if ( basePath == null || basePath.equals(""))
+		{
+			File file = new File( reportDesign.getFileName( ) );
+			basePath = file.getParent( );
+		}
 	}
 
 	/**
@@ -469,5 +473,14 @@ public class Report
 	public String getBasePath( )
 	{
 		return basePath;
+	}
+
+	/**
+	 * @param basePath
+	 *            The basePath to set.
+	 */
+	public void setBasePath( String basePath )
+	{
+		this.basePath = basePath;
 	}
 }
