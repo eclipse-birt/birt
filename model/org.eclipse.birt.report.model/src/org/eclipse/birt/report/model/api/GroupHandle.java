@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents both list and table groups in the design. Groups provide a way of
@@ -142,7 +143,10 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		try
 		{
-			setProperty( GroupElement.GROUP_NAME_PROP, theName );
+            // trim the name, have the same behavior as Name property. 
+            
+			setProperty( GroupElement.GROUP_NAME_PROP, StringUtil
+					.trimString( theName ) );
 		}
 		catch ( SemanticException e )
 		{

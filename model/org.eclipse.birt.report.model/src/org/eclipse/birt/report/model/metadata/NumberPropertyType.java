@@ -233,6 +233,9 @@ public class NumberPropertyType extends PropertyType
 			String value ) throws PropertyValueException
 	{
 
+		if( StringUtil.isBlank( value ) )
+			return null;
+		
 		NumberFormat formatter = NumberFormat
 				.getNumberInstance( ThreadResources.getLocale( ) );
 		Number number = null;

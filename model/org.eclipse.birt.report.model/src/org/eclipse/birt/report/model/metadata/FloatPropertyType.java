@@ -38,7 +38,7 @@ public class FloatPropertyType extends PropertyType
 	/**
 	 * The decimal formatter for locale independent string.
 	 */
-	
+
 	private static final DecimalFormat formatter = new DecimalFormat( "#0.0#" ); //$NON-NLS-1$
 
 	/**
@@ -183,8 +183,8 @@ public class FloatPropertyType extends PropertyType
 	}
 
 	/**
-	 * Converts the float property value into an localized formatter, e.g: return
-	 * "12,000.123" for a Double(12000.123d) in US locale. Return
+	 * Converts the float property value into an localized formatter, e.g:
+	 * return "12,000.123" for a Double(12000.123d) in US locale. Return
 	 * <code>null</code> if the value is null.
 	 *  
 	 */
@@ -215,7 +215,8 @@ public class FloatPropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		if ( StringUtil.isBlank( value ) )
+		value = StringUtil.trimString( value );
+		if ( value == null )
 			return null;
 
 		NumberFormat localeFormatter = NumberFormat

@@ -83,8 +83,8 @@ public class ChoicePropertyType extends PropertyType
 	public Object validateXml( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-
-		if ( StringUtil.isBlank( value ) )
+		value = StringUtil.trimString( value );
+		if ( value == null )
 			return null;
 
 		// if the property doesn't define the restrictions, the whole choice set
@@ -185,7 +185,6 @@ public class ChoicePropertyType extends PropertyType
 	public String toDisplayString( ReportDesign design, PropertyDefn defn,
 			Object name )
 	{
-
 		if ( name == null )
 			return null;
 
@@ -212,7 +211,8 @@ public class ChoicePropertyType extends PropertyType
 	 * choice name or it can be a localized choice name.
 	 * 
 	 * @return the internal choice name, if the <code>name</code> is an
-	 *         internal choice name or a localized choice name.
+	 *         internal choice name or a localized choice name, return
+	 *         <code>null</code> if <code>name</code> is null.
 	 * @throws PropertyValueException
 	 *             if the <code>name</code> is not valid.
 	 */
@@ -220,7 +220,8 @@ public class ChoicePropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String name ) throws PropertyValueException
 	{
-		if ( StringUtil.isBlank( name ) )
+		name = StringUtil.trimString( name );
+		if ( name == null )
 			return null;
 
 		// if the property doesn't define the restrictions, the whole choice set

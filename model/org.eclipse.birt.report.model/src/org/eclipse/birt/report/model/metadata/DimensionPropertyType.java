@@ -169,7 +169,6 @@ public class DimensionPropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-
 		DimensionValue dim = DimensionValue.parseInput( value );
 
 		if ( dim != null )

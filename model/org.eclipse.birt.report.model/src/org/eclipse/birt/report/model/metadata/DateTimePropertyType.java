@@ -89,9 +89,7 @@ public class DateTimePropertyType extends PropertyType
 	public Object validateXml( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-
 		value = StringUtil.trimString( value );
-
 		if ( value == null )
 			return null;
 
