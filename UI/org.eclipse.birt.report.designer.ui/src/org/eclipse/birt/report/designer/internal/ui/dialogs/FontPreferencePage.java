@@ -48,7 +48,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	 */
 	private ColorFieldEditor color;
 
-	private ComboBoxFieldEditor name;
+	private EditableComboFieldEditor name;
 
 	private ComboBoxFieldEditor style;
 
@@ -114,7 +114,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
-		name = new ComboBoxFieldEditor( Style.FONT_FAMILY_PROP,
+		name = new EditableComboFieldEditor( Style.FONT_FAMILY_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.FONT_FAMILY_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -221,6 +221,12 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		{
 			String fontFamily = name.getValueForName( name.getComboBoxControl( null )
 					.getText( ) );
+			
+			if (fontFamily == null)
+			{
+				fontFamily = "Times New Roman"; //$NON-NLS-1$
+			}
+			
 			String familyValue = (String) DesignerConstants.familyMap.get( fontFamily );
 
 			if ( familyValue == null )
