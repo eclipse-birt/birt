@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.DefaultReportItemPresentationImpl;
+import org.eclipse.birt.report.engine.extension.IReportItemSerializable;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -38,7 +40,7 @@ import org.eclipse.birt.report.model.extension.IReportItem;
 /**
  *  
  */
-public class ChartReportItemPresentationImpl extends DefaultReportItemPresentationImpl
+public final class ChartReportItemPresentationImpl extends DefaultReportItemPresentationImpl
 {
     /**
      *  
@@ -64,6 +66,11 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
      * 
      */
     private final String sExtension;
+    
+    /**
+     * 
+     */
+    private RunTimeContext rtc = null;
 
     /**
      *  
@@ -86,6 +93,14 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     }
 
     /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#restoreGenerationState(org.eclipse.birt.report.engine.extension.IReportItemSerializable)
+     */
+    public void restoreGenerationState(IReportItemSerializable iris) 
+    {
+        final SerializedState ss = (SerializedState) iris;
+        rtc = (RunTimeContext) ss.deserialize(null);
+    }    
+    /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType(java.lang.String, java.lang.String)
      */
     public int getOutputType(String format, String mimeType) 
@@ -96,7 +111,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize()
      */
-    public Size getSize() 
+    public final Size getSize() 
     {
         if (cm != null)
         {
@@ -114,7 +129,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
     /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#process()
      */
-    public Object process() throws BirtException
+    public final Object process() throws BirtException
     {
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - start");
         // SETUP A TEMP FILE FOR STREAMING
@@ -146,7 +161,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
 	            idr.getDisplayServer(), 
 	            cm, null,
 	            bo,
-	            null
+	            rtc
 	        );
 	    } catch (GenerationException gex)
 	    {
@@ -154,7 +169,7 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
             throw new BirtException("chart build", gex);
 	    }        
         
-        // WRITE TO THE PNG FILE
+        // WRITE TO THE IMAGE FILE
 	    idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, fChartImage.getPath());
         try {
             gr.render(idr, gcs);

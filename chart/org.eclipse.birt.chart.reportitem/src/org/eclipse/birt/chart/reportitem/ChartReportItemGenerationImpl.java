@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
-import org.eclipse.birt.chart.exception.GenerationException;
-import org.eclipse.birt.chart.exception.ScriptException;
 import org.eclipse.birt.chart.factory.IMessageLookup;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -29,6 +27,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.extension.DefaultReportItemGenerationImpl;
+import org.eclipse.birt.report.engine.extension.IReportItemSerializable;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -112,7 +111,6 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         	iStage = EXECUTION;
         }
         
-        
         // NOTIFY THE SCRIPT HANDLER AT EXECUTION TIME ONLY
         if (iStage == EXECUTION)
         {
@@ -133,7 +131,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
                     rtc.setScriptHandler(sh);
                     sh.register(sScriptContent);
                 }
-                catch (ScriptException sx)
+                catch (Exception sx)
                 {
                     throw new BirtException("initialize", sx);
                 }
@@ -144,6 +142,17 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: initialize(...) - end");
     }
 
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#getGenerateState()
+     */
+    public final IReportItemSerializable getGenerateState() 
+    {
+        final SerializedState ss = new SerializedState();
+        ss.setRunTimeContext(rtc);
+        return ss;
+    }    
+    
     /*
      * (non-Javadoc)
      * 
@@ -179,7 +188,7 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         try {
             QueryHelper.instance(rtc).build(eih, qd, cm);
 	        iQueryCount++;
-        } catch (GenerationException gex)
+        } catch (Exception gex)
         {
     	    DefaultLoggerImpl.instance().log(gex);
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: nextQuery(...) - exception");
@@ -206,16 +215,16 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: process(...) - start");
         
         // EXECUTE THE PREVIOUSLY BUILT QUERY
-        final QueryHelper qh = QueryHelper.instance(rtc);
-        final ScriptHandler sh = rtc.getScriptHandler();
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_QUERY_EXECUTION, ibqd);
-        final ResultSetWrapper rsw = qh.execute(ide, ibqd, cm);
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_QUERY_EXECUTION, rsw);
-    	
-    	// POPULATE THE CHART MODEL WITH THE RESULTSET
-    	try {
+        try {
+            final QueryHelper qh = QueryHelper.instance(rtc);
+            final ScriptHandler sh = rtc.getScriptHandler();
+            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_QUERY_EXECUTION, ibqd);
+            final ResultSetWrapper rsw = qh.execute(ide, ibqd, cm);
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_QUERY_EXECUTION, rsw);
+        	
+        	// POPULATE THE CHART MODEL WITH THE RESULTSET
     	    qh.generateRuntimeSeries(cm, rsw);
-    	} catch (GenerationException gex)
+    	} catch (Exception gex)
     	{
     	    DefaultLoggerImpl.instance().log(gex);
             DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: process(...) - exception");
@@ -298,14 +307,14 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
          */
         public String getMessageValue(String sChartKey, Locale lcl)
         {
-            final int iKeySeparator = sChartKey.indexOf('=');
+            final int iKeySeparator = sChartKey.indexOf(IMessageLookup.KEY_SEPARATOR);
             if (iKeySeparator != -1)
             {
                 final String sKey = sChartKey.substring(0, iKeySeparator);
                 final String sMessage = (iKeySeparator == 0) ? null : rdh.getMessage(sKey, lcl);
                 if (sMessage == null) // BECAUSE [KEY NOT FOUND] OR [PROP FILE NOT FOUND]
                 {
-                    // VALUE ON RHS OF '='
+                    // VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
                     return sChartKey.substring(iKeySeparator + 1);
                 }
                 else
