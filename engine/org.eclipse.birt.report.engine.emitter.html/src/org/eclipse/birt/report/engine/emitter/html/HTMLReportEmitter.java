@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
 import org.eclipse.birt.report.engine.api.IViewHTMLOptions;
+import org.eclipse.birt.report.engine.content.IReport;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
@@ -30,7 +31,6 @@ import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.resource.IRepository;
 import org.eclipse.birt.report.engine.resource.ResourceManager;
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/03/17 07:56:38 $
+ * @version $Revision: 1.14 $ $Date: 2005/03/18 06:17:16 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -55,7 +55,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	/**
 	 * The <code>Report</code> object.
 	 */
-	protected Report report;
+	protected IReport report;
 
 	protected boolean isEmbeddable;
 	/**
@@ -148,7 +148,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		IRepository repository = services.getRepository( );
 		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
 		isEmbeddable = IViewHTMLOptions.HTML_TYPE_REPORTLETNOCSS
-				.equalsIgnoreCase( services.getOption( IViewHTMLOptions.HTML_TYPE ) );
+				.equalsIgnoreCase( services
+						.getOption( IViewHTMLOptions.HTML_TYPE ) );
 
 		writer = new HTMLWriter( );
 
@@ -264,7 +265,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#startEmitter()
 	 */
-	public void startReport( Report report )
+	public void startReport( IReport report )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 
@@ -313,7 +314,7 @@ public class HTMLReportEmitter implements IReportEmitter
 				style = report.getStyle( n );
 				if ( style != null )
 				{
-					if ( style.isEmpty())
+					if ( style.isEmpty( ) )
 					{
 						styleNameMapping.put( style.getName( ), null );
 					}
@@ -409,7 +410,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	/**
 	 * @return the <code>Report</code> object.
 	 */
-	public Report getReport( )
+	public IReport getReport( )
 	{
 		return report;
 	}
@@ -497,21 +498,31 @@ public class HTMLReportEmitter implements IReportEmitter
 	protected void fixPng( )
 	{
 		writer.writeCode( "<!--[if gte IE 5.5000]>" ); //$NON-NLS-1$
-		writer.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
+		writer
+				.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
 		writer.writeCode( "<![endif]-->" ); //$NON-NLS-1$
 		writer.writeCode( "<script language=\"JavaScript\">" ); //$NON-NLS-1$
-		writer.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
+		writer
+				.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
 		writer.writeCode( "      {" ); //$NON-NLS-1$
 		writer.writeCode( "      if (window.ie55up)" ); //$NON-NLS-1$
 		writer.writeCode( "         {" ); //$NON-NLS-1$
-		writer.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\"" ); //$NON-NLS-1$
-		writer.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\"" ); //$NON-NLS-1$
-		writer.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \"" ); //$NON-NLS-1$
-		writer.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText" );  //$NON-NLS-1$
-		writer.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle" ); //$NON-NLS-1$
-		writer.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\"" ); //$NON-NLS-1$
-		writer.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\"" ); //$NON-NLS-1$
-		writer.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\"" );  //$NON-NLS-1$
+		writer
+				.writeCode( "         var imgID = (myImage.id) ? \"id='\" + myImage.id + \"' \" : \"\"" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         var imgClass = (myImage.className) ? \"class='\" + myImage.className + \"' \" : \"\"" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         var imgTitle = (myImage.title) ? \"title='\" + myImage.title + \"' \" : \"title='\" + myImage.alt + \"' \"" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         var imgStyle = \"display:inline-block;\" + myImage.style.cssText" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         var strNewHTML = \"<span \" + imgID + imgClass + imgTitle" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         strNewHTML += \" style=\\\"\" + \"width:\" + myImage.width + \"px; height:\" + myImage.height + \"px;\" + imgStyle + \";\"" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         strNewHTML += \"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader\"" ); //$NON-NLS-1$
+		writer
+				.writeCode( "         strNewHTML += \"(src=\\'\" + myImage.src + \"\\', sizingMethod='scale');\\\"></span>\"" ); //$NON-NLS-1$
 		writer.writeCode( "         myImage.outerHTML = strNewHTML" ); //$NON-NLS-1$
 		writer.writeCode( "         }" ); //$NON-NLS-1$
 		writer.writeCode( "      }" ); //$NON-NLS-1$
