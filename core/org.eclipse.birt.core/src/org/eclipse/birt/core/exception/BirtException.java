@@ -186,7 +186,7 @@ public class BirtException extends Exception {
         String localizedMessage;
         if (rb == null)
         {
-            return "";	// $NON-NLS-1$
+            return "$NO-RB$ " + errorCode;	// $NON-NLS-1$
         }
         else
         {
