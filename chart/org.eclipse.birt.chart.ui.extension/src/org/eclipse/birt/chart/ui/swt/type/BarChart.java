@@ -330,35 +330,32 @@ public class BarChart extends DefaultChartTypeImpl
                 }
                 currentChart.setType(sType);
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
-                if(!currentChart.getSubType().equals(sNewSubType))	// Original chart is not of the required subtype
+                currentChart.setSubType(sNewSubType);
+                EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                for(int i = 0; i < axes.size(); i++)
                 {
-                    currentChart.setSubType(sNewSubType);
-                    EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
-                    for(int i = 0; i < axes.size(); i++)
+                    if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
                     {
-                        if(sNewSubType.equalsIgnoreCase("Percent Stacked"))
+                        ((Axis) axes.get(i)).setPercent(true);
+                    }
+                    else
+                    {
+                        ((Axis) axes.get(i)).setPercent(false);
+                    }
+                    EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                    for(int j = 0; j < seriesdefinitions.size(); j++)
+                    {
+                        Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                        series = getConvertedSeries(series);
+                        if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
                         {
-                            ((Axis) axes.get(i)).setPercent(true);
+                            series.setStacked(true);
                         }
                         else
                         {
-                            ((Axis) axes.get(i)).setPercent(false);
+                            series.setStacked(false);
                         }
-                        EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
-                        for(int j = 0; j < seriesdefinitions.size(); j++)
-                        {
-                            Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
-                            series = getConvertedSeries(series);
-                            if((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
-                            {
-                                series.setStacked(true);
-                            }
-                            else
-                            {
-                                series.setStacked(false);
-                            }
-                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().set(j, series);
-                        }
+                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().set(j, series);
                     }
                 }
             }

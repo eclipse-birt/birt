@@ -237,25 +237,22 @@ public class StockChart extends DefaultChartTypeImpl
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.DATE_TIME_LITERAL);
                 ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(true);
 
-                if (!currentChart.getSubType().equals(sNewSubType)) // Original chart is not of the required subtype
+                currentChart.setSubType(sNewSubType);
+                EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
+                for (int i = 0; i < axes.size(); i++)
                 {
-                    currentChart.setSubType(sNewSubType);
-                    EList axes = ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes();
-                    for (int i = 0; i < axes.size(); i++)
+                    ((Axis) axes.get(i)).setType(AxisType.LINEAR_LITERAL);
+                    ((Axis) axes.get(i)).setPercent(false);
+                    EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
+                    for (int j = 0; j < seriesdefinitions.size(); j++)
                     {
-                        ((Axis) axes.get(i)).setType(AxisType.LINEAR_LITERAL);
-                        ((Axis) axes.get(i)).setPercent(false);
-                        EList seriesdefinitions = ((Axis) axes.get(i)).getSeriesDefinitions();
-                        for (int j = 0; j < seriesdefinitions.size(); j++)
-                        {
-                            Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
-                            series = getConvertedSeries(series);
-                            series.setStacked(false);
-                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
-                            ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
-                        }
+                        Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
+                        series = getConvertedSeries(series);
+                        series.setStacked(false);
+                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
+                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
                     }
-                }
+                    }
             }
             else
             {
