@@ -35,8 +35,7 @@ public class IncludeFooterAction extends InsertRowAction
 	 */
 	public IncludeFooterAction( IWorkbenchPart part )
 	{
-		// constructs a CHECK_BOX action item.
-		super( part, AS_CHECK_BOX );
+		super( part );
 		setId( ID );
 		setChecked( true );
 		setText( ACTION_MSG_INCLUDE_FOOTER );
@@ -50,15 +49,6 @@ public class IncludeFooterAction extends InsertRowAction
 	protected boolean calculateEnabled( )
 	{
 		return true;
-	}
-
-	/**
-	 * Runs action.
-	 */
-	public void run( )
-	{
-		getTableEditPart( ).includeSlotHandle( isChecked( ),
-				TableHandleAdapter.FOOTER );
 	}
 
 	/*
@@ -75,5 +65,14 @@ public class IncludeFooterAction extends InsertRowAction
 					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
 			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.FOOTER ) );
 		}
+	}
+
+	/**
+	 * Runs action.
+	 */
+	public void run( )
+	{
+		getTableEditPart( ).includeSlotHandle( isChecked( ),
+				TableHandleAdapter.FOOTER );
 	}
 }

@@ -58,16 +58,6 @@ public class InsertListGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getListEditParts( ) != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#isEnabled()
-	 */
-	public boolean isEnabled( )
-	{
 		if ( getListEditParts( ) == null )
 		{
 			return false;

@@ -39,8 +39,7 @@ public class IncludeListDetailAction extends SelectionAction
 	 */
 	public IncludeListDetailAction( IWorkbenchPart part )
 	{
-		// constructs a CHECK_BOX action item.
-		super( part, AS_CHECK_BOX );
+		super( part );
 		setId( ID );
 		setChecked( true );
 		setText( ACTION_MSG_INCLUDE_DETAIL );
@@ -54,6 +53,21 @@ public class IncludeListDetailAction extends SelectionAction
 	protected boolean calculateEnabled( )
 	{
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
+	 */
+	public void update( )
+	{
+		super.update( );
+		if ( getListEditpart( ) != null )
+		{
+			ListEditPart part = getListEditpart( );
+			setChecked( part.isIncludeSlotHandle( ListHandleAdapter.DETAIL ) );
+		}
 	}
 
 	/**
@@ -91,20 +105,5 @@ public class IncludeListDetailAction extends SelectionAction
 			}
 		}
 		return part;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
-	 */
-	public void update( )
-	{
-		super.update( );
-		if ( getListEditpart( ) != null )
-		{
-			ListEditPart part = getListEditpart( );
-			setChecked( part.isIncludeSlotHandle( ListHandleAdapter.DETAIL ) );
-		}
 	}
 }

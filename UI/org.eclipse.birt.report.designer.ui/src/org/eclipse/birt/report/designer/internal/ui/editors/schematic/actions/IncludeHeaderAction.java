@@ -35,8 +35,7 @@ public class IncludeHeaderAction extends InsertRowAction
 	 */
 	public IncludeHeaderAction( IWorkbenchPart part )
 	{
-		// constructs a CHECK_BOX action item.
-		super( part, AS_CHECK_BOX );
+		super( part );
 		setId( ID );
 		setChecked( true );
 		setText( ACTION_MSG_INCLUDE_HEADER );
@@ -50,15 +49,6 @@ public class IncludeHeaderAction extends InsertRowAction
 	protected boolean calculateEnabled( )
 	{
 		return true;
-	}
-
-	/**
-	 * Runs action.
-	 */
-	public void run( )
-	{
-		getTableEditPart( ).includeSlotHandle( isChecked( ),
-				TableHandleAdapter.HEADER );
 	}
 
 	/*
@@ -75,5 +65,14 @@ public class IncludeHeaderAction extends InsertRowAction
 					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
 			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.HEADER ) );
 		}
+	}
+
+	/**
+	 * Runs action.
+	 */
+	public void run( )
+	{
+		getTableEditPart( ).includeSlotHandle( isChecked( ),
+				TableHandleAdapter.HEADER );
 	}
 }

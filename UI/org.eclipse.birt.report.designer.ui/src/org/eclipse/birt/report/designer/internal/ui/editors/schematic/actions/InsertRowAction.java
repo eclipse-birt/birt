@@ -36,6 +36,7 @@ public class InsertRowAction extends SelectionAction
 
 	/**
 	 * Constructor
+	 * 
 	 * @param part
 	 */
 	public InsertRowAction( IWorkbenchPart part )
@@ -43,11 +44,6 @@ public class InsertRowAction extends SelectionAction
 		super( part );
 		setId( ID );
 		setText( ACTION_MSG_INSERT );
-	}
-
-	public InsertRowAction( IWorkbenchPart part, int check )
-	{
-		super( part, AS_CHECK_BOX );
 	}
 
 	/*
