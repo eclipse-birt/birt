@@ -25,7 +25,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayout
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -495,14 +494,21 @@ public class BasePaletteFactory
 			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
 			if ( object instanceof DataSetHandle )
 			{
-				Object newHandle = InsertInLayoutAction.runSingleInsert( object,
-						getTargetEditPart( ) );
-				if ( newHandle == null )
-					return false;
+				try
+				{
+					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+							getTargetEditPart( ) );
+					if ( newHandle == null )
+						return false;
 
-				setInitWidth( newHandle );
-				setModel( newHandle );
-				return super.preHandleMouseUp( );
+					setInitWidth( newHandle );
+					setModel( newHandle );
+					return super.preHandleMouseUp( );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 			return false;
 		}
@@ -536,13 +542,20 @@ public class BasePaletteFactory
 			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
 			if ( object instanceof DataSetItemModel )
 			{
-				Object newHandle = InsertInLayoutAction.runSingleInsert( object,
-						getTargetEditPart( ) );
-				if ( newHandle == null )
-					return false;
+				try
+				{
+					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+							getTargetEditPart( ) );
+					if ( newHandle == null )
+						return false;
 
-				setModel( newHandle );
-				return super.preHandleMouseUp( );
+					setModel( newHandle );
+					return super.preHandleMouseUp( );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 			return false;
 		}
@@ -575,13 +588,20 @@ public class BasePaletteFactory
 			Object object = getSingleTransferData( getRequest( ).getNewObjectType( ) );
 			if ( object instanceof ScalarParameterHandle )
 			{
-				Object newHandle = InsertInLayoutAction.runSingleInsert( object,
-						getTargetEditPart( ) );
-				if ( newHandle == null )
-					return false;
+				try
+				{
+					Object newHandle = InsertInLayoutAction.runSingleInsert( object,
+							getTargetEditPart( ) );
+					if ( newHandle == null )
+						return false;
 
-				setModel( newHandle );
-				return super.preHandleMouseUp( );
+					setModel( newHandle );
+					return super.preHandleMouseUp( );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 			return false;
 		}
@@ -667,16 +687,16 @@ public class BasePaletteFactory
 			else
 				return;
 
-//			for ( int i = 0, count = columns.getCount( ); i < count; i++ )
-//			{
-//				int currentPercent = i == count - 1 ? percentAll : 1000 / count;
-//				percentAll -= currentPercent;
-//
-//				( (ColumnHandle) columns.get( i ) ).getWidth( )
-//						.setStringValue( (double) currentPercent
-//								/ precision
-//								+ DesignChoiceConstants.UNITS_PERCENTAGE );
-//			}
+			//			for ( int i = 0, count = columns.getCount( ); i < count; i++ )
+			//			{
+			//				int currentPercent = i == count - 1 ? percentAll : 1000 / count;
+			//				percentAll -= currentPercent;
+			//
+			//				( (ColumnHandle) columns.get( i ) ).getWidth( )
+			//						.setStringValue( (double) currentPercent
+			//								/ precision
+			//								+ DesignChoiceConstants.UNITS_PERCENTAGE );
+			//			}
 		}
 		catch ( SemanticException e )
 		{

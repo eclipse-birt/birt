@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -220,16 +221,28 @@ public class InsertInLayoutAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		for ( Iterator i = selections.iterator( ); i.hasNext( ); )
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getActivityStack( );
+		stack.startTrans( DISPLAY_TEXT );
+		try
 		{
-			Object insertObj = i.next( );
-			for ( Iterator j = targets.iterator( ); j.hasNext( ); )
+			for ( Iterator i = selections.iterator( ); i.hasNext( ); )
 			{
-				EditPart targetPart = (EditPart) j.next( );
-				Object newElement = runSingleInsert( insertObj, targetPart );
-				if ( newElement != null )
-					runCreate( newElement, targetPart.getModel( ) );
+				Object insertObj = i.next( );
+				for ( Iterator j = targets.iterator( ); j.hasNext( ); )
+				{
+					EditPart targetPart = (EditPart) j.next( );
+					Object newElement = runSingleInsert( insertObj, targetPart );
+					if ( newElement != null )
+						runCreate( newElement, targetPart.getModel( ) );
+				}
 			}
+			stack.commit( );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			stack.rollback( );
 		}
 	}
 
@@ -244,9 +257,10 @@ public class InsertInLayoutAction extends AbstractViewAction
 	 * @param targetPart
 	 *            edit part in layout
 	 * @return new object in layout
+	 * @throws SemanticException
 	 */
 	public static Object runSingleInsert( Object singleInsertObj,
-			EditPart targetPart )
+			EditPart targetPart ) throws SemanticException
 	{
 		if ( singleInsertObj instanceof DataSetHandle )
 		{
@@ -268,73 +282,63 @@ public class InsertInLayoutAction extends AbstractViewAction
 
 	/**
 	 * @param targetPart
+	 * @throws SemanticException
 	 */
 	private static Object runInsertParameter( ScalarParameterHandle model,
-			EditPart targetPart )
+			EditPart targetPart ) throws SemanticException
 	{
 		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getElementFactory( )
 				.newDataItem( null );
-		try
-		{
-			dataHandle.setValueExpr( DEUtil.getExpression( model ) );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
 		return dataHandle;
 	}
 
 	/**
 	 * @param model
 	 * @param targetPart
+	 * @throws SemanticException
 	 */
 	private static Object runInsertDataSetColumn( DataSetItemModel model,
-			EditPart targetPart )
+			EditPart targetPart ) throws SemanticException
 	{
 		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getElementFactory( )
 				.newDataItem( null );
-		try
-		{
-			dataHandle.setValueExpr( DEUtil.getExpression( model ) );
-			ReportItemHandle container = (ReportItemHandle) targetPart.getParent( )
-					.getModel( );
-			DataSetHandle dataSet = (DataSetHandle) model.getParent( );
-			if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
-			{
-				if ( container.getDataSet( ) == null )
-				{
-					container.setDataSet( dataSet );
-				}
-			}
 
-			InsertColumnInLayoutRule rule = new InsertColumnInLayoutRule( targetPart.getModel( ) );
-			if ( rule.canInsert( ) )
+		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
+		ReportItemHandle container = (ReportItemHandle) targetPart.getParent( )
+				.getModel( );
+		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
+		if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
+		{
+			if ( container.getDataSet( ) == null )
 			{
-				LabelHandle label = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getElementFactory( )
-						.newLabel( null );
-				label.setText( model.getDisplayName( ) );
-				rule.getInsertPosition( ).addElement( label, Cell.CONTENT_SLOT );
+				container.setDataSet( dataSet );
 			}
 		}
-		catch ( SemanticException e )
+
+		InsertColumnInLayoutRule rule = new InsertColumnInLayoutRule( targetPart.getModel( ) );
+		if ( rule.canInsert( ) )
 		{
-			ExceptionHandler.handle( e );
+			LabelHandle label = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getElementFactory( )
+					.newLabel( null );
+			label.setText( model.getDisplayName( ) );
+			rule.getInsertPosition( ).addElement( label, Cell.CONTENT_SLOT );
 		}
 		return dataHandle;
 	}
 
 	/**
 	 * @param targetPart
+	 * @throws SemanticException
 	 */
 	private static Object runInsertDataSet( DataSetHandle model,
-			EditPart targetPart )
+			EditPart targetPart ) throws SemanticException
 	{
 		DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
 				.getColumns( model, false );
@@ -345,14 +349,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 		insertToCell( tableHandle.getHeader( ), columns, true );
 		insertToCell( tableHandle.getDetail( ), columns, false );
 
-		try
-		{
-			tableHandle.setDataSet( model );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+		tableHandle.setDataSet( model );
 		return tableHandle;
 	}
 
