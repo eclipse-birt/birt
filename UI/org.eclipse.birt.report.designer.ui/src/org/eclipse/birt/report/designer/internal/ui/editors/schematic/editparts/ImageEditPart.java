@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -121,15 +122,14 @@ public class ImageEditPart extends ReportElementEditPart
 
 		( (ImageFigure) this.getFigure( ) ).setImage( image );
 
-//		if ( getImageAdapter( ).getSize( ) == null && image != null )
-//		{
-//			getImageAdapter( ).setSize( new Dimension( image.getBounds( ).width,
-//					image.getBounds( ).height ) );
-//		}
-
 		if ( getImageAdapter( ).getSize( ) != null )
 		{
 			this.getFigure( ).setSize( getImageAdapter( ).getSize( ) );
+		}
+		else if ( image != null )
+		{
+			this.getFigure( ).setSize( new Dimension( image.getBounds( ).width,
+					image.getBounds( ).height ) );
 		}
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
