@@ -1,0 +1,124 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.dialogs;
+
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.elements.ParameterGroup;
+import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+
+/**
+ * The general page of the parameter group dialog
+ */
+
+public class ParameterGroupGeneralPage extends TabPage
+{
+
+	private Text nameEditor, displayNameEditor;
+
+	private static final String LABEL_NAME = Messages.getString( "ParameterGroupGeneralPage.Label.Name" ); //$NON-NLS-1$
+
+	private static final String LABEL_DISPLAY_NAME = Messages.getString( "ParameterGroupGeneralPage.Label.DisplayName" ); //$NON-NLS-1$
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param name
+	 */
+	public ParameterGroupGeneralPage( String name )
+	{
+		super( name, SWT.NONE );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#createWidgets(org.eclipse.swt.widgets.Composite)
+	 */
+	protected void createWidgets( Composite composite )
+	{
+		Label name = new Label( composite, SWT.NONE );
+		name.setText( LABEL_NAME );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = 100;
+		name.setLayoutData( gd );
+		nameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = 250;
+		nameEditor.setLayoutData( gd );
+		nameEditor.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				applyDialog( );
+			}
+		} );
+
+		Label displayName = new Label( composite, SWT.NONE );
+		displayName.setText( LABEL_DISPLAY_NAME );
+		gd = new GridData( GridData.FILL_VERTICAL );
+		gd.verticalAlignment = GridData.BEGINNING;
+		gd.heightHint = 100;
+		displayName.setLayoutData( gd );
+		displayNameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
+		displayNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#setInput(java.lang.Object)
+	 */
+	public void setInput( Object input )
+	{
+		ParameterGroupHandle group = (ParameterGroupHandle) input;
+		nameEditor.setText( group.getName( ) );
+		String displayName = group.getStringProperty( ParameterGroup.DISPLAY_NAME_PROP );
+		if ( displayName != null )
+		{
+			displayNameEditor.setText( displayName );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#saveTo(java.lang.Object)
+	 */
+	public void saveTo( Object result ) throws SemanticException
+	{
+		ParameterGroupHandle group = (ParameterGroupHandle) result;
+		group.setName( nameEditor.getText( ).trim( ) );
+		group.setStringProperty( ParameterGroup.DISPLAY_NAME_PROP,
+				displayNameEditor.getText( ).trim( ) );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.TabPage#isPageComplete()
+	 */
+	public boolean isPageComplete( )
+	{
+		return !StringUtil.isBlank( nameEditor.getText( ) );
+	}
+}

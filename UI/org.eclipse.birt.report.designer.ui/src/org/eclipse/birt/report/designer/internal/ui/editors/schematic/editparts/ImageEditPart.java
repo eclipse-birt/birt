@@ -1,0 +1,181 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ImageHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * <p>
+ * Image edit part
+ * </p>
+ *  
+ */
+public class ImageEditPart extends ReportElementEditPart
+{
+
+	private static final String IMG_TRANS_MSG = Messages.getString( "ImageEditPart.trans.editImage" ); //$NON-NLS-1$
+
+	/**
+	 * Constructor
+	 * 
+	 * @param model
+	 */
+	public ImageEditPart( Object model )
+	{
+		super( model );
+	}
+
+	/**
+	 * @return Returns the handle.
+	 */
+	public ImageHandleAdapter getImageAdapter( )
+	{
+		return (ImageHandleAdapter) getModelAdapter( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	protected IFigure createFigure( )
+	{
+		ImageFigure figure = new ImageFigure( ).getStretchedFigure( true );
+
+		return figure;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies( )
+	{
+		installEditPolicy( EditPolicy.COMPONENT_ROLE,
+				new ReportComponentEditPolicy( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notify(org.eclipse.birt.model.core.DesignElement,
+	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 */
+	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
+	{
+		markDirty( true );
+		this.refreshVisuals( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 */
+	public void refreshFigure( )
+	{
+		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+		Image image = getImageAdapter( ).getImage( );
+		if ( image == null )
+		{
+			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_MISSING_IMG );
+		}
+
+		( (ImageFigure) this.getFigure( ) ).setImage( image );
+
+		if ( getImageAdapter( ).getSize( ) == null && image != null )
+		{
+			getImageAdapter( ).setSize( new Dimension( image.getBounds( ).width,
+					image.getBounds( ).height ) );
+		}
+
+		if ( getImageAdapter( ).getSize( ) != null )
+		{
+			this.getFigure( ).setSize( getImageAdapter( ).getSize( ) );
+		}
+
+		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
+				getFigure( ),
+				getConstraint( ) );
+	}
+
+	/**
+	 * @return The constraint
+	 */
+	protected Object getConstraint( )
+	{
+		ReportItemHandle handle = (ReportItemHandle) getModel( );
+		ReportItemConstraint constraint = new ReportItemConstraint( );
+
+		constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+		return constraint;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	public void performRequest( Request request )
+	{
+		if ( request.getType( ) == RequestConstants.REQ_OPEN )
+		{
+			performDirectEdit( );
+		}
+
+	}
+
+	/**
+	 *  
+	 */
+	private void performDirectEdit( )
+	{
+		ImageBuilderDialog dialog = new ImageBuilderDialog( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ) );
+		dialog.setInput( getModel( ) );
+		ActivityStack stack = SessionHandleAdapter.getInstance( )
+				.getActivityStack( );
+		stack.startTrans( IMG_TRANS_MSG );
+		if ( dialog.open( ) == Window.OK )
+		{
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
+	}
+}

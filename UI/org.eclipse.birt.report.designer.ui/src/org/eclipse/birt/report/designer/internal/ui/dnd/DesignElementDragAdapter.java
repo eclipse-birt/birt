@@ -1,0 +1,129 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.dnd;
+
+import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.swt.dnd.DragSourceAdapter;
+import org.eclipse.swt.dnd.DragSourceEvent;
+
+/**
+ * Supports dragging elements in outline view.
+ */
+
+public abstract class DesignElementDragAdapter extends DragSourceAdapter
+{
+
+	private StructuredViewer viewer;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param viewer
+	 */
+	public DesignElementDragAdapter( StructuredViewer viewer )
+	{
+		super( );
+		this.viewer = viewer;
+	}
+
+	/**
+	 * @see DragSourceAdapter#dragFinished(DragSourceEvent)
+	 */
+	public void dragFinished( DragSourceEvent event )
+	{
+		if ( event.doit )
+			TemplateTransfer.getInstance( ).setTemplate( null );
+	}
+
+	/**
+	 * @see DragSourceAdapter#dragSetData(DragSourceEvent)
+	 */
+	public void dragSetData( DragSourceEvent event )
+	{
+		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+		Object[] objects = selection.toList( ).toArray( );
+
+		if ( TemplateTransfer.getInstance( ).isSupportedType( event.dataType ) )
+			event.data = objects;
+	}
+
+	/**
+	 * @see DragSourceAdapter#dragStart(DragSourceEvent)
+	 */
+	public void dragStart( DragSourceEvent event )
+	{
+		boolean doit = !getViewer( ).getSelection( ).isEmpty( );
+		if ( doit )
+		{
+			IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+			Object[] objects = selection.toList( ).toArray( );
+			if ( validateType( objects ) )
+			{
+				for ( int i = 0; i < objects.length; i++ )
+					if ( !validateTransfer( objects[i] ) )
+					{
+						doit = false;
+						break;
+					}
+			}
+			else
+				doit = false;
+			if ( doit )
+				TemplateTransfer.getInstance( ).setTemplate( objects );
+		}
+		event.doit = doit;
+	}
+
+	/**
+	 * Validates every transfer element
+	 * 
+	 * @param transfer
+	 *            every transfer element
+	 * @return if transfer element can be dragged
+	 */
+	protected abstract boolean validateTransfer( Object transfer );
+
+	/**
+	 * Validates types of transfer elements.
+	 * <p>
+	 * Default implementation is verify all types of transfer elements are same
+	 * 
+	 * @param transfer
+	 *            transfer elements
+	 * @return type is same or not
+	 */
+	protected boolean validateType( Object transfer )
+	{
+		Object[] objects = (Object[]) transfer;
+		Class type = null;
+		for ( int i = 0; i < objects.length; i++ )
+		{
+			if ( type == null )
+				type = objects[i].getClass( );
+			else if ( !type.equals( objects[i].getClass( ) ) )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Returns viewer
+	 * 
+	 * @return viewer
+	 */
+	protected StructuredViewer getViewer( )
+	{
+		return viewer;
+	}
+}

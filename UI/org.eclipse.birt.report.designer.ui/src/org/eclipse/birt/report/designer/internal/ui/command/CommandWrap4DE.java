@@ -1,0 +1,101 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.command;
+
+import org.eclipse.birt.report.model.activity.ActivityRecord;
+import org.eclipse.gef.commands.Command;
+
+/**
+ * Provides a wrapper of DE command for GEF framework's call back needs GEF command. 
+ */
+public class CommandWrap4DE extends Command
+{
+
+	private ActivityRecord command;
+
+	/**
+	 * Constructor for CommandWrap4DE.
+	 */
+	public CommandWrap4DE( ActivityRecord command )
+	{
+		this.command = command;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	public boolean canExecute( )
+	{
+		return command == null ? false : true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo( )
+	{
+		return command == null ? false : command.canUndo( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#execute()
+	 */
+	public void execute( )
+	{
+		if ( command != null )
+			command.execute( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#getLabel()
+	 */
+	public String getLabel( )
+	{
+		return command == null ? "CommandWrap4DE" : command.getLabel( ); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	public void redo( )
+	{
+		if ( command != null )
+			command.redo( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.commands.Command#undo()
+	 */
+	public void undo( )
+	{
+		if ( command != null )
+			command.undo( );
+	}
+
+	public ActivityRecord unwrap( )
+	{
+		return command;
+	}
+
+}

@@ -1,0 +1,282 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
+
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Locator;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.handles.AbstractHandle;
+import org.eclipse.gef.tools.DragEditPartsTracker;
+import org.eclipse.swt.SWT;
+
+/**
+ * Presents list band figure figure for list band edit part
+ *  
+ */
+public class ListBandControlFigure extends Figure
+{
+
+	public static final Dimension CONTROL_SIZE = new Dimension( 73, 19 );
+
+	public ListBandControlFigure( )
+	{
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
+	 */
+	protected void paintFigure( Graphics graphics )
+	{
+		graphics.setLineStyle( SWT.LINE_SOLID );
+		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 1 ) );
+		graphics.setBackgroundColor( ReportColorConstants.ListControlFillColor );
+		graphics.fillRectangle( getBounds( ).getCopy( ).shrink( 3, 2 ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
+	 */
+	public Dimension getPreferredSize( int wHint, int hHint )
+	{
+		return CONTROL_SIZE;
+	}
+
+	public static class ListBandControVisible extends Figure
+			implements
+				MouseListener
+	{
+
+		private ListBandEditPart owner;
+
+		private boolean state = true;
+
+		public ListBandControVisible( ListBandEditPart owner )
+		{
+			setBounds( new Rectangle( 0, 0, 20, 19 ) );
+			this.owner = owner;
+			addMouseListener( this );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.MouseListener#mousePressed(org.eclipse.draw2d.MouseEvent)
+		 */
+		public void mousePressed( MouseEvent me )
+		{
+			state = !state;
+			IFigure parent = this;
+			while ( ( parent = parent.getParent( ) ) != null )
+			{
+				if ( parent instanceof ReportShowFigure )
+				{
+					( (ReportShowFigure) parent ).setShowing( state );
+					getOwner( ).markDirty( true );
+					break;
+				}
+			}
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.MouseListener#mouseReleased(org.eclipse.draw2d.MouseEvent)
+		 */
+		public void mouseReleased( MouseEvent me )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.MouseListener#mouseDoubleClicked(org.eclipse.draw2d.MouseEvent)
+		 */
+		public void mouseDoubleClicked( MouseEvent me )
+		{
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
+		 */
+		protected void paintFigure( Graphics graphics )
+		{
+			graphics.setBackgroundColor( ColorConstants.white );
+			Rectangle rect = getBounds( ).getCopy( ).shrink( 6, 6 );
+			graphics.fillRectangle( rect );
+
+			IFigure parent = this;
+			while ( ( parent = parent.getParent( ) ) != null )
+			{
+				if ( parent instanceof ReportShowFigure )
+				{
+					state = ( (ReportShowFigure) parent ).isControlShowing( );
+					break;
+				}
+			}
+			ReportFigureUtilities.paintExpandHandle( graphics,
+					8,
+					getBounds( ).getCenter( ),
+					!state );
+		}
+
+		protected ListBandEditPart getOwner( )
+		{
+			return owner;
+		}
+	}
+
+	public static class ListControlDispalyNameFigure extends Figure
+	{
+
+		private ListBandEditPart owner;
+
+		/**
+		 * @param owner
+		 */
+		public ListControlDispalyNameFigure( ListBandEditPart owner )
+		{
+			super( );
+			this.owner = owner;
+
+			setBounds( new Rectangle( 20, 0, 35, 19 ) );
+			setBorder( new MarginBorder( 8, 0, 0, 0 ) );
+		}
+
+		public ListBandEditPart getOwner( )
+		{
+			return owner;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
+		 */
+		protected void paintFigure( Graphics graphics )
+		{
+			Rectangle rect = getClientArea( ).getCopy( );
+			String text = ( ( (ListBandProxy) getOwner( ).getModel( ) ).getDisplayName( ) );
+
+			graphics.setForegroundColor( ColorConstants.gray );
+			graphics.drawString( text, rect.x, rect.y - 6 );
+		}
+	}
+
+	public static class ListControlMenuFigure extends AbstractHandle
+	{
+
+		/**
+		 * @param owner
+		 */
+		public ListControlMenuFigure( GraphicalEditPart owner, Locator loc )
+		{
+			super( owner, loc );
+			setBounds( new Rectangle( 55, 0, 18, 19 ) );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
+		 */
+		protected void paintFigure( Graphics graphics )
+		{
+			graphics.setForegroundColor( ColorConstants.black );
+
+			Point center = getBounds( ).getCenter( );
+
+			int height = 5;
+			center.y -= height / 2;
+
+			ReportFigureUtilities.paintDoubleArrow( graphics, height, center );
+
+			center.x += 2;
+			center.y += height + 2;
+
+			graphics.setBackgroundColor( ColorConstants.black );
+			ReportFigureUtilities.paintTriangle( graphics, 4, center );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
+		 */
+		protected DragTracker createDragTracker( )
+		{
+			return new MenuTracker( getOwner( ) );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.handles.AbstractHandle#addNotify()
+		 */
+		public void addNotify( )
+		{
+		}
+	}
+
+	private static class MenuTracker extends DragEditPartsTracker
+	{
+
+		/**
+		 * @param sourceEditPart
+		 */
+		public MenuTracker( EditPart sourceEditPart )
+		{
+			super( sourceEditPart );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.tools.DragEditPartsTracker#handleButtonUp(int)
+		 */
+		protected boolean handleButtonUp( int button )
+		{
+			boolean bool = super.handleButtonUp( button );
+			if ( button == 1 )
+			{
+				getSourceEditPart( ).getViewer( )
+						.getContextMenu( )
+						.getMenu( )
+						.setVisible( true );
+			}
+			return bool;
+		}
+	}
+
+}

@@ -1,0 +1,82 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
+
+package org.eclipse.birt.report.designer.core.model.schematic;
+
+import java.util.Iterator;
+import java.util.Locale;
+
+import junit.framework.TestCase;
+
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.command.ContentException;
+import org.eclipse.birt.report.model.command.NameException;
+
+public class CellHandleAdapterTest extends TestCase
+{
+
+	private SessionHandle sessionHandle;
+
+	private ReportDesignHandle designHandle;
+
+	/*
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
+
+		designHandle = sessionHandle.createDesign( );
+
+	}
+
+	/*
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown( ) throws Exception
+	{
+		super.tearDown( );
+	}
+
+	public void testGetChildren( )
+	{
+		CellHandle cell = designHandle.getElementFactory( ).newCell( );
+		TextItemHandle text = designHandle.getElementFactory( )
+				.newTextItem( "abcd" );
+
+		try
+		{
+			cell.getContent( ).add( text );
+		}
+		catch ( ContentException e )
+		{
+			fail( "error when add text to tabel cell" );
+			e.printStackTrace( );
+		}
+		catch ( NameException e )
+		{
+			fail( "error when add text to tabel cell" );
+			e.printStackTrace( );
+		}
+
+		CellHandleAdapter adapter = new CellHandleAdapter( cell, null );
+		for ( Iterator it = adapter.getChildren( ).iterator( ); it.hasNext( ); )
+		{
+			Object obj = it.next( );
+			assertTrue( obj instanceof TextItemHandle );
+		}
+
+	}
+
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.designer.tests"
+   name="BIRT Test Plugin"
+   version="1.0.0"
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.designer.tests.TestsPlugin">
+
+   <runtime>
+      <library name="tests.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.gef"/>      
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>      
+      
+   </requires>
+   <extension
+         id="testingMatrix"
+         name="Matrix for testing"
+         point="org.eclipse.birt.report.model.reportitem">
+	    <Element class="org.eclipse.birt.report.designer.tests.example.matrix.ROMExtension"				isNameRequired="true" 
+			name="TestingMatrix"
+			displayNameID="Element.TestingMatrix">
+			<Property defaultValue="default test" 
+				type="string" 
+				displayNameID="Element.TestingMatrix.test1" 
+				name="test1"/>
+			<Property type="integer" 
+				displayNameID="Element.TestingMatrix.test2" 
+				canInherit="false" 
+				name="test2"/>
+			<Property type="xml" 
+				displayNameID="Element.TestingMatrix.test3" 
+				name="test3"/>
+			<Property type="choice" 
+				displayNameID="Element.TestingMatrix.test5" 
+				canInherit="false" 
+				name="test5">
+				<Choice value="one" displayNameID="Choices.test5.choice1" name="choice1"/>
+				<Choice value="two" displayNameID="Choices.test5.choice2" name="choice2"/>
+				<Choice value="three" displayNameID="Choices.test5.choice3" name="choice3"/>
+			</Property>
+			<PropertyGroup displayNameID="Element.TestingMatrix.group1">
+				<Property type="string"
+					displayNameID="Element.TestingMatrix.test6"
+					name="test6"/>
+				<Property type="integer"
+					displayNameID="Element.TestingMatrix.test7"
+					name="test7"/>
+			</PropertyGroup>
+		</Element>
+		<Element 
+			class="TestingBox.ROMExtension" 
+			isNameRequired="true" 
+			name="TestingBox"
+			hasStyle="false">
+			<Property defaultValue="paper" 
+				type="string" 
+				displayNameID="Element.TestingBox.location" 
+				name="usage"/>
+		</Element>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.designer.ui.reportitemUI">
+      <ReportItemUI
+            class="org.eclipse.birt.report.designer.tests.example.matrix.TestingMatrixUI"
+            extensionName="TestingMatrix">
+         <palette
+               category="TestCategory"/>
+         <editor
+               canResize="false"
+               showInDesigner="true"/>
+         <outline icon="icon/cell.gif"/>
+      </ReportItemUI>
+   </extension>
+
+</plugin>

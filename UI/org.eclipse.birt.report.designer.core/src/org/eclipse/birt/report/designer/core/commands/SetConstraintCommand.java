@@ -1,0 +1,159 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.core.commands;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.commands.Command;
+
+/**
+ * This command sets the constraint on an element to resize it.
+ * 
+ *  
+ */
+
+public class SetConstraintCommand extends Command
+{
+
+	private static final String TRANS_LABEL_SET_CONSTRAINT = Messages.getString( "SetConstraintCommand.transLabel.setConstraint" ); //$NON-NLS-1$
+
+	private static final String COMMAND_ERROR_MSG = Messages.getString( "SetConstraintCommand.Error.SetConstraintError" ); //$NON-NLS-1$
+
+	private ReportItemHandle model;
+
+	/**
+	 * constructor
+	 */
+
+	public SetConstraintCommand( )
+	{
+		super( Command_Label_Resize );
+	}
+
+	private static final String Command_Label_Resize = "resize command"; //$NON-NLS-1$
+
+	private Dimension newSize;
+
+	/**
+	 * Executes the Command. This method should not be called if the Command is
+	 * not executable.
+	 */
+
+	public void execute( )
+	{
+		ReportDesign design = SessionHandleAdapter.getInstance( )
+				.getReportDesign( );
+		CommandStack stack = design.handle( ).getCommandStack( );
+		//start trans
+		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT ); //$NON-NLS-1$
+
+		try
+		{
+			if ( model instanceof TableHandle || model instanceof GridHandle )
+			{
+				HandleAdapterFactory.getInstance( )
+						.getTableHandleAdapter( model )
+						.ajustSize( newSize );
+			}
+			else
+			{
+				double width = MetricUtility.pixelToPixelInch( newSize.width );
+				double height = MetricUtility.pixelToPixelInch( newSize.height );
+
+				if ( width <= 0 )
+				{
+					width = 0.1;
+				}
+				if ( height <= 0 )
+				{
+					height = 0.1;
+				}
+				model.setWidth( String.valueOf( width )
+						+ DesignChoiceConstants.UNITS_IN );
+				model.setHeight( String.valueOf( height )
+						+ DesignChoiceConstants.UNITS_IN );
+				//				model.setWidth( new Integer(newSize.width).toString() +
+				// DesignChoiceConstants.UNITS_PX);
+				//				model.setHeight( new Integer(newSize.height).toString() +
+				// DesignChoiceConstants.UNITS_PX );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+			stack.rollback( );
+		}
+
+		stack.commit( );
+
+	}
+
+	/**
+	 * Gets the label
+	 * 
+	 * @return the label
+	 */
+
+	public String getLabel( )
+	{
+		return Command_Label_Resize;
+	}
+
+	/**
+	 * Sets the constraint.
+	 * 
+	 * @param r
+	 *            the rectangle
+	 */
+
+	public void setConstraint( Rectangle r )
+	{
+		setSize( r.getSize( ) );
+	}
+
+	/**
+	 * Sets the part
+	 * 
+	 * @param part
+	 *            the part
+	 */
+
+	public void setModel( ReportItemHandle model )
+	{
+		this.model = model;
+	}
+
+	/**
+	 * Sets the size
+	 * 
+	 * @param p
+	 *            the size
+	 */
+
+	public void setSize( Dimension p )
+	{
+		newSize = p;
+	}
+
+}

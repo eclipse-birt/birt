@@ -1,0 +1,230 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.commands.MoveGuideCommand;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.rulers.RulerChangeListener;
+import org.eclipse.gef.rulers.RulerProvider;
+
+/**
+ * This class represents a ruler and provides the necessary information about
+ * them.
+ */
+public class EditorRulerProvider extends RulerProvider
+{
+
+	public static final int UNIT_NOSUPPOER = -1;
+	public static final int UNIT_MM = 4;
+	public static final int UNIT_PT = 5;
+	public static final int UNIT_PC = 6;
+	private PropertyChangeListener rulerListener = new PropertyChangeListener( )
+	{
+
+		public void propertyChange( PropertyChangeEvent evt )
+		{
+			if ( evt.getPropertyName( ).equals( EditorRuler.PROPERTY_CHILDREN ) )
+			{
+				EditorGuide guide = (EditorGuide) evt.getNewValue( );
+				if ( getGuides( ).contains( guide ) )
+				{
+					guide.addPropertyChangeListener( guideListener );
+				}
+				else
+				{
+					guide.removePropertyChangeListener( guideListener );
+				}
+				for ( int i = 0; i < listeners.size( ); i++ )
+				{
+					( (RulerChangeListener) listeners.get( i ) )
+							.notifyGuideReparented( guide );
+				}
+			}
+			//			else if (evt.getPropertyName( ).equals(
+			// EditorRuler.PROPERTY_LEFTMARGIN)
+			//					|| evt.getPropertyName( ).equals(
+			// EditorRuler.PROPERTY_RIGHTMARGIN ))
+			//			{
+			//				for ( int i = 0; i < listeners.size( ); i++ )
+			//				{
+			//					if (listeners.get( i ) instanceof EditorRulerChangeListener)
+			//					{
+			//						( (EditorRulerChangeListener) listeners.get( i ) )
+			//						.notifyMarginChanged( ruler.getUnit( ) );
+			//					}
+			//					
+			//				}
+			//			}
+			else
+			{
+				for ( int i = 0; i < listeners.size( ); i++ )
+				{
+					( (RulerChangeListener) listeners.get( i ) )
+							.notifyUnitsChanged( ruler.getUnit( ) );
+				}
+			}
+		}
+	};
+	private PropertyChangeListener guideListener = new PropertyChangeListener( )
+	{
+
+		public void propertyChange( PropertyChangeEvent evt )
+		{
+			if ( evt.getPropertyName( ).equals( EditorGuide.PROPERTY_CHILDREN ) )
+			{
+				for ( int i = 0; i < listeners.size( ); i++ )
+				{
+					( (RulerChangeListener) listeners.get( i ) )
+							.notifyPartAttachmentChanged( evt.getNewValue( ),
+									evt.getSource( ) );
+				}
+			}
+			else
+			{
+				for ( int i = 0; i < listeners.size( ); i++ )
+				{
+					( (RulerChangeListener) listeners.get( i ) )
+							.notifyGuideMoved( evt.getSource( ) );
+				}
+			}
+		}
+	};
+	private EditorRuler ruler = null;
+
+	//private ReportDesignHandle handle
+
+	/**
+	 * Constructuor
+	 * 
+	 * @param handle
+	 */
+	public EditorRulerProvider( ReportDesignHandle handle, boolean isHorizontal )
+	{
+		this.ruler = new EditorRuler( isHorizontal );
+		this.ruler.addPropertyChangeListener( rulerListener );
+		List guides = getGuides( );
+		for ( int i = 0; i < guides.size( ); i++ )
+		{
+			( (EditorGuide) guides.get( i ) )
+					.addPropertyChangeListener( guideListener );
+		}
+	}
+
+	/**
+	 * Return null command to forbid create guide behavior (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
+	 */
+	public Command getCreateGuideCommand( int position )
+	{
+		return null;
+	}
+
+	/**
+	 * Return null command to forbid delete guide behavior (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
+	 */
+
+	public Command getDeleteGuideCommand( Object guide )
+	{
+		return null;
+	}
+
+	/**
+	 * Return null command to forbid move guide behavior (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
+	 */
+	public Command getMoveGuideCommand( Object obj, int pDelta )
+	{
+		EditorGuide guide = (EditorGuide) obj;
+		String propertyName = guide.getPropertyName();
+		if ( MasterPage.RIGHT_MARGIN_PROP.equals( propertyName ) )
+		{
+			pDelta = EditorRulerComposite.getMasterPageSize(SessionHandleAdapter.getInstance().getMasterPageHandle()).width
+						- (guide.getPosition( ) + pDelta);
+		}
+		else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( propertyName ) )
+		{
+			pDelta = EditorRulerComposite.getMasterPageSize(SessionHandleAdapter.getInstance().getMasterPageHandle()).height
+			- (guide.getPosition( ) + pDelta);
+		}
+		else
+		{
+			pDelta = guide.getPosition( ) + pDelta;
+		}
+
+		return new MoveGuideCommand(pDelta,
+				( (EditorGuide) guide ).getPropertyName( ) );
+	}
+
+	public Object getModel( )
+	{
+		return getRuler( );
+	}
+
+	public int getUnit( )
+	{
+		return ruler.getUnit( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.rulers.RulerProvider#setUnit(int)
+	 */
+	public void setUnit( int newUnit )
+	{
+		ruler.setUnit( newUnit );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.rulers.RulerProvider#getRuler()
+	 */
+	public Object getRuler( )
+	{
+		return ruler;
+		//return SessionHandleAdapter.getInstance().getReportDesignHandle();
+	}
+
+	public int getGuidePosition( Object guide )
+	{
+		return ( (EditorGuide) guide ).getPosition( );
+	}
+
+	public List getGuides( )
+	{
+		return ruler.getGuides( );
+	}
+
+	public int[] getGuidePositions( )
+	{
+		List guides = getGuides( );
+		int[] result = new int[guides.size( )];
+		for ( int i = 0; i < guides.size( ); i++ )
+		{
+			result[i] = ( (EditorGuide) guides.get( i ) ).getPosition( );
+		}
+		return result;
+	}
+
+}

@@ -1,0 +1,124 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
+
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartFactory;
+
+/**
+ * Factory to populate the edit part for given model type
+ *  
+ */
+public class GraphicalPartFactory implements EditPartFactory
+{
+
+	/**
+	 * Constructor
+	 * @param handle
+	 *            the handle
+	 */
+	public GraphicalPartFactory( )
+	{
+		super( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart,
+	 *      java.lang.Object)
+	 */
+	public EditPart createEditPart( EditPart context, Object model )
+	{
+		//default edit part
+		EditPart editPart = new DummyEditpart( model );
+		if ( model instanceof ReportDesignHandle )
+		{
+			return new ReportDesignEditPart( model );
+		}
+
+		if ( model instanceof MasterPageHandle )
+		{
+			return new MasterPageEditPart( model );
+		}
+
+		if ( model instanceof ImageHandle )
+		{
+			return new ImageEditPart( model );
+		}
+		if ( model instanceof TableHandle )
+		{
+			return new TableEditPart( model );
+		}
+		if ( model instanceof CellHandle )
+		{
+			return new TableCellEditPart( model );
+		}
+
+		if ( model instanceof LabelHandle )
+		{
+			return new LabelEditPart( model );
+		}
+		if ( model instanceof TextItemHandle )
+		{
+			return new TextEditPart( model );
+		}
+		if ( model instanceof DataItemHandle )
+		{
+			return new DataEditPart( model );
+		}
+
+		if ( model instanceof ReportElementModel )
+		{
+			return new AreaEditPart( model );
+		}
+		if ( model instanceof GridHandle )
+		{
+			return new GridEditPart( model );
+		}
+		if ( model instanceof ListHandle )
+		{
+			return new ListEditPart( model );
+		}
+		if ( model instanceof ListBandProxy )
+		{
+			return new ListBandEditPart( model );
+		}
+
+		IExtension extension = new IExtension.Stub( ) 
+		{
+
+			public String getExtendsionIdentify( )
+			{
+				return GuiExtensionManager.DESIGNER_FACTORY;
+			}
+		};
+		Object obj =  GuiExtensionManager.doExtension( extension, model );
+		if (obj != null)
+		{
+			return (EditPart)obj;
+		}
+		return editPart;
+	}
+}

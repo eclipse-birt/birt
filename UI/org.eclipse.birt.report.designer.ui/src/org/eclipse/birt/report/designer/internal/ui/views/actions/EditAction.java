@@ -1,0 +1,96 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.views.actions;
+
+import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
+import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.gef.Request;
+import org.eclipse.jface.viewers.IStructuredSelection;
+
+/**
+ * This class represents the edit action
+ * 
+ *  
+ */
+public class EditAction extends AbstractElementAction
+{
+
+	/**
+	 * the default text
+	 */
+	public static final String TEXT = Messages.getString( "EditAction.text" ); //$NON-NLS-1$
+
+	/**
+	 * Create a new edit action with given selection and default text
+	 * 
+	 * @param selectedObject
+	 *            the selected object,which cannot be null
+	 *  
+	 */
+	public EditAction( Object selectedObject )
+	{
+		this( selectedObject, TEXT );
+	}
+
+	/**
+	 * Create a new edit action with given selection and text
+	 * 
+	 * @param selectedObject
+	 *            the selected object,which cannot be null
+	 * @param text
+	 *            the text of the action
+	 */
+	public EditAction( Object selectedObject, String text )
+	{
+		super( selectedObject, text );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 */
+	protected boolean doAction( ) throws Exception
+	{
+		if ( getSelectedElement( ) == null )
+		{
+			return false;
+		}
+		return ProviderFactory.createProvider( getSelectedElement( ) )
+				.performRequest( getSelectedElement( ),
+						new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
+	}
+
+	/**
+	 * @return the model of selected GUI object.
+	 */
+	public ReportElementHandle getSelectedElement( )
+	{
+		Object obj = super.getSelection( );
+		if ( obj instanceof IStructuredSelection )
+		{
+			IStructuredSelection selection = (IStructuredSelection) obj;
+			if ( selection.size( ) != 1 )
+			{//multiple selection
+				return null;
+			}
+			obj = selection.getFirstElement( );
+		}
+		if ( obj instanceof ReportElementHandle )
+		{
+			return (ReportElementHandle) obj;
+		}
+		return null;
+	}
+}

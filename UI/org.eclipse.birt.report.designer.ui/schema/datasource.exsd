@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.designer.ui">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="datasource" name="Data Source Extension point"/>
+      </appInfo>
+      <documentation>
+         The data source extension allows providers to add their own type of data source support to the BIRT designer.&lt;br/&gt;
+The extension needs to provide the following implementations for the data source.&lt;br/&gt;
+1) A wizard for creating the data source&lt;br/&gt;
+2) A set of pages for editing the data source&lt;br/&gt;
+3) A list of data sets that this data source supports&lt;br/&gt;&lt;br/&gt;
+
+For each data set that is defined, it needs to provide&lt;br/&gt;
+1) A wizard for creating the data set.&lt;br/&gt;
+2) A set of pages for editing the data set.&lt;br/&gt;
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <documentation>
+            Data Source Extension point
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="data-source"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="data-source">
+      <annotation>
+         <documentation>
+            This extension allows providers to add support for a new data source.
+It defines child elements for the data source wizard, one or more editor pages and for data sets that this data source supports.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="new-data-source-wizard"/>
+            <element ref="data-source-editor-page" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="data-set" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  A unique identifier for this data source.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Display name to be shown in the Menu
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The type of this data source.&lt;br/&gt;
+This has to be the same as the DTE/ODA driver type name.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="new-data-source-wizard">
+      <annotation>
+         <documentation>
+            This element provides the wizard class that will allow a BIRT user to create a data source object of this type.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A fully quailfied class name which provides a wizard for creating a new data Source&lt;br/&gt;
+This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="data-source-editor-page">
+      <annotation>
+         <documentation>
+            This element identifies an editor page that is to be added to the editor dialog for this data source. The pages are added to the dialog in the order they are defined.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A unique identifier for this page.&lt;br/&gt;
+This identifier should be unique within the dialog. It doesn&apos;t need to be globally unique.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="path" type="string">
+            <annotation>
+               <documentation>
+                  The path within the dialog to which this page should be added.&lt;br/&gt;
+If it is to be added to the root node then this should just be &quot;/&quot;. If it is to be added as a child of some other node then the full path starting with the / and separated by / should be provided.&lt;br/&gt;
+For e.g. If the dialog has a node with the id &quot;one&quot; and you wish to add a page with the id &quot;two&quot; under this, then you need to enter the path as &quot;/one&quot;. This will add the page with the id &quot;two&quot; under the page with the id &quot;one&quot;.&lt;br/&gt;
+Note: The page with the id &quot;one&quot; should already have been added before attempting to add page &quot;two&quot;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified class name of this editor page. The class should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. It can also extend the abstract class org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of this page. This is what will be displayed in the dialog.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="image" type="string">
+            <annotation>
+               <documentation>
+                  An image to be shown before the name if any.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="data-set">
+      <annotation>
+         <documentation>
+            This element identifies a data set type that is supported by this data source.
+It provides the New data set wizard, the provider class for converting between the BIRT ROM data source and data set objects to the BIRT DTE data source and data set objects and a set of one or more editor pages.
+A data source can have one or more data sets.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="new-data-set-wizard"/>
+            <element ref="data-set-editor-page" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  A unique identifier for this data set.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Display name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The type of this data set.&lt;br/&gt;
+This has to be the same as the DTE/ODA data source type name.&lt;br/&gt;
+Note data source in the oda-config.xml file is equivalent to a BIRT data set.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="new-data-set-wizard">
+      <annotation>
+         <documentation>
+            This element provides the wizard class that will allow a BIRT user to create a data set object of this type.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  A fully quailfied class name which provides a wizard for Creating a new data set.&lt;br/&gt;
+                     This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="data-set-editor-page">
+      <annotation>
+         <documentation>
+            This element identifies an editor page that is to be added to the editor dialog for this data set. The pages are added to the dialog in the order they are defined.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A unique identifier for this page.&lt;br/&gt;
+This identifier should be unique within the dialog. It doesn&apos;t need to be globally unique.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="path" type="string">
+            <annotation>
+               <documentation>
+                  The path within the dialog to which this page should be added.&lt;br/&gt;
+If it is to be added to the root node then this should just be &quot;/&quot;. If it is to be added as a child of some other node then the full path starting with the / and separated by / should be provided.&lt;br/&gt;
+For e.g. If the dialog has a node with the id &quot;one&quot; and you wish to add a page with the id &quot;two&quot; under this, then you need to enter the path as &quot;/one&quot;. This will add the page with the id &quot;two&quot; under the page with the id &quot;one&quot;.&lt;br/&gt;
+Note: The page with the id &quot;one&quot; should already have been added before attempting to add page &quot;two&quot;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified class name of this editor page. The class should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. It can also extend the abstract class org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of this page. This is what will be displayed in the dialog.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="image" type="string">
+            <annotation>
+               <documentation>
+                  An image to be shown before the name if any.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following is an example of the JDBC data source extension point.
+&lt;p&gt;
+   &lt;pre&gt;
+   &lt;extension
+         point=&quot;org.eclipse.birt.report.designer.ui.datasource&quot;&gt;
+      &lt;data-source
+            type=&quot;jdbc&quot;
+            name=&quot;%datasource.name&quot;
+            id=&quot;org.eclipse.birt.data.jdbc&quot;&gt;
+         &lt;new-data-source-wizard class=&quot;org.eclipse.birt.report.designer.data.jdbc.wizards.JdbcDataSourceWizard&quot;/&gt;
+         &lt;data-set
+               type=&quot;JdbcSelectDataSet&quot;
+               name=&quot;%dataset.jdbcselect&quot;
+               id=&quot;org.eclipse.birt.report.designer.data.jdbc.JDBCSelectDataSet&quot;&gt;
+            &lt;new-data-set-wizard class=&quot;org.eclipse.birt.report.designer.data.jdbc.wizards.JdbcDataSetWizard&quot;/&gt;
+            &lt;data-set-editor-page
+                  class=&quot;org.eclipse.birt.report.designer.data.jdbc.editors.SQLDataSetEditorPage&quot;
+                  path=&quot;/&quot;
+                  name=&quot;%dataset.editor.page.query&quot;
+                  id=&quot;org.eclipse.birt.report.designer.data.jdbc.data-set-editor-page1&quot;/&gt;
+         &lt;/data-set&gt;
+         &lt;data-source-editor-page
+               class=&quot;org.eclipse.birt.report.designer.data.jdbc.wizards.JdbcDataSourcePage&quot;
+               path=&quot;/&quot;
+               name=&quot;%datasource.editor.page.connection&quot;
+               id=&quot;org.eclipse.birt.report.designer.data.jdbc.data-source-editor.connection&quot;/&gt;
+      &lt;/data-source&gt;
+    &lt;/extension&gt;
+
+      
+ &lt;/pre&gt;
+&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The new data source wizard should extend the org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard class.&lt;br/&gt;&lt;br/&gt;
+
+The new data set wizard should extend the org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard class&lt;br/&gt;&lt;br/&gt;
+
+The editor pages should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. They can also extend from the abstract class  org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.&lt;br/&gt;&lt;br/&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         An abstract implementation of &lt;samp&gt;org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage&lt;/samp&gt; is provided as &lt;samp&gt;org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage&lt;/samp&gt;. This class contains get and set methods for the name, the image and the container.
+&lt;br/&gt;&lt;br/&gt;
+A default JDBC data source implementation plugin is also provided
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br/&gt;&lt;br/&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
+      </documentation>
+   </annotation>
+
+</schema>
