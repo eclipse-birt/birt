@@ -13,7 +13,11 @@ package org.eclipse.birt.report.designer.ui;
 
 import java.net.URL;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
@@ -193,5 +197,44 @@ public class ReportPlugin extends AbstractUIPlugin
 		return image;
 	}
 
+	/**
+	 * @return the cheat sheet property preference, stored in the workbench root
+	 */
+	public static boolean readCheatSheetPreference( )
+	{
+		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+		try
+		{
+			String property = workspace.getRoot( )
+					.getPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
+							"showCheatSheet" ) );
+			if ( property != null )
+				return Boolean.valueOf( property ).booleanValue( );
+		}
+		catch ( CoreException e )
+		{
+			e.printStackTrace( );
+		}
+		return true;
+	}
+
+	/**
+	 *  Set the show cheatsheet preference in workspace root. Used by wizards
+	 */
+	public static void writeCheatSheetPreference( boolean value )
+	{
+		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+		try
+		{
+			workspace.getRoot( )
+					.setPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
+							"showCheatSheet" ),
+							String.valueOf( value ) );
+		}
+		catch ( CoreException e )
+		{
+			e.printStackTrace( );
+		}
+	}
 
 }

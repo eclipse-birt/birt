@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilder;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -110,8 +110,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 
 	public void performDirectEdit( )
 	{
-		IReportItemBuilder build = getExtendedElementUI( ).getBuilder( );
-		if ( build.open( getExtendedItemHandle( ) ) > 0 )
+		IReportItemBuilderUI builder = ExtensionPointManager.getInstance( )
+		.getExtendedElementPoint( ((ExtendedItemHandle)getModel()).getExtensionName() )
+		.getReportItemBuilderUI( );
+		if ( builder != null && builder.open( getExtendedItemHandle( ) ) > 0 )
 		{
 			refreshVisuals( );
 		}
@@ -155,7 +157,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 	
 	public void deactivate( )
 	{
-		elementUI.disposeFigure( getExtendedItemHandle( ), getFigure( ) );
+		elementUI.disposeFigure( getExtendedItemHandle( ), (IFigure)getFigure( ) );
 		super.deactivate( );
 	}
 }

@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -200,6 +201,21 @@ public class ExtensionPointManager
 			IConfigurationElement element )
 	{
 		String elementName = element.getName( );
+		if ( IExtensionConstants.BUILDER.equals( elementName) )
+		{
+		    loadClass( newPoint,
+		            element,
+		            IExtensionConstants.CLASS,
+		            IExtensionConstants.BUILDER );
+		}
+		if ( IExtensionConstants.PROPERTYEDIT.equals( elementName) )
+		{
+		    loadClass( newPoint,
+		            element,
+		            IExtensionConstants.CLASS,
+		            IExtensionConstants.PROPERTYEDIT);
+		}
+		
 		if ( IExtensionConstants.PALETTE.equals( elementName ) )
 		{
 			loadIconAttribute( newPoint,
@@ -234,7 +250,26 @@ public class ExtensionPointManager
 		}
 	}
 
-	private ImageDescriptor getImageDescriptor( IConfigurationElement element )
+	/**
+     * @param newPoint the extension point instance
+     * @param element the configuration element
+     * @param className the name of the class attribute
+     */
+    private void loadClass( ExtendedElementUIPoint newPoint, IConfigurationElement element, String className, String attributeName )
+    {
+        String value = element.getAttribute( className );
+		if ( value != null )
+		{
+			try
+            {
+                newPoint.setClass( attributeName, element.createExecutableExtension( className ) );
+            } catch ( CoreException e )
+            {}
+		}
+        
+    }
+
+    private ImageDescriptor getImageDescriptor( IConfigurationElement element )
 	{
 		Assert.isLegal( element != null );
 		IExtension extension = element.getDeclaringExtension( );

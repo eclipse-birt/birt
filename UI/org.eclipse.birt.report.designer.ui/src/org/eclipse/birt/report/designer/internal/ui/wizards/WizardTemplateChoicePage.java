@@ -17,10 +17,6 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -64,6 +60,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
+   
 	private List templateList;
 
 	private ImageCanvas previewCanvas;
@@ -148,6 +145,9 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	protected Map imageMap;
 
+
+    private Composite previewPane;
+
 	public class TemplateType
 	{
 
@@ -198,18 +198,23 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
-		gridLayout.numColumns = 2;
+		gridLayout.numColumns = 2;	
 		gridLayout.marginHeight = 10;
 		gridLayout.marginWidth = 10;
 		gridLayout.horizontalSpacing = 10;
 		gridLayout.verticalSpacing = 10;
 		composite.setLayout( gridLayout );
 
+		
+		
+		
 		Label label0 = new Label( composite, SWT.NONE );
 		label0.setText( MESSAGE_REPORT_TEMPLATES );
 
 		Label previewLabel = new Label( composite, SWT.NONE );
 		previewLabel.setText( MESSAGE_PREVIEW );
+		GridData data = new GridData( GridData.BEGINNING );
+		previewLabel.setLayoutData( data );
 
 		templateList = new List( composite, SWT.BORDER );
 		for ( int i = 0; i < templates.length; i++ )
@@ -217,12 +222,12 @@ public class WizardTemplateChoicePage extends WizardPage
 			templateList.add( templates[i].name );
 		}
 
-		GridData data = new GridData( GridData.BEGINNING
+		data = new GridData( GridData.BEGINNING
 				| GridData.FILL_VERTICAL );
 		data.widthHint = 170;
 		templateList.setLayoutData( data );
 
-		Composite previewPane = new Composite( composite, 0 );
+		previewPane = new Composite( composite, 0 );
 		data = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
 		previewPane.setLayoutData( data );
 		gridLayout = new GridLayout( );
@@ -251,17 +256,17 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		chkBox = new Button( composite, SWT.CHECK );
 		chkBox.setText( MESSAGE_SHOW_CHEATSHEET );
-		chkBox.setSelection( readCheatSheetProperty( ) );
+		chkBox.setSelection( ReportPlugin.readCheatSheetPreference( ) );
 		chkBox.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				setCheatSheetProperty( chkBox.getSelection( ) );
+			    ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				setCheatSheetProperty( chkBox.getSelection( ) );
+			    ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
 			}
 		} );
 
@@ -269,45 +274,9 @@ public class WizardTemplateChoicePage extends WizardPage
 		templateList.select( 0 );
 		templateListener.handleEvent( new Event( ) );
 		setControl( composite );
-	}
+		}
 
-	/**
-	 * @return
-	 */
-	private boolean readCheatSheetProperty( )
-	{
-		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-		try
-		{
-			String property = workspace.getRoot( )
-					.getPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
-							"showCheatSheet" ) );
-			if ( property != null )
-				return Boolean.valueOf( property ).booleanValue( );
-		}
-		catch ( CoreException e )
-		{
-			e.printStackTrace( );
-		}
-		return true;
-	}
-
-	private void setCheatSheetProperty( boolean value )
-	{
-		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-		try
-		{
-			workspace.getRoot( )
-					.setPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
-							"showCheatSheet" ),
-							String.valueOf( value ) );
-		}
-		catch ( CoreException e )
-		{
-			e.printStackTrace( );
-		}
-	}
-
+	
 	/**
 	 * @param templateList
 	 * @param description
@@ -316,9 +285,11 @@ public class WizardTemplateChoicePage extends WizardPage
 	private void hookListeners( )
 	{
 		templateList.addListener( SWT.Selection, templateListener );
-
+		
 	}
 
+
+    
 	private Listener templateListener = new Listener( ) {
 
 		public void handleEvent( Event event )

@@ -42,6 +42,8 @@
    <element name="ReportItemUI">
       <complexType>
          <sequence>
+            <element ref="builder" minOccurs="0" maxOccurs="1"/>
+            <element ref="propertyPage" minOccurs="0" maxOccurs="1"/>
             <element ref="palette" minOccurs="0" maxOccurs="1"/>
             <element ref="editor" minOccurs="0" maxOccurs="1"/>
             <element ref="outline" minOccurs="0" maxOccurs="1"/>
@@ -50,7 +52,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extension.IReportItemUI
+                  a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemUI
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
@@ -62,6 +64,46 @@
                <documentation>
                   The ROM Report Item Extension name that maps to this UI
                </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="builder">
+      <annotation>
+         <documentation>
+            Optional Builder for the element inside the Editor. Instantiated when a new item is dragged from the palette inside the editor.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="propertyPage">
+      <annotation>
+         <documentation>
+            Optional Property Edit Page for the item to be used in the Property Edit View
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extension.IReportItemPropertyEditUI
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

@@ -32,6 +32,8 @@
       <ReportItemUI
             class="org.eclipse.birt.chart.reportitem.ChartReportItemUIImpl"
             extensionName="Chart">
+         <builder
+         	class="org.eclipse.birt.chart.reportitem.ChartReportItemBuilderImpl"/>
          <palette
                icon="icons/palette_icon.gif"
                category="Content"/>

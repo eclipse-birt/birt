@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.extension
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilder;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.window.Window;
 
@@ -46,7 +46,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		{
 			return false;
 		}
-		IReportItemBuilder builder = getbuilder( );
+		IReportItemBuilderUI builder = getbuilder( );
 		if ( builder != null )
 		{
 			//Open the builder for new element
@@ -73,12 +73,12 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 	 * 
 	 * @return
 	 */
-	private IReportItemBuilder getbuilder( )
+	private IReportItemBuilderUI getbuilder( )
 	{
 		return ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( extensionName )
-				.getReportItemUI( )
-				.getBuilder( );
+				.getReportItemBuilderUI( );
+				
 	}
 
 }

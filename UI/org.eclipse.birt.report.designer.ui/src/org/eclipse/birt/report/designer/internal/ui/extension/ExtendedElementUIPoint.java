@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.jface.util.Assert;
 
@@ -28,6 +30,8 @@ public class ExtendedElementUIPoint
 	private String extensionName;
 	private IReportItemUI reportItemUI = null;
 	private Map attributesMap = new HashMap( 5 );
+    private IReportItemBuilderUI reportItemBuilderUI;
+    private HashMap classMap = new HashMap( 2 );
 
 	/**
 	 * Construct an new instance with the given extension name. All default
@@ -69,6 +73,15 @@ public class ExtendedElementUIPoint
 		return reportItemUI;
 	}
 
+	public IReportItemBuilderUI getReportItemBuilderUI( )
+	{
+	    return (IReportItemBuilderUI)classMap.get( IExtensionConstants.BUILDER );
+	}
+	
+	public IReportItemPropertyEditUI getReportItemPropertyEditUI( )
+	{
+	    return (IReportItemPropertyEditUI)classMap.get( IExtensionConstants.PROPERTYEDIT );
+	}
 	/**
 	 * Gets the corresponding attribute of the key of the extended element
 	 * 
@@ -96,6 +109,16 @@ public class ExtendedElementUIPoint
 	}
 
 	/**
+	 * Sets the UI instance of the element
+	 * 
+	 * @param reportItemBuilderUI
+	 *            the Builder UI instance to set.It can be null
+	 */
+	void setReportItemBuilderUI( IReportItemBuilderUI reportItemBuilderUI )
+	{
+		this.reportItemBuilderUI = reportItemBuilderUI;
+	}
+	/**
 	 * Sets the corresponding attribute of the key of the extended element
 	 * 
 	 * @param key
@@ -106,4 +129,14 @@ public class ExtendedElementUIPoint
 		Assert.isLegal( key != null );
 		attributesMap.put( key, value );
 	}
+
+    /**
+     * Set the corresponding class instance of the key of the extended element
+     * @param className
+     * @param object
+     */
+    public void setClass( String key, Object value )
+    {
+        classMap.put( key, value );
+    }
 }

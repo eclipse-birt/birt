@@ -23,7 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEdit;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -94,8 +94,7 @@ public class GuiExtensionManager
 			{
 				return retValue;
 			}
-			IReportItemPropertyEdit edit = point.getReportItemUI( )
-					.getPropertyEditPage( );
+			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI();
 			if ( edit == null )
 			{
 				return retValue;

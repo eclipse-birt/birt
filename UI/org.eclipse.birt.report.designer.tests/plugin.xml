@@ -75,6 +75,7 @@
                canResize="false"
                showInDesigner="true"/>
          <outline icon="icon/cell.gif"/>
+         <builder class="org.eclipse.birt.report.designer.tests.example.matrix.ReportItemBuilderUITest"/>
       </ReportItemUI>
    </extension>
 
