@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.i18n;
 
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -41,49 +40,29 @@ public class ResourceHandle
 	 * a PropertyResourceBundle to access our files.
 	 */
 
-	protected ResourceBundle resources;
+	protected ResourceBundle resourceBundle;
 
 	/**
-	 * Name of the resource bundle.
+	 * Name of the Model resource bundle.
 	 */
 
-	private final static String BUNDLE_NAME = "Messages"; //$NON-NLS-1$
+	final static String BUNDLE_NAME = "Messages"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param locale
-	 *            the user's locale. If null, the default locale for the JVM
-	 *            will be used.
+	 * @param resourceBundle
+	 *            the resource bundle 
 	 */
 
-	public ResourceHandle( Locale locale )
+	public ResourceHandle( ResourceBundle resourceBundle )
 	{
-		String className = this.getClass( ).getName( );
-		String bundleName = ""; //$NON-NLS-1$
-
-		// Create the base message file name formatted like a Java class.
-		// The Java class loader will search for the file using the same
-		// algorithm used to find classes.
-
-		int index = className.lastIndexOf( '.' );
-		if ( index > -1 )
-		{
-			// e.g: "org.eclipse.birt.report.model.util.Test"
-
-			bundleName = className.substring( 0, index ) + "."; //$NON-NLS-1$
-		}
-
-		bundleName = bundleName + BUNDLE_NAME;
-		if ( locale == null )
-			locale = Locale.getDefault( );
-		resources = ResourceBundle.getBundle( bundleName, locale );
-		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-
+		this.resourceBundle = resourceBundle;
 	}
+	
 
 	/**
-	 * Get a message given the message key. An assertion will be raised if the
+	 * Gets the message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
 	 * @param key
@@ -99,7 +78,7 @@ public class ResourceHandle
 			return null;
 		try
 		{
-			return resources.getString( key );
+			return resourceBundle.getString( key );
 		}
 		catch ( MissingResourceException e )
 		{
@@ -111,7 +90,7 @@ public class ResourceHandle
 	}
 
 	/**
-	 * Get a message that has placeholders. An assertion will be raised if the
+	 * Gets the message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
 	 * @param key
@@ -129,17 +108,4 @@ public class ResourceHandle
 		String message = getMessage( key );
 		return MessageFormat.format( message, arguments );
 	}
-
-	/**
-	 * Returns the resource bundle for the current locale.
-	 * 
-	 * @return the resource bundle
-	 * @see ResourceBundle
-	 */
-
-	public ResourceBundle getResourceBundle( )
-	{
-		return resources;
-	}
-
 }
