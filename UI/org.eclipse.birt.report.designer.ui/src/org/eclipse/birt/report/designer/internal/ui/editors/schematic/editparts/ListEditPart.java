@@ -130,6 +130,17 @@ public class ListEditPart extends ReportElementEditPart
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
+	 */
+	public void activate( )
+	{
+
+		super.activate( );
+		addListBandEditPart( );
+	}
 	/**
 	 * layouts the figure
 	 */
