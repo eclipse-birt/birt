@@ -57,6 +57,8 @@ public class ParameterMetaData
 		m_isOptional = Boolean.valueOf( inputParamHint.isOptional() );
 		
 		m_isInput = Boolean.TRUE;
+		
+		m_defaultValue = inputParamHint.getDefaultValue();
 	}
 	
 	ParameterMetaData( OutputParameterHint outputParamHint )
@@ -160,6 +162,8 @@ public class ParameterMetaData
 		updateWith( (ParameterHint) inputParamHint );
 		
 		m_isOptional = ( inputParamHint.isOptional() ) ? Boolean.TRUE : Boolean.FALSE;
+		
+		m_defaultValue = inputParamHint.getDefaultValue();
 	}
 	
 	void updateWith( OutputParameterHint outputParamHint ) throws DataException

@@ -354,6 +354,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 						paramDef.getName( ) );
 				parameterHint.setPosition( paramDef.getPosition( ) );
 				parameterHint.setIsOptional( paramDef.isOptional( ) );
+				parameterHint.setDefaultValue( paramDef.getDefaultValue() );
 				odaStatement.addInputParameterHint( parameterHint );
 			}
 		}
