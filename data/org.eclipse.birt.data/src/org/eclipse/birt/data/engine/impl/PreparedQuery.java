@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.mozilla.javascript.Context;
@@ -631,6 +632,18 @@ abstract class PreparedQuery
 							scope,  rowObject );
 					odiQuery.setFiltering( filter );
 			    }
+			    
+			    if ( dataSet != null )
+				{
+					List computedColumns = this.dataSet.getComputedColumns( );
+					if ( computedColumns != null && computedColumns.size( ) > 0 )
+					{
+						IResultObjectEvent objectEvent = new ComputedColumnHelper( this.scope,
+								this.rowObject,
+								computedColumns );
+						odiQuery.addOnFetchEvent( objectEvent );
+					}
+				}
 			}
 			finally
 			{

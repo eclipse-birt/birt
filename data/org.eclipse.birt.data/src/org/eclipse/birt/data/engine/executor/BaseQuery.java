@@ -13,10 +13,12 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IFilter;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -28,6 +30,7 @@ public abstract class BaseQuery implements IQuery
     protected GroupSpec[] 	groups;
     protected int			maxRows = 0;
     protected IFilter		filter;
+    protected List 			fetchEventList;
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
@@ -86,4 +89,21 @@ public abstract class BaseQuery implements IQuery
     {
         return maxRows;
     }
+    
+    /**
+     * Add event to fetch event list
+     */
+	public void addOnFetchEvent( IResultObjectEvent event )
+	{
+		if ( fetchEventList == null )
+			fetchEventList = new ArrayList( );
+		
+		fetchEventList.add( event );
+	}
+	
+	public List getFetchEvents( )
+	{
+		return fetchEventList;
+	}
+	
 }

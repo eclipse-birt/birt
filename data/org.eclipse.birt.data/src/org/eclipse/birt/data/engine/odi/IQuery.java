@@ -87,7 +87,14 @@ public interface IQuery
      * @throws OdiException	if given filterSpec is invalid.
      */
     // void setFilter( String filterSpec ) throws OdiException;
-		
+
+    /**
+     * Define a custom event object, which is called after the query retrieves a result object
+     * and before any processing is done. Multiple events can be added using this method. 
+     * These event objects are called in the order that they are added.
+     */
+    public void addOnFetchEvent( IResultObjectEvent event);
+    
 	/**
 	 * Close all result iterators of execute(...) methods on this Query 
 	 * instance, and any associated resources.  After this method, all
