@@ -37,7 +37,7 @@
    		Use this extension point to register data set processors for series that use custom data elements.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
    -->
-   <extension-point id="datasetprocessors" name="Contains definition of chart DataSet processors" schema="schema/datasetprocessors.exsd"/>
+   <extension-point id="datasetprocessors" name="Contains definition of chart data set processors" schema="schema/datasetprocessors.exsd"/>
    
    <!-- Device related Extension Points -->
    <!-- 
