@@ -20,7 +20,7 @@ import org.eclipse.birt.data.oda.OdaException;
  * 
  * This class implements the org.eclipse.birt.data.oda.IParameterMetaData
  * interface.
- * 
+ *  
  */
 public class ParameterMetaData implements IParameterMetaData
 {
@@ -39,8 +39,7 @@ public class ParameterMetaData implements IParameterMetaData
 	{
 		if ( o == null )
 		{
-			throw new DriverException(
-					DriverException.ERRMSG_NO_PARAMETERMETADATA,
+			throw new DriverException( DriverException.ERRMSG_NO_PARAMETERMETADATA,
 					DriverException.ERROR_NO_PARAMETERMETADATA );
 
 		}
@@ -88,8 +87,14 @@ public class ParameterMetaData implements IParameterMetaData
 		assertNotNull( paraMetadata );
 		try
 		{
-			/* redirect the call to JDBC ParameterMetaData.getParameterMode(int) */
-			return paraMetadata.getParameterMode( param );
+			int result = IParameterMetaData.parameterModeUnknown;
+			if ( paraMetadata.getParameterMode( param ) == java.sql.ParameterMetaData.parameterModeIn )
+				result = IParameterMetaData.parameterModeIn;
+			else if ( paraMetadata.getParameterMode( param ) == java.sql.ParameterMetaData.parameterModeOut )
+				result = IParameterMetaData.parameterModeOut;
+			else if ( paraMetadata.getParameterMode( param ) == java.sql.ParameterMetaData.parameterModeInOut )
+				result = IParameterMetaData.parameterModeInOut;
+			return result;
 		}
 		catch ( SQLException e )
 		{
@@ -186,8 +191,12 @@ public class ParameterMetaData implements IParameterMetaData
 		assertNotNull( paraMetadata );
 		try
 		{
-			/* redirect the call to JDBC ParameterMetaData.isNullable(int) */
-			return paraMetadata.isNullable( param );
+			int result = IParameterMetaData.parameterNullableUnknown;
+			if ( paraMetadata.isNullable( param ) == java.sql.ParameterMetaData.parameterNullable )
+				result = IParameterMetaData.parameterNullable;
+			else if ( paraMetadata.isNullable( param ) == java.sql.ParameterMetaData.parameterNoNulls )
+				result = IParameterMetaData.parameterNoNulls;
+			return result;
 		}
 		catch ( SQLException e )
 		{

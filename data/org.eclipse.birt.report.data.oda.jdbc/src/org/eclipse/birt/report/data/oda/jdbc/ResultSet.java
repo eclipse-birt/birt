@@ -25,7 +25,7 @@ import org.eclipse.birt.data.oda.util.logging.Level;
 /**
  * 
  * The class implements the org.eclipse.birt.data.oda.IResultSet interface.
- * 
+ *  
  */
 public class ResultSet implements IResultSet
 {
@@ -35,6 +35,9 @@ public class ResultSet implements IResultSet
 
 	/** the variable to remember the max rows that the resultset can return */
 	private int maxRows;
+
+	/** the variable to indicate the current row number */
+	private int currentRow;
 
 	/**
 	 * assertNotNull(Object o)
@@ -66,7 +69,9 @@ public class ResultSet implements IResultSet
 		this.rs = jrs;
 
 		/* set the maxrows variable, default is 0 - no limit */
-		maxRows = 0;
+		maxRows = Integer.MAX_VALUE;
+
+		currentRow = 0;
 
 	}
 
@@ -121,10 +126,13 @@ public class ResultSet implements IResultSet
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.setMaxRows( "
 				+ max + " )" );
-		if ( max >= 0 )
-			maxRows = max;//if the max is positive or zero, reset it,
-						  // otherwise, ignore this operation and keep the
-						  // previous value.
+		if ( max > 0 )
+			maxRows = max;
+		else
+			maxRows = Integer.MAX_VALUE;
+		//if the max is positive, reset it,
+		// otherwise, ignore this operation and keep the
+		// previous value.
 
 	}
 
@@ -136,33 +144,16 @@ public class ResultSet implements IResultSet
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.next()" );
 		assertNotNull( rs );
-		/* variable for the current row position */
-		int currentRow = 0;
 
 		try
 		{
 			/* redirect the call to JDBC ResultSet.next() */
-			if ( maxRows > 0 )
+			if ( currentRow < maxRows && rs.next( ) )
 			{
-				/* has maxRows limit */
-
-				currentRow = this.rs.getRow( );
-				if ( currentRow < maxRows )
-				{
-					/* doesn't meet the maxrow limit */
-					return rs.next( );
-
-				}
-				else
-					return false;
+				currentRow++;
+				return true;
 			}
-			else
-			{
-				/* no maxrow limit */
-				return rs.next( );
-
-			}
-
+			return false;
 		}
 		catch ( SQLException e )
 		{
@@ -178,16 +169,7 @@ public class ResultSet implements IResultSet
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getRow()" );
 		assertNotNull( rs );
-		try
-		{
-			/* redirect the call to JDBC ResultSet.getRow() */
-			return rs.getRow( );
-
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( e );
-		}
+		return this.currentRow;
 	}
 
 	/*
