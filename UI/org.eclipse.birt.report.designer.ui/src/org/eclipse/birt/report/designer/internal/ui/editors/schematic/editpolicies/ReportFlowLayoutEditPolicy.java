@@ -299,13 +299,12 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 				|| child instanceof TextEditPart
 				|| child instanceof ListEditPart )
 			return new NonResizableEditPolicy( );
-		if (child instanceof TableEditPart)
+		if ( child instanceof TableEditPart )
 		{
-			return new TableResizeEditPolice();
+			return new TableResizeEditPolice( );
 		}
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
-		policy.setResizeDirections( PositionConstants.SOUTH
-				| PositionConstants.EAST | PositionConstants.SOUTH_EAST );
+		policy.setResizeDirections( PositionConstants.NSEW );
 		return policy;
 	}
 
@@ -318,34 +317,37 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#showLayoutTargetFeedback(org.eclipse.gef.Request)
 	 */
-	protected void showLayoutTargetFeedback(Request request)
+	protected void showLayoutTargetFeedback( Request request )
 	{
-	    GraphicalEditPart ep = (GraphicalEditPart)getHost();
-	    // show cursor even if there is no children  
-		if (getHost().getChildren().size() == 0)
+		GraphicalEditPart ep = (GraphicalEditPart) getHost( );
+		// show cursor even if there is no children
+		if ( getHost( ).getChildren( ).size( ) == 0 )
 		{
-		    Polyline fb = getLineFeedback();
-		  
-			Rectangle bounds = ep.getContentPane().getBounds().getCopy();
-			Insets insets = ep.getContentPane().getInsets();
-			bounds.crop(insets);
-			ep.getFigure().translateToAbsolute(bounds);
-			
-			Point p1 = new Point(bounds.x + 5, bounds.y + 2 );
-			fb.translateToRelative(p1);
-			Point p2 = new Point(bounds.x + 5 , bounds.y + Math.min( bounds.height - 2, 18 )  );
-			fb.translateToRelative(p2);
-			fb.setPoint(p1, 0);
-			fb.setPoint(p2, 1);
+			Polyline fb = getLineFeedback( );
+
+			Rectangle bounds = ep.getContentPane( ).getBounds( ).getCopy( );
+			Insets insets = ep.getContentPane( ).getInsets( );
+			bounds.crop( insets );
+			ep.getFigure( ).translateToAbsolute( bounds );
+
+			Point p1 = new Point( bounds.x + 5, bounds.y + 2 );
+			fb.translateToRelative( p1 );
+			Point p2 = new Point( bounds.x + 5, bounds.y
+					+ Math.min( bounds.height - 2, 18 ) );
+			fb.translateToRelative( p2 );
+			fb.setPoint( p1, 0 );
+			fb.setPoint( p2, 1 );
 		}
 		else
 		{
-		    super.showLayoutTargetFeedback( request );
+			super.showLayoutTargetFeedback( request );
 		}
-		ep.getViewer().reveal(ep);
-		
+		ep.getViewer( ).reveal( ep );
+
 	}
 }

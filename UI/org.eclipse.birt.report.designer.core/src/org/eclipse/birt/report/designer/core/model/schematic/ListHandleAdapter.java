@@ -21,23 +21,16 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.NameException;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.util.DimensionUtil;
-import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -138,52 +131,6 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		};
 		Collections.sort( children, com );
 		return children;
-	}
-
-	/**
-	 * Get padding.
-	 * @param retValue
-	 * @return padding value
-	 */
-	public Insets getPadding( Insets retValue )
-	{
-		if ( retValue == null )
-		{
-			retValue = new Insets( );
-		}
-		else
-		{
-			retValue = new Insets( retValue );
-		}
-		//DimensionValue value =
-		// (DimensionValue)getTableHandle().getProperty(Style.PADDING_TOP_PROP);
-		DimensionValue handle = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_TOP_PROP );
-		double px = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
-
-		handle = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_BOTTOM_PROP );
-		double py = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
-		Point p = MetricUtility.inchToPixel( px, py );
-		retValue.top = p.x;
-		retValue.bottom = p.y;
-
-		handle = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_LEFT_PROP );
-		px = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
-
-		handle = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_RIGHT_PROP );
-		py = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
-
-		p = MetricUtility.inchToPixel( px, py );
-		retValue.left = p.x;
-		retValue.right = p.y;
-		return retValue;
 	}
 
 	/**

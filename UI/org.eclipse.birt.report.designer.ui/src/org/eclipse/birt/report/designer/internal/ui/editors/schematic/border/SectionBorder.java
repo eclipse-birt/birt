@@ -95,6 +95,8 @@ public class SectionBorder extends BaseBorder
 		i_right_style = getBorderStyle( right_style );
 		i_right_width = getBorderWidth( right_width );
 
+		g.restoreState();
+		
 		//draw top line
 		drawBorder( figure, g, in, TOP, i_top_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width

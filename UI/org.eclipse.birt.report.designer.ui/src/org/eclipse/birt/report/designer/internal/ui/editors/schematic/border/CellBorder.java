@@ -59,6 +59,8 @@ public class CellBorder extends BaseBorder
 		i_right_style = getBorderStyle( right_style );
 		i_right_width = getBorderWidth( right_width );
 
+		g.restoreState( );
+
 		//draw bottom line
 		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width

@@ -260,13 +260,15 @@ public abstract class BaseBorder extends AbstractBorder
 					clip.y = r.y + r.height - i - startPos;
 					p2.x = r.x
 							+ r.width
-							- getGap( width[BOTTOM], width[RIGHT], i + startPos ) - 1;
+							- getGap( width[BOTTOM], width[RIGHT], i + startPos )
+							- 1;
 					p2.y = r.y + r.height - i - startPos;
 					clip.union( p2 );
-					g.setClip( clip );
+					g.clipRect( clip );
 
 					g.drawLine( r.x, r.y + r.height - i - startPos, r.x
 							+ r.width, r.y + r.height - i - startPos );
+					g.setClip( oldClip );
 				}
 				break;
 			case TOP :
@@ -283,14 +285,16 @@ public abstract class BaseBorder extends AbstractBorder
 					clip.y = r.y + i + startPos;
 					p2.x = r.x
 							+ r.width
-							- getGap( width[TOP], width[RIGHT], i + startPos ) - 1;
+							- getGap( width[TOP], width[RIGHT], i + startPos )
+							- 1;
 					p2.y = r.y + i + startPos;
 					clip.union( p2 );
-					g.setClip( clip );
+					g.clipRect( clip );
 
 					g.drawLine( r.x, r.y + i + startPos, r.x + r.width, r.y
 							+ i
 							+ startPos );
+					g.setClip( oldClip );
 				}
 				break;
 			case LEFT :
@@ -308,14 +312,16 @@ public abstract class BaseBorder extends AbstractBorder
 					p2.x = r.x + i + startPos;
 					p2.y = r.y
 							+ r.height
-							- getGap( width[LEFT], width[BOTTOM], i + startPos ) - 1;
+							- getGap( width[LEFT], width[BOTTOM], i + startPos )
+							- 1;
 					clip.union( p2 );
-					g.setClip( clip );
+					g.clipRect( clip );
 
 					g.drawLine( r.x + i + startPos,
 							r.y,
 							r.x + i + startPos,
 							r.y + r.height );
+					g.setClip( oldClip );
 				}
 				break;
 			case RIGHT :
@@ -335,12 +341,13 @@ public abstract class BaseBorder extends AbstractBorder
 							+ r.height
 							- getGap( width[RIGHT], width[BOTTOM], i + startPos );
 					clip.union( p2 );
-					g.setClip( clip );
+					g.clipRect( clip );
 
 					g.drawLine( r.x + r.width - i - startPos, r.y, r.x
 							+ r.width
 							- i
 							- startPos, r.y + r.height );
+					g.setClip( oldClip );
 				}
 				break;
 		}

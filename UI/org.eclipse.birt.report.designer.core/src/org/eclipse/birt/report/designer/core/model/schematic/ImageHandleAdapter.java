@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.core.model.schematic;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -32,7 +32,7 @@ import org.eclipse.ui.internal.ExceptionHandler;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ImageHandleAdapter responds to model ImageHandle
  */
-public class ImageHandleAdapter extends DesignElementHandleAdapter
+public class ImageHandleAdapter extends ReportItemtHandleAdapter
 {
 
 	/**

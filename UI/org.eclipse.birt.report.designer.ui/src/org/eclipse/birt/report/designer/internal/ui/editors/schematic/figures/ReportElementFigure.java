@@ -26,6 +26,8 @@ import org.eclipse.swt.graphics.Image;
 public class ReportElementFigure extends Figure implements IReportElementFigure
 {
 
+	private static final Rectangle PRIVATE_RECT = new Rectangle( );
+
 	private Image img;
 
 	private int alignment;
@@ -35,6 +37,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	private int repeat;
 
 	private Dimension size = new Dimension( );
+
+	private Rectangle clip;
+
+	private static final Rectangle OLD_CLIP = new Rectangle( );
 
 	/**
 	 * Constructor <br>
@@ -82,6 +88,32 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 		return img;
 	}
 
+	public void setPageClip( Rectangle clip )
+	{
+		this.clip = clip;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
+	 */
+	protected void paintBorder( Graphics graphics )
+	{
+		if ( clip != null )
+		{
+			graphics.getClip( OLD_CLIP );
+			graphics.setClip( getBounds( ).getCopy( ).intersect( clip ) );
+		}
+
+		super.paintBorder( graphics );
+
+		if ( clip != null )
+		{
+			graphics.setClip( OLD_CLIP );
+		}
+	}
+
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */
@@ -97,6 +129,9 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 
 		int x, y;
 		Rectangle area = getClientArea( );
+
+		graphics.getClip( PRIVATE_RECT );
+		//graphics.setClip( area );
 
 		if ( !( position.x == -1 && position.y == -1 ) )
 		{
@@ -140,6 +175,8 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 			graphics.drawImage( image, point );
 		}
 		xyList.clear( );
+
+		graphics.setClip( PRIVATE_RECT );
 	}
 
 	/**

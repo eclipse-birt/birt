@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.ReportDeferredUpdateManager;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -40,6 +39,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 {
+	
+	/**
+	 * The actual layout area size.
+	 */
+	public static final String LAYOUT_SIZE = "Layout Size"; //$NON-NLS-1$
 
 	public void hookRefreshListener( DeferredRefreshManager refreshManager )
 	{
@@ -71,7 +75,6 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		editparts = flitterEditpart( editparts );
 		//for create handle
 		selection.addAll( editparts );
-		TableEditPart tableEditPart = null;
 
 		for ( int i = 0; i < editparts.size( ); i++ )
 		{
@@ -92,7 +95,6 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	private List flitterEditpart( List editparts )
 	{
 		int size = editparts.size( );
-		EditPart parent = null;
 
 		boolean hasCell = false;
 		boolean hasOther = false;

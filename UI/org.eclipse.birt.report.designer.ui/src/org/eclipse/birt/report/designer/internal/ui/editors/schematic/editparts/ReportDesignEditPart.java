@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
@@ -30,8 +31,12 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -47,6 +52,10 @@ import org.eclipse.gef.tools.DeselectAllTracker;
  */
 public class ReportDesignEditPart extends ReportElementEditPart
 {
+
+	private static final Point PRIVATE_POINT = new Point( );
+
+	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 
 	/**
 	 * constructor
@@ -66,11 +75,105 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	 */
 	protected IFigure createFigure( )
 	{
-		Figure figure = new ReportElementFigure( );
+		Figure figure = new ReportElementFigure( ) {
+
+			protected void paintBorder( Graphics graphics )
+			{
+				//does nothing , figure paint itself.
+			}
+
+			protected void paintFigure( Graphics graphics )
+			{
+				super.paintFigure( graphics );
+
+				graphics.setForegroundColor( ReportColorConstants.MarginMarkerColor );
+
+				Rectangle rect = getBounds( ).getCopy( )
+						.crop( getBorder( ).getInsets( this ) )
+						.crop( DEFAULT_CROP );
+
+				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
+				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
+
+				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+						+ rect.width, rect.y - 27 );
+				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+						+ rect.width
+						+ 27, rect.y );
+
+				graphics.drawLine( rect.x, rect.y + rect.height, rect.x, rect.y
+						+ rect.height
+						+ 27 );
+				graphics.drawLine( rect.x,
+						rect.y + rect.height,
+						rect.x - 27,
+						rect.y + rect.height );
+
+				graphics.drawLine( rect.x + rect.width,
+						rect.y + rect.height,
+						rect.x + rect.width + 27,
+						rect.y + rect.height );
+				graphics.drawLine( rect.x + rect.width,
+						rect.y + rect.height,
+						rect.x + rect.width,
+						rect.y + rect.height + 27 );
+
+			}
+
+			protected void paintChildren( Graphics graphics )
+			{
+				IFigure child;
+
+				for ( int i = 0; i < this.getChildren( ).size( ); i++ )
+				{
+					child = (IFigure) this.getChildren( ).get( i );
+					if ( child.isVisible( ) )
+					{
+						graphics.setClip( getBounds( ).getCopy( )
+								.intersect( child.getBounds( ) ) );
+						child.paint( graphics );
+						graphics.restoreState( );
+					}
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.draw2d.Figure#findDescendantAtExcluding(int,
+			 *      int, org.eclipse.draw2d.TreeSearch)
+			 */
+			protected IFigure findDescendantAtExcluding( int x, int y,
+					TreeSearch search )
+			{
+				PRIVATE_POINT.setLocation( x, y );
+				translateFromParent( PRIVATE_POINT );
+				if ( !getBounds( ).contains( PRIVATE_POINT ) )
+					return null;
+
+				IFigure fig;
+				for ( int i = getChildren( ).size( ); i > 0; )
+				{
+					i--;
+					fig = (IFigure) getChildren( ).get( i );
+					if ( fig.isVisible( ) )
+					{
+						fig = fig.findFigureAt( PRIVATE_POINT.x,
+								PRIVATE_POINT.y,
+								search );
+						if ( fig != null )
+							return fig;
+					}
+				}
+				//No descendants were found
+				return null;
+			}
+
+		};
 
 		figure.setOpaque( true );
 
-		ReportDesignLayout layout = new ReportDesignLayout( );
+		ReportDesignLayout layout = new ReportDesignLayout( this );
 
 		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );

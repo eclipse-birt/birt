@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
@@ -75,17 +76,16 @@ import org.eclipse.swt.widgets.Listener;
  * properties are set on the given viewer, and the value of the
  * {@link org.eclipse.gef.rulers.RulerProvider#PROPERTY_RULER_VISIBILITY visibility}
  * property.
- * 
- * @author Pratik Shah
- * @since 3.0
+ *  
  */
 public class EditorRulerComposite extends Composite
 {
+
 	private static final int TOP_LEFT = 0;
 	private static final int TOP_RIGHT = 1;
 	private static final int LEFT_TOP = 2;
 	private static final int LEFT_BOTTOM = 3;
-	
+
 	private EditDomain rulerEditDomain;
 	private GraphicalViewer left, top;
 	private FigureCanvas editor;
@@ -96,13 +96,16 @@ public class EditorRulerComposite extends Composite
 	private boolean layingOut = false;
 	private boolean isRulerVisible = true;
 	private boolean needToLayout = false;
-	private ZoomListener zoomListener = new ZoomListener() {
-		public void zoomChanged(double newZoomValue) {
-			layout(true);
+
+	private ZoomListener zoomListener = new ZoomListener( ) {
+
+		public void zoomChanged( double newZoomValue )
+		{
+			layout( true );
 		}
 	};
-	private Runnable runnable = new Runnable( )
-	{
+
+	private Runnable runnable = new Runnable( ) {
 
 		public void run( )
 		{
@@ -110,45 +113,65 @@ public class EditorRulerComposite extends Composite
 		}
 	};
 
-	private org.eclipse.birt.report.model.core.Listener designListener = new org.eclipse.birt.report.model.core.Listener()
-	{
+	private org.eclipse.birt.report.model.core.Listener designListener = new org.eclipse.birt.report.model.core.Listener( ) {
 
-		public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+		public void elementChanged( DesignElementHandle focus,
+				NotificationEvent ev )
 		{
 			switch ( ev.getEventType( ) )
 			{
 				case NotificationEvent.PROPERTY_EVENT :
 				{
-					
+
 					PropertyEvent event = (PropertyEvent) ev;
-					if (ReportDesign.UNITS_PROP.equals(event.getPropertyName()))
+					if ( ReportDesign.UNITS_PROP.equals( event.getPropertyName( ) ) )
 					{
-						setUnit(getUnitFromDesign(getReportDesignHandle().getDefaultUnits()));
-					}	
-					else if (MasterPage.LEFT_MARGIN_PROP.equals(event.getPropertyName()))
-					{
-						setMargin(TOP_LEFT);
+						setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
 					}
-					else if (MasterPage.RIGHT_MARGIN_PROP.equals(event.getPropertyName()))
+					else if ( MasterPage.LEFT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
-						setMargin(TOP_RIGHT);
+						setMargin( TOP_LEFT );
 					}
-					else if (MasterPage.TOP_MARGIN_PROP.equals(event.getPropertyName()))
+					else if ( MasterPage.RIGHT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
-						setMargin(LEFT_TOP);
+						setMargin( TOP_RIGHT );
 					}
-					else if (MasterPage.BOTTOM_MARGIN_PROP.equals(event.getPropertyName()))
+					else if ( MasterPage.TOP_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
-						setMargin(LEFT_BOTTOM);
+						setMargin( LEFT_TOP );
+					}
+					else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( event.getPropertyName( ) ) )
+					{
+						setMargin( LEFT_BOTTOM );
+					}
+					else if ( MasterPage.TYPE_PROP.equals( event.getPropertyName( ) ) )
+					{
+						layout(true);
+						setMargin( TOP_LEFT );
+						setMargin( TOP_RIGHT );
+						setMargin( LEFT_TOP );
+						setMargin( LEFT_BOTTOM );
+					}
+					else if ( MasterPage.WIDTH_PROP.equals( event.getPropertyName( ) ) )
+					{
+						layout(true);
+						setMargin( TOP_LEFT );
+						setMargin( TOP_RIGHT );
+					}
+					else if ( MasterPage.HEIGHT_PROP.equals( event.getPropertyName( ) ) )
+					{
+						layout(true);
+						setMargin( LEFT_TOP );
+						setMargin( LEFT_BOTTOM );
 					}
 					break;
 
 				}
 			}
-			
-		}		
+
+		}
 	};
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -162,8 +185,7 @@ public class EditorRulerComposite extends Composite
 	public EditorRulerComposite( Composite parent, int style )
 	{
 		super( parent, style );
-		addDisposeListener( new DisposeListener( )
-		{
+		addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
 			{
@@ -178,10 +200,9 @@ public class EditorRulerComposite extends Composite
 		final boolean isHorizontal = orientation == PositionConstants.NORTH
 				|| orientation == PositionConstants.SOUTH;
 
-		// Finish initializing the viewer
+		// Finish initialize the viewer
 		viewer.setRootEditPart( new RulerRootEditPart( isHorizontal ) );
-		viewer.setEditPartFactory( new EditorRulerEditPartFactory(
-				diagramViewer ) );
+		viewer.setEditPartFactory( new EditorRulerEditPartFactory( diagramViewer ) );
 		viewer.createControl( this );
 		( (GraphicalEditPart) viewer.getRootEditPart( ) ).getFigure( )
 				.setBorder( new RulerBorder( isHorizontal ) );
@@ -202,13 +223,13 @@ public class EditorRulerComposite extends Composite
 		canvas.setFont( font );
 		if ( isHorizontal )
 		{
-			canvas.getViewport( ).setHorizontalRangeModel(
-					editor.getViewport( ).getHorizontalRangeModel( ) );
+			canvas.getViewport( ).setHorizontalRangeModel( editor.getViewport( )
+					.getHorizontalRangeModel( ) );
 		}
 		else
 		{
-			canvas.getViewport( ).setVerticalRangeModel(
-					editor.getViewport( ).getVerticalRangeModel( ) );
+			canvas.getViewport( ).setVerticalRangeModel( editor.getViewport( )
+					.getVerticalRangeModel( ) );
 		}
 
 		// Add the viewer to the rulerEditDomain
@@ -227,16 +248,16 @@ public class EditorRulerComposite extends Composite
 	{
 		if ( diagramViewer != null )
 			diagramViewer.removePropertyChangeListener( propertyListener );
-			getZoomManager().removeZoomListener(zoomListener);
+		getZoomManager( ).removeZoomListener( zoomListener );
 		if ( font != null )
 			font.dispose( );
-		if (getReportDesignHandle() != null)
+		if ( getReportDesignHandle( ) != null )
 		{
-			getReportDesignHandle().removeListener(designListener);
+			getReportDesignHandle( ).removeListener( designListener );
 		}
-		if (getMasterPageHandle() != null)
+		if ( getMasterPageHandle( ) != null )
 		{
-			getMasterPageHandle().removeListener(designListener);
+			getMasterPageHandle( ).removeListener( designListener );
 		}
 		// layoutListener is not being removed from the scroll bars because they
 		// are already
@@ -252,7 +273,7 @@ public class EditorRulerComposite extends Composite
 		 * a listener) to the RulerRootEditPart to the RulerViewer. Break this
 		 * tie so that the viewer doesn't leak and can be garbage collected.
 		 */
-		
+
 		RangeModel rModel = new DefaultRangeModel( );
 		Viewport port = ( (FigureCanvas) viewer.getControl( ) ).getViewport( );
 		port.setHorizontalRangeModel( rModel );
@@ -272,11 +293,11 @@ public class EditorRulerComposite extends Composite
 		}
 
 		int leftWidth, rightWidth, topHeight, bottomHeight;
-		leftWidth = left == null ? 0 : left.getControl( ).computeSize(
-				SWT.DEFAULT, SWT.DEFAULT ).x;
+		leftWidth = left == null ? 0 : left.getControl( )
+				.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		rightWidth = 0;
-		topHeight = top == null ? 0 : top.getControl( ).computeSize(
-				SWT.DEFAULT, SWT.DEFAULT ).y;
+		topHeight = top == null ? 0 : top.getControl( )
+				.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		bottomHeight = 0;
 
 		Point size = getSize( );
@@ -292,7 +313,7 @@ public class EditorRulerComposite extends Composite
 		Rectangle trim = editor.computeTrim( 0, 0, 0, 0 );
 		/*
 		 * Fix for Bug# 67554 Motif leaves a few pixels of space around the
-		 * Canvas which can cause the rulers to misaligned.
+		 * Canvas which can cause the rulers to mis-aligned.
 		 */
 		if ( editor.getVerticalBar( ).getVisible( ) )
 			vBarWidth = trim.width
@@ -302,92 +323,98 @@ public class EditorRulerComposite extends Composite
 					+ ( "motif".equals( SWT.getPlatform( ) ) ? trim.y * 2 : 0 ); //$NON-NLS-1$
 
 		//Dimension dim = getMasterPageSize( getMasterPageHandle( ) );
-		PrecisionDimension dim = new PrecisionDimension(getMasterPageSize( getMasterPageHandle( ) ));
-		dim.performScale(getZoom());
+		PrecisionDimension dim = new PrecisionDimension( getLayoutSize( ).getSize( ) );
+		dim.performScale( getZoom( ) );
 		if ( left != null )
 		{
-			Rectangle leftBounds = new Rectangle( 0, topHeight - 1, leftWidth,
+			Rectangle leftBounds = new Rectangle( 0,
+					topHeight - 1,
+					leftWidth,
 					dim.height );
 			if ( !left.getControl( ).getBounds( ).equals( leftBounds ) )
 				left.getControl( ).setBounds( leftBounds );
 		}
 		if ( top != null )
 		{
-			Rectangle topBounds = new Rectangle( leftWidth - 1, 0, dim.width,
+			Rectangle topBounds = new Rectangle( leftWidth - 1,
+					0,
+					dim.width,
 					topHeight );
 			if ( !top.getControl( ).getBounds( ).equals( topBounds ) )
 				top.getControl( ).setBounds( topBounds );
 		}
 	}
 
-	public void setUnit(int unit)
+	/**
+	 * Sets the ruler unit.
+	 * 
+	 * @param unit
+	 */
+	public void setUnit( int unit )
 	{
-		if (unit != EditorRulerProvider.UNIT_NOSUPPOER)
+		if ( unit != EditorRulerProvider.UNIT_NOSUPPOER )
 		{
-//			added by gao
-			Object obj = ( (RulerProvider) diagramViewer
-					.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
+			//			added by gao
+			Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
 			if ( obj instanceof EditorRulerProvider )
 			{
-				((EditorRulerProvider)obj).setUnit(unit);
+				( (EditorRulerProvider) obj ).setUnit( unit );
 			}
 
-			obj = ( (RulerProvider) diagramViewer
-					.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) );
+			obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) );
 
 			if ( obj instanceof EditorRulerProvider )
 			{
-				((EditorRulerProvider)obj).setUnit(unit);
+				( (EditorRulerProvider) obj ).setUnit( unit );
 			}
 		}
-		
+
 	}
-	
-	public void setMargin(int direction)
+
+	/**
+	 * Sets the ruler margin.
+	 * 
+	 * @param direction
+	 */
+	public void setMargin( int direction )
 	{
 		switch ( direction )
 		{
-			case  TOP_LEFT:
+			case TOP_LEFT :
 			{
-				Object obj = ( (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) )
-						.getRuler( );
+				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					((EditorRuler) obj).setLeftMargin(getLeftMargin());
+					( (EditorRuler) obj ).setLeftMargin( getLeftMargin( ) );
 				}
 				break;
 			}
-			case  TOP_RIGHT:
+			case TOP_RIGHT :
 			{
-				Object obj = ( (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) )
-						.getRuler( );
+				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					((EditorRuler) obj).setRightMargin(getMasterPageSize(getMasterPageHandle()).width - getRightMargin());
+					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).width
+							- getRightMargin( ) );
 				}
 				break;
 			}
-			case  LEFT_TOP:
+			case LEFT_TOP :
 			{
-				Object obj = ( (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) )
-						.getRuler( );
+				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					((EditorRuler) obj).setLeftMargin(getTopMargin());
+					( (EditorRuler) obj ).setLeftMargin( getTopMargin( ) );
 				}
 				break;
 			}
-			case  LEFT_BOTTOM:
+			case LEFT_BOTTOM :
 			{
-				Object obj = ( (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) )
-						.getRuler( );
+				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					((EditorRuler) obj).setRightMargin(getMasterPageSize(getMasterPageHandle()).height - getBottomMargin());
+					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).height
+							- getBottomMargin( ) );
 				}
 				break;
 			}
@@ -395,26 +422,17 @@ public class EditorRulerComposite extends Composite
 				break;
 		}
 	}
-	
-	/**
-	 * @return
-	 */
+
 	private int getLeftMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).left  );
+		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).left );
 	}
 
-	/**
-	 * @return
-	 */
 	private int getRightMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).right  );
+		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).right );
 	}
 
-	/**
-	 * @return
-	 */
 	private int getBottomMargin( )
 	{
 		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).bottom );
@@ -422,18 +440,22 @@ public class EditorRulerComposite extends Composite
 
 	private double getZoom( )
 	{
-		return getZoomManager().getZoom();
+		return getZoomManager( ).getZoom( );
 	}
 
-	public ZoomManager getZoomManager() {
-		return (ZoomManager)diagramViewer.getProperty(ZoomManager.class.toString());
-	}
 	/**
+	 * Returns the zoom manager for current viewer.
+	 * 
 	 * @return
 	 */
+	public ZoomManager getZoomManager( )
+	{
+		return (ZoomManager) diagramViewer.getProperty( ZoomManager.class.toString( ) );
+	}
+
 	private int getTopMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).top  );
+		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).top );
 	}
 
 	private GraphicalViewer getRulerContainer( int orientation )
@@ -495,16 +517,15 @@ public class EditorRulerComposite extends Composite
 		diagramViewer = primaryViewer;
 		editor = (FigureCanvas) diagramViewer.getControl( );
 
-		getZoomManager().addZoomListener(zoomListener);
-		// layout whenever the scrollbars are shown or hidden, and whenever the
+		getZoomManager( ).addZoomListener( zoomListener );
+		// layout whenever the scrollBars are shown or hidden, and whenever the
 		// RulerComposite
 		// is resized
-		layoutListener = new Listener( )
-		{
+		layoutListener = new Listener( ) {
 
 			public void handleEvent( Event event )
 			{
-				// @TODO:Pratik If you use Display.asyncExec(runnable) here,
+				// @TODO: If you use Display.asyncExec(runnable) here,
 				// some flashing
 				// occurs. You can see it when the palette is in the editor, and
 				// you hit
@@ -518,53 +539,67 @@ public class EditorRulerComposite extends Composite
 		editor.getVerticalBar( ).addListener( SWT.Show, layoutListener );
 		editor.getVerticalBar( ).addListener( SWT.Hide, layoutListener );
 
-		propertyListener = new PropertyChangeListener( )
-		{
+		propertyListener = new PropertyChangeListener( ) {
 
 			public void propertyChange( PropertyChangeEvent evt )
 			{
 				String property = evt.getPropertyName( );
-				if ( RulerProvider.PROPERTY_HORIZONTAL_RULER.equals( property ) )
+
+				if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( property ) )
 				{
-					setRuler(
-							(RulerProvider) diagramViewer
-									.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
+					Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
+
+					if ( obj instanceof EditorRulerProvider )
+					{
+						( (EditorRulerProvider) obj ).setLayoutSize( (org.eclipse.draw2d.geometry.Rectangle) diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE ) );
+
+						layout(true);
+
+						setMargin( TOP_RIGHT );
+					}
+
+					obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) );
+
+					if ( obj instanceof EditorRulerProvider )
+					{
+						( (EditorRulerProvider) obj ).setLayoutSize( (org.eclipse.draw2d.geometry.Rectangle) diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE ) );
+
+						layout(true);
+
+						setMargin( LEFT_BOTTOM );
+					}
+
+				}
+				else if ( RulerProvider.PROPERTY_HORIZONTAL_RULER.equals( property ) )
+				{
+					setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
 							PositionConstants.NORTH );
 				}
-				else if ( RulerProvider.PROPERTY_VERTICAL_RULER
-						.equals( property ) )
+				else if ( RulerProvider.PROPERTY_VERTICAL_RULER.equals( property ) )
 				{
-					setRuler(
-							(RulerProvider) diagramViewer
-									.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
+					setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
 							PositionConstants.WEST );
 				}
-				else if ( RulerProvider.PROPERTY_RULER_VISIBILITY
-						.equals( property ) )
-					setRulerVisibility( ( (Boolean) diagramViewer
-							.getProperty( RulerProvider.PROPERTY_RULER_VISIBILITY ) )
-							.booleanValue( ) );
+				else if ( RulerProvider.PROPERTY_RULER_VISIBILITY.equals( property ) )
+					setRulerVisibility( ( (Boolean) diagramViewer.getProperty( RulerProvider.PROPERTY_RULER_VISIBILITY ) ).booleanValue( ) );
 			}
 		};
 		diagramViewer.addPropertyChangeListener( propertyListener );
-		Boolean rulerVisibility = (Boolean) diagramViewer
-				.getProperty( RulerProvider.PROPERTY_RULER_VISIBILITY );
+		Boolean rulerVisibility = (Boolean) diagramViewer.getProperty( RulerProvider.PROPERTY_RULER_VISIBILITY );
 		if ( rulerVisibility != null )
 			setRulerVisibility( rulerVisibility.booleanValue( ) );
-		setRuler( (RulerProvider) diagramViewer
-				.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
+		setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
 				PositionConstants.NORTH );
-		setRuler( (RulerProvider) diagramViewer
-				.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
+		setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
 				PositionConstants.WEST );
-		
-		setMargin(TOP_LEFT);
-		setMargin(TOP_RIGHT);
-		setMargin(LEFT_TOP);
-		setMargin(LEFT_BOTTOM);
-		setUnit(getUnitFromDesign(getReportDesignHandle().getDefaultUnits()));
-		getReportDesignHandle().addListener(designListener);
-		getMasterPageHandle().addListener(designListener);	
+
+		setMargin( TOP_LEFT );
+		setMargin( TOP_RIGHT );
+		setMargin( LEFT_TOP );
+		setMargin( LEFT_BOTTOM );
+		setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
+		getReportDesignHandle( ).addListener( designListener );
+		getMasterPageHandle( ).addListener( designListener );
 	}
 
 	private void setRuler( RulerProvider provider, int orientation )
@@ -617,6 +652,28 @@ public class EditorRulerComposite extends Composite
 	}
 
 	/**
+	 * Returns the actual layout size.
+	 * 
+	 * @return
+	 */
+	public org.eclipse.draw2d.geometry.Rectangle getLayoutSize( )
+	{
+		Object obj = diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
+
+		if ( obj instanceof org.eclipse.draw2d.geometry.Rectangle )
+		{
+			return (org.eclipse.draw2d.geometry.Rectangle) obj;
+		}
+
+		Dimension dim = getMasterPageSize( getMasterPageHandle( ) );
+
+		return new org.eclipse.draw2d.geometry.Rectangle( 0,
+				0,
+				dim.width,
+				dim.height );
+	}
+
+	/**
 	 * Get the current master page size.
 	 * 
 	 * @param handle
@@ -628,40 +685,37 @@ public class EditorRulerComposite extends Composite
 		Dimension size = null;
 
 		if ( masterPage == null
-				|| masterPage.getPageType( ).equalsIgnoreCase(
-						DesignChoiceConstants.PAGE_SIZE_US_LETTER ) )
+				|| masterPage.getPageType( )
+						.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LETTER ) )
 		{
 			size = new Dimension( MetricUtility.inchToPixel( 8.5, 11 ).x,
 					MetricUtility.inchToPixel( 8.5, 11 ).y );
 		}
-		else if ( masterPage.getPageType( ).equalsIgnoreCase(
-				DesignChoiceConstants.PAGE_SIZE_US_LEGAL ) )
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LEGAL ) )
 		{
 			size = new Dimension( MetricUtility.inchToPixel( 8.5, 14 ).x,
 					MetricUtility.inchToPixel( 8.5, 14 ).y );
 		}
-		else if ( masterPage.getPageType( ).equalsIgnoreCase(
-				DesignChoiceConstants.PAGE_SIZE_A4 ) )
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A4 ) )
 		{
 			size = new Dimension( MetricUtility.inchToPixel( 8.3, 11.7 ).x,
 					MetricUtility.inchToPixel( 8.3, 11.7 ).y );
 		}
-		else if ( masterPage.getPageType( ).equalsIgnoreCase(
-				DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
 		{
 			int width = (int) DEUtil.convertoToPixel( masterPage.getWidth( ) );
 			int height = (int) DEUtil.convertoToPixel( masterPage.getHeight( ) );
 			size = new Dimension( width, height );
 		}
 
-		if ( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE
-				.equalsIgnoreCase( masterPage.getOrientation( ) ) )
+		if ( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE.equalsIgnoreCase( masterPage.getOrientation( ) ) )
 		{
 			size = new Dimension( size.height, size.width );
 		}
 
-		//size.width = (int) ( size.width * getZoom( ) );
-		//size.height = (int) ( size.height * getZoom( ) );
 		return size;
 
 	}
@@ -673,12 +727,9 @@ public class EditorRulerComposite extends Composite
 			isRulerVisible = isVisible;
 			if ( diagramViewer != null )
 			{
-				setRuler(
-						(RulerProvider) diagramViewer
-								.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
+				setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ),
 						PositionConstants.NORTH );
-				setRuler( (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
+				setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
 						PositionConstants.WEST );
 			}
 		}
@@ -686,59 +737,52 @@ public class EditorRulerComposite extends Composite
 
 	private Insets getMasterPageInsets( MasterPageHandle masterPage )
 	{
-		return new Insets( (int) DEUtil.convertoToPixel( masterPage
-				.getTopMargin( ) ), (int) DEUtil.convertoToPixel( masterPage
-				.getLeftMargin( ) ), (int) DEUtil.convertoToPixel( masterPage
-				.getBottomMargin( ) ), (int) DEUtil.convertoToPixel( masterPage
-				.getRightMargin( ) ) );
+		return new Insets( (int) DEUtil.convertoToPixel( masterPage.getTopMargin( ) ),
+				(int) DEUtil.convertoToPixel( masterPage.getLeftMargin( ) ),
+				(int) DEUtil.convertoToPixel( masterPage.getBottomMargin( ) ),
+				(int) DEUtil.convertoToPixel( masterPage.getRightMargin( ) ) );
 	}
 
 	private MasterPageHandle getMasterPageHandle( )
 	{
-//		SlotHandle slotHandle = getReportDesignHandle( ).getMasterPages( );
-//		Iterator iter = slotHandle.iterator( );
-//		return (MasterPageHandle) iter.next( );
-		return SessionHandleAdapter.getInstance( ).getMasterPageHandle();
+		return SessionHandleAdapter.getInstance( ).getMasterPageHandle( );
 	}
 
 	private ReportDesignHandle getReportDesignHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-		//	RulerProvider privider =
-		// (RulerProvider)diagramViewer.getProperty(RulerProvider.PROPERTY_VERTICAL_RULER);
-		//	return (ReportDesignHandle)privider.getRuler();
 	}
 
-	
-	private int getUnitFromDesign(String name)
+	private int getUnitFromDesign( String name )
 	{
-		if (DesignChoiceConstants.UNITS_CM.equals(name))
+		if ( DesignChoiceConstants.UNITS_CM.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_CENTIMETERS;
 		}
-		else if (DesignChoiceConstants.UNITS_IN.equals(name))
+		else if ( DesignChoiceConstants.UNITS_IN.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_INCHES;
 		}
-		else if (DesignChoiceConstants.UNITS_PX.equals(name))
+		else if ( DesignChoiceConstants.UNITS_PX.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_PIXELS;
 		}
-		else if (DesignChoiceConstants.UNITS_MM.equals(name))
+		else if ( DesignChoiceConstants.UNITS_MM.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_MM;
 		}
-		else if (DesignChoiceConstants.UNITS_PC.equals(name))
+		else if ( DesignChoiceConstants.UNITS_PC.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_PC;
 		}
-		else if (DesignChoiceConstants.UNITS_PT.equals(name))
+		else if ( DesignChoiceConstants.UNITS_PT.equals( name ) )
 		{
 			return EditorRulerProvider.UNIT_PT;
 		}
 		return EditorRulerProvider.UNIT_NOSUPPOER;
 		//return UNIT_NOSUPPOER;
 	}
+
 	private static class RulerBorder extends AbstractBorder
 	{
 
@@ -775,28 +819,26 @@ public class EditorRulerComposite extends Composite
 			graphics.setForegroundColor( ColorConstants.buttonDarker );
 			if ( horizontal )
 			{
-				graphics
-						.drawLine( figure.getBounds( ).getTopLeft( ), figure
-								.getBounds( ).getBottomLeft( ).translate(
-										new org.eclipse.draw2d.geometry.Point(
-												0, -4 ) ) );
+				graphics.drawLine( figure.getBounds( ).getTopLeft( ),
+						figure.getBounds( )
+								.getBottomLeft( )
+								.translate( new org.eclipse.draw2d.geometry.Point( 0,
+										-4 ) ) );
 			}
 			else
 			{
-				graphics
-						.drawLine( figure.getBounds( ).getTopLeft( ), figure
-								.getBounds( ).getTopRight( ).translate(
-										new org.eclipse.draw2d.geometry.Point(
-												-4, 0 ) ) );
+				graphics.drawLine( figure.getBounds( ).getTopLeft( ),
+						figure.getBounds( )
+								.getTopRight( )
+								.translate( new org.eclipse.draw2d.geometry.Point( -4,
+										0 ) ) );
 			}
 		}
 	}
 
 	/**
 	 * Custom graphical viewer intended to be used for rulers.
-	 * 
-	 * @author Pratik Shah
-	 * @since 3.0
+	 *  
 	 */
 	private static class RulerViewer extends ScrollingGraphicalViewer
 	{
@@ -821,29 +863,31 @@ public class EditorRulerComposite extends Composite
 			super.appendSelection( editpart );
 		}
 
-//		/**
-//		 * @see org.eclipse.gef.GraphicalViewer#findHandleAt(org.eclipse.draw2d.geometry.Point)
-//		 */
-//		public Handle findHandleAt( org.eclipse.draw2d.geometry.Point p )
-//		{
-//			final GraphicalEditPart gep = (GraphicalEditPart) findObjectAtExcluding(
-//					p, new ArrayList( ) );
-//			if ( gep == null || !( gep instanceof GuideEditPart ) )
-//				return null;
-//			return new Handle( )
-//			{
-//
-//				public DragTracker getDragTracker( )
-//				{
-//					return ( (GuideEditPart) gep ).getDragTracker( null );
-//				}
-//
-//				public org.eclipse.draw2d.geometry.Point getAccessibleLocation( )
-//				{
-//					return null;
-//				}
-//			};
-//		}
+		//		/**
+		//		 * @see
+		// org.eclipse.gef.GraphicalViewer#findHandleAt(org.eclipse.draw2d.geometry.Point)
+		//		 */
+		//		public Handle findHandleAt( org.eclipse.draw2d.geometry.Point p )
+		//		{
+		//			final GraphicalEditPart gep = (GraphicalEditPart)
+		// findObjectAtExcluding(
+		//					p, new ArrayList( ) );
+		//			if ( gep == null || !( gep instanceof GuideEditPart ) )
+		//				return null;
+		//			return new Handle( )
+		//			{
+		//
+		//				public DragTracker getDragTracker( )
+		//				{
+		//					return ( (GuideEditPart) gep ).getDragTracker( null );
+		//				}
+		//
+		//				public org.eclipse.draw2d.geometry.Point getAccessibleLocation( )
+		//				{
+		//					return null;
+		//				}
+		//			};
+		//		}
 
 		/**
 		 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#init()
@@ -881,9 +925,8 @@ public class EditorRulerComposite extends Composite
 		 * @author Pratik Shah
 		 * @since 3.0
 		 */
-		protected static class RulerKeyHandler
-				extends
-					GraphicalViewerKeyHandler
+		protected static class RulerKeyHandler extends
+				GraphicalViewerKeyHandler
 		{
 
 			/**
@@ -908,14 +951,11 @@ public class EditorRulerComposite extends Composite
 					// If a guide has focus, delete it
 					if ( getFocusEditPart( ) instanceof GuideEditPart )
 					{
-						RulerEditPart parent = (RulerEditPart) getFocusEditPart( )
-								.getParent( );
-						getViewer( ).getEditDomain( ).getCommandStack( )
-								.execute(
-										parent.getRulerProvider( )
-												.getDeleteGuideCommand(
-														getFocusEditPart( )
-																.getModel( ) ) );
+						RulerEditPart parent = (RulerEditPart) getFocusEditPart( ).getParent( );
+						getViewer( ).getEditDomain( )
+								.getCommandStack( )
+								.execute( parent.getRulerProvider( )
+										.getDeleteGuideCommand( getFocusEditPart( ).getModel( ) ) );
 						event.doit = false;
 						return true;
 					}

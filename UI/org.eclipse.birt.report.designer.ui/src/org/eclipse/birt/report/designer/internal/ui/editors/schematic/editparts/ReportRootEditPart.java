@@ -19,11 +19,13 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 /**
- * Root editpart
- * 
+ * Root editPart
+ *  
  */
 public class ReportRootEditPart extends ScalableFreeformRootEditPart
 {
@@ -32,6 +34,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 
 	/**
 	 * Constructor
+	 * 
 	 * @param manager
 	 */
 	public ReportRootEditPart( DeferredRefreshManager manager )
@@ -46,12 +49,11 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	 */
 	public DragTracker getDragTracker( Request req )
 	{
-		//return super.getDragTracker(req);
 		return new RootDragTracker( );
 	}
 
 	/**
-	 * gets the DeferredRefreshManager, all editpart have only one.
+	 * gets the DeferredRefreshManager, all editPart have only one.
 	 * 
 	 * @return
 	 */
@@ -59,27 +61,48 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	{
 		return refreshManager;
 	}
-	
+
 	/**
 	 * Creates a layered pane and the layers that should be printed.
+	 * 
 	 * @see org.eclipse.gef.print.PrintGraphicalViewerOperation
 	 * @return a new LayeredPane containing the printable layers
 	 */
-	protected LayeredPane createPrintableLayers() {
-		FreeformLayeredPane layeredPane = new FreeformLayeredPane()
-		{
-			
-			/* (non-Javadoc)
-			 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
-			 */
+	protected LayeredPane createPrintableLayers( )
+	{
+		FreeformLayeredPane layeredPane = new FreeformLayeredPane( ) {
+
 			protected void paintFigure( Graphics graphics )
 			{
-				graphics.setBackgroundColor(ColorConstants.gray);
-				graphics.fillRectangle(getBounds());
+				graphics.setBackgroundColor( ColorConstants.gray );
+				graphics.fillRectangle( getBounds( ) );
 			}
 		};
-		layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
-		layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
+
+		layeredPane.add( new FreeformLayer( ), PRIMARY_LAYER );
+
+		layeredPane.add( new ConnectionLayer( ), CONNECTION_LAYER );
 		return layeredPane;
-	}	
+	}
+
+	/**
+	 * @see FreeformGraphicalRootEditPart#createLayers(LayeredPane)
+	 */
+	protected void createLayers( LayeredPane layeredPane )
+	{
+		layeredPane.add( getScaledLayers( ), SCALABLE_LAYERS );
+
+		layeredPane.add( new FreeformLayer( ), HANDLE_LAYER );
+		layeredPane.add( new FeedbackLayer( ), FEEDBACK_LAYER );
+		layeredPane.add( new GuideLayer( ), GUIDE_LAYER );
+	}
+
+	class FeedbackLayer extends FreeformLayer
+	{
+
+		FeedbackLayer( )
+		{
+			setEnabled( false );
+		}
+	}
 }

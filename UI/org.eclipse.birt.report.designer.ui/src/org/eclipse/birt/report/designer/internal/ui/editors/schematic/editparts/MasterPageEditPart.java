@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
@@ -25,7 +26,12 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.TreeSearch;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -40,8 +46,11 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
  */
 public class MasterPageEditPart extends ReportElementEditPart
 {
+	private static final Point PRIVATE_POINT = new Point( );
 
-	List children = new ArrayList( );
+	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
+
+	private List children = new ArrayList( );
 
 	/**
 	 * Constructor
@@ -100,7 +109,74 @@ public class MasterPageEditPart extends ReportElementEditPart
 	 */
 	protected IFigure createFigure( )
 	{
-		Figure figure = new ReportElementFigure( );
+		Figure figure = new ReportElementFigure( ) {
+
+			protected void paintBorder( Graphics graphics )
+			{
+				//does nothing , figure paint itself.
+			}
+
+			protected void paintFigure( Graphics graphics )
+			{
+				super.paintFigure( graphics );
+
+				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+				graphics.drawRectangle( getBounds( ).getCopy( )
+						.crop( getBorder( ).getInsets( this ) )
+						.crop( DEFAULT_CROP ) );
+			}
+			
+			protected void paintChildren( Graphics graphics )
+			{
+				IFigure child;
+
+				for ( int i = 0; i < this.getChildren( ).size( ); i++ )
+				{
+					child = (IFigure) this.getChildren( ).get( i );
+					if ( child.isVisible( ) )
+					{
+						graphics.setClip( getBounds( ).getCopy( )
+								.intersect( child.getBounds( ) ) );
+						child.paint( graphics );
+						graphics.restoreState( );
+					}
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.draw2d.Figure#findDescendantAtExcluding(int,
+			 *      int, org.eclipse.draw2d.TreeSearch)
+			 */
+			protected IFigure findDescendantAtExcluding( int x, int y,
+					TreeSearch search )
+			{
+				PRIVATE_POINT.setLocation( x, y );
+				translateFromParent( PRIVATE_POINT );
+				if ( !getBounds( ).contains( PRIVATE_POINT ) )
+					return null;
+
+				IFigure fig;
+				for ( int i = getChildren( ).size( ); i > 0; )
+				{
+					i--;
+					fig = (IFigure) getChildren( ).get( i );
+					if ( fig.isVisible( ) )
+					{
+						fig = fig.findFigureAt( PRIVATE_POINT.x,
+								PRIVATE_POINT.y,
+								search );
+						if ( fig != null )
+							return fig;
+					}
+				}
+				//No descendants were found
+				return null;
+			}
+			
+		};
+
 		figure.setOpaque( true );
 
 		figure.setBounds( new Rectangle( 0,
@@ -125,10 +201,11 @@ public class MasterPageEditPart extends ReportElementEditPart
 		int color = getBackgroundColor( (MasterPageHandle) getModel( ) );
 		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
 
+		Dimension dim = getMasterPageSize( (MasterPageHandle) getModel( ) );
 		getFigure( ).setBounds( new Rectangle( 0,
 				0,
-				getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
-				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
+				dim.width - 1,
+				dim.height - 1 ) );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
 		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( Style.BACKGROUND_COLOR_PROP ) );

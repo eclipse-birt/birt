@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation .
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
@@ -18,164 +18,246 @@ import java.util.List;
 
 import org.eclipse.gef.rulers.RulerProvider;
 
-
 /**
- * add comment here
- * 
+ * Editor ruler.
+ *  
  */
 public class EditorRuler
 {
+
 	public static final String PROPERTY_CHILDREN = "children changed"; //$NON-NLS-1$
 	public static final String PROPERTY_UNIT = "units changed"; //$NON-NLS-1$
 	public static final String PROPERTY_LEFTMARGIN = "left margin"; //$NON-NLS-1$
 	public static final String PROPERTY_RIGHTMARGIN = "right margin"; //$NON-NLS-1$
-		
+
 	static final long serialVersionUID = 1;
 
-	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	private int unit;	
+	protected PropertyChangeSupport listeners = new PropertyChangeSupport( this );
+
+	private int unit;
 	private boolean horizontal;
-	private List guides = new ArrayList();
-	
-	private int leftMargin, rightMargin;
+	private List guides = new ArrayList( );
 
 	private EditorGuide left, right;
+
 	/**
+	 * Returns the listeners.
+	 * 
 	 * @return Returns the listeners.
 	 */
 	public PropertyChangeSupport getListeners( )
 	{
 		return listeners;
 	}
+
 	/**
-	 * @param listeners The listeners to set.
+	 * Sets the listeners.
+	 * 
+	 * @param listeners
+	 *            The listeners to set.
 	 */
 	public void setListeners( PropertyChangeSupport listeners )
 	{
 		this.listeners = listeners;
 	}
+
 	/**
+	 * Returns the right margin.
+	 * 
 	 * @return Returns the rightMargin.
 	 */
 	public int getRightMargin( )
 	{
-		if (right != null)
+		if ( right != null )
 		{
-			return right.getPosition();
+			return right.getPosition( );
 		}
 		return -1;
 	}
+
 	/**
-	 * @param rightMargin The rightMargin to set.
+	 * @param rightMargin
+	 *            The rightMargin to set.
 	 */
 	public void setRightMargin( int newMargin )
 	{
-//		if (rightMargin != newMargin) {
-//			int oldUnit = rightMargin;
-//			rightMargin = newMargin;
-//			listeners.firePropertyChange(PROPERTY_RIGHTMARGIN, oldUnit, rightMargin);
-//		}
-		
-		if (right == null)
+		if ( right == null )
 		{
-			right = new EditorGuide(!isHorizontal(), EditorGuide.RIGHT);
-			right.setPosition(newMargin);
-			addGuide(right);
+			right = new EditorGuide( !isHorizontal( ), EditorGuide.RIGHT );
+			right.setPosition( newMargin );
+			addGuide( right );
 		}
-		else 
+		else
 		{
-			right.setPosition(newMargin);
+			right.setPosition( newMargin );
 		}
-	}
-	public EditorRuler(boolean isHorizontal) {
-		this(isHorizontal, RulerProvider.UNIT_INCHES);
 	}
 
-	public EditorRuler(boolean isHorizontal, int unit) {
+	/**
+	 * The constructor.
+	 * 
+	 * @param isHorizontal
+	 */
+	public EditorRuler( boolean isHorizontal )
+	{
+		this( isHorizontal, RulerProvider.UNIT_INCHES );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param isHorizontal
+	 * @param unit
+	 */
+	public EditorRuler( boolean isHorizontal, int unit )
+	{
 		horizontal = isHorizontal;
-		setUnit(unit);
+		setUnit( unit );
 	}
 
-	public void addGuide(EditorGuide guide) {
-		if (!guides.contains(guide)) {
-			guide.setHorizontal(!isHorizontal());
-			guides.add(guide);
-			listeners.firePropertyChange(PROPERTY_CHILDREN, null, guide);
+	/**
+	 * Adds ruler guide.
+	 * 
+	 * @param guide
+	 */
+	public void addGuide( EditorGuide guide )
+	{
+		if ( !guides.contains( guide ) )
+		{
+			guide.setHorizontal( !isHorizontal( ) );
+			guides.add( guide );
+			listeners.firePropertyChange( PROPERTY_CHILDREN, null, guide );
 		}
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		listeners.addPropertyChangeListener(listener);
+	/**
+	 * Adds the property listener.
+	 * 
+	 * @param listener
+	 */
+	public void addPropertyChangeListener( PropertyChangeListener listener )
+	{
+		listeners.addPropertyChangeListener( listener );
 	}
 
-//	 the returned list should not be modified
-	public List getGuides() {
+	/**
+	 * Returns the ruler guides.the returned list should not be modified.
+	 * 
+	 * @return
+	 */
+	public List getGuides( )
+	{
 		return guides;
 	}
 
-	public int getUnit() {
+	/**
+	 * Returns the ruler unit.
+	 * 
+	 * @return
+	 */
+	public int getUnit( )
+	{
 		return unit;
 	}
 
-	public boolean isHidden() {
+	/**
+	 * Returns if the ruler is hidden.
+	 * 
+	 * @return
+	 */
+	public boolean isHidden( )
+	{
 		return false;
 	}
 
-	public boolean isHorizontal() {
+	/**
+	 * Returns if the ruler is horizontal.
+	 * 
+	 * @return
+	 */
+	public boolean isHorizontal( )
+	{
 		return horizontal;
 	}
 
-	public void removeGuide(EditorGuide guide) {
-		if (guides.remove(guide)) {
-			listeners.firePropertyChange(PROPERTY_CHILDREN, null, guide);
+	/**
+	 * Removes the guide from the ruler.
+	 * 
+	 * @param guide
+	 */
+	public void removeGuide( EditorGuide guide )
+	{
+		if ( guides.remove( guide ) )
+		{
+			listeners.firePropertyChange( PROPERTY_CHILDREN, null, guide );
 		}
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		listeners.removePropertyChangeListener(listener);
+	/**
+	 * Remove the property listener.
+	 * 
+	 * @param listener
+	 */
+	public void removePropertyChangeListener( PropertyChangeListener listener )
+	{
+		listeners.removePropertyChangeListener( listener );
 	}
 
-	public void setHidden(boolean isHidden) {
+	/**
+	 * Sets the hidden property of the ruler.
+	 * 
+	 * @param isHidden
+	 */
+	public void setHidden( boolean isHidden )
+	{
 	}
 
-	public void setUnit(int newUnit) {
-		if (unit != newUnit) {
+	/**
+	 * Sets the ruler unit.
+	 * 
+	 * @param newUnit
+	 */
+	public void setUnit( int newUnit )
+	{
+		if ( unit != newUnit )
+		{
 			int oldUnit = unit;
 			unit = newUnit;
-			listeners.firePropertyChange(PROPERTY_UNIT, oldUnit, newUnit);
+			listeners.firePropertyChange( PROPERTY_UNIT, oldUnit, newUnit );
 		}
 	}
+
 	/**
+	 * Returns the left margin.
+	 * 
 	 * @return Returns the leftMargin.
 	 */
 	public int getLeftMargin( )
 	{
-		if (left != null)
+		if ( left != null )
 		{
-			return left.getPosition();
+			return left.getPosition( );
 		}
 		return -1;
 	}
+
 	/**
-	 * @param leftMargin The leftMargin to set.
+	 * Sets the left magin of the ruler.
+	 * 
+	 * @param leftMargin
+	 *            The leftMargin to set.
 	 */
 	public void setLeftMargin( int newMargin )
 	{
-//		if (leftMargin != newMargin) {
-//			int oldUnit = leftMargin;
-//			leftMargin = newMargin;
-//			listeners.firePropertyChange(PROPERTY_LEFTMARGIN, oldUnit, leftMargin);
-//		}
-		
-		if (left == null)
+		if ( left == null )
 		{
-			left = new EditorGuide(!isHorizontal(), EditorGuide.LEFT);
-			left.setPosition(newMargin);
-			addGuide(left);
+			left = new EditorGuide( !isHorizontal( ), EditorGuide.LEFT );
+			left.setPosition( newMargin );
+			addGuide( left );
 		}
-		else 
+		else
 		{
-			left.setPosition(newMargin);
+			left.setPosition( newMargin );
 		}
 	}
 }

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -106,14 +107,21 @@ public class ImageEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+
+		Insets pist = getImageAdapter( ).getPadding( getFigure( ).getInsets( ) );
+
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setInsets( pist );
+
 		Image image = null;
 		try
 		{
 			image = getImageAdapter( ).getImage( );
 		}
 		catch ( SWTException e )
-		{//Do nothing
+		{
+			//Do nothing
 		}
+
 		( (ImageFigure) this.getFigure( ) ).setStretched( image != null );
 		if ( image == null )
 		{
@@ -149,6 +157,8 @@ public class ImageEditPart extends ReportElementEditPart
 			}
 
 		}
+
+		refreshBackgroundColor( (DesignElementHandle) getModel( ) );
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),

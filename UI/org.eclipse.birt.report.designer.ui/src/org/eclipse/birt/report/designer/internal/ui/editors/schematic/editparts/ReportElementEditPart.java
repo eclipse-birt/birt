@@ -21,8 +21,10 @@ import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.ColorManager;
@@ -67,10 +69,9 @@ import org.eclipse.swt.widgets.Display;
  * Abstract super class for all report element editPart
  * </p>
  */
-public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
-		implements
-			Listener,
-			IModelAdapterHelper
+public abstract class ReportElementEditPart extends AbstractGraphicalEditPart implements
+		Listener,
+		IModelAdapterHelper
 {
 
 	private static final int DELAY_TIME = 1600;
@@ -89,7 +90,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		setModel( model );
 	}
 
-	/**Creates the guide handle, default get from parent.
+	/**
+	 * Creates the guide handle, default get from parent.
+	 * 
 	 * @return
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
@@ -102,8 +105,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return null;
 	}
 
-	/**Adds the guide handle to the handle layer.
-	 * 
+	/**
+	 * Adds the guide handle to the handle layer.
+	 *  
 	 */
 	public void addGuideFeedBack( )
 	{
@@ -114,7 +118,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 		if ( guideHandle != null && guideHandle.getParent( ) == null )
 		{
-			clearGuideHandle( );	
+			clearGuideHandle( );
 			getHandleLayer( ).add( guideHandle );
 		}
 	}
@@ -144,7 +148,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 *Removes the guide handle. 
+	 * Removes the guide handle.
 	 */
 	public void removeGuideFeedBack( )
 	{
@@ -156,20 +160,17 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		guideHandle = null;
 	}
 
-	
 	/**
-	 * Removes the guide handle after the specified
-	 * number of milliseconds.
+	 * Removes the guide handle after the specified number of milliseconds.
 	 */
 	public void delayRemoveGuideFeedBack( )
 	{
 		canDeleteGuide = true;
-		Display.getCurrent( ).timerExec( DELAY_TIME, new Runnable( )
-		{
+		Display.getCurrent( ).timerExec( DELAY_TIME, new Runnable( ) {
 
 			public void run( )
 			{
-				if (canDeleteGuide)
+				if ( canDeleteGuide )
 				{
 					removeGuideFeedBack( );
 				}
@@ -180,8 +181,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	private IFigure getHandleLayer( )
 	{
-		LayerManager manager = (LayerManager) getViewer( )
-				.getEditPartRegistry( ).get( LayerManager.ID );
+		LayerManager manager = (LayerManager) getViewer( ).getEditPartRegistry( )
+				.get( LayerManager.ID );
 		return manager.getLayer( LayerConstants.HANDLE_LAYER );
 	}
 
@@ -197,8 +198,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		addModelListener( );
 		super.activate( );
 
-		getFigure( ).addMouseMotionListener( new MouseMotionListener.Stub( )
-		{
+		refreshPageClip( );
+
+		getFigure( ).addMouseMotionListener( new MouseMotionListener.Stub( ) {
 
 			public void mouseEntered( MouseEvent me )
 			{
@@ -382,11 +384,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	 */
 	protected Font getFont( )
 	{
-		StyleHandle styleHandle = ( (ReportItemHandle) getModel( ) )
-				.getPrivateStyle( );
+		StyleHandle styleHandle = ( (ReportItemHandle) getModel( ) ).getPrivateStyle( );
 
-		String family = (String) ( styleHandle.getFontFamilyHandle( )
-				.getValue( ) );
+		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 
 		if ( FontFamily == null )
@@ -406,9 +406,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		}
 		else
 		{
-			fontSize = Integer.valueOf(
-					(String) DesignerConstants.fontMap.get( DEUtil
-							.getFontSize( handle ) ) ).intValue( );
+			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( handle ) ) )
+					.intValue( );
 		}
 
 		int fontStyle = 0;
@@ -561,13 +560,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			else if ( backGroundPosition instanceof DimensionValue[] )
 			{
 				//{0%, 0%}
-				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0]
-						.getMeasure( );
-				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1]
-						.getMeasure( );
+				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0].getMeasure( );
+				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1].getMeasure( );
 				Rectangle area = getFigure( ).getClientArea( );
-				org.eclipse.swt.graphics.Rectangle imageArea = ImageManager
-						.getImage( backGroundImage ).getBounds( );
+				org.eclipse.swt.graphics.Rectangle imageArea = ImageManager.getImage( backGroundImage )
+						.getBounds( );
 				int x = ( area.width - imageArea.width ) * percentX / 100;
 				int y = ( area.height - imageArea.height ) * percentY / 100;
 
@@ -681,49 +678,62 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		return (ReportItemtHandleAdapter) getModelAdapter( );
 	}
 
+	protected void refreshPageClip( )
+	{
+		if ( getFigure( ) instanceof ReportElementFigure )
+		{
+			Object obj = getViewer( ).getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
+
+			if ( obj instanceof Rectangle )
+			{
+				( (ReportElementFigure) getFigure( ) ).setPageClip( (Rectangle) obj );
+			}
+		}
+	}
+
 	protected void refreshBorder( DesignElementHandle handle, BaseBorder border )
 	{
-		border.bottom_color = handle.getPropertyHandle(
-				Style.BORDER_BOTTOM_COLOR_PROP ).getStringValue( );
-		border.bottom_style = handle.getPropertyHandle(
-				Style.BORDER_BOTTOM_STYLE_PROP ).getStringValue( );
-		border.bottom_width = handle.getPropertyHandle(
-				Style.BORDER_BOTTOM_WIDTH_PROP ).getStringValue( );
+		border.bottom_color = handle.getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
+				.getStringValue( );
+		border.bottom_style = handle.getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
+				.getStringValue( );
+		border.bottom_width = handle.getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
+				.getStringValue( );
 
-		border.top_color = handle.getPropertyHandle(
-				Style.BORDER_TOP_COLOR_PROP ).getStringValue( );
-		border.top_style = handle.getPropertyHandle(
-				Style.BORDER_TOP_STYLE_PROP ).getStringValue( );
-		border.top_width = handle.getPropertyHandle(
-				Style.BORDER_TOP_WIDTH_PROP ).getStringValue( );
+		border.top_color = handle.getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
+				.getStringValue( );
+		border.top_style = handle.getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
+				.getStringValue( );
+		border.top_width = handle.getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
+				.getStringValue( );
 
-		border.left_color = handle.getPropertyHandle(
-				Style.BORDER_LEFT_COLOR_PROP ).getStringValue( );
-		border.left_style = handle.getPropertyHandle(
-				Style.BORDER_LEFT_STYLE_PROP ).getStringValue( );
-		border.left_width = handle.getPropertyHandle(
-				Style.BORDER_LEFT_WIDTH_PROP ).getStringValue( );
+		border.left_color = handle.getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
+				.getStringValue( );
+		border.left_style = handle.getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
+				.getStringValue( );
+		border.left_width = handle.getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
+				.getStringValue( );
 
-		border.right_color = handle.getPropertyHandle(
-				Style.BORDER_RIGHT_COLOR_PROP ).getStringValue( );
-		border.right_style = handle.getPropertyHandle(
-				Style.BORDER_RIGHT_STYLE_PROP ).getStringValue( );
-		border.right_width = handle.getPropertyHandle(
-				Style.BORDER_RIGHT_WIDTH_PROP ).getStringValue( );
+		border.right_color = handle.getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
+				.getStringValue( );
+		border.right_style = handle.getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
+				.getStringValue( );
+		border.right_width = handle.getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
+				.getStringValue( );
 
 		getFigure( ).setBorder( border );
+
+		refreshPageClip( );
 	}
 
 	protected Insets getMasterPageInsets( DesignElementHandle handle )
 	{
-		return ( (ReportDesignHandleAdapter) getModelAdapter( ) )
-				.getMasterPageInsets( handle );
+		return ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPageInsets( handle );
 	}
 
 	protected Dimension getMasterPageSize( DesignElementHandle handle )
 	{
-		return ( (ReportDesignHandleAdapter) getModelAdapter( ) )
-				.getMasterPageSize( handle );
+		return ( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPageSize( handle );
 	}
 
 	protected int getForegroundColor( DesignElementHandle handle )
@@ -750,19 +760,19 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 	{
 		return getModelAdapter( ).getBackgroundRepeat( handle );
 	}
-	
-	protected boolean isFigureLeft(Request request)
+
+	protected boolean isFigureLeft( Request request )
 	{
-		if (!(request instanceof SelectionRequest))
+		if ( !( request instanceof SelectionRequest ) )
 		{
 			return true;
 		}
-		SelectionRequest selctionRequest = (SelectionRequest)request;
-    	Point p = selctionRequest.getLocation();
+		SelectionRequest selctionRequest = (SelectionRequest) request;
+		Point p = selctionRequest.getLocation( );
 		//getFigure().translateToAbsolute(p);
-		getFigure().translateToRelative(p);
-		Point center = getFigure().getBounds().getCenter();
-		if (center.x >= p.x)
+		getFigure( ).translateToRelative( p );
+		Point center = getFigure( ).getBounds( ).getCenter( );
+		if ( center.x >= p.x )
 		{
 			return true;
 		}
@@ -770,6 +780,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		{
 			return false;
 		}
-		
+
 	}
 }

@@ -19,6 +19,8 @@ import org.eclipse.birt.report.designer.core.commands.MoveGuideCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.rulers.RulerChangeListener;
 import org.eclipse.gef.rulers.RulerProvider;
@@ -34,8 +36,8 @@ public class EditorRulerProvider extends RulerProvider
 	public static final int UNIT_MM = 4;
 	public static final int UNIT_PT = 5;
 	public static final int UNIT_PC = 6;
-	private PropertyChangeListener rulerListener = new PropertyChangeListener( )
-	{
+
+	private PropertyChangeListener rulerListener = new PropertyChangeListener( ) {
 
 		public void propertyChange( PropertyChangeEvent evt )
 		{
@@ -52,37 +54,20 @@ public class EditorRulerProvider extends RulerProvider
 				}
 				for ( int i = 0; i < listeners.size( ); i++ )
 				{
-					( (RulerChangeListener) listeners.get( i ) )
-							.notifyGuideReparented( guide );
+					( (RulerChangeListener) listeners.get( i ) ).notifyGuideReparented( guide );
 				}
 			}
-			//			else if (evt.getPropertyName( ).equals(
-			// EditorRuler.PROPERTY_LEFTMARGIN)
-			//					|| evt.getPropertyName( ).equals(
-			// EditorRuler.PROPERTY_RIGHTMARGIN ))
-			//			{
-			//				for ( int i = 0; i < listeners.size( ); i++ )
-			//				{
-			//					if (listeners.get( i ) instanceof EditorRulerChangeListener)
-			//					{
-			//						( (EditorRulerChangeListener) listeners.get( i ) )
-			//						.notifyMarginChanged( ruler.getUnit( ) );
-			//					}
-			//					
-			//				}
-			//			}
 			else
 			{
 				for ( int i = 0; i < listeners.size( ); i++ )
 				{
-					( (RulerChangeListener) listeners.get( i ) )
-							.notifyUnitsChanged( ruler.getUnit( ) );
+					( (RulerChangeListener) listeners.get( i ) ).notifyUnitsChanged( ruler.getUnit( ) );
 				}
 			}
 		}
 	};
-	private PropertyChangeListener guideListener = new PropertyChangeListener( )
-	{
+
+	private PropertyChangeListener guideListener = new PropertyChangeListener( ) {
 
 		public void propertyChange( PropertyChangeEvent evt )
 		{
@@ -90,27 +75,25 @@ public class EditorRulerProvider extends RulerProvider
 			{
 				for ( int i = 0; i < listeners.size( ); i++ )
 				{
-					( (RulerChangeListener) listeners.get( i ) )
-							.notifyPartAttachmentChanged( evt.getNewValue( ),
-									evt.getSource( ) );
+					( (RulerChangeListener) listeners.get( i ) ).notifyPartAttachmentChanged( evt.getNewValue( ),
+							evt.getSource( ) );
 				}
 			}
 			else
 			{
 				for ( int i = 0; i < listeners.size( ); i++ )
 				{
-					( (RulerChangeListener) listeners.get( i ) )
-							.notifyGuideMoved( evt.getSource( ) );
+					( (RulerChangeListener) listeners.get( i ) ).notifyGuideMoved( evt.getSource( ) );
 				}
 			}
 		}
 	};
-	private EditorRuler ruler = null;
 
-	//private ReportDesignHandle handle
+	private EditorRuler ruler = null;
+	private Rectangle layoutSize = null;
 
 	/**
-	 * Constructuor
+	 * The constructor
 	 * 
 	 * @param handle
 	 */
@@ -121,13 +104,12 @@ public class EditorRulerProvider extends RulerProvider
 		List guides = getGuides( );
 		for ( int i = 0; i < guides.size( ); i++ )
 		{
-			( (EditorGuide) guides.get( i ) )
-					.addPropertyChangeListener( guideListener );
+			( (EditorGuide) guides.get( i ) ).addPropertyChangeListener( guideListener );
 		}
 	}
 
 	/**
-	 * Return null command to forbid create guide behavior (non-Javadoc)
+	 * Return null command to forbid create guide beHavior (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
@@ -137,7 +119,7 @@ public class EditorRulerProvider extends RulerProvider
 	}
 
 	/**
-	 * Return null command to forbid delete guide behavior (non-Javadoc)
+	 * Return null command to forbid delete guide beHavior (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
@@ -148,38 +130,71 @@ public class EditorRulerProvider extends RulerProvider
 	}
 
 	/**
-	 * Return null command to forbid move guide behavior (non-Javadoc)
+	 * Sets the actual layout size.
+	 * 
+	 * @param rct
+	 */
+	public void setLayoutSize( Rectangle rct )
+	{
+		this.layoutSize = rct;
+	}
+
+	/**
+	 * Returns the current layout size.
+	 * 
+	 * @return
+	 */
+	public Rectangle getLayoutSize( )
+	{
+		if ( layoutSize == null )
+		{
+			Dimension dim = EditorRulerComposite.getMasterPageSize( SessionHandleAdapter.getInstance( )
+					.getMasterPageHandle( ) );
+			return new Rectangle( 0, 0, dim.width, dim.height );
+		}
+
+		return this.layoutSize;
+	}
+
+	/**
+	 * Return null command to forbid move guide beHavior (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getCreateGuideCommand(int)
 	 */
 	public Command getMoveGuideCommand( Object obj, int pDelta )
 	{
 		EditorGuide guide = (EditorGuide) obj;
-		String propertyName = guide.getPropertyName();
+		String propertyName = guide.getPropertyName( );
 		if ( MasterPage.RIGHT_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = EditorRulerComposite.getMasterPageSize(SessionHandleAdapter.getInstance().getMasterPageHandle()).width
-						- (guide.getPosition( ) + pDelta);
+			pDelta = getLayoutSize( ).width - ( guide.getPosition( ) + pDelta );
 		}
 		else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = EditorRulerComposite.getMasterPageSize(SessionHandleAdapter.getInstance().getMasterPageHandle()).height
-			- (guide.getPosition( ) + pDelta);
+			pDelta = getLayoutSize( ).height - ( guide.getPosition( ) + pDelta );
 		}
 		else
 		{
 			pDelta = guide.getPosition( ) + pDelta;
 		}
 
-		return new MoveGuideCommand(pDelta,
+		return new MoveGuideCommand( pDelta,
 				( (EditorGuide) guide ).getPropertyName( ) );
 	}
 
+	/**
+	 * Returns the ruler model.
+	 * 
+	 * @return
+	 */
 	public Object getModel( )
 	{
 		return getRuler( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
+	 */
 	public int getUnit( )
 	{
 		return ruler.getUnit( );
@@ -203,19 +218,27 @@ public class EditorRulerProvider extends RulerProvider
 	public Object getRuler( )
 	{
 		return ruler;
-		//return SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
+	 */
 	public int getGuidePosition( Object guide )
 	{
 		return ( (EditorGuide) guide ).getPosition( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
+	 */
 	public List getGuides( )
 	{
 		return ruler.getGuides( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
+	 */
 	public int[] getGuidePositions( )
 	{
 		List guides = getGuides( );

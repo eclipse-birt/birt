@@ -14,21 +14,16 @@ package org.eclipse.birt.report.designer.core.model.schematic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.util.Assert;
@@ -49,7 +44,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 *            The cell handle.
 	 * @param mark
 	 */
-	public CellHandleAdapter( CellHandle cellHandle, IModelAdapterHelper mark )
+	public CellHandleAdapter( ReportElementHandle cellHandle, IModelAdapterHelper mark )
 	{
 		super( cellHandle, mark );
 	}
@@ -192,59 +187,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 		setSize( bounds.getSize( ) );
 		setLocation( new Point( bounds.getLocation( ).x,
 				bounds.getLocation( ).y ) );
-	}
-
-	/**
-	 * Get the padding of the current table.
-	 * 
-	 * @param retValue
-	 *            The padding value of the current table.
-	 * @return The padding's new value of the current table.
-	 */
-	public Insets getPadding( Insets retValue )
-	{
-		if ( retValue == null )
-		{
-			retValue = new Insets( );
-		}
-		else
-		{
-			retValue = new Insets( retValue );
-		}
-
-		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
-				.getFontSize( );
-
-		int fontSize = 12;//??
-		if ( fontHandle.getValue( ) instanceof String )
-		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
-					.intValue( );
-		}
-		else if ( fontHandle.getValue( ) instanceof DimensionValue )
-		{
-			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
-		}
-
-		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_TOP_PROP );
-		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_BOTTOM_PROP );
-		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.top = (int) px;
-		retValue.bottom = (int) py;
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_LEFT_PROP );
-		px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_RIGHT_PROP );
-		py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.left = (int) px;
-		retValue.right = (int) py;
-
-		return retValue;
 	}
 
 	private CellHandle getCellHandle( )

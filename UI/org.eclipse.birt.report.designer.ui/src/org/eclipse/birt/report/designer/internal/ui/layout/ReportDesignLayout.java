@@ -11,20 +11,33 @@
 
 package org.eclipse.birt.report.designer.internal.ui.layout;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
 
 /**
- * Provides layout management for ReportDesign element.
- * This class is extened from ReportFlowLayout. The main behavior is similar with
- * flowlayout but add inline and block support.
+ * Provides layout management for ReportDesign element. This class is extened
+ * from ReportFlowLayout. The main behavior is similar with flowlayout but add
+ * inline and block support.
  */
 
 public class ReportDesignLayout extends ReportFlowLayout
 {
 
-	Rectangle initSize = null;
+	private Rectangle initSize = null;
+	private EditPart owner;
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param viewer
+	 */
+	public ReportDesignLayout( EditPart owner )
+	{
+		this.owner = owner;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -43,10 +56,17 @@ public class ReportDesignLayout extends ReportFlowLayout
 		bounds.width = initSize.width;
 
 		parent.setBounds( bounds );
+
+		if ( owner != null )
+		{
+			owner.getViewer( )
+					.setProperty( DeferredGraphicalViewer.LAYOUT_SIZE, bounds );
+		}
 	}
 
 	/**
 	 * Set the init size of bounds.
+	 * 
 	 * @param rect
 	 */
 	public void setInitSize( Rectangle rect )

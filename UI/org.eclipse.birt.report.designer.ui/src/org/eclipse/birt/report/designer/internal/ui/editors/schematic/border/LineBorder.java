@@ -33,7 +33,7 @@ public class LineBorder extends BaseBorder
 
 	private static final Insets DEFAULT_CROP = new Insets( 0, 0, 1, 1 );
 
-	private Insets insets = new Insets( );
+	private Insets paddingInsets = new Insets( );
 
 	/*
 	 * (non-Javadoc)
@@ -70,7 +70,7 @@ public class LineBorder extends BaseBorder
 			r = getBorderWidth( right_width );
 		}
 
-		return new Insets( t, l, b, r ).add( insets );
+		return new Insets( t, l, b, r ).add( paddingInsets );
 	}
 
 	/**
@@ -78,29 +78,28 @@ public class LineBorder extends BaseBorder
 	 * 
 	 * @param in
 	 */
-	public void setInsets( Insets in )
+	public void setInsets( Insets padding )
 	{
-		if ( in == null )
+		if ( padding != null )
 		{
-			return;
+			if ( padding.top >= 0 )
+			{
+				paddingInsets.top = padding.top;
+			}
+			if ( padding.bottom >= 0 )
+			{
+				paddingInsets.bottom = padding.bottom;
+			}
+			if ( padding.left >= 0 )
+			{
+				paddingInsets.left = padding.left;
+			}
+			if ( padding.right >= 0 )
+			{
+				paddingInsets.right = padding.right;
+			}
 		}
 
-		if ( in.top >= 0 )
-		{
-			insets.top = in.top;
-		}
-		if ( in.bottom >= 0 )
-		{
-			insets.bottom = in.bottom;
-		}
-		if ( in.left >= 0 )
-		{
-			insets.left = in.left;
-		}
-		if ( in.right >= 0 )
-		{
-			insets.right = in.right;
-		}
 	}
 
 	/*
@@ -122,6 +121,8 @@ public class LineBorder extends BaseBorder
 
 		i_right_style = getBorderStyle( right_style );
 		i_right_width = getBorderWidth( right_width );
+
+		g.restoreState( );
 
 		//draw bottom line
 		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{

@@ -85,6 +85,7 @@ public abstract class ReportItemtHandleAdapter extends
 
 	/**
 	 * Set the location.
+	 * 
 	 * @param location
 	 * @throws SemanticException
 	 */
@@ -173,4 +174,5 @@ public abstract class ReportItemtHandleAdapter extends
 	{
 		return (ReportItemHandle) getHandle( );
 	}
+
 }

@@ -33,6 +33,9 @@ public interface ReportColorConstants
 	public final static Color MarginBorderColor = ColorManager.getColor( 197,
 			223,
 			244 );//0xC5DFF4
+	public final static Color MarginMarkerColor = ColorManager.getColor( 170,
+			170,
+			170 );//0xAAAAAA
 	public final static Color ListControlFillColor = ColorManager.getColor( 238,
 			236,
 			246 );//0xEEECF6

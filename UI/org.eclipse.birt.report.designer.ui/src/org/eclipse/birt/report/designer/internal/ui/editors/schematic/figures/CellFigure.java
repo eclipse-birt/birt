@@ -51,14 +51,16 @@ public class CellFigure extends ReportElementFigure
 					getBounds( ).width - 2,
 					getBounds( ).height - 2 );
 
+
+		super.paintFigure( graphics );
+		
 		if ( blankString != null && blankString.length( ) > 0 )
 		{
 			graphics.setForegroundColor( ReportColorConstants.greyFillColor );
 			drawBlankString( graphics, blankString );
 			graphics.restoreState( );
 		}
-
-		super.paintFigure( graphics );
+		
 	}
 
 	protected void drawBlankString( Graphics g, String s )

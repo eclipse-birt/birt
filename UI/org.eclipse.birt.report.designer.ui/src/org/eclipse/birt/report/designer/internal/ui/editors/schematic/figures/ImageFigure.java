@@ -12,7 +12,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -26,7 +25,7 @@ import org.eclipse.swt.graphics.Image;
  * client's responsibility to dispose the given image. There is no "free"
  * resource management in GEF.
  */
-public class ImageFigure extends Figure
+public class ImageFigure extends ReportElementFigure
 {
 
 	private Image img;
@@ -128,7 +127,10 @@ public class ImageFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		super.paintFigure( graphics );
+		if ( isOpaque( ) )
+		{
+			graphics.fillRectangle( getBounds( ) );
+		}
 
 		if ( getImage( ) == null )
 		{

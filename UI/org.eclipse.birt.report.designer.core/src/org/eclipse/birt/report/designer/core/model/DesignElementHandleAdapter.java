@@ -15,9 +15,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -26,6 +28,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
@@ -153,8 +156,8 @@ public abstract class DesignElementHandleAdapter
 	 */
 	protected Dimension getDefaultSize( )
 	{
-		return helper.getPreferredSize( ).shrink(
-				helper.getInsets( ).getWidth( ),
+		return helper.getPreferredSize( ).shrink( helper.getInsets( )
+				.getWidth( ),
 				helper.getInsets( ).getHeight( ) );
 	}
 
@@ -187,6 +190,112 @@ public abstract class DesignElementHandleAdapter
 	{
 		CommandStack stack = getReportDesign( ).handle( ).getCommandStack( );
 		stack.commit( );
+	}
+
+	/**
+	 * Get the padding of the current element.
+	 * 
+	 * @param retValue
+	 *            The padding value of the current element.
+	 * @return The padding's new value of the current element.
+	 */
+	public Insets getPadding( Insets retValue )
+	{
+		if ( retValue == null )
+		{
+			retValue = new Insets( );
+		}
+		else
+		{
+			retValue = new Insets( retValue );
+		}
+
+		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
+				.getFontSize( );
+
+		int fontSize = 12;
+		if ( fontHandle.getValue( ) instanceof String )
+		{
+			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
+					.intValue( );
+		}
+		else if ( fontHandle.getValue( ) instanceof DimensionValue )
+		{
+			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
+		}
+
+		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_TOP_PROP );
+		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_BOTTOM_PROP );
+		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.top = (int) px;
+		retValue.bottom = (int) py;
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_LEFT_PROP );
+		px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_RIGHT_PROP );
+		py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.left = (int) px;
+		retValue.right = (int) py;
+
+		return retValue;
+	}
+
+	/**
+	 * Get the margin of the current element.
+	 * 
+	 * @param retValue
+	 *            The margin value of the current element.
+	 * @return The maring's new value of the current element.
+	 */
+	public Insets getMargin( Insets retValue )
+	{
+		if ( retValue == null )
+		{
+			retValue = new Insets( );
+		}
+		else
+		{
+			retValue = new Insets( retValue );
+		}
+
+		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
+				.getFontSize( );
+
+		int fontSize = 12;
+		if ( fontHandle.getValue( ) instanceof String )
+		{
+			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
+					.intValue( );
+		}
+		else if ( fontHandle.getValue( ) instanceof DimensionValue )
+		{
+			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
+		}
+
+		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_TOP_PROP );
+		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_BOTTOM_PROP );
+		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.top = (int) px;
+		retValue.bottom = (int) py;
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_LEFT_PROP );
+		px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.MARGIN_RIGHT_PROP );
+		py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.left = (int) px;
+		retValue.right = (int) py;
+
+		return retValue;
 	}
 
 	/**
@@ -267,26 +376,27 @@ public abstract class DesignElementHandleAdapter
 		//left, center, right, top, bottom
 		if ( px instanceof String && py instanceof String )
 		{
-			return new int[]{getPosition( (String) px ),
-					getPosition( (String) py )};
+			return new int[]{
+					getPosition( (String) px ), getPosition( (String) py )
+			};
 		}
 
 		// {1cm,1cm} or {0%,0%}
 		if ( px instanceof DimensionValue && py instanceof DimensionValue )
 		{
 			// {0%,0%}
-			if ( DesignChoiceConstants.UNITS_PERCENTAGE
-					.equals( ( (DimensionValue) px ).getUnits( ) ) )
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) px ).getUnits( ) ) )
 			{
-				if ( !( DesignChoiceConstants.UNITS_PERCENTAGE
-						.equals( ( (DimensionValue) py ).getUnits( ) ) ) )
+				if ( !( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) py ).getUnits( ) ) ) )
 				{
-					return new int[]{PositionConstants.CENTER,
-							PositionConstants.CENTER};
+					return new int[]{
+							PositionConstants.CENTER, PositionConstants.CENTER
+					};
 				}
 
-				return new DimensionValue[]{(DimensionValue) px,
-						(DimensionValue) py};
+				return new DimensionValue[]{
+						(DimensionValue) px, (DimensionValue) py
+				};
 			}
 
 			// {1cm,1cm}
@@ -296,7 +406,9 @@ public abstract class DesignElementHandleAdapter
 			return new Point( x, y );
 		}
 
-		return new int[]{PositionConstants.CENTER, PositionConstants.CENTER};
+		return new int[]{
+				PositionConstants.CENTER, PositionConstants.CENTER
+		};
 	}
 
 	/**
@@ -308,8 +420,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public int getBackgroundRepeat( DesignElementHandle handle )
 	{
-		return getRepeat( handle
-				.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) );
+		return getRepeat( handle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) );
 	}
 
 	private int getPosition( String position )
@@ -339,13 +450,11 @@ public abstract class DesignElementHandleAdapter
 		{
 			return 1;
 		}
-		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT_Y
-				.equals( repeat ) )
+		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT_Y.equals( repeat ) )
 		{
 			return 2;
 		}
-		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT
-				.equals( repeat ) )
+		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT.equals( repeat ) )
 		{
 			return 3;
 		}

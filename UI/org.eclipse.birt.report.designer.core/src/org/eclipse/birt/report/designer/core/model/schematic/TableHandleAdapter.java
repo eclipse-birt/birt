@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
@@ -41,13 +40,10 @@ import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -951,59 +947,6 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		assert ( model instanceof DesignElementHandle );
 		DesignElementHandle ele = (DesignElementHandle) model;
 		ele.drop( );
-	}
-
-	/**
-	 * Get the padding of the current table.
-	 * 
-	 * @param retValue
-	 *            The padding value of the current table.
-	 * @return The padding's new value of the current table.
-	 */
-	public Insets getPadding( Insets retValue )
-	{
-		if ( retValue == null )
-		{
-			retValue = new Insets( );
-		}
-		else
-		{
-			retValue = new Insets( retValue );
-		}
-
-		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
-				.getFontSize( );
-
-		int fontSize = 12;//??
-		if ( fontHandle.getValue( ) instanceof String )
-		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
-					.intValue( );
-		}
-		else if ( fontHandle.getValue( ) instanceof DimensionValue )
-		{
-			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
-		}
-
-		DimensionValue dimensionValue = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_TOP_PROP );
-		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_BOTTOM_PROP );
-		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.top = (int) px;
-		retValue.bottom = (int) py;
-
-		dimensionValue = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_LEFT_PROP );
-		px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getReportItemHandle( ).getProperty( Style.PADDING_RIGHT_PROP );
-		py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.left = (int) px;
-		retValue.right = (int) py;
-
-		return retValue;
 	}
 
 	/**
