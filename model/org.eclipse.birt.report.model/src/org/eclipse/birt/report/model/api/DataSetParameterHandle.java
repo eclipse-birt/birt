@@ -47,7 +47,7 @@ import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class DataSetParameterHandle extends StructureHandle
@@ -242,10 +242,24 @@ public class DataSetParameterHandle extends StructureHandle
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public boolean getIsNullable( )
+	public boolean isNullable( )
 	{
 		return ( (Boolean) getProperty( DataSetParameter.IS_NULLABLE_MEMBER ) )
 				.booleanValue( );
+	}
+
+	/**
+	 * Checks whether the value of this parameter can be <code>null</code>.
+	 * 
+	 * @return <code>true</code> if the value can be <code>null</code>.
+	 *         Otherwise <code>false</code>.
+	 *         
+	 * @deprecated by {@link #isNullable()}
+	 */
+
+	public boolean getIsNullable( )
+	{
+		return isNullable( );
 	}
 
 	/**

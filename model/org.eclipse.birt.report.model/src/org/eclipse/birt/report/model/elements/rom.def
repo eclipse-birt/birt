@@ -2382,12 +2382,12 @@
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
-    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator">
+    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator" isVisible="false">
       <Default>1</Default>
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Property>
-    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator">
+    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator" isVisible="false">
       <Default>1</Default>
       <Trigger validator="CellOverlappingValidator" targetElement="Row"/>
     </Property>
