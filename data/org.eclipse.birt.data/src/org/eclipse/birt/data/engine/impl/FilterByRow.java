@@ -20,11 +20,9 @@ import org.eclipse.birt.data.engine.api.IFilterDefn;
 import org.eclipse.birt.data.engine.api.IJSExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -46,18 +44,18 @@ class FilterByRow implements IFilter
 	
 	public boolean accept( IResultObject row ) throws DataException
 	{
-		boolean isAccepted = true;
-		Iterator filterIt = filters.iterator( );
-		scriptObj.setRowObject( row );
-		while ( filterIt.hasNext( ) )
+		Context cx = Context.enter();
+		try
 		{
-			try
+			boolean isAccepted = true;
+			Iterator filterIt = filters.iterator( );
+			scriptObj.setRowObject( row );
+			while ( filterIt.hasNext( ) )
 			{
 				IFilterDefn filter = (IFilterDefn) filterIt.next( );
-
 				IBaseExpression expr = filter.getExpression( );
-
-				Object result = evaluateExpression( expr );
+	
+				Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, "Filter", 0 );
 				// filter in
 				if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == false )
 				{
@@ -65,51 +63,12 @@ class FilterByRow implements IFilter
 					break;
 				}
 			}
-
-			catch ( DataException e )
-			{
-
-				throw new DataException( ResourceConstants.EVALUATE_ERROR, e );
-			}
-
+			return isAccepted;
 		}
-		return isAccepted;
+		finally
+		{
+			Context.exit();
+		}
 	}
 
-	public Object evaluateExpression( IBaseExpression expr )
-			throws DataException, DataException
-	{
-		if ( expr == null )
-		{
-			return null;
-		}
-		else if ( expr instanceof IConditionalExpression )
-		{
-			ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
-			Object expression = evaluateExpression( ConditionalExpr
-					.getExpression( ) );
-			Object Op1 = evaluateExpression( ConditionalExpr.getOperand1( ) );
-			Object Op2 = evaluateExpression( ConditionalExpr.getOperand2( ) );
-			return JSExprCalculator.getResult( expression, ConditionalExpr
-					.getOperator( ), Op1, Op2 );
-		}
-		else
-		{
-			IJSExpression jsExpr = (IJSExpression) expr;
-			Context cx = Context.enter( );
-			try
-			{
-				return cx.evaluateString( scope, jsExpr.getText( ), "MySource",
-						1, null );
-			}
-			catch ( JavaScriptException e )
-			{
-				throw new DataException( ResourceConstants.EVALUATE_ERROR, e );
-			}
-			finally
-			{
-				Context.exit( );
-			}
-		}
-	}
 }

@@ -68,6 +68,13 @@ public class DataException extends Exception
     	this.errorCode = errorCode;
     }
 	
+    public DataException( String errorCode, Throwable cause, Object argv[] )
+    {
+    	super(cause);
+    	this.errorCode = errorCode;
+    	this.argv = argv;
+    }
+    
     /**
      * @return errrorCode
      */

@@ -88,7 +88,6 @@ public class ResourceConstants
 	public final static String DS_PARAMETER_ERROR = "DS_PARAMETER_ERROR";
 	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";	
 
-	public final static String JAVA_SCRIPT_ERROR = "JAVA_SCRIPT_ERROR";
-	public final static String EVALUATE_ERROR = "EVALUATE_ERROR";
+	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
 			
 }

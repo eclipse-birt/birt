@@ -246,7 +246,7 @@ class ResultIterator implements IResultIterator
 	    	Object resultExpr=getValue( ce.getExpression( ) );
 	    	Object resultOp1=ce.getOperand1( )!=null?getValue( ce.getOperand1( ) ):null;
 	    	Object resultOp2=ce.getOperand2( )!=null?getValue( ce.getOperand2( ) ):null;
-	    	return JSExprCalculator.getResult( resultExpr,ce.getOperator(), resultOp1,resultOp2);
+	    	return ScriptEvalUtil.evalConditionalExpr( resultExpr,ce.getOperator(), resultOp1,resultOp2);
 	    }
 	    else{
 	    	throw new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
