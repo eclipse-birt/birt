@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
@@ -156,7 +157,7 @@ public class RowHandle extends AbstractHandle implements IContainer
 		Rectangle bounds = getBounds( ).getCopy( ).resize( -1, -1 );
 		graphics.fillRectangle( bounds );
 
-		Font font = FontManager.getFont( "Dialog", 8, SWT.BOLD );//$NON-NLS-1$
+		Font font = FontManager.getFont( "Dialog", 7, SWT.NORMAL );//$NON-NLS-1$
 
 		graphics.setFont( font );
 
@@ -167,6 +168,19 @@ public class RowHandle extends AbstractHandle implements IContainer
 		int x = bounds.x + ( bounds.width - rect.width ) / 2;
 		int y = bounds.y + ( bounds.height - rect.height ) / 2;
 		graphics.drawImage( image, x, y );
+
+		TableEditPart part = (TableEditPart) getOwner( );
+		RowHandleAdapter rowHandleAdapter = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( part.getRow( getRowNumber( ) ) );
+		String type = rowHandleAdapter.getType( );
+		String displayName = rowHandleAdapter.getDisplayName( );
+
+		if ( TableHandleAdapter.TABLE_GROUP_HEADER.equals( type )
+				|| TableHandleAdapter.TABLE_GROUP_FOOTER.equals( type ) )
+		{
+			graphics.drawString( displayName, x + rect.width + 2, y + 2 );
+		}
+
 		graphics.setBackgroundColor( ColorConstants.black );
 
 		ReportFigureUtilities.paintBevel( graphics,

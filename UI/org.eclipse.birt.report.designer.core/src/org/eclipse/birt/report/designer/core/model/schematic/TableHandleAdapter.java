@@ -227,7 +227,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 *            The list
 	 */
 	protected void insertIteratorToList( Iterator iterator, List list,
-			String displayNmae, String type )
+			String displayName, String type )
 	{
 		for ( Iterator it = iterator; it.hasNext( ); )
 		{
@@ -235,7 +235,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			list.add( handle );
 			TableHandleAdapter.RowUIInfomation info = new TableHandleAdapter.RowUIInfomation( getColumnCount( ) );
 			info.setType( type );
-			info.setRowDisplayName( displayNmae );
+			info.setRowDisplayName( displayName );
 			insertIteratorToList( handle.getCells( ).iterator( ), info );
 			rowInfo.put( handle, info );
 		}
@@ -283,7 +283,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			SlotHandle groupHeaders = tableGroups.getSlot( GroupElement.HEADER_SLOT );
 			insertIteratorToList( groupHeaders.iterator( ),
 					rows,
-					( TABLE_GROUP_HEADER + number ),
+					Integer.toString( number ),
 					TABLE_GROUP_HEADER );
 		}
 
@@ -304,7 +304,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			SlotHandle groupFooters = tableGroups.getSlot( GroupElement.FOOTER_SLOT );
 			insertIteratorToList( groupFooters.iterator( ),
 					rows,
-					TABLE_GROUP_FOOTER + number,
+					Integer.toString( number ),
 					TABLE_GROUP_FOOTER );
 			number--;
 		}
