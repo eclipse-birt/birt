@@ -56,7 +56,9 @@ public class SectionBorder extends BaseBorder
 	public void setInsets( Insets in )
 	{
 		if ( in != null
-				&& in.left == 0 && in.right == 0 && in.top == 0
+				&& in.left == 0
+				&& in.right == 0
+				&& in.top == 0
 				&& in.bottom == 0 )
 		{
 			insets = new Insets( DEFAULTINSETS );
@@ -64,7 +66,7 @@ public class SectionBorder extends BaseBorder
 		}
 		insets.top = in.top > 0 ? in.top : DEFAULTINSETS.top;
 
-		insets.bottom = in.bottom > indicatorDimension.height ? in.bottom
+		insets.bottom = ( in.bottom > indicatorDimension.height && in.bottom > DEFAULTINSETS.bottom ) ? in.bottom
 				: DEFAULTINSETS.bottom;
 
 		insets.left = in.left > 0 ? in.left : DEFAULTINSETS.left;
@@ -152,8 +154,8 @@ public class SectionBorder extends BaseBorder
 			//draw default line
 			DrawDefaultLine( figure, g, in, side, r, width );
 		}
-		
-		g.restoreState();
+
+		g.restoreState( );
 	}
 
 	/**
@@ -175,10 +177,13 @@ public class SectionBorder extends BaseBorder
 		{
 			for ( int i = 0; i < width; i++ )
 			{
-				g.drawLine( r.x + indicatorDimension.width,
-						r.bottom( ) - 1 - indicatorDimension.height - i,
-						r.right( ) - 1,
-						r.bottom( ) - 1 - indicatorDimension.height - i );
+				g.drawLine( r.x + indicatorDimension.width, r.bottom( )
+						- 1
+						- indicatorDimension.height
+						- i, r.right( ) - 1, r.bottom( )
+						- 1
+						- indicatorDimension.height
+						- i );
 			}
 			drawIndicator( g,
 					figure.getBounds( ).getCropped( in ),
@@ -200,7 +205,8 @@ public class SectionBorder extends BaseBorder
 			for ( int i = 0; i < width; i++ )
 			{
 				g.drawLine( r.x + i, r.y, r.x + i, r.bottom( )
-						- 1 - indicatorDimension.height );
+						- 1
+						- indicatorDimension.height );
 			}
 			drawIndicator( g,
 					figure.getBounds( ).getCropped( in ),
@@ -214,10 +220,9 @@ public class SectionBorder extends BaseBorder
 		{
 			for ( int i = 0; i < width; i++ )
 			{
-				g.drawLine( r.right( ) - 1 - i,
-						r.bottom( ) - 1 - indicatorDimension.height,
-						r.right( ) - 1 - i,
-						r.y );
+				g.drawLine( r.right( ) - 1 - i, r.bottom( )
+						- 1
+						- indicatorDimension.height, r.right( ) - 1 - i, r.y );
 			}
 		}
 	}
@@ -248,10 +253,18 @@ public class SectionBorder extends BaseBorder
 			{
 				g.drawLine( r.x + indicatorDimension.width - 1 - width,
 						r.bottom( )
-								- 1 - indicatorDimension.height - j - width - 1,
+								- 1
+								- indicatorDimension.height
+								- j
+								- width
+								- 1,
 						r.right( ) - 1 - rightGap,
 						r.bottom( )
-								- 1 - indicatorDimension.height - j - width - 1 );
+								- 1
+								- indicatorDimension.height
+								- j
+								- width
+								- 1 );
 			}
 			drawIndicator( g,
 					figure.getBounds( ).getCropped( in ),
@@ -267,7 +280,8 @@ public class SectionBorder extends BaseBorder
 			for ( int j = 0; j < width; j++ )
 			{
 				g.drawLine( r.x + leftGap, r.y + j + width + 1, r.right( )
-						- 1 - rightGap, r.y + j + width + 1 );
+						- 1
+						- rightGap, r.y + j + width + 1 );
 			}
 		}
 		if ( side.equals( "left" ) )//$NON-NLS-1$
@@ -276,8 +290,9 @@ public class SectionBorder extends BaseBorder
 			for ( int j = 0; j < width; j++ )
 			{
 				g.drawLine( r.x + j + width + 1, r.y + topGap, r.x
-						+ j + width + 1, r.bottom( )
-						- 1 - indicatorDimension.height );
+						+ j
+						+ width
+						+ 1, r.bottom( ) - 1 - indicatorDimension.height );
 			}
 			drawIndicator( g,
 					figure.getBounds( ).getCropped( in ),
@@ -293,8 +308,10 @@ public class SectionBorder extends BaseBorder
 			for ( int j = 0; j < width; j++ )
 			{
 				g.drawLine( r.right( ) - 1 - j - width - 1, r.bottom( )
-						- 1 - indicatorDimension.height - bottomGap, r.right( )
-						- 1 - j - width - 1, r.y + topGap );
+						- 1
+						- indicatorDimension.height
+						- bottomGap, r.right( ) - 1 - j - width - 1, r.y
+						+ topGap );
 			}
 		}
 
@@ -358,14 +375,19 @@ public class SectionBorder extends BaseBorder
 					g.drawLine( indicatorArea.x + leftGap,
 							indicatorArea.bottom( ) - 1 - i - width - 1,
 							indicatorArea.x
-									+ indicatorDimension.width - 1 - width,
+									+ indicatorDimension.width
+									- 1
+									- width,
 							indicatorArea.bottom( ) - 1 - i - width - 1 );
 					g.drawLine( indicatorArea.x
-							+ indicatorDimension.width + i - width - 1,
-							indicatorArea.y - 1 - width,
-							indicatorArea.x
-									+ indicatorDimension.width + i - width - 1,
-							indicatorArea.bottom( ) - 1 - 1 - width );
+							+ indicatorDimension.width
+							+ i
+							- width
+							- 1, indicatorArea.y - 1 - width, indicatorArea.x
+							+ indicatorDimension.width
+							+ i
+							- width
+							- 1, indicatorArea.bottom( ) - 1 - 1 - width );
 				}
 			}
 			//draw text "table"
@@ -377,7 +399,8 @@ public class SectionBorder extends BaseBorder
 			}
 
 			g.drawString( indicatorLabel, x + 2 * width + 2, indicatorArea.y
-					+ gapInsets.top - width );
+					+ gapInsets.top
+					- width );
 
 		}
 		if ( side.equals( "left" ) )//$NON-NLS-1$
@@ -451,8 +474,12 @@ public class SectionBorder extends BaseBorder
 			incheight = iconDimension.height - d.height;
 		}
 		d.expand( iconDimension.width
-				+ gap + gapInsets.left + gapInsets.right + 4 * width + 2,
-				incheight + gapInsets.top + gapInsets.bottom );
+				+ gap
+				+ gapInsets.left
+				+ gapInsets.right
+				+ 4
+				* width
+				+ 2, incheight + gapInsets.top + gapInsets.bottom );
 
 		return d;
 	}
