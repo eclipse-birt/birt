@@ -11,6 +11,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.LabelHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -27,7 +28,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
@@ -186,7 +186,7 @@ public class LabelEditPart extends ReportElementEditPart
 		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
 
 		if ( !hasText( ) )
-			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorConstants.lightGray );
+			( (LabelFigure) getFigure( ) ).setForegroundColor( ReportColorConstants.ShadowLineColor );
 		else
 			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
 

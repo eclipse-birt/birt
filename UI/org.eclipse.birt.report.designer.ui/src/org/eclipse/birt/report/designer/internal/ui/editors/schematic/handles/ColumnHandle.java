@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ColumnTracker;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.IContainer;
@@ -106,7 +105,9 @@ public class ColumnHandle extends AbstractHandle implements IContainer
 	protected void initialize( )
 	{
 		setOpaque( true );
-		setBorder( new LineBorder( 1 ) );
+		LineBorder bd = new LineBorder( 1 );
+		bd.setColor( ReportColorConstants.HandleBorderColor );
+		setBorder( bd );
 		setCursor( Cursors.ARROW );
 	}
 
@@ -123,16 +124,16 @@ public class ColumnHandle extends AbstractHandle implements IContainer
 		}
 		else
 		{
-			graphics.setBackgroundColor( ReportColorConstants.HandleFillColor );
+			graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 		}
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		Rectangle bounds = getBounds( ).getCopy( );
 		graphics.fillRectangle( bounds.resize( -1, -1 ) );
 		graphics.setBackgroundColor( ColorConstants.black  );
 
-		ReportFigureUtilities.paintBevel( graphics,
-				getBounds( ).getCopy( ),
-				true );
+//		ReportFigureUtilities.paintBevel( graphics,
+//				getBounds( ).getCopy( ),
+//				true );
 	}
 
 	/*

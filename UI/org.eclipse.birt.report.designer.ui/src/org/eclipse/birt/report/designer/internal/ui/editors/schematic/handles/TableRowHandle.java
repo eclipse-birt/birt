@@ -39,7 +39,7 @@ public class TableRowHandle extends TableHFHandle
 	{
 		super( owner, new TableRowHandleLocator( owner ) );
 	}
-
+	
 	protected void initChildrenHandle( )
 	{
 		//TODO this method don't call if the column is hide

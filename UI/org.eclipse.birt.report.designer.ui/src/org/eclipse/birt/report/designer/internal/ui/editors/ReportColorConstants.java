@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors;
 
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -30,6 +31,8 @@ public interface ReportColorConstants
 	public final static Color HandleFillColor = ColorManager.getColor( 212,
 			208,
 			200 );
+	public final static Color HandleBorderColor = ColorConstants.gray;
+	
 	public final static Color MarginBorderColor = ColorManager.getColor( 197,
 			223,
 			244 );//0xC5DFF4
@@ -45,7 +48,7 @@ public interface ReportColorConstants
 	public final static Color TableGuideFillColor = ColorManager.getColor( 239,
 			239,
 			247 );//0xEFEFF7
-	public final static Color InnerLineColor = ColorManager.getColor( 204,
+	public final static Color ShadowLineColor = ColorManager.getColor( 204,
 			204,
 			204 );//0xCCCCCC
 }

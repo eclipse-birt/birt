@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
@@ -39,13 +39,15 @@ public class LineBorder extends BaseBorder
 	{
 		return getTrueBorderInsets( ).add( paddingInsets );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getBorderInsets()
 	 */
 	public Insets getBorderInsets( )
 	{
-		return getTrueBorderInsets();
+		return getTrueBorderInsets( );
 	}
 
 	/*
@@ -197,7 +199,7 @@ public class LineBorder extends BaseBorder
 		}
 		else
 		{
-			g.setForegroundColor( ColorConstants.lightGray );
+			g.setForegroundColor( ReportColorConstants.ShadowLineColor );
 			//if the border style is set to none, draw a default dot line in
 			// black as default
 			drawDefaultLine( figure, g, side, r );

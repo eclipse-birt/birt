@@ -45,7 +45,7 @@ public class CellFigure extends ReportElementFigure
 		
 		if ( blankString != null && blankString.length( ) > 0 )
 		{
-			graphics.setForegroundColor( ReportColorConstants.greyFillColor );
+			graphics.setForegroundColor( ReportColorConstants.ShadowLineColor );
 			drawBlankString( graphics, blankString );
 			graphics.restoreState( );
 		}

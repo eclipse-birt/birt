@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.MarginBorder;
@@ -44,7 +44,7 @@ public class ListBandRenderFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		graphics.setForegroundColor( ColorConstants.lightGray );
+		graphics.setForegroundColor( ReportColorConstants.ShadowLineColor );
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 2 ) );
 	}

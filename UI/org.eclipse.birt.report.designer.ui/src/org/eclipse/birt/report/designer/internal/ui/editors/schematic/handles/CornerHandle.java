@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CornerTracker;
 import org.eclipse.draw2d.Cursors;
@@ -79,7 +78,9 @@ public class CornerHandle extends AbstractHandle
 	protected void initialize( )
 	{
 		setOpaque( true );
-		setBorder( new LineBorder( 1 ) );
+		LineBorder bd = new LineBorder( 1 );
+		bd.setColor( ReportColorConstants.HandleBorderColor );
+		setBorder( bd );
 		setCursor( Cursors.ARROW );
 	}
 
@@ -90,13 +91,13 @@ public class CornerHandle extends AbstractHandle
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		graphics.setBackgroundColor( ReportColorConstants.HandleFillColor );
+		graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		graphics.fillRectangle( getBounds( ).getCopy( ).resize( -1, -1 ) );
 
-		ReportFigureUtilities.paintBevel( graphics,
-				getBounds( ).getCopy( ),
-				true );
+//		ReportFigureUtilities.paintBevel( graphics,
+//				getBounds( ).getCopy( ),
+//				true );
 
 	}
 

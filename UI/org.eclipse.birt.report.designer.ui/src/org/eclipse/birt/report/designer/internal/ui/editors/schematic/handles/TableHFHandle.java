@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.draw2d.Cursors;
@@ -29,7 +30,7 @@ import org.eclipse.gef.handles.AbstractHandle;
 public abstract class TableHFHandle extends AbstractHandle
 {
 
-	public static final int WIDTH = 50;
+	public static final int WIDTH = 40;
 
 	public static final int HEIGHT = 19;
 
@@ -77,7 +78,9 @@ public abstract class TableHFHandle extends AbstractHandle
 		//should draw the fill rectangle
 		setOpaque( true );
 		//draw the border line width is 1
-		setBorder( new LineBorder( 1 ) );
+		LineBorder bd = new LineBorder( 1 );
+		bd.setColor( ReportColorConstants.HandleBorderColor );
+		setBorder( bd );
 
 		//set the default cursor, may not be a SIZEALL cursor()
 		setCursor( Cursors.ARROW );

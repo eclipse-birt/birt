@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -62,7 +61,7 @@ public class TableGuideHandle extends AbstractGuideHandle
 		bounds.y = bounds.y + 2;
 		graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 		graphics.fillRectangle( bounds );
-		graphics.setForegroundColor( ColorConstants.lightGray );
+		graphics.setForegroundColor( ReportColorConstants.ShadowLineColor );
 		bounds = getBounds( ).getCopy( );
 		graphics.drawLine( bounds.x, bounds.y, bounds.x, bounds.y
 				+ bounds.height );
@@ -71,6 +70,11 @@ public class TableGuideHandle extends AbstractGuideHandle
 		graphics.drawLine( bounds.x + bounds.width - 1, bounds.y, bounds.x
 				+ bounds.width
 				- 1, bounds.y + bounds.height );
+		graphics.setForegroundColor( ReportColorConstants.TableGuideFillColor );
+		graphics.drawLine( bounds.x,
+				bounds.y ,
+				bounds.x + bounds.width - 1,
+				bounds.y );
 		int x = getBounds( ).x + gapInsets.left;
 		if ( image != null )
 		{

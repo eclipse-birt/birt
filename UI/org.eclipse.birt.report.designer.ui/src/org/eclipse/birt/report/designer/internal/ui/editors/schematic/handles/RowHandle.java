@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.IContainer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RowTracker;
@@ -125,7 +124,9 @@ public class RowHandle extends AbstractHandle implements IContainer
 	protected void initialize( )
 	{
 		setOpaque( true );
-		setBorder( new LineBorder( 1 ) );
+		LineBorder bd = new LineBorder( 1 );
+		bd.setColor( ReportColorConstants.HandleBorderColor );
+		setBorder( bd );
 
 		String tp = getTooltipText( );
 		if ( tp != null )
@@ -151,7 +152,7 @@ public class RowHandle extends AbstractHandle implements IContainer
 		}
 		else
 		{
-			graphics.setBackgroundColor( ReportColorConstants.HandleFillColor );
+			graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 		}
 
 		graphics.setLineStyle( SWT.LINE_SOLID );
@@ -184,9 +185,9 @@ public class RowHandle extends AbstractHandle implements IContainer
 
 		graphics.setBackgroundColor( ColorConstants.black );
 
-		ReportFigureUtilities.paintBevel( graphics,
-				getBounds( ).getCopy( ),
-				true );
+		//		ReportFigureUtilities.paintBevel( graphics,
+		//				getBounds( ).getCopy( ),
+		//				true );
 
 	}
 
@@ -304,8 +305,10 @@ public class RowHandle extends AbstractHandle implements IContainer
 		}
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#getOwner()
 	 */
 	public GraphicalEditPart getOwner( )

@@ -75,7 +75,7 @@ public class ListBandControlFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		graphics.setForegroundColor( ColorConstants.lightGray );
+		graphics.setForegroundColor( ReportColorConstants.ShadowLineColor );
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 1 ) );
 		graphics.setBackgroundColor( ReportColorConstants.ListControlFillColor );
