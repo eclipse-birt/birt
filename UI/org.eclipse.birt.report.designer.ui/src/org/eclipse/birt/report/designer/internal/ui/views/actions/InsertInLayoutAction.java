@@ -80,17 +80,17 @@ public class InsertInLayoutAction extends AbstractViewAction
 	static class InsertColumnInLayoutRule implements InsertInLayoutRule
 	{
 
-		private CellHandle cell;
+		private Object container;
 
-		private DesignElementHandle target;
+		private DesignElementHandle newTarget;
 
 		private static final int[] SUPPORTED_DATA_SLOT = new int[]{
 			TableItem.DETAIL_SLOT
 		};
 
-		public InsertColumnInLayoutRule( CellHandle cell )
+		public InsertColumnInLayoutRule( Object container )
 		{
-			this.cell = cell;
+			this.container = container;
 		}
 
 		/*
@@ -100,6 +100,11 @@ public class InsertInLayoutAction extends AbstractViewAction
 		 */
 		public boolean canInsert( )
 		{
+			if ( !( container instanceof CellHandle ) )
+				return false;
+
+			CellHandle cell = (CellHandle) container;
+
 			//Validates slot id of date item
 			int tableSlotId = cell.getContainer( )
 					.getContainerSlotHandle( )
@@ -125,11 +130,12 @@ public class InsertInLayoutAction extends AbstractViewAction
 					int columnNum = HandleAdapterFactory.getInstance( )
 							.getCellHandleAdapter( cell )
 							.getColumnNumber( );
-					target = (CellHandle) HandleAdapterFactory.getInstance( )
+					newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
 							.getTableHandleAdapter( table )
 							.getCell( 1, columnNum, false );
-					return target != null
-							&& ( (CellHandle) target ).getContent( ).getCount( ) == 0;
+					return newTarget != null
+							&& ( (CellHandle) newTarget ).getContent( )
+									.getCount( ) == 0;
 				}
 			}
 			return false;
@@ -142,7 +148,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 		 */
 		public DesignElementHandle getInsertPosition( )
 		{
-			return target;
+			return newTarget;
 		}
 
 	}
@@ -306,7 +312,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 				}
 			}
 
-			InsertColumnInLayoutRule rule = new InsertColumnInLayoutRule( (CellHandle) targetPart.getModel( ) );
+			InsertColumnInLayoutRule rule = new InsertColumnInLayoutRule( targetPart.getModel( ) );
 			if ( rule.canInsert( ) )
 			{
 				LabelHandle label = SessionHandleAdapter.getInstance( )
@@ -425,7 +431,8 @@ public class InsertInLayoutAction extends AbstractViewAction
 		}
 		Object container = dropPart.getParent( ).getModel( );
 		return ( container instanceof GridHandle
-				|| container instanceof TableHandle || container instanceof FreeFormHandle );
+				|| container instanceof TableHandle
+				|| container instanceof FreeFormHandle || container instanceof ListHandle );
 	}
 
 	/**
