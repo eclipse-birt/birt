@@ -152,11 +152,11 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "engineservlet", report, format ); //$NON-NLS-1$
+			root = createURL( "run", report, format ); //$NON-NLS-1$
 		}
 		else
 		{
-			root = createURL( "viewerservlet", report, format ); //$NON-NLS-1$
+			root = createURL( "frameset", report, format ); //$NON-NLS-1$
 		}
 
 		try
@@ -179,7 +179,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
-		browser.setUrl( createURL( "engineservlet", report, format ) ); //$NON-NLS-1$
+		browser.setUrl( createURL( "run", report, format ) ); //$NON-NLS-1$
 	}
 
 }
