@@ -2667,8 +2667,9 @@ public final class PlotWith2DAxes extends PlotContent
      * @return @throws
      *         DataFormatException
      */
-    public final SeriesRenderingHints getSeriesRenderingHints(Series seOrthogonal) throws NullValueException,
-        DataFormatException, NotFoundException, OutOfSyncException, UndefinedValueException, UnexpectedInputException
+    public final SeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal) 
+    	throws NullValueException, DataFormatException, NotFoundException,
+    	OutOfSyncException, UndefinedValueException, UnexpectedInputException
     {
         if (seOrthogonal == null || seOrthogonal.getClass() == SeriesImpl.class) // EMPTY PLOT RENDERING TECHNIQUE
         {
@@ -2679,13 +2680,14 @@ public final class PlotWith2DAxes extends PlotContent
         {
             throw new NotFoundException("Axis definition for series " + seOrthogonal + " could not be found");
         }
-        OneAxis oaxBase = aax.getPrimaryBase();
+        final OneAxis oaxBase = aax.getPrimaryBase();
+        final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis().getSeriesDefinitions().get(0);
         
-        AutoScale scBase = oaxBase.getScale();
-        AutoScale scOrthogonal = oaxOrthogonal.getScale();
-        int iTickCount = scBase.getTickCount();
+        final AutoScale scBase = oaxBase.getScale();
+        final AutoScale scOrthogonal = oaxOrthogonal.getScale();
+        final int iTickCount = scBase.getTickCount();
         int iUnitCount = iTickCount;
-        double dUnitSize = scBase.getUnitSize();
+        final double dUnitSize = scBase.getUnitSize();
         if (scBase.getType() == IConstants.DATE_TIME)
         {
             // TBD: HANDLE DATETIME VALUE VS TEXT AXIS
@@ -2740,10 +2742,18 @@ public final class PlotWith2DAxes extends PlotContent
             if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
             {
                 fsBase = dpc.getFormatSpecifier();
+                if (fsBase == null) // BACKUP
+                {
+                    fsBase = sdBase.getFormatSpecifier();
+                }
             }
             else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
             {
                 fsOrthogonal = dpc.getFormatSpecifier();
+                if (fsOrthogonal == null) // BACKUP
+                {
+                    fsOrthogonal = sdOrthogonal.getFormatSpecifier();
+                }
             }
             else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
             {

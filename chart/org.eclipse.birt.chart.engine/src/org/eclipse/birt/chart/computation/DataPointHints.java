@@ -263,15 +263,15 @@ public final class DataPointHints
             dpct = dpc.getType();
             if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
             {
-                sb.append(getBaseDisplayValue(dpc.getFormatSpecifier()));
+                sb.append(getBaseDisplayValue());
             }
             else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
             {
-                sb.append(getOrthogonalDisplayValue(dpc.getFormatSpecifier()));
+                sb.append(getOrthogonalDisplayValue());
             }
             else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
             {
-                sb.append(getOrthogonalDisplayValue(dpc.getFormatSpecifier()));
+                sb.append(getOrthogonalDisplayValue());
             }
 
             if (i < el.size() - 1)

@@ -376,8 +376,11 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
         dp.setSuffix(sSuffix);
         dp.setSeparator(sSeparator);
         dp.getComponents().add(
-            DataPointComponentImpl.create(DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-                JavaNumberFormatSpecifierImpl.create("0.00")));
+            DataPointComponentImpl.create(
+                DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+                null
+            )
+        );
         return dp;
     }
 } //DataPointImpl

@@ -258,7 +258,7 @@ public final class Generator
                 }
                 else
                 {
-                    br.set(((PlotWith2DAxes) br.getComputations()).getSeriesRenderingHints(br.getSeries()));
+                    br.set(((PlotWith2DAxes) br.getComputations()).getSeriesRenderingHints(br.getSeriesDefinition(), br.getSeries()));
                 }
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTE_SERIES, br.getSeries());
                 br.compute(bo, cmRunTime.getPlot(), br.getSeriesRenderingHints());

@@ -933,7 +933,7 @@ public abstract class AxesRenderer extends BaseRenderer
         SeriesRenderingHints srh = null;
         try
         {
-            srh = ((PlotWith2DAxes) getComputations()).getSeriesRenderingHints(getSeries());
+            srh = ((PlotWith2DAxes) getComputations()).getSeriesRenderingHints(getSeriesDefinition(), getSeries());
         }
         catch (Exception ex )
         {
