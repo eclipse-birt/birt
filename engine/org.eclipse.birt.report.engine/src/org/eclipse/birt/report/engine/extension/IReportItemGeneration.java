@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.extension;
 
-import java.io.OutputStream;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -39,14 +38,14 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
  * <li> Call finish() for cleanup.
  */
 public interface IReportItemGeneration {
-	public static String ITEM_BOUNDS 				= "bounds"; 		 //$NON-NLS-1$
-	public static String RESOLUTION	 				= "dpi"; 			 //$NON-NLS-1$
-	public static String SCALING_FACTOR 			= "scale";			 //$NON-NLS-1$
-	public static String MODEL_OBJ					= "model";			 //$NON-NLS-1$
-	public static String GENERATION_STAGE			= "generationStage";		 //$NON-NLS-1$
+	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String GENERATION_STAGE			= "generationStage";		// $NON-NLS-1$ //$NON-NLS-1$
 	
-	public static String GENERATION_STAGE_PREPARATION		= "preparation";	 //$NON-NLS-1$
-	public static String GENERATION_STAGE_EXECUTION			= "execution";		 //$NON-NLS-1$
+	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$ //$NON-NLS-1$
+	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$ //$NON-NLS-1$
 	
     /**
      * Initializes the generation object before it processes the extended item. The 
@@ -100,7 +99,7 @@ public interface IReportItemGeneration {
      * @param ostream output stream so that the peer can serialize its content
      * @return the number of bytes that the extended item has written 
      */
-    public long serialize(OutputStream ostream) throws BirtException;
+    public IReportItemSerializable getGenerateState();
     
     /**
      * Performs clean up

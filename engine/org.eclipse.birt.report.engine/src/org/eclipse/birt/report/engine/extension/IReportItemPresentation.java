@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.extension;
 
-import java.io.InputStream;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -39,7 +38,6 @@ public interface IReportItemPresentation {
 	public static String MODEL_OBJ				= "model";		 //$NON-NLS-1$
 	public static String SUPPORTED_FILE_FORMATS	= "formats";		 //$NON-NLS-1$
 	public static String OUTPUT_FORMAT			= "outputFormat";		//$NON-NLS-1$ 
-
 	
     public static int OUTPUT_NONE = 0;     
     public static int OUTPUT_AS_IMAGE = 1;	// Only this format is supported for now
@@ -47,7 +45,7 @@ public interface IReportItemPresentation {
     public static int OUTPUT_AS_HTML_TEXT = 3;
     public static int OUTPUT_AS_DRAWING = 4;
     public static int OUTPUT_AS_CUSTOM = 5;
-     
+    
     /**
      * Initializes the presentation peer before it is asked to perform any rendering.
      * 
@@ -58,8 +56,9 @@ public interface IReportItemPresentation {
      *  RESOLUTION		optional, but preferred. Otherwise, use implementer's default
      *  SCALING_FACTOR	optional, default is 1.0
      *  MODEL_OBJ		Required
-     *  FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
-     *  
+     *  SUPPORTED_FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
+     *  TARGET_OUTPUT_FORMAT	Required
+     * 
      */
     public void initialize(HashMap parameters) throws BirtException;
     
@@ -69,7 +68,7 @@ public interface IReportItemPresentation {
      * 
      * @param instream input stream so that the peer can de-serialize its state
      */
-    public void restore(InputStream instream) throws BirtException;
+    public void restoreGenerationState(IReportItemSerializable genState);
     
     /**
      * @param format the output format for the request 

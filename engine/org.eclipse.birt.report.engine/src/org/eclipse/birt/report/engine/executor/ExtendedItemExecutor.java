@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.extension.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
+import org.eclipse.birt.report.engine.extension.IReportItemSerializable;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -83,12 +84,13 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			return;
 		}
 
+		IReportItemSerializable itemCustomizedState = null;
 		try
 		{
 			// handle the parameters passed to extension writers
 			HashMap parameters = new HashMap( );
 			parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );			
+			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemGeneration.initialize( parameters );
 	
@@ -97,8 +99,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			// Get the dirty work done
 			itemGeneration.process( context.getDataEngine( ) );
 	
-			// No serialization support now
-			itemGeneration.serialize( null );
+			// retrieve the customized state for the extended item 
+			itemCustomizedState = itemGeneration.getGenerateState();
 	
 			// call getSize
 			// Size size = getSize();
@@ -133,8 +135,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemPresentation.initialize( parameters2 );
 	
-			// No de-serialization support for now
-			itemPresentation.restore( null );
+			// restore the customized state for the extended item 
+			itemPresentation.restoreGenerationState(itemCustomizedState);
 	
 			// Do the dirty work
 			Object output = itemPresentation.process( );
