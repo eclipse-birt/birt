@@ -143,7 +143,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         glButtons.numColumns = 2;
         glButtons.horizontalSpacing = 5;
         glButtons.verticalSpacing = 0;
-        glButtons.marginWidth = 7;
+        glButtons.marginWidth = 0;
         glButtons.marginHeight = 0;
 
         Composite cmpButtons = new Composite(cmpContent, SWT.NONE);
