@@ -42,13 +42,14 @@ public class FormatSpecifierDialog implements SelectionListener
 
     private transient FormatSpecifier fsBackup = null;
 
+    private transient boolean bWasCancelled = true;
+
     /**
      *  
      */
     public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier)
     {
         super();
-        this.formatspecifier = formatspecifier;
         if (formatspecifier == null)
         {
             this.formatspecifier = AttributeFactory.eINSTANCE.createNumberFormatSpecifier();
@@ -56,7 +57,8 @@ public class FormatSpecifierDialog implements SelectionListener
         }
         else
         {
-            fsBackup = null;
+            this.formatspecifier = (FormatSpecifier) EcoreUtil.copy(formatspecifier);
+            fsBackup = formatspecifier;
         }
 
         shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
@@ -119,6 +121,10 @@ public class FormatSpecifierDialog implements SelectionListener
 
     public FormatSpecifier getFormatSpecifier()
     {
+        if (bWasCancelled)
+        {
+            return null;
+        }
         return formatspecifier;
     }
 
@@ -132,6 +138,7 @@ public class FormatSpecifierDialog implements SelectionListener
         if (e.getSource().equals(btnAccept))
         {
             formatspecifier = editor.getFormatSpecifier();
+            bWasCancelled = false;
             shell.dispose();
         }
         else if (e.getSource().equals(btnCancel))
