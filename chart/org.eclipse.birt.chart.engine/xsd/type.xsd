@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelType" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:chart="http://www.birt.eclipse.org/ChartModel"
+xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
+xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
+xmlns:data="http://www.birt.eclipse.org/ChartModelData"
+xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
+xmlns="http://www.birt.eclipse.org/ChartModelType" 
+>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelLayout" schemaLocation="layout.xsd"/>
+	<!--	Bar Series	-->
+	<xsd:complexType name="BarSeries">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a Series type that holds data for Bar Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="component:Series">
+				<xsd:sequence>
+					<xsd:element name="Riser" type="attribute:RiserType" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the 'Riser' to be used for displaying the data values in the chart.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="RiserOutline" type="attribute:ColorDefinition" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the color to be used for the Riser outline.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Pie Series	-->
+	<xsd:complexType name="PieSeries">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a Series type that holds data for Pie Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="component:Series">
+				<xsd:sequence>
+					<xsd:element name="Explosion" type="xsd:int" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the 'Explosion' value to be used while displaying the pie slices.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Title" type="component:Label">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the properties for a series title.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TitlePosition" type="attribute:Position">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the position property for a series title.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LeaderLineAttributes" type="attribute:LineAttributes">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the attributes for leader lines.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LeaderLineStyle" type="attribute:LeaderLineStyle">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies how the leader lines are to be shown.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LeaderLineLength" type="attribute:Percentage">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Length for the leader lines. Used only if style is 'FIXED_LENGTH'.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="SliceOutline" type="attribute:ColorDefinition" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the color to be used for the slice outline.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Line Series	-->
+	<xsd:complexType name="LineSeries">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a Series type that holds data for Line Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="component:Series">
+				<xsd:sequence>
+					<xsd:element name="Marker" type="attribute:Marker" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the marker to be used for displaying the data point on the line in the chart.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LineAttributes" type="attribute:LineAttributes" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the attributes for the line used to represent this series.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Curve" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Indicates whether the line segments joining data points in the series are to be drawn as curves or as straight lines.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ShadowColor" type="attribute:ColorDefinition">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the color to be used for the shadow.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Scatter Series	-->
+	<xsd:complexType name="ScatterSeries">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a Series type that holds data for Scatter Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="LineSeries"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Stock Series	-->
+	<xsd:complexType name="StockSeries">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a Series type that holds data for Stock Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="component:Series">
+				<xsd:sequence>
+					<xsd:element name="Fill" type="attribute:Fill" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the fill to be used for the Candle.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="LineAttributes" type="attribute:LineAttributes" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the style to be used to display the lines for this series.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,296 @@
+/***********************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
+package org.eclipse.birt.chart.ui.swt.composites;
+
+import java.util.Vector;
+
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+
+/**
+ * @author Actuate Corporation
+ *  
+ */
+public class LineAttributesComposite extends Composite implements SelectionListener, Listener
+{
+
+    private transient Composite cmpContent = null;
+
+    private transient Composite cmpVisible = null;
+
+    private transient LineStyleChooserComposite cmbStyle = null;
+
+    private transient LineWidthChooserComposite cmbWidth = null;
+
+    private transient FillChooserComposite cmbColor = null;
+
+    private transient Button cbVisible = null;
+
+    private transient LineAttributes laCurrent = null;
+
+    private transient boolean bEnableWidths = true;
+
+    private transient boolean bEnableStyles = true;
+
+    private transient Vector vListeners = null;
+
+    public static final int STYLE_CHANGED_EVENT = 1;
+
+    public static final int WIDTH_CHANGED_EVENT = 2;
+
+    public static final int COLOR_CHANGED_EVENT = 3;
+
+    public static final int VISIBILITY_CHANGED_EVENT = 4;
+
+    /**
+     * @param parent
+     * @param style
+     */
+    public LineAttributesComposite(Composite parent, int style, LineAttributes laCurrent, boolean bEnableWidths,
+        boolean bEnableStyles)
+    {
+        super(parent, style);
+        this.laCurrent = laCurrent;
+        if (laCurrent == null)
+        {
+            // Create a default line attributes instance
+            this.laCurrent = AttributeFactory.eINSTANCE.createLineAttributes();
+        }
+        this.bEnableStyles = bEnableStyles;
+        this.bEnableWidths = bEnableWidths;
+        init();
+        placeComponents();
+    }
+
+    /**
+     *  
+     */
+    private void init()
+    {
+        this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
+        vListeners = new Vector();
+    }
+
+    /**
+     *  
+     */
+    private void placeComponents()
+    {
+        FillLayout flMain = new FillLayout();
+        flMain.marginHeight = 2;
+        flMain.marginWidth = 2;
+
+        GridLayout glContent = new GridLayout();
+        glContent.verticalSpacing = 2;
+        glContent.horizontalSpacing = 20;
+        glContent.marginHeight = 2;
+        glContent.marginWidth = 2;
+        glContent.numColumns = 6;
+
+        FillLayout flVisible = new FillLayout();
+        flVisible.marginHeight = 2;
+        flVisible.marginWidth = 0;
+
+        this.setLayout(flMain);
+
+        cmpContent = new Composite(this, SWT.NONE);
+        cmpContent.setLayout(glContent);
+
+        cmpVisible = new Composite(cmpContent, SWT.NONE);
+        GridData gdCMPVisible = new GridData(GridData.FILL_BOTH);
+        gdCMPVisible.horizontalSpan = 6;
+        cmpVisible.setLayoutData(gdCMPVisible);
+        cmpVisible.setLayout(flVisible);
+
+        cbVisible = new Button(cmpVisible, SWT.CHECK);
+        cbVisible.setText("Is Visible");
+        cbVisible.setSelection(laCurrent.isVisible());
+        cbVisible.addSelectionListener(this);
+
+        if (bEnableStyles)
+        {
+            Label lblStyle = new Label(cmpContent, SWT.NONE);
+            GridData gdLStyle = new GridData(GridData.FILL);
+            lblStyle.setLayoutData(gdLStyle);
+            lblStyle.setText("Style:");
+
+            cmbStyle = new LineStyleChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY,
+                getSWTLineStyle(laCurrent.getStyle()));
+            GridData gdCBStyle = new GridData(GridData.FILL_BOTH);
+            gdCBStyle.horizontalSpan = 5;
+            cmbStyle.setLayoutData(gdCBStyle);
+            cmbStyle.addListener(this);
+        }
+
+        if (bEnableWidths)
+        {
+            Label lblWidth = new Label(cmpContent, SWT.NONE);
+            GridData gdLWidth = new GridData(GridData.FILL);
+            lblWidth.setLayoutData(gdLWidth);
+            lblWidth.setText("Width:");
+
+            cmbWidth = new LineWidthChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, laCurrent
+                .getThickness());
+            GridData gdCBWidth = new GridData(GridData.FILL_BOTH);
+            gdCBWidth.horizontalSpan = 5;
+            cmbWidth.setLayoutData(gdCBWidth);
+            cmbWidth.addListener(this);
+        }
+
+        Label lblColor = new Label(cmpContent, SWT.NONE);
+        GridData gdLColor = new GridData(GridData.FILL);
+        lblColor.setLayoutData(gdLColor);
+        lblColor.setText("Color:");
+
+        cmbColor = new FillChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, this.laCurrent.getColor(),
+            false, false);
+        GridData gdCBColor = new GridData(GridData.FILL_BOTH);
+        gdCBColor.horizontalSpan = 5;
+        cmbColor.setLayoutData(gdCBColor);
+        cmbColor.addListener(this);
+    }
+
+    public Point getPreferredSize()
+    {
+        Point ptSize = new Point(250, 70);
+        if (bEnableStyles)
+        {
+            ptSize.y += 30;
+        }
+        if (bEnableWidths)
+        {
+            ptSize.y += 30;
+        }
+        return ptSize;
+    }
+
+    public void addListener(Listener listener)
+    {
+        vListeners.add(listener);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+     */
+    public void widgetSelected(SelectionEvent e)
+    {
+        Object oSource = e.getSource();
+        if (oSource.equals(cbVisible))
+        {
+            // Notify Listeners that a change has occurred in the value
+            fireValueChangedEvent(LineAttributesComposite.VISIBILITY_CHANGED_EVENT, new Boolean(cbVisible
+                .getSelection()));
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+     */
+    public void widgetDefaultSelected(SelectionEvent e)
+    {
+    }
+
+    private void fireValueChangedEvent(int iEventType, Object data)
+    {
+        for (int iL = 0; iL < vListeners.size(); iL++)
+        {
+            Event se = new Event();
+            se.widget = this;
+            se.data = data;
+            se.type = iEventType;
+            ((Listener) vListeners.get(iL)).handleEvent(se);
+        }
+    }
+
+    /*
+     * Converts the specified SWT line style constant to a chart model's LineStyle object
+     */
+    private LineStyle getModelLineStyle(int iStyle)
+    {
+        switch (iStyle)
+        {
+            case SWT.LINE_SOLID:
+                return LineStyle.SOLID_LITERAL;
+            case SWT.LINE_DASH:
+                return LineStyle.DASHED_LITERAL;
+            case SWT.LINE_DASHDOT:
+                return LineStyle.DASH_DOTTED_LITERAL;
+            case SWT.LINE_DOT:
+                return LineStyle.DOTTED_LITERAL;
+            default:
+                return null;
+        }
+    }
+
+    /*
+     * Converts the specified model line style to an appropriate SWT line style constant
+     */
+    private int getSWTLineStyle(LineStyle style)
+    {
+        if (style.equals(LineStyle.DASHED_LITERAL))
+        {
+            return SWT.LINE_DASH;
+        }
+        else if (style.equals(LineStyle.DASH_DOTTED_LITERAL))
+        {
+            return SWT.LINE_DASHDOT;
+        }
+        else if (style.equals(LineStyle.DOTTED_LITERAL))
+        {
+            return SWT.LINE_DOT;
+        }
+        else
+        {
+            return SWT.LINE_SOLID;
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+     */
+    public void handleEvent(Event event)
+    {
+        if (cmbColor.equals(event.widget))
+        {
+            fireValueChangedEvent(LineAttributesComposite.COLOR_CHANGED_EVENT, (ColorDefinition) cmbColor.getFill());
+        }
+        else if (cmbStyle != null && cmbStyle.equals(event.widget))
+        {
+            fireValueChangedEvent(LineAttributesComposite.STYLE_CHANGED_EVENT, getModelLineStyle(cmbStyle
+                .getLineStyle()));
+        }
+        else if (cmbWidth != null && cmbWidth.equals(event.widget))
+        {
+            fireValueChangedEvent(LineAttributesComposite.WIDTH_CHANGED_EVENT, new Integer(cmbWidth.getLineWidth()));
+        }
+    }
+}

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelLayout" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:chart="http://www.birt.eclipse.org/ChartModel"
+xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
+xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
+xmlns:data="http://www.birt.eclipse.org/ChartModelData"
+xmlns="http://www.birt.eclipse.org/ChartModelLayout"
+xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
+>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
+	<xsd:complexType name="Plot">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The Plot Area of a chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Block">
+				<xsd:sequence>
+					<xsd:element name="HorizontalSpacing" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The horizontal spacing between elements in the plot.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="VerticalSpacing" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The vertical spacing between elements in the plot.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ClientArea" type="ClientArea">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The area of the plot within which the series elements will be displayed.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Legend">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The Legend in a chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Block">
+				<xsd:sequence>
+					<xsd:element name="HorizontalSpacing" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The horizontal spacing between elements in the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="VerticalSpacing" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The vertical spacing between elements in the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ClientArea" type="ClientArea">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The area of the legend block within which the legend items are displayed.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Text" type="attribute:Text">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The actual text content of the block.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Orientation" type="attribute:Orientation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The orientation of elements in the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Direction" type="attribute:Direction">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The direction in which the entries are added to the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Separator" type="attribute:LineAttributes">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The line attributes to be used for the line separating groups of entries in the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Position" type="attribute:Position">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The position of the legend.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ItemType" type="attribute:LegendItemType">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The form rendering of series should take (by Series or by Categories).
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LabelBlock">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a text block in the chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Block">
+				<xsd:sequence>
+					<xsd:element name="Label" type="component:Label" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							The actual text content of the block.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TitleBlock">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the Title in a chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="LabelBlock">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Block">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a modular area of a chart that can be positioned within the chart bounds.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Children" type="Block" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the block's children.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Bounds" type="attribute:Bounds" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the position and size of the block. (These will usually be relative to the top left corner of the container block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Anchor" type="attribute:Anchor" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the content of the block is anchored.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Stretch" type="attribute:Stretch" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies how the content of the block fills up available space.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Insets" type="attribute:Insets" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the insets to be used for this block's contents.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Row" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the row index for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Column" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the column index for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Rowspan" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the rowspan value for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Columnspan" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the columnspan value for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinSize" type="attribute:Size">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the minimum size for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Outline" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the outline for the chart element.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Background" type="attribute:Fill" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Background for the Block...Can be transparent, a solid color, a gradient OR image
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Visible" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether the block is visible.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the actions for the block.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ClientArea">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines an modular area of a chart that can be positioned (and resized ?) during rendering / output.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Background" type="attribute:Fill">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the background for the client area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Outline" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the outline information for the client area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ShadowColor" type="attribute:ColorDefinition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the shadow color for the client area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Insets" type="attribute:Insets">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the insets for the client area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.ui"
+   name="Chart Library UI Plug-in"
+   version="1.0.0"
+   provider-name="Actuate Corp."
+   class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIPluginClass">
+
+   <runtime>
+      <library name="ui.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.birt.chart.shared"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Chart Designer Actions"
+            visible="true"
+            id="org.eclipse.birt.chart.ui.actionSet">
+         <menu
+               label="Charts"
+               id="sampleMenu">
+            <separator name="sampleGroup"/>
+         </menu>
+         <action
+               toolbarPath="sampleGroup"
+               label="&amp;Chart Designer"
+               icon="icons/uibuilder.gif"
+               tooltip="Invoke the Chart Designer"
+               class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIAction"
+               menubarPath="sampleMenu/sampleGroup"
+               id="ChartDesigner"/>
+      </actionSet>
+   </extension>
+
+	<!-- Chart Library UI Framework Extension Points -->
+	<!-- 
+		Chart UI Sheets Extension Point. 
+   		Use this to register an attribute or data sheet with the Chart Designer UI.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
+	-->
+   <extension-point id="uisheets" name="Sheet for Chart UI" schema="schema/chartui.exsd"/>
+	<!-- 
+		Chart Types (UI) Extension Point. 
+   		Use this to register an implementation of IChartType interface as a chart type with the Chart Designer UI.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
+	-->
+   <extension-point id="types" name="Class for Chart Type Info" schema="schema/charttype.exsd"/>
+	<!-- 
+		Chart UI Change Listener Extension Point. 
+   		Use this to register an implementation of the IChangeListener interface as a model change listener with the Chart Designer. This extension is only needed if 
+   		you are providing a dynamic attribute or data sheet for use in the UI.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
+	-->
+   <extension-point id="changelisteners" name="Listener Class for Model Change Events" schema="schema/changelistener.exsd"/>
+</plugin>

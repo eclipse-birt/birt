@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelData" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:chart="http://www.birt.eclipse.org/ChartModel"
+xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
+xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
+xmlns="http://www.birt.eclipse.org/ChartModelData"
+xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
+xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
+>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelLayout" schemaLocation="layout.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
+	<xsd:complexType name="DataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Values" type="xsd:anySimpleType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds data values for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NumberDataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the numeric data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataSet">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DateTimeDataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the date/time data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataSet">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TextDataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the text data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataSet">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="StockDataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the stock data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataSet">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DataElement">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="NumberDataElement">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a single element of numerical data.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataElement">
+				<xsd:sequence>
+					<xsd:element name="Value" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds a single numeric value as a double.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DateTimeDataElement">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a single element of date/time data.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataElement">
+				<xsd:sequence>
+					<xsd:element name="Value" type="xsd:long">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds a single date value as a long.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SeriesGrouping">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds all grouping-related information for a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Enabled" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether grouping is enabled for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GroupingUnit" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the unit of grouping. The unit is only applicable for Date/Time values.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GroupingInterval" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the interval of grouping.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GroupType" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of data to be grouped. (e.g. Text, Number, Date/Time etc.)
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AggregateExpression" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the aggregate function to be applied on orthogonal values for each grouped unit.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Trigger">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a Trigger. A trigger defines interactivity for a chart component.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Condition" type="attribute:TriggerCondition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the condition for the Trigger. This value determines when the Action is processed.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Action" type="Action">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the Action for the Trigger. This value describes the interactivity of the trigger.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Action">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines an Action. An action is a property defining interactivity for an element. It is associated in a trigger with a trigger condition that defines when the action is to be processed.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="attribute:ActionType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of Action. This value determines the way the Action Value is processed.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Value" type="attribute:ActionValue">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the value of the Action.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SeriesDefinition">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents design-time definition for a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Query" type="Query"/>
+			<xsd:element name="SeriesPalette" type="attribute:Palette"/>
+			<xsd:element name="SeriesDefinitions" type="SeriesDefinition" maxOccurs="unbounded"/>
+			<xsd:element name="Series" type="component:Series" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds all the series for the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Grouping" type="SeriesGrouping" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines if and how the series data is to be grouped for display. This should only be applied to Base Series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Sorting" type="attribute:SortOption" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines if and how the series data is to be sorted for display. This should only be applied to Base Series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Query">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents design-time definition for the dataset in a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Definition" type="xsd:string"/>
+			<xsd:element name="Rules" type="Rule" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Rule">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents a rule to process a query expression.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="attribute:RuleType"/>
+			<xsd:element name="Value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SampleData">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type sample data that will be used to display the chart at design-time.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BaseSampleData" type="BaseSampleData" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the sample data for base series in the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrthogonalSampleData" type="OrthogonalSampleData" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the sample data for orthogonal series in the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BaseSampleData">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type sample data for a base series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DataSetRepresentation" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrthogonalSampleData">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type sample data for an orthogonal series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DataSetRepresentation" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SeriesDefinitionIndex" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the index for the series definition for which this sample data is applicable.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.reportitem"
+   name="Adapter Plug-in for BIRT Chart Library"
+   version="1.0.0"
+   provider-name="Actuate Corporation"
+   >
+
+   <runtime>
+      <library name="chartadapter.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.birt.chart.ui"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+   </requires>
+   <extension
+         point="org.eclipse.birt.report.model.reportitem">
+      <Element
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryAdapter"
+            isNameRequired="false"
+            displayNameID="Chart"
+            hasStyle="false"
+            name="Chart"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.designer.ui.reportitemUI">
+      <ReportItemUI
+            extensionName="Chart"
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemUIAdapter">
+         <palette
+               icon="icons/chart_palette_icon.gif"
+               category="Content"
+               name="Chart"/>
+         <editor
+               canResize="false"
+               showInDesigner="true"/>
+         <outline icon="icons/cell.gif"/>
+      </ReportItemUI>
+   </extension>
+</plugin>

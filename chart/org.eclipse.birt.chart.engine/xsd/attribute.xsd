@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelLayout" schemaLocation="layout.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
+	<xsd:simpleType name="AxisType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Axis types. Any new Axis type needs to be added here to be supported.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Linear"/>
+			<xsd:enumeration value="Logarithmic"/>
+			<xsd:enumeration value="Text"/>
+			<xsd:enumeration value="DateTime"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChartType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Chart types. Any new Chart type needs to be added here to be supported.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Pie"/>
+			<xsd:enumeration value="Bar"/>
+			<xsd:enumeration value="Line"/>
+			<xsd:enumeration value="Combo"/>
+			<xsd:enumeration value="Scatter"/>
+			<xsd:enumeration value="Stock"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChartDimension">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Chart dimensions. Any new Chart dimension type needs to be added here to be supported.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Two_Dimensional"/>
+			<xsd:enumeration value="Two_Dimensional_With_Depth"/>
+			<xsd:enumeration value="Three_Dimensional"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ActionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Action types (for interactivity with chart). Any new Action type needs to be added here to be supported.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="URL_Redirect"/>
+			<xsd:enumeration value="Show_Tooltip"/>
+			<xsd:enumeration value="Toggle_Visibility"/>
+			<xsd:enumeration value="Invoke_Script"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TriggerCondition">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Trigger conditions (for interactivity with chart). Any new condition needs to be added here to be supported.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Mouse_Hover"/>
+			<xsd:enumeration value="Mouse_Click"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DataPointComponentType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for data point components.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Base_Value"/>
+			<xsd:enumeration value="Orthogonal_Value"/>
+			<xsd:enumeration value="Series_Value"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DateFormatType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines predefined date format types.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Long"/>
+			<xsd:enumeration value="Short"/>
+			<xsd:enumeration value="Medium"/>
+			<xsd:enumeration value="Full"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DateFormatDetail">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the form of Date.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Date"/>
+			<xsd:enumeration value="Date_Time"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ScaleUnitType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines predefined date unit types for scale.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Seconds"/>
+			<xsd:enumeration value="Minutes"/>
+			<xsd:enumeration value="Hours"/>
+			<xsd:enumeration value="Days"/>
+			<xsd:enumeration value="Weeks"/>
+			<xsd:enumeration value="Months"/>
+			<xsd:enumeration value="Years"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LeaderLineStyle">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the forms of leader lines.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Fixed_Length"/>
+			<xsd:enumeration value="Stretch_To_Side"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="HorizontalAlignment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Horizontal alignment.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="Right"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VerticalAlignment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the allowed values for Vertical alignment.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Top"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="Bottom"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SortOption">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the options available for sorting.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Ascending"/>
+			<xsd:enumeration value="Descending"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Anchor">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the options available for anchoring blocks.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="North"/>
+			<xsd:enumeration value="North_East"/>
+			<xsd:enumeration value="East"/>
+			<xsd:enumeration value="South_East"/>
+			<xsd:enumeration value="South"/>
+			<xsd:enumeration value="South_West"/>
+			<xsd:enumeration value="West"/>
+			<xsd:enumeration value="North_West"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Stretch">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the options available for stretching (filling) block contents.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Horizontal"/>
+			<xsd:enumeration value="Vertical"/>
+			<xsd:enumeration value="Both"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Orientation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the options available for orientation.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Horizontal"/>
+			<xsd:enumeration value="Vertical"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Direction">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the options available for directions.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Left_Right"/>
+			<xsd:enumeration value="Top_Bottom"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LineStyle">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for line styles.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Solid"/>
+			<xsd:enumeration value="Dashed"/>
+			<xsd:enumeration value="Dotted"/>
+			<xsd:enumeration value="Dash_Dotted"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TickStyle">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for tick positions.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Right"/>
+			<xsd:enumeration value="Above"/>
+			<xsd:enumeration value="Below"/>
+			<xsd:enumeration value="Across"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Position">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for component (Label, Block etc.) positions.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Above"/>
+			<xsd:enumeration value="Below"/>
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Right"/>
+			<xsd:enumeration value="Inside"/>
+			<xsd:enumeration value="Outside"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IntersectionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for axis intersection locations.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Min"/>
+			<xsd:enumeration value="Max"/>
+			<xsd:enumeration value="Value"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RiserType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for risers supported for Bar Series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Rectangle"/>
+			<xsd:enumeration value="Triangle"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MarkerType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for markers supported for Line Series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Crosshair"/>
+			<xsd:enumeration value="Triangle"/>
+			<xsd:enumeration value="Box"/>
+			<xsd:enumeration value="Circle"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LegendItemType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for the legend item type.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Series"/>
+			<xsd:enumeration value="Categories"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RuleType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible rule types for use in Query objects.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Filter"/>
+			<xsd:enumeration value="Suppress"/>
+			<xsd:enumeration value="Link"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StyledComponent">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible chart entities that can support styles.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Chart_Title"/>
+			<xsd:enumeration value="Chart_Background"/>
+			<xsd:enumeration value="Plot_Background"/>
+			<xsd:enumeration value="Legend_Background"/>
+			<xsd:enumeration value="Legend_Label"/>
+			<xsd:enumeration value="Data_Label"/>
+			<xsd:enumeration value="Axis_Title"/>
+			<xsd:enumeration value="Axis_Label"/>
+			<xsd:enumeration value="Axis_Line"/>
+			<xsd:enumeration value="Series_Title"/>
+			<xsd:enumeration value="Series_Label"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ActionValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the value of an action.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence/>
+	</xsd:complexType>
+	<xsd:complexType name="ScriptValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the value for a 'Invoke_Script' action.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="Script" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the actual script string to be invoked.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="URLValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the value for a 'URL_Redirect' action.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="BaseUrl" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the base URL. This should include any static parameters like login information etc. and should NOT be encoded.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Target" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							This element defines the target value to be used for the browser.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="BaseParameterName" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							This element specifies the name to be used for the parameter whose value will be picked up from the base axis (if any).
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ValueParameterName" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							This element specifies the name to be used for the parameter whose value will be picked up from the current data value.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="SeriesParameterName" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							This element specifies the name to be used for the parameter whose value will be picked up from the current series.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TooltipValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the value for a 'Show_Tooltip' action.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="Text" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the text for the tooltip.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Delay" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the delay afer which the tooltip is to be shown.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SeriesValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the value for a 'Toggle_Visibility' action.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue">
+				<xsd:sequence>
+					<xsd:element name="Name" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds the name for the series definition.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Text">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type is intended to encapsulate a string to be displayed on the chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Value" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the actual Text String.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Font" type="FontDefinition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the Font Information to be used for this text element.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Color" type="ColorDefinition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the color to be used to render the text.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TextAlignment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the alignment to be used for the text.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="horizontalAlignment" type="HorizontalAlignment"/>
+			<xsd:element name="verticalAlignment" type="VerticalAlignment"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Location">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the location of an element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="x" type="xsd:double"/>
+			<xsd:element name="y" type="xsd:double"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ID">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines an ID type that should be used to uniquely identify instances of the various types in a group.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z]"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Percentage">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents a percentage value.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:double">
+			<xsd:minInclusive value="0.0"/>
+			<xsd:maxInclusive value="100.0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RGBValue">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values for color components in RGB Color model.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Bounds">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the bounds of an element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Left" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds Left co-ord of the Top Left Corner of chart element
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Top" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds Top co-ord of the Top Left Corner of chart element
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Width" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds width of the chart element
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Height" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds height of the chart element
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Size">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds dimensions.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Height" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the height of the chart
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Width" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the width of the chart
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Insets">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the insets for an element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Top" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the top component of the insets.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Left" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the left component of the insets.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Bottom" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the bottom component of the insets.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Right" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the right component of the insets.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LineAttributes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a line.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Style" type="LineStyle">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the line style.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Thickness" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the thickness of the line.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Color" type="ColorDefinition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the line color.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Visible" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether or not the line is to be rendered.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Palette">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents a palette of Fills.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the name that uniquely identifies this palette.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Entries" type="Fill" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the entries contained in the palette.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Fill">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds background information for a chart element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of the background element.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ColorDefinition">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents a color.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Fill">
+				<xsd:sequence>
+					<xsd:element name="Transparency" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the transparency for the color.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Red" type="RGBValue">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the 'Red' component for the color.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Green" type="RGBValue">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the 'Green' component for the color.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Blue" type="RGBValue">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the 'Blue' component for the color.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Gradient">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents a two-color gradient.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Fill">
+				<xsd:sequence>
+					<xsd:element name="StartColor" type="ColorDefinition">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the start color of the gradient.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="EndColor" type="ColorDefinition">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the end color of the gradient.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Direction" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the angle of the gradient. e.g. If Direction is 45, the Gradient is at an angle of 45 degrees to vertical. With start color being on the left.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Cyclic" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Indicates whether the gradient is cyclic or linear.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Transparency" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the transparency for the gradient.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Image">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents an image.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Fill">
+				<xsd:sequence>
+					<xsd:element name="URL" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the URL for the image.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FontDefinition">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds all font-related information.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the font name.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Size" type="xsd:float">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the font size.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Bold" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This specifies if the font is to be in bold.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Italic" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This specifies if the font is to be in italics.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Strikethrough" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This specifies if the font is to be in strikethrough.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Underline" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This specifies if the font is to be underlined.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="WordWrap" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Indicates if word wrapping is to be used.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Alignment" type="TextAlignment">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the alignment to be used to render the text in the element.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Rotation" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the angle (in degrees) through which the text is to be rotated while rendering.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds properties to be used to format displayed labels.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="DateFormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the format specifier properties for a date label.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="FormatSpecifier">
+				<xsd:sequence>
+					<xsd:element name="Type" type="DateFormatType">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the format specifier.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Detail" type="DateFormatDetail">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Species the form of the date.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="JavaDateFormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the java pattern for DateFormat.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="FormatSpecifier">
+				<xsd:sequence>
+					<xsd:element name="Pattern" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the format pattern.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NumberFormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the format specifier properties for a numeric label.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="FormatSpecifier">
+				<xsd:sequence>
+					<xsd:element name="Prefix" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the prefix to be added to label.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Suffix" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the suffix to be added to label.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Multiplier" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the multiplier.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="FractionDigits" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the number of fractional digits to be shown.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="JavaNumberFormatSpecifier">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the java pattern for NumberFormat.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="FormatSpecifier">
+				<xsd:sequence>
+					<xsd:element name="Pattern" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the format pattern.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Multiplier" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the multiplier.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AxisOrigin">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the intersection point for an axis.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="IntersectionType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the type of origin. This determines whether and how the origin value is to be used.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Value" type="xsd:anySimpleType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the actual value of the axis origin.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Marker">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the value marker for a line or scatter series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="MarkerType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of marker.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Size" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the size of the marker in the chart (as a percentage).
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Visible" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether the marker is to be rendered.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DataPoint">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the data value being displayed in the plot area for each data value.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Components" type="DataPointComponent" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the components (values) being shown in the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Prefix" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the prefix for the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Suffix" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the suffix for the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Separator" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the separator used in the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DataPointComponent">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the data value being displayed in the plot area for each data value.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="DataPointComponentType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of data point component.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="FormatSpecifier">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the format specifier to be used for this data point component in the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StyleMap">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the style map for the chart. It includes a list of supported chart components and the styles associated with them.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ComponentName" type="StyledComponent">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the name of a chart component that can have styles associated with it.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Style" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the style identifier(s) to be associated with this entry.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SeriesHint">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the data value being displayed in the plot area for each data value.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SeriesClass" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type series class to which this hint applies.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Modifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the modifier to be used.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ExtendedProperty">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents an extended property stored as a name-value pair that is created to hold data for minor extensions to a chart.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the unique name for the property.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Value" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the value for the property.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

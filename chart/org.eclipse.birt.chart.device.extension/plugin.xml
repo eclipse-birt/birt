@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.device.extension"
+   name="Chart Library Device Extensions Plug-in"
+   version="1.0.0"
+   provider-name="Actuate Corporation"
+   >
+
+   <runtime>
+      <library name="device-extensions.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.birt.chart.shared"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.birt.chart.engine.devicerenderers">
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.swing.SwingRendererImpl"
+            name="dv.SWING"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.swt.SwtRendererImpl"
+            name="dv.SWT"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.PngRendererImpl"
+            name="dv.PNG24"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.GifRendererImpl"
+            name="dv.GIF8"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.chart.engine.displayservers">
+      <displayserver
+            server="org.eclipse.birt.chart.device.swing.SwingDisplayServer"
+            name="ds.SWING"/>
+      <displayserver
+            server="org.eclipse.birt.chart.device.swt.SwtDisplayServer"
+            name="ds.SWT"/>
+   </extension>
+</plugin>

@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:chart="http://www.birt.eclipse.org/ChartModel"
+xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
+xmlns="http://www.birt.eclipse.org/ChartModelComponent"
+xmlns:data="http://www.birt.eclipse.org/ChartModelData"
+xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
+xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
+>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelLayout" schemaLocation="layout.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
+	<xsd:complexType name="Axis">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the basic elements that are expected in any axis. This can further be extended for special axis types.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="attribute:AxisType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the type of Axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Title" type="Label" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This is the element title.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Subtitle" type="Label" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					This is the element subtitle.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TitlePosition" type="attribute:Position" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the title for the axis should be displayed.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AssociatedAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the value orthogonal axes associated with this axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the source of the series. 
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GapWidth" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the spacing between the first (or last) series marker and the edge of the unit on the axis. This is specified as a percentage.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Orientation" type="attribute:Orientation" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the orientation of the Axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting information for the axis line.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Label" type="Label">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					A label instance to hold attributes for axis labels.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting for axis labels.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the labels for the axis should be displayed.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Staggered" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the position to be used for the labels. (Staggered/Straight)
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MarkerLine" type="MarkerLine" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines a marker for a position on the axis scale displayed as a line across the plot at that location.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MarkerRange" type="MarkerRange" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines a marker area for a range of values on the axis displayed as a filled rectangle extending across the plot between the start and end positions.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MajorGrid" type="Grid">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the major grid associated with the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinorGrid" type="Grid">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the minor grid associated with the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Scale" type="Scale">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the scale for the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Origin" type="attribute:AxisOrigin">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the location on the axis that should co-incide with the origin of the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PrimaryAxis" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether or not this is a primary axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CategoryAxis" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether or not this is a category axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Percent" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether or not this is a percentage axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Series">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be associated with a numerical axis.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Visible" type="xsd:boolean" default="true" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Determines visibility of the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Label" type="Label">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the properties for the Series data points.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataDefinition" type="data:Query" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the source of the data for the series. (e.g. Database field which will provide the values for the series). 
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SeriesIdentifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies an identifier to link the series with its definition at runtime. 
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataPoint" type="attribute:DataPoint">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies what (and how) information is shown in the data label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataSet" type="data:DataSet">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the runtime data for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting for series labels.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the data label for the series should be displayed.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Stacked" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether the series is to be rendered stacked.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Triggers" type="data:Trigger" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the triggers for the series.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Translucent" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether the series elements are to be rendered translucent. This setting is only applicable for elements with solid color fills.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Label">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a text label. It is not intended as a standalone element but should be associated with a chart element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Caption" type="attribute:Text">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					The string content displayed in the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies formatting information for the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Background" type="attribute:Fill">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the background for the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Outline" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the outline (border) for the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ShadowColor" type="attribute:ColorDefinition">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the shadow color for the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Insets" type="attribute:Insets">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines the insets for the label.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Visible" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies whether or not the label is visible on the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MarkerLine">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a single line element. It is intended for use as a marker associated with an Axis. e.g. To denote a Target value
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Attributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specify the line properties.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Position" type="xsd:anySimpleType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines where this line is to be positioned w.r.t the axis. (Can be a value on the axis or a category name).
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AssociatedLabel" type="Label">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the label associated with this line.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelPosition" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the label associated with this line is to be positioned w.r.t the line itself.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MarkerRange">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines a marker area. It is intended for use as a range marker associated with an Axis.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Outline" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specify the outline properties for the marker range.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Fill" type="attribute:Fill">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specify the background for the marker range.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StartPosition" type="xsd:anySimpleType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines where this area starts relative to the axis scale.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EndPosition" type="xsd:anySimpleType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines where this area is ends relative to the axis scale.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AssociatedLabel" type="Label">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the label associated with this area.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelPosition" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies where the label associated with this range is to be positioned relative to the area itself.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Grid">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the grid associated with an axis.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds formatting information for the grid lines.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TickStyle" type="attribute:TickStyle">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies how the tick is to be marked for the grid line.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TickAttributes" type="attribute:LineAttributes" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting information for the tick.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TickSize" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the formatting information for the tick.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TickCount" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the frequency of the grid lines per unit of the scale.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Scale">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the scale associated with an axis.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Min" type="data:DataElement">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Minimum value that should appear on the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Max" type="data:DataElement">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Maximum value that should appear on the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Step" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Stepping in the values shown on the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Unit" type="attribute:ScaleUnitType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Stepping in the values shown on the axis.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinorGridsPerUnit" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the number of minor grids per unit of the scale.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Type" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Form that the values change by (Linear, Exponential etc.)
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ChartPreferences">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type defines the global chart preferences.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Labels" type="Label" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					A collection of labels holding preferences for the various labels used in a chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Blocks" type="layout:Block" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					A collection of blocks holding preferences for the different blocks used in a chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

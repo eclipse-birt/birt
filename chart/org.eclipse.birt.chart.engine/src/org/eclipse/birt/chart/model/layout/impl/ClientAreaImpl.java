@@ -1,0 +1,467 @@
+/***********************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
+package org.eclipse.birt.chart.model.layout.impl;
+
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.layout.ClientArea;
+import org.eclipse.birt.chart.model.layout.LayoutPackage;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+/**
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Client Area</b></em>'. <!-- end-user-doc
+ * -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getShadowColor <em>Shadow Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getInsets <em>Insets</em>}</li>
+ * </ul>
+ * </p>
+ * 
+ * @generated
+ */
+public class ClientAreaImpl extends EObjectImpl implements ClientArea
+{
+
+    /**
+     * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getBackground()
+     * @generated
+     * @ordered
+     */
+    protected Fill background = null;
+
+    /**
+     * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getOutline()
+     * @generated
+     * @ordered
+     */
+    protected LineAttributes outline = null;
+
+    /**
+     * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getShadowColor()
+     * @generated
+     * @ordered
+     */
+    protected ColorDefinition shadowColor = null;
+
+    /**
+     * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getInsets()
+     * @generated
+     * @ordered
+     */
+    protected Insets insets = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected ClientAreaImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected EClass eStaticClass()
+    {
+        return LayoutPackage.eINSTANCE.getClientArea();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Fill getBackground()
+    {
+        return background;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs)
+    {
+        Fill oldBackground = background;
+        background = newBackground;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__BACKGROUND, oldBackground, newBackground);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setBackground(Fill newBackground)
+    {
+        if (newBackground != background)
+        {
+            NotificationChain msgs = null;
+            if (background != null)
+                msgs = ((InternalEObject) background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
+            if (newBackground != null)
+                msgs = ((InternalEObject) newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
+            msgs = basicSetBackground(newBackground, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__BACKGROUND, newBackground,
+                newBackground));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public LineAttributes getOutline()
+    {
+        return outline;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs)
+    {
+        LineAttributes oldOutline = outline;
+        outline = newOutline;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__OUTLINE, oldOutline, newOutline);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setOutline(LineAttributes newOutline)
+    {
+        if (newOutline != outline)
+        {
+            NotificationChain msgs = null;
+            if (outline != null)
+                msgs = ((InternalEObject) outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
+            if (newOutline != null)
+                msgs = ((InternalEObject) newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
+            msgs = basicSetOutline(newOutline, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__OUTLINE, newOutline,
+                newOutline));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public ColorDefinition getShadowColor()
+    {
+        return shadowColor;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs)
+    {
+        ColorDefinition oldShadowColor = shadowColor;
+        shadowColor = newShadowColor;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__SHADOW_COLOR, oldShadowColor, newShadowColor);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setShadowColor(ColorDefinition newShadowColor)
+    {
+        if (newShadowColor != shadowColor)
+        {
+            NotificationChain msgs = null;
+            if (shadowColor != null)
+                msgs = ((InternalEObject) shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
+            if (newShadowColor != null)
+                msgs = ((InternalEObject) newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
+            msgs = basicSetShadowColor(newShadowColor, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__SHADOW_COLOR,
+                newShadowColor, newShadowColor));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Insets getInsets()
+    {
+        return insets;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs)
+    {
+        Insets oldInsets = insets;
+        insets = newInsets;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__INSETS, oldInsets, newInsets);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setInsets(Insets newInsets)
+    {
+        if (newInsets != insets)
+        {
+            NotificationChain msgs = null;
+            if (insets != null)
+                msgs = ((InternalEObject) insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
+            if (newInsets != null)
+                msgs = ((InternalEObject) newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
+            msgs = basicSetInsets(newInsets, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__INSETS, newInsets,
+                newInsets));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
+    {
+        if (featureID >= 0)
+        {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass))
+            {
+                case LayoutPackage.CLIENT_AREA__BACKGROUND:
+                    return basicSetBackground(null, msgs);
+                case LayoutPackage.CLIENT_AREA__OUTLINE:
+                    return basicSetOutline(null, msgs);
+                case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
+                    return basicSetShadowColor(null, msgs);
+                case LayoutPackage.CLIENT_AREA__INSETS:
+                    return basicSetInsets(null, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Object eGet(EStructuralFeature eFeature, boolean resolve)
+    {
+        switch (eDerivedStructuralFeatureID(eFeature))
+        {
+            case LayoutPackage.CLIENT_AREA__BACKGROUND:
+                return getBackground();
+            case LayoutPackage.CLIENT_AREA__OUTLINE:
+                return getOutline();
+            case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
+                return getShadowColor();
+            case LayoutPackage.CLIENT_AREA__INSETS:
+                return getInsets();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void eSet(EStructuralFeature eFeature, Object newValue)
+    {
+        switch (eDerivedStructuralFeatureID(eFeature))
+        {
+            case LayoutPackage.CLIENT_AREA__BACKGROUND:
+                setBackground((Fill) newValue);
+                return;
+            case LayoutPackage.CLIENT_AREA__OUTLINE:
+                setOutline((LineAttributes) newValue);
+                return;
+            case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
+                setShadowColor((ColorDefinition) newValue);
+                return;
+            case LayoutPackage.CLIENT_AREA__INSETS:
+                setInsets((Insets) newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void eUnset(EStructuralFeature eFeature)
+    {
+        switch (eDerivedStructuralFeatureID(eFeature))
+        {
+            case LayoutPackage.CLIENT_AREA__BACKGROUND:
+                setBackground((Fill) null);
+                return;
+            case LayoutPackage.CLIENT_AREA__OUTLINE:
+                setOutline((LineAttributes) null);
+                return;
+            case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
+                setShadowColor((ColorDefinition) null);
+                return;
+            case LayoutPackage.CLIENT_AREA__INSETS:
+                setInsets((Insets) null);
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean eIsSet(EStructuralFeature eFeature)
+    {
+        switch (eDerivedStructuralFeatureID(eFeature))
+        {
+            case LayoutPackage.CLIENT_AREA__BACKGROUND:
+                return background != null;
+            case LayoutPackage.CLIENT_AREA__OUTLINE:
+                return outline != null;
+            case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
+                return shadowColor != null;
+            case LayoutPackage.CLIENT_AREA__INSETS:
+                return insets != null;
+        }
+        return eDynamicIsSet(eFeature);
+    }
+
+    /**
+     * Resets all member variables within this object recursively
+     * 
+     * Note: Manually written
+     */
+    public final void initialize()
+    {
+        //setBackground( ColorDefinitionImpl.WHITE( ) );
+        final LineAttributes lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 0);
+        lia.setVisible(false);
+        setOutline(lia);
+        setInsets(InsetsImpl.create(0, 0, 0, 0));
+    }
+
+} //ClientAreaImpl

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModel" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns="http://www.birt.eclipse.org/ChartModel"
+xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
+xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
+xmlns:data="http://www.birt.eclipse.org/ChartModelData"
+xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
+xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
+>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelLayout" schemaLocation="layout.xsd"/>
+	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelType" schemaLocation="type.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+		Schema file for the chart.model package.
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="Chart">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Version" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the version number of this chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Type" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the type of this chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SubType" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the sub-type of this chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Description" type="attribute:Text" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Description of the chart...could be used as tooltip value for example.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Block" type="layout:Block">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines a virtual entity that is independent of any chart element, but contains them and can be moved around in the chart area for rendering.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Dimension" type="attribute:ChartDimension">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the dimensions for the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Script" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the script for the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Units" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds the units of measurement for the model. 
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SeriesThickness" type="attribute:Percentage" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the thickness to be used while rendering the chart with depth or in 3D. 
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SeriesHints" type="attribute:SeriesHint" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Defines 'Hints' that should be used to process new series instances.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GridColumnCount" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the number of columns to use if multiple series are to be plotted in a single chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ExtendedProperties" type="attribute:ExtendedProperty" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds a generic list of properties (as name-value pairs) for minor extensions to the chart. Preferred way to add properties remains through modification of schema.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SampleData" type="data:SampleData" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Holds a collection of sample values for use by the chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Chart With Axes	-->
+	<xsd:complexType name="ChartWithAxes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Chart">
+				<xsd:sequence>
+					<xsd:element name="Axes" type="component:Axis" minOccurs="2" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Holds all the base axes for the chart.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Orientation" type="attribute:Orientation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies whether the chart is a vertical or horizontal chart.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="UnitSpacing" type="attribute:Percentage">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Specifies the spacing between the last series element of one unit and the first series element of the next unit in the chart. This should be given as a percentage.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Chart Without Axes	-->
+	<xsd:complexType name="ChartWithoutAxes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is a chart without axes...(e.g. Pie Chart, Donut Chart etc.).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Chart">
+				<xsd:sequence>
+					<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+							Defines the source of the series. 
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.chart.ui">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.chart.ui" id="types" name="Contains definition of selectable chart types."/>
+      </appInfo>
+      <documentation>
+         This extension point defines all registered chart types available for selection in the chart library UI.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="chartType"/>
+         </sequence>
+         <attribute name="point" type="string" use="required"/>
+         <attribute name="id" type="string"/>
+         <attribute name="name" type="string"/>
+      </complexType>
+   </element>
+
+   <element name="chartType">
+      <complexType>
+         <attribute name="classDefinition" type="string">
+            <annotation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string"/>
+      </complexType>
+   </element>
+
+</schema>

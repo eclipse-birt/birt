@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.engine"
+   name="Engine Plug-in"
+   version="1.0.0"
+
+   class="org.eclipse.birt.chart.engine.actions.EnginePlugin">
+
+   <runtime>
+      <library name="engine.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/js.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.birt.chart.shared"/>
+   </requires>
+   
+   <!-- Engine Framework Extension Points -->
+   <!-- 
+   		Model Renderer Extension Point. 
+   		Use this to register a custom Model Renderer.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
+   -->
+   <extension-point id="modelrenderers" name="Contains definition of chart model renderers" schema="schema/modelrenderers.exsd"/>
+   <!--
+   		DataSet Processor Extension Point.
+   		Use this extension point to register data set processors for series that use custom data elements.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
+   -->
+   <extension-point id="datasetprocessors" name="Contains definition of chart DataSet processors" schema="schema/datasetprocessors.exsd"/>
+   
+   <!-- Device related Extension Points -->
+   <!-- 
+   		XServer Extension Point.
+   		Use this extension point to register a custom Display Server.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
+   -->
+   <extension-point id="displayservers" name="Contains definition of chart display servers" schema="schema/displayservers.exsd"/>
+   <!-- 
+   		Device Renderer Extension Point.
+   		Use this extension point to register a custom Device Renderer.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
+   -->
+   <extension-point id="devicerenderers" name="Contains definition of chart device renderers" schema="schema/devicerenderers.exsd"/>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.eclipse.birt.chart.engine.actionSet">
+         <menu
+               label="Charts"
+               id="sampleMenu">
+            <separator name="sampleGroup"/>
+         </menu>
+         <action
+               toolbarPath="sampleGroup"
+               label="S&amp;WING Scroller"
+               icon="icons/swingscroller.gif"
+               tooltip="Invoke the SWING Scroller"
+               class="org.eclipse.birt.chart.engine.actions.MenuAction"
+               menubarPath="sampleMenu/sampleGroup"
+               id="SWINGScroller"/>
+         <action
+               toolbarPath="sampleGroup"
+               label="SWING &amp;Viewer"
+               icon="icons/swingviewer.gif"
+               tooltip="Invoke the SWING Viewer"
+               class="org.eclipse.birt.chart.engine.actions.MenuAction"
+               menubarPath="sampleMenu/sampleGroup"
+               id="SWINGViewer"/>
+         <action
+               toolbarPath="sampleGroup"
+               label="&amp;SWT Viewer"
+               icon="icons/swtviewer.gif"
+               tooltip="Invoke the SWT Viewer"
+               class="org.eclipse.birt.chart.engine.actions.MenuAction"
+               menubarPath="sampleMenu/sampleGroup"
+               id="SWTViewer"/>
+      </actionSet>
+   </extension>
+</plugin>

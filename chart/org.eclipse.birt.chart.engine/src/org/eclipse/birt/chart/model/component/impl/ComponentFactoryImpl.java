@@ -1,0 +1,185 @@
+/***********************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
+package org.eclipse.birt.chart.model.component.impl;
+
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ChartPreferences;
+import org.eclipse.birt.chart.model.component.ComponentFactory;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.Grid;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.MarkerLine;
+import org.eclipse.birt.chart.model.component.MarkerRange;
+import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+/**
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
+ * 
+ * @generated
+ */
+public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFactory
+{
+
+    /**
+     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public ComponentFactoryImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EObject create(EClass eClass)
+    {
+        switch (eClass.getClassifierID())
+        {
+            case ComponentPackage.AXIS:
+                return createAxis();
+            case ComponentPackage.CHART_PREFERENCES:
+                return createChartPreferences();
+            case ComponentPackage.GRID:
+                return createGrid();
+            case ComponentPackage.LABEL:
+                return createLabel();
+            case ComponentPackage.MARKER_LINE:
+                return createMarkerLine();
+            case ComponentPackage.MARKER_RANGE:
+                return createMarkerRange();
+            case ComponentPackage.SCALE:
+                return createScale();
+            case ComponentPackage.SERIES:
+                return createSeries();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Axis createAxis()
+    {
+        AxisImpl axis = new AxisImpl();
+        return axis;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public ChartPreferences createChartPreferences()
+    {
+        ChartPreferencesImpl chartPreferences = new ChartPreferencesImpl();
+        return chartPreferences;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Grid createGrid()
+    {
+        GridImpl grid = new GridImpl();
+        return grid;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Label createLabel()
+    {
+        LabelImpl label = new LabelImpl();
+        return label;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public MarkerLine createMarkerLine()
+    {
+        MarkerLineImpl markerLine = new MarkerLineImpl();
+        return markerLine;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public MarkerRange createMarkerRange()
+    {
+        MarkerRangeImpl markerRange = new MarkerRangeImpl();
+        return markerRange;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Scale createScale()
+    {
+        ScaleImpl scale = new ScaleImpl();
+        return scale;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public Series createSeries()
+    {
+        SeriesImpl series = new SeriesImpl();
+        return series;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public ComponentPackage getComponentPackage()
+    {
+        return (ComponentPackage) getEPackage();
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @deprecated
+     * @generated
+     */
+    public static ComponentPackage getPackage()
+    {
+        return ComponentPackage.eINSTANCE;
+    }
+
+} //ComponentFactoryImpl

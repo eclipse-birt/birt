@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.ui.extension"
+   name="UI Extensions Plug-in"
+   version="1.0.0"
+   provider-name="Actuate Corporation"
+   >
+
+   <runtime>
+      <library name="ui-extensions.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires import_order="org.eclipse.pde.internal.ui.model.plugin.PluginImportNode@118bfb2">
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.birt.chart.shared"/>
+      <import plugin="org.eclipse.birt.chart.ui"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+   </requires>
+
+   <!-- Change Listener Extensions -->
+   <extension
+         point="org.eclipse.birt.chart.ui.changelisteners">
+      <changeListener listenerClassDefinition="org.eclipse.birt.chart.ui.event.ChangeListenerImpl"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.chart.ui.types">
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.BarChart"
+            name="Bar Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.LineChart"
+            name="Line Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.PieChart"
+            name="Pie Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.ScatterChart"
+            name="Scatter Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.StockChart"
+            name="Stock Chart"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.chart.ui.uisheets">
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl"
+            nodePath="General"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.DataSheetImpl"
+            nodePath="Data"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.SeriesDataSetSheetImpl"
+            nodePath="Data.Series.DataSet"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.SampleDataSheetImpl"
+            nodePath="Data.Sample"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.AttributeSheetImpl"
+            nodePath="Attributes"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisAttributeSheetImpl"
+            nodePath="Attributes.Base Axis"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisLabelAttributeSheetImpl"
+            nodePath="Attributes.Base Axis.Labels"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisAttributeSheetImpl"
+            nodePath="Attributes.Orthogonal Axis"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisLabelAttributeSheetImpl"
+            nodePath="Attributes.Orthogonal Axis.Labels"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseSeriesAttributeSheetImpl"
+            nodePath="Attribute.Base Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesAttributeSheetImpl"
+            nodePath="Attribute.Orthogonal Series"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesLabelAttributeSheetImpl"
+            nodePath="Attribute.Orthogonal Series.Labels"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.general.LayoutSheetImpl"
+            nodePath="Layout"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.general.ScriptSheetImpl"
+            nodePath="Scripts"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.general.StyleSheetImpl"
+            nodePath="Styles"/>
+   </extension>
+</plugin>
