@@ -87,14 +87,16 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the localized group name, if non-empty string can be found with
+	 * resource key and <code> IMessages </code> . Otherwise, return <code> null
+	 * </code> .
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
 	 */
 
 	public String getGroupName( )
 	{
-		if ( extProperty.getGroupNameID( ) != null )
+		if ( extProperty.getGroupNameID( ) != null && messages != null )
 			return messages.getMessage( extProperty.getGroupNameID( ),
 					ThreadResources.getLocale( ) );
 
@@ -218,18 +220,20 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the localized display name, if non-empty string can be found with
+	 * resource key and <code> IMessages </code> . Otherwise, return name of
+	 * this property.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getDisplayName()
 	 */
 
 	public String getDisplayName( )
 	{
-		if ( extProperty.getDisplayNameID( ) != null )
+		if ( extProperty.getDisplayNameID( ) != null && messages != null )
 		{
-			String displayName = messages.getMessage( extProperty.getDisplayNameID( ),
-					ThreadResources.getLocale( ) );
-			if ( ! StringUtil.isBlank( displayName ) )
+			String displayName = messages.getMessage( extProperty
+					.getDisplayNameID( ), ThreadResources.getLocale( ) );
+			if ( !StringUtil.isBlank( displayName ) )
 				return displayName;
 		}
 

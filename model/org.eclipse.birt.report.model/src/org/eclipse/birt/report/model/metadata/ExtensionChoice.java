@@ -67,7 +67,7 @@ public class ExtensionChoice extends Choice
 	 * @param extChoiceDefn
 	 *            the extension choice definition based
 	 * @param messages
-	 *            the messages provideing localized messages
+	 *            the messages providing localized messages
 	 */
 
 	public ExtensionChoice( IChoiceDefinition extChoiceDefn, IMessages messages )
@@ -78,7 +78,9 @@ public class ExtensionChoice extends Choice
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the localized display name, if non-empty string can be found with
+	 * resource key and <code> IMessages </code> . Otherwise, return name of
+	 * this choice.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.Choice#getDisplayName()
 	 */
@@ -94,7 +96,7 @@ public class ExtensionChoice extends Choice
 			choiceName = extChoice.getName( );
 		}
 
-		if ( resourceKey != null )
+		if ( resourceKey != null && messages != null )
 		{
 			String displayName = messages.getMessage( resourceKey,
 					ThreadResources.getLocale( ) );

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the extended definition based on our report item extension point.
@@ -203,16 +204,22 @@ public class ExtensionElementDefn extends ElementDefn
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * Returns the localized display name, if non-empty string can be found with
+	 * resource key and <code> IMessages </code> . Otherwise, return name of
+	 * this element definition.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#getDisplayName()
 	 */
 
 	public String getDisplayName( )
 	{
-		if ( displayNameKey != null )
-			return elementFactory.getMessages( ).getMessage( displayNameKey,
-					ThreadResources.getLocale( ) );
+		if ( displayNameKey != null && elementFactory.getMessages( ) != null )
+		{
+			String displayName = elementFactory.getMessages( ).getMessage(
+					displayNameKey, ThreadResources.getLocale( ) );
+			if ( !StringUtil.isBlank( displayName ) )
+				return displayName;
+		}
 
 		return getName( );
 	}
