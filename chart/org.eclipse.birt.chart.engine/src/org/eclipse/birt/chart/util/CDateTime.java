@@ -22,30 +22,63 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 
 /**
- * @author Administrator
- * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
- * Templates
+ * A convenience data type provided to aid in wrapping a datetime value
+ * used with datetime data elements. Refer to {@link org.eclipse.birt.chart.model.data.DateTimeDataElement} 
  */
 public class CDateTime extends GregorianCalendar
 {
-
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *  
+     * 
+     */
+    private static final int MILLIS_IN_SECOND = 1000;
+
+    /**
+     * 
+     */
+    private static final int MILLIS_IN_MINUTE = MILLIS_IN_SECOND * 60;
+
+    /**
+     * 
+     */
+    private static final int MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
+
+    /**
+     * 
+     */
+    private static final int MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
+
+    /**
+     * 
+     */
+    private static final int[] iaUnitTypes =
+    {
+        Calendar.MILLISECOND, Calendar.SECOND, Calendar.MINUTE,
+        Calendar.HOUR_OF_DAY, Calendar.DATE, Calendar.MONTH,
+        Calendar.YEAR
+    };
+
+    /**
+     * 
+     */
+    private static final SimpleDateFormat _sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+
+    /**
+     *  A zero-arg default constructor
      */
     public CDateTime()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
-     *  
+     * A constructor that creates an instance from a given <code>java.util.Date</code> value
+     * 
+     * @param   d   A previously defined Date instance
      */
     public CDateTime(Date d)
     {
@@ -54,7 +87,9 @@ public class CDateTime extends GregorianCalendar
     }
 
     /**
-     *  
+     * A constructor that creates an instance from a given <code>java.util.Calendar</code> value
+     * 
+     * @param   c   A previously defined Calendar instance
      */
     public CDateTime(Calendar c)
     {
@@ -63,7 +98,9 @@ public class CDateTime extends GregorianCalendar
     }
 
     /**
-     *  
+     * A constructor that creates an instance from a given <code>long</code> value
+     * 
+     * @param   lTimeInMillis   The time defined in milliseconds
      */
     public CDateTime(long lTimeInMillis)
     {
@@ -72,78 +109,85 @@ public class CDateTime extends GregorianCalendar
     }
 
     /**
-     * @param year
-     * @param month
-     * @param date
+     * A constructor that creates an instance for a specified year, month and date
+     * 
+     * @param year  The year associated with this instance 
+     * @param month The month index (1-12) of the year (1-based)
+     * @param date  The day of the month associated with this instance
      */
     public CDateTime(int year, int month, int date)
     {
         super(year, month - 1, date);
-        // TODO Auto-generated constructor stub
     }
 
     /**
-     * @param year
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
+     * A constructor that creates an instance for a specified year, month, date, hour and minute
+     * 
+     * @param year      The year associated with this instance 
+     * @param month     The month index (1-12) of the year (1-based)
+     * @param date      The day of the month associated with this instance
+     * @param hour      The hour (0-23) of the day (military) associated with this instance
+     * @param minute    The minute (0-59) of the hour associated with this instance
      */
     public CDateTime(int year, int month, int date, int hour, int minute)
     {
-        super(year, month, date, hour, minute);
-        // TODO Auto-generated constructor stub
+        super(year, month - 1, date, hour, minute);
     }
 
     /**
-     * @param year
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param second
+     * A constructor that creates an instance for a specified year, month, date, hour and minute
+     * 
+     * @param year      The year associated with this instance 
+     * @param month     The month index (1-12) of the year (1-based)
+     * @param date      The day of the month associated with this instance
+     * @param hour      The hour (0-23) of the day (military) associated with this instance
+     * @param minute    The minute (0-59) of the hour associated with this instance
+     * @param second    The second (0-59) of the minute associated with this instance
      */
     public CDateTime(int year, int month, int date, int hour, int minute, int second)
     {
-        super(year, month, date, hour, minute, second);
-        // TODO Auto-generated constructor stub
+        super(year, month - 1, date, hour, minute, second);
     }
 
     /**
-     * @param aLocale
+     * A constructor that creates a default instance for a given locale
+     * 
+     * @param   locale  The locale for which the instance is being created
      */
     public CDateTime(Locale aLocale)
     {
         super(aLocale);
-        // TODO Auto-generated constructor stub
     }
 
     /**
-     * @param zone
-     */
-    public CDateTime(TimeZone zone)
-    {
-        super(zone);
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
+     * A constructor that creates a default instance for a given timezone
      * 
-     * @param zone
-     * @param aLocale
+     * @param   tz  The timezone for which the instance is being created
      */
-    public CDateTime(TimeZone zone, Locale aLocale)
+    public CDateTime(TimeZone tz)
     {
-        super(zone, aLocale);
-        // TODO Auto-generated constructor stub
+        super(tz);
     }
 
     /**
-     * A convenient method used in building the ticks for a datetime scale Computes a new datetime object relative to
-     * the existing one moving back by 'step' units.
+     * A constructor that creates a default instance for a given timezone and locale
+     * 
+     * @param   tz          The timezone for which the instance is being created
+     * @param   locale      The locale for which the instance is being created
+     */
+    public CDateTime(TimeZone tz, Locale locale)
+    {
+        super(tz, locale);
+    }
+
+    /**
+     * A convenient method used in building the ticks for a datetime scale.
+     * Computes a new datetime object relative to the existing one moving
+     * back by 'step' units.
      * 
      * @param iUnit
      * @param iStep
+     * 
      * @return
      */
     public CDateTime backward(int iUnit, int iStep)
@@ -154,8 +198,9 @@ public class CDateTime extends GregorianCalendar
     }
 
     /**
-     * A convenient method used in building the ticks for a datetime scale Computes a new datetime object relative to
-     * the existing one moving forward by 'step' units.
+     * A convenient method used in building the ticks for a datetime scale.
+     * Computes a new datetime object relative to the existing one moving
+     * forward by 'step' units.
      * 
      * @param iUnit
      * @param iStep
@@ -168,40 +213,71 @@ public class CDateTime extends GregorianCalendar
         return cd;
     }
 
+    /**
+     * Returns the year associated with this instance
+     * 
+     * @return  The year associated with this instance
+     */
     public final int getYear()
     {
         return get(Calendar.YEAR);
     }
 
+    /**
+     * Returns the month (0-based) associated with this instance
+     * 
+     * @return  The month associated with this instance
+     */
     public final int getMonth()
     {
         return get(Calendar.MONTH);
     }
 
+    /**
+     * Returns the day of the month associated with this instance
+     * 
+     * @return  The day of the month associated with this instance
+     */
     public final int getDay()
     {
         return get(Calendar.DATE);
     }
 
+    /**
+     * Returns the hour (military) associated with this instance
+     * 
+     * @return  The hour associated with this instance
+     */
     public final int getHour()
     {
         return get(Calendar.HOUR_OF_DAY);
     }
 
+    /**
+     * Returns the minute associated with this instance
+     * 
+     * @return  The minute associated with this instance
+     */
     public final int getMinute()
     {
         return get(Calendar.MINUTE);
     }
 
+    /**
+     * Returns the second associated with this instance
+     * 
+     * @return  The second associated with this instance
+     */
     public final int getSecond()
     {
         return get(Calendar.SECOND);
     }
 
     /**
-     * Returns the most significant datetime unit in which there's a difference or 0 if there is no difference.
+     * Returns the most significant datetime unit in which there's a
+     * difference or 0 if there is no difference.
      * 
-     * @return
+     * @return  The least significant 'Calendar' unit in which a difference occurred 
      */
     public static final int getDifference(CDateTime cdt1, CDateTime cdt2)
     {
@@ -236,10 +312,12 @@ public class CDateTime extends GregorianCalendar
     }
 
     /**
-     * Returns a preferred format specifier for tick labels that represent axis values that will be computed based on
-     * the difference between cdt1 and cdt2
+     * Returns a preferred format specifier for tick labels that represent
+     * axis values that will be computed based on the difference between cdt1 and cdt2
      * 
-     * @return
+     * @param   iUnit   The unit for which a preferred pattern is being requested
+     * 
+     * @return  A preferred datetime format pattern for the given unit
      */
     public static final String getPreferredFormat(int iUnit)
     {
@@ -270,22 +348,15 @@ public class CDateTime extends GregorianCalendar
         return null;
     }
 
-    private static final int MILLIS_IN_SECOND = 1000;
-
-    private static final int MILLIS_IN_MINUTE = MILLIS_IN_SECOND * 60;
-
-    private static final int MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
-
-    private static final int MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
-
     /**
-     * Computes the difference between two given dates as a fraction for the requested field
+     * Computes the difference between two given datetime values as a
+     * fraction for the requested field.
      * 
-     * @param cdt1
-     * @param cdt2
-     * @param iUnit
+     * @param cdt1  The first datetime value
+     * @param cdt2  The second datetime value
+     * @param iUnit The field with respect to which the difference is being computed as a fraction
      * 
-     * @return
+     * @return  The fractional difference between the two specified datetime values
      */
     public static final double computeDifference(CDateTime cdt1, CDateTime cdt2, int iUnit)
     {
@@ -324,12 +395,14 @@ public class CDateTime extends GregorianCalendar
         return 0;
     }
 
-    private static final int[] iaUnitTypes =
-    {
-        Calendar.MILLISECOND, Calendar.SECOND, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.DATE, Calendar.MONTH,
-        Calendar.YEAR
-    };
-
+    /**
+     * Walks through all values in a dataset and computes the least significant
+     * unit for which a difference was noted.
+     * 
+     * @param   dsi     The dataset iterator that facilitates visiting individual values
+     * 
+     * @return  The least significant unit for which a difference in datetime values was noted
+     */
     public static final int computeUnit(DataSetIterator dsi)
     {
         Calendar cCurr, cPrev;
@@ -351,6 +424,14 @@ public class CDateTime extends GregorianCalendar
         return IConstants.UNDEFINED;
     }
 
+    /**
+     * Walks through all values in a datetime array and computes the least
+     * significant unit for which a difference was noted.
+     * 
+     * @param   cdta    A datetime array for which the least significant unit difference is to be computed
+     * 
+     * @return  The least significant unit for which a difference in datetime values was noted
+     */
     public static final int computeUnit(CDateTime[] cdta)
     {
         int j;
@@ -370,6 +451,13 @@ public class CDateTime extends GregorianCalendar
         return IConstants.UNDEFINED;
     }
 
+    /**
+     * Returns the number of days for a particular (month,year) combination
+     * 
+     * @param   iMonth  The month (0-11) for which the day count is to be retrieved
+     * @param   iYear   The year for which the day count is to be retrieved 
+     * @return
+     */
     public static final int getMaximumDaysIn(int iMonth, int iYear)
     {
         CDateTime cdt = new CDateTime();
@@ -378,6 +466,13 @@ public class CDateTime extends GregorianCalendar
         return cdt.getActualMaximum(Calendar.DATE);
     }
 
+    /**
+     * Returns the number of days for a particular year
+     * 
+     * @param   iYear   The year for which the day count is to be retrieved 
+     * 
+     * @return  The number of days in the specified year
+     */
     public static final int getMaximumDaysIn(int iYear)
     {
         CDateTime cdt = new CDateTime();
@@ -385,6 +480,14 @@ public class CDateTime extends GregorianCalendar
         return cdt.getActualMaximum(Calendar.DAY_OF_YEAR);
     }
 
+    /**
+     * A convenience method provided to return the number of milliseconds
+     * available in a given unit
+     * 
+     * @param   iUnit   The unit for which the number of milliseconds are to be computed
+     * 
+     * @return  The number of milliseconds for the specified unit
+     */
     public static final double inMillis(int iUnit)
     {
         if (iUnit == Calendar.SECOND)
@@ -414,6 +517,11 @@ public class CDateTime extends GregorianCalendar
         return 0;
     }
 
+    /**
+     * Zeroes out all units for this datetime instance below a specified unit.
+     * 
+     * @param iUnit The unit below which all values are to be zeroed out
+     */
     public final void clearBelow(int iUnit)
     {
         if (iUnit == YEAR)
@@ -453,22 +561,30 @@ public class CDateTime extends GregorianCalendar
         }
     }
 
-    private static final SimpleDateFormat _sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-
-    public final String toString()
-    {
-        return _sdf.format(getTime());
-    }
-
-    public static CDateTime parse(String s)
+    /**
+     * Parses a value formatted as MM-dd-yyyy HH:mm:ss
+     * and attempts to create an instance of this object
+     * 
+     * @param   sDateTimeValue  The value to be parsed
+     * @return  An instance of the datetime value created
+     */
+    public static CDateTime parse(String sDateTimeValue)
     {
         try
         {
-            return new CDateTime(_sdf.parse(s));
+            return new CDateTime(_sdf.parse(sDateTimeValue));
         }
         catch (Exception ex )
         {
             return null;
         }
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    public final String toString()
+    {
+        return _sdf.format(getTime());
     }
 }

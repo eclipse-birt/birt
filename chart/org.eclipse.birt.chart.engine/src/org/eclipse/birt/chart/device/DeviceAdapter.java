@@ -26,7 +26,8 @@ import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.RenderingException;
 
 /**
- *  
+ * A no-op adapter implementation for the {@link org.eclipse.birt.chart.device.IDeviceRenderer}
+ * interface definition.
  */
 public abstract class DeviceAdapter extends EventObjectCache implements IDeviceRenderer
 {

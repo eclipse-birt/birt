@@ -14,7 +14,8 @@ package org.eclipse.birt.chart.device;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- *  
+ * A no-op adapter implementation for the {@link org.eclipse.birt.chart.device.ITextMetrics}
+ * interface definition.
  */
 public class TextAdapter implements ITextMetrics
 {

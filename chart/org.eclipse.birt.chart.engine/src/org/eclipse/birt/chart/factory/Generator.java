@@ -47,41 +47,40 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * This class provides a factory entry point into building a chart for a given model. It is implemented as a singleton
- * and does not maintain any state information hence allowing multi-threaded requests for a single Generator instance.
- * 
- * @author Actuate Corporation
+ * Provides an entry point into building a chart for a given model. It is implemented as a singleton
+ * and does not maintain any state information hence allowing multi-threaded requests for a single
+ * generator instance.
  */
 public final class Generator
 {
 
     /**
-     *  
+     * Internally used. 
      */
     private static final int UNDEFINED = IConstants.UNDEFINED;
 
     /**
-     *  
+     * Internally used.
      */
     static final int WITH_AXES = 1;
 
     /**
-     *  
+     * Internally used to maintain type information.
      */
     static final int WITHOUT_AXES = 2;
 
     /**
-     *  
+     * Internally used.
      */
     private static final LegendItemRenderingHints[] EMPTY_LIRHA = new LegendItemRenderingHints[0];
 
     /**
-     * The internal singleton Generator reference
+     * The internal singleton Generator reference created lazily.
      */
     private static Generator g = null;
 
     /**
-     * A private constructor
+     * A private constructor.
      */
     private Generator()
     {
@@ -89,8 +88,9 @@ public final class Generator
     }
 
     /**
+     * Returns a singleton instance of the chart generator.
      * 
-     * @return A singleton instance for the Generator.
+     * @return A singleton instance for the chart generator.
      */
     public static synchronized final Generator instance()
     {
@@ -102,13 +102,17 @@ public final class Generator
     }
 
     /**
-     * This method builds the chart (offscreen) using the provided display server 
-     * @param ids
-     * @param cmDesignTime
-     * @param scParent
-     * @param bo
-     * @param rtc       Encapsulates the runtime environment for the build process
-     * @return
+     * Builds and computes preferred sizes of various chart components offscreen
+     * using the provided display server.
+     *  
+     * @param ids           A display server using which the chart may be built.
+     * @param cmDesignTime  The design time chart model (bound to a dataset).
+     * @param scParent      A parent script handler that may be attached to the existing chart model script handler.
+     * @param bo            The bounds associated with the chart being built.
+     * @param rtc           Encapsulates the runtime environment for the build process.
+     * 
+     * @return  An instance of a generated chart state that encapsulates built chart information that may be subsequently rendered.
+     * 
      * @throws GenerationException
      */
     public final GeneratedChartState build(IDisplayServer ids, Chart cmDesignTime,
@@ -286,11 +290,11 @@ public final class Generator
     }
 
     /**
-     * This method may be used to minimize re-computation of the chart if ONLY the dataset content has changed.
-     * Attribute changes require a new chart build.
+     * Performs a minimal rebuild of the chart if non-sizing attributes are altered or the dataset for any series has changed. 
+     * However, if sizing attribute changes occur that affects the relative position of the various chart subcomponents,
+     * a re-build is required.
      * 
-     * @param gcs
-     *            A previously built chart
+     * @param   gcs   A previously built chart encapsulated in a transient structure.
      * 
      * @throws GenerationException
      */
@@ -339,10 +343,10 @@ public final class Generator
     }
 
     /**
-     * This method renders the pre-computed chart via the device renderer
+     * Draws a previously built chart using the specified device renderer into a target output device.
      * 
-     * @param idr
-     * @param gcs
+     * @param   idr     A device renderer that determines the target context on which the chart will be rendered.
+     * @param   gcs     A previously built chart that needs to be rendered.
      * 
      * @throws GenerationException
      */
@@ -405,11 +409,14 @@ public final class Generator
     }
 
     /**
+     * Internally updates a legend position by altering the legend block
+     * hierarchy as needed.
      * 
-     * @param boContainer
-     * @param lg
-     * @param ids
-     * @param cm
+     * @param   boContainer     The internal bounds of the client area contained within the plot.
+     * @param   lg              An instance of the legend for which the position is being updated.
+     * @param   ids             An instance of the display server associated with building the chart.
+     * @param   cm              An instance of the chart model for which the legend position is updated.
+     * 
      * @throws GenerationException
      */
     private static final void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm, RunTimeContext rtc)

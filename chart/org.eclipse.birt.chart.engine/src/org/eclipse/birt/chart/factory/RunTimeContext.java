@@ -16,32 +16,34 @@ import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 /**
- *
+ * Encapsulates runtime information associated with each chart generation
+ * and rendering session. It contains global objects that are defined per
+ * request.
  */
 public final class RunTimeContext
 {
     /**
-     * 
+     * The locale associated with the runtime context.
      */
     private transient Locale lcl = null;
     
     /**
-     * 
+     * A script handler associated with a chart model.
      */
     private transient ScriptHandler sh = null;
     
     /**
-     * 
+     * A resource handle capable of retrieving externalized messages.
      */
     private transient ResourceHandle rh = null;
     
     /**
-     * Used to lookup externalized messages
+     * An interface reference used to lookup externalized messages.
      */
     private transient IMessageLookup iml = null;
     
     /**
-     * 
+     * A default zero-arg public constructor used for object creation.
      */
     public RunTimeContext()
     {
@@ -49,7 +51,9 @@ public final class RunTimeContext
     }
 
     /**
-     * @return
+     * Returns the locale associated with this runtime context.
+     * 
+     * @return  The locale associated with this runtime context.
      */
     public final Locale getLocale()
     {
@@ -58,7 +62,10 @@ public final class RunTimeContext
     
 
     /**
-     * @param lcl
+     * Sets the locale associated with this runtime context.
+     * This is usually done when chart generation begins.
+     * 
+     * @param   lcl     The locale associated with the runtime context.
      */
     public final void setLocale(Locale lcl)
     {
@@ -67,7 +74,11 @@ public final class RunTimeContext
     
 
     /**
-     * @return
+     * Returns an instance of the resource handle for which chart specific messages
+     * are externalized.
+     * 
+     * @return  An instance of the resource handle for which chart specific messages
+     * are externalized.
      */
     public final ResourceHandle getResourceHandle()
     {
@@ -76,7 +87,10 @@ public final class RunTimeContext
     
 
     /**
-     * @param rh
+     * Specifies a resource handle that facilitates retrieval of chart specific
+     * externalized messages.
+     * 
+     * @param   rh    The resource handle.
      */
     public final void setResourceHandle(ResourceHandle rh)
     {
@@ -85,7 +99,11 @@ public final class RunTimeContext
     
 
     /**
-     * @return
+     * Returns an instance of a transient script handler associated with
+     * the chart being generated. The script handler is capable of executing
+     * callback scripts defined in the chart model.
+     * 
+     * @return  An instance of the script handler.
      */
     public final ScriptHandler getScriptHandler()
     {
@@ -94,7 +112,11 @@ public final class RunTimeContext
     
 
     /**
-     * @param sh
+     * Sets an instance of a transient script handler associated with
+     * the chart being generated. The script handler is capable of executing
+     * callback scripts defined in the chart model.
+     * 
+     * @param   sh  An instance of the script handler.
      */
     public final void setScriptHandler(ScriptHandler sh)
     {
@@ -102,7 +124,10 @@ public final class RunTimeContext
     }
 
     /**
-     * @param iml
+     * Defines an externalized message lookup implementation per
+     * chart model being executed.
+     * 
+     * @param   iml   The externalized message lookup implementation.
      */
     public void setMessageLookup(IMessageLookup iml)
     {
@@ -110,8 +135,12 @@ public final class RunTimeContext
     }
     
     /**
-     * @param sChartKey
-     * @return
+     * A convenience method provided to lookup externalized messages
+     * associated with a given message key.
+     * 
+     * @param   sChartKey   The key using which an externalized message is being looked up.
+     * 
+     * @return  The externalized message associated with the specified key.
      */
     public final String externalizedMessage(String sChartKey)
     {

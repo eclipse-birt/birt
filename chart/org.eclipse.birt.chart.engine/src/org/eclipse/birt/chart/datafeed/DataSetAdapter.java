@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.model.data.DataSet;
 
 /**
- * This class provides a no-op implementation of the IDataSetProcessor interface to be
- * subclassed by each extension writer as needed.
+ * Provides a no-op implementation of the {@link org.eclipse.birt.chart.datafeed.IDataSetProcessor}
+ * interface definition to be subclassed by each extension writer as needed.
  */
 public class DataSetAdapter extends Methods implements IDataSetProcessor
 {

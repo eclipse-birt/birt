@@ -20,7 +20,8 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- *  
+ * A no-op adapter implementation for the {@link org.eclipse.birt.chart.device.IDisplayServer}
+ * interface definition.
  */
 public abstract class DisplayAdapter implements IDisplayServer
 {

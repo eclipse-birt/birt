@@ -27,9 +27,8 @@ import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.RenderingException;
 
 /**
- * This interface represents low level primitive rendering notifications
- * 
- * @author Actuate Corporation
+ * Provides low level primitive rendering notifications that are
+ * interpreted by a device renderer.
  */
 public interface IPrimitiveRenderer extends EventListener
 {

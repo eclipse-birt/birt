@@ -85,8 +85,9 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * This class provides a base framework for custom series rendering extensions that are interested in being rendered in
- * a pre-computed plot containing axes.
+ * Provides a base framework for custom series rendering extensions that are interested in being rendered in
+ * a pre-computed plot containing axes. Series type extensions could subclass this class to participate in the
+ * axes rendering framework.
  */
 public abstract class AxesRenderer extends BaseRenderer
 {

@@ -89,7 +89,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * Provides a generic framework that initiates the rendering sequence of the various chart components.
+ * Provides a generic framework that initiates the rendering sequence of
+ * the various chart components. Series type extensions could subclass this
+ * class if they plan on rendering everything for themselves in the plot area.
  */
 public abstract class BaseRenderer
 {

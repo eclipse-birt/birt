@@ -14,9 +14,8 @@ package org.eclipse.birt.chart.device;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * This interface provides a layer of abstraction for text metrics via xserver dependent implementations
- * 
- * @author Actuate Corporation
+ * Provides a layer of abstraction for text metrics retrieval via display
+ * server dependent implementations.
  */
 public interface ITextMetrics
 {

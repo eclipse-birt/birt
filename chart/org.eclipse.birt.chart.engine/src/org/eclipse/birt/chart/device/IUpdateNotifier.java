@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.device;
 import org.eclipse.birt.chart.model.Chart;
 
 /**
- * This interface defines methods that allow model updating via a device event handler used in conjunction with a device
- * renderer.
+ * Defines methods that allow model updating via a device event handler used in conjunction
+ * with a device renderer.
  */
 public interface IUpdateNotifier
 {
@@ -29,16 +29,22 @@ public interface IUpdateNotifier
     void repaintChart();
 
     /**
+     * Returns an instance of the peer (component) used for device-specific actions
+     * 
      * @return An instance of the peer (component) used for device-specific actions
      */
     Object peerInstance();
 
     /**
+     * Returns an instance of the chart design-time model
+     * 
      * @return An instance of the chart design-time model
      */
     Chart getDesignTimeModel();
 
     /**
+     * Returns an instance of the chart run-time model for the last generated instance
+     * 
      * @return An instance of the chart run-time model for the last generated instance
      */
     Chart getRunTimeModel();
