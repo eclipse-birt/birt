@@ -1267,9 +1267,9 @@ public final class PlotWith2DAxes extends PlotContent
         double[] daY = axPV.getScale().getEndPoints();
 
         boPlotBackground.setLeft(daX[0] - insCA.getLeft());
-        boPlotBackground.setWidth(daX[1] - daX[0] + insCA.getLeft() + insCA.getRight());
+        boPlotBackground.setWidth(daX[1] - daX[0] + insCA.getLeft() + insCA.getRight() + 1);
         boPlotBackground.setTop(daY[1] - insCA.getTop());
-        boPlotBackground.setHeight(daY[0] - daY[1] + insCA.getTop() + insCA.getBottom());
+        boPlotBackground.setHeight(daY[0] - daY[1] + insCA.getTop() + insCA.getBottom() + 1);
         if (iDimension == TWO_5_D)
         {
             boPlotBackground.delta(dSeriesThickness, -dSeriesThickness, 0, 0);
@@ -2678,13 +2678,22 @@ public final class PlotWith2DAxes extends PlotContent
 
     /**
      * 
-     * @return
+     * @return	The plot bounds in pixels
      */
     public final Bounds getPlotBounds()
     {
         return boPlotBackground;
     }
 
+    /**
+     * 
+     * @return	The plot insets in pixels
+     */
+    public final Insets getPlotInsets()
+    {
+        return insCA;
+    }
+    
     /**
      * 
      * @return
@@ -2760,7 +2769,7 @@ public final class PlotWith2DAxes extends PlotContent
         Object oDataOrthogonal;
         DataSetIterator dsiDataOrthogonal = getTypedDataSet(seOrthogonal, oaxOrthogonal.getScale().getType());
         double dOrthogonalZero = 0;
-        if ((scOrthogonal.getType() & LOGARITHMIC) == 0)
+        if ((scOrthogonal.getType() & NUMERICAL) == NUMERICAL)
         {
             dOrthogonalZero = getLocation(scOrthogonal, 0);
         }
@@ -2768,7 +2777,7 @@ public final class PlotWith2DAxes extends PlotContent
         {
             dOrthogonalZero = scOrthogonal.getStart();
         }
-        double dBaseZero = ((scBase.getType() & IConstants.NUMERICAL) == IConstants.NUMERICAL && !oaxBase
+        double dBaseZero = ((scBase.getType() & NUMERICAL) == IConstants.NUMERICAL && !oaxBase
             .isCategoryScale()) ? getLocation(scBase, 0) : scBase.getStart();
 
         if (scBase.getType() == TEXT || oaxBase.isCategoryScale())
