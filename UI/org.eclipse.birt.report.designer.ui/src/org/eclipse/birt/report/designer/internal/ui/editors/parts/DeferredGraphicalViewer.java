@@ -49,6 +49,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public static final String LAYOUT_SIZE = "Layout Size"; //$NON-NLS-1$
 
+	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
+	
 	public void hookRefreshListener( DeferredRefreshManager refreshManager )
 	{
 		ReportDeferredUpdateManager updateManager = new ReportDeferredUpdateManager( );

@@ -146,7 +146,7 @@ public class EditorRulerComposite extends Composite
 					}
 					else if ( MasterPage.TYPE_PROP.equals( event.getPropertyName( ) ) )
 					{
-						layout(true);
+						layout( true );
 						setMargin( TOP_LEFT );
 						setMargin( TOP_RIGHT );
 						setMargin( LEFT_TOP );
@@ -154,13 +154,13 @@ public class EditorRulerComposite extends Composite
 					}
 					else if ( MasterPage.WIDTH_PROP.equals( event.getPropertyName( ) ) )
 					{
-						layout(true);
+						layout( true );
 						setMargin( TOP_LEFT );
 						setMargin( TOP_RIGHT );
 					}
 					else if ( MasterPage.HEIGHT_PROP.equals( event.getPropertyName( ) ) )
 					{
-						layout(true);
+						layout( true );
 						setMargin( LEFT_TOP );
 						setMargin( LEFT_BOTTOM );
 					}
@@ -545,7 +545,36 @@ public class EditorRulerComposite extends Composite
 			{
 				String property = evt.getPropertyName( );
 
-				if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( property ) )
+				if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals( property ) )
+				{
+					Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
+
+					if ( obj instanceof EditorRulerProvider )
+					{
+						Object ruler = ( (RulerProvider) obj ).getRuler( );
+						if ( ruler instanceof EditorRuler )
+						{
+							( (EditorRuler) ruler ).setMarginOff( !( (Boolean) evt.getNewValue( ) ).booleanValue( ) );
+							setMargin( TOP_LEFT );
+							setMargin( TOP_RIGHT );
+						}
+					}
+
+					obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) );
+
+					if ( obj instanceof EditorRulerProvider )
+					{
+						Object ruler = ( (RulerProvider) obj ).getRuler( );
+						if ( ruler instanceof EditorRuler )
+						{
+							( (EditorRuler) ruler ).setMarginOff( !( (Boolean) evt.getNewValue( ) ).booleanValue( ) );
+							setMargin( LEFT_TOP );
+							setMargin( LEFT_BOTTOM );
+						}
+					}
+
+				}
+				else if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( property ) )
 				{
 					Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
 
@@ -553,7 +582,7 @@ public class EditorRulerComposite extends Composite
 					{
 						( (EditorRulerProvider) obj ).setLayoutSize( (org.eclipse.draw2d.geometry.Rectangle) diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE ) );
 
-						layout(true);
+						layout( true );
 
 						setMargin( TOP_RIGHT );
 					}
@@ -564,7 +593,7 @@ public class EditorRulerComposite extends Composite
 					{
 						( (EditorRulerProvider) obj ).setLayoutSize( (org.eclipse.draw2d.geometry.Rectangle) diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE ) );
 
-						layout(true);
+						layout( true );
 
 						setMargin( LEFT_BOTTOM );
 					}

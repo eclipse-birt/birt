@@ -40,6 +40,8 @@ public class EditorRuler
 
 	private EditorGuide left, right;
 
+	private boolean marginOff = false;
+
 	/**
 	 * Returns the listeners.
 	 * 
@@ -81,15 +83,18 @@ public class EditorRuler
 	 */
 	public void setRightMargin( int newMargin )
 	{
-		if ( right == null )
+		if ( !marginOff )
 		{
-			right = new EditorGuide( !isHorizontal( ), EditorGuide.RIGHT );
-			right.setPosition( newMargin );
-			addGuide( right );
-		}
-		else
-		{
-			right.setPosition( newMargin );
+			if ( right == null )
+			{
+				right = new EditorGuide( !isHorizontal( ), EditorGuide.RIGHT );
+				right.setPosition( newMargin );
+				addGuide( right );
+			}
+			else
+			{
+				right.setPosition( newMargin );
+			}
 		}
 	}
 
@@ -204,6 +209,25 @@ public class EditorRuler
 	}
 
 	/**
+	 * Sets if display the margin guide.
+	 * 
+	 * @param marginOff
+	 */
+	public void setMarginOff( boolean marginOff )
+	{
+		this.marginOff = marginOff;
+
+		if ( marginOff )
+		{
+			removeGuide( left );
+			removeGuide( right );
+			
+			left = null;
+			right = null;
+		}
+	}
+
+	/**
 	 * Sets the hidden property of the ruler.
 	 * 
 	 * @param isHidden
@@ -249,15 +273,18 @@ public class EditorRuler
 	 */
 	public void setLeftMargin( int newMargin )
 	{
-		if ( left == null )
+		if ( !marginOff )
 		{
-			left = new EditorGuide( !isHorizontal( ), EditorGuide.LEFT );
-			left.setPosition( newMargin );
-			addGuide( left );
-		}
-		else
-		{
-			left.setPosition( newMargin );
+			if ( left == null )
+			{
+				left = new EditorGuide( !isHorizontal( ), EditorGuide.LEFT );
+				left.setPosition( newMargin );
+				addGuide( left );
+			}
+			else
+			{
+				left.setPosition( newMargin );
+			}
 		}
 	}
 }

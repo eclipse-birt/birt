@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
@@ -57,6 +60,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 
+	private static final Insets DEFAULT_MARGIN = new Insets( 3, 3, 3, 3 );
+
 	/**
 	 * constructor
 	 * 
@@ -77,9 +82,41 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	{
 		Figure figure = new ReportElementFigure( ) {
 
+			private boolean showMargin = true;
+
+			{
+				getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
+
+					public void propertyChange( PropertyChangeEvent evt )
+					{
+						if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals( evt.getPropertyName( ) ) )
+						{
+							showMargin = ( (Boolean) evt.getNewValue( ) ).booleanValue( );
+
+							refresh( );
+							markDirty( true );
+						}
+					}
+				} );
+			}
+
 			protected void paintBorder( Graphics graphics )
 			{
 				//does nothing , figure paint itself.
+			}
+
+			public Insets getInsets( )
+			{
+				if ( showMargin )
+				{
+					if ( getBorder( ) != null )
+					{
+						return getBorder( ).getInsets( this );
+					}
+
+					return NO_INSETS;
+				}
+				return DEFAULT_MARGIN;
 			}
 
 			protected void paintFigure( Graphics graphics )
@@ -88,40 +125,42 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
 				graphics.drawRectangle( getBounds( ).getCopy( )
-						.crop( getBorder( ).getInsets( this ) )
+						.crop( getInsets( ) )
 						.crop( DEFAULT_CROP ) );
 
-//				graphics.setForegroundColor( ReportColorConstants.MarginMarkerColor );
-//
-//				Rectangle rect = getBounds( ).getCopy( )
-//						.crop( getBorder( ).getInsets( this ) )
-//						.crop( DEFAULT_CROP );
-//
-//				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
-//				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
-//
-//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-//						+ rect.width, rect.y - 27 );
-//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-//						+ rect.width
-//						+ 27, rect.y );
-//
-//				graphics.drawLine( rect.x, rect.y + rect.height, rect.x, rect.y
-//						+ rect.height
-//						+ 27 );
-//				graphics.drawLine( rect.x,
-//						rect.y + rect.height,
-//						rect.x - 27,
-//						rect.y + rect.height );
-//
-//				graphics.drawLine( rect.x + rect.width,
-//						rect.y + rect.height,
-//						rect.x + rect.width + 27,
-//						rect.y + rect.height );
-//				graphics.drawLine( rect.x + rect.width,
-//						rect.y + rect.height,
-//						rect.x + rect.width,
-//						rect.y + rect.height + 27 );
+				//				graphics.setForegroundColor(
+				// ReportColorConstants.MarginMarkerColor );
+				//
+				//				Rectangle rect = getBounds( ).getCopy( )
+				//						.crop( getBorder( ).getInsets( this ) )
+				//						.crop( DEFAULT_CROP );
+				//
+				//				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
+				//				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
+				//
+				//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+				//						+ rect.width, rect.y - 27 );
+				//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+				//						+ rect.width
+				//						+ 27, rect.y );
+				//
+				//				graphics.drawLine( rect.x, rect.y + rect.height, rect.x,
+				// rect.y
+				//						+ rect.height
+				//						+ 27 );
+				//				graphics.drawLine( rect.x,
+				//						rect.y + rect.height,
+				//						rect.x - 27,
+				//						rect.y + rect.height );
+				//
+				//				graphics.drawLine( rect.x + rect.width,
+				//						rect.y + rect.height,
+				//						rect.x + rect.width + 27,
+				//						rect.y + rect.height );
+				//				graphics.drawLine( rect.x + rect.width,
+				//						rect.y + rect.height,
+				//						rect.x + rect.width,
+				//						rect.y + rect.height + 27 );
 
 			}
 
