@@ -290,6 +290,10 @@ public class ListEditPart extends ReportElementEditPart
 		Object model = getListHandleAdapt( ).getChild( id );
 		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
 				.get( model );
+		if(part == null)
+		{
+			return;
+		}
 		part.setRenderVisile( bool );
 	}
 
@@ -303,6 +307,10 @@ public class ListEditPart extends ReportElementEditPart
 		Object model = getListHandleAdapt( ).getChild( id );
 		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
 				.get( model );
+		if(part == null)
+		{
+			return false;
+		}
 		return part.isRenderVisile( );
 	}
 	
