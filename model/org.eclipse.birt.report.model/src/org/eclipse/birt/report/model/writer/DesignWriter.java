@@ -1107,7 +1107,7 @@ public class DesignWriter extends ElementVisitor
 			return;
 
 		if ( tag != null )
-			writer.startElement( tag );
+			writer.conditionalStartElement( tag );
 
 		// Iterate over the contents using this visitor to write each one.
 		// Note that this may result in a recursive call back into this
@@ -1166,7 +1166,7 @@ public class DesignWriter extends ElementVisitor
 			}
 		}
 		if ( tag != null )
-			writer.startElement( tag );
+			writer.conditionalStartElement( tag );
 
 		// Iterate over the contents using this visitor to write each one.
 		// Note that this may result in a recursive call back into this

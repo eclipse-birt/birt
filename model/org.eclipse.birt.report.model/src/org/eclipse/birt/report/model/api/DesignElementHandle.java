@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -445,6 +446,27 @@ public abstract class DesignElementHandle
 	public void clearProperty( String propName ) throws SemanticException
 	{
 		setProperty( propName, null );
+	}
+
+	/**
+	 * Clears values of all properties. Clearing a property removes any value
+	 * set for the property on this element. After this, the element will now
+	 * inherit the property from its parent element, style, or from the default
+	 * value for the property.
+	 * 
+	 * @throws SemanticException
+	 *             if the property is not defined on this element
+	 */
+
+	public void clearAllProperties( ) throws SemanticException
+	{
+		Iterator iter = getDefn( ).getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyDefn propDefn = (PropertyDefn) iter.next( );
+
+			setProperty( propDefn.getName( ), null );
+		}
 	}
 
 	/**
@@ -1236,7 +1258,7 @@ public abstract class DesignElementHandle
 	}
 
 	/**
-	 * Deep clone of the current design element which is wrapped by the handle.
+	 * Deeply clones the current design element which is wrapped by the handle.
 	 * 
 	 * @return the copy of the design element
 	 */
