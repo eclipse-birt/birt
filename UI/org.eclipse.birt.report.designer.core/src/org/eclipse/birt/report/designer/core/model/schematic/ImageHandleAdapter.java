@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -41,7 +41,7 @@ public class ImageHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @param handle
 	 */
-	public ImageHandleAdapter( ImageHandle image, IModelAdaptHelper mark )
+	public ImageHandleAdapter( ImageHandle image, IModelAdapterHelper mark )
 	{
 		super( image, mark );
 	}

@@ -165,7 +165,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		request.setExtendedData( extendsData );
 
-		ProviderFactory.createProvider( slotHandle ).performRequest( model,
+		ProviderFactory.createProvider( model ).performRequest( model,
 				request );
 
 		return request;

@@ -29,9 +29,9 @@ import org.eclipse.ui.PlatformUI;
 public class EditGroupAction extends DynamicItemAction
 {
 
-	private static final String STACK_MSG_EDIT_GROUP = Messages.getString( "TemplateEditGroupAction.stackMsg.editGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_EDIT_GROUP = Messages.getString( "EditGroupAction.stackMsg.editGroup" ); //$NON-NLS-1$
 
-	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.TemplateEditGroupAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction"; //$NON-NLS-1$
 
 	private GroupHandle handle;
 

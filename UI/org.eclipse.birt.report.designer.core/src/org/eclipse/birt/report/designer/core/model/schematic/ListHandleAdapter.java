@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.MetricUtility;
@@ -61,7 +61,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	 * @param handle
 	 * @param mark
 	 */
-	public ListHandleAdapter( ListHandle handle, IModelAdaptHelper mark )
+	public ListHandleAdapter( ListHandle handle, IModelAdapterHelper mark )
 	{
 		super( handle, mark );
 	}

@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteColumnCommand;
 import org.eclipse.birt.report.designer.core.commands.DeleteRowCommand;
-import org.eclipse.birt.report.designer.core.model.ITableAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
@@ -71,7 +71,7 @@ import org.eclipse.swt.widgets.Display;
 public class TableEditPart extends ReportElementEditPart
 		implements
 			LayerConstants,
-			ITableAdaptHelper
+			ITableAdapterHelper
 {
 
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$

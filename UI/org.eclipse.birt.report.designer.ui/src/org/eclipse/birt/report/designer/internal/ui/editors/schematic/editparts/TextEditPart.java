@@ -74,7 +74,7 @@ public class TextEditPart extends LabelEditPart
 	protected String getText( )
 	{
 		TextItemHandle handle = (TextItemHandle) getModel( );
-		String textContent = handle.getContent( );
+		String textContent = handle.getDisplayContent( );
 		if ( textContent == null )
 		{
 			textContent = FIGURE_DEFAULT_TEXT;

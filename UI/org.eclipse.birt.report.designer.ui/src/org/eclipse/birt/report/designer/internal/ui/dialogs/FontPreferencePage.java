@@ -48,13 +48,13 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	 */
 	private ColorFieldEditor color;
 
-	private ComboFieldEditor name;
+	private ComboBoxFieldEditor name;
 
-	private ComboFieldEditor style;
+	private ComboBoxFieldEditor style;
 
-	private ComboFieldEditor weight;
+	private ComboBoxFieldEditor weight;
 
-	private ComboMeasureFieldEditor size;
+	private ComboBoxMeasureFieldEditor size;
 
 	private DecorationFieldEditor docoration;
 
@@ -114,7 +114,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
-		name = new ComboFieldEditor( Style.FONT_FAMILY_PROP,
+		name = new ComboBoxFieldEditor( Style.FONT_FAMILY_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.FONT_FAMILY_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -127,7 +127,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 						.getDisplayName( ),
 				getFieldEditorParent( ) );
 
-		size = new ComboMeasureFieldEditor( Style.FONT_SIZE_PROP,
+		size = new ComboBoxMeasureFieldEditor( Style.FONT_SIZE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -135,14 +135,14 @@ public class FontPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( DesignChoiceConstants.CHOICE_UNITS ),
 				getFieldEditorParent( ) );
 
-		style = new ComboFieldEditor( Style.FONT_STYLE_PROP,
+		style = new ComboBoxFieldEditor( Style.FONT_STYLE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.FONT_STYLE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_STYLE ),
 				getFieldEditorParent( ) );
 
-		weight = new ComboFieldEditor( Style.FONT_WEIGHT_PROP,
+		weight = new ComboBoxFieldEditor( Style.FONT_WEIGHT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.FONT_WEIGHT_PROP )
 						.getDefn( )
 						.getDisplayName( ),

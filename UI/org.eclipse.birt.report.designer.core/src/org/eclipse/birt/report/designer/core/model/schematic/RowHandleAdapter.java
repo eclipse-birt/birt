@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
@@ -65,7 +65,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * @param row
 	 * @param mark
 	 */
-	public RowHandleAdapter( RowHandle row, IModelAdaptHelper mark )
+	public RowHandleAdapter( RowHandle row, IModelAdapterHelper mark )
 	{
 		super( row, mark );
 	}

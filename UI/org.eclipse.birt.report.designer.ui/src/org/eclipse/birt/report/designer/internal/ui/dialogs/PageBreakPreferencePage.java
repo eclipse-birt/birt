@@ -81,7 +81,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( new SeparatorFieldEditor( getFieldEditorParent( ), false ) );
 
-		ComboFieldEditor before = new ComboFieldEditor( Style.PAGE_BREAK_BEFORE_PROP,
+		ComboBoxFieldEditor before = new ComboBoxFieldEditor( Style.PAGE_BREAK_BEFORE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_BEFORE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -94,7 +94,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( before );
 
-		ComboFieldEditor inside = new ComboFieldEditor( Style.PAGE_BREAK_INSIDE_PROP,
+		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( Style.PAGE_BREAK_INSIDE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_INSIDE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -107,7 +107,7 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( inside );
 
-		ComboFieldEditor after = new ComboFieldEditor( Style.PAGE_BREAK_AFTER_PROP,
+		ComboBoxFieldEditor after = new ComboBoxFieldEditor( Style.PAGE_BREAK_AFTER_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_AFTER_PROP )
 						.getDefn( )
 						.getDisplayName( ),

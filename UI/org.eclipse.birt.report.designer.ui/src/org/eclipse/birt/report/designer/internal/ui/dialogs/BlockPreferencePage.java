@@ -36,23 +36,23 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 	 * field editors.
 	 *  
 	 */
-	private ComboMeasureFieldEditor lineHeight;
+	private ComboBoxMeasureFieldEditor lineHeight;
 
-	private ComboMeasureFieldEditor charSpacing;
+	private ComboBoxMeasureFieldEditor charSpacing;
 
-	private ComboMeasureFieldEditor wordSpacing;
+	private ComboBoxMeasureFieldEditor wordSpacing;
 
-	private ComboMeasureFieldEditor textIndent;
+	private ComboBoxMeasureFieldEditor textIndent;
 
-	private ComboFieldEditor verticalAlign;
+	private ComboBoxFieldEditor verticalAlign;
 
-	private ComboFieldEditor textAlign;
+	private ComboBoxFieldEditor textAlign;
 
-	private ComboFieldEditor textTrans;
+	private ComboBoxFieldEditor textTrans;
 
-	private ComboFieldEditor whiteSpace;
+	private ComboBoxFieldEditor whiteSpace;
 
-	private ComboFieldEditor display;
+	private ComboBoxFieldEditor display;
 
 	/**
 	 * Constructs a new instance of block preference page.
@@ -102,7 +102,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
-		lineHeight = new ComboMeasureFieldEditor( Style.LINE_HEIGHT_PROP,
+		lineHeight = new ComboBoxMeasureFieldEditor( Style.LINE_HEIGHT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.LINE_HEIGHT_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -112,7 +112,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.LINE_HEIGHT_PROP ) ),
 				getFieldEditorParent( ) );
 
-		charSpacing = new ComboMeasureFieldEditor( Style.LETTER_SPACING_PROP,
+		charSpacing = new ComboBoxMeasureFieldEditor( Style.LETTER_SPACING_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.LETTER_SPACING_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -122,7 +122,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.LETTER_SPACING_PROP ) ),
 				getFieldEditorParent( ) );
 
-		wordSpacing = new ComboMeasureFieldEditor( Style.WORD_SPACING_PROP,
+		wordSpacing = new ComboBoxMeasureFieldEditor( Style.WORD_SPACING_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.WORD_SPACING_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -132,7 +132,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.WORD_SPACING_PROP ) ),
 				getFieldEditorParent( ) );
 
-		verticalAlign = new ComboFieldEditor( Style.VERTICAL_ALIGN_PROP,
+		verticalAlign = new ComboBoxFieldEditor( Style.VERTICAL_ALIGN_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.VERTICAL_ALIGN_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -140,7 +140,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.VERTICAL_ALIGN_PROP ) ),
 				getFieldEditorParent( ) );
 
-		textAlign = new ComboFieldEditor( Style.TEXT_ALIGN_PROP,
+		textAlign = new ComboBoxFieldEditor( Style.TEXT_ALIGN_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_ALIGN_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -148,7 +148,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.TEXT_ALIGN_PROP ) ),
 				getFieldEditorParent( ) );
 
-		textIndent = new ComboMeasureFieldEditor( Style.TEXT_INDENT_PROP,
+		textIndent = new ComboBoxMeasureFieldEditor( Style.TEXT_INDENT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_INDENT_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -156,7 +156,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.TEXT_INDENT_PROP ) ),
 				getFieldEditorParent( ) );
 
-		textTrans = new ComboFieldEditor( Style.TEXT_TRANSFORM_PROP,
+		textTrans = new ComboBoxFieldEditor( Style.TEXT_TRANSFORM_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.TEXT_TRANSFORM_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -164,7 +164,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.TEXT_TRANSFORM_PROP ) ),
 				getFieldEditorParent( ) );
 
-		whiteSpace = new ComboFieldEditor( Style.WHITE_SPACE_PROP,
+		whiteSpace = new ComboBoxFieldEditor( Style.WHITE_SPACE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.WHITE_SPACE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -172,7 +172,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 						Style.WHITE_SPACE_PROP ) ),
 				getFieldEditorParent( ) );
 
-		display = new ComboFieldEditor( Style.DISPLAY_PROP,
+		display = new ComboBoxFieldEditor( Style.DISPLAY_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.DISPLAY_PROP )
 						.getDefn( )
 						.getDisplayName( ),

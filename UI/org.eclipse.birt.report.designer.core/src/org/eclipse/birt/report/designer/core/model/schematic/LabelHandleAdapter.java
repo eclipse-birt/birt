@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.model.api.LabelHandle;
 
@@ -29,7 +29,7 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter
 	 *            The label handle.
 	 * @param mark
 	 */
-	public LabelHandleAdapter( LabelHandle labelHandle, IModelAdaptHelper mark )
+	public LabelHandleAdapter( LabelHandle labelHandle, IModelAdapterHelper mark )
 	{
 		super( labelHandle, mark );
 	}

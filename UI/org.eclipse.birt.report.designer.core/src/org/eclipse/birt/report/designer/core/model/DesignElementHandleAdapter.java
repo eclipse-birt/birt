@@ -41,7 +41,7 @@ public abstract class DesignElementHandleAdapter
 
 	private DesignElementHandle elementHandle;
 
-	private IModelAdaptHelper helper;
+	private IModelAdapterHelper helper;
 
 	/**
 	 * constructor
@@ -50,7 +50,7 @@ public abstract class DesignElementHandleAdapter
 	 * @param mark
 	 */
 	public DesignElementHandleAdapter( DesignElementHandle element,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		this.elementHandle = element;
 		this.helper = mark;
@@ -143,7 +143,7 @@ public abstract class DesignElementHandleAdapter
 	/**
 	 * @return
 	 */
-	protected IModelAdaptHelper getModelAdaptHelper( )
+	protected IModelAdapterHelper getModelAdaptHelper( )
 	{
 		return helper;
 	}

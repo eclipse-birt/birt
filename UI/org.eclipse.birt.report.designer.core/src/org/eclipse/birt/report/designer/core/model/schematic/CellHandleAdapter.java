@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -49,7 +49,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 *            The cell handle.
 	 * @param mark
 	 */
-	public CellHandleAdapter( CellHandle cellHandle, IModelAdaptHelper mark )
+	public CellHandleAdapter( CellHandle cellHandle, IModelAdapterHelper mark )
 	{
 		super( cellHandle, mark );
 	}

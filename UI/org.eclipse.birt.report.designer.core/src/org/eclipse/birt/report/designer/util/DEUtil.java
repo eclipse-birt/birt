@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
@@ -49,7 +50,6 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextItem;
-import org.eclipse.birt.report.model.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.birt.report.model.util.DimensionUtil;
+import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Font;
@@ -92,7 +93,7 @@ public class DEUtil
 
 		//do not support following element in release 1
 		notSupportList.add( MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
+				.getElement( ReportDesignConstants.LINE_ITEM ) );
 		notSupportList.add( MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
 		notSupportList.add( MetaDataDictionary.getInstance( )
@@ -168,7 +169,12 @@ public class DEUtil
 	{
 		if ( element == null )
 		{
-			return DEUtil.getChildrenAccount( parent, slotID );
+			SlotHandle slotHandle = parent.getSlot( slotID );
+			if ( slotHandle != null )
+			{
+				return slotHandle.getCount( );
+			}
+			return -1;
 		}
 		return DEUtil.findPos( parent, slotID, element );
 	}
@@ -192,21 +198,6 @@ public class DEUtil
 		assert slotID >= 0;
 		SlotHandle slotHandle = parent.getSlot( slotID );
 		return slotHandle.findPosn( child.getElement( ) );
-	}
-
-	/**
-	 * Gets the children account of given element.
-	 * 
-	 * @param parent
-	 *            the parent element
-	 * @return the the children account of the element
-	 */
-	public static int getChildrenAccount( DesignElementHandle parent, int slotID )
-	{
-		assert slotID >= 0;
-		SlotHandle slotHandle = parent.getSlot( slotID );
-		return slotHandle.getCount( );
-
 	}
 
 	/**
@@ -241,7 +232,7 @@ public class DEUtil
 			DesignElementHandle handle = (DesignElementHandle) obj;
 			String elementName = handle.getDefn( ).getDisplayName( );
 			String displayName = handle.getDisplayLabel( DesignElement.USER_LABEL );
-			if ( displayName != null )
+			if ( !StringUtil.isBlank( displayName ) )
 			{
 				return elementName + " - " + displayName; //$NON-NLS-1$
 			}
@@ -366,8 +357,12 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			return DEUtil.getChildrenAccount( parent,
-					DEUtil.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
+			if ( slotHandle != null )
+			{
+				return slotHandle.getCount( );
+			}
+			return -1;
 		}
 		return DEUtil.findPos( parent, element.getContainerSlotHandle( )
 				.getSlotID( ), element );
@@ -726,16 +721,13 @@ public class DEUtil
 		}
 		if ( model instanceof DataSetItemModel )
 		{
-			return IReportElementConstants.DATA_COLUMN_PREFIX
+			return IReportElementConstants.DATA_SET_PREFIX
+					+ "[\""
+					+ ( (DataSetHandle) ( (DataSetItemModel) model ).getParent( ) ).getName( )
+					+ "\"]."
+					+ IReportElementConstants.DATA_COLUMN_PREFIX
 					+ "[\""
 					+ ( (DataSetItemModel) model ).getName( )
-					+ "\"]";
-		}
-		if ( model instanceof ResultSetColumn )
-		{
-			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\""
-					+ ( (ResultSetColumn) model ).getColumnName( )
 					+ "\"]";
 		}
 		return null;

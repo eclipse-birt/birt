@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -60,7 +60,7 @@ import org.eclipse.swt.graphics.Image;
 public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		implements
 			Listener,
-			IModelAdaptHelper
+			IModelAdapterHelper
 {
 
 	DesignElementHandleAdapter peer;

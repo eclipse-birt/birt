@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.core.model.schematic;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.activity.SemanticException;
@@ -49,7 +49,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @param handle
 	 */
-	public ColumnHandleAdapter( ColumnHandle column, IModelAdaptHelper mark )
+	public ColumnHandleAdapter( ColumnHandle column, IModelAdapterHelper mark )
 	{
 		super( column, mark );
 	}

@@ -48,7 +48,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * @param handle
 	 */
 	public ReportDesignHandleAdapter( ReportDesignHandle handle,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		super( handle, mark );
 	}

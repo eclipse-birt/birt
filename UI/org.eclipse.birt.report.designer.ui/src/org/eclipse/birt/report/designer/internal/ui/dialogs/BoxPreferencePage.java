@@ -31,9 +31,9 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 
 	private Object model;
 
-	private ComboMeasureFieldEditor paddingTop, paddingRight, paddingBottom,
+	private ComboBoxMeasureFieldEditor paddingTop, paddingRight, paddingBottom,
 			paddingLeft;
-	private ComboMeasureFieldEditor marginTop, marginRight, marginBottom,
+	private ComboBoxMeasureFieldEditor marginTop, marginRight, marginBottom,
 			marginLeft;
 
 	private SeparatorFieldEditor paddingSep, marginSep;
@@ -114,28 +114,28 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 
 		paddingSep = new SeparatorFieldEditor( gpPadding, false );
 
-		paddingTop = new ComboMeasureFieldEditor( Style.PADDING_TOP_PROP,
+		paddingTop = new ComboBoxMeasureFieldEditor( Style.PADDING_TOP_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_TOP_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getMeasureChoiceArray( Style.PADDING_TOP_PROP ),
 				gpPadding );
 
-		paddingRight = new ComboMeasureFieldEditor( Style.PADDING_RIGHT_PROP,
+		paddingRight = new ComboBoxMeasureFieldEditor( Style.PADDING_RIGHT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_RIGHT_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getMeasureChoiceArray( Style.PADDING_RIGHT_PROP ),
 				gpPadding );
 
-		paddingBottom = new ComboMeasureFieldEditor( Style.PADDING_BOTTOM_PROP,
+		paddingBottom = new ComboBoxMeasureFieldEditor( Style.PADDING_BOTTOM_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_BOTTOM_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getMeasureChoiceArray( Style.PADDING_BOTTOM_PROP ),
 				gpPadding );
 
-		paddingLeft = new ComboMeasureFieldEditor( Style.PADDING_LEFT_PROP,
+		paddingLeft = new ComboBoxMeasureFieldEditor( Style.PADDING_LEFT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.PADDING_LEFT_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -151,7 +151,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 
 		marginSep = new SeparatorFieldEditor( gpMargin, false );
 
-		marginTop = new ComboMeasureFieldEditor( Style.MARGIN_TOP_PROP,
+		marginTop = new ComboBoxMeasureFieldEditor( Style.MARGIN_TOP_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_TOP_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -159,7 +159,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.MARGIN_TOP_PROP ),
 				gpMargin );
 
-		marginRight = new ComboMeasureFieldEditor( Style.MARGIN_RIGHT_PROP,
+		marginRight = new ComboBoxMeasureFieldEditor( Style.MARGIN_RIGHT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_RIGHT_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -167,7 +167,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.MARGIN_RIGHT_PROP ),
 				gpMargin );
 
-		marginBottom = new ComboMeasureFieldEditor( Style.MARGIN_BOTTOM_PROP,
+		marginBottom = new ComboBoxMeasureFieldEditor( Style.MARGIN_BOTTOM_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_BOTTOM_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -175,7 +175,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.MARGIN_BOTTOM_PROP ),
 				gpMargin );
 
-		marginLeft = new ComboMeasureFieldEditor( Style.MARGIN_LEFT_PROP,
+		marginLeft = new ComboBoxMeasureFieldEditor( Style.MARGIN_LEFT_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_LEFT_PROP )
 						.getDefn( )
 						.getDisplayName( ),

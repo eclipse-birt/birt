@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandRenderFigure;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListBandControVisible;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListBandControlVisible;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
@@ -130,7 +130,7 @@ public class ListBandEditPart extends ReportElementEditPart
 
 		controlFigure.add( new ListIconFigure( this ) );
 		
-		controlFigure.add( new ListBandControVisible( this ) );
+		controlFigure.add( new ListBandControlVisible( this ) );
 
 		//Sets the background
 		for ( Iterator itr = controlFigure.getChildren( ).iterator( ); itr.hasNext( ); )

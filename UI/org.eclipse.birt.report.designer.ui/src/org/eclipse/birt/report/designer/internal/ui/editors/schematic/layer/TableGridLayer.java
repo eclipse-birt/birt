@@ -65,8 +65,8 @@ public class TableGridLayer extends GridLayer
 	protected void paintGrid( Graphics g )
 	{
 
-		Collections.sort( getRows( ), new NumberComparable( ) );
-		Collections.sort( getColumns( ), new NumberComparable( ) );
+		Collections.sort( getRows( ), new NumberComparator( ) );
+		Collections.sort( getColumns( ), new NumberComparator( ) );
 
 		if ( !getColumns( ).isEmpty( ) )
 		{
@@ -128,7 +128,7 @@ public class TableGridLayer extends GridLayer
 	 * Sorter to be used to sort the rows with row number
 	 * 
 	 */
-	public static class NumberComparable implements Comparator
+	public static class NumberComparator implements Comparator
 	{
 
 		/*

@@ -47,7 +47,7 @@ public class TableXYLayoutEditPolicy extends XYLayoutEditPolicy
 
 	protected EditPolicy createChildEditPolicy( EditPart child )
 	{
-		return new TableCellResizeEditPolice( );
+		return new TableCellResizeEditPolicy( );
 	}
 
 	/*

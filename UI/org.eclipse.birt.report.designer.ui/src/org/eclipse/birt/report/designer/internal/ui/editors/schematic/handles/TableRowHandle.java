@@ -54,7 +54,7 @@ public class TableRowHandle extends TableHFHandle
 
 		//sort the columnNumber, because the list ensure the column number is
 		// sort
-		Collections.sort( list, new TableGridLayer.NumberComparable( ) );
+		Collections.sort( list, new TableGridLayer.NumberComparator( ) );
 		int size = list.size( );
 		int height = HEIGHT;//the handle x value
 		for ( int i = 0; i < size; i++ )

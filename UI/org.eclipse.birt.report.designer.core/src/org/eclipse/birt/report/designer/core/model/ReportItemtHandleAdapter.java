@@ -38,7 +38,7 @@ public abstract class ReportItemtHandleAdapter extends
 	 * @param handle
 	 */
 	public ReportItemtHandleAdapter( ReportItemHandle handle,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		super( handle, mark );
 	}

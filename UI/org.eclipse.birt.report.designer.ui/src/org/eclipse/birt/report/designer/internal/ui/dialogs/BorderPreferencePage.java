@@ -30,9 +30,9 @@ import org.eclipse.swt.widgets.Group;
 public class BorderPreferencePage extends BaseStylePreferencePage
 {
 
-	private ComboFieldEditor styleTop, styleBottom, styleLeft, styleRight;
+	private ComboBoxFieldEditor styleTop, styleBottom, styleLeft, styleRight;
 	private ColorFieldEditor colorTop, colorBottom, colorRight, colorLeft;
-	private ComboMeasureFieldEditor widthTop, widthBottom, widthLeft,
+	private ComboBoxMeasureFieldEditor widthTop, widthBottom, widthLeft,
 			widthRight;
 
 	private Group gpStyle, gpColor, gpWidth;
@@ -112,28 +112,28 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 
 		styleSep = new SeparatorFieldEditor( gpStyle, false );
 
-		styleTop = new ComboFieldEditor( Style.BORDER_TOP_STYLE_PROP,
+		styleTop = new ComboBoxFieldEditor( Style.BORDER_TOP_STYLE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getChoiceArray( Style.BORDER_TOP_STYLE_PROP ),
 				gpStyle );
 
-		styleRight = new ComboFieldEditor( Style.BORDER_RIGHT_STYLE_PROP,
+		styleRight = new ComboBoxFieldEditor( Style.BORDER_RIGHT_STYLE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getChoiceArray( Style.BORDER_RIGHT_STYLE_PROP ),
 				gpStyle );
 
-		styleBottom = new ComboFieldEditor( Style.BORDER_BOTTOM_STYLE_PROP,
+		styleBottom = new ComboBoxFieldEditor( Style.BORDER_BOTTOM_STYLE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
 				getChoiceArray( Style.BORDER_BOTTOM_STYLE_PROP ),
 				gpStyle );
 
-		styleLeft = new ComboFieldEditor( Style.BORDER_LEFT_STYLE_PROP,
+		styleLeft = new ComboBoxFieldEditor( Style.BORDER_LEFT_STYLE_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -171,7 +171,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 
 		widthSep = new SeparatorFieldEditor( gpWidth, false );
 
-		widthTop = new ComboMeasureFieldEditor( Style.BORDER_TOP_WIDTH_PROP,
+		widthTop = new ComboBoxMeasureFieldEditor( Style.BORDER_TOP_WIDTH_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -179,7 +179,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.BORDER_TOP_WIDTH_PROP ),
 				gpWidth );
 
-		widthRight = new ComboMeasureFieldEditor( Style.BORDER_RIGHT_WIDTH_PROP,
+		widthRight = new ComboBoxMeasureFieldEditor( Style.BORDER_RIGHT_WIDTH_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -187,7 +187,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.BORDER_RIGHT_WIDTH_PROP ),
 				gpWidth );
 
-		widthBottom = new ComboMeasureFieldEditor( Style.BORDER_BOTTOM_WIDTH_PROP,
+		widthBottom = new ComboBoxMeasureFieldEditor( Style.BORDER_BOTTOM_WIDTH_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
 						.getDefn( )
 						.getDisplayName( ),
@@ -195,7 +195,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getMeasureChoiceArray( Style.BORDER_BOTTOM_WIDTH_PROP ),
 				gpWidth );
 
-		widthLeft = new ComboMeasureFieldEditor( Style.BORDER_LEFT_WIDTH_PROP,
+		widthLeft = new ComboBoxMeasureFieldEditor( Style.BORDER_LEFT_WIDTH_PROP,
 				( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
 						.getDefn( )
 						.getDisplayName( ),

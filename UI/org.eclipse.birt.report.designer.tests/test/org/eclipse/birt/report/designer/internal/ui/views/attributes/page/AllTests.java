@@ -24,7 +24,7 @@ public class AllTests
 	{
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.internal.ui.views.attributes.page" );
 		//$JUnit-BEGIN$
-		suite.addTestSuite( BasAttributePageTest.class );
+		suite.addTestSuite( BaseAttributePageTest.class );
 		//$JUnit-END$
 		return suite;
 	}

@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
-import org.eclipse.birt.report.designer.core.model.ITableAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -96,7 +96,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 * 
 	 * @param mark
 	 */
-	public TableHandleAdapter( ReportItemHandle table, IModelAdaptHelper mark )
+	public TableHandleAdapter( ReportItemHandle table, IModelAdapterHelper mark )
 	{
 		super( table, mark );
 	}
@@ -531,12 +531,12 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Dimension calculateSize( )
 	{
-		if ( !( getModelAdaptHelper( ) instanceof ITableAdaptHelper ) )
+		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
 		{
 			return new Dimension( );
 		}
 
-		ITableAdaptHelper tableHelper = (ITableAdaptHelper) getModelAdaptHelper( );
+		ITableAdapterHelper tableHelper = (ITableAdapterHelper) getModelAdaptHelper( );
 
 		int columnCount = getColumnCount( );
 		int samColumnWidth = 0;
@@ -567,12 +567,12 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public void ajustSize( Dimension size ) throws SemanticException
 	{
-		if ( !( getModelAdaptHelper( ) instanceof ITableAdaptHelper ) )
+		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
 		{
 			return;
 		}
 
-		ITableAdaptHelper tableHelper = (ITableAdaptHelper) getModelAdaptHelper( );
+		ITableAdapterHelper tableHelper = (ITableAdapterHelper) getModelAdaptHelper( );
 		size = size.shrink( tableHelper.getInsets( ).getWidth( ),
 				tableHelper.getInsets( ).getHeight( ) );
 
@@ -665,9 +665,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Dimension getClientAreaSize( )
 	{
-		if ( getModelAdaptHelper( ) instanceof ITableAdaptHelper )
+		if ( getModelAdaptHelper( ) instanceof ITableAdapterHelper )
 		{
-			return ( (ITableAdaptHelper) getModelAdaptHelper( ) ).getClientAreaSize( );
+			return ( (ITableAdapterHelper) getModelAdaptHelper( ) ).getClientAreaSize( );
 		}
 
 		return new Dimension( );

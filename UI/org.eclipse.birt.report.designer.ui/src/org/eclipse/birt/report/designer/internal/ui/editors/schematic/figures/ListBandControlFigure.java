@@ -116,7 +116,7 @@ public class ListBandControlFigure extends Figure
 		return CONTROL_SIZE;
 	}
 
-	public static class ListBandControVisible extends Figure implements
+	public static class ListBandControlVisible extends Figure implements
 			MouseListener
 	{
 
@@ -124,7 +124,7 @@ public class ListBandControlFigure extends Figure
 
 		private boolean state = true;
 
-		public ListBandControVisible( ListBandEditPart owner )
+		public ListBandControlVisible( ListBandEditPart owner )
 		{
 			setBounds( new Rectangle( 0, 0, 20, 19 ) );
 			this.owner = owner;

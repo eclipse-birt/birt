@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.IModelAdaptHelper;
+import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -55,7 +55,7 @@ public class HandleAdapterFactory
 	 * @return
 	 */
 	public DesignElementHandleAdapter getDesignElementHandleAdapter(
-			Object obj, IModelAdaptHelper mark )
+			Object obj, IModelAdapterHelper mark )
 	{
 		if ( obj instanceof ReportDesignHandle )
 		{
@@ -116,13 +116,13 @@ public class HandleAdapterFactory
 	 *            TableItem instance
 	 * @return Table Handle Adapter
 	 */
-	public GridHandleAdapt getGridHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+	public GridHandleAdapter getGridHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
 	{
-		GridHandleAdapt retValue = (GridHandleAdapt) map.get( obj );
+		GridHandleAdapter retValue = (GridHandleAdapter) map.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new GridHandleAdapt( (GridHandle) obj, mark );
+			retValue = new GridHandleAdapter( (GridHandle) obj, mark );
 			map.put( obj, retValue );
 		}
 		return retValue;
@@ -136,7 +136,7 @@ public class HandleAdapterFactory
 	 * @return Table Handle Adapter
 	 */
 	
-	public GridHandleAdapt getGridHandleAdapter( Object obj )
+	public GridHandleAdapter getGridHandleAdapter( Object obj )
 	{
 		return getGridHandleAdapter( obj, null );
 	}
@@ -149,7 +149,7 @@ public class HandleAdapterFactory
 	 * @return Table Handle Adapter
 	 */
 	public ListHandleAdapter getListHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		ListHandleAdapter retValue = (ListHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -208,7 +208,7 @@ public class HandleAdapterFactory
 	 * @return Table Handle Adapter
 	 */
 	public TableHandleAdapter getTableHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		TableHandleAdapter retValue = (TableHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -241,7 +241,7 @@ public class HandleAdapterFactory
 	 * @return Cell Handle Adapter
 	 */
 	public CellHandleAdapter getCellHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		CellHandleAdapter retValue = (CellHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -275,7 +275,7 @@ public class HandleAdapterFactory
 	 * @return Row Handle Adapter
 	 */
 	public RowHandleAdapter getRowHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		RowHandleAdapter retValue = (RowHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -308,7 +308,7 @@ public class HandleAdapterFactory
 	 * @return Column Handle Adapter
 	 */
 	public ColumnHandleAdapter getColumnHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		ColumnHandleAdapter retValue = (ColumnHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -344,7 +344,7 @@ public class HandleAdapterFactory
 	 */
 	
 	public ImageHandleAdapter getImageHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		ImageHandleAdapter retValue = (ImageHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -389,7 +389,7 @@ public class HandleAdapterFactory
 	 * @return Label Handle Adapter
 	 */
 	public LabelHandleAdapter getLabelHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		LabelHandleAdapter retValue = (LabelHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -424,7 +424,7 @@ public class HandleAdapterFactory
 	 * @return Table Handle Adapter
 	 */
 	public TextItemHandleAdapter getTextItemHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		TextItemHandleAdapter retValue = (TextItemHandleAdapter) map.get( obj );
 		if ( retValue == null )
@@ -458,7 +458,7 @@ public class HandleAdapterFactory
 	 * @return Table Handle Adapter
 	 */
 	public DataItemHandleAdapter getDataItemHandleAdapter( Object obj,
-			IModelAdaptHelper mark )
+			IModelAdapterHelper mark )
 	{
 		DataItemHandleAdapter retValue = (DataItemHandleAdapter) map.get( obj );
 		if ( retValue == null )

@@ -197,7 +197,7 @@ public class LabelEditPart extends ReportElementEditPart
 	 */
 	protected String getText( )
 	{
-		String text = ( (LabelHandle) getModel( ) ).getText( );
+		String text = ( (LabelHandle) getModel( ) ).getDisplayText( );
 		if ( text == null )
 		{
 			text = ELEMENT_DEFAULT_TEXT;
