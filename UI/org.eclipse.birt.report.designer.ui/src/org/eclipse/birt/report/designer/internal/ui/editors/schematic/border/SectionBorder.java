@@ -14,13 +14,11 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -29,9 +27,10 @@ import org.eclipse.swt.graphics.Image;
 public class SectionBorder extends BaseBorder
 {
 
-	//private static final Insets DEFAULTINSETS = new Insets( 3, 2, 23, 3 );
-	private static final Insets DEFAULTINSETS = new Insets( 3, 2, 3, 3 );
-	public static final int LEFT = 10;
+	private static final Insets DEFAULT_CROP = new Insets( 0, 0, 1, 1 );
+
+	private static final Insets DEFAULTINSETS = new Insets( 2, 2, 3, 3 );
+
 	private Insets insets = new Insets( DEFAULTINSETS );
 	private Dimension indicatorDimension = new Dimension( );
 	protected String indicatorLabel = "";//$NON-NLS-1$
@@ -84,33 +83,37 @@ public class SectionBorder extends BaseBorder
 	 */
 	public void paint( IFigure figure, Graphics g, Insets in )
 	{
+		i_bottom_style = getBorderStyle( bottom_style );
+		i_bottom_width = getBorderWidth( bottom_width );
 
-		i_bottom_style = Integer.parseInt( getStyeSize( bottom_style ).toString( ) );
-		i_bottom_width = Integer.parseInt( getStyeWidth( bottom_width ).toString( ) );
+		i_top_style = getBorderStyle( top_style );
+		i_top_width = getBorderWidth( top_width );
 
-		i_top_style = Integer.parseInt( getStyeSize( top_style ).toString( ) );
-		i_top_width = Integer.parseInt( getStyeWidth( top_width ).toString( ) );
+		i_left_style = getBorderStyle( left_style );
+		i_left_width = getBorderWidth( left_width );
 
-		i_left_style = Integer.parseInt( getStyeSize( left_style ).toString( ) );
-		i_left_width = Integer.parseInt( getStyeWidth( left_width ).toString( ) );
-
-		i_right_style = Integer.parseInt( getStyeSize( right_style ).toString( ) );
-		i_right_width = Integer.parseInt( getStyeWidth( right_width ).toString( ) );
+		i_right_style = getBorderStyle( right_style );
+		i_right_width = getBorderWidth( right_width );
 
 		//draw top line
-		drawBorder( figure, g, in, "top", i_top_style, i_top_width, top_color );//$NON-NLS-1$
+		drawBorder( figure, g, in, TOP, i_top_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, top_color );
 
 		//draw bottom line
-		drawBorder( figure, g, in, "bottom",//$NON-NLS-1$
-				i_bottom_style, i_bottom_width, bottom_color );
+		drawBorder( figure, g, in, BOTTOM, i_bottom_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, bottom_color );
 
 		//draw left line
-		drawBorder( figure, g, in, "left",//$NON-NLS-1$
-				i_left_style, i_left_width, left_color );
+		drawBorder( figure, g, in, LEFT, i_left_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, left_color );
 
 		//draw right line
-		drawBorder( figure, g, in, "right",//$NON-NLS-1$
-				i_right_style, i_right_width, right_color );
+		drawBorder( figure, g, in, RIGHT, i_right_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, right_color );
 
 	}
 
@@ -125,13 +128,16 @@ public class SectionBorder extends BaseBorder
 	 * @param width
 	 * @param color
 	 */
-	private void drawBorder( IFigure figure, Graphics g, Insets in,
-			String side, int style, int width, String color )
+	private void drawBorder( IFigure figure, Graphics g, Insets in, int side,
+			int style, int[] width, String color )
 	{
-		Rectangle r = figure.getBounds( ).getCropped( in );
+		Rectangle r = figure.getBounds( )
+				.getCropped( DEFAULT_CROP )
+				.getCropped( in );
+
 		//Outline the border
-		indicatorDimension = calculateIndicatorDimension( g, width );
-		
+		//indicatorDimension = calculateIndicatorDimension( g, width[side] );
+
 		//if the border style is not set to "none", draw line with given style,
 		// width and color
 		if ( style != 0 )
@@ -141,12 +147,12 @@ public class SectionBorder extends BaseBorder
 			if ( style == -2 )
 			{
 				//drawDouble line
-				DrawDoubleLine( figure, g, in, side, width, r );
+				drawDoubleLine( figure, g, side, width, r );
 			}
 			else
 			{
 				//draw single line
-				DrawSingleLine( figure, g, in, side, style, width, r );
+				drawSingleLine( figure, g, side, style, width, r );
 			}
 		}
 
@@ -156,195 +162,23 @@ public class SectionBorder extends BaseBorder
 		{
 			g.setForegroundColor( ColorConstants.lightGray );
 			//draw default line
-			DrawDefaultLine( figure, g, in, side, r, width );
+			drawDefaultLine( figure, g, side, r );
 		}
 
 		g.restoreState( );
 	}
 
-	/**
-	 * draw a single line with given style and width
-	 * 
-	 * @param figure
-	 * @param g
-	 * @param in
-	 * @param side
-	 * @param style
-	 * @param width
-	 * @param r
-	 */
-	private void DrawSingleLine( IFigure figure, Graphics g, Insets in,
-			String side, int style, int width, Rectangle r )
-	{
-		g.setLineStyle( style );
-		if ( side.equals( "bottom" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x + indicatorDimension.width, r.bottom( )
-						- 1
-						- indicatorDimension.height
-						- i, r.right( ) - 1, r.bottom( )
-						- 1
-						- indicatorDimension.height
-						- i );
-			}
-			drawIndicator( g,
-					figure.getBounds( ).getCropped( in ),
-					indicatorDimension,
-					style,
-					width,
-					"bottom",//$NON-NLS-1$
-					false );
-		}
-		if ( side.equals( "top" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x, r.y + i, r.right( ) - 1, r.y + i );
-			}
-		}
-		if ( side.equals( "left" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x + i, r.y, r.x + i, r.bottom( )
-						- 1
-						- indicatorDimension.height );
-			}
-			drawIndicator( g,
-					figure.getBounds( ).getCropped( in ),
-					indicatorDimension,
-					style,
-					width,
-					"left",//$NON-NLS-1$
-					false );
-		}
-		if ( side.equals( "right" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.right( ) - 1 - i, r.bottom( )
-						- 1
-						- indicatorDimension.height, r.right( ) - 1 - i, r.y );
-			}
-		}
-	}
-
-	/**
-	 * Draw a double-line is equivalent to draw a solid-line twice with the
-	 * interval of 1 pixel
-	 * 
-	 * @param figure
-	 * @param g
-	 * @param in
-	 * @param side
-	 * @param width
-	 * @param r
-	 */
-
-	private void DrawDoubleLine( IFigure figure, Graphics g, Insets in,
-			String side, int width, Rectangle r )
-	{
-		//draw the first line
-		DrawSingleLine( figure, g, in, side, SWT.LINE_SOLID, width, r );
-		//draw the second line with 1 pixel interval
-		g.setLineStyle( SWT.LINE_SOLID );
-		if ( side.equals( "bottom" ) )//$NON-NLS-1$
-		{
-			calLeftRightGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + indicatorDimension.width - 1 - width,
-						r.bottom( )
-								- 1
-								- indicatorDimension.height
-								- j
-								- width
-								- 1,
-						r.right( ) - 1 - rightGap,
-						r.bottom( )
-								- 1
-								- indicatorDimension.height
-								- j
-								- width
-								- 1 );
-			}
-			drawIndicator( g,
-					figure.getBounds( ).getCropped( in ),
-					indicatorDimension,
-					SWT.LINE_SOLID,
-					width,
-					"bottom",//$NON-NLS-1$
-					true );
-		}
-		if ( side.equals( "top" ) )//$NON-NLS-1$
-		{
-			calLeftRightGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + leftGap, r.y + j + width + 1, r.right( )
-						- 1
-						- rightGap, r.y + j + width + 1 );
-			}
-		}
-		if ( side.equals( "left" ) )//$NON-NLS-1$
-		{
-			calTopBottomGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + j + width + 1, r.y + topGap, r.x
-						+ j
-						+ width
-						+ 1, r.bottom( ) - 1 - indicatorDimension.height );
-			}
-			drawIndicator( g,
-					figure.getBounds( ).getCropped( in ),
-					indicatorDimension,
-					SWT.LINE_SOLID,
-					width,
-					"left", //$NON-NLS-1$
-					true );
-		}
-		if ( side.equals( "right" ) )//$NON-NLS-1$
-		{
-			calTopBottomGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.right( ) - 1 - j - width - 1, r.bottom( )
-						- 1
-						- indicatorDimension.height
-						- bottomGap, r.right( ) - 1 - j - width - 1, r.y
-						+ topGap );
-			}
-		}
-
-	}
-
-	/**
-	 * Draw a black solid line
-	 * 
-	 * @param figure,
-	 *            g, in, side, r, width
-	 */
-	private void DrawDefaultLine( IFigure figure, Graphics g, Insets in,
-			String side, Rectangle r, int width )
-	{
-		DrawSingleLine( figure, g, in, side, SWT.LINE_SOLID, 1, r );
-
-	}
-
-	/**
-	 * draw the left corner
-	 * 
-	 * @param g
-	 * @param rec
-	 * @param indicatorDimension
-	 */
-	private void drawIndicator( Graphics g, Rectangle rec,
-			Dimension indicatorDimension, int style, int width, String side,
-			boolean db )
-	{
+//	/**
+//	 * draw the left corner
+//	 * 
+//	 * @param g
+//	 * @param rec
+//	 * @param indicatorDimension
+//	 */
+//	private void drawIndicator( Graphics g, Rectangle rec,
+//			Dimension indicatorDimension, int style, int width, int side,
+//			boolean db )
+//	{
 //		Dimension cale = calculateIndicatorDimension( g, width );
 //		int indicatorWidth = cale.width;
 //		int indicatorHeight = cale.height;
@@ -354,7 +188,8 @@ public class SectionBorder extends BaseBorder
 //				indicatorHeight );
 //
 //		g.setLineStyle( style );
-//		if ( side.equals( "bottom" ) )//$NON-NLS-1$
+//
+//		if ( side == BOTTOM )
 //		{
 //			if ( db == false )
 //			{
@@ -407,7 +242,7 @@ public class SectionBorder extends BaseBorder
 //					- width );
 //
 //		}
-//		if ( side.equals( "left" ) )//$NON-NLS-1$
+//		else if ( side == LEFT )
 //		{
 //			if ( db == false )
 //			{
@@ -430,8 +265,8 @@ public class SectionBorder extends BaseBorder
 //				}
 //			}
 //		}
-
-	}
+//
+//	}
 
 	/**
 	 * Sets the left corner label
@@ -456,38 +291,39 @@ public class SectionBorder extends BaseBorder
 		this.image = image;
 	}
 
-	/**
-	 * calculates the left corner size
-	 * 
-	 * @return
-	 */
-	private Dimension calculateIndicatorDimension( Graphics g, int width )
-	{
-//		gap = 0;
-//		Dimension iconDimension = new Dimension( );
-//		if ( image != null )
-//		{
-//			iconDimension = new Dimension( image );
-//			gap = 3;
-//		}
-//		Dimension d = FigureUtilities.getTextExtents( indicatorLabel,
-//				g.getFont( ) );
-//		int incheight = 0;
-//		if ( iconDimension.height > d.height )
-//		{
-//			incheight = iconDimension.height - d.height;
-//		}
-//		d.expand( iconDimension.width
-//				+ gap
-//				+ gapInsets.left
-//				+ gapInsets.right
-//				+ 4
-//				* width
-//				+ 2, incheight + gapInsets.top + gapInsets.bottom );
+//	/**
+//	 * calculates the left corner size
+//	 * 
+//	 * @return
+//	 */
+//	private Dimension calculateIndicatorDimension( Graphics g, int width )
+//	{
+//		return new Dimension( 0, 0 );
 //
-//		return d;
-		return new Dimension(0, 0);
-	}
+//		//		gap = 0;
+//		//		Dimension iconDimension = new Dimension( );
+//		//		if ( image != null )
+//		//		{
+//		//			iconDimension = new Dimension( image );
+//		//			gap = 3;
+//		//		}
+//		//		Dimension d = FigureUtilities.getTextExtents( indicatorLabel,
+//		//				g.getFont( ) );
+//		//		int incheight = 0;
+//		//		if ( iconDimension.height > d.height )
+//		//		{
+//		//			incheight = iconDimension.height - d.height;
+//		//		}
+//		//		d.expand( iconDimension.width
+//		//				+ gap
+//		//				+ gapInsets.left
+//		//				+ gapInsets.right
+//		//				+ 4
+//		//				* width
+//		//				+ 2, incheight + gapInsets.top + gapInsets.bottom );
+//		//
+//		//		return d;
+//	}
 
 	/**
 	 * gets the left corner size

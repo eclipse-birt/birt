@@ -18,7 +18,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 
 /**
  * This class represents the cell border
@@ -48,36 +47,42 @@ public class CellBorder extends BaseBorder
 	 */
 	public void paint( IFigure figure, Graphics g, Insets insets )
 	{
-		i_bottom_style = Integer.parseInt( getStyeSize( bottom_style ).toString( ) );
-		i_bottom_width = Integer.parseInt( getStyeWidth( bottom_width ).toString( ) );
+		i_bottom_style = getBorderStyle( bottom_style );
+		i_bottom_width = getBorderWidth( bottom_width );
 
-		i_top_style = Integer.parseInt( getStyeSize( top_style ).toString( ) );
-		i_top_width = Integer.parseInt( getStyeWidth( top_width ).toString( ) );
+		i_top_style = getBorderStyle( top_style );
+		i_top_width = getBorderWidth( top_width );
 
-		i_left_style = Integer.parseInt( getStyeSize( left_style ).toString( ) );
-		i_left_width = Integer.parseInt( getStyeWidth( left_width ).toString( ) );
+		i_left_style = getBorderStyle( left_style );
+		i_left_width = getBorderWidth( left_width );
 
-		i_right_style = Integer.parseInt( getStyeSize( right_style ).toString( ) );
-		i_right_width = Integer.parseInt( getStyeWidth( right_width ).toString( ) );
+		i_right_style = getBorderStyle( right_style );
+		i_right_width = getBorderWidth( right_width );
 
 		//draw bottom line
-		drawBorder( figure, g, "bottom",//$NON-NLS-1$
-				i_bottom_style, i_bottom_width, bottom_color );
+		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, bottom_color );
 
 		//draw top line
-		drawBorder( figure, g, "top", i_top_style, i_top_width, top_color );//$NON-NLS-1$
+		drawBorder( figure, g, TOP, i_top_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, top_color );
 
 		//draw left line
-		drawBorder( figure, g, "left", i_left_style, i_left_width, left_color );//$NON-NLS-1$
+		drawBorder( figure, g, LEFT, i_left_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, left_color );
 
 		//draw right line
-		drawBorder( figure, g, "right",//$NON-NLS-1$
-				i_right_style, i_right_width, right_color );
+		drawBorder( figure, g, RIGHT, i_right_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, right_color );
 
 	}
 
 	/**
-	 * draw the border line with give style, width and color
+	 * draw the border line with given style, width and color
 	 * 
 	 * @param figure
 	 * @param g
@@ -86,11 +91,10 @@ public class CellBorder extends BaseBorder
 	 * @param width
 	 * @param color
 	 */
-	private void drawBorder( IFigure figure, Graphics g, String side,
-			int style, int width, String color )
+	private void drawBorder( IFigure figure, Graphics g, int side, int style,
+			int[] width, String color )
 	{
-		Rectangle r = figure.getBounds( ).getCopy( ).crop( DEFAULTINSETS );// figure.getInsets(
-																		   // ) );
+		Rectangle r = figure.getBounds( ).getCopy( ).crop( DEFAULTINSETS );
 
 		//draw line
 		if ( style != 0 )
@@ -116,123 +120,10 @@ public class CellBorder extends BaseBorder
 			//if the border style is set to solid, draw a 1 width line in
 			// gray as default
 			g.setForegroundColor( ReportColorConstants.InnerLineColor );
-			drawDefaultLine( figure, g, side, r, width );
+			drawDefaultLine( figure, g, side, r );
 		}
 
 		g.restoreState( );
 	}
 
-	/**
-	 * Draw a double-line is equivalent to draw a solid-line twice with the
-	 * interval of 1 pixel
-	 * 
-	 * @param g
-	 * @param side
-	 * @param width
-	 * @param r
-	 */
-
-	private void drawDoubleLine( IFigure figure, Graphics g, String side,
-			int width, Rectangle r )
-	{
-		//draw the first line
-		drawSingleLine( figure, g, side, SWT.LINE_SOLID, width, r );
-		//draw the second line with 1 pixel interval
-		g.setLineStyle( SWT.LINE_SOLID );
-		if ( side.equals( "bottom" ) )//$NON-NLS-1$
-		{
-			calLeftRightGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + leftGap, r.y + r.height - width - j - 1, r.x
-						+ r.width - rightGap, r.y + r.height - width - j - 1 );
-			}
-		}
-		if ( side.equals( "top" ) )//$NON-NLS-1$
-		{
-			calLeftRightGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + leftGap, r.y - j + width + 1, r.x
-						+ r.width - rightGap, r.y - j + width + 1 );
-			}
-		}
-		if ( side.equals( "left" ) )//$NON-NLS-1$
-		{
-			calTopBottomGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + width + 1 + j, r.y + topGap, r.x
-						+ width + 1 + j, r.y + r.height - bottomGap );
-			}
-		}
-		if ( side.equals( "right" ) )//$NON-NLS-1$
-		{
-			calTopBottomGap( );
-			for ( int j = 0; j < width; j++ )
-			{
-				g.drawLine( r.x + r.width - width - 1 - j, r.y + topGap, r.x
-						+ r.width - width - 1 - j, r.y + r.height - bottomGap );
-			}
-		}
-	}
-
-	/**
-	 * draw a single line with given style and width
-	 * 
-	 * @param g
-	 * @param side
-	 * @param style
-	 * @param width
-	 * @param r
-	 */
-	private void drawSingleLine( IFigure figure, Graphics g, String side,
-			int style, int width, Rectangle r )
-	{
-		g.setLineStyle( style );
-		if ( side.equals( "bottom" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x, r.y + r.height - i, r.x + r.width, r.y
-						+ r.height - i );
-			}
-		}
-		if ( side.equals( "top" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x, r.y + i, r.x + r.width, r.y + i );
-			}
-		}
-		if ( side.equals( "left" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x + i, r.y, r.x + i, r.y + r.height );
-			}
-		}
-		if ( side.equals( "right" ) )//$NON-NLS-1$
-		{
-			for ( int i = 0; i < width; i++ )
-			{
-				g.drawLine( r.x + r.width - i, r.y, r.x + r.width - i, r.y
-						+ r.height );
-			}
-		}
-	}
-
-	/**
-	 * Draw a black dot-line
-	 * 
-	 * @param figure
-	 * @param g
-	 * @param side
-	 * @param r
-	 */
-	private void drawDefaultLine( IFigure figure, Graphics g, String side,
-			Rectangle r, int width )
-	{
-		drawSingleLine( figure, g, side, SWT.LINE_SOLID, 1, r );
-	}
 }

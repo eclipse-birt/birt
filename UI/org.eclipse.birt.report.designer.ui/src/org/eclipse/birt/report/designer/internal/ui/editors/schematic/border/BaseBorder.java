@@ -14,13 +14,15 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 import java.util.HashMap;
 
 import org.eclipse.draw2d.AbstractBorder;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
 /**
  * Base class for border
- * 
- * @author banian
- * @version $Revision: #3 $ $Date: 2005/02/05 $
+ *  
  */
 
 public abstract class BaseBorder extends AbstractBorder
@@ -43,12 +45,21 @@ public abstract class BaseBorder extends AbstractBorder
 	protected int i_top_style, i_top_width = 1;
 	protected int i_left_style, i_left_width = 1;
 	protected int i_right_style, i_right_width = 1;
-	
+
 	private static HashMap styleMap = new HashMap( );
 	private static HashMap widthMap = new HashMap( );
 
 	protected int leftGap, rightGap, bottomGap, topGap;
-	
+
+	protected static final int[] DEFAULT_LINE_WIDTH = new int[]{
+			1, 1, 1, 1
+	};
+
+	protected static final int TOP = 0;
+	protected static final int BOTTOM = 1;
+	protected static final int LEFT = 2;
+	protected static final int RIGHT = 3;
+
 	static
 	{
 		styleMap.put( "solid", new Integer( SWT.LINE_SOLID ) );//$NON-NLS-1$
@@ -63,83 +74,257 @@ public abstract class BaseBorder extends AbstractBorder
 	}
 
 	/**
-	 * Calculate left and right gap to avoid cross-line when drawing double line
-	 *  
+	 * Calculate gap to avoid cross-line when drawing thick/double line.
 	 */
-	protected void calLeftRightGap( )
+	protected int getGap( int x, int y, int i )
 	{
-		leftGap = 0;
-		rightGap = 0;
-		if ( i_left_style == -2 )
+		if ( x == 0 )
 		{
-			leftGap = i_left_width + 1;
+			return 0;
 		}
-		else
+
+		if ( i < 0 )
 		{
-			leftGap = i_left_width;
+			i = 0;
 		}
-		if ( i_right_style == -2 )
+
+		if ( i > x )
 		{
-			rightGap = i_right_width + 1;
+			i = x;
 		}
-		else
-		{
-			rightGap = i_right_width;
-		}
+
+		return (int) ( y * i / x );
 	}
 
 	/**
-	 * Calculate top and bottom gap to avoid cross-line when drawing double line
-	 *  
-	 */
-	protected void calTopBottomGap( )
-	{
-		topGap = 0;
-		bottomGap = 0;
-		if ( i_top_style == -2 )
-		{
-			topGap = i_top_width + 1;
-		}
-		else
-		{
-			topGap = i_top_width;
-		}
-		if ( i_bottom_style == -2 )
-		{
-			bottomGap = i_bottom_width + 1;
-		}
-		else
-		{
-			bottomGap = i_bottom_width;
-		}
-	}
-
-	/**
+	 * Returns the border style.
+	 * 
 	 * @param obj
 	 * @return
 	 */
-	protected String getStyeSize( Object obj )
+	protected int getBorderStyle( Object obj )
 	{
 		Integer retValue = (Integer) ( styleMap.get( obj ) );
 		if ( retValue == null )
 		{
-			retValue = new Integer( SWT.LINE_DASH );
+			return SWT.LINE_DASH;
 		}
-		return retValue.toString( );
+
+		return retValue.intValue( );
 	}
 
 	/**
+	 * Returns the border width as pixel.
+	 * 
 	 * @param obj
 	 * @return
 	 */
-	protected String getStyeWidth( Object obj )
+	protected int getBorderWidth( Object obj )
 	{
 		Integer retValue = (Integer) ( widthMap.get( obj ) );
+
 		if ( retValue == null )
 		{
-			retValue = new Integer( 1 );
+			return 1;
 		}
-		return retValue.toString( );
+
+		return retValue.intValue( );
+	}
+
+	/**
+	 * Draws a double style line.
+	 * 
+	 * @param figure
+	 * @param g
+	 * @param side
+	 * @param width
+	 *            the border width array, arranged by {top, bottom, left,
+	 *            right};
+	 * @param r
+	 */
+	protected void drawDoubleLine( IFigure figure, Graphics g, int side,
+			int[] width, Rectangle r )
+	{
+		/**
+		 * calculate the line width and the blank width. the line/blank width is
+		 * the average of the original width. to ensure all space is used.if the
+		 * remainder is 1, assign it to the blank, if 2, assign it to the line.
+		 */
+		int lineWidth, blankWidth;
+		lineWidth = blankWidth = width[side] / 3;
+
+		if ( width[side] % 3 == 1 )
+		{
+			blankWidth++;
+		}
+		else if ( width[side] % 3 == 2 )
+		{
+			lineWidth++;
+		}
+
+		/**
+		 * Tweak if whole width is 1, this cause the line width be Zero, force
+		 * it to show 1px line. This behavior is like IE, but according to CSS
+		 * spec, should draw nothing like Mozilla do.
+		 */
+		if ( lineWidth == 0 && width[side] != 0 )
+		{
+			drawSingleLine( figure, g, side, SWT.LINE_SOLID, width, 1, 0, r );
+
+			return;
+		}
+
+		//draw the first line.
+		drawSingleLine( figure, g, side, SWT.LINE_SOLID, width, lineWidth, 0, r );
+
+		//draw the second line.
+		drawSingleLine( figure,
+				g,
+				side,
+				SWT.LINE_SOLID,
+				width,
+				lineWidth,
+				lineWidth + blankWidth,
+				r );
+
+		//draw the space line.
+		g.setForegroundColor( ColorConstants.white );
+		drawSingleLine( figure,
+				g,
+				side,
+				SWT.LINE_SOLID,
+				width,
+				blankWidth,
+				lineWidth,
+				r );
+
+	}
+
+	/**
+	 * Convenient version, set actualWidth=-1, startPos=0.
+	 * 
+	 * @param figure
+	 * @param g
+	 * @param side
+	 * @param style
+	 * @param width
+	 * @param r
+	 */
+	protected void drawSingleLine( IFigure figure, Graphics g, int side,
+			int style, int[] width, Rectangle r )
+	{
+		drawSingleLine( figure, g, side, style, width, -1, 0, r );
+	}
+
+	/**
+	 * Draws a single style line.
+	 * 
+	 * @param figure
+	 * @param g
+	 * @param side
+	 * @param style
+	 * @param width
+	 *            the border width array, arranged by {top, bottom, left,
+	 *            right};
+	 * @param actualWidth
+	 *            if this value is greater or equal to Zero, use this to draw
+	 *            the line, or will use the specified width array value.
+	 * @param startPos
+	 *            indicate the drawing start position.
+	 * @param r
+	 */
+	protected void drawSingleLine( IFigure figure, Graphics g, int side,
+			int style, int[] width, int actualWidth, int startPos, Rectangle r )
+	{
+		g.setLineStyle( style );
+
+		switch ( side )
+		{
+			case BOTTOM :
+				if ( actualWidth < 0 )
+				{
+					actualWidth = width[side];
+				}
+				for ( int i = 0; i < actualWidth; i++ )
+				{
+					g.drawLine( r.x
+							+ getGap( width[BOTTOM], width[LEFT], i + startPos ),
+							r.y + r.height - i - startPos,
+							r.x
+									+ r.width
+									- getGap( width[BOTTOM], width[RIGHT], i
+											+ startPos ),
+							r.y + r.height - i - startPos );
+				}
+				break;
+			case TOP :
+				if ( actualWidth < 0 )
+				{
+					actualWidth = width[side];
+				}
+				for ( int i = 0; i < actualWidth; i++ )
+				{
+					g.drawLine( r.x
+							+ getGap( width[TOP], width[LEFT], i + startPos ),
+							r.y + i + startPos,
+							r.x
+									+ r.width
+									- getGap( width[TOP], width[RIGHT], i
+											+ startPos ),
+							r.y + i + startPos );
+				}
+				break;
+			case LEFT :
+				if ( actualWidth < 0 )
+				{
+					actualWidth = width[side];
+				}
+				for ( int i = 0; i < actualWidth; i++ )
+				{
+					g.drawLine( r.x + i + startPos,
+							r.y
+									+ getGap( width[LEFT], width[TOP], i
+											+ startPos ),
+							r.x + i + startPos,
+							r.y
+									+ r.height
+									- getGap( width[LEFT], width[BOTTOM], i
+											+ startPos ) );
+				}
+				break;
+			case RIGHT :
+				if ( actualWidth < 0 )
+				{
+					actualWidth = width[side];
+				}
+				for ( int i = 0; i < actualWidth; i++ )
+				{
+					g.drawLine( r.x + r.width - i - startPos,
+							r.y
+									+ getGap( width[RIGHT], width[TOP], i
+											+ startPos ),
+							r.x + r.width - i - startPos,
+							r.y
+									+ r.height
+									- getGap( width[RIGHT], width[BOTTOM], i
+											+ startPos ) );
+				}
+				break;
+		}
+	}
+
+	/**
+	 * Draws a default grayed line.
+	 * 
+	 * @param figure
+	 * @param g
+	 * @param side
+	 * @param r
+	 */
+	protected void drawDefaultLine( IFigure figure, Graphics g, int side,
+			Rectangle r )
+	{
+		drawSingleLine( figure, g, side, SWT.LINE_SOLID, DEFAULT_LINE_WIDTH, r );
 	}
 
 }

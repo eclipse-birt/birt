@@ -23,7 +23,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 
 /**
  * Line border for Label, Text and Data element.
@@ -36,11 +35,6 @@ public class LineBorder extends BaseBorder
 
 	private Insets insets = new Insets( );
 
-	private static final int TOP = 0;
-	private static final int RIGHT = 1;
-	private static final int BOTTOM = 2;
-	private static final int LEFT = 3;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -52,51 +46,31 @@ public class LineBorder extends BaseBorder
 
 		int style = 0;
 
-		style = Integer.parseInt( getStyeSize( bottom_style ) );
+		style = getBorderStyle( bottom_style );
 		if ( style != 0 )
 		{
-			b = Integer.parseInt( getStyeWidth( bottom_width ).toString( ) );
-
-			if ( style == -2 )
-			{
-				b = b * 2 + 1;
-			}
+			b = getBorderWidth( bottom_width );
 		}
 
-		style = Integer.parseInt( getStyeSize( top_style ) );
+		style = getBorderStyle( top_style );
 		if ( style != 0 )
 		{
-			t = Integer.parseInt( getStyeWidth( top_width ).toString( ) );
-
-			if ( style == -2 )
-			{
-				t = t * 2 + 1;
-			}
+			t = getBorderWidth( top_width );
 		}
 
-		style = Integer.parseInt( getStyeSize( left_style ) );
+		style = getBorderStyle( left_style );
 		if ( style != 0 )
 		{
-			l = Integer.parseInt( getStyeWidth( left_width ).toString( ) );
-
-			if ( style == -2 )
-			{
-				l = l * 2 + 1;
-			}
+			l = getBorderWidth( left_width );
 		}
 
-		style = Integer.parseInt( getStyeSize( right_style ) );
+		style = getBorderStyle( right_style );
 		if ( style != 0 )
 		{
-			r = Integer.parseInt( getStyeWidth( right_width ).toString( ) );
-
-			if ( style == -2 )
-			{
-				r = r * 2 + 1;
-			}
+			r = getBorderWidth( right_width );
 		}
 
-		return new Insets( t, l, b, r ).add(insets);
+		return new Insets( t, l, b, r ).add( insets );
 	}
 
 	/**
@@ -137,51 +111,52 @@ public class LineBorder extends BaseBorder
 	 */
 	public void paint( IFigure figure, Graphics g, Insets insets )
 	{
-		i_bottom_style = Integer.parseInt( getStyeSize( bottom_style ).toString( ) );
-		i_bottom_width = Integer.parseInt( getStyeWidth( bottom_width ).toString( ) );
+		i_bottom_style = getBorderStyle( bottom_style );
+		i_bottom_width = getBorderWidth( bottom_width );
 
-		i_top_style = Integer.parseInt( getStyeSize( top_style ).toString( ) );
-		i_top_width = Integer.parseInt( getStyeWidth( top_width ).toString( ) );
+		i_top_style = getBorderStyle( top_style );
+		i_top_width = getBorderWidth( top_width );
 
-		i_left_style = Integer.parseInt( getStyeSize( left_style ).toString( ) );
-		i_left_width = Integer.parseInt( getStyeWidth( left_width ).toString( ) );
+		i_left_style = getBorderStyle( left_style );
+		i_left_width = getBorderWidth( left_width );
 
-		i_right_style = Integer.parseInt( getStyeSize( right_style ).toString( ) );
-		i_right_width = Integer.parseInt( getStyeWidth( right_width ).toString( ) );
+		i_right_style = getBorderStyle( right_style );
+		i_right_width = getBorderWidth( right_width );
 
 		//draw bottom line
-		drawBorder( figure,
-				g,
-				BOTTOM,
-				i_bottom_style,
-				i_bottom_width,
-				bottom_color,
-				insets );
+		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, bottom_color, insets );
 
 		//draw top line
-		drawBorder( figure, g, TOP, i_top_style, i_top_width, top_color, insets );
+		drawBorder( figure, g, TOP, i_top_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, top_color, insets );
 
 		//draw left line
-		drawBorder( figure,
-				g,
-				LEFT,
-				i_left_style,
-				i_left_width,
-				left_color,
-				insets );
+		drawBorder( figure, g, LEFT, i_left_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, left_color, insets );
 
 		//draw right line
-		drawBorder( figure,
-				g,
-				RIGHT,
-				i_right_style,
-				i_right_width,
-				right_color,
-				insets );
+		drawBorder( figure, g, RIGHT, i_right_style, new int[]{
+				i_top_width, i_bottom_width, i_left_width, i_right_width
+		}, right_color, insets );
 	}
 
+	/**
+	 * @param figure
+	 * @param g
+	 * @param side
+	 * @param style
+	 * @param width
+	 *            the border width array, arranged by {top, bottom, left,
+	 *            right};
+	 * @param color
+	 * @param insets
+	 */
 	private void drawBorder( IFigure figure, Graphics g, int side, int style,
-			int width, String color, Insets insets )
+			int[] width, String color, Insets insets )
 	{
 		Rectangle r = figure.getBounds( )
 				.getCopy( )
@@ -211,107 +186,10 @@ public class LineBorder extends BaseBorder
 			g.setForegroundColor( ColorConstants.lightGray );
 			//if the border style is set to none, draw a default dot line in
 			// black as default
-			drawDefaultLine( figure, g, side, width, r );
+			drawDefaultLine( figure, g, side, r );
 		}
 
 		g.restoreState( );
-	}
-
-	private void drawDoubleLine( IFigure figure, Graphics g, int side,
-			int width, Rectangle r )
-	{
-		//draw the first line
-		drawSingleLine( figure, g, side, SWT.LINE_SOLID, width, r );
-
-		//draw the second line with 1 pixel interval
-		g.setLineStyle( SWT.LINE_SOLID );
-
-		switch ( side )
-		{
-			case BOTTOM :
-				calLeftRightGap( );
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( r.x + leftGap,
-							r.y + r.height - width - j - 1,
-							r.x + r.width - rightGap,
-							r.y + r.height - width - j - 1 );
-				}
-				break;
-			case TOP :
-				calLeftRightGap( );
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( r.x + leftGap, r.y + j + width + 1, r.x
-							+ r.width
-							- rightGap, r.y + j + width + 1 );
-				}
-				break;
-			case LEFT :
-				calTopBottomGap( );
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( r.x + width + 1 + j, r.y + topGap, r.x
-							+ width
-							+ 1
-							+ j, r.y + r.height - bottomGap );
-				}
-				break;
-			case RIGHT :
-				calTopBottomGap( );
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( r.x + r.width - width - 1 - j,
-							r.y + topGap,
-							r.x + r.width - width - 1 - j,
-							r.y + r.height - bottomGap );
-				}
-				break;
-		}
-
-	}
-
-	private void drawSingleLine( IFigure figure, Graphics g, int side,
-			int style, int width, Rectangle r )
-	{
-		g.setLineStyle( style );
-
-		switch ( side )
-		{
-			case BOTTOM :
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( r.x, r.y + r.height - i, r.x + r.width, r.y
-							+ r.height
-							- i );
-				}
-				break;
-			case TOP :
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( r.x, r.y + i, r.x + r.width, r.y + i );
-				}
-				break;
-			case LEFT :
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( r.x + i, r.y, r.x + i, r.y + r.height );
-				}
-				break;
-			case RIGHT :
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( r.x + r.width - i, r.y, r.x + r.width - i, r.y
-							+ r.height );
-				}
-				break;
-		}
-	}
-
-	private void drawDefaultLine( IFigure figure, Graphics g, int side,
-			int width, Rectangle r )
-	{
-		drawSingleLine( figure, g, side, SWT.LINE_SOLID, 1, r );
 	}
 
 	/*
@@ -319,7 +197,7 @@ public class LineBorder extends BaseBorder
 	 * 
 	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.border.BaseBorder#getStyeWidth(java.lang.Object)
 	 */
-	protected String getStyeWidth( Object obj )
+	protected int getBorderWidth( Object obj )
 	{
 		if ( obj instanceof String )
 		{
@@ -339,7 +217,7 @@ public class LineBorder extends BaseBorder
 									rt[1],
 									target ) ).getMeasure( );
 
-							return String.valueOf( width );
+							return width;
 						}
 						catch ( PropertyValueException e )
 						{
@@ -351,7 +229,7 @@ public class LineBorder extends BaseBorder
 			}
 		}
 
-		return super.getStyeWidth( obj );
+		return super.getBorderWidth( obj );
 	}
 
 }
