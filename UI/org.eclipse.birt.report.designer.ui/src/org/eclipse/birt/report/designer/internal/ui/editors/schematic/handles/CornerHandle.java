@@ -98,8 +98,6 @@ public class CornerHandle extends AbstractHandle
 				getBounds( ).getCopy( ),
 				true );
 
-		graphics.restoreState( );
-
 	}
 
 }

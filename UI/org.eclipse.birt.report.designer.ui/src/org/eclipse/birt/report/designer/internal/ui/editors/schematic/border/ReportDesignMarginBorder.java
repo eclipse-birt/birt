@@ -28,6 +28,8 @@ import org.eclipse.swt.graphics.Color;
 public class ReportDesignMarginBorder extends MarginBorder
 {
 
+	private static final Insets DEFAULT_CROP = new Insets(-3, -3, -2, -2);
+	
 	private int backgroundColor = 0xFFFFFF;
 
 	/**
@@ -80,7 +82,7 @@ public class ReportDesignMarginBorder extends MarginBorder
 		graphics.drawRectangle( figure.getBounds( )
 				.getCopy( )
 				.crop( margin )
-				.shrink( -1, -1 ) );
+				.crop( DEFAULT_CROP ) );
 		graphics.setForegroundColor( oldForegroundColor );
 	}
 

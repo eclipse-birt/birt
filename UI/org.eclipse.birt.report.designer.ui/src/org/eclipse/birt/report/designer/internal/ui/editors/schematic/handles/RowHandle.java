@@ -187,8 +187,6 @@ public class RowHandle extends AbstractHandle implements IContainer
 				getBounds( ).getCopy( ),
 				true );
 
-		graphics.restoreState( );
-
 	}
 
 	/*

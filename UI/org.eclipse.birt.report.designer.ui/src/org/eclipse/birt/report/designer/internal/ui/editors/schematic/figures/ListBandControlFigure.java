@@ -75,6 +75,7 @@ public class ListBandControlFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
+		graphics.setForegroundColor( ColorConstants.lightGray );
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 1 ) );
 		graphics.setBackgroundColor( ReportColorConstants.ListControlFillColor );
@@ -273,7 +274,6 @@ public class ListBandControlFigure extends Figure
 		
 		private Image getImage( )
 		{
-			ListBandEditPart part =  getOwner( );
 			int type = ( (ListBandProxy) getOwner( ).getModel( ) ).getType();
 			String imageType = null;
 			switch ( type )

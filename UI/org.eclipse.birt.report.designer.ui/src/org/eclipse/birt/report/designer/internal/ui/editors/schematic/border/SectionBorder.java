@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -130,6 +131,7 @@ public class SectionBorder extends BaseBorder
 		Rectangle r = figure.getBounds( ).getCropped( in );
 		//Outline the border
 		indicatorDimension = calculateIndicatorDimension( g, width );
+		
 		//if the border style is not set to "none", draw line with given style,
 		// width and color
 		if ( style != 0 )
@@ -152,6 +154,7 @@ public class SectionBorder extends BaseBorder
 		// default
 		else
 		{
+			g.setForegroundColor( ColorConstants.lightGray );
 			//draw default line
 			DrawDefaultLine( figure, g, in, side, r, width );
 		}

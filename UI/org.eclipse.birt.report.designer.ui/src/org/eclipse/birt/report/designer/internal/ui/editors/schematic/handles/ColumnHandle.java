@@ -132,8 +132,6 @@ public class ColumnHandle extends AbstractHandle implements IContainer
 		ReportFigureUtilities.paintBevel( graphics,
 				getBounds( ).getCopy( ),
 				true );
-
-		graphics.restoreState( );
 	}
 
 	/*

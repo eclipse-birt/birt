@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.MarginBorder;
@@ -26,7 +27,7 @@ import org.eclipse.swt.SWT;
 public class ListBandRenderFigure extends Figure
 {
 
-	private static final Insets margin = new Insets( 2, 2, 2, 2 );
+	private static final Insets margin = new Insets( 5, 5, 4, 4 );
 
 	public static final int HEIGHT = 23;
 
@@ -43,6 +44,7 @@ public class ListBandRenderFigure extends Figure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
+		graphics.setForegroundColor( ColorConstants.lightGray );
 		graphics.setLineStyle( SWT.LINE_SOLID );
 		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 2 ) );
 	}
