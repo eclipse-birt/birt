@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.StyleDesign;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/11 07:52:51 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/15 03:30:13 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -38,7 +38,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.6 $ $Date: 2005/03/11 07:52:51 $
+	 * @version $Revision: 1.7 $ $Date: 2005/03/15 03:30:13 $
 	 */
 	private class PersistData
 	{
@@ -210,7 +210,12 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 */
 	public HTMLTableEmitter( HTMLReportEmitter report )
 	{
-		super( report );
+		this( report, false );
+	}
+
+	public HTMLTableEmitter( HTMLReportEmitter report, boolean isEmbedded )
+	{
+		super( report, isEmbedded );
 	}
 
 	/*
@@ -233,7 +238,9 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		DimensionType x = tableObj.getX( );
 		DimensionType y = tableObj.getY( );
 		StringBuffer styleBuffer = new StringBuffer( );
+
 		StyleDesign mergedStyle = tableObj.getMergedStyle( );
+		addDefaultTableStyles( mergedStyle, styleBuffer );
 
 		type = checkElementType( x, y, mergedStyle, styleBuffer );
 
@@ -248,9 +255,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		handleShrink( ELEMENT_BLOCK, mergedStyle, tableObj.getHeight( ),
 				tableObj.getWidth( ), styleBuffer );
-		AttributeBuilder.buildStyle( styleBuffer,
-				tableObj.getHighlightStyle( ), reportEmitter );
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); //$NON-NLS-1$
+		handleStyle( tableObj, styleBuffer );
 
 		// bookmark
 		setBookmark( null, tableObj.getBookmarkValue( ) );
@@ -280,8 +285,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			return;
 		}
 
-		writer.closeTag( HTMLTags.TAG_TABLE ); //$NON-NLS-1$
-
+		writer.closeTag( HTMLTags.TAG_TABLE );
 		statusStack.pop( );
 		if ( statusStack.size( ) > 0 )
 		{
@@ -354,9 +358,8 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		StringBuffer styleBuffer = new StringBuffer( );
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, 
 				columnObj.getWidth( ) );
-		AttributeBuilder.buildStyle( styleBuffer,
-				columnObj.getHighlightStyle( ), reportEmitter );
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
+
+		handleStyle( columnObj, styleBuffer );
 
 		// span
 		if ( repeat > 1 )
@@ -402,9 +405,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		StringBuffer styleBuffer = new StringBuffer( );
 
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, rowObj.getHeight( ) ); //$NON-NLS-1$
-		AttributeBuilder.buildStyle( styleBuffer, rowObj.getHighlightStyle( ),
-				reportEmitter );
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
+		handleStyle( rowObj, styleBuffer );
 	}
 
 	/*
@@ -475,10 +476,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			}
 
 			StringBuffer styleBuffer = new StringBuffer( );
-			AttributeBuilder.buildStyle( styleBuffer, cellObj
-					.getHighlightStyle( ), reportEmitter );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
-
+			handleStyle( cellObj, styleBuffer );
 		}
 		else
 		{
@@ -585,4 +583,15 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		}
 		writer.closeTag( HTMLTags.TAG_TBODY ); 
 	}
+
+	protected void addDefaultTableStyles( StyleDesign style,
+			StringBuffer styleBuffer )
+	{
+		if ( isEmbedded )
+		{
+			styleBuffer
+					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
+		}
+	}
+
 }

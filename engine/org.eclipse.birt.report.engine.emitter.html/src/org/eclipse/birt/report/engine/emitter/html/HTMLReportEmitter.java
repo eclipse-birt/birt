@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/03/11 07:52:51 $
+ * @version $Revision: 1.11 $ $Date: 2005/03/15 03:30:13 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -51,47 +51,45 @@ public class HTMLReportEmitter implements IReportEmitter
 
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 
-	public static final String CSS_FILE = "report.css"; //$NON-NLS-1$
-
 	/**
 	 * The <code>Report</code> object.
 	 */
-	private Report report;
+	protected Report report;
 
 	/**
 	 * The
 	 * <code>HTMLWriter<code> object that Emitters use to output HTML content.
 	 */
-	private HTMLWriter writer;
+	protected HTMLWriter writer;
 
 	/**
 	 * The <code>HTMLImageEmitter</code> object that outputs image content.
 	 */
-	private HTMLImageEmitter imageEmitter;
+	protected HTMLImageEmitter imageEmitter;
 
 	/**
 	 * The <code>HTMLPageSetupEmitter</code> object that outputs page setup
 	 * information content.
 	 */
-	private HTMLPageSetupEmitter pageSetupEmitter;
+	protected HTMLPageSetupEmitter pageSetupEmitter;
 
 	/**
 	 * The <code>HTMLTableEmitter</code> object that outputs table/grid
 	 * content.
 	 */
-	private HTMLTableEmitter tableEmitter;
+	protected HTMLTableEmitter tableEmitter;
 
 	/**
 	 * The <code>HTMLTextEmitter</code> object that outputs text/label/data
 	 * content.
 	 */
-	private HTMLTextEmitter textEmitter;
+	protected HTMLTextEmitter textEmitter;
 
 	/**
 	 * The <code>HTMLContainerEmitter</code> object that outputs
 	 * List/ListBand/FreeForm content.
 	 */
-	private HTMLContainerEmitter containerEmitter;
+	protected HTMLContainerEmitter containerEmitter;
 
 	/** Indicates that the styled element is hidden or not */
 	protected Stack stack = new Stack( );
@@ -106,28 +104,28 @@ public class HTMLReportEmitter implements IReportEmitter
 	/**
 	 * A resource manager.
 	 */
-	private ResourceManager resourceManager;
+	protected ResourceManager resourceManager;
 
 	/**
 	 * A <code>IHyperlinkProcessor</code> object that customizes hyperlink.
 	 */
-	private IHyperlinkProcessor hyperlinkProcessor;
+	protected IHyperlinkProcessor hyperlinkProcessor;
 
 	/**
 	 * emitter services
 	 */
-	private IEmitterServices services;
+	protected IEmitterServices services;
 
 	/**
 	 * Dow e need to save image files in temp location?
 	 */
-	private boolean saveImgFile = false;
+	protected boolean saveImgFile = false;
 
 	/**
 	 * A <code>HashMap</code> object that maps a style name to actual output
 	 * name of the style.
 	 */
-	private HashMap styleNameMapping = new HashMap( );
+	protected HashMap styleNameMapping = new HashMap( );
 
 	/**
 	 * Create a new <code>HTMLReportEmitter</code> object to output all the
@@ -272,8 +270,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
 		writer.startWriter( );
-		writer.openTag( HTMLTags.TAG_HTML ); //$NON-NLS-1$
-		writer.openTag( HTMLTags.TAG_META ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_HTML );
+		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
 		writer.closeNoEndTag( );
@@ -287,7 +285,7 @@ public class HTMLReportEmitter implements IReportEmitter
 		// output general styles
 		writer
 				.style(
-						"table", "border-collapse: collapse; border-color: black; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
+						"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		StyleDesign style;
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -349,9 +347,9 @@ public class HTMLReportEmitter implements IReportEmitter
 			}
 		}
 
-		writer.closeTag( HTMLTags.TAG_STYLE ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_STYLE );
 
-		writer.closeTag( HTMLTags.TAG_HEAD ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_HEAD );
 	}
 
 	/*
@@ -376,7 +374,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 
-		writer.openTag( HTMLTags.TAG_BODY ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_BODY );
 	}
 
 	/*
@@ -388,7 +386,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 
-		writer.closeTag( HTMLTags.TAG_BODY ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_BODY );
 	}
 
 	/**

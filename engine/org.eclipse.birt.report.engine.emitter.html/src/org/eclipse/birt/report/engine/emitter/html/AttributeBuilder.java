@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/11 07:52:51 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/15 03:30:13 $
  */
 public class AttributeBuilder
 {
@@ -206,27 +206,21 @@ public class AttributeBuilder
 		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, style.getPaddingBottom( ) ); 
 		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, style.getPaddingLeft( ) ); 
 
-		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_STYLE, style.getBorderTopStyle( ) );
-		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_COLOR, style.getBorderTopColor( ) ); 
-		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_WIDTH, style.getBorderTopWidth( ) ); 
+		buildBorder( content, HTMLTags.ATTR_BORDER_TOP,
+				style.getBorderTopWidth( ), style.getBorderTopStyle( ), style
+						.getBorderTopColor( ) );
 
-		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_STYLE, style 
-				.getBorderRightStyle( ) );
-		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_COLOR, style 
-				.getBorderRightColor( ) );
-		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_WIDTH, style 
-				.getBorderRightWidth( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_RIGHT,
+				style.getBorderRightWidth( ), style.getBorderRightStyle( ),
+				style.getBorderRightColor( ) );
 
-		buildProperty( content, HTMLTags.ATTR_BORDER_BOTTOM_STYLE, style 
-				.getBorderBottomStyle( ) );
-		buildProperty( content, HTMLTags.ATTR_BOTTOM_COLOR, style 
-				.getBorderBottomColor( ) );
-		buildProperty( content, HTMLTags.ATTR_BORDER_BOTTOM_WIDTH, style 
-				.getBorderBottomWidth( ) );
+		buildBorder( content, HTMLTags.ATTR_BORDER_BOTTOM,
+				style.getBorderBottomWidth( ), style.getBorderBottomStyle( ),
+				style.getBorderBottomColor( ) );
 
-		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_STYLE, style.getBorderLeftStyle( ) ); 
-		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_COLOR, style.getBorderLeftColor( ) ); 
-		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_WIDTH, style.getBorderLeftWidth( ) ); 
+		buildBorder( content, HTMLTags.ATTR_BORDER_LEFT,
+				style.getBorderLeftWidth( ), style.getBorderLeftStyle( ), style
+						.getBorderLeftColor( ) );
 	}
 
 	/**
@@ -321,6 +315,40 @@ public class AttributeBuilder
 		}
 	}
 
+	/**
+	 * Build the border string.
+ 	 * <li>
+	 * ignore all the border styles is style is null
+     * <li>
+	 * CSS default border-color is the font-color, while BIRT is black
+     * <li>
+	 * border-color is not inheritable.
+	 * 
+	 * @param content
+	 *            The <code>StringBuffer</code> to which the result is output.
+	 * @param name
+	 *            The proerty name.
+	 * @param width
+	 *            The border-width value.
+	 * @param style
+	 *            The border-style value.
+	 * @param color
+	 *            The border-color value
+	 */
+	private static void buildBorder( StringBuffer content, String name,
+			String width, String style, String color )
+	{
+		if (style == null || style.length() <= 0)
+		{
+			return;
+		}
+		addPropName( content, name );
+		addPropValue( content, width );
+		addPropValue( content, style );
+		addPropValue( content, color == null ? "black" : color ); //$NON-NLS-1$
+		content.append( ';' );
+	}
+	
 	/**
 	 * Build size style string say, "width: 10.0mm;".
 	 * 
