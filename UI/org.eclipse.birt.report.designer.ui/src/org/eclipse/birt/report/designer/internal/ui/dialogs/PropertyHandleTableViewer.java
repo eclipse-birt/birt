@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #1 $ $Date: Feb 24, 2005 $
+ * @version $Revision$ $Date$
  */
 public final class PropertyHandleTableViewer
 {
@@ -75,9 +75,6 @@ public final class PropertyHandleTableViewer
             btnComposite.setLayoutData(data);
             GridLayout btnLayout = new GridLayout();
             layout.verticalSpacing = 20;
-            layout.marginWidth = 0;
-            layout.marginHeight = 0;
-            //btnLayout.spacing = 10;
             btnComposite.setLayout(btnLayout);
             
             GridData btnData = new GridData(GridData.CENTER);
