@@ -60,7 +60,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
-   
+
 	private List templateList;
 
 	private ImageCanvas previewCanvas;
@@ -145,8 +145,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	protected Map imageMap;
 
-
-    private Composite previewPane;
+	private Composite previewPane;
 
 	public class TemplateType
 	{
@@ -198,16 +197,13 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( );
-		gridLayout.numColumns = 2;	
+		gridLayout.numColumns = 2;
 		gridLayout.marginHeight = 10;
 		gridLayout.marginWidth = 10;
 		gridLayout.horizontalSpacing = 10;
 		gridLayout.verticalSpacing = 10;
 		composite.setLayout( gridLayout );
 
-		
-		
-		
 		Label label0 = new Label( composite, SWT.NONE );
 		label0.setText( MESSAGE_REPORT_TEMPLATES );
 
@@ -222,8 +218,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			templateList.add( templates[i].name );
 		}
 
-		data = new GridData( GridData.BEGINNING
-				| GridData.FILL_VERTICAL );
+		data = new GridData( GridData.BEGINNING | GridData.FILL_VERTICAL );
 		data.widthHint = 170;
 		templateList.setLayoutData( data );
 
@@ -261,12 +256,12 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-			    ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
+				ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-			    ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
+				ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
 			}
 		} );
 
@@ -274,9 +269,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		templateList.select( 0 );
 		templateListener.handleEvent( new Event( ) );
 		setControl( composite );
-		}
+	}
 
-	
 	/**
 	 * @param templateList
 	 * @param description
@@ -285,11 +279,9 @@ public class WizardTemplateChoicePage extends WizardPage
 	private void hookListeners( )
 	{
 		templateList.addListener( SWT.Selection, templateListener );
-		
+
 	}
 
-
-    
 	private Listener templateListener = new Listener( ) {
 
 		public void handleEvent( Event event )
@@ -322,6 +314,14 @@ public class WizardTemplateChoicePage extends WizardPage
 	public Template getTemplate( )
 	{
 		return templates[selectedIndex];
+	}
+
+	/**
+	 * @return Returns the blank report template.
+	 */
+	public Template getBlankTemplate( )
+	{
+		return templates[0];
 	}
 
 	/**

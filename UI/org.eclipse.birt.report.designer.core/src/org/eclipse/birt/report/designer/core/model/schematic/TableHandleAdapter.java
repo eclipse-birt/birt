@@ -1396,7 +1396,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			return false;
 		}
-		String first = getRowInfo( ( (CellHandle) list.get( 0 ) ).getContainer( ) ).getRowDisplayName( );
+		RowUIInfomation rowInfo = getRowInfo( ( (CellHandle) list.get( 0 ) ).getContainer( ) );
+		if ( rowInfo == null )
+		{
+			//when delete row, this can be null.
+			return false;
+		}
+
+		String first = rowInfo.getRowDisplayName( );
 		for ( int i = 1; i < size; i++ )
 		{
 			RowUIInfomation info = getRowInfo( ( (CellHandle) list.get( i ) ).getContainer( ) );
