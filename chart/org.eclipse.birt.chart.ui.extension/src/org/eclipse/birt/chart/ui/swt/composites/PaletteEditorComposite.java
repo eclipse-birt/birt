@@ -12,7 +12,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.swt.SWT;
@@ -26,10 +25,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
@@ -56,25 +53,6 @@ public class PaletteEditorComposite extends Composite implements Listener, Selec
     public static final int PALETTE_CHANGED_EVENT = 1;
 
     private transient Vector vListeners = null;
-
-    public static void main(String[] args)
-    {
-        Display display = Display.getDefault();
-        Shell shell = new Shell(display);
-        PaletteEditorComposite myComposite = new PaletteEditorComposite(shell, SWT.NONE, AttributeFactory.eINSTANCE
-            .createPalette());
-        FillLayout flShell = new FillLayout(SWT.VERTICAL);
-        shell.setLayout(flShell);
-        shell.setSize(myComposite.getPreferredSize());
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
-    }
 
     /**
      * @param parent
@@ -155,7 +133,7 @@ public class PaletteEditorComposite extends Composite implements Listener, Selec
         btnAdd.setText("Add");
         btnAdd.addSelectionListener(this);
 
-        fccEntry = new FillChooserComposite(cmpContent, SWT.NONE, null, false, false);
+        fccEntry = new FillChooserComposite(cmpContent, SWT.NONE, null, true, true);
         GridData gdFCCEntry = new GridData(GridData.FILL_HORIZONTAL);
         fccEntry.setLayoutData(gdFCCEntry);
     }
@@ -322,7 +300,7 @@ class PaletteCanvas extends Canvas implements Listener
         for (int i = 0; i < palette.getEntries().size(); i++)
         {
             FillChooserComposite fccEntry = new FillChooserComposite(this, SWT.NONE,
-                (Fill) palette.getEntries().get(i), false, false);
+                (Fill) palette.getEntries().get(i), true, true);
             GridData gdFCCEntry = new GridData(GridData.FILL_HORIZONTAL);
             fccEntry.setLayoutData(gdFCCEntry);
             fccEntry.addListener(this);

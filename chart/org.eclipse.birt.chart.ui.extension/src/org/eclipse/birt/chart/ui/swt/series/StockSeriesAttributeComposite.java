@@ -19,15 +19,12 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
@@ -42,24 +39,6 @@ public class StockSeriesAttributeComposite extends Composite implements Listener
     LineAttributesComposite liacStock = null;
 
     StockSeries series = null;
-
-    public static void main(String[] args)
-    {
-        Display display = Display.getDefault();
-        Shell shell = new Shell(display);
-        StockSeriesAttributeComposite myComposite = new StockSeriesAttributeComposite(shell, SWT.NONE, null);
-        FillLayout flShell = new FillLayout(SWT.VERTICAL);
-        shell.setLayout(flShell);
-        shell.setSize(myComposite.getPreferredSize());
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
-    }
 
     /**
      * @param parent

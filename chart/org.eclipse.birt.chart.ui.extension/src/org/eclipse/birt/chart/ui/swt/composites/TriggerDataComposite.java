@@ -32,15 +32,12 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -88,24 +85,6 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
     private transient Vector vListeners = null;
 
-    public static void main(String[] args)
-    {
-        Display display = Display.getDefault();
-        Shell shell = new Shell(display);
-        TriggerDataComposite myComposite = new TriggerDataComposite(shell, SWT.NONE, null);
-        FillLayout flShell = new FillLayout(SWT.VERTICAL);
-        shell.setLayout(flShell);
-        shell.setSize(myComposite.getPreferredSize());
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
-    }
-
     /**
      * @param parent
      * @param style
@@ -128,11 +107,11 @@ public class TriggerDataComposite extends Composite implements SelectionListener
     {
         // Layout for the content composite
         GridLayout glCMPTrigger = new GridLayout();
-        glCMPTrigger.numColumns = 4;
+        glCMPTrigger.numColumns = 2;
         glCMPTrigger.horizontalSpacing = 16;
-        glCMPTrigger.verticalSpacing = 4;
-        glCMPTrigger.marginHeight = 2;
-        glCMPTrigger.marginWidth = 2;
+        glCMPTrigger.verticalSpacing = 5;
+        glCMPTrigger.marginHeight = 0;
+        glCMPTrigger.marginWidth = 0;
 
         // Layout for the Action Details group
         slValues = new StackLayout();
@@ -142,21 +121,21 @@ public class TriggerDataComposite extends Composite implements SelectionListener
         glScript.marginWidth = 4;
         glScript.marginHeight = 6;
 
-        // Layout for script value composite
+        // Layout for toggle visibility value composite
         GridLayout glVisibility = new GridLayout();
         glVisibility.marginWidth = 4;
         glVisibility.marginHeight = 6;
         glVisibility.horizontalSpacing = 6;
         glVisibility.numColumns = 3;
 
-        // Layout for script value composite
+        // Layout for tooltip value composite
         GridLayout glTooltip = new GridLayout();
         glTooltip.marginWidth = 2;
         glTooltip.marginHeight = 6;
         glTooltip.horizontalSpacing = 6;
         glTooltip.numColumns = 3;
 
-        // Layout for script value composite
+        // Layout for url value composite
         GridLayout glURL = new GridLayout();
         glURL.marginWidth = 2;
         glURL.marginHeight = 6;
@@ -186,6 +165,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblActionType = new Label(this, SWT.NONE);
         GridData gdLBLActionType = new GridData();
+        gdLBLActionType.horizontalIndent = 4;
         lblActionType.setLayoutData(gdLBLActionType);
         lblActionType.setText("Action:");
 
@@ -196,7 +176,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         grpValue = new Group(this, SWT.NONE);
         GridData gdGRPValue = new GridData(GridData.FILL_BOTH);
-        gdGRPValue.horizontalSpan = 4;
+        gdGRPValue.horizontalSpan = 2;
         grpValue.setLayoutData(gdGRPValue);
         grpValue.setText("Action Details");
         grpValue.setLayout(slValues);
@@ -220,6 +200,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblSeries = new Label(cmpVisibility, SWT.NONE);
         GridData gdLBLSeries = new GridData();
+        gdLBLSeries.horizontalIndent = 2;
         lblSeries.setLayoutData(gdLBLSeries);
         lblSeries.setText("Series Definition:");
 
@@ -234,6 +215,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblDelay = new Label(cmpTooltip, SWT.NONE);
         GridData gdLBLDelay = new GridData();
+        gdLBLDelay.horizontalIndent = 2;
         lblDelay.setLayoutData(gdLBLDelay);
         lblDelay.setText("Tooltip Delay (in ms):");
 
@@ -248,6 +230,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblText = new Label(cmpTooltip, SWT.NONE);
         GridData gdLBLText = new GridData();
+        gdLBLText.horizontalIndent = 2;
         gdLBLText.horizontalSpan = 3;
         lblText.setLayoutData(gdLBLText);
         lblText.setText("Tooltip Text:");
@@ -262,6 +245,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblBaseURL = new Label(cmpURL, SWT.NONE);
         GridData gdLBLBaseURL = new GridData();
+        gdLBLBaseURL.horizontalIndent = 2;
         lblBaseURL.setLayoutData(gdLBLBaseURL);
         lblBaseURL.setText("Base URL:");
 
@@ -272,6 +256,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblTarget = new Label(cmpURL, SWT.NONE);
         GridData gdLBLTarget = new GridData();
+        gdLBLTarget.horizontalIndent = 2;
         lblTarget.setLayoutData(gdLBLTarget);
         lblTarget.setText("Target:");
 
@@ -289,6 +274,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblBaseParm = new Label(grpParameters, SWT.NONE);
         GridData gdLBLBaseParm = new GridData();
+        gdLBLBaseParm.horizontalIndent = 2;
         lblBaseParm.setLayoutData(gdLBLBaseParm);
         lblBaseParm.setText("Base Parameter:");
 
@@ -299,6 +285,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblValueParm = new Label(grpParameters, SWT.NONE);
         GridData gdLBLValueParm = new GridData();
+        gdLBLValueParm.horizontalIndent = 2;
         lblValueParm.setLayoutData(gdLBLValueParm);
         lblValueParm.setText("Value Parameter:");
 
@@ -309,6 +296,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
         Label lblSeriesParm = new Label(grpParameters, SWT.NONE);
         GridData gdLBLSeriesParm = new GridData();
+        gdLBLSeriesParm.horizontalIndent = 2;
         lblSeriesParm.setLayoutData(gdLBLSeriesParm);
         lblSeriesParm.setText("Series Parameter:");
 

@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
@@ -23,17 +22,14 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
@@ -58,25 +54,6 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
     private transient PieSeries series = null;
 
     private static final int MAX_LEADER_LENGTH = 200;
-
-    public static void main(String[] args)
-    {
-        Display display = Display.getDefault();
-        Shell shell = new Shell(display);
-        LineSeriesAttributeComposite myComposite = new LineSeriesAttributeComposite(shell, SWT.NONE, LineSeriesImpl
-            .create());
-        FillLayout flShell = new FillLayout(SWT.VERTICAL);
-        shell.setLayout(flShell);
-        shell.setSize(myComposite.getPreferredSize());
-        shell.open();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
-    }
 
     /**
      * @param parent

@@ -15,7 +15,6 @@
 
    <requires import_order="org.eclipse.pde.internal.ui.model.plugin.PluginImportNode@118bfb2">
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.birt.chart.shared"/>
@@ -52,32 +51,35 @@
             classDefinition="org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl"
             nodePath="General"/>
       <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.data.BaseSeriesDataSheetImpl"
+            nodePath="Data.X Series"/>
+      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.OrthogonalSeriesDataSheetImpl"
-            nodePath="Data.Orthogonal Series"/>
+            nodePath="Data.Y Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.data.SampleDataSheetImpl"
             nodePath="Data.Sample"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisAttributeSheetImpl"
-            nodePath="Attributes.Base Axis"/>
+            nodePath="Attributes.X Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseAxisLabelAttributeSheetImpl"
-            nodePath="Attributes.Base Axis.Labels"/>
+            nodePath="Attributes.X Axis.Labels"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisAttributeSheetImpl"
-            nodePath="Attributes.Orthogonal Axis"/>
+            nodePath="Attributes.Y Axis"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalAxisLabelAttributeSheetImpl"
-            nodePath="Attributes.Orthogonal Axis.Labels"/>
+            nodePath="Attributes.Y Axis.Labels"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.BaseSeriesAttributeSheetImpl"
-            nodePath="Attribute.Base Series"/>
+            nodePath="Attribute.X Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesAttributeSheetImpl"
-            nodePath="Attribute.Orthogonal Series"/>
+            nodePath="Attribute.Y Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.attribute.OrthogonalSeriesLabelAttributeSheetImpl"
-            nodePath="Attribute.Orthogonal Series.Labels"/>
+            nodePath="Attribute.Y Series.Labels"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.LayoutSheetImpl"
             nodePath="Layout"/>
@@ -88,19 +90,22 @@
    <extension
          point="org.eclipse.birt.chart.ui.seriescomposites">
       <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.component.impl.SeriesImpl"/>
+      <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.BarSeriesImpl"/>
+            seriesType="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.LineSeriesImpl"/>
+            seriesType="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.PieSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.PieSeriesImpl"/>
+            seriesType="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.ScatterSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.ScatterSeriesImpl"/>
+            seriesType="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.StockSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.StockSeriesImpl"/>
+            seriesType="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
    </extension>
 </plugin>
