@@ -38,22 +38,23 @@ import org.eclipse.ui.PlatformUI;
 public class JdbcMetaDataProvider 
 {
 	
-	private Connection jdbcConnection;
+	private Connection jdbcConnection = null;
 	private String userName = null;
 	private String password = null;
 	private String url = null;
 	private String driverClass = null;
+	private String odaDriverName = null;
 	
 	private DatabaseMetaData metaData;
 	
 	public Connection connect( String userName, String password, String url,
 			String driverClass, String odaDriverName )
 	{
-        if(userName == null || url == null || driverClass == null)
+        if( url == null || driverClass == null)
         {
             return null;
         }
-		if(!userName.equals(this.userName) ||  !url.equals(this.url) || !driverClass.equals(this.driverClass))
+		if( ( userName != null && !userName.equals(this.userName))  ||  !url.equals(this.url) || !driverClass.equals(this.driverClass))
 		{
 			if(jdbcConnection != null)
 			{
@@ -105,6 +106,16 @@ public class JdbcMetaDataProvider
 	{
 		jdbcConnection = connection;
 		metaData = null;
+	}
+	
+
+	public JdbcMetaDataProvider(String userName, String password, String driverclass, String url)
+	{
+		metaData = null;
+		this.userName = userName;
+		this.password = password;
+		this.url = url;
+		this.driverClass = driverclass;
 	}
 	
 	/*
@@ -161,6 +172,11 @@ public class JdbcMetaDataProvider
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+		}
+		
+		if(databaseName == null)
+		{
+			databaseName = "";
 		}
 		
 		return databaseName;
@@ -602,5 +618,7 @@ public class JdbcMetaDataProvider
 			}
 		}
 	}
+	
+	
 
 }
