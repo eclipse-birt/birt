@@ -127,7 +127,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			case IReportItemPresentation.OUTPUT_AS_IMAGE :
 				// the output object is a image, so create a image content
 				// object
-				IImageItemContent image = ContentFactory.createImageContent( null );
+				IImageItemContent image = ContentFactory.createImageContent( item );
 				image.setData( (byte[]) output );
 				image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
 				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); // $NON-NLS-1$

@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
@@ -47,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ContentFactory
 {
@@ -149,10 +148,10 @@ public class ContentFactory
 	 * Creates the image content object
 	 * 
 	 * @param design
-	 *            the image design
+	 *            the image design, or extened item design
 	 * @return the instance
 	 */
-	public static IImageItemContent createImageContent( ImageItemDesign design )
+	public static IImageItemContent createImageContent( ReportItemDesign design )
 	{
 		return new ImageItemContent( design );
 	}
