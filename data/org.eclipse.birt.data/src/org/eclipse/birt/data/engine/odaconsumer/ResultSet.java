@@ -71,6 +71,10 @@ public class ResultSet
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
+		}
 	}
 	
 	/**
@@ -87,6 +91,10 @@ public class ResultSet
 				return null;
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_FETCH_NEXT_ROW, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_FETCH_NEXT_ROW, ex );
 		}
@@ -152,6 +160,11 @@ public class ResultSet
 			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
 	}
 	
 	private double getDouble( int driverPosition ) throws DataException
@@ -161,6 +174,11 @@ public class ResultSet
 			return m_resultSet.getDouble( driverPosition );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
@@ -178,6 +196,11 @@ public class ResultSet
 			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
 	}
 	
 	private BigDecimal getBigDecimal( int driverPosition ) throws DataException
@@ -187,6 +210,11 @@ public class ResultSet
 			return m_resultSet.getBigDecimal( driverPosition );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
@@ -204,6 +232,11 @@ public class ResultSet
 			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
 	}
 	
 	private Time getTime( int driverPosition ) throws DataException
@@ -213,6 +246,11 @@ public class ResultSet
 			return m_resultSet.getTime( driverPosition );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
@@ -230,6 +268,11 @@ public class ResultSet
 			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_COLUMN, ex, 
 			                         new Object[] { new Integer( driverPosition ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
 	}
 	
 	private boolean wasNull() throws DataException
@@ -239,6 +282,10 @@ public class ResultSet
 			return m_resultSet.wasNull();
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
 		}
@@ -259,6 +306,10 @@ public class ResultSet
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_ROW_POSITION, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_ROW_POSITION, ex );
+		}
 	}
 	
 	/**
@@ -272,6 +323,10 @@ public class ResultSet
 			m_resultSet.close( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_CLOSE_RESULT_SET, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_RESULT_SET, ex );
 		}

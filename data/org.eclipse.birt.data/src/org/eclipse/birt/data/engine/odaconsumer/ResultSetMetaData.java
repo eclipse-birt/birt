@@ -53,6 +53,10 @@ public class ResultSetMetaData
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
+		}
 	}
 	
 	/**
@@ -72,6 +76,11 @@ public class ResultSetMetaData
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NAME, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NAME, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
 	}
 	
 	/**
@@ -87,6 +96,11 @@ public class ResultSetMetaData
 			return m_metadata.getColumnLabel( index );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_LABEL, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_LABEL, ex, 
 			                         new Object[] { new Integer( index ) } );
@@ -135,6 +149,11 @@ public class ResultSetMetaData
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
 									 new Object[] { new Integer( index ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
+									 new Object[] { new Integer( index ) } );
+		}
 	}
 
 	private int doGetColumnType( int index ) throws DataException
@@ -147,6 +166,11 @@ public class ResultSetMetaData
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
+			                         new Object[] { new Integer( index ) } );			
 		}
 	}
 	

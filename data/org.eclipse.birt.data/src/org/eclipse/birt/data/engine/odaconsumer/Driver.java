@@ -101,6 +101,11 @@ class Driver
 			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
                                      new Object[] { initEntryPoint } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
+                                     new Object[] { initEntryPoint } );
+		}
 	}
 	
 	private LibrariesForOS findLibsForOS( DriverLibraries driverLibs ) throws DataException

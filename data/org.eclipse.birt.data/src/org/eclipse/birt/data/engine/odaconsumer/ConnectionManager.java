@@ -57,7 +57,7 @@ public class ConnectionManager
 	 * @throws DataException	if data source error occurs.
 	 */
 	public Connection openConnection( String driverName, 
-									  Properties connectionProperties ) 
+									  Properties connectionProperties )
 		throws DataException
 	{
 		try
@@ -72,6 +72,11 @@ public class ConnectionManager
 			return ( new Connection( connection, driverName ) );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
+			                         new Object[] { driverName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { driverName } );

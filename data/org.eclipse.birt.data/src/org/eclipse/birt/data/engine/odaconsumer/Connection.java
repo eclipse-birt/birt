@@ -59,6 +59,10 @@ public class Connection
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_MAX_CONNECTIONS, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_MAX_CONNECTIONS, ex );
+		}
 	}
 	
 	/**
@@ -77,6 +81,10 @@ public class Connection
 			return connMetaData.getMaxStatements();
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_MAX_STATEMENTS, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_MAX_STATEMENTS, ex );
 		}
@@ -102,6 +110,11 @@ public class Connection
 				dsMetaData = m_connection.getMetaData( dataSetType );
 			}
 			catch( OdaException ex )
+			{
+				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
+				                         new Object[] { dataSetType } );
+			}
+			catch( UnsupportedOperationException ex )
 			{
 				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
 				                         new Object[] { dataSetType } );
@@ -147,6 +160,10 @@ public class Connection
 		{
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
+		}
 	}
 	
 	private IConnectionMetaData getCachedConnMetaData() throws DataException
@@ -158,6 +175,10 @@ public class Connection
 				m_cachedConnMetaData = m_connection.getMetaData();
 			}
 			catch( OdaException ex )
+			{
+				throw new DataException( ResourceConstants.CANNOT_GET_CONNECTION_METADATA, ex );
+			}
+			catch( UnsupportedOperationException ex )
 			{
 				throw new DataException( ResourceConstants.CANNOT_GET_CONNECTION_METADATA, ex );
 			}
@@ -192,6 +213,11 @@ public class Connection
 			return statement;
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
+			                         new Object[] { query, dataSetType } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
 			                         new Object[] { query, dataSetType } );

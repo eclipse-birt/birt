@@ -190,6 +190,11 @@ public class ParameterMetaData
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
 	}
 	
 	private String getRuntimeParamTypeName( IParameterMetaData parameterMetaData,
@@ -200,6 +205,11 @@ public class ParameterMetaData
 			return parameterMetaData.getParameterTypeName( index );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, ex, 
 			                         new Object[] { new Integer( index ) } );
@@ -218,6 +228,11 @@ public class ParameterMetaData
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_MODE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_MODE, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
 	}
 
 	private int getRuntimeParameterScale( IParameterMetaData parameterMetaData,
@@ -228,6 +243,11 @@ public class ParameterMetaData
 			return parameterMetaData.getScale( index );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANOOT_GET_PARAMETER_SCALE, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANOOT_GET_PARAMETER_SCALE, ex, 
 			                         new Object[] { new Integer( index ) } );
@@ -246,6 +266,11 @@ public class ParameterMetaData
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_PRECISION, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_PRECISION, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
 	}
 	
 	private int getRuntimeIsNullable( IParameterMetaData parameterMetaData, 
@@ -256,6 +281,11 @@ public class ParameterMetaData
 			return parameterMetaData.isNullable( index );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, ex, 
+			                         new Object[] { new Integer( index ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, ex, 
 			                         new Object[] { new Integer( index ) } );

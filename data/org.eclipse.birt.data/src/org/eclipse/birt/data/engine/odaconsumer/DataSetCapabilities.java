@@ -58,6 +58,10 @@ public class DataSetCapabilities
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, ex );
+		}
 	}
 	
 	/**
@@ -73,6 +77,10 @@ public class DataSetCapabilities
 			return m_dsMetaData.supportsMultipleResultSets( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, ex );
 		}
@@ -94,6 +102,10 @@ public class DataSetCapabilities
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, ex );
+		}
 	}
 	
 	/**
@@ -109,6 +121,10 @@ public class DataSetCapabilities
 			return m_dsMetaData.supportsNamedParameters( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, ex );
 		}
@@ -130,6 +146,10 @@ public class DataSetCapabilities
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, ex );
+		}
 	}
 	
 	/**
@@ -145,6 +165,10 @@ public class DataSetCapabilities
 			return m_dsMetaData.supportsOutParameters( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, ex );
 		}
