@@ -13,13 +13,17 @@ package org.eclipse.birt.data.engine.core;
 
 import java.util.Locale;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 
 /**
- * 
+ * Implementation of BirtException in DtE project.
+ * Currently BirtException's methods are all overrided to avoid
+ * mistake in test, but this way will be changed to not overridding
+ * its main methods like getErrorCode and getLocalizedMessage.
  */
 
-public class DataException extends Exception
+public class DataException extends BirtException
 {
 	private String errorCode;
 	private Object argv[];
@@ -27,11 +31,14 @@ public class DataException extends Exception
 	/** static ResourceHandle */
 	private static DataResourceHandle resourceHandle = new DataResourceHandle( Locale.getDefault( ) );
 	
+	private static String ERROR_CODE_PREFIX = "DATA_EXCEPTION_";
+	
 	/*
 	 * @see BirtException(errorCode)
 	 */
 	public DataException( String errorCode )
 	{
+		super( errorCode, resourceHandle.getResourceBundle( ) );
 		this.errorCode = errorCode;
 	}
 	
@@ -42,6 +49,7 @@ public class DataException extends Exception
 	 */
 	public DataException( String errorCode, Object argv )
 	{
+		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
 		this.errorCode = errorCode;
 		this.argv = new Object[]{
 			argv
@@ -55,6 +63,7 @@ public class DataException extends Exception
 	 */
 	public DataException( String errorCode, Object argv[] )
 	{
+		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
 		this.errorCode = errorCode;
 		this.argv = argv;
 	}
@@ -64,13 +73,13 @@ public class DataException extends Exception
      */
     public DataException( String errorCode, Throwable cause )
     {
-    	super(cause);
+    	super( errorCode, resourceHandle.getResourceBundle( ), cause );
     	this.errorCode = errorCode;
     }
     
     public DataException( String errorCode, Throwable cause, Object argv )
     {
-    	super(cause);
+    	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause);
     	this.errorCode = errorCode;
 		this.argv = new Object[]{
 				argv
@@ -79,7 +88,7 @@ public class DataException extends Exception
     
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
-    	super(cause);
+    	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause );
     	this.errorCode = errorCode;
     	this.argv = argv;
     }
@@ -89,8 +98,17 @@ public class DataException extends Exception
      */
     public String getErrorCode( )
     {
-    	return errorCode;
+    	return ERROR_CODE_PREFIX + errorCode;
     }
+    
+
+    /*
+	 * @see java.lang.Throwable#getLocalizedMessage()
+	 */
+	public String getLocalizedMessage( )
+	{
+		return getMessage( );
+	}
     
 	/*
 	 * @see java.lang.Throwable#getMessage()
