@@ -23,11 +23,11 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
@@ -36,26 +36,26 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.ExtendedDataSetHandle;
-import org.eclipse.birt.report.model.api.ExtendedDataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.InputParameterHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OutputParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -86,8 +86,8 @@ public class ModelDteApiAdapter
     public IBaseDataSourceDesign createDataSourceDesign( DataSourceHandle dataSource ) 
     	throws EngineException
     {
-        if ( dataSource instanceof ExtendedDataSourceHandle )
-            return (IBaseDataSourceDesign) newExtendedDataSource( (ExtendedDataSourceHandle) dataSource );
+        if ( dataSource instanceof OdaDataSourceHandle )
+            return (IBaseDataSourceDesign) newExtendedDataSource( (OdaDataSourceHandle) dataSource );
         
         if ( dataSource instanceof ScriptDataSourceHandle )
             return (IBaseDataSourceDesign) newScriptDataSource( (ScriptDataSourceHandle) dataSource );
@@ -100,8 +100,8 @@ public class ModelDteApiAdapter
     public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet ) 
     	throws EngineException
     {
-        if ( dataSet instanceof ExtendedDataSetHandle )
-            return (IBaseDataSetDesign) newExtendedDataSet( (ExtendedDataSetHandle) dataSet );       
+        if ( dataSet instanceof OdaDataSetHandle )
+            return (IBaseDataSetDesign) newExtendedDataSet( (OdaDataSetHandle) dataSet );       
         
         if ( dataSet instanceof ScriptDataSetHandle )
             return (IBaseDataSetDesign) newScriptDataSet( (ScriptDataSetHandle) dataSet );
@@ -111,7 +111,7 @@ public class ModelDteApiAdapter
         return null;
     }
     
-    IOdaDataSourceDesign newExtendedDataSource( ExtendedDataSourceHandle source ) throws EngineException
+    IOdaDataSourceDesign newExtendedDataSource( OdaDataSourceHandle source ) throws EngineException
     {
         OdaDataSourceDesign dteSource = new OdaDataSourceDesign( source.getName() );
         
@@ -189,7 +189,7 @@ public class ModelDteApiAdapter
         dest.setAfterCloseScript( source.getAfterClose() );
     }
         
-    IOdaDataSetDesign newExtendedDataSet( ExtendedDataSetHandle modelDataSet )
+    IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet )
     {
         OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getName() );
             
