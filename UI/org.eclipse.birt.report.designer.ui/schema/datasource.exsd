@@ -167,7 +167,7 @@ Note: The page with the id &quot;one&quot; should already have been added before
       <annotation>
          <documentation>
             This element identifies a data set type that is supported by this data source.
-It provides the New data set wizard, the provider class for converting between the BIRT ROM data source and data set objects to the BIRT DTE data source and data set objects and a set of one or more editor pages.
+It provides the New data set wizard and a set of one or more editor pages.
 A data source can have one or more data sets.
          </documentation>
       </annotation>

@@ -44,7 +44,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/17 02:31:52 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/23 03:10:03 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -189,7 +189,7 @@ public class SelectValueDialog extends BaseDialog
 		{
 			//Execute the query and populate this list
 			BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
-					.getPreparedQuery( getDataSetHandle( ), true, false, false )
+					.getPreparedQuery( getDataSetHandle( ), true, false)
 					.getReportQueryDefn( );
 			ScriptExpression expression = new ScriptExpression( getExpression( ) );
 			GroupDefinition defn = new GroupDefinition( );
