@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.xml.sax.SAXException;
@@ -185,7 +186,7 @@ public class XMLParserException extends SAXException
      */
     public String getErrorCode( )
     {
-        return errorCode;
+        return SemanticException.ERROR_CODE_PREFIX + errorCode;  //$NON-NLS-1$
     }
     
     /**
@@ -208,11 +209,12 @@ public class XMLParserException extends SAXException
         return lineNo;
     }
     
+    
     /* (non-Javadoc)
-     * @see java.lang.Throwable#getMessage()
+     * @see java.lang.Throwable#getLocalizedMessage()
      */
     
-    public String getMessage( )
+    public String getLocalizedMessage( )
     {
         StringBuffer sb = new StringBuffer( );
 
@@ -229,7 +231,16 @@ public class XMLParserException extends SAXException
         
         return sb.toString( );
     }
-    
+	
+    /* (non-Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
+	
+	public String getMessage( )
+	{
+		return getLocalizedMessage( );
+	}
+	
 	/**
 	 * Returns the error list.
 	 * 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -20,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * 
  */
 
-public class DesignParserException extends Exception
+public class DesignParserException  extends BirtException
 {
 
 	/**
@@ -28,13 +30,6 @@ public class DesignParserException extends Exception
 	 */
 
 	protected String fileName = null;
-
-	/**
-	 * The specific error condition.
-	 */
-
-	protected String errorCode = null;
-
 	
 	/**
 	 * A custom color did not have a correct RGB value.
@@ -172,7 +167,7 @@ public class DesignParserException extends Exception
 
 	public DesignParserException( String errCode )
 	{
-		errorCode = errCode;
+		super( errCode, null );
 	}
 
 	/**
@@ -187,8 +182,8 @@ public class DesignParserException extends Exception
 
 	public DesignParserException( String name, String errCode )
 	{
+		super( errCode, null );
 		fileName = name;
-		errorCode = errCode;
 	}
 
 	/**
@@ -203,8 +198,7 @@ public class DesignParserException extends Exception
 
 	public DesignParserException( Exception e, String errCode )
 	{
-		super( e );
-		errorCode = errCode;
+		super( errCode, null, null, e );
 	}
 
 	/**
@@ -219,25 +213,31 @@ public class DesignParserException extends Exception
 		fileName = name;
 	}
 
-	/**
-	 * Gets the error code.
-	 * 
-	 * @return the error code
-	 */
-	
-	public String getErrorCode( )
-	{
-		return errorCode;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.lang.Throwable#getLocalizedMessage()
+	 */
+	
+	public String getLocalizedMessage( )
+	{
+		return ThreadResources.getMessage( sResourceKey );
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	
 	public String getMessage( )
 	{
-		return ThreadResources.getMessage( errorCode );
+		return getLocalizedMessage( );
+	}	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.exception.BirtException#getErrorCode()
+	 */
+	public String getErrorCode( )
+	{
+		return SemanticException.ERROR_CODE_PREFIX + super.getErrorCode( ); //$NON-NLS-1$
 	}
 }

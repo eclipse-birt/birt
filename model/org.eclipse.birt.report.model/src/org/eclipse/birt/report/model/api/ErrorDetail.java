@@ -215,7 +215,7 @@ public final class ErrorDetail
 		description.append( e.getTag( ) );
 		description.append( ") " ); //$NON-NLS-1$
 
-		if ( e.getErrorCode( ) == XMLParserException.EXCEPTION )
+		if ( e.getErrorCode( ).equalsIgnoreCase( SemanticException.ERROR_CODE_PREFIX + XMLParserException.EXCEPTION ) ) //$NON-NLS-1$
 		{
 			if ( e.getException( ) instanceof DesignParserException )
 			{
@@ -431,7 +431,7 @@ public final class ErrorDetail
 
 	public String getErrorCode( )
 	{
-		return errorCode;
+		return errorCode; //$NON-NLS-1$
 	}
 
 	/**

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -36,7 +38,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * @see ErrorDetail
  */
 
-public class DesignFileException extends Exception
+public class DesignFileException extends BirtException
 {
 
 	/**
@@ -50,12 +52,6 @@ public class DesignFileException extends Exception
 	 */
 
 	protected String fileName = null;
-
-	/**
-	 * The error type.
-	 */
-
-	protected String errorType = null;
 
 	/**
 	 * Exception thrown by SAX.
@@ -107,9 +103,9 @@ public class DesignFileException extends Exception
 
 	public DesignFileException( String fileName, Exception e )
 	{
+		super( INVALID_XML, null );
 		this.fileName = fileName;
 		this.e = e;
-		this.errorType = INVALID_XML;
 		errorList.add( new ErrorDetail( e ) );
 	}
 
@@ -123,8 +119,8 @@ public class DesignFileException extends Exception
 
 	public DesignFileException( String fileName )
 	{
+		super( FILE_NOT_FOUND, null );
 		this.fileName = fileName;
-		this.errorType = FILE_NOT_FOUND;
 	}
 
 	/**
@@ -140,8 +136,8 @@ public class DesignFileException extends Exception
 
 	public DesignFileException( String fileName, List errList )
 	{
+		super( SYNTAX_ERROR, null );
 		this.fileName = fileName;
-		this.errorType = SYNTAX_ERROR;
 
 		Iterator iter = errList.iterator( );
 		while ( iter.hasNext( ) )
@@ -169,8 +165,8 @@ public class DesignFileException extends Exception
 
 	public DesignFileException( String fileName, List errList, Exception ex )
 	{
+		super( INVALID_XML, null );
 		this.fileName = fileName;
-		this.errorType = INVALID_XML;
 
 		Iterator iter = errList.iterator( );
 		while ( iter.hasNext( ) )
@@ -181,25 +177,15 @@ public class DesignFileException extends Exception
 		}
 		this.errorList.add( new ErrorDetail( ex ) );
 	}
-
-	/**
-	 * Returns the error type. The possible values are:
-	 * <p>
-	 * <ul>
-	 * <li><code>FILE_NOT_FOUND</code>
-	 * <li><code>INVALID_XML</code>
-	 * <li><code>SYNTAX_ERROR</code>
-	 * <li><code>SEMANTIC_ERROR</code>
-	 * </ul>
-	 * 
-	 * @return the error type.
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.exception.BirtException#getErrorCode()
 	 */
-
-	public String getErrorType( )
+	public String getErrorCode( )
 	{
-		return errorType;
+		return SemanticException.ERROR_CODE_PREFIX + super.getErrorCode( ); //$NON-NLS-1$
 	}
-
+	
 	/**
 	 * Returns the error list. Each item in the list is an instance of
 	 * <code>ErrorDetail</code>.
@@ -226,22 +212,31 @@ public class DesignFileException extends Exception
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Throwable#getMessage()
+	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getMessage( )
+	public String getLocalizedMessage( )
 	{
-		if ( errorType == null )
+		if ( sResourceKey == null )
 			return ""; //$NON-NLS-1$
 
-		if ( errorType == FILE_NOT_FOUND )
+		if ( sResourceKey == FILE_NOT_FOUND )
 		{
-			return ThreadResources.getMessage( errorType,
+			return ThreadResources.getMessage( sResourceKey,
 					new String[]{fileName} );
 		}
 
-		return ThreadResources.getMessage( errorType );
+		return ThreadResources.getMessage( sResourceKey );
 
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Throwable#getMessage()
+	 */
+	
+	public String getMessage( )
+	{
+		return getLocalizedMessage( );
 	}
 
 	/**
@@ -281,7 +276,7 @@ public class DesignFileException extends Exception
 	 * 
 	 * @see java.lang.Object#toString()
 	 * @see ErrorDetail#toString()
-	 * @see #getMessage()
+	 * @see #getLocalizedMessage()
 	 *  
 	 */
 
@@ -289,15 +284,15 @@ public class DesignFileException extends Exception
 	{
 		StringBuffer sb = new StringBuffer( );
 
-		sb.append( errorType );
+		sb.append( sResourceKey );
 		sb.append( " - " ); //$NON-NLS-1$
-		if ( errorType == FILE_NOT_FOUND )
+		if ( sResourceKey == FILE_NOT_FOUND )
 		{
 			sb.append( "The design file (" ); //$NON-NLS-1$
 			sb.append( fileName );
 			sb.append( ") is not found ! \n" ); //$NON-NLS-1$
 		}
-		else if ( errorType == SYNTAX_ERROR || errorType == INVALID_XML )
+		else if ( sResourceKey == SYNTAX_ERROR || sResourceKey == INVALID_XML )
 		{
 			if ( errorList != null )
 			{

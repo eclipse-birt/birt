@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Properties;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.activity.SemanticException;
+
 /**
  * Indicates that the data in the meta-data file does not match the data in the
  * MetaDataConstants file. Also indicates inconsistencies in the element
@@ -25,15 +28,8 @@ import java.util.Properties;
  * keyed by its error code.
  */
 
-public class MetaDataException extends Exception
+public class MetaDataException extends BirtException
 {
-
-	/**
-	 * The error code.
-	 */
-
-	protected String errCode;
-
 	/**
 	 * Holds the metadata error informations.
 	 */
@@ -387,7 +383,7 @@ public class MetaDataException extends Exception
 
 	public MetaDataException( String[] params, String errCode )
 	{
-		this.errCode = errCode;
+		super( errCode, params, null, null );
 
 		if ( props == null )
 		{
@@ -444,17 +440,6 @@ public class MetaDataException extends Exception
 	}
 
 	/**
-	 * Returns the error code of the exception
-	 * 
-	 * @return error code of the exception.
-	 */
-
-	public String getErrorCode( )
-	{
-		return errCode;
-	}
-
-	/**
 	 * Gets the content message for this exception. The return message will
 	 * contain the information of the error code and the detailed error message.
 	 * 
@@ -470,8 +455,24 @@ public class MetaDataException extends Exception
 		if ( message != null )
 			sb.append( "Message:" ).append( message ).append( SEPARATOR ); //$NON-NLS-1$
 
-		sb.append( "Error code:" ).append( errCode ).append( SEPARATOR ); //$NON-NLS-1$
+		sb.append( "Error code:" ).append( sResourceKey ).append( SEPARATOR ); //$NON-NLS-1$
 
 		return sb.toString( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Throwable#getLocalizedMessage()
+	 */
+	public String getLocalizedMessage( )
+	{
+		return getMessage( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.exception.BirtException#getErrorCode()
+	 */
+	public String getErrorCode( )
+	{
+		return SemanticException.ERROR_CODE_PREFIX + super.getErrorCode( ); //$NON-NLS-1$
 	}
 }
