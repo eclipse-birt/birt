@@ -90,10 +90,7 @@ public class ColorFieldEditor extends FieldEditor
 	{
 		RGB rgb = DEUtil.getRGBValue( ColorUtil.parseColor( getPreferenceStore( ).getString( getPreferenceName( ) ) ) );
 
-		if ( rgb != null )
-		{
-			getColorSelector( ).setRGB( rgb );
-		}
+		getColorSelector( ).setRGB( rgb );
 	}
 
 	/*

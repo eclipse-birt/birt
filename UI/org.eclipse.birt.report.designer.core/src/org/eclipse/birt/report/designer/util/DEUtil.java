@@ -625,6 +625,11 @@ public class DEUtil
 	 */
 	public static RGB getRGBValue( int rgbValue )
 	{
+		if ( rgbValue == -1 )
+		{
+			return null;
+		}
+
 		return new RGB( ( rgbValue >> 16 ) & 0xff,
 				( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
@@ -642,11 +647,12 @@ public class DEUtil
 	{
 		if ( rgb == null )
 		{
-			return 0;
+			return -1;
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 )
+				| ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -713,7 +719,9 @@ public class DEUtil
 		if ( model instanceof ParameterHandle )
 		{
 			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\"" + ( (ParameterHandle) model ).getName( ) + "\"]";
+					+ "[\""
+					+ ( (ParameterHandle) model ).getName( )
+					+ "\"]";
 		}
 		if ( model instanceof DataSetItemModel )
 		{
@@ -723,7 +731,9 @@ public class DEUtil
 				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
 				    * ).getName( ) + "\"]." +
 				    */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\"" + ( (DataSetItemModel) model ).getName( ) + "\"]";
+					+ "[\""
+					+ ( (DataSetItemModel) model ).getName( )
+					+ "\"]";
 		}
 		return null;
 	}
@@ -930,22 +940,22 @@ public class DEUtil
 			{
 				ReportElementModel targetModel = (ReportElementModel) targetObj;
 				return targetModel.getElementHandle( )
-						.canContain( targetModel.getSlotId( ), childHandle )
-						? CONTAIN_THIS : CONTAIN_NO;
+						.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
+						: CONTAIN_NO;
 			}
 			else if ( targetObj instanceof SlotHandle )
 			{
 				SlotHandle targetHandle = (SlotHandle) targetObj;
 				return targetHandle.getElementHandle( )
-						.canContain( targetHandle.getSlotID( ), childHandle )
-						? CONTAIN_THIS : CONTAIN_NO;
+						.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
+						: CONTAIN_NO;
 			}
 			else if ( targetObj instanceof ListBandProxy )
 			{
 				ListBandProxy targetHandle = (ListBandProxy) targetObj;
 				return targetHandle.getElemtHandle( )
-						.canContain( targetHandle.getSlotId( ), childHandle )
-						? CONTAIN_THIS : CONTAIN_NO;
+						.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
+						: CONTAIN_NO;
 			}
 			else
 			{
