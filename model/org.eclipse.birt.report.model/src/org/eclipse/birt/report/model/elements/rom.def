@@ -379,8 +379,8 @@
     <Choice name="Standard" displayNameID="Choices.numberFormat.standard" />
   </ChoiceType>
   <ChoiceType name="stringFormat">
-	<Choice name="Upper" displayNameID="Choices.stringFormat.upper" />
-    <Choice name="Lower" displayNameID="Choices.stringFormat.lower" />
+	<Choice name=">" displayNameID="Choices.stringFormat.upper" />
+    <Choice name="&lt;" displayNameID="Choices.stringFormat.lower" />
   </ChoiceType> 
   <Class name="String" displayNameID="Class.String" toolTipID="Class.String.toolTip" native="true">
     <Constructor name="String" displayNameID="Class.String.String" toolTipID="Class.String.String.toolTip" returnType="String">
