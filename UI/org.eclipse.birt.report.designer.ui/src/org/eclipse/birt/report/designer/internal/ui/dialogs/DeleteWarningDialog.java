@@ -16,9 +16,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -94,6 +96,20 @@ public class DeleteWarningDialog extends BaseDialog
 		new Label( composite, SWT.NONE ).setText( sufString );
 
 		return composite;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 */
+	protected boolean initDialog( )
+	{
+		getButton( IDialogConstants.OK_ID ).setText( IDialogConstants.YES_LABEL );
+		Button no = getButton( IDialogConstants.CANCEL_ID );
+		no.setText( IDialogConstants.NO_LABEL );
+		getShell( ).setDefaultButton( no );
+		return true;
 	}
 
 	/**
