@@ -475,8 +475,6 @@ public class DesignWriter extends ElementVisitor
 
 		super.visitDataItem( obj );
 
-		property( obj, DataItem.DISTINCT_PROP );
-		property( obj, DataItem.DISTINCT_RESET_PROP );
 		property( obj, DataItem.VALUE_EXPR_PROP );
 
 		resourceKey( obj, DataItem.HELP_TEXT_KEY_PROP, DataItem.HELP_TEXT_PROP );

@@ -88,21 +88,16 @@ public class DataItemHandle extends ReportItemHandle
 	}
 
 	/**
-	 * Returns the value of the distinct property. The return value is defined
-	 * in <code>DesignChoiceConstants</code> and is one of these:
-	 * 
-	 * <ul>
-	 * <li>DISTINCT_ALL</li>
-	 * <li>DISTINCT_REPEAT</li>
-	 * <li>DISTINCT_REPEAT_ON_PAGE</li>
-	 * </ul>
+	 * Returns the value of the distinct property.
 	 * 
 	 * @return the distinct value as a string
+	 * 
+	 * @deprecated by the drop function of Cell element.
 	 */
 
 	public String getDistinct( )
 	{
-		return getStringProperty( DataItem.DISTINCT_PROP );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -121,22 +116,25 @@ public class DataItemHandle extends ReportItemHandle
 	 * @throws SemanticException
 	 *             If the property is locked or the value is not one of the
 	 *             above.
+	 * 
+	 * @deprecated by the drop function of Cell element.
 	 */
 
 	public void setDistinct( String distinct ) throws SemanticException
 	{
-		setProperty( DataItem.DISTINCT_PROP, distinct );
 	}
 
 	/**
 	 * Returns the value of the distinct-reset property.
 	 * 
 	 * @return the distinct-set value as a string
+	 * 
+	 * @deprecated by the drop function of Cell element.
 	 */
 
 	public String getDistinctReset( )
 	{
-		return getStringProperty( DataItem.DISTINCT_RESET_PROP );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -146,11 +144,12 @@ public class DataItemHandle extends ReportItemHandle
 	 *            the distinct-set value as a string
 	 * @throws SemanticException
 	 *             If the property is locked.
+	 * 
+	 * @deprecated by the drop function of Cell element.
 	 */
 
 	public void setDistinctReset( String value ) throws SemanticException
 	{
-		setProperty( DataItem.DISTINCT_RESET_PROP, value );
 	}
 
 	/**

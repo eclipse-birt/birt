@@ -199,11 +199,6 @@
     <Choice name="portrait" displayNameID="Choices.pageOrientation.portrait" />
     <Choice name="landscape" displayNameID="Choices.pageOrientation.landscape" />
   </ChoiceType>
-  <ChoiceType name="distinct">
-    <Choice name="all" displayNameID="Choices.distinct.all" />
-    <Choice displayNameID="Choices.distinct.repeat" name="repeat" />
-    <Choice displayNameID="Choices.distinct.repeatOnPage" name="repeatOnPage" />
-  </ChoiceType>
   <ChoiceType name="interval">
     <Choice name="none" displayNameID="Choices.interval.none" />
     <Choice displayNameID="Choices.interval.prefix" name="prefix" />
@@ -2008,10 +2003,6 @@
     </Slot>
   </Element>
   <Element name="Data" javaClass="org.eclipse.birt.report.model.elements.DataItem" displayNameID="Element.Data" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
-    <Property name="distinct" displayNameID="Element.Data.distinct" type="string" detailType="distinct">
-      <Default>all</Default>
-    </Property>
-    <Property name="distinctReset" displayNameID="Element.Data.distinctReset" type="column" />
     <Property name="valueExpr" displayNameID="Element.Data.valueExpr" type="expression" />
     <Property name="helpText" displayNameID="Element.Data.helpText" type="string" />
     <Property name="helpTextID" displayNameID="Element.Data.helpTextID" type="resourceKey" />

@@ -24,19 +24,6 @@ import org.eclipse.birt.report.model.util.StringUtil;
 
 public class DataItem extends ReportItem
 {
-
-	/**
-	 * Name of the distinct property.
-	 */
-
-	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
-
-	/**
-	 * Name of the distinct reset property.
-	 */
-
-	public static final String DISTINCT_RESET_PROP = "distinctReset"; //$NON-NLS-1$
-
 	/**
 	 * Name of the value expression property.
 	 */
