@@ -89,18 +89,6 @@ public class OdaDataSetDesign extends BaseDataSetDesign
     }
 
     /**
-     * Gets the type of query defined, as identified by
-     * a data access driver.  The type name is required if the
-     * data access driver supports more than one types of query.
-     * @return	The type of query as referenced by a data access driver. 
-	 * @deprecated by the {@link #getDataSetType()}
-     */
-    public String getQueryType()
-    {
-        return dataSetType;
-    }
-    
-    /**
      * Specifies the type of data set query defined in the data set.
      * @param dataSetType	The type of data set query, as named by the data access driver.
      */
@@ -109,16 +97,6 @@ public class OdaDataSetDesign extends BaseDataSetDesign
         this.dataSetType = dataSetType;
     }
  
-    /**
-     * Specifies the type of query defined in the data set.
-     * @param queryType	The type of query, as named by the data access driver.
-	 * @deprecated by the {@link #setDataSetType()}
-     */
-    public void setQueryType( String queryType )
-    {
-        this.dataSetType = queryType;
-    }
-    
 	/* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IExtendedDataSetDesign#getPrimaryResultSetName()
      */

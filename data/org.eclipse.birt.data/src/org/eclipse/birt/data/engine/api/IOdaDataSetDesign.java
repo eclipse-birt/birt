@@ -49,16 +49,7 @@ public interface IOdaDataSetDesign extends IBaseDataSetDesign
      */
     public abstract String getDataSetType();
       
-    /**
-     * Gets the type of query defined, as identified by
-     * a data access driver.  The type name is required if the
-     * data access driver supports more than one types of query.
-     * @return	The type of query as referenced by a data access driver.
-     * 			Null if none is defined. 
-	 * @deprecated by the {@link #getDataSetType()}
-     */
-    public abstract String getQueryType();
-    
+   
     /**
      * Gets the name of the primary result set retrieved by the query.
      * This is required for a query that returns
