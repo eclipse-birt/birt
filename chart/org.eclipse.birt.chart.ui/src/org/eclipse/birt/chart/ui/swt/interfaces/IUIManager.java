@@ -60,52 +60,10 @@ public interface IUIManager
     public boolean removeCollectionInstance(String sCollection);
 
     /**
+     * Returns a COPY of the current model state. Changes made in this model will not be reflected in the 'actual' model
+     * of the chart
      * 
-     * @param sheet
-     * @deprecated
+     * @return copy of the current chart model with the editor
      */
-    public void addAxisAttributeSheet(ISheet sheet);
-
-    /**
-     * 
-     * @param sheet
-     * @deprecated
-     */
-    public void addAxisDataSheet(ISheet sheet);
-
-    /**
-     * 
-     * @param sheet
-     * @deprecated
-     */
-    public void addSeriesAttributeSheet(ISheet sheet);
-
-    /**
-     * 
-     * @param sheet
-     * @deprecated
-     */
-    public void addSeriesDataSheet(ISheet sheet);
-
-    /**
-     * @deprecated
-     */
-    public void removeAxisAttributeSheet();
-
-    /**
-     * @deprecated
-     */
-    public void removeAxisDataSheet();
-
-    /**
-     * @deprecated
-     */
-    public void removeSeriesAttributeSheet();
-
-    /**
-     * @deprecated
-     */
-    public void removeSeriesDataSheet();
-
     public Chart getCurrentModelState();
 }
