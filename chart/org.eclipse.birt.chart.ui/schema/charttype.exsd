@@ -15,9 +15,27 @@
          <sequence>
             <element ref="chartType"/>
          </sequence>
-         <attribute name="point" type="string" use="required"/>
-         <attribute name="id" type="string"/>
-         <attribute name="name" type="string"/>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -25,12 +43,21 @@
       <complexType>
          <attribute name="classDefinition" type="string">
             <annotation>
+               <documentation>
+                  The class that provides UI details about this chart type (should implement IChartType interface).
+               </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="name" type="string"/>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Chart type name. This name uniquely identifies the chart type defined by this extension. (e.g. &apos;Bar Chart&apos;, &apos;Line Chart&apos;)
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

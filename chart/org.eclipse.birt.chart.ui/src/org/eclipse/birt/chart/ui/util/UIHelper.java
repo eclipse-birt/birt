@@ -132,9 +132,5 @@ public final class UIHelper
             e.printStackTrace();
         }
         return img;
-        /*
-         * ImageDescriptor descriptor = ImageDescriptor .createFromURL( getURL( sPluginRelativePath ) ); //
-         * ImageDescriptor descriptor = // ChartUIPluginClass.imageDescriptorFromPlugin("org.eclipse.birt.chart.ui", //
-         * sPluginRelativePath); return descriptor.createImage( );
-         */}
+    }
 }

@@ -64,4 +64,5 @@
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.ui.extension plug-in.
 	-->
    <extension-point id="changelisteners" name="Listener Class for Model Change Events" schema="schema/changelistener.exsd"/>
+   <extension-point id="seriescomposites" name="Composites for series type specific Attribute and Data definitions" schema="schema/seriescomposites.exsd"/>
 </plugin>

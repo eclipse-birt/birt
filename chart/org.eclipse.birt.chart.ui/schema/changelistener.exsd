@@ -43,6 +43,9 @@
       <complexType>
          <attribute name="listenerClassDefinition" type="string">
             <annotation>
+               <documentation>
+                  A class implementing the IChangeListener interface. This extensionsion should only be used if you have created &apos;uisheet&apos; extensions where the nodes for the sheets are to be dynamically added or removed from the tree.
+               </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
                </appInfo>
