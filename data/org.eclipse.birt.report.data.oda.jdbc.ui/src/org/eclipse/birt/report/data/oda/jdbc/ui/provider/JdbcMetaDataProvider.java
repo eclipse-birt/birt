@@ -16,10 +16,13 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.CrossReference;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinCondition;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinType;
@@ -48,8 +51,10 @@ public class JdbcMetaDataProvider
 	private String url = null;
 	private String driverClass = null;
 	private String odaDriverName = null;
+
 	
 	private DatabaseMetaData metaData;
+	private HashMap crossReferenceMap = null;
 	
 	public Connection connect( String userName, String password, String url,
 			String driverClass, String odaDriverName )
@@ -129,6 +134,7 @@ public class JdbcMetaDataProvider
 	{
 		jdbcConnection = connection;
 		metaData = null;
+		crossReferenceMap = new HashMap();
 	}
 	
 	/*
@@ -530,11 +536,23 @@ public class JdbcMetaDataProvider
         		}
 
         	}
+        	
+        	else
+        	{
+        		createJoinClause(joins, fromClause, startDelimitor, endDelimitor, tableList);
+        	}
+        	
+    		/*
         	if(joins != null && joins.size()  > 0)
         	{
+
+        		
 	        	Iterator joinIterator = joins.iterator();
+	        	JoinImpl prevJoin = null;
 	        	while(joinIterator.hasNext())
 	        	{
+	
+	        		
 	        		boolean addParanthesis = false;
 	        		JoinImpl join = (JoinImpl)joinIterator.next();
 	        		JoinCondition joinCondition = join.getCondition();
@@ -571,23 +589,35 @@ public class JdbcMetaDataProvider
 	    				fromTables.add(leftTable);
 	    				fromClause.append(quoteName(leftTable, startDelimitor, endDelimitor ));
 	    			}
-	    			
-	        		if((joinType == -1) || (joinType == JoinType.INNER))
-	        		{
-	       				fromClause.append(" INNER JOIN ");
-	        		}
-	        		else if( joinType == JoinType.LEFT_OUTER )
-	        		{
-	        			 fromClause.append(" LEFT OUTER JOIN ");
-	        		}
-	        		else if( joinType == JoinType.RIGHT_OUTER )
-	        		{
-	        			fromClause.append(" RIGHT OUTER JOIN ");
-	        		}
-	        		else if ( joinType == JoinType.FULL_OUTER)
-	        		{
-	        			fromClause.append(" FULL OUTER JOIN ");
-	        		}
+	        		
+	    			boolean addAndCondition = false;
+	    			if ( prevJoin !=null &&
+	    				 prevJoin.getLeft() == join.getLeft() &&
+	    				 prevJoin.getRight() == join.getRight() &&
+						 prevJoin.getCondition().getJoinType() == join.getCondition().getJoinType() )
+	    			{
+	    				addAndCondition = true;
+	    			}
+
+	    			if ( ! addAndCondition )
+	    			{
+		        		if((joinType == -1) || (joinType == JoinType.INNER))
+		        		{
+		       				fromClause.append(" INNER JOIN ");
+		        		}
+		        		else if( joinType == JoinType.LEFT_OUTER )
+		        		{
+		        			 fromClause.append(" LEFT OUTER JOIN ");
+		        		}
+		        		else if( joinType == JoinType.RIGHT_OUTER )
+		        		{
+		        			fromClause.append(" RIGHT OUTER JOIN ");
+		        		}
+		        		else if ( joinType == JoinType.FULL_OUTER)
+		        		{
+		        			fromClause.append(" FULL OUTER JOIN ");
+		        		}
+	    			}
 	        		
 	    			if(!fromTables.contains(rightTable))
 	    			{
@@ -597,8 +627,17 @@ public class JdbcMetaDataProvider
 
 					
 					
-					// ON condition
-					fromClause.append(" ON ");
+	    			
+	    			if ( addAndCondition )
+	    			{
+	    				fromClause.append("( ");
+	    				fromClause.append( " AND ");
+	    			}
+	    			else
+	    			{
+	    				// ON condition
+	    				fromClause.append(" ON ");
+	    			}
 					
 		        	// Appending the Operator
 		        	String leftColumnFullName = quoteName(leftTable, startDelimitor, endDelimitor ) + "." +
@@ -619,36 +658,22 @@ public class JdbcMetaDataProvider
 		        		fromClause.append(")");
 		        	}
 		        	
+		        	if ( addAndCondition )
+		        	{
+		        		addAndCondition = false;
+		        		fromClause.append(")");
+						
+		        	}
+		        	
 		        	fromClause.append("\n");
+		        	
+		        	prevJoin = join;
 		        		
 	        	}
+	        	*/
 	        	
-	         	// After Having added all the join conditions 
-	        	// Add the other tables
-	        	Iterator it1 = tableList.iterator();
-	        	Iterator it2 = fromTables.iterator();
-	        	
-	        	while(it1.hasNext())
-	        	{
-	        		TableImpl table = (TableImpl)it1.next();
-	        		String tableName = table.getFullyQualifiedName();
-	        		String alias = table.getTableAlias();
-	        		if(fromTables.contains(tableName))
-	        		{
-	        			continue;
-	        		}
-	        		fromClause.append(",");
-	        		fromClause.append(FROM_CLAUSE_SPACING);
-	        		fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
-	        		if(alias != null && alias.length() >0 && !tableName.equalsIgnoreCase(alias))
-	        		{
-	        			fromClause.append(" AS ");
-						fromClause.append(alias);
-	        		}
-	        		fromClause.append("\n");
-	        	}
 	       
-        	}
+        	//}
         	
         	String fromClauseStr = "";
         	if( fromClause.length() > 0)
@@ -759,6 +784,228 @@ public class JdbcMetaDataProvider
 		}
 		
 		
+	}
+	
+	private static void createJoinClause(ArrayList joins, StringBuffer fromClause, 
+				String startDelimitor, String endDelimitor, ArrayList tableList)
+	{
+		
+		String FROM_CLAUSE_SPACING = "      ";
+		
+		LinkedHashMap joinMap = new LinkedHashMap();
+		
+		boolean addParanthesis = false;
+		Iterator joinIterator = joins.iterator();
+		ArrayList fromTables = new ArrayList();
+		
+		while( joinIterator.hasNext())
+		{
+			
+			JoinImpl join = (JoinImpl)joinIterator.next();
+			JoinCondition joinCondition = join.getCondition();
+			if(joinCondition == null)
+			{
+				continue;
+			}
+			
+			String leftTable = join.getLeft().getFullyQualifiedName();
+			String rightTable = join.getRight().getFullyQualifiedName();
+			
+			if ( !fromTables.contains(leftTable) )
+			{
+				fromTables.add(leftTable);
+			}
+			
+			if ( ! fromTables.contains(rightTable))
+			{
+				fromTables.add(rightTable);
+			}
+			
+			String leftColumn = joinCondition.getLeftExpr();
+			String rightColumn = joinCondition.getRightExpr();
+		
+	
+			int joinType = joinCondition.getJoinType();
+			int operation = joinCondition.getOperationType();
+			
+			String joinTypeTxt = getJoinText(joinType);
+			
+			String leftTableName = quoteName(leftTable, startDelimitor, endDelimitor );
+			String rightTableName = quoteName(rightTable, startDelimitor, endDelimitor);
+			String leftColumnName = quoteName(leftColumn, startDelimitor, endDelimitor);
+			String rightColumnName = quoteName(rightColumn, startDelimitor, endDelimitor);
+			
+			
+	    	String leftColumnFullName = leftTableName + "." + leftColumnName;
+	    	String rightColumnFullName = rightTable + "." + rightColumnName;
+
+ 
+			String key1 = leftTableName + joinTypeTxt + rightTableName;
+			
+			String joinClause = (String)( joinMap.get(key1));
+			
+			String condition =  " ( " + leftColumnFullName + joinCondition.getOperatorString() +   rightColumnFullName + " ) ";
+			
+			if ( joinClause != null )
+			{
+				condition =  "(" + joinClause + " AND " + condition + ")";
+			}
+			    	
+			joinMap.put(key1, condition);
+		}
+		
+		// Go through the Linked Map and prepare the from clause
+		
+		Iterator fromTablesIterator = joinMap.keySet().iterator();
+		while( fromTablesIterator.hasNext())
+		{
+			String tables = (String)fromTablesIterator.next();
+			if ( tables != null )
+			{
+				fromClause.append(" ( ");
+				fromClause.append( tables );
+				fromClause.append( " ON ");
+				fromClause.append((String)joinMap.get(tables));
+				fromClause.append(" ) ");
+				fromClause.append("\n");
+			}
+		}
+		
+		
+     	// After Having added all the join conditions 
+    	// Add the other tables
+    	Iterator it1 = tableList.iterator();
+    	Iterator it2 = fromTables.iterator();
+    	
+    	while(it1.hasNext())
+    	{
+    		TableImpl table = (TableImpl)it1.next();
+    		String tableName = table.getFullyQualifiedName();
+    		String alias = table.getTableAlias();
+    		if(fromTables.contains(tableName))
+    		{
+    			continue;
+    		}
+    		fromClause.append(",");
+    		fromClause.append(FROM_CLAUSE_SPACING);
+    		fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
+    		if(alias != null && alias.length() >0 && !tableName.equalsIgnoreCase(alias))
+    		{
+    			fromClause.append(" AS ");
+				fromClause.append(alias);
+    		}
+    		fromClause.append("\n");
+    	}
+
+		
+
+
+	}
+	
+	public static String getJoinText(int joinType)
+	{
+		if((joinType == -1) || (joinType == JoinType.INNER))
+		{
+			return(" INNER JOIN ");
+		}
+		else if( joinType == JoinType.LEFT_OUTER )
+		{
+			 return(" LEFT OUTER JOIN ");
+		}
+		else if( joinType == JoinType.RIGHT_OUTER )
+		{
+			return(" RIGHT OUTER JOIN ");
+		}
+		else if ( joinType == JoinType.FULL_OUTER)
+		{
+			return(" FULL OUTER JOIN ");
+		}
+		else
+		{
+			return( " INNER JOIN ");
+		}
+
+	}
+	
+	public ArrayList getCrossReferences(String primarySchema, String primaryTable,
+										String foreignSchema, String foreignTable)
+	{
+		if ( metaData == null )
+		{
+			return null;
+		}
+		
+		String fullPrimaryTableName = primaryTable;
+		String fullForeignTableName = foreignTable;
+		
+		if ( primarySchema != null )
+		{
+			fullPrimaryTableName = primarySchema + "." + fullPrimaryTableName;
+		}
+		
+		if ( foreignSchema != null )
+		{
+			fullForeignTableName = foreignSchema + "." + fullForeignTableName;
+		}
+		
+		// If already retrieved then, get it from the Hash
+		
+		ArrayList crossReferences = (ArrayList)crossReferenceMap.get(fullForeignTableName);
+		if ( crossReferences != null )
+		{
+			return crossReferences;
+		}
+		else
+		{
+			crossReferences = new ArrayList();
+		}
+		
+		ResultSet crossReferencesRs = null;
+		
+		try {
+			crossReferencesRs = metaData.getCrossReference(null, primarySchema, primaryTable, null, foreignSchema, foreignTable);
+			
+			// test 
+			//crossReferencesRs = metaData.getCrossReference(null, primarySchema, "customers", null, foreignSchema, "orders");
+			
+    		while( crossReferencesRs.next())
+    		{
+    			String pkSchema = crossReferencesRs.getString("PKTABLE_SCHEM");
+    			String pkTable = crossReferencesRs.getString("PKTABLE_NAME");
+    			String pkColumn = crossReferencesRs.getString("PKCOLUMN_NAME");
+    			String fkSchema = crossReferencesRs.getString("FKTABLE_SCHEM");
+    			String fkTable = crossReferencesRs.getString("FKTABLE_NAME" );
+    			String fkColumn = crossReferencesRs.getString("FKCOLUMN_NAME");
+    			
+    			String pkFullColumnName = pkTable + "." + pkColumn;
+    			String fkFullColumnName = fkTable + "." + fkColumn;
+    			
+    			if ( pkSchema != null && pkSchema.length() > 0 )
+    			{
+    				pkFullColumnName = pkSchema + "." + pkFullColumnName;
+    			}
+    			
+    			if ( fkSchema != null && fkSchema.length() > 0 )
+    			{
+    				fkFullColumnName = fkSchema + "." + fkFullColumnName;
+    			}
+    			
+    			CrossReference crossReference = new CrossReference(pkSchema, pkTable, pkColumn, fkSchema, fkTable, fkColumn);
+    			crossReferences.add(crossReference);
+    		}
+    		if ( crossReferences != null && crossReferences.size() > 0)
+    		{
+    			crossReferenceMap.put(fullPrimaryTableName, crossReferences);
+    		}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+
+
+		
+		return crossReferences;
 	}
 
 }

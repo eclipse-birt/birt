@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.Column;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.Query;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
+import org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSetWizard;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
@@ -36,7 +39,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/08 06:19:51 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 19:31:47 $
  */
 public class Utility
 {
@@ -223,5 +226,76 @@ public class Utility
 		}
 		
 	}
+	
+	/**
+	 * @param Item The TableItem 
+	 * @return If the passed Item represents a Table
+	 */
+	public static boolean isTableNode( TreeItem item, boolean isSchemaSupported, TreeItem rootNode )
+	{
+		if( item != null)
+		{
+			if ( isSchemaSupported)
+			{
+				if (item.getParentItem().getParentItem().getParentItem() == null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (item.getParentItem().getParentItem() == null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param item A tree Item which has to be tested
+	 * @return if the TreeItem represents a Schema node
+	 */
+	public static boolean isSchemaNode( TreeItem item, boolean isSchemaSupported, TreeItem rootNode )
+	{
+		if ( item != null && isSchemaSupported )
+		{
+			if (item.getParentItem().getParentItem() == null)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * 
+	 * @param item The Tree Item selected
+	 * @return  True if the selected node represents a Catalog Node ( root Node displayed
+	 *          in the Available Table List ) . If the node indicates a Table or column
+	 *          false is returned.
+	 */
+	public static  boolean isCatalogNode( TreeItem item )
+	{
+		if ( item != null )
+		{
+			if (item.getParentItem() == null )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 }
