@@ -21,7 +21,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * 
  * This class is a singleton. 
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/08 02:48:35 $
  */
 public class Platform
 {
@@ -64,6 +64,16 @@ public class Platform
 	    }
 	    
 		return platform.getExtensionRegistry();
+	}
+	
+	public static IBundle getBundle (String symbolicName)
+	{
+		if (platform == null)
+		{
+			initialize();
+			assert platform != null;
+		}
+		return platform.getBundle(symbolicName);
 	}
 	
 	/**
