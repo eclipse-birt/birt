@@ -1597,6 +1597,47 @@ public final class AutoScale extends Methods implements Cloneable
         }
         else if ((iType & DATE_TIME) == DATE_TIME)
         {
+            Calendar cValue;
+            Calendar caMin = null, caMax = null;
+            dsi.reset();
+            while (dsi.hasNext())
+            {
+                cValue = (Calendar) dsi.next();
+                if (cValue == null) // NULL VALUE CHECK
+                {
+                    continue;
+                }
+                if (caMin == null)
+                {
+                    caMin = cValue;
+                }
+                if (caMax == null)
+                {
+                    caMax = cValue;
+                }
+                if (cValue.before(caMin))
+                    caMin = cValue;
+                else if (cValue.after(caMax))
+                    caMax = cValue;
+            }
+
+            CDateTime cdtMinValue = new CDateTime(caMin);
+            CDateTime cdtMaxValue = new CDateTime(caMax);
+            int iUnit = CDateTime.getDifference(cdtMinValue, cdtMaxValue);
+
+            CDateTime cdtMinAxis = cdtMinValue.backward(iUnit, 1);
+            CDateTime cdtMaxAxis = cdtMaxValue.forward(iUnit, 1);
+            cdtMinAxis.clearBelow(iUnit);
+            cdtMaxAxis.clearBelow(iUnit);
+
+            sc = new AutoScale(DATE_TIME, cdtMinAxis, cdtMaxAxis, new Integer(iUnit), new Integer(1));
+            sc.computeTicks(xs, la, iLabelLocation, iOrientation, dStart, dEnd, false, null);
+            
+            sc.fs = fs; // FORMAT SPECIFIER
+            sc.rtc = rtc; // LOCALE
+            dStart = sc.dStart;
+            dEnd = sc.dEnd;
+
             // OVERRIDE MINIMUM IF SPECIFIED
             if (oMinimum != null)
             {
@@ -1647,46 +1688,7 @@ public final class AutoScale extends Methods implements Cloneable
                 }
             }
             
-            Calendar cValue;
-            Calendar caMin = null, caMax = null;
-            dsi.reset();
-            while (dsi.hasNext())
-            {
-                cValue = (Calendar) dsi.next();
-                if (cValue == null) // NULL VALUE CHECK
-                {
-                    continue;
-                }
-                if (caMin == null)
-                {
-                    caMin = cValue;
-                }
-                if (caMax == null)
-                {
-                    caMax = cValue;
-                }
-                if (cValue.before(caMin))
-                    caMin = cValue;
-                else if (cValue.after(caMax))
-                    caMax = cValue;
-            }
-
-            CDateTime cdtMinValue = new CDateTime(caMin);
-            CDateTime cdtMaxValue = new CDateTime(caMax);
-            int iUnit = CDateTime.getDifference(cdtMinValue, cdtMaxValue);
-
-            CDateTime cdtMinAxis = cdtMinValue.backward(iUnit, 1);
-            CDateTime cdtMaxAxis = cdtMaxValue.forward(iUnit, 1);
-            cdtMinAxis.clearBelow(iUnit);
-            cdtMaxAxis.clearBelow(iUnit);
-
-            sc = new AutoScale(DATE_TIME, cdtMinAxis, cdtMaxAxis, new Integer(iUnit), new Integer(1));
-            sc.computeTicks(xs, la, iLabelLocation, iOrientation, dStart, dEnd, false, null);
-            sc.fs = fs; // FORMAT SPECIFIER
-            sc.rtc = rtc; // LOCALE
-            dStart = sc.dStart;
-            dEnd = sc.dEnd;
-
+            
             boolean bFirstFit = sc.checkFit(xs, la, iLabelLocation);
             boolean bFits = bFirstFit, bZoomSuccess = false;
 
