@@ -17,13 +17,20 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -34,12 +41,19 @@ import org.eclipse.swt.widgets.Listener;
  * Supplies template selection page of new report wizard
  *  
  */
+/**
+ */
+/**
+ */
+/**
+ */
 public class WizardTemplateChoicePage extends WizardPage
 {
 
 	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
 	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
 	private static final String MESSAGE_REPORT_TEMPLATES = Messages.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
+	private static final String MESSAGE_SHOW_CHEATSHEET = Messages.getString("WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
 	private static final String TITLE_LETTER = Messages.getString( "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
 	private static final String TITLE_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.title.MailingLabels" ); //$NON-NLS-1$
 	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
@@ -58,10 +72,10 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
     private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
-    
-	private List templateList;
+    private List templateList;
 
 	private ImageCanvas previewCanvas;
+	private Button chkBox;
 
 	private Label description;
 
@@ -142,6 +156,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected int selectedIndex;
 
 	protected Map imageMap;
+    
 
 	public class TemplateType
 	{
@@ -249,6 +264,21 @@ public class WizardTemplateChoicePage extends WizardPage
 		data.horizontalIndent = 20;
 		description.setLayoutData( data );
 
+		chkBox = new Button( composite, SWT.CHECK );
+		chkBox.setText( MESSAGE_SHOW_CHEATSHEET );
+		chkBox.setSelection(readCheatSheetProperty( ));
+		chkBox.addSelectionListener( new SelectionListener( ){
+
+            public void widgetSelected( SelectionEvent e )
+            {
+                 setCheatSheetProperty( chkBox.getSelection());
+            }
+
+            public void widgetDefaultSelected( SelectionEvent e )
+            {
+                setCheatSheetProperty( chkBox.getSelection());
+            }});
+		
 		hookListeners( );
 		templateList.select( 0 );
 		templateListener.handleEvent( new Event( ) );
@@ -256,6 +286,36 @@ public class WizardTemplateChoicePage extends WizardPage
 	}
 
 	/**
+     * @return
+     */
+    private boolean readCheatSheetProperty( )
+    {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+        try
+        {
+            String property = workspace.getRoot().getPersistentProperty( new QualifiedName( "org.eclipse.birt.property", "showCheatSheet" ) );
+            if ( property != null )
+                return Boolean.valueOf( property ).booleanValue( );
+        } catch ( CoreException e )
+        {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    private void setCheatSheetProperty( boolean value )
+    {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+        try
+        {
+            workspace.getRoot().setPersistentProperty( new QualifiedName( "org.eclipse.birt.property", "showCheatSheet" ), String.valueOf( value ) );
+        } catch ( CoreException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
 	 * @param templateList
 	 * @param description
 	 * @param previewCanvas
@@ -286,7 +346,8 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			previewCanvas.clear( );
 			previewCanvas.loadImage( ( (Image) img ) );
-
+			
+			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) );
 		}
 	};
 
@@ -295,8 +356,15 @@ public class WizardTemplateChoicePage extends WizardPage
 	 */
 	public Template getTemplate( )
 	{
-
 		return templates[selectedIndex];
+	}
+	
+	/**
+	 * @return true if show CheatSheets is checked.
+	 */
+	public boolean getShowCheatSheet( )
+	{
+	    return chkBox.getSelection( );
 	}
 
 }
