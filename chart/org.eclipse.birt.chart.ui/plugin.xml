@@ -23,28 +23,6 @@
       <import plugin="org.eclipse.birt.core"/>
    </requires>
 
-   <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="Chart Designer Actions"
-            visible="true"
-            id="org.eclipse.birt.chart.ui.actionSet">
-         <menu
-               label="Charts"
-               id="sampleMenu">
-            <separator name="sampleGroup"/>
-         </menu>
-         <action
-               toolbarPath="sampleGroup"
-               label="&amp;Chart Designer"
-               icon="icons/uibuilder.gif"
-               tooltip="Invoke the Chart Designer"
-               class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIAction"
-               menubarPath="sampleMenu/sampleGroup"
-               id="ChartDesigner"/>
-      </actionSet>
-   </extension>
-
 	<!-- Chart Library UI Framework Extension Points -->
 	<!-- 
 		Chart UI Sheets Extension Point. 
