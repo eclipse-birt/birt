@@ -298,6 +298,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			ti.setText( 0, provider.getColumnText( handle, 0 ) );
 			ti.setText( 1, provider.getColumnText( handle, 1 ) );
 		}
+		
+		fTableViewer.getTable().setFocus();
 	}
 
 	private void updateButtons( )
