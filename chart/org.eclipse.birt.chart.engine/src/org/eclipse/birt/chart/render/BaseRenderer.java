@@ -394,9 +394,8 @@ public abstract class BaseRenderer
     public void renderLegend(IPrimitiveRenderer ipr, Legend lg, Map htRenderers) throws RenderingException
     {
         renderBlock(ipr, lg);
-        IDisplayServer xs = getDevice().getDisplayServer();
+        final IDisplayServer xs = getDevice().getDisplayServer();
         final double dScale = xs.getDpiResolution() / 72d;
-
         Bounds bo = lg.getBounds().scaledInstance(dScale);
 
         Size sz = null;
@@ -413,8 +412,7 @@ public abstract class BaseRenderer
             }
             sz.scale(dScale);
 
-            // USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK
-            // SLACK SPACE
+            // USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK SLACK SPACE
             dX = bo.getLeft() + (bo.getWidth() - sz.getWidth()) / 2;
             dY = 0;
             if (lg.isSetAnchor())
@@ -496,7 +494,7 @@ public abstract class BaseRenderer
         final Label la = LabelImpl.create();
         la.setCaption((Text) EcoreUtil.copy(lg.getText()));
         la.getCaption().setValue("X");
-        ITextMetrics itm = xs.getTextMetrics(la);
+        final ITextMetrics itm = xs.getTextMetrics(la);
 
         double dWidth = 0, dHeight = 0;
         double dItemHeight = itm.getFullHeight();
@@ -568,7 +566,7 @@ public abstract class BaseRenderer
                 {
                     dY += insCA.getTop();
                     la.getCaption().setValue(String.valueOf(dsiBase.next()));
-                    itm.reuse(la);
+                    itm.reuse(la); // RECYCLED
                     fPaletteEntry = (Fill) elPaletteEntries.get(i++ % iPaletteCount); // CYCLE THROUGH THE PALETTE
                     lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
                     renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(), insCA
@@ -591,9 +589,8 @@ public abstract class BaseRenderer
                         dY += insCA.getTop();
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier())); // TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier())); // TBD: APPLY FORMAT SPECIFIER
+                        itm.reuse(la); // RECYCLED
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
                             insCA.getLeft(), dHorizontalSpacing, seBase, fPaletteEntry, lirh);
@@ -624,9 +621,8 @@ public abstract class BaseRenderer
                         dY += insCA.getTop();
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        itm.reuse(la); // RECYCLED
                         dMaxW = Math.max(dMaxW, itm.getFullWidth());
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
@@ -660,8 +656,7 @@ public abstract class BaseRenderer
                 SeriesDefinition sdBase = null;
                 if (cm instanceof ChartWithAxes)
                 {
-                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR
-                    // NOW
+                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR NOW
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
                         return; // NOTHING TO RENDER
@@ -704,7 +699,7 @@ public abstract class BaseRenderer
                 {
                     dX += insCA.getLeft();
                     la.getCaption().setValue(String.valueOf(dsiBase.next()));
-                    itm.reuse(la);
+                    itm.reuse(la); // RECYCLED
                     fPaletteEntry = (Fill) elPaletteEntries.get(i++ % iPaletteCount); // CYCLE THROUGH THE PALETTE
                     lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
                     renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(), insCA
@@ -729,9 +724,8 @@ public abstract class BaseRenderer
                     {
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        itm.reuse(la); // RECYCLED
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
                             insCA.getLeft(), dHorizontalSpacing, seBase, fPaletteEntry, lirh);
@@ -769,9 +763,8 @@ public abstract class BaseRenderer
                     {
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        itm.reuse(la); // RECYCLED
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
                             insCA.getLeft(), dHorizontalSpacing, seBase, fPaletteEntry, lirh);
@@ -800,6 +793,7 @@ public abstract class BaseRenderer
         {
             throw new RenderingException("Invalid argument specified for legend rendering orientation = " + o);
         }
+        itm.dispose(); // DISPOSE RESOURCES AFTER USE
     }
 
     /**
@@ -1038,6 +1032,12 @@ public abstract class BaseRenderer
         renderLabel(ipr, b);
     }
 
+    /**
+     * 
+     * @param cm
+     * @param oComputations
+     * @return
+     */
     private static final BaseRenderer[] createEmptyInstance(Chart cm, Object oComputations)
     {
         final BaseRenderer[] brna = new BaseRenderer[1];

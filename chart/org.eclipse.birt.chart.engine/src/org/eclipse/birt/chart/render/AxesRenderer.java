@@ -1350,7 +1350,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 DataSetIterator dsi = sc.getData();
                 final int iDateTimeUnit = (sc.getType() == IConstants.DATE_TIME) ? CDateTime.computeUnit(dsi)
                     : IConstants.UNDEFINED;
-                ITextMetrics tl = null;
+                final ITextMetrics itmText = xs.getTextMetrics(la);
 
                 if (dAngleInDegrees == 90 || dAngleInDegrees == 0)
                 {
@@ -1366,10 +1366,9 @@ public abstract class AxesRenderer extends BaseRenderer
                     for (int i = 0; i < da.length - 1; i++)
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
-
-                        tl = xs.getTextMetrics(la);
-                        dH = tl.getFullHeight();
-                        dW = tl.getFullWidth();
+                        itmText.reuse(la); // RECYCLED
+                        dH = itmText.getFullHeight();
+                        dW = itmText.getFullWidth();
                         dHCosTheta = dH * dCosTheta;
                         if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
                         {
@@ -1415,9 +1414,9 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
-                        tl = xs.getTextMetrics(la);
-                        dH = tl.getFullHeight();
-                        dW = tl.getFullWidth();
+                        itmText.reuse(la); // RECYCLED
+                        dH = itmText.getFullHeight();
+                        dW = itmText.getFullWidth();
                         dHCosTheta = dH * dCosTheta;
                         if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
                         {
@@ -1490,6 +1489,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         ipr.drawLine(lre);
                     }
                 }
+                itmText.dispose();// DISPOSED
             }
             else if ((sc.getType() & IConstants.LOGARITHMIC) == IConstants.LOGARITHMIC)
             {
@@ -1843,7 +1843,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 DataSetIterator dsi = sc.getData();
                 final int iDateTimeUnit = (sc.getType() == IConstants.DATE_TIME) ? CDateTime.computeUnit(dsi)
                     : IConstants.UNDEFINED;
-                ITextMetrics tl = null;
+                final ITextMetrics itmText = xs.getTextMetrics(la);
 
                 if (dAngleInDegrees == 90 || dAngleInDegrees == 0)
                 {
@@ -1860,9 +1860,9 @@ public abstract class AxesRenderer extends BaseRenderer
                         for (int i = 0; i < da.length - 1; i++)
                         {
                             la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
-                            tl = xs.getTextMetrics(la);
-                            dH = tl.getFullHeight();
-                            dW = tl.getFullWidth();
+                            itmText.reuse(la);// RECYCLED
+                            dH = itmText.getFullHeight();
+                            dW = itmText.getFullWidth();
                             dHSineTheta = dH * dSineTheta;
                             if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
                             {
@@ -1927,9 +1927,9 @@ public abstract class AxesRenderer extends BaseRenderer
                     {
                         la.getCaption().setValue(sc.formatCategoryValue(sc.getType(), dsi.next(), iDateTimeUnit));
                         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_LABEL, axModel, la);
-                        tl = xs.getTextMetrics(la);
-                        dH = tl.getFullHeight();
-                        dW = tl.getFullWidth();
+                        itmText.reuse(la);// RECYCLED
+                        dH = itmText.getFullHeight();
+                        dW = itmText.getFullWidth();
                         dHSineTheta = dH * dSineTheta;
                         if (dAngleInDegrees > 0 && dAngleInDegrees < 90)
                         {
@@ -1983,6 +1983,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         }
                     }
                 }
+                itmText.dispose(); // DISPOSED 
             }
             else if ((sc.getType() & IConstants.LINEAR) == IConstants.LINEAR)
             {

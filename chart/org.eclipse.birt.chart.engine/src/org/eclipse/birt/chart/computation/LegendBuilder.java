@@ -37,9 +37,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * This class ...
  * 
- * @author Actuate Corporation
  */
 public final class LegendBuilder
 {
@@ -93,7 +91,7 @@ public final class LegendBuilder
         double dSeparatorThickness = lia.getThickness();
         double dWidth = 0, dHeight = 0;
         la.getCaption().setValue("X");
-        ITextMetrics itm = xs.getTextMetrics(la);
+        final ITextMetrics itm = xs.getTextMetrics(la);
         double dItemHeight = itm.getFullHeight();
         String sRC;
         Series se;
@@ -371,6 +369,7 @@ public final class LegendBuilder
             throw new GenerationException("Invalid argument specified for legend rendering orientation = " + o);
         }
 
+        itm.dispose(); // DISPOSE RESOURCE AFTER USE
         sz = SizeImpl.create(dWidth, dHeight);
         return sz;
     }
