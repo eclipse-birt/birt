@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/18 05:40:23 $
  */
 public class XMLWriter
 {
@@ -385,6 +385,15 @@ public class XMLWriter
 		{
 			char c = s.charAt( i );
 			String replacement = null;
+			//Filters the char not defined.
+			if ( !( c == 0x9 || c == 0xA || c == 0xD
+					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
+			{
+				//Ignores the illegal character.
+				replacement = "";
+				log.warn( "Ignore the illegal XML character: 0x"
+						+ Integer.toHexString( c ) + ";" );
+			}
 			if ( c == '&' )
 			{
 				replacement = "&amp;"; //$NON-NLS-1$
