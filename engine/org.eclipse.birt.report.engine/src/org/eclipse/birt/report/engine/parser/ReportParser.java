@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -29,7 +30,7 @@ import org.eclipse.birt.report.model.api.SessionHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ReportParser
 {
@@ -53,7 +54,7 @@ public class ReportParser
 	 *            design file
 	 * @return created report IR, null if exit any errors.
 	 */
-	public Report parse( String name, InputStream in )
+	public Report parse( String name, InputStream in ) throws EngineException
 	{
 		// Create new design session
 		SessionHandle sessionHandle = DesignEngine.newSession( Locale
@@ -71,7 +72,7 @@ public class ReportParser
 			{
 				logger.error( "parser exception", dfe );
 			}
-			return null;
+			throw new EngineException(dfe);
 		}
 
 		if ( designHandle.getErrorList( ).isEmpty( ) )
@@ -89,7 +90,7 @@ public class ReportParser
 				logger.error( error );
 			}
 		}
-		return null;
+		throw new EngineException("report contains fatal errors");
 	}
 
 	/**

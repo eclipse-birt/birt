@@ -26,8 +26,9 @@ public interface IReportEngine
 	 * @param locale the locale used to render the report. Notice that the factory part of the
 	 * 		  engine is locale-independent, but the presentation part of the engine is.
 	 * @return A handle that the user can request for reporting services from
+	 * @throws EngineException if the design contains any errors.
 	 */
-	public IReportHandle getReportHandle( String reportName, Locale locale );
+	public IReportHandle getReportHandle( String reportName, Locale locale ) throws EngineException;
 
 	/**
 	 * @param stream the input stream for the report design

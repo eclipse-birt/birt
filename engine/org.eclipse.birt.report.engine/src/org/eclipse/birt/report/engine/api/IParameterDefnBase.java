@@ -46,7 +46,7 @@ public interface IParameterDefnBase
 	/**
 	 * @return display name under the default locale
 	 */
-	public String geDisplayName( );
+	public String getDisplayName( );
 	
 	/**
 	 * get the display name of the locale
