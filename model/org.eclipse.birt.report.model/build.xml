@@ -29,95 +29,79 @@
 	<property name="javadoc.dir" value="docs/api" />
 	<property name="test.javadoc.dir" value="docs/testapi" />
 
-	<property name="coverage.dir" value="coverage" />
-	<property name="coverage.log.dir" value="coverage/logs" />
-	<property name="coverage.report.dir" value="coverage/report" />
-	<property name="coverage.class.dir" value="coverage/classes" />
-	
 	<property name="lib.dir" value="lib" />
-	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
-	
+
 	<!-- Class Path -->
 	<path id="class.path">
 		<pathelement path="${build.dir}" />
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${core.dir}/lib">
-			<include name="**/*.jar" />
-		</fileset>
-		
+		<pathelement path="${lib.dir}\commons-codec-1.3.jar" />
+		<pathelement path="${core.dir}\core.jar" />
+		<pathelement path="${core.dir}\lib\junit.jar" />
+		<pathelement path="${core.dir}\lib\js.jar" />
+		<pathelement path="${core.dir}\lib\commons-logging.jar" />
 	</path>
 
+	<!-- Prepare to start the build. All dependent projects should
+	  	 be explicitly built here.-->
+	<target name="buildBefore">
+		<ant dir="${core.dir}" target="jar" inheritAll="false" inheritrefs="false"/>
+	</target>
 
-	<!-- Build Java Source Files -->
-	<target name="build">
-		<!-- jar the core and copy it to our lib -->
-		<ant dir="${core.dir}" target="clean"/>
-		<ant dir="${core.dir}" target="jar"/>
-		<copy overwrite="true" tofile="${lib.dir}/core.jar" file="${core.dir}/core.jar"/>
-		
-		<!-- Compile Java Source Files -->
+
+	<!-- Compile Java Source Files -->
+	<target name="build" depends="buildBefore">
 		<mkdir dir="${build.dir}" />
-		<javac srcdir="${src.dir}" 
-			destdir="${build.dir}" 
-			optimize="true" 
-			source="1.4" 
-			target="1.4"
-			debug="true" 
-			encoding="gb2312" 
-			failonerror="true">
-			<exclude name="**/test/*.java" />
-			<classpath refid="class.path" />
-		</javac>
-
-		<!-- Compile Unit Test Source Files -->
-		<mkdir dir="${test.build.dir}" />
-		<javac srcdir="${test.src.dir}" 
-			destdir="${test.build.dir}" 
-			optimize="true" 
-			source="1.4" 
-			target="1.4"
-			debug="true" 
-			encoding="gb2312" 
-			failonerror="true">
-			<classpath refid="class.path" />
-		</javac>
 		
-		<!-- Copy sample.xml, which contains metadata information -->
+		<!-- Copy resource files we needed into bin -->
 		<copy todir="${build.dir}">
 			<fileset dir="${src.dir}">
-				<include name="**/*.xml"/>
-				<include name="**/*.def"/>
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
 				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
-		<copy todir="${test.build.dir}">
-			<fileset dir="${test.src.dir}">
-				<include name="**/input/*.*"/>
-				<include name="**/golden/*.*"/>
-				<include name="**/*.properties" />	
-			</fileset>
-		</copy>
+		
+		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" source="1.4" target="1.4" debug="true" encoding="gb2312" failonerror="true">
+			<classpath refid="class.path" />
+		</javac>
 	</target>
 
+	<!-- Compile test cases -->
+	<target name="compileTest" depends="build">
+		<mkdir dir="${test.build.dir}" />
+
+		<!-- Copy resource files we needed into build -->
+		<copy todir="${test.build.dir}">
+			<fileset dir="${test.src.dir}">
+				<include name="**/input/*.*" />
+				<include name="**/golden/*.*" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+
+		<!-- Compile Unit Test Source Files -->
+		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" source="1.4" target="1.4" debug="true" encoding="gb2312" failonerror="true">
+			<classpath refid="class.path" />
+		</javac>
+	</target>
+
+
 	<!-- Run All Unit Tests -->
-	<target name="utest" depends="build">
+	<target name="utest" depends="compileTest">
 		<junit printsummary="on" fork="true" haltonfailure="false" failureproperty="tests.failed" showoutput="true">
-		    <jvmarg value="-DBIRT_HOME=${BIRT_HOME}"/>
-			<jvmarg value="-ea"/>
+			<jvmarg value="-DBIRT_HOME=${BIRT_HOME}" />
+			<jvmarg value="-ea" />
 			<classpath>
-				<pathelement location="${coverage.class.dir}" />
 				<pathelement path="${test.build.dir}" />
-				<path refid="class.path"/>
+				<path refid="class.path" />
 			</classpath>
 			<formatter type="xml" usefile="true" />
 
 			<batchtest todir="${test.build.dir}">
 				<formatter type="brief" usefile="true" />
 				<fileset dir="${test.build.dir}">
-					<include name="**/*Test.*" />				
+					<include name="**/*Test.*" />
 					<exclude name="**/ExtensionTest.*" />
 				</fileset>
 			</batchtest>
@@ -132,68 +116,24 @@
 
 	<!-- Clean the build environment -->
 	<target name="clean">
-		<delete dir="${test.build.dir}" />
-		<delete dir="${build.dir}" />
+		<delete dir="${test.build.dir}"/>
+		<delete dir="${build.dir}"/>
 		<delete dir="docs"/>
-		<delete dir="${coverage.dir}" />
-	</target>
-
-	<!-- JUnit Test Report -->
-	<target name="coverage" depends="clean">
-		<!-- Build -->
-		<antcall target="build"/>
-		
-		<!-- Post compile for code coverage -->
-		<mkdir dir="${coverage.class.dir}"/>
-        <mkdir dir="${coverage.log.dir}"/>
-        <grobo-instrument logdir="${coverage.log.dir}" logger="fast"
-                          destdir="${coverage.class.dir}">
-            <fileset dir="${build.dir}">
-                <include name="**/*.class"/>
-            </fileset>
-            
-            <measure type="linecount"/>
-            <measure type="function"/>
-            <measure type="branch"/>
-            <measure type="call-pair"/>
-        </grobo-instrument>
-		
-		<!-- Unit Test -->
-		<antcall target="utest"/>
-		
-		<!-- Generate Code Coverage Report -->		
-		<mkdir dir="${coverage.report.dir}" />
-		<grobo-report logdir="${coverage.log.dir}">
-			<simple destdir="${coverage.dir}" removeempty="true" />
-			<source destdir="${coverage.report.dir}" removeempty="true" srcdir="${src.dir}" title="Summary Coverage Report of Design Engine" />
-		</grobo-report>
+		<delete dir="model.jar"/>
 	</target>
 
 	<!-- Generate the JavaDoc -->
 	<target name="javadoc" depends="src_javadoc,test_javadoc" />
 	<target name="src_javadoc" depends="build">
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}" 
-				 author="true" 
-				 version="true" 
-				 use="true" 
-				 access="private" 
-				 windowtitle="Birt Model API" 
-				 source="1.4"
-				 packagenames="org.eclipse.birt.report.model.*">
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" access="private" windowtitle="Birt Model API" source="1.4" packagenames="org.eclipse.birt.report.model.*">
 			<packageset dir="${src.dir}" defaultexcludes="yes" />
 			<classpath refid="class.path" />
 		</javadoc>
 	</target>
 	<target name="test_javadoc" depends="build">
 		<mkdir dir="${test.javadoc.dir}" />
-		<javadoc destdir="${test.javadoc.dir}" 
-				 author="true" 
-				 version="true" 
-			 	 use="true" 
-			  	 access="private" 
-				 windowtitle="Birt Model Unit Test API"
-				 source="1.4">
+		<javadoc destdir="${test.javadoc.dir}" author="true" version="true" use="true" access="private" windowtitle="Birt Model Unit Test API" source="1.4">
 			<packageset dir="${test.src.dir}" defaultexcludes="yes" />
 			<classpath refid="class.path" />
 			<classpath>
@@ -201,13 +141,9 @@
 			</classpath>
 		</javadoc>
 	</target>
-	
-	<!-- Run All the Tasks -->
-    <target name="all" depends="coverage,javadoc"/>
-	
+
 	<!-- Generate the jar file -->
 	<target name="gen_jar" depends="build">
-		<delete file="model.jar"/>
 		<jar destfile="model.jar" basedir="${build.dir}"/>
 	</target>
 </project>

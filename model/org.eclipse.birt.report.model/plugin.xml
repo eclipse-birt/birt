@@ -10,16 +10,12 @@
       <library name="model.jar">
          <export name="*"/>
       </library>
-      <library name="lib/junit.jar">
-         <export name="*"/>
-      </library>
       <library name="lib/commons-codec-1.3.jar">
          <export name="*"/>
       </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.junit"/>
    </requires>
    <extension-point id="reportitem" name="reportitem" schema="schema/element.exsd"/>   
 </plugin>
