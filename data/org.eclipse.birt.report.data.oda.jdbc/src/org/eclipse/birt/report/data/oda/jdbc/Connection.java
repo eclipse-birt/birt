@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.DatabaseMetaData;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -201,6 +202,8 @@ public class Connection implements IConnection
 				if ( className != null )
 				{
 					Class.forName( className );
+					Driver driver = (Driver) Class.forName( className).newInstance( );
+                    DriverManager.registerDriver( driver );
 				}
 				String user = connProperties.getProperty( "ODA:user" );
 				String pwd = connProperties.getProperty( "ODA:password" );
@@ -290,4 +293,5 @@ public class Connection implements IConnection
 					DriverException.ERROR_NO_CONNECTION );
 		}
 	}
+	 
 }
