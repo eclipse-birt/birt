@@ -16,8 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -45,8 +49,15 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 	 */
 	protected List getItems( )
 	{
-
 		ArrayList actionList = new ArrayList( );
+
+		StyleHandle currentStyle = getStyleHandle( );
+		ApplyStyleAction reset = new ApplyStyleAction( null );
+		reset.setSelection( getSelection( ) );
+		reset.setChecked( currentStyle == null );
+		actionList.add( reset );
+		actionList.add( null );//Adds separator
+
 		Iterator iterator = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getStyles( )
@@ -56,8 +67,33 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
 			ApplyStyleAction action = new ApplyStyleAction( handle );
 			action.setSelection( getSelection( ) );
+			action.setChecked( currentStyle == handle );
 			actionList.add( action );
 		}
 		return actionList;
+	}
+
+	private StyleHandle getStyleHandle( )
+	{
+		IStructuredSelection selection = DNDUtil.editPart2Model( getSelection( ) );
+		if ( !selection.isEmpty( )
+				&& selection.getFirstElement( ) instanceof DesignElementHandle )
+		{
+			SharedStyleHandle style = ( (DesignElementHandle) selection.getFirstElement( ) ).getStyle( );
+			for ( Iterator iterator = selection.iterator( ); iterator.hasNext( ); )
+			{
+				Object obj = iterator.next( );
+				if ( !( obj instanceof DesignElementHandle ) )
+				{
+					return null;
+				}
+				if ( ( (DesignElementHandle) obj ).getStyle( ) != style )
+				{
+					return null;
+				}
+			}
+			return style;
+		}
+		return null;
 	}
 }

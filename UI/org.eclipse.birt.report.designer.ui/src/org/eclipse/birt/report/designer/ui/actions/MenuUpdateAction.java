@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -94,8 +95,15 @@ public abstract class MenuUpdateAction extends SelectionAction
 			for ( Iterator i = actionItems.iterator( ); i.hasNext( ); )
 			{
 				DynamicItemAction action = (DynamicItemAction) i.next( );
-				action.setSelection( getSelection( ) );
-				menu.add( action );
+				if ( action != null )
+				{
+					action.setSelection( getSelection( ) );
+					menu.add( action );
+				}
+				else
+				{
+					menu.add( new Separator( ) );
+				}
 			}
 			if ( menu.getItems( ).length == 0 )
 			{
@@ -118,7 +126,8 @@ public abstract class MenuUpdateAction extends SelectionAction
 	}
 
 	/**
-	 * Gets dynamic items of current menu.
+	 * Gets dynamic items of current menu to generate sub-menu. If the element
+	 * returns null, menu will generate separator.
 	 * 
 	 * @return items
 	 */

@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
@@ -24,8 +24,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.command.StyleException;
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
  * Applies style to selected elements.
@@ -40,6 +38,8 @@ public class ApplyStyleAction extends DynamicItemAction
 	private static final String STACK_MSG_APPLY_STYLE = Messages.getString( "ApplyStyleAction.stackMsg.applyStyle" ); //$NON-NLS-1$
 
 	private SharedStyleHandle handle;
+
+	private List selectionHandles;
 
 	/**
 	 * @param handle
@@ -63,7 +63,7 @@ public class ApplyStyleAction extends DynamicItemAction
 	 */
 	public boolean isEnabled( )
 	{
-		ArrayList handles = getElementHandles( );
+		List handles = getElementHandles( );
 		if ( handles.isEmpty( ) )
 			return false;
 		for ( int i = 0; i < handles.size( ); i++ )
@@ -87,12 +87,11 @@ public class ApplyStyleAction extends DynamicItemAction
 
 		try
 		{
-			ArrayList handles = getElementHandles( );
+			List handles = getElementHandles( );
 			for ( int i = 0; i < handles.size( ); i++ )
 			{
-				// set style or remove style!
-				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( ) ? handle
-						: null );
+				( (DesignElementHandle) handles.get( i ) ).setStyle( isChecked( )
+						? handle : null );
 			}
 			stack.commit( );
 		}
@@ -105,22 +104,13 @@ public class ApplyStyleAction extends DynamicItemAction
 
 	/**
 	 * Gets models of selected elements
-	 * 
-	 * @return
+	 *  
 	 */
-	private ArrayList getElementHandles( )
+	protected List getElementHandles( )
 	{
-		ArrayList list = new ArrayList( );
-
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
-			return list;
-		List temp = ( (IStructuredSelection) getSelection( ) ).toList( );
-		int size = temp.size( );
-
-		for ( int i = 0; i < size; i++ )
-		{
-			list.add( ( (EditPart) ( temp.get( i ) ) ).getModel( ) );
-		}
-		return list;
+		if ( selectionHandles == null )
+			selectionHandles = DNDUtil.editPart2Model( getSelection( ) )
+					.toList( );
+		return selectionHandles;
 	}
 }

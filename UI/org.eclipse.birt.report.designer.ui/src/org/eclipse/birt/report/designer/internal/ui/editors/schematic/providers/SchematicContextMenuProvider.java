@@ -16,10 +16,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleRuleAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroupAction;
@@ -43,7 +41,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
@@ -51,7 +48,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
+import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -62,7 +62,6 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.gef.ContextMenuProvider;
@@ -71,6 +70,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -439,42 +439,28 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		MenuManager menu = new MenuManager( STYLE_MENU_ITEM_TEXT );
 		MenuManager subMenu = new MenuManager( APPLY_STYLE_MENU_ITEM_TEXT );
+		subMenu.add( NoneAction.getInstance( ) );
+		subMenu.addMenuListener( new IMenuListener( ) {
 
-		SharedStyleHandle oldStyle = getStyleHandle( );
-
-		ApplyStyleAction reset = new ApplyStyleAction( null );
-		reset.setSelection( getSelection( ) );
-		if ( oldStyle == null )
-		{
-			reset.setChecked( true );
-		}
-		subMenu.add( reset );
-		subMenu.add( new Separator( ) );
-
-		Iterator iter = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getStyles( )
-				.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			SharedStyleHandle handle = (SharedStyleHandle) iter.next( );
-			ApplyStyleAction action = new ApplyStyleAction( handle );
-			action.setSelection( getSelection( ) );
-			if ( oldStyle == handle )
+			public void menuAboutToShow( IMenuManager manager )
 			{
-				action.setChecked( true );
+				updateDynamicItems( ApplyStyleMenuAction.ID, manager );
 			}
-			else
-			{
-				action.setChecked( false );
-			}
-			subMenu.add( action );
-		}
+		} );
 
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
 		menu.add( getAction( AddStyleRuleAction.ID ) );
 		menuManager.appendToGroup( group_name, menu );
+	}
+
+	private void updateDynamicItems( String actionId, IMenuManager menu )
+	{
+		IAction action = getAction( actionId );
+		if ( action != null && action instanceof MenuUpdateAction )
+		{
+			( (MenuUpdateAction) action ).updateMenu( (MenuManager) menu );
+		}
 	}
 
 	/**
@@ -543,31 +529,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	}
 
 	/**
-	 * Gets elements.
+	 * Gets element handles.
 	 * 
-	 * @return elements in the form of array
+	 * @return element handles
 	 */
 	protected List getElements( )
 	{
-		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
-
-		List result = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof ReportElementEditPart )
-			{
-				Object model = ( (ReportElementEditPart) obj ).getModel( );
-				if ( model instanceof ListBandProxy )
-				{
-					model = ( (ListBandProxy) model ).getSlotHandle( );
-				}
-				result.add( model );
-			}
-		}
-		return result;
+		return DNDUtil.editPart2Model( getSelection( ) ).toList( );
 	}
 
 	/**
@@ -608,7 +576,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	private Object getMultiSelectedElement( )
 	{
-		List list = (ArrayList) getElements( );
+		List list = getElements( );
 		Object baseHandle = list.get( 0 );
 		Class base = baseHandle.getClass( );
 
@@ -619,16 +587,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				continue;
 			}
-			else
+			// Ensure multi selected elements are instance of the "base" class.
+			while ( !base.isInstance( obj ) )
 			{
-				// Ensure multi selected elements are instance of the "base"
-				// class.
-				while ( !base.isInstance( obj ) )
-				{
-					base = base.getSuperclass( );
-				}
-				continue;
+				base = base.getSuperclass( );
 			}
+			continue;
 		}
 		return base;
 	}
@@ -684,35 +648,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 		}
 		return columnHandles;
-	}
-
-	/**
-	 * Gets style of the selected elements.
-	 * 
-	 * @return the style handle of the selected elements
-	 */
-	protected SharedStyleHandle getStyleHandle( )
-	{
-		Object[] elements = getElements( ).toArray( );
-		if ( elements.length > 0 && elements[0] instanceof DesignElementHandle )
-		{
-			SharedStyleHandle style = ( (DesignElementHandle) elements[0] ).getStyle( );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( !( elements[i] instanceof DesignElementHandle ) )
-				{
-					return null;
-				}
-
-				SharedStyleHandle handle = ( (DesignElementHandle) elements[i] ).getStyle( );
-				if ( handle != style )
-				{
-					return null;
-				}
-			}
-			return style;
-		}
-		return null;
 	}
 
 	/**
