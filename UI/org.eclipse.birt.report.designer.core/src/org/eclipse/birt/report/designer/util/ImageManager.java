@@ -21,11 +21,10 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Manages all image resouces.
+ * Manages all image resources.
  */
 
 public class ImageManager
@@ -101,15 +100,11 @@ public class ImageManager
 		if ( image == null )
 		{
 			InputStream is = new ByteArrayInputStream( embeddedImage.getData( ) );
-			try
+			image = new Image( null, is );
+			if ( image != null )
 			{
-				image = new Image( null, is );
+				JFaceResources.getImageRegistry( ).put( key, image );
 			}
-			catch ( SWTException e )
-			{
-				return null;
-			}
-			JFaceResources.getImageRegistry( ).put( key, image );
 		}
 		return image;
 	}

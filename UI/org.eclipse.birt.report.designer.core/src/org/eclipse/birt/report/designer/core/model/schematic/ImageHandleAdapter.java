@@ -64,7 +64,8 @@ public class ImageHandleAdapter extends DesignElementHandleAdapter
 				return ImageManager.getImage( embeddedImage );
 			}
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
 			String url = getImageHandle( ).getURI( );
 			try

@@ -84,18 +84,15 @@ public class ImageFigure extends Figure
 	}
 
 	/**
-	 * The image content is auto-stretched according to the container size.
-	 * Returns this figure for convenience.
+	 * Sets the flag if the image content is auto-stretched according to the
+	 * container size. Returns this figure for convenience.
 	 * 
 	 * @param isStretched
 	 *            If the image is to be stretched.
-	 * @return Image Figure.
 	 */
-	public ImageFigure getStretchedFigure( boolean isStretched )
+	public void setStretched( boolean isStretched )
 	{
 		stretch = isStretched;
-
-		return this;
 	}
 
 	/**
@@ -223,7 +220,6 @@ public class ImageFigure extends Figure
 	public void setSize( int w, int h )
 	{
 		super.setSize( w, h );
-
 		size.width = w;
 		size.height = h;
 	}

@@ -26,12 +26,12 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 
@@ -71,9 +71,7 @@ public class ImageEditPart extends ReportElementEditPart
 	 */
 	protected IFigure createFigure( )
 	{
-		ImageFigure figure = new ImageFigure( ).getStretchedFigure( true );
-
-		return figure;
+		return new ImageFigure( );
 	}
 
 	/*
@@ -107,7 +105,15 @@ public class ImageEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
-		Image image = getImageAdapter( ).getImage( );
+		Image image = null;
+		try
+		{
+			image = getImageAdapter( ).getImage( );
+		}
+		catch ( SWTException e )
+		{//Do nothing
+		}
+		( (ImageFigure) this.getFigure( ) ).setStretched( image != null );
 		if ( image == null )
 		{
 			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_MISSING_IMG );
@@ -115,11 +121,11 @@ public class ImageEditPart extends ReportElementEditPart
 
 		( (ImageFigure) this.getFigure( ) ).setImage( image );
 
-		if ( getImageAdapter( ).getSize( ) == null && image != null )
-		{
-			getImageAdapter( ).setSize( new Dimension( image.getBounds( ).width,
-					image.getBounds( ).height ) );
-		}
+//		if ( getImageAdapter( ).getSize( ) == null && image != null )
+//		{
+//			getImageAdapter( ).setSize( new Dimension( image.getBounds( ).width,
+//					image.getBounds( ).height ) );
+//		}
 
 		if ( getImageAdapter( ).getSize( ) != null )
 		{
