@@ -27,6 +27,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
@@ -104,20 +106,29 @@ public class JdbcMetaDataProvider
 
 	}
 	
+	public Connection connect(DataSourceHandle dataSourceHandle)
+	{		
+		
+		OdaDataSourceHandle handle = (OdaDataSourceHandle) dataSourceHandle;
+	
+		String userName = handle.getPrivateDriverProperty("ODA:user");//$NON-NLS-1$
+		String passWord = handle.getPrivateDriverProperty( "ODA:password" );//$NON-NLS-1$
+		String url = handle.getPrivateDriverProperty( "ODA:url" );//$NON-NLS-1$
+		String driver = handle.getPrivateDriverProperty( "ODA:driver-class" );//$NON-NLS-1$
+		
+		jdbcConnection = connect( userName,
+				passWord,
+				url,
+				driver,
+				handle.getDriverName( ) ); 
+		
+		return jdbcConnection;
+	}
+	
 	public JdbcMetaDataProvider( Connection connection)
 	{
 		jdbcConnection = connection;
 		metaData = null;
-	}
-	
-
-	public JdbcMetaDataProvider(String userName, String password, String driverclass, String url)
-	{
-		metaData = null;
-		this.userName = userName;
-		this.password = password;
-		this.url = url;
-		this.driverClass = driverclass;
 	}
 	
 	/*
@@ -667,7 +678,10 @@ public class JdbcMetaDataProvider
 		if ( jdbcConnection != null )
 		{
 			try {
-				jdbcConnection.close();
+				if( !jdbcConnection.isClosed())
+				{
+					jdbcConnection.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -678,6 +692,11 @@ public class JdbcMetaDataProvider
 	private static String quoteName(String name, String startDelimitor, String endDelimitor)
 	{
 		if ( name == null || startDelimitor == null || endDelimitor ==null )
+		{
+			return name;
+		}
+		
+		if( name.trim().equals("*"))
 		{
 			return name;
 		}
