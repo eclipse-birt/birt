@@ -1181,7 +1181,7 @@ public class ChartImpl extends EObjectImpl implements Chart
         // 3. INITIALIZE THE CHART TITLE
         Text txtChartTitle = tb.getLabel().getCaption();
         txtChartTitle.setValue("Chart Title");
-        txtChartTitle.getFont().setSize(36);
+        txtChartTitle.getFont().setSize(24);
 
         // 4. SETUP OTHER BASIC PROPERTIES
         setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
