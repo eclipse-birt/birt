@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.CellContent;
-import org.eclipse.birt.report.engine.content.ColumnContent;
-import org.eclipse.birt.report.engine.content.RowContent;
-import org.eclipse.birt.report.engine.content.TableContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumnContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.emitter.buffer.BufferedReportEmitter;
@@ -28,10 +29,11 @@ import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
- * Defines execution logic for a List report item. <p>
+ * Defines execution logic for a List report item.
+ * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/23 06:49:59 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -76,8 +78,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	protected boolean isRowEnd = true;
 
 	/**
-	 * @param context execution context
-	 * @param visitor visitor object for driving the execution 
+	 * @param context
+	 *            execution context
+	 * @param visitor
+	 *            visitor object for driving the execution
 	 */
 	protected TableItemExecutor( ExecutionContext context,
 			ReportExecutorVisitor visitor )
@@ -103,28 +107,28 @@ public class TableItemExecutor extends ListingElementExecutor
 		this.emitter = emitter;
 
 		table = (TableItemDesign) item;
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "start table item" );
 		}
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
-		TableContent tableObj = new TableContent( table );
+		ITableContent tableObj = ContentFactory.createTableContent( table );
 		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
 				.getCaption( ) ) );
 		setStyles( tableObj, item );
 		setVisibility( item, tableObj );
-		
+
 		String bookmarkStr = evalBookmark( item );
-		if (bookmarkStr != null)
-			tableObj.setBookmarkValue(bookmarkStr);
-		
-		if ( logger.isTraceEnabled() )
+		if ( bookmarkStr != null )
+			tableObj.setBookmarkValue( bookmarkStr );
+
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "start get table data" );
 		}
 		rs = openResultSet( table );
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "end get table data" );
 		}
@@ -165,8 +169,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	}
 
 	/**
-	 * @param tableEmitter the table emitter
-	 * @param tableItem the table report item
+	 * @param tableEmitter
+	 *            the table emitter
+	 * @param tableItem
+	 *            the table report item
 	 */
 	private void accessColumns( ITableEmitter tableEmitter,
 			TableItemDesign tableItem )
@@ -177,8 +183,8 @@ public class TableItemExecutor extends ListingElementExecutor
 			tableEmitter.startColumns( );
 			for ( int i = 0; i < tableItem.getColumnCount( ); i++ )
 			{
-				ColumnContent colContent = new ColumnContent( tableItem
-						.getColumn( i ) );
+				IColumnContent colContent = ContentFactory
+						.createColumnContent( tableItem.getColumn( i ) );
 				setStyles( colContent, tableItem.getColumn( i ) );
 				tableEmitter.startColumn( colContent );
 				tableEmitter.endColumn( );
@@ -190,8 +196,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * get group header
 	 * 
-	 * @param index the group index
-	 * @param table the table design item
+	 * @param index
+	 *            the group index
+	 * @param table
+	 *            the table design item
 	 * @return a table band corresponding to a group header
 	 */
 	private TableBandDesign getGroupHeader( int index, TableItemDesign table )
@@ -214,7 +222,8 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * get show status and drop status of each row
 	 * 
-	 * @param table the table item
+	 * @param table
+	 *            the table item
 	 */
 	private void setUpDropProperties( TableItemDesign table )
 	{
@@ -232,7 +241,8 @@ public class TableItemExecutor extends ListingElementExecutor
 	/**
 	 * get show status of row
 	 * 
-	 * @param band the table band           
+	 * @param band
+	 *            the table band
 	 * @return the boolean array
 	 */
 	private boolean[] setUpRowDropProperties( TableBandDesign band )
@@ -300,7 +310,8 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * access table band without drop
 	 * 
 	 * @param band
-	 * @param tableEmitter the table emitter
+	 * @param tableEmitter
+	 *            the table emitter
 	 */
 	private void accessNoDropBand( TableBandDesign band,
 			ITableEmitter tableEmitter )
@@ -317,7 +328,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			RowContent rowContent = new RowContent( row );
+			IRowContent rowContent = ContentFactory.createRowContent( row );
 			setVisibility( row, rowContent );
 			setBookmarkValue( rowContent );
 			setStyles( rowContent, row );
@@ -328,7 +339,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					CellContent cellContent = new CellContent( cell );
+					ICellContent cellContent = ContentFactory
+							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
 
@@ -366,9 +378,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	}
 
 	/**
-	 * @param row the row content object
+	 * @param row
+	 *            the row content object
 	 */
-	private void setBookmarkValue( RowContent row )
+	private void setBookmarkValue( IRowContent row )
 	{
 		// bookmark
 		Expression bookmark = row.getBookmark( );
@@ -453,7 +466,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			}
 			if ( isRowEnd )
 			{
-				RowContent rowContent = new RowContent( row );
+				IRowContent rowContent = ContentFactory.createRowContent( row );
 				setVisibility( row, rowContent );
 				setBookmarkValue( rowContent );
 				setStyles( rowContent, row );
@@ -465,7 +478,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					CellContent cellContent = new CellContent( cell );
+					ICellContent cellContent = ContentFactory
+							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					emitter.getTableEmitter( ).startCell( cellContent );
 					for ( int m = 0; m < cell.getContentCount( ); m++ )
@@ -508,7 +522,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			bufferManager = new DropBufferManager( );
 			bufferStatus = true;
 			emitter = new BufferedReportEmitter( emitter );
-			emitter.initialize(null);
+			emitter.initialize( null );
 			visitor.pushEmitter( emitter );
 			emitter.startReport( context.getReport( ) );
 		}
@@ -519,7 +533,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			RowContent newRow = new RowContent( row );
+			IRowContent newRow = ContentFactory.createRowContent( row );
 
 			if ( isRowEnd )
 			{
@@ -534,7 +548,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					CellContent cellContent = new CellContent( cell );
+					ICellContent cellContent = ContentFactory
+							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					if ( cell.getDrop( ) != null )
 					{

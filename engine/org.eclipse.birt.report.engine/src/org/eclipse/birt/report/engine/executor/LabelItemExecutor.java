@@ -11,17 +11,17 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.TextItemContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-
 /**
  * the labelItem excutor
  * 
- * @version $Revision: #3 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -47,7 +47,8 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
-		TextItemContent textObj = new TextItemContent( (LabelItemDesign) item );
+		ITextContent textObj = ContentFactory
+				.createTextContent( (LabelItemDesign) item );
 		textObj
 				.setHelpText( getLocalizedString( ( (LabelItemDesign) item )
 						.getHelpTextKey( ), ( (LabelItemDesign) item )
@@ -64,16 +65,17 @@ public class LabelItemExecutor extends StyledItemExecutor
 
 		processAction( textObj.getAction( ), textObj );
 		String bookmarkStr = evalBookmark( item );
-		if (bookmarkStr != null)
-			textObj.setBookmarkValue(bookmarkStr);
-		
-		textObj.setValue( getMapVal( textObj.getValue( ), item )
-				.toString( ) );
+		if ( bookmarkStr != null )
+			textObj.setBookmarkValue( bookmarkStr );
+
+		textObj.setValue( getMapVal( textObj.getValue( ), item ).toString( ) );
 		textEmitter.start( textObj );
 		textEmitter.end( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
 	 */
 	public void reset( )

@@ -16,9 +16,10 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.content.MasterPageContent;
-import org.eclipse.birt.report.engine.content.PageSequenceContent;
-import org.eclipse.birt.report.engine.content.PageSetupContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IMasterPageContent;
+import org.eclipse.birt.report.engine.content.IPageSequenceContent;
+import org.eclipse.birt.report.engine.content.IPageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -46,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/23 02:57:46 $
  */
 public class ReportExecutor
 {
@@ -180,8 +181,8 @@ public class ReportExecutor
 	private void handlePageSetup( Report report )
 	{
 		// first create the master page defined in the report design
-		PageSetupContent pageSetup = new PageSetupContent( report
-				.getPageSetup( ) );
+		IPageSetupContent pageSetup = ContentFactory
+				.createPageSetupContent( report.getPageSetup( ) );
 
 		IPageSetupEmitter pageSetupEmitter = emitter.getPageSetupEmitter( );
 		if ( pageSetupEmitter == null )
@@ -197,8 +198,8 @@ public class ReportExecutor
 			{
 				MasterPageDesign masterPage = report.getPageSetup( )
 						.getMasterPage( i );
-				MasterPageContent masterPageContent = new MasterPageContent(
-						masterPage );
+				IMasterPageContent masterPageContent = ContentFactory
+						.createMasterPageContent( masterPage );
 				pageSetup.addMasterPage( masterPageContent );
 				pageSetupEmitter.startMasterPage( masterPageContent );
 				pageSetupEmitter.endMasterPage( );
@@ -213,8 +214,8 @@ public class ReportExecutor
 			{
 				PageSequenceDesign psDesign = report.getPageSetup( )
 						.getPageSequence( i );
-				PageSequenceContent psContent = new PageSequenceContent(
-						pageSetup, psDesign );
+				IPageSequenceContent psContent = ContentFactory
+						.createPageSequenceContent( pageSetup, psDesign );
 
 				pageSetup.addPageSequence( psContent );
 				pageSetupEmitter.startPageSequence( psContent );

@@ -24,8 +24,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.report.engine.content.PageSetupContent;
-import org.eclipse.birt.report.engine.content.ReportItemContent;
+import org.eclipse.birt.report.engine.content.IPageSetupContent;
+import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -37,17 +37,18 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * Captures the report execution context. This class is needed for accessing global
- * information during execution as well as for for scripting. 
- * It implements the <code>report</code> Javascript object, as well as other objects
- * such as <code>report.params</code>, <code>report.config</code>, 
+ * Captures the report execution context. This class is needed for accessing
+ * global information during execution as well as for for scripting. It
+ * implements the <code>report</code> Javascript object, as well as other
+ * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/16 20:26:11 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
-	// for logging 
+
+	// for logging
 	protected static Log log = LogFactory.getLog( ExecutionContext.class );
 
 	// The scripting context
@@ -57,15 +58,15 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	protected IDataEngine dataEngine;
 
 	// the page setup information of the report
-	private PageSetupContent pageSetup;
-	
+	private IPageSetupContent pageSetup;
+
 	// the page sequence information of the section
 	protected Stack pageInfoStack = new Stack( );
-	
+
 	// the default master page/page sequence of the report
 	private String defaultMasterPage;
-	
-	// the current master page/page sequence of the report 
+
+	// the current master page/page sequence of the report
 	private String currentMasterPage;
 
 	// A stack of accessible reportItems, with the current one on the top
@@ -74,7 +75,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	// A stack of content objects, with the current one on the top
 	private Stack reportContents = new Stack( );
 
-	// Global configuration variables 
+	// Global configuration variables
 	private Map configs = new HashMap( );
 
 	// Report parameters
@@ -82,11 +83,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	// the report design
 	protected Report report;
-	
+
 	// the current locale
 	protected Locale locale;
 
-	// A DOM Parser for parsing HTML 
+	// A DOM Parser for parsing HTML
 	protected DOMParser parser;
 
 	/**
@@ -128,7 +129,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * creates new variable scope. 
+	 * creates new variable scope.
 	 */
 	public void newScope( )
 	{
@@ -136,7 +137,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * exits a variable scope. 
+	 * exits a variable scope.
 	 */
 	public void exitScope( )
 	{
@@ -147,8 +148,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * declares a variable in the current scope. The variable is then accessible
 	 * through JavaScript.
 	 * 
-	 * @param name variable name
-	 * @param value variable value
+	 * @param name
+	 *            variable name
+	 * @param value
+	 *            variable value
 	 */
 	public void registerBean( String name, Object value )
 	{
@@ -158,7 +161,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * Evaluate a BIRT expression
 	 * 
-	 * @param source the expression to be evaluated
+	 * @param source
+	 *            the expression to be evaluated
 	 * @return the result if no error exists, otherwise null.
 	 * 
 	 * @see evaluate(String,String,int)
@@ -175,7 +179,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( Exception e )
 		{
-		    // TODO eval may throw RuntimeException, which may also need logging. May need to log more info.
+			// TODO eval may throw RuntimeException, which may also need
+			// logging. May need to log more info.
 			log.error( e );
 		}
 		return null;
@@ -183,7 +188,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * @param jsValue a Javascript object
+	 * @param jsValue
+	 *            a Javascript object
 	 * @return A Java object
 	 */
 	public Object jsToJava( Object jsValue )
@@ -194,9 +200,12 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * Evaluate a BIRT expression
 	 * 
-	 * @param expr the expression to be evaluated
-	 * @param name the file name
-	 * @param lineNo the line number
+	 * @param expr
+	 *            the expression to be evaluated
+	 * @param name
+	 *            the file name
+	 * @param lineNo
+	 *            the line number
 	 * 
 	 * @return the result if no error exists, otherwise null.
 	 */
@@ -212,14 +221,16 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( Exception e )
 		{
-		    // TODO eval may throw RuntimeException, which may also need logging. May need to log more info.
+			// TODO eval may throw RuntimeException, which may also need
+			// logging. May need to log more info.
 			log.error( e );
 		}
 		return null;
 	}
 
 	/**
-	 * @param expr an expression handle used to evaluate DtE expression
+	 * @param expr
+	 *            an expression handle used to evaluate DtE expression
 	 * @return the evaluated result of the expression
 	 */
 	public Object evaluate( IBaseExpression expr )
@@ -230,7 +241,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * execute the script. simply evaluate the script, and drop the return value
 	 * 
-	 * @param script script to be executed
+	 * @param script
+	 *            script to be executed
 	 */
 	public void execute( String script )
 	{
@@ -241,11 +253,15 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * execute the script. Simply evaluate the script, then drop the return value
+	 * execute the script. Simply evaluate the script, then drop the return
+	 * value
 	 * 
-	 * @param script script statement
-	 * @param fileName file name
-	 * @param lineNo line no
+	 * @param script
+	 *            script statement
+	 * @param fileName
+	 *            file name
+	 * @param lineNo
+	 *            line no
 	 */
 	public void execute( String script, String fileName, int lineNo )
 	{
@@ -292,17 +308,20 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	class ReportItemContext
 	{
+
 		/** refer to the design object for a report item */
 		ReportItemDesign item;
-		
+
 		/** Is the item allowed to choose a different master page? */
 		boolean canDefineMasterPage = false;
-		
-		
-		/** Are the children of the item allowed to choose different master pages? */
+
+		/**
+		 * Are the children of the item allowed to choose different master
+		 * pages?
+		 */
 		boolean canChildrenDefineMasterPage = false;
-		
-		/** The master page that this element should be rendered with */ 
+
+		/** The master page that this element should be rendered with */
 		String masterPage;
 
 		/**
@@ -387,7 +406,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * @return Returns the pageSetup.
 	 */
-	public PageSetupContent getPageSetup( )
+	public IPageSetupContent getPageSetup( )
 	{
 		return pageSetup;
 	}
@@ -396,7 +415,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * @param pageSetup
 	 *            The pageSetup to set.
 	 */
-	public void setPageSetup( PageSetupContent pageSetup )
+	public void setPageSetup( IPageSetupContent pageSetup )
 	{
 		this.pageSetup = pageSetup;
 	}
@@ -479,9 +498,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.IPrensentationContext#getItemState()
 	 */
-	public ReportItemContent getItemState( )
+	public IReportItemContent getItemState( )
 	{
-		return (ReportItemContent) reportContents.peek( );
+		return (IReportItemContent) reportContents.peek( );
 	}
 
 	/*
@@ -495,10 +514,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * pushes a report item design handle onto report items stack, and set it
-	 * as current item (the <code>this</code> object).
+	 * pushes a report item design handle onto report items stack, and set it as
+	 * current item (the <code>this</code> object).
 	 * 
-	 * @param handle the report item design handle
+	 * @param handle
+	 *            the report item design handle
 	 */
 	public void pushReportItem( ReportItemHandle handle )
 	{
@@ -507,8 +527,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * removes a report item design handle from the report items stack, and sets the
-	 * next item on stack as the current item (the <code>this</code> object).
+	 * removes a report item design handle from the report items stack, and sets
+	 * the next item on stack as the current item (the <code>this</code>
+	 * object).
 	 */
 	public void popReportItem( )
 	{
@@ -523,11 +544,12 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	protected HashSet loadedScripts = new HashSet( );
 
 	/**
-	 * Loads scripts that are stored in an external file. Used to support 
-	 * include-script. Each script file should be load only once. and the 
-	 * script in the file must be encoded in UTF-8.
+	 * Loads scripts that are stored in an external file. Used to support
+	 * include-script. Each script file should be load only once. and the script
+	 * in the file must be encoded in UTF-8.
 	 * 
-	 * @param fileName script file name
+	 * @param fileName
+	 *            script file name
 	 */
 	public void loadScript( String fileName )
 	{
@@ -538,7 +560,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		//read the script in the file, and execution.
 		try
 		{
-			File script = new File(report.getBasePath(), fileName);
+			File script = new File( report.getBasePath( ), fileName );
 			FileInputStream in = new FileInputStream( script );
 			byte[] buffer = new byte[in.available( )];
 			in.read( buffer );
@@ -548,7 +570,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( IOException ex )
 		{
-			log.error( "loading external script file " + fileName + " failed.", ex );
+			log.error( "loading external script file " + fileName + " failed.",
+					ex );
 			//TODO This is a fatal error. Should throw an exception.
 		}
 	}
@@ -572,6 +595,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	private class ReportObject
 	{
+
 		/**
 		 * get the report design handle
 		 * 
@@ -593,7 +617,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 
 		/**
-		 * @return a map of name/value pairs for all the parameters and their values
+		 * @return a map of name/value pairs for all the parameters and their
+		 *         values
 		 */
 		public Map getParmas( )
 		{
@@ -602,11 +627,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 		//TODO DTE should return the datasets and datasources.
 		/**
-		 * @return a set of data sets 
+		 * @return a set of data sets
 		 */
 		public SlotHandle getDataSets( )
 		{
-			return report.getReportDesign().handle().getDataSets(); 
+			return report.getReportDesign( ).handle( ).getDataSets( );
 		}
 
 		/**
@@ -614,7 +639,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		 */
 		public SlotHandle getDataSources( )
 		{
-			return report.getReportDesign().handle().getDataSets(); 
+			return report.getReportDesign( ).handle( ).getDataSets( );
 		}
 
 		//TODO return the set of configuration files

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.content.TextItemContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.w3c.dom.Element;
@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: #2 $ $Date: 2005/01/23 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class HTMLProcessor
 {
@@ -68,7 +68,7 @@ public class HTMLProcessor
 	 * @param text
 	 *            the text content object
 	 */
-	public void execute( Element ele, TextItemContent text )
+	public void execute( Element ele, ITextContent text )
 	{
 		HashMap cssStyle = null;
 		if ( !ele.hasAttribute( "style" ) )

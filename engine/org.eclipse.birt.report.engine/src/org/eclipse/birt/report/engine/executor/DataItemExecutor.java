@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.TextItemContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
@@ -28,7 +29,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: #3 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -77,7 +78,7 @@ public class DataItemExecutor extends StyledItemExecutor
 		//get the mapping value
 		value = getMapVal( value, dataItem );
 
-		TextItemContent textObj = new TextItemContent( dataItem );
+		ITextContent textObj = ContentFactory.createTextContent( dataItem );
 		textObj.setHelpText( getLocalizedString( dataItem.getHelpTextKey( ),
 				dataItem.getHelpText( ) ) );
 		setStyles( textObj, item );
@@ -105,8 +106,8 @@ public class DataItemExecutor extends StyledItemExecutor
 		setVisibility( item, textObj );
 		processAction( textObj.getAction( ), textObj );
 		String bookmarkStr = evalBookmark( item );
-		if (bookmarkStr != null)
-			textObj.setBookmarkValue(bookmarkStr);
+		if ( bookmarkStr != null )
+			textObj.setBookmarkValue( bookmarkStr );
 		//pass the text content instance to emitter
 		textEmitter.start( textObj );
 		textEmitter.end( );

@@ -16,9 +16,9 @@ import java.util.Date;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.content.ReportItemContent;
-import org.eclipse.birt.report.engine.content.RowContent;
-import org.eclipse.birt.report.engine.content.StyledElementContent;
+import org.eclipse.birt.report.engine.content.IReportItemContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/21 06:43:49 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -69,7 +69,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param design
 	 *            the original design object.
 	 */
-	protected void setStyles( StyledElementContent content,
+	protected void setStyles( IStyledElementContent content,
 			StyledElementDesign design )
 	{
 		StyleDesign style = design.getStyle( );
@@ -412,7 +412,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param content
 	 *            The <code>RowContent</code> object.
 	 */
-	protected void setVisibility( RowDesign design, RowContent content )
+	protected void setVisibility( RowDesign design, IRowContent content )
 	{
 		setVisibility( design.getVisibility( ), content, null );
 	}
@@ -426,7 +426,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            The <code>ReportItemContent</code> object.
 	 */
 	protected void setVisibility( ReportItemDesign design,
-			ReportItemContent content )
+			IReportItemContent content )
 	{
 		Expression defaultExpr = null;
 		if ( design instanceof DataItemDesign )
@@ -448,7 +448,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the default expression if there is not expression in the rule
 	 */
 	private void setVisibility( VisibilityDesign visibility,
-			StyledElementContent content, Expression defaultExpression )
+			IStyledElementContent content, Expression defaultExpression )
 	{
 		if ( visibility != null )
 		{
@@ -472,7 +472,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					if ( logger.isErrorEnabled( ) )
 					{
 						logger
-								.error( "The following visibility expression does not evaluate to a legal boolean value: " //$NON-NLS-1$
+								.warn( "The following visibility expression does not evaluate to a legal boolean value: " //$NON-NLS-1$
 										+ rule.getExpression( ).getExpr( ) );
 					}
 					continue;

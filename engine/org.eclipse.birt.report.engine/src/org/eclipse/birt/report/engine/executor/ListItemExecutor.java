@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.ContainerContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
@@ -19,11 +20,10 @@ import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-
 /**
- * Defines execution logic for a List report item. 
+ * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/23 06:49:59 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -34,8 +34,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected ListItemDesign list;
 
 	/**
-	 * @param context execution context
-	 * @param visitor visitor object for driving the execution 
+	 * @param context
+	 *            execution context
+	 * @param visitor
+	 *            visitor object for driving the execution
 	 */
 	protected ListItemExecutor( ExecutionContext context,
 			ReportExecutorVisitor visitor )
@@ -62,27 +64,28 @@ public class ListItemExecutor extends ListingElementExecutor
 			return;
 		}
 		list = (ListItemDesign) item;
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "start list item" );
 		}
 		//execute the on start script
 		context.execute( list.getOnStart( ) );
 
-		ContainerContent listContent = new ContainerContent( item );
+		IContainerContent listContent = ContentFactory
+				.createContainerContent( item );
 		String bookmarkStr = evalBookmark( item );
-		if (bookmarkStr != null)
-			listContent.setBookmarkValue(bookmarkStr);
-		
+		if ( bookmarkStr != null )
+			listContent.setBookmarkValue( bookmarkStr );
+
 		setVisibility( item, listContent );
 		setStyles( listContent, item );
 		emitter.getContainerEmitter( ).start( listContent );
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "start get list data" );
 		}
 		rs = openResultSet( list );
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "end get list data" );
 		}
@@ -105,7 +108,7 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		emitter.getContainerEmitter( ).end( );
 		context.execute( list.getOnFinish( ) );
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "end list item" );
 		}
@@ -114,8 +117,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	/**
 	 * get the group header band
 	 * 
-	 * @param index the group index
-	 * @param list the design element
+	 * @param index
+	 *            the group index
+	 * @param list
+	 *            the design element
 	 * @return the list band
 	 */
 	private ListBandDesign getGroupHeader( int index, ListItemDesign list )
@@ -127,9 +132,12 @@ public class ListItemExecutor extends ListingElementExecutor
 	/**
 	 * access list band, such as list header, group header, detail etc
 	 * 
-	 * @param band the list band
-	 * @param emitter the report emitter
-	 * @param isDetail true if it is detail band
+	 * @param band
+	 *            the list band
+	 * @param emitter
+	 *            the report emitter
+	 * @param isDetail
+	 *            true if it is detail band
 	 */
 	private void accessListBand( ListBandDesign band, IReportEmitter emitter,
 			boolean isDetail )
@@ -139,7 +147,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			IContainerEmitter containerEmitter = emitter.getContainerEmitter( );
 			if ( containerEmitter != null )
 			{
-				containerEmitter.start( new ContainerContent( ) );
+				containerEmitter.start( ContentFactory.createContainerContent( ) );
 				for ( int i = 0; i < band.getContentCount( ); i++ )
 				{
 					ReportItemDesign item = band.getContent( i );
@@ -157,7 +165,8 @@ public class ListItemExecutor extends ListingElementExecutor
 	/**
 	 * get group footer
 	 * 
-	 * @param index the group index
+	 * @param index
+	 *            the group index
 	 * @return the list band
 	 */
 	private ListBandDesign getGroupFooter( int index, ListItemDesign list )

@@ -14,8 +14,9 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.ByteArrayInputStream;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.report.engine.content.ImageItemContent;
-import org.eclipse.birt.report.engine.content.TextItemContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IImageItemContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
@@ -35,7 +36,7 @@ import org.w3c.dom.Text;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: #4 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -72,7 +73,7 @@ public class TextItemExecutor extends StyledItemExecutor
 		{
 			rs.next( );
 		}
-		TextItemContent textContent = new TextItemContent( textItem );
+		ITextContent textContent = ContentFactory.createTextContent( textItem );
 		/* text has no help text now */
 		//textContent.setHelpText( getLocalizedString(
 		//		textItem.getHelpTextKey( ), textItem.getHelpText( ) ) );
@@ -126,7 +127,7 @@ public class TextItemExecutor extends StyledItemExecutor
 	 *            the text item content used to store the image if possible.
 	 */
 	private void evaluateEmbeddedExpression( Node node, TextItemDesign text,
-			TextItemContent content )
+			ITextContent content )
 	{
 		if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 		{
@@ -139,7 +140,8 @@ public class TextItemExecutor extends StyledItemExecutor
 					src = FileUtil.getAbsolutePath( context.getReport( )
 							.getBasePath( ), src );
 					ele.removeAttribute( "src" );
-					ImageItemContent imgContent = new ImageItemContent( null );
+					IImageItemContent imgContent = ContentFactory
+							.createImageContent( null );
 					content.addImageContent( node, imgContent );
 					imgContent.setImageSource( ImageItemDesign.IMAGE_FILE );
 					imgContent.setUri( src );
@@ -228,7 +230,7 @@ public class TextItemExecutor extends StyledItemExecutor
 				Element imgNode = node.getOwnerDocument( )
 						.createElement( "img" );
 
-				ImageItemContent image = new ImageItemContent( null );
+				IImageItemContent image = ContentFactory.createImageContent( null );
 
 				//Get the image content
 				String imageType = ( (Element) ( node ) ).getAttribute( "type" );
@@ -265,8 +267,8 @@ public class TextItemExecutor extends StyledItemExecutor
 						image.setData( embeddedImage.getData( ) );
 						image.setImageSource( ImageItemDesign.IMAGE_NAME );
 						image.setUri( name );
-						String extension = FileUtil.getExtFromType( embeddedImage
-								.getType( ) );
+						String extension = FileUtil
+								.getExtFromType( embeddedImage.getType( ) );
 						if ( extension == null )
 						{
 							extension = FileUtil.getExtFromFileName( name,

@@ -13,8 +13,9 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.content.ActionContent;
-import org.eclipse.birt.report.engine.content.ReportItemContent;
+import org.eclipse.birt.report.engine.api.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
@@ -33,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 public abstract class ReportItemExecutor
 {
@@ -41,8 +42,7 @@ public abstract class ReportItemExecutor
 	/**
 	 * the logger, log info, debug, and error message
 	 */
-	protected static Log logger = LogFactory
-			.getLog( ReportItemExecutor.class );
+	protected static Log logger = LogFactory.getLog( ReportItemExecutor.class );
 
 	/**
 	 * the executor context
@@ -73,12 +73,12 @@ public abstract class ReportItemExecutor
 	/**
 	 * Execute a report item design and transfer report instance to emitter by
 	 * calling this method.
-	 * <p> 
-	 * According to the report item design and current
-	 * context information, executor calculate expression in report item design,
-	 * get data instance from data source, and fill it into the report item
-	 * instance, and set property for the report item instance.
-	 * At last pass the instance to <code>emitter</code>
+	 * <p>
+	 * According to the report item design and current context information,
+	 * executor calculate expression in report item design, get data instance
+	 * from data source, and fill it into the report item instance, and set
+	 * property for the report item instance. At last pass the instance to
+	 * <code>emitter</code>
 	 * 
 	 * @param item
 	 *            the report item design
@@ -95,15 +95,15 @@ public abstract class ReportItemExecutor
 	public abstract void reset( );
 
 	/**
-	 * close dataset 
-	 * if the dataset is not null:
+	 * close dataset if the dataset is not null:
 	 * <p>
 	 * <ul>
-	 * <li> close the dataset.
-	 * <li> exit current script scope.
+	 * <li>close the dataset.
+	 * <li>exit current script scope.
 	 * </ul>
 	 * 
-	 * @param ds the dataset object, null is valid
+	 * @param ds
+	 *            the dataset object, null is valid
 	 */
 	protected void closeResultSet( IResultSet rs )
 	{
@@ -117,28 +117,29 @@ public abstract class ReportItemExecutor
 	/**
 	 * register dataset of this item.
 	 * <p>
-	 * if dataset design of this item is not null,
-	 * create a new <code>DataSet</code> object by the dataset design.
-	 * open the dataset, move cursor to the first record , register
-	 * the first row to script context, and return this <code>DataSet</code> object
-	 * if dataset design is null, or open error, or empty resultset, return null.
+	 * if dataset design of this item is not null, create a new
+	 * <code>DataSet</code> object by the dataset design. open the dataset,
+	 * move cursor to the first record , register the first row to script
+	 * context, and return this <code>DataSet</code> object if dataset design
+	 * is null, or open error, or empty resultset, return null.
 	 * 
-	 * @param item the report item design
+	 * @param item
+	 *            the report item design
 	 * @return the DataSet object if not null, else return null
 	 */
 	protected IResultSet openResultSet( ReportItemDesign item )
 	{
-		if( item.getQuery() != null )
+		if ( item.getQuery( ) != null )
 		{
 			context.newScope( );
-			IResultSet rs = context.getDataEngine().execute(item.getQuery());
-			if(rs != null)
+			IResultSet rs = context.getDataEngine( ).execute( item.getQuery( ) );
+			if ( rs != null )
 			{
 				return rs;
 			}
 			else
 			{
-				context.exitScope();
+				context.exitScope( );
 			}
 		}
 		return null;
@@ -146,12 +147,15 @@ public abstract class ReportItemExecutor
 	}
 
 	/**
-	 * get Localized string by the resouce key of this item 
-	 * and <code>Locale</code> object in <code>context</code> 
+	 * get Localized string by the resouce key of this item and
+	 * <code>Locale</code> object in <code>context</code>
 	 * 
-	 *@param resourceKey the resource key
-	 *@param text the default value
-	 *@return the localized string if it is defined in report deign, else return the default value
+	 * @param resourceKey
+	 *            the resource key
+	 * @param text
+	 *            the default value
+	 * @return the localized string if it is defined in report deign, else
+	 *         return the default value
 	 */
 	protected String getLocalizedString( String resourceKey, String text )
 	{
@@ -171,44 +175,43 @@ public abstract class ReportItemExecutor
 	}
 
 	/**
-	 * Calculate the bookmark value which is set to <code>ReportItemContent</code> if the bookmark is not null
+	 * Calculate the bookmark value which is set to
+	 * <code>ReportItemContent</code> if the bookmark is not null
 	 * 
-	 * @param item the ReportItemContent object
+	 * @param item
+	 *            the ReportItemContent object
 	 */
-	/*protected void evalBookmark( ReportItemContent item )
-	{
-		Expression bookmark = item.getBookmark( );
-		if ( bookmark != null )
-		{
-			Object obj = context.evaluate( bookmark);
-			if ( obj != null )
-			{
-				item.setBookmarkValue( obj.toString( ) );
-			}
-		}
-	}*/
-	
+	/*
+	 * protected void evalBookmark( ReportItemContent item ) { Expression
+	 * bookmark = item.getBookmark( ); if ( bookmark != null ) { Object obj =
+	 * context.evaluate( bookmark); if ( obj != null ) { item.setBookmarkValue(
+	 * obj.toString( ) ); } } }
+	 */
+
 	protected String evalBookmark( ReportItemDesign item )
 	{
 		Expression bookmark = item.getBookmark( );
 		if ( bookmark != null )
 		{
-			Object tmp = context.evaluate( bookmark);
-			if (tmp != null)
-				return tmp.toString();
+			Object tmp = context.evaluate( bookmark );
+			if ( tmp != null )
+				return tmp.toString( );
 		}
-		
+
 		return null;
 	}
 
 	/**
-	 * Calculate the action value which is set to <code>ReportItemContent</code> 
+	 * Calculate the action value which is set to <code>ReportItemContent</code>
 	 * if the action is not null.
 	 * 
-	 * @param action the action design object
-	 * @param itemContent create report item content object
+	 * @param action
+	 *            the action design object
+	 * @param itemContent
+	 *            create report item content object
 	 */
-	protected void processAction( ActionDesign action, ReportItemContent itemContent )
+	protected void processAction( ActionDesign action,
+			IReportItemContent itemContent )
 	{
 		assert itemContent != null;
 
@@ -220,10 +223,12 @@ public abstract class ReportItemExecutor
 				{
 					case ActionDesign.ACTION_HYPERLINK :
 						assert action.getHyperlink( ) != null;
-						Object value = context.evaluate( action.getHyperlink( ) );
+						Object value = context
+								.evaluate( action.getHyperlink( ) );
 						if ( value != null )
 						{
-							ActionContent obj = new ActionContent(value.toString());
+							IHyperlinkAction obj = ContentFactory
+									.createActionContent( value.toString( ) );
 							itemContent.setHyperlinkAction( obj );
 						}
 						break;
@@ -232,7 +237,9 @@ public abstract class ReportItemExecutor
 						value = context.evaluate( action.getBookmark( ) );
 						if ( value != null )
 						{
-							ActionContent obj = new ActionContent(value.toString(), value.toString());
+							IHyperlinkAction obj = ContentFactory
+									.createActionContent( value.toString( ), value
+											.toString( ) );
 							itemContent.setHyperlinkAction( obj );
 						}
 						break;
@@ -245,7 +252,7 @@ public abstract class ReportItemExecutor
 			catch ( Exception e )
 			{
 				itemContent.setHyperlinkAction( null );
-				if(logger.isErrorEnabled())
+				if ( logger.isErrorEnabled( ) )
 				{
 					logger.error( "Failed to process Action String" );
 				}
@@ -264,16 +271,16 @@ public abstract class ReportItemExecutor
 	 *            the row object
 	 * @return the boolean value
 	 */
-//	protected boolean isRowVisible( RowDesign row )
-//	{
-//		if ( row.getHideExpr( ) != null )
-//		{
-//			Object visible = context.evaluate( row.getHideExpr( ).getExpr( ) );
-//			if ( ( visible != null ) && ( visible instanceof Boolean ) )
-//			{
-//				return ( (Boolean) visible ).booleanValue( );
-//			}
-//		}
-//		return true;
-//	}
+	//	protected boolean isRowVisible( RowDesign row )
+	//	{
+	//		if ( row.getHideExpr( ) != null )
+	//		{
+	//			Object visible = context.evaluate( row.getHideExpr( ).getExpr( ) );
+	//			if ( ( visible != null ) && ( visible instanceof Boolean ) )
+	//			{
+	//				return ( (Boolean) visible ).booleanValue( );
+	//			}
+	//		}
+	//		return true;
+	//	}
 }

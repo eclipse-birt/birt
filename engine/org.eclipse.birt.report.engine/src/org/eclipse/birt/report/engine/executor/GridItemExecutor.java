@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.CellContent;
-import org.eclipse.birt.report.engine.content.ColumnContent;
-import org.eclipse.birt.report.engine.content.RowContent;
-import org.eclipse.birt.report.engine.content.TableContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumnContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
@@ -27,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: #3 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -59,18 +60,18 @@ public class GridItemExecutor extends StyledItemExecutor
 		{
 			return;
 		}
-		TableContent tableObj = new TableContent( gridItem );
+		ITableContent tableObj = ContentFactory.createTableContent( gridItem );
 		setStyles( tableObj, item );
 		setVisibility( item, tableObj );
 
 		String bookmarkStr = evalBookmark( gridItem );
-		if (bookmarkStr != null)
-			tableObj.setBookmarkValue(bookmarkStr);
-		
-		IResultSet rs = openResultSet(item);
-		if(rs != null)
+		if ( bookmarkStr != null )
+			tableObj.setBookmarkValue( bookmarkStr );
+
+		IResultSet rs = openResultSet( item );
+		if ( rs != null )
 		{
-			rs.next();
+			rs.next( );
 		}
 		tableEmitter.start( tableObj );
 
@@ -79,8 +80,8 @@ public class GridItemExecutor extends StyledItemExecutor
 			tableEmitter.startColumns( );
 			for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 			{
-				ColumnContent colContent = new ColumnContent( gridItem
-						.getColumn( i ) );
+				IColumnContent colContent = ContentFactory
+						.createColumnContent( gridItem.getColumn( i ) );
 				setStyles( colContent, gridItem.getColumn( i ) );
 				emitter.getTableEmitter( ).startColumn( colContent );
 				emitter.getTableEmitter( ).endColumn( );
@@ -91,12 +92,12 @@ public class GridItemExecutor extends StyledItemExecutor
 		for ( int i = 0; i < gridItem.getRowCount( ); i++ )
 		{
 			RowDesign row = gridItem.getRow( i );
-//			if ( !isRowVisible( row ) )
-//			{
-//				break;
-//			}
-			RowContent rowContent = new RowContent( row );
-			setVisibility(row,rowContent);
+			//			if ( !isRowVisible( row ) )
+			//			{
+			//				break;
+			//			}
+			IRowContent rowContent = ContentFactory.createRowContent( row );
+			setVisibility( row, rowContent );
 			setBookmarkValue( rowContent );
 			setStyles( rowContent, row );
 
@@ -106,7 +107,8 @@ public class GridItemExecutor extends StyledItemExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					CellContent cellContent = new CellContent( cell );
+					ICellContent cellContent = ContentFactory
+							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
 
@@ -114,7 +116,7 @@ public class GridItemExecutor extends StyledItemExecutor
 					{
 						ReportItemDesign ri = cell.getContent( m );
 						if ( ri != null )
-						{					
+						{
 							ri.accept( this.visitor );
 						}
 					}
@@ -126,7 +128,7 @@ public class GridItemExecutor extends StyledItemExecutor
 		}
 		tableEmitter.endBody( );
 		tableEmitter.end( );
-		closeResultSet(rs);
+		closeResultSet( rs );
 		context.exitScope( );
 	}
 
@@ -141,7 +143,7 @@ public class GridItemExecutor extends StyledItemExecutor
 
 	}
 
-	private void setBookmarkValue( RowContent row )
+	private void setBookmarkValue( IRowContent row )
 	{
 		// bookmark
 		Expression bookmark = row.getBookmark( );

@@ -15,7 +15,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.report.engine.content.ImageItemContent;
+import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IImageItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
@@ -51,7 +52,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: #4 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -88,7 +89,8 @@ public class ImageItemExecutor extends StyledItemExecutor
 		}
 
 		// Initializes
-		ImageItemContent imageContent = new ImageItemContent( imageItem );
+		IImageItemContent imageContent = ContentFactory
+				.createImageContent( imageItem );
 		imageContent.setHelpText( getLocalizedString( imageItem
 				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
 		imageContent.setAltText( getLocalizedString(

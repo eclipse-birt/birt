@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
-import org.eclipse.birt.report.engine.content.StyledElementContent;
+import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
 import org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessor;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
@@ -40,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/23 06:50:04 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 05:26:08 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -123,7 +123,8 @@ public class HTMLReportEmitter implements IReportEmitter
 	private boolean saveImgFile = false;
 
 	/**
-	 * A <code>HashMap</code> object that maps a style name to actual output name of the style.
+	 * A <code>HashMap</code> object that maps a style name to actual output
+	 * name of the style.
 	 */
 	private HashMap styleNameMapping = new HashMap( );
 
@@ -423,7 +424,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * @param item
 	 *            the StyledElementContent
 	 */
-	public void push( StyledElementContent item )
+	public void push( IStyledElementContent item )
 	{
 		boolean isHidden = false;
 		if ( !stack.empty( ) )
@@ -487,7 +488,8 @@ public class HTMLReportEmitter implements IReportEmitter
 	}
 
 	/**
-	 * @param name the original style name
+	 * @param name
+	 *            the original style name
 	 * @return the actual output style name
 	 */
 	public String getMappedStyleName( String name )
