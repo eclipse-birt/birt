@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -88,8 +89,6 @@ public class RootDragTracker extends AbstractTool implements DragTracker
 			EditPart child = (EditPart) children.get( i );
 			if ( !child.isSelectable( ) || isInTable( child ) )
 				continue;
-			if ( !child.isSelectable( ) || isInTable( child ) )
-				continue;
 			IFigure figure = ( (GraphicalEditPart) child ).getFigure( );
 			Rectangle r = figure.getBounds( ).getCopy( );
 			figure.translateToAbsolute( r );
@@ -113,7 +112,7 @@ public class RootDragTracker extends AbstractTool implements DragTracker
 	 */
 	private boolean isInTable( EditPart child )
 	{
-		if ( child instanceof TableCellEditPart )
+		if ( child instanceof TableCellEditPart || child instanceof ListBandEditPart)
 		{
 			return true;
 		}
