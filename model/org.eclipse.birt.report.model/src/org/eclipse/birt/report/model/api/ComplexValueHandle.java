@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -111,6 +110,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * Gets the value of the property as a generic object.
 	 * 
 	 * @return The value of the property or member as a generic object.
+	 *  
 	 */
 
 	public Object getValue( )
@@ -137,6 +137,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 *            the value to set
 	 * @throws SemanticException
 	 *             if the string value is not valid for the property or member.
+	 *  
 	 */
 
 	public void setStringValue( String value ) throws SemanticException
@@ -194,24 +195,6 @@ public abstract class ComplexValueHandle extends ValueHandle
 	}
 
 	/**
-	 * Returns a definition for the handle.
-	 * 
-	 * @return the definition of the handle.
-	 */
-
-	protected IPropertyDefn getDefn( )
-	{
-		// For a member in a structure, the return value
-		// is <code>StructPropertyDefn</code>. For an element property, the
-		// return value is <code>ElementPropertyDefn</code>.
-
-		if ( memberRef != null )
-			return memberRef.getMemberDefn( );
-
-		return propDefn;
-	}
-
-	/**
 	 * Tests whether this property value is set for this element or the
 	 * structure.
 	 * <p>
@@ -225,6 +208,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * 
 	 * @return <code>true</code> if the value is set, <code>false</code> if
 	 *         it is not set
+	 *  
 	 */
 
 	public boolean isSet( )

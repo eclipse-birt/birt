@@ -174,17 +174,10 @@ public abstract class PropertyType
 	public static final int LITERAL_STRING_TYPE = 21;
 
 	/**
-	 * Type code for the format property type. This applies to String, Number
-	 * and Date/Time formats. It allows a format type and a format description.
-	 */
-
-	public static final int FORMAT_TYPE = 22;
-
-	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 23;
+	public static final int TYPE_COUNT = 22;
 
 	/**
 	 * Name of the String property type.
@@ -323,13 +316,6 @@ public abstract class PropertyType
 	 */
 
 	public static final String LITERAL_STRING_TYPE_NAME = "literalString"; //$NON-NLS-1$
-
-	/**
-	 * Name of the format property type. It allows a format type and a format
-	 * description.
-	 */
-
-	public static final String FORMAT_TYPE_NAME = "format"; //$NON-NLS-1$
 
 	/**
 	 * Constructs a property type given its display name id.

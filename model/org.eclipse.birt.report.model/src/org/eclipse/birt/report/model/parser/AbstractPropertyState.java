@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -265,10 +264,7 @@ public class AbstractPropertyState extends AbstractParseState
 
 	private void handlePropertyValueException( PropertyValueException e )
 	{
-		String propName = e.getPropertyName( );
-
-		if ( isRecoverableError( e.getErrorCode( ), e.getElement( )
-				.getPropertyDefn( propName ) ) )
+		if ( isRecoverableError( e.getErrorCode( ) ) )
 			RecoverableError.dealInvalidPropertyValue( handler, e );
 		else
 			handler.semanticError( e );
@@ -286,7 +282,7 @@ public class AbstractPropertyState extends AbstractParseState
 	private void handleMemberValueException( PropertyValueException e,
 			StructPropertyDefn memberDefn )
 	{
-		if ( isRecoverableError( e.getErrorCode( ), memberDefn ) )
+		if ( isRecoverableError( e.getErrorCode( ) ) )
 			RecoverableError.dealInvalidMemberValue( handler, e, struct,
 					memberDefn );
 		else
@@ -294,21 +290,16 @@ public class AbstractPropertyState extends AbstractParseState
 	}
 
 	/**
-	 * Checks whether the given exception is an error that the parser can
-	 * recover.
+	 * Checks whether the error code is an error that the parser can recover.
 	 * 
 	 * @param errorCode
-	 *            the error code of the property value exception
-	 * @param propDefn
-	 *            the definition of the exception. Can be an element property
-	 *            definition or a member definition.
+	 *            the input error code
 	 * @return return <code>true</code> if it is a recoverable error,
 	 *         otherwise <code>false</code>.
 	 */
 
-	private boolean isRecoverableError( String errorCode, IPropertyDefn propDefn )
+	private boolean isRecoverableError( String errorCode )
 	{
-
 		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
 				.equalsIgnoreCase( errorCode )
 				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
@@ -319,17 +310,8 @@ public class AbstractPropertyState extends AbstractParseState
 						.equalsIgnoreCase( errorCode )
 				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED
 						.equalsIgnoreCase( errorCode ) )
+
 			return true;
-
-		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
-				.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
-						.equalsIgnoreCase( errorCode ) )
-		{
-			if ( propDefn.getTypeCode( ) == PropertyType.FORMAT_TYPE )
-				return true;
-		}
-
 		return false;
 	}
 

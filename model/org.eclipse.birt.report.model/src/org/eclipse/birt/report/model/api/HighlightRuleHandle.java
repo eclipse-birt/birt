@@ -40,6 +40,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            handle to a list property or member
 	 * @param index
 	 *            index of the structure within the list
+	 *  
 	 */
 
 	public HighlightRuleHandle( SimpleValueHandle valueHandle, int index )
@@ -118,6 +119,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * 
 	 * @param memberName
 	 *            the member name
+	 * 
 	 * @return a ColorHandle for the given member
 	 */
 
@@ -131,6 +133,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * Returns the style of the border bottom line. The return value is one of
 	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>.
 	 * They are:
+	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -253,6 +256,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Returns the operator of the highlight rule. The returned value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>MAP_OPERATOR_EQ</code>
 	 * <li><code>MAP_OPERATOR_NE</code>
@@ -323,6 +327,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setPropertySilently( HighlightRule.VALUE1_MEMBER, value );
 	}
 
+    
 	/**
 	 * Sets the value2 of the highlight rule. Value2 is the value for simple
 	 * conditions with the operators: between, not between.
@@ -336,6 +341,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setPropertySilently( HighlightRule.VALUE2_MEMBER, value );
 	}
 
+    
 	/**
 	 * Returns the value2 of the highlight rule. Value2 is the value for simple
 	 * conditions with the operators: between, not between.
@@ -348,9 +354,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.VALUE2_MEMBER );
 	}
 
+    
 	/**
 	 * Returns the value of the underline property. The returned value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
@@ -364,9 +372,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.TEXT_UNDERLINE_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the text underline property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
@@ -383,9 +393,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setProperty( HighlightRule.TEXT_UNDERLINE_MEMBER, value );
 	}
 
+    
 	/**
 	 * Returns the value of the overline property. The returned value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
@@ -399,9 +411,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.TEXT_OVERLINE_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the text overline property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
@@ -418,9 +432,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setProperty( HighlightRule.TEXT_OVERLINE_MEMBER, value );
 	}
 
-	/**
+    
+    /**
 	 * Returns the value of the line through property. The returned value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
@@ -434,9 +450,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.TEXT_LINE_THROUGH_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the text line through property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
@@ -453,15 +471,18 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setProperty( HighlightRule.TEXT_LINE_THROUGH_MEMBER, value );
 	}
 
+    
 	/**
 	 * Returns the value of text align property. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_ALIGN_LEFT</code>
 	 * <li><code>TEXT_ALIGN_CENTER</code>
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
+	 * 
 	 * 
 	 * @return the value of text align property
 	 */
@@ -471,9 +492,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.TEXT_ALIGN_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the text align property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TEXT_ALIGN_LEFT</code>
 	 * <li><code>TEXT_ALIGN_CENTER</code>
@@ -492,15 +515,18 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setProperty( HighlightRule.TEXT_ALIGN_MEMBER, value );
 	}
 
+    
 	/**
 	 * Returns the value of the text transform property. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TRANSFORM_CAPITALIZE</code>
 	 * <li><code>TRANSFORM_UPPERCASE</code>
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
+	 * 
 	 * 
 	 * @return the value of the transform property
 	 */
@@ -510,9 +536,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return getStringProperty( HighlightRule.TEXT_TRANSFORM_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the text transform property. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>TRANSFORM_CAPITALIZE</code>
 	 * <li><code>TRANSFORM_UPPERCASE</code>
@@ -531,6 +559,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		setProperty( HighlightRule.TEXT_TRANSFORM_MEMBER, value );
 	}
 
+    
 	/**
 	 * Gets a handle to deal with the value of the text-indent property.
 	 * 
@@ -542,85 +571,54 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		return doGetDimensionHandle( HighlightRule.TEXT_INDENT_MEMBER );
 	}
 
+    
 	/**
 	 * Returns the value of the date-time-format property.
 	 * 
 	 * @return the date-time-format as a string
 	 */
 
-	public FormatHandle getDateTimeFormat( )
+	public String getDateTimeFormat( )
 	{
-		return doGetFormatHandle( HighlightRule.DATE_TIME_FORMAT_MEMBER );
+		return getStringProperty( HighlightRule.DATE_TIME_FORMAT_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the value of the date-time-format property.
 	 * 
 	 * @param value
 	 *            the new text transform
-	 * @deprecated
 	 */
 
 	public void setDateTimeFormat( String value )
 	{
-		try
-		{
-			getDateTimeFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
+		setPropertySilently( HighlightRule.DATE_TIME_FORMAT_MEMBER, value );
 	}
 
-	/**
-	 * Returns a format handle for a member.
-	 * 
-	 * @param memberName
-	 *            the member name.
-	 * @return A FormatHandle for the given member.
-	 */
-
-	private FormatHandle doGetFormatHandle( String memberName )
-	{
-		MemberRef memberRef = new MemberRef( structRef, memberName );
-		return new FormatHandle( getElementHandle( ), memberRef );
-	}
-
+    
 	/**
 	 * Returns the value of the number-format member.
 	 * 
 	 * @return the value of the number-format member
 	 */
 
-	public FormatHandle getNumberFormat( )
+	public String getNumberFormat( )
 	{
-		return doGetFormatHandle( HighlightRule.NUMBER_FORMAT_MEMBER );
+		return getStringProperty( HighlightRule.NUMBER_FORMAT_MEMBER );
 	}
 
+    
 	/**
 	 * Sets the value of the date-time-format member.
 	 * 
 	 * @param value
 	 *            the new number-format value
-	 * @deprecated
 	 */
 
 	public void setNumberFormat( String value )
 	{
-		try
-		{
-			getNumberFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
-
+		setPropertySilently( HighlightRule.NUMBER_FORMAT_MEMBER, value );
 	}
 
 	/**
@@ -629,9 +627,9 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * @return the value of the string format member
 	 */
 
-	public FormatHandle getStringFormat( )
+	public String getStringFormat( )
 	{
-		return doGetFormatHandle( HighlightRule.STRING_FORMAT_MEMBER );
+		return getStringProperty( HighlightRule.STRING_FORMAT_MEMBER );
 	}
 
 	/**
@@ -639,21 +637,11 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * 
 	 * @param value
 	 *            the new string-format
-	 * @deprecated
 	 */
 
 	public void setStringFormat( String value )
 	{
-		try
-		{
-			getStringFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
+		setPropertySilently( HighlightRule.STRING_FORMAT_MEMBER, value );
 	}
 
 	/**
@@ -743,6 +731,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * 
 	 * @param memberName
 	 *            the member name.
+	 * 
 	 * @return A DimensionHandle for the given member.
 	 */
 
@@ -769,6 +758,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Returns the font weight of the highlight rule. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>FONT_WEIGHT_NORMAL</code>
 	 * <li><code>FONT_WEIGHT_BOLD</code>
@@ -812,6 +802,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Returns the font variant in a string. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
@@ -828,6 +819,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Sets the font variant in a string . The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
@@ -847,6 +839,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Returns the font style handle for the style. The return value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>FONT_STYLE_NORMAL</code>
 	 * <li><code>FONT_STYLE_ITALIC</code>
@@ -864,6 +857,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	/**
 	 * Sets the font style in a string for the style. The input value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
 	 * <ul>
 	 * <li><code>FONT_STYLE_NORMAL</code>
 	 * <li><code>FONT_STYLE_ITALIC</code>
