@@ -16,6 +16,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Properties;
 import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IConnectionMetaData;
@@ -31,9 +32,11 @@ import org.eclipse.birt.data.oda.util.logging.Level;
  */
 public class Connection implements IConnection
 {
-
 	/** The JDBC Connection instance. */
 	private java.sql.Connection jdbcConn = null;
+	
+	/** Driver classes that we have registered with JDBC DriverManager */
+	static private HashSet registeredDrivers = new HashSet();
 
 	/*
 	 * (non-Javadoc)
@@ -161,8 +164,10 @@ public class Connection implements IConnection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
-		//TODO not logging password, but how can we know which is the password
-		// property for different JDBC drivers?
+		if ( connProperties == null )
+			throw new IllegalArgumentException("connProperties cannot be null");
+		
+		// Log connection information
 		if ( JDBCConnectionFactory.isLoggable( Level.INFO_LEVEL ) )
 		{
 			String logMsg = "Connection.open(Properties). connProperties = ";
@@ -170,118 +175,134 @@ public class Connection implements IConnection
 					.hasMoreElements( ); )
 			{
 				String propName = (String) enumeration.nextElement( );
-				if ( !propName.startsWith( "ODA:password" ) )
-				{
-					logMsg += ( propName + "="
-							+ connProperties.getProperty( propName ) + ";" );
-				}
+				// Don't log value of any property that looks like a password
+				String lcPropName = propName.toLowerCase();
+				String propVal; 
+				if ( lcPropName.indexOf( "password" ) >= 0 ||
+					 lcPropName.indexOf("pwd") >= 0 )
+					propVal = "***";
+				else
+					propVal = connProperties.getProperty( propName );
+				logMsg += propName + "=" + propVal + ";";
 			}
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, logMsg );
 		}
+		
 		close( );
+		
 		String dataSource = connProperties.getProperty( "ODA:data-source" );
 		if ( dataSource != null )
 		{
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use data source" );
+			
 			//TODO connect by DataSource
-
+			throw new UnsupportedOperationException("oda-jdbc: connect by data source");
 		}
 		else
 		{
 			String url = connProperties.getProperty( "ODA:url" );
-			if ( url == null )
+			if ( url == null || url.length() == 0 )
 			{
 				throw new DriverException(
 						"Missing property: \"ODA:url\" or \"ODA:data-source\".",
 						DriverException.ERROR_MISSING_PROPERTIES );
 			}
-			JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use URL" );
-			String className = connProperties.getProperty( "ODA:driver-class" );
-			try
+			connectByUrl( url, connProperties );
+		}
+	}
+	
+	/**
+	 * Opens a JDBC connection using the specified url and connection properties 
+	 * @param connProperies
+	 */
+	private void connectByUrl( String url, Properties connProperties ) throws OdaException
+	{
+		assert connProperties != null;
+		assert url != null;
+		
+		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use URL" );
+		
+		// Copy connProperties to props; skip property starting with
+		// "ODA:"; those are properties read by this driver
+		Properties props = new Properties( );
+		for ( Enumeration enumeration = connProperties.propertyNames( ); 
+				enumeration.hasMoreElements( ); )
+		{
+			String propName = (String) enumeration.nextElement( );
+			if ( !propName.startsWith( "ODA:" ) )
 			{
-				Properties props = new Properties( );
-				String user = connProperties.getProperty( "ODA:user" );
-				String pwd = connProperties.getProperty( "ODA:password" );
-				//set value of ODA:user ODA:password to props
-				if ( user != null )
-					props.setProperty( "user", user );
-				else
-				{
-					// copy connProperties's to props,if one of user is null
-					for ( Enumeration enumeration = connProperties
-							.propertyNames( ); enumeration.hasMoreElements( ); )
-					{
-						String propName = (String) enumeration.nextElement( );
-						if ( !propName.startsWith( "ODA:" ) )
-						{
-							props.setProperty( propName, connProperties
-									.getProperty( propName ) );
-						}
-					}
-				}
-				if ( pwd != null )
-					props.setProperty( "password", pwd );
-
-				// TODO not logging password, which may be contained in the
-				// props
-				JDBCConnectionFactory.log( Level.INFO_LEVEL,
-						"DriverManager.getConnection( url, properties). url = "
-								+ url + ", properties = " + props.toString( ) );
+				props.setProperty( propName, connProperties
+						.getProperty( propName ) );
+			}
+		}
 				
-				Class.forName( className );
-				try
-				{
-					jdbcConn = getConnection( url, props );
-				}
-				catch ( Exception ex )
-				{
-					//Just ignore this
-					//this will happen if the driver is not registered
-				}
-				if ( jdbcConn == null )
-				{
-					registerDriver( className );
-					jdbcConn = getConnection( url, props );
-				}
+		// Read user name and password
+		String user = connProperties.getProperty( "ODA:user" );
+		if ( user != null )
+			props.setProperty("user", user);
+		String pwd = connProperties.getProperty( "ODA:password" );
+		if ( pwd != null )
+				props.setProperty("password", pwd);
 
-			}
-			catch ( SQLException e )
-			{
-				throw new JDBCException( (SQLException) e );
-			}
-			catch ( Exception e )
-			{
-				throw new DriverException( e );
-			}
+		String driverClass = connProperties.getProperty( "ODA:driver-class" );
+		registerDriver( driverClass);
+		
+		try
+		{
+			jdbcConn = DriverManager.getConnection( url, props );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( e );
 		}
 	}
 
 	/**
-	 * @param url
-	 * @param props
-	 * @throws SQLException
+	 * Ensures that the JDBC driver with specified class name is loaded and registered
+	 * with JDBC DriverManager
 	 */
-	private java.sql.Connection getConnection( String url, Properties props ) throws SQLException
+	private void registerDriver( String className ) throws DriverException
 	{
-		if ( props.getProperty( "user" ) != null )
-			return DriverManager.getConnection( url, props );
-		else
-			return DriverManager.getConnection( url );
-	}
-
-	/*
-	 * @param className
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	private void registerDriver( String className )
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException
-	{
-		Driver driver = (Driver) Class.forName( className ).newInstance( );
-		DriverManager.registerDriver( driver );
+		if ( className == null )
+			return;
+		
+		Class driverClass;
+		
+		try
+		{
+			driverClass = Class.forName( className );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			throw new DriverException( e );
+		}
+		
+		// Register the driver with JDBC driver manager; normally this is done by
+		// the driver's class static intialization code when we do Class.forName().
+		// However not all drivers follow this convention. We always register
+		// the driver, and ignore error should it results in duplicate registration
+		if ( ! registeredDrivers.contains( className ) )
+		{
+			try
+			{
+				Driver driver = (Driver) driverClass.newInstance( );
+				DriverManager.registerDriver( driver );
+			}
+			catch ( SQLException e)
+			{
+				// Assume this error is caused by duplicate registration; ignore it
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new DriverException( e );
+			}
+			catch (InstantiationException e )
+			{
+				throw new DriverException( e );
+			}
+			
+			registeredDrivers.add( className );
+		}
 	}
 
 	/*
