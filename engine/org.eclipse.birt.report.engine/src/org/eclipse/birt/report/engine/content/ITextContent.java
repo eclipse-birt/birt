@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
 /**
  * Provides the interfaces for the Text Content
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/11 07:53:12 $
  */
 public interface ITextContent extends IReportItemContent
 {
@@ -30,15 +30,6 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public String getValue( );
 
-	/**
-	 * Adds CSS2.0 Properties
-	 * <p>
-	 * The caller calls it only if the Text-Item or multi-line is involved
-	 * 
-	 * @param node
-	 * @param properties
-	 */
-	public void addCssStyle( Node node, HashMap properties );
 
 	/**
 	 * Gets the corresponding CSS properties of the specified node.
@@ -62,15 +53,6 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public HashMap getCssStyleSet( );
 
-	/**
-	 * Adds the image content to the collection in term of the <tt>Node</tt>
-	 * 
-	 * @param node
-	 *            the key in the collection
-	 * @param img
-	 *            the image content
-	 */
-	public void addImageContent( Node node, IImageItemContent img );
 
 	/**
 	 * Gets the image content according to the <tt>Node</tt>
@@ -81,15 +63,9 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public IImageItemContent getImageContent( Node node );
 
-	public void addExpressionVal( Node expr, Document val );
 
 	public Document getExpressionVal( Node expr );
 
-	/**
-	 * @param helpText
-	 *            The helpText to set.
-	 */
-	public void setHelpText( String helpText );
 
 	/**
 	 * @return Returns the helpText.
@@ -101,13 +77,7 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public boolean isSingleLine( );
 
-	/**
-	 * Sets the value
-	 * 
-	 * @param value
-	 *            the value set
-	 */
-	public void setValue( String value );
+
 
 	/**
 	 * @return the action design
@@ -119,9 +89,5 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public Node getDomTree( );
 
-	/**
-	 * @param domTree
-	 *            The domTree to set.
-	 */
-	public void setDomTree( Node domTree );
+
 }

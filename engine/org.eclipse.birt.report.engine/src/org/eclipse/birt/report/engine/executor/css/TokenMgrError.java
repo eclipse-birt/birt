@@ -46,33 +46,33 @@ public class TokenMgrError extends Error
            case 0 :
               continue;
            case '\b':
-              retval.append("\\b");
+              retval.append("\\b"); //$NON-NLS-1$
               continue;
            case '\t':
-              retval.append("\\t");
+              retval.append("\\t"); //$NON-NLS-1$
               continue;
            case '\n':
-              retval.append("\\n");
+              retval.append("\\n"); //$NON-NLS-1$
               continue;
            case '\f':
-              retval.append("\\f");
+              retval.append("\\f"); //$NON-NLS-1$
               continue;
            case '\r':
-              retval.append("\\r");
+              retval.append("\\r"); //$NON-NLS-1$
               continue;
            case '\"':
-              retval.append("\\\"");
+              retval.append("\\\""); //$NON-NLS-1$
               continue;
            case '\'':
-              retval.append("\\\'");
+              retval.append("\\\'"); //$NON-NLS-1$
               continue;
            case '\\':
-              retval.append("\\\\");
+              retval.append("\\\\"); //$NON-NLS-1$
               continue;
            default:
               if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-                 String s = "0000" + Integer.toString(ch, 16);
-                 retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+                 String s = "0000" + Integer.toString(ch, 16); //$NON-NLS-1$
+                 retval.append("\\u" + s.substring(s.length() - 4, s.length())); //$NON-NLS-1$
               } else {
                  retval.append(ch);
               }
@@ -95,11 +95,11 @@ public class TokenMgrError extends Error
     * Note: You can customize the lexical error message by modifying this method.
     */
    protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
-      return("Lexical error at line " +
-           errorLine + ", column " +
-           errorColumn + ".  Encountered: " +
-           (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int)curChar + "), ") +
-           "after : \"" + addEscapes(errorAfter) + "\"");
+      return("Lexical error at line " + //$NON-NLS-1$
+           errorLine + ", column " + //$NON-NLS-1$
+           errorColumn + ".  Encountered: " + //$NON-NLS-1$
+           (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int)curChar + "), ") + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+           "after : \"" + addEscapes(errorAfter) + "\""); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -33,11 +33,11 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 
 public interface IReportItemPresentation {
-	public static String ITEM_BOUNDS 			= "bounds"; 	// $NON-NLS-1$
-	public static String RESOLUTION	 			= "dpi"; 		// $NON-NLS-1$
-	public static String SCALING_FACTOR 		= "scale";		// $NON-NLS-1$
-	public static String MODEL_OBJ				= "model";		// $NON-NLS-1$
-	public static String SUPPORTED_FILE_FORMATS	= "formats";		// $NON-NLS-1$
+	public static String ITEM_BOUNDS 			= "bounds"; 	// $NON-NLS-1$ //$NON-NLS-1$
+	public static String RESOLUTION	 			= "dpi"; 		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String SCALING_FACTOR 		= "scale";		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String MODEL_OBJ				= "model";		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String SUPPORTED_FILE_FORMATS	= "formats";		// $NON-NLS-1$ //$NON-NLS-1$
 
 	
     public static int OUTPUT_NONE = 0;     

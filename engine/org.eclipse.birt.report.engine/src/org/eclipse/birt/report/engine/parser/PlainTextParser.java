@@ -42,7 +42,7 @@ import org.w3c.dom.Text;
  * other nodes that need to be processed are descendant nodes of "body" 
  * node.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
  */
 public class PlainTextParser
 {
@@ -66,7 +66,7 @@ public class PlainTextParser
 		{
 			Document doc = DocumentBuilderFactory.newInstance( )
 					.newDocumentBuilder( ).newDocument( );
-			Element body = doc.createElement( "body" );
+			Element body = doc.createElement( "body" ); //$NON-NLS-1$
 			doc.appendChild( body );
 
 			LineNumberReader lReader = new LineNumberReader( reader );
@@ -77,7 +77,7 @@ public class PlainTextParser
 			while ( ( content = lReader.readLine( ) ) != null )
 			{
 				appendChild( doc, body, content );
-				body.appendChild( doc.createElement( "br" ) );
+				body.appendChild( doc.createElement( "br" ) ); //$NON-NLS-1$
 			}
 			//Removes the last BR element.
 			//TODO The last BR element is removed even if there is a CR/LF
@@ -138,7 +138,7 @@ public class PlainTextParser
 		try
 		{
 			return parsePlainText( new BufferedReader( new InputStreamReader(
-					in, "UTF-8" ) ) );
+					in, "UTF-8" ) ) ); //$NON-NLS-1$
 		}
 		catch ( UnsupportedEncodingException e )
 		{

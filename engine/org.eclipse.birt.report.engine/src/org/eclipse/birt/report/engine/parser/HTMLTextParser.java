@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.1 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/07 03:33:25 $
  */
 public class HTMLTextParser
 {
@@ -57,42 +57,42 @@ public class HTMLTextParser
 	 */
 	static
 	{
-		supportedTags.add( "a" );
-		supportedTags.add( "b" );
+		supportedTags.add( "a" ); //$NON-NLS-1$
+		supportedTags.add( "b" ); //$NON-NLS-1$
 		//		supportedTags.add("BODY");
-		supportedTags.add( "br" );
-		supportedTags.add( "center" );
-		supportedTags.add( "code" );
-		supportedTags.add( "dd" );
-		supportedTags.add( "del" );
-		supportedTags.add( "div" );
-		supportedTags.add( "dl" );
-		supportedTags.add( "dt" );
-		supportedTags.add( "font" );
-		supportedTags.add( "em" );
+		supportedTags.add( "br" ); //$NON-NLS-1$
+		supportedTags.add( "center" ); //$NON-NLS-1$
+		supportedTags.add( "code" ); //$NON-NLS-1$
+		supportedTags.add( "dd" ); //$NON-NLS-1$
+		supportedTags.add( "del" ); //$NON-NLS-1$
+		supportedTags.add( "div" ); //$NON-NLS-1$
+		supportedTags.add( "dl" ); //$NON-NLS-1$
+		supportedTags.add( "dt" ); //$NON-NLS-1$
+		supportedTags.add( "font" ); //$NON-NLS-1$
+		supportedTags.add( "em" ); //$NON-NLS-1$
 		//		supportedTags.add("HEAD");
 		//		supportedTags.add("HN");
 		//		supportedTags.add( "html" );
-		supportedTags.add( "i" );
-		supportedTags.add( "image" );
-		supportedTags.add( "img" );
-		supportedTags.add( "ins" );
-		supportedTags.add( "li" );
-		supportedTags.add( "ol" );
-		supportedTags.add( "pre" );
-		supportedTags.add( "p" );
-		supportedTags.add( "span" );
-		supportedTags.add( "strong" );
-		supportedTags.add( "sub" );
-		supportedTags.add( "sup" );
+		supportedTags.add( "i" ); //$NON-NLS-1$
+		supportedTags.add( "image" ); //$NON-NLS-1$
+		supportedTags.add( "img" ); //$NON-NLS-1$
+		supportedTags.add( "ins" ); //$NON-NLS-1$
+		supportedTags.add( "li" ); //$NON-NLS-1$
+		supportedTags.add( "ol" ); //$NON-NLS-1$
+		supportedTags.add( "pre" ); //$NON-NLS-1$
+		supportedTags.add( "p" ); //$NON-NLS-1$
+		supportedTags.add( "span" ); //$NON-NLS-1$
+		supportedTags.add( "strong" ); //$NON-NLS-1$
+		supportedTags.add( "sub" ); //$NON-NLS-1$
+		supportedTags.add( "sup" ); //$NON-NLS-1$
 		//		supportedTags.add("TITLE");
-		supportedTags.add( "ul" );
-		supportedTags.add( "tt" );
-		supportedTags.add( "u" );
-		supportedTags.add( "value-of" );
+		supportedTags.add( "ul" ); //$NON-NLS-1$
+		supportedTags.add( "tt" ); //$NON-NLS-1$
+		supportedTags.add( "u" ); //$NON-NLS-1$
+		supportedTags.add( "value-of" ); //$NON-NLS-1$
 	}
 	/** For heading level */
-	private static Pattern hn = Pattern.compile( "h[\\d]" );
+	private static Pattern hn = Pattern.compile( "h[\\d]" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -104,7 +104,7 @@ public class HTMLTextParser
 		{
 			Properties props = new Properties( );
 			props.load( getClass( ).getResourceAsStream(
-					"htmlparser.properties" ) );
+					"htmlparser.properties" ) ); //$NON-NLS-1$
 
 			tidy.setConfigurationFromProps( props );
 		}
@@ -138,14 +138,14 @@ public class HTMLTextParser
 			// element HTML are Head element and Body element. Only Body element
 			// and its descendant nodes are preserved.
 			//Entities in raw html are converted to text.
-			Node html = getNodeByName( doc, "html" );
+			Node html = getNodeByName( doc, "html" ); //$NON-NLS-1$
 			Node body = null;
 			if ( html != null )
 			{
-				body = getNodeByName( html, "body" );
+				body = getNodeByName( html, "body" ); //$NON-NLS-1$
 			}
 			//			doc.getLastChild( ).getLastChild( );
-			Node desBody = desDoc.createElement( "body" );
+			Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
 			desDoc.appendChild( desBody );
 			if ( body != null )
 			{

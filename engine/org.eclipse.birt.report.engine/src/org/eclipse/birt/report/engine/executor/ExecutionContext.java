@@ -43,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/07 03:33:25 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -105,9 +105,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		//create script context used to execute the script statements
 
 		//register the global variables in the script context
-		scriptContext.registerBean( "report", new ReportObject( ) );
-		scriptContext.registerBean( "params", params );
-		scriptContext.registerBean( "config", configs );
+		scriptContext.registerBean( "report", new ReportObject( ) ); //$NON-NLS-1$
+		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
+		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
 	}
 
@@ -341,7 +341,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 				return;
 			}
 			if ( ( (ReportItemContext) pageInfoStack.peek( ) ).canChildrenDefineMasterPage
-					&& "block".equals( item.getStyle( ).getDisplay( ) ) )
+					&& "block".equals( item.getStyle( ).getDisplay( ) ) ) //$NON-NLS-1$
 			{
 				canDefineMasterPage = true;
 				//				if ( item instanceof ListItemDesign )
@@ -523,7 +523,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public void pushReportItem( ReportItemHandle handle )
 	{
 		reportItems.push( handle );
-		scriptContext.registerBean( "itemDesign", handle );
+		scriptContext.registerBean( "itemDesign", handle ); //$NON-NLS-1$
 	}
 
 	/**
@@ -536,7 +536,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		reportItems.pop( );
 		if ( !reportItems.isEmpty( ) )
 		{
-			scriptContext.registerBean( "itemDesign", reportItems.peek( ) );
+			scriptContext.registerBean( "itemDesign", reportItems.peek( ) ); //$NON-NLS-1$
 		}
 	}
 
@@ -564,13 +564,13 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			FileInputStream in = new FileInputStream( script );
 			byte[] buffer = new byte[in.available( )];
 			in.read( buffer );
-			execute( new String( buffer, "UTF-8" ), fileName, 1 );
+			execute( new String( buffer, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
 			in.close( );
 			loadedScripts.add( fileName );
 		}
 		catch ( IOException ex )
 		{
-		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.",
+		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
 			//TODO This is a fatal error. Should throw an exception.
 		}

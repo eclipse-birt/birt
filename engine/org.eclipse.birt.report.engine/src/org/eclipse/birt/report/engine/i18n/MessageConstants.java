@@ -29,12 +29,12 @@ public interface MessageConstants
 	public static final String	FORMAT_EXCEPTION_FORMAT_NOT_SUPPORTED
 								= "Error.FormatException.FORMAT_NOT_SUPPORTED";						//$NON-NLS-1$
 	
-	public static final String INVALID_HANDLE_EXCEPTION = "Error.InvalidHandleException";
+	public static final String INVALID_HANDLE_EXCEPTION = "Error.InvalidHandleException"; //$NON-NLS-1$
 	
-	public static final String SEMANTIC_ERROR_EXCEPTION = "Error.SemanticErrorException";
+	public static final String SEMANTIC_ERROR_EXCEPTION = "Error.SemanticErrorException"; //$NON-NLS-1$
 	
-	public static final String UNBOUNDED_PARAMETER_EXCEPTION = "Error.UnboundedParameterException";
+	public static final String UNBOUNDED_PARAMETER_EXCEPTION = "Error.UnboundedParameterException"; //$NON-NLS-1$
 	
-	public static final String UNSUPPORTED_ENGINE_FEATURE_EXCEPTION = "Error.UnsupportedEngineFeatureException";
+	public static final String UNSUPPORTED_ENGINE_FEATURE_EXCEPTION = "Error.UnsupportedEngineFeatureException"; //$NON-NLS-1$
 }
 

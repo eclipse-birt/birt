@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/04 07:32:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
  */
 public class FileUtil
 {
@@ -34,7 +34,7 @@ public class FileUtil
 	/**
 	 * The default prefix for creating temporarily file.
 	 */
-	private static String DEFAULT_PREFIX = "Res";
+	private static String DEFAULT_PREFIX = "Res"; //$NON-NLS-1$
 
 	public static final int SEPARATOR_PATH = 0;
 	public static final int SEPARATOR_URI = 1;
@@ -58,12 +58,12 @@ public class FileUtil
 	static
 	{
 		// initialize fileExtension
-		fileExtension.put( "image/bmp", ".bmp" );
-		fileExtension.put( "image/gif", ".gif" );
-		fileExtension.put( "image/jpg", ".jpg" );
-		fileExtension.put( "image/pcx", ".pcx" );
-		fileExtension.put( "image/png", ".png" );
-		fileExtension.put( "image/tif", ".tif" );
+		fileExtension.put( "image/bmp", ".bmp" ); //$NON-NLS-1$ //$NON-NLS-2$
+		fileExtension.put( "image/gif", ".gif" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/jpg", ".jpg" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/pcx", ".pcx" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/png", ".png" );  //$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put( "image/tif", ".tif" );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class FileUtil
 		{
 			if ( dir.mkdirs( ) == false )
 			{
-			    logger.log( Level.SEVERE,  "[FileUtil] Cannot create directory." );
+			    logger.log( Level.SEVERE,  "[FileUtil] Cannot create directory." ); //$NON-NLS-1$
 				return null;
 			}
 		}
@@ -185,7 +185,7 @@ public class FileUtil
 	public static boolean isLocalResource( String uri )
 	{
 		return uri != null && uri.length( ) > 0
-				&& uri.toLowerCase( ).startsWith( "http" ) == false;
+				&& uri.toLowerCase( ).startsWith( "http" ) == false; //$NON-NLS-1$
 	}
 
 	/**
@@ -320,7 +320,7 @@ public class FileUtil
 		}
 		catch ( Exception e )
 		{
-		    logger.log( Level.SEVERE,  "Cannot get the content of the file " + fileName, e );
+		    logger.log( Level.SEVERE,  "Cannot get the content of the file " + fileName, e ); //$NON-NLS-1$
 		}
 		return null;
 	}

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.IReportItemContent;
+import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/11 07:53:12 $
  */
 public abstract class ReportItemExecutor
 {
@@ -168,7 +168,7 @@ public abstract class ReportItemExecutor
 				context.getLocale( ) );
 		if ( ret == null )
 		{
-		    logger.log(Level.SEVERE,"get resource error, resource key: {0} Locale: {1}", new Object[]{resourceKey, context.getLocale().toString()} );
+		    logger.log(Level.SEVERE,"get resource error, resource key: {0} Locale: {1}", new Object[]{resourceKey, context.getLocale().toString()} ); //$NON-NLS-1$
 			return text;
 		}
 		return ret;
@@ -211,7 +211,7 @@ public abstract class ReportItemExecutor
 	 *            create report item content object
 	 */
 	protected void processAction( ActionDesign action,
-			IReportItemContent itemContent )
+			ReportItemContent itemContent )
 	{
 		assert itemContent != null;
 
@@ -252,7 +252,7 @@ public abstract class ReportItemExecutor
 			catch ( Exception e )
 			{
 				itemContent.setHyperlinkAction( null );
-				logger.log(Level.SEVERE,"Failed to process Action String" );
+				logger.log(Level.SEVERE,"Failed to process Action String" ); //$NON-NLS-1$
 			}
 		}
 	}

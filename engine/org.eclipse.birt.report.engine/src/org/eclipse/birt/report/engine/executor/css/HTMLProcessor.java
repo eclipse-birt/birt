@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.w3c.dom.Element;
@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
  */
 public class HTMLProcessor
 {
@@ -41,8 +41,10 @@ public class HTMLProcessor
 	private CssParser cssParser;
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = new String[]{"xx-small", "x-small",
-			"small", "medium", "large", "x-large", "xx-large", "xxx-large"};
+	private static String[] FONT_SIZE = new String[]{"xx-small", "x-small", //$NON-NLS-1$ //$NON-NLS-2$
+			"small", "medium",  //$NON-NLS-1$ //$NON-NLS-2$
+			"large", "x-large",  //$NON-NLS-1$//$NON-NLS-2$
+			"xx-large", "xxx-large"};  //$NON-NLS-1$//$NON-NLS-2$
 
 	/**
 	 * Constructor
@@ -55,7 +57,7 @@ public class HTMLProcessor
 		this.context = context;
 		//Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
-		cssParser = new CssParser( new StringReader( "" ) );
+		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -68,40 +70,40 @@ public class HTMLProcessor
 	 * @param text
 	 *            the text content object
 	 */
-	public void execute( Element ele, ITextContent text )
+	public void execute( Element ele, TextItemContent text )
 	{
 		HashMap cssStyle = null;
-		if ( !ele.hasAttribute( "style" ) )
+		if ( !ele.hasAttribute( "style" ) ) //$NON-NLS-1$
 		{
 			cssStyle = new HashMap( );
 		}
 		else
 		{
-			cssParser.ReInit( new StringReader( ele.getAttribute( "style" ) ) );
-			cssParser.setCssStatement( ele.getAttribute( "style" ) );
+			cssParser.ReInit( new StringReader( ele.getAttribute( "style" ) ) ); //$NON-NLS-1$
+			cssParser.setCssStatement( ele.getAttribute( "style" ) ); //$NON-NLS-1$
 			try
 			{
 				cssParser.parse( );
 			}
 			catch ( Exception e )
 			{
-				logger.log(Level.SEVERE,"The css statement is:"
-						+ ele.getAttribute( "style" ), e );
+				logger.log(Level.SEVERE,"The css statement is:" //$NON-NLS-1$
+						+ ele.getAttribute( "style" ), e ); //$NON-NLS-1$
 			}
 			cssStyle = cssParser.getCssProperties( );
-			ele.removeAttribute( "style" );
+			ele.removeAttribute( "style" ); //$NON-NLS-1$
 			//If the background image is a local resource, then get its global
 			// URI.
-			String src = (String) cssStyle.get( "background-image" );
+			String src = (String) cssStyle.get( "background-image" ); //$NON-NLS-1$
 			if ( src != null )
 			{
 				//The resource is surrounded with "url(" and ")", or "\"", or
 				// "\'". Removes them.
-				if ( src.startsWith( "url(" ) && src.length( ) > 5 )
+				if ( src.startsWith( "url(" ) && src.length( ) > 5 ) //$NON-NLS-1$
 				{
 					src = src.substring( 4, src.length( ) - 1 );
 				}
-				else if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) )
+				else if ( ( src.startsWith( "\"" ) || src.startsWith( "\'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 						&& src.length( ) > 2 )
 				{
 					src = src.substring( 1, src.length( ) - 1 );
@@ -116,71 +118,71 @@ public class HTMLProcessor
 				if ( src != null )
 				{
 					//Puts the modified URI of the resource
-					cssStyle.put( "background-image", src );
+					cssStyle.put( "background-image", src ); //$NON-NLS-1$
 				}
 				else
 				{
 					//If the resource does not exist, then removes this item.
-					cssStyle.remove( "background-image" );
+					cssStyle.remove( "background-image" ); //$NON-NLS-1$
 				}
 			}
 		}
 
 		//FOR HTML 4.0 COMPATIBILITY
-		if ( "b".equals( ele.getTagName( ) ) )
+		if ( "b".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 		{
-			addToStyle( cssStyle, "font-weight", "bold" );
+			addToStyle( cssStyle, "font-weight", "bold" );  //$NON-NLS-1$//$NON-NLS-2$
 			//Re-points to the element node in the tree
-			ele = replaceElement( ele, "span" );
+			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 		}
-		else if ( "center".equals( ele.getTagName( ) ) )
+		else if ( "center".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 		{
-			addToStyle( cssStyle, "text-align", "center" );
-			ele = replaceElement( ele, "div" );
+			addToStyle( cssStyle, "text-align", "center" ); //$NON-NLS-1$ //$NON-NLS-2$
+			ele = replaceElement( ele, "div" ); //$NON-NLS-1$
 		}
-		else if ( "font".equals( ele.getTagName( ) ) )
+		else if ( "font".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 		{
-			addToStyle( cssStyle, "color", ele.getAttribute( "color" ) );
-			addToStyle( cssStyle, "font-family", ele.getAttribute( "face" ) );
-			if ( ele.hasAttribute( "size" ) )
+			addToStyle( cssStyle, "color", ele.getAttribute( "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			addToStyle( cssStyle, "font-family", ele.getAttribute( "face" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( ele.hasAttribute( "size" ) ) //$NON-NLS-1$
 			{
 				try
 				{
-					int size = Integer.parseInt( ele.getAttribute( "size" ) );
-					addToStyle( cssStyle, "font-size", FONT_SIZE[size - 1] );
+					int size = Integer.parseInt( ele.getAttribute( "size" ) ); //$NON-NLS-1$
+					addToStyle( cssStyle, "font-size", FONT_SIZE[size - 1] ); //$NON-NLS-1$
 				}
 				catch ( Exception e )
 				{
-				    logger.log(Level.SEVERE, "There is a invalid value for property SIZE of element FONT in the HTML." );
+				    logger.log(Level.SEVERE, "There is a invalid value for property SIZE of element FONT in the HTML." ); //$NON-NLS-1$
 				}
 			}
 			//Removes these attributes to avoid for being copied again.
-			ele.removeAttribute( "color" );
-			ele.removeAttribute( "face" );
-			ele.removeAttribute( "size" );
-			ele = replaceElement( ele, "span" );
+			ele.removeAttribute( "color" ); //$NON-NLS-1$
+			ele.removeAttribute( "face" ); //$NON-NLS-1$
+			ele.removeAttribute( "size" ); //$NON-NLS-1$
+			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 		}
-		else if ( "i".equals( ele.getTagName( ) ) )
+		else if ( "i".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 		{
-			addToStyle( cssStyle, "font-style", "italic" );
-			ele = replaceElement( ele, "span" );
+			addToStyle( cssStyle, "font-style", "italic" ); //$NON-NLS-1$ //$NON-NLS-2$
+			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 		}
-		else if ( "u".equals( ele.getTagName( ) ) )
+		else if ( "u".equals( ele.getTagName( ) ) ) //$NON-NLS-1$
 		{
-			String decoration = (String) cssStyle.get( "text-decoration" );
+			String decoration = (String) cssStyle.get( "text-decoration" ); //$NON-NLS-1$
 			//The property "text-decoration" is made of more than one token.
-			if ( decoration != null && decoration.indexOf( "underline" ) == -1
-					&& decoration.indexOf( "none" ) == -1
-					&& decoration.indexOf( "inherit" ) == -1 )
+			if ( decoration != null && decoration.indexOf( "underline" ) == -1 //$NON-NLS-1$
+					&& decoration.indexOf( "none" ) == -1 //$NON-NLS-1$
+					&& decoration.indexOf( "inherit" ) == -1 ) //$NON-NLS-1$
 			{
-				decoration = decoration + " underline";
+				decoration = decoration + " underline"; //$NON-NLS-1$
 			}
 			else if ( decoration == null )
 			{
-				decoration = "underline";
+				decoration = "underline"; //$NON-NLS-1$
 			}
-			cssStyle.put( "text-decoration", decoration );
-			ele = replaceElement( ele, "span" );
+			cssStyle.put( "text-decoration", decoration ); //$NON-NLS-1$
+			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 		}
 		text.addCssStyle( ele, cssStyle );
 

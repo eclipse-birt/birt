@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * report item executor manager
  * 
  * @author liugang
- * @version $Revision: 1.4 $ $Date: 2005/02/07 09:43:34 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
  */
 public class ExecutorManager
 {
@@ -123,7 +123,7 @@ public class ExecutorManager
                 	ret = new ExtendedItemExecutor(context, visitor);
                 	break;
                 default :
-                    throw new UnsupportedOperationException("unsupported executor!");
+                    throw new UnsupportedOperationException("unsupported executor!"); //$NON-NLS-1$
             }
             busyList[type].add( ret );
             return ret;

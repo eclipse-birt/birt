@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -47,7 +47,7 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
-		ITextContent textObj = ContentFactory
+		TextItemContent textObj =(TextItemContent) ContentFactory
 				.createTextContent( (LabelItemDesign) item );
 		textObj
 				.setHelpText( getLocalizedString( ( (LabelItemDesign) item )
@@ -57,7 +57,7 @@ public class LabelItemExecutor extends StyledItemExecutor
 				.getTextKey( ), ( (LabelItemDesign) item ).getText( ) ) );
 		setStyles( textObj, item );
 		setVisibility( item, textObj );
-		IReportItemEmitter textEmitter = emitter.getEmitter( "text" );
+		IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
 		if ( textEmitter == null )
 		{
 			return;

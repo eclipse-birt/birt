@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
  * Provides the interfaces for the Row Content
  * 
  * 
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public interface IRowContent extends IStyledElementContent
 {
@@ -33,12 +33,7 @@ public interface IRowContent extends IStyledElementContent
 	 */
 	public String getBookmarkValue( );
 
-	/**
-	 * Set the bookmark value which is calculated in the Executor
-	 * 
-	 * @param newValue
-	 */
-	public void setBookmarkValue( String newValue );
+
 
 	/**
 	 * @return Returns the height.

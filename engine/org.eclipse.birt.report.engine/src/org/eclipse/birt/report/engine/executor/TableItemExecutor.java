@@ -14,10 +14,10 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IColumnContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.ColumnContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.emitter.buffer.BufferedReportEmitter;
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -109,10 +109,10 @@ public class TableItemExecutor extends ListingElementExecutor
 		this.emitter = emitter;
 
 		table = (TableItemDesign) item;
-		logger.log( Level.FINE,"start table item" );
+		logger.log( Level.FINE,"start table item" ); //$NON-NLS-1$
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
-		ITableContent tableObj = ContentFactory.createTableContent( table );
+		TableContent tableObj = (TableContent)ContentFactory.createTableContent( table );
 		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
 				.getCaption( ) ) );
 		setStyles( tableObj, item );
@@ -122,9 +122,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		if ( bookmarkStr != null )
 			tableObj.setBookmarkValue( bookmarkStr );
 
-		logger.log( Level.FINE, "start get table data" );
+		logger.log( Level.FINE, "start get table data" ); //$NON-NLS-1$
 		rs = openResultSet( table );
-		logger.log( Level.FINE, "end get table data" );
+		logger.log( Level.FINE, "end get table data" ); //$NON-NLS-1$
 		boolean isRowAvailable = false;
 		if ( rs != null )
 		{
@@ -153,7 +153,7 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		closeResultSet( rs );
 
-		logger.log( Level.FINE, "end table item" );
+		logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
 		//execute the on finish script
 		context.execute( table.getOnFinish( ) );
 	}
@@ -173,7 +173,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			tableEmitter.startColumns( );
 			for ( int i = 0; i < tableItem.getColumnCount( ); i++ )
 			{
-				IColumnContent colContent = ContentFactory
+				ColumnContent colContent = (ColumnContent)ContentFactory
 						.createColumnContent( tableItem.getColumn( i ) );
 				setStyles( colContent, tableItem.getColumn( i ) );
 				tableEmitter.startColumn( colContent );
@@ -253,7 +253,7 @@ public class TableItemExecutor extends ListingElementExecutor
 						{
 							rowShow[j] = true;
 						}
-						else if ( cell.getDrop( ).equalsIgnoreCase( "none" ) )
+						else if ( cell.getDrop( ).equalsIgnoreCase( "none" ) ) //$NON-NLS-1$
 						{
 							rowShow[j] = true;
 						}
@@ -284,8 +284,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				{
 					if ( cell.getDrop( ) != null )
 					{
-						if ( cell.getDrop( ).equalsIgnoreCase( "all" )
-								|| cell.getDrop( ).equalsIgnoreCase( "detail" ) )
+						if ( cell.getDrop( ).equalsIgnoreCase( "all" ) //$NON-NLS-1$
+								|| cell.getDrop( ).equalsIgnoreCase( "detail" ) ) //$NON-NLS-1$
 						{
 							return true;
 						}
@@ -318,7 +318,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			IRowContent rowContent = ContentFactory.createRowContent( row );
+			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row );
 			setVisibility( row, rowContent );
 			setBookmarkValue( rowContent );
 			setStyles( rowContent, row );
@@ -329,7 +329,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					ICellContent cellContent = ContentFactory
+					CellContent cellContent = (CellContent)ContentFactory
 							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
@@ -371,7 +371,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * @param row
 	 *            the row content object
 	 */
-	private void setBookmarkValue( IRowContent row )
+	private void setBookmarkValue( RowContent row )
 	{
 		// bookmark
 		Expression bookmark = row.getBookmark( );
@@ -456,7 +456,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			}
 			if ( isRowEnd )
 			{
-				IRowContent rowContent = ContentFactory.createRowContent( row );
+				RowContent rowContent = (RowContent)ContentFactory.createRowContent( row );
 				setVisibility( row, rowContent );
 				setBookmarkValue( rowContent );
 				setStyles( rowContent, row );
@@ -468,7 +468,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					ICellContent cellContent = ContentFactory
+					CellContent cellContent = (CellContent)ContentFactory
 							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					emitter.getTableEmitter( ).startCell( cellContent );
@@ -523,7 +523,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			IRowContent newRow = ContentFactory.createRowContent( row );
+			RowContent newRow = (RowContent)ContentFactory.createRowContent( row );
 
 			if ( isRowEnd )
 			{
@@ -538,12 +538,12 @@ public class TableItemExecutor extends ListingElementExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					ICellContent cellContent = ContentFactory
+					CellContent cellContent = (CellContent)ContentFactory
 							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					if ( cell.getDrop( ) != null )
 					{
-						if ( !cell.getDrop( ).equalsIgnoreCase( "none" ) )
+						if ( !cell.getDrop( ).equalsIgnoreCase( "none" ) ) //$NON-NLS-1$
 						{
 							bufferManager.addDropInfo( cellContent, rowID, cell
 									.getDrop( ), index );

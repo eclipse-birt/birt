@@ -98,98 +98,99 @@ public interface CssParserConstants {
   int DEFAULT = 0;
   int IN_COMMENT = 1;
 
-  String[] tokenImage = {
-    "<EOF>",
-    "<S>",
-    "\"inherit\"",
-    "\"<!--\"",
-    "\"-->\"",
-    "\"{\"",
-    "\"}\"",
-    "\"|=\"",
-    "\"~=\"",
-    "\"^=\"",
-    "\"$=\"",
-    "\"*=\"",
-    "\"~\"",
-    "\"=\"",
-    "\"+\"",
-    "\"-\"",
-    "\",\"",
-    "\";\"",
-    "\">\"",
-    "\"/\"",
-    "\"[\"",
-    "\"]\"",
-    "\"*\"",
-    "\".\"",
-    "\")\"",
-    "\"(\"",
-    "\":\"",
-    "<AND>",
-    "<MEDIARESTRICTOR>",
-    "<NONASCII>",
-    "<H>",
-    "<UNICODE>",
-    "<ESCAPE>",
-    "<NMSTART>",
-    "<NMCHAR>",
-    "<STRINGCHAR>",
-    "<D>",
-    "<NAME>",
-    "<STRING>",
-    "<NUMBER>",
-    "<_URL>",
-    "<URL>",
-    "<PERCENTAGE>",
-    "<LENGTH>",
-    "<EMS>",
-    "<EXS>",
-    "<ANGLE>",
-    "<TIME>",
-    "<FREQ>",
-    "<RESOLUTION>",
-    "<DATE>",
-    "<ABSOLUTE_SIZE>",
-    "<RELATIVE_SIZE>",
-    "<COLOR>",
-    "\"normal\"",
-    "\"auto\"",
-    "\"font\"",
-    "<FONT_VAL>",
-    "<FONT_STYLE>",
-    "\"small-caps\"",
-    "<FONT_WEIGHT>",
-    "\"background\"",
-    "<BACKGROUND_REPEAT>",
-    "<BACKGROUND_ATTACHMENT>",
-    "<BACKGROUND_POSITION>",
-    "\"border\"",
-    "\"border-width\"",
-    "\"border-style\"",
-    "\"border-top\"",
-    "\"border-right\"",
-    "\"border-bottom\"",
-    "\"border-left\"",
-    "<BORDER_STYLE>",
-    "<BORDER_WIDTH>",
-    "\"margin\"",
-    "\"padding\"",
-    "<IDENT>",
-    "<DIMEN>",
-    "<HASH>",
-    "<RANGE0>",
-    "<RANGE1>",
-    "<RANGE2>",
-    "<RANGE3>",
-    "<RANGE4>",
-    "<RANGE5>",
-    "<RANGE6>",
-    "<RANGE>",
-    "<UNI>",
-    "<UNICODERANGE>",
-    "<FUNCTION>",
-    "<UNKNOWN>",
+  String[] tokenImage = new String[]
+{
+    "<EOF>", //$NON-NLS-1$
+    "<S>", //$NON-NLS-1$
+    "\"inherit\"", //$NON-NLS-1$
+    "\"<!--\"", //$NON-NLS-1$
+    "\"-->\"", //$NON-NLS-1$
+    "\"{\"", //$NON-NLS-1$
+    "\"}\"", //$NON-NLS-1$
+    "\"|=\"", //$NON-NLS-1$
+    "\"~=\"", //$NON-NLS-1$
+    "\"^=\"", //$NON-NLS-1$
+    "\"$=\"", //$NON-NLS-1$
+    "\"*=\"", //$NON-NLS-1$
+    "\"~\"", //$NON-NLS-1$
+    "\"=\"", //$NON-NLS-1$
+    "\"+\"", //$NON-NLS-1$
+    "\"-\"", //$NON-NLS-1$
+    "\",\"", //$NON-NLS-1$
+    "\";\"", //$NON-NLS-1$
+    "\">\"", //$NON-NLS-1$
+    "\"/\"", //$NON-NLS-1$
+    "\"[\"", //$NON-NLS-1$
+    "\"]\"", //$NON-NLS-1$
+    "\"*\"", //$NON-NLS-1$
+    "\".\"", //$NON-NLS-1$
+    "\")\"", //$NON-NLS-1$
+    "\"(\"", //$NON-NLS-1$
+    "\":\"", //$NON-NLS-1$
+    "<AND>", //$NON-NLS-1$
+    "<MEDIARESTRICTOR>", //$NON-NLS-1$
+    "<NONASCII>", //$NON-NLS-1$
+    "<H>", //$NON-NLS-1$
+    "<UNICODE>", //$NON-NLS-1$
+    "<ESCAPE>", //$NON-NLS-1$
+    "<NMSTART>", //$NON-NLS-1$
+    "<NMCHAR>", //$NON-NLS-1$
+    "<STRINGCHAR>", //$NON-NLS-1$
+    "<D>", //$NON-NLS-1$
+    "<NAME>", //$NON-NLS-1$
+    "<STRING>", //$NON-NLS-1$
+    "<NUMBER>", //$NON-NLS-1$
+    "<_URL>", //$NON-NLS-1$
+    "<URL>", //$NON-NLS-1$
+    "<PERCENTAGE>", //$NON-NLS-1$
+    "<LENGTH>", //$NON-NLS-1$
+    "<EMS>", //$NON-NLS-1$
+    "<EXS>", //$NON-NLS-1$
+    "<ANGLE>", //$NON-NLS-1$
+    "<TIME>", //$NON-NLS-1$
+    "<FREQ>", //$NON-NLS-1$
+    "<RESOLUTION>", //$NON-NLS-1$
+    "<DATE>", //$NON-NLS-1$
+    "<ABSOLUTE_SIZE>", //$NON-NLS-1$
+    "<RELATIVE_SIZE>", //$NON-NLS-1$
+    "<COLOR>", //$NON-NLS-1$
+    "\"normal\"", //$NON-NLS-1$
+    "\"auto\"", //$NON-NLS-1$
+    "\"font\"", //$NON-NLS-1$
+    "<FONT_VAL>", //$NON-NLS-1$
+    "<FONT_STYLE>", //$NON-NLS-1$
+    "\"small-caps\"", //$NON-NLS-1$
+    "<FONT_WEIGHT>", //$NON-NLS-1$
+    "\"background\"", //$NON-NLS-1$
+    "<BACKGROUND_REPEAT>", //$NON-NLS-1$
+    "<BACKGROUND_ATTACHMENT>", //$NON-NLS-1$
+    "<BACKGROUND_POSITION>", //$NON-NLS-1$
+    "\"border\"", //$NON-NLS-1$
+    "\"border-width\"", //$NON-NLS-1$
+    "\"border-style\"", //$NON-NLS-1$
+    "\"border-top\"", //$NON-NLS-1$
+    "\"border-right\"", //$NON-NLS-1$
+    "\"border-bottom\"", //$NON-NLS-1$
+    "\"border-left\"", //$NON-NLS-1$
+    "<BORDER_STYLE>", //$NON-NLS-1$
+    "<BORDER_WIDTH>", //$NON-NLS-1$
+    "\"margin\"", //$NON-NLS-1$
+    "\"padding\"", //$NON-NLS-1$
+    "<IDENT>", //$NON-NLS-1$
+    "<DIMEN>", //$NON-NLS-1$
+    "<HASH>", //$NON-NLS-1$
+    "<RANGE0>", //$NON-NLS-1$
+    "<RANGE1>", //$NON-NLS-1$
+    "<RANGE2>", //$NON-NLS-1$
+    "<RANGE3>", //$NON-NLS-1$
+    "<RANGE4>", //$NON-NLS-1$
+    "<RANGE5>", //$NON-NLS-1$
+    "<RANGE6>", //$NON-NLS-1$
+    "<RANGE>", //$NON-NLS-1$
+    "<UNI>", //$NON-NLS-1$
+    "<UNICODERANGE>", //$NON-NLS-1$
+    "<FUNCTION>", //$NON-NLS-1$
+    "<UNKNOWN>", //$NON-NLS-1$
   };
 
 }

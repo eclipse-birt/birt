@@ -20,8 +20,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.IImageItemContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
+import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/11 06:46:52 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/11 07:53:12 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -77,7 +77,7 @@ public class TextItemExecutor extends StyledItemExecutor
 		{
 			rs.next( );
 		}
-		ITextContent textContent = ContentFactory.createTextContent( textItem );
+		TextItemContent textContent = (TextItemContent)ContentFactory.createTextContent( textItem );
 
 		setStyles( textContent, item );
 		setVisibility( item, textContent );
@@ -148,20 +148,20 @@ public class TextItemExecutor extends StyledItemExecutor
 	 *            the text item content used to store the image if possible.
 	 */
 	private void evaluateEmbeddedExpression( Node node, TextItemDesign text,
-			ITextContent content, HTMLProcessor htmlProcessor )
+			TextItemContent content, HTMLProcessor htmlProcessor )
 	{
 		if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 		{
 			Element ele = (Element) node;
-			if ( node.getNodeName( ).equals( "img" ) )
+			if ( node.getNodeName( ).equals( "img" ) ) //$NON-NLS-1$
 			{
-				String src = ele.getAttribute( "src" );
+				String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 				if ( FileUtil.isLocalResource( src ) )
 				{
 					src = FileUtil.getAbsolutePath( context.getReport( )
 							.getBasePath( ), src );
-					ele.removeAttribute( "src" );
-					IImageItemContent imgContent = ContentFactory
+					ele.removeAttribute( "src" ); //$NON-NLS-1$
+					ImageItemContent imgContent = (ImageItemContent)ContentFactory
 							.createImageContent( null );
 					content.addImageContent( node, imgContent );
 					imgContent.setImageSource( ImageItemDesign.IMAGE_FILE );
@@ -170,7 +170,7 @@ public class TextItemExecutor extends StyledItemExecutor
 							FileUtil.SEPARATOR_PATH ) );
 				}
 			}
-			else if ( node.getNodeName( ).equals( "value-of" ) )
+			else if ( node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$
 			{
 				String strExpr = node.getFirstChild( ).getNodeValue( );
 				IBaseExpression expr = text.getExpression( strExpr );
@@ -186,11 +186,11 @@ public class TextItemExecutor extends StyledItemExecutor
 				if ( value != null )
 				{
 					String format = ( (Element) ( node ) )
-							.getAttribute( "format" );
+							.getAttribute( "format" ); //$NON-NLS-1$
 
 					//TODO Only the type string and blob are done in the format
 					// of HTML, or else only string type.
-					if ( "html".equals( format ) )
+					if ( "html".equals( format ) ) //$NON-NLS-1$
 					{
 						//parse the value to get the DOM tree
 						Document doc = null;
@@ -199,12 +199,12 @@ public class TextItemExecutor extends StyledItemExecutor
 						{
 							byte[] blob = (byte[]) value;
 							doc = new TextParser( ).parse(
-									new ByteArrayInputStream( blob ), "html" );
+									new ByteArrayInputStream( blob ), "html" ); //$NON-NLS-1$
 						}
 						else
 						{
 							doc = new TextParser( ).parse( value.toString( ),
-									"html" );
+									"html" ); //$NON-NLS-1$
 						}
 
 						if ( doc != null )
@@ -242,11 +242,11 @@ public class TextItemExecutor extends StyledItemExecutor
 							{
 
 								( (Element) ( textDoc.getFirstChild( ) ) )
-										.setAttribute( "text-type",
+										.setAttribute( "text-type", //$NON-NLS-1$
 												TextParser.TEXT_TYPE_PLAIN );
 							}
 
-							appendedNode = textDoc.createElement( "body" );
+							appendedNode = textDoc.createElement( "body" ); //$NON-NLS-1$
 							textDoc.appendChild( appendedNode );
 							appendedNode
 									.appendChild( textDoc
@@ -259,7 +259,7 @@ public class TextItemExecutor extends StyledItemExecutor
 							logger
 									.log(
 											Level.SEVERE,
-											"[TextItemExecutor] Fails to create document for value-of",
+											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
 						}
 						catch ( FactoryConfigurationError e )
@@ -267,7 +267,7 @@ public class TextItemExecutor extends StyledItemExecutor
 							logger
 									.log(
 											Level.SEVERE,
-											"[TextItemExecutor] Fails to create document for value-of",
+											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
 						}
 					}
@@ -275,15 +275,15 @@ public class TextItemExecutor extends StyledItemExecutor
 				return;
 
 			}
-			else if ( node.getNodeName( ).equals( "image" ) )
+			else if ( node.getNodeName( ).equals( "image" ) ) //$NON-NLS-1$
 			{
 
-				IImageItemContent image = ContentFactory
+				ImageItemContent image = (ImageItemContent)ContentFactory
 						.createImageContent( null );
 
 				//Get the image content
-				String imageType = ( (Element) ( node ) ).getAttribute( "type" );
-				if ( "expr".equalsIgnoreCase( imageType ) )
+				String imageType = ( (Element) ( node ) ).getAttribute( "type" ); //$NON-NLS-1$
+				if ( "expr".equalsIgnoreCase( imageType ) ) //$NON-NLS-1$
 				{
 					image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
 					//The image is from data source
@@ -300,7 +300,7 @@ public class TextItemExecutor extends StyledItemExecutor
 				else
 				{
 					//The image is an embedded one.
-					String name = ( (Element) ( node ) ).getAttribute( "name" );
+					String name = ( (Element) ( node ) ).getAttribute( "name" ); //$NON-NLS-1$
 					EmbeddedImage embeddedImage = context.getReport( )
 							.getReportDesign( ).findImage( name );
 					if ( embeddedImage != null )
@@ -326,8 +326,8 @@ public class TextItemExecutor extends StyledItemExecutor
 						Document imgDoc;
 						imgDoc = DocumentBuilderFactory.newInstance( )
 								.newDocumentBuilder( ).newDocument( );
-						Element body = imgDoc.createElement( "body" );
-						Element imgNode = imgDoc.createElement( "img" );
+						Element body = imgDoc.createElement( "body" ); //$NON-NLS-1$
+						Element imgNode = imgDoc.createElement( "img" ); //$NON-NLS-1$
 
 						content.addImageContent( imgNode, image );
 						// add image node to DOM tree
@@ -342,7 +342,7 @@ public class TextItemExecutor extends StyledItemExecutor
 						logger
 								.log(
 										Level.SEVERE,
-										"[TextItemExecutor] Fails to create document for img",
+										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
 					}
 					catch ( FactoryConfigurationError e )
@@ -350,14 +350,14 @@ public class TextItemExecutor extends StyledItemExecutor
 						logger
 								.log(
 										Level.SEVERE,
-										"[TextItemExecutor] Fails to create document for img",
+										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
 					}
 				}
 				else
 				{
 					logger.log( Level.SEVERE,
-							"can't handle image element in HTML" );
+							"can't handle image element in HTML" ); //$NON-NLS-1$
 				}
 
 				return;

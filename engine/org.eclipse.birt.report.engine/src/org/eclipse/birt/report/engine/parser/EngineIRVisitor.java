@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/03/04 03:22:06 $
+ * @version $Revision: 1.12 $ $Date: 2005/03/11 07:53:12 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -194,7 +194,7 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
 		report.setUnit( handle.getDefaultUnits( ) );
-		if ( handle.getBase( ) != null && !handle.getBase( ).equals( "" ) )
+		if ( handle.getBase( ) != null && !handle.getBase( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			report.setBasePath( handle.getBase( ) );
 		}
@@ -1067,7 +1067,7 @@ class EngineIRVisitor extends DesignVisitor
 				//the style is a new style, we need create a unique name for
 				// it, and
 				//add it into the report's style list.
-				style.setName( "style_" + report.getStyleCount( ) );
+				style.setName( "style_" + report.getStyleCount( ) ); //$NON-NLS-1$
 				report.addStyle( style );
 			}
 
@@ -1248,11 +1248,11 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		HighlightDesign highlight = new HighlightDesign( );
 
-		if ( expr != null && ( !"".equals( expr ) ) )
+		if ( expr != null && ( !"".equals( expr ) ) ) //$NON-NLS-1$
 		{
 			highlight.setTestExpression( expr );
 		}
-		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) )
+		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) ) //$NON-NLS-1$
 		{
 			highlight.setTestExpression( defaultStr );
 		}
@@ -1311,11 +1311,11 @@ class EngineIRVisitor extends DesignVisitor
 		MapDesign map = new MapDesign( );
 
 		String expr = (String) handle.getMapTestExpr( );
-		if ( expr != null && ( !"".equals( expr ) ) )
+		if ( expr != null && ( !"".equals( expr ) ) ) //$NON-NLS-1$
 		{
 			map.setTestExpression( expr );
 		}
-		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) )
+		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) ) //$NON-NLS-1$
 		{
 			map.setTestExpression( defaultStr );
 		}

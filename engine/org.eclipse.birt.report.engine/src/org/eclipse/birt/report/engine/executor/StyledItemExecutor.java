@@ -17,9 +17,9 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.content.IReportItemContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.IStyledElementContent;
+import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.StyledElementContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -70,7 +70,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param design
 	 *            the original design object.
 	 */
-	protected void setStyles( IStyledElementContent content,
+	protected void setStyles( StyledElementContent content,
 			StyledElementDesign design )
 	{
 		StyleDesign style = design.getStyle( );
@@ -413,7 +413,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param content
 	 *            The <code>RowContent</code> object.
 	 */
-	protected void setVisibility( RowDesign design, IRowContent content )
+	protected void setVisibility( RowDesign design, RowContent content )
 	{
 		setVisibility( design.getVisibility( ), content, null );
 	}
@@ -427,7 +427,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            The <code>ReportItemContent</code> object.
 	 */
 	protected void setVisibility( ReportItemDesign design,
-			IReportItemContent content )
+			ReportItemContent content )
 	{
 		Expression defaultExpr = null;
 		if ( design instanceof DataItemDesign )
@@ -449,7 +449,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the default expression if there is not expression in the rule
 	 */
 	private void setVisibility( VisibilityDesign visibility,
-			IStyledElementContent content, Expression defaultExpression )
+			StyledElementContent content, Expression defaultExpression )
 	{
 		if ( visibility != null )
 		{

@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
  */
 class ReportDesignWriter
 {
@@ -90,10 +90,10 @@ class ReportDesignWriter
 		private void writeReportItem( ReportItemDesign item )
 		{
 			writeStyledElement( item );
-			attribute( "x", item.getX( ) );
-			attribute( "y", item.getY( ) );
-			attribute( "width", item.getWidth( ) );
-			attribute( "height", item.getHeight( ) );
+			attribute( "x", item.getX( ) ); //$NON-NLS-1$
+			attribute( "y", item.getY( ) ); //$NON-NLS-1$
+			attribute( "width", item.getWidth( ) ); //$NON-NLS-1$
+			attribute( "height", item.getHeight( ) ); //$NON-NLS-1$
 			/*if ( item.getDataSet( ) != null )
 			{
 				attribute( "dataset", item.getDataSet( ).getName( ) );
@@ -113,7 +113,7 @@ class ReportDesignWriter
 			{
 				if ( item.getStyle( ) != null )
 				{
-					attribute( "style", item.getStyle( ).getName( ) );
+					attribute( "style", item.getStyle( ).getName( ) ); //$NON-NLS-1$
 				}
 			}
 		}
@@ -126,8 +126,8 @@ class ReportDesignWriter
 		 */
 		private void writeReportElement( ReportElementDesign elem )
 		{
-			attribute( "name", elem.getName( ) );
-			attribute( "extends", elem.getExtends( ) );
+			attribute( "name", elem.getName( ) ); //$NON-NLS-1$
+			attribute( "extends", elem.getExtends( ) ); //$NON-NLS-1$
 		}
 
 		/**
@@ -138,9 +138,9 @@ class ReportDesignWriter
 		public void writeReport( Report report, boolean hasStyle )
 		{
 			this.hasStyle = hasStyle;
-			out.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
-			pushTag( "report" );
-			attribute( "units", report.getUnit( ) );
+			out.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ); //$NON-NLS-1$
+			pushTag( "report" ); //$NON-NLS-1$
+			attribute( "units", report.getUnit( ) ); //$NON-NLS-1$
 			/*if ( report.getDataSourceCount( ) > 0 )
 			{
 				pushTag( "data-sources" );
@@ -162,7 +162,7 @@ class ReportDesignWriter
 */
 			if ( hasStyle && report.getStyleCount( ) > 0 )
 			{
-				pushTag( "styles" );
+				pushTag( "styles" ); //$NON-NLS-1$
 				for ( int i = 0; i < report.getStyleCount( ); i++ )
 				{
 					writeStyle( report.getStyle( i ) );
@@ -174,7 +174,7 @@ class ReportDesignWriter
 
 			if ( report.getContentCount( ) > 0 )
 			{
-				pushTag( "body" );
+				pushTag( "body" ); //$NON-NLS-1$
 				for ( int i = 0; i < report.getContentCount( ); i++ )
 				{
 					report.getContent( i ).accept( this );
@@ -235,7 +235,7 @@ class ReportDesignWriter
 		 */
 		private void writePageSetup( PageSetupDesign pageSetup )
 		{
-			pushTag( "page-setup" );
+			pushTag( "page-setup" ); //$NON-NLS-1$
 			for ( int i = 0; i < pageSetup.getMasterPageCount( ); i++ )
 			{
 				writeMasterPage( pageSetup.getMasterPage( i ) );
@@ -291,26 +291,26 @@ class ReportDesignWriter
 		private void writeBaseMasterPage( MasterPageDesign page )
 		{
 			writeStyledElement( page );
-			attribute( "type", page.getPageType( ) );
-			attribute( "width", page.getPageWidth( ) );
-			attribute( "height", page.getPageHeight( ) );
-			attribute( "orientation", page.getOrientation( ) );
-			attribute( "top-marign", page.getTopMargin( ) );
-			attribute( "bottom-marign", page.getBottomMargin( ) );
-			attribute( "left-marign", page.getLeftMargin( ) );
-			attribute( "right-marign", page.getRightMargin( ) );
+			attribute( "type", page.getPageType( ) ); //$NON-NLS-1$
+			attribute( "width", page.getPageWidth( ) ); //$NON-NLS-1$
+			attribute( "height", page.getPageHeight( ) ); //$NON-NLS-1$
+			attribute( "orientation", page.getOrientation( ) ); //$NON-NLS-1$
+			attribute( "top-marign", page.getTopMargin( ) ); //$NON-NLS-1$
+			attribute( "bottom-marign", page.getBottomMargin( ) ); //$NON-NLS-1$
+			attribute( "left-marign", page.getLeftMargin( ) ); //$NON-NLS-1$
+			attribute( "right-marign", page.getRightMargin( ) ); //$NON-NLS-1$
 		}
 
 		private void writeGraphicMasterPage( GraphicMasterPageDesign page )
 		{
-			pushTag( "graphic-master-page" );
+			pushTag( "graphic-master-page" ); //$NON-NLS-1$
 
 			writeBaseMasterPage( page );
 
-			attribute( "columns", page.getColumns( ) );
-			attribute( "column-spacing", page.getColumnSpacing( ) );
+			attribute( "columns", page.getColumns( ) ); //$NON-NLS-1$
+			attribute( "column-spacing", page.getColumnSpacing( ) ); //$NON-NLS-1$
 
-			pushTag( "contents" );
+			pushTag( "contents" ); //$NON-NLS-1$
 
 			Iterator iter = page.getContents( ).iterator( );
 			while ( iter.hasNext( ) )
@@ -324,21 +324,21 @@ class ReportDesignWriter
 
 		private void writeSimpleMasterPage( SimpleMasterPageDesign page )
 		{
-			pushTag( "simple-master-page" );
+			pushTag( "simple-master-page" ); //$NON-NLS-1$
 
 			writeBaseMasterPage( page );
 
-			attribute( "show-header-on-first", page.isShowHeaderOnFirst( ) );
-			attribute( "show-footer-on-last", page.isShowFooterOnLast( ) );
-			attribute( "floating-footer", page.isFloatingFooter( ) );
-			pushTag( "header" );
+			attribute( "show-header-on-first", page.isShowHeaderOnFirst( ) ); //$NON-NLS-1$
+			attribute( "show-footer-on-last", page.isShowFooterOnLast( ) ); //$NON-NLS-1$
+			attribute( "floating-footer", page.isFloatingFooter( ) ); //$NON-NLS-1$
+			pushTag( "header" ); //$NON-NLS-1$
 			for ( int i = 0; i < page.getHeaderCount( ); i++ )
 			{
 				page.getHeader( i ).accept( this );
 			}
 			popTag( );
 
-			pushTag( "footer" );
+			pushTag( "footer" ); //$NON-NLS-1$
 			for ( int i = 0; i < page.getFooterCount( ); i++ )
 			{
 				page.getFooter( i ).accept( this );
@@ -358,7 +358,7 @@ class ReportDesignWriter
 		{
 			if ( style != null )
 			{
-				pushTag( "style" );
+				pushTag( "style" ); //$NON-NLS-1$
 				writeReportElement( style );
 				Iterator iter = style.entrySet( ).iterator( );
 				while ( iter.hasNext( ) )
@@ -372,52 +372,52 @@ class ReportDesignWriter
 
 		void writeListGroup( ListGroupDesign group )
 		{
-			pushTag( "group" );
+			pushTag( "group" ); //$NON-NLS-1$
 			
 			if ( group.getHeader( ) != null )
 			{
-				writeListBand( "header", group.getHeader( ) );
+				writeListBand( "header", group.getHeader( ) ); //$NON-NLS-1$
 			}
 			if ( group.getFooter( ) != null )
 			{
-				writeListBand( "footer", group.getFooter( ) );
+				writeListBand( "footer", group.getFooter( ) ); //$NON-NLS-1$
 			}
 			popTag( );
 		}
 
 		void writeTableGroup( TableGroupDesign group )
 		{
-			pushTag( "group" );
+			pushTag( "group" ); //$NON-NLS-1$
 			
 			if ( group.getHeader( ) != null )
 			{
-				writeTableBand( "header", group.getHeader( ) );
+				writeTableBand( "header", group.getHeader( ) ); //$NON-NLS-1$
 			}
 			if ( group.getFooter( ) != null )
 			{
-				writeTableBand( "footer", group.getFooter( ) );
+				writeTableBand( "footer", group.getFooter( ) ); //$NON-NLS-1$
 			}
 			popTag( );
 		}
 
 		public void visitTextItem( TextItemDesign text )
 		{
-			pushTag( "text" );
+			pushTag( "text" ); //$NON-NLS-1$
 			writeReportItem( text );
-			attribute( "content-type", text.getTextType( ) );
-			attribute( "resource-key", text.getTextKey( ) );
+			attribute( "content-type", text.getTextType( ) ); //$NON-NLS-1$
+			attribute( "resource-key", text.getTextKey( ) ); //$NON-NLS-1$
 			text( text.getText( ) );
 			popTag( );
 		}
 
 		public void visitMultiLineItem( MultiLineItemDesign multiLine )
 		{
-			pushTag( "multi-line" );
+			pushTag( "multi-line" ); //$NON-NLS-1$
 			writeReportItem( multiLine );
-			pushTag( "content-type" );
+			pushTag( "content-type" ); //$NON-NLS-1$
 			text( multiLine.getContentType( ).getExpr( ) );
 			popTag( );
-			pushTag( "content" );
+			pushTag( "content" ); //$NON-NLS-1$
 			text( multiLine.getContent( ).getExpr( ) );
 			popTag( );
 			popTag( );
@@ -426,11 +426,11 @@ class ReportDesignWriter
 
 		public void visitListItem( ListItemDesign list )
 		{
-			pushTag( "list" );
+			pushTag( "list" ); //$NON-NLS-1$
 			writeReportItem( list );
 			if ( list.getHeader( ) != null )
 			{
-				writeListBand( "header", list.getHeader( ) );
+				writeListBand( "header", list.getHeader( ) ); //$NON-NLS-1$
 			}
 			for ( int i = 0; i < list.getGroupCount( ); i++ )
 			{
@@ -438,18 +438,18 @@ class ReportDesignWriter
 			}
 			if ( list.getDetail( ) != null )
 			{
-				writeListBand( "detail", list.getDetail( ) );
+				writeListBand( "detail", list.getDetail( ) ); //$NON-NLS-1$
 			}
 			if ( list.getFooter( ) != null )
 			{
-				writeListBand( "footer", list.getFooter( ) );
+				writeListBand( "footer", list.getFooter( ) ); //$NON-NLS-1$
 			}
 			popTag( );
 		}
 
 		public void visitDataItem( DataItemDesign data )
 		{
-			pushTag( "data" );
+			pushTag( "data" ); //$NON-NLS-1$
 			writeReportItem( data );
 			text( data.getValue( ).getExpr( ) );
 			popTag( );
@@ -457,16 +457,16 @@ class ReportDesignWriter
 
 		public void visitLabelItem( LabelItemDesign label )
 		{
-			pushTag( "label" );
+			pushTag( "label" ); //$NON-NLS-1$
 			writeReportItem( label );
-			attribute( "resource-key", label.getTextKey( ) );
+			attribute( "resource-key", label.getTextKey( ) ); //$NON-NLS-1$
 			text( label.getText( ) );
 			popTag( );
 		}
 
 		public void visitGridItem( GridItemDesign grid )
 		{
-			pushTag( "grid" );
+			pushTag( "grid" ); //$NON-NLS-1$
 			writeReportItem( grid );
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
@@ -481,18 +481,18 @@ class ReportDesignWriter
 
 		protected void writeColumn( ColumnDesign column )
 		{
-			pushTag( "column" );
+			pushTag( "column" ); //$NON-NLS-1$
 			writeStyledElement( column );
-			attribute( "repeat", column.getRepeat( ), 1.0 );
-			attribute( "width", column.getWidth( ) );
+			attribute( "repeat", column.getRepeat( ), 1.0 ); //$NON-NLS-1$
+			attribute( "width", column.getWidth( ) ); //$NON-NLS-1$
 			popTag( );
 		}
 
 		protected void writeRow( RowDesign row )
 		{
-			pushTag( "row" );
+			pushTag( "row" ); //$NON-NLS-1$
 			writeStyledElement( row );
-			attribute( "height", row.getHeight( ) );
+			attribute( "height", row.getHeight( ) ); //$NON-NLS-1$
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				writeCell( row.getCell( i ) );
@@ -502,14 +502,14 @@ class ReportDesignWriter
 
 		protected void writeCell( CellDesign cell )
 		{
-			pushTag( "cell" );
+			pushTag( "cell" ); //$NON-NLS-1$
 			writeStyledElement( cell );
-			attribute( "column", cell.getColumn( ) );
-			attribute( "col-span", cell.getColSpan( ), 1.0 );
-			attribute( "row-span", cell.getRowSpan( ), 1.0 );
-			attribute( "height", cell.getHeight( ) );
-			attribute( "width", cell.getWidth( ) );
-			attribute( "drop", cell.getDrop( ) );
+			attribute( "column", cell.getColumn( ) ); //$NON-NLS-1$
+			attribute( "col-span", cell.getColSpan( ), 1.0 ); //$NON-NLS-1$
+			attribute( "row-span", cell.getRowSpan( ), 1.0 ); //$NON-NLS-1$
+			attribute( "height", cell.getHeight( ) ); //$NON-NLS-1$
+			attribute( "width", cell.getWidth( ) ); //$NON-NLS-1$
+			attribute( "drop", cell.getDrop( ) ); //$NON-NLS-1$
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 			{
 				cell.getContent( i ).accept( this );
@@ -519,13 +519,13 @@ class ReportDesignWriter
 
 		public void visitTableItem( TableItemDesign table )
 		{
-			pushTag( "table" );
+			pushTag( "table" ); //$NON-NLS-1$
 			writeReportItem( table );
 
 			if ( table.getCaption( ) != null || table.getCaptionKey( ) != null )
 			{
-				pushTag( "caption" );
-				attribute( "resource-key", table.getCaptionKey( ) );
+				pushTag( "caption" ); //$NON-NLS-1$
+				attribute( "resource-key", table.getCaptionKey( ) ); //$NON-NLS-1$
 				text( table.getCaption( ) );
 				popTag( );
 			}
@@ -537,7 +537,7 @@ class ReportDesignWriter
 
 			if ( table.getHeader( ) != null )
 			{
-				writeTableBand( "header", table.getHeader( ) );
+				writeTableBand( "header", table.getHeader( ) ); //$NON-NLS-1$
 			}
 			for ( int i = 0; i < table.getGroupCount( ); i++ )
 			{
@@ -545,11 +545,11 @@ class ReportDesignWriter
 			}
 			if ( table.getDetail( ) != null )
 			{
-				writeTableBand( "detail", table.getDetail( ) );
+				writeTableBand( "detail", table.getDetail( ) ); //$NON-NLS-1$
 			}
 			if ( table.getFooter( ) != null )
 			{
-				writeTableBand( "footer", table.getFooter( ) );
+				writeTableBand( "footer", table.getFooter( ) ); //$NON-NLS-1$
 			}
 			popTag( );
 
@@ -557,22 +557,22 @@ class ReportDesignWriter
 
 		public void visitImageItem( ImageItemDesign image )
 		{
-			pushTag( "image" );
+			pushTag( "image" ); //$NON-NLS-1$
 			writeReportItem( image );
 			switch ( image.getImageSource( ) )
 			{
 				case ImageItemDesign.IMAGE_NAME :
-					pushTag( "image-name" );
+					pushTag( "image-name" ); //$NON-NLS-1$
 					text( image.getImageName( ) );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_URI :
-					pushTag( "uri" );
+					pushTag( "uri" ); //$NON-NLS-1$
 					text( image.getImageUri( ) );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_FILE :
-					pushTag( "uri" );
+					pushTag( "uri" ); //$NON-NLS-1$
 					text( image.getImageFile( ) );
 					popTag( );
 					break;
@@ -590,16 +590,16 @@ class ReportDesignWriter
 
 		protected void writeAction( ActionDesign action )
 		{
-			pushTag( "action" );
+			pushTag( "action" ); //$NON-NLS-1$
 			switch ( action.getActionType( ) )
 			{
 				case ActionDesign.ACTION_BOOKMARK :
-					pushTag( "bookmark-link" );
+					pushTag( "bookmark-link" ); //$NON-NLS-1$
 					text( action.getBookmark( ).getExpr( ) );
 					popTag( );
 					break;
 				case ActionDesign.ACTION_HYPERLINK :
-					pushTag( "hyperlink" );
+					pushTag( "hyperlink" ); //$NON-NLS-1$
 					text( action.getHyperlink( ).getExpr( ) );
 					popTag( );
 					break;
@@ -612,7 +612,7 @@ class ReportDesignWriter
 
 		public void visitFreeFormItem( FreeFormItemDesign free )
 		{
-			pushTag( "free-form" );
+			pushTag( "free-form" ); //$NON-NLS-1$
 			writeReportItem( free );
 			for ( int i = 0; i < free.getItemCount( ); i++ )
 			{
@@ -626,9 +626,9 @@ class ReportDesignWriter
 		protected void attribute( String name, String value )
 		{
 			assert ( endTag == false );
-			if ( value != null && !"".equals( value ) )
+			if ( value != null && !"".equals( value ) ) //$NON-NLS-1$
 			{
-				out.print( " " + name + "=\"" + value + "\"" );
+				out.print( " " + name + "=\"" + value + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 
@@ -637,7 +637,7 @@ class ReportDesignWriter
 			attribute( name, value, 0.0 );
 		}
 
-		protected DecimalFormat doubleFmt = new DecimalFormat( "##.##" );
+		protected DecimalFormat doubleFmt = new DecimalFormat( "##.##" ); //$NON-NLS-1$
 
 		protected void attribute( String name, double value, double omitValue )
 		{
@@ -649,7 +649,7 @@ class ReportDesignWriter
 
 		protected void attribute( String name, boolean value )
 		{
-			attribute( name, value ? "true" : "false" );
+			attribute( name, value ? "true" : "false" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		protected void attribute( String name, Object value )
@@ -665,23 +665,23 @@ class ReportDesignWriter
 		{
 			if ( endTag == false )
 			{
-				out.println( ">" );
+				out.println( ">" ); //$NON-NLS-1$
 			}
 			indent( );
-			out.print( "<" + tag );
+			out.print( "<" + tag ); //$NON-NLS-1$
 			endTag = false;
 			tagStack.push( tag );
 		}
 
 		protected void text( String text )
 		{
-			if ( text == null || "".equals( text.trim( ) ) )
+			if ( text == null || "".equals( text.trim( ) ) ) //$NON-NLS-1$
 			{
 				return;
 			}
 			if ( endTag == false )
 			{
-				out.println( ">" );
+				out.println( ">" ); //$NON-NLS-1$
 			}
 			endTag = true;
 			indent( );
@@ -694,13 +694,13 @@ class ReportDesignWriter
 			if ( endTag == false )
 			{
 				endTag = true;
-				out.print( ">" );
+				out.print( ">" ); //$NON-NLS-1$
 			}
 			else
 			{
 				indent( );
 			}
-			out.println( "</" + tag + ">" );
+			out.println( "</" + tag + ">" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		}
 
@@ -708,7 +708,7 @@ class ReportDesignWriter
 		{
 			for ( int i = 0; i < tagStack.size( ); i++ )
 			{
-				out.print( "    " );
+				out.print( "    " ); //$NON-NLS-1$
 			}
 		}
 	}

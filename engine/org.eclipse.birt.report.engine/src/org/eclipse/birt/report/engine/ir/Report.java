@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/24 08:29:31 $
  */
 public class Report
 {
@@ -319,7 +319,7 @@ public class Report
 	public void setReportDesign( ReportDesign reportDesign )
 	{
 		this.reportDesign = reportDesign;
-		if ( basePath == null || basePath.equals(""))
+		if ( basePath == null || basePath.equals("")) //$NON-NLS-1$
 		{
 			File file = new File( reportDesign.getFileName( ) );
 			basePath = file.getParent( );

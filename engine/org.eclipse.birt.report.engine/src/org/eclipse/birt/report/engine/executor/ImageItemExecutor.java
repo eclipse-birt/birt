@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.IImageItemContent;
+import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/11 07:53:12 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -83,14 +83,14 @@ public class ImageItemExecutor extends StyledItemExecutor
 		assert item instanceof ImageItemDesign;
 		ImageItemDesign imageItem = (ImageItemDesign) item;
 
-		IReportItemEmitter imageEmitter = emitter.getEmitter( "image" );
+		IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
 		if ( imageEmitter == null )
 		{
 			return;
 		}
 
 		// Initializes
-		IImageItemContent imageContent = ContentFactory
+		ImageItemContent imageContent = (ImageItemContent)ContentFactory
 				.createImageContent( imageItem );
 		imageContent.setHelpText( getLocalizedString( imageItem
 				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
@@ -116,7 +116,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 				try
 				{
 					URL url = new URL( imageFile );
-					if ( url.getProtocol( ).equals( "file" ) )
+					if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 					{
 						imageFile = url.getPath( );
 					}

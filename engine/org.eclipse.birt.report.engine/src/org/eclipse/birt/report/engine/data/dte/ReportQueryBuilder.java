@@ -90,7 +90,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.15 $ $Date: 2005/03/08 22:54:35 $
+ * @version $Revision: 1.16 $ $Date: 2005/03/11 07:53:12 $
  */
 public class ReportQueryBuilder
 {
@@ -878,8 +878,8 @@ public class ReportQueryBuilder
 			String ret = report.getMessage( resourceKey, context.getLocale( ) );
 			if ( ret == null )
 			{
-				logger.log( Level.SEVERE, "get resource error, resource key:" // $NON-NLS-1$
-						+ resourceKey + " Locale:" // $NON-NLS-1$
+				logger.log( Level.SEVERE, "get resource error, resource key:" //$NON-NLS-1$
+						+ resourceKey + " Locale:" //$NON-NLS-1$
 						+ context.getLocale( ).toString( ) );
 				return text;
 			}
@@ -903,7 +903,7 @@ public class ReportQueryBuilder
 			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
 				Element ele = (Element) node;
-				if ( node.getNodeName( ).equals( "value-of" ) ) // $NON-NLS-1$
+				if ( node.getNodeName( ).equals( "value-of" ) ) //$NON-NLS-1$
 				{
 					if ( !text.hasExpression( node.getFirstChild( )
 							.getNodeValue( ) ) )
@@ -918,13 +918,13 @@ public class ReportQueryBuilder
 					}
 
 				}
-				else if ( node.getNodeName( ).equals( "image" ) ) // $NON-NLS-1$
+				else if ( node.getNodeName( ).equals( "image" ) ) //$NON-NLS-1$
 				{
 
 					String imageType = ( (Element) ( node ) )
-							.getAttribute( "type" ); // $NON-NLS-1$
+							.getAttribute( "type" ); //$NON-NLS-1$
 
-					if ( "expr".equals( imageType ) ) // $NON-NLS-1$
+					if ( "expr".equals( imageType ) ) //$NON-NLS-1$
 					{
 						if ( !text.hasExpression( node.getFirstChild( )
 								.getNodeValue( ) ) )
@@ -1202,9 +1202,9 @@ public class ReportQueryBuilder
 		 */
 		protected int parseSortDirection( String direction )
 		{
-			if ( "asc".equals( direction ) ) // $NON-NLS-1$
+			if ( "asc".equals( direction ) ) //$NON-NLS-1$
 				return ISortDefinition.SORT_ASC;
-			if ( "desc".equals( direction ) ) // $NON-NLS-1$
+			if ( "desc".equals( direction ) ) //$NON-NLS-1$
 				return ISortDefinition.SORT_DESC;
 			assert false;
 			return 0;

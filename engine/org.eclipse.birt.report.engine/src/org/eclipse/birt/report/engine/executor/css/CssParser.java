@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 /**
  * Parses the style attribute of the HTML element according to the CSS2.0 grammar  
  *
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/07 03:33:25 $
  */
 public class CssParser implements CssParserConstants {
 
@@ -149,7 +149,7 @@ public class CssParser implements CssParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
   final public Token size() throws ParseException {
@@ -180,7 +180,7 @@ public class CssParser implements CssParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
 /**
@@ -259,7 +259,7 @@ StringBuffer value;
         throw new ParseException();
       }
     } catch (Exception ex) {
-        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex);
+        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex); //$NON-NLS-1$
      skipTo(SEMICOLON);
     }
   }
@@ -269,14 +269,14 @@ StringBuffer value;
  */
   final public void shortHandFont() throws ParseException {
         Token n;
-        String fontFamily = "" ;
+        String fontFamily = "" ; //$NON-NLS-1$
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case FONT_VAL:
         n = jj_consume_token(FONT_VAL);
-                cssProperties.put("font",n.image);
-                cssProperties.put("font-weight","");
-                cssProperties.put("font-style","");
+                cssProperties.put("font",n.image); //$NON-NLS-1$
+                cssProperties.put("font-weight",""); //$NON-NLS-1$ //$NON-NLS-2$
+                cssProperties.put("font-style",""); //$NON-NLS-1$ //$NON-NLS-2$
         break;
       case PERCENTAGE:
       case LENGTH:
@@ -328,13 +328,13 @@ StringBuffer value;
             throw new ParseException();
           }
         }
-                cssProperties.put("font-style",fontStyle);
-                cssProperties.put("font-variant",fontVariant);
-                cssProperties.put("font-weight",fontWeight);
+                cssProperties.put("font-style",fontStyle); //$NON-NLS-1$
+                cssProperties.put("font-variant",fontVariant); //$NON-NLS-1$
+                cssProperties.put("font-weight",fontWeight); //$NON-NLS-1$
         n = size();
                         if(n != null)
                         {
-                                cssProperties.put("font-size",n.image);
+                                cssProperties.put("font-size",n.image); //$NON-NLS-1$
                         }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case DIV:
@@ -342,7 +342,7 @@ StringBuffer value;
           n = size();
                         if(n != null)
                         {
-                                cssProperties.put("line-height",n.image);
+                                cssProperties.put("line-height",n.image); //$NON-NLS-1$
                         }
           break;
         default:
@@ -380,7 +380,7 @@ StringBuffer value;
             break label_3;
           }
           n = jj_consume_token(COMMA);
-                                  fontFamily += "," ;
+                                  fontFamily += "," ; //$NON-NLS-1$
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case IDENT:
             n = jj_consume_token(IDENT);
@@ -402,7 +402,7 @@ StringBuffer value;
             throw new ParseException();
           }
         }
-         cssProperties.put("font-family",fontFamily);
+         cssProperties.put("font-family",fontFamily); //$NON-NLS-1$
         break;
       default:
         jj_la1[12] = jj_gen;
@@ -410,7 +410,7 @@ StringBuffer value;
         throw new ParseException();
       }
     } catch (Exception ex) {
-        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex);
+        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex); //$NON-NLS-1$
     }
   }
 
@@ -426,19 +426,19 @@ StringBuffer value;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COLOR:
           n = jj_consume_token(COLOR);
-                        if( n != null ) cssProperties.put("background-color",n.image);
+                        if( n != null ) cssProperties.put("background-color",n.image); //$NON-NLS-1$
           break;
         case URL:
           n = jj_consume_token(URL);
-                        if( n != null ) cssProperties.put("background-image",n.image);
+                        if( n != null ) cssProperties.put("background-image",n.image); //$NON-NLS-1$
           break;
         case BACKGROUND_REPEAT:
           n = jj_consume_token(BACKGROUND_REPEAT);
-                        if( n != null ) cssProperties.put("background-repeat",n.image);
+                        if( n != null ) cssProperties.put("background-repeat",n.image); //$NON-NLS-1$
           break;
         case BACKGROUND_ATTACHMENT:
           n = jj_consume_token(BACKGROUND_ATTACHMENT);
-                        if( n != null ) cssProperties.put("background-attachment",n.image);
+                        if( n != null ) cssProperties.put("background-attachment",n.image); //$NON-NLS-1$
           break;
         case PERCENTAGE:
         case LENGTH:
@@ -449,8 +449,8 @@ StringBuffer value;
           n = background_position();
                         if( n != null )
                         {
-                                if (cssProperties.get("background-position")==null) cssProperties.put("background-position",n.image);
-                                else cssProperties.put("background-position",(String)cssProperties.get("background-position")+" "+n.image);
+                                if (cssProperties.get("background-position")==null) cssProperties.put("background-position",n.image); //$NON-NLS-1$ //$NON-NLS-2$
+                                else cssProperties.put("background-position",(String)cssProperties.get("background-position")+" "+n.image); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         }
           break;
         default:
@@ -477,7 +477,7 @@ StringBuffer value;
         }
       }
     } catch (Exception ex) {
-        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex);
+        logger.log(Level.SEVERE,"The css statement is:"+cssStatement,ex); //$NON-NLS-1$
     }
   }
 
@@ -492,24 +492,24 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                cssProperties.put("border-top-width",n.image);
-                cssProperties.put("border-right-width",n.image);
-                cssProperties.put("border-bottom-width",n.image);
-                cssProperties.put("border-left-width",n.image);
+                cssProperties.put("border-top-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-right-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-bottom-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-left-width",n.image); //$NON-NLS-1$
         break;
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-top-style",n.image);
-                cssProperties.put("border-right-style",n.image);
-                cssProperties.put("border-bottom-style",n.image);
-                cssProperties.put("border-left-style",n.image);
+                cssProperties.put("border-top-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-right-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-bottom-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
         break;
       case COLOR:
         n = jj_consume_token(COLOR);
-                cssProperties.put("border-top-color",n.image);
-                cssProperties.put("border-right-color",n.image);
-                cssProperties.put("border-bottom-color",n.image);
-                cssProperties.put("border-left-color",n.image);
+                cssProperties.put("border-top-color",n.image); //$NON-NLS-1$
+                cssProperties.put("border-right-color",n.image); //$NON-NLS-1$
+                cssProperties.put("border-bottom-color",n.image); //$NON-NLS-1$
+                cssProperties.put("border-left-color",n.image); //$NON-NLS-1$
         break;
       default:
         jj_la1[15] = jj_gen;
@@ -536,10 +536,10 @@ StringBuffer value;
   final public void shortHandBorderWidth() throws ParseException {
         Token n;
     n = size();
-                cssProperties.put("border-top-width",n.image);
-                cssProperties.put("border-right-width",n.image);
-                cssProperties.put("border-bottom-width",n.image);
-                cssProperties.put("border-left-width",n.image);
+                cssProperties.put("border-top-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-right-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-bottom-width",n.image); //$NON-NLS-1$
+                cssProperties.put("border-left-width",n.image); //$NON-NLS-1$
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PERCENTAGE:
     case LENGTH:
@@ -547,8 +547,8 @@ StringBuffer value;
     case RELATIVE_SIZE:
     case BORDER_WIDTH:
       n = size();
-                        cssProperties.put("border-right-width",n.image);
-                        cssProperties.put("border-left-width",n.image);
+                        cssProperties.put("border-right-width",n.image); //$NON-NLS-1$
+                        cssProperties.put("border-left-width",n.image); //$NON-NLS-1$
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PERCENTAGE:
       case LENGTH:
@@ -556,7 +556,7 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                                cssProperties.put("border-bottom-width",n.image);
+                                cssProperties.put("border-bottom-width",n.image); //$NON-NLS-1$
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PERCENTAGE:
         case LENGTH:
@@ -564,7 +564,7 @@ StringBuffer value;
         case RELATIVE_SIZE:
         case BORDER_WIDTH:
           n = size();
-                                        cssProperties.put("border-left-width",n.image);
+                                        cssProperties.put("border-left-width",n.image); //$NON-NLS-1$
           break;
         default:
           jj_la1[17] = jj_gen;
@@ -585,23 +585,23 @@ StringBuffer value;
   final public void shortHandBorderStyle() throws ParseException {
         Token n;
     n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-top-style",n.image);
-                cssProperties.put("border-right-style",n.image);
-                cssProperties.put("border-bottom-style",n.image);
-                cssProperties.put("border-left-style",n.image);
+                cssProperties.put("border-top-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-right-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-bottom-style",n.image); //$NON-NLS-1$
+                Object object = cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BORDER_STYLE:
       n = jj_consume_token(BORDER_STYLE);
-                        cssProperties.put("border-right-style",n.image);
-                        cssProperties.put("border-left-style",n.image);
+                        cssProperties.put("border-right-style",n.image); //$NON-NLS-1$
+                        cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                                cssProperties.put("border-bottom-style",n.image);
+                                cssProperties.put("border-bottom-style",n.image); //$NON-NLS-1$
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BORDER_STYLE:
           n = jj_consume_token(BORDER_STYLE);
-                                        cssProperties.put("border-left-style",n.image);
+                                        cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
           break;
         default:
           jj_la1[20] = jj_gen;
@@ -630,15 +630,15 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                cssProperties.put("border-top-width",n.image);
+                cssProperties.put("border-top-width",n.image); //$NON-NLS-1$
         break;
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-top-style",n.image);
+                cssProperties.put("border-top-style",n.image); //$NON-NLS-1$
         break;
       case COLOR:
         n = jj_consume_token(COLOR);
-                cssProperties.put("border-top-color",n.image);
+                cssProperties.put("border-top-color",n.image); //$NON-NLS-1$
         break;
       default:
         jj_la1[23] = jj_gen;
@@ -673,15 +673,15 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                cssProperties.put("border-right-width",n.image);
+                cssProperties.put("border-right-width",n.image); //$NON-NLS-1$
         break;
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-right-style",n.image);
+                cssProperties.put("border-right-style",n.image); //$NON-NLS-1$
         break;
       case COLOR:
         n = jj_consume_token(COLOR);
-                cssProperties.put("border-right-color",n.image);
+                cssProperties.put("border-right-color",n.image); //$NON-NLS-1$
         break;
       default:
         jj_la1[25] = jj_gen;
@@ -716,15 +716,15 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                cssProperties.put("border-bottom-width",n.image);
+                cssProperties.put("border-bottom-width",n.image); //$NON-NLS-1$
         break;
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-bottom-style",n.image);
+                cssProperties.put("border-bottom-style",n.image); //$NON-NLS-1$
         break;
       case COLOR:
         n = jj_consume_token(COLOR);
-                cssProperties.put("border-bottom-color",n.image);
+                cssProperties.put("border-bottom-color",n.image); //$NON-NLS-1$
         break;
       default:
         jj_la1[27] = jj_gen;
@@ -759,15 +759,15 @@ StringBuffer value;
       case RELATIVE_SIZE:
       case BORDER_WIDTH:
         n = size();
-                cssProperties.put("border-left-width",n.image);
+                cssProperties.put("border-left-width",n.image); //$NON-NLS-1$
         break;
       case BORDER_STYLE:
         n = jj_consume_token(BORDER_STYLE);
-                cssProperties.put("border-left-style",n.image);
+                cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
         break;
       case COLOR:
         n = jj_consume_token(COLOR);
-                cssProperties.put("border-left-color",n.image);
+                cssProperties.put("border-left-color",n.image); //$NON-NLS-1$
         break;
       default:
         jj_la1[29] = jj_gen;
@@ -811,35 +811,35 @@ StringBuffer value;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
   final public void shortHandMargin() throws ParseException {
         Token n;
     n = getMarginWidth();
-                cssProperties.put("margin-top",n.image);
-                cssProperties.put("margin-right",n.image);
-                cssProperties.put("margin-bottom",n.image);
-                cssProperties.put("margin-left",n.image);
+                cssProperties.put("margin-top",n.image); //$NON-NLS-1$
+                cssProperties.put("margin-right",n.image); //$NON-NLS-1$
+                cssProperties.put("margin-bottom",n.image); //$NON-NLS-1$
+                cssProperties.put("margin-left",n.image); //$NON-NLS-1$
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PERCENTAGE:
     case LENGTH:
     case AUTO:
       n = getMarginWidth();
-                        cssProperties.put("margin-right",n.image);
-                        cssProperties.put("margin-left",n.image);
+                        cssProperties.put("margin-right",n.image); //$NON-NLS-1$
+                        cssProperties.put("margin-left",n.image); //$NON-NLS-1$
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PERCENTAGE:
       case LENGTH:
       case AUTO:
         n = getMarginWidth();
-                                cssProperties.put("margin-bottom",n.image);
+                                cssProperties.put("margin-bottom",n.image); //$NON-NLS-1$
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PERCENTAGE:
         case LENGTH:
         case AUTO:
           n = getMarginWidth();
-                                        cssProperties.put("margin-left",n.image);
+                                        cssProperties.put("margin-left",n.image); //$NON-NLS-1$
           break;
         default:
           jj_la1[32] = jj_gen;
@@ -873,32 +873,32 @@ StringBuffer value;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
   final public void shortHandPadding() throws ParseException {
         Token n;
     n = getPaddingWidth();
-                cssProperties.put("padding-top",n.image);
-                cssProperties.put("padding-right",n.image);
-                cssProperties.put("padding-bottom",n.image);
-                cssProperties.put("padding-left",n.image);
+                cssProperties.put("padding-top",n.image); //$NON-NLS-1$
+                cssProperties.put("padding-right",n.image); //$NON-NLS-1$
+                cssProperties.put("padding-bottom",n.image); //$NON-NLS-1$
+                cssProperties.put("padding-left",n.image); //$NON-NLS-1$
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PERCENTAGE:
     case LENGTH:
       n = getPaddingWidth();
-                        cssProperties.put("padding-right",n.image);
-                        cssProperties.put("padding-left",n.image);
+                        cssProperties.put("padding-right",n.image); //$NON-NLS-1$
+                        cssProperties.put("padding-left",n.image); //$NON-NLS-1$
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PERCENTAGE:
       case LENGTH:
         n = getPaddingWidth();
-                                cssProperties.put("padding-bottom",n.image);
+                                cssProperties.put("padding-bottom",n.image); //$NON-NLS-1$
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PERCENTAGE:
         case LENGTH:
           n = getPaddingWidth();
-                                        cssProperties.put("padding-left",n.image);
+                                        cssProperties.put("padding-left",n.image); //$NON-NLS-1$
           break;
         default:
           jj_la1[36] = jj_gen;
@@ -940,7 +940,7 @@ StringBuffer value;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
 /**
@@ -1005,7 +1005,7 @@ StringBuffer value;
       term(value);
     }
         {if (true) return value;}
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
 /**
@@ -1015,11 +1015,11 @@ StringBuffer value;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DIV:
       jj_consume_token(DIV);
-        if(value.toString().length()>0) value.append("/");
+        if(value.toString().length()>0) value.append("/"); //$NON-NLS-1$
       break;
     case COMMA:
       jj_consume_token(COMMA);
-                 if(value.toString().length()>0) value.append(",");
+                 if(value.toString().length()>0) value.append(","); //$NON-NLS-1$
       break;
     default:
       jj_la1[42] = jj_gen;
@@ -1120,7 +1120,7 @@ StringBuffer value;
         break;
       case DIMEN:
         n = jj_consume_token(DIMEN);
-        logger.log(Level.SEVERE,"Unknown dimension: {0}"+n.image);
+        logger.log(Level.SEVERE,"Unknown dimension: {0}"+n.image); //$NON-NLS-1$
         break;
       case FUNCTION:
         func = function();
@@ -1234,7 +1234,7 @@ StringBuffer value;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
         /**
@@ -1246,8 +1246,8 @@ StringBuffer value;
     n = jj_consume_token(FUNCTION);
     exp = expr();
     jj_consume_token(LPARAN);
-                {if (true) return n.image+exp.toString()+")";}
-    throw new Error("Missing return statement in function");
+                {if (true) return n.image+exp.toString()+")";} //$NON-NLS-1$
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
         /**
@@ -1349,7 +1349,7 @@ StringBuffer value;
                                 }
                                 else
                                 {
-                                        throw new ParseException( "invalid string" );
+                                        throw new ParseException( "invalid string" ); //$NON-NLS-1$
                                 }
                         }
                         else

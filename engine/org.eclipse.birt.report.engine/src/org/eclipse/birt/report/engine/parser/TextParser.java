@@ -36,18 +36,18 @@ import org.w3c.dom.Element;
  * nodes that need to be processed are descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/11 07:53:12 $
  */
 public class TextParser
 {
 
-	public static String TEXT_TYPE_AUTO = "auto"; // $NON-NLS-1$
-	public static String TEXT_TYPE_PLAIN = "plain"; // $NON-NLS-1$
-	public static String TEXT_TYPE_HTML = "html"; // $NON-NLS-1$
-	public static String TEXT_TYPE_RTF = "rtf"; // $NON-NLS-1$
+	public static String TEXT_TYPE_AUTO = "auto"; //$NON-NLS-1$
+	public static String TEXT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
+	public static String TEXT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static String TEXT_TYPE_RTF = "rtf"; //$NON-NLS-1$
 
-	public static String HTML_PREFIX = "<html>"; // $NON-NLS-1$
-	public static String RTF_PREFIX = "\\rtf"; // $NON-NLS-1$
+	public static String HTML_PREFIX = "<html>"; //$NON-NLS-1$
+	public static String RTF_PREFIX = "\\rtf"; //$NON-NLS-1$
 
 	/**
 	 * logs syntax errors.
@@ -137,7 +137,7 @@ public class TextParser
 				&& doc.getFirstChild( ) instanceof Element )
 		{
 
-			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type",
+			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type", //$NON-NLS-1$
 					textType );
 		}
 
@@ -235,7 +235,7 @@ public class TextParser
 				&& doc.getFirstChild( ) instanceof Element )
 		{
 
-			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type",
+			( (Element) ( doc.getFirstChild( ) ) ).setAttribute( "text-type", //$NON-NLS-1$
 					textType );
 		}
 

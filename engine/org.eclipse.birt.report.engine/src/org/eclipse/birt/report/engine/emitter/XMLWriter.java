@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/04 07:32:26 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/11 07:53:12 $
  */
 public class XMLWriter
 {
@@ -266,7 +266,7 @@ public class XMLWriter
 	 */
 	public void attribute( String attrName, int attrValue )
 	{
-		printWriter.print( ' ' + attrName + "=\""
+		printWriter.print( ' ' + attrName + "=\"" //$NON-NLS-1$
 				+ Integer.toString( attrValue ) + '\"' ); //$NON-NLS-1$
 	}
 
@@ -331,7 +331,7 @@ public class XMLWriter
 	{
 		if ( !bIndent )
 		{
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		StringBuffer indentContent = new StringBuffer( 64 );
 		for ( int i = 0; i < indentCount; i++ )
@@ -363,9 +363,9 @@ public class XMLWriter
 					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
 			{
 				//Ignores the illegal character.
-				replacement = "";
+				replacement = ""; //$NON-NLS-1$
 				log.log( Level.WARNING,
-						"Ignore the illegal XML character: 0x{0};", Integer
+						"Ignore the illegal XML character: 0x{0};", Integer //$NON-NLS-1$
 								.toHexString( c ) );
 			}
 			else if ( c == '&' )

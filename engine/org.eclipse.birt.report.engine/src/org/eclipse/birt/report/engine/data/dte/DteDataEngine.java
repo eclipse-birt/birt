@@ -44,17 +44,17 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
  */
 public class DteDataEngine implements IDataEngine
 {
 
 	/** Used for registering the test expression */
-	private static String TEST_EXPRESSION = "test_expression";
+	private static String TEST_EXPRESSION = "test_expression"; //$NON-NLS-1$
 	/** Used for registering the first value expression of the rule */
-	private static String VALUE1 = "value1";
+	private static String VALUE1 = "value1"; //$NON-NLS-1$
 	/** Used for registering the second value expression of the rule */
-	private static String VALUE2 = "value2";
+	private static String VALUE2 = "value2"; //$NON-NLS-1$
 	/**
 	 * The first element is uni-operator and the second needs to be added
 	 * following the test expression
@@ -63,8 +63,8 @@ public class DteDataEngine implements IDataEngine
 	private final static int[] uniOperator = new int[]{
 			IConditionalExpression.OP_NULL, IConditionalExpression.OP_NOT_NULL,
 			IConditionalExpression.OP_TRUE, IConditionalExpression.OP_FALSE};
-	private final static String[] uniOperatorStr = new String[]{"== null",
-			"!= null", "==true", "==false"};
+	private final static String[] uniOperatorStr = new String[]{"== null", //$NON-NLS-1$
+			"!= null", "==true", "==false"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	/**
 	 * The first element is bi-operator and the second is placed between the two
@@ -75,8 +75,8 @@ public class DteDataEngine implements IDataEngine
 			IConditionalExpression.OP_LT, IConditionalExpression.OP_LE,
 			IConditionalExpression.OP_EQ, IConditionalExpression.OP_NE,
 			IConditionalExpression.OP_GE, IConditionalExpression.OP_GT};
-	private static String[] biOperatorStr = new String[]{"<", "<=", "==", "!=",
-			">=", ">"};
+	private static String[] biOperatorStr = new String[]{"<", "<=", "==", "!=", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			">=", ">"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * execution context
@@ -121,7 +121,7 @@ public class DteDataEngine implements IDataEngine
 		this.context = context;
 		
 		// TODO: Use Birt.Core config file support
-		String odaDriver = System.getProperty( "odadriver" );
+		String odaDriver = System.getProperty( "odadriver" ); //$NON-NLS-1$
 		
 		File file;
 		if ( odaDriver != null )
@@ -129,13 +129,13 @@ public class DteDataEngine implements IDataEngine
 			file = new File( odaDriver );
 			if ( !file.exists( ) || !file.isDirectory( ) )
 			{
-				file = new File( "." );
-				logger.log( Level.SEVERE, "the direcotory: {0} is not exist! use current path as it.", odaDriver );
+				file = new File( "." ); //$NON-NLS-1$
+				logger.log( Level.SEVERE, "the direcotory: {0} is not exist! use current path as it.", odaDriver ); //$NON-NLS-1$
 			}
 		}
 		else
 		{
-			file = new File( "." );
+			file = new File( "." ); //$NON-NLS-1$
 		}
 		engine = DataEngine.newDataEngine( context.getScope( ), file );
 	}
@@ -426,8 +426,8 @@ public class DteDataEngine implements IDataEngine
 		}
 		if ( IConditionalExpression.OP_LIKE == operator )
 		{
-			Object ret =  context.evaluate( "(" + TEST_EXPRESSION
-					+ ").match(" + VALUE1 + ")!=null" );
+			Object ret =  context.evaluate( "(" + TEST_EXPRESSION //$NON-NLS-1$
+					+ ").match(" + VALUE1 + ")!=null" );  //$NON-NLS-1$//$NON-NLS-2$
 			context.exitScope();
 			return ret;
 		}
@@ -442,19 +442,19 @@ public class DteDataEngine implements IDataEngine
 
 		if ( IConditionalExpression.OP_BETWEEN == operator )
 		{
-			Object ret =  context.evaluate("(" + TEST_EXPRESSION + " >= " + VALUE1 + ") && ("
-					+ TEST_EXPRESSION + " <= " + VALUE2 + ")");
+			Object ret =  context.evaluate("(" + TEST_EXPRESSION + " >= " + VALUE1 + ") && (" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					+ TEST_EXPRESSION + " <= " + VALUE2 + ")");  //$NON-NLS-1$//$NON-NLS-2$
 			context.exitScope();
 			return ret;
 		}
 		else if ( IConditionalExpression.OP_NOT_BETWEEN == operator )
 		{
-			Object ret = context.evaluate("(" + TEST_EXPRESSION + " < " + VALUE1 + ") || ("
-					+ TEST_EXPRESSION + " > " + VALUE2 + ")");
+			Object ret = context.evaluate("(" + TEST_EXPRESSION + " < " + VALUE1 + ") || (" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					+ TEST_EXPRESSION + " > " + VALUE2 + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			context.exitScope();
 			return ret;
 		}
-		logger.log( Level.SEVERE, "Invalid operator: " + operator );
+		logger.log( Level.SEVERE, "Invalid operator: " + operator ); //$NON-NLS-1$
 		context.exitScope();
 		return new Boolean(false);
 	}

@@ -21,7 +21,8 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IExtendedItemContent;
-import org.eclipse.birt.report.engine.content.IImageItemContent;
+import org.eclipse.birt.report.engine.content.impl.ExtendedItemContent;
+import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.extension.ExtensionManager;
@@ -127,7 +128,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			HashMap parameters2 = new HashMap( );
 			parameters2.put( IReportItemPresentation.MODEL_OBJ, handle );
 			parameters2.put( IReportItemPresentation.SUPPORTED_FILE_FORMATS,
-					"GIF;PNG;JPG;BMP" ); // $NON-NLS-1$
+					"GIF;PNG;JPG;BMP" ); //$NON-NLS-1$
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemPresentation.initialize( parameters2 );
 	
@@ -141,7 +142,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			{
 				//output the content created by IReportItemPresentation
 				String format = emitter.getOutputFormat( );
-				String mimeType = ""; // $NON-NLS-1$
+				String mimeType = ""; //$NON-NLS-1$
 				int type = itemPresentation.getOutputType( format, mimeType );
 				handleItemContent(item, emitter, content, type, output);
 			}
@@ -174,7 +175,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			case IReportItemPresentation.OUTPUT_AS_IMAGE :
 				// the output object is a image, so create a image content
 				// object
-				IImageItemContent image = ContentFactory.createImageContent( item );
+				ImageItemContent image = (ImageItemContent)ContentFactory.createImageContent( item );
 				if (output instanceof InputStream)
 				{
 					image.setData(readContent((InputStream)output));
@@ -186,11 +187,11 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				else
 				{
 					assert false;
-					logger.log( Level.SEVERE,"unsupport image type:{0}", output);
+					logger.log( Level.SEVERE,"unsupport image type:{0}", output); //$NON-NLS-1$
 
 				}
 				image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
-				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); // $NON-NLS-1$
+				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" );  //$NON-NLS-1$
 				if ( imageEmitter != null )
 				{
 					imageEmitter.start( image );
@@ -198,10 +199,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				}
 				break;
 			case IReportItemPresentation.OUTPUT_AS_CUSTOM :
-				content.setContent( output );
+				((ExtendedItemContent)content).setContent( output );
 				//get the emmiter type, and give it to others type
 				IReportItemEmitter itemEmitter = emitter
-						.getEmitter( "extendedItem" ); // $NON-NLS-1$
+						.getEmitter( "extendedItem" ); //$NON-NLS-1$
 				if ( itemEmitter != null )
 				{
 					itemEmitter.start( content );

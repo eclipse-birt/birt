@@ -124,7 +124,7 @@ public class ModelDteApiAdapter
         String driverName = source.getDriverName();
         if ( driverName == null || driverName.length() == 0 )
         {
-            throw new EngineException( "Missing driverName in data source definition, " + source.getName() );
+            throw new EngineException( "Missing driverName in data source definition, " + source.getName() ); //$NON-NLS-1$
         }
         dteSource.setDriverName( driverName );
 

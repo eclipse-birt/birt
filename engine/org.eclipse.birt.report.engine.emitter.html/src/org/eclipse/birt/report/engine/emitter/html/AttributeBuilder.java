@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/24 05:32:13 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/11 07:52:51 $
  */
 public class AttributeBuilder
 {
@@ -38,12 +38,12 @@ public class AttributeBuilder
 		if ( x != null || y != null )
 		{
 			content.append( "position: relative;" ); //$NON-NLS-1$
-			buildSize( content, "left", x ); //$NON-NLS-1$
-			buildSize( content, "top", y ); //$NON-NLS-1$
+			buildSize( content, HTMLTags.ATTR_LEFT, x ); 
+			buildSize( content, HTMLTags.ATTR_TOP, y ); 
 		}
 
-		buildSize( content, "width", width ); //$NON-NLS-1$
-		buildSize( content, "height", height ); //$NON-NLS-1$
+		buildSize( content,HTMLTags. ATTR_WIDTH, width ); 
+		buildSize( content, HTMLTags.ATTR_HEIGHT, height ); 
 
 		return content.toString( );
 	}
@@ -91,8 +91,8 @@ public class AttributeBuilder
 	{
 		// move display property from css file to html file
 		// buildProperty( content, "display", style.getDisplay( ) );
-		buildProperty( content, "vertical-align", style.getVerticalAlign( ) ); //$NON-NLS-1$
-		buildProperty( content, "line-height", style.getLineHeight( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_VERTICAL_ALIGN, style.getVerticalAlign( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_LINE_HEIGHT, style.getLineHeight( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -105,11 +105,11 @@ public class AttributeBuilder
 	 */
 	private static void buildPagedMedia( StringBuffer content, StyleDesign style )
 	{
-		buildProperty( content, "orphans", style.getOrphans( ) ); //$NON-NLS-1$
-		buildProperty( content, "widows", style.getWidows( ) ); //$NON-NLS-1$
-		buildProperty( content, "page-break-before", style.getPageBreakBefore( ) ); //$NON-NLS-1$
-		buildProperty( content, "page-break-after", style.getPageBreakAfter( ) ); //$NON-NLS-1$
-		buildProperty( content, "page-break-inside", style.getPageBreakInside( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) ); 
+		buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style.getPageBreakBefore( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style.getPageBreakAfter( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style.getPageBreakInside( ) );
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class AttributeBuilder
 	private static void buildBackground( StringBuffer content,
 			StyleDesign style, HTMLReportEmitter emitter )
 	{
-		buildProperty( content, "color", style.getColor( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) ); //$NON-NLS-1$
 
 		String color = style.getBackgroundColor( );
 		String image = style.getBackgroundImage( );
@@ -135,7 +135,7 @@ public class AttributeBuilder
 		String x = style.getBackgroundPositionX( );
 		String y = style.getBackgroundPositionY( );
 
-		if ( color == null && image == null && !"none".equalsIgnoreCase( image )
+		if ( color == null && image == null && !"none".equalsIgnoreCase( image ) //$NON-NLS-1$
 				&& repeat == null && attach == null && x == null && y == null )
 		{
 			return;
@@ -196,37 +196,37 @@ public class AttributeBuilder
 	 */
 	private static void buildBox( StringBuffer content, StyleDesign style )
 	{
-		buildProperty( content, "margin-top", style.getMarginTop( ) ); //$NON-NLS-1$
-		buildProperty( content, "margin-right", style.getMarginRight( ) ); //$NON-NLS-1$
-		buildProperty( content, "margin-bottom", style.getMarginBottom( ) ); //$NON-NLS-1$
-		buildProperty( content, "margin-left", style.getMarginLeft( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, style.getMarginTop( ) ); 
+		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, style.getMarginRight( ) ); 
+		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, style.getMarginBottom( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, style.getMarginLeft( ) ); 
 
-		buildProperty( content, "padding-top", style.getPaddingTop( ) ); //$NON-NLS-1$
-		buildProperty( content, "padding-right", style.getPaddingRight( ) ); //$NON-NLS-1$
-		buildProperty( content, "padding-bottom", style.getPaddingBottom( ) ); //$NON-NLS-1$
-		buildProperty( content, "padding-left", style.getPaddingLeft( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, style.getPaddingTop( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, style.getPaddingRight( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, style.getPaddingBottom( ) ); 
+		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, style.getPaddingLeft( ) ); 
 
-		buildProperty( content, "border-top-style", style.getBorderTopStyle( ) ); //$NON-NLS-1$
-		buildProperty( content, "border-top-color", style.getBorderTopColor( ) ); //$NON-NLS-1$
-		buildProperty( content, "border-top-width", style.getBorderTopWidth( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_STYLE, style.getBorderTopStyle( ) );
+		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_COLOR, style.getBorderTopColor( ) ); 
+		buildProperty( content, HTMLTags.ATTR_BORDER_TOP_WIDTH, style.getBorderTopWidth( ) ); 
 
-		buildProperty( content, "border-right-style", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_STYLE, style 
 				.getBorderRightStyle( ) );
-		buildProperty( content, "border-right-color", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_COLOR, style 
 				.getBorderRightColor( ) );
-		buildProperty( content, "border-right-width", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_RIGHT_WIDTH, style 
 				.getBorderRightWidth( ) );
 
-		buildProperty( content, "border-bottom-style", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_BOTTOM_STYLE, style 
 				.getBorderBottomStyle( ) );
-		buildProperty( content, "border-bottom-color", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BOTTOM_COLOR, style 
 				.getBorderBottomColor( ) );
-		buildProperty( content, "border-bottom-width", style //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_BOTTOM_WIDTH, style 
 				.getBorderBottomWidth( ) );
 
-		buildProperty( content, "border-left-style", style.getBorderLeftStyle( ) ); //$NON-NLS-1$
-		buildProperty( content, "border-left-color", style.getBorderLeftColor( ) ); //$NON-NLS-1$
-		buildProperty( content, "border-left-width", style.getBorderLeftWidth( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_STYLE, style.getBorderLeftStyle( ) ); 
+		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_COLOR, style.getBorderLeftColor( ) ); 
+		buildProperty( content, HTMLTags.ATTR_BORDER_LEFT_WIDTH, style.getBorderLeftWidth( ) ); 
 	}
 
 	/**
@@ -239,16 +239,16 @@ public class AttributeBuilder
 	 */
 	private static void buildText( StringBuffer content, StyleDesign style )
 	{
-		buildProperty( content, "text-indent", style.getTextIndent( ) ); //$NON-NLS-1$
-		buildProperty( content, "text-align", style.getTextAlign( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style.getTextIndent( ) ); 
+		buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) ); 
 
 		buildTextDecoration( content, style.getTextLineThrough( ), style
 				.getTextOverline( ), style.getTextUnderline( ) );
 
-		buildProperty( content, "letter-spacing", style.getLetterSpacing( ) ); //$NON-NLS-1$
-		buildProperty( content, "word-spacing", style.getWordSpacing( ) ); //$NON-NLS-1$
-		buildProperty( content, "text-transform", style.getTextTransform( ) ); //$NON-NLS-1$
-		buildProperty( content, "white-space", style.getWhiteSpace( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style.getLetterSpacing( ) ); 
+		buildProperty( content, HTMLTags.ATTR_WORD_SPACING, style.getWordSpacing( ) ); 
+		buildProperty( content, HTMLTags.ATTR_TEXT_TRANSFORM, style.getTextTransform( ) ); 
+		buildProperty( content, HTMLTags.ATTR_WHITE_SPACE, style.getWhiteSpace( ) );
 	}
 
 	/**
@@ -261,15 +261,15 @@ public class AttributeBuilder
 	 */
 	private static void buildFont( StringBuffer content, StyleDesign style )
 	{
-		buildProperty( content, "font-family", style.getFontFamily( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_FONT_FAMILY, style.getFontFamily( ) ); 
 
-		buildProperty( content, "font-style", style.getFontStyle( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_FONT_STYLE, style.getFontStyle( ) );
 
-		buildProperty( content, "font-variant", style.getFontVariant( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_FONT_VARIANT, style.getFontVariant( ) );
 
-		buildProperty( content, "font-weight", style.getFontWeight( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_FONT_WEIGTH, style.getFontWeight( ) ); 
 
-		buildProperty( content, "font-size", style.getFontSize( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) ); 
 	}
 
 	/**

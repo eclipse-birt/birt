@@ -12,10 +12,10 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IColumnContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.ColumnContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
+import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -60,7 +60,7 @@ public class GridItemExecutor extends StyledItemExecutor
 		{
 			return;
 		}
-		ITableContent tableObj = ContentFactory.createTableContent( gridItem );
+		TableContent tableObj = (TableContent)ContentFactory.createTableContent( gridItem );
 		setStyles( tableObj, item );
 		setVisibility( item, tableObj );
 
@@ -80,7 +80,7 @@ public class GridItemExecutor extends StyledItemExecutor
 			tableEmitter.startColumns( );
 			for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 			{
-				IColumnContent colContent = ContentFactory
+				ColumnContent colContent =(ColumnContent) ContentFactory
 						.createColumnContent( gridItem.getColumn( i ) );
 				setStyles( colContent, gridItem.getColumn( i ) );
 				emitter.getTableEmitter( ).startColumn( colContent );
@@ -96,7 +96,7 @@ public class GridItemExecutor extends StyledItemExecutor
 			//			{
 			//				break;
 			//			}
-			IRowContent rowContent = ContentFactory.createRowContent( row );
+			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row );
 			setVisibility( row, rowContent );
 			setBookmarkValue( rowContent );
 			setStyles( rowContent, row );
@@ -107,7 +107,7 @@ public class GridItemExecutor extends StyledItemExecutor
 				CellDesign cell = row.getCell( j );
 				if ( cell != null )
 				{
-					ICellContent cellContent = ContentFactory
+					CellContent cellContent =(CellContent) ContentFactory
 							.createCellContent( cell );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
@@ -143,7 +143,7 @@ public class GridItemExecutor extends StyledItemExecutor
 
 	}
 
-	private void setBookmarkValue( IRowContent row )
+	private void setBookmarkValue( RowContent row )
 	{
 		// bookmark
 		Expression bookmark = row.getBookmark( );

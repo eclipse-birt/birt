@@ -16,9 +16,9 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.IMasterPageContent;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
-import org.eclipse.birt.report.engine.content.IPageSetupContent;
+import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
+import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
  */
 public class ReportExecutor
 {
@@ -180,7 +180,7 @@ public class ReportExecutor
 	private void handlePageSetup( Report report )
 	{
 		// first create the master page defined in the report design
-		IPageSetupContent pageSetup = ContentFactory
+		PageSetupContent pageSetup = (PageSetupContent)ContentFactory
 				.createPageSetupContent( report.getPageSetup( ) );
 
 		IPageSetupEmitter pageSetupEmitter = emitter.getPageSetupEmitter( );
@@ -197,7 +197,7 @@ public class ReportExecutor
 			{
 				MasterPageDesign masterPage = report.getPageSetup( )
 						.getMasterPage( i );
-				IMasterPageContent masterPageContent = ContentFactory
+				MasterPageContent masterPageContent = (MasterPageContent)ContentFactory
 						.createMasterPageContent( masterPage );
 				pageSetup.addMasterPage( masterPageContent );
 				pageSetupEmitter.startMasterPage( masterPageContent );

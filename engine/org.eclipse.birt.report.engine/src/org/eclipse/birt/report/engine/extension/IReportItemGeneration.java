@@ -39,14 +39,14 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
  * <li> Call finish() for cleanup.
  */
 public interface IReportItemGeneration {
-	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$
-	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$
-	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$
-	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$
-	public static String GENERATION_STAGE			= "generationStage";		// $NON-NLS-1$
+	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$ //$NON-NLS-1$
+	public static String GENERATION_STAGE			= "generationStage";		// $NON-NLS-1$ //$NON-NLS-1$
 	
-	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$
-	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$
+	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$ //$NON-NLS-1$
+	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$ //$NON-NLS-1$
 	
     /**
      * Initializes the generation object before it processes the extended item. The 

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.StyleDesign;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/07 03:34:16 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/11 07:52:51 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -38,7 +38,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.5 $ $Date: 2005/03/07 03:34:16 $
+	 * @version $Revision: 1.6 $ $Date: 2005/03/11 07:52:51 $
 	 */
 	private class PersistData
 	{
@@ -237,7 +237,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		type = checkElementType( x, y, mergedStyle, styleBuffer );
 
-		writer.openTag( "table" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_TABLE ); 
 
 		// style string
 		setStyleName( tableObj.getStyle( ) );
@@ -250,7 +250,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 				tableObj.getWidth( ), styleBuffer );
 		AttributeBuilder.buildStyle( styleBuffer,
 				tableObj.getHighlightStyle( ), reportEmitter );
-		writer.attribute( "style", styleBuffer.toString( ) ); //$NON-NLS-1$
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); //$NON-NLS-1$
 
 		// bookmark
 		setBookmark( null, tableObj.getBookmarkValue( ) );
@@ -259,9 +259,9 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		String caption = tableObj.getCaption( );
 		if ( caption != null && caption.length( ) > 0 )
 		{
-			writer.openTag( "caption" ); //$NON-NLS-1$
+			writer.openTag( HTMLTags.TAG_CAPTION ); 
 			writer.text( caption );
-			writer.closeTag( "caption" ); //$NON-NLS-1$
+			writer.closeTag( HTMLTags.TAG_CAPTION ); 
 		}
 
 		currentData = new PersistData( );
@@ -280,7 +280,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			return;
 		}
 
-		writer.closeTag( "table" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_TABLE ); //$NON-NLS-1$
 
 		statusStack.pop( );
 		if ( statusStack.size( ) > 0 )
@@ -346,22 +346,22 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		currentData.saveColInfo( mergedStyle == null ? null : mergedStyle
 				.getTextAlign( ), repeat );
 
-		writer.openTag( "col" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_COL ); 
 
 		setStyleName( columnObj.getStyle( ) );
 
 		// width
 		StringBuffer styleBuffer = new StringBuffer( );
-		AttributeBuilder.buildSize( styleBuffer, "width", //$NON-NLS-1$
+		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, 
 				columnObj.getWidth( ) );
 		AttributeBuilder.buildStyle( styleBuffer,
 				columnObj.getHighlightStyle( ), reportEmitter );
-		writer.attribute( "style", styleBuffer.toString( ) ); //$NON-NLS-1$
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
 
 		// span
 		if ( repeat > 1 )
 		{
-			writer.attribute( "span", repeat ); //$NON-NLS-1$
+			writer.attribute( HTMLTags.ATTR_SPAN, repeat ); 
 		}
 	}
 
@@ -392,7 +392,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.openTag( "tr" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_TR ); 
 
 		setStyleName( rowObj.getStyle( ) );
 
@@ -401,10 +401,10 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		StringBuffer styleBuffer = new StringBuffer( );
 
-		AttributeBuilder.buildSize( styleBuffer, "height", rowObj.getHeight( ) ); //$NON-NLS-1$
+		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, rowObj.getHeight( ) ); //$NON-NLS-1$
 		AttributeBuilder.buildStyle( styleBuffer, rowObj.getHighlightStyle( ),
 				reportEmitter );
-		writer.attribute( "style", styleBuffer.toString( ) ); //$NON-NLS-1$
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
 	}
 
 	/*
@@ -421,7 +421,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		assert currentData != null;
 
 		currentData.adjustCols( );
-		writer.closeTag( "tr" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_TR ); 
 	}
 
 	/*
@@ -450,7 +450,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 					cellObj.getColSpan( ) );
 
 			// output 'td' tag
-			writer.openTag( "td" ); //$NON-NLS-1$
+			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 
 			// set the 'name' property
 			setStyleName( cellObj.getStyle( ) );
@@ -458,31 +458,31 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			// colspan
 			if ( ( span = cellObj.getColSpan( ) ) > 1 )
 			{
-				writer.attribute( "colspan", cellObj.getColSpan( ) ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_COLSPAN, cellObj.getColSpan( ) );
 			}
 
 			// rowspan
 			if ( ( span = cellObj.getRowSpan( ) ) > 1 )
 			{
-				writer.attribute( "rowspan", cellObj.getRowSpan( ) ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_ROWSPAN, cellObj.getRowSpan( ) ); 
 			}
 
 			// 'col' align
 			if ( cellObj.getMergedStyle( ) == null
 					|| cellObj.getMergedStyle( ).getTextAlign( ) == null )
 			{
-				writer.attribute( "align", currentData.getCurColAlign( ) ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_ALIGN, currentData.getCurColAlign( ) ); 
 			}
 
 			StringBuffer styleBuffer = new StringBuffer( );
 			AttributeBuilder.buildStyle( styleBuffer, cellObj
 					.getHighlightStyle( ), reportEmitter );
-			writer.attribute( "style", styleBuffer.toString( ) ); //$NON-NLS-1$
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) ); 
 
 		}
 		else
 		{
-			writer.openTag( "td" ); //$NON-NLS-1$
+			writer.openTag( HTMLTags.TAG_TD ); 
 		}
 	}
 
@@ -499,7 +499,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		}
 		logger.log( Level.FINE, "[HTMLTableEmitter] End cell." ); //$NON-NLS-1$
 
-		writer.closeTag( "td" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_TD );
 	}
 
 	/*
@@ -513,7 +513,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.openTag( "thead" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_THEAD ); 
 	}
 
 	/*
@@ -527,7 +527,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.closeTag( "thead" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_THEAD ); 
 	}
 
 	/*
@@ -541,7 +541,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.openTag( "tfoot" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_TFOOT ); 
 	}
 
 	/*
@@ -555,7 +555,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.closeTag( "tfoot" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_TFOOT ); 
 	}
 
 	/*
@@ -569,7 +569,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.openTag( "tbody" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_TBODY ); 
 	}
 
 	/*
@@ -583,6 +583,6 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		writer.closeTag( "tbody" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_TBODY ); 
 	}
 }

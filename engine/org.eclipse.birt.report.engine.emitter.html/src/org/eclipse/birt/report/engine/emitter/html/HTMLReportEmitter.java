@@ -40,12 +40,12 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/07 03:34:16 $
+ * @version $Revision: 1.10 $ $Date: 2005/03/11 07:52:51 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
 
-	public static String OUTPUT_FORMAT_HTML = "HTML"; // $NON-NLS-1$
+	public static String OUTPUT_FORMAT_HTML = "HTML"; //$NON-NLS-1$
 
 	public static final String REPORT_FILE = "report.html"; //$NON-NLS-1$
 
@@ -272,22 +272,22 @@ public class HTMLReportEmitter implements IReportEmitter
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
 		writer.startWriter( );
-		writer.openTag( "html" ); //$NON-NLS-1$
-		writer.openTag( "META" ); //$NON-NLS-1$
-		writer.attribute( "http-equiv", "Content-Type" ); //$NON-NLS-1$
-		writer.attribute( "content", "text/html; charset=UTF-8" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_HTML ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_META ); //$NON-NLS-1$
+		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
+		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
 		writer.closeNoEndTag( );
 
-		writer.openTag( "head" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_HEAD ); 
 
-		writer.openTag( "style" ); //$NON-NLS-1$
-		writer.attribute( "type", //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_STYLE ); 
+		writer.attribute( HTMLTags.ATTR_TYPE, 
 				"text/css" ); //$NON-NLS-1$
 
 		// output general styles
 		writer
 				.style(
-						"table", "border-collapse: collapse; border-color: black; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$
+						"table", "border-collapse: collapse; border-color: black; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		StyleDesign style;
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -349,9 +349,9 @@ public class HTMLReportEmitter implements IReportEmitter
 			}
 		}
 
-		writer.closeTag( "style" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_STYLE ); //$NON-NLS-1$
 
-		writer.closeTag( "head" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_HEAD ); //$NON-NLS-1$
 	}
 
 	/*
@@ -362,7 +362,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void endReport( )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
-		writer.closeTag( "html" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_HTML ); 
 		writer.endWriter( );
 		writer.close( );
 	}
@@ -376,7 +376,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 
-		writer.openTag( "body" ); //$NON-NLS-1$
+		writer.openTag( HTMLTags.TAG_BODY ); //$NON-NLS-1$
 	}
 
 	/*
@@ -388,7 +388,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 
-		writer.closeTag( "body" ); //$NON-NLS-1$
+		writer.closeTag( HTMLTags.TAG_BODY ); //$NON-NLS-1$
 	}
 
 	/**
