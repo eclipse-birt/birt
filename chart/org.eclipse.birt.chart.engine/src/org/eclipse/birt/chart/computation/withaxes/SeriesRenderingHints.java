@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.NullValueException;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -84,7 +85,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
      *  
      */
     private final PlotWith2DAxes pwa;
-
+    
     /**
      * 
      * @param _dAxisLocation
@@ -252,5 +253,20 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
         final double dRotation = la.getCaption().getFont().getRotation();
         la.getCaption().getFont().setRotation(pwa.transposeAngle(dRotation));
         return la;
+    }
+    
+    /**
+     * 
+     * @param bReduceByInsets
+     * @return
+     */
+    public final Bounds getClientAreaBounds(boolean bReduceByInsets)
+    {
+        final Bounds boClientArea = pwa.getPlotBounds();
+        if (bReduceByInsets)
+        {
+            boClientArea.adjust(pwa.getPlotInsets());
+        }
+        return boClientArea;
     }
 }
