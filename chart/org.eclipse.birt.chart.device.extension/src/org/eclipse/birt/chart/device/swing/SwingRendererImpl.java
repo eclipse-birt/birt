@@ -1068,7 +1068,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 };
                 bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, faStyle, 0);
             }
-            else if (lia.getStyle().getValue() == LineStyle.SOLID && lia.getThickness() > 1)
+            else if (lia.getStyle().getValue() == LineStyle.SOLID)
             {
                 bs = new BasicStroke(lia.getThickness(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
             }
