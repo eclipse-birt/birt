@@ -20,9 +20,9 @@ import java.util.logging.Logger;
 
 /**
  * Output the content following the XML specification. Only when the events of
- * endding the writer and closing the tag come, the stream is flushed.
+ * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/03/15 07:22:42 $
+ * @version $Revision: 1.11 $ $Date: 2005/03/17 07:57:03 $
  */
 public class XMLWriter
 {
@@ -79,8 +79,11 @@ public class XMLWriter
 		this.encoding = encoding;
 		try
 		{
+			/* disable the autoflush, I remember there is some bug about the
+			 * the autoflush, but just close it for performance.
+			 */
 			this.printWriter = new PrintWriter( new OutputStreamWriter(
-					outputStream, encoding ), true );
+					outputStream, encoding ), false );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -185,7 +188,6 @@ public class XMLWriter
 			printWriter.print( "</" + tagName + '>' ); //$NON-NLS-1$
 		}
 		bPairedFlag = true;
-		printWriter.flush( );
 	}
 
 	/**
