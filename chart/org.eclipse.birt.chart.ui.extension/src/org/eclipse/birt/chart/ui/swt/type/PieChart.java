@@ -180,7 +180,7 @@ public class PieChart implements IChartType
 
         // Create Base Sample Data
         BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
-        sdBase.setDataSetRepresentation("Category-A, Category-B, Category-C");
+        sdBase.setDataSetRepresentation("A, B, C");
         sd.getBaseSampleData().add(sdBase);
 
         // Create Orthogonal Sample Data (with simulation count of 2)
