@@ -1011,6 +1011,10 @@ public class DEUtil
 		else if ( validateContainer )
 		//Validates target's container
 		{
+			if ( targetHandle.getContainer( ) == null )
+			{
+				return CONTAIN_NO;
+			}
 			if ( !targetHandle.getContainer( )
 					.getDefn( )
 					.getSlot( targetHandle.getContainerSlotHandle( )
