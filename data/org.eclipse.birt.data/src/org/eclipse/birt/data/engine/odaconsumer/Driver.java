@@ -1,13 +1,16 @@
-/*******************************************************************************
-* Copyright (c) 2004, 2005 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+/*
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
@@ -17,6 +20,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Types;
 import java.util.Hashtable;
+import java.util.Locale;
+import org.eclipse.birt.data.engine.odaconsumer.manager.OdaConnectionFactory;
+import org.eclipse.birt.data.engine.odaconsumer.manager.OdaURLClassLoader;
 import org.eclipse.birt.data.oda.IConnectionFactory;
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
@@ -74,21 +80,23 @@ class Driver
 	{
 		RunTimeInterface runtime = 
 			getDriverConfig().getRunTimeInterface();
+		DriverLibraries driverLibs = runtime.getDriverLibraries();
 		
 		if( m_classLoader == null )
 		{	
-			DriverLibraries driverLibs = runtime.getDriverLibraries();
 			LibrariesForOS libsForOS = findLibsForOS( driverLibs );
 			URL[] urls = getURLs( libsForOS );
-			m_classLoader = new DataAccessClassLoader( urls );
+			m_classLoader = new OdaURLClassLoader( urls );
 		}
 		
 		String initEntryPoint = runtime.getDriverInitEntryPoint();
+		boolean setJavaThreadContextClassLoader = 
+			driverLibs.getSetJavaThreadContextClassLoader();
 		try
 		{
-			Class connectionFactoryCls = 
-				Class.forName( initEntryPoint, true, m_classLoader );
-			return (IConnectionFactory) connectionFactoryCls.newInstance();
+			return new OdaConnectionFactory( initEntryPoint, Locale.getDefault(), 
+			                                 m_classLoader, 
+			                                 setJavaThreadContextClassLoader );
 		}
 		catch( Exception ex )
 		{
