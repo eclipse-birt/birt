@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
- * The helper class for <code>ExtendedDataSourceHandle</code> and
- * <code>ExtendedDataSetHandle</code>. It is used to set/get an extended
+ * The helper class for <code>OdaDataSourceHandle</code> and
+ * <code>OdaDataSetHandle</code>. It is used to set/get an extended
  * property.
  */
 

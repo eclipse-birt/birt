@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.ExtendedDataSet;
-import org.eclipse.birt.report.model.elements.ExtendedDataSource;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -365,23 +365,23 @@ public class DesignWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSource(org.eclipse.birt.report.model.elements.ExtendedDataSource)
 	 */
-	public void visitExtendedDataSource( ExtendedDataSource obj )
+	public void visitOdaDataSource( OdaDataSource obj )
 	{
-		writer.startElement( DesignSchemaConstants.EXTENDED_DATA_SOURCE_TAG );
+		writer.startElement( DesignSchemaConstants.ODA_DATA_SOURCE_TAG );
 
-		super.visitExtendedDataSource( obj );
+		super.visitOdaDataSource( obj );
 
-		property( obj, ExtendedDataSource.DRIVER_NAME_PROP );
+		property( obj, OdaDataSource.DRIVER_NAME_PROP );
 
 		List properties = (List) obj.getLocalProperty( design,
-				ExtendedDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				ExtendedDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
 
 		properties = (List) obj.getLocalProperty( design,
-				ExtendedDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				ExtendedDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 
 		writer.endElement( );
 	}
@@ -2187,40 +2187,37 @@ public class DesignWriter extends ElementVisitor
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSet(org.eclipse.birt.report.model.elements.ExtendedDataSet)
 	 */
 
-	public void visitExtendedDataSet( ExtendedDataSet obj )
+	public void visitOdaDataSet( OdaDataSet obj )
 	{
-		writer.startElement( DesignSchemaConstants.EXTENDED_DATA_SET_TAG );
+		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );
 
-		super.visitExtendedDataSet( obj );
+		super.visitOdaDataSet( obj );
 
-		String queryFrom = (String) obj.getLocalProperty( design,
-				ExtendedDataSet.QUERY_CHOICE_TYPE_PROP );
-
-		if ( DesignChoiceConstants.QUERY_CHOICE_TYPE_SCRIPT
-				.equalsIgnoreCase( queryFrom ) )
+		if ( (String) obj.getLocalProperty( design,
+				OdaDataSet.QUERY_SCRIPT_METHOD )!= null )
 		{
-			property( obj, ExtendedDataSet.QUERY_SCRIPT_METHOD );
+			property( obj, OdaDataSet.QUERY_SCRIPT_METHOD );
 		}
-		else if ( DesignChoiceConstants.QUERY_CHOICE_TYPE_TEXT
-				.equalsIgnoreCase( queryFrom ) )
+		else if ( (String) obj.getLocalProperty( design,
+				OdaDataSet.QUERY_TEXT_PROP)!= null )
 		{
-			property( obj, ExtendedDataSet.QUERY_TEXT_PROP );
+			property( obj, OdaDataSet.QUERY_TEXT_PROP );
 		}
 
-		property( obj, ExtendedDataSet.TYPE_PROP );
-		property( obj, ExtendedDataSet.RESULT_SET_NAME_PROP );
+		property( obj, OdaDataSet.TYPE_PROP );
+		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
 
-		propertyCDATA( obj, ExtendedDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
+		propertyCDATA( obj, OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
 
 		List properties = (List) obj.getLocalProperty( design,
-				ExtendedDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				ExtendedDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
 
 		properties = (List) obj.getLocalProperty( design,
-				ExtendedDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
+				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				ExtendedDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
+				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 
 		writer.endElement( );
 	}

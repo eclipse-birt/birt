@@ -125,8 +125,7 @@ public interface DesignSchemaConstants
 	static final String EXPORT_ATTRIB							= "export";						//$NON-NLS-1$
 	static final String	EXPR_TAG								= "expr";					//$NON-NLS-1$	
 	static final String EXPRESSION_TAG							= "expression";						//$NON-NLS-1$
-	static final String EXTENDED_DATA_SET_TAG 					= "extended-data-set";			//$NON-NLS-1$
-	static final String EXTENDED_DATA_SOURCE_TAG 				= "extended-data-source";		//$NON-NLS-1$
+	
 	static final String	EXTENDED_ITEM_TAG						= "extended-item";				//$NON-NLS-1$ 
 	static final String	EXTENDS_ATTRIB							= "extends";					//$NON-NLS-1$
 	static final String EXTENSION_ATTRIB						= "extension";					//$NON-NLS-1$

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.ExtendedDataSet;
-import org.eclipse.birt.report.model.elements.ExtendedDataSource;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -520,7 +520,7 @@ public class DesignVisitor
 	 *            the handle of a extended data source to traverse
 	 */
 
-	protected void visitExtendedDataSource( ExtendedDataSourceHandle obj )
+	protected void visitExtendedDataSource( OdaDataSourceHandle obj )
 	{
 		visitDataSource( obj );
 	}
@@ -532,7 +532,7 @@ public class DesignVisitor
 	 *            the extended data set to traverse
 	 */
 
-	protected void visitExtendedDataSet( ExtendedDataSetHandle obj )
+	protected void visitExtendedDataSet( OdaDataSetHandle obj )
 	{
 		visitDataSet( obj );
 	}
@@ -858,7 +858,7 @@ public class DesignVisitor
 		 *            the extended data source to traverse
 		 */
 
-		public void visitExtendedDataSource( ExtendedDataSource obj )
+		public void visitOdaDataSource( OdaDataSource obj )
 		{
 			DesignVisitor.this.visitExtendedDataSource( obj.handle( design ) );
 		}
@@ -882,7 +882,7 @@ public class DesignVisitor
 		 *            the extended data set to traverse
 		 */
 
-		public void visitExtendedDataSet( ExtendedDataSet obj )
+		public void visitOdaDataSet( OdaDataSet obj )
 		{
 			DesignVisitor.this.visitExtendedDataSet( obj.handle( design ) );
 		}

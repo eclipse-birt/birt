@@ -455,7 +455,7 @@ public class ElementVisitor
 	 *            the element to traverse
 	 */
 	
-	public void visitExtendedDataSource( ExtendedDataSource obj )
+	public void visitOdaDataSource( OdaDataSource obj )
 	{
 		visitDataSource( obj );
 	}
@@ -467,7 +467,7 @@ public class ElementVisitor
 	 *            the element to traverse
 	 */
 	
-	public void visitExtendedDataSet( ExtendedDataSet obj )
+	public void visitOdaDataSet( OdaDataSet obj )
 	{
 		visitDataSet( obj );
 	}

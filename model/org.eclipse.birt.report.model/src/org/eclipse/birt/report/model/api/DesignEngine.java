@@ -15,11 +15,9 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ExtensionException;
 import org.eclipse.birt.report.model.metadata.ExtensionLoader;
 import org.eclipse.birt.report.model.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;

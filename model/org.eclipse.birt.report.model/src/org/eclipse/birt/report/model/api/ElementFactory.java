@@ -16,8 +16,8 @@ import java.lang.reflect.Constructor;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.ExtendedDataSet;
-import org.eclipse.birt.report.model.elements.ExtendedDataSource;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -636,33 +636,33 @@ public class ElementFactory
 	}
 
 	/**
-	 * Creates a new extended data source. The name is required. If the
+	 * Creates a new oda data source. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required extended data source name.
-	 * @return a handle to extended data source
+	 *            the required oda data source name.
+	 * @return a handle to oda data source
 	 */
 
-	public ExtendedDataSourceHandle newExtendedDataSource( String name )
+	public OdaDataSourceHandle newOdaDataSource( String name )
 	{
-		ExtendedDataSource element = new ExtendedDataSource( name );
+		OdaDataSource element = new OdaDataSource( name );
 		design.makeUniqueName( element );
 		return element.handle( design );
 	}
 
 	/**
-	 * Creates a new extended data set. The name is required. If the
+	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required extended data set name.
-	 * @return a handle to extended data set
+	 *            the required oda data set name.
+	 * @return a handle to oda data set
 	 */
 
-	public ExtendedDataSetHandle newExtendedDataSet( String name )
+	public OdaDataSetHandle newOdaDataSet( String name )
 	{
-		ExtendedDataSet element = new ExtendedDataSet( name );
+		OdaDataSet element = new OdaDataSet( name );
 		design.makeUniqueName( element );
 		return element.handle( design );
 	}

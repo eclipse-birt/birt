@@ -223,8 +223,11 @@ public class ReportState extends DesignParseState
 					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG ) )
 				return new ScriptDataSourceState( handler );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_DATA_SOURCE_TAG ) )
-				return new ExtendedDataSourceState( handler );
+					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SOURCE_TAG )||tagName
+					.equalsIgnoreCase( "extended-data-source" ) ) //$NON-NLS-1$
+			{
+				return new OdaDataSourceState( handler );
+			}
 			return super.startElement( tagName );
 		}
 	}
@@ -248,8 +251,11 @@ public class ReportState extends DesignParseState
 					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SET_TAG ) )
 				return new ScriptDataSetState( handler );
 			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_DATA_SET_TAG ) )
-				return new ExtendedDataSetState( handler );
+					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )||tagName
+					.equalsIgnoreCase("extended-data-set" ) ) //$NON-NLS-1$
+			{
+				return new OdaDataSetState( handler );
+			}
 			return super.startElement( tagName );
 		}
 	}
