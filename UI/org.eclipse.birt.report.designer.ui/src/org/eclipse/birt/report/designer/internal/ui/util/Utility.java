@@ -24,7 +24,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/09 02:50:05 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/10 22:48:41 $
  */
 public final class Utility
 {
@@ -99,4 +99,18 @@ public final class Utility
         return finalName;
     }
     
+    public static String getUniqueDataSourceName(String baseName)
+    {
+        String finalName = baseName;
+        int n = 1;
+        
+        while(HandleAdapterFactory.getInstance( )
+                .getReportDesignHandleAdapter( )
+                .checkDataSourceName( finalName ))
+        {
+            finalName = baseName + n++;  
+        }
+        
+        return finalName;
+    }
 }

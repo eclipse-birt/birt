@@ -61,8 +61,8 @@ It defines child elements for the data source wizard, one or more editor pages a
       </annotation>
       <complexType>
          <sequence>
-            <element ref="new-data-source-wizard"/>
-            <element ref="data-source-editor-page" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="new-data-source-wizard" minOccurs="0" maxOccurs="1"/>
+            <element ref="data-source-editor-page" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="data-set" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string">
@@ -173,8 +173,8 @@ A data source can have one or more data sets.
       </annotation>
       <complexType>
          <sequence>
-            <element ref="new-data-set-wizard"/>
-            <element ref="data-set-editor-page" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="new-data-set-wizard" minOccurs="0" maxOccurs="1"/>
+            <element ref="data-set-editor-page" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string">
             <annotation>
@@ -209,7 +209,7 @@ Note data source in the oda-config.xml file is equivalent to a BIRT data set.
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="class" type="string">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   A fully quailfied class name which provides a wizard for Creating a new data set.&lt;br/&gt;
