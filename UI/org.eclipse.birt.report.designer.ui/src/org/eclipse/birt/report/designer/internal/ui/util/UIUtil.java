@@ -21,11 +21,18 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
@@ -125,6 +132,63 @@ public class UIUtil
 	}
 
 	/**
+	 * Returns current project according to current selection. 1. If current
+	 * selection is editPart, get editor input and return associated project. 2.
+	 * If current selection is not ediPart, use first selected element, query
+	 * from its IAdaptable interface to get associated project. 3. If the above
+	 * is not working, get the first accessible project in the current workspace
+	 * and return it. 4. If none is accessible, returns null.
+	 * 
+	 * @return Returns the default project according to current selection.
+	 */
+	public static IProject getDefaultProject( )
+	{
+		IWorkbenchWindow benchWindow = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+		IWorkbenchPart part = benchWindow.getPartService( ).getActivePart( );
+
+		Object selection = null;
+		if ( part instanceof IEditorPart )
+		{
+			selection = ( (IEditorPart) part ).getEditorInput( );
+		}
+		else
+		{
+			ISelection sel = benchWindow.getSelectionService( ).getSelection( );
+			if ( ( sel != null ) && ( sel instanceof IStructuredSelection ) )
+			{
+				selection = ( (IStructuredSelection) sel ).getFirstElement( );
+			}
+		}
+
+		if ( selection instanceof IAdaptable )
+		{
+			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
+
+			if ( resource != null
+					&& resource.getProject( ) != null
+					&& resource.getProject( ).isAccessible( ) )
+			{
+				return resource.getProject( );
+			}
+		}
+
+		IProject[] pjs = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getProjects( );
+
+		for ( int i = 0; i < pjs.length; i++ )
+		{
+			if ( pjs[i].isAccessible( ) )
+			{
+				return pjs[i];
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Returns the default shell used by dialogs
 	 * 
 	 * @return Returns the active shell of the current display
@@ -140,8 +204,8 @@ public class UIUtil
 	 * @param parent
 	 *            The parent of the new group, it should be a table or a list
 	 *            and should not be null.
-	 * @return Returns true if the group created successfully, false if
-	 *         the creation is cancelled or some error occurred.
+	 * @return Returns true if the group created successfully, false if the
+	 *         creation is cancelled or some error occurred.
 	 */
 	public static boolean createGroup( DesignElementHandle parent )
 	{

@@ -197,7 +197,8 @@ public class TableCellEditPart extends ReportElementEditPart
 
 		ReportFlowLayout rflayout = (ReportFlowLayout) getFigure( ).getLayoutManager( );
 
-		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign ) )
+		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign )
+				|| DesignChoiceConstants.TEXT_ALIGN_JUSTIFY.equals( hAlign ) )
 		{
 			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
 		}

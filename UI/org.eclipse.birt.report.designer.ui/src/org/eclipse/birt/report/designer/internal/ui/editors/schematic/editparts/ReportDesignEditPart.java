@@ -86,37 +86,42 @@ public class ReportDesignEditPart extends ReportElementEditPart
 			{
 				super.paintFigure( graphics );
 
-				graphics.setForegroundColor( ReportColorConstants.MarginMarkerColor );
-
-				Rectangle rect = getBounds( ).getCopy( )
+				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+				graphics.drawRectangle( getBounds( ).getCopy( )
 						.crop( getBorder( ).getInsets( this ) )
-						.crop( DEFAULT_CROP );
+						.crop( DEFAULT_CROP ) );
 
-				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
-				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
-
-				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-						+ rect.width, rect.y - 27 );
-				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-						+ rect.width
-						+ 27, rect.y );
-
-				graphics.drawLine( rect.x, rect.y + rect.height, rect.x, rect.y
-						+ rect.height
-						+ 27 );
-				graphics.drawLine( rect.x,
-						rect.y + rect.height,
-						rect.x - 27,
-						rect.y + rect.height );
-
-				graphics.drawLine( rect.x + rect.width,
-						rect.y + rect.height,
-						rect.x + rect.width + 27,
-						rect.y + rect.height );
-				graphics.drawLine( rect.x + rect.width,
-						rect.y + rect.height,
-						rect.x + rect.width,
-						rect.y + rect.height + 27 );
+//				graphics.setForegroundColor( ReportColorConstants.MarginMarkerColor );
+//
+//				Rectangle rect = getBounds( ).getCopy( )
+//						.crop( getBorder( ).getInsets( this ) )
+//						.crop( DEFAULT_CROP );
+//
+//				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
+//				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
+//
+//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+//						+ rect.width, rect.y - 27 );
+//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
+//						+ rect.width
+//						+ 27, rect.y );
+//
+//				graphics.drawLine( rect.x, rect.y + rect.height, rect.x, rect.y
+//						+ rect.height
+//						+ 27 );
+//				graphics.drawLine( rect.x,
+//						rect.y + rect.height,
+//						rect.x - 27,
+//						rect.y + rect.height );
+//
+//				graphics.drawLine( rect.x + rect.width,
+//						rect.y + rect.height,
+//						rect.x + rect.width + 27,
+//						rect.y + rect.height );
+//				graphics.drawLine( rect.x + rect.width,
+//						rect.y + rect.height,
+//						rect.x + rect.width,
+//						rect.y + rect.height + 27 );
 
 			}
 
