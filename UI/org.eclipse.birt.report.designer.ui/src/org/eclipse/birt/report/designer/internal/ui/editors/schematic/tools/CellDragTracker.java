@@ -158,7 +158,7 @@ public class CellDragTracker extends DragEditPartsTracker implements
 //		minRow.getFigure( ).translateToAbsolute( retValue );
 //
 //		return retValue;
-		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
+//		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
 
 		int size = list.size( );
 		if (size == 0)

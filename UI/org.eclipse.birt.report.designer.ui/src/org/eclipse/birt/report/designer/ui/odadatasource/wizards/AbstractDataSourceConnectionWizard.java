@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
@@ -28,9 +27,8 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 {
 
 	private static final String CREATE_DATA_SOURCE_TRANS_NAME = Messages.getString( "wizard.transaction.createDataSource" ); //$NON-NLS-1$
-	private transient String finishLabel = IDialogConstants.FINISH_LABEL;
+	//private transient String finishLabel = IDialogConstants.FINISH_LABEL;
 
-	private transient DefaultDataSetWizard dataSetWizard = null;
 
 	private transient IConfigurationElement configurationElement = null;
 
@@ -148,10 +146,10 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 	 * @param newLabel
 	 *            the label to be set
 	 */
-	protected void setFinishLabel( String newLabel )
-	{
-		finishLabel = newLabel;
-	}
+//	protected void setFinishLabel( String newLabel )
+//	{
+//		finishLabel = newLabel;
+//	}
 
 	/*
 	 * (non-Javadoc)

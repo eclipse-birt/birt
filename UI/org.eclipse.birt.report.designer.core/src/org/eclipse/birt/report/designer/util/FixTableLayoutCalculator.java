@@ -186,8 +186,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 		{
 			try
 			{
-				float width = Float.parseFloat( definedWidthValues[i] );
-
+				Float.parseFloat( definedWidthValues[i] );
 			}
 			catch ( NumberFormatException e )
 			{

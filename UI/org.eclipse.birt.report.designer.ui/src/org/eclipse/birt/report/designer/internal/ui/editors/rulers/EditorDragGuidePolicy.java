@@ -42,7 +42,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 
 	private List attachedEditParts = null;
 	private IFigure dummyGuideFigure, dummyLineFigure;
-	private boolean dragInProgress = false;
+	//private boolean dragInProgress = false;
 
 	/**Creates the Line Figure, when drag the margin guide.
 	 * @return
@@ -133,7 +133,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		getGuideEditPart( ).getGuideLineFigure( ).setVisible( true );
 		removeFeedback( );
 		getGuideEditPart( ).setCurrentCursor( null );
-		dragInProgress = false;
+		//dragInProgress = false;
 
 		eraseAttachedPartsFeedback( request );
 	}

@@ -18,7 +18,6 @@ import org.eclipse.draw2d.ImageUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.internal.ui.rulers.RulerFigure;
 import org.eclipse.gef.internal.ui.rulers.RulerLayout;
 import org.eclipse.gef.rulers.RulerProvider;
@@ -79,14 +78,14 @@ public class EditorRulerFigure extends RulerFigure
 	private int unit, interval, divisions;
 	private double dpu1 = -1.0;
 
-	private ZoomListener zoomListener = new ZoomListener( )
-	{
-
-		public void zoomChanged( double newZoomValue )
-		{
-			handleZoomChanged( );
-		}
-	};
+//	private ZoomListener zoomListener = new ZoomListener( )
+//	{
+//
+//		public void zoomChanged( double newZoomValue )
+//		{
+//			handleZoomChanged( );
+//		}
+//	};
 
 	public EditorRulerFigure( boolean isHorizontal, int measurementUnit )
 	{

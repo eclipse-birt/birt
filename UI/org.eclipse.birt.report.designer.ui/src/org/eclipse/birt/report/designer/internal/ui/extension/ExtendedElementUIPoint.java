@@ -24,14 +24,15 @@ import org.eclipse.jface.util.Assert;
  * The object used to cache the UI extension points
  */
 
-public class ExtendedElementUIPoint
-{
+public class ExtendedElementUIPoint {
 
 	private String extensionName;
+
 	private IReportItemUI reportItemUI = null;
-	private Map attributesMap = new HashMap( 5 );
-    private IReportItemBuilderUI reportItemBuilderUI;
-    private HashMap classMap = new HashMap( 2 );
+
+	private Map attributesMap = new HashMap(5);
+
+	private HashMap classMap = new HashMap(2);
 
 	/**
 	 * Construct an new instance with the given extension name. All default
@@ -40,17 +41,16 @@ public class ExtendedElementUIPoint
 	 * @param extensionName
 	 *            the extension name of the extended element
 	 */
-	ExtendedElementUIPoint( String extensionName )
-	{
+	ExtendedElementUIPoint(String extensionName) {
 		this.extensionName = extensionName;
 
 		//Default value
-		setAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER, Boolean.TRUE );
-		setAttribute( IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE,
-				Boolean.TRUE );
-		setAttribute( IExtensionConstants.EDITOR_CAN_RESIZE, Boolean.TRUE );
-		setAttribute( IExtensionConstants.PALETTE_CATEGORY,
-				IPreferenceConstants.PALETTE_CONTENT );
+		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_DESIGNER, Boolean.TRUE);
+		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE,
+				Boolean.TRUE);
+		setAttribute(IExtensionConstants.EDITOR_CAN_RESIZE, Boolean.TRUE);
+		setAttribute(IExtensionConstants.PALETTE_CATEGORY,
+				IPreferenceConstants.PALETTE_CONTENT);
 	}
 
 	/**
@@ -58,8 +58,7 @@ public class ExtendedElementUIPoint
 	 * 
 	 * @return Returns the extension name;
 	 */
-	public String getExtensionName( )
-	{
+	public String getExtensionName() {
 		return extensionName;
 	}
 
@@ -68,20 +67,19 @@ public class ExtendedElementUIPoint
 	 * 
 	 * @return Returns the UI instance;
 	 */
-	public IReportItemUI getReportItemUI( )
-	{
+	public IReportItemUI getReportItemUI() {
 		return reportItemUI;
 	}
 
-	public IReportItemBuilderUI getReportItemBuilderUI( )
-	{
-	    return (IReportItemBuilderUI)classMap.get( IExtensionConstants.BUILDER );
+	public IReportItemBuilderUI getReportItemBuilderUI() {
+		return (IReportItemBuilderUI) classMap.get(IExtensionConstants.BUILDER);
 	}
-	
-	public IReportItemPropertyEditUI getReportItemPropertyEditUI( )
-	{
-	    return (IReportItemPropertyEditUI)classMap.get( IExtensionConstants.PROPERTYEDIT );
+
+	public IReportItemPropertyEditUI getReportItemPropertyEditUI() {
+		return (IReportItemPropertyEditUI) classMap
+				.get(IExtensionConstants.PROPERTYEDIT);
 	}
+
 	/**
 	 * Gets the corresponding attribute of the key of the extended element
 	 * 
@@ -90,10 +88,9 @@ public class ExtendedElementUIPoint
 	 * @return Returns the corresponding attribute, or null if the key is
 	 *         invalid or the corresponding attribute hasn't been set
 	 */
-	public Object getAttribute( String key )
-	{
-		Assert.isLegal( key != null );
-		return attributesMap.get( key );
+	public Object getAttribute(String key) {
+		Assert.isLegal(key != null);
+		return attributesMap.get(key);
 	}
 
 	/**
@@ -102,9 +99,8 @@ public class ExtendedElementUIPoint
 	 * @param reportItemUI
 	 *            the UI instance to set.It cannot be null
 	 */
-	void setReportItemUI( IReportItemUI reportItemUI )
-	{
-		Assert.isLegal( reportItemUI != null );
+	void setReportItemUI(IReportItemUI reportItemUI) {
+		Assert.isLegal(reportItemUI != null);
 		this.reportItemUI = reportItemUI;
 	}
 
@@ -114,29 +110,28 @@ public class ExtendedElementUIPoint
 	 * @param reportItemBuilderUI
 	 *            the Builder UI instance to set.It can be null
 	 */
-	void setReportItemBuilderUI( IReportItemBuilderUI reportItemBuilderUI )
-	{
-		this.reportItemBuilderUI = reportItemBuilderUI;
+	void setReportItemBuilderUI(IReportItemBuilderUI reportItemBuilderUI) {
+		classMap.put(IExtensionConstants.BUILDER, reportItemBuilderUI);
 	}
+
 	/**
 	 * Sets the corresponding attribute of the key of the extended element
 	 * 
 	 * @param key
 	 *            the key of the attribute.It cannot be null
 	 */
-	void setAttribute( String key, Object value )
-	{
-		Assert.isLegal( key != null );
-		attributesMap.put( key, value );
+	void setAttribute(String key, Object value) {
+		Assert.isLegal(key != null);
+		attributesMap.put(key, value);
 	}
 
-    /**
-     * Set the corresponding class instance of the key of the extended element
-     * @param className
-     * @param object
-     */
-    public void setClass( String key, Object value )
-    {
-        classMap.put( key, value );
-    }
+	/**
+	 * Set the corresponding class instance of the key of the extended element
+	 * 
+	 * @param className
+	 * @param object
+	 */
+	public void setClass(String key, Object value) {
+		classMap.put(key, value);
+	}
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.core.model;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;

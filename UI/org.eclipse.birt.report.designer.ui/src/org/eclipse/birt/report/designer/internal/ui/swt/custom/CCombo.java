@@ -1,5 +1,5 @@
 /*
- * @Version $Revision:$ Copyright (C) 2004 Actuate Corporation. All rights reserved. 
+ * @Version $Revision: 1.1 $ Copyright (C) 2004 Actuate Corporation. All rights reserved. 
  * Created on 2004-7-7
  */
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
@@ -1399,7 +1399,6 @@ void textEvent (Event event) {
  */
 private void setMatchSelection(Event event)
 {
-    int oldIndex = getSelectionIndex();
     int index = fintMatchItem(event.character);
     if(index != -1)
     {

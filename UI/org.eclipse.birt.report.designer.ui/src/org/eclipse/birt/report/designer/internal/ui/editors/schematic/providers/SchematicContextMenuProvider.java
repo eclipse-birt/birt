@@ -24,10 +24,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction;
+//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
+//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
+//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
+//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
@@ -91,11 +91,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Style" ); //$NON-NLS-1$
 
-	private static final String LIST_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.List" ); //$NON-NLS-1$
-
 	private static final String INSERT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
 
-	private static final String SHOW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Show" ); //$NON-NLS-1$
+	//private static final String SHOW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Show" ); //$NON-NLS-1$
 
 	private static final String ELEMENT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
 
@@ -363,23 +361,23 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	/**
 	 * @param menuManager
 	 */
-	private void createShowMenu( IMenuManager menuManager )
-	{
-		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
-
-		if ( isSelectedGroup( ) )
-		{
-			subMenu.add( new IncludeTableGroupAction.IncludeTableGroupHeaderAction( getFirstElement( ) ) );
-			subMenu.add( new IncludeTableGroupAction.IncludeTableGroupFooterAction( getFirstElement( ) ) );
-		}
-		else
-		{
-			subMenu.add( getAction( IncludeHeaderAction.ID ) );
-			subMenu.add( getAction( IncludeDetailAction.ID ) );
-			subMenu.add( getAction( IncludeFooterAction.ID ) );
-		}
-		menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT, subMenu );
-	}
+//	private void createShowMenu( IMenuManager menuManager )
+//	{
+//		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
+//
+//		if ( isSelectedGroup( ) )
+//		{
+//			subMenu.add( new IncludeTableGroupAction.IncludeTableGroupHeaderAction( getFirstElement( ) ) );
+//			subMenu.add( new IncludeTableGroupAction.IncludeTableGroupFooterAction( getFirstElement( ) ) );
+//		}
+//		else
+//		{
+//			subMenu.add( getAction( IncludeHeaderAction.ID ) );
+//			subMenu.add( getAction( IncludeDetailAction.ID ) );
+//			subMenu.add( getAction( IncludeFooterAction.ID ) );
+//		}
+//		menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT, subMenu );
+//	}
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu
@@ -733,24 +731,24 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		return listParts;
 	}
 
-	private boolean isSelectedGroup( )
-	{
-		if ( getFirstElement( ) instanceof RowHandle )
-		{
-			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );
-			if ( container instanceof TableGroupHandle )
-			{
-				return true;
-			}
-		}
-		if ( getFirstElement( ) instanceof SlotHandle )
-		{
-			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
-			if ( container instanceof ListGroupHandle )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean isSelectedGroup( )
+//	{
+//		if ( getFirstElement( ) instanceof RowHandle )
+//		{
+//			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );
+//			if ( container instanceof TableGroupHandle )
+//			{
+//				return true;
+//			}
+//		}
+//		if ( getFirstElement( ) instanceof SlotHandle )
+//		{
+//			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
+//			if ( container instanceof ListGroupHandle )
+//			{
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 }

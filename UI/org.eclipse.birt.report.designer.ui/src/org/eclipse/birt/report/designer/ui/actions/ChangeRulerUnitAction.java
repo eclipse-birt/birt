@@ -25,7 +25,6 @@ public class ChangeRulerUnitAction extends Action
 {
 
 	private String value = ""; //$NON-NLS-1$
-	private String displayName = ""; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -36,7 +35,6 @@ public class ChangeRulerUnitAction extends Action
 	{
 		super( );
 		this.value = value;
-		this.displayName = displayName;
 		setText( displayName );
 		setChecked( isCheckValue( ) );
 	}

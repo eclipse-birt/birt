@@ -17,10 +17,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
-import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
@@ -44,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/23 03:10:03 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/24 01:08:00 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -223,47 +220,47 @@ public class SelectValueDialog extends BaseDialog
 		}
 	}
 
-	private void populateList1( )
-	{
-		try
-		{
-			//Execute the query and populate this list
-			OdaDataSetDesign design = (OdaDataSetDesign) DataSetManager.getCurrentInstance( )
-					.getDataSetDesign( getDataSetHandle( ), true, false );
-			design.addComputedColumn( new ComputedColumn( "selectValue",
-					getExpression( ) ) );
-			QueryDefinition query = DataSetManager.getCurrentInstance( )
-					.getQueryDefinition( design );
-			ScriptExpression expression = new ScriptExpression( "row[\"selectValue\"]" );
-
-			GroupDefinition defn = new GroupDefinition( );
-			defn.setKeyExpression( expression.getText( ) );
-			query.setUsesDetails( false );
-			query.addGroup( defn );
-			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
-
-			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-					.getPreparedQuery( query );
-			IQueryResults results = preparedQuery.execute( null );
-			selectValueList.removeAll( );
-			if ( results != null )
-			{
-				IResultIterator iter = results.getResultIterator( );
-				if ( iter != null )
-				{
-					while ( iter.next( ) )
-					{
-						selectValueList.add( iter.getString( expression ) );
-					}
-				}
-
-				results.close( );
-			}
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
-			ExceptionHandler.handle( e );
-		}
-	}
+//	private void populateList1( )
+//	{
+//		try
+//		{
+//			//Execute the query and populate this list
+//			OdaDataSetDesign design = (OdaDataSetDesign) DataSetManager.getCurrentInstance( )
+//					.getDataSetDesign( getDataSetHandle( ), true, false );
+//			design.addComputedColumn( new ComputedColumn( "selectValue",
+//					getExpression( ) ) );
+//			QueryDefinition query = DataSetManager.getCurrentInstance( )
+//					.getQueryDefinition( design );
+//			ScriptExpression expression = new ScriptExpression( "row[\"selectValue\"]" );
+//
+//			GroupDefinition defn = new GroupDefinition( );
+//			defn.setKeyExpression( expression.getText( ) );
+//			query.setUsesDetails( false );
+//			query.addGroup( defn );
+//			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
+//
+//			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
+//					.getPreparedQuery( query );
+//			IQueryResults results = preparedQuery.execute( null );
+//			selectValueList.removeAll( );
+//			if ( results != null )
+//			{
+//				IResultIterator iter = results.getResultIterator( );
+//				if ( iter != null )
+//				{
+//					while ( iter.next( ) )
+//					{
+//						selectValueList.add( iter.getString( expression ) );
+//					}
+//				}
+//
+//				results.close( );
+//			}
+//		}
+//		catch ( Exception e )
+//		{
+//			e.printStackTrace( );
+//			ExceptionHandler.handle( e );
+//		}
+//	}
 }
