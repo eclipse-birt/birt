@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -33,6 +34,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -46,6 +48,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class TableLayout extends XYLayout
 {
+
+	/**
+	 * An insets singleton.
+	 */
+	private static final Insets INSETS_SINGLETON = new Insets( );
 
 	/** The layout constraints */
 	protected Map constraints = new HashMap( );
@@ -523,6 +530,8 @@ public class TableLayout extends XYLayout
 				.getClientArea( )
 				.getSize( ).width;
 
+		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) ).getWidth();
+
 		TableHandleAdapter tadp = null;
 
 		if ( getOwner( ) instanceof GridEditPart )
@@ -569,6 +578,16 @@ public class TableLayout extends XYLayout
 		TableLayoutHelper.calculateColumnWidth( data.columnWidths,
 				containerWidth,
 				calculator );
+	}
+
+	private Insets getFigureMargin( IFigure f )
+	{
+		if ( f instanceof IReportElementFigure )
+		{
+			return ( (IReportElementFigure) f ).getMargin( );
+		}
+
+		return INSETS_SINGLETON;
 	}
 
 	private int getDefinedWidth( String dw, int cw )

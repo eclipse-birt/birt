@@ -199,7 +199,9 @@ public class ListEditPart extends ReportElementEditPart
 		refreshBorder( getListHandleAdapt( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
 
-		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
+		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
+		
+		refreshMargin();
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
 	}

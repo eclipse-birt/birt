@@ -12,6 +12,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -129,7 +130,14 @@ public class ImageFigure extends ReportElementFigure
 	{
 		if ( isOpaque( ) )
 		{
-			graphics.fillRectangle( getBounds( ) );
+			if ( getBorder( ) instanceof BaseBorder )
+			{
+				graphics.fillRectangle( getBounds( ).getCopy().crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
+			}
+			else
+			{
+				graphics.fillRectangle( getBounds( ) );
+			}
 		}
 
 		if ( getImage( ) == null )

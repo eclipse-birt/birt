@@ -115,7 +115,7 @@ public class ListBandLayout extends AbstractHintLayout
 						height,
 						dim.width,
 						dim.height ) );
-				height = height + dim.height;
+				height = height + dim.height + verticalSpan;
 			}
 
 		}

@@ -49,7 +49,7 @@ public class ReportItemConstraint extends Rectangle
 	/**
 	 * @return true if the element display is inline
 	 */
-	public boolean isInJline( )
+	public boolean isInline( )
 	{
 		return m_display == INLINE;
 	}

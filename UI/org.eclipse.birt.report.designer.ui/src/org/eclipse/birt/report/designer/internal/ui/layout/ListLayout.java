@@ -34,7 +34,7 @@ public class ListLayout extends AbstractHintLayout
 	/** The layout constraints */
 	protected Map constraints = new HashMap( );
 
-	private static final int verticalSpan = 3;
+	private static final int verticalSpan = 2;
 
 	/*
 	 * (non-Javadoc)

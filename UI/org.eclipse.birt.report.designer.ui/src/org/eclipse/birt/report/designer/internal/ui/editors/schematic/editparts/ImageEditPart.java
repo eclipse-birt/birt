@@ -110,7 +110,7 @@ public class ImageEditPart extends ReportElementEditPart
 
 		Insets pist = getImageAdapter( ).getPadding( getFigure( ).getInsets( ) );
 
-		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setInsets( pist );
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
 
 		Image image = null;
 		try
@@ -159,6 +159,8 @@ public class ImageEditPart extends ReportElementEditPart
 		}
 
 		refreshBackgroundColor( (DesignElementHandle) getModel( ) );
+		
+		refreshMargin();
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),

@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellPaddingBorder;
-import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.TextLayout;
@@ -34,7 +32,6 @@ public class CellFigure extends ReportElementFigure
 	 */
 	public CellFigure( )
 	{
-		setBorder( new CellPaddingBorder( ) );
 	}
 
 	/*
@@ -44,14 +41,6 @@ public class CellFigure extends ReportElementFigure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-
-		if ( isOpaque( ) )
-			graphics.fillRectangle( getBounds( ).x + 1,
-					getBounds( ).y + 1,
-					getBounds( ).width - 2,
-					getBounds( ).height - 2 );
-
-
 		super.paintFigure( graphics );
 		
 		if ( blankString != null && blankString.length( ) > 0 )
@@ -74,23 +63,6 @@ public class CellFigure extends ReportElementFigure
 		int top = ( getBounds( ).height - rc.height ) / 2;
 
 		g.drawString( s, getBounds( ).x + left, getBounds( ).y + top );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.draw2d.Figure#setBorder(org.eclipse.draw2d.Border)
-	 */
-	public void setBorder( Border border )
-	{
-		if ( border instanceof CellPaddingBorder )
-		{
-			super.setBorder( border );
-		}
-		else
-		{
-			( (CellPaddingBorder) getBorder( ) ).setChainBorder( border );
-		}
 	}
 
 	/**

@@ -15,11 +15,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.draw2d.AbstractHintLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -44,6 +46,11 @@ public class ReportFlowLayout extends AbstractHintLayout
 	public static final int ALIGN_RIGHTBOTTOM = 2;
 
 	/**
+	 * An insets singleton.
+	 */
+	private static final Insets INSETS_SINGLETON = new Insets( );
+
+	/**
 	 * The property that determines whether leftover space at the end of a
 	 * row/column should be filled by the last item in that row/column.
 	 */
@@ -62,6 +69,8 @@ public class ReportFlowLayout extends AbstractHintLayout
 	protected int majorSpacing = 5;
 
 	private WorkingData data = null;
+
+	private Hashtable constraints = new Hashtable( );
 
 	/**
 	 * Holds the necessary information for layout calculations.
@@ -142,6 +151,16 @@ public class ReportFlowLayout extends AbstractHintLayout
 		return minorSpacing;
 	}
 
+	private Insets getFigureMargin( IFigure f )
+	{
+		if ( f instanceof IReportElementFigure )
+		{
+			return ( (IReportElementFigure) f ).getMargin( );
+		}
+
+		return INSETS_SINGLETON;
+	}
+
 	/**
 	 * Initializes the state of row data, which is internal to the layout
 	 * process.
@@ -194,28 +213,46 @@ public class ReportFlowLayout extends AbstractHintLayout
 		while ( iterator.hasNext( ) )
 		{
 			IFigure f = (IFigure) iterator.next( );
+
+			Insets fmargin = getFigureMargin( f );
+
 			// Block elements take the whole space, in-line and none take -1
 			if ( getDisplay( f ) == ReportItemConstraint.BLOCK )
+			{
 				wHint = parent.getClientArea( ).width;
+			}
 			else
+			{
 				wHint = -1;
+			}
+
+			if ( wHint != -1 )
+			{
+				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
+			}
 
 			Dimension pref = getChildSize( f, wHint, hHint );
 
 			// Hack to allow in-line label wrap.
 			if ( f instanceof LabelFigure
-					&& pref.width > parent.getClientArea( ).width )
+					&& ( pref.width + fmargin.getWidth( ) ) > parent.getClientArea( ).width )
 			{
-				pref = getChildSize( f, parent.getClientArea( ).width, hHint );
+				pref = getChildSize( f,
+						Math.max( 0, parent.getClientArea( ).width
+								- fmargin.getWidth( ) ),
+						hHint );
 			}
 
-			Rectangle r = new Rectangle( 0, 0, pref.width, pref.height );
+			Rectangle r = new Rectangle( 0,
+					0,
+					pref.width + fmargin.getWidth( ),
+					pref.height + fmargin.getHeight( ) );
 
 			display = getDisplay( f );
 
 			if ( data.rowCount > 0 )
 			{
-				if ( ( data.rowWidth + pref.width > data.maxWidth )
+				if ( ( data.rowWidth + r.width > data.maxWidth )
 						|| display == ReportItemConstraint.BLOCK
 						|| lastDisplay == ReportItemConstraint.BLOCK )
 					layoutRow( parent );
@@ -234,7 +271,9 @@ public class ReportFlowLayout extends AbstractHintLayout
 			i++;
 		}
 		if ( data.rowCount != 0 )
+		{
 			layoutRow( parent );
+		}
 		data = null;
 	}
 
@@ -292,7 +331,9 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 			data.bounds[j].x += majorAdjustment;
 
-			setBoundsOfChild( parent, data.row[j], data.bounds[j] );
+			setBoundsOfChild( parent,
+					data.row[j],
+					data.bounds[j].crop( getFigureMargin( data.row[j] ) ) );
 		}
 		data.rowY += getMajorSpacing( ) + data.rowHeight;
 		initRow( );
@@ -394,100 +435,6 @@ public class ReportFlowLayout extends AbstractHintLayout
 		minorSpacing = n;
 	}
 
-	private Hashtable constraints = new Hashtable( );
-
-	/**
-	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(IFigure,
-	 *      int, int)
-	 */
-	protected Dimension calculatePreferredSize( IFigure container, int wHint,
-			int hHint )
-	{
-		// Subtract out the insets from the hints
-		if ( wHint > -1 )
-			wHint = Math.max( 0, wHint - container.getInsets( ).getWidth( ) );
-		if ( hHint > -1 )
-			hHint = Math.max( 0, hHint - container.getInsets( ).getHeight( ) );
-
-		// Figure out the new hint that we are interested in based on the
-		// orientation
-		// Ignore the other hint (by setting it to -1). NOTE: The children of
-		// the
-		// parent figure will then be asked to ignore that hint as well.
-		int maxWidth;
-
-		maxWidth = wHint;
-		hHint = -1;
-
-		if ( maxWidth < 0 )
-		{
-			maxWidth = Integer.MAX_VALUE;
-		}
-
-		// The preferred dimension that is to be calculated and returned
-		Dimension prefSize = new Dimension( );
-
-		List children = container.getChildren( );
-		int width = 0;
-		int height = 0;
-		IFigure child;
-		IFigure lastChild = null;
-		Dimension childSize;
-
-		//Build the sizes for each row, and update prefSize accordingly
-		for ( int i = 0; i < children.size( ); i++ )
-		{
-			child = (IFigure) children.get( i );
-			//added by gao, if figure is in-line, wHint is -1
-			if ( getDisplay( child ) != ReportItemConstraint.BLOCK )
-			{
-				wHint = -1;
-			}
-			childSize = getChildSize( child, wHint, hHint );
-
-			if ( i == 0 )
-			{
-				width = childSize.width;
-				height = childSize.height;
-			}
-			else if ( ( getDisplay( child ) == ReportItemConstraint.NONE ) )
-			{
-				// don't display the child
-			}
-			else if ( ( width + childSize.width + getMinorSpacing( ) <= maxWidth )
-					&& ( ( getDisplay( child ) == ReportItemConstraint.INLINE ) && ( getDisplay( lastChild ) == ReportItemConstraint.INLINE ) ) )
-			{
-				// The current row can fit another child.
-				width += childSize.width + getMinorSpacing( );
-				height = Math.max( height, childSize.height );
-			}
-
-			else
-			{
-				// The current row is full or the element is not in-line, start
-				// a
-				// new row.
-				prefSize.height += height + getMajorSpacing( );
-				prefSize.width = Math.max( prefSize.width, width );
-				width = childSize.width;
-				height = childSize.height;
-			}
-			lastChild = child;
-		}
-
-		// Flush out the last row's data
-		prefSize.height += height;
-		prefSize.width = Math.max( prefSize.width, width );
-
-		// compensate for the border.
-
-		prefSize.width += container.getInsets( ).getWidth( );
-		prefSize.height += container.getInsets( ).getHeight( );
-		prefSize.union( getBorderPreferredSize( container ) );
-
-		return prefSize;
-	}
-
 	private int getDisplay( IFigure element )
 	{
 
@@ -546,6 +493,112 @@ public class ReportFlowLayout extends AbstractHintLayout
 		}
 	}
 
+	/**
+	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(IFigure,
+	 *      int, int)
+	 */
+	protected Dimension calculatePreferredSize( IFigure container, int wHint,
+			int hHint )
+	{
+		// Subtract out the insets from the hints
+		if ( wHint > -1 )
+			wHint = Math.max( 0, wHint - container.getInsets( ).getWidth( ) );
+		if ( hHint > -1 )
+			hHint = Math.max( 0, hHint - container.getInsets( ).getHeight( ) );
+
+		// Figure out the new hint that we are interested in based on the
+		// orientation
+		// Ignore the other hint (by setting it to -1). NOTE: The children of
+		// the
+		// parent figure will then be asked to ignore that hint as well.
+		int maxWidth;
+
+		maxWidth = wHint;
+		hHint = -1;
+
+		if ( maxWidth < 0 )
+		{
+			maxWidth = Integer.MAX_VALUE;
+		}
+
+		// The preferred dimension that is to be calculated and returned
+		Dimension prefSize = new Dimension( );
+
+		List children = container.getChildren( );
+		int width = 0;
+		int height = 0;
+		IFigure child;
+		IFigure lastChild = null;
+		Dimension childSize;
+
+		//Build the sizes for each row, and update prefSize accordingly
+		for ( int i = 0; i < children.size( ); i++ )
+		{
+			child = (IFigure) children.get( i );
+
+			Insets fmargin = getFigureMargin( child );
+
+			if ( wHint != -1 )
+			{
+				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
+			}
+
+			//added by gao, if figure is in-line, wHint is -1
+			if ( getDisplay( child ) != ReportItemConstraint.BLOCK )
+			{
+				wHint = -1;
+			}
+
+			childSize = getChildSize( child, wHint, hHint );
+
+			if ( i == 0 )
+			{
+				width = childSize.width + fmargin.getWidth( );
+				height = childSize.height + fmargin.getHeight( );
+			}
+			else if ( ( getDisplay( child ) == ReportItemConstraint.NONE ) )
+			{
+				// don't display the child
+			}
+			else if ( ( width
+					+ childSize.width
+					+ fmargin.getWidth( )
+					+ getMinorSpacing( ) <= maxWidth )
+					&& ( ( getDisplay( child ) == ReportItemConstraint.INLINE ) && ( getDisplay( lastChild ) == ReportItemConstraint.INLINE ) ) )
+			{
+				// The current row can fit another child.
+				width += childSize.width
+						+ fmargin.getWidth( )
+						+ getMinorSpacing( );
+				height = Math.max( height, childSize.height
+						+ fmargin.getHeight( ) );
+			}
+			else
+			{
+				// The current row is full or the element is not in-line, start
+				// a
+				// new row.
+				prefSize.height += height + getMajorSpacing( );
+				prefSize.width = Math.max( prefSize.width, width );
+				width = childSize.width + fmargin.getWidth( );
+				height = childSize.height + fmargin.getHeight( );
+			}
+
+			lastChild = child;
+		}
+
+		// Flush out the last row's data
+		prefSize.height += height;
+		prefSize.width = Math.max( prefSize.width, width );
+
+		// compensate for the border.
+		prefSize.width += container.getInsets( ).getWidth( );
+		prefSize.height += container.getInsets( ).getHeight( );
+		prefSize.union( getBorderPreferredSize( container ) );
+
+		return prefSize;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -589,25 +642,38 @@ public class ReportFlowLayout extends AbstractHintLayout
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			child = (IFigure) children.get( i );
-			//childSize = getChildSize(child, wHint, hHint);
+
+			Insets fmargin = getFigureMargin( child );
+
+			if ( wHint != -1 )
+			{
+				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
+			}
+
 			childSize = child.getMinimumSize( wHint, hHint );
+
 			if ( i == 0 )
 			{
-				width = childSize.width;
-				height = childSize.height;
+				width = childSize.width + fmargin.getWidth( );
+				height = childSize.height + fmargin.getHeight( );
 			}
 			else if ( ( getDisplay( child ) == ReportItemConstraint.NONE ) )
 			{
 				// don't display the child
 			}
-			else if ( ( width + childSize.width + getMinorSpacing( ) <= maxWidth )
+			else if ( ( width
+					+ childSize.width
+					+ fmargin.getWidth( )
+					+ getMinorSpacing( ) <= maxWidth )
 					&& ( ( getDisplay( child ) == ReportItemConstraint.INLINE ) && ( getDisplay( lastChild ) == ReportItemConstraint.INLINE ) ) )
 			{
 				// The current row can fit another child.
-				width += childSize.width + getMinorSpacing( );
-				height = Math.max( height, childSize.height );
+				width += childSize.width
+						+ fmargin.getWidth( )
+						+ getMinorSpacing( );
+				height = Math.max( height, childSize.height
+						+ fmargin.getHeight( ) );
 			}
-
 			else
 			{
 				// The current row is full or the element is not in-line, start
@@ -615,9 +681,10 @@ public class ReportFlowLayout extends AbstractHintLayout
 				// new row.
 				prefSize.height += height + getMajorSpacing( );
 				prefSize.width = Math.max( prefSize.width, width );
-				width = childSize.width;
-				height = childSize.height;
+				width = childSize.width + fmargin.getWidth( );
+				height = childSize.height + fmargin.getHeight( );
 			}
+
 			lastChild = child;
 		}
 
@@ -626,7 +693,6 @@ public class ReportFlowLayout extends AbstractHintLayout
 		prefSize.width = Math.max( prefSize.width, width );
 
 		// compensate for the border.
-
 		prefSize.width += container.getInsets( ).getWidth( );
 		prefSize.height += container.getInsets( ).getHeight( );
 		prefSize.union( getBorderPreferredSize( container ) );

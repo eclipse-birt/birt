@@ -463,11 +463,22 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	public abstract void refreshFigure( );
 
+	/**
+	 * Refresh Margin property for this element.
+	 */
+	protected void refreshMargin( )
+	{
+		if ( getFigure( ) instanceof IReportElementFigure )
+		{
+			( (IReportElementFigure) getFigure( ) ).setMargin( getModelAdapter( ).getMargin( null ) );
+		}
+	}
+
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 *  
 	 */
-	public void refreshBackground( DesignElementHandle handle )
+	protected void refreshBackground( DesignElementHandle handle )
 	{
 		refreshBackgroundColor( handle );
 		refreshBackgroundImage( handle );
@@ -477,7 +488,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 *  
 	 */
-	public void refreshBackgroundColor( DesignElementHandle handle )
+	protected void refreshBackgroundColor( DesignElementHandle handle )
 	{
 		Object obj = handle.getProperty( Style.BACKGROUND_COLOR_PROP );
 
@@ -510,7 +521,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 *  
 	 */
-	public void refreshBackgroundImage( DesignElementHandle handle )
+	protected void refreshBackgroundImage( DesignElementHandle handle )
 	{
 		IReportElementFigure figure = (IReportElementFigure) getFigure( );
 
@@ -693,32 +704,32 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	protected void refreshBorder( DesignElementHandle handle, BaseBorder border )
 	{
-		border.bottom_color = handle.getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
+		border.bottomColor = handle.getPropertyHandle( Style.BORDER_BOTTOM_COLOR_PROP )
 				.getStringValue( );
-		border.bottom_style = handle.getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
+		border.bottomStyle = handle.getPropertyHandle( Style.BORDER_BOTTOM_STYLE_PROP )
 				.getStringValue( );
-		border.bottom_width = handle.getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
-				.getStringValue( );
-
-		border.top_color = handle.getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
-				.getStringValue( );
-		border.top_style = handle.getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
-				.getStringValue( );
-		border.top_width = handle.getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
+		border.bottomWidth = handle.getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
 				.getStringValue( );
 
-		border.left_color = handle.getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
+		border.topColor = handle.getPropertyHandle( Style.BORDER_TOP_COLOR_PROP )
 				.getStringValue( );
-		border.left_style = handle.getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
+		border.topStyle = handle.getPropertyHandle( Style.BORDER_TOP_STYLE_PROP )
 				.getStringValue( );
-		border.left_width = handle.getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
+		border.topWidth = handle.getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
 				.getStringValue( );
 
-		border.right_color = handle.getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
+		border.leftColor = handle.getPropertyHandle( Style.BORDER_LEFT_COLOR_PROP )
 				.getStringValue( );
-		border.right_style = handle.getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
+		border.leftStyle = handle.getPropertyHandle( Style.BORDER_LEFT_STYLE_PROP )
 				.getStringValue( );
-		border.right_width = handle.getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
+		border.leftWidth = handle.getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
+				.getStringValue( );
+
+		border.rightColor = handle.getPropertyHandle( Style.BORDER_RIGHT_COLOR_PROP )
+				.getStringValue( );
+		border.rightStyle = handle.getPropertyHandle( Style.BORDER_RIGHT_STYLE_PROP )
+				.getStringValue( );
+		border.rightWidth = handle.getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
 				.getStringValue( );
 
 		getFigure( ).setBorder( border );

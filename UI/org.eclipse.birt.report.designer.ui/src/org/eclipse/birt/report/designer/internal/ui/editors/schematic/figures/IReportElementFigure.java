@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Image;
 
@@ -72,6 +73,20 @@ public interface IReportElementFigure
 	 *            The Image to be displayed. It can be <code>null</code>.
 	 */
 	void setImage( Image image );
+
+	/**
+	 * Sets the margin of current figure.
+	 * 
+	 * @param margin
+	 */
+	void setMargin( Insets margin );
+
+	/**
+	 * Returns the margin of current figure.
+	 * 
+	 * @return
+	 */
+	Insets getMargin( );
 
 	/*
 	 * (non-Javadoc)

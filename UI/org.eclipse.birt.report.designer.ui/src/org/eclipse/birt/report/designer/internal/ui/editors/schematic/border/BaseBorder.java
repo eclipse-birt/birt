@@ -13,10 +13,12 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.draw2d.AbstractBorder;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
@@ -29,26 +31,62 @@ import org.eclipse.swt.SWT;
 public abstract class BaseBorder extends AbstractBorder
 {
 
-	public String bottom_width;
-	public String bottom_style;
-	public String bottom_color;
-	public String top_width;
-	public String top_style;
-	public String top_color;
-	public String left_width;
-	public String left_style;
-	public String left_color;
-	public String right_width;
-	public String right_style;
-	public String right_color;
+	/**
+	 * Bottom border width.
+	 */
+	public String bottomWidth;
+	/**
+	 * Bottom border style.
+	 */
+	public String bottomStyle;
+	/**
+	 * Bottom border color.
+	 */
+	public String bottomColor;
+	/**
+	 * Top border width.
+	 */
+	public String topWidth;
+	/**
+	 * Top border style.
+	 */
+	public String topStyle;
+	/**
+	 * Top border color.
+	 */
+	public String topColor;
+	/**
+	 * Left border width.
+	 */
+	public String leftWidth;
+	/**
+	 * Left border style.
+	 */
+	public String leftStyle;
+	/**
+	 * Left border color.
+	 */
+	public String leftColor;
+	/**
+	 * Right border width.
+	 */
+	public String rightWidth;
+	/**
+	 * Right border style.
+	 */
+	public String rightStyle;
+	/**
+	 * Right border color.
+	 */
+	public String rightColor;
 
 	protected int i_bottom_style, i_bottom_width = 1;
 	protected int i_top_style, i_top_width = 1;
 	protected int i_left_style, i_left_width = 1;
 	protected int i_right_style, i_right_width = 1;
 
-	private static HashMap styleMap = new HashMap( );
-	private static HashMap widthMap = new HashMap( );
+	private static final HashMap styleMap = new HashMap( );
+	private static final HashMap widthMap = new HashMap( );
 
 	protected int leftGap, rightGap, bottomGap, topGap;
 
@@ -73,6 +111,29 @@ public abstract class BaseBorder extends AbstractBorder
 		widthMap.put( "medium", new Integer( 2 ) );//$NON-NLS-1$
 		widthMap.put( "thick", new Integer( 3 ) );//$NON-NLS-1$
 	}
+
+	/**
+	 * Since the insets now include border and padding, use this to get the true
+	 * and non-revised border insets.
+	 * 
+	 * @return border insets.
+	 */
+	protected abstract Insets getTrueBorderInsets( );
+
+	/**
+	 * Since the insets now include border and padding, use this to get the
+	 * border insets. This value may be revised according to specified element.
+	 * 
+	 * @return border insets.
+	 */
+	public abstract Insets getBorderInsets( );
+
+	/**
+	 * Sets the insets for padding.
+	 * 
+	 * @param in
+	 */
+	public abstract void setPaddingInsets( Insets in );
 
 	/**
 	 * Calculate gap to avoid cross-line when drawing thick/double line.
@@ -122,6 +183,19 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	protected int getBorderWidth( Object obj )
 	{
+		//handle non-predefined values.
+		if ( obj instanceof String )
+		{
+			String[] rt = DEUtil.splitString( (String) obj );
+
+			if ( rt[0] != null && DEUtil.isValidNumber( rt[0] ) )
+			{
+				return (int) DEUtil.convertoToPixel( new DimensionValue( Double.parseDouble( rt[0] ),
+						rt[1] ) );
+			}
+		}
+
+		//handle predefined values.
 		Integer retValue = (Integer) ( widthMap.get( obj ) );
 
 		if ( retValue == null )
@@ -188,16 +262,16 @@ public abstract class BaseBorder extends AbstractBorder
 				lineWidth + blankWidth,
 				r );
 
-		//draw the space line.
-		g.setForegroundColor( ColorConstants.white );
-		drawSingleLine( figure,
-				g,
-				side,
-				SWT.LINE_SOLID,
-				width,
-				blankWidth,
-				lineWidth,
-				r );
+		//		//draw the space line.
+		//		g.setForegroundColor( ColorConstants.white );
+		//		drawSingleLine( figure,
+		//				g,
+		//				side,
+		//				SWT.LINE_SOLID,
+		//				width,
+		//				blankWidth,
+		//				lineWidth,
+		//				r );
 
 	}
 

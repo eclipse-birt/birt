@@ -11,13 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -42,43 +37,61 @@ public class LineBorder extends BaseBorder
 	 */
 	public Insets getInsets( IFigure figure )
 	{
+		return getTrueBorderInsets( ).add( paddingInsets );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getBorderInsets()
+	 */
+	public Insets getBorderInsets( )
+	{
+		return getTrueBorderInsets();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getTrueBorderInsets()
+	 */
+	protected Insets getTrueBorderInsets( )
+	{
 		int t = 1, b = 1, l = 1, r = 1;
 
 		int style = 0;
 
-		style = getBorderStyle( bottom_style );
+		style = getBorderStyle( bottomStyle );
 		if ( style != 0 )
 		{
-			b = getBorderWidth( bottom_width );
+			b = getBorderWidth( bottomWidth );
 		}
 
-		style = getBorderStyle( top_style );
+		style = getBorderStyle( topStyle );
 		if ( style != 0 )
 		{
-			t = getBorderWidth( top_width );
+			t = getBorderWidth( topWidth );
 		}
 
-		style = getBorderStyle( left_style );
+		style = getBorderStyle( leftStyle );
 		if ( style != 0 )
 		{
-			l = getBorderWidth( left_width );
+			l = getBorderWidth( leftWidth );
 		}
 
-		style = getBorderStyle( right_style );
+		style = getBorderStyle( rightStyle );
 		if ( style != 0 )
 		{
-			r = getBorderWidth( right_width );
+			r = getBorderWidth( rightWidth );
 		}
 
-		return new Insets( t, l, b, r ).add( paddingInsets );
+		return new Insets( t, l, b, r );
 	}
 
-	/**
-	 * Sets the insets for the border.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param in
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
-	public void setInsets( Insets padding )
+	public void setPaddingInsets( Insets padding )
 	{
 		if ( padding != null )
 		{
@@ -110,39 +123,39 @@ public class LineBorder extends BaseBorder
 	 */
 	public void paint( IFigure figure, Graphics g, Insets insets )
 	{
-		i_bottom_style = getBorderStyle( bottom_style );
-		i_bottom_width = getBorderWidth( bottom_width );
+		i_bottom_style = getBorderStyle( bottomStyle );
+		i_bottom_width = getBorderWidth( bottomWidth );
 
-		i_top_style = getBorderStyle( top_style );
-		i_top_width = getBorderWidth( top_width );
+		i_top_style = getBorderStyle( topStyle );
+		i_top_width = getBorderWidth( topWidth );
 
-		i_left_style = getBorderStyle( left_style );
-		i_left_width = getBorderWidth( left_width );
+		i_left_style = getBorderStyle( leftStyle );
+		i_left_width = getBorderWidth( leftWidth );
 
-		i_right_style = getBorderStyle( right_style );
-		i_right_width = getBorderWidth( right_width );
+		i_right_style = getBorderStyle( rightStyle );
+		i_right_width = getBorderWidth( rightWidth );
 
 		g.restoreState( );
 
 		//draw bottom line
 		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
-		}, bottom_color, insets );
+		}, bottomColor, insets );
 
 		//draw top line
 		drawBorder( figure, g, TOP, i_top_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
-		}, top_color, insets );
+		}, topColor, insets );
 
 		//draw left line
 		drawBorder( figure, g, LEFT, i_left_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
-		}, left_color, insets );
+		}, leftColor, insets );
 
 		//draw right line
 		drawBorder( figure, g, RIGHT, i_right_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
-		}, right_color, insets );
+		}, rightColor, insets );
 	}
 
 	/**
@@ -156,7 +169,7 @@ public class LineBorder extends BaseBorder
 	 * @param color
 	 * @param insets
 	 */
-	private void drawBorder( IFigure figure, Graphics g, int side, int style,
+	protected void drawBorder( IFigure figure, Graphics g, int side, int style,
 			int[] width, String color, Insets insets )
 	{
 		Rectangle r = figure.getBounds( )
@@ -191,46 +204,6 @@ public class LineBorder extends BaseBorder
 		}
 
 		g.restoreState( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.border.BaseBorder#getStyeWidth(java.lang.Object)
-	 */
-	protected int getBorderWidth( Object obj )
-	{
-		if ( obj instanceof String )
-		{
-			String[] rt = DEUtil.splitString( (String) obj );
-
-			if ( rt[0] != null )
-			{
-				String target = DesignChoiceConstants.UNITS_PT;
-
-				if ( DimensionUtil.isAbsoluteUnit( rt[1] ) )
-				{
-					if ( DEUtil.isValidNumber( rt[0] ) )
-					{
-						try
-						{
-							int width = (int) ( DimensionUtil.convertTo( rt[0],
-									rt[1],
-									target ) ).getMeasure( );
-
-							return width;
-						}
-						catch ( PropertyValueException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-					}
-				}
-
-			}
-		}
-
-		return super.getBorderWidth( obj );
 	}
 
 }

@@ -343,9 +343,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		refreshBorder( getTableAdapter( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
 
-		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setInsets( getTableAdapter( ).getPadding( getFigure( ).getInsets( ) ) );
+		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getTableAdapter( ).getPadding( getFigure( ).getInsets( ) ) );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
+		
+		refreshMargin();
 
 		for ( Iterator itr = getChildren( ).iterator( ); itr.hasNext( ); )
 		{

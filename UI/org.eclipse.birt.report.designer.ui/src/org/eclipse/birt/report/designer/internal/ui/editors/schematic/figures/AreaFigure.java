@@ -39,6 +39,7 @@ public class AreaFigure extends Figure
 	public AreaFigure( )
 	{
 		super( );
+		
 		setOpaque( false );
 
 		setBorder( new MarginBorder( inset ) );

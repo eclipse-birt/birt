@@ -183,7 +183,7 @@ public class LabelEditPart extends ReportElementEditPart
 
 		Insets pist = getLabelAdapter( ).getPadding( getFigure( ).getInsets( ) );
 
-		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setInsets( pist );
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
 
 		if ( !hasText( ) )
 			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorConstants.lightGray );
@@ -191,6 +191,8 @@ public class LabelEditPart extends ReportElementEditPart
 			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
+		
+		refreshMargin();
 	}
 
 	protected boolean hasText( )

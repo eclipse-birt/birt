@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellPaddingBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
@@ -56,6 +55,7 @@ public class TableCellEditPart extends ReportElementEditPart
 
 	/**
 	 * Constructor
+	 * 
 	 * @param obj
 	 */
 	public TableCellEditPart( Object obj )
@@ -162,13 +162,13 @@ public class TableCellEditPart extends ReportElementEditPart
 		int rNumber = getRowNumber( );
 		int cNumber = getColumnNumber( );
 
-		if ( rNumber > 0 && cNumber > 0)
+		if ( rNumber > 0 && cNumber > 0 )
 		{
 			for ( int i = rNumber; i < rNumber + getRowSpan( ); i++ )
 			{
 				h += tablePart.caleVisualHeight( i );
 			}
-			
+
 			for ( int j = cNumber; j < cNumber + getColSpan( ); j++ )
 			{
 				w += tablePart.caleVisualWidth( j );
@@ -184,9 +184,11 @@ public class TableCellEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
+		refreshBorder( getCellAdapter( ).getHandle( ), new CellBorder( ) );
+
 		Insets ist = getCellAdapter( ).getPadding( getFigure( ).getInsets( ) );
 
-		( (CellPaddingBorder) ( getFigure( ).getBorder( ) ) ).setInsets( ist );
+		( (CellBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( ist );
 
 		StyleHandle style = ( (CellHandle) getModel( ) ).getPrivateStyle( );
 
@@ -224,8 +226,6 @@ public class TableCellEditPart extends ReportElementEditPart
 		rflayout.layout( getFigure( ) );
 
 		updateBlankString( );
-
-		refreshBorder( getCellAdapter( ).getHandle( ), new CellBorder( ) );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
 	}
@@ -399,42 +399,43 @@ public class TableCellEditPart extends ReportElementEditPart
 	{
 		return (CellHandleAdapter) getModelAdapter( );
 	}
-	
-	public void showTargetFeedback(Request request)
+
+	public void showTargetFeedback( Request request )
 	{
-	    if ( this.getSelected() == 0 &&
-	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
-	    {
-	    	
-	    	if (isFigureLeft(request))
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getLeftCellCursor() );
-	    	}
-	    	else
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getRightCellCursor() );
-	    	}
-	    }
-	    super.showTargetFeedback( request );
-	}
-	
-	
-	
-	public void eraseTargetFeedback( Request request)
-	{
-		if (isActive())
+		if ( this.getSelected( ) == 0
+				&& isActive( )
+				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
-			this.getViewer().setCursor( null );
+
+			if ( isFigureLeft( request ) )
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getLeftCellCursor( ) );
+			}
+			else
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getRightCellCursor( ) );
+			}
 		}
-	    super.eraseTargetFeedback( request );
+		super.showTargetFeedback( request );
 	}
-	
-	protected void addChildVisual(EditPart part, int index)
+
+	public void eraseTargetFeedback( Request request )
 	{
-	    // make sure we don't keep a select cell cursor after new contents
-	    // are added
-	    this.getViewer().setCursor( null );
-	    super.addChildVisual(part, index);
+		if ( isActive( ) )
+		{
+			this.getViewer( ).setCursor( null );
+		}
+		super.eraseTargetFeedback( request );
 	}
-	
+
+	protected void addChildVisual( EditPart part, int index )
+	{
+		// make sure we don't keep a select cell cursor after new contents
+		// are added
+		this.getViewer( ).setCursor( null );
+		super.addChildVisual( part, index );
+	}
+
 }

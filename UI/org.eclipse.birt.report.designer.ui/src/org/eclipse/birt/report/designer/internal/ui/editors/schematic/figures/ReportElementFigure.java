@@ -12,10 +12,12 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
@@ -35,6 +37,8 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	private Point position = new Point( -1, -1 );
 
 	private int repeat;
+
+	private Insets margin = new Insets( );
 
 	private Dimension size = new Dimension( );
 
@@ -119,7 +123,17 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		super.paintFigure( graphics );
+		if ( isOpaque( ) )
+		{
+			if ( getBorder( ) instanceof BaseBorder )
+			{
+				graphics.fillRectangle( getBounds( ).getCopy().crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
+			}
+			else
+			{
+				graphics.fillRectangle( getBounds( ) );
+			}
+		}
 
 		Image image = getImage( );
 		if ( image == null )
@@ -319,5 +333,49 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 			size = new Dimension( );
 		revalidate( );
 		repaint( );
+	}
+
+	/**
+	 * Sets the margin for current figure.
+	 * 
+	 * @param newMargin
+	 */
+	public void setMargin( Insets newMargin )
+	{
+		if ( newMargin == null )
+		{
+			margin = new Insets( );
+		}
+		else
+		{
+			margin = new Insets( newMargin );
+
+			if ( margin.left < 0 )
+			{
+				margin.left = 0;
+			}
+			if ( margin.right < 0 )
+			{
+				margin.right = 0;
+			}
+			if ( margin.top < 0 )
+			{
+				margin.top = 0;
+			}
+			if ( margin.bottom < 0 )
+			{
+				margin.bottom = 0;
+			}
+		}
+	}
+
+	/**
+	 * Returns the margin of current figure.
+	 * 
+	 * @return
+	 */
+	public Insets getMargin( )
+	{
+		return margin;
 	}
 }
