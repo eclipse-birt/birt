@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.util.Vector;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -83,8 +81,6 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
     private transient Combo cmbActionType = null;
 
-    private transient Vector vListeners = null;
-
     /**
      * @param parent
      * @param style
@@ -100,7 +96,6 @@ public class TriggerDataComposite extends Composite implements SelectionListener
     private void init()
     {
         this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-        vListeners = new Vector();
     }
 
     private void placeComponents()

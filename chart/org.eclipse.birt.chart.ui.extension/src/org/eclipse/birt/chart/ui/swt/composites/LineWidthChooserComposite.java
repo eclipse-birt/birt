@@ -48,10 +48,6 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
 
     private transient Button btnDown = null;
 
-    private transient int iScreenX = 0;
-
-    private transient int iScreenY = 0;
-
     private final int[] iLineWidths = new int[]
     {
         1, 2, 3, 4

@@ -68,8 +68,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 
     private transient Image img2D = null;
 
-    private transient ChartWithAxes newChart = null;
-
     private static final String[] saDimensions = new String[]
     {
         "2D"
@@ -535,6 +533,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 
     private ChartDimension getDimensionFor(String sDimension)
     {
-        return ChartDimension.TWO_DIMENSIONAL_LITERAL;
+        return ChartDimension.get(sDimension);
     }
 }

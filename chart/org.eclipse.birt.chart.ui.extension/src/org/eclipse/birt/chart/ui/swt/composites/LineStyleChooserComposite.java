@@ -48,10 +48,6 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
 
     private transient Button btnDown = null;
 
-    private transient int iScreenX = 0;
-
-    private transient int iScreenY = 0;
-
     private final int[] iLineStyles = new int[]
     {
         SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT

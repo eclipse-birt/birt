@@ -31,8 +31,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class ExternalizedTextEditorComposite extends Canvas implements SelectionListener, Listener
 {
-    private transient Composite cmpContent = null;
-
     private transient TextEditorComposite txtSelection = null;
 
     private transient Button btnDown = null;
@@ -162,13 +160,10 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
             }
             return str.substring(iSeparator);
         }
-        else
+        sTmp = serviceprovider.getValue(sTmp);
+        if (sTmp == null || "".equals(sTmp))
         {
-            sTmp = serviceprovider.getValue(sTmp);
-            if (sTmp == null || "".equals(sTmp))
-            {
-                sTmp = "Key could not be found in Properties file...or properties file not present.";
-            }
+            sTmp = "Key could not be found in Properties file...or properties file not present.";
         }
         return sTmp;
     }

@@ -112,8 +112,6 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
 
     private transient boolean bCancelled = true;
 
-    private transient Button btnLast = null;
-
     /**
      * @param parent
      * @param style

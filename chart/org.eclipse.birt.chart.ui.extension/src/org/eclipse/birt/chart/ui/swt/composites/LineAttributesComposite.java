@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.swt.SWT;
@@ -38,8 +37,6 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 {
 
     private transient Composite cmpContent = null;
-
-    private transient Composite cmpVisible = null;
 
     private transient LineStyleChooserComposite cmbStyle = null;
 
@@ -197,24 +194,48 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 
     public void setLineAttributes(LineAttributes attributes)
     {
-        if (attributes == null)
-        {
-            return;
-        }
         laCurrent = attributes;
         if (bEnableVisibility)
         {
-            cbVisible.setSelection(attributes.isVisible());
+            if (laCurrent == null)
+            {
+                cbVisible.setSelection(false);
+            }
+            else
+            {
+                cbVisible.setSelection(attributes.isVisible());
+            }
         }
         if (bEnableStyles)
         {
-            cmbStyle.setLineStyle(getSWTLineStyle(attributes.getStyle()));
+            if (laCurrent == null)
+            {
+                cmbStyle.setLineStyle(getSWTLineStyle(LineStyle.SOLID_LITERAL));
+            }
+            else
+            {
+                cmbStyle.setLineStyle(getSWTLineStyle(attributes.getStyle()));
+            }
         }
         if (this.bEnableWidths)
         {
-            cmbWidth.setLineWidth(attributes.getThickness());
+            if (laCurrent == null)
+            {
+                cmbWidth.setLineWidth(1);
+            }
+            else
+            {
+                cmbWidth.setLineWidth(attributes.getThickness());
+            }
         }
-        cmbColor.setFill(attributes.getColor());
+        if (laCurrent == null)
+        {
+            cmbColor.setFill(null);
+        }
+        else
+        {
+            cmbColor.setFill(attributes.getColor());
+        }
         cmbColor.redraw();
         redraw();
     }
@@ -308,7 +329,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
     {
         if (cmbColor.equals(event.widget))
         {
-            fireValueChangedEvent(LineAttributesComposite.COLOR_CHANGED_EVENT, (ColorDefinition) cmbColor.getFill());
+            fireValueChangedEvent(LineAttributesComposite.COLOR_CHANGED_EVENT, cmbColor.getFill());
         }
         else if (cmbStyle != null && cmbStyle.equals(event.widget))
         {

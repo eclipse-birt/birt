@@ -630,10 +630,7 @@ public class BarChart extends DefaultChartTypeImpl
         {
             return ChartDimension.THREE_DIMENSIONAL_LITERAL;
         }
-        else
-        {
-            return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-        }
+        return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
     }
 
     /*

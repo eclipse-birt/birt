@@ -81,8 +81,6 @@ public class LineChart extends DefaultChartTypeImpl
 
     private transient Image imgSideBySide3D = null;
 
-    private transient ChartWithAxes newChart = null;
-
     private static final String[] saDimensions = new String[]
     {
         "2D", "2D With Depth"
@@ -644,9 +642,6 @@ public class LineChart extends DefaultChartTypeImpl
         {
             return ChartDimension.THREE_DIMENSIONAL_LITERAL;
         }
-        else
-        {
-            return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-        }
+        return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
     }
 }

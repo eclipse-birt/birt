@@ -140,7 +140,7 @@ public class FontCanvas extends Canvas implements PaintListener
                 }
                 else if (fdCurrent.getAlignment().getVerticalAlignment().equals(VerticalAlignment.CENTER_LITERAL))
                 {
-                    iStartY = (int) (this.getSize().y / 2);
+                    iStartY = (this.getSize().y / 2);
                     if (bUseSize)
                     {
                         iStartY -= (getStringWidth(gc, sFontName).y / 2);

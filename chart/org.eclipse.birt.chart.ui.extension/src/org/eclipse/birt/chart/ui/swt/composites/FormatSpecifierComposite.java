@@ -424,7 +424,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             cmbDateType.add(((DateFormatType) oArrDT[iDT]).getName());
             if (formatspecifier instanceof DateFormatSpecifier
-                && ((DateFormatSpecifier) formatspecifier).getType().equals((DateFormatType) oArrDT[iDT]))
+                && ((DateFormatSpecifier) formatspecifier).getType().equals(oArrDT[iDT]))
             {
                 cmbDateType.select(iDT);
             }
@@ -436,7 +436,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             cmbDateForm.add(((DateFormatDetail) oArrDD[iDD]).getName());
             if (formatspecifier instanceof DateFormatSpecifier
-                && ((DateFormatSpecifier) formatspecifier).getDetail().equals((DateFormatDetail) oArrDD[iDD]))
+                && ((DateFormatSpecifier) formatspecifier).getDetail().equals(oArrDD[iDD]))
             {
                 cmbDateForm.select(iDD);
             }

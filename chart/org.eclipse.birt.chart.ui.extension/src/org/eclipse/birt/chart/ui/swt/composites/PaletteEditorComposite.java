@@ -40,7 +40,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -63,11 +62,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
      * An internally maintained list of fills directly referenced into a palette
      */
     private final EList elPaletteEntries;
-
-    /**
-     * Used in offscreen image creation
-     */
-    private static final PaletteData PALETTE_DATA = new PaletteData(0xFF0000, 0xFF00, 0xFF);
 
     /**
      * Miscellaneous variables used in

@@ -106,7 +106,7 @@ public class StockSeriesAttributeComposite extends Composite implements Listener
     {
         if (event.widget.equals(fccCandle))
         {
-            ((StockSeries) series).setFill((Fill) event.data);
+            series.setFill((Fill) event.data);
         }
         else if (event.widget.equals(liacStock))
         {

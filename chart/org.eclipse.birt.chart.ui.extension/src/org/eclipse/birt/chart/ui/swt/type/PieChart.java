@@ -62,8 +62,6 @@ public class PieChart extends DefaultChartTypeImpl
 
     private transient Image img2DWithDepth = null;
 
-    private transient ChartWithoutAxes newChart = null;
-
     private static final String[] saDimensions = new String[]
     {
         "2D", "2D With Depth"
@@ -459,9 +457,6 @@ public class PieChart extends DefaultChartTypeImpl
         {
             return ChartDimension.TWO_DIMENSIONAL_LITERAL;
         }
-        else
-        {
-            return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-        }
+        return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
     }
 }

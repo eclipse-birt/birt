@@ -65,8 +65,6 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
 
     private transient FillCanvas cnvPreview = null;
 
-    private transient Display display = null;
-
     private transient Shell shell = null;
 
     /**
@@ -85,7 +83,6 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
             gCurrent.setStartColor(ColorDefinitionImpl.create(254, 0, 0));
             gCurrent.setEndColor(ColorDefinitionImpl.create(0, 0, 254));
         }
-        display = Display.getCurrent();
         shell = new Shell(shellParent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         placeComponents();

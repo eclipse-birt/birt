@@ -246,10 +246,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         {
             return sText.substring(0, sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR));
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     private String getValueComponent(String sText)
@@ -262,20 +259,14 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
                 return sText.substring(sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR)
                     + ExternalizedTextEditorComposite.SEPARATOR.length(), sText.length());
             }
-            else
-            {
-                return sText;
-            }
+            return sText;
         }
-        else
+        String sValue = serviceprovider.getValue(sKey);
+        if (sValue == null || "".equals(sValue))
         {
-            String sValue = serviceprovider.getValue(sKey);
-            if (sValue == null || "".equals(sValue))
-            {
-                sValue = "Key could not be found in Properties file...or properties file not present.";
-            }
-            return sValue;
+            sValue = "Key could not be found in Properties file...or properties file not present.";
         }
+        return sValue;
     }
 
     private String getCurrentPropertyValue()
@@ -284,10 +275,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         {
             return "";
         }
-        else
-        {
-            return getValueComponent(sResult);
-        }
+        return getValueComponent(sResult);
     }
 
     private String getDisplayValue()
@@ -296,10 +284,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         {
             return "<Value of key '" + getKeyComponent(sResult) + "'>";
         }
-        else
-        {
-            return getValueComponent(sResult);
-        }
+        return getValueComponent(sResult);
     }
 
     private String buildString()

@@ -40,8 +40,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class LineSeriesAttributeComposite extends Composite implements SelectionListener, Listener
 {
-    private transient Composite cmpContent = null;
-
     private transient Button btnCurve = null;
 
     private transient FillChooserComposite fccShadow = null;

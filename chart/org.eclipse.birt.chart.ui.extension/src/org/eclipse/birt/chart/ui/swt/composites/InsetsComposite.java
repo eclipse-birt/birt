@@ -41,8 +41,6 @@ public class InsetsComposite extends Composite implements Listener
 
     private transient Group grpInsets = null;
 
-    private transient Composite cmpContent = null;
-
     private transient TextEditorComposite txtTop = null;
 
     private transient TextEditorComposite txtLeft = null;
@@ -197,18 +195,6 @@ public class InsetsComposite extends Composite implements Listener
     public void addListener(Listener listener)
     {
         vListeners.add(listener);
-    }
-
-    private void fireEvent()
-    {
-        for (int iL = 0; iL < vListeners.size(); iL++)
-        {
-            Event se = new Event();
-            se.widget = this;
-            se.data = this.insets;
-            se.type = INSETS_CHANGED_EVENT;
-            ((Listener) vListeners.get(iL)).handleEvent(se);
-        }
     }
 
     public Point getPreferredSize()

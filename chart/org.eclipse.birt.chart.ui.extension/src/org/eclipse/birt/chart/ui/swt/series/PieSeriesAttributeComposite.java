@@ -37,8 +37,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class PieSeriesAttributeComposite extends Composite implements Listener, SelectionListener
 {
-    private transient Composite cmpContent = null;
-
     private transient Group grpLeaderLine = null;
 
     private transient IntegerSpinControl iscExplosion = null;
