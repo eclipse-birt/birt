@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -409,6 +410,11 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 				public void modifyText( ModifyEvent e )
 				{
+					if ( StringUtil.isBlank( fText.getText( ) ) )
+					{
+						fmeasure.deselectAll( );
+						fmeasure.setEnabled( false );
+					}
 					valueChanged( VALUE );
 				}
 			} );
@@ -453,7 +459,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 					if ( fmeasure != null )
 					{
-						if ( cusType && !( fmeasure.isEnabled( ) ) )
+						if ( cusType &&  !( fmeasure.isEnabled( ) ) )
 						{
 							//default unit is point.
 							fmeasure.select( 3 );
@@ -463,6 +469,11 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 					if ( !cusType )
 					{
 						fmeasure.deselectAll( );
+					}
+					if ( StringUtil.isBlank( fCombo.getText( ) ) )
+					{
+						fmeasure.deselectAll( );
+						fmeasure.setEnabled( false );
 					}
 					valueChanged( VALUE );
 				}
