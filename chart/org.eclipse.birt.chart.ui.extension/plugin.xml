@@ -3,8 +3,8 @@
 <plugin
    id="org.eclipse.birt.chart.ui.extension"
    name="UI Extensions Plug-in"
-   version="1.0.0"
-   provider-name="Actuate Corporation"
+   version="0.0.1"
+   provider-name="Eclipse.org"
    >
 
    <runtime>
@@ -89,6 +89,18 @@
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.LayoutSheetImpl"
             nodePath="Layout"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.PlotAttributeSheetImpl"
+            nodePath="Layout.Plot"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.LegendAttributeSheetImpl"
+            nodePath="Layout.Legend"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.TitleBlockAttributeSheetImpl"
+            nodePath="Layout.Title Block"/>
+      <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.attribute.LabelBlockAttributeSheetImpl"
+            nodePath="Layout.Label Block"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.general.ScriptSheetImpl"
             nodePath="Scripts"/>
