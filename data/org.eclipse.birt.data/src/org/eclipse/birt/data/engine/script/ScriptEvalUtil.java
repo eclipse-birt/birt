@@ -44,28 +44,36 @@ public class ScriptEvalUtil
 		switch ( operator )
 		{
 			case IConditionalExpression.OP_EQ :
+				validateExpression( resultObject, resultOp1 );				
 				result = compare( resultObject, resultOp1 ) == 0 ;
 				break;
 			case IConditionalExpression.OP_NE :
+				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) != 0 ;
 				break;
 			case IConditionalExpression.OP_LT :
+				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) < 0;
 				break;
 			case IConditionalExpression.OP_LE :
+				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) <= 0;
 				break;
 			case IConditionalExpression.OP_GE :
+				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) >= 0;
 				break;
 			case IConditionalExpression.OP_GT :
+				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) > 0 ;
 				break;
 			case IConditionalExpression.OP_BETWEEN :
+				validateExpression( resultObject, resultOp1, resultOp2 );
 				result = compare( resultObject, resultOp1 ) >= 0
 						&& compare( resultObject, resultOp2 ) <= 0 ;
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
+				validateExpression( resultObject, resultOp1, resultOp2 );
 				result = !(compare( resultObject, resultOp1 ) >= 0
 						&& compare( resultObject, resultOp2 ) <= 0 );
 				break;
@@ -106,6 +114,24 @@ public class ScriptEvalUtil
 		return new Boolean( result );
 	}
 
+	private static void validateExpression( Object ob1, Object ob2 )
+			throws DataException
+	{
+		if ( ob1 == null || ob2 == null )
+		{
+			throw new DataException( ResourceConstants.INVALID_EXPR );
+		}
+	}
+
+	private static void validateExpression( Object ob1, Object ob2, Object ob3 )
+			throws DataException
+	{
+		if ( ob1 == null || ob2 == null || ob3 == null )
+		{
+			throw new DataException( ResourceConstants.INVALID_EXPR );
+		}
+	}
+	
 	private static boolean isSameType( Object resultExpr, Object resultOp1 )
 	{
 		return resultExpr.getClass( ).equals( resultOp1.getClass( ) );
@@ -123,10 +149,7 @@ public class ScriptEvalUtil
 	
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
-		if ( obj1 == null || obj2 == null )
-		{
-			throw new DataException( ResourceConstants.NULL_POINTER );
-		}
+		assert obj1 != null && obj2 != null;
 		
 		if ( isSameType( obj1, obj2 ) )
 		{
