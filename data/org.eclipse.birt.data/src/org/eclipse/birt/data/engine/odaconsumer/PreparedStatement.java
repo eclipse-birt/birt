@@ -125,6 +125,10 @@ public class PreparedStatement
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_STATEMENT_PROPERTY, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_STATEMENT_PROPERTY, ex );
+		}
 	}
 	
 	private ArrayList getPropertiesList()
@@ -160,6 +164,10 @@ public class PreparedStatement
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_SORT_SPEC, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_SORT_SPEC, ex );
+		}
 	}
 	
 	private ArrayList getSortSpecsList()
@@ -191,6 +199,10 @@ public class PreparedStatement
 			m_statement.setMaxRows( max );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
 		}
@@ -261,6 +273,10 @@ public class PreparedStatement
 			return m_statement.getMetaData();
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, ex );
 		}
@@ -354,6 +370,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, ex, 
 			                         new Object[] { resultSetName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, ex, 
+			                         new Object[] { resultSetName } );
+		}
 	}
 
 	/**
@@ -378,6 +399,10 @@ public class PreparedStatement
 			return m_statement.execute( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_EXECUTE_STATEMENT, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_EXECUTE_STATEMENT, ex );
 		}
@@ -407,6 +432,10 @@ public class PreparedStatement
 			resultSet = m_statement.getResultSet( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET, ex );
 		}
@@ -448,6 +477,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_NAMED_RESULTSET, ex, 
 			                         new Object[] { resultSetName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_NAMED_RESULTSET, ex, 
+			                         new Object[] { resultSetName } );
+		}
 		
 		ResultSet rs = 
 			new ResultSet( resultset, doGetMetaData( resultSetName ) );
@@ -482,6 +516,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
 	}
 	
 	/**
@@ -497,6 +536,11 @@ public class PreparedStatement
 			return m_statement.getParameterType( paramIndex );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -525,6 +569,11 @@ public class PreparedStatement
 			return m_statement.getParameterType( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { paramName } );
@@ -581,6 +630,10 @@ public class PreparedStatement
 			m_statement.close( );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_CLOSE_STATEMENT, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_STATEMENT, ex );
 		}
@@ -680,25 +733,23 @@ public class PreparedStatement
 			ParameterHint existingParamHint = 
 				(ParameterHint) parameterHintsList.get( i );
 			
-			if( ! existingParamHint.getName().equals( newParamHintName ) )
+			String existingParamHintName = existingParamHint.getName();
+			if( ! existingParamHintName.equals( newParamHintName ) )
 			{
+				int existingParamHintPosition = existingParamHint.getPosition();
+				
 				// different names and parameter index is either 0 or didn't 
 				// match, so keep on looking
 				if( newParamHintIndex == 0 ||
-					existingParamHint.getPosition() != newParamHintIndex )
+					existingParamHintPosition != newParamHintIndex )
 					continue;
-				
-				// we also need to check whether this new parameter hint 
-				// is compatible with the entries in the other parameter hints 
-				// list, otherwise there will be problems in getParameterMetaData()
-				if( ! isMergingWithOtherHintList )
-					validateAndAddParameterHint( newParameterHint, ! useInputHintsList, 
-					                             true /* isMergingWithOtherHintList */ );
-				
-				// new parameter hint has a different name for the same 
-				// non-zero parameter index, so update the existing one
-				existingParamHint.updateHint( newParameterHint );
-				return;
+
+				// we don't want to allow different parameter hint name with the 
+				// same parameter hint position
+				throw new DataException( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION, 
+										 new Object[] { existingParamHintName, 
+														getLocalizedParamListTypeName( useInputHintsList ), 
+														new Integer( existingParamHintPosition ) } );
 			}
 
 			// the name of the existing hint matches the new hint, 
@@ -707,7 +758,9 @@ public class PreparedStatement
 			int existingParamHintIndex = existingParamHint.getPosition();
 			if( existingParamHintIndex != newParamHintIndex && 
 				existingParamHintIndex > 0 && newParamHintIndex > 0 )
-				throw new DataException( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS );
+				throw new DataException( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
+										 new Object[] { getLocalizedParamListTypeName( useInputHintsList ), 
+														existingParamHintName } );
 
 			// we also need to check whether this new parameter hint 
 			// is compatible with the entries in the other parameter hints 
@@ -734,6 +787,13 @@ public class PreparedStatement
 			
 			parameterHintsList.add( newParameterHint );
 		}
+	}
+	
+	private String getLocalizedParamListTypeName( boolean useInputHintsList )
+	{
+		String key = ( useInputHintsList ) ? ResourceConstants.INPUT_PARAMETERS :
+											 ResourceConstants.OUTPUT_PARAMETERS;
+		return DataResourceHandle.getInstance().getMessage( key );
 	}
 	
 	/**
@@ -912,16 +972,13 @@ public class PreparedStatement
 	}
 	
 	private void checkNamedResultsSupport( ) 
-		throws DataException, UnsupportedOperationException
+		throws DataException
 	{
 		// this can only support named result sets if the underlying object is at 
 		// least an ICallStatement
 		if( ! isCallStatement( ) || ! supportsNamedResults() )
-		{
-			String localizedMessage = 
-				DataResourceHandle.getInstance().getMessage( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED );
-			throw new UnsupportedOperationException( localizedMessage );
-		}
+			throw new DataException( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED, 
+									 new UnsupportedOperationException() );
 	}
 	/**
 	 * Returns a collection of <code>ParameterMetaData</code>, which contains 
@@ -1092,6 +1149,10 @@ public class PreparedStatement
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, ex );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, ex );
+		}
 	}
 	
 	private void updateWithParameterHints( List parameterMetaData, 
@@ -1146,10 +1207,13 @@ public class PreparedStatement
 			{	
 				return findInParameter( paramName );
 			}
-			catch( UnsupportedOperationException ex )
+			catch( DataException ex )
 			{
 				// findInParameter is not supported
-				return 0;
+				if( ex.getCause() instanceof UnsupportedOperationException )
+					return 0;
+				
+				throw ex;
 			}
 		}
 		
@@ -1157,24 +1221,24 @@ public class PreparedStatement
 		{
 			return findOutParameter( paramName );
 		}
-		catch( UnsupportedOperationException ex )
+		catch( DataException ex )
 		{
 			// findOutParameter is not supported
-			return 0;
+			if( ex.getCause() instanceof UnsupportedOperationException )
+				return 0;
+			
+			throw ex;
 		}
 	}
 	
 	private void checkOutputParameterSupport( ) 
-		throws DataException, UnsupportedOperationException
+		throws DataException
 	{
 		// this can only support output parameter if the underlying object is at 
 		// least an ICallStatement
-		if( ! isCallStatement( ) || ! supportsOutputParameter() )
-		{
-			String localizedMessage = 
-				DataResourceHandle.getInstance().getMessage( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED );
-			throw new UnsupportedOperationException( localizedMessage );
-		}
+		if( ! isCallStatement( ) || ! supportsOutputParameter() ) 
+			throw new DataException( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED, 
+									 new UnsupportedOperationException() );
 	}
 	
 	private Object getParameterValue( String paramName, int paramIndex ) 
@@ -1360,6 +1424,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private int doGetInt( String paramName ) throws DataException
@@ -1369,6 +1438,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getInt( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1386,6 +1460,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private double doGetDouble( String paramName ) throws DataException
@@ -1395,6 +1474,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getDouble( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1412,6 +1496,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );			
+		}
 	}
 	
 	private String doGetString( String paramName ) throws DataException
@@ -1421,6 +1510,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getString( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1438,6 +1532,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private BigDecimal doGetBigDecimal( String paramName ) throws DataException
@@ -1447,6 +1546,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getBigDecimal( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1464,6 +1568,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private Date doGetDate( String paramName ) throws DataException
@@ -1473,6 +1582,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getDate( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1490,6 +1604,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private Time doGetTime( String paramName ) throws DataException
@@ -1499,6 +1618,11 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).getTime( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -1516,6 +1640,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
 	private Timestamp doGetTimestamp( String paramName ) throws DataException
@@ -1529,6 +1658,11 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER, ex,
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER, ex,
+			                         new Object[] { paramName } );
+		}
 	}
 	
 	private boolean wasNull() throws DataException
@@ -1538,6 +1672,10 @@ public class PreparedStatement
 			return ( (ICallStatement) m_statement ).wasNull();
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
 		}
@@ -1713,6 +1851,11 @@ public class PreparedStatement
 			return getStatement( ).findInParameter( paramName );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
+			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
 			                         new Object[] { paramName } );
@@ -2302,17 +2445,25 @@ public class PreparedStatement
 
 	private void setInt( String paramName, int i ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetInt( paramIndex, i );
-				return;
-			}
+			doSetInt( paramName, i );
+			return;
 		}
 		
-		doSetInt( paramName, i );
+		if( ! setIntUsingHints( paramName, i ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_INT_PARAMETER, 
+									 new Object[] { paramName } );
+	}
+	
+	private boolean setIntUsingHints( String paramName, int i ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetInt( paramIndex, i );
+		return true;
 	}
 
 	private void setDouble( String paramName, int paramIndex, double d ) throws DataException
@@ -2325,42 +2476,58 @@ public class PreparedStatement
 	
 	private void setDouble( String paramName, double d ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetDouble( paramIndex, d );
-				return;
-			}
+			doSetDouble( paramName, d );
+			return;
 		}
 		
-		doSetDouble( paramName, d );
+		if( ! setDoubleUsingHints( paramName, d ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER, 
+									 new Object[] { paramName } );
+	}
+	
+	private boolean setDoubleUsingHints( String paramName, double d ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetDouble( paramIndex, d );
+		return true;
 	}
 
-	private void setString( String paramName, int paramIndex, String string ) throws DataException
+	private void setString( String paramName, int paramIndex, String stringValue ) throws DataException
 	{
 		if( paramName == null )
-			doSetString( paramIndex, string );
+			doSetString( paramIndex, stringValue );
 		else
-			setString( paramName, string );
+			setString( paramName, stringValue );
 	}
 
-	private void setString( String paramName, String string ) throws DataException
+	private void setString( String paramName, String stringValue ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetString( paramIndex, string );
-				return;
-			}
+			doSetString( paramName, stringValue );
+			return;
 		}
 		
-		doSetString( paramName, string );
+		if( ! setStringUsingHints( paramName, stringValue ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_STRING_PARAMETER, 
+									 new Object[] { paramName } );
 	}
 
+	private boolean setStringUsingHints( String paramName, String stringValue ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetString( paramIndex, stringValue );
+		return true;
+	}
+	
 	private void setBigDecimal( String paramName, int paramIndex, BigDecimal decimal ) throws DataException
 	{
 		if( paramName == null )
@@ -2371,19 +2538,27 @@ public class PreparedStatement
 
 	private void setBigDecimal( String paramName, BigDecimal decimal ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetBigDecimal( paramIndex, decimal );
-				return;
-			}
+			doSetBigDecimal( paramName, decimal );
+			return;
 		}
 		
-		doSetBigDecimal( paramName, decimal );
-	}
+		if( ! setBigDecimalUsingHints( paramName, decimal ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER, 
+									 new Object[] { paramName } );
+	}	
 
+	private boolean setBigDecimalUsingHints( String paramName, BigDecimal decimal ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetBigDecimal( paramIndex, decimal );
+		return true;
+	}
+	
 	private void setDate( String paramName, int paramIndex, Date date ) throws DataException
 	{
 		if( paramName == null )
@@ -2394,19 +2569,27 @@ public class PreparedStatement
 
 	private void setDate( String paramName, Date date ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetDate( paramIndex, date );
-				return;
-			}
+			doSetDate( paramName, date );
+			return;
 		}
 		
-		doSetDate( paramName, date );
+		if( ! setDateUsingHints( paramName, date ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_DATE_PARAMETER, 
+									 new Object[] { paramName } );
 	}
 
+	private boolean setDateUsingHints( String paramName, Date date ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetDate( paramIndex, date );
+		return true;
+	}
+	
 	private void setTime( String paramName, int paramIndex, Time time ) throws DataException
 	{
 		if( paramName == null )
@@ -2417,20 +2600,29 @@ public class PreparedStatement
 
 	private void setTime( String paramName, Time time ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetTime( paramIndex, time );
-				return;
-			}
+			doSetTime( paramName, time );
+			return;
 		}
 		
-		doSetTime( paramName, time );
+		if( ! setTimeUsingHints( paramName, time ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_TIME_PARAMETER, 
+									 new Object[] { paramName } );
 	}
 
-	private void setTimestamp( String paramName, int paramIndex, Timestamp timestamp ) throws DataException
+	private boolean setTimeUsingHints( String paramName, Time time ) throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetTime( paramIndex, time );
+		return true;
+	}
+
+	private void setTimestamp( String paramName, int paramIndex, Timestamp timestamp ) 
+		throws DataException
 	{
 		if( paramName == null )
 			doSetTimestamp( paramIndex, timestamp );
@@ -2440,19 +2632,28 @@ public class PreparedStatement
 
 	private void setTimestamp( String paramName, Timestamp timestamp ) throws DataException
 	{
-		if( ! supportsNamedParameter() )
+		if( supportsNamedParameter() )
 		{
-			int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
-			if( paramIndex > 0 )
-			{
-				doSetTimestamp( paramIndex, timestamp );
-				return;
-			}
+			doSetTimestamp( paramName, timestamp );
+			return;
 		}
 		
-		doSetTimestamp( paramName, timestamp );
+		if( ! setTimestampUsingHints( paramName, timestamp ) )
+			throw new DataException( ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER, 
+									 new Object[] { paramName } );
 	}
-	
+
+	private boolean setTimestampUsingHints( String paramName, Timestamp timestamp ) 
+		throws DataException
+	{
+		int paramIndex = getIndexFromParamHints( getInputParameterHints(), paramName );
+		if( paramIndex <= 0 )
+			return false;
+		
+		doSetTimestamp( paramIndex, timestamp );
+		return true;
+	}
+
 	private void doSetInt( int paramIndex, int i ) throws DataException
 	{
 		try
@@ -2460,6 +2661,11 @@ public class PreparedStatement
 			getStatement().setInt( paramIndex, i );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_INT_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_INT_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2477,8 +2683,16 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_SET_INT_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setIntUsingHints( paramName, i ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_INT_PARAMETER, ex, 
+										 new Object[] { paramName } );
+		}
 	}
-	
+
 	private void doSetDouble( int paramIndex, double d ) throws DataException
 	{
 		try
@@ -2486,6 +2700,11 @@ public class PreparedStatement
 			getStatement().setDouble( paramIndex, d );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2504,31 +2723,52 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setDoubleUsingHints( paramName, d ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER, ex, 
+				                         new Object[] { paramName } );
+		}
 	}
 	
-	private void doSetString( int paramIndex, String s ) throws DataException
+	private void doSetString( int paramIndex, String stringValue ) throws DataException
 	{
 		try
 		{
-			getStatement().setString( paramIndex, s );
+			getStatement().setString( paramIndex, stringValue );
 		}
 		catch( OdaException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_STRING_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_STRING_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
 	}
 	
-	private void doSetString( String paramName, String s ) throws DataException
+	private void doSetString( String paramName, String stringValue ) throws DataException
 	{
 		try
 		{
-			getStatement().setString( paramName, s );
+			getStatement().setString( paramName, stringValue );
 		}
 		catch( OdaException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_STRING_PARAMETER, ex, 
 			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setStringUsingHints( paramName, stringValue ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_STRING_PARAMETER, ex, 
+				                         new Object[] { paramName } );
 		}
 	}
 	
@@ -2539,6 +2779,11 @@ public class PreparedStatement
 			getStatement().setBigDecimal( paramIndex, decimal );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER, ex,
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER, ex,
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2556,6 +2801,14 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setBigDecimalUsingHints( paramName, decimal ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER, ex, 
+				                         new Object[] { paramName } );
+		}
 	}
 	
 	private void doSetDate( int paramIndex, Date date ) throws DataException
@@ -2565,6 +2818,11 @@ public class PreparedStatement
 			getStatement().setDate( paramIndex, date );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_DATE_PARAMETER, ex,
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_DATE_PARAMETER, ex,
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2582,6 +2840,14 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_SET_DATE_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setDateUsingHints( paramName, date ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_DATE_PARAMETER, ex, 
+				                         new Object[] { paramName } );
+		}
 	}
 	
 	private void doSetTime( int paramIndex, Time time ) throws DataException
@@ -2591,6 +2857,11 @@ public class PreparedStatement
 			getStatement().setTime( paramIndex, time );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_TIME_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_TIME_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2608,6 +2879,14 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_SET_TIME_PARAMETER, ex, 
 			                         new Object[] { paramName } );
 		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setTimeUsingHints( paramName, time ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_TIME_PARAMETER, ex, 
+				                         new Object[] { paramName } );
+		}
 	}
 	
 	private void doSetTimestamp( int paramIndex, Timestamp timestamp ) throws DataException
@@ -2617,6 +2896,11 @@ public class PreparedStatement
 			getStatement().setTimestamp( paramIndex, timestamp );
 		}
 		catch( OdaException ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER, ex, 
+			                         new Object[] { new Integer( paramIndex ) } );
+		}
+		catch( UnsupportedOperationException ex )
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER, ex, 
 			                         new Object[] { new Integer( paramIndex ) } );
@@ -2633,6 +2917,14 @@ public class PreparedStatement
 		{
 			throw new DataException( ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER, ex, 
 			                         new Object[] { paramName } );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+			// first try to set value by position if the parameter hints provide name-to-position mapping,  
+			// otherwise we need to wrap the UnsupportedOperationException up and throw it
+			if( ! setTimestampUsingHints( paramName, timestamp ) )
+				throw new DataException( ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER, ex, 
+				                         new Object[] { paramName } );
 		}
 	}
 	
