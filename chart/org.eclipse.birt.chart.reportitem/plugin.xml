@@ -50,7 +50,7 @@
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
             isNameRequired="true"
             displayNameID="Element.Chart"
-            name="Chart">
+            extensionName="Chart">
          <Property
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
