@@ -13,6 +13,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtilTest;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtilTest;
 
 public class AllUITests
 {
@@ -24,6 +25,7 @@ public class AllUITests
 		suite.addTest( new TestSuite( SimpleUITest.class ) );
 		suite.addTest( new TestSuite( ReportPlatformUIImagesTest.class ) );
 		suite.addTest( new TestSuite( DNDUtilTest.class ) );
+		suite.addTest( new TestSuite( InsertInLayoutUtilTest.class ) );
 
 		suite.addTest( org.eclipse.birt.report.designer.ui.extensions.AllTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.internal.ui.palette.AllTests.suite( ) );

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -58,20 +60,22 @@ public class InsertInLayoutUtil
 		public boolean canInsert( );
 
 		public Object getInsertPosition( );
+
+		public void insert( Object object ) throws SemanticException;
 	}
 
 	/**
 	 * 
-	 * Rule for inserting column
+	 * Rule for inserting label after inserting data set column
 	 */
-	static class InsertColumnInLayoutRule implements InsertInLayoutRule
+	static class LabelAddRule implements InsertInLayoutRule
 	{
 
 		private Object container;
 
-		private DesignElementHandle newTarget;
+		private CellHandle newTarget;
 
-		public InsertColumnInLayoutRule( Object container )
+		public LabelAddRule( Object container )
 		{
 			this.container = container;
 		}
@@ -126,31 +130,46 @@ public class InsertInLayoutUtil
 							.getTableHandleAdapter( table )
 							.getCell( 1, columnNum, false );
 					return newTarget != null
-							&& ( (CellHandle) newTarget ).getContent( )
-									.getCount( ) == 0;
+							&& newTarget.getContent( ).getCount( ) == 0;
 				}
 			}
 			return false;
 		}
 
 		/**
-		 * Returns new Label insert position in form of
-		 * <code>DesignElementHandle</code>
+		 * Returns new Label insert position in form of <code>CellHandle</code>
 		 */
 		public Object getInsertPosition( )
 		{
 			return newTarget;
 		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert()
+		 */
+		public void insert( Object object ) throws SemanticException
+		{
+			Assert.isTrue( object instanceof DesignElementHandle );
+			newTarget.addElement( (DesignElementHandle) object,
+					Cell.CONTENT_SLOT );
+		}
 	}
 
-	static class InsertMultiItemsRule implements InsertInLayoutRule
+	/**
+	 * 
+	 * Rule for inserting multiple data into table, and populating adjacent
+	 * cells
+	 */
+	static class MultiItemsExpandRule implements InsertInLayoutRule
 	{
 
 		private Object[] items;
 		private Object target;
 		private int focusIndex = 0;
 
-		public InsertMultiItemsRule( Object[] items, Object target )
+		public MultiItemsExpandRule( Object[] items, Object target )
 		{
 			this.items = items;
 			this.target = target;
@@ -164,8 +183,9 @@ public class InsertInLayoutUtil
 		public boolean canInsert( )
 		{
 			return items != null
-					&& items.length > 1 && target != null
-					&& target instanceof DesignElementHandle;
+					&& items.length > 1
+					&& target != null
+					&& ( target instanceof DesignElementHandle || target instanceof ListBandProxy );
 		}
 
 		/**
@@ -240,6 +260,102 @@ public class InsertInLayoutUtil
 		public int getFocusIndex( )
 		{
 			return focusIndex;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert()
+		 */
+		public void insert( Object object ) throws SemanticException
+		{
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	/**
+	 * 
+	 * Rule for setting key when inserting data set column to group handle
+	 */
+	static class GroupKeySetRule implements InsertInLayoutRule
+	{
+
+		private Object container;
+		private DataSetItemModel dataSetColumn;
+
+		public GroupKeySetRule( Object container, DataSetItemModel dataSetColumn )
+		{
+			this.container = container;
+			this.dataSetColumn = dataSetColumn;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#canInsert()
+		 */
+		public boolean canInsert( )
+		{
+			return getGroupContainer( container ) != null
+					&& getGroupHandle( container ).getKeyExpr( ) == null
+					&& ( getGroupContainer( container ).getDataSet( ) == getDataSetHandle( dataSetColumn ) || getGroupContainer( container ).getDataSet( ) == null );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#getInsertPosition()
+		 */
+		public Object getInsertPosition( )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert(java.lang.Object)
+		 */
+		public void insert( Object object ) throws SemanticException
+		{
+			Assert.isTrue( object instanceof DataSetItemModel );
+			Assert.isTrue( object == dataSetColumn || object == null );
+			getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
+			getGroupHandle( container ).setKeyExpr( dataSetColumn.getDataSetColumnName( ) );
+		}
+
+		protected DataSetHandle getDataSetHandle( DataSetItemModel model )
+		{
+			return (DataSetHandle) model.getParent( );
+		}
+
+		protected GroupHandle getGroupHandle( Object target )
+		{
+			DesignElementHandle handle = null;
+			if ( target instanceof CellHandle )
+			{
+				handle = ( (CellHandle) target ).getContainer( ).getContainer( );
+			}
+			else if ( target instanceof ListBandProxy )
+			{
+				handle = ( (ListBandProxy) target ).getElemtHandle( );
+			}
+
+			if ( handle instanceof GroupHandle )
+			{
+				return (GroupHandle) handle;
+			}
+			return null;
+		}
+
+		protected ReportItemHandle getGroupContainer( Object target )
+		{
+			GroupHandle group = getGroupHandle( target );
+			if ( group != null
+					&& group.getContainer( ) instanceof ReportItemHandle )
+				return (ReportItemHandle) group.getContainer( );
+			return null;
 		}
 	}
 
@@ -326,7 +442,7 @@ public class InsertInLayoutUtil
 	{
 		DesignElementHandle result = null;
 
-		InsertMultiItemsRule rule = new InsertMultiItemsRule( array, target );
+		MultiItemsExpandRule rule = new MultiItemsExpandRule( array, target );
 		if ( rule.canInsert( ) )
 		{
 			Object[] positions = (Object[]) rule.getInsertPosition( );
@@ -343,8 +459,7 @@ public class InsertInLayoutUtil
 					}
 					else
 					{
-						( (DesignElementHandle) positions[i] ).addElement( newObj,
-								DEUtil.getDefaultSlotID( positions[i] ) );
+						DNDUtil.addElementHandle( positions[i], newObj );
 					}
 				}
 			}
@@ -387,7 +502,7 @@ public class InsertInLayoutUtil
 			}
 		}
 
-		InsertColumnInLayoutRule rule = new InsertColumnInLayoutRule( target );
+		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
 		{
 			LabelHandle label = SessionHandleAdapter.getInstance( )
@@ -395,9 +510,15 @@ public class InsertInLayoutUtil
 					.getElementFactory( )
 					.newLabel( null );
 			label.setText( model.getDisplayName( ) );
-			( (DesignElementHandle) rule.getInsertPosition( ) ).addElement( label,
-					Cell.CONTENT_SLOT );
+			rule.insert( label );
 		}
+
+		rule = new GroupKeySetRule( target, model );
+		if ( rule.canInsert( ) )
+		{
+			rule.insert( model );
+		}
+
 		return dataHandle;
 	}
 

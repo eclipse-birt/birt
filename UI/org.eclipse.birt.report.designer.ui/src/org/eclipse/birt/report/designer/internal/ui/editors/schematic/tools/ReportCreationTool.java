@@ -260,6 +260,7 @@ public class ReportCreationTool extends CreationTool
 			EditPart targetEditPart )
 	{
 		return objectType instanceof String
+				&& targetEditPart != null
 				&& DNDUtil.handleValidateTargetCanContainType( targetEditPart.getModel( ),
 						ReportCreationTool.getCreationType( (String) objectType ) )
 				&& DNDUtil.handleValidateTargetCanContainMore( targetEditPart.getModel( ),

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">in</property>
+    <parameters>
+        <parameter-group name="NewParameterGroup">
+            <parameters>
+                <scalar-parameter name="NewParameter">
+                    <property name="hidden">false</property>
+                    <property name="dataType">string</property>
+                    <property name="concealValue">false</property>
+                    <property name="allowBlank">true</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">text-box</property>
+                    <property name="mustMatch">false</property>
+                    <property name="fixedOrder">false</property>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+        <parameter-group name="NewParameterGroup1">
+            <parameters>
+                <scalar-parameter name="NewParameter1">
+                    <property name="hidden">false</property>
+                    <property name="dataType">string</property>
+                    <property name="concealValue">false</property>
+                    <property name="allowBlank">true</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">text-box</property>
+                    <property name="mustMatch">false</property>
+                    <property name="fixedOrder">false</property>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="Data source">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">valid</property>
+                    <property name="type">string</property>
+                </structure>
+            </list-property>
+            <property name="valid">true</property>
+            <property name="driverName">jdbc</property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>ODA:url</name>
+                    <value>jdbc:jtds:sqlserver://qabee/gui</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:user</name>
+                    <value>sa</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:password</name>
+                    <value>sa</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:driver-class</name>
+                    <value>net.sourceforge.jtds.jdbc.Driver</value>
+                </ex-property>
+            </list-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="Data Set">
+            <property name="dataSource">Data source</property>
+            <property name="queryText">SELECT "dbo"."Account"."account_id",
+        "dbo"."Account"."account_nm",
+        "dbo"."Account"."curr_val",
+        "dbo"."Account"."open_dt" 
+ FROM "dbo"."Account"</property>
+            <property name="type">JdbcSelectDataSet</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-header>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <row>
+                        <cell>
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Title]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <text>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell>
+                            <property name="textAlign">right</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Page:]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="Table">
+            <property name="width">100%</property>
+            <column/>
+            <column/>
+            <column/>
+            <header>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </header>
+            <group>
+                <header>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </footer>
+        </table>
+        <list name="List">
+            <group/>
+        </list>
+    </body>
+</report>
