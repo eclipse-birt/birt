@@ -28,14 +28,14 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class GridImpl extends EObjectImpl implements Grid
@@ -46,7 +46,8 @@ public class GridImpl extends EObjectImpl implements Grid
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -55,7 +56,8 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickStyle()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final TickStyle TICK_STYLE_EDEFAULT = TickStyle.LEFT_LITERAL;
 
@@ -64,14 +66,16 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickStyle()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected TickStyle tickStyle = TICK_STYLE_EDEFAULT;
 
     /**
      * This is true if the Tick Style attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean tickStyleESet = false;
 
@@ -80,7 +84,8 @@ public class GridImpl extends EObjectImpl implements Grid
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getTickAttributes()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes tickAttributes = null;
 
@@ -89,7 +94,8 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickSize()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double TICK_SIZE_EDEFAULT = 0.0;
 
@@ -98,14 +104,16 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickSize()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double tickSize = TICK_SIZE_EDEFAULT;
 
     /**
      * This is true if the Tick Size attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean tickSizeESet = false;
 
@@ -114,7 +122,8 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickCount()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int TICK_COUNT_EDEFAULT = 0;
 
@@ -123,19 +132,22 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickCount()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int tickCount = TICK_COUNT_EDEFAULT;
 
     /**
      * This is true if the Tick Count attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean tickCountESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected GridImpl()
@@ -145,6 +157,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -154,6 +167,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getLineAttributes()
@@ -163,6 +177,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
@@ -171,14 +186,19 @@ public class GridImpl extends EObjectImpl implements Grid
         lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.GRID__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLineAttributes(LineAttributes newLineAttributes)
@@ -187,18 +207,23 @@ public class GridImpl extends EObjectImpl implements Grid
         {
             NotificationChain msgs = null;
             if (lineAttributes != null)
-                msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.GRID__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.GRID__LINE_ATTRIBUTES, null, msgs);
             if (newLineAttributes != null)
-                msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.GRID__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.GRID__LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLineAttributes(newLineAttributes, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__LINE_ATTRIBUTES,
+                newLineAttributes, newLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public TickStyle getTickStyle()
@@ -208,6 +233,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTickStyle(TickStyle newTickStyle)
@@ -217,11 +243,13 @@ public class GridImpl extends EObjectImpl implements Grid
         boolean oldTickStyleESet = tickStyleESet;
         tickStyleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_STYLE, oldTickStyle, tickStyle, !oldTickStyleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_STYLE, oldTickStyle,
+                tickStyle, !oldTickStyleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetTickStyle()
@@ -231,11 +259,13 @@ public class GridImpl extends EObjectImpl implements Grid
         tickStyle = TICK_STYLE_EDEFAULT;
         tickStyleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_STYLE, oldTickStyle, TICK_STYLE_EDEFAULT, oldTickStyleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_STYLE, oldTickStyle,
+                TICK_STYLE_EDEFAULT, oldTickStyleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetTickStyle()
@@ -245,6 +275,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getTickAttributes()
@@ -254,6 +285,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetTickAttributes(LineAttributes newTickAttributes, NotificationChain msgs)
@@ -262,14 +294,19 @@ public class GridImpl extends EObjectImpl implements Grid
         tickAttributes = newTickAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_ATTRIBUTES, oldTickAttributes, newTickAttributes);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.GRID__TICK_ATTRIBUTES, oldTickAttributes, newTickAttributes);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTickAttributes(LineAttributes newTickAttributes)
@@ -278,18 +315,23 @@ public class GridImpl extends EObjectImpl implements Grid
         {
             NotificationChain msgs = null;
             if (tickAttributes != null)
-                msgs = ((InternalEObject)tickAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.GRID__TICK_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) tickAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.GRID__TICK_ATTRIBUTES, null, msgs);
             if (newTickAttributes != null)
-                msgs = ((InternalEObject)newTickAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.GRID__TICK_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) newTickAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.GRID__TICK_ATTRIBUTES, null, msgs);
             msgs = basicSetTickAttributes(newTickAttributes, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_ATTRIBUTES, newTickAttributes, newTickAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_ATTRIBUTES,
+                newTickAttributes, newTickAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getTickSize()
@@ -299,6 +341,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTickSize(double newTickSize)
@@ -308,11 +351,13 @@ public class GridImpl extends EObjectImpl implements Grid
         boolean oldTickSizeESet = tickSizeESet;
         tickSizeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_SIZE, oldTickSize, tickSize, !oldTickSizeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_SIZE, oldTickSize,
+                tickSize, !oldTickSizeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetTickSize()
@@ -322,11 +367,13 @@ public class GridImpl extends EObjectImpl implements Grid
         tickSize = TICK_SIZE_EDEFAULT;
         tickSizeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_SIZE, oldTickSize, TICK_SIZE_EDEFAULT, oldTickSizeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_SIZE, oldTickSize,
+                TICK_SIZE_EDEFAULT, oldTickSizeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetTickSize()
@@ -336,6 +383,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getTickCount()
@@ -345,6 +393,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTickCount(int newTickCount)
@@ -354,11 +403,13 @@ public class GridImpl extends EObjectImpl implements Grid
         boolean oldTickCountESet = tickCountESet;
         tickCountESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_COUNT, oldTickCount, tickCount, !oldTickCountESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.GRID__TICK_COUNT, oldTickCount,
+                tickCount, !oldTickCountESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetTickCount()
@@ -368,11 +419,13 @@ public class GridImpl extends EObjectImpl implements Grid
         tickCount = TICK_COUNT_EDEFAULT;
         tickCountESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_COUNT, oldTickCount, TICK_COUNT_EDEFAULT, oldTickCountESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.GRID__TICK_COUNT, oldTickCount,
+                TICK_COUNT_EDEFAULT, oldTickCountESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetTickCount()
@@ -382,6 +435,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -404,6 +458,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -426,6 +481,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -433,19 +489,19 @@ public class GridImpl extends EObjectImpl implements Grid
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.GRID__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)newValue);
+                setLineAttributes((LineAttributes) newValue);
                 return;
             case ComponentPackage.GRID__TICK_STYLE:
-                setTickStyle((TickStyle)newValue);
+                setTickStyle((TickStyle) newValue);
                 return;
             case ComponentPackage.GRID__TICK_ATTRIBUTES:
-                setTickAttributes((LineAttributes)newValue);
+                setTickAttributes((LineAttributes) newValue);
                 return;
             case ComponentPackage.GRID__TICK_SIZE:
-                setTickSize(((Double)newValue).doubleValue());
+                setTickSize(((Double) newValue).doubleValue());
                 return;
             case ComponentPackage.GRID__TICK_COUNT:
-                setTickCount(((Integer)newValue).intValue());
+                setTickCount(((Integer) newValue).intValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -453,6 +509,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -460,13 +517,13 @@ public class GridImpl extends EObjectImpl implements Grid
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.GRID__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)null);
+                setLineAttributes((LineAttributes) null);
                 return;
             case ComponentPackage.GRID__TICK_STYLE:
                 unsetTickStyle();
                 return;
             case ComponentPackage.GRID__TICK_ATTRIBUTES:
-                setTickAttributes((LineAttributes)null);
+                setTickAttributes((LineAttributes) null);
                 return;
             case ComponentPackage.GRID__TICK_SIZE:
                 unsetTickSize();
@@ -480,6 +537,7 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -502,19 +560,30 @@ public class GridImpl extends EObjectImpl implements Grid
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (tickStyle: ");
-        if (tickStyleESet) result.append(tickStyle); else result.append("<unset>");
+        if (tickStyleESet)
+            result.append(tickStyle);
+        else
+            result.append("<unset>");
         result.append(", tickSize: ");
-        if (tickSizeESet) result.append(tickSize); else result.append("<unset>");
+        if (tickSizeESet)
+            result.append(tickSize);
+        else
+            result.append("<unset>");
         result.append(", tickCount: ");
-        if (tickCountESet) result.append(tickCount); else result.append("<unset>");
+        if (tickCountESet)
+            result.append(tickCount);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

@@ -16,37 +16,38 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Trigger</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a Trigger. A trigger defines interactivity for a chart component.
- * 			
+ * This type defines a Trigger. A trigger defines interactivity for a chart component.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger()
- * @model 
+ * @model
  * @generated
  */
-public interface Trigger extends EObject{
+public interface Trigger extends EObject
+{
 
     /**
-     * Returns the value of the '<em><b>Condition</b></em>' attribute.
-     * The default value is <code>"Mouse_Hover"</code>.
-     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.TriggerCondition}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Condition</b></em>' attribute. The default value is
+     * <code>"Mouse_Hover"</code>. The literals are from the enumeration
+     * {@link org.eclipse.birt.chart.model.attribute.TriggerCondition}. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 					Specifies the condition for the Trigger. This value determines when the Action is processed.
-     * 					
+     * Specifies the condition for the Trigger. This value determines when the Action is processed.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Condition</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
      * @see #isSetCondition()
@@ -59,9 +60,11 @@ public interface Trigger extends EObject{
     TriggerCondition getCondition();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Condition</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Condition</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
      * @see #isSetCondition()
      * @see #unsetCondition()
@@ -71,8 +74,9 @@ public interface Trigger extends EObject{
     void setCondition(TriggerCondition value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetCondition()
      * @see #getCondition()
      * @see #setCondition(TriggerCondition)
@@ -110,9 +114,11 @@ public interface Trigger extends EObject{
     Action getAction();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Action</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Action</em>' containment reference.
      * @see #getAction()
      * @generated
      */

@@ -48,8 +48,8 @@ public interface IDisplayServer
     /**
      * 
      * @param url
-     * @return @throws
-     *         ImageLoadingException
+     * @return
+     * @throws ImageLoadingException
      */
     Object loadImage(URL url) throws ImageLoadingException;
 

@@ -17,29 +17,30 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Grid</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines the grid associated with an axis.
- * 			
+ * This type defines the grid associated with an axis.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.Grid#getLineAttributes <em>Line Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickAttributes <em>Tick Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Grid#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickAttributes <em>Tick Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getGrid()
- * @model 
+ * @model
  * @generated
  */
-public interface Grid extends EObject{
+public interface Grid extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
@@ -58,9 +59,12 @@ public interface Grid extends EObject{
     LineAttributes getLineAttributes();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getLineAttributes <em>Line Attributes</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Line Attributes</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.Grid#getLineAttributes <em>Line Attributes</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Line Attributes</em>' containment reference.
      * @see #getLineAttributes()
      * @generated
      */
@@ -87,9 +91,11 @@ public interface Grid extends EObject{
     TickStyle getTickStyle();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Tick Style</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Tick Style</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.TickStyle
      * @see #isSetTickStyle()
      * @see #unsetTickStyle()
@@ -99,8 +105,9 @@ public interface Grid extends EObject{
     void setTickStyle(TickStyle value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetTickStyle()
      * @see #getTickStyle()
      * @see #setTickStyle(TickStyle)
@@ -138,9 +145,12 @@ public interface Grid extends EObject{
     LineAttributes getTickAttributes();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickAttributes <em>Tick Attributes</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Tick Attributes</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.Grid#getTickAttributes <em>Tick Attributes</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Tick Attributes</em>' containment reference.
      * @see #getTickAttributes()
      * @generated
      */
@@ -165,9 +175,11 @@ public interface Grid extends EObject{
     double getTickSize();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Tick Size</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Tick Size</em>' attribute.
      * @see #isSetTickSize()
      * @see #unsetTickSize()
      * @see #getTickSize()
@@ -176,8 +188,9 @@ public interface Grid extends EObject{
     void setTickSize(double value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetTickSize()
      * @see #getTickSize()
      * @see #setTickSize(double)
@@ -217,9 +230,11 @@ public interface Grid extends EObject{
     int getTickCount();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Tick Count</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Tick Count</em>' attribute.
      * @see #isSetTickCount()
      * @see #unsetTickCount()
      * @see #getTickCount()
@@ -228,8 +243,9 @@ public interface Grid extends EObject{
     void setTickCount(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetTickCount()
      * @see #getTickCount()
      * @see #setTickCount(int)

@@ -23,7 +23,8 @@ package org.eclipse.birt.chart.model.type;
  * 
  * 
  * @see org.eclipse.birt.chart.model.type.TypePackage#getScatterSeries()
- * @model @generated
+ * @model
+ * @generated
  */
 public interface ScatterSeries extends LineSeries
 {

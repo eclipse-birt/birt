@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the package. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.birt.chart.model.data.util.DataResourceImpl
  * @generated
  */
@@ -27,13 +28,14 @@ public class DataResourceFactoryImpl extends XMLResourceFactoryImpl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ExtendedMetaData extendedMetaData;
 
     /**
-     * Creates an instance of the resource factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates an instance of the resource factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public DataResourceFactoryImpl()
@@ -43,8 +45,8 @@ public class DataResourceFactoryImpl extends XMLResourceFactoryImpl
     }
 
     /**
-     * Creates an instance of the resource.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates an instance of the resource. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Resource createResource(URI uri)

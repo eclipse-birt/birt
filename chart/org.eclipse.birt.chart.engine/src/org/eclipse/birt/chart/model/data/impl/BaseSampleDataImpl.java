@@ -25,10 +25,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}</li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
@@ -39,7 +41,8 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String DATA_SET_REPRESENTATION_EDEFAULT = null;
 
@@ -48,12 +51,14 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String dataSetRepresentation = DATA_SET_REPRESENTATION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected BaseSampleDataImpl()
@@ -63,6 +68,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -72,6 +78,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getDataSetRepresentation()
@@ -81,6 +88,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setDataSetRepresentation(String newDataSetRepresentation)
@@ -88,11 +96,13 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
         String oldDataSetRepresentation = dataSetRepresentation;
         dataSetRepresentation = newDataSetRepresentation;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION, oldDataSetRepresentation, dataSetRepresentation));
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION, oldDataSetRepresentation, dataSetRepresentation));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -107,6 +117,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -114,7 +125,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION:
-                setDataSetRepresentation((String)newValue);
+                setDataSetRepresentation((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -122,6 +133,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -137,6 +149,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -144,18 +157,21 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION:
-                return DATA_SET_REPRESENTATION_EDEFAULT == null ? dataSetRepresentation != null : !DATA_SET_REPRESENTATION_EDEFAULT.equals(dataSetRepresentation);
+                return DATA_SET_REPRESENTATION_EDEFAULT == null ? dataSetRepresentation != null
+                    : !DATA_SET_REPRESENTATION_EDEFAULT.equals(dataSetRepresentation);
         }
         return eDynamicIsSet(eFeature);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (dataSetRepresentation: ");

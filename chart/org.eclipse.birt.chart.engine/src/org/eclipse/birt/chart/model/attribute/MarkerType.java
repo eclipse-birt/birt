@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarkerType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class MarkerType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #CROSSHAIR_LITERAL
      * @model name="Crosshair"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int CROSSHAIR = 0;
 
@@ -45,7 +47,8 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #TRIANGLE_LITERAL
      * @model name="Triangle"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TRIANGLE = 1;
 
@@ -54,7 +57,8 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #BOX_LITERAL
      * @model name="Box"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BOX = 2;
 
@@ -63,7 +67,8 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #CIRCLE_LITERAL
      * @model name="Circle"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int CIRCLE = 3;
 
@@ -76,7 +81,8 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CROSSHAIR
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final MarkerType CROSSHAIR_LITERAL = new MarkerType(CROSSHAIR, "Crosshair");
 
@@ -89,7 +95,8 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TRIANGLE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final MarkerType TRIANGLE_LITERAL = new MarkerType(TRIANGLE, "Triangle");
 
@@ -102,7 +109,8 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BOX
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final MarkerType BOX_LITERAL = new MarkerType(BOX, "Box");
 
@@ -115,36 +123,33 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CIRCLE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final MarkerType CIRCLE_LITERAL = new MarkerType(CIRCLE, "Circle");
 
     /**
-     * An array of all the '<em><b>Marker Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final MarkerType[] VALUES_ARRAY =
-        new MarkerType[]
-        {
-            CROSSHAIR_LITERAL,
-            TRIANGLE_LITERAL,
-            BOX_LITERAL,
-            CIRCLE_LITERAL,
-        };
+    private static final MarkerType[] VALUES_ARRAY = new MarkerType[]
+    {
+        CROSSHAIR_LITERAL, TRIANGLE_LITERAL, BOX_LITERAL, CIRCLE_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Marker Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static MarkerType get(String name)
@@ -161,26 +166,30 @@ public final class MarkerType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Marker Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Marker Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static MarkerType get(int value)
     {
         switch (value)
         {
-            case CROSSHAIR: return CROSSHAIR_LITERAL;
-            case TRIANGLE: return TRIANGLE_LITERAL;
-            case BOX: return BOX_LITERAL;
-            case CIRCLE: return CIRCLE_LITERAL;
+            case CROSSHAIR:
+                return CROSSHAIR_LITERAL;
+            case TRIANGLE:
+                return TRIANGLE_LITERAL;
+            case BOX:
+                return BOX_LITERAL;
+            case CIRCLE:
+                return CIRCLE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private MarkerType(int value, String name)

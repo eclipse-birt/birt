@@ -93,6 +93,7 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class AttributePackageImpl extends EPackageImpl implements AttributePackage
@@ -100,522 +101,609 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass actionValueEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass axisOriginEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass boundsEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass colorDefinitionEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass dataPointEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass dataPointComponentEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass dateFormatSpecifierEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass extendedPropertyEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass fillEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass fontDefinitionEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass formatSpecifierEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass gradientEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass imageEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass insetsEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass javaDateFormatSpecifierEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass javaNumberFormatSpecifierEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass lineAttributesEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass locationEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass markerEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass numberFormatSpecifierEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass paletteEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass scriptValueEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass seriesHintEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass seriesValueEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass sizeEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass styleMapEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass textEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass textAlignmentEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass tooltipValueEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass urlValueEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum actionTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum anchorEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum axisTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum chartDimensionEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum chartTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum dataPointComponentTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum dateFormatDetailEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum dateFormatTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum directionEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum horizontalAlignmentEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum intersectionTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum leaderLineStyleEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum legendItemTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum lineStyleEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum markerTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum orientationEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum positionEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum riserTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum ruleTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum scaleUnitTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum sortOptionEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum stretchEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum styledComponentEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum tickStyleEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum triggerConditionEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EEnum verticalAlignmentEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType actionTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType anchorObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType axisTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType chartDimensionObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType chartTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType dataPointComponentTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType dateFormatDetailObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType dateFormatTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType directionObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType horizontalAlignmentObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType idEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType intersectionTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType leaderLineStyleObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType legendItemTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType lineStyleObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType markerTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType orientationObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType percentageEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType percentageObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType positionObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType rgbValueEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType rgbValueObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType riserTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType ruleTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType scaleUnitTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType sortOptionObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType stretchObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType styledComponentObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType tickStyleObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType triggerConditionObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EDataType verticalAlignmentObjectEDataType = null;
@@ -640,27 +728,24 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private static boolean isInited = false;
 
     /**
-     * Creates, registers, and initializes the <b>Package</b> for this
-     * model, and for any others upon which it depends.  Simple
-     * dependencies are satisfied by calling this method on all
-     * dependent packages before doing anything else.  This method drives
-     * initialization for interdependent packages directly, in parallel
-     * with this package, itself.
-     * <p>Of this package and its interdependencies, all packages which
-     * have not yet been registered by their URI values are first created
-     * and registered.  The packages are then initialized in two steps:
-     * meta-model objects for all of the packages are created before any
-     * are initialized, since one package's meta-model objects may refer to
-     * those of another.
-     * <p>Invocation of this method will not affect any packages that have
-     * already been initialized.
-     * <!-- begin-user-doc
+     * Creates, registers, and initializes the <b>Package </b> for this model, and for any others upon which it depends.
+     * Simple dependencies are satisfied by calling this method on all dependent packages before doing anything else.
+     * This method drives initialization for interdependent packages directly, in parallel with this package, itself.
+     * <p>
+     * Of this package and its interdependencies, all packages which have not yet been registered by their URI values
+     * are first created and registered. The packages are then initialized in two steps: meta-model objects for all of
+     * the packages are created before any are initialized, since one package's meta-model objects may refer to those of
+     * another.
+     * <p>
+     * Invocation of this method will not affect any packages that have already been initialized. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @see #eNS_URI
      * @see #createPackageContents()
      * @see #initializePackageContents()
@@ -668,10 +753,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      */
     public static AttributePackage init()
     {
-        if (isInited) return (AttributePackage)EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+        if (isInited)
+            return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
 
         // Obtain or create and register package
-        AttributePackageImpl theAttributePackage = (AttributePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new AttributePackageImpl());
+        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI)
+            : new AttributePackageImpl());
 
         isInited = true;
 
@@ -679,38 +767,46 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
-        TypePackageImpl theTypePackage = (TypePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) : TypePackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
-        DataPackageImpl theDataPackage = (DataPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) : DataPackageImpl.eINSTANCE);
-        ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(TypePackage.eNS_URI)
+            : TypePackageImpl.eINSTANCE);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
+        DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(DataPackage.eNS_URI)
+            : DataPackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theAttributePackage.createPackageContents();
-        theComponentPackage.createPackageContents();
-        theTypePackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
-        theDataPackage.createPackageContents();
         theModelPackage.createPackageContents();
+        theTypePackage.createPackageContents();
+        theComponentPackage.createPackageContents();
+        theDataPackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theAttributePackage.initializePackageContents();
-        theComponentPackage.initializePackageContents();
-        theTypePackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
-        theDataPackage.initializePackageContents();
         theModelPackage.initializePackageContents();
+        theTypePackage.initializePackageContents();
+        theComponentPackage.initializePackageContents();
+        theDataPackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
 
         // Register package validator
-        EValidator.Registry.INSTANCE.put
-            (theAttributePackage, 
-             new EValidator.Descriptor()
-             {
-                 public EValidator getEValidator()
-                 {
-                     return AttributeValidator.INSTANCE;
-                 }
-             });
+        EValidator.Registry.INSTANCE.put(theAttributePackage, new EValidator.Descriptor()
+        {
+            public EValidator getEValidator()
+            {
+                return AttributeValidator.INSTANCE;
+            }
+        });
 
         // Mark meta-data to indicate it can't be changed
         theAttributePackage.freeze();
@@ -720,6 +816,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getActionValue()
@@ -729,6 +826,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getAxisOrigin()
@@ -738,24 +836,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getAxisOrigin_Type()
     {
-        return (EAttribute)axisOriginEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) axisOriginEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getAxisOrigin_Value()
     {
-        return (EReference)axisOriginEClass.getEStructuralFeatures().get(1);
+        return (EReference) axisOriginEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getBounds()
@@ -765,42 +866,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getBounds_Left()
     {
-        return (EAttribute)boundsEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) boundsEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getBounds_Top()
     {
-        return (EAttribute)boundsEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) boundsEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getBounds_Width()
     {
-        return (EAttribute)boundsEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) boundsEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getBounds_Height()
     {
-        return (EAttribute)boundsEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) boundsEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getColorDefinition()
@@ -810,42 +916,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getColorDefinition_Transparency()
     {
-        return (EAttribute)colorDefinitionEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) colorDefinitionEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getColorDefinition_Red()
     {
-        return (EAttribute)colorDefinitionEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) colorDefinitionEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getColorDefinition_Blue()
     {
-        return (EAttribute)colorDefinitionEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) colorDefinitionEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getColorDefinition_Green()
     {
-        return (EAttribute)colorDefinitionEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) colorDefinitionEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getDataPoint()
@@ -855,42 +966,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getDataPoint_Components()
     {
-        return (EReference)dataPointEClass.getEStructuralFeatures().get(0);
+        return (EReference) dataPointEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDataPoint_Prefix()
     {
-        return (EAttribute)dataPointEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) dataPointEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDataPoint_Suffix()
     {
-        return (EAttribute)dataPointEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) dataPointEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDataPoint_Separator()
     {
-        return (EAttribute)dataPointEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) dataPointEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getDataPointComponent()
@@ -900,24 +1016,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDataPointComponent_Type()
     {
-        return (EAttribute)dataPointComponentEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) dataPointComponentEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getDataPointComponent_FormatSpecifier()
     {
-        return (EReference)dataPointComponentEClass.getEStructuralFeatures().get(1);
+        return (EReference) dataPointComponentEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getDateFormatSpecifier()
@@ -927,24 +1046,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDateFormatSpecifier_Type()
     {
-        return (EAttribute)dateFormatSpecifierEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) dateFormatSpecifierEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getDateFormatSpecifier_Detail()
     {
-        return (EAttribute)dateFormatSpecifierEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) dateFormatSpecifierEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getExtendedProperty()
@@ -954,24 +1076,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getExtendedProperty_Name()
     {
-        return (EAttribute)extendedPropertyEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) extendedPropertyEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getExtendedProperty_Value()
     {
-        return (EAttribute)extendedPropertyEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) extendedPropertyEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getFill()
@@ -981,15 +1106,17 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFill_Type()
     {
-        return (EAttribute)fillEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) fillEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getFontDefinition()
@@ -999,87 +1126,97 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Name()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Size()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Bold()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Italic()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Strikethrough()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(4);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(4);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Underline()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(5);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(5);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_WordWrap()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(6);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(6);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getFontDefinition_Alignment()
     {
-        return (EReference)fontDefinitionEClass.getEStructuralFeatures().get(7);
+        return (EReference) fontDefinitionEClass.getEStructuralFeatures().get(7);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getFontDefinition_Rotation()
     {
-        return (EAttribute)fontDefinitionEClass.getEStructuralFeatures().get(8);
+        return (EAttribute) fontDefinitionEClass.getEStructuralFeatures().get(8);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getFormatSpecifier()
@@ -1089,6 +1226,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getGradient()
@@ -1098,51 +1236,57 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getGradient_StartColor()
     {
-        return (EReference)gradientEClass.getEStructuralFeatures().get(0);
+        return (EReference) gradientEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getGradient_EndColor()
     {
-        return (EReference)gradientEClass.getEStructuralFeatures().get(1);
+        return (EReference) gradientEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getGradient_Direction()
     {
-        return (EAttribute)gradientEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) gradientEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getGradient_Cyclic()
     {
-        return (EAttribute)gradientEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) gradientEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getGradient_Transparency()
     {
-        return (EAttribute)gradientEClass.getEStructuralFeatures().get(4);
+        return (EAttribute) gradientEClass.getEStructuralFeatures().get(4);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getImage()
@@ -1152,15 +1296,17 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getImage_URL()
     {
-        return (EAttribute)imageEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) imageEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getInsets()
@@ -1170,42 +1316,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getInsets_Top()
     {
-        return (EAttribute)insetsEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) insetsEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getInsets_Left()
     {
-        return (EAttribute)insetsEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) insetsEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getInsets_Bottom()
     {
-        return (EAttribute)insetsEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) insetsEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getInsets_Right()
     {
-        return (EAttribute)insetsEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) insetsEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getJavaDateFormatSpecifier()
@@ -1215,15 +1366,17 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getJavaDateFormatSpecifier_Pattern()
     {
-        return (EAttribute)javaDateFormatSpecifierEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) javaDateFormatSpecifierEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getJavaNumberFormatSpecifier()
@@ -1233,24 +1386,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getJavaNumberFormatSpecifier_Pattern()
     {
-        return (EAttribute)javaNumberFormatSpecifierEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) javaNumberFormatSpecifierEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getJavaNumberFormatSpecifier_Multiplier()
     {
-        return (EAttribute)javaNumberFormatSpecifierEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) javaNumberFormatSpecifierEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getLineAttributes()
@@ -1260,42 +1416,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLineAttributes_Style()
     {
-        return (EAttribute)lineAttributesEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) lineAttributesEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLineAttributes_Thickness()
     {
-        return (EAttribute)lineAttributesEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) lineAttributesEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getLineAttributes_Color()
     {
-        return (EReference)lineAttributesEClass.getEStructuralFeatures().get(2);
+        return (EReference) lineAttributesEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLineAttributes_Visible()
     {
-        return (EAttribute)lineAttributesEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) lineAttributesEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getLocation()
@@ -1305,24 +1466,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLocation_X()
     {
-        return (EAttribute)locationEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) locationEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLocation_Y()
     {
-        return (EAttribute)locationEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) locationEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getMarker()
@@ -1332,33 +1496,37 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getMarker_Type()
     {
-        return (EAttribute)markerEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) markerEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getMarker_Size()
     {
-        return (EAttribute)markerEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) markerEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getMarker_Visible()
     {
-        return (EAttribute)markerEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) markerEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getNumberFormatSpecifier()
@@ -1368,42 +1536,47 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getNumberFormatSpecifier_Prefix()
     {
-        return (EAttribute)numberFormatSpecifierEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) numberFormatSpecifierEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getNumberFormatSpecifier_Suffix()
     {
-        return (EAttribute)numberFormatSpecifierEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) numberFormatSpecifierEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getNumberFormatSpecifier_Multiplier()
     {
-        return (EAttribute)numberFormatSpecifierEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) numberFormatSpecifierEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getNumberFormatSpecifier_FractionDigits()
     {
-        return (EAttribute)numberFormatSpecifierEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) numberFormatSpecifierEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getPalette()
@@ -1413,24 +1586,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getPalette_Name()
     {
-        return (EAttribute)paletteEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) paletteEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getPalette_Entries()
     {
-        return (EReference)paletteEClass.getEStructuralFeatures().get(1);
+        return (EReference) paletteEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getScriptValue()
@@ -1440,15 +1616,17 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getScriptValue_Script()
     {
-        return (EAttribute)scriptValueEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) scriptValueEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getSeriesHint()
@@ -1458,24 +1636,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getSeriesHint_SeriesClass()
     {
-        return (EAttribute)seriesHintEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) seriesHintEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getSeriesHint_Modifier()
     {
-        return (EAttribute)seriesHintEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) seriesHintEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getSeriesValue()
@@ -1485,15 +1666,17 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getSeriesValue_Name()
     {
-        return (EAttribute)seriesValueEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) seriesValueEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getSize()
@@ -1503,24 +1686,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getSize_Height()
     {
-        return (EAttribute)sizeEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) sizeEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getSize_Width()
     {
-        return (EAttribute)sizeEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) sizeEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getStyleMap()
@@ -1530,24 +1716,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getStyleMap_ComponentName()
     {
-        return (EAttribute)styleMapEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) styleMapEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getStyleMap_Style()
     {
-        return (EAttribute)styleMapEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) styleMapEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getText()
@@ -1557,33 +1746,37 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getText_Value()
     {
-        return (EAttribute)textEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) textEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getText_Font()
     {
-        return (EReference)textEClass.getEStructuralFeatures().get(1);
+        return (EReference) textEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getText_Color()
     {
-        return (EReference)textEClass.getEStructuralFeatures().get(2);
+        return (EReference) textEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getTextAlignment()
@@ -1593,24 +1786,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getTextAlignment_HorizontalAlignment()
     {
-        return (EAttribute)textAlignmentEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) textAlignmentEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getTextAlignment_VerticalAlignment()
     {
-        return (EAttribute)textAlignmentEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) textAlignmentEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getTooltipValue()
@@ -1620,24 +1816,27 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getTooltipValue_Text()
     {
-        return (EAttribute)tooltipValueEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) tooltipValueEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getTooltipValue_Delay()
     {
-        return (EAttribute)tooltipValueEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) tooltipValueEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getURLValue()
@@ -1647,51 +1846,57 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getURLValue_BaseUrl()
     {
-        return (EAttribute)urlValueEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) urlValueEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getURLValue_Target()
     {
-        return (EAttribute)urlValueEClass.getEStructuralFeatures().get(1);
+        return (EAttribute) urlValueEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getURLValue_BaseParameterName()
     {
-        return (EAttribute)urlValueEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) urlValueEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getURLValue_ValueParameterName()
     {
-        return (EAttribute)urlValueEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) urlValueEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getURLValue_SeriesParameterName()
     {
-        return (EAttribute)urlValueEClass.getEStructuralFeatures().get(4);
+        return (EAttribute) urlValueEClass.getEStructuralFeatures().get(4);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getActionType()
@@ -1701,6 +1906,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getAnchor()
@@ -1710,6 +1916,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getChartType()
@@ -1719,6 +1926,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getDataPointComponentType()
@@ -1728,6 +1936,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getDateFormatDetail()
@@ -1737,6 +1946,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getDateFormatType()
@@ -1746,6 +1956,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getDirection()
@@ -1755,6 +1966,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getHorizontalAlignment()
@@ -1764,6 +1976,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getIntersectionType()
@@ -1773,6 +1986,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getLeaderLineStyle()
@@ -1782,6 +1996,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getLegendItemType()
@@ -1791,6 +2006,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getLineStyle()
@@ -1800,6 +2016,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getMarkerType()
@@ -1809,6 +2026,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getOrientation()
@@ -1818,6 +2036,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getPosition()
@@ -1827,6 +2046,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getRiserType()
@@ -1836,6 +2056,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getRuleType()
@@ -1845,6 +2066,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getScaleUnitType()
@@ -1854,6 +2076,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getSortOption()
@@ -1863,6 +2086,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getStretch()
@@ -1872,6 +2096,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getStyledComponent()
@@ -1881,6 +2106,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getTickStyle()
@@ -1890,6 +2116,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getTriggerCondition()
@@ -1899,6 +2126,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getVerticalAlignment()
@@ -1908,6 +2136,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getActionTypeObject()
@@ -1917,6 +2146,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getAnchorObject()
@@ -1926,6 +2156,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getAxisTypeObject()
@@ -1935,6 +2166,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getChartDimensionObject()
@@ -1944,6 +2176,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getAxisType()
@@ -1953,6 +2186,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EEnum getChartDimension()
@@ -1962,6 +2196,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getChartTypeObject()
@@ -1971,6 +2206,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getDataPointComponentTypeObject()
@@ -1980,6 +2216,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getDateFormatDetailObject()
@@ -1989,6 +2226,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getDateFormatTypeObject()
@@ -1998,6 +2236,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getDirectionObject()
@@ -2007,6 +2246,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getHorizontalAlignmentObject()
@@ -2016,6 +2256,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getID()
@@ -2025,6 +2266,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getIntersectionTypeObject()
@@ -2034,6 +2276,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getLeaderLineStyleObject()
@@ -2043,6 +2286,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getLegendItemTypeObject()
@@ -2052,6 +2296,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getLineStyleObject()
@@ -2061,6 +2306,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getMarkerTypeObject()
@@ -2070,6 +2316,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getOrientationObject()
@@ -2079,6 +2326,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getPercentage()
@@ -2088,6 +2336,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getPercentageObject()
@@ -2097,6 +2346,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getPositionObject()
@@ -2106,6 +2356,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getRGBValue()
@@ -2115,6 +2366,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getRGBValueObject()
@@ -2124,6 +2376,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getRiserTypeObject()
@@ -2133,6 +2386,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getRuleTypeObject()
@@ -2142,6 +2396,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getScaleUnitTypeObject()
@@ -2151,6 +2406,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getSortOptionObject()
@@ -2160,6 +2416,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getStretchObject()
@@ -2169,6 +2426,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getStyledComponentObject()
@@ -2178,6 +2436,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getTickStyleObject()
@@ -2187,6 +2446,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getTriggerConditionObject()
@@ -2196,6 +2456,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EDataType getVerticalAlignmentObject()
@@ -2205,28 +2466,31 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public AttributeFactory getAttributeFactory()
     {
-        return (AttributeFactory)getEFactoryInstance();
+        return (AttributeFactory) getEFactoryInstance();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private boolean isCreated = false;
 
     /**
-     * Creates the meta-model objects for the package.  This method is
-     * guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates the meta-model objects for the package. This method is guarded to have no affect on any invocation but
+     * its first. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void createPackageContents()
     {
-        if (isCreated) return;
+        if (isCreated)
+            return;
         isCreated = true;
 
         // Create classes and their features
@@ -2432,19 +2696,21 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private boolean isInitialized = false;
 
     /**
-     * Complete the initialization of the package and its meta-model.  This
-     * method is guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Complete the initialization of the package and its meta-model. This method is guarded to have no affect on any
+     * invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void initializePackageContents()
     {
-        if (isInitialized) return;
+        if (isInitialized)
+            return;
         isInitialized = true;
 
         // Initialize package
@@ -2453,8 +2719,9 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
-        DataPackageImpl theDataPackage = (DataPackageImpl)EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
-        XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+        DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+        XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE
+            .getEPackage(XMLTypePackage.eNS_URI);
 
         // Add supertypes to classes
         colorDefinitionEClass.getESuperTypes().add(this.getFill());
@@ -2470,143 +2737,282 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         urlValueEClass.getESuperTypes().add(this.getActionValue());
 
         // Initialize classes and features; add operations and parameters
-        initEClass(actionValueEClass, ActionValue.class, "ActionValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEClass(actionValueEClass, ActionValue.class, "ActionValue", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(axisOriginEClass, AxisOrigin.class, "AxisOrigin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getAxisOrigin_Type(), this.getIntersectionType(), "type", "Min", 1, 1, AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAxisOrigin_Value(), theDataPackage.getDataElement(), null, "value", null, 1, 1, AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(axisOriginEClass, AxisOrigin.class, "AxisOrigin", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getAxisOrigin_Type(), this.getIntersectionType(), "type", "Min", 1, 1, AxisOrigin.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getAxisOrigin_Value(), theDataPackage.getDataElement(), null, "value", null, 1, 1,
+            AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(boundsEClass, Bounds.class, "Bounds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getBounds_Left(), theXMLTypePackage.getDouble(), "left", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getBounds_Top(), theXMLTypePackage.getDouble(), "top", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getBounds_Width(), theXMLTypePackage.getDouble(), "width", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getBounds_Height(), theXMLTypePackage.getDouble(), "height", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getBounds_Left(), theXMLTypePackage.getDouble(), "left", null, 1, 1, Bounds.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getBounds_Top(), theXMLTypePackage.getDouble(), "top", null, 1, 1, Bounds.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getBounds_Width(), theXMLTypePackage.getDouble(), "width", null, 1, 1, Bounds.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getBounds_Height(), theXMLTypePackage.getDouble(), "height", null, 1, 1, Bounds.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(colorDefinitionEClass, ColorDefinition.class, "ColorDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getColorDefinition_Transparency(), theXMLTypePackage.getInt(), "transparency", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getColorDefinition_Red(), this.getRGBValue(), "red", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getColorDefinition_Green(), this.getRGBValue(), "green", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getColorDefinition_Blue(), this.getRGBValue(), "blue", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(colorDefinitionEClass, ColorDefinition.class, "ColorDefinition", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getColorDefinition_Transparency(), theXMLTypePackage.getInt(), "transparency", null, 1, 1,
+            ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getColorDefinition_Red(), this.getRGBValue(), "red", null, 1, 1, ColorDefinition.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getColorDefinition_Green(), this.getRGBValue(), "green", null, 1, 1, ColorDefinition.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getColorDefinition_Blue(), this.getRGBValue(), "blue", null, 1, 1, ColorDefinition.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(dataPointEClass, DataPoint.class, "DataPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getDataPoint_Components(), this.getDataPointComponent(), null, "components", null, 1, -1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getDataPoint_Prefix(), theXMLTypePackage.getString(), "prefix", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getDataPoint_Suffix(), theXMLTypePackage.getString(), "suffix", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getDataPoint_Separator(), theXMLTypePackage.getString(), "separator", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(dataPointEClass, DataPoint.class, "DataPoint", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getDataPoint_Components(), this.getDataPointComponent(), null, "components", null, 1, -1,
+            DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDataPoint_Prefix(), theXMLTypePackage.getString(), "prefix", null, 1, 1, DataPoint.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDataPoint_Suffix(), theXMLTypePackage.getString(), "suffix", null, 1, 1, DataPoint.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDataPoint_Separator(), theXMLTypePackage.getString(), "separator", null, 1, 1,
+            DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(dataPointComponentEClass, DataPointComponent.class, "DataPointComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getDataPointComponent_Type(), this.getDataPointComponentType(), "type", "Base_Value", 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getDataPointComponent_FormatSpecifier(), this.getFormatSpecifier(), null, "formatSpecifier", null, 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(dataPointComponentEClass, DataPointComponent.class, "DataPointComponent", !IS_ABSTRACT,
+            !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getDataPointComponent_Type(), this.getDataPointComponentType(), "type", "Base_Value", 1, 1,
+            DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getDataPointComponent_FormatSpecifier(), this.getFormatSpecifier(), null, "formatSpecifier",
+            null, 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(dateFormatSpecifierEClass, DateFormatSpecifier.class, "DateFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getDateFormatSpecifier_Type(), this.getDateFormatType(), "type", "Long", 1, 1, DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getDateFormatSpecifier_Detail(), this.getDateFormatDetail(), "detail", "Date", 1, 1, DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(dateFormatSpecifierEClass, DateFormatSpecifier.class, "DateFormatSpecifier", !IS_ABSTRACT,
+            !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getDateFormatSpecifier_Type(), this.getDateFormatType(), "type", "Long", 1, 1,
+            DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDateFormatSpecifier_Detail(), this.getDateFormatDetail(), "detail", "Date", 1, 1,
+            DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(extendedPropertyEClass, ExtendedProperty.class, "ExtendedProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getExtendedProperty_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getExtendedProperty_Value(), theXMLTypePackage.getString(), "value", null, 1, 1, ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(extendedPropertyEClass, ExtendedProperty.class, "ExtendedProperty", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getExtendedProperty_Name(), theXMLTypePackage.getString(), "name", null, 1, 1,
+            ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getExtendedProperty_Value(), theXMLTypePackage.getString(), "value", null, 1, 1,
+            ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
         initEClass(fillEClass, Fill.class, "Fill", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getFill_Type(), theXMLTypePackage.getInt(), "type", null, 1, 1, Fill.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFill_Type(), theXMLTypePackage.getInt(), "type", null, 1, 1, Fill.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(fontDefinitionEClass, FontDefinition.class, "FontDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getFontDefinition_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Size(), theXMLTypePackage.getFloat(), "size", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Bold(), theXMLTypePackage.getBoolean(), "bold", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Italic(), theXMLTypePackage.getBoolean(), "italic", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Strikethrough(), theXMLTypePackage.getBoolean(), "strikethrough", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Underline(), theXMLTypePackage.getBoolean(), "underline", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_WordWrap(), theXMLTypePackage.getBoolean(), "wordWrap", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getFontDefinition_Alignment(), this.getTextAlignment(), null, "alignment", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getFontDefinition_Rotation(), theXMLTypePackage.getDouble(), "rotation", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(fontDefinitionEClass, FontDefinition.class, "FontDefinition", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getFontDefinition_Name(), theXMLTypePackage.getString(), "name", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Size(), theXMLTypePackage.getFloat(), "size", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Bold(), theXMLTypePackage.getBoolean(), "bold", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Italic(), theXMLTypePackage.getBoolean(), "italic", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Strikethrough(), theXMLTypePackage.getBoolean(), "strikethrough", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Underline(), theXMLTypePackage.getBoolean(), "underline", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_WordWrap(), theXMLTypePackage.getBoolean(), "wordWrap", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getFontDefinition_Alignment(), this.getTextAlignment(), null, "alignment", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFontDefinition_Rotation(), theXMLTypePackage.getDouble(), "rotation", null, 1, 1,
+            FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(formatSpecifierEClass, FormatSpecifier.class, "FormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEClass(formatSpecifierEClass, FormatSpecifier.class, "FormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(gradientEClass, Gradient.class, "Gradient", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getGradient_StartColor(), this.getColorDefinition(), null, "startColor", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getGradient_EndColor(), this.getColorDefinition(), null, "endColor", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getGradient_Direction(), theXMLTypePackage.getDouble(), "direction", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getGradient_Cyclic(), theXMLTypePackage.getBoolean(), "cyclic", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getGradient_Transparency(), theXMLTypePackage.getInt(), "transparency", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getGradient_StartColor(), this.getColorDefinition(), null, "startColor", null, 1, 1,
+            Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getGradient_EndColor(), this.getColorDefinition(), null, "endColor", null, 1, 1, Gradient.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getGradient_Direction(), theXMLTypePackage.getDouble(), "direction", null, 1, 1, Gradient.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getGradient_Cyclic(), theXMLTypePackage.getBoolean(), "cyclic", null, 1, 1, Gradient.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getGradient_Transparency(), theXMLTypePackage.getInt(), "transparency", null, 1, 1,
+            Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED,
+            IS_ORDERED);
 
         initEClass(imageEClass, Image.class, "Image", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getImage_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, Image.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getImage_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, Image.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(insetsEClass, Insets.class, "Insets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getInsets_Top(), theXMLTypePackage.getDouble(), "top", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getInsets_Left(), theXMLTypePackage.getDouble(), "left", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getInsets_Bottom(), theXMLTypePackage.getDouble(), "bottom", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getInsets_Right(), theXMLTypePackage.getDouble(), "right", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getInsets_Top(), theXMLTypePackage.getDouble(), "top", null, 1, 1, Insets.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getInsets_Left(), theXMLTypePackage.getDouble(), "left", null, 1, 1, Insets.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getInsets_Bottom(), theXMLTypePackage.getDouble(), "bottom", null, 1, 1, Insets.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getInsets_Right(), theXMLTypePackage.getDouble(), "right", null, 1, 1, Insets.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(javaDateFormatSpecifierEClass, JavaDateFormatSpecifier.class, "JavaDateFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getJavaDateFormatSpecifier_Pattern(), theXMLTypePackage.getString(), "pattern", null, 1, 1, JavaDateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(javaDateFormatSpecifierEClass, JavaDateFormatSpecifier.class, "JavaDateFormatSpecifier",
+            !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getJavaDateFormatSpecifier_Pattern(), theXMLTypePackage.getString(), "pattern", null, 1, 1,
+            JavaDateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(javaNumberFormatSpecifierEClass, JavaNumberFormatSpecifier.class, "JavaNumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getJavaNumberFormatSpecifier_Pattern(), theXMLTypePackage.getString(), "pattern", null, 1, 1, JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getJavaNumberFormatSpecifier_Multiplier(), theXMLTypePackage.getDouble(), "multiplier", null, 1, 1, JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(javaNumberFormatSpecifierEClass, JavaNumberFormatSpecifier.class, "JavaNumberFormatSpecifier",
+            !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getJavaNumberFormatSpecifier_Pattern(), theXMLTypePackage.getString(), "pattern", null, 1, 1,
+            JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getJavaNumberFormatSpecifier_Multiplier(), theXMLTypePackage.getDouble(), "multiplier", null, 1,
+            1, JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(lineAttributesEClass, LineAttributes.class, "LineAttributes", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getLineAttributes_Style(), this.getLineStyle(), "style", "Solid", 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getLineAttributes_Thickness(), theXMLTypePackage.getInt(), "thickness", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getLineAttributes_Color(), this.getColorDefinition(), null, "color", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getLineAttributes_Visible(), theXMLTypePackage.getBoolean(), "visible", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(lineAttributesEClass, LineAttributes.class, "LineAttributes", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getLineAttributes_Style(), this.getLineStyle(), "style", "Solid", 1, 1, LineAttributes.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLineAttributes_Thickness(), theXMLTypePackage.getInt(), "thickness", null, 1, 1,
+            LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getLineAttributes_Color(), this.getColorDefinition(), null, "color", null, 1, 1,
+            LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLineAttributes_Visible(), theXMLTypePackage.getBoolean(), "visible", null, 1, 1,
+            LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
         initEClass(locationEClass, Location.class, "Location", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getLocation_X(), theXMLTypePackage.getDouble(), "x", null, 1, 1, Location.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getLocation_Y(), theXMLTypePackage.getDouble(), "y", null, 1, 1, Location.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLocation_X(), theXMLTypePackage.getDouble(), "x", null, 1, 1, Location.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLocation_Y(), theXMLTypePackage.getDouble(), "y", null, 1, 1, Location.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(markerEClass, Marker.class, "Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getMarker_Type(), this.getMarkerType(), "type", "Crosshair", 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarker_Size(), theXMLTypePackage.getInt(), "size", null, 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getMarker_Visible(), theXMLTypePackage.getBoolean(), "visible", null, 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarker_Type(), this.getMarkerType(), "type", "Crosshair", 1, 1, Marker.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarker_Size(), theXMLTypePackage.getInt(), "size", null, 1, 1, Marker.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getMarker_Visible(), theXMLTypePackage.getBoolean(), "visible", null, 1, 1, Marker.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(numberFormatSpecifierEClass, NumberFormatSpecifier.class, "NumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getNumberFormatSpecifier_Prefix(), theXMLTypePackage.getString(), "prefix", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getNumberFormatSpecifier_Suffix(), theXMLTypePackage.getString(), "suffix", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getNumberFormatSpecifier_Multiplier(), theXMLTypePackage.getDouble(), "multiplier", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getNumberFormatSpecifier_FractionDigits(), theXMLTypePackage.getInt(), "fractionDigits", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(numberFormatSpecifierEClass, NumberFormatSpecifier.class, "NumberFormatSpecifier", !IS_ABSTRACT,
+            !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getNumberFormatSpecifier_Prefix(), theXMLTypePackage.getString(), "prefix", null, 1, 1,
+            NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getNumberFormatSpecifier_Suffix(), theXMLTypePackage.getString(), "suffix", null, 1, 1,
+            NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getNumberFormatSpecifier_Multiplier(), theXMLTypePackage.getDouble(), "multiplier", null, 1, 1,
+            NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getNumberFormatSpecifier_FractionDigits(), theXMLTypePackage.getInt(), "fractionDigits", null,
+            1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(paletteEClass, Palette.class, "Palette", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getPalette_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPalette_Entries(), this.getFill(), null, "entries", null, 1, -1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getPalette_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Palette.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getPalette_Entries(), this.getFill(), null, "entries", null, 1, -1, Palette.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(scriptValueEClass, ScriptValue.class, "ScriptValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getScriptValue_Script(), theXMLTypePackage.getString(), "script", null, 1, 1, ScriptValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(scriptValueEClass, ScriptValue.class, "ScriptValue", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getScriptValue_Script(), theXMLTypePackage.getString(), "script", null, 1, 1, ScriptValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(seriesHintEClass, SeriesHint.class, "SeriesHint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSeriesHint_SeriesClass(), theXMLTypePackage.getString(), "seriesClass", null, 1, 1, SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSeriesHint_Modifier(), theXMLTypePackage.getString(), "modifier", null, 1, 1, SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(seriesHintEClass, SeriesHint.class, "SeriesHint", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getSeriesHint_SeriesClass(), theXMLTypePackage.getString(), "seriesClass", null, 1, 1,
+            SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSeriesHint_Modifier(), theXMLTypePackage.getString(), "modifier", null, 1, 1,
+            SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(seriesValueEClass, SeriesValue.class, "SeriesValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSeriesValue_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, SeriesValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(seriesValueEClass, SeriesValue.class, "SeriesValue", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getSeriesValue_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, SeriesValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(sizeEClass, Size.class, "Size", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSize_Height(), theXMLTypePackage.getDouble(), "height", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSize_Width(), theXMLTypePackage.getDouble(), "width", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSize_Height(), theXMLTypePackage.getDouble(), "height", null, 1, 1, Size.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSize_Width(), theXMLTypePackage.getDouble(), "width", null, 1, 1, Size.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(styleMapEClass, StyleMap.class, "StyleMap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getStyleMap_ComponentName(), this.getStyledComponent(), "componentName", "Chart_Title", 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStyleMap_Style(), theXMLTypePackage.getString(), "style", null, 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getStyleMap_ComponentName(), this.getStyledComponent(), "componentName", "Chart_Title", 1, 1,
+            StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED,
+            IS_ORDERED);
+        initEAttribute(getStyleMap_Style(), theXMLTypePackage.getString(), "style", null, 1, 1, StyleMap.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(textEClass, Text.class, "Text", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getText_Value(), theXMLTypePackage.getString(), "value", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getText_Font(), this.getFontDefinition(), null, "font", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getText_Color(), this.getColorDefinition(), null, "color", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getText_Value(), theXMLTypePackage.getString(), "value", null, 1, 1, Text.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getText_Font(), this.getFontDefinition(), null, "font", null, 1, 1, Text.class, !IS_TRANSIENT,
+            !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+            IS_ORDERED);
+        initEReference(getText_Color(), this.getColorDefinition(), null, "color", null, 1, 1, Text.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(textAlignmentEClass, TextAlignment.class, "TextAlignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getTextAlignment_HorizontalAlignment(), this.getHorizontalAlignment(), "horizontalAlignment", "Left", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getTextAlignment_VerticalAlignment(), this.getVerticalAlignment(), "verticalAlignment", "Top", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(textAlignmentEClass, TextAlignment.class, "TextAlignment", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getTextAlignment_HorizontalAlignment(), this.getHorizontalAlignment(), "horizontalAlignment",
+            "Left", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getTextAlignment_VerticalAlignment(), this.getVerticalAlignment(), "verticalAlignment", "Top",
+            1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
-        initEClass(tooltipValueEClass, TooltipValue.class, "TooltipValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getTooltipValue_Text(), theXMLTypePackage.getString(), "text", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getTooltipValue_Delay(), theXMLTypePackage.getInt(), "delay", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(tooltipValueEClass, TooltipValue.class, "TooltipValue", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getTooltipValue_Text(), theXMLTypePackage.getString(), "text", null, 1, 1, TooltipValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getTooltipValue_Delay(), theXMLTypePackage.getInt(), "delay", null, 1, 1, TooltipValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(urlValueEClass, URLValue.class, "URLValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getURLValue_BaseUrl(), theXMLTypePackage.getString(), "baseUrl", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getURLValue_Target(), theXMLTypePackage.getString(), "target", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getURLValue_BaseParameterName(), theXMLTypePackage.getString(), "baseParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getURLValue_ValueParameterName(), theXMLTypePackage.getString(), "valueParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getURLValue_SeriesParameterName(), theXMLTypePackage.getString(), "seriesParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getURLValue_BaseUrl(), theXMLTypePackage.getString(), "baseUrl", null, 1, 1, URLValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getURLValue_Target(), theXMLTypePackage.getString(), "target", null, 1, 1, URLValue.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getURLValue_BaseParameterName(), theXMLTypePackage.getString(), "baseParameterName", null, 1, 1,
+            URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getURLValue_ValueParameterName(), theXMLTypePackage.getString(), "valueParameterName", null, 1,
+            1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getURLValue_SeriesParameterName(), theXMLTypePackage.getString(), "seriesParameterName", null,
+            1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(actionTypeEEnum, ActionType.class, "ActionType");
@@ -2762,37 +3168,64 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.BOTTOM_LITERAL);
 
         // Initialize data types
-        initEDataType(actionTypeObjectEDataType, ActionType.class, "ActionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(actionTypeObjectEDataType, ActionType.class, "ActionTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
         initEDataType(anchorObjectEDataType, Anchor.class, "AnchorObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(axisTypeObjectEDataType, AxisType.class, "AxisTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(chartDimensionObjectEDataType, ChartDimension.class, "ChartDimensionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(chartTypeObjectEDataType, ChartType.class, "ChartTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(dataPointComponentTypeObjectEDataType, DataPointComponentType.class, "DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(dateFormatDetailObjectEDataType, DateFormatDetail.class, "DateFormatDetailObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(dateFormatTypeObjectEDataType, DateFormatType.class, "DateFormatTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(directionObjectEDataType, Direction.class, "DirectionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(horizontalAlignmentObjectEDataType, HorizontalAlignment.class, "HorizontalAlignmentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(axisTypeObjectEDataType, AxisType.class, "AxisTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(chartDimensionObjectEDataType, ChartDimension.class, "ChartDimensionObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(chartTypeObjectEDataType, ChartType.class, "ChartTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(dataPointComponentTypeObjectEDataType, DataPointComponentType.class,
+            "DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(dateFormatDetailObjectEDataType, DateFormatDetail.class, "DateFormatDetailObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(dateFormatTypeObjectEDataType, DateFormatType.class, "DateFormatTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(directionObjectEDataType, Direction.class, "DirectionObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(horizontalAlignmentObjectEDataType, HorizontalAlignment.class, "HorizontalAlignmentObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
         initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(intersectionTypeObjectEDataType, IntersectionType.class, "IntersectionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(leaderLineStyleObjectEDataType, LeaderLineStyle.class, "LeaderLineStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(legendItemTypeObjectEDataType, LegendItemType.class, "LegendItemTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(lineStyleObjectEDataType, LineStyle.class, "LineStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(markerTypeObjectEDataType, MarkerType.class, "MarkerTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(orientationObjectEDataType, Orientation.class, "OrientationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(intersectionTypeObjectEDataType, IntersectionType.class, "IntersectionTypeObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(leaderLineStyleObjectEDataType, LeaderLineStyle.class, "LeaderLineStyleObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(legendItemTypeObjectEDataType, LegendItemType.class, "LegendItemTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(lineStyleObjectEDataType, LineStyle.class, "LineStyleObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(markerTypeObjectEDataType, MarkerType.class, "MarkerTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(orientationObjectEDataType, Orientation.class, "OrientationObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
         initEDataType(percentageEDataType, double.class, "Percentage", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(percentageObjectEDataType, Double.class, "PercentageObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(positionObjectEDataType, Position.class, "PositionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(percentageObjectEDataType, Double.class, "PercentageObject", IS_SERIALIZABLE,
+            !IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(positionObjectEDataType, Position.class, "PositionObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
         initEDataType(rgbValueEDataType, int.class, "RGBValue", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(rgbValueObjectEDataType, Integer.class, "RGBValueObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(riserTypeObjectEDataType, RiserType.class, "RiserTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(ruleTypeObjectEDataType, RuleType.class, "RuleTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(scaleUnitTypeObjectEDataType, ScaleUnitType.class, "ScaleUnitTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(sortOptionObjectEDataType, SortOption.class, "SortOptionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(stretchObjectEDataType, Stretch.class, "StretchObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(styledComponentObjectEDataType, StyledComponent.class, "StyledComponentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(tickStyleObjectEDataType, TickStyle.class, "TickStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(triggerConditionObjectEDataType, TriggerCondition.class, "TriggerConditionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-        initEDataType(verticalAlignmentObjectEDataType, VerticalAlignment.class, "VerticalAlignmentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(rgbValueObjectEDataType, Integer.class, "RGBValueObject", IS_SERIALIZABLE,
+            !IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(riserTypeObjectEDataType, RiserType.class, "RiserTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(ruleTypeObjectEDataType, RuleType.class, "RuleTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(scaleUnitTypeObjectEDataType, ScaleUnitType.class, "ScaleUnitTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(sortOptionObjectEDataType, SortOption.class, "SortOptionObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(stretchObjectEDataType, Stretch.class, "StretchObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(styledComponentObjectEDataType, StyledComponent.class, "StyledComponentObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(tickStyleObjectEDataType, TickStyle.class, "TickStyleObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(triggerConditionObjectEDataType, TriggerCondition.class, "TriggerConditionObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(verticalAlignmentObjectEDataType, VerticalAlignment.class, "VerticalAlignmentObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
         // Create resource
         createResource(eNS_URI);
@@ -2803,1313 +3236,676 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
     }
 
     /**
-     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
-     * <!-- begin-user-doc
+     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData </b>. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected void createExtendedMetaDataAnnotations()
     {
-        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";				
-        addAnnotation
-          (actionTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "ActionType"
-           });		
-        addAnnotation
-          (actionTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "ActionType:Object",
-             "baseType", "ActionType"
-           });			
-        addAnnotation
-          (actionValueEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "ActionValue",
-             "kind", "empty"
-           });			
-        addAnnotation
-          (anchorEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "Anchor"
-           });		
-        addAnnotation
-          (anchorObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Anchor:Object",
-             "baseType", "Anchor"
-           });			
-        addAnnotation
-          (axisOriginEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "AxisOrigin",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getAxisOrigin_Type(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Type"
-           });			
-        addAnnotation
-          (getAxisOrigin_Value(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Value"
-           });			
-        addAnnotation
-          (axisTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "AxisType"
-           });		
-        addAnnotation
-          (axisTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "AxisType:Object",
-             "baseType", "AxisType"
-           });			
-        addAnnotation
-          (boundsEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Bounds",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getBounds_Left(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Left"
-           });			
-        addAnnotation
-          (getBounds_Top(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Top"
-           });			
-        addAnnotation
-          (getBounds_Width(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Width"
-           });			
-        addAnnotation
-          (getBounds_Height(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Height"
-           });			
-        addAnnotation
-          (chartDimensionEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "ChartDimension"
-           });		
-        addAnnotation
-          (chartDimensionObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "ChartDimension:Object",
-             "baseType", "ChartDimension"
-           });			
-        addAnnotation
-          (chartTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "ChartType"
-           });		
-        addAnnotation
-          (chartTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "ChartType:Object",
-             "baseType", "ChartType"
-           });			
-        addAnnotation
-          (colorDefinitionEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "ColorDefinition",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getColorDefinition_Transparency(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Transparency"
-           });			
-        addAnnotation
-          (getColorDefinition_Red(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Red"
-           });			
-        addAnnotation
-          (getColorDefinition_Green(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Green"
-           });			
-        addAnnotation
-          (getColorDefinition_Blue(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Blue"
-           });			
-        addAnnotation
-          (dataPointEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "DataPoint",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getDataPoint_Components(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Components"
-           });			
-        addAnnotation
-          (getDataPoint_Prefix(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Prefix"
-           });			
-        addAnnotation
-          (getDataPoint_Suffix(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Suffix"
-           });			
-        addAnnotation
-          (getDataPoint_Separator(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Separator"
-           });			
-        addAnnotation
-          (dataPointComponentEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "DataPointComponent",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getDataPointComponent_Type(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Type"
-           });			
-        addAnnotation
-          (getDataPointComponent_FormatSpecifier(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "FormatSpecifier"
-           });			
-        addAnnotation
-          (dataPointComponentTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "DataPointComponentType"
-           });		
-        addAnnotation
-          (dataPointComponentTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "DataPointComponentType:Object",
-             "baseType", "DataPointComponentType"
-           });			
-        addAnnotation
-          (dateFormatDetailEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "DateFormatDetail"
-           });		
-        addAnnotation
-          (dateFormatDetailObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "DateFormatDetail:Object",
-             "baseType", "DateFormatDetail"
-           });			
-        addAnnotation
-          (dateFormatSpecifierEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "DateFormatSpecifier",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getDateFormatSpecifier_Type(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Type"
-           });			
-        addAnnotation
-          (getDateFormatSpecifier_Detail(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Detail"
-           });			
-        addAnnotation
-          (dateFormatTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "DateFormatType"
-           });		
-        addAnnotation
-          (dateFormatTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "DateFormatType:Object",
-             "baseType", "DateFormatType"
-           });			
-        addAnnotation
-          (directionEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "Direction"
-           });		
-        addAnnotation
-          (directionObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Direction:Object",
-             "baseType", "Direction"
-           });			
-        addAnnotation
-          (extendedPropertyEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "ExtendedProperty",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getExtendedProperty_Name(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Name"
-           });			
-        addAnnotation
-          (getExtendedProperty_Value(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Value"
-           });			
-        addAnnotation
-          (fillEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Fill",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getFill_Type(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Type"
-           });			
-        addAnnotation
-          (fontDefinitionEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "FontDefinition",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getFontDefinition_Name(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Name"
-           });			
-        addAnnotation
-          (getFontDefinition_Size(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Size"
-           });			
-        addAnnotation
-          (getFontDefinition_Bold(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Bold"
-           });			
-        addAnnotation
-          (getFontDefinition_Italic(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Italic"
-           });			
-        addAnnotation
-          (getFontDefinition_Strikethrough(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Strikethrough"
-           });			
-        addAnnotation
-          (getFontDefinition_Underline(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Underline"
-           });			
-        addAnnotation
-          (getFontDefinition_WordWrap(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "WordWrap"
-           });			
-        addAnnotation
-          (getFontDefinition_Alignment(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Alignment"
-           });			
-        addAnnotation
-          (getFontDefinition_Rotation(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Rotation"
-           });			
-        addAnnotation
-          (formatSpecifierEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "FormatSpecifier",
-             "kind", "empty"
-           });			
-        addAnnotation
-          (gradientEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Gradient",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getGradient_StartColor(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "StartColor"
-           });			
-        addAnnotation
-          (getGradient_EndColor(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "EndColor"
-           });			
-        addAnnotation
-          (getGradient_Direction(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Direction"
-           });			
-        addAnnotation
-          (getGradient_Cyclic(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Cyclic"
-           });			
-        addAnnotation
-          (getGradient_Transparency(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Transparency"
-           });			
-        addAnnotation
-          (horizontalAlignmentEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "HorizontalAlignment"
-           });		
-        addAnnotation
-          (horizontalAlignmentObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "HorizontalAlignment:Object",
-             "baseType", "HorizontalAlignment"
-           });			
-        addAnnotation
-          (idEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "ID",
-             "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
-             "pattern", "[A-Z]"
-           });			
-        addAnnotation
-          (imageEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Image",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getImage_URL(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "URL"
-           });			
-        addAnnotation
-          (insetsEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Insets",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getInsets_Top(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Top"
-           });			
-        addAnnotation
-          (getInsets_Left(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Left"
-           });			
-        addAnnotation
-          (getInsets_Bottom(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Bottom"
-           });			
-        addAnnotation
-          (getInsets_Right(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Right"
-           });			
-        addAnnotation
-          (intersectionTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "IntersectionType"
-           });		
-        addAnnotation
-          (intersectionTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "IntersectionType:Object",
-             "baseType", "IntersectionType"
-           });			
-        addAnnotation
-          (javaDateFormatSpecifierEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "JavaDateFormatSpecifier",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getJavaDateFormatSpecifier_Pattern(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Pattern"
-           });			
-        addAnnotation
-          (javaNumberFormatSpecifierEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "JavaNumberFormatSpecifier",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getJavaNumberFormatSpecifier_Pattern(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Pattern"
-           });			
-        addAnnotation
-          (getJavaNumberFormatSpecifier_Multiplier(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Multiplier"
-           });			
-        addAnnotation
-          (leaderLineStyleEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "LeaderLineStyle"
-           });		
-        addAnnotation
-          (leaderLineStyleObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "LeaderLineStyle:Object",
-             "baseType", "LeaderLineStyle"
-           });			
-        addAnnotation
-          (legendItemTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "LegendItemType"
-           });		
-        addAnnotation
-          (legendItemTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "LegendItemType:Object",
-             "baseType", "LegendItemType"
-           });			
-        addAnnotation
-          (lineAttributesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "LineAttributes",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getLineAttributes_Style(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Style"
-           });			
-        addAnnotation
-          (getLineAttributes_Thickness(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Thickness"
-           });			
-        addAnnotation
-          (getLineAttributes_Color(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Color"
-           });			
-        addAnnotation
-          (getLineAttributes_Visible(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Visible"
-           });			
-        addAnnotation
-          (lineStyleEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "LineStyle"
-           });		
-        addAnnotation
-          (lineStyleObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "LineStyle:Object",
-             "baseType", "LineStyle"
-           });			
-        addAnnotation
-          (locationEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Location",
-             "kind", "elementOnly"
-           });		
-        addAnnotation
-          (getLocation_X(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "x"
-           });		
-        addAnnotation
-          (getLocation_Y(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "y"
-           });			
-        addAnnotation
-          (markerEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Marker",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getMarker_Type(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Type"
-           });			
-        addAnnotation
-          (getMarker_Size(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Size"
-           });			
-        addAnnotation
-          (getMarker_Visible(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Visible"
-           });			
-        addAnnotation
-          (markerTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "MarkerType"
-           });		
-        addAnnotation
-          (markerTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "MarkerType:Object",
-             "baseType", "MarkerType"
-           });			
-        addAnnotation
-          (numberFormatSpecifierEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "NumberFormatSpecifier",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getNumberFormatSpecifier_Prefix(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Prefix"
-           });			
-        addAnnotation
-          (getNumberFormatSpecifier_Suffix(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Suffix"
-           });			
-        addAnnotation
-          (getNumberFormatSpecifier_Multiplier(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Multiplier"
-           });			
-        addAnnotation
-          (getNumberFormatSpecifier_FractionDigits(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "FractionDigits"
-           });			
-        addAnnotation
-          (orientationEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "Orientation"
-           });		
-        addAnnotation
-          (orientationObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Orientation:Object",
-             "baseType", "Orientation"
-           });			
-        addAnnotation
-          (paletteEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Palette",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getPalette_Name(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Name"
-           });			
-        addAnnotation
-          (getPalette_Entries(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Entries"
-           });			
-        addAnnotation
-          (percentageEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Percentage",
-             "baseType", "http://www.eclipse.org/emf/2003/XMLType#double",
-             "minInclusive", "0.0",
-             "maxInclusive", "100.0"
-           });		
-        addAnnotation
-          (percentageObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Percentage:Object",
-             "baseType", "Percentage"
-           });			
-        addAnnotation
-          (positionEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "Position"
-           });		
-        addAnnotation
-          (positionObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Position:Object",
-             "baseType", "Position"
-           });			
-        addAnnotation
-          (rgbValueEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "RGBValue",
-             "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
-             "minInclusive", "0",
-             "maxInclusive", "255"
-           });		
-        addAnnotation
-          (rgbValueObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "RGBValue:Object",
-             "baseType", "RGBValue"
-           });			
-        addAnnotation
-          (riserTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "RiserType"
-           });		
-        addAnnotation
-          (riserTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "RiserType:Object",
-             "baseType", "RiserType"
-           });			
-        addAnnotation
-          (ruleTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "RuleType"
-           });		
-        addAnnotation
-          (ruleTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "RuleType:Object",
-             "baseType", "RuleType"
-           });			
-        addAnnotation
-          (scaleUnitTypeEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "ScaleUnitType"
-           });		
-        addAnnotation
-          (scaleUnitTypeObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "ScaleUnitType:Object",
-             "baseType", "ScaleUnitType"
-           });			
-        addAnnotation
-          (scriptValueEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "ScriptValue",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getScriptValue_Script(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Script"
-           });			
-        addAnnotation
-          (seriesHintEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "SeriesHint",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getSeriesHint_SeriesClass(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "SeriesClass"
-           });			
-        addAnnotation
-          (getSeriesHint_Modifier(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Modifier"
-           });			
-        addAnnotation
-          (seriesValueEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "SeriesValue",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getSeriesValue_Name(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Name"
-           });			
-        addAnnotation
-          (sizeEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Size",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getSize_Height(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Height"
-           });			
-        addAnnotation
-          (getSize_Width(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Width"
-           });			
-        addAnnotation
-          (sortOptionEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "SortOption"
-           });		
-        addAnnotation
-          (sortOptionObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "SortOption:Object",
-             "baseType", "SortOption"
-           });			
-        addAnnotation
-          (stretchEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "Stretch"
-           });		
-        addAnnotation
-          (stretchObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "Stretch:Object",
-             "baseType", "Stretch"
-           });			
-        addAnnotation
-          (styledComponentEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "StyledComponent"
-           });		
-        addAnnotation
-          (styledComponentObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "StyledComponent:Object",
-             "baseType", "StyledComponent"
-           });			
-        addAnnotation
-          (styleMapEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "StyleMap",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getStyleMap_ComponentName(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "ComponentName"
-           });			
-        addAnnotation
-          (getStyleMap_Style(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Style"
-           });			
-        addAnnotation
-          (textEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "Text",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getText_Value(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Value"
-           });			
-        addAnnotation
-          (getText_Font(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Font"
-           });			
-        addAnnotation
-          (getText_Color(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Color"
-           });			
-        addAnnotation
-          (textAlignmentEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "TextAlignment",
-             "kind", "elementOnly"
-           });		
-        addAnnotation
-          (getTextAlignment_HorizontalAlignment(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "horizontalAlignment"
-           });		
-        addAnnotation
-          (getTextAlignment_VerticalAlignment(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "verticalAlignment"
-           });			
-        addAnnotation
-          (tickStyleEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "TickStyle"
-           });		
-        addAnnotation
-          (tickStyleObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "TickStyle:Object",
-             "baseType", "TickStyle"
-           });			
-        addAnnotation
-          (tooltipValueEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "TooltipValue",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getTooltipValue_Text(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Text"
-           });			
-        addAnnotation
-          (getTooltipValue_Delay(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Delay"
-           });			
-        addAnnotation
-          (triggerConditionEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "TriggerCondition"
-           });		
-        addAnnotation
-          (triggerConditionObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "TriggerCondition:Object",
-             "baseType", "TriggerCondition"
-           });			
-        addAnnotation
-          (urlValueEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "URLValue",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getURLValue_BaseUrl(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "BaseUrl"
-           });			
-        addAnnotation
-          (getURLValue_Target(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Target"
-           });			
-        addAnnotation
-          (getURLValue_BaseParameterName(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "BaseParameterName"
-           });			
-        addAnnotation
-          (getURLValue_ValueParameterName(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "ValueParameterName"
-           });			
-        addAnnotation
-          (getURLValue_SeriesParameterName(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "SeriesParameterName"
-           });			
-        addAnnotation
-          (verticalAlignmentEEnum, 
-           source, 
-           new String[] 
-           {
-             "name", "VerticalAlignment"
-           });		
-        addAnnotation
-          (verticalAlignmentObjectEDataType, 
-           source, 
-           new String[] 
-           {
-             "name", "VerticalAlignment:Object",
-             "baseType", "VerticalAlignment"
-           });
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
+        addAnnotation(actionTypeEEnum, source, new String[]
+        {
+            "name", "ActionType"
+        });
+        addAnnotation(actionTypeObjectEDataType, source, new String[]
+        {
+            "name", "ActionType:Object", "baseType", "ActionType"
+        });
+        addAnnotation(actionValueEClass, source, new String[]
+        {
+            "name", "ActionValue", "kind", "empty"
+        });
+        addAnnotation(anchorEEnum, source, new String[]
+        {
+            "name", "Anchor"
+        });
+        addAnnotation(anchorObjectEDataType, source, new String[]
+        {
+            "name", "Anchor:Object", "baseType", "Anchor"
+        });
+        addAnnotation(axisOriginEClass, source, new String[]
+        {
+            "name", "AxisOrigin", "kind", "elementOnly"
+        });
+        addAnnotation(getAxisOrigin_Type(), source, new String[]
+        {
+            "kind", "element", "name", "Type"
+        });
+        addAnnotation(getAxisOrigin_Value(), source, new String[]
+        {
+            "kind", "element", "name", "Value"
+        });
+        addAnnotation(axisTypeEEnum, source, new String[]
+        {
+            "name", "AxisType"
+        });
+        addAnnotation(axisTypeObjectEDataType, source, new String[]
+        {
+            "name", "AxisType:Object", "baseType", "AxisType"
+        });
+        addAnnotation(boundsEClass, source, new String[]
+        {
+            "name", "Bounds", "kind", "elementOnly"
+        });
+        addAnnotation(getBounds_Left(), source, new String[]
+        {
+            "kind", "element", "name", "Left"
+        });
+        addAnnotation(getBounds_Top(), source, new String[]
+        {
+            "kind", "element", "name", "Top"
+        });
+        addAnnotation(getBounds_Width(), source, new String[]
+        {
+            "kind", "element", "name", "Width"
+        });
+        addAnnotation(getBounds_Height(), source, new String[]
+        {
+            "kind", "element", "name", "Height"
+        });
+        addAnnotation(chartDimensionEEnum, source, new String[]
+        {
+            "name", "ChartDimension"
+        });
+        addAnnotation(chartDimensionObjectEDataType, source, new String[]
+        {
+            "name", "ChartDimension:Object", "baseType", "ChartDimension"
+        });
+        addAnnotation(chartTypeEEnum, source, new String[]
+        {
+            "name", "ChartType"
+        });
+        addAnnotation(chartTypeObjectEDataType, source, new String[]
+        {
+            "name", "ChartType:Object", "baseType", "ChartType"
+        });
+        addAnnotation(colorDefinitionEClass, source, new String[]
+        {
+            "name", "ColorDefinition", "kind", "elementOnly"
+        });
+        addAnnotation(getColorDefinition_Transparency(), source, new String[]
+        {
+            "kind", "element", "name", "Transparency"
+        });
+        addAnnotation(getColorDefinition_Red(), source, new String[]
+        {
+            "kind", "element", "name", "Red"
+        });
+        addAnnotation(getColorDefinition_Green(), source, new String[]
+        {
+            "kind", "element", "name", "Green"
+        });
+        addAnnotation(getColorDefinition_Blue(), source, new String[]
+        {
+            "kind", "element", "name", "Blue"
+        });
+        addAnnotation(dataPointEClass, source, new String[]
+        {
+            "name", "DataPoint", "kind", "elementOnly"
+        });
+        addAnnotation(getDataPoint_Components(), source, new String[]
+        {
+            "kind", "element", "name", "Components"
+        });
+        addAnnotation(getDataPoint_Prefix(), source, new String[]
+        {
+            "kind", "element", "name", "Prefix"
+        });
+        addAnnotation(getDataPoint_Suffix(), source, new String[]
+        {
+            "kind", "element", "name", "Suffix"
+        });
+        addAnnotation(getDataPoint_Separator(), source, new String[]
+        {
+            "kind", "element", "name", "Separator"
+        });
+        addAnnotation(dataPointComponentEClass, source, new String[]
+        {
+            "name", "DataPointComponent", "kind", "elementOnly"
+        });
+        addAnnotation(getDataPointComponent_Type(), source, new String[]
+        {
+            "kind", "element", "name", "Type"
+        });
+        addAnnotation(getDataPointComponent_FormatSpecifier(), source, new String[]
+        {
+            "kind", "element", "name", "FormatSpecifier"
+        });
+        addAnnotation(dataPointComponentTypeEEnum, source, new String[]
+        {
+            "name", "DataPointComponentType"
+        });
+        addAnnotation(dataPointComponentTypeObjectEDataType, source, new String[]
+        {
+            "name", "DataPointComponentType:Object", "baseType", "DataPointComponentType"
+        });
+        addAnnotation(dateFormatDetailEEnum, source, new String[]
+        {
+            "name", "DateFormatDetail"
+        });
+        addAnnotation(dateFormatDetailObjectEDataType, source, new String[]
+        {
+            "name", "DateFormatDetail:Object", "baseType", "DateFormatDetail"
+        });
+        addAnnotation(dateFormatSpecifierEClass, source, new String[]
+        {
+            "name", "DateFormatSpecifier", "kind", "elementOnly"
+        });
+        addAnnotation(getDateFormatSpecifier_Type(), source, new String[]
+        {
+            "kind", "element", "name", "Type"
+        });
+        addAnnotation(getDateFormatSpecifier_Detail(), source, new String[]
+        {
+            "kind", "element", "name", "Detail"
+        });
+        addAnnotation(dateFormatTypeEEnum, source, new String[]
+        {
+            "name", "DateFormatType"
+        });
+        addAnnotation(dateFormatTypeObjectEDataType, source, new String[]
+        {
+            "name", "DateFormatType:Object", "baseType", "DateFormatType"
+        });
+        addAnnotation(directionEEnum, source, new String[]
+        {
+            "name", "Direction"
+        });
+        addAnnotation(directionObjectEDataType, source, new String[]
+        {
+            "name", "Direction:Object", "baseType", "Direction"
+        });
+        addAnnotation(extendedPropertyEClass, source, new String[]
+        {
+            "name", "ExtendedProperty", "kind", "elementOnly"
+        });
+        addAnnotation(getExtendedProperty_Name(), source, new String[]
+        {
+            "kind", "element", "name", "Name"
+        });
+        addAnnotation(getExtendedProperty_Value(), source, new String[]
+        {
+            "kind", "element", "name", "Value"
+        });
+        addAnnotation(fillEClass, source, new String[]
+        {
+            "name", "Fill", "kind", "elementOnly"
+        });
+        addAnnotation(getFill_Type(), source, new String[]
+        {
+            "kind", "element", "name", "Type"
+        });
+        addAnnotation(fontDefinitionEClass, source, new String[]
+        {
+            "name", "FontDefinition", "kind", "elementOnly"
+        });
+        addAnnotation(getFontDefinition_Name(), source, new String[]
+        {
+            "kind", "element", "name", "Name"
+        });
+        addAnnotation(getFontDefinition_Size(), source, new String[]
+        {
+            "kind", "element", "name", "Size"
+        });
+        addAnnotation(getFontDefinition_Bold(), source, new String[]
+        {
+            "kind", "element", "name", "Bold"
+        });
+        addAnnotation(getFontDefinition_Italic(), source, new String[]
+        {
+            "kind", "element", "name", "Italic"
+        });
+        addAnnotation(getFontDefinition_Strikethrough(), source, new String[]
+        {
+            "kind", "element", "name", "Strikethrough"
+        });
+        addAnnotation(getFontDefinition_Underline(), source, new String[]
+        {
+            "kind", "element", "name", "Underline"
+        });
+        addAnnotation(getFontDefinition_WordWrap(), source, new String[]
+        {
+            "kind", "element", "name", "WordWrap"
+        });
+        addAnnotation(getFontDefinition_Alignment(), source, new String[]
+        {
+            "kind", "element", "name", "Alignment"
+        });
+        addAnnotation(getFontDefinition_Rotation(), source, new String[]
+        {
+            "kind", "element", "name", "Rotation"
+        });
+        addAnnotation(formatSpecifierEClass, source, new String[]
+        {
+            "name", "FormatSpecifier", "kind", "empty"
+        });
+        addAnnotation(gradientEClass, source, new String[]
+        {
+            "name", "Gradient", "kind", "elementOnly"
+        });
+        addAnnotation(getGradient_StartColor(), source, new String[]
+        {
+            "kind", "element", "name", "StartColor"
+        });
+        addAnnotation(getGradient_EndColor(), source, new String[]
+        {
+            "kind", "element", "name", "EndColor"
+        });
+        addAnnotation(getGradient_Direction(), source, new String[]
+        {
+            "kind", "element", "name", "Direction"
+        });
+        addAnnotation(getGradient_Cyclic(), source, new String[]
+        {
+            "kind", "element", "name", "Cyclic"
+        });
+        addAnnotation(getGradient_Transparency(), source, new String[]
+        {
+            "kind", "element", "name", "Transparency"
+        });
+        addAnnotation(horizontalAlignmentEEnum, source, new String[]
+        {
+            "name", "HorizontalAlignment"
+        });
+        addAnnotation(horizontalAlignmentObjectEDataType, source, new String[]
+        {
+            "name", "HorizontalAlignment:Object", "baseType", "HorizontalAlignment"
+        });
+        addAnnotation(idEDataType, source, new String[]
+        {
+            "name", "ID", "baseType", "http://www.eclipse.org/emf/2003/XMLType#string", "pattern", "[A-Z]"
+        });
+        addAnnotation(imageEClass, source, new String[]
+        {
+            "name", "Image", "kind", "elementOnly"
+        });
+        addAnnotation(getImage_URL(), source, new String[]
+        {
+            "kind", "element", "name", "URL"
+        });
+        addAnnotation(insetsEClass, source, new String[]
+        {
+            "name", "Insets", "kind", "elementOnly"
+        });
+        addAnnotation(getInsets_Top(), source, new String[]
+        {
+            "kind", "element", "name", "Top"
+        });
+        addAnnotation(getInsets_Left(), source, new String[]
+        {
+            "kind", "element", "name", "Left"
+        });
+        addAnnotation(getInsets_Bottom(), source, new String[]
+        {
+            "kind", "element", "name", "Bottom"
+        });
+        addAnnotation(getInsets_Right(), source, new String[]
+        {
+            "kind", "element", "name", "Right"
+        });
+        addAnnotation(intersectionTypeEEnum, source, new String[]
+        {
+            "name", "IntersectionType"
+        });
+        addAnnotation(intersectionTypeObjectEDataType, source, new String[]
+        {
+            "name", "IntersectionType:Object", "baseType", "IntersectionType"
+        });
+        addAnnotation(javaDateFormatSpecifierEClass, source, new String[]
+        {
+            "name", "JavaDateFormatSpecifier", "kind", "elementOnly"
+        });
+        addAnnotation(getJavaDateFormatSpecifier_Pattern(), source, new String[]
+        {
+            "kind", "element", "name", "Pattern"
+        });
+        addAnnotation(javaNumberFormatSpecifierEClass, source, new String[]
+        {
+            "name", "JavaNumberFormatSpecifier", "kind", "elementOnly"
+        });
+        addAnnotation(getJavaNumberFormatSpecifier_Pattern(), source, new String[]
+        {
+            "kind", "element", "name", "Pattern"
+        });
+        addAnnotation(getJavaNumberFormatSpecifier_Multiplier(), source, new String[]
+        {
+            "kind", "element", "name", "Multiplier"
+        });
+        addAnnotation(leaderLineStyleEEnum, source, new String[]
+        {
+            "name", "LeaderLineStyle"
+        });
+        addAnnotation(leaderLineStyleObjectEDataType, source, new String[]
+        {
+            "name", "LeaderLineStyle:Object", "baseType", "LeaderLineStyle"
+        });
+        addAnnotation(legendItemTypeEEnum, source, new String[]
+        {
+            "name", "LegendItemType"
+        });
+        addAnnotation(legendItemTypeObjectEDataType, source, new String[]
+        {
+            "name", "LegendItemType:Object", "baseType", "LegendItemType"
+        });
+        addAnnotation(lineAttributesEClass, source, new String[]
+        {
+            "name", "LineAttributes", "kind", "elementOnly"
+        });
+        addAnnotation(getLineAttributes_Style(), source, new String[]
+        {
+            "kind", "element", "name", "Style"
+        });
+        addAnnotation(getLineAttributes_Thickness(), source, new String[]
+        {
+            "kind", "element", "name", "Thickness"
+        });
+        addAnnotation(getLineAttributes_Color(), source, new String[]
+        {
+            "kind", "element", "name", "Color"
+        });
+        addAnnotation(getLineAttributes_Visible(), source, new String[]
+        {
+            "kind", "element", "name", "Visible"
+        });
+        addAnnotation(lineStyleEEnum, source, new String[]
+        {
+            "name", "LineStyle"
+        });
+        addAnnotation(lineStyleObjectEDataType, source, new String[]
+        {
+            "name", "LineStyle:Object", "baseType", "LineStyle"
+        });
+        addAnnotation(locationEClass, source, new String[]
+        {
+            "name", "Location", "kind", "elementOnly"
+        });
+        addAnnotation(getLocation_X(), source, new String[]
+        {
+            "kind", "element", "name", "x"
+        });
+        addAnnotation(getLocation_Y(), source, new String[]
+        {
+            "kind", "element", "name", "y"
+        });
+        addAnnotation(markerEClass, source, new String[]
+        {
+            "name", "Marker", "kind", "elementOnly"
+        });
+        addAnnotation(getMarker_Type(), source, new String[]
+        {
+            "kind", "element", "name", "Type"
+        });
+        addAnnotation(getMarker_Size(), source, new String[]
+        {
+            "kind", "element", "name", "Size"
+        });
+        addAnnotation(getMarker_Visible(), source, new String[]
+        {
+            "kind", "element", "name", "Visible"
+        });
+        addAnnotation(markerTypeEEnum, source, new String[]
+        {
+            "name", "MarkerType"
+        });
+        addAnnotation(markerTypeObjectEDataType, source, new String[]
+        {
+            "name", "MarkerType:Object", "baseType", "MarkerType"
+        });
+        addAnnotation(numberFormatSpecifierEClass, source, new String[]
+        {
+            "name", "NumberFormatSpecifier", "kind", "elementOnly"
+        });
+        addAnnotation(getNumberFormatSpecifier_Prefix(), source, new String[]
+        {
+            "kind", "element", "name", "Prefix"
+        });
+        addAnnotation(getNumberFormatSpecifier_Suffix(), source, new String[]
+        {
+            "kind", "element", "name", "Suffix"
+        });
+        addAnnotation(getNumberFormatSpecifier_Multiplier(), source, new String[]
+        {
+            "kind", "element", "name", "Multiplier"
+        });
+        addAnnotation(getNumberFormatSpecifier_FractionDigits(), source, new String[]
+        {
+            "kind", "element", "name", "FractionDigits"
+        });
+        addAnnotation(orientationEEnum, source, new String[]
+        {
+            "name", "Orientation"
+        });
+        addAnnotation(orientationObjectEDataType, source, new String[]
+        {
+            "name", "Orientation:Object", "baseType", "Orientation"
+        });
+        addAnnotation(paletteEClass, source, new String[]
+        {
+            "name", "Palette", "kind", "elementOnly"
+        });
+        addAnnotation(getPalette_Name(), source, new String[]
+        {
+            "kind", "element", "name", "Name"
+        });
+        addAnnotation(getPalette_Entries(), source, new String[]
+        {
+            "kind", "element", "name", "Entries"
+        });
+        addAnnotation(percentageEDataType, source, new String[]
+        {
+            "name", "Percentage", "baseType", "http://www.eclipse.org/emf/2003/XMLType#double", "minInclusive", "0.0",
+            "maxInclusive", "100.0"
+        });
+        addAnnotation(percentageObjectEDataType, source, new String[]
+        {
+            "name", "Percentage:Object", "baseType", "Percentage"
+        });
+        addAnnotation(positionEEnum, source, new String[]
+        {
+            "name", "Position"
+        });
+        addAnnotation(positionObjectEDataType, source, new String[]
+        {
+            "name", "Position:Object", "baseType", "Position"
+        });
+        addAnnotation(rgbValueEDataType, source, new String[]
+        {
+            "name", "RGBValue", "baseType", "http://www.eclipse.org/emf/2003/XMLType#int", "minInclusive", "0",
+            "maxInclusive", "255"
+        });
+        addAnnotation(rgbValueObjectEDataType, source, new String[]
+        {
+            "name", "RGBValue:Object", "baseType", "RGBValue"
+        });
+        addAnnotation(riserTypeEEnum, source, new String[]
+        {
+            "name", "RiserType"
+        });
+        addAnnotation(riserTypeObjectEDataType, source, new String[]
+        {
+            "name", "RiserType:Object", "baseType", "RiserType"
+        });
+        addAnnotation(ruleTypeEEnum, source, new String[]
+        {
+            "name", "RuleType"
+        });
+        addAnnotation(ruleTypeObjectEDataType, source, new String[]
+        {
+            "name", "RuleType:Object", "baseType", "RuleType"
+        });
+        addAnnotation(scaleUnitTypeEEnum, source, new String[]
+        {
+            "name", "ScaleUnitType"
+        });
+        addAnnotation(scaleUnitTypeObjectEDataType, source, new String[]
+        {
+            "name", "ScaleUnitType:Object", "baseType", "ScaleUnitType"
+        });
+        addAnnotation(scriptValueEClass, source, new String[]
+        {
+            "name", "ScriptValue", "kind", "elementOnly"
+        });
+        addAnnotation(getScriptValue_Script(), source, new String[]
+        {
+            "kind", "element", "name", "Script"
+        });
+        addAnnotation(seriesHintEClass, source, new String[]
+        {
+            "name", "SeriesHint", "kind", "elementOnly"
+        });
+        addAnnotation(getSeriesHint_SeriesClass(), source, new String[]
+        {
+            "kind", "element", "name", "SeriesClass"
+        });
+        addAnnotation(getSeriesHint_Modifier(), source, new String[]
+        {
+            "kind", "element", "name", "Modifier"
+        });
+        addAnnotation(seriesValueEClass, source, new String[]
+        {
+            "name", "SeriesValue", "kind", "elementOnly"
+        });
+        addAnnotation(getSeriesValue_Name(), source, new String[]
+        {
+            "kind", "element", "name", "Name"
+        });
+        addAnnotation(sizeEClass, source, new String[]
+        {
+            "name", "Size", "kind", "elementOnly"
+        });
+        addAnnotation(getSize_Height(), source, new String[]
+        {
+            "kind", "element", "name", "Height"
+        });
+        addAnnotation(getSize_Width(), source, new String[]
+        {
+            "kind", "element", "name", "Width"
+        });
+        addAnnotation(sortOptionEEnum, source, new String[]
+        {
+            "name", "SortOption"
+        });
+        addAnnotation(sortOptionObjectEDataType, source, new String[]
+        {
+            "name", "SortOption:Object", "baseType", "SortOption"
+        });
+        addAnnotation(stretchEEnum, source, new String[]
+        {
+            "name", "Stretch"
+        });
+        addAnnotation(stretchObjectEDataType, source, new String[]
+        {
+            "name", "Stretch:Object", "baseType", "Stretch"
+        });
+        addAnnotation(styledComponentEEnum, source, new String[]
+        {
+            "name", "StyledComponent"
+        });
+        addAnnotation(styledComponentObjectEDataType, source, new String[]
+        {
+            "name", "StyledComponent:Object", "baseType", "StyledComponent"
+        });
+        addAnnotation(styleMapEClass, source, new String[]
+        {
+            "name", "StyleMap", "kind", "elementOnly"
+        });
+        addAnnotation(getStyleMap_ComponentName(), source, new String[]
+        {
+            "kind", "element", "name", "ComponentName"
+        });
+        addAnnotation(getStyleMap_Style(), source, new String[]
+        {
+            "kind", "element", "name", "Style"
+        });
+        addAnnotation(textEClass, source, new String[]
+        {
+            "name", "Text", "kind", "elementOnly"
+        });
+        addAnnotation(getText_Value(), source, new String[]
+        {
+            "kind", "element", "name", "Value"
+        });
+        addAnnotation(getText_Font(), source, new String[]
+        {
+            "kind", "element", "name", "Font"
+        });
+        addAnnotation(getText_Color(), source, new String[]
+        {
+            "kind", "element", "name", "Color"
+        });
+        addAnnotation(textAlignmentEClass, source, new String[]
+        {
+            "name", "TextAlignment", "kind", "elementOnly"
+        });
+        addAnnotation(getTextAlignment_HorizontalAlignment(), source, new String[]
+        {
+            "kind", "element", "name", "horizontalAlignment"
+        });
+        addAnnotation(getTextAlignment_VerticalAlignment(), source, new String[]
+        {
+            "kind", "element", "name", "verticalAlignment"
+        });
+        addAnnotation(tickStyleEEnum, source, new String[]
+        {
+            "name", "TickStyle"
+        });
+        addAnnotation(tickStyleObjectEDataType, source, new String[]
+        {
+            "name", "TickStyle:Object", "baseType", "TickStyle"
+        });
+        addAnnotation(tooltipValueEClass, source, new String[]
+        {
+            "name", "TooltipValue", "kind", "elementOnly"
+        });
+        addAnnotation(getTooltipValue_Text(), source, new String[]
+        {
+            "kind", "element", "name", "Text"
+        });
+        addAnnotation(getTooltipValue_Delay(), source, new String[]
+        {
+            "kind", "element", "name", "Delay"
+        });
+        addAnnotation(triggerConditionEEnum, source, new String[]
+        {
+            "name", "TriggerCondition"
+        });
+        addAnnotation(triggerConditionObjectEDataType, source, new String[]
+        {
+            "name", "TriggerCondition:Object", "baseType", "TriggerCondition"
+        });
+        addAnnotation(urlValueEClass, source, new String[]
+        {
+            "name", "URLValue", "kind", "elementOnly"
+        });
+        addAnnotation(getURLValue_BaseUrl(), source, new String[]
+        {
+            "kind", "element", "name", "BaseUrl"
+        });
+        addAnnotation(getURLValue_Target(), source, new String[]
+        {
+            "kind", "element", "name", "Target"
+        });
+        addAnnotation(getURLValue_BaseParameterName(), source, new String[]
+        {
+            "kind", "element", "name", "BaseParameterName"
+        });
+        addAnnotation(getURLValue_ValueParameterName(), source, new String[]
+        {
+            "kind", "element", "name", "ValueParameterName"
+        });
+        addAnnotation(getURLValue_SeriesParameterName(), source, new String[]
+        {
+            "kind", "element", "name", "SeriesParameterName"
+        });
+        addAnnotation(verticalAlignmentEEnum, source, new String[]
+        {
+            "name", "VerticalAlignment"
+        });
+        addAnnotation(verticalAlignmentObjectEDataType, source, new String[]
+        {
+            "name", "VerticalAlignment:Object", "baseType", "VerticalAlignment"
+        });
     }
 
 } //AttributePackageImpl

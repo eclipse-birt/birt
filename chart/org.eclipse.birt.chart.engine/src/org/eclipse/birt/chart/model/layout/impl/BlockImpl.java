@@ -52,23 +52,23 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class BlockImpl extends EObjectImpl implements Block
@@ -79,7 +79,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getChildren()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList children = null;
 
@@ -88,7 +89,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getBounds()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Bounds bounds = null;
 
@@ -97,7 +99,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getAnchor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Anchor ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
@@ -106,14 +109,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getAnchor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Anchor anchor = ANCHOR_EDEFAULT;
 
     /**
      * This is true if the Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean anchorESet = false;
 
@@ -122,7 +127,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getStretch()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Stretch STRETCH_EDEFAULT = Stretch.HORIZONTAL_LITERAL;
 
@@ -131,14 +137,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getStretch()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Stretch stretch = STRETCH_EDEFAULT;
 
     /**
      * This is true if the Stretch attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean stretchESet = false;
 
@@ -147,7 +155,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getInsets()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Insets insets = null;
 
@@ -156,7 +165,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * -->
      * 
      * @see #getRow()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int ROW_EDEFAULT = 0;
 
@@ -165,14 +175,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * -->
      * 
      * @see #getRow()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int row = ROW_EDEFAULT;
 
     /**
      * This is true if the Row attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean rowESet = false;
 
@@ -181,7 +193,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumn()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int COLUMN_EDEFAULT = 0;
 
@@ -190,14 +203,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumn()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int column = COLUMN_EDEFAULT;
 
     /**
      * This is true if the Column attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean columnESet = false;
 
@@ -206,7 +221,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getRowspan()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int ROWSPAN_EDEFAULT = 0;
 
@@ -215,14 +231,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getRowspan()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int rowspan = ROWSPAN_EDEFAULT;
 
     /**
      * This is true if the Rowspan attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean rowspanESet = false;
 
@@ -231,7 +249,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumnspan()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int COLUMNSPAN_EDEFAULT = 0;
 
@@ -240,14 +259,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumnspan()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int columnspan = COLUMNSPAN_EDEFAULT;
 
     /**
      * This is true if the Columnspan attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean columnspanESet = false;
 
@@ -256,7 +277,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * --> <!-- end-user-doc -->
      * 
      * @see #getMinSize()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Size minSize = null;
 
@@ -265,7 +287,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes outline = null;
 
@@ -274,7 +297,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBackground()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Fill background = null;
 
@@ -283,7 +307,8 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = false;
 
@@ -292,14 +317,16 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean visibleESet = false;
 
@@ -308,12 +335,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getTriggers()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList triggers = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected BlockImpl()
@@ -323,6 +352,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -332,6 +362,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getChildren()
@@ -345,6 +376,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Bounds getBounds()
@@ -354,6 +386,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetBounds(Bounds newBounds, NotificationChain msgs)
@@ -362,14 +395,19 @@ public class BlockImpl extends EObjectImpl implements Block
         bounds = newBounds;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BOUNDS, oldBounds, newBounds);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BOUNDS,
+                oldBounds, newBounds);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setBounds(Bounds newBounds)
@@ -378,11 +416,14 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             NotificationChain msgs = null;
             if (bounds != null)
-                msgs = ((InternalEObject)bounds).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BOUNDS, null, msgs);
+                msgs = ((InternalEObject) bounds).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__BOUNDS, null, msgs);
             if (newBounds != null)
-                msgs = ((InternalEObject)newBounds).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BOUNDS, null, msgs);
+                msgs = ((InternalEObject) newBounds).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__BOUNDS, null, msgs);
             msgs = basicSetBounds(newBounds, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BOUNDS, newBounds, newBounds));
@@ -390,6 +431,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Anchor getAnchor()
@@ -399,6 +441,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setAnchor(Anchor newAnchor)
@@ -408,11 +451,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldAnchorESet = anchorESet;
         anchorESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ANCHOR, oldAnchor, anchor, !oldAnchorESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ANCHOR, oldAnchor, anchor,
+                !oldAnchorESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetAnchor()
@@ -422,11 +467,13 @@ public class BlockImpl extends EObjectImpl implements Block
         anchor = ANCHOR_EDEFAULT;
         anchorESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ANCHOR, oldAnchor, ANCHOR_EDEFAULT, oldAnchorESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ANCHOR, oldAnchor,
+                ANCHOR_EDEFAULT, oldAnchorESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetAnchor()
@@ -436,6 +483,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Stretch getStretch()
@@ -445,6 +493,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setStretch(Stretch newStretch)
@@ -454,11 +503,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldStretchESet = stretchESet;
         stretchESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__STRETCH, oldStretch, stretch, !oldStretchESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__STRETCH, oldStretch, stretch,
+                !oldStretchESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetStretch()
@@ -468,11 +519,13 @@ public class BlockImpl extends EObjectImpl implements Block
         stretch = STRETCH_EDEFAULT;
         stretchESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__STRETCH, oldStretch, STRETCH_EDEFAULT, oldStretchESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__STRETCH, oldStretch,
+                STRETCH_EDEFAULT, oldStretchESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetStretch()
@@ -482,6 +535,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Insets getInsets()
@@ -491,6 +545,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs)
@@ -499,14 +554,19 @@ public class BlockImpl extends EObjectImpl implements Block
         insets = newInsets;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__INSETS, oldInsets, newInsets);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__INSETS,
+                oldInsets, newInsets);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setInsets(Insets newInsets)
@@ -515,11 +575,14 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             NotificationChain msgs = null;
             if (insets != null)
-                msgs = ((InternalEObject)insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__INSETS, null, msgs);
+                msgs = ((InternalEObject) insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__INSETS, null, msgs);
             if (newInsets != null)
-                msgs = ((InternalEObject)newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__INSETS, null, msgs);
+                msgs = ((InternalEObject) newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__INSETS, null, msgs);
             msgs = basicSetInsets(newInsets, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__INSETS, newInsets, newInsets));
@@ -527,6 +590,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getRow()
@@ -536,6 +600,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setRow(int newRow)
@@ -550,6 +615,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetRow()
@@ -559,11 +625,13 @@ public class BlockImpl extends EObjectImpl implements Block
         row = ROW_EDEFAULT;
         rowESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROW, oldRow, ROW_EDEFAULT, oldRowESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROW, oldRow, ROW_EDEFAULT,
+                oldRowESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetRow()
@@ -573,6 +641,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getColumn()
@@ -582,6 +651,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setColumn(int newColumn)
@@ -591,11 +661,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldColumnESet = columnESet;
         columnESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMN, oldColumn, column, !oldColumnESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMN, oldColumn, column,
+                !oldColumnESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetColumn()
@@ -605,11 +677,13 @@ public class BlockImpl extends EObjectImpl implements Block
         column = COLUMN_EDEFAULT;
         columnESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMN, oldColumn, COLUMN_EDEFAULT, oldColumnESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMN, oldColumn,
+                COLUMN_EDEFAULT, oldColumnESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetColumn()
@@ -619,6 +693,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getRowspan()
@@ -628,6 +703,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setRowspan(int newRowspan)
@@ -637,11 +713,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldRowspanESet = rowspanESet;
         rowspanESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan, rowspan, !oldRowspanESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan, rowspan,
+                !oldRowspanESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetRowspan()
@@ -651,11 +729,13 @@ public class BlockImpl extends EObjectImpl implements Block
         rowspan = ROWSPAN_EDEFAULT;
         rowspanESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan, ROWSPAN_EDEFAULT, oldRowspanESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__ROWSPAN, oldRowspan,
+                ROWSPAN_EDEFAULT, oldRowspanESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetRowspan()
@@ -665,6 +745,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getColumnspan()
@@ -674,6 +755,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setColumnspan(int newColumnspan)
@@ -683,11 +765,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldColumnspanESet = columnspanESet;
         columnspanESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan, columnspan, !oldColumnspanESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan,
+                columnspan, !oldColumnspanESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetColumnspan()
@@ -697,11 +781,13 @@ public class BlockImpl extends EObjectImpl implements Block
         columnspan = COLUMNSPAN_EDEFAULT;
         columnspanESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan, COLUMNSPAN_EDEFAULT, oldColumnspanESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__COLUMNSPAN, oldColumnspan,
+                COLUMNSPAN_EDEFAULT, oldColumnspanESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetColumnspan()
@@ -711,6 +797,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Size getMinSize()
@@ -720,6 +807,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetMinSize(Size newMinSize, NotificationChain msgs)
@@ -728,14 +816,19 @@ public class BlockImpl extends EObjectImpl implements Block
         minSize = newMinSize;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__MIN_SIZE, oldMinSize, newMinSize);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.BLOCK__MIN_SIZE, oldMinSize, newMinSize);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMinSize(Size newMinSize)
@@ -744,11 +837,14 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             NotificationChain msgs = null;
             if (minSize != null)
-                msgs = ((InternalEObject)minSize).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
+                msgs = ((InternalEObject) minSize).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
             if (newMinSize != null)
-                msgs = ((InternalEObject)newMinSize).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
+                msgs = ((InternalEObject) newMinSize).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__MIN_SIZE, null, msgs);
             msgs = basicSetMinSize(newMinSize, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__MIN_SIZE, newMinSize, newMinSize));
@@ -756,6 +852,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getOutline()
@@ -765,6 +862,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs)
@@ -773,14 +871,19 @@ public class BlockImpl extends EObjectImpl implements Block
         outline = newOutline;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__OUTLINE, oldOutline, newOutline);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.BLOCK__OUTLINE, oldOutline, newOutline);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setOutline(LineAttributes newOutline)
@@ -789,11 +892,14 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             NotificationChain msgs = null;
             if (outline != null)
-                msgs = ((InternalEObject)outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__OUTLINE, null, msgs);
+                msgs = ((InternalEObject) outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__OUTLINE, null, msgs);
             if (newOutline != null)
-                msgs = ((InternalEObject)newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__OUTLINE, null, msgs);
+                msgs = ((InternalEObject) newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__OUTLINE, null, msgs);
             msgs = basicSetOutline(newOutline, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__OUTLINE, newOutline, newOutline));
@@ -801,6 +907,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Fill getBackground()
@@ -810,6 +917,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs)
@@ -818,14 +926,19 @@ public class BlockImpl extends EObjectImpl implements Block
         background = newBackground;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BACKGROUND, oldBackground, newBackground);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.BLOCK__BACKGROUND, oldBackground, newBackground);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setBackground(Fill newBackground)
@@ -834,18 +947,23 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             NotificationChain msgs = null;
             if (background != null)
-                msgs = ((InternalEObject)background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject) background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
             if (newBackground != null)
-                msgs = ((InternalEObject)newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject) newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.BLOCK__BACKGROUND, null, msgs);
             msgs = basicSetBackground(newBackground, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BACKGROUND, newBackground, newBackground));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__BACKGROUND, newBackground,
+                newBackground));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isVisible()
@@ -855,6 +973,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setVisible(boolean newVisible)
@@ -864,11 +983,13 @@ public class BlockImpl extends EObjectImpl implements Block
         boolean oldVisibleESet = visibleESet;
         visibleESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__VISIBLE, oldVisible, visible, !oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.BLOCK__VISIBLE, oldVisible, visible,
+                !oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetVisible()
@@ -878,11 +999,13 @@ public class BlockImpl extends EObjectImpl implements Block
         visible = VISIBLE_EDEFAULT;
         visibleESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__VISIBLE, oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.BLOCK__VISIBLE, oldVisible,
+                VISIBLE_EDEFAULT, oldVisibleESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetVisible()
@@ -892,6 +1015,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getTriggers()
@@ -905,16 +1029,18 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case LayoutPackage.BLOCK__CHILDREN:
-                    return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getChildren()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.BLOCK__BOUNDS:
                     return basicSetBounds(null, msgs);
                 case LayoutPackage.BLOCK__INSETS:
@@ -926,7 +1052,7 @@ public class BlockImpl extends EObjectImpl implements Block
                 case LayoutPackage.BLOCK__BACKGROUND:
                     return basicSetBackground(null, msgs);
                 case LayoutPackage.BLOCK__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -936,6 +1062,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -976,6 +1103,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -984,47 +1112,47 @@ public class BlockImpl extends EObjectImpl implements Block
         {
             case LayoutPackage.BLOCK__CHILDREN:
                 getChildren().clear();
-                getChildren().addAll((Collection)newValue);
+                getChildren().addAll((Collection) newValue);
                 return;
             case LayoutPackage.BLOCK__BOUNDS:
-                setBounds((Bounds)newValue);
+                setBounds((Bounds) newValue);
                 return;
             case LayoutPackage.BLOCK__ANCHOR:
-                setAnchor((Anchor)newValue);
+                setAnchor((Anchor) newValue);
                 return;
             case LayoutPackage.BLOCK__STRETCH:
-                setStretch((Stretch)newValue);
+                setStretch((Stretch) newValue);
                 return;
             case LayoutPackage.BLOCK__INSETS:
-                setInsets((Insets)newValue);
+                setInsets((Insets) newValue);
                 return;
             case LayoutPackage.BLOCK__ROW:
-                setRow(((Integer)newValue).intValue());
+                setRow(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.BLOCK__COLUMN:
-                setColumn(((Integer)newValue).intValue());
+                setColumn(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.BLOCK__ROWSPAN:
-                setRowspan(((Integer)newValue).intValue());
+                setRowspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.BLOCK__COLUMNSPAN:
-                setColumnspan(((Integer)newValue).intValue());
+                setColumnspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.BLOCK__MIN_SIZE:
-                setMinSize((Size)newValue);
+                setMinSize((Size) newValue);
                 return;
             case LayoutPackage.BLOCK__OUTLINE:
-                setOutline((LineAttributes)newValue);
+                setOutline((LineAttributes) newValue);
                 return;
             case LayoutPackage.BLOCK__BACKGROUND:
-                setBackground((Fill)newValue);
+                setBackground((Fill) newValue);
                 return;
             case LayoutPackage.BLOCK__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case LayoutPackage.BLOCK__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -1032,6 +1160,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -1042,7 +1171,7 @@ public class BlockImpl extends EObjectImpl implements Block
                 getChildren().clear();
                 return;
             case LayoutPackage.BLOCK__BOUNDS:
-                setBounds((Bounds)null);
+                setBounds((Bounds) null);
                 return;
             case LayoutPackage.BLOCK__ANCHOR:
                 unsetAnchor();
@@ -1051,7 +1180,7 @@ public class BlockImpl extends EObjectImpl implements Block
                 unsetStretch();
                 return;
             case LayoutPackage.BLOCK__INSETS:
-                setInsets((Insets)null);
+                setInsets((Insets) null);
                 return;
             case LayoutPackage.BLOCK__ROW:
                 unsetRow();
@@ -1066,13 +1195,13 @@ public class BlockImpl extends EObjectImpl implements Block
                 unsetColumnspan();
                 return;
             case LayoutPackage.BLOCK__MIN_SIZE:
-                setMinSize((Size)null);
+                setMinSize((Size) null);
                 return;
             case LayoutPackage.BLOCK__OUTLINE:
-                setOutline((LineAttributes)null);
+                setOutline((LineAttributes) null);
                 return;
             case LayoutPackage.BLOCK__BACKGROUND:
-                setBackground((Fill)null);
+                setBackground((Fill) null);
                 return;
             case LayoutPackage.BLOCK__VISIBLE:
                 unsetVisible();
@@ -1086,6 +1215,7 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -1126,27 +1256,50 @@ public class BlockImpl extends EObjectImpl implements Block
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (anchor: ");
-        if (anchorESet) result.append(anchor); else result.append("<unset>");
+        if (anchorESet)
+            result.append(anchor);
+        else
+            result.append("<unset>");
         result.append(", stretch: ");
-        if (stretchESet) result.append(stretch); else result.append("<unset>");
+        if (stretchESet)
+            result.append(stretch);
+        else
+            result.append("<unset>");
         result.append(", row: ");
-        if (rowESet) result.append(row); else result.append("<unset>");
+        if (rowESet)
+            result.append(row);
+        else
+            result.append("<unset>");
         result.append(", column: ");
-        if (columnESet) result.append(column); else result.append("<unset>");
+        if (columnESet)
+            result.append(column);
+        else
+            result.append("<unset>");
         result.append(", rowspan: ");
-        if (rowspanESet) result.append(rowspan); else result.append("<unset>");
+        if (rowspanESet)
+            result.append(rowspan);
+        else
+            result.append("<unset>");
         result.append(", columnspan: ");
-        if (columnspanESet) result.append(columnspan); else result.append("<unset>");
+        if (columnspanESet)
+            result.append(columnspan);
+        else
+            result.append("<unset>");
         result.append(", visible: ");
-        if (visibleESet) result.append(visible); else result.append("<unset>");
+        if (visibleESet)
+            result.append(visible);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

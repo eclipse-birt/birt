@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
-import org.eclipse.birt.chart.model.component.*;
-
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -29,14 +27,15 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFactory
 {
 
     /**
-     * Creates and instance of the factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ComponentFactoryImpl()
@@ -46,20 +45,29 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EObject create(EClass eClass)
     {
         switch (eClass.getClassifierID())
         {
-            case ComponentPackage.AXIS: return createAxis();
-            case ComponentPackage.CHART_PREFERENCES: return createChartPreferences();
-            case ComponentPackage.GRID: return createGrid();
-            case ComponentPackage.LABEL: return createLabel();
-            case ComponentPackage.MARKER_LINE: return createMarkerLine();
-            case ComponentPackage.MARKER_RANGE: return createMarkerRange();
-            case ComponentPackage.SCALE: return createScale();
-            case ComponentPackage.SERIES: return createSeries();
+            case ComponentPackage.AXIS:
+                return createAxis();
+            case ComponentPackage.CHART_PREFERENCES:
+                return createChartPreferences();
+            case ComponentPackage.GRID:
+                return createGrid();
+            case ComponentPackage.LABEL:
+                return createLabel();
+            case ComponentPackage.MARKER_LINE:
+                return createMarkerLine();
+            case ComponentPackage.MARKER_RANGE:
+                return createMarkerRange();
+            case ComponentPackage.SCALE:
+                return createScale();
+            case ComponentPackage.SERIES:
+                return createSeries();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -67,6 +75,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Axis createAxis()
@@ -77,6 +86,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ChartPreferences createChartPreferences()
@@ -87,6 +97,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Grid createGrid()
@@ -97,6 +108,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Label createLabel()
@@ -107,6 +119,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public MarkerLine createMarkerLine()
@@ -117,6 +130,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public MarkerRange createMarkerRange()
@@ -127,6 +141,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Scale createScale()
@@ -137,6 +152,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Series createSeries()
@@ -147,15 +163,17 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ComponentPackage getComponentPackage()
     {
-        return (ComponentPackage)getEPackage();
+        return (ComponentPackage) getEPackage();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @deprecated
      * @generated
      */

@@ -52,7 +52,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBackground()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Fill background = null;
 
@@ -61,7 +62,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes outline = null;
 
@@ -70,7 +72,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getShadowColor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected ColorDefinition shadowColor = null;
 
@@ -79,12 +82,14 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * <!-- end-user-doc -->
      * 
      * @see #getInsets()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Insets insets = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ClientAreaImpl()
@@ -94,6 +99,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -103,6 +109,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Fill getBackground()
@@ -112,6 +119,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs)
@@ -120,14 +128,19 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         background = newBackground;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__BACKGROUND, oldBackground, newBackground);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__BACKGROUND, oldBackground, newBackground);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setBackground(Fill newBackground)
@@ -136,18 +149,23 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         {
             NotificationChain msgs = null;
             if (background != null)
-                msgs = ((InternalEObject)background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject) background).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
             if (newBackground != null)
-                msgs = ((InternalEObject)newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
+                msgs = ((InternalEObject) newBackground).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
             msgs = basicSetBackground(newBackground, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__BACKGROUND, newBackground, newBackground));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__BACKGROUND, newBackground,
+                newBackground));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getOutline()
@@ -157,6 +175,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs)
@@ -165,14 +184,19 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         outline = newOutline;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__OUTLINE, oldOutline, newOutline);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__OUTLINE, oldOutline, newOutline);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setOutline(LineAttributes newOutline)
@@ -181,18 +205,23 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         {
             NotificationChain msgs = null;
             if (outline != null)
-                msgs = ((InternalEObject)outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
+                msgs = ((InternalEObject) outline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
             if (newOutline != null)
-                msgs = ((InternalEObject)newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
+                msgs = ((InternalEObject) newOutline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
             msgs = basicSetOutline(newOutline, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__OUTLINE, newOutline, newOutline));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__OUTLINE, newOutline,
+                newOutline));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ColorDefinition getShadowColor()
@@ -202,6 +231,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs)
@@ -210,14 +240,19 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         shadowColor = newShadowColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__SHADOW_COLOR, oldShadowColor, newShadowColor);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__SHADOW_COLOR, oldShadowColor, newShadowColor);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setShadowColor(ColorDefinition newShadowColor)
@@ -226,18 +261,23 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         {
             NotificationChain msgs = null;
             if (shadowColor != null)
-                msgs = ((InternalEObject)shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject) shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
             if (newShadowColor != null)
-                msgs = ((InternalEObject)newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject) newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
             msgs = basicSetShadowColor(newShadowColor, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__SHADOW_COLOR, newShadowColor, newShadowColor));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__SHADOW_COLOR,
+                newShadowColor, newShadowColor));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Insets getInsets()
@@ -247,6 +287,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs)
@@ -255,14 +296,19 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         insets = newInsets;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__INSETS, oldInsets, newInsets);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.CLIENT_AREA__INSETS, oldInsets, newInsets);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setInsets(Insets newInsets)
@@ -271,18 +317,23 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         {
             NotificationChain msgs = null;
             if (insets != null)
-                msgs = ((InternalEObject)insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
+                msgs = ((InternalEObject) insets).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
             if (newInsets != null)
-                msgs = ((InternalEObject)newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
+                msgs = ((InternalEObject) newInsets).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
             msgs = basicSetInsets(newInsets, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__INSETS, newInsets, newInsets));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__INSETS, newInsets,
+                newInsets));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -309,6 +360,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -329,6 +381,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -336,16 +389,16 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case LayoutPackage.CLIENT_AREA__BACKGROUND:
-                setBackground((Fill)newValue);
+                setBackground((Fill) newValue);
                 return;
             case LayoutPackage.CLIENT_AREA__OUTLINE:
-                setOutline((LineAttributes)newValue);
+                setOutline((LineAttributes) newValue);
                 return;
             case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)newValue);
+                setShadowColor((ColorDefinition) newValue);
                 return;
             case LayoutPackage.CLIENT_AREA__INSETS:
-                setInsets((Insets)newValue);
+                setInsets((Insets) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -353,6 +406,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -360,16 +414,16 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case LayoutPackage.CLIENT_AREA__BACKGROUND:
-                setBackground((Fill)null);
+                setBackground((Fill) null);
                 return;
             case LayoutPackage.CLIENT_AREA__OUTLINE:
-                setOutline((LineAttributes)null);
+                setOutline((LineAttributes) null);
                 return;
             case LayoutPackage.CLIENT_AREA__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)null);
+                setShadowColor((ColorDefinition) null);
                 return;
             case LayoutPackage.CLIENT_AREA__INSETS:
-                setInsets((Insets)null);
+                setInsets((Insets) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -377,6 +431,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

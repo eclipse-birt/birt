@@ -52,7 +52,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getComponents()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList components = null;
 
@@ -61,7 +62,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String PREFIX_EDEFAULT = null;
 
@@ -70,7 +72,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String prefix = PREFIX_EDEFAULT;
 
@@ -79,7 +82,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String SUFFIX_EDEFAULT = null;
 
@@ -88,7 +92,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String suffix = SUFFIX_EDEFAULT;
 
@@ -97,7 +102,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String SEPARATOR_EDEFAULT = null;
 
@@ -106,12 +112,14 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String separator = SEPARATOR_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected DataPointImpl()
@@ -121,6 +129,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -130,19 +139,22 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getComponents()
     {
         if (components == null)
         {
-            components = new EObjectContainmentEList(DataPointComponent.class, this, AttributePackage.DATA_POINT__COMPONENTS);
+            components = new EObjectContainmentEList(DataPointComponent.class, this,
+                AttributePackage.DATA_POINT__COMPONENTS);
         }
         return components;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getPrefix()
@@ -152,6 +164,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setPrefix(String newPrefix)
@@ -159,11 +172,13 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
         String oldPrefix = prefix;
         prefix = newPrefix;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__PREFIX, oldPrefix, prefix));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__PREFIX, oldPrefix,
+                prefix));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getSuffix()
@@ -173,6 +188,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSuffix(String newSuffix)
@@ -180,11 +196,13 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
         String oldSuffix = suffix;
         suffix = newSuffix;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SUFFIX, oldSuffix, suffix));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SUFFIX, oldSuffix,
+                suffix));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getSeparator()
@@ -194,6 +212,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSeparator(String newSeparator)
@@ -201,21 +220,24 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
         String oldSeparator = separator;
         separator = newSeparator;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SEPARATOR, oldSeparator, separator));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SEPARATOR, oldSeparator,
+                separator));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case AttributePackage.DATA_POINT__COMPONENTS:
-                    return ((InternalEList)getComponents()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getComponents()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -225,6 +247,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -245,6 +268,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -253,16 +277,16 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
         {
             case AttributePackage.DATA_POINT__COMPONENTS:
                 getComponents().clear();
-                getComponents().addAll((Collection)newValue);
+                getComponents().addAll((Collection) newValue);
                 return;
             case AttributePackage.DATA_POINT__PREFIX:
-                setPrefix((String)newValue);
+                setPrefix((String) newValue);
                 return;
             case AttributePackage.DATA_POINT__SUFFIX:
-                setSuffix((String)newValue);
+                setSuffix((String) newValue);
                 return;
             case AttributePackage.DATA_POINT__SEPARATOR:
-                setSeparator((String)newValue);
+                setSeparator((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -270,6 +294,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -294,6 +319,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -314,11 +340,13 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (prefix: ");

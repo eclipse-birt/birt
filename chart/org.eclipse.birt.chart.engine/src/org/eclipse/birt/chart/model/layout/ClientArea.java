@@ -38,9 +38,11 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getClientArea()
- * @model @generated
+ * @model
+ * @generated
  */
-public interface ClientArea extends EObject{
+public interface ClientArea extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> Gets
@@ -59,9 +61,11 @@ public interface ClientArea extends EObject{
     Fill getBackground();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Background</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Background</em>' containment reference.
      * @see #getBackground()
      * @generated
      */
@@ -84,9 +88,11 @@ public interface ClientArea extends EObject{
     LineAttributes getOutline();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Outline</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Outline</em>' containment reference.
      * @see #getOutline()
      * @generated
      */
@@ -110,9 +116,12 @@ public interface ClientArea extends EObject{
     ColorDefinition getShadowColor();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor <em>Shadow Color</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Shadow Color</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor <em>Shadow Color</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Shadow Color</em>' containment reference.
      * @see #getShadowColor()
      * @generated
      */
@@ -135,9 +144,11 @@ public interface ClientArea extends EObject{
     Insets getInsets();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Insets</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Insets</em>' containment reference.
      * @see #getInsets()
      * @generated
      */

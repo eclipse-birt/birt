@@ -39,12 +39,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class PlotImpl extends BlockImpl implements Plot
@@ -55,7 +55,8 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
@@ -64,14 +65,16 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Horizontal Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean horizontalSpacingESet = false;
 
@@ -80,7 +83,8 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int VERTICAL_SPACING_EDEFAULT = 0;
 
@@ -89,14 +93,16 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Vertical Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean verticalSpacingESet = false;
 
@@ -105,12 +111,14 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getClientArea()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected ClientArea clientArea = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected PlotImpl()
@@ -120,6 +128,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -129,6 +138,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getHorizontalSpacing()
@@ -138,6 +148,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setHorizontalSpacing(int newHorizontalSpacing)
@@ -147,11 +158,13 @@ public class PlotImpl extends BlockImpl implements Plot
         boolean oldHorizontalSpacingESet = horizontalSpacingESet;
         horizontalSpacingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__HORIZONTAL_SPACING, oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
+                oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetHorizontalSpacing()
@@ -161,11 +174,13 @@ public class PlotImpl extends BlockImpl implements Plot
         horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
         horizontalSpacingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__HORIZONTAL_SPACING, oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
+                oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetHorizontalSpacing()
@@ -175,6 +190,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getVerticalSpacing()
@@ -184,6 +200,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setVerticalSpacing(int newVerticalSpacing)
@@ -193,11 +210,13 @@ public class PlotImpl extends BlockImpl implements Plot
         boolean oldVerticalSpacingESet = verticalSpacingESet;
         verticalSpacingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__VERTICAL_SPACING, oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__VERTICAL_SPACING,
+                oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetVerticalSpacing()
@@ -207,11 +226,13 @@ public class PlotImpl extends BlockImpl implements Plot
         verticalSpacing = VERTICAL_SPACING_EDEFAULT;
         verticalSpacingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__VERTICAL_SPACING, oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__VERTICAL_SPACING,
+                oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetVerticalSpacing()
@@ -221,6 +242,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ClientArea getClientArea()
@@ -230,6 +252,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetClientArea(ClientArea newClientArea, NotificationChain msgs)
@@ -238,14 +261,19 @@ public class PlotImpl extends BlockImpl implements Plot
         clientArea = newClientArea;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__CLIENT_AREA, oldClientArea, newClientArea);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.PLOT__CLIENT_AREA, oldClientArea, newClientArea);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setClientArea(ClientArea newClientArea)
@@ -254,28 +282,34 @@ public class PlotImpl extends BlockImpl implements Plot
         {
             NotificationChain msgs = null;
             if (clientArea != null)
-                msgs = ((InternalEObject)clientArea).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
+                msgs = ((InternalEObject) clientArea).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
             if (newClientArea != null)
-                msgs = ((InternalEObject)newClientArea).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
+                msgs = ((InternalEObject) newClientArea).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
             msgs = basicSetClientArea(newClientArea, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__CLIENT_AREA, newClientArea, newClientArea));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__CLIENT_AREA, newClientArea,
+                newClientArea));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case LayoutPackage.PLOT__CHILDREN:
-                    return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getChildren()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.PLOT__BOUNDS:
                     return basicSetBounds(null, msgs);
                 case LayoutPackage.PLOT__INSETS:
@@ -287,7 +321,7 @@ public class PlotImpl extends BlockImpl implements Plot
                 case LayoutPackage.PLOT__BACKGROUND:
                     return basicSetBackground(null, msgs);
                 case LayoutPackage.PLOT__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.PLOT__CLIENT_AREA:
                     return basicSetClientArea(null, msgs);
                 default:
@@ -299,6 +333,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -345,6 +380,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -353,56 +389,56 @@ public class PlotImpl extends BlockImpl implements Plot
         {
             case LayoutPackage.PLOT__CHILDREN:
                 getChildren().clear();
-                getChildren().addAll((Collection)newValue);
+                getChildren().addAll((Collection) newValue);
                 return;
             case LayoutPackage.PLOT__BOUNDS:
-                setBounds((Bounds)newValue);
+                setBounds((Bounds) newValue);
                 return;
             case LayoutPackage.PLOT__ANCHOR:
-                setAnchor((Anchor)newValue);
+                setAnchor((Anchor) newValue);
                 return;
             case LayoutPackage.PLOT__STRETCH:
-                setStretch((Stretch)newValue);
+                setStretch((Stretch) newValue);
                 return;
             case LayoutPackage.PLOT__INSETS:
-                setInsets((Insets)newValue);
+                setInsets((Insets) newValue);
                 return;
             case LayoutPackage.PLOT__ROW:
-                setRow(((Integer)newValue).intValue());
+                setRow(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__COLUMN:
-                setColumn(((Integer)newValue).intValue());
+                setColumn(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__ROWSPAN:
-                setRowspan(((Integer)newValue).intValue());
+                setRowspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__COLUMNSPAN:
-                setColumnspan(((Integer)newValue).intValue());
+                setColumnspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__MIN_SIZE:
-                setMinSize((Size)newValue);
+                setMinSize((Size) newValue);
                 return;
             case LayoutPackage.PLOT__OUTLINE:
-                setOutline((LineAttributes)newValue);
+                setOutline((LineAttributes) newValue);
                 return;
             case LayoutPackage.PLOT__BACKGROUND:
-                setBackground((Fill)newValue);
+                setBackground((Fill) newValue);
                 return;
             case LayoutPackage.PLOT__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case LayoutPackage.PLOT__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
             case LayoutPackage.PLOT__HORIZONTAL_SPACING:
-                setHorizontalSpacing(((Integer)newValue).intValue());
+                setHorizontalSpacing(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__VERTICAL_SPACING:
-                setVerticalSpacing(((Integer)newValue).intValue());
+                setVerticalSpacing(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.PLOT__CLIENT_AREA:
-                setClientArea((ClientArea)newValue);
+                setClientArea((ClientArea) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -410,6 +446,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -420,7 +457,7 @@ public class PlotImpl extends BlockImpl implements Plot
                 getChildren().clear();
                 return;
             case LayoutPackage.PLOT__BOUNDS:
-                setBounds((Bounds)null);
+                setBounds((Bounds) null);
                 return;
             case LayoutPackage.PLOT__ANCHOR:
                 unsetAnchor();
@@ -429,7 +466,7 @@ public class PlotImpl extends BlockImpl implements Plot
                 unsetStretch();
                 return;
             case LayoutPackage.PLOT__INSETS:
-                setInsets((Insets)null);
+                setInsets((Insets) null);
                 return;
             case LayoutPackage.PLOT__ROW:
                 unsetRow();
@@ -444,13 +481,13 @@ public class PlotImpl extends BlockImpl implements Plot
                 unsetColumnspan();
                 return;
             case LayoutPackage.PLOT__MIN_SIZE:
-                setMinSize((Size)null);
+                setMinSize((Size) null);
                 return;
             case LayoutPackage.PLOT__OUTLINE:
-                setOutline((LineAttributes)null);
+                setOutline((LineAttributes) null);
                 return;
             case LayoutPackage.PLOT__BACKGROUND:
-                setBackground((Fill)null);
+                setBackground((Fill) null);
                 return;
             case LayoutPackage.PLOT__VISIBLE:
                 unsetVisible();
@@ -465,7 +502,7 @@ public class PlotImpl extends BlockImpl implements Plot
                 unsetVerticalSpacing();
                 return;
             case LayoutPackage.PLOT__CLIENT_AREA:
-                setClientArea((ClientArea)null);
+                setClientArea((ClientArea) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -473,6 +510,7 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -519,17 +557,25 @@ public class PlotImpl extends BlockImpl implements Plot
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (horizontalSpacing: ");
-        if (horizontalSpacingESet) result.append(horizontalSpacing); else result.append("<unset>");
+        if (horizontalSpacingESet)
+            result.append(horizontalSpacing);
+        else
+            result.append("<unset>");
         result.append(", verticalSpacing: ");
-        if (verticalSpacingESet) result.append(verticalSpacing); else result.append("<unset>");
+        if (verticalSpacingESet)
+            result.append(verticalSpacing);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

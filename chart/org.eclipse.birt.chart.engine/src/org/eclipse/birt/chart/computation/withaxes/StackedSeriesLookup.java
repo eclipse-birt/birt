@@ -184,8 +184,8 @@ public final class StackedSeriesLookup
     /**
      * 
      * @param cwa
-     * @return @throws
-     *         UndefinedValueException
+     * @return
+     * @throws UndefinedValueException
      * @throws UnexpectedInputException
      */
     static final StackedSeriesLookup create(ChartWithAxes cwa) throws UndefinedValueException, UnexpectedInputException

@@ -225,13 +225,6 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Specifies the formatting for series labels.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
 			<xsd:element name="LabelPosition" type="attribute:Position" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">

@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.ecore.EObject;
 
@@ -42,9 +41,11 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange()
- * @model @generated
+ * @model
+ * @generated
  */
-public interface MarkerRange extends EObject{
+public interface MarkerRange extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -63,9 +64,11 @@ public interface MarkerRange extends EObject{
     LineAttributes getOutline();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getOutline <em>Outline</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Outline</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getOutline <em>Outline</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Outline</em>' containment reference.
      * @see #getOutline()
      * @generated
      */
@@ -88,9 +91,11 @@ public interface MarkerRange extends EObject{
     Fill getFill();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFill <em>Fill</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Fill</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFill <em>Fill</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Fill</em>' containment reference.
      * @see #getFill()
      * @generated
      */
@@ -113,9 +118,12 @@ public interface MarkerRange extends EObject{
     DataElement getStartValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getStartValue <em>Start Value</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Start Value</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getStartValue <em>Start Value</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Start Value</em>' containment reference.
      * @see #getStartValue()
      * @generated
      */
@@ -138,9 +146,11 @@ public interface MarkerRange extends EObject{
     DataElement getEndValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue <em>End Value</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>End Value</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue <em>End Value</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>End Value</em>' containment reference.
      * @see #getEndValue()
      * @generated
      */
@@ -163,9 +173,11 @@ public interface MarkerRange extends EObject{
     Label getLabel();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel <em>Label</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Label</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel <em>Label</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Label</em>' containment reference.
      * @see #getLabel()
      * @generated
      */
@@ -220,8 +232,10 @@ public interface MarkerRange extends EObject{
     void unsetLabelAnchor();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor <em>Label Anchor</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor <em>Label Anchor</em>}' attribute is
+     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
      * @see #unsetLabelAnchor()
      * @see #getLabelAnchor()
@@ -247,9 +261,12 @@ public interface MarkerRange extends EObject{
     FormatSpecifier getFormatSpecifier();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Format Specifier</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getFormatSpecifier <em>Format Specifier</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Format Specifier</em>' containment reference.
      * @see #getFormatSpecifier()
      * @generated
      */

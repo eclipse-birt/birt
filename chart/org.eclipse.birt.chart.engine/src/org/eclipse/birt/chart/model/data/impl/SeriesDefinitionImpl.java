@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -42,15 +43,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getQuery <em>Query</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesPalette <em>Series Palette</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeries <em>Series</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getQuery <em>Query</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesPalette <em>Series Palette</em>}
+ * </li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesDefinitions <em>Series Definitions</em>}
+ * </li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getFormatSpecifier <em>Format Specifier</em>}
+ * </li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeries <em>Series</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinition
@@ -61,7 +67,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * <!-- end-user-doc -->
      * 
      * @see #getQuery()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Query query = null;
 
@@ -70,7 +77,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesPalette()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Palette seriesPalette = null;
 
@@ -79,16 +87,28 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitions()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList seriesDefinitions = null;
+
+    /**
+     * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #getFormatSpecifier()
+     * @generated
+     * @ordered
+     */
+    protected FormatSpecifier formatSpecifier = null;
 
     /**
      * The cached value of the '{@link #getSeries() <em>Series</em>}' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
      * @see #getSeries()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList series = null;
 
@@ -97,7 +117,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * --> <!-- end-user-doc -->
      * 
      * @see #getGrouping()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected SeriesGrouping grouping = null;
 
@@ -106,7 +127,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * end-user-doc -->
      * 
      * @see #getSorting()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final SortOption SORTING_EDEFAULT = SortOption.ASCENDING_LITERAL;
 
@@ -115,19 +137,22 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * end-user-doc -->
      * 
      * @see #getSorting()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected SortOption sorting = SORTING_EDEFAULT;
 
     /**
      * This is true if the Sorting attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean sortingESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected SeriesDefinitionImpl()
@@ -137,6 +162,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -146,6 +172,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Query getQuery()
@@ -155,6 +182,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs)
@@ -163,14 +191,19 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         query = newQuery;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__QUERY, oldQuery, newQuery);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                DataPackage.SERIES_DEFINITION__QUERY, oldQuery, newQuery);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setQuery(Query newQuery)
@@ -179,18 +212,23 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         {
             NotificationChain msgs = null;
             if (query != null)
-                msgs = ((InternalEObject)query).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
+                msgs = ((InternalEObject) query).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
             if (newQuery != null)
-                msgs = ((InternalEObject)newQuery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
+                msgs = ((InternalEObject) newQuery).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__QUERY, null, msgs);
             msgs = basicSetQuery(newQuery, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__QUERY, newQuery, newQuery));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__QUERY, newQuery,
+                newQuery));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Palette getSeriesPalette()
@@ -200,6 +238,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetSeriesPalette(Palette newSeriesPalette, NotificationChain msgs)
@@ -208,14 +247,19 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         seriesPalette = newSeriesPalette;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SERIES_PALETTE, oldSeriesPalette, newSeriesPalette);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                DataPackage.SERIES_DEFINITION__SERIES_PALETTE, oldSeriesPalette, newSeriesPalette);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSeriesPalette(Palette newSeriesPalette)
@@ -224,31 +268,94 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         {
             NotificationChain msgs = null;
             if (seriesPalette != null)
-                msgs = ((InternalEObject)seriesPalette).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
+                msgs = ((InternalEObject) seriesPalette).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
             if (newSeriesPalette != null)
-                msgs = ((InternalEObject)newSeriesPalette).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
+                msgs = ((InternalEObject) newSeriesPalette).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__SERIES_PALETTE, null, msgs);
             msgs = basicSetSeriesPalette(newSeriesPalette, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SERIES_PALETTE, newSeriesPalette, newSeriesPalette));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SERIES_PALETTE,
+                newSeriesPalette, newSeriesPalette));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getSeriesDefinitions()
     {
         if (seriesDefinitions == null)
         {
-            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this, DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS);
+            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this,
+                DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS);
         }
         return seriesDefinitions;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public FormatSpecifier getFormatSpecifier()
+    {
+        return formatSpecifier;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
+    {
+        FormatSpecifier oldFormatSpecifier = formatSpecifier;
+        formatSpecifier = newFormatSpecifier;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
+    {
+        if (newFormatSpecifier != formatSpecifier)
+        {
+            NotificationChain msgs = null;
+            if (formatSpecifier != null)
+                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, null, msgs);
+            if (newFormatSpecifier != null)
+                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER, null, msgs);
+            msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER,
+                newFormatSpecifier, newFormatSpecifier));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getSeries()
@@ -262,6 +369,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public SeriesGrouping getGrouping()
@@ -271,6 +379,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetGrouping(SeriesGrouping newGrouping, NotificationChain msgs)
@@ -279,14 +388,19 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         grouping = newGrouping;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__GROUPING, oldGrouping, newGrouping);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                DataPackage.SERIES_DEFINITION__GROUPING, oldGrouping, newGrouping);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setGrouping(SeriesGrouping newGrouping)
@@ -295,18 +409,23 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         {
             NotificationChain msgs = null;
             if (grouping != null)
-                msgs = ((InternalEObject)grouping).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
+                msgs = ((InternalEObject) grouping).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
             if (newGrouping != null)
-                msgs = ((InternalEObject)newGrouping).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
+                msgs = ((InternalEObject) newGrouping).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.SERIES_DEFINITION__GROUPING, null, msgs);
             msgs = basicSetGrouping(newGrouping, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__GROUPING, newGrouping, newGrouping));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__GROUPING, newGrouping,
+                newGrouping));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public SortOption getSorting()
@@ -316,6 +435,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSorting(SortOption newSorting)
@@ -325,11 +445,13 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         boolean oldSortingESet = sortingESet;
         sortingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting, sorting, !oldSortingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting,
+                sorting, !oldSortingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetSorting()
@@ -339,11 +461,13 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         sorting = SORTING_EDEFAULT;
         sortingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting, SORTING_EDEFAULT, oldSortingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_DEFINITION__SORTING, oldSorting,
+                SORTING_EDEFAULT, oldSortingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetSorting()
@@ -353,9 +477,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -366,9 +492,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
                 case DataPackage.SERIES_DEFINITION__SERIES_PALETTE:
                     return basicSetSeriesPalette(null, msgs);
                 case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS:
-                    return ((InternalEList)getSeriesDefinitions()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getSeriesDefinitions()).basicRemove(otherEnd, msgs);
+                case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER:
+                    return basicSetFormatSpecifier(null, msgs);
                 case DataPackage.SERIES_DEFINITION__SERIES:
-                    return ((InternalEList)getSeries()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getSeries()).basicRemove(otherEnd, msgs);
                 case DataPackage.SERIES_DEFINITION__GROUPING:
                     return basicSetGrouping(null, msgs);
                 default:
@@ -380,6 +508,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -392,6 +521,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
                 return getSeriesPalette();
             case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS:
                 return getSeriesDefinitions();
+            case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER:
+                return getFormatSpecifier();
             case DataPackage.SERIES_DEFINITION__SERIES:
                 return getSeries();
             case DataPackage.SERIES_DEFINITION__GROUPING:
@@ -404,6 +535,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -411,24 +543,27 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.SERIES_DEFINITION__QUERY:
-                setQuery((Query)newValue);
+                setQuery((Query) newValue);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES_PALETTE:
-                setSeriesPalette((Palette)newValue);
+                setSeriesPalette((Palette) newValue);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS:
                 getSeriesDefinitions().clear();
-                getSeriesDefinitions().addAll((Collection)newValue);
+                getSeriesDefinitions().addAll((Collection) newValue);
+                return;
+            case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) newValue);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES:
                 getSeries().clear();
-                getSeries().addAll((Collection)newValue);
+                getSeries().addAll((Collection) newValue);
                 return;
             case DataPackage.SERIES_DEFINITION__GROUPING:
-                setGrouping((SeriesGrouping)newValue);
+                setGrouping((SeriesGrouping) newValue);
                 return;
             case DataPackage.SERIES_DEFINITION__SORTING:
-                setSorting((SortOption)newValue);
+                setSorting((SortOption) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -436,6 +571,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -443,19 +579,22 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.SERIES_DEFINITION__QUERY:
-                setQuery((Query)null);
+                setQuery((Query) null);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES_PALETTE:
-                setSeriesPalette((Palette)null);
+                setSeriesPalette((Palette) null);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS:
                 getSeriesDefinitions().clear();
+                return;
+            case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER:
+                setFormatSpecifier((FormatSpecifier) null);
                 return;
             case DataPackage.SERIES_DEFINITION__SERIES:
                 getSeries().clear();
                 return;
             case DataPackage.SERIES_DEFINITION__GROUPING:
-                setGrouping((SeriesGrouping)null);
+                setGrouping((SeriesGrouping) null);
                 return;
             case DataPackage.SERIES_DEFINITION__SORTING:
                 unsetSorting();
@@ -466,6 +605,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -478,6 +618,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
                 return seriesPalette != null;
             case DataPackage.SERIES_DEFINITION__SERIES_DEFINITIONS:
                 return seriesDefinitions != null && !seriesDefinitions.isEmpty();
+            case DataPackage.SERIES_DEFINITION__FORMAT_SPECIFIER:
+                return formatSpecifier != null;
             case DataPackage.SERIES_DEFINITION__SERIES:
                 return series != null && !series.isEmpty();
             case DataPackage.SERIES_DEFINITION__GROUPING:
@@ -490,15 +632,20 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (sorting: ");
-        if (sortingESet) result.append(sorting); else result.append("<unset>");
+        if (sortingESet)
+            result.append(sorting);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

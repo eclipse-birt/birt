@@ -44,6 +44,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected TitleBlockImpl()
@@ -53,6 +54,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -62,16 +64,18 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case LayoutPackage.TITLE_BLOCK__CHILDREN:
-                    return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getChildren()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.TITLE_BLOCK__BOUNDS:
                     return basicSetBounds(null, msgs);
                 case LayoutPackage.TITLE_BLOCK__INSETS:
@@ -83,7 +87,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
                 case LayoutPackage.TITLE_BLOCK__BACKGROUND:
                     return basicSetBackground(null, msgs);
                 case LayoutPackage.TITLE_BLOCK__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.TITLE_BLOCK__LABEL:
                     return basicSetLabel(null, msgs);
                 default:
@@ -95,6 +99,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -137,6 +142,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -145,50 +151,50 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
         {
             case LayoutPackage.TITLE_BLOCK__CHILDREN:
                 getChildren().clear();
-                getChildren().addAll((Collection)newValue);
+                getChildren().addAll((Collection) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__BOUNDS:
-                setBounds((Bounds)newValue);
+                setBounds((Bounds) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__ANCHOR:
-                setAnchor((Anchor)newValue);
+                setAnchor((Anchor) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__STRETCH:
-                setStretch((Stretch)newValue);
+                setStretch((Stretch) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__INSETS:
-                setInsets((Insets)newValue);
+                setInsets((Insets) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__ROW:
-                setRow(((Integer)newValue).intValue());
+                setRow(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.TITLE_BLOCK__COLUMN:
-                setColumn(((Integer)newValue).intValue());
+                setColumn(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.TITLE_BLOCK__ROWSPAN:
-                setRowspan(((Integer)newValue).intValue());
+                setRowspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.TITLE_BLOCK__COLUMNSPAN:
-                setColumnspan(((Integer)newValue).intValue());
+                setColumnspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.TITLE_BLOCK__MIN_SIZE:
-                setMinSize((Size)newValue);
+                setMinSize((Size) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__OUTLINE:
-                setOutline((LineAttributes)newValue);
+                setOutline((LineAttributes) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__BACKGROUND:
-                setBackground((Fill)newValue);
+                setBackground((Fill) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case LayoutPackage.TITLE_BLOCK__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
             case LayoutPackage.TITLE_BLOCK__LABEL:
-                setLabel((Label)newValue);
+                setLabel((Label) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -196,6 +202,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -206,7 +213,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
                 getChildren().clear();
                 return;
             case LayoutPackage.TITLE_BLOCK__BOUNDS:
-                setBounds((Bounds)null);
+                setBounds((Bounds) null);
                 return;
             case LayoutPackage.TITLE_BLOCK__ANCHOR:
                 unsetAnchor();
@@ -215,7 +222,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
                 unsetStretch();
                 return;
             case LayoutPackage.TITLE_BLOCK__INSETS:
-                setInsets((Insets)null);
+                setInsets((Insets) null);
                 return;
             case LayoutPackage.TITLE_BLOCK__ROW:
                 unsetRow();
@@ -230,13 +237,13 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
                 unsetColumnspan();
                 return;
             case LayoutPackage.TITLE_BLOCK__MIN_SIZE:
-                setMinSize((Size)null);
+                setMinSize((Size) null);
                 return;
             case LayoutPackage.TITLE_BLOCK__OUTLINE:
-                setOutline((LineAttributes)null);
+                setOutline((LineAttributes) null);
                 return;
             case LayoutPackage.TITLE_BLOCK__BACKGROUND:
-                setBackground((Fill)null);
+                setBackground((Fill) null);
                 return;
             case LayoutPackage.TITLE_BLOCK__VISIBLE:
                 unsetVisible();
@@ -245,7 +252,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
                 getTriggers().clear();
                 return;
             case LayoutPackage.TITLE_BLOCK__LABEL:
-                setLabel((Label)null);
+                setLabel((Label) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -253,6 +260,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

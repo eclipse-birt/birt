@@ -58,7 +58,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -67,7 +68,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getValue()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected DataElement value = null;
 
@@ -76,7 +78,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Label label = null;
 
@@ -85,7 +88,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
@@ -94,14 +98,16 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Anchor labelAnchor = LABEL_ANCHOR_EDEFAULT;
 
     /**
      * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean labelAnchorESet = false;
 
@@ -110,12 +116,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected MarkerLineImpl()
@@ -125,6 +133,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -134,6 +143,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getLineAttributes()
@@ -143,6 +153,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
@@ -151,14 +162,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLineAttributes(LineAttributes newLineAttributes)
@@ -167,18 +183,23 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         {
             NotificationChain msgs = null;
             if (lineAttributes != null)
-                msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
             if (newLineAttributes != null)
-                msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLineAttributes(newLineAttributes, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+                newLineAttributes, newLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public DataElement getValue()
@@ -188,6 +209,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetValue(DataElement newValue, NotificationChain msgs)
@@ -196,14 +218,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         value = newValue;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__VALUE, oldValue, newValue);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__VALUE, oldValue, newValue);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setValue(DataElement newValue)
@@ -212,18 +239,23 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         {
             NotificationChain msgs = null;
             if (value != null)
-                msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
+                msgs = ((InternalEObject) value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
             if (newValue != null)
-                msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
+                msgs = ((InternalEObject) newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__VALUE, null, msgs);
             msgs = basicSetValue(newValue, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__VALUE, newValue, newValue));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__VALUE, newValue,
+                newValue));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Label getLabel()
@@ -233,6 +265,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
@@ -241,14 +274,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         label = newLabel;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL, oldLabel, newLabel);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__LABEL, oldLabel, newLabel);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLabel(Label newLabel)
@@ -257,18 +295,23 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         {
             NotificationChain msgs = null;
             if (label != null)
-                msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
+                msgs = ((InternalEObject) label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
             if (newLabel != null)
-                msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
+                msgs = ((InternalEObject) newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__LABEL, null, msgs);
             msgs = basicSetLabel(newLabel, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL, newLabel, newLabel));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL, newLabel,
+                newLabel));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Anchor getLabelAnchor()
@@ -278,6 +321,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLabelAnchor(Anchor newLabelAnchor)
@@ -287,11 +331,13 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         boolean oldLabelAnchorESet = labelAnchorESet;
         labelAnchorESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR, oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+                oldLabelAnchor, labelAnchor, !oldLabelAnchorESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetLabelAnchor()
@@ -301,11 +347,13 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         labelAnchor = LABEL_ANCHOR_EDEFAULT;
         labelAnchorESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR, oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+                oldLabelAnchor, LABEL_ANCHOR_EDEFAULT, oldLabelAnchorESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetLabelAnchor()
@@ -315,6 +363,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public FormatSpecifier getFormatSpecifier()
@@ -324,6 +373,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs)
@@ -332,14 +382,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         formatSpecifier = newFormatSpecifier;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setFormatSpecifier(FormatSpecifier newFormatSpecifier)
@@ -348,18 +403,23 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         {
             NotificationChain msgs = null;
             if (formatSpecifier != null)
-                msgs = ((InternalEObject)formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
             if (newFormatSpecifier != null)
-                msgs = ((InternalEObject)newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
+                msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, null, msgs);
             msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER, newFormatSpecifier, newFormatSpecifier));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
+                newFormatSpecifier, newFormatSpecifier));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -386,6 +446,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -408,6 +469,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -415,19 +477,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)newValue);
+                setLineAttributes((LineAttributes) newValue);
                 return;
             case ComponentPackage.MARKER_LINE__VALUE:
-                setValue((DataElement)newValue);
+                setValue((DataElement) newValue);
                 return;
             case ComponentPackage.MARKER_LINE__LABEL:
-                setLabel((Label)newValue);
+                setLabel((Label) newValue);
                 return;
             case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
-                setLabelAnchor((Anchor)newValue);
+                setLabelAnchor((Anchor) newValue);
                 return;
             case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)newValue);
+                setFormatSpecifier((FormatSpecifier) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -435,6 +497,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -442,19 +505,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)null);
+                setLineAttributes((LineAttributes) null);
                 return;
             case ComponentPackage.MARKER_LINE__VALUE:
-                setValue((DataElement)null);
+                setValue((DataElement) null);
                 return;
             case ComponentPackage.MARKER_LINE__LABEL:
-                setLabel((Label)null);
+                setLabel((Label) null);
                 return;
             case ComponentPackage.MARKER_LINE__LABEL_ANCHOR:
                 unsetLabelAnchor();
                 return;
             case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)null);
+                setFormatSpecifier((FormatSpecifier) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -462,6 +525,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -484,15 +548,20 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (labelAnchor: ");
-        if (labelAnchorESet) result.append(labelAnchor); else result.append("<unset>");
+        if (labelAnchorESet)
+            result.append(labelAnchor);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

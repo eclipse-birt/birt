@@ -202,10 +202,10 @@ public final class PlotWithoutAxes
         final DataPointHints[] dpha = new DataPointHints[iCount];
         for (int i = 0; i < iCount; i++)
         {
-            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), 
-                String.valueOf(seOrthogonal.getSeriesIdentifier()), // TBD: APPLY FORMAT SPECIFIER 
-                seOrthogonal.getDataPoint(), seBase.getFormatSpecifier(), seOrthogonal
-                .getFormatSpecifier(), null, -1, lcl);
+            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), String.valueOf(seOrthogonal
+                .getSeriesIdentifier()), // TBD: APPLY FORMAT SPECIFIER
+                seOrthogonal.getDataPoint(), seBase.getFormatSpecifier(), seOrthogonal.getFormatSpecifier(), null, -1,
+                lcl);
         }
 
         return new SeriesRenderingHints(dpha);

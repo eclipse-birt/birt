@@ -27,7 +27,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTriggerCondition()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class TriggerCondition extends AbstractEnumerator
 {
@@ -37,7 +38,8 @@ public final class TriggerCondition extends AbstractEnumerator
      * 
      * @see #MOUSE_HOVER_LITERAL
      * @model name="Mouse_Hover"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int MOUSE_HOVER = 0;
 
@@ -46,7 +48,8 @@ public final class TriggerCondition extends AbstractEnumerator
      * 
      * @see #MOUSE_CLICK_LITERAL
      * @model name="Mouse_Click"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int MOUSE_CLICK = 1;
 
@@ -59,7 +62,8 @@ public final class TriggerCondition extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MOUSE_HOVER
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TriggerCondition MOUSE_HOVER_LITERAL = new TriggerCondition(MOUSE_HOVER, "Mouse_Hover");
 
@@ -72,35 +76,34 @@ public final class TriggerCondition extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MOUSE_CLICK
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TriggerCondition MOUSE_CLICK_LITERAL = new TriggerCondition(MOUSE_CLICK, "Mouse_Click");
 
     /**
-     * An array of all the '<em><b>Trigger Condition</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Trigger Condition</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final TriggerCondition[] VALUES_ARRAY =
-        new TriggerCondition[]
-        {
-            MOUSE_HOVER_LITERAL,
-            MOUSE_CLICK_LITERAL,
-        };
+    private static final TriggerCondition[] VALUES_ARRAY = new TriggerCondition[]
+    {
+        MOUSE_HOVER_LITERAL, MOUSE_CLICK_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Trigger Condition</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Trigger Condition</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified name. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static TriggerCondition get(String name)
@@ -117,24 +120,26 @@ public final class TriggerCondition extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified value. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static TriggerCondition get(int value)
     {
         switch (value)
         {
-            case MOUSE_HOVER: return MOUSE_HOVER_LITERAL;
-            case MOUSE_CLICK: return MOUSE_CLICK_LITERAL;
+            case MOUSE_HOVER:
+                return MOUSE_HOVER_LITERAL;
+            case MOUSE_CLICK:
+                return MOUSE_CLICK_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private TriggerCondition(int value, String name)

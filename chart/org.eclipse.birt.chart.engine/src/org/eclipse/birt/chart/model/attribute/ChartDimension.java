@@ -27,7 +27,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartDimension()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class ChartDimension extends AbstractEnumerator
 {
@@ -37,7 +38,8 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #TWO_DIMENSIONAL_LITERAL
      * @model name="Two_Dimensional"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TWO_DIMENSIONAL = 0;
 
@@ -47,7 +49,8 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
      * @model name="Two_Dimensional_With_Depth"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TWO_DIMENSIONAL_WITH_DEPTH = 1;
 
@@ -56,7 +59,8 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #THREE_DIMENSIONAL_LITERAL
      * @model name="Three_Dimensional"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int THREE_DIMENSIONAL = 2;
 
@@ -69,7 +73,8 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TWO_DIMENSIONAL
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartDimension TWO_DIMENSIONAL_LITERAL = new ChartDimension(TWO_DIMENSIONAL, "Two_Dimensional");
 
@@ -82,7 +87,8 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TWO_DIMENSIONAL_WITH_DEPTH
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartDimension TWO_DIMENSIONAL_WITH_DEPTH_LITERAL = new ChartDimension(
         TWO_DIMENSIONAL_WITH_DEPTH, "Two_Dimensional_With_Depth");
@@ -96,7 +102,8 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #THREE_DIMENSIONAL
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartDimension THREE_DIMENSIONAL_LITERAL = new ChartDimension(THREE_DIMENSIONAL,
         "Three_Dimensional");
@@ -107,26 +114,23 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @generated
      */
-    private static final ChartDimension[] VALUES_ARRAY =
-        new ChartDimension[]
-        {
-            TWO_DIMENSIONAL_LITERAL,
-            TWO_DIMENSIONAL_WITH_DEPTH_LITERAL,
-            THREE_DIMENSIONAL_LITERAL,
-        };
+    private static final ChartDimension[] VALUES_ARRAY = new ChartDimension[]
+    {
+        TWO_DIMENSIONAL_LITERAL, TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, THREE_DIMENSIONAL_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Chart Dimension</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Chart Dimension</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ChartDimension get(String name)
@@ -143,25 +147,28 @@ public final class ChartDimension extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ChartDimension get(int value)
     {
         switch (value)
         {
-            case TWO_DIMENSIONAL: return TWO_DIMENSIONAL_LITERAL;
-            case TWO_DIMENSIONAL_WITH_DEPTH: return TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-            case THREE_DIMENSIONAL: return THREE_DIMENSIONAL_LITERAL;
+            case TWO_DIMENSIONAL:
+                return TWO_DIMENSIONAL_LITERAL;
+            case TWO_DIMENSIONAL_WITH_DEPTH:
+                return TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
+            case THREE_DIMENSIONAL:
+                return THREE_DIMENSIONAL_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private ChartDimension(int value, String name)

@@ -39,10 +39,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions <em>Series Definitions</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
@@ -53,12 +54,14 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitions()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected EList seriesDefinitions = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ChartWithoutAxesImpl()
@@ -68,6 +71,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -77,22 +81,26 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList getSeriesDefinitions()
     {
         if (seriesDefinitions == null)
         {
-            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this, ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS);
+            seriesDefinitions = new EObjectContainmentEList(SeriesDefinition.class, this,
+                ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS);
         }
         return seriesDefinitions;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -105,11 +113,11 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
                     return basicSetSeriesHints(null, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__EXTENDED_PROPERTIES:
-                    return ((InternalEList)getExtendedProperties()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getExtendedProperties()).basicRemove(otherEnd, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA:
                     return basicSetSampleData(null, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS:
-                    return ((InternalEList)getSeriesDefinitions()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getSeriesDefinitions()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -119,6 +127,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -159,6 +168,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -166,48 +176,48 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITHOUT_AXES__VERSION:
-                setVersion((String)newValue);
+                setVersion((String) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__TYPE:
-                setType((String)newValue);
+                setType((String) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SUB_TYPE:
-                setSubType((String)newValue);
+                setSubType((String) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__DESCRIPTION:
-                setDescription((Text)newValue);
+                setDescription((Text) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__BLOCK:
-                setBlock((Block)newValue);
+                setBlock((Block) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__DIMENSION:
-                setDimension((ChartDimension)newValue);
+                setDimension((ChartDimension) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SCRIPT:
-                setScript((String)newValue);
+                setScript((String) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__UNITS:
-                setUnits((String)newValue);
+                setUnits((String) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_THICKNESS:
-                setSeriesThickness(((Double)newValue).doubleValue());
+                setSeriesThickness(((Double) newValue).doubleValue());
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint)newValue);
+                setSeriesHints((SeriesHint) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
-                setGridColumnCount(((Integer)newValue).intValue());
+                setGridColumnCount(((Integer) newValue).intValue());
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__EXTENDED_PROPERTIES:
                 getExtendedProperties().clear();
-                getExtendedProperties().addAll((Collection)newValue);
+                getExtendedProperties().addAll((Collection) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA:
-                setSampleData((SampleData)newValue);
+                setSampleData((SampleData) newValue);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS:
                 getSeriesDefinitions().clear();
-                getSeriesDefinitions().addAll((Collection)newValue);
+                getSeriesDefinitions().addAll((Collection) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -215,6 +225,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -231,10 +242,10 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 setSubType(SUB_TYPE_EDEFAULT);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__DESCRIPTION:
-                setDescription((Text)null);
+                setDescription((Text) null);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__BLOCK:
-                setBlock((Block)null);
+                setBlock((Block) null);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__DIMENSION:
                 unsetDimension();
@@ -249,7 +260,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 unsetSeriesThickness();
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint)null);
+                setSeriesHints((SeriesHint) null);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
                 unsetGridColumnCount();
@@ -258,7 +269,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 getExtendedProperties().clear();
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA:
-                setSampleData((SampleData)null);
+                setSampleData((SampleData) null);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS:
                 getSeriesDefinitions().clear();
@@ -269,6 +280,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

@@ -224,6 +224,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 			<xsd:element name="Query" type="Query"/>
 			<xsd:element name="SeriesPalette" type="attribute:Palette"/>
 			<xsd:element name="SeriesDefinitions" type="SeriesDefinition" maxOccurs="unbounded"/>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier"/>
 			<xsd:element name="Series" type="component:Series" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">

@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAnchor()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class Anchor extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #NORTH_LITERAL
      * @model name="North"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int NORTH = 0;
 
@@ -45,7 +47,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #NORTH_EAST_LITERAL
      * @model name="North_East"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int NORTH_EAST = 1;
 
@@ -54,7 +57,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #EAST_LITERAL
      * @model name="East"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int EAST = 2;
 
@@ -63,7 +67,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #SOUTH_EAST_LITERAL
      * @model name="South_East"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SOUTH_EAST = 3;
 
@@ -72,7 +77,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #SOUTH_LITERAL
      * @model name="South"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SOUTH = 4;
 
@@ -81,7 +87,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #SOUTH_WEST_LITERAL
      * @model name="South_West"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SOUTH_WEST = 5;
 
@@ -90,7 +97,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #WEST_LITERAL
      * @model name="West"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int WEST = 6;
 
@@ -99,7 +107,8 @@ public final class Anchor extends AbstractEnumerator
      * 
      * @see #NORTH_WEST_LITERAL
      * @model name="North_West"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int NORTH_WEST = 7;
 
@@ -112,7 +121,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #NORTH
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor NORTH_LITERAL = new Anchor(NORTH, "North");
 
@@ -125,7 +135,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #NORTH_EAST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor NORTH_EAST_LITERAL = new Anchor(NORTH_EAST, "North_East");
 
@@ -138,7 +149,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #EAST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor EAST_LITERAL = new Anchor(EAST, "East");
 
@@ -151,7 +163,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SOUTH_EAST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor SOUTH_EAST_LITERAL = new Anchor(SOUTH_EAST, "South_East");
 
@@ -164,7 +177,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SOUTH
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor SOUTH_LITERAL = new Anchor(SOUTH, "South");
 
@@ -177,7 +191,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SOUTH_WEST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor SOUTH_WEST_LITERAL = new Anchor(SOUTH_WEST, "South_West");
 
@@ -190,7 +205,8 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #WEST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor WEST_LITERAL = new Anchor(WEST, "West");
 
@@ -203,40 +219,34 @@ public final class Anchor extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #NORTH_WEST
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Anchor NORTH_WEST_LITERAL = new Anchor(NORTH_WEST, "North_West");
 
     /**
-     * An array of all the '<em><b>Anchor</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Anchor</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final Anchor[] VALUES_ARRAY =
-        new Anchor[]
-        {
-            NORTH_LITERAL,
-            NORTH_EAST_LITERAL,
-            EAST_LITERAL,
-            SOUTH_EAST_LITERAL,
-            SOUTH_LITERAL,
-            SOUTH_WEST_LITERAL,
-            WEST_LITERAL,
-            NORTH_WEST_LITERAL,
-        };
+    private static final Anchor[] VALUES_ARRAY = new Anchor[]
+    {
+        NORTH_LITERAL, NORTH_EAST_LITERAL, EAST_LITERAL, SOUTH_EAST_LITERAL, SOUTH_LITERAL, SOUTH_WEST_LITERAL,
+        WEST_LITERAL, NORTH_WEST_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Anchor</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Anchor</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static Anchor get(String name)
@@ -253,30 +263,38 @@ public final class Anchor extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Anchor</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Anchor</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static Anchor get(int value)
     {
         switch (value)
         {
-            case NORTH: return NORTH_LITERAL;
-            case NORTH_EAST: return NORTH_EAST_LITERAL;
-            case EAST: return EAST_LITERAL;
-            case SOUTH_EAST: return SOUTH_EAST_LITERAL;
-            case SOUTH: return SOUTH_LITERAL;
-            case SOUTH_WEST: return SOUTH_WEST_LITERAL;
-            case WEST: return WEST_LITERAL;
-            case NORTH_WEST: return NORTH_WEST_LITERAL;
+            case NORTH:
+                return NORTH_LITERAL;
+            case NORTH_EAST:
+                return NORTH_EAST_LITERAL;
+            case EAST:
+                return EAST_LITERAL;
+            case SOUTH_EAST:
+                return SOUTH_EAST_LITERAL;
+            case SOUTH:
+                return SOUTH_LITERAL;
+            case SOUTH_WEST:
+                return SOUTH_WEST_LITERAL;
+            case WEST:
+                return WEST_LITERAL;
+            case NORTH_WEST:
+                return NORTH_WEST_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private Anchor(int value, String name)

@@ -112,19 +112,19 @@ public final class Generator
      * @return
      * @throws GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime,
-        Scriptable scParent, Bounds bo, Locale lo) throws GenerationException
+    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime, Scriptable scParent, Bounds bo,
+        Locale lo) throws GenerationException
     {
         if (xs == null || cmDesignTime == null || bo == null)
         {
             throw new GenerationException("Illegal 'null' value passed as an argument to build a chart");
         }
-        
+
         if (cmDesignTime.getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL)
         {
             throw new GenerationException(new UnsupportedFeatureException("3D charts are not yet supported"));
         }
-        
+
         Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
         if (lo == null)
         {
@@ -136,13 +136,15 @@ public final class Generator
         if (sScriptContent != null)
         {
             sh = new ScriptHandler();
-            try {
-	            sh.init(scParent);
-	            sh.setRunTimeModel(cmRunTime);
-	            cmRunTime.setScriptHandler(sh);
-	            sh.register(sScriptContent);
-	            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
-            } catch (ScriptException sx)
+            try
+            {
+                sh.init(scParent);
+                sh.setRunTimeModel(cmRunTime);
+                cmRunTime.setScriptHandler(sh);
+                sh.register(sScriptContent);
+                ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
+            }
+            catch (ScriptException sx )
             {
                 throw new GenerationException(sx);
             }
@@ -278,7 +280,8 @@ public final class Generator
      * This method may be used to minimize re-computation of the chart if ONLY the dataset content has changed.
      * Attribute changes require a new chart build.
      * 
-     * @param gcs	A previously built chart
+     * @param gcs
+     *            A previously built chart
      * 
      * @throws GenerationException
      */

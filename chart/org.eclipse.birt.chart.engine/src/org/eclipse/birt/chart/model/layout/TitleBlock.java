@@ -23,7 +23,8 @@ package org.eclipse.birt.chart.model.layout;
  * 
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getTitleBlock()
- * @model @generated
+ * @model
+ * @generated
  */
 public interface TitleBlock extends LabelBlock
 {

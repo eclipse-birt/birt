@@ -30,18 +30,20 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTooltipValue()
- * @model @generated
+ * @model
+ * @generated
  */
-public interface TooltipValue extends ActionValue{
+public interface TooltipValue extends ActionValue
+{
 
     /**
-     * Returns the value of the '<em><b>Text</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Text</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 							Holds the text for the tooltip.
-     * 							
+     * Holds the text for the tooltip.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Text</em>' attribute.
      * @see #setText(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTooltipValue_Text()
@@ -51,22 +53,24 @@ public interface TooltipValue extends ActionValue{
     String getText();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getText <em>Text</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Text</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getText <em>Text</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Text</em>' attribute.
      * @see #getText()
      * @generated
      */
     void setText(String value);
 
     /**
-     * Returns the value of the '<em><b>Delay</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Delay</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 							Specifies the delay afer which the tooltip is to be shown.
-     * 							
+     * Specifies the delay afer which the tooltip is to be shown.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Delay</em>' attribute.
      * @see #isSetDelay()
      * @see #unsetDelay()
@@ -78,9 +82,11 @@ public interface TooltipValue extends ActionValue{
     int getDelay();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Delay</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Delay</em>' attribute.
      * @see #isSetDelay()
      * @see #unsetDelay()
      * @see #getDelay()
@@ -89,8 +95,9 @@ public interface TooltipValue extends ActionValue{
     void setDelay(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getDelay <em>Delay</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetDelay()
      * @see #getDelay()
      * @see #setDelay(int)

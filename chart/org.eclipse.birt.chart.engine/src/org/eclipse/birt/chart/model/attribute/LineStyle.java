@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineStyle()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class LineStyle extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #SOLID_LITERAL
      * @model name="Solid"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SOLID = 0;
 
@@ -45,7 +47,8 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DASHED_LITERAL
      * @model name="Dashed"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int DASHED = 1;
 
@@ -54,7 +57,8 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DOTTED_LITERAL
      * @model name="Dotted"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int DOTTED = 2;
 
@@ -63,7 +67,8 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DASH_DOTTED_LITERAL
      * @model name="Dash_Dotted"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int DASH_DOTTED = 3;
 
@@ -76,7 +81,8 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SOLID
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LineStyle SOLID_LITERAL = new LineStyle(SOLID, "Solid");
 
@@ -89,7 +95,8 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DASHED
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LineStyle DASHED_LITERAL = new LineStyle(DASHED, "Dashed");
 
@@ -102,7 +109,8 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DOTTED
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LineStyle DOTTED_LITERAL = new LineStyle(DOTTED, "Dotted");
 
@@ -115,36 +123,33 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DASH_DOTTED
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LineStyle DASH_DOTTED_LITERAL = new LineStyle(DASH_DOTTED, "Dash_Dotted");
 
     /**
-     * An array of all the '<em><b>Line Style</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Line Style</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final LineStyle[] VALUES_ARRAY =
-        new LineStyle[]
-        {
-            SOLID_LITERAL,
-            DASHED_LITERAL,
-            DOTTED_LITERAL,
-            DASH_DOTTED_LITERAL,
-        };
+    private static final LineStyle[] VALUES_ARRAY = new LineStyle[]
+    {
+        SOLID_LITERAL, DASHED_LITERAL, DOTTED_LITERAL, DASH_DOTTED_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Line Style</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Line Style</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Line Style</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Line Style</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static LineStyle get(String name)
@@ -161,26 +166,30 @@ public final class LineStyle extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Line Style</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Line Style</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static LineStyle get(int value)
     {
         switch (value)
         {
-            case SOLID: return SOLID_LITERAL;
-            case DASHED: return DASHED_LITERAL;
-            case DOTTED: return DOTTED_LITERAL;
-            case DASH_DOTTED: return DASH_DOTTED_LITERAL;
+            case SOLID:
+                return SOLID_LITERAL;
+            case DASHED:
+                return DASHED_LITERAL;
+            case DOTTED:
+                return DOTTED_LITERAL;
+            case DASH_DOTTED:
+                return DASH_DOTTED_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private LineStyle(int value, String name)

@@ -1166,9 +1166,11 @@ public final class AutoScale extends Methods implements Cloneable
                 }
 
                 la.getCaption().setValue(sText);
-                try {
+                try
+                {
                     rr = computePolygon(xs, iLabelLocation, la, x, y);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1213,9 +1215,11 @@ public final class AutoScale extends Methods implements Cloneable
                 }
 
                 la.getCaption().setValue(sText);
-                try {
+                try
+                {
                     rr = computePolygon(xs, iLabelLocation, la, x, y);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1249,9 +1253,11 @@ public final class AutoScale extends Methods implements Cloneable
                     y = da[i];
 
                 la.getCaption().setValue(sText);
-                try {
+                try
+                {
                     rr = computePolygon(xs, iLabelLocation, la, x, y);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1822,7 +1828,8 @@ public final class AutoScale extends Methods implements Cloneable
      * @param iLocation
      * @param aax
      */
-    final void computeAxisStartEndShifts(IDisplayServer xs, Label la, int iOrientation, int iLocation, AllAxes aax) throws GenerationException
+    final void computeAxisStartEndShifts(IDisplayServer xs, Label la, int iOrientation, int iLocation, AllAxes aax)
+        throws GenerationException
     {
         final double dMaxSS = (aax != null && iOrientation == aax.getOrientation()) ? aax.getMaxStartShift() : 0;
         final double dMaxES = (aax != null && iOrientation == aax.getOrientation()) ? aax.getMaxEndShift() : 0;
@@ -1846,9 +1853,11 @@ public final class AutoScale extends Methods implements Cloneable
             // ADJUST THE START POSITION
             la.getCaption().setValue(formatCategoryValue(getType(), dsi.first(), iDateTimeUnit));
             BoundingBox bb = null;
-            try {
+            try
+            {
                 bb = computeBox(xs, iLocation, la, 0, 0);
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }
@@ -1863,9 +1872,11 @@ public final class AutoScale extends Methods implements Cloneable
 
             // ADJUST THE END POSITION
             la.getCaption().setValue(formatCategoryValue(getType(), dsi.last(), iDateTimeUnit));
-            try {
+            try
+            {
                 bb = computeBox(xs, iLocation, la, 0, dEnd);
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }
@@ -1900,9 +1911,11 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 la.getCaption().setValue(sValue);
                 BoundingBox bb = null;
-                try {
+                try
+                {
                     bb = computeBox(xs, iLocation, la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1926,9 +1939,11 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                try {
+                try
+                {
                     bb = computeBox(xs, iLocation, la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1963,9 +1978,11 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 la.getCaption().setValue(sValue);
                 BoundingBox bb = null;
-                try {
+                try
+                {
                     bb = computeBox(xs, iLocation, la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -1994,9 +2011,11 @@ public final class AutoScale extends Methods implements Cloneable
                     sValue = IConstants.NULL_STRING;
                 }
                 la.getCaption().setValue(sValue);
-                try {
+                try
+                {
                     bb = computeBox(xs, iLocation, la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new GenerationException(uiex);
                 }
@@ -2040,9 +2059,11 @@ public final class AutoScale extends Methods implements Cloneable
             la.getCaption().setValue(sText);
 
             BoundingBox bb = null;
-            try {
+            try
+            {
                 bb = computeBox(xs, iLocation, la, 0, 0);
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }
@@ -2067,9 +2088,11 @@ public final class AutoScale extends Methods implements Cloneable
                 sText = IConstants.NULL_STRING;
             }
             la.getCaption().setValue(sText);
-            try {
+            try
+            {
                 bb = computeBox(xs, iLocation, la, 0, dEnd);
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }

@@ -16,26 +16,31 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Orthogonal Sample Data</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type sample data for an orthogonal series.
- * 			
+ * This type sample data for an orthogonal series.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}</li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}
+ * </li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getOrthogonalSampleData()
- * @model 
+ * @model
  * @generated
  */
-public interface OrthogonalSampleData extends EObject{
+public interface OrthogonalSampleData extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Data Set Representation</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -55,9 +60,12 @@ public interface OrthogonalSampleData extends EObject{
     String getDataSetRepresentation();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Data Set Representation</em>' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Data Set Representation</em>' attribute.
      * @see #getDataSetRepresentation()
      * @generated
      */
@@ -82,9 +90,12 @@ public interface OrthogonalSampleData extends EObject{
     int getSeriesDefinitionIndex();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Series Definition Index</em>' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Series Definition Index</em>' attribute.
      * @see #isSetSeriesDefinitionIndex()
      * @see #unsetSeriesDefinitionIndex()
      * @see #getSeriesDefinitionIndex()
@@ -93,8 +104,10 @@ public interface OrthogonalSampleData extends EObject{
     void setSeriesDefinitionIndex(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetSeriesDefinitionIndex()
      * @see #getSeriesDefinitionIndex()
      * @see #setSeriesDefinitionIndex(int)
@@ -103,8 +116,10 @@ public interface OrthogonalSampleData extends EObject{
     void unsetSeriesDefinitionIndex();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Series Definition Index</em>' attribute is set.
      * @see #unsetSeriesDefinitionIndex()
      * @see #getSeriesDefinitionIndex()

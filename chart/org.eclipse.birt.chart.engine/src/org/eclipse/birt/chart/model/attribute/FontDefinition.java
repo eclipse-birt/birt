@@ -16,33 +16,34 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Font Definition</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type holds all font-related information.
- * 			
+ * This type holds all font-related information.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isUnderline <em>Underline</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isWordWrap <em>Word Wrap</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getAlignment <em>Alignment</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getRotation <em>Rotation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isUnderline <em>Underline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isWordWrap <em>Word Wrap</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getAlignment <em>Alignment</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getRotation <em>Rotation</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFontDefinition()
- * @model 
+ * @model
  * @generated
  */
-public interface FontDefinition extends EObject{
+public interface FontDefinition extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> Gets the font name. <!--
@@ -61,9 +62,11 @@ public interface FontDefinition extends EObject{
     String getName();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}' attribute.
-     * <!-- begin-user-doc --> Sets the font name. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Name</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getName <em>Name</em>}'
+     * attribute. <!-- begin-user-doc --> Sets the font name. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Name</em>' attribute.
      * @see #getName()
      * @generated
      */
@@ -88,9 +91,11 @@ public interface FontDefinition extends EObject{
     float getSize();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}' attribute.
-     * <!-- begin-user-doc --> Sets the font size. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Size</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}'
+     * attribute. <!-- begin-user-doc --> Sets the font size. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Size</em>' attribute.
      * @see #isSetSize()
      * @see #unsetSize()
      * @see #getSize()
@@ -99,8 +104,9 @@ public interface FontDefinition extends EObject{
     void setSize(float value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getSize <em>Size</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetSize()
      * @see #getSize()
      * @see #setSize(float)
@@ -140,9 +146,11 @@ public interface FontDefinition extends EObject{
     boolean isBold();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}' attribute.
-     * <!-- begin-user-doc --> Gets whether the font is to be in bold. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Bold</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}'
+     * attribute. <!-- begin-user-doc --> Gets whether the font is to be in bold. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Bold</em>' attribute.
      * @see #isSetBold()
      * @see #unsetBold()
      * @see #isBold()
@@ -151,8 +159,9 @@ public interface FontDefinition extends EObject{
     void setBold(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isBold <em>Bold</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetBold()
      * @see #isBold()
      * @see #setBold(boolean)
@@ -192,9 +201,11 @@ public interface FontDefinition extends EObject{
     boolean isItalic();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}' attribute.
-     * <!-- begin-user-doc --> Sets whether the font is to be rendered in italics. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Italic</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}'
+     * attribute. <!-- begin-user-doc --> Sets whether the font is to be rendered in italics. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Italic</em>' attribute.
      * @see #isSetItalic()
      * @see #unsetItalic()
      * @see #isItalic()
@@ -203,8 +214,9 @@ public interface FontDefinition extends EObject{
     void setItalic(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isItalic <em>Italic</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetItalic()
      * @see #isItalic()
      * @see #setItalic(boolean)
@@ -244,9 +256,12 @@ public interface FontDefinition extends EObject{
     boolean isStrikethrough();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute.
      * <!-- begin-user-doc --> Sets whether the font is to be rendered with strikethrough. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Strikethrough</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Strikethrough</em>' attribute.
      * @see #isSetStrikethrough()
      * @see #unsetStrikethrough()
      * @see #isStrikethrough()
@@ -255,8 +270,10 @@ public interface FontDefinition extends EObject{
     void setStrikethrough(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute.
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetStrikethrough()
      * @see #isStrikethrough()
      * @see #setStrikethrough(boolean)
@@ -265,8 +282,10 @@ public interface FontDefinition extends EObject{
     void unsetStrikethrough();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isStrikethrough <em>Strikethrough</em>}' attribute
+     * is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Strikethrough</em>' attribute is set.
      * @see #unsetStrikethrough()
      * @see #isStrikethrough()
@@ -320,8 +339,10 @@ public interface FontDefinition extends EObject{
     void unsetUnderline();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isUnderline <em>Underline</em>}' attribute is set.
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isUnderline <em>Underline</em>}' attribute is set.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Underline</em>' attribute is set.
      * @see #unsetUnderline()
      * @see #isUnderline()
@@ -375,8 +396,10 @@ public interface FontDefinition extends EObject{
     void unsetWordWrap();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#isWordWrap <em>Word Wrap</em>}' attribute is set.
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#isWordWrap <em>Word Wrap</em>}' attribute is set.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Word Wrap</em>' attribute is set.
      * @see #unsetWordWrap()
      * @see #isWordWrap()
@@ -402,9 +425,12 @@ public interface FontDefinition extends EObject{
     TextAlignment getAlignment();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getAlignment <em>Alignment</em>}' containment reference.
-     * <!-- begin-user-doc --> Sets the text alignment for the font. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Alignment</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#getAlignment <em>Alignment</em>}' containment
+     * reference. <!-- begin-user-doc --> Sets the text alignment for the font. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Alignment</em>' containment reference.
      * @see #getAlignment()
      * @generated
      */
@@ -455,8 +481,10 @@ public interface FontDefinition extends EObject{
     void unsetRotation();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FontDefinition#getRotation <em>Rotation</em>}' attribute is set.
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.FontDefinition#getRotation <em>Rotation</em>}' attribute is set.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Rotation</em>' attribute is set.
      * @see #unsetRotation()
      * @see #getRotation()

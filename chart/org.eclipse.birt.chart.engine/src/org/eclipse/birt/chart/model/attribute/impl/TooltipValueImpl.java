@@ -40,7 +40,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getText()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String TEXT_EDEFAULT = null;
 
@@ -49,7 +50,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * -->
      * 
      * @see #getText()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String text = TEXT_EDEFAULT;
 
@@ -58,7 +60,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getDelay()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int DELAY_EDEFAULT = 0;
 
@@ -67,19 +70,22 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getDelay()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int delay = DELAY_EDEFAULT;
 
     /**
      * This is true if the Delay attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean delayESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected TooltipValueImpl()
@@ -89,6 +95,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -98,6 +105,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getText()
@@ -107,6 +115,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setText(String newText)
@@ -119,6 +128,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getDelay()
@@ -128,6 +138,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setDelay(int newDelay)
@@ -137,11 +148,13 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
         boolean oldDelayESet = delayESet;
         delayESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay, delay, !oldDelayESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay,
+                delay, !oldDelayESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetDelay()
@@ -151,11 +164,13 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
         delay = DELAY_EDEFAULT;
         delayESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay, DELAY_EDEFAULT, oldDelayESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay,
+                DELAY_EDEFAULT, oldDelayESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetDelay()
@@ -165,6 +180,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -181,6 +197,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -188,10 +205,10 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.TOOLTIP_VALUE__TEXT:
-                setText((String)newValue);
+                setText((String) newValue);
                 return;
             case AttributePackage.TOOLTIP_VALUE__DELAY:
-                setDelay(((Integer)newValue).intValue());
+                setDelay(((Integer) newValue).intValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -199,6 +216,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -217,6 +235,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -233,17 +252,22 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (text: ");
         result.append(text);
         result.append(", delay: ");
-        if (delayESet) result.append(delay); else result.append("<unset>");
+        if (delayESet)
+            result.append(delay);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

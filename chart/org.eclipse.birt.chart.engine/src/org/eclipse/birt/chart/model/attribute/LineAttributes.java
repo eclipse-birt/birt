@@ -16,28 +16,29 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Line Attributes</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a line.
- * 			
+ * This type defines a line.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineAttributes()
- * @model 
+ * @model
  * @generated
  */
-public interface LineAttributes extends EObject{
+public interface LineAttributes extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Style</b></em>' attribute. The default value is <code>"Solid"</code>.
@@ -60,9 +61,11 @@ public interface LineAttributes extends EObject{
     LineStyle getStyle();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}' attribute.
-     * <!-- begin-user-doc --> Sets the line style. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Style</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}'
+     * attribute. <!-- begin-user-doc --> Sets the line style. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Style</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.LineStyle
      * @see #isSetStyle()
      * @see #unsetStyle()
@@ -72,8 +75,9 @@ public interface LineAttributes extends EObject{
     void setStyle(LineStyle value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetStyle()
      * @see #getStyle()
      * @see #setStyle(LineStyle)
@@ -139,8 +143,10 @@ public interface LineAttributes extends EObject{
     void unsetThickness();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}' attribute is set.
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}' attribute is set.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Thickness</em>' attribute is set.
      * @see #unsetThickness()
      * @see #getThickness()
@@ -166,9 +172,11 @@ public interface LineAttributes extends EObject{
     ColorDefinition getColor();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}' containment reference.
-     * <!-- begin-user-doc --> Sets the line color. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Color</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}'
+     * containment reference. <!-- begin-user-doc --> Sets the line color. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Color</em>' containment reference.
      * @see #getColor()
      * @generated
      */
@@ -193,9 +201,11 @@ public interface LineAttributes extends EObject{
     boolean isVisible();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}' attribute.
-     * <!-- begin-user-doc --> Specifies whether or not the line is to be rendered. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Visible</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}'
+     * attribute. <!-- begin-user-doc --> Specifies whether or not the line is to be rendered. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
      * @see #isVisible()

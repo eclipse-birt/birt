@@ -177,7 +177,8 @@ public final class LegendBuilder
                     for (int i = 0; i < al.size(); i++)
                     {
                         se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         dW = itm.getFullWidth();
                         if (dW > dMaxW)
@@ -209,7 +210,8 @@ public final class LegendBuilder
                     for (int i = 0; i < al.size(); i++)
                     {
                         se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         dMaxW = Math.max(dMaxW, itm.getFullWidth());
                         dHeight += insCA.getTop() + dItemHeight + insCA.getBottom();
@@ -309,7 +311,8 @@ public final class LegendBuilder
                     for (int i = 0; i < al.size(); i++)
                     {
                         se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
 
                         // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
@@ -340,7 +343,8 @@ public final class LegendBuilder
                     for (int i = 0; i < al.size(); i++)
                     {
                         se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
 
                         // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING

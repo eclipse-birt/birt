@@ -275,6 +275,14 @@
         <details key="name" value="SeriesDefinitions"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formatSpecifier" lowerBound="1"
+        eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="FormatSpecifier"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="series" lowerBound="1"
         upperBound="-1" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Series"
         containment="true" resolveProxies="false">

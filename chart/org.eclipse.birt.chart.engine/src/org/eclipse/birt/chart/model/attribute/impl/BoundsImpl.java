@@ -28,13 +28,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft <em>Left</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop <em>Top</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth <em>Width</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight <em>Height</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft <em>Left</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop <em>Top</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth <em>Width</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight <em>Height</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class BoundsImpl extends EObjectImpl implements Bounds
@@ -45,7 +45,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getLeft()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double LEFT_EDEFAULT = 0.0;
 
@@ -54,14 +55,16 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getLeft()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double left = LEFT_EDEFAULT;
 
     /**
      * This is true if the Left attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean leftESet = false;
 
@@ -70,7 +73,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getTop()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double TOP_EDEFAULT = 0.0;
 
@@ -79,14 +83,16 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getTop()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double top = TOP_EDEFAULT;
 
     /**
      * This is true if the Top attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean topESet = false;
 
@@ -95,7 +101,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double WIDTH_EDEFAULT = 0.0;
 
@@ -104,14 +111,16 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double width = WIDTH_EDEFAULT;
 
     /**
      * This is true if the Width attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean widthESet = false;
 
@@ -120,7 +129,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double HEIGHT_EDEFAULT = 0.0;
 
@@ -129,19 +139,22 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double height = HEIGHT_EDEFAULT;
 
     /**
      * This is true if the Height attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean heightESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected BoundsImpl()
@@ -151,6 +164,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -160,6 +174,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getLeft()
@@ -169,6 +184,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLeft(double newLeft)
@@ -178,11 +194,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         boolean oldLeftESet = leftESet;
         leftESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__LEFT, oldLeft, left, !oldLeftESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__LEFT, oldLeft, left,
+                !oldLeftESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetLeft()
@@ -192,11 +210,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         left = LEFT_EDEFAULT;
         leftESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__LEFT, oldLeft, LEFT_EDEFAULT, oldLeftESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__LEFT, oldLeft,
+                LEFT_EDEFAULT, oldLeftESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetLeft()
@@ -206,6 +226,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getTop()
@@ -215,6 +236,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTop(double newTop)
@@ -224,11 +246,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         boolean oldTopESet = topESet;
         topESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__TOP, oldTop, top, !oldTopESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__TOP, oldTop, top,
+                !oldTopESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetTop()
@@ -238,11 +262,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         top = TOP_EDEFAULT;
         topESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__TOP, oldTop, TOP_EDEFAULT, oldTopESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__TOP, oldTop, TOP_EDEFAULT,
+                oldTopESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetTop()
@@ -252,6 +278,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getWidth()
@@ -261,6 +288,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setWidth(double newWidth)
@@ -270,11 +298,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         boolean oldWidthESet = widthESet;
         widthESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__WIDTH, oldWidth, width, !oldWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__WIDTH, oldWidth, width,
+                !oldWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetWidth()
@@ -284,11 +314,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         width = WIDTH_EDEFAULT;
         widthESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__WIDTH, oldWidth, WIDTH_EDEFAULT, oldWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__WIDTH, oldWidth,
+                WIDTH_EDEFAULT, oldWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetWidth()
@@ -298,6 +330,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getHeight()
@@ -307,6 +340,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setHeight(double newHeight)
@@ -316,11 +350,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         boolean oldHeightESet = heightESet;
         heightESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__HEIGHT, oldHeight, height, !oldHeightESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__HEIGHT, oldHeight, height,
+                !oldHeightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetHeight()
@@ -330,11 +366,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         height = HEIGHT_EDEFAULT;
         heightESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__HEIGHT, oldHeight, HEIGHT_EDEFAULT, oldHeightESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__HEIGHT, oldHeight,
+                HEIGHT_EDEFAULT, oldHeightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetHeight()
@@ -344,6 +382,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -364,6 +403,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -371,16 +411,16 @@ public class BoundsImpl extends EObjectImpl implements Bounds
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.BOUNDS__LEFT:
-                setLeft(((Double)newValue).doubleValue());
+                setLeft(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.BOUNDS__TOP:
-                setTop(((Double)newValue).doubleValue());
+                setTop(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.BOUNDS__WIDTH:
-                setWidth(((Double)newValue).doubleValue());
+                setWidth(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.BOUNDS__HEIGHT:
-                setHeight(((Double)newValue).doubleValue());
+                setHeight(((Double) newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -388,6 +428,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -412,6 +453,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -432,21 +474,35 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (left: ");
-        if (leftESet) result.append(left); else result.append("<unset>");
+        if (leftESet)
+            result.append(left);
+        else
+            result.append("<unset>");
         result.append(", top: ");
-        if (topESet) result.append(top); else result.append("<unset>");
+        if (topESet)
+            result.append(top);
+        else
+            result.append("<unset>");
         result.append(", width: ");
-        if (widthESet) result.append(width); else result.append("<unset>");
+        if (widthESet)
+            result.append(width);
+        else
+            result.append("<unset>");
         result.append(", height: ");
-        if (heightESet) result.append(height); else result.append("<unset>");
+        if (heightESet)
+            result.append(height);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

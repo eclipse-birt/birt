@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getIntersectionType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class IntersectionType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #MIN_LITERAL
      * @model name="Min"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int MIN = 0;
 
@@ -45,7 +47,8 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #MAX_LITERAL
      * @model name="Max"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int MAX = 1;
 
@@ -54,7 +57,8 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #VALUE_LITERAL
      * @model name="Value"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int VALUE = 2;
 
@@ -67,7 +71,8 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MIN
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final IntersectionType MIN_LITERAL = new IntersectionType(MIN, "Min");
 
@@ -80,7 +85,8 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MAX
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final IntersectionType MAX_LITERAL = new IntersectionType(MAX, "Max");
 
@@ -93,36 +99,34 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #VALUE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final IntersectionType VALUE_LITERAL = new IntersectionType(VALUE, "Value");
 
     /**
-     * An array of all the '<em><b>Intersection Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Intersection Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final IntersectionType[] VALUES_ARRAY =
-        new IntersectionType[]
-        {
-            MIN_LITERAL,
-            MAX_LITERAL,
-            VALUE_LITERAL,
-        };
+    private static final IntersectionType[] VALUES_ARRAY = new IntersectionType[]
+    {
+        MIN_LITERAL, MAX_LITERAL, VALUE_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static IntersectionType get(String name)
@@ -139,25 +143,28 @@ public final class IntersectionType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static IntersectionType get(int value)
     {
         switch (value)
         {
-            case MIN: return MIN_LITERAL;
-            case MAX: return MAX_LITERAL;
-            case VALUE: return VALUE_LITERAL;
+            case MIN:
+                return MIN_LITERAL;
+            case MAX:
+                return MAX_LITERAL;
+            case VALUE:
+                return VALUE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private IntersectionType(int value, String name)

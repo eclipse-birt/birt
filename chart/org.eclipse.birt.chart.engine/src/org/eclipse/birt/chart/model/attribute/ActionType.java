@@ -27,7 +27,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getActionType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class ActionType extends AbstractEnumerator
 {
@@ -37,7 +38,8 @@ public final class ActionType extends AbstractEnumerator
      * 
      * @see #URL_REDIRECT_LITERAL
      * @model name="URL_Redirect"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int URL_REDIRECT = 0;
 
@@ -46,7 +48,8 @@ public final class ActionType extends AbstractEnumerator
      * 
      * @see #SHOW_TOOLTIP_LITERAL
      * @model name="Show_Tooltip"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SHOW_TOOLTIP = 1;
 
@@ -55,7 +58,8 @@ public final class ActionType extends AbstractEnumerator
      * 
      * @see #TOGGLE_VISIBILITY_LITERAL
      * @model name="Toggle_Visibility"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TOGGLE_VISIBILITY = 2;
 
@@ -64,7 +68,8 @@ public final class ActionType extends AbstractEnumerator
      * 
      * @see #INVOKE_SCRIPT_LITERAL
      * @model name="Invoke_Script"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int INVOKE_SCRIPT = 3;
 
@@ -77,7 +82,8 @@ public final class ActionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #URL_REDIRECT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ActionType URL_REDIRECT_LITERAL = new ActionType(URL_REDIRECT, "URL_Redirect");
 
@@ -90,7 +96,8 @@ public final class ActionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SHOW_TOOLTIP
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ActionType SHOW_TOOLTIP_LITERAL = new ActionType(SHOW_TOOLTIP, "Show_Tooltip");
 
@@ -103,7 +110,8 @@ public final class ActionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TOGGLE_VISIBILITY
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ActionType TOGGLE_VISIBILITY_LITERAL = new ActionType(TOGGLE_VISIBILITY, "Toggle_Visibility");
 
@@ -116,36 +124,33 @@ public final class ActionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #INVOKE_SCRIPT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ActionType INVOKE_SCRIPT_LITERAL = new ActionType(INVOKE_SCRIPT, "Invoke_Script");
 
     /**
-     * An array of all the '<em><b>Action Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Action Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final ActionType[] VALUES_ARRAY =
-        new ActionType[]
-        {
-            URL_REDIRECT_LITERAL,
-            SHOW_TOOLTIP_LITERAL,
-            TOGGLE_VISIBILITY_LITERAL,
-            INVOKE_SCRIPT_LITERAL,
-        };
+    private static final ActionType[] VALUES_ARRAY = new ActionType[]
+    {
+        URL_REDIRECT_LITERAL, SHOW_TOOLTIP_LITERAL, TOGGLE_VISIBILITY_LITERAL, INVOKE_SCRIPT_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Action Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Action Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Action Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Action Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ActionType get(String name)
@@ -162,26 +167,30 @@ public final class ActionType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Action Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Action Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ActionType get(int value)
     {
         switch (value)
         {
-            case URL_REDIRECT: return URL_REDIRECT_LITERAL;
-            case SHOW_TOOLTIP: return SHOW_TOOLTIP_LITERAL;
-            case TOGGLE_VISIBILITY: return TOGGLE_VISIBILITY_LITERAL;
-            case INVOKE_SCRIPT: return INVOKE_SCRIPT_LITERAL;
+            case URL_REDIRECT:
+                return URL_REDIRECT_LITERAL;
+            case SHOW_TOOLTIP:
+                return SHOW_TOOLTIP_LITERAL;
+            case TOGGLE_VISIBILITY:
+                return TOGGLE_VISIBILITY_LITERAL;
+            case INVOKE_SCRIPT:
+                return INVOKE_SCRIPT_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private ActionType(int value, String name)

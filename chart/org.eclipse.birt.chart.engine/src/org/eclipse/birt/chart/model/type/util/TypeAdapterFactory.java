@@ -12,8 +12,6 @@
 package org.eclipse.birt.chart.model.type.util;
 
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.type.*;
-
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -28,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It provides an adapter <code>createXXX</code>
  * method for each class of the model. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.birt.chart.model.type.TypePackage
  * @generated
  */
@@ -35,15 +34,15 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 {
 
     /**
-     * The cached model package.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected static TypePackage modelPackage;
 
     /**
-     * Creates an instance of the adapter factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public TypeAdapterFactory()
@@ -55,10 +54,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Returns whether this factory is applicable for the type of the object.
-     * <!-- begin-user-doc --> This
+     * Returns whether this factory is applicable for the type of the object. <!-- begin-user-doc --> This
      * implementation returns <code>true</code> if the object is either the model's package or is an instance object
      * of the model. <!-- end-user-doc -->
+     * 
      * @return whether this factory is applicable for the type of the object.
      * @generated
      */
@@ -70,67 +69,73 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
         }
         if (object instanceof EObject)
         {
-            return ((EObject)object).eClass().getEPackage() == modelPackage;
+            return ((EObject) object).eClass().getEPackage() == modelPackage;
         }
         return false;
     }
 
     /**
-     * The switch the delegates to the <code>createXXX</code> methods.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The switch the delegates to the <code>createXXX</code> methods. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    protected TypeSwitch modelSwitch =
-        new TypeSwitch()
+    protected TypeSwitch modelSwitch = new TypeSwitch()
+    {
+        public Object caseBarSeries(BarSeries object)
         {
-            public Object caseBarSeries(BarSeries object)
-            {
-                return createBarSeriesAdapter();
-            }
-            public Object caseLineSeries(LineSeries object)
-            {
-                return createLineSeriesAdapter();
-            }
-            public Object casePieSeries(PieSeries object)
-            {
-                return createPieSeriesAdapter();
-            }
-            public Object caseScatterSeries(ScatterSeries object)
-            {
-                return createScatterSeriesAdapter();
-            }
-            public Object caseStockSeries(StockSeries object)
-            {
-                return createStockSeriesAdapter();
-            }
-            public Object caseSeries(Series object)
-            {
-                return createSeriesAdapter();
-            }
-            public Object defaultCase(EObject object)
-            {
-                return createEObjectAdapter();
-            }
-        };
+            return createBarSeriesAdapter();
+        }
+
+        public Object caseLineSeries(LineSeries object)
+        {
+            return createLineSeriesAdapter();
+        }
+
+        public Object casePieSeries(PieSeries object)
+        {
+            return createPieSeriesAdapter();
+        }
+
+        public Object caseScatterSeries(ScatterSeries object)
+        {
+            return createScatterSeriesAdapter();
+        }
+
+        public Object caseStockSeries(StockSeries object)
+        {
+            return createStockSeriesAdapter();
+        }
+
+        public Object caseSeries(Series object)
+        {
+            return createSeriesAdapter();
+        }
+
+        public Object defaultCase(EObject object)
+        {
+            return createEObjectAdapter();
+        }
+    };
 
     /**
-     * Creates an adapter for the <code>target</code>.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param target the object to adapt.
+     * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param target
+     *            the object to adapt.
      * @return the adapter for the <code>target</code>.
      * @generated
      */
     public Adapter createAdapter(Notifier target)
     {
-        return (Adapter)modelSwitch.doSwitch((EObject)target);
+        return (Adapter) modelSwitch.doSwitch((EObject) target);
     }
 
-
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'.
-     * <!-- begin-user-doc --> This default
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'. <!-- begin-user-doc --> This default
      * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
      * will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.type.BarSeries
      * @generated
@@ -141,10 +146,11 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
-     * <!-- begin-user-doc --> This default
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'. <!-- begin-user-doc --> This default
      * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
      * will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.type.LineSeries
      * @generated
@@ -155,10 +161,11 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
-     * <!-- begin-user-doc --> This default
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'. <!-- begin-user-doc --> This default
      * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
      * will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.type.PieSeries
      * @generated
@@ -169,10 +176,11 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.
-     * <!-- begin-user-doc --> This
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'. <!-- begin-user-doc --> This
      * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
      * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.type.ScatterSeries
      * @generated
@@ -183,10 +191,11 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.StockSeries <em>Stock Series</em>}'.
-     * <!-- begin-user-doc --> This
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.type.StockSeries <em>Stock Series</em>}'. <!-- begin-user-doc --> This
      * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
      * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.type.StockSeries
      * @generated
@@ -197,10 +206,11 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'.
-     * <!-- begin-user-doc --> This default
+     * Creates a new adapter for an object of class '
+     * {@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'. <!-- begin-user-doc --> This default
      * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
      * will catch all the cases anyway. <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @see org.eclipse.birt.chart.model.component.Series
      * @generated
@@ -211,9 +221,9 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
-     * Creates a new adapter for the default case.
-     * <!-- begin-user-doc --> This default implementation returns null.
+     * Creates a new adapter for the default case. <!-- begin-user-doc --> This default implementation returns null.
      * <!-- end-user-doc -->
+     * 
      * @return the new adapter.
      * @generated
      */

@@ -33,32 +33,33 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.component.ComponentFactory
  * @generated
  */
-public interface ComponentPackage extends EPackage{
+public interface ComponentPackage extends EPackage
+{
 
     /**
-     * The package name.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     String eNAME = "component";
 
     /**
-     * The package namespace URI.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     String eNS_URI = "http://www.birt.eclipse.org/ChartModelComponent";
 
     /**
-     * The package namespace name.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     String eNS_PREFIX = "component";
 
     /**
-     * The singleton instance of the package.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The singleton instance of the package. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     ComponentPackage eINSTANCE = org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl.init();
@@ -66,6 +67,7 @@ public interface ComponentPackage extends EPackage{
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.AxisImpl <em>Axis</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see org.eclipse.birt.chart.model.component.impl.AxisImpl
      * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getAxis()
      * @generated
@@ -75,7 +77,8 @@ public interface ComponentPackage extends EPackage{
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__TYPE = 0;
 
@@ -83,7 +86,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__TITLE = 1;
 
@@ -91,7 +95,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Subtitle</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__SUBTITLE = 2;
 
@@ -99,7 +104,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Title Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__TITLE_POSITION = 3;
 
@@ -107,7 +113,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Associated Axes</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__ASSOCIATED_AXES = 4;
 
@@ -115,14 +122,16 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__SERIES_DEFINITIONS = 5;
 
     /**
      * The feature id for the '<em><b>Gap Width</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__GAP_WIDTH = 6;
 
@@ -130,7 +139,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Orientation</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__ORIENTATION = 7;
 
@@ -138,7 +148,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__LINE_ATTRIBUTES = 8;
 
@@ -146,7 +157,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__LABEL = 9;
 
@@ -154,7 +166,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__FORMAT_SPECIFIER = 10;
 
@@ -162,14 +175,16 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__LABEL_POSITION = 11;
 
     /**
      * The feature id for the '<em><b>Staggered</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__STAGGERED = 12;
 
@@ -177,7 +192,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Marker Lines</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__MARKER_LINES = 13;
 
@@ -185,7 +201,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Marker Ranges</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__MARKER_RANGES = 14;
 
@@ -193,7 +210,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__MAJOR_GRID = 15;
 
@@ -201,7 +219,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Minor Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__MINOR_GRID = 16;
 
@@ -209,7 +228,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Scale</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__SCALE = 17;
 
@@ -217,7 +237,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Origin</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__ORIGIN = 18;
 
@@ -225,7 +246,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Primary Axis</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__PRIMARY_AXIS = 19;
 
@@ -233,14 +255,16 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Category Axis</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__CATEGORY_AXIS = 20;
 
     /**
      * The feature id for the '<em><b>Percent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS__PERCENT = 21;
 
@@ -248,7 +272,8 @@ public interface ComponentPackage extends EPackage{
      * The number of structural features of the the '<em>Axis</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int AXIS_FEATURE_COUNT = 22;
 
@@ -267,7 +292,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Labels</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int CHART_PREFERENCES__LABELS = 0;
 
@@ -275,7 +301,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Blocks</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int CHART_PREFERENCES__BLOCKS = 1;
 
@@ -283,13 +310,15 @@ public interface ComponentPackage extends EPackage{
      * The number of structural features of the the '<em>Chart Preferences</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int CHART_PREFERENCES_FEATURE_COUNT = 2;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.LabelImpl <em>Label</em>}' class.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.LabelImpl <em>Label</em>}'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see org.eclipse.birt.chart.model.component.impl.LabelImpl
      * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getLabel()
      * @generated
@@ -299,6 +328,7 @@ public interface ComponentPackage extends EPackage{
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.GridImpl <em>Grid</em>}' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see org.eclipse.birt.chart.model.component.impl.GridImpl
      * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getGrid()
      * @generated
@@ -309,14 +339,16 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID__LINE_ATTRIBUTES = 0;
 
     /**
      * The feature id for the '<em><b>Tick Style</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID__TICK_STYLE = 1;
 
@@ -324,21 +356,24 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Tick Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID__TICK_ATTRIBUTES = 2;
 
     /**
      * The feature id for the '<em><b>Tick Size</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID__TICK_SIZE = 3;
 
     /**
      * The feature id for the '<em><b>Tick Count</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID__TICK_COUNT = 4;
 
@@ -346,7 +381,8 @@ public interface ComponentPackage extends EPackage{
      * The number of structural features of the the '<em>Grid</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int GRID_FEATURE_COUNT = 5;
 
@@ -354,64 +390,63 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Caption</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int LABEL__CAPTION = 0;
-
-    /**
-     * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * 
-     * @generated @ordered
-     */
-    int LABEL__FORMAT_SPECIFIER = 1;
 
     /**
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL__BACKGROUND = 2;
+    int LABEL__BACKGROUND = 1;
 
     /**
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL__OUTLINE = 3;
+    int LABEL__OUTLINE = 2;
 
     /**
      * The feature id for the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL__SHADOW_COLOR = 4;
+    int LABEL__SHADOW_COLOR = 3;
 
     /**
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL__INSETS = 5;
+    int LABEL__INSETS = 4;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL__VISIBLE = 6;
+    int LABEL__VISIBLE = 5;
 
     /**
      * The number of structural features of the the '<em>Label</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int LABEL_FEATURE_COUNT = 7;
+    int LABEL_FEATURE_COUNT = 6;
 
     /**
      * The meta object id for the '
@@ -428,7 +463,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE__LINE_ATTRIBUTES = 0;
 
@@ -436,7 +472,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE__VALUE = 1;
 
@@ -444,7 +481,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE__LABEL = 2;
 
@@ -452,7 +490,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE__LABEL_ANCHOR = 3;
 
@@ -460,7 +499,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE__FORMAT_SPECIFIER = 4;
 
@@ -468,7 +508,8 @@ public interface ComponentPackage extends EPackage{
      * The number of structural features of the the '<em>Marker Line</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_LINE_FEATURE_COUNT = 5;
 
@@ -487,7 +528,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__OUTLINE = 0;
 
@@ -495,7 +537,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__FILL = 1;
 
@@ -503,7 +546,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Start Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__START_VALUE = 2;
 
@@ -511,7 +555,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>End Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__END_VALUE = 3;
 
@@ -519,7 +564,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__LABEL = 4;
 
@@ -527,37 +573,33 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int MARKER_RANGE__LABEL_ANCHOR = 5;
-
-    /**
-     * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @generated @ordered
-     */
-    int MARKER_RANGE__LABEL_POSITION = 6;
 
     /**
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int MARKER_RANGE__FORMAT_SPECIFIER = 7;
+    int MARKER_RANGE__FORMAT_SPECIFIER = 6;
 
     /**
      * The number of structural features of the the '<em>Marker Range</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int MARKER_RANGE_FEATURE_COUNT = 8;
+    int MARKER_RANGE_FEATURE_COUNT = 7;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}' class.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see org.eclipse.birt.chart.model.component.impl.ScaleImpl
      * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getScale()
      * @generated
@@ -568,7 +610,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Min</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SCALE__MIN = 0;
 
@@ -576,21 +619,24 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Max</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SCALE__MAX = 1;
 
     /**
      * The feature id for the '<em><b>Step</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SCALE__STEP = 2;
 
     /**
      * The feature id for the '<em><b>Unit</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SCALE__UNIT = 3;
 
@@ -598,28 +644,24 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Minor Grids Per Unit</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SCALE__MINOR_GRIDS_PER_UNIT = 4;
-
-    /**
-     * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated @ordered
-     */
-    int SCALE__TYPE = 5;
 
     /**
      * The number of structural features of the the '<em>Scale</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SCALE_FEATURE_COUNT = 6;
+    int SCALE_FEATURE_COUNT = 5;
 
     /**
-     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl
      * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getSeries()
      * @generated
@@ -629,7 +671,8 @@ public interface ComponentPackage extends EPackage{
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__VISIBLE = 0;
 
@@ -637,7 +680,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__LABEL = 1;
 
@@ -645,7 +689,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__DATA_DEFINITION = 2;
 
@@ -653,7 +698,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__SERIES_IDENTIFIER = 3;
 
@@ -661,7 +707,8 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__DATA_POINT = 4;
 
@@ -669,56 +716,54 @@ public interface ComponentPackage extends EPackage{
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     int SERIES__DATA_SET = 5;
-
-    /**
-     * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * 
-     * @generated @ordered
-     */
-    int SERIES__FORMAT_SPECIFIER = 6;
 
     /**
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SERIES__LABEL_POSITION = 7;
+    int SERIES__LABEL_POSITION = 6;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SERIES__STACKED = 8;
+    int SERIES__STACKED = 7;
 
     /**
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SERIES__TRIGGERS = 9;
+    int SERIES__TRIGGERS = 8;
 
     /**
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SERIES__TRANSLUCENT = 10;
+    int SERIES__TRANSLUCENT = 9;
 
     /**
      * The number of structural features of the the '<em>Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
-    int SERIES_FEATURE_COUNT = 11;
+    int SERIES_FEATURE_COUNT = 10;
 
     /**
      * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Axis <em>Axis</em>}'. <!--
@@ -731,9 +776,10 @@ public interface ComponentPackage extends EPackage{
     EClass getAxis();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Type</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getType()
      * @see #getAxis()
@@ -742,9 +788,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_Type();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Title</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getTitle()
      * @see #getAxis()
@@ -753,9 +800,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_Title();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getSubtitle <em>Subtitle</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getSubtitle <em>Subtitle</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Subtitle</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getSubtitle()
      * @see #getAxis()
@@ -800,9 +848,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_SeriesDefinitions();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Gap Width</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getGapWidth()
      * @see #getAxis()
@@ -811,9 +860,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_GapWidth();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Orientation</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getOrientation()
      * @see #getAxis()
@@ -834,9 +884,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_LineAttributes();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Label</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getLabel()
      * @see #getAxis()
@@ -869,9 +920,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_LabelPosition();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Staggered</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#isStaggered()
      * @see #getAxis()
@@ -880,9 +932,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_Staggered();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference list '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference list '<em>Marker Lines</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getMarkerLines()
      * @see #getAxis()
@@ -891,9 +944,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_MarkerLines();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference list '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference list '<em>Marker Ranges</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getMarkerRanges()
      * @see #getAxis()
@@ -902,9 +956,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_MarkerRanges();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Major Grid</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getMajorGrid()
      * @see #getAxis()
@@ -913,9 +968,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_MajorGrid();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Minor Grid</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getMinorGrid()
      * @see #getAxis()
@@ -924,9 +980,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_MinorGrid();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Scale</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getScale()
      * @see #getAxis()
@@ -935,9 +992,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_Scale();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Origin</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#getOrigin()
      * @see #getAxis()
@@ -946,9 +1004,10 @@ public interface ComponentPackage extends EPackage{
     EReference getAxis_Origin();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Primary Axis</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis()
      * @see #getAxis()
@@ -957,9 +1016,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_PrimaryAxis();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Category Axis</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#isCategoryAxis()
      * @see #getAxis()
@@ -968,9 +1028,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_CategoryAxis();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Percent</em>'.
      * @see org.eclipse.birt.chart.model.component.Axis#isPercent()
      * @see #getAxis()
@@ -979,9 +1040,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getAxis_Percent();
 
     /**
-     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for class '
+     * {@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for class '<em>Chart Preferences</em>'.
      * @see org.eclipse.birt.chart.model.component.ChartPreferences
      * @generated
@@ -989,9 +1051,10 @@ public interface ComponentPackage extends EPackage{
     EClass getChartPreferences();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.ChartPreferences#getLabels <em>Labels</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference list '
+     * {@link org.eclipse.birt.chart.model.component.ChartPreferences#getLabels <em>Labels</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference list '<em>Labels</em>'.
      * @see org.eclipse.birt.chart.model.component.ChartPreferences#getLabels()
      * @see #getChartPreferences()
@@ -1000,9 +1063,10 @@ public interface ComponentPackage extends EPackage{
     EReference getChartPreferences_Labels();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.ChartPreferences#getBlocks <em>Blocks</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference list '
+     * {@link org.eclipse.birt.chart.model.component.ChartPreferences#getBlocks <em>Blocks</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference list '<em>Blocks</em>'.
      * @see org.eclipse.birt.chart.model.component.ChartPreferences#getBlocks()
      * @see #getChartPreferences()
@@ -1033,9 +1097,10 @@ public interface ComponentPackage extends EPackage{
     EReference getGrid_LineAttributes();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Grid#getTickStyle <em>Tick Style</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Tick Style</em>'.
      * @see org.eclipse.birt.chart.model.component.Grid#getTickStyle()
      * @see #getGrid()
@@ -1056,9 +1121,10 @@ public interface ComponentPackage extends EPackage{
     EReference getGrid_TickAttributes();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Grid#getTickSize <em>Tick Size</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Tick Size</em>'.
      * @see org.eclipse.birt.chart.model.component.Grid#getTickSize()
      * @see #getGrid()
@@ -1067,9 +1133,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getGrid_TickSize();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Grid#getTickCount <em>Tick Count</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Tick Count</em>'.
      * @see org.eclipse.birt.chart.model.component.Grid#getTickCount()
      * @see #getGrid()
@@ -1088,9 +1155,10 @@ public interface ComponentPackage extends EPackage{
     EClass getLabel();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Caption</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#getCaption()
      * @see #getLabel()
@@ -1099,9 +1167,10 @@ public interface ComponentPackage extends EPackage{
     EReference getLabel_Caption();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Background</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#getBackground()
      * @see #getLabel()
@@ -1110,9 +1179,10 @@ public interface ComponentPackage extends EPackage{
     EReference getLabel_Background();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Outline</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#getOutline()
      * @see #getLabel()
@@ -1121,9 +1191,10 @@ public interface ComponentPackage extends EPackage{
     EReference getLabel_Outline();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Shadow Color</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#getShadowColor()
      * @see #getLabel()
@@ -1132,9 +1203,10 @@ public interface ComponentPackage extends EPackage{
     EReference getLabel_ShadowColor();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Insets</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#getInsets()
      * @see #getLabel()
@@ -1143,9 +1215,10 @@ public interface ComponentPackage extends EPackage{
     EReference getLabel_Insets();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Visible</em>'.
      * @see org.eclipse.birt.chart.model.component.Label#isVisible()
      * @see #getLabel()
@@ -1154,9 +1227,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getLabel_Visible();
 
     /**
-     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker Line</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker Line</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for class '<em>Marker Line</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerLine
      * @generated
@@ -1176,9 +1250,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerLine_LineAttributes();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Value</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerLine#getValue()
      * @see #getMarkerLine()
@@ -1187,9 +1262,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerLine_Value();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Label</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerLine#getLabel()
      * @see #getMarkerLine()
@@ -1222,9 +1298,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerLine_FormatSpecifier();
 
     /**
-     * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for class '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for class '<em>Marker Range</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerRange
      * @generated
@@ -1232,9 +1309,10 @@ public interface ComponentPackage extends EPackage{
     EClass getMarkerRange();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerRange#getOutline <em>Outline</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getOutline <em>Outline</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Outline</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerRange#getOutline()
      * @see #getMarkerRange()
@@ -1243,9 +1321,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerRange_Outline();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFill <em>Fill</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getFill <em>Fill</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Fill</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerRange#getFill()
      * @see #getMarkerRange()
@@ -1266,9 +1345,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerRange_StartValue();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue <em>End Value</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue <em>End Value</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>End Value</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerRange#getEndValue()
      * @see #getMarkerRange()
@@ -1277,9 +1357,10 @@ public interface ComponentPackage extends EPackage{
     EReference getMarkerRange_EndValue();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel <em>Label</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel <em>Label</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Label</em>'.
      * @see org.eclipse.birt.chart.model.component.MarkerRange#getLabel()
      * @see #getMarkerRange()
@@ -1322,9 +1403,10 @@ public interface ComponentPackage extends EPackage{
     EClass getScale();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Min</em>'.
      * @see org.eclipse.birt.chart.model.component.Scale#getMin()
      * @see #getScale()
@@ -1333,9 +1415,10 @@ public interface ComponentPackage extends EPackage{
     EReference getScale_Min();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Max</em>'.
      * @see org.eclipse.birt.chart.model.component.Scale#getMax()
      * @see #getScale()
@@ -1344,9 +1427,10 @@ public interface ComponentPackage extends EPackage{
     EReference getScale_Max();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Step</em>'.
      * @see org.eclipse.birt.chart.model.component.Scale#getStep()
      * @see #getScale()
@@ -1355,9 +1439,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getScale_Step();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Unit</em>'.
      * @see org.eclipse.birt.chart.model.component.Scale#getUnit()
      * @see #getScale()
@@ -1388,9 +1473,10 @@ public interface ComponentPackage extends EPackage{
     EClass getSeries();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Series#isVisible <em>Visible</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Visible</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#isVisible()
      * @see #getSeries()
@@ -1399,9 +1485,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getSeries_Visible();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Series#getLabel <em>Label</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Label</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#getLabel()
      * @see #getSeries()
@@ -1434,9 +1521,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getSeries_SeriesIdentifier();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Series#getDataPoint <em>Data Point</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Data Point</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#getDataPoint()
      * @see #getSeries()
@@ -1445,27 +1533,16 @@ public interface ComponentPackage extends EPackage{
     EReference getSeries_DataPoint();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.component.Series#getDataSet <em>Data Set</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference '<em>Data Set</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#getDataSet()
      * @see #getSeries()
      * @generated
      */
     EReference getSeries_DataSet();
-
-    /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.component.Series#getFormatSpecifier <em>Format Specifier</em>}'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the containment reference '<em>Format Specifier</em>'.
-     * @see org.eclipse.birt.chart.model.component.Series#getFormatSpecifier()
-     * @see #getSeries()
-     * @generated
-     */
-    EReference getSeries_FormatSpecifier();
 
     /**
      * Returns the meta object for the attribute '
@@ -1480,9 +1557,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getSeries_LabelPosition();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}'.
-     * <!-- begin-user-doc --> <!--
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Series#isStacked <em>Stacked</em>}'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Stacked</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#isStacked()
      * @see #getSeries()
@@ -1491,9 +1569,10 @@ public interface ComponentPackage extends EPackage{
     EAttribute getSeries_Stacked();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Series#getTriggers <em>Triggers</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference list '
+     * {@link org.eclipse.birt.chart.model.component.Series#getTriggers <em>Triggers</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @return the meta object for the containment reference list '<em>Triggers</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#getTriggers()
      * @see #getSeries()
@@ -1502,9 +1581,10 @@ public interface ComponentPackage extends EPackage{
     EReference getSeries_Triggers();
 
     /**
-     * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}'.
-     * <!-- begin-user-doc
+     * Returns the meta object for the attribute '
+     * {@link org.eclipse.birt.chart.model.component.Series#isTranslucent <em>Translucent</em>}'. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @return the meta object for the attribute '<em>Translucent</em>'.
      * @see org.eclipse.birt.chart.model.component.Series#isTranslucent()
      * @see #getSeries()
@@ -1513,8 +1593,8 @@ public interface ComponentPackage extends EPackage{
     EAttribute getSeries_Translucent();
 
     /**
-     * Returns the factory that creates the instances of the model.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the factory that creates the instances of the model.
      * @generated
      */

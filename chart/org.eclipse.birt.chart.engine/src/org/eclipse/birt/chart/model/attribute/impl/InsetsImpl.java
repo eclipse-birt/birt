@@ -26,13 +26,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getTop <em>Top</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getLeft <em>Left</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getBottom <em>Bottom</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getRight <em>Right</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getTop <em>Top</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getLeft <em>Left</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getBottom <em>Bottom</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class InsetsImpl extends EObjectImpl implements Insets
@@ -43,7 +43,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getTop()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double TOP_EDEFAULT = 0.0;
 
@@ -52,14 +53,16 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getTop()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double top = TOP_EDEFAULT;
 
     /**
      * This is true if the Top attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean topESet = false;
 
@@ -68,7 +71,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getLeft()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double LEFT_EDEFAULT = 0.0;
 
@@ -77,14 +81,16 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getLeft()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double left = LEFT_EDEFAULT;
 
     /**
      * This is true if the Left attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean leftESet = false;
 
@@ -93,7 +99,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getBottom()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double BOTTOM_EDEFAULT = 0.0;
 
@@ -102,14 +109,16 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getBottom()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double bottom = BOTTOM_EDEFAULT;
 
     /**
      * This is true if the Bottom attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean bottomESet = false;
 
@@ -118,7 +127,8 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getRight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double RIGHT_EDEFAULT = 0.0;
 
@@ -127,19 +137,22 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getRight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double right = RIGHT_EDEFAULT;
 
     /**
      * This is true if the Right attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean rightESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected InsetsImpl()
@@ -149,6 +162,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -158,6 +172,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getTop()
@@ -167,6 +182,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setTop(double newTop)
@@ -176,11 +192,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         boolean oldTopESet = topESet;
         topESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__TOP, oldTop, top, !oldTopESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__TOP, oldTop, top,
+                !oldTopESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetTop()
@@ -190,11 +208,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         top = TOP_EDEFAULT;
         topESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__TOP, oldTop, TOP_EDEFAULT, oldTopESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__TOP, oldTop, TOP_EDEFAULT,
+                oldTopESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetTop()
@@ -204,6 +224,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getLeft()
@@ -213,6 +234,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLeft(double newLeft)
@@ -222,11 +244,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         boolean oldLeftESet = leftESet;
         leftESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__LEFT, oldLeft, left, !oldLeftESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__LEFT, oldLeft, left,
+                !oldLeftESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetLeft()
@@ -236,11 +260,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         left = LEFT_EDEFAULT;
         leftESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__LEFT, oldLeft, LEFT_EDEFAULT, oldLeftESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__LEFT, oldLeft,
+                LEFT_EDEFAULT, oldLeftESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetLeft()
@@ -250,6 +276,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getBottom()
@@ -259,6 +286,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setBottom(double newBottom)
@@ -268,11 +296,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         boolean oldBottomESet = bottomESet;
         bottomESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__BOTTOM, oldBottom, bottom, !oldBottomESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__BOTTOM, oldBottom, bottom,
+                !oldBottomESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetBottom()
@@ -282,11 +312,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         bottom = BOTTOM_EDEFAULT;
         bottomESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__BOTTOM, oldBottom, BOTTOM_EDEFAULT, oldBottomESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__BOTTOM, oldBottom,
+                BOTTOM_EDEFAULT, oldBottomESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetBottom()
@@ -296,6 +328,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getRight()
@@ -305,6 +338,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setRight(double newRight)
@@ -314,11 +348,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         boolean oldRightESet = rightESet;
         rightESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__RIGHT, oldRight, right, !oldRightESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.INSETS__RIGHT, oldRight, right,
+                !oldRightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetRight()
@@ -328,11 +364,13 @@ public class InsetsImpl extends EObjectImpl implements Insets
         right = RIGHT_EDEFAULT;
         rightESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__RIGHT, oldRight, RIGHT_EDEFAULT, oldRightESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.INSETS__RIGHT, oldRight,
+                RIGHT_EDEFAULT, oldRightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetRight()
@@ -342,6 +380,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -362,6 +401,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -369,16 +409,16 @@ public class InsetsImpl extends EObjectImpl implements Insets
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.INSETS__TOP:
-                setTop(((Double)newValue).doubleValue());
+                setTop(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.INSETS__LEFT:
-                setLeft(((Double)newValue).doubleValue());
+                setLeft(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.INSETS__BOTTOM:
-                setBottom(((Double)newValue).doubleValue());
+                setBottom(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.INSETS__RIGHT:
-                setRight(((Double)newValue).doubleValue());
+                setRight(((Double) newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -386,6 +426,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -410,6 +451,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -430,21 +472,35 @@ public class InsetsImpl extends EObjectImpl implements Insets
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (top: ");
-        if (topESet) result.append(top); else result.append("<unset>");
+        if (topESet)
+            result.append(top);
+        else
+            result.append("<unset>");
         result.append(", left: ");
-        if (leftESet) result.append(left); else result.append("<unset>");
+        if (leftESet)
+            result.append(left);
+        else
+            result.append("<unset>");
         result.append(", bottom: ");
-        if (bottomESet) result.append(bottom); else result.append("<unset>");
+        if (bottomESet)
+            result.append(bottom);
+        else
+            result.append("<unset>");
         result.append(", right: ");
-        if (rightESet) result.append(right); else result.append("<unset>");
+        if (rightESet)
+            result.append(right);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

@@ -16,7 +16,6 @@ import java.util.Collection;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
@@ -62,7 +61,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * <!-- end-user-doc -->
      * 
      * @see #getMarker()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Marker marker = null;
 
@@ -71,7 +71,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -80,7 +81,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * end-user-doc -->
      * 
      * @see #isCurve()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final boolean CURVE_EDEFAULT = false;
 
@@ -89,14 +91,16 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * end-user-doc -->
      * 
      * @see #isCurve()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean curve = CURVE_EDEFAULT;
 
     /**
      * This is true if the Curve attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean curveESet = false;
 
@@ -105,12 +109,14 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getShadowColor()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected ColorDefinition shadowColor = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected LineSeriesImpl()
@@ -120,6 +126,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -129,6 +136,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Marker getMarker()
@@ -138,6 +146,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetMarker(Marker newMarker, NotificationChain msgs)
@@ -146,14 +155,19 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         marker = newMarker;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__MARKER, oldMarker, newMarker);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                TypePackage.LINE_SERIES__MARKER, oldMarker, newMarker);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMarker(Marker newMarker)
@@ -162,11 +176,14 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         {
             NotificationChain msgs = null;
             if (marker != null)
-                msgs = ((InternalEObject)marker).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__MARKER, null, msgs);
+                msgs = ((InternalEObject) marker).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__MARKER, null, msgs);
             if (newMarker != null)
-                msgs = ((InternalEObject)newMarker).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__MARKER, null, msgs);
+                msgs = ((InternalEObject) newMarker).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__MARKER, null, msgs);
             msgs = basicSetMarker(newMarker, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__MARKER, newMarker, newMarker));
@@ -174,6 +191,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getLineAttributes()
@@ -183,6 +201,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
@@ -191,14 +210,19 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         lineAttributes = newLineAttributes;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                TypePackage.LINE_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLineAttributes(LineAttributes newLineAttributes)
@@ -207,18 +231,23 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         {
             NotificationChain msgs = null;
             if (lineAttributes != null)
-                msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
             if (newLineAttributes != null)
-                msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
+                msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__LINE_ATTRIBUTES, null, msgs);
             msgs = basicSetLineAttributes(newLineAttributes, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__LINE_ATTRIBUTES,
+                newLineAttributes, newLineAttributes));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isCurve()
@@ -228,6 +257,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setCurve(boolean newCurve)
@@ -237,11 +267,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         boolean oldCurveESet = curveESet;
         curveESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__CURVE, oldCurve, curve, !oldCurveESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__CURVE, oldCurve, curve,
+                !oldCurveESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetCurve()
@@ -251,11 +283,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         curve = CURVE_EDEFAULT;
         curveESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__CURVE, oldCurve, CURVE_EDEFAULT, oldCurveESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__CURVE, oldCurve,
+                CURVE_EDEFAULT, oldCurveESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetCurve()
@@ -265,6 +299,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ColorDefinition getShadowColor()
@@ -274,6 +309,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs)
@@ -282,14 +318,19 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         shadowColor = newShadowColor;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__SHADOW_COLOR, oldShadowColor, newShadowColor);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                TypePackage.LINE_SERIES__SHADOW_COLOR, oldShadowColor, newShadowColor);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setShadowColor(ColorDefinition newShadowColor)
@@ -298,21 +339,27 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         {
             NotificationChain msgs = null;
             if (shadowColor != null)
-                msgs = ((InternalEObject)shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject) shadowColor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
             if (newShadowColor != null)
-                msgs = ((InternalEObject)newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
+                msgs = ((InternalEObject) newShadowColor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - TypePackage.LINE_SERIES__SHADOW_COLOR, null, msgs);
             msgs = basicSetShadowColor(newShadowColor, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__SHADOW_COLOR, newShadowColor, newShadowColor));
+            eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__SHADOW_COLOR,
+                newShadowColor, newShadowColor));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -321,15 +368,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
                 case TypePackage.LINE_SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case TypePackage.LINE_SERIES__DATA_DEFINITION:
-                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
                 case TypePackage.LINE_SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case TypePackage.LINE_SERIES__DATA_SET:
                     return basicSetDataSet(null, msgs);
-                case TypePackage.LINE_SERIES__FORMAT_SPECIFIER:
-                    return basicSetFormatSpecifier(null, msgs);
                 case TypePackage.LINE_SERIES__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 case TypePackage.LINE_SERIES__MARKER:
                     return basicSetMarker(null, msgs);
                 case TypePackage.LINE_SERIES__LINE_ATTRIBUTES:
@@ -345,6 +390,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -363,8 +409,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
                 return getDataPoint();
             case TypePackage.LINE_SERIES__DATA_SET:
                 return getDataSet();
-            case TypePackage.LINE_SERIES__FORMAT_SPECIFIER:
-                return getFormatSpecifier();
             case TypePackage.LINE_SERIES__LABEL_POSITION:
                 return getLabelPosition();
             case TypePackage.LINE_SERIES__STACKED:
@@ -387,6 +431,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -394,51 +439,48 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case TypePackage.LINE_SERIES__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.LINE_SERIES__LABEL:
-                setLabel((Label)newValue);
+                setLabel((Label) newValue);
                 return;
             case TypePackage.LINE_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection)newValue);
+                getDataDefinition().addAll((Collection) newValue);
                 return;
             case TypePackage.LINE_SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((Object)newValue);
+                setSeriesIdentifier((Object) newValue);
                 return;
             case TypePackage.LINE_SERIES__DATA_POINT:
-                setDataPoint((DataPoint)newValue);
+                setDataPoint((DataPoint) newValue);
                 return;
             case TypePackage.LINE_SERIES__DATA_SET:
-                setDataSet((DataSet)newValue);
-                return;
-            case TypePackage.LINE_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)newValue);
+                setDataSet((DataSet) newValue);
                 return;
             case TypePackage.LINE_SERIES__LABEL_POSITION:
-                setLabelPosition((Position)newValue);
+                setLabelPosition((Position) newValue);
                 return;
             case TypePackage.LINE_SERIES__STACKED:
-                setStacked(((Boolean)newValue).booleanValue());
+                setStacked(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.LINE_SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
             case TypePackage.LINE_SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean)newValue).booleanValue());
+                setTranslucent(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.LINE_SERIES__MARKER:
-                setMarker((Marker)newValue);
+                setMarker((Marker) newValue);
                 return;
             case TypePackage.LINE_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)newValue);
+                setLineAttributes((LineAttributes) newValue);
                 return;
             case TypePackage.LINE_SERIES__CURVE:
-                setCurve(((Boolean)newValue).booleanValue());
+                setCurve(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.LINE_SERIES__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)newValue);
+                setShadowColor((ColorDefinition) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -446,6 +488,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -456,7 +499,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
                 unsetVisible();
                 return;
             case TypePackage.LINE_SERIES__LABEL:
-                setLabel((Label)null);
+                setLabel((Label) null);
                 return;
             case TypePackage.LINE_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -465,13 +508,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case TypePackage.LINE_SERIES__DATA_POINT:
-                setDataPoint((DataPoint)null);
+                setDataPoint((DataPoint) null);
                 return;
             case TypePackage.LINE_SERIES__DATA_SET:
-                setDataSet((DataSet)null);
-                return;
-            case TypePackage.LINE_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)null);
+                setDataSet((DataSet) null);
                 return;
             case TypePackage.LINE_SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -486,16 +526,16 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
                 unsetTranslucent();
                 return;
             case TypePackage.LINE_SERIES__MARKER:
-                setMarker((Marker)null);
+                setMarker((Marker) null);
                 return;
             case TypePackage.LINE_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)null);
+                setLineAttributes((LineAttributes) null);
                 return;
             case TypePackage.LINE_SERIES__CURVE:
                 unsetCurve();
                 return;
             case TypePackage.LINE_SERIES__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)null);
+                setShadowColor((ColorDefinition) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -503,6 +543,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -516,13 +557,12 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
             case TypePackage.LINE_SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case TypePackage.LINE_SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
+                    .equals(seriesIdentifier);
             case TypePackage.LINE_SERIES__DATA_POINT:
                 return dataPoint != null;
             case TypePackage.LINE_SERIES__DATA_SET:
                 return dataSet != null;
-            case TypePackage.LINE_SERIES__FORMAT_SPECIFIER:
-                return formatSpecifier != null;
             case TypePackage.LINE_SERIES__LABEL_POSITION:
                 return isSetLabelPosition();
             case TypePackage.LINE_SERIES__STACKED:
@@ -545,15 +585,20 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (curve: ");
-        if (curveESet) result.append(curve); else result.append("<unset>");
+        if (curveESet)
+            result.append(curve);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

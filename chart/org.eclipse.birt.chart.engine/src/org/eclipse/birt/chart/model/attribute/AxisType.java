@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAxisType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class AxisType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class AxisType extends AbstractEnumerator
      * 
      * @see #LINEAR_LITERAL
      * @model name="Linear"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int LINEAR = 0;
 
@@ -45,7 +47,8 @@ public final class AxisType extends AbstractEnumerator
      * 
      * @see #LOGARITHMIC_LITERAL
      * @model name="Logarithmic"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int LOGARITHMIC = 1;
 
@@ -54,7 +57,8 @@ public final class AxisType extends AbstractEnumerator
      * 
      * @see #TEXT_LITERAL
      * @model name="Text"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TEXT = 2;
 
@@ -63,7 +67,8 @@ public final class AxisType extends AbstractEnumerator
      * 
      * @see #DATE_TIME_LITERAL
      * @model name="DateTime"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int DATE_TIME = 3;
 
@@ -76,7 +81,8 @@ public final class AxisType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LINEAR
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final AxisType LINEAR_LITERAL = new AxisType(LINEAR, "Linear");
 
@@ -89,7 +95,8 @@ public final class AxisType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LOGARITHMIC
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final AxisType LOGARITHMIC_LITERAL = new AxisType(LOGARITHMIC, "Logarithmic");
 
@@ -102,7 +109,8 @@ public final class AxisType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TEXT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final AxisType TEXT_LITERAL = new AxisType(TEXT, "Text");
 
@@ -115,36 +123,33 @@ public final class AxisType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DATE_TIME
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final AxisType DATE_TIME_LITERAL = new AxisType(DATE_TIME, "DateTime");
 
     /**
-     * An array of all the '<em><b>Axis Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Axis Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final AxisType[] VALUES_ARRAY =
-        new AxisType[]
-        {
-            LINEAR_LITERAL,
-            LOGARITHMIC_LITERAL,
-            TEXT_LITERAL,
-            DATE_TIME_LITERAL,
-        };
+    private static final AxisType[] VALUES_ARRAY = new AxisType[]
+    {
+        LINEAR_LITERAL, LOGARITHMIC_LITERAL, TEXT_LITERAL, DATE_TIME_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Axis Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Axis Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static AxisType get(String name)
@@ -161,26 +166,30 @@ public final class AxisType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Axis Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Axis Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static AxisType get(int value)
     {
         switch (value)
         {
-            case LINEAR: return LINEAR_LITERAL;
-            case LOGARITHMIC: return LOGARITHMIC_LITERAL;
-            case TEXT: return TEXT_LITERAL;
-            case DATE_TIME: return DATE_TIME_LITERAL;
+            case LINEAR:
+                return LINEAR_LITERAL;
+            case LOGARITHMIC:
+                return LOGARITHMIC_LITERAL;
+            case TEXT:
+                return TEXT_LITERAL;
+            case DATE_TIME:
+                return DATE_TIME_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private AxisType(int value, String name)

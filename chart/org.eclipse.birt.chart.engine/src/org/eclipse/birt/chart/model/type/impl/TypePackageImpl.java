@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class TypePackageImpl extends EPackageImpl implements TypePackage
@@ -45,30 +46,35 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass barSeriesEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass lineSeriesEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass pieSeriesEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass scatterSeriesEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private EClass stockSeriesEClass = null;
@@ -93,27 +99,24 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private static boolean isInited = false;
 
     /**
-     * Creates, registers, and initializes the <b>Package</b> for this
-     * model, and for any others upon which it depends.  Simple
-     * dependencies are satisfied by calling this method on all
-     * dependent packages before doing anything else.  This method drives
-     * initialization for interdependent packages directly, in parallel
-     * with this package, itself.
-     * <p>Of this package and its interdependencies, all packages which
-     * have not yet been registered by their URI values are first created
-     * and registered.  The packages are then initialized in two steps:
-     * meta-model objects for all of the packages are created before any
-     * are initialized, since one package's meta-model objects may refer to
-     * those of another.
-     * <p>Invocation of this method will not affect any packages that have
-     * already been initialized.
-     * <!-- begin-user-doc
+     * Creates, registers, and initializes the <b>Package </b> for this model, and for any others upon which it depends.
+     * Simple dependencies are satisfied by calling this method on all dependent packages before doing anything else.
+     * This method drives initialization for interdependent packages directly, in parallel with this package, itself.
+     * <p>
+     * Of this package and its interdependencies, all packages which have not yet been registered by their URI values
+     * are first created and registered. The packages are then initialized in two steps: meta-model objects for all of
+     * the packages are created before any are initialized, since one package's meta-model objects may refer to those of
+     * another.
+     * <p>
+     * Invocation of this method will not affect any packages that have already been initialized. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @see #eNS_URI
      * @see #createPackageContents()
      * @see #initializePackageContents()
@@ -121,10 +124,13 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
      */
     public static TypePackage init()
     {
-        if (isInited) return (TypePackage)EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+        if (isInited)
+            return (TypePackage) EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
 
         // Obtain or create and register package
-        TypePackageImpl theTypePackage = (TypePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new TypePackageImpl());
+        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(eNS_URI)
+            : new TypePackageImpl());
 
         isInited = true;
 
@@ -132,27 +138,37 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        AttributePackageImpl theAttributePackage = (AttributePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
-        DataPackageImpl theDataPackage = (DataPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) : DataPackageImpl.eINSTANCE);
-        ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
+        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
+        DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(DataPackage.eNS_URI)
+            : DataPackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theTypePackage.createPackageContents();
-        theAttributePackage.createPackageContents();
-        theComponentPackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
-        theDataPackage.createPackageContents();
         theModelPackage.createPackageContents();
+        theComponentPackage.createPackageContents();
+        theAttributePackage.createPackageContents();
+        theDataPackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theTypePackage.initializePackageContents();
-        theAttributePackage.initializePackageContents();
-        theComponentPackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
-        theDataPackage.initializePackageContents();
         theModelPackage.initializePackageContents();
+        theComponentPackage.initializePackageContents();
+        theAttributePackage.initializePackageContents();
+        theDataPackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theTypePackage.freeze();
@@ -162,6 +178,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getBarSeries()
@@ -171,24 +188,27 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getBarSeries_Riser()
     {
-        return (EAttribute)barSeriesEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) barSeriesEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getBarSeries_RiserOutline()
     {
-        return (EReference)barSeriesEClass.getEStructuralFeatures().get(1);
+        return (EReference) barSeriesEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getLineSeries()
@@ -198,42 +218,47 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getLineSeries_Marker()
     {
-        return (EReference)lineSeriesEClass.getEStructuralFeatures().get(0);
+        return (EReference) lineSeriesEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getLineSeries_LineAttributes()
     {
-        return (EReference)lineSeriesEClass.getEStructuralFeatures().get(1);
+        return (EReference) lineSeriesEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getLineSeries_Curve()
     {
-        return (EAttribute)lineSeriesEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) lineSeriesEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getLineSeries_ShadowColor()
     {
-        return (EReference)lineSeriesEClass.getEStructuralFeatures().get(3);
+        return (EReference) lineSeriesEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getPieSeries()
@@ -243,69 +268,77 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getPieSeries_Explosion()
     {
-        return (EAttribute)pieSeriesEClass.getEStructuralFeatures().get(0);
+        return (EAttribute) pieSeriesEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getPieSeries_Title()
     {
-        return (EReference)pieSeriesEClass.getEStructuralFeatures().get(1);
+        return (EReference) pieSeriesEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getPieSeries_TitlePosition()
     {
-        return (EAttribute)pieSeriesEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) pieSeriesEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getPieSeries_LeaderLineAttributes()
     {
-        return (EReference)pieSeriesEClass.getEStructuralFeatures().get(3);
+        return (EReference) pieSeriesEClass.getEStructuralFeatures().get(3);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getPieSeries_LeaderLineStyle()
     {
-        return (EAttribute)pieSeriesEClass.getEStructuralFeatures().get(4);
+        return (EAttribute) pieSeriesEClass.getEStructuralFeatures().get(4);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EAttribute getPieSeries_LeaderLineLength()
     {
-        return (EAttribute)pieSeriesEClass.getEStructuralFeatures().get(5);
+        return (EAttribute) pieSeriesEClass.getEStructuralFeatures().get(5);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getPieSeries_SliceOutline()
     {
-        return (EReference)pieSeriesEClass.getEStructuralFeatures().get(6);
+        return (EReference) pieSeriesEClass.getEStructuralFeatures().get(6);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getScatterSeries()
@@ -315,6 +348,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EClass getStockSeries()
@@ -324,46 +358,51 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getStockSeries_Fill()
     {
-        return (EReference)stockSeriesEClass.getEStructuralFeatures().get(0);
+        return (EReference) stockSeriesEClass.getEStructuralFeatures().get(0);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EReference getStockSeries_LineAttributes()
     {
-        return (EReference)stockSeriesEClass.getEStructuralFeatures().get(1);
+        return (EReference) stockSeriesEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public TypeFactory getTypeFactory()
     {
-        return (TypeFactory)getEFactoryInstance();
+        return (TypeFactory) getEFactoryInstance();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private boolean isCreated = false;
 
     /**
-     * Creates the meta-model objects for the package.  This method is
-     * guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates the meta-model objects for the package. This method is guarded to have no affect on any invocation but
+     * its first. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void createPackageContents()
     {
-        if (isCreated) return;
+        if (isCreated)
+            return;
         isCreated = true;
 
         // Create classes and their features
@@ -395,19 +434,21 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private boolean isInitialized = false;
 
     /**
-     * Complete the initialization of the package and its meta-model.  This
-     * method is guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Complete the initialization of the package and its meta-model. This method is guarded to have no affect on any
+     * invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void initializePackageContents()
     {
-        if (isInitialized) return;
+        if (isInitialized)
+            return;
         isInitialized = true;
 
         // Initialize package
@@ -416,9 +457,12 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
-        AttributePackageImpl theAttributePackage = (AttributePackageImpl)EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
-        XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI);
+        AttributePackageImpl theAttributePackage = (AttributePackageImpl) EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI);
+        XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE
+            .getEPackage(XMLTypePackage.eNS_URI);
 
         // Add supertypes to classes
         barSeriesEClass.getESuperTypes().add(theComponentPackage.getSeries());
@@ -428,30 +472,63 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
         stockSeriesEClass.getESuperTypes().add(theComponentPackage.getSeries());
 
         // Initialize classes and features; add operations and parameters
-        initEClass(barSeriesEClass, BarSeries.class, "BarSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getBarSeries_Riser(), theAttributePackage.getRiserType(), "riser", "Rectangle", 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getBarSeries_RiserOutline(), theAttributePackage.getColorDefinition(), null, "riserOutline", null, 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(barSeriesEClass, BarSeries.class, "BarSeries", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getBarSeries_Riser(), theAttributePackage.getRiserType(), "riser", "Rectangle", 0, 1,
+            BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getBarSeries_RiserOutline(), theAttributePackage.getColorDefinition(), null, "riserOutline",
+            null, 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(lineSeriesEClass, LineSeries.class, "LineSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getLineSeries_Marker(), theAttributePackage.getMarker(), null, "marker", null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getLineSeries_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes", null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getLineSeries_Curve(), theXMLTypePackage.getBoolean(), "curve", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getLineSeries_ShadowColor(), theAttributePackage.getColorDefinition(), null, "shadowColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(lineSeriesEClass, LineSeries.class, "LineSeries", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getLineSeries_Marker(), theAttributePackage.getMarker(), null, "marker", null, 0, 1,
+            LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getLineSeries_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes",
+            null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLineSeries_Curve(), theXMLTypePackage.getBoolean(), "curve", null, 1, 1, LineSeries.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getLineSeries_ShadowColor(), theAttributePackage.getColorDefinition(), null, "shadowColor",
+            null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(pieSeriesEClass, PieSeries.class, "PieSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getPieSeries_Explosion(), theXMLTypePackage.getInt(), "explosion", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPieSeries_Title(), theComponentPackage.getLabel(), null, "title", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPieSeries_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Above", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPieSeries_LeaderLineAttributes(), theAttributePackage.getLineAttributes(), null, "leaderLineAttributes", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPieSeries_LeaderLineStyle(), theAttributePackage.getLeaderLineStyle(), "leaderLineStyle", "Fixed_Length", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPieSeries_LeaderLineLength(), theAttributePackage.getPercentage(), "leaderLineLength", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPieSeries_SliceOutline(), theAttributePackage.getColorDefinition(), null, "sliceOutline", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(pieSeriesEClass, PieSeries.class, "PieSeries", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getPieSeries_Explosion(), theXMLTypePackage.getInt(), "explosion", null, 0, 1, PieSeries.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getPieSeries_Title(), theComponentPackage.getLabel(), null, "title", null, 1, 1,
+            PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getPieSeries_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Above", 1, 1,
+            PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getPieSeries_LeaderLineAttributes(), theAttributePackage.getLineAttributes(), null,
+            "leaderLineAttributes", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+            IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getPieSeries_LeaderLineStyle(), theAttributePackage.getLeaderLineStyle(), "leaderLineStyle",
+            "Fixed_Length", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getPieSeries_LeaderLineLength(), theAttributePackage.getPercentage(), "leaderLineLength", null,
+            1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+            !IS_DERIVED, IS_ORDERED);
+        initEReference(getPieSeries_SliceOutline(), theAttributePackage.getColorDefinition(), null, "sliceOutline",
+            null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(scatterSeriesEClass, ScatterSeries.class, "ScatterSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEClass(scatterSeriesEClass, ScatterSeries.class, "ScatterSeries", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(stockSeriesEClass, StockSeries.class, "StockSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getStockSeries_Fill(), theAttributePackage.getFill(), null, "fill", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getStockSeries_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(stockSeriesEClass, StockSeries.class, "StockSeries", !IS_ABSTRACT, !IS_INTERFACE,
+            IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getStockSeries_Fill(), theAttributePackage.getFill(), null, "fill", null, 0, 1,
+            StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getStockSeries_LineAttributes(), theAttributePackage.getLineAttributes(), null,
+            "lineAttributes", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+            !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);
@@ -462,174 +539,94 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
     }
 
     /**
-     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
-     * <!-- begin-user-doc
+     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData </b>. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected void createExtendedMetaDataAnnotations()
     {
-        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";				
-        addAnnotation
-          (barSeriesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "BarSeries",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getBarSeries_Riser(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Riser"
-           });			
-        addAnnotation
-          (getBarSeries_RiserOutline(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "RiserOutline"
-           });			
-        addAnnotation
-          (lineSeriesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "LineSeries",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getLineSeries_Marker(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Marker"
-           });			
-        addAnnotation
-          (getLineSeries_LineAttributes(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "LineAttributes"
-           });			
-        addAnnotation
-          (getLineSeries_Curve(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Curve"
-           });			
-        addAnnotation
-          (getLineSeries_ShadowColor(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "ShadowColor"
-           });			
-        addAnnotation
-          (pieSeriesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "PieSeries",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getPieSeries_Explosion(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Explosion"
-           });			
-        addAnnotation
-          (getPieSeries_Title(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Title"
-           });			
-        addAnnotation
-          (getPieSeries_TitlePosition(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "TitlePosition"
-           });			
-        addAnnotation
-          (getPieSeries_LeaderLineAttributes(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "LeaderLineAttributes"
-           });			
-        addAnnotation
-          (getPieSeries_LeaderLineStyle(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "LeaderLineStyle"
-           });			
-        addAnnotation
-          (getPieSeries_LeaderLineLength(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "LeaderLineLength"
-           });			
-        addAnnotation
-          (getPieSeries_SliceOutline(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "SliceOutline"
-           });			
-        addAnnotation
-          (scatterSeriesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "ScatterSeries",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (stockSeriesEClass, 
-           source, 
-           new String[] 
-           {
-             "name", "StockSeries",
-             "kind", "elementOnly"
-           });			
-        addAnnotation
-          (getStockSeries_Fill(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "Fill"
-           });			
-        addAnnotation
-          (getStockSeries_LineAttributes(), 
-           source, 
-           new String[] 
-           {
-             "kind", "element",
-             "name", "LineAttributes"
-           });
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
+        addAnnotation(barSeriesEClass, source, new String[]
+        {
+            "name", "BarSeries", "kind", "elementOnly"
+        });
+        addAnnotation(getBarSeries_Riser(), source, new String[]
+        {
+            "kind", "element", "name", "Riser"
+        });
+        addAnnotation(getBarSeries_RiserOutline(), source, new String[]
+        {
+            "kind", "element", "name", "RiserOutline"
+        });
+        addAnnotation(lineSeriesEClass, source, new String[]
+        {
+            "name", "LineSeries", "kind", "elementOnly"
+        });
+        addAnnotation(getLineSeries_Marker(), source, new String[]
+        {
+            "kind", "element", "name", "Marker"
+        });
+        addAnnotation(getLineSeries_LineAttributes(), source, new String[]
+        {
+            "kind", "element", "name", "LineAttributes"
+        });
+        addAnnotation(getLineSeries_Curve(), source, new String[]
+        {
+            "kind", "element", "name", "Curve"
+        });
+        addAnnotation(getLineSeries_ShadowColor(), source, new String[]
+        {
+            "kind", "element", "name", "ShadowColor"
+        });
+        addAnnotation(pieSeriesEClass, source, new String[]
+        {
+            "name", "PieSeries", "kind", "elementOnly"
+        });
+        addAnnotation(getPieSeries_Explosion(), source, new String[]
+        {
+            "kind", "element", "name", "Explosion"
+        });
+        addAnnotation(getPieSeries_Title(), source, new String[]
+        {
+            "kind", "element", "name", "Title"
+        });
+        addAnnotation(getPieSeries_TitlePosition(), source, new String[]
+        {
+            "kind", "element", "name", "TitlePosition"
+        });
+        addAnnotation(getPieSeries_LeaderLineAttributes(), source, new String[]
+        {
+            "kind", "element", "name", "LeaderLineAttributes"
+        });
+        addAnnotation(getPieSeries_LeaderLineStyle(), source, new String[]
+        {
+            "kind", "element", "name", "LeaderLineStyle"
+        });
+        addAnnotation(getPieSeries_LeaderLineLength(), source, new String[]
+        {
+            "kind", "element", "name", "LeaderLineLength"
+        });
+        addAnnotation(getPieSeries_SliceOutline(), source, new String[]
+        {
+            "kind", "element", "name", "SliceOutline"
+        });
+        addAnnotation(scatterSeriesEClass, source, new String[]
+        {
+            "name", "ScatterSeries", "kind", "elementOnly"
+        });
+        addAnnotation(stockSeriesEClass, source, new String[]
+        {
+            "name", "StockSeries", "kind", "elementOnly"
+        });
+        addAnnotation(getStockSeries_Fill(), source, new String[]
+        {
+            "kind", "element", "name", "Fill"
+        });
+        addAnnotation(getStockSeries_LineAttributes(), source, new String[]
+        {
+            "kind", "element", "name", "LineAttributes"
+        });
     }
 
 } //TypePackageImpl

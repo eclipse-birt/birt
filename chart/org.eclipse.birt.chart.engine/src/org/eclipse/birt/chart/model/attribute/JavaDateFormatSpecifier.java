@@ -16,34 +16,35 @@ import java.util.Calendar;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java Date Format Specifier</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type holds the java pattern for DateFormat.
- * 			
+ * This type holds the java pattern for DateFormat.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier()
- * @model 
+ * @model
  * @generated
  */
-public interface JavaDateFormatSpecifier extends FormatSpecifier{
+public interface JavaDateFormatSpecifier extends FormatSpecifier
+{
 
     /**
-     * Returns the value of the '<em><b>Pattern</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Pattern</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 							Specifies the format pattern.
-     * 							
+     * Specifies the format pattern.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Pattern</em>' attribute.
      * @see #setPattern(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier_Pattern()
@@ -53,9 +54,12 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier{
     String getPattern();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Pattern</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Pattern</em>' attribute.
      * @see #getPattern()
      * @generated
      */

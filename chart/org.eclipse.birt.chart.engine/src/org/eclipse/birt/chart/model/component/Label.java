@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Text;
@@ -21,30 +20,32 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Label</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a text label. It is not intended as a standalone element but should be associated with a chart element.
- * 			
+ * This type defines a text label. It is not intended as a standalone element but should be associated with a chart
+ * element.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel()
- * @model 
+ * @model
  * @generated
  */
-public interface Label extends EObject{
+public interface Label extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Caption</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -63,9 +64,11 @@ public interface Label extends EObject{
     Text getCaption();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Caption</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getCaption <em>Caption</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Caption</em>' containment reference.
      * @see #getCaption()
      * @generated
      */
@@ -88,9 +91,11 @@ public interface Label extends EObject{
     Fill getBackground();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Background</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getBackground <em>Background</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Background</em>' containment reference.
      * @see #getBackground()
      * @generated
      */
@@ -113,9 +118,11 @@ public interface Label extends EObject{
     LineAttributes getOutline();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Outline</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getOutline <em>Outline</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Outline</em>' containment reference.
      * @see #getOutline()
      * @generated
      */
@@ -138,9 +145,11 @@ public interface Label extends EObject{
     ColorDefinition getShadowColor();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Shadow Color</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Shadow Color</em>' containment reference.
      * @see #getShadowColor()
      * @generated
      */
@@ -163,22 +172,24 @@ public interface Label extends EObject{
     Insets getInsets();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Insets</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Insets</em>' containment reference.
      * @see #getInsets()
      * @generated
      */
     void setInsets(Insets value);
 
     /**
-     * Returns the value of the '<em><b>Visible</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 					Specifies whether or not the label is visible on the chart.
-     * 					
+     * Specifies whether or not the label is visible on the chart.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
@@ -190,9 +201,11 @@ public interface Label extends EObject{
     boolean isVisible();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Visible</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
      * @see #isVisible()
@@ -201,8 +214,9 @@ public interface Label extends EObject{
     void setVisible(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetVisible()
      * @see #isVisible()
      * @see #setVisible(boolean)

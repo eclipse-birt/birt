@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class StockDataSetImpl extends DataSetImpl implements StockDataSet
@@ -30,6 +30,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected StockDataSetImpl()
@@ -39,6 +40,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -48,6 +50,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -62,6 +65,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -69,7 +73,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.STOCK_DATA_SET__VALUES:
-                setValues((Object)newValue);
+                setValues((Object) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -77,6 +81,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -92,6 +97,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

@@ -29,6 +29,7 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ActionValueImpl()
@@ -38,6 +39,7 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()

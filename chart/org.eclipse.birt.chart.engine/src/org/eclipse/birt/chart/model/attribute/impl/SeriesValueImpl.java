@@ -38,7 +38,8 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
      * end-user-doc -->
      * 
      * @see #getName()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String NAME_EDEFAULT = null;
 
@@ -47,12 +48,14 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
      * -->
      * 
      * @see #getName()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String name = NAME_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected SeriesValueImpl()
@@ -62,6 +65,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -71,6 +75,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getName()
@@ -80,6 +85,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setName(String newName)
@@ -92,6 +98,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -106,6 +113,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -113,7 +121,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.SERIES_VALUE__NAME:
-                setName((String)newValue);
+                setName((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -121,6 +129,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -136,6 +145,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -150,11 +160,13 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (name: ");

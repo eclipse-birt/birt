@@ -16,167 +16,169 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory </b> for the model. It provides a create method for each non-abstract class of
  * the model. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage
  * @generated
  */
-public interface AttributeFactory extends EFactory{
+public interface AttributeFactory extends EFactory
+{
 
     /**
-     * The singleton instance of the factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The singleton instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     AttributeFactory eINSTANCE = new org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl();
 
     /**
-     * Returns a new object of class '<em>Action Value</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Action Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Action Value</em>'.
      * @generated
      */
     ActionValue createActionValue();
 
     /**
-     * Returns a new object of class '<em>Axis Origin</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Axis Origin</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Axis Origin</em>'.
      * @generated
      */
     AxisOrigin createAxisOrigin();
 
     /**
-     * Returns a new object of class '<em>Bounds</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Bounds</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Bounds</em>'.
      * @generated
      */
     Bounds createBounds();
 
     /**
-     * Returns a new object of class '<em>Color Definition</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Color Definition</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Color Definition</em>'.
      * @generated
      */
     ColorDefinition createColorDefinition();
 
     /**
-     * Returns a new object of class '<em>Data Point</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Data Point</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Data Point</em>'.
      * @generated
      */
     DataPoint createDataPoint();
 
     /**
-     * Returns a new object of class '<em>Data Point Component</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Data Point Component</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Data Point Component</em>'.
      * @generated
      */
     DataPointComponent createDataPointComponent();
 
     /**
-     * Returns a new object of class '<em>Date Format Specifier</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Date Format Specifier</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Date Format Specifier</em>'.
      * @generated
      */
     DateFormatSpecifier createDateFormatSpecifier();
 
     /**
-     * Returns a new object of class '<em>Extended Property</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Extended Property</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Extended Property</em>'.
      * @generated
      */
     ExtendedProperty createExtendedProperty();
 
     /**
-     * Returns a new object of class '<em>Fill</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Fill</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Fill</em>'.
      * @generated
      */
     Fill createFill();
 
     /**
-     * Returns a new object of class '<em>Font Definition</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Font Definition</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Font Definition</em>'.
      * @generated
      */
     FontDefinition createFontDefinition();
 
     /**
-     * Returns a new object of class '<em>Format Specifier</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Format Specifier</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Format Specifier</em>'.
      * @generated
      */
     FormatSpecifier createFormatSpecifier();
 
     /**
-     * Returns a new object of class '<em>Gradient</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Gradient</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Gradient</em>'.
      * @generated
      */
     Gradient createGradient();
 
     /**
-     * Returns a new object of class '<em>Image</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Image</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Image</em>'.
      * @generated
      */
     Image createImage();
 
     /**
-     * Returns a new object of class '<em>Insets</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Insets</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Insets</em>'.
      * @generated
      */
     Insets createInsets();
 
     /**
-     * Returns a new object of class '<em>Java Date Format Specifier</em>'.
-     * <!-- begin-user-doc --> <!--
+     * Returns a new object of class '<em>Java Date Format Specifier</em>'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return a new object of class '<em>Java Date Format Specifier</em>'.
      * @generated
      */
     JavaDateFormatSpecifier createJavaDateFormatSpecifier();
 
     /**
-     * Returns a new object of class '<em>Java Number Format Specifier</em>'.
-     * <!-- begin-user-doc --> <!--
+     * Returns a new object of class '<em>Java Number Format Specifier</em>'. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @return a new object of class '<em>Java Number Format Specifier</em>'.
      * @generated
      */
     JavaNumberFormatSpecifier createJavaNumberFormatSpecifier();
 
     /**
-     * Returns a new object of class '<em>Line Attributes</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Line Attributes</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Line Attributes</em>'.
      * @generated
      */
     LineAttributes createLineAttributes();
 
     /**
-     * Returns a new object of class '<em>Location</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Location</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Location</em>'.
      * @generated
      */
     Location createLocation();
 
     /**
-     * Returns a new object of class '<em>Marker</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Marker</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Marker</em>'.
      * @generated
      */
@@ -192,88 +194,88 @@ public interface AttributeFactory extends EFactory{
     NumberFormatSpecifier createNumberFormatSpecifier();
 
     /**
-     * Returns a new object of class '<em>Palette</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Palette</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Palette</em>'.
      * @generated
      */
     Palette createPalette();
 
     /**
-     * Returns a new object of class '<em>Script Value</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Script Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Script Value</em>'.
      * @generated
      */
     ScriptValue createScriptValue();
 
     /**
-     * Returns a new object of class '<em>Series Hint</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Series Hint</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Series Hint</em>'.
      * @generated
      */
     SeriesHint createSeriesHint();
 
     /**
-     * Returns a new object of class '<em>Series Value</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Series Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Series Value</em>'.
      * @generated
      */
     SeriesValue createSeriesValue();
 
     /**
-     * Returns a new object of class '<em>Size</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Size</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Size</em>'.
      * @generated
      */
     Size createSize();
 
     /**
-     * Returns a new object of class '<em>Style Map</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Style Map</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Style Map</em>'.
      * @generated
      */
     StyleMap createStyleMap();
 
     /**
-     * Returns a new object of class '<em>Text</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Text</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Text</em>'.
      * @generated
      */
     Text createText();
 
     /**
-     * Returns a new object of class '<em>Text Alignment</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Text Alignment</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Text Alignment</em>'.
      * @generated
      */
     TextAlignment createTextAlignment();
 
     /**
-     * Returns a new object of class '<em>Tooltip Value</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Tooltip Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>Tooltip Value</em>'.
      * @generated
      */
     TooltipValue createTooltipValue();
 
     /**
-     * Returns a new object of class '<em>URL Value</em>'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>URL Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return a new object of class '<em>URL Value</em>'.
      * @generated
      */
     URLValue createURLValue();
 
     /**
-     * Returns the package supported by this factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the package supported by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the package supported by this factory.
      * @generated
      */

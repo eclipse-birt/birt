@@ -15,27 +15,28 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Text</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type is intended to encapsulate a string to be displayed on the chart.
- * 			
+ * This type is intended to encapsulate a string to be displayed on the chart.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Text#getValue <em>Value</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Text#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getText()
- * @model 
+ * @model
  * @generated
  */
-public interface Text extends EObject{
+public interface Text extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> Gets the actual Text
@@ -56,7 +57,9 @@ public interface Text extends EObject{
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Text#getValue <em>Value</em>}' attribute.
      * <!-- begin-user-doc --> Sets the actual Text String. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Value</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Value</em>' attribute.
      * @see #getValue()
      * @generated
      */
@@ -79,9 +82,11 @@ public interface Text extends EObject{
     FontDefinition getFont();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}' containment reference.
-     * <!-- begin-user-doc --> Sets the Font Information for this text element. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Font</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Text#getFont <em>Font</em>}' containment
+     * reference. <!-- begin-user-doc --> Sets the Font Information for this text element. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Font</em>' containment reference.
      * @see #getFont()
      * @generated
      */
@@ -104,9 +109,11 @@ public interface Text extends EObject{
     ColorDefinition getColor();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}' containment reference.
-     * <!-- begin-user-doc --> Sets the foreground color to be used to render the text. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Color</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Text#getColor <em>Color</em>}' containment
+     * reference. <!-- begin-user-doc --> Sets the foreground color to be used to render the text. <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Color</em>' containment reference.
      * @see #getColor()
      * @generated
      */

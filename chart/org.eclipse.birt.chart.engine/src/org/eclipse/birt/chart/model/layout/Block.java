@@ -28,38 +28,39 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Block</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a modular area of a chart that can be positioned within the chart bounds.
- * 			
+ * This type defines a modular area of a chart that can be positioned within the chart bounds.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getChildren <em>Children</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getChildren <em>Children</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.Block#getTriggers <em>Triggers</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock()
- * @model 
+ * @model
  * @generated
  */
-public interface Block extends EObject{
+public interface Block extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Children</b></em>' containment reference list. The list contents are of
@@ -95,9 +96,11 @@ public interface Block extends EObject{
     Bounds getBounds();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Bounds</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getBounds <em>Bounds</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Bounds</em>' containment reference.
      * @see #getBounds()
      * @generated
      */
@@ -126,7 +129,9 @@ public interface Block extends EObject{
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Anchor</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Anchor</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.Anchor
      * @see #isSetAnchor()
      * @see #unsetAnchor()
@@ -136,8 +141,9 @@ public interface Block extends EObject{
     void setAnchor(Anchor value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetAnchor()
      * @see #getAnchor()
      * @see #setAnchor(Anchor)
@@ -146,8 +152,9 @@ public interface Block extends EObject{
     void unsetAnchor();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getAnchor <em>Anchor</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Anchor</em>' attribute is set.
      * @see #unsetAnchor()
      * @see #getAnchor()
@@ -177,9 +184,11 @@ public interface Block extends EObject{
     Stretch getStretch();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Stretch</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Stretch</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.Stretch
      * @see #isSetStretch()
      * @see #unsetStretch()
@@ -189,8 +198,9 @@ public interface Block extends EObject{
     void setStretch(Stretch value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetStretch()
      * @see #getStretch()
      * @see #setStretch(Stretch)
@@ -199,8 +209,9 @@ public interface Block extends EObject{
     void unsetStretch();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getStretch <em>Stretch</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Stretch</em>' attribute is set.
      * @see #unsetStretch()
      * @see #getStretch()
@@ -226,9 +237,11 @@ public interface Block extends EObject{
     Insets getInsets();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Insets</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getInsets <em>Insets</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Insets</em>' containment reference.
      * @see #getInsets()
      * @generated
      */
@@ -277,8 +290,9 @@ public interface Block extends EObject{
     void unsetRow();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRow <em>Row</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Row</em>' attribute is set.
      * @see #unsetRow()
      * @see #getRow()
@@ -288,13 +302,13 @@ public interface Block extends EObject{
     boolean isSetRow();
 
     /**
-     * Returns the value of the '<em><b>Column</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 					Defines the column index for the block.
-     * 					
+     * Defines the column index for the block.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Column</em>' attribute.
      * @see #isSetColumn()
      * @see #unsetColumn()
@@ -308,7 +322,9 @@ public interface Block extends EObject{
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Column</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Column</em>' attribute.
      * @see #isSetColumn()
      * @see #unsetColumn()
      * @see #getColumn()
@@ -317,8 +333,9 @@ public interface Block extends EObject{
     void setColumn(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetColumn()
      * @see #getColumn()
      * @see #setColumn(int)
@@ -327,8 +344,9 @@ public interface Block extends EObject{
     void unsetColumn();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumn <em>Column</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Column</em>' attribute is set.
      * @see #unsetColumn()
      * @see #getColumn()
@@ -357,9 +375,11 @@ public interface Block extends EObject{
     int getRowspan();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Rowspan</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Rowspan</em>' attribute.
      * @see #isSetRowspan()
      * @see #unsetRowspan()
      * @see #getRowspan()
@@ -368,8 +388,9 @@ public interface Block extends EObject{
     void setRowspan(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetRowspan()
      * @see #getRowspan()
      * @see #setRowspan(int)
@@ -378,8 +399,9 @@ public interface Block extends EObject{
     void unsetRowspan();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getRowspan <em>Rowspan</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Rowspan</em>' attribute is set.
      * @see #unsetRowspan()
      * @see #getRowspan()
@@ -408,9 +430,11 @@ public interface Block extends EObject{
     int getColumnspan();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Columnspan</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Columnspan</em>' attribute.
      * @see #isSetColumnspan()
      * @see #unsetColumnspan()
      * @see #getColumnspan()
@@ -419,8 +443,9 @@ public interface Block extends EObject{
     void setColumnspan(int value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getColumnspan <em>Columnspan</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetColumnspan()
      * @see #getColumnspan()
      * @see #setColumnspan(int)
@@ -460,9 +485,11 @@ public interface Block extends EObject{
     Size getMinSize();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Min Size</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getMinSize <em>Min Size</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Min Size</em>' containment reference.
      * @see #getMinSize()
      * @generated
      */
@@ -485,9 +512,11 @@ public interface Block extends EObject{
     LineAttributes getOutline();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Outline</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getOutline <em>Outline</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Outline</em>' containment reference.
      * @see #getOutline()
      * @generated
      */
@@ -510,22 +539,24 @@ public interface Block extends EObject{
     Fill getBackground();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Background</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#getBackground <em>Background</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Background</em>' containment reference.
      * @see #getBackground()
      * @generated
      */
     void setBackground(Fill value);
 
     /**
-     * Returns the value of the '<em><b>Visible</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 					Specifies whether the block is visible.
-     * 					
+     * Specifies whether the block is visible.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
@@ -539,7 +570,9 @@ public interface Block extends EObject{
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Visible</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Visible</em>' attribute.
      * @see #isSetVisible()
      * @see #unsetVisible()
      * @see #isVisible()
@@ -548,8 +581,9 @@ public interface Block extends EObject{
     void setVisible(boolean value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetVisible()
      * @see #isVisible()
      * @see #setVisible(boolean)
@@ -558,8 +592,9 @@ public interface Block extends EObject{
     void unsetVisible();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Block#isVisible <em>Visible</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Visible</em>' attribute is set.
      * @see #unsetVisible()
      * @see #isVisible()

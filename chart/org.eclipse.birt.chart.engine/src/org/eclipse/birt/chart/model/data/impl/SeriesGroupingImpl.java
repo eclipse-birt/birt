@@ -25,14 +25,17 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#isEnabled <em>Enabled</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingUnit <em>Grouping Unit</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingInterval <em>Grouping Interval</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#isEnabled <em>Enabled</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingUnit <em>Grouping Unit</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingInterval <em>Grouping Interval</em>}
+ * </li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}</li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
@@ -43,7 +46,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #isEnabled()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final boolean ENABLED_EDEFAULT = false;
 
@@ -52,14 +56,16 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #isEnabled()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean enabled = ENABLED_EDEFAULT;
 
     /**
      * This is true if the Enabled attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean enabledESet = false;
 
@@ -68,7 +74,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * <!-- end-user-doc -->
      * 
      * @see #getGroupingUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String GROUPING_UNIT_EDEFAULT = null;
 
@@ -77,7 +84,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * <!-- end-user-doc -->
      * 
      * @see #getGroupingUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String groupingUnit = GROUPING_UNIT_EDEFAULT;
 
@@ -86,7 +94,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGroupingInterval()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int GROUPING_INTERVAL_EDEFAULT = 0;
 
@@ -95,14 +104,16 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGroupingInterval()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int groupingInterval = GROUPING_INTERVAL_EDEFAULT;
 
     /**
      * This is true if the Grouping Interval attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean groupingIntervalESet = false;
 
@@ -111,7 +122,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #getGroupType()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String GROUP_TYPE_EDEFAULT = null;
 
@@ -120,7 +132,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #getGroupType()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String groupType = GROUP_TYPE_EDEFAULT;
 
@@ -129,7 +142,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getAggregateExpression()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String AGGREGATE_EXPRESSION_EDEFAULT = null;
 
@@ -138,12 +152,14 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getAggregateExpression()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String aggregateExpression = AGGREGATE_EXPRESSION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected SeriesGroupingImpl()
@@ -153,6 +169,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -162,6 +179,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isEnabled()
@@ -171,6 +189,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setEnabled(boolean newEnabled)
@@ -180,11 +199,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         boolean oldEnabledESet = enabledESet;
         enabledESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__ENABLED, oldEnabled, enabled, !oldEnabledESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__ENABLED, oldEnabled,
+                enabled, !oldEnabledESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetEnabled()
@@ -194,11 +215,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         enabled = ENABLED_EDEFAULT;
         enabledESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_GROUPING__ENABLED, oldEnabled, ENABLED_EDEFAULT, oldEnabledESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_GROUPING__ENABLED, oldEnabled,
+                ENABLED_EDEFAULT, oldEnabledESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetEnabled()
@@ -208,6 +231,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getGroupingUnit()
@@ -217,6 +241,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setGroupingUnit(String newGroupingUnit)
@@ -224,11 +249,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         String oldGroupingUnit = groupingUnit;
         groupingUnit = newGroupingUnit;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUPING_UNIT, oldGroupingUnit, groupingUnit));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUPING_UNIT,
+                oldGroupingUnit, groupingUnit));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getGroupingInterval()
@@ -238,6 +265,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setGroupingInterval(int newGroupingInterval)
@@ -247,11 +275,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         boolean oldGroupingIntervalESet = groupingIntervalESet;
         groupingIntervalESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUPING_INTERVAL, oldGroupingInterval, groupingInterval, !oldGroupingIntervalESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUPING_INTERVAL,
+                oldGroupingInterval, groupingInterval, !oldGroupingIntervalESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetGroupingInterval()
@@ -261,11 +291,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         groupingInterval = GROUPING_INTERVAL_EDEFAULT;
         groupingIntervalESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_GROUPING__GROUPING_INTERVAL, oldGroupingInterval, GROUPING_INTERVAL_EDEFAULT, oldGroupingIntervalESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.SERIES_GROUPING__GROUPING_INTERVAL,
+                oldGroupingInterval, GROUPING_INTERVAL_EDEFAULT, oldGroupingIntervalESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetGroupingInterval()
@@ -275,6 +307,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getGroupType()
@@ -284,6 +317,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setGroupType(String newGroupType)
@@ -291,11 +325,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         String oldGroupType = groupType;
         groupType = newGroupType;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUP_TYPE, oldGroupType, groupType));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__GROUP_TYPE,
+                oldGroupType, groupType));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getAggregateExpression()
@@ -305,6 +341,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setAggregateExpression(String newAggregateExpression)
@@ -312,11 +349,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         String oldAggregateExpression = aggregateExpression;
         aggregateExpression = newAggregateExpression;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION, oldAggregateExpression, aggregateExpression));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION,
+                oldAggregateExpression, aggregateExpression));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -339,6 +378,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -346,19 +386,19 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.SERIES_GROUPING__ENABLED:
-                setEnabled(((Boolean)newValue).booleanValue());
+                setEnabled(((Boolean) newValue).booleanValue());
                 return;
             case DataPackage.SERIES_GROUPING__GROUPING_UNIT:
-                setGroupingUnit((String)newValue);
+                setGroupingUnit((String) newValue);
                 return;
             case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL:
-                setGroupingInterval(((Integer)newValue).intValue());
+                setGroupingInterval(((Integer) newValue).intValue());
                 return;
             case DataPackage.SERIES_GROUPING__GROUP_TYPE:
-                setGroupType((String)newValue);
+                setGroupType((String) newValue);
                 return;
             case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION:
-                setAggregateExpression((String)newValue);
+                setAggregateExpression((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -366,6 +406,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -393,6 +434,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -402,32 +444,42 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
             case DataPackage.SERIES_GROUPING__ENABLED:
                 return isSetEnabled();
             case DataPackage.SERIES_GROUPING__GROUPING_UNIT:
-                return GROUPING_UNIT_EDEFAULT == null ? groupingUnit != null : !GROUPING_UNIT_EDEFAULT.equals(groupingUnit);
+                return GROUPING_UNIT_EDEFAULT == null ? groupingUnit != null : !GROUPING_UNIT_EDEFAULT
+                    .equals(groupingUnit);
             case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL:
                 return isSetGroupingInterval();
             case DataPackage.SERIES_GROUPING__GROUP_TYPE:
                 return GROUP_TYPE_EDEFAULT == null ? groupType != null : !GROUP_TYPE_EDEFAULT.equals(groupType);
             case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION:
-                return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null : !AGGREGATE_EXPRESSION_EDEFAULT.equals(aggregateExpression);
+                return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null
+                    : !AGGREGATE_EXPRESSION_EDEFAULT.equals(aggregateExpression);
         }
         return eDynamicIsSet(eFeature);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (enabled: ");
-        if (enabledESet) result.append(enabled); else result.append("<unset>");
+        if (enabledESet)
+            result.append(enabled);
+        else
+            result.append("<unset>");
         result.append(", groupingUnit: ");
         result.append(groupingUnit);
         result.append(", groupingInterval: ");
-        if (groupingIntervalESet) result.append(groupingInterval); else result.append("<unset>");
+        if (groupingIntervalESet)
+            result.append(groupingInterval);
+        else
+            result.append("<unset>");
         result.append(", groupType: ");
         result.append(groupType);
         result.append(", aggregateExpression: ");

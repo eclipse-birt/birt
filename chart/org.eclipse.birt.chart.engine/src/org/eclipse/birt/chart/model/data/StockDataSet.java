@@ -23,7 +23,8 @@ package org.eclipse.birt.chart.model.data;
  * 
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getStockDataSet()
- * @model @generated
+ * @model
+ * @generated
  */
 public interface StockDataSet extends DataSet
 {

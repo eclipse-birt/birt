@@ -111,9 +111,9 @@ public final class PlotWith2DAxes extends PlotContent
      * The locale (specified at generation time) associated with the chart being computed
      */
     private final Locale lcl;
-    
+
     /**
-     * 
+     *  
      */
     private Series seBaseRuntime = null;
 
@@ -348,7 +348,7 @@ public final class PlotWith2DAxes extends PlotContent
      * Returns a transpose of the original angle
      * 
      * @param dOriginalAngle
-     * @return 
+     * @return
      * @throws UnexpectedInputException
      */
     public static final double getTransposedAngle(double dOriginalAngle) throws UnexpectedInputException
@@ -370,8 +370,8 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @param iBaseOrOrthogonal
      * @param dOriginalAngle
-     * @return @throws
-     *         UnexpectedInputException
+     * @return
+     * @throws UnexpectedInputException
      */
     public final double transposeAngle(double dOriginalAngle) throws UnexpectedInputException
     {
@@ -396,8 +396,8 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @param iBaseOrOrthogonal
      * @param iOriginalPosition
-     * @return @throws
-     *         UnexpectedInputException
+     * @return
+     * @throws UnexpectedInputException
      */
     public final int transposeLabelPosition(int iBaseOrOrthogonal, int iOriginalPosition)
         throws UnexpectedInputException
@@ -445,8 +445,8 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @param iBaseOrOrthogonal
      * @param iOriginalStyle
-     * @return @throws
-     *         UnexpectedInputException
+     * @return
+     * @throws UnexpectedInputException
      */
     private final int transposeTickStyle(int iBaseOrOrthogonal, int iOriginalStyle) throws UnexpectedInputException
     {
@@ -481,8 +481,9 @@ public final class PlotWith2DAxes extends PlotContent
 
     /**
      * This method validates several crucial properties for an axis associated with a Chart
-     *  
-     * @param	ax	The axis to validate
+     * 
+     * @param ax
+     *            The axis to validate
      * @throws ValidationException
      */
     private final void validateAxis(Axis ax) throws ValidationException
@@ -491,39 +492,43 @@ public final class PlotWith2DAxes extends PlotContent
         {
             throw new ValidationException(new UndefinedValueException("The data type is undefined for axis " + ax));
         }
-        
+
         if (!ax.getLabel().isSetVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The label visibility is undefined for axis " + ax));
+            throw new ValidationException(new UndefinedValueException("The label visibility is undefined for axis "
+                + ax));
         }
-        
+
         if (!ax.getTitle().isSetVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The title visibility is undefined for axis " + ax));
+            throw new ValidationException(new UndefinedValueException("The title visibility is undefined for axis "
+                + ax));
         }
-        
+
         if (!ax.isSetLabelPosition() && ax.getLabel().isVisible())
         {
             throw new ValidationException(new UndefinedValueException("The label position is undefined for axis " + ax));
         }
-        
+
         if (!ax.isSetTitlePosition() && ax.getTitle().isVisible())
         {
             throw new ValidationException(new UndefinedValueException("The title position is undefined for axis " + ax));
         }
-        
+
         LineAttributes liaTicks = ax.getMajorGrid().getTickAttributes();
         if (!ax.getMajorGrid().isSetTickStyle() && liaTicks.isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The major grid tick style is undefined for axis " + ax));
+            throw new ValidationException(new UndefinedValueException(
+                "The major grid tick style is undefined for axis " + ax));
         }
-        
+
         liaTicks = ax.getMinorGrid().getTickAttributes();
         if (!ax.getMinorGrid().isSetTickStyle() && liaTicks.isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The minor grid tick style is undefined for axis " + ax));
+            throw new ValidationException(new UndefinedValueException(
+                "The minor grid tick style is undefined for axis " + ax));
         }
-        
+
         final int iOrientation = ax.getOrientation().getValue();
         if (iOrientation == Orientation.VERTICAL)
         {
@@ -531,29 +536,33 @@ public final class PlotWith2DAxes extends PlotContent
             if (ax.getLabel().isVisible()) // LABEL POSITION (IF VISIBLE)
             {
                 iPosition = ax.getLabelPosition().getValue();
-	            if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
-	            {
-	                throw new ValidationException("Illegal label position value " + ax.getLabelPosition() + " specified for vertical axis " + ax);
-	            }
+                if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
+                {
+                    throw new ValidationException("Illegal label position value " + ax.getLabelPosition()
+                        + " specified for vertical axis " + ax);
+                }
             }
             if (ax.getTitle().isVisible()) // LABEL POSITION (IF VISIBLE)
             {
-	            iPosition = ax.getTitlePosition().getValue();
-	            if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
-	            {
-	                throw new ValidationException("Illegal title position value " + ax.getLabelPosition() + " specified for vertical axis " + ax);
-	            }   
+                iPosition = ax.getTitlePosition().getValue();
+                if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
+                {
+                    throw new ValidationException("Illegal title position value " + ax.getLabelPosition()
+                        + " specified for vertical axis " + ax);
+                }
             }
-            
+
             int iTickStyle = ax.getMajorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.LEFT && iTickStyle != TickStyle.RIGHT)
             {
-                throw new ValidationException("Illegal major tick style specified as " + ax.getMajorGrid().getTickStyle() + " for vertical axis " + ax);
+                throw new ValidationException("Illegal major tick style specified as "
+                    + ax.getMajorGrid().getTickStyle() + " for vertical axis " + ax);
             }
             iTickStyle = ax.getMinorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.LEFT && iTickStyle != TickStyle.RIGHT)
             {
-                throw new ValidationException("Illegal minor tick style specified as " + ax.getMinorGrid().getTickStyle() + " for vertical axis " + ax);
+                throw new ValidationException("Illegal minor tick style specified as "
+                    + ax.getMinorGrid().getTickStyle() + " for vertical axis " + ax);
             }
         }
         else if (iOrientation == Orientation.HORIZONTAL)
@@ -562,33 +571,37 @@ public final class PlotWith2DAxes extends PlotContent
             if (ax.getLabel().isVisible()) // LABEL POSITION (IF VISIBLE)
             {
                 iPosition = ax.getLabelPosition().getValue();
-	            if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
-	            {
-	                throw new ValidationException("Illegal label position value " + ax.getLabelPosition() + " specified for horizontal axis " + ax);
-	            }
+                if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
+                {
+                    throw new ValidationException("Illegal label position value " + ax.getLabelPosition()
+                        + " specified for horizontal axis " + ax);
+                }
             }
             if (ax.getTitle().isVisible()) // LABEL POSITION (IF VISIBLE)
             {
-	            iPosition = ax.getTitlePosition().getValue();
-	            if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
-	            {
-	                throw new ValidationException("Illegal title position value " + ax.getLabelPosition() + " specified for horizontal axis " + ax);
-	            }   
+                iPosition = ax.getTitlePosition().getValue();
+                if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
+                {
+                    throw new ValidationException("Illegal title position value " + ax.getLabelPosition()
+                        + " specified for horizontal axis " + ax);
+                }
             }
-            
+
             int iTickStyle = ax.getMajorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.ABOVE && iTickStyle != TickStyle.BELOW)
             {
-                throw new ValidationException("Illegal major tick style specified as " + ax.getMajorGrid().getTickStyle() + " for horizontal axis " + ax);
+                throw new ValidationException("Illegal major tick style specified as "
+                    + ax.getMajorGrid().getTickStyle() + " for horizontal axis " + ax);
             }
             iTickStyle = ax.getMinorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.ABOVE && iTickStyle != TickStyle.BELOW)
             {
-                throw new ValidationException("Illegal minor tick style specified as " + ax.getMinorGrid().getTickStyle() + " for horizontal axis " + ax);
+                throw new ValidationException("Illegal minor tick style specified as "
+                    + ax.getMinorGrid().getTickStyle() + " for horizontal axis " + ax);
             }
         }
     }
-    
+
     /**
      * Internally maps the EMF model to internal (non-public) rendering fast data structures
      */
@@ -612,11 +625,11 @@ public final class PlotWith2DAxes extends PlotContent
             final ArrayList alRuntimeBaseSeries = sdBase.getRunTimeSeries();
             if (alRuntimeBaseSeries != null)
             {
-	            // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-	            seBaseRuntime = (Series) sdBase.getRunTimeSeries().get(0);
+                // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+                seBaseRuntime = (Series) sdBase.getRunTimeSeries().get(0);
             }
         }
-        
+
         aax.swapAxes(cwa.isTransposed());
         Label l;
         IntersectionValue iv = null;
@@ -751,8 +764,8 @@ public final class PlotWith2DAxes extends PlotContent
      * @param iSeriesIndex
      *            The series index for which the typed dataset is being built
      * 
-     * @return @throws
-     *         DataFormatException
+     * @return
+     * @throws DataFormatException
      */
     private final DataSetIterator getTypedDataSet(Axis ax, int iType, int iSeriesIndex) throws DataFormatException,
         UnexpectedInputException
@@ -791,7 +804,7 @@ public final class PlotWith2DAxes extends PlotContent
      * @param se
      * @param iType
      * 
-     * @return 
+     * @return
      * @throws DataFormatException
      */
     private final DataSetIterator getTypedDataSet(Series se, int iType) throws DataFormatException,
@@ -1337,8 +1350,8 @@ public final class PlotWith2DAxes extends PlotContent
                 // IF ANY OVERLAY ORTHOGONAL AXES ARE AT THE TOP
                 if (aax.anyOverlayPositionedAt(IConstants.MAX))
                 {
-                    scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(),
-                        aax);
+                    scBase
+                        .computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(), aax);
                     final double dTopThreshold = bo.getTop();
                     double dEnd = scBase.getEnd();
                     final double dEndShift = Math.floor(scBase.getEndShift());
@@ -1359,8 +1372,8 @@ public final class PlotWith2DAxes extends PlotContent
                 // IF ANY OVERLAY ORTHOGONAL AXES IS AT THE BOTTOM
                 if (aax.anyOverlayPositionedAt(IConstants.MIN))
                 {
-                    scBase.computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(),
-                        aax);
+                    scBase
+                        .computeAxisStartEndShifts(ids, oaxBase.getLabel(), VERTICAL, oaxBase.getLabelPosition(), aax);
                     final double dBottomThreshold = bo.getTop() + bo.getHeight();
                     double dStart = scBase.getStart();
                     final double dEndShift = scBase.getEndShift();
@@ -1447,10 +1460,9 @@ public final class PlotWith2DAxes extends PlotContent
                 }
             }
             dAxisLabelsThickness = sc.computeAxisLabelThickness(ids, oaxOverlay.getLabel(), iOrientation) /*
-                                                                                                            * REQUIRED
-                                                                                                            * TO FIT
-                                                                                                            * CLEANLY
-                                                                                                            */;
+                                                                                                           * REQUIRED TO
+                                                                                                           * FIT CLEANLY
+                                                                                                           */;
             double dAxisTitleThickness = 0;
             sc.resetShifts();
 
@@ -1475,9 +1487,9 @@ public final class PlotWith2DAxes extends PlotContent
                 if (laAxisTitle.isVisible())
                 {
                     dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getWidth() /*
-                                                                                                          * REQUIRED TO
-                                                                                                          * FIT CLEANLY
-                                                                                                          */;
+                                                                                                         * REQUIRED TO
+                                                                                                         * FIT CLEANLY
+                                                                                                         */;
                 }
 
                 // COMPUTE VALUES FOR x1, x, x2
@@ -1616,9 +1628,9 @@ public final class PlotWith2DAxes extends PlotContent
                 if (laAxisTitle.isVisible())
                 {
                     dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getHeight() /*
-                                                                                                           * REQUIRED TO
-                                                                                                           * FIT CLEANLY
-                                                                                                           */;
+                                                                                                          * REQUIRED TO
+                                                                                                          * FIT CLEANLY
+                                                                                                          */;
                 }
 
                 // COMPUTE VALUES FOR y1, y, y2
@@ -1787,8 +1799,8 @@ public final class PlotWith2DAxes extends PlotContent
                 {
                     scOA.zoomOut();
                     scOA.updateAxisMinMax(oaMinMax[0], oaMinMax[1]);
-                    scOA.computeTicks(ids, la, axOverlay.getLabelPosition(), aax.getOrientation(), dStart, dEnd,
-                        false, null);
+                    scOA.computeTicks(ids, la, axOverlay.getLabelPosition(), aax.getOrientation(), dStart, dEnd, false,
+                        null);
                 }
             }
 
@@ -1872,9 +1884,11 @@ public final class PlotWith2DAxes extends PlotContent
         double dYAxisTitleThickness = 0;
         if (laYAxisTitle.isVisible())
         {
-            try {
+            try
+            {
                 dYAxisTitleThickness = computeBox(ids, iYTitleLocation, laYAxisTitle, 0, 0).getWidth();
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }
@@ -2308,9 +2322,11 @@ public final class PlotWith2DAxes extends PlotContent
         double dXAxisTitleThickness = 0;
         if (laXAxisTitle.isVisible())
         {
-            try {
+            try
+            {
                 dXAxisTitleThickness = computeBox(ids, iXTitleLocation, laXAxisTitle, 0, 0).getHeight();
-            } catch (UnexpectedInputException uiex)
+            }
+            catch (UnexpectedInputException uiex )
             {
                 throw new GenerationException(uiex);
             }
@@ -2573,8 +2589,9 @@ public final class PlotWith2DAxes extends PlotContent
                             {
                                 scY.zoomOut();
                                 scY.updateAxisMinMax(oaMinMax[0], oaMinMax[1]);
-                                scY.computeTicks(ids, laYAxisLabels, iYLabelLocation, VERTICAL, dStart, dEnd, true,
-                                    aax);
+                                scY
+                                    .computeTicks(ids, laYAxisLabels, iYLabelLocation, VERTICAL, dStart, dEnd, true,
+                                        aax);
                             }
                         }
 
@@ -2650,8 +2667,9 @@ public final class PlotWith2DAxes extends PlotContent
                             {
                                 scY.zoomOut();
                                 scY.updateAxisMinMax(oaMinMax[0], oaMinMax[1]);
-                                scY.computeTicks(ids, laYAxisLabels, iYLabelLocation, VERTICAL, dStart, dEnd, true,
-                                    aax);
+                                scY
+                                    .computeTicks(ids, laYAxisLabels, iYLabelLocation, VERTICAL, dStart, dEnd, true,
+                                        aax);
                             }
                         }
 
@@ -2722,8 +2740,8 @@ public final class PlotWith2DAxes extends PlotContent
 
     /**
      * 
-     * @return @throws
-     *         DataFormatException
+     * @return
+     * @throws DataFormatException
      */
     public final SeriesRenderingHints getSeriesRenderingHints(Series seOrthogonal) throws NullValueException,
         DataFormatException, NotFoundException, OutOfSyncException, UndefinedValueException, UnexpectedInputException
@@ -2738,7 +2756,7 @@ public final class PlotWith2DAxes extends PlotContent
             throw new NotFoundException("Axis definition for series " + seOrthogonal + " could not be found");
         }
         OneAxis oaxBase = aax.getPrimaryBase();
-        
+
         AutoScale scBase = oaxBase.getScale();
         AutoScale scOrthogonal = oaxOrthogonal.getScale();
         int iTickCount = scBase.getTickCount();
@@ -2868,13 +2886,12 @@ public final class PlotWith2DAxes extends PlotContent
             lo = LocationImpl.create(dX, dY);
             dLength = (i < iTickCount - 1) ? daTickCoordinates[i + 1] - daTickCoordinates[i] : 0;
 
-            dpa[i] = new DataPointHints(
-                oDataBase, oDataOrthogonal, 
-                String.valueOf(seOrthogonal.getSeriesIdentifier()), // TBD: APPLY FORMAT SPECIFIER 
-                seOrthogonal.getDataPoint(), 
-                (seBaseRuntime != null) ? seBaseRuntime.getFormatSpecifier() : null,
-                seOrthogonal.getFormatSpecifier(), lo, dLength, lcl
-            );
+            dpa[i] = new DataPointHints(oDataBase, oDataOrthogonal, String.valueOf(seOrthogonal.getSeriesIdentifier()), // TBD:
+                // APPLY
+                // FORMAT
+                // SPECIFIER
+                seOrthogonal.getDataPoint(), (seBaseRuntime != null) ? seBaseRuntime.getFormatSpecifier() : null,
+                seOrthogonal.getFormatSpecifier(), lo, dLength, lcl);
         }
 
         return new SeriesRenderingHints(this, oaxBase.getAxisCoordinate(), scOrthogonal.getStart(), dOrthogonalZero,

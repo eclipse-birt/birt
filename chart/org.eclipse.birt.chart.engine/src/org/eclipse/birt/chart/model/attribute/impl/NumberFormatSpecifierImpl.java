@@ -25,13 +25,16 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}
+ * </li>
+ * <li>
+ * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements NumberFormatSpecifier
@@ -42,7 +45,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String PREFIX_EDEFAULT = null;
 
@@ -51,7 +55,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String prefix = PREFIX_EDEFAULT;
 
@@ -60,7 +65,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String SUFFIX_EDEFAULT = null;
 
@@ -69,7 +75,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String suffix = SUFFIX_EDEFAULT;
 
@@ -78,7 +85,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
@@ -87,14 +95,16 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double multiplier = MULTIPLIER_EDEFAULT;
 
     /**
      * This is true if the Multiplier attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean multiplierESet = false;
 
@@ -103,7 +113,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * --> <!-- end-user-doc -->
      * 
      * @see #getFractionDigits()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int FRACTION_DIGITS_EDEFAULT = 0;
 
@@ -112,19 +123,22 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * --> <!-- end-user-doc -->
      * 
      * @see #getFractionDigits()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int fractionDigits = FRACTION_DIGITS_EDEFAULT;
 
     /**
      * This is true if the Fraction Digits attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean fractionDigitsESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected NumberFormatSpecifierImpl()
@@ -134,6 +148,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -143,6 +158,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getPrefix()
@@ -152,6 +168,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setPrefix(String newPrefix)
@@ -159,11 +176,13 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         String oldPrefix = prefix;
         prefix = newPrefix;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX, oldPrefix, prefix));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX,
+                oldPrefix, prefix));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getSuffix()
@@ -173,6 +192,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSuffix(String newSuffix)
@@ -180,11 +200,13 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         String oldSuffix = suffix;
         suffix = newSuffix;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__SUFFIX, oldSuffix, suffix));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__SUFFIX,
+                oldSuffix, suffix));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getMultiplier()
@@ -194,6 +216,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMultiplier(double newMultiplier)
@@ -203,11 +226,13 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         boolean oldMultiplierESet = multiplierESet;
         multiplierESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, multiplier, !oldMultiplierESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER,
+                oldMultiplier, multiplier, !oldMultiplierESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetMultiplier()
@@ -217,11 +242,14 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         multiplier = MULTIPLIER_EDEFAULT;
         multiplierESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT, oldMultiplierESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET,
+                AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT,
+                oldMultiplierESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetMultiplier()
@@ -231,6 +259,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getFractionDigits()
@@ -240,6 +269,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setFractionDigits(int newFractionDigits)
@@ -249,11 +279,14 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         boolean oldFractionDigitsESet = fractionDigitsESet;
         fractionDigitsESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits, fractionDigits, !oldFractionDigitsESet));
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits, fractionDigits,
+                !oldFractionDigitsESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetFractionDigits()
@@ -263,11 +296,14 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         fractionDigits = FRACTION_DIGITS_EDEFAULT;
         fractionDigitsESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits, FRACTION_DIGITS_EDEFAULT, oldFractionDigitsESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET,
+                AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits, FRACTION_DIGITS_EDEFAULT,
+                oldFractionDigitsESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetFractionDigits()
@@ -277,6 +313,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -297,6 +334,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -304,16 +342,16 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.NUMBER_FORMAT_SPECIFIER__PREFIX:
-                setPrefix((String)newValue);
+                setPrefix((String) newValue);
                 return;
             case AttributePackage.NUMBER_FORMAT_SPECIFIER__SUFFIX:
-                setSuffix((String)newValue);
+                setSuffix((String) newValue);
                 return;
             case AttributePackage.NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
-                setMultiplier(((Double)newValue).doubleValue());
+                setMultiplier(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS:
-                setFractionDigits(((Integer)newValue).intValue());
+                setFractionDigits(((Integer) newValue).intValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -321,6 +359,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -345,6 +384,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -365,11 +405,13 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (prefix: ");
@@ -377,9 +419,15 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
         result.append(", suffix: ");
         result.append(suffix);
         result.append(", multiplier: ");
-        if (multiplierESet) result.append(multiplier); else result.append("<unset>");
+        if (multiplierESet)
+            result.append(multiplier);
+        else
+            result.append("<unset>");
         result.append(", fractionDigits: ");
-        if (fractionDigitsESet) result.append(fractionDigits); else result.append("<unset>");
+        if (fractionDigitsESet)
+            result.append(fractionDigits);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

@@ -15,7 +15,6 @@ import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
@@ -37,7 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
@@ -45,6 +44,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ScatterSeriesImpl()
@@ -54,6 +54,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -63,9 +64,11 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
@@ -74,15 +77,13 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
                 case TypePackage.SCATTER_SERIES__LABEL:
                     return basicSetLabel(null, msgs);
                 case TypePackage.SCATTER_SERIES__DATA_DEFINITION:
-                    return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getDataDefinition()).basicRemove(otherEnd, msgs);
                 case TypePackage.SCATTER_SERIES__DATA_POINT:
                     return basicSetDataPoint(null, msgs);
                 case TypePackage.SCATTER_SERIES__DATA_SET:
                     return basicSetDataSet(null, msgs);
-                case TypePackage.SCATTER_SERIES__FORMAT_SPECIFIER:
-                    return basicSetFormatSpecifier(null, msgs);
                 case TypePackage.SCATTER_SERIES__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 case TypePackage.SCATTER_SERIES__MARKER:
                     return basicSetMarker(null, msgs);
                 case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
@@ -98,6 +99,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -116,8 +118,6 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
                 return getDataPoint();
             case TypePackage.SCATTER_SERIES__DATA_SET:
                 return getDataSet();
-            case TypePackage.SCATTER_SERIES__FORMAT_SPECIFIER:
-                return getFormatSpecifier();
             case TypePackage.SCATTER_SERIES__LABEL_POSITION:
                 return getLabelPosition();
             case TypePackage.SCATTER_SERIES__STACKED:
@@ -140,6 +140,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -147,51 +148,48 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case TypePackage.SCATTER_SERIES__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.SCATTER_SERIES__LABEL:
-                setLabel((Label)newValue);
+                setLabel((Label) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
-                getDataDefinition().addAll((Collection)newValue);
+                getDataDefinition().addAll((Collection) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__SERIES_IDENTIFIER:
-                setSeriesIdentifier((Object)newValue);
+                setSeriesIdentifier((Object) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_POINT:
-                setDataPoint((DataPoint)newValue);
+                setDataPoint((DataPoint) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_SET:
-                setDataSet((DataSet)newValue);
-                return;
-            case TypePackage.SCATTER_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)newValue);
+                setDataSet((DataSet) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__LABEL_POSITION:
-                setLabelPosition((Position)newValue);
+                setLabelPosition((Position) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__STACKED:
-                setStacked(((Boolean)newValue).booleanValue());
+                setStacked(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.SCATTER_SERIES__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__TRANSLUCENT:
-                setTranslucent(((Boolean)newValue).booleanValue());
+                setTranslucent(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.SCATTER_SERIES__MARKER:
-                setMarker((Marker)newValue);
+                setMarker((Marker) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)newValue);
+                setLineAttributes((LineAttributes) newValue);
                 return;
             case TypePackage.SCATTER_SERIES__CURVE:
-                setCurve(((Boolean)newValue).booleanValue());
+                setCurve(((Boolean) newValue).booleanValue());
                 return;
             case TypePackage.SCATTER_SERIES__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)newValue);
+                setShadowColor((ColorDefinition) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -199,6 +197,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -209,7 +208,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
                 unsetVisible();
                 return;
             case TypePackage.SCATTER_SERIES__LABEL:
-                setLabel((Label)null);
+                setLabel((Label) null);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_DEFINITION:
                 getDataDefinition().clear();
@@ -218,13 +217,10 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
                 setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_POINT:
-                setDataPoint((DataPoint)null);
+                setDataPoint((DataPoint) null);
                 return;
             case TypePackage.SCATTER_SERIES__DATA_SET:
-                setDataSet((DataSet)null);
-                return;
-            case TypePackage.SCATTER_SERIES__FORMAT_SPECIFIER:
-                setFormatSpecifier((FormatSpecifier)null);
+                setDataSet((DataSet) null);
                 return;
             case TypePackage.SCATTER_SERIES__LABEL_POSITION:
                 unsetLabelPosition();
@@ -239,16 +235,16 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
                 unsetTranslucent();
                 return;
             case TypePackage.SCATTER_SERIES__MARKER:
-                setMarker((Marker)null);
+                setMarker((Marker) null);
                 return;
             case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
-                setLineAttributes((LineAttributes)null);
+                setLineAttributes((LineAttributes) null);
                 return;
             case TypePackage.SCATTER_SERIES__CURVE:
                 unsetCurve();
                 return;
             case TypePackage.SCATTER_SERIES__SHADOW_COLOR:
-                setShadowColor((ColorDefinition)null);
+                setShadowColor((ColorDefinition) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -256,6 +252,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -269,13 +266,12 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
             case TypePackage.SCATTER_SERIES__DATA_DEFINITION:
                 return dataDefinition != null && !dataDefinition.isEmpty();
             case TypePackage.SCATTER_SERIES__SERIES_IDENTIFIER:
-                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
+                return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT
+                    .equals(seriesIdentifier);
             case TypePackage.SCATTER_SERIES__DATA_POINT:
                 return dataPoint != null;
             case TypePackage.SCATTER_SERIES__DATA_SET:
                 return dataSet != null;
-            case TypePackage.SCATTER_SERIES__FORMAT_SPECIFIER:
-                return formatSpecifier != null;
             case TypePackage.SCATTER_SERIES__LABEL_POSITION:
                 return isSetLabelPosition();
             case TypePackage.SCATTER_SERIES__STACKED:

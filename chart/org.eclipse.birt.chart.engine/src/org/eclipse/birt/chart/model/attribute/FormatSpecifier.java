@@ -16,17 +16,18 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Format Specifier</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type holds properties to be used to format displayed labels.
- * 			
+ * This type holds properties to be used to format displayed labels.
+ * 
  * <!-- end-model-doc -->
- *
- *
+ * 
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFormatSpecifier()
- * @model 
+ * @model
  * @generated
  */
-public interface FormatSpecifier extends EObject{
+public interface FormatSpecifier extends EObject
+{
 } // FormatSpecifier

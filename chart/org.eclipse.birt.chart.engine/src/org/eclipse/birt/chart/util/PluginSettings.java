@@ -89,7 +89,7 @@ public final class PluginSettings
      *  
      */
     private static PluginSettings ps = null;
-    
+
     /**
      *  
      */
@@ -110,12 +110,12 @@ public final class PluginSettings
         }
         return ps;
     }
-    
+
     /**
      * 
      * @param cSeries
      * 
-     * @return 
+     * @return
      * @throws PluginException
      */
     public final IDataSetProcessor getDataSetProcessor(Class cSeries) throws PluginException
@@ -154,7 +154,7 @@ public final class PluginSettings
     /**
      * @param cSeries
      * 
-     * @return 
+     * @return
      * @throws PluginException
      */
     public final BaseRenderer getRenderer(Class cSeries) throws PluginException
@@ -197,8 +197,8 @@ public final class PluginSettings
     /**
      * 
      * @param sName
-     * @return @throws
-     *         PluginException
+     * @return
+     * @throws PluginException
      */
     public final IDeviceRenderer getDevice(String sName) throws PluginException
     {
@@ -235,8 +235,8 @@ public final class PluginSettings
     /**
      * 
      * @param sName
-     * @return @throws
-     *         PluginException
+     * @return
+     * @throws PluginException
      */
     public final IDisplayServer getDisplayServer(String sName) throws PluginException
     {
@@ -282,7 +282,7 @@ public final class PluginSettings
      * 
      * @param sFQClassName
      * 
-     * @return 
+     * @return
      * @throws PluginException
      */
     private static final Object newInstance(String sFQClassName) throws PluginException

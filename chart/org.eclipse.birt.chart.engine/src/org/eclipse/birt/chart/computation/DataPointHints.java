@@ -76,8 +76,10 @@ public final class DataPointHints
      * @param _lo
      * @param _dSize
      */
-    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, String _sSeriesValue, 
-        DataPoint _dp, // FOR COMBINED VALUE RETRIEVAL
+    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, String _sSeriesValue, DataPoint _dp, // FOR
+        // COMBINED
+        // VALUE
+        // RETRIEVAL
         FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, // FOR INDIVIDUAL USE
         Location _lo, double _dSize, Locale _lcl) throws UndefinedValueException
     {

@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLeaderLineStyle()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class LeaderLineStyle extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * 
      * @see #FIXED_LENGTH_LITERAL
      * @model name="Fixed_Length"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int FIXED_LENGTH = 0;
 
@@ -45,7 +47,8 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * 
      * @see #STRETCH_TO_SIDE_LITERAL
      * @model name="Stretch_To_Side"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int STRETCH_TO_SIDE = 1;
 
@@ -58,7 +61,8 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #FIXED_LENGTH
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LeaderLineStyle FIXED_LENGTH_LITERAL = new LeaderLineStyle(FIXED_LENGTH, "Fixed_Length");
 
@@ -71,36 +75,35 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #STRETCH_TO_SIDE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LeaderLineStyle STRETCH_TO_SIDE_LITERAL = new LeaderLineStyle(STRETCH_TO_SIDE,
         "Stretch_To_Side");
 
     /**
-     * An array of all the '<em><b>Leader Line Style</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Leader Line Style</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final LeaderLineStyle[] VALUES_ARRAY =
-        new LeaderLineStyle[]
-        {
-            FIXED_LENGTH_LITERAL,
-            STRETCH_TO_SIDE_LITERAL,
-        };
+    private static final LeaderLineStyle[] VALUES_ARRAY = new LeaderLineStyle[]
+    {
+        FIXED_LENGTH_LITERAL, STRETCH_TO_SIDE_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static LeaderLineStyle get(String name)
@@ -117,24 +120,26 @@ public final class LeaderLineStyle extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static LeaderLineStyle get(int value)
     {
         switch (value)
         {
-            case FIXED_LENGTH: return FIXED_LENGTH_LITERAL;
-            case STRETCH_TO_SIDE: return STRETCH_TO_SIDE_LITERAL;
+            case FIXED_LENGTH:
+                return FIXED_LENGTH_LITERAL;
+            case STRETCH_TO_SIDE:
+                return STRETCH_TO_SIDE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private LeaderLineStyle(int value, String name)

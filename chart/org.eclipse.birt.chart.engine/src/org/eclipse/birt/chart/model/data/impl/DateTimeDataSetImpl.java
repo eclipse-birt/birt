@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
@@ -30,6 +30,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected DateTimeDataSetImpl()
@@ -39,6 +40,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -48,6 +50,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -62,6 +65,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -69,7 +73,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.DATE_TIME_DATA_SET__VALUES:
-                setValues((Object)newValue);
+                setValues((Object) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -77,6 +81,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -92,6 +97,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)

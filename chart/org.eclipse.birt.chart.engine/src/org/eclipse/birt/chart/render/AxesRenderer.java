@@ -59,7 +59,6 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -263,8 +262,8 @@ public abstract class AxesRenderer extends BaseRenderer
      * 
      * @param de1
      * @param de2
-     * @return @throws
-     *         DataFormatException
+     * @return
+     * @throws DataFormatException
      */
     private static final int compare(DataElement de1, DataElement de2) throws DataFormatException
     {
@@ -536,13 +535,15 @@ public abstract class AxesRenderer extends BaseRenderer
                     }
 
                     BoundingBox bb = null;
-                    try {
+                    try
+                    {
                         bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
-                    } catch (UnexpectedInputException uiex)
+                    }
+                    catch (UnexpectedInputException uiex )
                     {
                         throw new RenderingException(uiex);
                     }
-                    
+
                     boText.set(0, 0, bb.getWidth(), bb.getHeight());
 
                     // NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
@@ -1108,9 +1109,11 @@ public abstract class AxesRenderer extends BaseRenderer
                     }
 
                     BoundingBox bb = null;
-                    try {
+                    try
+                    {
                         bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
-                    } catch (UnexpectedInputException uiex)
+                    }
+                    catch (UnexpectedInputException uiex )
                     {
                         throw new RenderingException(uiex);
                     }
@@ -1762,9 +1765,11 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
                 BoundingBox bb = null;
-                try {
+                try
+                {
                     bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new RenderingException(uiex);
                 }
@@ -2244,9 +2249,11 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
                 BoundingBox bb = null;
-                try {
+                try
+                {
                     bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
-                } catch (UnexpectedInputException uiex)
+                }
+                catch (UnexpectedInputException uiex )
                 {
                     throw new RenderingException(uiex);
                 }

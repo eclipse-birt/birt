@@ -28,14 +28,15 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ScaleImpl extends EObjectImpl implements Scale
@@ -46,7 +47,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getMin()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected DataElement min = null;
 
@@ -55,7 +57,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getMax()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected DataElement max = null;
 
@@ -64,7 +67,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getStep()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double STEP_EDEFAULT = 0.0;
 
@@ -73,14 +77,16 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * -->
      * 
      * @see #getStep()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double step = STEP_EDEFAULT;
 
     /**
      * This is true if the Step attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean stepESet = false;
 
@@ -89,7 +95,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final ScaleUnitType UNIT_EDEFAULT = ScaleUnitType.SECONDS_LITERAL;
 
@@ -98,14 +105,16 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * -->
      * 
      * @see #getUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected ScaleUnitType unit = UNIT_EDEFAULT;
 
     /**
      * This is true if the Unit attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean unitESet = false;
 
@@ -114,7 +123,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMinorGridsPerUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 0;
 
@@ -123,37 +133,22 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMinorGridsPerUnit()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int minorGridsPerUnit = MINOR_GRIDS_PER_UNIT_EDEFAULT;
 
     /**
      * This is true if the Minor Grids Per Unit attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean minorGridsPerUnitESet = false;
 
     /**
-     * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @see #getType()
-     * @generated @ordered
-     */
-    protected static final String TYPE_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     * 
-     * @see #getType()
-     * @generated @ordered
-     */
-    protected String type = TYPE_EDEFAULT;
-
-    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ScaleImpl()
@@ -163,6 +158,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -172,6 +168,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public DataElement getMin()
@@ -181,6 +178,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetMin(DataElement newMin, NotificationChain msgs)
@@ -189,14 +187,19 @@ public class ScaleImpl extends EObjectImpl implements Scale
         min = newMin;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MIN, oldMin, newMin);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MIN,
+                oldMin, newMin);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMin(DataElement newMin)
@@ -205,11 +208,14 @@ public class ScaleImpl extends EObjectImpl implements Scale
         {
             NotificationChain msgs = null;
             if (min != null)
-                msgs = ((InternalEObject)min).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MIN, null, msgs);
+                msgs = ((InternalEObject) min).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.SCALE__MIN, null, msgs);
             if (newMin != null)
-                msgs = ((InternalEObject)newMin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MIN, null, msgs);
+                msgs = ((InternalEObject) newMin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.SCALE__MIN, null, msgs);
             msgs = basicSetMin(newMin, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MIN, newMin, newMin));
@@ -217,6 +223,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public DataElement getMax()
@@ -226,6 +233,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetMax(DataElement newMax, NotificationChain msgs)
@@ -234,14 +242,19 @@ public class ScaleImpl extends EObjectImpl implements Scale
         max = newMax;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAX, oldMax, newMax);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAX,
+                oldMax, newMax);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMax(DataElement newMax)
@@ -250,11 +263,14 @@ public class ScaleImpl extends EObjectImpl implements Scale
         {
             NotificationChain msgs = null;
             if (max != null)
-                msgs = ((InternalEObject)max).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MAX, null, msgs);
+                msgs = ((InternalEObject) max).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.SCALE__MAX, null, msgs);
             if (newMax != null)
-                msgs = ((InternalEObject)newMax).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MAX, null, msgs);
+                msgs = ((InternalEObject) newMax).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.SCALE__MAX, null, msgs);
             msgs = basicSetMax(newMax, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAX, newMax, newMax));
@@ -262,6 +278,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getStep()
@@ -271,6 +288,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setStep(double newStep)
@@ -280,11 +298,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         boolean oldStepESet = stepESet;
         stepESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__STEP, oldStep, step, !oldStepESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__STEP, oldStep, step,
+                !oldStepESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetStep()
@@ -294,11 +314,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         step = STEP_EDEFAULT;
         stepESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__STEP, oldStep, STEP_EDEFAULT, oldStepESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__STEP, oldStep,
+                STEP_EDEFAULT, oldStepESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetStep()
@@ -308,6 +330,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ScaleUnitType getUnit()
@@ -317,6 +340,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setUnit(ScaleUnitType newUnit)
@@ -326,11 +350,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         boolean oldUnitESet = unitESet;
         unitESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__UNIT, oldUnit, unit, !oldUnitESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__UNIT, oldUnit, unit,
+                !oldUnitESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetUnit()
@@ -340,11 +366,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         unit = UNIT_EDEFAULT;
         unitESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__UNIT, oldUnit, UNIT_EDEFAULT, oldUnitESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__UNIT, oldUnit,
+                UNIT_EDEFAULT, oldUnitESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetUnit()
@@ -354,6 +382,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getMinorGridsPerUnit()
@@ -363,6 +392,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMinorGridsPerUnit(int newMinorGridsPerUnit)
@@ -372,11 +402,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         boolean oldMinorGridsPerUnitESet = minorGridsPerUnitESet;
         minorGridsPerUnitESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT, oldMinorGridsPerUnit, minorGridsPerUnit, !oldMinorGridsPerUnitESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT,
+                oldMinorGridsPerUnit, minorGridsPerUnit, !oldMinorGridsPerUnitESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetMinorGridsPerUnit()
@@ -386,11 +418,13 @@ public class ScaleImpl extends EObjectImpl implements Scale
         minorGridsPerUnit = MINOR_GRIDS_PER_UNIT_EDEFAULT;
         minorGridsPerUnitESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT, oldMinorGridsPerUnit, MINOR_GRIDS_PER_UNIT_EDEFAULT, oldMinorGridsPerUnitESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT,
+                oldMinorGridsPerUnit, MINOR_GRIDS_PER_UNIT_EDEFAULT, oldMinorGridsPerUnitESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetMinorGridsPerUnit()
@@ -400,6 +434,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -422,6 +457,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -444,6 +480,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -451,19 +488,19 @@ public class ScaleImpl extends EObjectImpl implements Scale
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.SCALE__MIN:
-                setMin((DataElement)newValue);
+                setMin((DataElement) newValue);
                 return;
             case ComponentPackage.SCALE__MAX:
-                setMax((DataElement)newValue);
+                setMax((DataElement) newValue);
                 return;
             case ComponentPackage.SCALE__STEP:
-                setStep(((Double)newValue).doubleValue());
+                setStep(((Double) newValue).doubleValue());
                 return;
             case ComponentPackage.SCALE__UNIT:
-                setUnit((ScaleUnitType)newValue);
+                setUnit((ScaleUnitType) newValue);
                 return;
             case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT:
-                setMinorGridsPerUnit(((Integer)newValue).intValue());
+                setMinorGridsPerUnit(((Integer) newValue).intValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -471,6 +508,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -478,10 +516,10 @@ public class ScaleImpl extends EObjectImpl implements Scale
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ComponentPackage.SCALE__MIN:
-                setMin((DataElement)null);
+                setMin((DataElement) null);
                 return;
             case ComponentPackage.SCALE__MAX:
-                setMax((DataElement)null);
+                setMax((DataElement) null);
                 return;
             case ComponentPackage.SCALE__STEP:
                 unsetStep();
@@ -498,6 +536,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -520,19 +559,30 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (step: ");
-        if (stepESet) result.append(step); else result.append("<unset>");
+        if (stepESet)
+            result.append(step);
+        else
+            result.append("<unset>");
         result.append(", unit: ");
-        if (unitESet) result.append(unit); else result.append("<unset>");
+        if (unitESet)
+            result.append(unit);
+        else
+            result.append("<unset>");
         result.append(", minorGridsPerUnit: ");
-        if (minorGridsPerUnitESet) result.append(minorGridsPerUnit); else result.append("<unset>");
+        if (minorGridsPerUnitESet)
+            result.append(minorGridsPerUnit);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

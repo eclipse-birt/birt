@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class LocationImpl extends EObjectImpl implements Location
@@ -39,7 +39,8 @@ public class LocationImpl extends EObjectImpl implements Location
      * The default value of the '{@link #getX() <em>X</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getX()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double X_EDEFAULT = 0.0;
 
@@ -47,14 +48,16 @@ public class LocationImpl extends EObjectImpl implements Location
      * The cached value of the '{@link #getX() <em>X</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getX()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double x = X_EDEFAULT;
 
     /**
      * This is true if the X attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean xESet = false;
 
@@ -62,7 +65,8 @@ public class LocationImpl extends EObjectImpl implements Location
      * The default value of the '{@link #getY() <em>Y</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getY()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double Y_EDEFAULT = 0.0;
 
@@ -70,19 +74,22 @@ public class LocationImpl extends EObjectImpl implements Location
      * The cached value of the '{@link #getY() <em>Y</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getY()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double y = Y_EDEFAULT;
 
     /**
      * This is true if the Y attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean yESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected LocationImpl()
@@ -92,6 +99,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -101,6 +109,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getX()
@@ -110,6 +119,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setX(double newX)
@@ -124,6 +134,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetX()
@@ -133,11 +144,13 @@ public class LocationImpl extends EObjectImpl implements Location
         x = X_EDEFAULT;
         xESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__X, oldX, X_EDEFAULT, oldXESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__X, oldX, X_EDEFAULT,
+                oldXESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetX()
@@ -147,6 +160,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getY()
@@ -156,6 +170,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setY(double newY)
@@ -170,6 +185,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetY()
@@ -179,11 +195,13 @@ public class LocationImpl extends EObjectImpl implements Location
         y = Y_EDEFAULT;
         yESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__Y, oldY, Y_EDEFAULT, oldYESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__Y, oldY, Y_EDEFAULT,
+                oldYESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetY()
@@ -193,6 +211,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -209,6 +228,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -216,10 +236,10 @@ public class LocationImpl extends EObjectImpl implements Location
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.LOCATION__X:
-                setX(((Double)newValue).doubleValue());
+                setX(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.LOCATION__Y:
-                setY(((Double)newValue).doubleValue());
+                setY(((Double) newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -227,6 +247,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -245,6 +266,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -261,17 +283,25 @@ public class LocationImpl extends EObjectImpl implements Location
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (x: ");
-        if (xESet) result.append(x); else result.append("<unset>");
+        if (xESet)
+            result.append(x);
+        else
+            result.append("<unset>");
         result.append(", y: ");
-        if (yESet) result.append(y); else result.append("<unset>");
+        if (yESet)
+            result.append(y);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

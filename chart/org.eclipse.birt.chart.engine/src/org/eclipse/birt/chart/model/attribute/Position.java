@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPosition()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class Position extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #ABOVE_LITERAL
      * @model name="Above"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int ABOVE = 0;
 
@@ -45,7 +47,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #BELOW_LITERAL
      * @model name="Below"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BELOW = 1;
 
@@ -54,7 +57,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #LEFT_LITERAL
      * @model name="Left"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int LEFT = 2;
 
@@ -63,7 +67,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #RIGHT_LITERAL
      * @model name="Right"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int RIGHT = 3;
 
@@ -72,7 +77,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #INSIDE_LITERAL
      * @model name="Inside"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int INSIDE = 4;
 
@@ -81,7 +87,8 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #OUTSIDE_LITERAL
      * @model name="Outside"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int OUTSIDE = 5;
 
@@ -94,7 +101,8 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ABOVE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position ABOVE_LITERAL = new Position(ABOVE, "Above");
 
@@ -107,7 +115,8 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BELOW
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position BELOW_LITERAL = new Position(BELOW, "Below");
 
@@ -120,7 +129,8 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEFT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position LEFT_LITERAL = new Position(LEFT, "Left");
 
@@ -133,7 +143,8 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RIGHT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position RIGHT_LITERAL = new Position(RIGHT, "Right");
 
@@ -146,7 +157,8 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #INSIDE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position INSIDE_LITERAL = new Position(INSIDE, "Inside");
 
@@ -159,38 +171,33 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #OUTSIDE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final Position OUTSIDE_LITERAL = new Position(OUTSIDE, "Outside");
 
     /**
-     * An array of all the '<em><b>Position</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Position</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final Position[] VALUES_ARRAY =
-        new Position[]
-        {
-            ABOVE_LITERAL,
-            BELOW_LITERAL,
-            LEFT_LITERAL,
-            RIGHT_LITERAL,
-            INSIDE_LITERAL,
-            OUTSIDE_LITERAL,
-        };
+    private static final Position[] VALUES_ARRAY = new Position[]
+    {
+        ABOVE_LITERAL, BELOW_LITERAL, LEFT_LITERAL, RIGHT_LITERAL, INSIDE_LITERAL, OUTSIDE_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Position</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Position</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Position</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Position</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static Position get(String name)
@@ -207,28 +214,34 @@ public final class Position extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Position</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Position</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static Position get(int value)
     {
         switch (value)
         {
-            case ABOVE: return ABOVE_LITERAL;
-            case BELOW: return BELOW_LITERAL;
-            case LEFT: return LEFT_LITERAL;
-            case RIGHT: return RIGHT_LITERAL;
-            case INSIDE: return INSIDE_LITERAL;
-            case OUTSIDE: return OUTSIDE_LITERAL;
+            case ABOVE:
+                return ABOVE_LITERAL;
+            case BELOW:
+                return BELOW_LITERAL;
+            case LEFT:
+                return LEFT_LITERAL;
+            case RIGHT:
+                return RIGHT_LITERAL;
+            case INSIDE:
+                return INSIDE_LITERAL;
+            case OUTSIDE:
+                return OUTSIDE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private Position(int value, String name)

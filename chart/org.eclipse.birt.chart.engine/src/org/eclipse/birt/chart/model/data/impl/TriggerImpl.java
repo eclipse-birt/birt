@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class TriggerImpl extends EObjectImpl implements Trigger
@@ -44,7 +44,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * end-user-doc -->
      * 
      * @see #getCondition()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.MOUSE_HOVER_LITERAL;
 
@@ -53,14 +54,16 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * end-user-doc -->
      * 
      * @see #getCondition()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected TriggerCondition condition = CONDITION_EDEFAULT;
 
     /**
      * This is true if the Condition attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean conditionESet = false;
 
@@ -69,12 +72,14 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * <!-- end-user-doc -->
      * 
      * @see #getAction()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Action action = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected TriggerImpl()
@@ -84,6 +89,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -93,6 +99,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public TriggerCondition getCondition()
@@ -102,6 +109,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setCondition(TriggerCondition newCondition)
@@ -111,11 +119,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger
         boolean oldConditionESet = conditionESet;
         conditionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__CONDITION, oldCondition, condition, !oldConditionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__CONDITION, oldCondition,
+                condition, !oldConditionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetCondition()
@@ -125,11 +135,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger
         condition = CONDITION_EDEFAULT;
         conditionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.TRIGGER__CONDITION, oldCondition, CONDITION_EDEFAULT, oldConditionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.TRIGGER__CONDITION, oldCondition,
+                CONDITION_EDEFAULT, oldConditionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetCondition()
@@ -139,6 +151,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Action getAction()
@@ -148,6 +161,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetAction(Action newAction, NotificationChain msgs)
@@ -156,14 +170,19 @@ public class TriggerImpl extends EObjectImpl implements Trigger
         action = newAction;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__ACTION, oldAction, newAction);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__ACTION,
+                oldAction, newAction);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setAction(Action newAction)
@@ -172,11 +191,14 @@ public class TriggerImpl extends EObjectImpl implements Trigger
         {
             NotificationChain msgs = null;
             if (action != null)
-                msgs = ((InternalEObject)action).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DataPackage.TRIGGER__ACTION, null, msgs);
+                msgs = ((InternalEObject) action).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.TRIGGER__ACTION, null, msgs);
             if (newAction != null)
-                msgs = ((InternalEObject)newAction).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DataPackage.TRIGGER__ACTION, null, msgs);
+                msgs = ((InternalEObject) newAction).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - DataPackage.TRIGGER__ACTION, null, msgs);
             msgs = basicSetAction(newAction, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__ACTION, newAction, newAction));
@@ -184,6 +206,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
@@ -204,6 +227,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -220,6 +244,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -227,10 +252,10 @@ public class TriggerImpl extends EObjectImpl implements Trigger
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case DataPackage.TRIGGER__CONDITION:
-                setCondition((TriggerCondition)newValue);
+                setCondition((TriggerCondition) newValue);
                 return;
             case DataPackage.TRIGGER__ACTION:
-                setAction((Action)newValue);
+                setAction((Action) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -238,6 +263,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -248,7 +274,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
                 unsetCondition();
                 return;
             case DataPackage.TRIGGER__ACTION:
-                setAction((Action)null);
+                setAction((Action) null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -256,6 +282,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -272,15 +299,20 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (condition: ");
-        if (conditionESet) result.append(condition); else result.append("<unset>");
+        if (conditionESet)
+            result.append(condition);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

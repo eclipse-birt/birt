@@ -39,9 +39,11 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine()
- * @model @generated
+ * @model
+ * @generated
  */
-public interface MarkerLine extends EObject{
+public interface MarkerLine extends EObject
+{
 
     /**
      * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
@@ -60,9 +62,12 @@ public interface MarkerLine extends EObject{
     LineAttributes getLineAttributes();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Line Attributes</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Line Attributes</em>' containment reference.
      * @see #getLineAttributes()
      * @generated
      */
@@ -85,9 +90,11 @@ public interface MarkerLine extends EObject{
     DataElement getValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Value</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Value</em>' containment reference.
      * @see #getValue()
      * @generated
      */
@@ -110,9 +117,11 @@ public interface MarkerLine extends EObject{
     Label getLabel();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Label</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Label</em>' containment reference.
      * @see #getLabel()
      * @generated
      */
@@ -166,8 +175,10 @@ public interface MarkerLine extends EObject{
     void unsetLabelAnchor();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute is
+     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
      * @see #unsetLabelAnchor()
      * @see #getLabelAnchor()
@@ -193,9 +204,12 @@ public interface MarkerLine extends EObject{
     FormatSpecifier getFormatSpecifier();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Format Specifier</em>' containment reference.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Format Specifier</em>' containment reference.
      * @see #getFormatSpecifier()
      * @generated
      */

@@ -141,8 +141,8 @@ public final class ValueFormatter
     /**
      * 
      * @param o
-     * @return @throws
-     *         DataFormatException
+     * @return
+     * @throws DataFormatException
      */
     private static final double asPrimitiveDouble(Object o) throws DataFormatException
     {
@@ -160,8 +160,8 @@ public final class ValueFormatter
     /**
      * 
      * @param o
-     * @return @throws
-     *         DataFormatException
+     * @return
+     * @throws DataFormatException
      */
     private static final Calendar asCalendar(Object o) throws DataFormatException
     {

@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.model.type.util;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.type.*;
-
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -30,21 +28,23 @@ import org.eclipse.emf.ecore.EObject;
  * {@link #doSwitch(EObject) doSwitch(object)}to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object and proceeding up the inheritance hierarchy until a non-null result is
  * returned, which is the result of the switch. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.birt.chart.model.type.TypePackage
  * @generated
  */
-public class TypeSwitch {
+public class TypeSwitch
+{
 
     /**
-     * The cached model package
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected static TypePackage modelPackage;
 
     /**
-     * Creates an instance of the switch.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public TypeSwitch()
@@ -56,8 +56,9 @@ public class TypeSwitch {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -67,8 +68,9 @@ public class TypeSwitch {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -81,16 +83,14 @@ public class TypeSwitch {
         else
         {
             List eSuperTypes = theEClass.getESuperTypes();
-            return
-                eSuperTypes.isEmpty() ?
-                    defaultCase(theEObject) :
-                    doSwitch((EClass)eSuperTypes.get(0), theEObject);
+            return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch((EClass) eSuperTypes.get(0), theEObject);
         }
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
@@ -100,46 +100,58 @@ public class TypeSwitch {
         {
             case TypePackage.BAR_SERIES:
             {
-                BarSeries barSeries = (BarSeries)theEObject;
+                BarSeries barSeries = (BarSeries) theEObject;
                 Object result = caseBarSeries(barSeries);
-                if (result == null) result = caseSeries(barSeries);
-                if (result == null) result = defaultCase(theEObject);
+                if (result == null)
+                    result = caseSeries(barSeries);
+                if (result == null)
+                    result = defaultCase(theEObject);
                 return result;
             }
             case TypePackage.LINE_SERIES:
             {
-                LineSeries lineSeries = (LineSeries)theEObject;
+                LineSeries lineSeries = (LineSeries) theEObject;
                 Object result = caseLineSeries(lineSeries);
-                if (result == null) result = caseSeries(lineSeries);
-                if (result == null) result = defaultCase(theEObject);
+                if (result == null)
+                    result = caseSeries(lineSeries);
+                if (result == null)
+                    result = defaultCase(theEObject);
                 return result;
             }
             case TypePackage.PIE_SERIES:
             {
-                PieSeries pieSeries = (PieSeries)theEObject;
+                PieSeries pieSeries = (PieSeries) theEObject;
                 Object result = casePieSeries(pieSeries);
-                if (result == null) result = caseSeries(pieSeries);
-                if (result == null) result = defaultCase(theEObject);
+                if (result == null)
+                    result = caseSeries(pieSeries);
+                if (result == null)
+                    result = defaultCase(theEObject);
                 return result;
             }
             case TypePackage.SCATTER_SERIES:
             {
-                ScatterSeries scatterSeries = (ScatterSeries)theEObject;
+                ScatterSeries scatterSeries = (ScatterSeries) theEObject;
                 Object result = caseScatterSeries(scatterSeries);
-                if (result == null) result = caseLineSeries(scatterSeries);
-                if (result == null) result = caseSeries(scatterSeries);
-                if (result == null) result = defaultCase(theEObject);
+                if (result == null)
+                    result = caseLineSeries(scatterSeries);
+                if (result == null)
+                    result = caseSeries(scatterSeries);
+                if (result == null)
+                    result = defaultCase(theEObject);
                 return result;
             }
             case TypePackage.STOCK_SERIES:
             {
-                StockSeries stockSeries = (StockSeries)theEObject;
+                StockSeries stockSeries = (StockSeries) theEObject;
                 Object result = caseStockSeries(stockSeries);
-                if (result == null) result = caseSeries(stockSeries);
-                if (result == null) result = defaultCase(theEObject);
+                if (result == null)
+                    result = caseSeries(stockSeries);
+                if (result == null)
+                    result = defaultCase(theEObject);
                 return result;
             }
-            default: return defaultCase(theEObject);
+            default:
+                return defaultCase(theEObject);
         }
     }
 
@@ -224,10 +236,11 @@ public class TypeSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Series</em>'.
-     * <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>Series</em>'. <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
-     * @param object the target of the switch.
+     * 
+     * @param object
+     *            the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>Series</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
@@ -238,11 +251,12 @@ public class TypeSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
-     * <!-- begin-user-doc -->
+     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'. <!-- begin-user-doc -->
      * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
      * case anyway. <!-- end-user-doc -->
-     * @param object the target of the switch.
+     * 
+     * @param object
+     *            the target of the switch.
      * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject)
      * @generated

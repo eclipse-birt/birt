@@ -163,7 +163,7 @@ public class Methods implements IConstants
      * @param sc
      * @param oValue
      * 
-     * @return 
+     * @return
      * @throws NullValueException
      * @throws DataFormatException
      */
@@ -329,7 +329,7 @@ public class Methods implements IConstants
      * @return
      */
     public static final RotatedRectangle computePolygon(IDisplayServer xs, int iLabelLocation, Label la, double dX,
-        double dY) throws UnexpectedInputException 
+        double dY) throws UnexpectedInputException
     {
         double dAngleInDegrees = la.getCaption().getFont().getRotation();
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
@@ -511,12 +511,14 @@ public class Methods implements IConstants
      * @return
      * @throws UnexpectedInputException
      */
-    public static final BoundingBox computeBox(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY) throws UnexpectedInputException
+    public static final BoundingBox computeBox(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY)
+        throws UnexpectedInputException
     {
         double dAngleInDegrees = la.getCaption().getFont().getRotation();
         if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
         {
-            throw new UnexpectedInputException("The rotation angle (-90 <= ANGLE <= 90) was incorrectly specified for label " + la);
+            throw new UnexpectedInputException(
+                "The rotation angle (-90 <= ANGLE <= 90) was incorrectly specified for label " + la);
         }
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
         final double dSineTheta = Math.abs(Math.sin(dAngleInRadians));
@@ -670,7 +672,7 @@ public class Methods implements IConstants
      * @param oaData
      * @param iIndex
      * 
-     * @return 
+     * @return
      * @throws DataFormatException
      */
     public final Object getValue(Object oaData, int iIndex) throws DataFormatException

@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName <em>Component Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle <em>Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName <em>Component Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle <em>Style</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class StyleMapImpl extends EObjectImpl implements StyleMap
@@ -40,7 +40,8 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * --> <!-- end-user-doc -->
      * 
      * @see #getComponentName()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final StyledComponent COMPONENT_NAME_EDEFAULT = StyledComponent.CHART_TITLE_LITERAL;
 
@@ -49,14 +50,16 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * --> <!-- end-user-doc -->
      * 
      * @see #getComponentName()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected StyledComponent componentName = COMPONENT_NAME_EDEFAULT;
 
     /**
      * This is true if the Component Name attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean componentNameESet = false;
 
@@ -65,7 +68,8 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String STYLE_EDEFAULT = null;
 
@@ -74,12 +78,14 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String style = STYLE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected StyleMapImpl()
@@ -89,6 +95,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -98,6 +105,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public StyledComponent getComponentName()
@@ -107,6 +115,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setComponentName(StyledComponent newComponentName)
@@ -116,11 +125,13 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
         boolean oldComponentNameESet = componentNameESet;
         componentNameESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__COMPONENT_NAME, oldComponentName, componentName, !oldComponentNameESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
+                oldComponentName, componentName, !oldComponentNameESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetComponentName()
@@ -130,11 +141,13 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
         componentName = COMPONENT_NAME_EDEFAULT;
         componentNameESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.STYLE_MAP__COMPONENT_NAME, oldComponentName, COMPONENT_NAME_EDEFAULT, oldComponentNameESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
+                oldComponentName, COMPONENT_NAME_EDEFAULT, oldComponentNameESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetComponentName()
@@ -144,6 +157,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getStyle()
@@ -153,6 +167,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setStyle(String newStyle)
@@ -165,6 +180,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -181,6 +197,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -188,10 +205,10 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.STYLE_MAP__COMPONENT_NAME:
-                setComponentName((StyledComponent)newValue);
+                setComponentName((StyledComponent) newValue);
                 return;
             case AttributePackage.STYLE_MAP__STYLE:
-                setStyle((String)newValue);
+                setStyle((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -199,6 +216,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -217,6 +235,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -233,15 +252,20 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (componentName: ");
-        if (componentNameESet) result.append(componentName); else result.append("<unset>");
+        if (componentNameESet)
+            result.append(componentName);
+        else
+            result.append("<unset>");
         result.append(", style: ");
         result.append(style);
         result.append(')');

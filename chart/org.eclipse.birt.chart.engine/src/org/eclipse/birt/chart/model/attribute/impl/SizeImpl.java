@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight <em>Height</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth <em>Width</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight <em>Height</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth <em>Width</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SizeImpl extends EObjectImpl implements Size
@@ -40,7 +40,8 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double HEIGHT_EDEFAULT = 0.0;
 
@@ -49,14 +50,16 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double height = HEIGHT_EDEFAULT;
 
     /**
      * This is true if the Height attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean heightESet = false;
 
@@ -65,7 +68,8 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final double WIDTH_EDEFAULT = 0.0;
 
@@ -74,19 +78,22 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected double width = WIDTH_EDEFAULT;
 
     /**
      * This is true if the Width attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean widthESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected SizeImpl()
@@ -110,6 +117,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -119,6 +127,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getHeight()
@@ -128,6 +137,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setHeight(double newHeight)
@@ -137,11 +147,13 @@ public class SizeImpl extends EObjectImpl implements Size
         boolean oldHeightESet = heightESet;
         heightESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__HEIGHT, oldHeight, height, !oldHeightESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__HEIGHT, oldHeight, height,
+                !oldHeightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetHeight()
@@ -151,11 +163,13 @@ public class SizeImpl extends EObjectImpl implements Size
         height = HEIGHT_EDEFAULT;
         heightESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__HEIGHT, oldHeight, HEIGHT_EDEFAULT, oldHeightESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__HEIGHT, oldHeight,
+                HEIGHT_EDEFAULT, oldHeightESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetHeight()
@@ -165,6 +179,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public double getWidth()
@@ -174,6 +189,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setWidth(double newWidth)
@@ -183,11 +199,13 @@ public class SizeImpl extends EObjectImpl implements Size
         boolean oldWidthESet = widthESet;
         widthESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__WIDTH, oldWidth, width, !oldWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__WIDTH, oldWidth, width,
+                !oldWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetWidth()
@@ -197,11 +215,13 @@ public class SizeImpl extends EObjectImpl implements Size
         width = WIDTH_EDEFAULT;
         widthESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__WIDTH, oldWidth, WIDTH_EDEFAULT, oldWidthESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__WIDTH, oldWidth,
+                WIDTH_EDEFAULT, oldWidthESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetWidth()
@@ -211,6 +231,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -227,6 +248,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -234,10 +256,10 @@ public class SizeImpl extends EObjectImpl implements Size
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.SIZE__HEIGHT:
-                setHeight(((Double)newValue).doubleValue());
+                setHeight(((Double) newValue).doubleValue());
                 return;
             case AttributePackage.SIZE__WIDTH:
-                setWidth(((Double)newValue).doubleValue());
+                setWidth(((Double) newValue).doubleValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -245,6 +267,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -263,6 +286,7 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -279,17 +303,25 @@ public class SizeImpl extends EObjectImpl implements Size
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (height: ");
-        if (heightESet) result.append(height); else result.append("<unset>");
+        if (heightESet)
+            result.append(height);
+        else
+            result.append("<unset>");
         result.append(", width: ");
-        if (widthESet) result.append(width); else result.append("<unset>");
+        if (widthESet)
+            result.append(width);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

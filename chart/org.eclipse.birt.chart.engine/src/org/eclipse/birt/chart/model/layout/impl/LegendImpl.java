@@ -51,18 +51,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}
+ * </li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class LegendImpl extends BlockImpl implements Legend
@@ -73,7 +74,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
@@ -82,14 +84,16 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Horizontal Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean horizontalSpacingESet = false;
 
@@ -98,7 +102,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final int VERTICAL_SPACING_EDEFAULT = 0;
 
@@ -107,14 +112,16 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected int verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Vertical Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean verticalSpacingESet = false;
 
@@ -123,7 +130,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getClientArea()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected ClientArea clientArea = null;
 
@@ -132,7 +140,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getText()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Text text = null;
 
@@ -141,7 +150,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
@@ -150,14 +160,16 @@ public class LegendImpl extends BlockImpl implements Legend
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Orientation orientation = ORIENTATION_EDEFAULT;
 
     /**
      * This is true if the Orientation attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean orientationESet = false;
 
@@ -166,7 +178,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Direction DIRECTION_EDEFAULT = Direction.LEFT_RIGHT_LITERAL;
 
@@ -175,14 +188,16 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Direction direction = DIRECTION_EDEFAULT;
 
     /**
      * This is true if the Direction attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean directionESet = false;
 
@@ -191,7 +206,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * --> <!-- end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LineAttributes separator = null;
 
@@ -200,7 +216,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getPosition()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final Position POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -209,14 +226,16 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getPosition()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected Position position = POSITION_EDEFAULT;
 
     /**
      * This is true if the Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean positionESet = false;
 
@@ -225,7 +244,8 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getItemType()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final LegendItemType ITEM_TYPE_EDEFAULT = LegendItemType.SERIES_LITERAL;
 
@@ -234,19 +254,22 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getItemType()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected LegendItemType itemType = ITEM_TYPE_EDEFAULT;
 
     /**
      * This is true if the Item Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected boolean itemTypeESet = false;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected LegendImpl()
@@ -256,6 +279,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -265,6 +289,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getHorizontalSpacing()
@@ -274,6 +299,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setHorizontalSpacing(int newHorizontalSpacing)
@@ -283,11 +309,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldHorizontalSpacingESet = horizontalSpacingESet;
         horizontalSpacingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__HORIZONTAL_SPACING, oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__HORIZONTAL_SPACING,
+                oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetHorizontalSpacing()
@@ -297,11 +325,13 @@ public class LegendImpl extends BlockImpl implements Legend
         horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
         horizontalSpacingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__HORIZONTAL_SPACING, oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__HORIZONTAL_SPACING,
+                oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetHorizontalSpacing()
@@ -311,6 +341,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public int getVerticalSpacing()
@@ -320,6 +351,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setVerticalSpacing(int newVerticalSpacing)
@@ -329,11 +361,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldVerticalSpacingESet = verticalSpacingESet;
         verticalSpacingESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__VERTICAL_SPACING, oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__VERTICAL_SPACING,
+                oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetVerticalSpacing()
@@ -343,11 +377,13 @@ public class LegendImpl extends BlockImpl implements Legend
         verticalSpacing = VERTICAL_SPACING_EDEFAULT;
         verticalSpacingESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__VERTICAL_SPACING, oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__VERTICAL_SPACING,
+                oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetVerticalSpacing()
@@ -357,6 +393,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ClientArea getClientArea()
@@ -366,6 +403,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetClientArea(ClientArea newClientArea, NotificationChain msgs)
@@ -374,14 +412,19 @@ public class LegendImpl extends BlockImpl implements Legend
         clientArea = newClientArea;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__CLIENT_AREA, oldClientArea, newClientArea);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.LEGEND__CLIENT_AREA, oldClientArea, newClientArea);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setClientArea(ClientArea newClientArea)
@@ -390,18 +433,23 @@ public class LegendImpl extends BlockImpl implements Legend
         {
             NotificationChain msgs = null;
             if (clientArea != null)
-                msgs = ((InternalEObject)clientArea).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
+                msgs = ((InternalEObject) clientArea).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
             if (newClientArea != null)
-                msgs = ((InternalEObject)newClientArea).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
+                msgs = ((InternalEObject) newClientArea).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
             msgs = basicSetClientArea(newClientArea, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__CLIENT_AREA, newClientArea, newClientArea));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__CLIENT_AREA, newClientArea,
+                newClientArea));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Text getText()
@@ -411,6 +459,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetText(Text newText, NotificationChain msgs)
@@ -419,14 +468,19 @@ public class LegendImpl extends BlockImpl implements Legend
         text = newText;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TEXT, oldText, newText);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TEXT,
+                oldText, newText);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setText(Text newText)
@@ -435,11 +489,14 @@ public class LegendImpl extends BlockImpl implements Legend
         {
             NotificationChain msgs = null;
             if (text != null)
-                msgs = ((InternalEObject)text).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT, null, msgs);
+                msgs = ((InternalEObject) text).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__TEXT, null, msgs);
             if (newText != null)
-                msgs = ((InternalEObject)newText).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT, null, msgs);
+                msgs = ((InternalEObject) newText).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__TEXT, null, msgs);
             msgs = basicSetText(newText, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TEXT, newText, newText));
@@ -447,6 +504,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Orientation getOrientation()
@@ -456,6 +514,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setOrientation(Orientation newOrientation)
@@ -465,11 +524,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldOrientationESet = orientationESet;
         orientationESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation, orientation, !oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
+                orientation, !oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetOrientation()
@@ -479,11 +540,13 @@ public class LegendImpl extends BlockImpl implements Legend
         orientation = ORIENTATION_EDEFAULT;
         orientationESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation, ORIENTATION_EDEFAULT, oldOrientationESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
+                ORIENTATION_EDEFAULT, oldOrientationESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetOrientation()
@@ -493,6 +556,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Direction getDirection()
@@ -502,6 +566,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setDirection(Direction newDirection)
@@ -511,11 +576,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldDirectionESet = directionESet;
         directionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__DIRECTION, oldDirection, direction, !oldDirectionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__DIRECTION, oldDirection,
+                direction, !oldDirectionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetDirection()
@@ -525,11 +592,13 @@ public class LegendImpl extends BlockImpl implements Legend
         direction = DIRECTION_EDEFAULT;
         directionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__DIRECTION, oldDirection, DIRECTION_EDEFAULT, oldDirectionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__DIRECTION, oldDirection,
+                DIRECTION_EDEFAULT, oldDirectionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetDirection()
@@ -539,6 +608,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LineAttributes getSeparator()
@@ -548,6 +618,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetSeparator(LineAttributes newSeparator, NotificationChain msgs)
@@ -556,14 +627,19 @@ public class LegendImpl extends BlockImpl implements Legend
         separator = newSeparator;
         if (eNotificationRequired())
         {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SEPARATOR, oldSeparator, newSeparator);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                LayoutPackage.LEGEND__SEPARATOR, oldSeparator, newSeparator);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setSeparator(LineAttributes newSeparator)
@@ -572,18 +648,23 @@ public class LegendImpl extends BlockImpl implements Legend
         {
             NotificationChain msgs = null;
             if (separator != null)
-                msgs = ((InternalEObject)separator).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
+                msgs = ((InternalEObject) separator).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
             if (newSeparator != null)
-                msgs = ((InternalEObject)newSeparator).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
+                msgs = ((InternalEObject) newSeparator).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
             msgs = basicSetSeparator(newSeparator, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SEPARATOR, newSeparator, newSeparator));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SEPARATOR, newSeparator,
+                newSeparator));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Position getPosition()
@@ -593,6 +674,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setPosition(Position newPosition)
@@ -602,11 +684,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldPositionESet = positionESet;
         positionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__POSITION, oldPosition, position, !oldPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__POSITION, oldPosition,
+                position, !oldPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetPosition()
@@ -616,11 +700,13 @@ public class LegendImpl extends BlockImpl implements Legend
         position = POSITION_EDEFAULT;
         positionESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__POSITION, oldPosition, POSITION_EDEFAULT, oldPositionESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__POSITION, oldPosition,
+                POSITION_EDEFAULT, oldPositionESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetPosition()
@@ -630,6 +716,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public LegendItemType getItemType()
@@ -639,6 +726,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setItemType(LegendItemType newItemType)
@@ -648,11 +736,13 @@ public class LegendImpl extends BlockImpl implements Legend
         boolean oldItemTypeESet = itemTypeESet;
         itemTypeESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType, itemType, !oldItemTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType,
+                itemType, !oldItemTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetItemType()
@@ -662,11 +752,13 @@ public class LegendImpl extends BlockImpl implements Legend
         itemType = ITEM_TYPE_EDEFAULT;
         itemTypeESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType, ITEM_TYPE_EDEFAULT, oldItemTypeESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType,
+                ITEM_TYPE_EDEFAULT, oldItemTypeESet));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetItemType()
@@ -676,16 +768,18 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass,
+        NotificationChain msgs)
     {
         if (featureID >= 0)
         {
             switch (eDerivedStructuralFeatureID(featureID, baseClass))
             {
                 case LayoutPackage.LEGEND__CHILDREN:
-                    return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getChildren()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.LEGEND__BOUNDS:
                     return basicSetBounds(null, msgs);
                 case LayoutPackage.LEGEND__INSETS:
@@ -697,7 +791,7 @@ public class LegendImpl extends BlockImpl implements Legend
                 case LayoutPackage.LEGEND__BACKGROUND:
                     return basicSetBackground(null, msgs);
                 case LayoutPackage.LEGEND__TRIGGERS:
-                    return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+                    return ((InternalEList) getTriggers()).basicRemove(otherEnd, msgs);
                 case LayoutPackage.LEGEND__CLIENT_AREA:
                     return basicSetClientArea(null, msgs);
                 case LayoutPackage.LEGEND__TEXT:
@@ -713,6 +807,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -771,6 +866,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -779,74 +875,74 @@ public class LegendImpl extends BlockImpl implements Legend
         {
             case LayoutPackage.LEGEND__CHILDREN:
                 getChildren().clear();
-                getChildren().addAll((Collection)newValue);
+                getChildren().addAll((Collection) newValue);
                 return;
             case LayoutPackage.LEGEND__BOUNDS:
-                setBounds((Bounds)newValue);
+                setBounds((Bounds) newValue);
                 return;
             case LayoutPackage.LEGEND__ANCHOR:
-                setAnchor((Anchor)newValue);
+                setAnchor((Anchor) newValue);
                 return;
             case LayoutPackage.LEGEND__STRETCH:
-                setStretch((Stretch)newValue);
+                setStretch((Stretch) newValue);
                 return;
             case LayoutPackage.LEGEND__INSETS:
-                setInsets((Insets)newValue);
+                setInsets((Insets) newValue);
                 return;
             case LayoutPackage.LEGEND__ROW:
-                setRow(((Integer)newValue).intValue());
+                setRow(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__COLUMN:
-                setColumn(((Integer)newValue).intValue());
+                setColumn(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__ROWSPAN:
-                setRowspan(((Integer)newValue).intValue());
+                setRowspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__COLUMNSPAN:
-                setColumnspan(((Integer)newValue).intValue());
+                setColumnspan(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__MIN_SIZE:
-                setMinSize((Size)newValue);
+                setMinSize((Size) newValue);
                 return;
             case LayoutPackage.LEGEND__OUTLINE:
-                setOutline((LineAttributes)newValue);
+                setOutline((LineAttributes) newValue);
                 return;
             case LayoutPackage.LEGEND__BACKGROUND:
-                setBackground((Fill)newValue);
+                setBackground((Fill) newValue);
                 return;
             case LayoutPackage.LEGEND__VISIBLE:
-                setVisible(((Boolean)newValue).booleanValue());
+                setVisible(((Boolean) newValue).booleanValue());
                 return;
             case LayoutPackage.LEGEND__TRIGGERS:
                 getTriggers().clear();
-                getTriggers().addAll((Collection)newValue);
+                getTriggers().addAll((Collection) newValue);
                 return;
             case LayoutPackage.LEGEND__HORIZONTAL_SPACING:
-                setHorizontalSpacing(((Integer)newValue).intValue());
+                setHorizontalSpacing(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__VERTICAL_SPACING:
-                setVerticalSpacing(((Integer)newValue).intValue());
+                setVerticalSpacing(((Integer) newValue).intValue());
                 return;
             case LayoutPackage.LEGEND__CLIENT_AREA:
-                setClientArea((ClientArea)newValue);
+                setClientArea((ClientArea) newValue);
                 return;
             case LayoutPackage.LEGEND__TEXT:
-                setText((Text)newValue);
+                setText((Text) newValue);
                 return;
             case LayoutPackage.LEGEND__ORIENTATION:
-                setOrientation((Orientation)newValue);
+                setOrientation((Orientation) newValue);
                 return;
             case LayoutPackage.LEGEND__DIRECTION:
-                setDirection((Direction)newValue);
+                setDirection((Direction) newValue);
                 return;
             case LayoutPackage.LEGEND__SEPARATOR:
-                setSeparator((LineAttributes)newValue);
+                setSeparator((LineAttributes) newValue);
                 return;
             case LayoutPackage.LEGEND__POSITION:
-                setPosition((Position)newValue);
+                setPosition((Position) newValue);
                 return;
             case LayoutPackage.LEGEND__ITEM_TYPE:
-                setItemType((LegendItemType)newValue);
+                setItemType((LegendItemType) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -854,6 +950,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -864,7 +961,7 @@ public class LegendImpl extends BlockImpl implements Legend
                 getChildren().clear();
                 return;
             case LayoutPackage.LEGEND__BOUNDS:
-                setBounds((Bounds)null);
+                setBounds((Bounds) null);
                 return;
             case LayoutPackage.LEGEND__ANCHOR:
                 unsetAnchor();
@@ -873,7 +970,7 @@ public class LegendImpl extends BlockImpl implements Legend
                 unsetStretch();
                 return;
             case LayoutPackage.LEGEND__INSETS:
-                setInsets((Insets)null);
+                setInsets((Insets) null);
                 return;
             case LayoutPackage.LEGEND__ROW:
                 unsetRow();
@@ -888,13 +985,13 @@ public class LegendImpl extends BlockImpl implements Legend
                 unsetColumnspan();
                 return;
             case LayoutPackage.LEGEND__MIN_SIZE:
-                setMinSize((Size)null);
+                setMinSize((Size) null);
                 return;
             case LayoutPackage.LEGEND__OUTLINE:
-                setOutline((LineAttributes)null);
+                setOutline((LineAttributes) null);
                 return;
             case LayoutPackage.LEGEND__BACKGROUND:
-                setBackground((Fill)null);
+                setBackground((Fill) null);
                 return;
             case LayoutPackage.LEGEND__VISIBLE:
                 unsetVisible();
@@ -909,10 +1006,10 @@ public class LegendImpl extends BlockImpl implements Legend
                 unsetVerticalSpacing();
                 return;
             case LayoutPackage.LEGEND__CLIENT_AREA:
-                setClientArea((ClientArea)null);
+                setClientArea((ClientArea) null);
                 return;
             case LayoutPackage.LEGEND__TEXT:
-                setText((Text)null);
+                setText((Text) null);
                 return;
             case LayoutPackage.LEGEND__ORIENTATION:
                 unsetOrientation();
@@ -921,7 +1018,7 @@ public class LegendImpl extends BlockImpl implements Legend
                 unsetDirection();
                 return;
             case LayoutPackage.LEGEND__SEPARATOR:
-                setSeparator((LineAttributes)null);
+                setSeparator((LineAttributes) null);
                 return;
             case LayoutPackage.LEGEND__POSITION:
                 unsetPosition();
@@ -935,6 +1032,7 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -993,25 +1091,45 @@ public class LegendImpl extends BlockImpl implements Legend
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (horizontalSpacing: ");
-        if (horizontalSpacingESet) result.append(horizontalSpacing); else result.append("<unset>");
+        if (horizontalSpacingESet)
+            result.append(horizontalSpacing);
+        else
+            result.append("<unset>");
         result.append(", verticalSpacing: ");
-        if (verticalSpacingESet) result.append(verticalSpacing); else result.append("<unset>");
+        if (verticalSpacingESet)
+            result.append(verticalSpacing);
+        else
+            result.append("<unset>");
         result.append(", orientation: ");
-        if (orientationESet) result.append(orientation); else result.append("<unset>");
+        if (orientationESet)
+            result.append(orientation);
+        else
+            result.append("<unset>");
         result.append(", direction: ");
-        if (directionESet) result.append(direction); else result.append("<unset>");
+        if (directionESet)
+            result.append(direction);
+        else
+            result.append("<unset>");
         result.append(", position: ");
-        if (positionESet) result.append(position); else result.append("<unset>");
+        if (positionESet)
+            result.append(position);
+        else
+            result.append("<unset>");
         result.append(", itemType: ");
-        if (itemTypeESet) result.append(itemType); else result.append("<unset>");
+        if (itemTypeESet)
+            result.append(itemType);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

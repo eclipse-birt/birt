@@ -27,7 +27,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPointComponentType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class DataPointComponentType extends AbstractEnumerator
 {
@@ -37,7 +38,8 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #BASE_VALUE_LITERAL
      * @model name="Base_Value"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BASE_VALUE = 0;
 
@@ -46,7 +48,8 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #ORTHOGONAL_VALUE_LITERAL
      * @model name="Orthogonal_Value"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int ORTHOGONAL_VALUE = 1;
 
@@ -55,7 +58,8 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #SERIES_VALUE_LITERAL
      * @model name="Series_Value"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SERIES_VALUE = 2;
 
@@ -68,7 +72,8 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BASE_VALUE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final DataPointComponentType BASE_VALUE_LITERAL = new DataPointComponentType(BASE_VALUE, "Base_Value");
 
@@ -81,7 +86,8 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ORTHOGONAL_VALUE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final DataPointComponentType ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType(ORTHOGONAL_VALUE,
         "Orthogonal_Value");
@@ -95,24 +101,22 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES_VALUE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final DataPointComponentType SERIES_VALUE_LITERAL = new DataPointComponentType(SERIES_VALUE,
         "Series_Value");
 
     /**
-     * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final DataPointComponentType[] VALUES_ARRAY =
-        new DataPointComponentType[]
-        {
-            BASE_VALUE_LITERAL,
-            ORTHOGONAL_VALUE_LITERAL,
-            SERIES_VALUE_LITERAL,
-        };
+    private static final DataPointComponentType[] VALUES_ARRAY = new DataPointComponentType[]
+    {
+        BASE_VALUE_LITERAL, ORTHOGONAL_VALUE_LITERAL, SERIES_VALUE_LITERAL,
+    };
 
     /**
      * A public read-only list of all the '<em><b>Data Point Component Type</b></em>' enumerators. <!--
@@ -123,9 +127,9 @@ public final class DataPointComponentType extends AbstractEnumerator
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc
+     * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static DataPointComponentType get(String name)
@@ -151,16 +155,19 @@ public final class DataPointComponentType extends AbstractEnumerator
     {
         switch (value)
         {
-            case BASE_VALUE: return BASE_VALUE_LITERAL;
-            case ORTHOGONAL_VALUE: return ORTHOGONAL_VALUE_LITERAL;
-            case SERIES_VALUE: return SERIES_VALUE_LITERAL;
+            case BASE_VALUE:
+                return BASE_VALUE_LITERAL;
+            case ORTHOGONAL_VALUE:
+                return ORTHOGONAL_VALUE_LITERAL;
+            case SERIES_VALUE:
+                return SERIES_VALUE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private DataPointComponentType(int value, String name)

@@ -47,8 +47,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
 
     /**
      * 
-     * @return @throws
-     *         UnsupportedFeatureException
+     * @return
+     * @throws UnsupportedFeatureException
      */
     public Bounds getBounds() throws UnsupportedFeatureException
     {

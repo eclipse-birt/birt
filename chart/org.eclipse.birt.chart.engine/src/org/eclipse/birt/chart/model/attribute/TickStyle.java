@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTickStyle()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class TickStyle extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class TickStyle extends AbstractEnumerator
      * 
      * @see #LEFT_LITERAL
      * @model name="Left"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int LEFT = 0;
 
@@ -45,7 +47,8 @@ public final class TickStyle extends AbstractEnumerator
      * 
      * @see #RIGHT_LITERAL
      * @model name="Right"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int RIGHT = 1;
 
@@ -54,7 +57,8 @@ public final class TickStyle extends AbstractEnumerator
      * 
      * @see #ABOVE_LITERAL
      * @model name="Above"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int ABOVE = 2;
 
@@ -63,7 +67,8 @@ public final class TickStyle extends AbstractEnumerator
      * 
      * @see #BELOW_LITERAL
      * @model name="Below"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BELOW = 3;
 
@@ -72,7 +77,8 @@ public final class TickStyle extends AbstractEnumerator
      * 
      * @see #ACROSS_LITERAL
      * @model name="Across"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int ACROSS = 4;
 
@@ -85,7 +91,8 @@ public final class TickStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEFT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TickStyle LEFT_LITERAL = new TickStyle(LEFT, "Left");
 
@@ -98,7 +105,8 @@ public final class TickStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RIGHT
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TickStyle RIGHT_LITERAL = new TickStyle(RIGHT, "Right");
 
@@ -111,7 +119,8 @@ public final class TickStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ABOVE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TickStyle ABOVE_LITERAL = new TickStyle(ABOVE, "Above");
 
@@ -124,7 +133,8 @@ public final class TickStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BELOW
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TickStyle BELOW_LITERAL = new TickStyle(BELOW, "Below");
 
@@ -137,37 +147,33 @@ public final class TickStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ACROSS
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final TickStyle ACROSS_LITERAL = new TickStyle(ACROSS, "Across");
 
     /**
-     * An array of all the '<em><b>Tick Style</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Tick Style</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final TickStyle[] VALUES_ARRAY =
-        new TickStyle[]
-        {
-            LEFT_LITERAL,
-            RIGHT_LITERAL,
-            ABOVE_LITERAL,
-            BELOW_LITERAL,
-            ACROSS_LITERAL,
-        };
+    private static final TickStyle[] VALUES_ARRAY = new TickStyle[]
+    {
+        LEFT_LITERAL, RIGHT_LITERAL, ABOVE_LITERAL, BELOW_LITERAL, ACROSS_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Tick Style</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Tick Style</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Tick Style</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Tick Style</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static TickStyle get(String name)
@@ -184,27 +190,32 @@ public final class TickStyle extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Tick Style</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Tick Style</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static TickStyle get(int value)
     {
         switch (value)
         {
-            case LEFT: return LEFT_LITERAL;
-            case RIGHT: return RIGHT_LITERAL;
-            case ABOVE: return ABOVE_LITERAL;
-            case BELOW: return BELOW_LITERAL;
-            case ACROSS: return ACROSS_LITERAL;
+            case LEFT:
+                return LEFT_LITERAL;
+            case RIGHT:
+                return RIGHT_LITERAL;
+            case ABOVE:
+                return ABOVE_LITERAL;
+            case BELOW:
+                return BELOW_LITERAL;
+            case ACROSS:
+                return ACROSS_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private TickStyle(int value, String name)

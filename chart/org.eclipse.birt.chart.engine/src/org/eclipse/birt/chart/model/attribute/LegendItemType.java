@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLegendItemType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class LegendItemType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class LegendItemType extends AbstractEnumerator
      * 
      * @see #SERIES_LITERAL
      * @model name="Series"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SERIES = 0;
 
@@ -45,7 +47,8 @@ public final class LegendItemType extends AbstractEnumerator
      * 
      * @see #CATEGORIES_LITERAL
      * @model name="Categories"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int CATEGORIES = 1;
 
@@ -58,7 +61,8 @@ public final class LegendItemType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LegendItemType SERIES_LITERAL = new LegendItemType(SERIES, "Series");
 
@@ -71,35 +75,34 @@ public final class LegendItemType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CATEGORIES
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final LegendItemType CATEGORIES_LITERAL = new LegendItemType(CATEGORIES, "Categories");
 
     /**
-     * An array of all the '<em><b>Legend Item Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Legend Item Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final LegendItemType[] VALUES_ARRAY =
-        new LegendItemType[]
-        {
-            SERIES_LITERAL,
-            CATEGORIES_LITERAL,
-        };
+    private static final LegendItemType[] VALUES_ARRAY = new LegendItemType[]
+    {
+        SERIES_LITERAL, CATEGORIES_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Legend Item Type</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Legend Item Type</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static LegendItemType get(String name)
@@ -116,24 +119,26 @@ public final class LegendItemType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified value. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static LegendItemType get(int value)
     {
         switch (value)
         {
-            case SERIES: return SERIES_LITERAL;
-            case CATEGORIES: return CATEGORIES_LITERAL;
+            case SERIES:
+                return SERIES_LITERAL;
+            case CATEGORIES:
+                return CATEGORIES_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private LegendItemType(int value, String name)

@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getVerticalAlignment()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class VerticalAlignment extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #TOP_LITERAL
      * @model name="Top"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TOP = 0;
 
@@ -45,7 +47,8 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #CENTER_LITERAL
      * @model name="Center"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int CENTER = 1;
 
@@ -54,7 +57,8 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #BOTTOM_LITERAL
      * @model name="Bottom"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BOTTOM = 2;
 
@@ -67,7 +71,8 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TOP
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final VerticalAlignment TOP_LITERAL = new VerticalAlignment(TOP, "Top");
 
@@ -80,7 +85,8 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CENTER
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final VerticalAlignment CENTER_LITERAL = new VerticalAlignment(CENTER, "Center");
 
@@ -93,36 +99,34 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BOTTOM
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final VerticalAlignment BOTTOM_LITERAL = new VerticalAlignment(BOTTOM, "Bottom");
 
     /**
-     * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
-    private static final VerticalAlignment[] VALUES_ARRAY =
-        new VerticalAlignment[]
-        {
-            TOP_LITERAL,
-            CENTER_LITERAL,
-            BOTTOM_LITERAL,
-        };
+    private static final VerticalAlignment[] VALUES_ARRAY = new VerticalAlignment[]
+    {
+        TOP_LITERAL, CENTER_LITERAL, BOTTOM_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+     * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static VerticalAlignment get(String name)
@@ -139,25 +143,28 @@ public final class VerticalAlignment extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+     * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public static VerticalAlignment get(int value)
     {
         switch (value)
         {
-            case TOP: return TOP_LITERAL;
-            case CENTER: return CENTER_LITERAL;
-            case BOTTOM: return BOTTOM_LITERAL;
+            case TOP:
+                return TOP_LITERAL;
+            case CENTER:
+                return CENTER_LITERAL;
+            case BOTTOM:
+                return BOTTOM_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private VerticalAlignment(int value, String name)

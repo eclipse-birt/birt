@@ -15,26 +15,27 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Rule</b></em>'. <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type represents a rule to process a query expression.
- * 			
+ * This type represents a rule to process a query expression.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.Rule#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Rule#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getRule()
- * @model 
+ * @model
  * @generated
  */
-public interface Rule extends EObject{
+public interface Rule extends EObject
+{
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is <code>"Filter"</code>.
      * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.RuleType}. <!--
@@ -77,8 +78,9 @@ public interface Rule extends EObject{
     void unsetType();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Type</em>' attribute is set.
      * @see #unsetType()
      * @see #getType()
@@ -88,8 +90,8 @@ public interface Rule extends EObject{
     boolean isSetType();
 
     /**
-     * Returns the value of the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return the value of the '<em>Value</em>' attribute.
      * @see #setValue(String)
      * @see org.eclipse.birt.chart.model.data.DataPackage#getRule_Value()

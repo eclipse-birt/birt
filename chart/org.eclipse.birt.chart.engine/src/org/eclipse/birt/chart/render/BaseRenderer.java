@@ -590,7 +590,8 @@ public abstract class BaseRenderer
                         dY += insCA.getTop();
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier())); // TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier())); // TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
@@ -622,7 +623,8 @@ public abstract class BaseRenderer
                         dY += insCA.getTop();
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         dMaxW = Math.max(dMaxW, itm.getFullWidth());
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
@@ -737,7 +739,8 @@ public abstract class BaseRenderer
                     {
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
@@ -776,7 +779,8 @@ public abstract class BaseRenderer
                     {
                         seBase = (Series) al.get(i);
                         lirh = (LegendItemRenderingHints) htRenderers.get(seBase);
-                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT SPECIFIER
+                        la.getCaption().setValue(String.valueOf(seBase.getSeriesIdentifier()));// TBD: APPLY FORMAT
+                        // SPECIFIER
                         itm.reuse(la);
                         fPaletteEntry = (Fill) elPaletteEntries.get(i % iPaletteCount); // CYCLE THROUGH THE PALETTE
                         renderLegendItem(ipr, lg, la, dX, dY, itm.getFullWidth(), dItemHeight, itm.getFullHeight(),
@@ -1062,7 +1066,7 @@ public abstract class BaseRenderer
      * @param cm
      * @param oComputations
      * 
-     * @return 
+     * @return
      * @throws PluginException
      */
     public static final BaseRenderer[] instances(Chart cm, Object oComputations) throws PluginException

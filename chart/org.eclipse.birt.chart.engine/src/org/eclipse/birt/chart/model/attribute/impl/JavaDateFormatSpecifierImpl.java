@@ -28,10 +28,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern <em>Pattern</em>}
+ * </li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements JavaDateFormatSpecifier
@@ -42,7 +43,8 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected static final String PATTERN_EDEFAULT = null;
 
@@ -51,12 +53,14 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     protected String pattern = PATTERN_EDEFAULT;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected JavaDateFormatSpecifierImpl()
@@ -66,6 +70,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EClass eStaticClass()
@@ -75,6 +80,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getPattern()
@@ -84,6 +90,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setPattern(String newPattern)
@@ -91,11 +98,13 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
         String oldPattern = pattern;
         pattern = newPattern;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_DATE_FORMAT_SPECIFIER__PATTERN, oldPattern, pattern));
+            eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_DATE_FORMAT_SPECIFIER__PATTERN,
+                oldPattern, pattern));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve)
@@ -110,6 +119,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eSet(EStructuralFeature eFeature, Object newValue)
@@ -117,7 +127,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER__PATTERN:
-                setPattern((String)newValue);
+                setPattern((String) newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -125,6 +135,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void eUnset(EStructuralFeature eFeature)
@@ -140,6 +151,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean eIsSet(EStructuralFeature eFeature)
@@ -154,11 +166,13 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String toString()
     {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (pattern: ");

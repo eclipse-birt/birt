@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRiserType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class RiserType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class RiserType extends AbstractEnumerator
      * 
      * @see #RECTANGLE_LITERAL
      * @model name="Rectangle"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int RECTANGLE = 0;
 
@@ -45,7 +47,8 @@ public final class RiserType extends AbstractEnumerator
      * 
      * @see #TRIANGLE_LITERAL
      * @model name="Triangle"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int TRIANGLE = 1;
 
@@ -58,7 +61,8 @@ public final class RiserType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RECTANGLE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final RiserType RECTANGLE_LITERAL = new RiserType(RECTANGLE, "Rectangle");
 
@@ -71,34 +75,33 @@ public final class RiserType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TRIANGLE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final RiserType TRIANGLE_LITERAL = new RiserType(TRIANGLE, "Triangle");
 
     /**
-     * An array of all the '<em><b>Riser Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Riser Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final RiserType[] VALUES_ARRAY =
-        new RiserType[]
-        {
-            RECTANGLE_LITERAL,
-            TRIANGLE_LITERAL,
-        };
+    private static final RiserType[] VALUES_ARRAY = new RiserType[]
+    {
+        RECTANGLE_LITERAL, TRIANGLE_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Riser Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Riser Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static RiserType get(String name)
@@ -115,24 +118,26 @@ public final class RiserType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Riser Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Riser Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static RiserType get(int value)
     {
         switch (value)
         {
-            case RECTANGLE: return RECTANGLE_LITERAL;
-            case TRIANGLE: return TRIANGLE_LITERAL;
+            case RECTANGLE:
+                return RECTANGLE_LITERAL;
+            case TRIANGLE:
+                return TRIANGLE_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private RiserType(int value, String name)

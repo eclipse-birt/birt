@@ -18,34 +18,35 @@ import org.eclipse.birt.chart.util.CDateTime;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Date Time Data Element</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a single element of date/time data.
- * 			
+ * This type defines a single element of date/time data.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDateTimeDataElement()
- * @model 
+ * @model
  * @generated
  */
-public interface DateTimeDataElement extends DataElement{
+public interface DateTimeDataElement extends DataElement
+{
 
     /**
-     * Returns the value of the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 							Holds a single date value as a long.
-     * 							
+     * Holds a single date value as a long.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Value</em>' attribute.
      * @see #isSetValue()
      * @see #unsetValue()
@@ -57,9 +58,11 @@ public interface DateTimeDataElement extends DataElement{
     long getValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Value</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Value</em>' attribute.
      * @see #isSetValue()
      * @see #unsetValue()
      * @see #getValue()
@@ -68,8 +71,9 @@ public interface DateTimeDataElement extends DataElement{
     void setValue(long value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetValue()
      * @see #getValue()
      * @see #setValue(long)

@@ -14,35 +14,36 @@ package org.eclipse.birt.chart.model.attribute;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java Number Format Specifier</b></em>'.
  * <!-- end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This type holds the java pattern for NumberFormat.
- * 			
+ * This type holds the java pattern for NumberFormat.
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaNumberFormatSpecifier()
- * @model 
+ * @model
  * @generated
  */
-public interface JavaNumberFormatSpecifier extends FormatSpecifier{
+public interface JavaNumberFormatSpecifier extends FormatSpecifier
+{
 
     /**
-     * Returns the value of the '<em><b>Pattern</b></em>' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the value of the '<em><b>Pattern</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * 
-     * 							Specifies the format pattern.
-     * 							
+     * Specifies the format pattern.
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Pattern</em>' attribute.
      * @see #setPattern(String)
      * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaNumberFormatSpecifier_Pattern()
@@ -52,9 +53,12 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier{
     String getPattern();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Pattern</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Pattern</em>' attribute.
      * @see #getPattern()
      * @generated
      */
@@ -79,9 +83,12 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier{
     double getMultiplier();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Multiplier</em>' attribute.
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Multiplier</em>' attribute.
      * @see #isSetMultiplier()
      * @see #unsetMultiplier()
      * @see #getMultiplier()
@@ -90,8 +97,10 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier{
     void setMultiplier(double value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetMultiplier()
      * @see #getMultiplier()
      * @see #setMultiplier(double)
@@ -100,8 +109,10 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier{
     void unsetMultiplier();
 
     /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @return whether the value of the '<em>Multiplier</em>' attribute is set.
      * @see #unsetMultiplier()
      * @see #getMultiplier()

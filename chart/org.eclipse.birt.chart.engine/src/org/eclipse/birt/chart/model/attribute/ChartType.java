@@ -26,7 +26,8 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartType()
- * @model @generated
+ * @model
+ * @generated
  */
 public final class ChartType extends AbstractEnumerator
 {
@@ -36,7 +37,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #PIE_LITERAL
      * @model name="Pie"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int PIE = 0;
 
@@ -45,7 +47,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #BAR_LITERAL
      * @model name="Bar"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int BAR = 1;
 
@@ -54,7 +57,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #LINE_LITERAL
      * @model name="Line"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int LINE = 2;
 
@@ -63,7 +67,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #COMBO_LITERAL
      * @model name="Combo"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int COMBO = 3;
 
@@ -72,7 +77,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #SCATTER_LITERAL
      * @model name="Scatter"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int SCATTER = 4;
 
@@ -81,7 +87,8 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #STOCK_LITERAL
      * @model name="Stock"
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final int STOCK = 5;
 
@@ -94,7 +101,8 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #PIE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType PIE_LITERAL = new ChartType(PIE, "Pie");
 
@@ -107,7 +115,8 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BAR
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType BAR_LITERAL = new ChartType(BAR, "Bar");
 
@@ -120,7 +129,8 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LINE
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType LINE_LITERAL = new ChartType(LINE, "Line");
 
@@ -133,7 +143,8 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #COMBO
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType COMBO_LITERAL = new ChartType(COMBO, "Combo");
 
@@ -146,7 +157,8 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SCATTER
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType SCATTER_LITERAL = new ChartType(SCATTER, "Scatter");
 
@@ -159,38 +171,33 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #STOCK
-     * @generated @ordered
+     * @generated
+     * @ordered
      */
     public static final ChartType STOCK_LITERAL = new ChartType(STOCK, "Stock");
 
     /**
-     * An array of all the '<em><b>Chart Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * An array of all the '<em><b>Chart Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-    private static final ChartType[] VALUES_ARRAY =
-        new ChartType[]
-        {
-            PIE_LITERAL,
-            BAR_LITERAL,
-            LINE_LITERAL,
-            COMBO_LITERAL,
-            SCATTER_LITERAL,
-            STOCK_LITERAL,
-        };
+    private static final ChartType[] VALUES_ARRAY = new ChartType[]
+    {
+        PIE_LITERAL, BAR_LITERAL, LINE_LITERAL, COMBO_LITERAL, SCATTER_LITERAL, STOCK_LITERAL,
+    };
 
     /**
-     * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators.
-     * <!-- begin-user-doc --> <!--
+     * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Type</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ChartType get(String name)
@@ -207,28 +214,34 @@ public final class ChartType extends AbstractEnumerator
     }
 
     /**
-     * Returns the '<em><b>Chart Type</b></em>' literal with the specified value.
-     * <!-- begin-user-doc --> <!--
+     * Returns the '<em><b>Chart Type</b></em>' literal with the specified value. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public static ChartType get(int value)
     {
         switch (value)
         {
-            case PIE: return PIE_LITERAL;
-            case BAR: return BAR_LITERAL;
-            case LINE: return LINE_LITERAL;
-            case COMBO: return COMBO_LITERAL;
-            case SCATTER: return SCATTER_LITERAL;
-            case STOCK: return STOCK_LITERAL;
+            case PIE:
+                return PIE_LITERAL;
+            case BAR:
+                return BAR_LITERAL;
+            case LINE:
+                return LINE_LITERAL;
+            case COMBO:
+                return COMBO_LITERAL;
+            case SCATTER:
+                return SCATTER_LITERAL;
+            case STOCK:
+                return STOCK_LITERAL;
         }
-        return null;	
+        return null;
     }
 
     /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     private ChartType(int value, String name)

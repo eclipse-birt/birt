@@ -20,29 +20,30 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart With Axes</b></em>'. <!--
  * end-user-doc -->
- *
+ * 
  * <!-- begin-model-doc -->
  * 
- * 			This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).
- * 			
+ * This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).
+ * 
  * <!-- end-model-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes <em>Axes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes <em>Axes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes()
- * @model 
+ * @model
  * @generated
  */
-public interface ChartWithAxes extends Chart{
+public interface ChartWithAxes extends Chart
+{
 
     /**
      * Returns the value of the '<em><b>Axes</b></em>' containment reference list. The list contents are of type
@@ -62,14 +63,13 @@ public interface ChartWithAxes extends Chart{
     EList getAxes();
 
     /**
-     * Returns the value of the '<em><b>Wall Fill</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Wall Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc -->
      * 
-     * 							Specifies the fill to be used for the chart wall (for charts with depth).
-     * 							
+     * Specifies the fill to be used for the chart wall (for charts with depth).
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Wall Fill</em>' containment reference.
      * @see #setWallFill(Fill)
      * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_WallFill()
@@ -79,24 +79,24 @@ public interface ChartWithAxes extends Chart{
     Fill getWallFill();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Wall Fill</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Wall Fill</em>' containment reference.
      * @see #getWallFill()
      * @generated
      */
     void setWallFill(Fill value);
 
     /**
-     * Returns the value of the '<em><b>Floor Fill</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Floor Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc -->
      * 
-     * 							Specifies the fill to be used for the chart floor (for charts with depth).
-     * 							
+     * Specifies the fill to be used for the chart floor (for charts with depth).
+     * 
      * <!-- end-model-doc -->
+     * 
      * @return the value of the '<em>Floor Fill</em>' containment reference.
      * @see #setFloorFill(Fill)
      * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_FloorFill()
@@ -106,10 +106,11 @@ public interface ChartWithAxes extends Chart{
     Fill getFloorFill();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Floor Fill</em>' containment reference.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}'
+     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Floor Fill</em>' containment reference.
      * @see #getFloorFill()
      * @generated
      */
@@ -138,10 +139,12 @@ public interface ChartWithAxes extends Chart{
     Orientation getOrientation();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc --> Sets the orientation of the chart as a whole. This drives the way the chart
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}'
+     * attribute. <!-- begin-user-doc --> Sets the orientation of the chart as a whole. This drives the way the chart
      * will be rendered and affects the orientations of other elements throughout the chart. <!-- end-user-doc -->
-     * @param value the new value of the '<em>Orientation</em>' attribute.
+     * 
+     * @param value
+     *            the new value of the '<em>Orientation</em>' attribute.
      * @see org.eclipse.birt.chart.model.attribute.Orientation
      * @see #isSetOrientation()
      * @see #unsetOrientation()
@@ -151,8 +154,9 @@ public interface ChartWithAxes extends Chart{
     void setOrientation(Orientation value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetOrientation()
      * @see #getOrientation()
      * @see #setOrientation(Orientation)
@@ -194,9 +198,11 @@ public interface ChartWithAxes extends Chart{
     double getUnitSpacing();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @param value the new value of the '<em>Unit Spacing</em>' attribute.
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Unit Spacing</em>' attribute.
      * @see #isSetUnitSpacing()
      * @see #unsetUnitSpacing()
      * @see #getUnitSpacing()
@@ -205,8 +211,9 @@ public interface ChartWithAxes extends Chart{
     void setUnitSpacing(double value);
 
     /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}'
+     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #isSetUnitSpacing()
      * @see #getUnitSpacing()
      * @see #setUnitSpacing(double)
