@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/17 07:57:03 $
  */
 public class Report implements IReport
 {
@@ -88,6 +88,11 @@ public class Report implements IReport
 	 * file (XML) resides
 	 */
 	protected String basePath;
+
+	/**
+	 * the style of the whole report body
+	 */
+	protected StyleDesign bodyStyle;
 
 	/**
 	 * default constructor.
@@ -489,5 +494,22 @@ public class Report implements IReport
 	public List getErrors( )
 	{
 		return this.reportDesign.handle( ).getErrorList( );
+	}
+
+	/**
+	 * @return Returns the bodyStyle.
+	 */
+	public IStyle getBodyStyle( )
+	{
+		return bodyStyle;
+	}
+
+	/**
+	 * @param bodyStyle
+	 *            The bodyStyle to set.
+	 */
+	public void setBodyStyle( StyleDesign bodyStyle )
+	{
+		this.bodyStyle = bodyStyle;
 	}
 }

@@ -126,14 +126,14 @@ import org.xml.sax.Attributes;
  * pairs. Factory IR might store them as structure. See
  * <code>createHighlightRule()</code> for an example.
  * <li>Merging properties: DE stores custom and default properties separately.
- * In FPE, theya re merged.</li>
+ * In FPE, they are merged.</li>
  * <p>
  * 
  * This class visits the Design Engine's IR to create a new IR for FPE. It is
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/03/18 19:51:20 $
+ * @version $Revision: 1.16 $ $Date: 2005/03/22 07:20:51 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -184,6 +184,9 @@ class EngineIRVisitor extends DesignVisitor
 		report = new Report( );
 		report.setReportDesign( handle.getDesign( ) );
 		apply( handle );
+		//Sets the style design for the body
+		StyleHandle bodyStyleHandle = handle.findStyle( "report" );//$NON-NLS-1$		
+		report.setBodyStyle( createStyleDesign( bodyStyleHandle ) );
 		return report;
 	}
 
@@ -1043,10 +1046,26 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportElement( element, handle );
 
 		// Private style
-		StyleDesign style = new StyleDesign( );
 		StyleHandle styleHandle = handle.getPrivateStyle( );
 		if ( styleHandle != null )
 		{
+			//Associated the style with element
+			element.setStyle( createStyleDesign( styleHandle ) );
+		}
+	}
+
+	/**
+	 * Creates the style design according to the style handle
+	 * 
+	 * @param styleHandle
+	 *            the style handle
+	 * @return the style design if the style handle is not null, otherwise null
+	 */
+	private StyleDesign createStyleDesign( StyleHandle styleHandle )
+	{
+		if ( styleHandle != null )
+		{
+			StyleDesign style = new StyleDesign( );
 			style.setHandle( styleHandle );
 			setupStyle( style, styleHandle );
 
@@ -1072,10 +1091,9 @@ class EngineIRVisitor extends DesignVisitor
 				style.setName( "style_" + report.getStyleCount( ) ); //$NON-NLS-1$
 				report.addStyle( style );
 			}
-
-			//Associated the style with element
-			element.setStyle( style );
+			return style;
 		}
+		return null;
 	}
 
 	/**
