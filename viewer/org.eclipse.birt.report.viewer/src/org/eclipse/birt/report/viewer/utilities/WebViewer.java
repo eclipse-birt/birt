@@ -86,17 +86,17 @@ public class WebViewer
 	 * Create web viewer url to run the report.
 	 * 
 	 * @param servletName servlet name to viewer report
-	 * @param uri report uri 
+	 * @param report report file name 
 	 * @param format report format
 	 * @return valid web viewer url
 	 */
-	private static String createURL( String servletName, String uri, String format )
+	private static String createURL( String servletName, String report, String format )
 	{
-		String encodedUri = null;
+		String encodedReportName = null;
 		
 		try
 		{
-			encodedUri = URLEncoder.encode( uri, "utf-8" ); //$NON-NLS-1$
+			encodedReportName = URLEncoder.encode( report, "utf-8" ); //$NON-NLS-1$
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -104,20 +104,17 @@ public class WebViewer
 		}
 		
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString( USER_LOCALE );
-		// So far, only uri is encoded as utf-8 format 
+		// So far, only report name is encoded as utf-8 format 
 		return getBaseURL( )
 			+ servletName + "?" //$NON-NLS-1$
-			+ "__report=" + encodedUri //$NON-NLS-1$
+			+ "__report=" + encodedReportName //$NON-NLS-1$
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
 		
 	}
 
 	/**
-	 * Displays the specified url.
-	 * 
-	 * @param uri report uri
-	 * @param format report format
+	 * Start web application.
 	 */
 	private static void startWebApp( )
 	{
@@ -145,21 +142,21 @@ public class WebViewer
 	/**
 	 * Displays the specified url.
 	 * 
-	 * @param uri report uri
+	 * @param report report report
 	 * @param format report format
 	 */
-	public static void display( String uri, String format )
+	public static void display( String report, String format )
 	{
 		startWebApp( );
 		String root = null;
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "engineservlet", uri, format ); //$NON-NLS-1$
+			root = createURL( "engineservlet", report, format ); //$NON-NLS-1$
 		}
 		else
 		{
-			root = createURL( "viewerservlet", uri, format ); //$NON-NLS-1$
+			root = createURL( "viewerservlet", report, format ); //$NON-NLS-1$
 		}
 
 		try
@@ -175,14 +172,14 @@ public class WebViewer
 	/**
 	 * Displays the specified url useing eclipse SWT browser.
 	 * 
-	 * @param uri report uri
+	 * @param report report report
 	 * @param format report format
 	 * @param browser SWT browser instance
 	 */
-	public static void display( String uri, String format, Browser browser )
+	public static void display( String report, String format, Browser browser )
 	{
 		startWebApp( );
-		browser.setUrl( createURL( "engineservlet", uri, format ) ); //$NON-NLS-1$
+		browser.setUrl( createURL( "engineservlet", report, format ) ); //$NON-NLS-1$
 	}
 
 }
