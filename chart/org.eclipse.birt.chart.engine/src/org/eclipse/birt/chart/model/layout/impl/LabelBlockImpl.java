@@ -23,12 +23,10 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
-import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
@@ -414,8 +412,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
      */
     public final Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException
     {
-        final Text tx = getLabel().getCaption();
-        final FontDefinition fd = tx.getFont();
         BoundingBox bb = null;
         try
         {

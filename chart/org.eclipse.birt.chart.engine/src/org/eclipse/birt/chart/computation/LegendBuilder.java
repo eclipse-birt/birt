@@ -41,13 +41,24 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public final class LegendBuilder
 {
-
+    /**
+     * 
+     */
     private final double dHorizontalSpacing = 4;
 
+    /**
+     * 
+     */
     private final double dVerticalSpacing = 4;
 
+    /**
+     * 
+     */
     private Size sz;
 
+    /**
+     *
+     */
     public LegendBuilder()
     {
     }
@@ -93,7 +104,6 @@ public final class LegendBuilder
         la.getCaption().setValue("X");
         final ITextMetrics itm = xs.getTextMetrics(la);
         double dItemHeight = itm.getFullHeight();
-        String sRC;
         Series se;
         ArrayList al;
         Insets insCA = ca.getInsets().scaledInstance(xs.getDpiResolution() / 72d);

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -110,7 +110,6 @@ public class Methods implements IConstants
         {
             CDateTime cdtValue = asDateTime(iv.getValue());
             CDateTime cdt = asDateTime(sc.getMinimum()), cdtPrev = null;
-            CDateTime cdtEnd = asDateTime(sc.getMaximum());
             int iUnit = asInteger(sc.getUnit());
             int iStep = asInteger(sc.getStep());
 
@@ -122,10 +121,10 @@ public class Methods implements IConstants
                     {
                         return da[i];
                     }
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                    /*SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
                     String sMin = sdf.format(cdtPrev.getTime());
                     String sMax = sdf.format(cdt.getTime());
-                    String sVal = sdf.format(cdtValue.getTime());
+                    String sVal = sdf.format(cdtValue.getTime());*/
 
                     long l1 = cdtPrev.getTimeInMillis();
                     long l2 = cdt.getTimeInMillis();
@@ -258,7 +257,6 @@ public class Methods implements IConstants
     {
         double[] da = sc.getTickCordinates();
         CDateTime cdt = asDateTime(sc.getMinimum()), cdtPrev = null;
-        CDateTime cdtEnd = asDateTime(sc.getMaximum());
         int iUnit = asInteger(sc.getUnit());
         int iStep = asInteger(sc.getStep());
 
@@ -270,10 +268,10 @@ public class Methods implements IConstants
                 {
                     return da[i];
                 }
-                SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                /*SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
                 String sMin = sdf.format(cdtPrev.getTime());
                 String sMax = sdf.format(cdt.getTime());
-                String sVal = sdf.format(cdtValue.getTime());
+                String sVal = sdf.format(cdtValue.getTime());*/
 
                 long l1 = cdtPrev.getTimeInMillis();
                 long l2 = cdt.getTimeInMillis();

@@ -371,8 +371,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
     public final Series[] getRunTimeSeries()
     {
         final ArrayList al = new ArrayList(8);
-        SeriesDefinition sd;
-
         final EList el = getSeriesDefinitions();
         recursivelyGetSeries(el, al, 0, -1);
         return (Series[]) al.toArray(Series.EMPTY_ARRAY);

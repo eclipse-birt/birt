@@ -256,7 +256,6 @@ public final class DataPointHints
         }
         DataPointComponent dpc;
         DataPointComponentType dpct;
-        FormatSpecifier fs;
 
         for (int i = 0; i < el.size(); i++)
         {

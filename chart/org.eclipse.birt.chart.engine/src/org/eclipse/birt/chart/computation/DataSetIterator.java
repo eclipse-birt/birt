@@ -573,7 +573,6 @@ public final class DataSetIterator implements Iterator
     {
         iRowCount = getRowCountInternal();
         Calendar cValue;
-        Calendar caMin = null, caMax = null;
         CDateTime[] cdta = new CDateTime[size()];
         reset();
         int i = 0;

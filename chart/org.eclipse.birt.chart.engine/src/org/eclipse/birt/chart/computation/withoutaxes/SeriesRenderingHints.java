@@ -80,7 +80,6 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
     {
         final int iCount = dpha.length;
         final double[] doa = new double[iCount];
-        NumberDataElement nde;
         Object o;
 
         int j = 0;

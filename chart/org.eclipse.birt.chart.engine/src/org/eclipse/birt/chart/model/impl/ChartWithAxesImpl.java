@@ -852,7 +852,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         final ArrayList al = new ArrayList(8);
         final Axis[] axaBase = getBaseAxes();
         Axis[] axaOrthogonal;
-        Series se = null;
         SeriesDefinition sd;
         EList el;
 
@@ -941,7 +940,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         {
             final Axis[] axaBase = getBaseAxes();
             Axis[] axaOrthogonal;
-            Series se = null;
             SeriesDefinition sd;
             EList el;
 
