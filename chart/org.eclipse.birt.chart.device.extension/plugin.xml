@@ -29,11 +29,26 @@
             device="org.eclipse.birt.chart.device.swt.SwtRendererImpl"
             name="dv.SWT"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.PngRendererImpl"
+            device="org.eclipse.birt.chart.device.image.PngRendererImplOld"
             name="dv.PNG24"/>
       <deviceRenderer
-            device="org.eclipse.birt.chart.device.image.GifRendererImpl"
+            device="org.eclipse.birt.chart.device.image.GifRendererImplOld"
             name="dv.GIF8"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.PngRendererImpl"
+            name="dv.PNG"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.GifRendererImpl"
+            name="dv.GIF"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.JpegRendererImpl"
+            name="dv.JPEG"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.JpegRendererImpl"
+            name="dv.JPG"/>
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.image.BmpRendererImpl"
+            name="dv.BMP"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">

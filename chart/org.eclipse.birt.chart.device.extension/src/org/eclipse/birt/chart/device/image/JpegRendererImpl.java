@@ -11,35 +11,26 @@
 package org.eclipse.birt.chart.device.image;
 
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageWriteParam;
 
 /**
  *
  */
-public final class PngRendererImpl extends JavaxImageIOWriter
+public final class JpegRendererImpl extends JavaxImageIOWriter
 {
-
-    /* (non-Javadoc)
+    /*
+     *  (non-Javadoc)
      * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getFormat()
      */
-    public final String getFormat()
+    protected final String getFormat()
     {
-        return "png";
+        return "jpeg";
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
      */
-    public final int getImageType()
+    protected final int getImageType()
     {
-        return BufferedImage.TYPE_INT_ARGB; // SUPPORT ALPHA
-    }
-
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#updateWriterParameters(javax.imageio.ImageWriteParam)
-     */
-    public final void updateWriterParameters(ImageWriteParam iwp)
-    {
-        // NONE YET
+        return BufferedImage.TYPE_INT_RGB; // NO TRANSPARENCY IN JPEG
     }
 }
