@@ -421,7 +421,11 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		super.reload( );
 		initRowsInfo( );
-		getModelAdaptHelper( ).markDirty( false );
+		if (getModelAdaptHelper() != null)
+		{
+			getModelAdaptHelper( ).markDirty( false );
+		}
+		
 	}
 
 	/**
