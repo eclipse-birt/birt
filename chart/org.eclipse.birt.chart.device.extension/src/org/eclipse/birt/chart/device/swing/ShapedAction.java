@@ -21,23 +21,23 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.data.Action;
 
 /**
- * This class provides a shape definition and an associated action that is invoked
- * when interaction occurs with a chart rendered on a SWING device. 
+ * This class provides a shape definition and an associated action that is invoked when interaction occurs with a chart
+ * rendered on a SWING device.
  */
 final class ShapedAction
 {
     /**
-     * 
+     *  
      */
     private final Object _oSource;
 
     /**
-     * 
+     *  
      */
     private final Shape _sh;
 
     /**
-     * 
+     *  
      */
     private final Action _ac;
 
@@ -82,14 +82,11 @@ final class ShapedAction
     ShapedAction(Object oSource, Bounds boEllipse, double dStart, double dExtent, int iArcType, Action ac)
     {
         _oSource = oSource;
-        _sh = new Arc2D.Double(
-            boEllipse.getLeft(), boEllipse.getTop(), 
-            boEllipse.getWidth(), boEllipse.getHeight(),
-            dStart, dExtent, iArcType
-        );
+        _sh = new Arc2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(), boEllipse.getHeight(),
+            dStart, dExtent, iArcType);
         _ac = ac;
     }
-    
+
     /**
      * 
      * @return

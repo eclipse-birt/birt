@@ -26,14 +26,20 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JComponent;
 
+import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.exception.OutOfSyncException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * This class provides a reference implementation into handling events generated on a SWING JComponent with a rendered
@@ -69,15 +75,15 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
     /**
      *  
      */
-    private final JComponent jc;
+    private final IUpdateNotifier iun;
 
     /**
      *  
      */
-    SwingEventHandler(LinkedHashMap _lhmAllTriggers, JComponent _jc)
+    SwingEventHandler(LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc)
     {
         lhmAllTriggers = _lhmAllTriggers;
-        jc = _jc;
+        iun = _jc;
     }
 
     /**
@@ -126,14 +132,90 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
                         break;
 
                     case ActionType.TOGGLE_VISIBILITY:
-                        final Series se = (Series) sa.getSource();
-                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Toggle visibility: " + se);
-                        se.setVisible(!se.isVisible());
-                        jc.repaint();
+                        final Series seRT = (Series) sa.getSource();
+                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Toggle visibility: " + seRT);
+                        Series seDT = null;
+                        try
+                        {
+                            seDT = findDesignTimeSeries(seRT); // LOCATE THE CORRESPONDING DESIGN-TIME SERIES
+                        }
+                        catch (OutOfSyncException oosx )
+                        {
+                            DefaultLoggerImpl.instance().log(oosx);
+                            return;
+                        }
+                        seDT.setVisible(!seDT.isVisible());
+                        iun.regenerateChart();
                         break;
                 }
             }
         }
+    }
+
+    /**
+     * Locates a design-time series corresponding to a given cloned run-time series.
+     * 
+     * @param seRT
+     * @return
+     */
+    private final Series findDesignTimeSeries(Series seRT) throws OutOfSyncException
+    {
+        final ChartWithAxes cwaRT = (ChartWithAxes) iun.getRunTimeModel();
+        final ChartWithAxes cwaDT = (ChartWithAxes) iun.getDesignTimeModel();
+        Series seDT = null;
+
+        Axis[] axaBase = cwaRT.getPrimaryBaseAxes();
+        Axis axBase = axaBase[0];
+        Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes(axBase, true);
+        EList elSD, elSE;
+        SeriesDefinition sd;
+        Series se = null;
+        int i, j = 0, k = 0;
+        boolean bFound = false;
+
+        // LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
+        for (i = 0; i < axaOrthogonal.length; i++)
+        {
+            elSD = axaOrthogonal[i].getSeriesDefinitions();
+            for (j = 0; j < elSD.size(); j++)
+            {
+                sd = (SeriesDefinition) elSD.get(j);
+                elSE = sd.getSeries();
+                for (k = 0; k < elSE.size(); k++)
+                {
+                    se = (Series) elSE.get(k);
+                    if (seRT == se)
+                    {
+                        bFound = true;
+                        break;
+                    }
+                }
+                if (bFound)
+                {
+                    break;
+                }
+            }
+            if (bFound)
+            {
+                break;
+            }
+        }
+
+        if (!bFound)
+        {
+            throw new OutOfSyncException("Unable to locate design-time series for run-time series: " + seRT);
+        }
+
+        // MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL
+        axaBase = cwaDT.getPrimaryBaseAxes();
+        axBase = axaBase[0];
+        axaOrthogonal = cwaDT.getOrthogonalAxes(axBase, true);
+        elSD = axaOrthogonal[i].getSeriesDefinitions();
+        sd = (SeriesDefinition) elSD.get(j);
+        elSE = sd.getSeries();
+        seDT = (Series) elSE.get(k);
+
+        return seDT;
     }
 
     /*
@@ -154,7 +236,8 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
         Action ac = sa.getAction();
         TooltipValue tv = (TooltipValue) ac.getValue();
         String s = tv.getText();
-        jc.setToolTipText(s);
+
+        ((JComponent) iun.peerInstance()).setToolTipText(s);
     }
 
     /**
@@ -163,7 +246,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
      */
     private final void hideTooltip()
     {
-        jc.setToolTipText(null);
+        ((JComponent) iun.peerInstance()).setToolTipText(null);
     }
 
     /**
@@ -172,7 +255,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
      */
     private final void toggle(Shape sh)
     {
-        final Graphics2D g2d = (Graphics2D) jc.getGraphics();
+        final Graphics2D g2d = (Graphics2D) ((JComponent) iun.peerInstance()).getGraphics();
         final Color c = g2d.getColor();
         final Stroke st = g2d.getStroke();
         g2d.setXORMode(Color.white);
@@ -257,7 +340,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
                         {
                             toggle(saHighlighted.getShape());
                         }
-                        jc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        ((JComponent) iun.peerInstance()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         toggle(sh);
                     }
                     saHighlighted = sa;
@@ -268,7 +351,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
             if (!bFound && saHighlighted != null)
             {
-                jc.setCursor(Cursor.getDefaultCursor());
+                ((JComponent) iun.peerInstance()).setCursor(Cursor.getDefaultCursor());
                 toggle(saHighlighted.getShape());
                 saHighlighted = null;
                 bFound = false;

@@ -65,11 +65,10 @@ public class SwingDisplayServer extends DisplayAdapter
     private final java.awt.Panel p = new java.awt.Panel(); // NEEDED FOR IMAGE
 
     /**
-     * 
+     *  
      */
     private int iDpiResolution = 0;
-    
-    
+
     // LOADING
 
     /**
@@ -147,15 +146,15 @@ public class SwingDisplayServer extends DisplayAdapter
     {
         if (iDpiResolution == 0)
         {
-	        if (GraphicsEnvironment.isHeadless())
-	        {
-	            // RETURN OS SPECIFIC DEFAULTS
-	            iDpiResolution = super.getDpiResolution();
-	        }
-	        else
-	        {
-	            iDpiResolution = Toolkit.getDefaultToolkit().getScreenResolution();
-	        }
+            if (GraphicsEnvironment.isHeadless())
+            {
+                // RETURN OS SPECIFIC DEFAULTS
+                iDpiResolution = super.getDpiResolution();
+            }
+            else
+            {
+                iDpiResolution = Toolkit.getDefaultToolkit().getScreenResolution();
+            }
         }
         return iDpiResolution;
     }

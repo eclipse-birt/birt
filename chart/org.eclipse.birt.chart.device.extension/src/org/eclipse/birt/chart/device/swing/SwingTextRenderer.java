@@ -92,8 +92,7 @@ final class SwingTextRenderer implements IConstants
      */
     public final void renderShadowAtLocation(IPrimitiveRenderer idr, int iLabelPosition, // IConstants. LEFT, RIGHT,
                                                                                          // ABOVE or BELOW
-        Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR
-        // EDGE CENTERED) IS RENDERED
+        Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE CENTERED) IS RENDERED
         Label la) throws RenderingException
     {
         final ColorDefinition cdShadow = la.getShadowColor();
@@ -135,8 +134,7 @@ final class SwingTextRenderer implements IConstants
      */
     public final void renderTextAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE
                                                                                        // or BELOW
-        Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR
-        // EDGE CENTERED) IS RENDERED
+        Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE CENTERED) IS RENDERED
         Label la) throws RenderingException
     {
         final ColorDefinition cdText = la.getCaption().getColor();
@@ -226,16 +224,11 @@ final class SwingTextRenderer implements IConstants
                 bb.setTop(boBlock.getTop() + (boBlock.getHeight() - bb.getHeight()) / 2);
                 break;
             case VerticalAlignment.BOTTOM:
-                bb.setTop(boBlock.getTop() - boBlock.getHeight());
+                bb.setTop(boBlock.getTop() + boBlock.getHeight() - bb.getHeight());
                 break;
         }
 
         bb.setLeft(bb.getLeft() + bb.getHotPoint());
-
-        //renderBox(g2d, bb, Color.black, null);
-        //g2d.setFont((java.awt.Font)xs.createFont(fd));
-
-        //System.out.println("G2D is " + g2d);
         if (la.getShadowColor() != null)
         {
             showTopValue(idr, LocationImpl.create(bb.getLeft(), bb.getTop() + bb.getHeight()), la, true);
@@ -301,12 +294,6 @@ final class SwingTextRenderer implements IConstants
                 g2d.setColor(clrBackground);
                 g2d.fill(r2d);
 
-                /*
-                 * g2d.setColor(Color.red); g2d.fillRect((int)r2d.getX() - 5, (int)r2d.getY(), (int) r2d.getWidth(),
-                 * (int) ins.getTop()); g2d.fillRect((int)r2d.getX() - 5, (int)(r2d.getY() + r2d.getHeight() -
-                 * ins.getBottom()), (int) r2d.getWidth(), (int) ins.getBottom());
-                 */
-
                 // RENDER THE TEXT
                 g2d.setColor(clrText);
                 for (int i = 0; i < iLC; i++)
@@ -322,16 +309,8 @@ final class SwingTextRenderer implements IConstants
                         dW = tl.getBounds().getWidth();
                         dXOffset = -ins.getLeft() + (dFW - dW) / 2;
                     }
-                    /*
-                     * g2d.setColor(Color.green); g2d.fillRect((int)r2d.getX() + 5, (int)((dY - dYHalfOffset +
-                     * ins.getTop() + dH * (i + 1) - dD - dH)), (int) r2d.getWidth(), (int) dH);
-                     */
-                    //g2d.setColor(clrText);
                     tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()), (float) (dY - dYHalfOffset + ins.getTop()
-                        + dH * (i + 1) - dD)
-                    //(float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH/2))
-                        // + ins.getTop())
-                        );
+                        + dH * (i + 1) - dD));
                 }
 
                 // RENDER THE OUTLINE
@@ -450,6 +429,7 @@ final class SwingTextRenderer implements IConstants
             else
             {
                 final Rectangle2D.Double r2d = new Rectangle2D.Double(dX, dY - dFH, dFW, dFH);
+                double dYHalfOffset = (dFH + dH) / 2d;
 
                 // RENDER THE BACKGROUND FILL
                 g2d.setColor(clrBackground);
@@ -470,8 +450,9 @@ final class SwingTextRenderer implements IConstants
                         dW = tl.getBounds().getWidth();
                         dXOffset = -ins.getLeft() + (dFW - dW) / 2;
                     }
-                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()),
-                        (float) (((dY - dD) - (dH * (iLC - i - 1))) + ins.getTop()));
+
+                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()), (float) (((dY - dD) - (dH * (iLC - i))) + ins
+                        .getTop()));
                 }
 
                 // RENDER THE OUTLINE/BORDER
@@ -495,7 +476,7 @@ final class SwingTextRenderer implements IConstants
             }
             else
             {
-                final Rectangle2D.Double r2d = new Rectangle2D.Double(dX, dY - dFH, dFW, dFH);
+                final Rectangle2D.Double r2d = new Rectangle2D.Double(dX, dY - dH, dFW, dFH);
 
                 // RENDER THE BACKGROUND FILL
                 g2d.setColor(clrBackground);
@@ -516,8 +497,8 @@ final class SwingTextRenderer implements IConstants
                         dW = tl.getBounds().getWidth();
                         dXOffset = -ins.getLeft() + (dFW - dW) / 2;
                     }
-                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()),
-                        (float) (((dY - dD) - (dH * (iLC - i - 1))) + ins.getTop()));
+                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()), (float) (((dY - dD) + (dH * i)) + ins
+                        .getTop()));
                 }
 
                 // RENDER THE OUTLINE/BORDER
@@ -949,11 +930,6 @@ final class SwingTextRenderer implements IConstants
 
             // UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
             g2d.rotate(-dAngleInRadians, dX, dY);
-            /*
-             * final RotatedRectangle rr = computePolygon(IConstants.BELOW, la, lo.getX(), lo.getY());
-             * g2d.setColor(Color.blue); g2d.draw(rr); final BoundingBox bb = computeBox(IConstants.BELOW, la,
-             * lo.getX(), lo.getY()); renderBox(g2d, bb, Color.black, null);
-             */
         }
 
         // DRAW IT AT A NEGATIVE ANGLE
@@ -999,12 +975,6 @@ final class SwingTextRenderer implements IConstants
 
             // UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
             g2d.rotate(-dAngleInRadians, dX, dY - dH);
-            //crossHairs(g2d, (int)dX, (int)dY - h);
-            /*
-             * final RotatedRectangle rr = computePolygon(IConstants.BELOW, la, lo.getX(), lo.getY());
-             * g2d.setColor(Color.blue); g2d.draw(rr); final BoundingBox bb = computeBox(IConstants.BELOW, la,
-             * lo.getX(), lo.getY()); renderBox(g2d, bb, Color.black, null);
-             */
         }
 
         // VERTICALLY UP
@@ -1098,8 +1068,8 @@ final class SwingTextRenderer implements IConstants
                         dW = tl.getBounds().getWidth();
                         dXOffset = -ins.getLeft() + (dFW - dW) / 2;
                     }
-                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()),
-                        (float) (((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH / 2)) + ins.getTop()));
+                    tl.draw(g2d, (float) (dX + dXOffset + ins.getLeft()), (float) ((dY - dD) - dYHalfOffset + dH
+                        * (i + 1) + ins.getTop()));
                 }
 
                 // RENDER THE OUTLINE/BORDER
@@ -1108,7 +1078,6 @@ final class SwingTextRenderer implements IConstants
 
             // UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
             g2d.rotate(-dAngleInRadians, dX, dY);
-            //crossHairs(g2d, (int)dX, (int)dY);
         }
         itm.dispose();
     }

@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.DeviceAdapter;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -109,7 +110,7 @@ public class SwingRendererImpl extends DeviceAdapter
     /**
      *  
      */
-    private JComponent _jc = null;
+    private IUpdateNotifier _iun = null;
 
     /**
      *  
@@ -139,32 +140,33 @@ public class SwingRendererImpl extends DeviceAdapter
      */
     public void setProperty(String sProperty, Object oValue)
     {
-        if (sProperty.equals(IDeviceRenderer.COMPONENT))
+        if (sProperty.equals(IDeviceRenderer.UPDATE_NOTIFIER))
         {
-            _jc = (JComponent) oValue;
+            _iun = (IUpdateNotifier) oValue;
+            JComponent jc = (JComponent) _iun.peerInstance();
             _lhmAllTriggers.clear();
 
-            MouseListener[] mla = _jc.getMouseListeners();
+            MouseListener[] mla = jc.getMouseListeners();
             for (int i = 0; i < mla.length; i++)
             {
                 if (mla[i] instanceof SwingEventHandler)
                 {
-                    _jc.removeMouseListener(mla[i]);
+                    jc.removeMouseListener(mla[i]);
                 }
             }
 
-            MouseMotionListener[] mmla = _jc.getMouseMotionListeners();
+            MouseMotionListener[] mmla = jc.getMouseMotionListeners();
             for (int i = 0; i < mmla.length; i++)
             {
                 if (mmla[i] instanceof SwingEventHandler)
                 {
-                    _jc.removeMouseMotionListener(mmla[i]);
+                    jc.removeMouseMotionListener(mmla[i]);
                 }
             }
 
-            _eh = new SwingEventHandler(_lhmAllTriggers, _jc);
-            _jc.addMouseListener(_eh);
-            _jc.addMouseMotionListener(_eh);
+            _eh = new SwingEventHandler(_lhmAllTriggers, _iun);
+            jc.addMouseListener(_eh);
+            jc.addMouseMotionListener(_eh);
         }
         else if (sProperty.equals(IDeviceRenderer.GRAPHICS_CONTEXT))
         {
@@ -860,7 +862,7 @@ public class SwingRendererImpl extends DeviceAdapter
      */
     public final void enableInteraction(InteractionEvent iev) throws RenderingException
     {
-        if (_jc == null)
+        if (_iun == null)
         {
             DefaultLoggerImpl.instance().log(ILogger.WARNING,
                 "Cannot enable interaction if a component is not associated with the SwingRendererImpl");
@@ -881,7 +883,7 @@ public class SwingRendererImpl extends DeviceAdapter
         if (pre instanceof PolygonRenderEvent)
         {
             final Location[] loa = ((PolygonRenderEvent) pre).getPoints();
-            
+
             for (int i = 0; i < tga.length; i++)
             {
                 tc = tga[i].getCondition();
@@ -897,7 +899,7 @@ public class SwingRendererImpl extends DeviceAdapter
         else if (pre instanceof OvalRenderEvent)
         {
             final Bounds boEllipse = ((OvalRenderEvent) pre).getBounds();
-            
+
             for (int i = 0; i < tga.length; i++)
             {
                 tc = tga[i].getCondition();
@@ -917,7 +919,7 @@ public class SwingRendererImpl extends DeviceAdapter
             double dStart = are.getStartAngle();
             double dExtent = are.getAngleExtent();
             int iArcType = toSwingArcType(are.getStyle());
-            
+
             for (int i = 0; i < tga.length; i++)
             {
                 tc = tga[i].getCondition();
@@ -930,7 +932,6 @@ public class SwingRendererImpl extends DeviceAdapter
                 al.add(new ShapedAction(iev.getSource(), boEllipse, dStart, dExtent, iArcType, tga[i].getAction()));
             }
         }
-
 
     }
 
