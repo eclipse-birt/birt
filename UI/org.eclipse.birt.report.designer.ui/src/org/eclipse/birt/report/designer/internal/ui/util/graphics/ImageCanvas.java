@@ -327,6 +327,35 @@ public class ImageCanvas extends Canvas
 	}
 
 	/**
+	 * Load the image to canvas.
+	 * 
+	 * @param img
+	 * @return
+	 */
+	public Image loadImage( Image img )
+	{
+		if ( sourceImage != null && !sourceImage.isDisposed( ) )
+		{
+			sourceImage.dispose( );
+			sourceImage = null;
+		}
+
+		sourceImage = new Image( getDisplay( ), img.getImageData( ) );
+
+		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
+				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
+		{
+			fitCanvas( );
+		}
+		else
+		{
+			showOriginal( );
+		}
+		return sourceImage;
+
+	}
+
+	/**
 	 * Load image from a input-stream.
 	 * 
 	 * @param is

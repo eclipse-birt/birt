@@ -11,10 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.wizards;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -25,11 +32,30 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Supplies template selection page of new report wizard
- * @author David Michonneau
  *  
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
+
+	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
+	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
+	private static final String MESSAGE_REPORT_TEMPLATES = Messages.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
+	private static final String TITLE_LETTER = Messages.getString( "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
+	private static final String TITLE_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.title.MailingLabels" ); //$NON-NLS-1$
+	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
+	private static final String TITLE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.ChartListing" ); //$NON-NLS-1$
+	private static final String TITLE_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.title.GroupedListing" ); //$NON-NLS-1$
+	private static final String TITLE_SIMPLE_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SimpleListing" ); //$NON-NLS-1$
+	private static final String TITLE_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.title.BlankReport" ); //$NON-NLS-1$
+	private static final String TITLE_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_LETTER = Messages.getString( "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.message.MailingLabels" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.ChartListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.message.GroupedListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_SIMPLE_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SimpleListing" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
+	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
 
 	private List templateList;
 
@@ -57,60 +83,58 @@ public class WizardTemplateChoicePage extends WizardPage
 		public String reportPath;
 
 		public String picturePath;
-		
+
 		public String cheatSheetId;
 
 	}
 
 	protected Template[] templates = new Template[]{
-			new Template( "Blank Report",
-					"Blank Report",
-					"/templates/blank_report.rptdesign",
-					"/templates/blank_report.gif",
-					""),
-			new Template( "Simple Listing",
-					"Simple Listing",
-					"/templates/simple_listing.rptdesign",
-					"/templates/simple_listing.gif",
-					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting"),
-			new Template( "Grouped Listing",
-					"Grouped Listing 1",
-					"/templates/grouped_listing.rptdesign",
-					"/templates/grouped_listing.gif",
-					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting"),
-			new Template( "Chart & Listing",
-					"Chart & Listing",
-					"/templates/chart_listing.rptdesign",
-					"/templates/chart_listing.gif",
-					""),
-			new Template( "Dual Chart & Listing",
-					"Dual Chart & Listing",
-					"/templates/dual_column_chart_listing.rptdesign",
-					"/templates/dual_column_chart_listing.gif",
-					"" ),
-			new Template( "Side by Side Chart & Listing",
-					"Side by Side Chart & Listing",
-					"/templates/sidebyside_chart_listing.rptdesign",
-					"/templates/sidebyside_chart_listing.gif",
-					"" ),
-			new Template( "Mailing Labels",
-					"Mailing Labels",
-					"/templates/mailing_labels.rptdesign",
-					"/templates/mailing_labels.gif",
-					"" ),
-			new Template( "Letter",
-					"Letter",
-					"/templates/letter.rptdesign",
-					"/templates/letter.gif",
-					"" )
+			new Template( TITLE_BLANK_REPORT,
+					DESCRIPTION_BLANK_REPORT,
+					"/templates/blank_report.rptdesign", //$NON-NLS-1$
+					"/templates/blank_report.gif", //$NON-NLS-1$
+					"" ), //$NON-NLS-1$
+			new Template( TITLE_SIMPLE_LISTING,
+					DESCRIPTION_SIMPLE_LISTING,
+					"/templates/simple_listing.rptdesign", //$NON-NLS-1$
+					"/templates/simple_listing.gif", //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting" ), //$NON-NLS-1$
+			new Template( TITLE_GROUPED_LISTING,
+					DESCRIPTION_GROUPED_LISTING,
+					"/templates/grouped_listing.rptdesign", //$NON-NLS-1$
+					"/templates/grouped_listing.gif", //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting" ), //$NON-NLS-1$
+			new Template( TITLE_CHART_LISTING,
+					DESCRIPTION_CHART_LISTING,
+					"/templates/chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/chart_listing.gif", //$NON-NLS-1$
+					"" ), //$NON-NLS-1$
+			new Template( TITLE_DUAL_CHART_LISTING,
+					DESCRIPTION_DUAL_CHART_LISTING,
+					"/templates/dual_column_chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/dual_column_chart_listing.gif", //$NON-NLS-1$
+					"" ), //$NON-NLS-1$
+			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,
+					DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING,
+					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
+					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
+					"" ), //$NON-NLS-1$
+			new Template( TITLE_MAILING_LABELS,
+					DESCRIPTION_MAILING_LABELS,
+					"/templates/mailing_labels.rptdesign", //$NON-NLS-1$
+					"/templates/mailing_labels.gif", //$NON-NLS-1$
+					"" ), //$NON-NLS-1$
+			new Template( TITLE_LETTER,
+					DESCRIPTION_LETTER,
+					"/templates/letter.rptdesign", //$NON-NLS-1$
+					"/templates/letter.gif", //$NON-NLS-1$
+					"" ) //$NON-NLS-1$
 	};
 
 	protected int selectedIndex;
 
-	/**
-	 * @author David Michonneau
-	 *  
-	 */
+	protected Map imageMap;
+
 	public class TemplateType
 	{
 
@@ -148,6 +172,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected WizardTemplateChoicePage( String pageName )
 	{
 		super( pageName );
+
+		imageMap = new HashMap( );
 	}
 
 	/*
@@ -167,10 +193,10 @@ public class WizardTemplateChoicePage extends WizardPage
 		composite.setLayout( gridLayout );
 
 		Label label0 = new Label( composite, SWT.NONE );
-		label0.setText( "Report templates:" );
+		label0.setText( MESSAGE_REPORT_TEMPLATES );
 
 		Label previewLabel = new Label( composite, SWT.NONE );
-		previewLabel.setText( "Preview:" );
+		previewLabel.setText( MESSAGE_PREVIEW );
 
 		templateList = new List( composite, SWT.BORDER );
 		for ( int i = 0; i < templates.length; i++ )
@@ -178,33 +204,41 @@ public class WizardTemplateChoicePage extends WizardPage
 			templateList.add( templates[i].name );
 		}
 
-		GridData data = new GridData( );
+		GridData data = new GridData( GridData.BEGINNING
+				| GridData.FILL_VERTICAL );
 		data.widthHint = 170;
-		data.heightHint = 550;
-		data.verticalAlignment = GridData.BEGINNING;
-		data.verticalSpan = 3;
 		templateList.setLayoutData( data );
 
-		previewCanvas = new ImageCanvas( composite, SWT.BORDER );
+		Composite previewPane = new Composite( composite, 0 );
+		data = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
+		previewPane.setLayoutData( data );
+		gridLayout = new GridLayout( );
+		gridLayout.verticalSpacing = 10;
+		previewPane.setLayout( gridLayout );
 
-		data = new GridData( );
-		data.widthHint = 370;
-		data.heightHint = 474;
-		data.verticalAlignment = GridData.BEGINNING;
+		previewCanvas = new ImageCanvas( previewPane, SWT.BORDER );
+		previewCanvas.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				previewCanvas.fitCanvas( );
+			}
+		} );
+
+		data = new GridData( GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL );
+		data.grabExcessHorizontalSpace = true;
+		data.grabExcessVerticalSpace = true;
 		previewCanvas.setLayoutData( data );
 
-		Label descriptionTitle = new Label( composite, SWT.NONE );
-		descriptionTitle.setText( "Description:" );
-		data = new GridData( );
-		data.verticalAlignment = GridData.BEGINNING;
-		data.widthHint = 370;
+		Label descriptionTitle = new Label( previewPane, SWT.NONE );
+		descriptionTitle.setText( MESSAGE_DESCRIPTION );
+		data = new GridData( GridData.FILL_HORIZONTAL );
 		descriptionTitle.setLayoutData( data );
 
-		description = new Label( composite, SWT.WRAP );
+		description = new Label( previewPane, SWT.WRAP );
 
-		data = new GridData( );
-		data.verticalAlignment = GridData.BEGINNING;
-		data.widthHint = 370;
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalIndent = 20;
 		description.setLayoutData( data );
 
 		hookListeners( );
@@ -231,14 +265,25 @@ public class WizardTemplateChoicePage extends WizardPage
 			//change description/image
 			selectedIndex = templateList.getSelectionIndex( );
 			description.setText( templates[selectedIndex].description );
-			previewCanvas.setImageData( ReportPlugin.getImage( templates[selectedIndex].picturePath )
-					.getImageData( ) );
+
+			String key = templates[selectedIndex].picturePath;
+			Object img = imageMap.get( key );
+
+			if ( img == null )
+			{
+				img = ReportPlugin.getImage( key );
+
+				imageMap.put( key, img );
+			}
+
+			previewCanvas.clear( );
+			previewCanvas.loadImage( ( (Image) img ) );
 
 		}
 	};
 
 	/**
-	 * @return Returns the templetes of selected item.
+	 * @return Returns the templates of selected item.
 	 */
 	public Template getTemplate( )
 	{
