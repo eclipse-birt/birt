@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.report.model"
-   name="BIRT model plugin"
+   name="BIRT Model"
    version="1.0.0"
    provider-name="Eclipse.org"
 >
