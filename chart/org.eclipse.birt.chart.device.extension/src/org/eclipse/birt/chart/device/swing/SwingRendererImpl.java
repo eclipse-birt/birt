@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -575,7 +574,7 @@ public class SwingRendererImpl extends DeviceAdapter
             _g2d.setClip(shClip); // RESTORE
         }
 
-        if (pre.iObjIndex > 0)
+        /*if (pre.iObjIndex > 0)
         {
             try
             {
@@ -589,7 +588,7 @@ public class SwingRendererImpl extends DeviceAdapter
             {
                 ex.printStackTrace();
             }
-        }
+        }*/
     }
 
     /*
