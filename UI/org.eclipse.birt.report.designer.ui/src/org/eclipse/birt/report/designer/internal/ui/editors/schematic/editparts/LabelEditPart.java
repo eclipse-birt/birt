@@ -174,12 +174,9 @@ public class LabelEditPart extends ReportElementEditPart
 
 		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
 
-		( (LabelFigure) getFigure( ) ).setRecommendSize( getLabelAdapter( ).getSize( ) );
-
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
 				getConstraint( ) );
-
 		( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
 
 		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
@@ -194,8 +191,8 @@ public class LabelEditPart extends ReportElementEditPart
 			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
-
-		refreshMargin( );
+		
+		refreshMargin();
 	}
 
 	protected boolean hasText( )

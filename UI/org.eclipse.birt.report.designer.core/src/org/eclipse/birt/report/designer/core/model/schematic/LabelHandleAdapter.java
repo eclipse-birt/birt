@@ -13,10 +13,7 @@ package org.eclipse.birt.report.designer.core.model.schematic;
 
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.draw2d.geometry.Dimension;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -32,28 +29,9 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter
 	 *            The label handle.
 	 * @param mark
 	 */
-	public LabelHandleAdapter( ReportItemHandle labelHandle,
-			IModelAdapterHelper mark )
+	public LabelHandleAdapter( ReportItemHandle labelHandle, IModelAdapterHelper mark )
 	{
 		super( labelHandle, mark );
 	}
-
-	/**
-	 * Gets size of label item.
-	 * 
-	 * @return the size of label item.
-	 */
-	public Dimension getSize( )
-	{
-		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
-		int px = (int) DEUtil.convertoToPixel( handle );
-
-		handle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
-		int py = (int) DEUtil.convertoToPixel( handle );
-
-		px = Math.max( 0, px );
-		py = Math.max( 0, py );
-
-		return new Dimension( px, py );
-	}
+	
 }
