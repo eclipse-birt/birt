@@ -385,6 +385,7 @@ public class ChoiceSetFactory
 	public static String[] getStyles( )
 	{
 		ArrayList list = new ArrayList( );
+		list.add("");
 		ReportDesign design = SessionHandleAdapter.getInstance( )
 				.getReportDesign( );
 		ReportDesignHandle handle = (ReportDesignHandle) design.getHandle( design );
