@@ -165,10 +165,10 @@ public class Connection implements IConnection
 		if ( JDBCConnectionFactory.isLoggable( Level.INFO_LEVEL ) )
 		{
 			String logMsg = "Connection.open(Properties). connProperties = ";
-			for ( Enumeration enum = connProperties.propertyNames( ); enum
+			for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration
 					.hasMoreElements( ); )
 			{
-				String propName = (String) enum.nextElement( );
+				String propName = (String) enumeration.nextElement( );
 				if ( !propName.startsWith( "ODA:password" ) )
 				{
 					logMsg += ( propName + "="
