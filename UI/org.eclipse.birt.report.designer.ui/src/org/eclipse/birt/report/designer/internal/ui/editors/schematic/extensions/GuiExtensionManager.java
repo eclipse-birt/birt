@@ -41,8 +41,7 @@ public class GuiExtensionManager
 {
 
 	public static final String PALETTE_DESIGNER = "pallet_designer";
-	public static final String PALETTE_MASTERPAGE = "pallet_masterpage";
-	public static final String PALETTE_PRE = "pallet_pre";
+	public static final String PALETTE_MASTERPAGE = "pallet_masterpage";	
 
 	public static final String DESIGNER_FACTORY = "designer_factory"; //$NON-NLS-1$
 	public static final String ATTRIBUTE = "attribute"; //$NON-NLS-1$
@@ -223,7 +222,8 @@ public class GuiExtensionManager
 					displayName,
 					IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ),
-					new ReportElementFactory( PALETTE_PRE + displayName ),
+					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
+							+ point.getExtensionName( ) ),
 					icon,
 					icon,
 					new ExtendedElementToolExtends( point.getExtensionName( ) ) );
