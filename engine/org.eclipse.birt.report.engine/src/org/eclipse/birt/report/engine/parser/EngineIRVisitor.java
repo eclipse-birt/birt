@@ -15,8 +15,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataTypeUtil;
 import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
@@ -129,10 +133,14 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/07 09:43:34 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/17 07:58:02 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
+	/**
+	 * logger used to log the error.
+	 */
+	protected static Log logger = LogFactory.getLog(EngineIRVisitor.class );
 
 	/**
 	 * current report element created by visitor
@@ -434,7 +442,7 @@ class EngineIRVisitor extends DesignVisitor
 		scalarParameter.setAllowBlank( handle.allowBlank( ) );
 		scalarParameter.setAllowNull( handle.allowNull( ) );
 		scalarParameter.setControlType( handle.getControlType( ) );
-		scalarParameter.setDefaultValue( handle.getDefaultValue( ) );
+		scalarParameter.setDefaultValue( getValue(handle.getDefaultValue( ), handle.getDataType() ));
 		//DE doesn't provide this method
 		scalarParameter.setDisplayName( handle.getDisplayNameKey( ), handle
 				.getDisplayName( ) );
@@ -1655,5 +1663,46 @@ class EngineIRVisitor extends DesignVisitor
 			return IConditionalExpression.OP_ANY;
 
 		return IConditionalExpression.OP_NONE;
+	}
+	
+	/**
+	 * get value
+	 * @param value
+	 * @param type the data type
+	 * @return
+	 */
+	protected Object getValue(String value, String type)
+	{
+		try
+		{
+			if(DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type))
+			{
+				return DataTypeUtil.toBoolean(value);
+			}
+			else if(DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type))
+			{
+				return DataTypeUtil.toDate(value);
+			}
+			else if(DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type))
+			{
+				return DataTypeUtil.toBigDecimal(value);
+			}
+			else if(DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type))
+			{
+				return DataTypeUtil.toDouble(value);
+			}
+			else
+			{
+				return value;
+			}
+		}
+		catch(DataException e)
+		{
+			if(logger.isErrorEnabled())
+			{
+				logger.error(e);
+			}
+			return null;
+		}
 	}
 }
