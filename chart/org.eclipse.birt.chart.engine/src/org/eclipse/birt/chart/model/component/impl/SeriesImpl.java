@@ -983,7 +983,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series,
      *      org.eclipse.birt.chart.model.Chart)
      */
-    public void translateFrom(Series sourceSeries, Chart chart)
+    public void translateFrom(Series sourceSeries, int iSeriesDefinitionIndex, Chart chart)
     {
         // Do nothing
     }

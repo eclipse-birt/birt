@@ -626,10 +626,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         return true;
     }
 
-    public void translateFrom(Series series, Chart chart)
+    public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart)
     {
-        System.out.println("LineSeriesImpl: DEBUG: translating from " + series.getClass().getName()
-            + " to line series.");
         this.getLineAttributes().setVisible(true);
         this.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
         if (!(series instanceof ScatterSeries))
@@ -669,7 +667,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         }
         if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
         {
-            this.getDataDefinition().addAll(series.getDataDefinition());
+            this.getDataDefinition().add(series.getDataDefinition().get(0));
         }
 
         // Copy series specific properties
@@ -691,10 +689,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         }
 
         // Update the sampledata in the model
-        chart.setSampleData(getConvertedSampleData(chart.getSampleData()));
+        chart.setSampleData(getConvertedSampleData(chart.getSampleData(), iSeriesDefinitionIndex));
     }
 
-    private SampleData getConvertedSampleData(SampleData currentSampleData)
+    private SampleData getConvertedSampleData(SampleData currentSampleData, int iSeriesDefinitionIndex)
     {
         // Convert base sample data
         EList bsdList = currentSampleData.getBaseSampleData();
@@ -710,16 +708,16 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
         // Convert orthogonal sample data
         EList osdList = currentSampleData.getOrthogonalSampleData();
-        Vector vNewOrthogonalSampleData = new Vector();
         for (int i = 0; i < osdList.size(); i++)
         {
-            OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
-            osd
-                .setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
-            vNewOrthogonalSampleData.add(osd);
+            if (i == iSeriesDefinitionIndex)
+            {
+                OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
+                osd.setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd
+                    .getDataSetRepresentation()));
+                currentSampleData.getOrthogonalSampleData().set(i, osd);
+            }
         }
-        currentSampleData.getOrthogonalSampleData().clear();
-        currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
         return currentSampleData;
     }
 
@@ -753,9 +751,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         {
             String sElement = strtok.nextToken().trim();
             if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
-                                          // be text
+            // be text
             {
-                sbNewRepresentation.append(sElement.substring(1));
+                StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
+                sbNewRepresentation.append(strStockTokenizer.nextToken().trim().substring(1));
             }
             else
             {

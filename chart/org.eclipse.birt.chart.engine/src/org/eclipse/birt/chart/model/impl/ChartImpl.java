@@ -1283,6 +1283,19 @@ public class ChartImpl extends EObjectImpl implements Chart
                 OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData().get(iO);
                 int iSDIndex = osd.getSeriesDefinitionIndex();
 
+                // If the series definition has been removed
+                if (iSDIndex > vOSD.size() - 1)
+                {
+                    // Remove the Orthogonal Sample Data entry (since it is no longer valid)
+                    sd.getOrthogonalSampleData().remove(iO);
+
+                    // Reset the loop counter to not lose an entry
+                    iO--;
+
+                    // continue with the next iteration
+                    continue;
+                }
+
                 // Create runtime series for SeriesDefinition index
                 sdTmp = (SeriesDefinition) vOSD.get(iSDIndex);
                 seriesOrthogonalRuntime = (Series) EcoreUtil.copy(sdTmp.getDesignTimeSeries());

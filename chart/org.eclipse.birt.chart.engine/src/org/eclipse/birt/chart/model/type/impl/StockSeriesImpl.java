@@ -439,10 +439,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         return true;
     }
 
-    public void translateFrom(Series series, Chart chart)
+    public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart)
     {
-        System.out.println("StockSeriesImpl: DEBUG: translating from " + series.getClass().getName()
-            + " to line series.");
         this.getLineAttributes().setVisible(true);
         this.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
         this.setStacked(false);
@@ -505,10 +503,10 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         }
 
         // Update the sampledata in the model
-        chart.setSampleData(getConvertedSampleData(chart.getSampleData()));
+        chart.setSampleData(getConvertedSampleData(chart.getSampleData(), iSeriesDefinitionIndex));
     }
 
-    private SampleData getConvertedSampleData(SampleData currentSampleData)
+    private SampleData getConvertedSampleData(SampleData currentSampleData, int iSeriesDefinitionIndex)
     {
         // Convert base sample data
         EList bsdList = currentSampleData.getBaseSampleData();
@@ -524,16 +522,16 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
         // Convert orthogonal sample data
         EList osdList = currentSampleData.getOrthogonalSampleData();
-        Vector vNewOrthogonalSampleData = new Vector();
         for (int i = 0; i < osdList.size(); i++)
         {
-            OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
-            osd
-                .setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
-            vNewOrthogonalSampleData.add(osd);
+            if (i == iSeriesDefinitionIndex)
+            {
+                OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
+                osd.setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd
+                    .getDataSetRepresentation()));
+                currentSampleData.getOrthogonalSampleData().set(i, osd);
+            }
         }
-        currentSampleData.getOrthogonalSampleData().clear();
-        currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
         return currentSampleData;
     }
 
