@@ -91,12 +91,12 @@
             id="com.actuate.istudio.ui.actionSet">
          <action
                disabledIcon="icons/preview_disabled.gif"
-               hoverIcon="icons/Preview.gif"
+               hoverIcon="icons/preview.gif"
                enablesFor="*"
                toolbarPath="previewGroup"
                label="%designer.preview.previewtoolbarmenuaction.label"
                tooltip="%designer.preview.previewtoolbarmenuaction.label"
-               icon="icons/Preview.gif"
+               icon="icons/preview.gif"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
                style="pulldown"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu">
