@@ -124,13 +124,14 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         this.cdCurrent = (ColorDefinition) EcoreUtil.copy(cdCurrent);
         this.fdBackup = (FontDefinition) EcoreUtil.copy(fdCurrent);
         this.cdBackup = (ColorDefinition) EcoreUtil.copy(cdCurrent);
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE/* | SWT.APPLICATION_MODAL */);
+        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         placeComponents();
         populateLists();
         shell.setText("Font Descriptor:");
         shell.setSize(450, 480);
         UIHelper.centerOnScreen(shell);
+        shell.layout();
         shell.open();
         while (!shell.isDisposed())
         {
@@ -415,7 +416,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         GridData gdAccept = new GridData(GridData.GRAB_HORIZONTAL);
         gdAccept.horizontalSpan = 1;
         btnAccept = new Button(cmpButtons, SWT.PUSH);
-        btnAccept.setText("   Ok   ");
+        btnAccept.setText("   OK   ");
         btnAccept.setToolTipText("Accept");
 
         GridData gdCancel = new GridData(GridData.GRAB_HORIZONTAL);

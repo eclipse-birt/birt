@@ -91,12 +91,13 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
             gCurrent.setEndColor(ColorDefinitionImpl.create(0, 0, 254));
         }
         display = Display.getCurrent();
-        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE/* | SWT.APPLICATION_MODAL */);
+        shell = new Shell(Display.getCurrent(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         placeComponents();
         shell.setText("Gradient Editor:");
         shell.setSize(400, 320);
         UIHelper.centerOnScreen(shell);
+        shell.layout();
         shell.open();
         while (!shell.isDisposed())
         {
@@ -186,7 +187,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("Ok");
+        btnAccept.setText("   OK   ");
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);

@@ -38,13 +38,17 @@ public interface IChartType
      * @return Array of sub-type names.
      */
     public Collection getChartSubtypes(String Dimension, Orientation orientation);
-    
+
     /**
-     * Returns whether this type implementation can process the specified model. The first instance that returns true will be considered as the correct chart type.
-     * If all types return false, the chart type and subtype from the model will be used.
+     * Returns whether this type implementation can process the specified model. The first instance that returns true
+     * will be considered as the correct chart type. If all types return false, the chart type and subtype from the
+     * model will be used.
      * 
-     * @param cModel chart model representing an existing chart
-     * @param htModelHints pre-computed 'hints' from the model to reduce computations needed to be performed by each implementation.
+     * @param cModel
+     *            chart model representing an existing chart
+     * @param htModelHints
+     *            pre-computed 'hints' from the model to reduce computations needed to be performed by each
+     *            implementation.
      * @return true if this chart type can adapt the specified model to its own type. false if it cannot.
      */
     public boolean canAdapt(Chart cModel, Hashtable htModelHints);

@@ -210,6 +210,7 @@ public class LineChart extends DefaultChartTypeImpl
 
         ((Axis) newChart.getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
         ((Axis) newChart.getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+        ((Axis) newChart.getAxes().get(0)).setCategoryAxis(true);
 
         SeriesDefinition sdX = SeriesDefinitionImpl.create();
         Series categorySeries = SeriesImpl.create();
@@ -358,8 +359,7 @@ public class LineChart extends DefaultChartTypeImpl
                     {
                         Series series = ((SeriesDefinition) seriesdefinitions.get(j)).getDesignTimeSeries();
                         series = getConvertedSeries(series);
-                        if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType
-                            .equalsIgnoreCase("Percent Stacked")))
+                        if ((sNewSubType.equalsIgnoreCase("Stacked") || sNewSubType.equalsIgnoreCase("Percent Stacked")))
                         {
                             series.setStacked(true);
                         }
@@ -375,6 +375,7 @@ public class LineChart extends DefaultChartTypeImpl
             {
                 return null;
             }
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(true);
         }
         else
         {
@@ -387,6 +388,7 @@ public class LineChart extends DefaultChartTypeImpl
 
             ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setOrientation(Orientation.HORIZONTAL_LITERAL);
             ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(true);
 
             ((Axis) ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).getAssociatedAxes().get(0))
                 .setOrientation(Orientation.VERTICAL_LITERAL);
@@ -518,7 +520,7 @@ public class LineChart extends DefaultChartTypeImpl
         }
         if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
         {
-            lineseries.getDataDefinition().addAll(series.getDataDefinition());
+            lineseries.getDataDefinition().add(series.getDataDefinition().get(0));
         }
 
         // Copy series specific properties
@@ -588,9 +590,10 @@ public class LineChart extends DefaultChartTypeImpl
         {
             String sElement = strtok.nextToken().trim();
             if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
-                                          // be text
+            // be text
             {
-                sbNewRepresentation.append(sElement.substring(1));
+                StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
+                sbNewRepresentation.append(strStockTokenizer.nextToken().trim().substring(1));
             }
             else
             {

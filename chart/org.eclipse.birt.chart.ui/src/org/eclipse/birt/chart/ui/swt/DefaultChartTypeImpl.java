@@ -22,12 +22,14 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Actuate Corporation
- *
+ *  
  */
 public class DefaultChartTypeImpl implements IChartType
 {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getName()
      */
     public String getName()
@@ -35,7 +37,9 @@ public class DefaultChartTypeImpl implements IChartType
         return "";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getImage()
      */
     public Image getImage()
@@ -43,39 +47,55 @@ public class DefaultChartTypeImpl implements IChartType
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String, org.eclipse.birt.chart.model.attribute.Orientation)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String,
+     *      org.eclipse.birt.chart.model.attribute.Orientation)
      */
     public Collection getChartSubtypes(String Dimension, Orientation orientation)
     {
         return new Vector();
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart, java.util.Hashtable)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart,
+     *      java.util.Hashtable)
      */
     public boolean canAdapt(Chart cModel, Hashtable htModelHints)
     {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String, org.eclipse.birt.chart.model.attribute.Orientation, java.lang.String, org.eclipse.birt.chart.model.Chart)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String,
+     *      org.eclipse.birt.chart.model.attribute.Orientation, java.lang.String, org.eclipse.birt.chart.model.Chart)
      */
     public Chart getModel(String sType, Orientation Orientation, String Dimension, Chart currentChart)
     {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
      */
     public String[] getSupportedDimensions()
     {
-        return new String[] {"2D"};
+        return new String[]
+        {
+            "2D"
+        };
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
      */
     public String getDefaultDimension()
@@ -83,7 +103,9 @@ public class DefaultChartTypeImpl implements IChartType
         return "2D";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
      */
     public boolean supportsTransposition()
@@ -91,7 +113,9 @@ public class DefaultChartTypeImpl implements IChartType
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getHelp()
      */
     public IHelpContent getHelp()

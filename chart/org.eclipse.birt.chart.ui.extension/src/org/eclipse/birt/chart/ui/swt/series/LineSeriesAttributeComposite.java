@@ -107,6 +107,7 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
         gdBTNCurve.horizontalSpan = 2;
         btnCurve.setLayoutData(gdBTNCurve);
         btnCurve.setText("Show Lines as Curves");
+        btnCurve.setSelection(((LineSeries) series).isCurve());
         btnCurve.addSelectionListener(this);
 
         // Layout for the Marker group

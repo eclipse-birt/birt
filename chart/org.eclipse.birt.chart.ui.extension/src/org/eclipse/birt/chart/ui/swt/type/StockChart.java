@@ -252,12 +252,13 @@ public class StockChart extends DefaultChartTypeImpl
                         ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
                         ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
                     }
-                    }
+                }
             }
             else
             {
                 return null;
             }
+            ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setCategoryAxis(true);
         }
         else
         {
@@ -382,6 +383,17 @@ public class StockChart extends DefaultChartTypeImpl
         }
         if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
         {
+            if (series.getDataDefinition().size() != 4)
+            {
+                // For High value
+                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                // For Low value
+                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                // For Open value
+                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                // For Close value
+                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+            }
             stockseries.getDataDefinition().addAll(series.getDataDefinition());
         }
 

@@ -71,7 +71,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private transient ColorDefinition cdFont = null;
 
     private transient LineAttributes laCurrent = null;
-    
+
     private transient org.eclipse.birt.chart.model.component.Label lblCurrent = null;
 
     private transient Insets insets = null;
@@ -102,12 +102,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient boolean bPositionEnabled = true;
 
+    private transient boolean bVisibilityEnabled = true;
+
     /**
      * @param parent
      * @param style
      */
     public LabelAttributesComposite(Composite parent, int style, String sGroupName, Position lpCurrent,
-        org.eclipse.birt.chart.model.component.Label lblCurrent, boolean bPositionEnabled)
+        org.eclipse.birt.chart.model.component.Label lblCurrent, boolean bPositionEnabled, boolean bVisibilityEnabled)
     {
         super(parent, style);
         this.sGroupName = sGroupName;
@@ -120,6 +122,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         this.laCurrent = lblCurrent.getOutline();
         this.insets = lblCurrent.getInsets();
         this.bPositionEnabled = bPositionEnabled;
+        this.bVisibilityEnabled = bVisibilityEnabled;
         init();
         placeComponents();
     }
@@ -166,13 +169,16 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         cmpGeneral.setLayoutData(gdCMPGeneral);
         cmpGeneral.setLayout(glGeneral);
 
-        cbVisible = new Button(cmpGeneral, SWT.CHECK);
-        GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
-        gdCBVisible.horizontalSpan = 2;
-        cbVisible.setLayoutData(gdCBVisible);
-        cbVisible.setSelection(this.lblCurrent.isVisible());
-        cbVisible.setText("Is Visible");
-        cbVisible.addSelectionListener(this);
+        if (bVisibilityEnabled)
+        {
+            cbVisible = new Button(cmpGeneral, SWT.CHECK);
+            GridData gdCBVisible = new GridData(GridData.FILL_HORIZONTAL);
+            gdCBVisible.horizontalSpan = 2;
+            cbVisible.setLayoutData(gdCBVisible);
+            cbVisible.setSelection(this.lblCurrent.isVisible());
+            cbVisible.setText("Is Visible");
+            cbVisible.addSelectionListener(this);
+        }
 
         if (bPositionEnabled)
         {
@@ -304,7 +310,11 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     public Point getPreferredSize()
     {
-        Point ptSize = new Point(300, 160);
+        Point ptSize = new Point(300, 130);
+        if (bVisibilityEnabled)
+        {
+            ptSize.y += 30;
+        }
         if (bPositionEnabled)
         {
             ptSize.y += 30;

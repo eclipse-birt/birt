@@ -134,6 +134,7 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         PaletteEditorComposite pe = new PaletteEditorComposite(shell, PaletteImpl.create(1, false));
 
         shell.setSize(300, 500);
+        shell.layout();
         shell.open();
         while (!shell.isDisposed())
         {
@@ -157,7 +158,6 @@ public final class PaletteEditorComposite extends Composite implements PaintList
         gl.numColumns = 1;
         gl.makeColumnsEqualWidth = true;
         setLayout(gl);
-        //setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
 
         coPaletteEntries = new Composite(this, SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_BOTH);

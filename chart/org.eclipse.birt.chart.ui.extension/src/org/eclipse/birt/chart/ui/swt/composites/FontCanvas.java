@@ -88,6 +88,7 @@ public class FontCanvas extends Canvas implements PaintListener
         Font fCurrent = null;
         Color cFore = null;
         GC gc = pe.gc;
+        Font fOld = gc.getFont();
 
         if (cdCurrent != null && bUseColor)
         {
@@ -108,7 +109,7 @@ public class FontCanvas extends Canvas implements PaintListener
             if (!bUseSize)
             {
                 gc.setClipping(2, 2, this.getSize().x - 40, 26);
-                fCurrent = new Font(this.getDisplay(), fdCurrent.getName(), 12, iStyle);
+                fCurrent = new Font(this.getDisplay(), fdCurrent.getName(), fOld.getFontData()[0].getHeight(), iStyle);
             }
             else
             {
@@ -192,7 +193,7 @@ public class FontCanvas extends Canvas implements PaintListener
             fCurrent.dispose();
         }
         cFore.dispose();
-        gc.dispose();
+        gc.setFont(fOld);
     }
 
     private Point getStringWidth(GC gc, String sText)

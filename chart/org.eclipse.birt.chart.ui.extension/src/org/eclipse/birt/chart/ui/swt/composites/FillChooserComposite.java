@@ -223,7 +223,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getDisplay(), SWT.NONE | SWT.APPLICATION_MODAL);
+        Shell shell = new Shell(this.getShell(), SWT.NONE);
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);
@@ -299,7 +299,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             btnImage.setText("Image...");
             btnImage.addSelectionListener(this);
         }
-
+        shell.layout();
         shell.open();
     }
 

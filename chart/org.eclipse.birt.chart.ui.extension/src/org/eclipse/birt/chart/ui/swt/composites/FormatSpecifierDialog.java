@@ -68,6 +68,7 @@ public class FormatSpecifierDialog implements SelectionListener
         shell.setText("Format Specifier Dialog:");
         shell.setSize(332, 255);
         UIHelper.centerOnScreen(shell);
+        shell.layout();
         shell.open();
         while (!shell.isDisposed())
         {
@@ -105,7 +106,7 @@ public class FormatSpecifierDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("Ok");
+        btnAccept.setText("   OK   ");
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);

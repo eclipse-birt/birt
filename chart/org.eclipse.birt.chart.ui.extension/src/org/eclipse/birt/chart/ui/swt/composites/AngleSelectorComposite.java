@@ -33,9 +33,8 @@ import org.eclipse.swt.widgets.Display;
 /**
  * A text angle selector that facilitates text rotation angle specification
  */
-public final class AngleSelectorComposite extends Canvas 
-	implements PaintListener, MouseListener, MouseMoveListener,
-		DisposeListener, ControlListener
+public final class AngleSelectorComposite extends Canvas implements PaintListener, MouseListener, MouseMoveListener,
+    DisposeListener, ControlListener
 {
     /**
      *  
@@ -61,22 +60,23 @@ public final class AngleSelectorComposite extends Canvas
      *  
      */
     private transient Color clrBG = null;
-    
+
     /**
-     * An offscreen image used to render the palette entries using double buffering. This image is re-created when a composite resize occurs.
+     * An offscreen image used to render the palette entries using double buffering. This image is re-created when a
+     * composite resize occurs.
      */
     private Image imgBuffer = null;
-    
+
     /**
      * Associated with the offscreen image and whose lifecycle depends on the buffered image's lifecycle
      */
     private GC gcBuffer = null;
 
     /**
-     * Arrow co-ordinates 
+     * Arrow co-ordinates
      */
-    private transient final int[] iaPolygon = new int[6]; 
-    
+    private transient final int[] iaPolygon = new int[6];
+
     /**
      * 
      * @param coParent
@@ -109,7 +109,7 @@ public final class AngleSelectorComposite extends Canvas
         final Rectangle rCA = getClientArea();
         final int iWidth = rCA.height / 2 - 8;
         final int iHeight = rCA.height - 16;
-        
+
         if (imgBuffer == null)
         {
             imgBuffer = new Image(d, rCA.width, rCA.height);
@@ -147,7 +147,7 @@ public final class AngleSelectorComposite extends Canvas
         // DRAW THE HAND POINTER
         iRadius = iWidth;
         drawHand(d, gcBuffer, p.x, p.y, iRadius - 10, iLastAngle, false);
-        
+
         gcCanvas.drawImage(imgBuffer, 0, 0);
     }
 
@@ -206,7 +206,7 @@ public final class AngleSelectorComposite extends Canvas
 
         // DRAW THE STICK
         gc.drawLine(x, y, xTip, yTip);
-        
+
         // DRAW THE ARROW
         iaPolygon[0] = xTip;
         iaPolygon[1] = yTip;
@@ -337,13 +337,15 @@ public final class AngleSelectorComposite extends Canvas
         iLastAngle = iNewAngle;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
      */
     public void widgetDisposed(DisposeEvent e)
     {
         if (imgBuffer != null)
-        {    
+        {
             gcBuffer.dispose();
             imgBuffer.dispose();
             gcBuffer = null;
@@ -351,21 +353,25 @@ public final class AngleSelectorComposite extends Canvas
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
      */
     public void controlResized(ControlEvent e)
     {
         if (imgBuffer != null)
-        {    
+        {
             gcBuffer.dispose();
             imgBuffer.dispose();
             gcBuffer = null;
             imgBuffer = null;
         }
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
      */
     public void controlMoved(ControlEvent e)

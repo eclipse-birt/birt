@@ -61,6 +61,7 @@ public class TriggerEditorDialog implements SelectionListener
         shell.setText("Trigger Editor Dialog:");
         shell.setSize(400, 340);
         UIHelper.centerOnScreen(shell);
+        shell.layout();
         shell.open();
         while (!shell.isDisposed())
         {
@@ -98,7 +99,7 @@ public class TriggerEditorDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText("Ok");
+        btnAccept.setText("   OK   ");
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
