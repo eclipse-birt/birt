@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TextEditPart;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -142,17 +141,6 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	protected org.eclipse.gef.commands.Command getCreateCommand(
 			CreateRequest request )
 	{
-
-		if ( getTargetEditPart( request ) instanceof ReportDesignEditPart )
-		{
-			Rectangle bound = getHostFigure( ).getClientArea( );
-			//forbid DND outside client area
-			if ( !bound.contains( request.getLocation( ) ) )
-			{
-				return null;
-			}
-		}
-
 		EditPart after = getInsertionReference( request );
 
 		CreateCommand command = new CreateCommand( request.getExtendedData( ) );
