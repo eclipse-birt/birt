@@ -1,0 +1,68 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+package org.eclipse.birt.data.engine.api;
+
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * Base class to define set of transforms that are common to report queries, 
+ * and groups within report queries.
+ *
+ */
+public interface IBaseTransform
+{
+	/**
+	 * Returns the filters defined in this transform, as an ordered list of 
+	 * IFilterDefn objects.
+	 * 
+	 * @return the filters. null if no filter is defined.
+	 */
+	public List getFilters( );
+
+	/**
+	 * Returns an unordered collection of subqueries that are alternative views of
+	 * the result set for this transform. Objects are of type ISubqueryDefn.
+	 * 
+	 * @return the subqueries for this transform
+	 */
+	
+	public Collection getSubqueries( );
+
+	
+	/**
+	 * Returns the sort criteria as an ordered list of ISortDefn objects.
+	 * 
+	 * @return the sort criteria
+	 */
+	public List getSorts( );
+		
+	/**
+	 * Gets the expressions that needs to be calculated per detail row, as an unordered
+	 * collection of IJSExpression objects
+	 */
+	public Collection getRowExpressions();
+	
+	/**
+	 * Gets the expressions that needs to be available at the end of the group/list, as an unordered
+	 * collection of IBaseExpression objects.
+	 */
+	public Collection getAfterExpressions(); 
+	
+	/**
+	 * Gets the expressions that needs to be available at the beginning of the group/list, as an unordered
+	 * collection of IBaseExpression objects.
+	 */
+	public Collection getBeforeExpressions();
+}

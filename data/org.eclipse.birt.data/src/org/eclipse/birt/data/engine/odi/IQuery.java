@@ -1,0 +1,330 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */
+
+package org.eclipse.birt.data.engine.odi;
+
+import java.util.List;
+
+import org.eclipse.birt.data.engine.core.DataException;
+
+/**
+ * The IQuery interface allows applications to specify 
+ * data transformation of result data instances obtained
+ * via an external data source or cached data. 
+ * The IDataSource is the factory for all types of IQuery instances. 
+ * There may be many IQuery instances associated with an IDataSource. 
+ * Multiple independent queries might be executed simultaneously by different threads, 
+ * but the implementation might choose to execute them serially. 
+ * In either case, the implementation must be thread safe. 
+ * <p>
+ * Interface methods are provided to bind data manipulation 
+ * specification, such as ordering, aggregates/grouping, filtering.
+ * <br>
+ * In a later release, this query would also accept specification
+ * for computed columns to let an ODI Executor, if capable, 
+ * to compute the value for such column.
+ * <p>
+ * The execute methods run a prepared data source query with its 
+ * parameter values, if applicable,
+ * and return the result in a result iterator which the user can 
+ * iterate to get its IResultObject instances.
+ * <br>
+ * An implementation might choose to represent its result iterator
+ * as a cursored result supporting incremental fetch. 
+ * <br>
+ * The result may be a large set, which could be iterated or passed
+ * to another query (ICandidateQuery) for further data manipulation. 
+ */
+
+public interface IQuery
+{
+	/**
+	 * Bind the ordering/sorting specification to the query instance.  
+	 * Specify the ordering of one or more fields in the query result objects.
+     * @param sortSpecs		An ordered list of IQuery.SortSpec objects.
+     * @throws DataException	if given sortSpecs is invalid.
+     */
+    public void setOrdering( List sortSpecs ) throws DataException;
+ 	
+    /**
+	 * Specify the grouping of query results for aggregates.
+     * @param groupSpecs	An ordered list of IQuery.GroupSpec objects.
+     * @throws DataException	if given groupSpecs is invalid.
+     */
+    public void setGrouping( List groupSpecs ) throws DataException;
+    
+    /**
+     * Specify the filtering criteria 
+     * @param filter User defined filtering criteria on query results
+     */
+    public void setFiltering( IFilter filter ) throws DataException;
+    
+    /**
+     * Specifies the maximum number of detail rows that can be retrieved by this query.
+     * @param maxRows	Maximum number of rows. 
+     * 					A value of 0 means no limit on how many rows this query can retrieve.
+     */
+    public void setMaxRows( int maxRows );
+    	
+	/**
+	 * Bind the query filter to the query instance, to be used to filter
+	 * query results returned.
+	 * If the filter is not specified, then it defaults to <code>true</code>.
+	 * <br>
+	 * Not supported in first BIRT release.
+     * @param filterSpec	
+     * @throws OdiException	if given filterSpec is invalid.
+     */
+    // void setFilter( String filterSpec ) throws OdiException;
+		
+	/**
+	 * Close all result iterators of execute(...) methods on this Query 
+	 * instance, and any associated resources.  After this method, all
+	 * associated query results and their iterators can no longer be used.
+	 * The Query instance itself is still valid and can still be used for 
+	 * further execution.
+     */
+    public void close();
+
+    /* Nested data transform spec class definitions */
+    
+    /**
+     * Defines a sort criterion on an IQuery. 
+     * It contains the name or alias of a result field 
+     * and a sort direction (ascending or descending)
+     */
+    public static class SortSpec
+    {
+        private String field;
+        private boolean ascendingOrder;
+        
+        public SortSpec( String field, boolean ascendingOrder )
+        {
+            this.field = field;
+            this.ascendingOrder = ascendingOrder;
+        }
+        
+        public String getField()
+        {
+            return field;
+        }
+        
+        public boolean isAscendingOrder()
+        {
+            return ascendingOrder;
+        }       
+    }
+ 
+    /**
+     * Defines a grouping criterion on an IQuery.
+     */
+    public static class GroupSpec
+    {
+        /**
+         * No grouping interval unit specified.
+         */
+    	public static final int NO_INTERVAL = 0;
+
+    	/**
+         * Grouping interval unit is Year.
+         */
+    	public static final int YEAR_INTERVAL = 1;
+    	
+    	/**
+         * Grouping interval unit is Month.
+         */
+    	public static final int MONTH_INTERVAL = 2;
+    	
+    	/**
+         * Grouping interval unit is Quarter.
+         */
+    	public static final int QUARTER_INTERVAL = 3;
+    	
+    	/**
+         * Grouping interval unit is Week.
+         */
+    	public static final int WEEK_INTERVAL = 4;
+    	
+    	/**
+         * Grouping interval unit is Day.
+         */
+    	public static final int DAY_INTERVAL = 5;
+    	
+    	/**
+         * Grouping interval unit is Hour.
+         */
+    	public static final int HOUR_INTERVAL = 6;
+    	
+    	/**
+         * Grouping interval unit is Minute.
+         */
+    	public static final int MINUTE_INTERVAL = 7;
+    	
+    	/**
+         * Grouping interval unit is Second.
+         */
+    	public static final int SECOND_INTERVAL = 8;
+    	
+    	/**
+    	 * Grouping interval unit is the numerical value.
+    	 */
+    	public static final int NUMERIC_INTERVAL = 99;
+    	
+    	/**
+         * Grouping interval unit is the length of the string prefix.
+         */
+    	public static final int STRING_PREFIX_INTERVAL = 100;
+    	
+    	// Enumeration constants for SortDirection
+    	public static final int NO_SORT = -1;		// No sort direction is specified. 
+    	public static final int SORT_ASC = 0;		// Sort asending
+    	public static final int SORT_DESC = 1;		// Sort descending
+        
+        private String keyColumn;
+        private String name;
+    	private int sortDirection = NO_SORT;        
+        private int interval = NO_INTERVAL;
+        private double intervalRange = 0;
+        private Object intervalStart;
+
+    	/**
+    	 * Instantiates a groupSpec defining a column name
+    	 * as its required group key.
+    	 * @param groupKeyColumn The column name as the group key.
+    	 */
+        public GroupSpec( String groupKeyColumn )
+        {
+    		keyColumn = groupKeyColumn;
+        }
+
+    	/**
+    	 * Gets the name of the column that defines the group key.
+    	 * @return 	The column name of the group key.
+    	 */
+    	public String getKeyColumn( )
+    	{
+    		return keyColumn;
+    	}
+    	
+    	/**
+         * Specifies the group name.  
+         * A name is optional, i.e. a group could be unnamed.
+         * @param groupName	The name of the group.
+         */
+        public void setName( String groupName )
+        {
+            name = groupName;
+        }
+        
+    	/**
+    	 * Returns the name of the group.
+    	 * @return Name of group. Can be null if group is unnamed.
+    	 */
+    	public String getName()
+    	{
+    	    return name;
+    	}
+
+    	/**
+    	 * Specifies the sort direction on the group key. 
+    	 * Use this method to specify a sort in the common case
+    	 * where the groups are ordered by the group key only. 
+    	 * To specify other types of sort criteria,
+    	 * use the query's setOrdering method to apply directly on the query. 
+    	 * @param groupSortDirection The group key sortDirection to set.
+    	 * 				Valid values are those defined as the
+    	 * 				SortDirection enumeration constants in 
+    	 * 				birt.data.engine.api.IGroupDefn.
+    	 */
+    	public void setSortDirection( int groupSortDirection ) 
+    	{
+    		sortDirection = groupSortDirection;
+    	}
+
+    	/**
+    	 * Gets the sort direction on the group key. 
+     	 * @return The group key sort direction. If no direction 
+     	 * 			is specified, IGroupDefn.NO_SORT is returned. This means
+    	 * 			the data engine can choose any sort order, or 
+    	 * 			no sort order at all, for this group level.
+    	 */
+    	public int getSortDirection() 
+    	{
+    		return sortDirection;
+    	}
+    	
+    	/**
+    	 * Specifies the interval for grouping on a range of 
+    	 * contiguous group key values. 
+    	 * Interval can be year, months, day, etc.
+    	 * @param interval The interval to set, as an integer value
+    	 * 				defined in birt.data.engine.api.IGroupDefn.
+    	 */
+    	public void setInterval( int groupInterval ) 
+    	{
+    		interval = groupInterval;
+    	}
+    	
+    	/**
+    	 * Returns the interval for grouping on a range of 
+    	 * contiguous group key values. 
+    	 * @return 	The grouping interval
+    	 */   	
+    	public int getInterval( )
+    	{
+    	    return interval;
+    	}
+    	
+    	/**
+    	 * Specifies the number of contiguous group intervals that 
+    	 * form one single group, when Interval is used to 
+    	 * define group break level. <br>
+    	 * For example, if Interval is MONTH_INTERVAL, and IntervalRange
+    	 * is 6, each group is defined to contain a span of 6 months.
+    	 * @param intervalRange The intervalRange to set.
+    	 */
+    	public void setIntervalRange( double groupIntervalRange ) 
+    	{
+    		intervalRange = groupIntervalRange;
+    	}
+    	
+    	/**
+    	 * Returns the number of contiguous group intervals that 
+    	 * form one single group, when Interval 
+    	 * is used to define group break level.
+    	 * @return  The grouping intervalRange.
+    	 */
+    	public double getIntervalRange( )
+    	{
+    	    return intervalRange;
+    	}      
+    	
+        /**
+         * Gets the start value of a group range
+         */
+        public Object getIntervalStart()
+        {
+            return intervalStart;
+        }
+        
+        /**
+         * Sets the start value of a group range
+         */
+        public void setIntervalStart( Object intervalStart )
+        {
+            this.intervalStart = intervalStart;
+        }
+    }
+
+}

@@ -1,0 +1,45 @@
+/*******************************************************************************
+* Copyright (c) 2004, 2005 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation  - initial API and implementation
+*******************************************************************************/ 
+
+package org.eclipse.birt.data.engine.odaconsumer;
+
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+class DataAccessClassLoader extends URLClassLoader
+{
+	// regular expression for matching the interfaces and exception classes in 
+	// org.eclipse.birt.data.oda package
+	private static final Pattern sm_odaInterfacesPattern =
+		Pattern.compile( "org\\.eclipse\\.birt\\.data\\.oda\\.[a-zA-Z]+" );
+	
+	DataAccessClassLoader( URL[] urls )
+	{
+		// this classloader does not have a parent
+		super( urls, null );
+	}
+	
+	protected Class findClass( String name ) throws ClassNotFoundException
+	{
+		Matcher matcher = sm_odaInterfacesPattern.matcher( name );
+		
+		// if the name matches the regular expression, then it's an ODA interface or 
+		// exception class, so we must delegate to the default app classloader
+		if( matcher.matches() )
+			return getClass().getClassLoader().loadClass( name );
+		
+		// otherwise, we use the default URLClassLoader mechanism to look for the class 
+		// from the list of URL's
+		return super.findClass( name );
+	}
+}

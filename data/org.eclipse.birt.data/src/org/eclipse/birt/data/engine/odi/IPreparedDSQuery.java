@@ -1,0 +1,84 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */
+
+package org.eclipse.birt.data.engine.odi;
+
+import org.eclipse.birt.data.engine.core.DataException;
+
+/**
+ * A prepared IDataSourceQuery that is ready for input parameter
+ * bindings, and subsequent execution.  
+ * One can re-use the same prepared query, rebind different
+ * input parameter values, and re-execute.
+ */
+public interface IPreparedDSQuery
+{
+    /**
+     * Gets the metadata of the result objects expected 
+     * to retrieve at query execution.
+     * Returns Null if the metadata is not available before execute,
+     * or if it is ambiguous on which result iterator to reference.
+     * In such case, one should proceed with execute, and gets 
+     * the result class of a specific IResultIterator. 
+     * @return	The IResultClass instance that represents the
+     * 			expected metadata of the query result objects.
+     */
+    public IResultClass getResultClass();
+
+    /** 
+     * Binds an input value to the query's input parameter.
+     * <br>
+     * These parameter values are used by the execute() method 
+     * to execute the associated query in the data source.
+     * @param inputParamName	The name of an input parameter.
+     * 					It can be either the name of the underlying 
+     * 					data source parameter, or the name defined
+     * 					in IInputParamDefn, mapping to the position
+     * 					of the underlying data source parameter.
+     * @param paramValue	The input value to the parameter.
+     * @throws DataException	if given input parameter name or value is invalid.
+     */
+    public void setInputParamValue( String inputParamName, Object paramValue )
+    					throws DataException;
+    
+    /** 
+     * Binds an input value to the query's input parameter.
+     * <br>
+     * These parameter values are used by the execute() method 
+     * to execute the associated query in the data source.
+     * @param inputParamPos	The Position of an input parameter.
+     * @param paramValue	The input value to the parameter.
+     * @throws DataException	if given input parameter name or value is invalid.
+     */
+    public void setInputParamValue( int inputParamPos, Object paramValue )
+    					throws DataException;
+    
+	/**
+	 * Executes this prepared query applying the specified transforms,  
+	 * and returns an iterator of the result set. <p>
+     * @return	An IResultIterator of query result instances which  
+     * 			the user can iterate to get results.
+     * @throws DataException	if query execution error(s) occur.
+     */
+    public IResultIterator execute( ) throws DataException;
+
+    /** 
+     * Closes this query, if executed, and any associated resources,  
+     * providing a hint that the consumer is done with this result,
+     * whose resources can be safely released as appropriate.
+     * This instance can no longer be executed after it is closed.
+     */
+    public void close();
+
+}

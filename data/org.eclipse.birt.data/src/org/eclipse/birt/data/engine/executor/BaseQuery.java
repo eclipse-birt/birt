@@ -1,0 +1,89 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+package org.eclipse.birt.data.engine.executor;
+
+import java.util.List;
+
+import org.eclipse.birt.data.engine.odi.IQuery;
+import org.eclipse.birt.data.engine.odi.IFilter;
+import org.eclipse.birt.data.engine.core.DataException;
+
+/**
+ * Implementation of the ODI IQuery interface. Common base class for DataSourceQuery and CandidateQuery
+ */
+public abstract class BaseQuery implements IQuery
+{
+    protected SortSpec[] 	sorts;
+    protected GroupSpec[] 	groups;
+    protected int			maxRows = 0;
+    protected IFilter		filter;
+    
+    /**
+     * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
+     */
+    public void setOrdering(List sortSpecs) throws DataException
+    {
+        sorts = (SortSpec[]) sortSpecs.toArray( new SortSpec[0] );
+    }
+
+    /**
+     * @see org.eclipse.birt.data.engine.odi.IQuery#setGrouping(java.util.List)
+     */
+    public void setGrouping(List groupSpecs) throws DataException
+    {
+        groups = ( GroupSpec[] ) groupSpecs.toArray( new GroupSpec[0]);
+    }
+
+    /**
+     * @see org.eclipse.birt.data.engine.odi.IQuery#setFiltering(IFilter)
+     */
+    public void setFiltering( IFilter filter ) throws DataException
+    {
+        this.filter = filter;
+    }
+    
+    IFilter getFiltering() 
+    {
+        return filter;
+    }
+    
+    /**
+     * @see org.eclipse.birt.data.engine.odi.IQuery#setMaxRows(int)
+     */
+    public void setMaxRows(int maxRows)
+    {
+        this.maxRows = maxRows;
+    }
+    
+    /**
+     * Gets the query's sort specification. Returns null if no sort specs are defined.
+     */
+    SortSpec[] getOrdering()
+    {
+        return sorts;
+    }
+    
+    /**
+     * Gets the query's grouping specification. Returns null if no groups are defined.
+     */
+    GroupSpec[] getGrouping()
+    {
+        return groups;
+    }
+    
+    int getMaxRows()
+    {
+        return maxRows;
+    }
+}
