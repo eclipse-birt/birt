@@ -180,7 +180,8 @@ public interface MessageConstants
 	public static final String  DESIGN_PARSER_EXCEPTION_INVALID_PROPERTY_SYNTAX			= "Error.DesignParserException.INVALID_PROPERTY_SYNTAX"; 		//$NON-NLS-1$
 	public static final String  DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY				= "Error.DesignParserException.UNDEFINED_PROPERTY"; 		//$NON-NLS-1$
 	public static final String  DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT					= "Error.DesignParserException.QUERY_CONFLICT";				//$NON-NLS-1$
-
+	public static final String	DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING			= "Error.DesignParserException.UNSUPPORTED_ENCODING";							//$NON-NLS-1$
+	
 	// DesignFileException
 	public static final String	DESIGN_FILE_EXCEPTION_FILE_NOT_FOUND					= "Error.DesignFileException.FILE_NOT_FOUND";						//$NON-NLS-1$
 	public static final String	DESIGN_FILE_EXCEPTION_SYNTAX_ERROR						= "Error.DesignFileException.SYNTAX_ERROR";						//$NON-NLS-1$
@@ -196,6 +197,7 @@ public interface MessageConstants
 	public static final String	XML_PARSER_EXCEPTION_EXCEPTION							= "Error.XMLParserException.EXCEPTION";							//$NON-NLS-1$
 	public static final String	XML_PARSER_EXCEPTION_INVALID_INTEGER					= "Error.XMLParserException.INVALID_INTEGER";						//$NON-NLS-1$
 
+	
 	//UserPropertyException
 	public static final String	USER_PROPERTY_EXCEPTION_NAME_REQUIRED					= "Error.UserPropertyException.NAME_REQUIRED";						//$NON-NLS-1$
 	public static final String	USER_PROPERTY_EXCEPTION_DUPLICATE_NAME					= "Error.UserPropertyException.DUPLICATE_NAME";					//$NON-NLS-1$

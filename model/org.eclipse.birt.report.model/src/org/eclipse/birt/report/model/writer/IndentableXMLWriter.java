@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.util.XMLWriter;
 
 /**
  * Writes the XML file with indents.
- *  
+ * 
  */
 
 public class IndentableXMLWriter extends XMLWriter
@@ -61,13 +61,16 @@ public class IndentableXMLWriter extends XMLWriter
 	 * 
 	 * @param outputFile
 	 *            the file to write
+	 * @param signature
+	 *            the unicode signature of the design file
 	 * @throws java.io.IOException
 	 *             if write error occurs
 	 */
 
-	public IndentableXMLWriter( File outputFile ) throws IOException
+	public IndentableXMLWriter( File outputFile, String signature )
+			throws IOException
 	{
-		super( outputFile );
+		super( outputFile, signature );
 	}
 
 	/**
@@ -75,13 +78,16 @@ public class IndentableXMLWriter extends XMLWriter
 	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.
+	 * @param signature
+	 *            the unicode signature of the design file
 	 * @throws IOException
 	 *             if write error occurs
 	 */
 
-	public IndentableXMLWriter( OutputStream os ) throws IOException
+	public IndentableXMLWriter( OutputStream os, String signature )
+			throws IOException
 	{
-		super( os );
+		super( os, signature );
 	}
 
 	/*

@@ -1,16 +1,17 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.util.UnicodeUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -60,19 +62,27 @@ public final class DesignReader
 			InputStream inputStream ) throws DesignFileException
 	{
 		DesignParserHandler handler = new DesignParserHandler( session );
+		InputStream internalStream = inputStream;
+		if ( !inputStream.markSupported( ) )
+			internalStream = new BufferedInputStream( inputStream );
+
+		assert inputStream.markSupported( );
 
 		// set file name of the design file. Used to search relative path
 		// to the file.
-		
+
 		ReportDesign design = handler.getDesign( );
 		design.setFileName( fileName );
-		
+
 		try
 		{
+			String signature = checkUTFSignature( internalStream, fileName );
+			design.setUTFSignature( signature );
+
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
-			InputSource inputSource = new InputSource( inputStream );
-			inputSource.setEncoding( "UTF-8" ); //$NON-NLS-1$
+			InputSource inputSource = new InputSource( internalStream );
+			inputSource.setEncoding( signature );
 			parser.parse( inputSource, handler );
 		}
 		catch ( SAXException e )
@@ -100,7 +110,6 @@ public final class DesignReader
 					.getErrors( ), e );
 		}
 
-
 		design.setValid( true );
 		return design;
 	}
@@ -118,20 +127,58 @@ public final class DesignReader
 	 * @throws DesignFileException
 	 *             if file is not found
 	 */
-	
+
 	public static ReportDesign read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = new FileInputStream( fileName );
+			inputStream = new BufferedInputStream( new FileInputStream(
+					fileName ) );
 		}
 		catch ( FileNotFoundException e )
 		{
 			throw new DesignFileException( fileName );
 		}
 
+		assert inputStream.markSupported( );
 		return read( session, fileName, inputStream );
+	}
+
+	/**
+	 * Checks whether the input stream has a compatible encoding signature with
+	 * BIRT. Currently, BIRT only supports UTF-8 encoding.
+	 * 
+	 * @param inputStream
+	 *            the input stream to check
+	 * @param fileName
+	 *            the design file name
+	 * @return the signature from the UTF files.
+	 * @throws IOException
+	 *             if errors occur during opening the design file
+	 * @throws SAXException
+	 *             if the stream has unexpected encoding signature
+	 */
+
+	private static String checkUTFSignature( InputStream inputStream,
+			String fileName ) throws IOException, SAXException
+	{
+
+		// This may fail if there are a lot of space characters before the end
+		// of the encoding declaration
+
+		String encoding = UnicodeUtil.checkUTFSignature( inputStream );
+
+		if ( encoding != null && !UnicodeUtil.SIGNATURE_UTF_8.equals( encoding ) )
+		{
+			Exception cause = new DesignParserException(
+					DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_ENCODING );
+			Exception fileException = new DesignFileException( fileName, cause );
+
+			throw new SAXException( fileException );
+		}
+
+		return encoding;
 	}
 }

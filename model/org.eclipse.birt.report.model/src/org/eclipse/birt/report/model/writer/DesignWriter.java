@@ -96,7 +96,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * means that the writer has to do a bit more work to write the design, the the
  * extra work here is well worth the savings to the many customers who will read
  * the design format.
- *  
+ * 
  */
 
 public class DesignWriter extends ElementVisitor
@@ -144,7 +144,7 @@ public class DesignWriter extends ElementVisitor
 
 	public void write( File outputFile ) throws IOException
 	{
-		writer = new IndentableXMLWriter( outputFile );
+		writer = new IndentableXMLWriter( outputFile, design.getUTFSignature( ) );
 		writeFile( );
 	}
 
@@ -159,7 +159,7 @@ public class DesignWriter extends ElementVisitor
 
 	public void write( OutputStream os ) throws IOException
 	{
-		writer = new IndentableXMLWriter( os );
+		writer = new IndentableXMLWriter( os, design.getUTFSignature( ) );
 		writeFile( );
 	}
 
@@ -1015,7 +1015,7 @@ public class DesignWriter extends ElementVisitor
 
 				property( rule, HighlightRule.BACKGROUND_COLOR_MEMBER );
 
-				//Border
+				// Border
 				property( rule, HighlightRule.BORDER_TOP_STYLE_MEMBER );
 				property( rule, HighlightRule.BORDER_TOP_WIDTH_MEMBER );
 				property( rule, HighlightRule.BORDER_TOP_COLOR_MEMBER );
@@ -1032,7 +1032,7 @@ public class DesignWriter extends ElementVisitor
 				property( rule, HighlightRule.BORDER_RIGHT_WIDTH_MEMBER );
 				property( rule, HighlightRule.BORDER_RIGHT_COLOR_MEMBER );
 
-				//Font
+				// Font
 				property( rule, HighlightRule.FONT_FAMILY_MEMBER );
 				property( rule, HighlightRule.FONT_SIZE_MEMBER );
 				property( rule, HighlightRule.FONT_STYLE_MEMBER );
@@ -1045,7 +1045,7 @@ public class DesignWriter extends ElementVisitor
 				property( rule, HighlightRule.TEXT_ALIGN_MEMBER );
 				property( rule, HighlightRule.TEXT_TRANSFORM_MEMBER );
 				property( rule, HighlightRule.TEXT_INDENT_MEMBER );
-				//Format
+				// Format
 				property( rule, HighlightRule.DATE_TIME_FORMAT_MEMBER );
 				property( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
 				property( rule, HighlightRule.NUMBER_ALIGN_MEMBER );
@@ -1930,10 +1930,10 @@ public class DesignWriter extends ElementVisitor
 
 		writer.endElement( );
 	} /*
-	   * (non-Javadoc)
-	   * 
-	   * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
-	   */
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
+		 */
 
 	public void visitDesignElement( DesignElement obj )
 	{

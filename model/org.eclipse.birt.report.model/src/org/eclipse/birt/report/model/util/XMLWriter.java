@@ -18,13 +18,14 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Stack;
 
+
 /**
  * General-purpose utility to write an XML file. Provides methods for writing
  * tags, attributes and text. Maintains state for elements and generates the
  * proper closing tags when needed. Provides the ability to "conditionally"
  * start a tag: the tag will be written only if it actually contains attribute
  * or contents.
- *  
+ * 
  */
 
 public class XMLWriter
@@ -35,7 +36,6 @@ public class XMLWriter
 	 */
 
 	private final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
-
 
 	/**
 	 * The output stream.
@@ -75,15 +75,18 @@ public class XMLWriter
 	 * 
 	 * @param outputFile
 	 *            the file to write
+	 * @param signature
+	 *            the UTF signature
 	 * @throws java.io.IOException
 	 *             if write error occurs
 	 */
 
-	public XMLWriter( File outputFile ) throws java.io.IOException
+	public XMLWriter( File outputFile, String signature )
+			throws java.io.IOException
 	{
 		FileOutputStream stream = new FileOutputStream( outputFile );
 		out = new PrintStream( stream, false, OUTPUT_ENCODING );
-		init( );
+		init( signature );
 	}
 
 	/**
@@ -91,24 +94,78 @@ public class XMLWriter
 	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.
+	 * @param signature
+	 *            the UTF signature
 	 * @throws IOException
 	 *             if write error occurs
 	 */
 
-	public XMLWriter( OutputStream os ) throws IOException
+	public XMLWriter( OutputStream os, String signature ) throws IOException
 	{
 		out = new PrintStream( os, false, OUTPUT_ENCODING );
-		init( );
+
+		init( signature );
 	}
 
 	/**
 	 * Write the header line for the XML file.
+	 * 
+	 * @param signature
+	 *            the UTF signature
 	 */
 
-	private void init( )
+	private void init( String signature )
 	{
+		writeUTFSignature( signature );
 		out.println( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
 				+ OUTPUT_ENCODING + "\"?>" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Writes the unicode signature (BOM) information to the file. Currently only
+	 * UTF-8 is supported.
+	 * 
+	 * @param signature
+	 *            the unicode signature in the design file.
+	 */
+
+	private void writeUTFSignature( String signature )
+	{
+		if ( UnicodeUtil.SIGNATURE_UTF_8.equals( signature ) ) 
+		{
+			out.write( 0xEF );
+			out.write( 0xBB );
+			out.write( 0xBF );
+		}
+
+		if ( UnicodeUtil.SIGNATURE_UNICODE_BIG.equals( signature ) )
+		{
+			out.write( 0xFE );
+			out.write( 0xFF );
+		}
+		
+		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) )
+		{
+			out.write( 0xFF );
+			out.write( 0xFE );
+		}
+		
+		if ( UnicodeUtil.SIGNATURE_UCS4_BIG.equals( signature ) ) 
+		{
+			out.write( 0x00 );
+			out.write( 0x00 );
+			out.write( 0xFE );
+			out.write( 0xFF );
+		}
+		
+		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) ) //$NON-NLS-1$
+		{
+			out.write( 0x00 );
+			out.write( 0x00 );
+			out.write( 0xFF );
+			out.write( 0xFE );
+		}
+		
 	}
 
 	/**

@@ -284,6 +284,12 @@ public class ReportDesign extends RootElement
 	protected String fileName = null;
 
 	/**
+	 * The UTF signature.
+	 */
+
+	protected String signature = null;
+
+	/**
 	 * The default units for the design.
 	 */
 
@@ -540,6 +546,29 @@ public class ReportDesign extends RootElement
 	public void setFileName( String newName )
 	{
 		fileName = newName;
+	}
+
+	/**
+	 * Sets the UTF signature of this design file.
+	 * 
+	 * @param signature
+	 *            the UTF signature of the design file.
+	 */
+
+	public void setUTFSignature( String signature )
+	{
+		this.signature = signature;
+	}
+
+	/**
+	 * Gets the UTF signature of this design file.
+	 * 
+	 * @return the UTF signature of the design file.
+	 */
+
+	public String getUTFSignature( )
+	{
+		return signature;
 	}
 
 	/**
@@ -976,7 +1005,7 @@ public class ReportDesign extends RootElement
 
 	public void makeUniqueName( DesignElement element )
 	{
-		ElementDefn eDefn = (ElementDefn)element.getDefn( );
+		ElementDefn eDefn = (ElementDefn) element.getDefn( );
 		String name = StringUtil.trimString( element.getName( ) );
 
 		// Some elements can have a blank name.

@@ -158,6 +158,14 @@ public class DesignParserException  extends BirtException
 	public static final String DESIGN_EXCEPTION_UNDEFINED_PROPERTY = MessageConstants.DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY;
 
 	/**
+	 * A unsupported exception occurred. This happens that the unicode signature
+	 * in the design file is not UTF-8.
+	 */
+
+	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ENCODING = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING;
+
+	
+	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
