@@ -852,13 +852,7 @@ public class ReportDesign extends RootElement
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		if ( propName.equals( UNITS_PROP ) )
-		{
 			units = (String) value;
-
-			ChoiceSet allowedUnits = getPropertyDefn( UNITS_PROP )
-					.getAllowedChoices( );
-			assert allowedUnits.contains( units );
-		}
 		else
 			super.setIntrinsicProperty( propName, value );
 	}

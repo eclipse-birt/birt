@@ -55,7 +55,7 @@ public class PositiveValueValidator extends SimpleValueValidator
 			double measure = ( (DimensionValue) value ).getMeasure( );
 			if ( measure <= 0 )
 				throw new PropertyValueException( null, defn, value,
-						PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE );
+						PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE );
 		}
 		else
 			assert false;

@@ -22,7 +22,6 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the Extended Item (extended item) tag.
- * 
  */
 
 public class ExtendedItemState extends ReportItemState
@@ -77,21 +76,29 @@ public class ExtendedItemState extends ReportItemState
 
 		if ( StringUtil.isBlank( extension ) )
 		{
-			handler.semanticWarning( new SemanticError( element,
-					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
+
+			RecoverableError.dealMissingInvalidExtension( handler,
+					new SemanticError( element,
+							SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
 		}
 		else
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			ExtensionElementDefn extDefn = (ExtensionElementDefn)dd.getExtension( extension );
+			ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+					.getExtension( extension );
 			if ( extDefn == null )
 			{
-				handler.semanticWarning( new SemanticError( element,
-						new String[]{extension},
-						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
+
+				RecoverableError
+						.dealMissingInvalidExtension(
+								handler,
+								new SemanticError(
+										element,
+										new String[]{extension},
+										SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
 			}
 		}
-		
+
 		// here is for the deprecate property name "extension"
 		if ( oldDesign )
 			setProperty( ExtendedItem.EXTENSION_PROP, attrs,

@@ -88,9 +88,11 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( propDefn == null || keyPropDefn == null )
 		{
-			handler
-					.semanticWarning( new DesignParserException(
-							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			RecoverableError
+					.dealUndefinedProperty(
+							handler,
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}

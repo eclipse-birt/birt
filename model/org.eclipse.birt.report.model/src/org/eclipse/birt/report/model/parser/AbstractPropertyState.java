@@ -27,14 +27,8 @@ import org.xml.sax.Attributes;
 /**
  * Parses the abstract property, that is the XML file like:
  * 
- * <pre>
- * 
- *  
- *   
- *      &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
- *    
- *   
- *  
+ * <pre>                                 
+ *   &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
  * 
  * The supported tags are:
@@ -48,10 +42,8 @@ import org.xml.sax.Attributes;
  * <li>text-property,
  * <li>html-property
  * </ul>
- * 
  * This class parses the "name" attribute and keeps it. Other attributes are
  * parsed by the inherited classes.
- *  
  */
 
 public class AbstractPropertyState extends AbstractParseState
@@ -163,9 +155,12 @@ public class AbstractPropertyState extends AbstractParseState
 				.getMember( member );
 		if ( memberDefn == null )
 		{
-			handler
-					.semanticWarning( new DesignParserException(
-							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			RecoverableError
+					.dealUndefinedProperty(
+							handler,
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+
 			valid = false;
 			return;
 		}
@@ -182,7 +177,7 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			ex.setElement( element );
 			ex.setPropertyName( propName + "." + member ); //$NON-NLS-1$
-			handler.semanticError( ex );
+			handleMemberValueException( ex, memberDefn );
 			valid = false;
 		}
 	}
@@ -220,9 +215,11 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		if ( prop == null )
 		{
-			handler
-					.semanticWarning( new DesignParserException(
-							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			RecoverableError
+					.dealUndefinedProperty(
+							handler,
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}
@@ -239,11 +236,69 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			ex.setElement( element );
 			ex.setPropertyName( propName );
-			handler.semanticError( ex );
+			handlePropertyValueException( ex );
 			valid = false;
 		}
 	}
 
+	/**
+	 * Process the property value exception if the value of a property is
+	 * invalid.
+	 * 
+	 * @param e
+	 *            the property value exception
+	 */
+
+	private void handlePropertyValueException( PropertyValueException e )
+	{
+		if ( isRecoverableError( e.getErrorCode( ) ) )
+			RecoverableError.dealInvalidPropertyValue( handler, e );
+		else
+			handler.semanticError( e );
+	}
+
+	/**
+	 * Process the property value exception if the value of a member is invalid.
+	 * 
+	 * @param e
+	 *            the property value exception
+	 * @param memberDefn
+	 *            the member definition
+	 */
+
+	private void handleMemberValueException( PropertyValueException e,
+			StructPropertyDefn memberDefn )
+	{
+		if ( isRecoverableError( e.getErrorCode( ) ) )
+			RecoverableError.dealInvalidMemberValue( handler, e, struct,
+					memberDefn );
+		else
+			handler.semanticError( e );
+	}
+
+
+	/**
+	 * Checks whether the error code is an error that the parser can recover.
+	 * 
+	 * @param errorCode
+	 *            the input error code
+	 * @return return <code>true</code> if it is a recoverable error,
+	 *         otherwise <code>false</code>.
+	 */
+
+	private boolean isRecoverableError( String errorCode )
+	{
+		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
+				.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
+						.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
+						.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
+						.equalsIgnoreCase( errorCode ) )
+			return true;
+		return false;
+	}
 	/**
 	 * Sets the value of the attribute "name". This method is used when the
 	 * specific state is defined. When the generic state jumps to the specific
