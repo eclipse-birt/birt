@@ -137,22 +137,21 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	{
 		Control control = getLabelControl( parent );
 		GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_CENTER );
-		gd.horizontalSpan = 1;
 		control.setLayoutData( gd );
 
 		bUnderLine = getUnderLinePropControl( parent );
 		gd = new GridData( );
-		gd.horizontalSpan = 1;
+		gd.widthHint = 88;
 		bUnderLine.setLayoutData( gd );
 
 		bOverLine = getOverLinePropControl( parent );
 		gd = new GridData( );
-		gd.horizontalSpan = 1;
+		gd.widthHint = 88;
 		bOverLine.setLayoutData( gd );
 
 		bLineThrough = getLineThroughPropControl( parent );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 1;
+		gd = new GridData( );
+		gd.widthHint = 88;
 		bLineThrough.setLayoutData( gd );
 	}
 
@@ -325,25 +324,6 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		{
 			getPreferenceStore( ).setValue( line_through_prop,
 					getLineThroughPropValue( ) );
-		}
-	}
-
-	/**
-	 * Checks whether the field eidtors is(are) modifed.
-	 */
-	private void checkDirty( )
-	{
-		if ( wasSelected1 != isSelected1 )
-		{
-			isDirty1 = true;
-		}
-		if ( wasSelected2 != isSelected2 )
-		{
-			isDirty2 = true;
-		}
-		if ( wasSelected3 != isSelected3 )
-		{
-			isDirty3 = true;
 		}
 	}
 

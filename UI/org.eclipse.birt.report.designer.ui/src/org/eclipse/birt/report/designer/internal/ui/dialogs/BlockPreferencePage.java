@@ -78,19 +78,19 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 		super.adjustGridLayout( );
 
 		( (GridData) verticalAlign.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 		( (GridData) textAlign.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 		( (GridData) textTrans.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 		( (GridData) whiteSpace.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 		( (GridData) display.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 	}
 
 	/*

@@ -71,10 +71,10 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 		super.adjustGridLayout( );
 
 		( (GridData) repeat.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 		( (GridData) attachMent.getComboBoxControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 170;
+				.getLayoutData( ) ).widthHint = 167;
 
 	}
 

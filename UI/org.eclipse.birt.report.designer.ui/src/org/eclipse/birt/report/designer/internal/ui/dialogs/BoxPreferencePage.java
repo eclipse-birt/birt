@@ -36,7 +36,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 	private ComboBoxMeasureFieldEditor marginTop, marginRight, marginBottom,
 			marginLeft;
 
-	private SeparatorFieldEditor paddingSep, marginSep;
+	private SeparatorFieldEditor paddingSep1, marginSep1;
 	private Group gpPadding, gpMargin;
 
 	/**
@@ -59,8 +59,8 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void adjustGridLayout( )
 	{
-		( (GridData) paddingSep.getLabelControl( ).getLayoutData( ) ).heightHint = 3;
-		( (GridData) paddingSep.getLabelControl( ).getLayoutData( ) ).horizontalSpan = 3;
+		( (GridData) paddingSep1.getLabelControl( ).getLayoutData( ) ).heightHint = 3;
+		( (GridData) paddingSep1.getLabelControl( ).getLayoutData( ) ).horizontalSpan = 3;
 
 		( (GridData) paddingTop.getLabelControl( gpPadding ).getLayoutData( ) ).horizontalIndent = 8;
 		( (GridData) paddingBottom.getLabelControl( gpPadding ).getLayoutData( ) ).horizontalIndent = 8;
@@ -68,16 +68,16 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		( (GridData) paddingLeft.getLabelControl( gpPadding ).getLayoutData( ) ).horizontalIndent = 8;
 
 		( (GridData) paddingTop.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 110;
+				.getLayoutData( ) ).widthHint = 116;
 		( (GridData) paddingBottom.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 110;
+				.getLayoutData( ) ).widthHint = 116;
 		( (GridData) paddingRight.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 110;
+				.getLayoutData( ) ).widthHint = 116;
 		( (GridData) paddingLeft.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 110;
+				.getLayoutData( ) ).widthHint = 116;
 
-		( (GridData) marginSep.getLabelControl( ).getLayoutData( ) ).heightHint = 3;
-		( (GridData) marginSep.getLabelControl( ).getLayoutData( ) ).horizontalSpan = 3;
+		( (GridData) marginSep1.getLabelControl( ).getLayoutData( ) ).heightHint = 3;
+		( (GridData) marginSep1.getLabelControl( ).getLayoutData( ) ).horizontalSpan = 3;
 
 		( (GridData) marginTop.getLabelControl( gpMargin ).getLayoutData( ) ).horizontalIndent = 8;
 		( (GridData) marginBottom.getLabelControl( gpMargin ).getLayoutData( ) ).horizontalIndent = 8;
@@ -108,11 +108,10 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		gpPadding = new Group( getFieldEditorParent( ), 0 );
 		gpPadding.setText( Messages.getString( "BoxPreferencePage.text.Padding" ) ); //$NON-NLS-1$
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		//		gdata.heightHint = 120;
 		gpPadding.setLayoutData( gdata );
 		gpPadding.setLayout( new GridLayout( 3, false ) );
 
-		paddingSep = new SeparatorFieldEditor( gpPadding, false );
+		paddingSep1 = new SeparatorFieldEditor( gpPadding, false );
 
 		paddingTop = new ComboBoxMeasureFieldEditor( Style.PADDING_TOP_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PADDING_TOP_PROP )
@@ -145,11 +144,10 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		gpMargin = new Group( getFieldEditorParent( ), 0 );
 		gpMargin.setText( Messages.getString( "BoxPreferencePage.text.Margin" ) ); //$NON-NLS-1$
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		//		gdata.heightHint = 120;
 		gpMargin.setLayoutData( gdata );
 		gpMargin.setLayout( new GridLayout( 3, false ) );
 
-		marginSep = new SeparatorFieldEditor( gpMargin, false );
+		marginSep1 = new SeparatorFieldEditor( gpMargin, false );
 
 		marginTop = new ComboBoxMeasureFieldEditor( Style.MARGIN_TOP_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.MARGIN_TOP_PROP )

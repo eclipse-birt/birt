@@ -72,6 +72,11 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		( (GridData) styleRight.getLabelControl( gpStyle ).getLayoutData( ) ).horizontalIndent = 8;
 		( (GridData) styleLeft.getLabelControl( gpStyle ).getLayoutData( ) ).horizontalIndent = 8;
 
+		( (GridData) styleTop.getComboBoxControl( gpStyle ).getLayoutData( ) ).widthHint = 100;
+		( (GridData) styleBottom.getComboBoxControl( gpStyle ).getLayoutData( ) ).widthHint = 100;
+		( (GridData) styleRight.getComboBoxControl( gpStyle ).getLayoutData( ) ).widthHint = 100;
+		( (GridData) styleLeft.getComboBoxControl( gpStyle ).getLayoutData( ) ).widthHint = 100;
+
 		( (GridData) colorSep.getLabelControl( ).getLayoutData( ) ).heightHint = 3;
 		( (GridData) colorSep.getLabelControl( ).getLayoutData( ) ).horizontalSpan = 2;
 
