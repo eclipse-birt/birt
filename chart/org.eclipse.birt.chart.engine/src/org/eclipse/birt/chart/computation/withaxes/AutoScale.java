@@ -989,7 +989,7 @@ public final class AutoScale extends Methods implements Cloneable
             int iPow = (int) Math.floor(Math.log(dAbsMax) / dStepLog) + 1;
             double dMaxAxis = Math.pow(dStep, iPow);
             iPow = (int) Math.floor(Math.log(dAbsMin) / dStepLog) - 1;
-            double dMinAxis = Math.pow(dStep, iPow - 1);
+            double dMinAxis = Math.pow(dStep, iPow + 1);
             if (!bMaximumFixed)
             {
                 oMaximum = new Double(dMaxAxis);
