@@ -88,8 +88,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			// handle the parameters passed to extension writers
 			HashMap parameters = new HashMap( );
 			parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );
-			parameters.put(IReportItemGeneration.OUTPUT_FORMAT, emitter.getOutputFormat());
+			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );			
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemGeneration.initialize( parameters );
 	
@@ -130,6 +129,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			parameters2.put( IReportItemPresentation.MODEL_OBJ, handle );
 			parameters2.put( IReportItemPresentation.SUPPORTED_FILE_FORMATS,
 					"GIF;PNG;JPG;BMP" ); //$NON-NLS-1$
+			parameters2.put(IReportItemPresentation.OUTPUT_FORMAT, emitter.getOutputFormat());
 			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 			itemPresentation.initialize( parameters2 );
 	
