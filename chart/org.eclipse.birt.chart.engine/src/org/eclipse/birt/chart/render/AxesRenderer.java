@@ -537,7 +537,14 @@ public abstract class AxesRenderer extends BaseRenderer
                         }
                     }
 
-                    final BoundingBox bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    BoundingBox bb = null;
+                    try {
+                        bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    } catch (UnexpectedInputException uiex)
+                    {
+                        throw new RenderingException(uiex);
+                    }
+                    
                     boText.set(0, 0, bb.getWidth(), bb.getHeight());
 
                     // NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
@@ -1102,7 +1109,13 @@ public abstract class AxesRenderer extends BaseRenderer
                         }
                     }
 
-                    final BoundingBox bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    BoundingBox bb = null;
+                    try {
+                        bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    } catch (UnexpectedInputException uiex)
+                    {
+                        throw new RenderingException(uiex);
+                    }
                     boText.set(0, 0, bb.getWidth(), bb.getHeight());
 
                     if (iOrientation == Orientation.VERTICAL)
@@ -1750,7 +1763,13 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
-                final BoundingBox bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
+                BoundingBox bb = null;
+                try {
+                    bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new RenderingException(uiex);
+                }
                 final Bounds boPlot = pl.getBounds();
 
                 final Bounds bo = BoundsImpl.create(ax.getTitleCoordinate(), daEndPoints[1], bb.getWidth(),
@@ -2226,7 +2245,13 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
-                final BoundingBox bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
+                BoundingBox bb = null;
+                try {
+                    bb = Methods.computeBox(xs, ax.getTitlePosition(), la, 0, 0);
+                } catch (UnexpectedInputException uiex)
+                {
+                    throw new RenderingException(uiex);
+                }
                 final Bounds boPlot = pl.getBounds();
 
                 final Bounds bo = BoundsImpl.create(daEndPoints[0], ax.getTitleCoordinate(), daEndPoints[1]

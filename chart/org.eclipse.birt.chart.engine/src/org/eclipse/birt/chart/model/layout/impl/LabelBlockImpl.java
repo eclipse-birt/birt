@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -409,11 +411,17 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
      * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.XServer,
      *      org.eclipse.birt.chart.model.Chart)
      */
-    public final Size getPreferredSize(IDisplayServer xs, Chart cm)
+    public final Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException
     {
         final Text tx = getLabel().getCaption();
         final FontDefinition fd = tx.getFont();
-        final BoundingBox bb = Methods.computeBox(xs, IConstants.TOP, getLabel(), 0, 0);
+        BoundingBox bb = null;
+        try {
+            bb = Methods.computeBox(xs, IConstants.TOP, getLabel(), 0, 0);
+        } catch (UnexpectedInputException uiex)
+        {
+            throw new GenerationException(uiex);
+        }
 
         final Size sz = SizeImpl.create(bb.getWidth(), bb.getHeight());
         final Insets ins = getInsets();
