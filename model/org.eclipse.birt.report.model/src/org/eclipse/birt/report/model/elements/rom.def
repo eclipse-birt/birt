@@ -1605,7 +1605,7 @@
     <Property name="displayName" displayNameID="Element.ReportElement.displayName" type="string" propertyVisibility="hide" />
     <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="string" propertyVisibility="hide" />
     <Property name="customXml" displayNameID="Element.ReportElement.customXml" type="xml" />
-    <Property name="comments" displayNameID="Element.ReportElement.comments" type="string" propertyVisibility="hide" />
+    <Property name="comments" displayNameID="Element.ReportElement.comments" type="string" />
     <Property name="name" displayNameID="Element.ReportElement.name" type="name" isIntrinsic="true" />
     <Property name="extends" displayNameID="Element.ReportElement.extends" type="extends" isIntrinsic="true" propertyVisibility="hide" />
     <Property name="propertyMask" displayNameID="Element.ReportElement.propertyMask" type="structure" isList="true" detailType="PropertyMask"/>
