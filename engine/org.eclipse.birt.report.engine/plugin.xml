@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.engine"
+   name="Birt Engine Plugin"
+   version="1.0.0"
+   provider-name="Eclipse.org">
+   <runtime>
+      <library name="engine.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/avalon-framework-cvs-20020806.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/batik.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/commons-cli-1.0.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/commons-logging.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/fop.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/js.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/Tidy.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.data"/>
+   </requires>
+   <extension-point id="reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
+   <extension-point id="reportitemPresentation" name="Extended Item Presentation-Time Support" schema="schema/reportitemPresentation.exsd"/>
+   <extension-point id="emitterSet" name="Emitters that Support Report Rendering" schema="schema/emitterSet.exsd"/>
+</plugin>

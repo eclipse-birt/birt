@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.engine">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportitemGeneration" name="Extended Item Generation-Time Support"/>
+      </appInfo>
+      <documentation>
+         This extension point specifies how the new report item should be instantiated,  processed, and persisted at report generation time. In a server environment, the plugin registry uses this extension point registration to discover supported report item extensions.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="reportItem" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified identifier of the target extension point
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  an optional identifier of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  an optional name of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="reportItem">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the name of the extended item, i.e., &quot;chart&quot; for chart extension.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="needSerialization" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  whether the extended item needs serialization service in factory
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the java class that implements the &lt;code&gt;IReportItemGeneration&lt;/code&gt;
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="createReportQuery" use="default" value="no">
+            <annotation>
+               <documentation>
+                  whether a report query (used for data access) needs to be created, and if so, who creates it
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="no">
+                  </enumeration>
+                  <enumeration value="item">
+                  </enumeration>
+                  <enumeration value="host">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following is a sample usage of the reportItemGeneration extension point:
+
+&lt;p&gt;
+&lt;pre&gt;
+&lt;extension point=&quot;org.eclipse.birt.report.engine.reportitemGeneration&quot; name=&quot;chart generation extension&quot;&gt;
+  &lt;reportItem name=&quot;chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartGeneration&quot; needSerialization=true createReportQuery=&quot;item&quot;/&gt;
+ &lt;/extension&gt;
+ &lt;/pre&gt;
+ &lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The value of the class attribute must be the fully qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemGeneration&lt;/code&gt;. The interface provides the following functions:
+
+&lt;li&gt;&lt;code&gt;void initialize(HashMap parameters)&lt;/code&gt; ---- performs initialization before the plugin is asked to do generation tasks&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Object getReportQuery()&lt;/code&gt; ---- returns an IReportQuery object that is used by the data engine. Called only when createQuery property is set to item.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;void generate()&lt;/code&gt; ---- renders the extended item in factory.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Object getSize()&lt;/code&gt; ---- Get the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;long serialize()&lt;/code&gt; ---- Serializes the peer to report document. This function is currently not supported. Factory guarantees that the same data in the stream will be returned to the presentation engine at presentation time.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;void finish()&lt;/code&gt; ---- clean up&lt;/li&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         Chart as an extended item
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>
