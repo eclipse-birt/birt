@@ -137,25 +137,44 @@ public class CellDragTracker extends DragEditPartsTracker implements
 	private Rectangle getUnionBounds( List list )
 	{
 
+//		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
+//
+//		int size = list.size( );
+//		TableCellEditPart[] parts = new TableCellEditPart[size];
+//		list.toArray( parts );
+//
+//		TableCellEditPart[] caleNumber = table.getMinAndMaxNumber( parts );
+//		TableCellEditPart minRow = caleNumber[0];
+//		TableCellEditPart minColumn = caleNumber[1];
+//		TableCellEditPart maxRow = caleNumber[2];
+//		TableCellEditPart maxColumn = caleNumber[3];
+//
+//		Rectangle min = minRow.getBounds( ).getCopy( );
+//		Rectangle max = maxColumn.getBounds( ).getCopy( );
+//		Rectangle retValue = min.union( max )
+//				.union( minColumn.getBounds( ).getCopy( ) )
+//				.union( maxRow.getBounds( ).getCopy( ) )
+//				.shrink( 2, 2 );
+//		minRow.getFigure( ).translateToAbsolute( retValue );
+//
+//		return retValue;
 		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
 
 		int size = list.size( );
-		TableCellEditPart[] parts = new TableCellEditPart[size];
-		list.toArray( parts );
-
-		TableCellEditPart[] caleNumber = table.getMinAndMaxNumber( parts );
-		TableCellEditPart minRow = caleNumber[0];
-		TableCellEditPart minColumn = caleNumber[1];
-		TableCellEditPart maxRow = caleNumber[2];
-		TableCellEditPart maxColumn = caleNumber[3];
-
-		Rectangle min = minRow.getBounds( ).getCopy( );
-		Rectangle max = maxColumn.getBounds( ).getCopy( );
-		Rectangle retValue = min.union( max )
-				.union( minColumn.getBounds( ).getCopy( ) )
-				.union( maxRow.getBounds( ).getCopy( ) )
-				.shrink( 2, 2 );
-		minRow.getFigure( ).translateToAbsolute( retValue );
+		if (size == 0)
+		{
+			return new Rectangle();
+		}
+		IFigure figure = ((TableCellEditPart)list.get(0)).getFigure();
+		Rectangle retValue = figure.getBounds().getCopy();
+		
+		for (int i=1; i<size; i++)
+		{
+			TableCellEditPart cellPart = (TableCellEditPart)list.get(i);
+			retValue.union(cellPart.getFigure().getBounds());		
+		}
+		retValue.shrink(2, 2);
+		figure.translateToAbsolute( retValue );
 
 		return retValue;
 	}
