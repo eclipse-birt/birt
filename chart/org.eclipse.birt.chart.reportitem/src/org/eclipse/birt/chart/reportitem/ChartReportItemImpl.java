@@ -41,13 +41,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class ChartReportItemImpl extends ReportItem
 {
     private Chart cm = null;
+    
+    private Object oDesignerRepresentation = null;
 
     private static final List liLegendPositions = new LinkedList();
 
     private static final List liLegendAnchors = new LinkedList();
 
     private static final List liChartDimensions = new LinkedList();
-
+    
     static
     {
         // SUPPRESS EVERYTHING EXCEPT FOR ERRORS
@@ -93,21 +95,48 @@ public final class ChartReportItemImpl extends ReportItem
         }
     };
 
+    /**
+     * 
+     */
     public ChartReportItemImpl()
     {
 
     }
 
+    /**
+     * @param cm
+     */
     public void setModel(Chart cm)
     {
         this.cm = cm;
     }
 
+    /**
+     * @return
+     */
     public final Chart getModel()
     {
         return cm;
     }
 
+    /**
+     * 
+     * @param oDesignerRepresentation
+     */
+    public final void setDesignerRepresentation(Object oDesignerRepresentation)
+    {
+        this.oDesignerRepresentation = oDesignerRepresentation;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public final Object getDesignerRepresentation()
+    {
+        return oDesignerRepresentation;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -284,6 +313,10 @@ public final class ChartReportItemImpl extends ReportItem
                     .log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
             }
         }
+        if (oDesignerRepresentation != null)
+        {
+            ((DesignerRepresentation) oDesignerRepresentation).setDirty(true);
+        }
     }
 
     /*
@@ -316,7 +349,6 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public boolean refreshPropertyDefinition()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
