@@ -70,6 +70,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	private static final String TRANS_LABEL_DELETE_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.deleteColumn" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_DELETE_COLUMNS = Messages.getString( "TableHandleAdapter.transLabel.deleteColumns" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_INSERT_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.insertColumn" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_GROUP = Messages.getString("TableHandleAdapter.transLable.deleteGroup"); //$NON-NLS-1$
 	public static final int HEADER = TableItem.HEADER_SLOT;
 	public static final int DETAIL = TableItem.DETAIL_SLOT;
 	public static final int FOOTER = TableItem.FOOTER_SLOT;
@@ -1569,7 +1570,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public void removeGroup( Object group ) throws SemanticException
 	{
+		transStar( TRANS_LABEL_DELETE_GROUP );
+
 		( (RowHandle) group ).getContainer( ).drop( );
+		if ( getRows( ).size( ) == 0 )
+		{
+			getHandle( ).drop( );
+		}
+		transEnd( );
 	}
 
 	protected void addCell( RowHandle handle ) throws ContentException,
