@@ -43,7 +43,7 @@ public class TableColumnHandle extends TableHFHandle
 	}
 
 	/*
-	 * init the children Handle, include SelectionHandle and ResizeHandle
+	 * initialize the children Handle, include SelectionHandle and ResizeHandle
 	 * -------------------------------------------------------------- | | | | |
 	 * --------------------------------------------------------------
 	 * (ColumnHandle) (ColumnDragHandle)
@@ -57,7 +57,7 @@ public class TableColumnHandle extends TableHFHandle
 
 		//sort the columnNumber, because the list ensure the column number is
 		// sort
-		int width = 0;//the handle x value
+		int width = 0;//the handle X value
 
 		for ( int i = 1; i < count + 1; i++ )
 		{
@@ -72,7 +72,7 @@ public class TableColumnHandle extends TableHFHandle
 			width = width + getColumnWidth( i );
 			add( handle );
 
-			//init the resizeHandle
+			//initialize the resizeHandle
 			if ( i == count )
 			{
 				width -= 2;
@@ -102,7 +102,6 @@ public class TableColumnHandle extends TableHFHandle
 		{
 			super( part.getFigure( ) );
 			setOwner( part );
-			// TODO Auto-generated constructor stub
 		}
 
 		/*
@@ -112,7 +111,6 @@ public class TableColumnHandle extends TableHFHandle
 		 */
 		public void relocate( IFigure target )
 		{
-			Insets insets = target.getInsets( );
 			Rectangle bounds;
 			if ( getReference( ) instanceof HandleBounds )
 				bounds = ( (HandleBounds) getReference( ) ).getHandleBounds( );
@@ -131,10 +129,6 @@ public class TableColumnHandle extends TableHFHandle
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
 
-			//bounds.translate(-insets.left, -insets.top);
-			///////////////bounds.resize(insets.getWidth() + 1,
-			// insets.getHeight() + 1);
-			//bounds.resize(insets.getWidth() , insets.getHeight() );
 			target.setBounds( bounds );
 			relocateChildren( target, getReference( ) );
 		}

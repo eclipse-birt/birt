@@ -1,23 +1,23 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation .
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
@@ -25,64 +25,65 @@ import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.gef.handles.MoveHandleLocator;
 import org.eclipse.swt.graphics.Image;
 
-
 /**
  * The class is the table, list grid guide handle
- * 
+ *  
  */
 public class TableGuideHandle extends AbstractGuideHandle
 {
 
 	protected Image image;
 	protected String indicatorLabel = "  ";//$NON-NLS-1$
-	private static final Dimension DEFAULT_VALUE = new Dimension(40, 20);
+	private static final Dimension DEFAULT_VALUE = new Dimension( 40, 20 );
 	protected Insets gapInsets = new Insets( 3, 3, 3, 3 );
-	int gap ;
-	public TableGuideHandle(GraphicalEditPart owner)
+	int gap;
+
+	public TableGuideHandle( GraphicalEditPart owner )
 	{
-		super(owner, new TableGuideHandleLocator(owner));
+		super( owner, new TableGuideHandleLocator( owner ) );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paint(org.eclipse.draw2d.Graphics)
 	 */
 	public void paintFigure( Graphics graphics )
 	{
-		Dimension rect = calculateIndicatorDimension(graphics, 1);
-	
+		Dimension rect = calculateIndicatorDimension( graphics, 1 );
+
 		int width = 1;
-		if (!getBounds().getSize().equals(rect))
+		if ( !getBounds( ).getSize( ).equals( rect ) )
 		{
-//			Rectangle rectangle = new Rectangle(getBounds());
-//			rectangle.setSize(rect);
-//			rectangle.x = rectangle.x + DEFAULT_VALUE.width - rect.width;
-			setSize(rect);
-			//setBounds(rectangle);
+			setSize( rect );
 		}
-		
-		Rectangle bounds = getBounds().getCopy();
+
+		Rectangle bounds = getBounds( ).getCopy( );
 		bounds.y = bounds.y + 2;
-		graphics.fillRectangle(bounds);
-//		graphics.drawLine(getBounds().x, getBounds().y, getBounds().x 
-//				+ getBounds().width, getBounds().y+getBounds().height);
-//	
+		graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
+		graphics.fillRectangle( bounds );
 		graphics.setForegroundColor( ColorConstants.lightGray );
-		bounds = getBounds().getCopy();
-		//graphics.drawLine(bounds.x, bounds.y, bounds.x + bounds.width, bounds.y);
-		graphics.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height);
-		graphics.drawLine(bounds.x , bounds.y + bounds.height - 1, bounds.x+ bounds.width, bounds.y + bounds.height - 1);
-		graphics.drawLine(bounds.x + bounds.width - 1 , bounds.y , bounds.x+ bounds.width - 1, bounds.y + bounds.height);
-		int x = getBounds().x + gapInsets.left;
+		bounds = getBounds( ).getCopy( );
+		graphics.drawLine( bounds.x, bounds.y, bounds.x, bounds.y
+				+ bounds.height );
+		graphics.drawLine( bounds.x, bounds.y + bounds.height - 1, bounds.x
+				+ bounds.width, bounds.y + bounds.height - 1 );
+		graphics.drawLine( bounds.x + bounds.width - 1, bounds.y, bounds.x
+				+ bounds.width
+				- 1, bounds.y + bounds.height );
+		int x = getBounds( ).x + gapInsets.left;
 		if ( image != null )
 		{
-			graphics.drawImage( image, x , bounds.y + gapInsets.top  );
+			graphics.drawImage( image, x, bounds.y + gapInsets.top );
 			x += image.getBounds( ).width + gap;
 		}
-		graphics.drawString( indicatorLabel, x + 2 * width, bounds.y + 2
-		+ gapInsets.top
-		- width );
+		graphics.setForegroundColor( ReportColorConstants.TableGuideTextColor );
+		graphics.drawString( indicatorLabel, x + 2 * width, bounds.y
+				+ 2
+				+ gapInsets.top
+				- width );
 	}
-	
+
 	private static class TableGuideHandleLocator extends MoveHandleLocator
 	{
 
@@ -95,7 +96,6 @@ public class TableGuideHandle extends AbstractGuideHandle
 		{
 			super( part.getFigure( ) );
 			setOwner( part );
-			// TODO Auto-generated constructor stub
 		}
 
 		/*
@@ -106,36 +106,19 @@ public class TableGuideHandle extends AbstractGuideHandle
 		public void relocate( IFigure target )
 		{
 			//System.out.println("relocate");
-			Insets insets = target.getInsets( );
 			Rectangle bounds;
 			if ( getReference( ) instanceof HandleBounds )
 				bounds = ( (HandleBounds) getReference( ) ).getHandleBounds( );
 			else
 				bounds = getReference( ).getBounds( );
-			
-			bounds = new PrecisionRectangle( new Rectangle( bounds.x
-					, bounds.y + bounds.height
-					, DEFAULT_VALUE.width
-					,  DEFAULT_VALUE.height ));
-			
-//			bounds = new PrecisionRectangle( new Rectangle( bounds.x - DEFAULT_VALUE.width
-//					, bounds.y + bounds.height
-//					, DEFAULT_VALUE.width
-//					,  DEFAULT_VALUE.height ));
-//
-//			bounds = new PrecisionRectangle( new Rectangle( bounds.x
-//			, bounds.y + bounds.height
-//			, DEFAULT_VALUE.width
-//			,  DEFAULT_VALUE.height ));
+
+			bounds = new PrecisionRectangle( new Rectangle( bounds.x, bounds.y
+					+ bounds.height, DEFAULT_VALUE.width, DEFAULT_VALUE.height ) );
 
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
-			//bounds.x = bounds.x - DEFAULT_VALUE.width - 2;
 			target.setBounds( bounds );
 		}
-
-		
-		
 
 		public GraphicalEditPart getOwner( )
 		{
@@ -175,13 +158,6 @@ public class TableGuideHandle extends AbstractGuideHandle
 		return d;
 	}
 
-	private int getAbsoluteDistanceof(int distanceof)
-	{
-		Point p = new Point(distanceof, 1);
-		getOwner().getFigure().translateToAbsolute(p);
-		translateToRelative(p);
-		return p.x;
-	}
 	/**
 	 * Sets the left corner label
 	 * 
@@ -204,5 +180,5 @@ public class TableGuideHandle extends AbstractGuideHandle
 	{
 		this.image = image;
 	}
-	
+
 }

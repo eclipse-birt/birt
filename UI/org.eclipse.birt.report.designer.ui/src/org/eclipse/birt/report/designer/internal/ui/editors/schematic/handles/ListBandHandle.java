@@ -16,7 +16,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
@@ -45,7 +44,6 @@ public class ListBandHandle extends MoveHandle
 	 */
 	protected DragTracker createDragTracker( )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -73,7 +71,6 @@ public class ListBandHandle extends MoveHandle
 		public ListBandLocator( IFigure ref )
 		{
 			super( ref );
-			// TODO Auto-generated constructor stub
 		}
 
 		/*
@@ -83,12 +80,9 @@ public class ListBandHandle extends MoveHandle
 		 */
 		public void relocate( IFigure target )
 		{
-			Insets insets = target.getInsets( );
 			Rectangle bounds;
 			if ( getReference( ) instanceof ListBandFigure )
 			{
-				//bounds = ( (HandleBounds) getReference( ) ).getHandleBounds(
-				// );
 				ListBandFigure parent = (ListBandFigure) getReference( );
 				Figure content = (Figure) parent.getContent( );
 				bounds = content.getBounds( ).getCopy( );

@@ -39,6 +39,12 @@ public interface ReportColorConstants
 	public final static Color ListControlFillColor = ColorManager.getColor( 238,
 			236,
 			246 );//0xEEECF6
+	public final static Color TableGuideTextColor = ColorManager.getColor( 147,
+			137,
+			145 );//0x938991
+	public final static Color TableGuideFillColor = ColorManager.getColor( 239,
+			239,
+			247 );//0xEFEFF7
 	public final static Color InnerLineColor = ColorManager.getColor( 204,
 			204,
 			204 );//0xCCCCCC

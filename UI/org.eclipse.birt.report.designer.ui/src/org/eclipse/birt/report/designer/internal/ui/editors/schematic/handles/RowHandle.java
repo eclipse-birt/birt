@@ -310,7 +310,6 @@ public class RowHandle extends AbstractHandle implements IContainer
 	 */
 	public GraphicalEditPart getOwner( )
 	{
-		// TODO Auto-generated method stub
 		return super.getOwner( );
 	}
 }

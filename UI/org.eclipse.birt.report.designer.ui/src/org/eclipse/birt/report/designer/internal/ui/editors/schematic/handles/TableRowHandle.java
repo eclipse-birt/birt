@@ -56,7 +56,7 @@ public class TableRowHandle extends TableHFHandle
 		// sort
 		Collections.sort( list, new TableGridLayer.NumberComparator( ) );
 		int size = list.size( );
-		int height = HEIGHT;//the handle x value
+		int height = HEIGHT;//the handle X value
 		for ( int i = 0; i < size; i++ )
 		{
 			Object row = list.get( i );
@@ -103,7 +103,6 @@ public class TableRowHandle extends TableHFHandle
 		{
 			super( part.getFigure( ) );
 			setOwner( part );
-			// TODO Auto-generated constructor stub
 		}
 
 		/*
@@ -113,16 +112,9 @@ public class TableRowHandle extends TableHFHandle
 		 */
 		public void relocate( IFigure target )
 		{
-			Insets insets = target.getInsets( );
 			Rectangle bounds = getReference( ).getBounds( );
 
-			//bounds = new PrecisionRectangle(bounds.getResized(-1, -1));
 			Insets referenceInsets = getReference( ).getInsets( );
-			//			bounds = new PrecisionRectangle(new Rectangle(bounds.x +
-			// referenceInsets.left - WIDTH,
-			//					bounds.y + referenceInsets.right - 30, bounds.width -1 -
-			// (referenceInsets.left + referenceInsets.right),
-			//					30));
 
 			bounds = new PrecisionRectangle( new Rectangle( bounds.x
 					+ referenceInsets.left
@@ -137,10 +129,6 @@ public class TableRowHandle extends TableHFHandle
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
 
-			//bounds.translate(-insets.left, -insets.top);
-			/////////////bounds.resize(insets.getWidth() + 1,
-			// insets.getHeight() + 1);
-			//bounds.resize(insets.getWidth() , insets.getHeight() );
 			target.setBounds( bounds );
 			relocateChildren( target, getReference( ) );
 		}
@@ -186,17 +174,13 @@ public class TableRowHandle extends TableHFHandle
 				{
 					height = bounds.y;
 				}
-				//if (dim.width == width)
-				//{
 				bounds.width = width;
 				bounds.height = dim.height;
-				//}
 				bounds.y = height;
 				bounds.x = x;
 				if ( !( f instanceof RowDragHandle ) )
 				{
 					height = height + dim.height;
-					//height = height + bounds.height;
 				}
 
 				if ( i == size - 1 && f instanceof RowDragHandle )
