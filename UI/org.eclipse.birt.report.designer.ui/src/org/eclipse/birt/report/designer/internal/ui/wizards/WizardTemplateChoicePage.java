@@ -167,7 +167,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		composite.setLayout( gridLayout );
 
 		Label label0 = new Label( composite, SWT.NONE );
-		label0.setText( "Report Templates:" );
+		label0.setText( "Report templates:" );
 
 		Label previewLabel = new Label( composite, SWT.NONE );
 		previewLabel.setText( "Preview:" );
