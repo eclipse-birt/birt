@@ -16,11 +16,14 @@ import java.util.Locale;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * This class provides an internal implementation of the axis class used by the renderer.
+ * Note that positions, orientations, rotation angles, etc could be transposed and may not
+ * reflect the same values maintained by the model. 
  */
 public final class OneAxis
 {
@@ -45,6 +48,8 @@ public final class OneAxis
     private Grid gr = null;
 
     private boolean bCategoryScale = false;
+    
+    private final Axis axModel;
 
     public int getCombinedTickStyle()
     {
@@ -54,8 +59,9 @@ public final class OneAxis
     /**
      * A default zero-arg constructor
      */
-    OneAxis()
+    OneAxis(Axis axModel)
     {
+        this.axModel = axModel;
         gr = new Grid();
     }
 
@@ -105,6 +111,11 @@ public final class OneAxis
         return iTitlePosition;
     }
 
+    public final Axis getModelAxis()
+    {
+        return axModel;
+    }
+    
     final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, int iMajorTickStyle,
         int iMinorTickStyle, int iMinorUnitsPerMajorUnit)
     {
