@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.font.TextLayout;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
@@ -256,9 +258,13 @@ final class SwingTextRenderer implements IConstants
         Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
         double dX = lo.getX(), dY = lo.getY();
         FontDefinition fd = la.getCaption().getFont();
-        Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         double dAngleInDegrees = fd.getRotation();
         String sText = la.getCaption().getValue();
+        
+        if (bShadow) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW REQUESTED FOR
+        {
+            bShadow = la.getShadowColor() != null;
+        }
         Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
         Color clrBackground = (Color) _sxs.getColor((ColorDefinition) la.getBackground());
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
@@ -287,10 +293,16 @@ final class SwingTextRenderer implements IConstants
         if (dAngleInDegrees == 0)
         {
             double dYHalfOffset = (dFH + dH) / 2d;
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
@@ -334,10 +346,17 @@ final class SwingTextRenderer implements IConstants
             dY -= dDeltaY;
 
             g2d.rotate(dAngleInRadians, dRotateX + dDeltaX, dRotateY - dDeltaY);
-            if (clrShadow != null)
+            if (bShadow)
             {
                 // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -381,10 +400,17 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             dY -= dDeltaY;
             g2d.rotate(dAngleInRadians, dRotateX + dDeltaX, dRotateY - dDeltaY);
-            if (clrShadow != null)
+            if (bShadow)
             {
                 // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                    new GradientPaint(
+	            	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+	            	    (Color) _sxs.getColor(la.getShadowColor()), 
+	            	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+	            	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+        	    	)
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -428,9 +454,16 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow)
             {
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -478,9 +511,16 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             dY -= dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow)
             {
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -532,9 +572,13 @@ final class SwingTextRenderer implements IConstants
         Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
         double dX = lo.getX(), dY = lo.getY();
         FontDefinition fd = la.getCaption().getFont();
-        Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         double dAngleInDegrees = fd.getRotation();
         String sText = la.getCaption().getValue();
+
+        if (bShadow) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW REQUESTED FOR
+        {
+            bShadow = la.getShadowColor() != null;
+        }
         Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
         Color clrBackground = (Color) _sxs.getColor((ColorDefinition) la.getBackground());
 
@@ -564,10 +608,16 @@ final class SwingTextRenderer implements IConstants
         if (dAngleInDegrees == 0)
         {
             double dYHalfOffset = (dFH + dH) / 2d;
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
@@ -614,10 +664,16 @@ final class SwingTextRenderer implements IConstants
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, iRotateX - dDeltaX, iRotateY + dDeltaY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -662,10 +718,16 @@ final class SwingTextRenderer implements IConstants
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, iRotateX, iRotateY + dDeltaY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -713,10 +775,16 @@ final class SwingTextRenderer implements IConstants
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -763,10 +831,16 @@ final class SwingTextRenderer implements IConstants
             dY -= dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -820,7 +894,7 @@ final class SwingTextRenderer implements IConstants
         Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
         double dX = lo.getX(), dY = lo.getY();
         FontDefinition fd = la.getCaption().getFont();
-        Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
+        //Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         double dAngleInDegrees = fd.getRotation();
         String sText = la.getCaption().getValue();
         Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
@@ -847,10 +921,16 @@ final class SwingTextRenderer implements IConstants
         // HORIZONTAL TEXT
         if (dAngleInDegrees == 0)
         {
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -901,10 +981,16 @@ final class SwingTextRenderer implements IConstants
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -946,10 +1032,16 @@ final class SwingTextRenderer implements IConstants
         {
             dX += dFW / 2;
             g2d.rotate(dAngleInRadians, dX, dY - dH);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dH) + 3, dFW, dFH));
             }
             else
@@ -995,10 +1087,16 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             dY += dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
@@ -1048,10 +1146,16 @@ final class SwingTextRenderer implements IConstants
             double dDeltaY = dFH;
             dX -= dDeltaX;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
@@ -1105,7 +1209,7 @@ final class SwingTextRenderer implements IConstants
         final Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
         double dX = lo.getX(), dY = lo.getY();
         final FontDefinition fd = la.getCaption().getFont();
-        final Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
+        //final Color clrShadow = bShadow ? (Color) _sxs.getColor(la.getShadowColor()) : null;
         final double dAngleInDegrees = fd.getRotation();
         final String sText = la.getCaption().getValue();
         final Color clrText = (Color) _sxs.getColor(la.getCaption().getColor());
@@ -1131,10 +1235,16 @@ final class SwingTextRenderer implements IConstants
         // HORIZONTAL TEXT
         if (dAngleInDegrees == 0)
         {
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -1182,10 +1292,16 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             g2d.rotate(dAngleInRadians, dX, dY);
 
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -1232,10 +1348,16 @@ final class SwingTextRenderer implements IConstants
             dX -= dFW / 2 - (dFW - dFW * dCosTheta);
             dY -= dFW * dSineTheta;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dFH) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dFH) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dFH) + 3, dFW, dFH));
             }
             else
@@ -1286,10 +1408,16 @@ final class SwingTextRenderer implements IConstants
             double dDeltaY = dH;
             dX += dDeltaX;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
@@ -1337,10 +1465,16 @@ final class SwingTextRenderer implements IConstants
             dX += dDeltaX;
             dY -= dDeltaY;
             g2d.rotate(dAngleInRadians, dX, dY);
-            if (clrShadow != null)
+            if (bShadow) // RENDER THE SHADOW
             {
-                // RENDER THE SHADOW
-                g2d.setColor(clrShadow);
+                g2d.setPaint(
+                	new GradientPaint(
+                	    new Point2D.Double(dX + 3, (dY - dYHalfOffset) + 3),
+                	    (Color) _sxs.getColor(la.getShadowColor()), 
+                	    new Point2D.Double(dX + 3 + dFW, (dY - dYHalfOffset) + 3 + dFH),
+                	    (Color) _sxs.getColor(la.getShadowColor().translucent()) 
+            	    )
+                );
                 g2d.fill(new Rectangle2D.Double(dX + 3, (dY - dYHalfOffset) + 3, dFW, dFH));
             }
             else
