@@ -47,6 +47,7 @@ public interface IReportItemGeneration {
 	
 	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$ //$NON-NLS-1$
 	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$ //$NON-NLS-1$
+	public static String OUTPUT_FORMAT			= "outputFormat";		// $NON-NLS-1$ //$NON-NLS-1$
 	
     /**
      * Initializes the generation object before it processes the extended item. The 
