@@ -78,8 +78,7 @@ public final class DataTypeUtil
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
 				return new Integer( 1 );
-			else
-				return new Integer( 0 );
+			return new Integer( 0 );
 		}
 		else if ( source instanceof Date )
 		{
@@ -125,13 +124,12 @@ public final class DataTypeUtil
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
 				return new BigDecimal( 1d );
-			else
-				return new BigDecimal( 0d );
+			return new BigDecimal( 0d );
 		}
 		else if ( source instanceof Date )
 		{
 			long longValue = ( (Date) source ).getTime( );
-			return new BigDecimal( (double) longValue );
+			return new BigDecimal( longValue );
 		}
 		else if ( source instanceof Double )
 		{
@@ -168,24 +166,21 @@ public final class DataTypeUtil
 			int intValue = ( (Integer) source ).intValue( );
 			if ( intValue == 0 )
 				return new Boolean( false );
-			else
-				return new Boolean( true );
+			return new Boolean( true );
 		}
 		else if ( source instanceof BigDecimal )
 		{
 			int intValue = ( (BigDecimal) source ).intValue( );
 			if ( intValue == 0 )
 				return new Boolean( false );
-			else
-				return new Boolean( true );
+			return new Boolean( true );
 		}
 		else if ( source instanceof Double )
 		{
 			int intValue = ( (Double) source ).intValue( );
 			if ( intValue == 0 )
 				return new Boolean( false );
-			else
-				return new Boolean( true );
+			return new Boolean( true );
 		}
 		else if ( source instanceof String )
 		{
@@ -257,12 +252,11 @@ public final class DataTypeUtil
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
 				return new Double( 1d );
-			else
-				return new Double( 0d );
+			return new Double( 0d );
 		}
 		else if ( source instanceof Date )
 		{
-			double doubleValue = (double) ( (Date) source ).getTime( );
+			double doubleValue = ( (Date) source ).getTime( );
 			return new Double( doubleValue );
 		}
 		else if ( source instanceof Double )

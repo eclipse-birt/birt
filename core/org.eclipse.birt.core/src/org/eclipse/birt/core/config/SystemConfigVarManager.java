@@ -47,8 +47,7 @@ public class SystemConfigVarManager {
 	    
 		if (ret == null)
 		    return defaultValue;
-		else
-		    return ret;
+	    return ret;
 	}	
 	
 	/**
@@ -86,8 +85,7 @@ public class SystemConfigVarManager {
 		    
 		    if ( intString != null )
 		        return Integer.valueOf(intString);
-		    else
-		        return null;
+	        return null;
 	    } catch (Exception e)
 	    {
 	        return null;
@@ -108,9 +106,8 @@ public class SystemConfigVarManager {
 		    String intString = getConfigVar(key);
 		    
 		    if ( intString == null )
-		        return defaultValue;
-		    else 
-		        return Integer.valueOf(intString).intValue();
+		        return defaultValue; 
+		    return Integer.valueOf(intString).intValue();
 	    } catch (Exception e)
 	    {
 	        return defaultValue;

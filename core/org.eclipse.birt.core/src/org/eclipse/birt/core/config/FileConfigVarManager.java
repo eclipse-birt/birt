@@ -41,8 +41,7 @@ public class FileConfigVarManager extends SystemConfigVarManager {
      */
     public FileConfigVarManager() {
         super();
-        String configFileName = getDefaultConfigFileName();
-        
+        configFileName = getDefaultConfigFileName();
     }
     
     /**
