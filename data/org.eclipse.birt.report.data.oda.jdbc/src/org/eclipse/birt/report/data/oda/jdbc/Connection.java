@@ -216,10 +216,10 @@ public class Connection implements IConnection
 				else
 				{
 					Properties props = new Properties( );
-					for ( Enumeration enum = connProperties.propertyNames( ); enum
+					for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration
 							.hasMoreElements( ); )
 					{
-						String propName = (String) enum.nextElement( );
+						String propName = (String) enumeration.nextElement( );
 						if ( !propName.startsWith( "ODA:" ) )
 						{
 							props.setProperty( propName, connProperties
