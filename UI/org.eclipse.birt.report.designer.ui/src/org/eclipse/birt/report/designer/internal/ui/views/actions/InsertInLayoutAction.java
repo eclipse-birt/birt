@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
@@ -84,10 +85,6 @@ public class InsertInLayoutAction extends AbstractViewAction
 
 		private DesignElementHandle newTarget;
 
-		private static final int[] SUPPORTED_DATA_SLOT = new int[]{
-			TableItem.DETAIL_SLOT
-		};
-
 		public InsertColumnInLayoutRule( Object container )
 		{
 			this.container = container;
@@ -105,25 +102,34 @@ public class InsertInLayoutAction extends AbstractViewAction
 
 			CellHandle cell = (CellHandle) container;
 
-			//Validates slot id of date item
-			int tableSlotId = cell.getContainer( )
-					.getContainerSlotHandle( )
-					.getSlotID( );
+			//Validates source position of data item
 			boolean canInsert = false;
-			for ( int i = 0; i < SUPPORTED_DATA_SLOT.length; i++ )
+			if ( cell.getContainer( ).getContainer( ) instanceof TableGroupHandle )
 			{
-				if ( tableSlotId == SUPPORTED_DATA_SLOT[i] )
+				canInsert = true;
+			}
+			else
+			{
+				if ( cell.getContainer( ).getContainerSlotHandle( ).getSlotID( ) == TableItem.DETAIL_SLOT )
 				{
 					canInsert = true;
-					break;
 				}
 			}
 
 			//Validates column count and gets the target
 			if ( canInsert )
 			{
-				TableHandle table = (TableHandle) cell.getContainer( )
-						.getContainer( );
+				TableHandle table = null;
+				if ( cell.getContainer( ).getContainer( ) instanceof TableHandle )
+				{
+					table = (TableHandle) cell.getContainer( ).getContainer( );
+				}
+				else
+				{
+					table = (TableHandle) cell.getContainer( )
+							.getContainer( )
+							.getContainer( );
+				}
 				SlotHandle header = table.getHeader( );
 				if ( header != null && header.getCount( ) > 0 )
 				{
