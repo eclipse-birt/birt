@@ -14,15 +14,16 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.IConfigurationElement;
+import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.IExtensionPoint;
+import org.eclipse.birt.core.framework.IExtensionRegistry;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.extension.IMessages;
 import org.eclipse.birt.report.model.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 
 /**
  * Loads the extended element from plug-ins.
@@ -98,7 +99,6 @@ public class ExtensionLoader
 
 	static void load( ) throws ExtensionException, MetaDataException
 	{
-
 		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 		if ( pluginRegistry == null )
 		{
@@ -230,7 +230,7 @@ public class ExtensionLoader
 				}
 			}
 		}
-		catch ( CoreException e )
+		catch ( FrameworkException e )
 		{
 			throw new ExtensionException( new String[]{className},
 					ExtensionException.FAILED_TO_CREATE_INSTANCE );
@@ -256,8 +256,7 @@ public class ExtensionLoader
 
 	private static SystemPropertyDefn loadProperty(
 			IConfigurationElement elementTag, IConfigurationElement propTag,
-			ExtensionElementDefn elementDefn )
-			throws ExtensionException
+			ExtensionElementDefn elementDefn ) throws ExtensionException
 	{
 		String name = propTag.getAttribute( NAME_ATTRIB );
 		String displayNameID = propTag.getAttribute( DISPLAY_NAME_ID_ATTRIB );
@@ -280,7 +279,8 @@ public class ExtensionLoader
 
 		SystemPropertyDefn extPropDefn = null;
 
-		extPropDefn = new ExtensionPropertyDefn( elementDefn.getElementFactory().getMessages() );
+		extPropDefn = new ExtensionPropertyDefn( elementDefn
+				.getElementFactory( ).getMessages( ) );
 
 		extPropDefn.setExtended( true );
 		extPropDefn.setName( name );
@@ -308,7 +308,8 @@ public class ExtensionLoader
 			if ( CHOICE_TAG.equalsIgnoreCase( elements[k].getName( ) ) )
 			{
 				ExtensionChoice choiceDefn = loadChoice( elementTag, propTag,
-						elements[k] );
+						elements[k], elementDefn.getElementFactory( )
+								.getMessages( ) );
 				choiceList.add( choiceDefn );
 			}
 		}
@@ -372,6 +373,8 @@ public class ExtensionLoader
 	 *            the property tag
 	 * @param choiceTag
 	 *            the choice tag
+	 * @param messages
+	 *            messages providing localized messages
 	 * @return one choice
 	 * @throws ExtensionException
 	 *             if the class some attribute specifies can not be instanced.
@@ -379,9 +382,10 @@ public class ExtensionLoader
 
 	private static ExtensionChoice loadChoice(
 			IConfigurationElement elementTag, IConfigurationElement propTag,
-			IConfigurationElement choiceTag ) throws ExtensionException
+			IConfigurationElement choiceTag, IMessages messages )
+			throws ExtensionException
 	{
-		ExtensionChoice choice = new ExtensionChoice( );
+		ExtensionChoice choice = new ExtensionChoice( messages );
 
 		String name = choiceTag.getAttribute( NAME_ATTRIB );
 		String value = choiceTag.getAttribute( VALUE_ATTRIB );

@@ -12,14 +12,19 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.extension.IMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the choices defined by the extension element. There are two kinds
  * of choices:
  * 
  * <ul>
- * <li>The choice defined for extension property
- * <li>The choice defined for dynamic property
+ * <li>The choice defined for extension property. Its name and resource key are
+ * from plugin.xml.
+ * <li>The choice defined for extension model property. Its name and resource
+ * key are from <code>IChoiceDefinition</code>.
  * </ul>
  */
 
@@ -27,22 +32,33 @@ public class ExtensionChoice extends Choice
 {
 
 	/**
-	 * The choice from dynamic property.
+	 * The choice from extension model property.
 	 */
-	
+
 	IChoiceDefinition extChoice = null;
+
+	/**
+	 * The messages providing the localized messages.
+	 */
+
+	IMessages messages = null;
 
 	/**
 	 * The value of this choice.
 	 */
+
 	String value = null;
 
 	/**
 	 * Constructs an empty choice
+	 * 
+	 * @param messages
+	 *            the messages provideing localized messages
 	 */
 
-	public ExtensionChoice( )
+	public ExtensionChoice( IMessages messages )
 	{
+		this.messages = messages;
 	}
 
 	/**
@@ -50,12 +66,15 @@ public class ExtensionChoice extends Choice
 	 * 
 	 * @param extChoiceDefn
 	 *            the extension choice definition based
+	 * @param messages
+	 *            the messages provideing localized messages
 	 */
 
-	public ExtensionChoice( IChoiceDefinition extChoiceDefn )
+	public ExtensionChoice( IChoiceDefinition extChoiceDefn, IMessages messages )
 	{
 		assert extChoiceDefn != null;
 		this.extChoice = extChoiceDefn;
+		this.messages = messages;
 	}
 
 	/*
@@ -66,10 +85,23 @@ public class ExtensionChoice extends Choice
 
 	public String getDisplayName( )
 	{
-		if ( extChoice != null )
-			return extChoice.getDisplayName( );
+		String resourceKey = displayNameKey;
+		String choiceName = name;
 
-		return null;
+		if ( extChoice != null )
+		{
+			resourceKey = extChoice.getDisplayNameID( );
+			choiceName = extChoice.getName( );
+		}
+
+		if ( resourceKey != null )
+		{
+			String displayName = messages.getMessage( resourceKey,
+					ThreadResources.getLocale( ) );
+			if ( ! StringUtil.isBlank( displayName ) )
+				return displayName;
+		}
+		return choiceName;
 	}
 
 	/*
@@ -80,6 +112,9 @@ public class ExtensionChoice extends Choice
 
 	public String getDisplayNameKey( )
 	{
+		if ( extChoice != null )
+			return extChoice.getDisplayNameID( );
+
 		return displayNameKey;
 	}
 
@@ -136,9 +171,10 @@ public class ExtensionChoice extends Choice
 	/**
 	 * Sets the value for this choice.
 	 * 
-	 * @param value the value to set
+	 * @param value
+	 *            the value to set
 	 */
-	
+
 	public void setValue( String value )
 	{
 		this.value = value;

@@ -36,7 +36,7 @@
 	
 	<property name="lib.dir" value="lib" />
 	
-	<property name="core.dir" value="../../org.eclipse.birt.core/org.eclipse.birt.core" />
+	<property name="core.dir" value="../org.eclipse.birt.core" />
 	
 	<!-- Class Path -->
 	<path id="class.path">

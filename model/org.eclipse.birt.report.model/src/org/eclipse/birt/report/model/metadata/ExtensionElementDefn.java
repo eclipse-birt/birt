@@ -22,8 +22,9 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * Represents the extended definition based on our report item extension point.
  * This class only used for those extension definition from third-party, not the
  * BIRT-defined standard elements. The extension definition must include an
- * instance of {@link org.eclipse.birt.report.model.extension.IReportItemFactory}.
- * The included IElmentFactory gives the information about the internal, model
+ * instance of
+ * {@link org.eclipse.birt.report.model.extension.IReportItemFactory}. The
+ * included IElmentFactory gives the information about the internal, model
  * properties of that extension, how to instantiate
  * {@link org.eclipse.birt.report.model.extension.IReportItem}and other
  * information.
@@ -200,13 +201,19 @@ public class ExtensionElementDefn extends ElementDefn
 	{
 		return this.elementFactory;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#getDisplayName()
 	 */
-	
+
 	public String getDisplayName( )
 	{
-		return elementFactory.getDisplayName();
+		if ( displayNameKey != null )
+			return elementFactory.getMessages( ).getMessage( displayNameKey,
+					ThreadResources.getLocale( ) );
+
+		return getName( );
 	}
 }

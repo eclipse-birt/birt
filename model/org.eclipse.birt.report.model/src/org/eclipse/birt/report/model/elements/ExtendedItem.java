@@ -25,9 +25,9 @@ import org.eclipse.birt.report.model.command.ExtendsException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.extension.IReportItemFactory;
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
@@ -316,7 +316,8 @@ public class ExtendedItem extends ReportItem
 		{
 			IPropertyDefinition extProp = extProps[i];
 			if ( propName.equalsIgnoreCase( extProp.getName( ) ) )
-				return new ExtensionModelPropertyDefn( extProp );
+				return new ExtensionModelPropertyDefn( extProp, getExtDefn( )
+						.getElementFactory( ).getMessages( ) );
 		}
 
 		return null;
@@ -366,7 +367,8 @@ public class ExtendedItem extends ReportItem
 		for ( int i = 0; i < dynamicProps.length; i++ )
 		{
 			IPropertyDefinition extProp = dynamicProps[i];
-			props.add( new ExtensionModelPropertyDefn( extProp ) );
+			props.add( new ExtensionModelPropertyDefn( extProp, getExtDefn( )
+					.getElementFactory( ).getMessages( ) ) );
 		}
 
 		return props;
@@ -634,6 +636,9 @@ public class ExtendedItem extends ReportItem
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		ExtendedItem element = (ExtendedItem) super.clone( );
+		element.cachedExtDefn = null;
+		element.extElement = null;
+		element.extValues = null;
 
 		// clear the cached extension definition
 
@@ -643,39 +648,38 @@ public class ExtendedItem extends ReportItem
 		{
 			element.extElement = extElement.copy( );
 		}
-		else
+
+		// extension Properties
+
+		Iterator it = extValues.keySet( ).iterator( );
+		element.extValues = new HashMap( );
+		while ( it.hasNext( ) )
 		{
-			// extension Properties
+			String key = (String) it.next( );
+			PropertyDefn propDefn = getPropertyDefn( key );
 
-			Iterator it = extValues.keySet( ).iterator( );
-			element.extValues = new HashMap( );
-			while ( it.hasNext( ) )
+			if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 			{
-				String key = (String) it.next( );
-				PropertyDefn propDefn = getPropertyDefn( key );
-
-				if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				if ( propDefn.isList( ) )
 				{
-					if ( propDefn.isList( ) )
-					{
-						element.extValues.put( key,
-								cloneStructList( (ArrayList) extValues
-										.get( key ) ) );
-					}
-					else
-					{
-						element.extValues.put( key, ( (Structure) extValues
-								.get( key ) ).copy( ) );
-					}
+					element.extValues
+							.put( key, cloneStructList( (ArrayList) extValues
+									.get( key ) ) );
 				}
-				else if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+				else
 				{
-					//Primitive or immutable values
-
-					element.extValues.put( key, extValues.get( key ) );
+					element.extValues.put( key, ( (Structure) extValues
+							.get( key ) ).copy( ) );
 				}
 			}
+			else if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+			{
+				//Primitive or immutable values
+
+				element.extValues.put( key, extValues.get( key ) );
+			}
 		}
+
 		return element;
 	}
 
