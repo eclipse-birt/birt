@@ -23,7 +23,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TextEditPart;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -321,5 +323,36 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	protected boolean isHorizontal( )
 	{
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#showLayoutTargetFeedback(org.eclipse.gef.Request)
+	 */
+	protected void showLayoutTargetFeedback(Request request)
+	{
+	    GraphicalEditPart ep = (GraphicalEditPart)getHost();
+	    // show cursor even if there is no children  
+		if (getHost().getChildren().size() == 0)
+		{
+		    Polyline fb = getLineFeedback();
+		  
+			Rectangle bounds = ep.getContentPane().getBounds().getCopy();
+			Insets insets = ep.getContentPane().getInsets();
+			bounds.crop(insets);
+			ep.getFigure().translateToAbsolute(bounds);
+			
+			Point p1 = new Point(bounds.x + 5, bounds.y + 2 );
+			fb.translateToRelative(p1);
+			Point p2 = new Point(bounds.x + 5 , bounds.y + Math.min( bounds.height - 2, 18 )  );
+			fb.translateToRelative(p2);
+			fb.setPoint(p1, 0);
+			fb.setPoint(p2, 1);
+		}
+		else
+		{
+		    super.showLayoutTargetFeedback( request );
+		}
+		ep.getViewer().reveal(ep);
+		
 	}
 }
