@@ -127,7 +127,7 @@ public final class DriverLoader
 		return null;
 	}
 
-	private static String escapeCharacters( String value )
+	static String escapeCharacters( String value )
 	{
 		final StringCharacterIterator iterator = new StringCharacterIterator( value );
 		char character = iterator.current( );

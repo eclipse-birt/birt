@@ -15,6 +15,7 @@ import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -30,61 +31,19 @@ public class JdbcToolKit
 {
 
 	// Name of all the configured jdbc drivers
-	private static ArrayList jdbcDriverName = null;
+	private static ArrayList jdbcDrivers = null;
 
 	// class path used for obtaining a connection using a jdbc driver
 	private static ArrayList jdbcDriverLocations = null;
+    
+    private static Class driverClass = Driver.class;
 
 	private static boolean implementsSQLDriver( Class aClass )
 	{
-		try
-		{
-			Class[] interfaces = aClass.getInterfaces( );
-			for ( int i = 0; i < interfaces.length; i++ )
-			{
-				Class anInterface = interfaces[i];
-				if ( "java.sql.Driver".equals( anInterface.getName( ) ) ) //$NON-NLS-1$
-				{
-					return true;
-				}
-			}
-		}
-		catch ( Throwable e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return false;
-	}
-
-	private static boolean instanceOfSQLDriver( Class aClass )
-	{
-		Class superClass = aClass;
-
-		try
-		{
-			if ( implementsSQLDriver( superClass ) )
-			{
-
-				return true;
-			}
-
-			while ( ( superClass = superClass.getSuperclass( ) ) != null )
-			{
-				if ( superClass.isInterface( ) == true
-						&& "java.sql.Driver".equals( superClass.getName( ) ) ) //$NON-NLS-1$
-				{
-					return true;
-				}
-				else if ( implementsSQLDriver( superClass ) )
-				{
-					return true;
-				}
-			}
-		}
-		catch ( Throwable e )
-		{
-			e.printStackTrace( );
-		}
+        if(driverClass.isAssignableFrom(aClass))
+        {
+            return true;
+        }
 		return false;
 	}
 
@@ -123,16 +82,15 @@ public class JdbcToolKit
 	 */
 	public static ArrayList getJdbcDriverNames( String driverName )
 	{
-		if ( jdbcDriverName == null )
+		if ( jdbcDrivers == null )
 		{
-			jdbcDriverName = new ArrayList( );
-
-			ArrayList abstractDriverClassList = new ArrayList( );
-
+			jdbcDrivers = new ArrayList( );
+            URL[] classPathURLs = getJdbcDriverClassPathURLS(driverName);
 			try
 			{
+                JDBCDriverInformation info = JDBCDriverInformation.getInstance("sun.jdbc.odbc.JdbcOdbcDriver", classPathURLs);
 				// Adding the odbc-jdbc driver
-				jdbcDriverName.add( "sun.jdbc.odbc.JdbcOdbcDriver" ); //$NON-NLS-1$
+				jdbcDrivers.add( info ); //$NON-NLS-1$
 			}
 			catch ( Exception e )
 			{
@@ -206,7 +164,7 @@ public class JdbcToolKit
 
 								if ( aClass != null )
 								{
-									if ( instanceOfSQLDriver( aClass ) )
+									if ( implementsSQLDriver( aClass ) )
 									{
 
 										// Do not add it, if it is a Abstract
@@ -214,15 +172,10 @@ public class JdbcToolKit
 										int modifier = aClass.getModifiers( );
 										boolean isAbstract = Modifier.isAbstract( modifier );
 
-										if ( isAbstract )
-										{
-
-											Class storedClass = aClass;
-											abstractDriverClassList.add( storedClass );
-										}
 										if ( !isAbstract )
 										{
-											jdbcDriverName.add( aClass.getName( ) );
+                                            JDBCDriverInformation info = JDBCDriverInformation.getInstance(aClass, classPathURLs);
+											jdbcDrivers.add( info );
 										}
 									}
 								}
@@ -237,8 +190,38 @@ public class JdbcToolKit
 				}
 			}
 		}
-		return jdbcDriverName;
+		return jdbcDrivers;
 	}
+    
+    public static URL[] getJdbcDriverClassPathURLS(String driverName)
+    {
+        if ( jdbcDriverLocations == null )
+        {
+            getJdbcDriverNames( driverName );
+        }
+        
+        try
+        {
+            if(jdbcDriverLocations != null)
+            {
+                URL[] urls = new URL[jdbcDriverLocations.size()];
+                int n = 0;
+                Iterator iter = jdbcDriverLocations.iterator();
+                while(iter.hasNext())
+                {
+                        urls[n++] = new URL( "file:///" + DriverLoader.escapeCharacters( (String)iter.next() ) ); //$NON-NLS-1$
+                }
+                return urls;
+            }
+        }
+        catch (MalformedURLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return new URL[]{};
+    }
 
 	public static String getJdbcDriverClassPath( String driverName )
 	{
