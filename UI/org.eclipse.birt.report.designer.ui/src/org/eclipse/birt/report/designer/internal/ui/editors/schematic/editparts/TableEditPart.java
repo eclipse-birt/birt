@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.DeleteColumnCommand;
 import org.eclipse.birt.report.designer.core.commands.DeleteRowCommand;
 import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -40,6 +42,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -66,6 +69,7 @@ import org.eclipse.gef.editparts.GridLayer;
 import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
@@ -75,9 +79,10 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  *  
  */
-public class TableEditPart extends ReportElementEditPart implements
-		LayerConstants,
-		ITableAdapterHelper
+public class TableEditPart extends ReportElementEditPart
+		implements
+			LayerConstants,
+			ITableAdapterHelper
 {
 
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
@@ -330,7 +335,25 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public void performRequest( Request request )
 	{
-
+		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+		{
+			Object obj = request.getExtendedData( )
+					.get( DesignerConstants.TABLE_ROW_NUMBER );
+			if ( obj != null )
+			{
+				int rowNum = ( (Integer) obj ).intValue( );
+				RowHandle row = (RowHandle) getRow( rowNum );
+				if ( row.getContainer( ) instanceof TableGroupHandle )
+				{
+					IAction action = new EditGroupAction( null,
+							(TableGroupHandle) row.getContainer( ) );
+					if ( action.isEnabled( ) )
+					{
+						action.run( );
+					}
+				}
+			}
+		}
 	}
 
 	/*
@@ -346,8 +369,8 @@ public class TableEditPart extends ReportElementEditPart implements
 		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getTableAdapter( ).getPadding( getFigure( ).getInsets( ) ) );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
-		
-		refreshMargin();
+
+		refreshMargin( );
 
 		for ( Iterator itr = getChildren( ).iterator( ); itr.hasNext( ); )
 		{
@@ -528,22 +551,23 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public void selectColumn( int[] numbers )
 	{
-		if (numbers == null || numbers.length == 0)
+		if ( numbers == null || numbers.length == 0 )
 		{
-			return ;
+			return;
 		}
 		ArrayList list = new ArrayList( );
 		int size = numbers.length;
 		int width = 0;
-		
-		int minColumnnumber =  numbers[0];
+
+		int minColumnnumber = numbers[0];
 		for ( int i = 0; i < size; i++ )
 		{
-			if (minColumnnumber > numbers[i])
+			if ( minColumnnumber > numbers[i] )
 			{
 				minColumnnumber = numbers[i];
 			}
-			width = width + TableUtil.caleVisualWidth( this, getColumn( numbers[i] ) );
+			width = width
+					+ TableUtil.caleVisualWidth( this, getColumn( numbers[i] ) );
 			list.add( new DummyColumnEditPart( getColumn( numbers[i] ) ) );
 		}
 		for ( int i = 0; i < size; i++ )
@@ -558,7 +582,7 @@ public class TableEditPart extends ReportElementEditPart implements
 				}
 			}
 		}
-		
+
 		int x = TableUtil.caleX( this, minColumnnumber );
 		Rectangle rect = new Rectangle( x,
 				0,
@@ -608,25 +632,26 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @param numbers
 	 */
 	public void selectRow( int[] numbers )
-	{	
-		if (numbers == null || numbers.length == 0)
+	{
+		if ( numbers == null || numbers.length == 0 )
 		{
-			return ;
+			return;
 		}
 		ArrayList list = new ArrayList( );
 		int size = numbers.length;
 		int height = 0;
-		int minRownumber =  numbers[0];
+		int minRownumber = numbers[0];
 
 		//add row object in the list first
 		for ( int i = 0; i < size; i++ )
 		{
-			
-			if (minRownumber > numbers[i])
+
+			if ( minRownumber > numbers[i] )
 			{
 				minRownumber = numbers[i];
 			}
-			height = height + TableUtil.caleVisualHeight( this, getRow( numbers[i] ) );
+			height = height
+					+ TableUtil.caleVisualHeight( this, getRow( numbers[i] ) );
 			list.add( new DummyRowEditPart( getRow( numbers[i] ) ) );
 		}
 
@@ -643,7 +668,7 @@ public class TableEditPart extends ReportElementEditPart implements
 				}
 			}
 		}
-		
+
 		int y = TableUtil.caleY( this, minRownumber );
 		Rectangle rect = new Rectangle( 0,
 				y,
@@ -802,8 +827,7 @@ public class TableEditPart extends ReportElementEditPart implements
 
 	/**
 	 * Gets data set, which is biding on table.
-	 * 
-	 * @return
+	 *  
 	 */
 	public Object getDataSet( )
 	{
@@ -811,11 +835,10 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Get the cell on give postion.
+	 * Get the cell on give position.
 	 * 
 	 * @param rowNumber
 	 * @param columnNumber
-	 * @return
 	 */
 	public TableCellEditPart getCell( int rowNumber, int columnNumber )
 	{
@@ -982,11 +1005,9 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 
 		int rowSpan = maxRow.getRowNumber( )
-				- minRow.getRowNumber( )
-				+ maxRow.getRowSpan( );
+				- minRow.getRowNumber( ) + maxRow.getRowSpan( );
 		int colSpan = maxColumn.getColumnNumber( )
-				- maxRow.getColumnNumber( )
-				+ maxColumn.getColSpan( );
+				- maxRow.getColumnNumber( ) + maxColumn.getColSpan( );
 
 		getTableAdapter( ).transStar( MERGE_TRANS_LABEL );
 		cellPart.setRowSpan( rowSpan );
@@ -1173,7 +1194,35 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Removes gourp in table
+	 * Inserts group in table.
+	 * 
+	 * @param part
+	 *            the current row or cell to specify the position of new group.
+	 *            Null to call <code>insertGroup( )</code>
+	 */
+	public boolean insertGroup( Object part )
+	{
+		RowHandle row = null;
+		if ( part != null )
+		{
+			if ( part instanceof RowHandle )
+			{
+				row = (RowHandle) part;
+			}
+			else if ( part instanceof CellHandle )
+			{
+				row = (RowHandle) ( (CellHandle) part ).getContainer( );
+			}
+		}
+		if ( row != null )
+		{
+			return UIUtil.createTableGroup( row );
+		}
+		return insertGroup( );
+	}
+
+	/**
+	 * Removes group in table
 	 * 
 	 * @param group
 	 */
@@ -1291,10 +1340,12 @@ public class TableEditPart extends ReportElementEditPart implements
 			};
 			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
 		}
-		
-		public int getColumnNumber()
+
+		public int getColumnNumber( )
 		{
-			return HandleAdapterFactory.getInstance().getColumnHandleAdapter(getModel()).getColumnNumber();
+			return HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( getModel( ) )
+					.getColumnNumber( );
 		}
 	}
 
@@ -1332,10 +1383,12 @@ public class TableEditPart extends ReportElementEditPart implements
 			};
 			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
 		}
-		
-		public int getRowNumber()
+
+		public int getRowNumber( )
 		{
-			return HandleAdapterFactory.getInstance().getRowHandleAdapter(getModel()).getRowNumber();
+			return HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( getModel( ) )
+					.getRowNumber( );
 		}
 	}
 }

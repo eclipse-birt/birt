@@ -9,10 +9,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.ColumnHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.RowHandle;
 import org.eclipse.gef.Handle;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.requests.SelectionRequest;
 
 /**
  * RowTracker
@@ -24,6 +26,7 @@ public class RowTracker extends TableSelectionGuideTracker
 
 	/**
 	 * Constructor
+	 * 
 	 * @param sourceEditPart
 	 */
 	public RowTracker( TableEditPart sourceEditPart, int row,
@@ -34,14 +37,16 @@ public class RowTracker extends TableSelectionGuideTracker
 		this.container = container;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableSelectionGuideTracker#select()
 	 */
 	public void select( )
 	{
-		if (container.isSelect() && getCurrentInput().isMouseButtonDown(3) )
+		if ( container.isSelect( ) && getCurrentInput( ).isMouseButtonDown( 3 ) )
 		{
-			return ;
+			return;
 		}
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		part.selectRow( new int[]{
@@ -70,8 +75,7 @@ public class RowTracker extends TableSelectionGuideTracker
 		boolean rlt = super.handleButtonUp( button );
 
 		if ( button == 1
-				&& container != null
-				&& container.contains( getLocation( ) ) )
+				&& container != null && container.contains( getLocation( ) ) )
 		{
 			getSourceEditPart( ).getViewer( )
 					.getContextMenu( )
@@ -81,39 +85,55 @@ public class RowTracker extends TableSelectionGuideTracker
 
 		return rlt;
 	}
-	
-	public boolean isDealwithDrag()
+
+	public boolean isDealwithDrag( )
 	{
-		Handle handle = getHandleUnderMouse();
-		if (handle instanceof RowHandle)
+		Handle handle = getHandleUnderMouse( );
+		if ( handle instanceof RowHandle )
 		{
-			return ((RowHandle)handle).getOwner() == getSourceEditPart();
+			return ( (RowHandle) handle ).getOwner( ) == getSourceEditPart( );
 		}
 		return false;
 		//EditPart part = getEditPartUnderMouse();
-		//return part instanceof TableEditPart.DummyColumnEditPart || isSameTable();
+		//return part instanceof TableEditPart.DummyColumnEditPart ||
+		// isSameTable();
 	}
-	
+
 	public void selectDrag( )
 	{
-		RowHandle handle = (RowHandle)getHandleUnderMouse();
-		
-		int rowNumber = handle.getRowNumber();
-		int number = getNumber();
+		RowHandle handle = (RowHandle) getHandleUnderMouse( );
+
+		int rowNumber = handle.getRowNumber( );
+		int number = getNumber( );
 		int[] rows = new int[]{};
-		for (int i=number; i<=number + Math.abs(number - rowNumber); i++)
+		for ( int i = number; i <= number + Math.abs( number - rowNumber ); i++ )
 		{
 			int lenegth = rows.length;
 			int[] temp = new int[lenegth + 1];
 
 			System.arraycopy( rows, 0, temp, 0, lenegth );
-			temp[lenegth] = number > rowNumber ? number - (i - number): i;
+			temp[lenegth] = number > rowNumber ? number - ( i - number ) : i;
 			rows = temp;
 		}
-		if (rows.length > 0)
+		if ( rows.length > 0 )
 		{
 			TableEditPart tableEditpart = (TableEditPart) getSourceEditPart( );
-			tableEditpart.selectRow( rows);
+			tableEditpart.selectRow( rows );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.tools.SelectEditPartTracker#performOpen()
+	 */
+	protected void performOpen( )
+	{
+		SelectionRequest request = new SelectionRequest( );
+		request.setLocation( getLocation( ) );
+		request.setType( RequestConstants.REQ_OPEN );
+		request.getExtendedData( ).put( DesignerConstants.TABLE_ROW_NUMBER,
+				new Integer( getNumber( ) ) );
+		getSourceEditPart( ).performRequest( request );
 	}
 }

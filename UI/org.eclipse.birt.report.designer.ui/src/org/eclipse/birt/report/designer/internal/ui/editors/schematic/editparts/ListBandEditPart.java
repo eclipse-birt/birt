@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure;
@@ -26,12 +27,15 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DragEditPartsTracker;
+import org.eclipse.jface.action.IAction;
 
 /**
  * List band proxy edit part
@@ -109,8 +113,7 @@ public class ListBandEditPart extends ReportElementEditPart
 
 	/**
 	 * Creates the render figure
-	 * 
-	 * @return
+	 *  
 	 */
 	private ListBandRenderFigure createRenderFigure( )
 	{
@@ -129,7 +132,7 @@ public class ListBandEditPart extends ReportElementEditPart
 		controlFigure.add( new ListControlDisplayNameFigure( this ) );
 
 		controlFigure.add( new ListIconFigure( this ) );
-		
+
 		controlFigure.add( new ListBandControlVisible( this ) );
 
 		//Sets the background
@@ -221,11 +224,33 @@ public class ListBandEditPart extends ReportElementEditPart
 	/**
 	 * Gets the if the render figure is visible
 	 * 
-	 * @return
+	 * @return visible or not
 	 */
 	public boolean isRenderVisile( )
 	{
 		ListBandFigure figure = (ListBandFigure) getFigure( );
 		return figure.isControlShowing( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	public void performRequest( Request request )
+	{
+		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+		{
+			ListBandProxy listBand = (ListBandProxy) getModel( );
+			if ( listBand.getElemtHandle( ) instanceof ListGroupHandle )
+			{
+				IAction action = new EditGroupAction( null,
+						(ListGroupHandle) listBand.getElemtHandle( ) );
+				if ( action.isEnabled( ) )
+				{
+					action.run( );
+				}
+			}
+		}
 	}
 }

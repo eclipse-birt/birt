@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.command.PropertyEvent;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;
@@ -256,6 +257,22 @@ public class ListEditPart extends ReportElementEditPart
 	public boolean insertGroup( )
 	{
 		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ) );
+	}
+	
+	/**
+	 * Inserts group in list.
+	 * 
+	 * @param part
+	 *            the current part to specify the position of new group. Null to
+	 *            call <code>insertGroup( )</code>
+	 */
+	public boolean insertGroup( Object part )
+	{
+		if ( part != null && part instanceof ListBandProxy )
+		{
+			return UIUtil.createListGroup( (ListBandProxy) part );
+		}
+		return insertGroup( );
 	}
 
 	/**
