@@ -24,6 +24,10 @@ import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.DataPoint;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
@@ -200,12 +204,38 @@ public final class PlotWithoutAxes
 
         final int iCount = dsiOrthogonalValues.size();
         final DataPointHints[] dpha = new DataPointHints[iCount];
+        
+        // OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
+        final DataPoint dp = seOrthogonal.getDataPoint();
+        final EList el = dp.getComponents();
+        DataPointComponent dpc;
+        DataPointComponentType dpct;
+        FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+        for (int i = 0; i < el.size(); i++)
+        {
+            dpc = (DataPointComponent) el.get(i);
+            dpct = dpc.getType();
+            if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
+            {
+                fsBase = dpc.getFormatSpecifier();
+            }
+            else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
+            {
+                fsOrthogonal = dpc.getFormatSpecifier();
+            }
+            else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
+            {
+                fsSeries = dpc.getFormatSpecifier();
+            }
+        }
+        
         for (int i = 0; i < iCount; i++)
         {
-            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), String.valueOf(seOrthogonal
-                .getSeriesIdentifier()), // TBD: APPLY FORMAT SPECIFIER
-                seOrthogonal.getDataPoint(), seBase.getFormatSpecifier(), seOrthogonal.getFormatSpecifier(), null, -1,
-                lcl);
+            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), 
+                seOrthogonal.getSeriesIdentifier(), 
+                seOrthogonal.getDataPoint(), 
+                fsBase, fsOrthogonal, fsSeries,
+                null, -1, lcl);
         }
 
         return new SeriesRenderingHints(dpha);

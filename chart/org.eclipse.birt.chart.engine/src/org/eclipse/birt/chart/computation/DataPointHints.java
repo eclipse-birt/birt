@@ -47,7 +47,7 @@ public final class DataPointHints
     /**
      *  
      */
-    private final String sSeriesValue;
+    private final Object oSeriesValue;
 
     /**
      *  
@@ -65,26 +65,26 @@ public final class DataPointHints
     private final DataPoint dp;
 
     /**
-     *  
+     * 
      */
-    private final FormatSpecifier fsBase, fsOrthogonal;
-
+    private final FormatSpecifier fsBase, fsOrthogonal, fsSeries;
+    
     /**
      * 
      * @param _oBaseValue
      * @param _oOrthogonalValue
+     * @param _sSeriesValue
+     * @param _dp
      * @param _lo
      * @param _dSize
+     * @param _lcl
+     * @throws UndefinedValueException
      */
-    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, String _sSeriesValue, DataPoint _dp, // FOR
-        // COMBINED
-        // VALUE
-        // RETRIEVAL
-        FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, // FOR INDIVIDUAL USE
+    public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue, 
+        DataPoint _dp, // FOR COMBINED VALUE RETRIEVAL
+        FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries, 
         Location _lo, double _dSize, Locale _lcl) throws UndefinedValueException
     {
-        fsBase = _fsBase;
-        fsOrthogonal = _fsOrthogonal;
         if (_dp == null)
         {
             throw new UndefinedValueException("The DataPoint value associated with the series definition is undefined");
@@ -92,7 +92,12 @@ public final class DataPointHints
         dp = _dp;
         oBaseValue = _oBaseValue;
         oOrthogonalValue = _oOrthogonalValue;
-        sSeriesValue = _sSeriesValue;
+        oSeriesValue = _oSeriesValue;
+        
+        fsBase = _fsBase;
+        fsOrthogonal = _fsOrthogonal;
+        fsSeries = _fsSeries;
+        
         lo = _lo;
         lcl = (_lcl == null) ? Locale.getDefault() : _lcl;
         dSize = _dSize;
@@ -114,6 +119,15 @@ public final class DataPointHints
     public final Object getOrthogonalValue()
     {
         return oOrthogonalValue;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public final Object getSeriesValue()
+    {
+        return oSeriesValue;
     }
 
     /**
@@ -156,9 +170,9 @@ public final class DataPointHints
      * 
      * @return
      */
-    public final String getSeriesValue()
+    public final String getSeriesDisplayValue()
     {
-        return sSeriesValue;
+        return getSeriesDisplayValue(fsSeries);
     }
 
     /**
@@ -209,6 +223,28 @@ public final class DataPointHints
      * 
      * @return
      */
+    private final String getSeriesDisplayValue(FormatSpecifier fs)
+    {
+        if (oSeriesValue == null)
+        {
+            return IConstants.NULL_STRING;
+        }
+        try
+        {
+            return ValueFormatter.format(oSeriesValue, fs, lcl, null);
+        }
+        catch (Exception ex )
+        {
+            DefaultLoggerImpl.instance().log(ILogger.ERROR,
+                "Failed to parse value " + oSeriesValue + " with format specifier " + fs);
+        }
+        return IConstants.NULL_STRING;
+    }
+    
+    /**
+     * 
+     * @return
+     */
     public final String getDisplayValue()
     {
         final EList el = dp.getComponents();
@@ -236,7 +272,7 @@ public final class DataPointHints
             }
             else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
             {
-                sb.append(sSeriesValue);
+                sb.append(getOrthogonalDisplayValue(dpc.getFormatSpecifier()));
             }
 
             if (i < el.size() - 1)

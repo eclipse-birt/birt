@@ -57,9 +57,13 @@ public class Methods implements IConstants
      */
     public static final Double asDouble(Object o)
     {
-        if (o instanceof Double)
+        if (o == null)
         {
-            return (Double) o;
+            return null;
+        }
+        else if (o instanceof NumberDataElement)
+        {
+            return new Double(((NumberDataElement) o).getValue());
         }
         return new Double(((Number) o).doubleValue());
     }
