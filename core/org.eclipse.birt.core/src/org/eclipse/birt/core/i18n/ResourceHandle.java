@@ -77,7 +77,7 @@ public class ResourceHandle
 		bundleName = bundleName + BUNDLE_NAME;
 		if ( locale == null )
 			locale = Locale.getDefault( );
-		resources = ResourceBundle.getBundle( bundleName, locale );
+		resources = ResourceBundle.getBundle( bundleName, locale, this.getClass().getClassLoader() );
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 	}
