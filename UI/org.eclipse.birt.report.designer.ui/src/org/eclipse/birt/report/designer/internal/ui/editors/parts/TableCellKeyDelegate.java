@@ -472,7 +472,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 
 				if ( parts == null || parts.size( ) == 0 )
 				{
-					return false;
+					return true;
 				}
 
 				navigateTo( parts, event );
@@ -645,10 +645,11 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 		TableEditPart parent = (TableEditPart) start.getParent( );
 
 		StructuredSelection selection = (StructuredSelection) getViewer( ).getSelection( );
-		TableCellEditPart first = (TableCellEditPart) ( selection.getFirstElement( ) );
+		Object obj = selection.getFirstElement( );
 
-		if ( first != null )
+		if ( obj instanceof TableCellEditPart )
 		{
+			TableCellEditPart first = (TableCellEditPart) obj;
 			Rectangle constraint = TableCellSelectionHelper.getSelectionRectangle( first,
 					selection.toList( ) );
 
