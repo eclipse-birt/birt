@@ -47,6 +47,9 @@ public class Statement implements IStatement
 	/** indicates if need to call JDBC setMaxRows before execute statement */
 	private boolean maxRowsUpToDate = false;
 
+	/** Error message for ERRMSG_SET_PARAMETER */
+	private final static String ERRMSG_SET_PARAMETER = "Error setting value for SQL parameter #";
+	
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -365,7 +368,10 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+		}
 	}
 
 	/*
@@ -398,7 +404,10 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+		}
 	}
 
 	/*
@@ -437,7 +446,10 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+		}
 	}
 
 	/*
@@ -470,6 +482,10 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
+		}
 
 	}
 
@@ -500,6 +516,10 @@ public class Statement implements IStatement
 		catch ( SQLException e )
 		{
 			throw new JDBCException( e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -532,6 +552,10 @@ public class Statement implements IStatement
 		catch ( SQLException e )
 		{
 			throw new JDBCException( e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
@@ -570,6 +594,10 @@ public class Statement implements IStatement
 		catch ( SQLException e )
 		{
 			throw new JDBCException( e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			throw new OdaException( ERRMSG_SET_PARAMETER + parameterId );
 		}
 
 	}
