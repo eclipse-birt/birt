@@ -209,8 +209,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createShowMenu( menuManager, GEFActionConstants.GROUP_EDIT );
 				appendActionToAddGroup( getAction( InsertGroupAction.ID ),
 						menuManager );
-                Separator separator = new Separator( EditBindingAction.ID );
-                menuManager.add( separator );
+				Separator separator = new Separator( EditBindingAction.ID );
+				menuManager.add( separator );
 				menuManager.appendToGroup( EditBindingAction.ID,
 						getAction( EditBindingAction.ID ) );
 			}
@@ -712,7 +712,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	private void appendActionToCopyGroup( IAction action, IMenuManager menu )
 	{
-		if ( null != action && action.isEnabled( ) )
+		if ( null != action
+				&& ( action.isEnabled( ) || action instanceof PasteAction ) )
 		{
 			menu.appendToGroup( GEFActionConstants.GROUP_COPY, action );
 		}
