@@ -62,16 +62,6 @@
 					name="test7"/>
 			</PropertyGroup>
 		</Element>
-		<Element 
-			class="TestingBox.ROMExtension" 
-			isNameRequired="true" 
-			name="TestingBox"
-			hasStyle="false">
-			<Property defaultValue="paper" 
-				type="string" 
-				displayNameID="Element.TestingBox.location" 
-				name="usage"/>
-		</Element>
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
