@@ -27,10 +27,9 @@ import org.eclipse.swt.graphics.Image;
 public class SectionBorder extends BaseBorder
 {
 
-	private static final Insets DEFAULT_CROP = new Insets( 0, 0, 1, 1 );
 	private static final Insets DEFAULTINSETS = new Insets( 2, 1, 2, 2 );
 
-	private Insets insets = new Insets( DEFAULTINSETS );
+	private Insets insets = new Insets( getDefaultPaddingInsets( ) );
 
 	private Dimension indicatorDimension = new Dimension( );
 	protected String indicatorLabel = "";//$NON-NLS-1$
@@ -48,14 +47,15 @@ public class SectionBorder extends BaseBorder
 	{
 		return getTrueBorderInsets( ).add( insets );
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getBorderInsets()
 	 */
 	public Insets getBorderInsets( )
 	{
-		return getTrueBorderInsets();
+		return getTrueBorderInsets( );
 	}
 
 	/*
@@ -63,7 +63,7 @@ public class SectionBorder extends BaseBorder
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getTrueBorderInsets()
 	 */
-	protected Insets getTrueBorderInsets( )
+	public Insets getTrueBorderInsets( )
 	{
 		int t = 1, b = 1, l = 1, r = 1;
 
@@ -96,6 +96,11 @@ public class SectionBorder extends BaseBorder
 		return new Insets( t, l, b, r );
 	}
 
+	Insets getDefaultPaddingInsets( )
+	{
+		return DEFAULTINSETS;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -106,16 +111,19 @@ public class SectionBorder extends BaseBorder
 		if ( in == null
 				|| ( in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0 ) )
 		{
-			insets = new Insets( DEFAULTINSETS );
+			insets = new Insets( getDefaultPaddingInsets( ) );
 			return;
 		}
-		insets.top = in.top > DEFAULTINSETS.top ? in.top : DEFAULTINSETS.top;
+		insets.top = in.top > getDefaultPaddingInsets( ).top ? in.top
+				: getDefaultPaddingInsets( ).top;
 
-		insets.bottom = ( in.bottom > indicatorDimension.height && in.bottom > DEFAULTINSETS.bottom ) ? in.bottom
-				: DEFAULTINSETS.bottom;
+		insets.bottom = ( in.bottom > indicatorDimension.height && in.bottom > getDefaultPaddingInsets( ).bottom ) ? in.bottom
+				: getDefaultPaddingInsets( ).bottom;
 
-		insets.left = in.left > DEFAULTINSETS.left ? in.left : DEFAULTINSETS.left;
-		insets.right = in.right > DEFAULTINSETS.right ? in.right : DEFAULTINSETS.right;
+		insets.left = in.left > getDefaultPaddingInsets( ).left ? in.left
+				: getDefaultPaddingInsets( ).left;
+		insets.right = in.right > getDefaultPaddingInsets( ).right ? in.right
+				: getDefaultPaddingInsets( ).right;
 	}
 
 	/*
@@ -142,22 +150,31 @@ public class SectionBorder extends BaseBorder
 		g.restoreState( );
 
 		//draw top line
-		drawBorder( figure, g, in, TOP, i_top_style, new int[]{
+		drawBorder( figure, g, in, BorderUtil.TOP, i_top_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, topColor );
 
 		//draw bottom line
-		drawBorder( figure, g, in, BOTTOM, i_bottom_style, new int[]{
-				i_top_width, i_bottom_width, i_left_width, i_right_width
-		}, bottomColor );
+		drawBorder( figure,
+				g,
+				in,
+				BorderUtil.BOTTOM,
+				i_bottom_style,
+				new int[]{
+						i_top_width,
+						i_bottom_width,
+						i_left_width,
+						i_right_width
+				},
+				bottomColor );
 
 		//draw left line
-		drawBorder( figure, g, in, LEFT, i_left_style, new int[]{
+		drawBorder( figure, g, in, BorderUtil.LEFT, i_left_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, leftColor );
 
 		//draw right line
-		drawBorder( figure, g, in, RIGHT, i_right_style, new int[]{
+		drawBorder( figure, g, in, BorderUtil.RIGHT, i_right_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, rightColor );
 
@@ -177,9 +194,7 @@ public class SectionBorder extends BaseBorder
 	private void drawBorder( IFigure figure, Graphics g, Insets in, int side,
 			int style, int[] width, String color )
 	{
-		Rectangle r = figure.getBounds( )
-				.getCropped( DEFAULT_CROP )
-				.getCropped( in );
+		Rectangle r = figure.getBounds( ).getCropped( in );
 
 		//Outline the border
 		//indicatorDimension = calculateIndicatorDimension( g, width[side] );
@@ -193,12 +208,12 @@ public class SectionBorder extends BaseBorder
 			if ( style == -2 )
 			{
 				//drawDouble line
-				drawDoubleLine( figure, g, side, width, r );
+				BorderUtil.drawDoubleLine( g, side, width, r );
 			}
 			else
 			{
 				//draw single line
-				drawSingleLine( figure, g, side, style, width, r );
+				BorderUtil.drawSingleLine( g, side, style, width, r );
 			}
 		}
 
@@ -208,7 +223,7 @@ public class SectionBorder extends BaseBorder
 		{
 			g.setForegroundColor( ReportColorConstants.ShadowLineColor );
 			//draw default line
-			drawDefaultLine( figure, g, side, r );
+			BorderUtil.drawDefaultLine( g, side, r );
 		}
 
 		g.restoreState( );

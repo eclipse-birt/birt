@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableBorderLayer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableGridLayer;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -79,11 +80,12 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  *  
  */
-public class TableEditPart extends ReportElementEditPart
-		implements
-			LayerConstants,
-			ITableAdapterHelper
+public class TableEditPart extends ReportElementEditPart implements
+		LayerConstants,
+		ITableAdapterHelper
 {
+
+	public static final String BORDER_LAYER = "Table Border layer"; //$NON-NLS-1$
 
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
 
@@ -494,6 +496,7 @@ public class TableEditPart extends ReportElementEditPart
 
 		layer.setLayoutManager( new TableLayout( this ) );
 		layeredPane.add( layer, PRIMARY_LAYER );
+		layeredPane.add( new TableBorderLayer( this ), BORDER_LAYER );
 		return layeredPane;
 	}
 
@@ -1005,9 +1008,11 @@ public class TableEditPart extends ReportElementEditPart
 		}
 
 		int rowSpan = maxRow.getRowNumber( )
-				- minRow.getRowNumber( ) + maxRow.getRowSpan( );
+				- minRow.getRowNumber( )
+				+ maxRow.getRowSpan( );
 		int colSpan = maxColumn.getColumnNumber( )
-				- maxRow.getColumnNumber( ) + maxColumn.getColSpan( );
+				- maxRow.getColumnNumber( )
+				+ maxColumn.getColSpan( );
 
 		getTableAdapter( ).transStar( MERGE_TRANS_LABEL );
 		cellPart.setRowSpan( rowSpan );

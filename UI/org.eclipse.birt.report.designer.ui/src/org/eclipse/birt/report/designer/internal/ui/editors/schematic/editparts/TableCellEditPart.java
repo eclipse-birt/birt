@@ -184,7 +184,13 @@ public class TableCellEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
-		refreshBorder( getCellAdapter( ).getHandle( ), new CellBorder( ) );
+		CellBorder cborder = new CellBorder( );
+
+		if ( getFigure( ).getBorder( ) instanceof CellBorder )
+		{
+			cborder.setBorderInsets( ( (CellBorder) getFigure( ).getBorder( ) ).getBorderInsets( ) );
+		}
+		refreshBorder( getCellAdapter( ).getHandle( ), cborder );
 
 		Insets ist = getCellAdapter( ).getPadding( getFigure( ).getInsets( ) );
 

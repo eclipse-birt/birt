@@ -30,6 +30,7 @@ public class AllUtilTests
 		suite.addTestSuite( FixTableLayoutCalculatorTest.class );
 		suite.addTestSuite( DEUtilTest.class );
 		suite.addTestSuite( ImageManagerTest.class );
+		suite.addTestSuite( TableBorderCollisionArbiterTest.class );
 		//$JUnit-END$
 		return suite;
 	}

@@ -45,8 +45,6 @@ import org.eclipse.gef.requests.DropRequest;
 public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 {
 
-	private static final int DISTANCE = 10;
-
 	/**
 	 * Constructor
 	 */
@@ -65,7 +63,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		for ( int i = 0; i < editParts.size( ); i++ )
 		{
 			EditPart child = (EditPart) editParts.get( i );
-			command.add( createAddCommand( parent, child,
+			command.add( createAddCommand( parent,
+					child,
 					getInsertionReference( request ) ) );
 		}
 		return command.unwrap( );
@@ -93,16 +92,15 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		Object parentModel = null;
 		if ( parent.getModel( ) instanceof ListBandProxy )
 		{
-			parentModel = ( (ListBandProxy) parent.getModel( ) )
-					.getSlotHandle( );
+			parentModel = ( (ListBandProxy) parent.getModel( ) ).getSlotHandle( );
 		}
 		else
 		{
 			parentModel = parent.getModel( );
 		}
 		return new PasteCommand( (DesignElementHandle) child.getModel( ),
-				parentModel, insertionReference == null
-						? null
+				parentModel,
+				insertionReference == null ? null
 						: (DesignElementHandle) insertionReference.getModel( ),
 				false );
 	}
@@ -184,8 +182,9 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		{
 			afterModel = after.getModel( );
 		}
-		FlowMoveChildCommand command = new FlowMoveChildCommand( child
-				.getModel( ), afterModel, child.getParent( ).getModel( ) );
+		FlowMoveChildCommand command = new FlowMoveChildCommand( child.getModel( ),
+				afterModel,
+				child.getParent( ).getModel( ) );
 		return command;
 	}
 
@@ -212,7 +211,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			child = (GraphicalEditPart) children.get( i );
-			c = createChangeConstraintCommand( request, child,
+			c = createChangeConstraintCommand( request,
+					child,
 					getConstraintFor( request, child ) );
 			resize.add( c );
 		}
@@ -297,12 +297,18 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	 */
 	protected EditPolicy createChildEditPolicy( EditPart child )
 	{
-		if ( child instanceof LabelEditPart || child instanceof TextEditPart
+		if ( child instanceof LabelEditPart
+				|| child instanceof TextEditPart
 				|| child instanceof ListEditPart )
 			return new NonResizableEditPolicy( );
 		if ( child instanceof TableEditPart )
 		{
-			return new TableResizeEditPolice( );
+			TableResizeEditPolice rpc = new TableResizeEditPolice( );
+			rpc.setResizeDirections( PositionConstants.SOUTH
+					| PositionConstants.EAST
+					| PositionConstants.SOUTH_EAST );
+
+			return rpc;
 		}
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
@@ -354,8 +360,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		Transposer transposer = new Transposer( );
 		transposer.setEnabled( !isHorizontal( ) );
 
-		Rectangle parentBox = transposer
-				.t( getAbsoluteClientBounds( (GraphicalEditPart) getHost( ) ) );
+		Rectangle parentBox = transposer.t( getAbsoluteClientBounds( (GraphicalEditPart) getHost( ) ) );
 		Polyline fb = getLineFeedback( );
 		if ( p2.y >= parentBox.bottom( ) && parentBox.bottom( ) - p1.y < 10 )
 		{
@@ -369,8 +374,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			}
 			else
 			{
-				GraphicalEditPart last = (GraphicalEditPart) list
-						.get( size - 1 );
+				GraphicalEditPart last = (GraphicalEditPart) list.get( size - 1 );
 				Rectangle rect = getAbsoluteBounds( last );
 				p2.x = p1.x + Math.min( rect.width - 8, parentBox.width );
 			}
@@ -389,7 +393,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 
 	private boolean isEditPartFigureBlock( EditPart editPart )
 	{
-		if ( editPart == null || !( editPart.getModel( ) instanceof ReportItemHandle ) )
+		if ( editPart == null
+				|| !( editPart.getModel( ) instanceof ReportItemHandle ) )
 		{
 			return true;
 		}
@@ -449,8 +454,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			EditPart child = (EditPart) children.get( i );
-			Rectangle rect = transposer
-					.t( getAbsoluteBounds( ( (GraphicalEditPart) child ) ) );
+			Rectangle rect = transposer.t( getAbsoluteBounds( ( (GraphicalEditPart) child ) ) );
 			if ( rect.y > rowBottom )
 			{
 				/*
@@ -521,15 +525,14 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		{
 			before = false;
 			epIndex = getHost( ).getChildren( ).size( ) - 1;
-			EditPart editPart = (EditPart) getHost( ).getChildren( ).get(
-					epIndex );
-			r = transposer
-					.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
+			EditPart editPart = (EditPart) getHost( ).getChildren( )
+					.get( epIndex );
+			r = transposer.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
 		}
 		else
 		{
-			EditPart editPart = (EditPart) getHost( ).getChildren( ).get(
-					epIndex );
+			EditPart editPart = (EditPart) getHost( ).getChildren( )
+					.get( epIndex );
 			boolean isBlock = false;
 			if ( epIndex == 0 )
 			{
@@ -542,8 +545,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 				isBlock = isEditPartFigureBlock( preEditPart );
 			}
 
-			r = transposer
-					.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
+			r = transposer.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
 			Point p = transposer.t( getLocationFromRequest( request ) );
 			if ( p.x <= r.x + ( r.width / 2 ) && isBlock )
 				before = true;
@@ -562,10 +564,9 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 				//}
 				if ( epIndex >= 0 && epIndex < getHost( ).getChildren( ).size( ) )
 				{
-					editPart = (EditPart) getHost( ).getChildren( ).get(
-							epIndex );
-					r = transposer
-							.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
+					editPart = (EditPart) getHost( ).getChildren( )
+							.get( epIndex );
+					r = transposer.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
 				}
 			}
 		}
@@ -582,9 +583,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			if ( epIndex > 0 )
 			{
 				// Need to determine if a line break.
-				Rectangle boxPrev = transposer
-						.t( getAbsoluteBounds( (GraphicalEditPart) getHost( )
-								.getChildren( ).get( epIndex - 1 ) ) );
+				Rectangle boxPrev = transposer.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ).getChildren( )
+						.get( epIndex - 1 ) ) );
 				int prevRight = boxPrev.right( );
 				if ( prevRight < r.x )
 				{
@@ -599,8 +599,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			if ( x == Integer.MIN_VALUE )
 			{
 				// It is a line break.
-				Rectangle parentBox = transposer
-						.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
+				Rectangle parentBox = transposer.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
 				x = r.x - 5;
 				if ( x < parentBox.x )
 					x = parentBox.x + ( r.x - parentBox.x ) / 2;
@@ -613,15 +612,14 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 			 * halfway between the right edge and the right edge of the parent,
 			 * but no more than 5 pixels.
 			 */
-			Rectangle parentBox = transposer
-					.t( getAbsoluteClientBounds( (GraphicalEditPart) getHost( ) ) );
+			Rectangle parentBox = transposer.t( getAbsoluteClientBounds( (GraphicalEditPart) getHost( ) ) );
 			int rRight = r.x + r.width;
 			int pRight = parentBox.x + parentBox.width;
 			x = rRight + 5;
 			int index = epIndex >= 0 ? epIndex : getHost( ).getChildren( )
 					.size( ) - 1;
-			EditPart part = epIndex < 0 ? null : (EditPart) getHost( )
-					.getChildren( ).get( epIndex );
+			EditPart part = epIndex < 0 ? null
+					: (EditPart) getHost( ).getChildren( ).get( epIndex );
 
 			if ( x - 4 > pRight || isEditPartFigureBlock( part ) )
 			{
@@ -633,10 +631,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 					EditPart editPart = (EditPart) getHost( ).getChildren( )
 							.get( epIndex + 1 );
 
-					r = transposer
-							.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
-					parentBox = transposer
-							.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
+					r = transposer.t( getAbsoluteBounds( (GraphicalEditPart) editPart ) );
+					parentBox = transposer.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
 					x = r.x - 5;
 					if ( x < parentBox.x )
 						x = parentBox.x + ( r.x - parentBox.x ) / 2;
@@ -645,8 +641,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 				else if ( getFeedbackIndexFor( request ) == 0 )
 				{
 
-					parentBox = transposer
-							.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
+					parentBox = transposer.t( getAbsoluteBounds( (GraphicalEditPart) getHost( ) ) );
 					x = r.x - 5;
 					if ( x < parentBox.x )
 						x = parentBox.x + ( r.x - parentBox.x ) / 2;
@@ -657,7 +652,8 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 					Point p2 = new Point( parentBox.x + 5, r.y
 							+ r.height
 							+ 2
-							+ Math.min( parentBox.y + parentBox.height
+							+ Math.min( parentBox.y
+									+ parentBox.height
 									- ( r.y + r.height + 2 ), 18 ) );
 
 					setTargetFeedbackPoints( p1, p2 );

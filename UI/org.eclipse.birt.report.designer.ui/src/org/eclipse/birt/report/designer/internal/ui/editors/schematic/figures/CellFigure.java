@@ -34,6 +34,14 @@ public class CellFigure extends ReportElementFigure
 	{
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
+	 */
+	protected void paintBorder( Graphics graphics )
+	{
+		//does nothing, table border layer paint it.
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -59,10 +67,10 @@ public class CellFigure extends ReportElementFigure
 		tl.setText( s );
 		Rectangle rc = tl.getBounds( );
 
-		int left = ( getBounds( ).width - rc.width ) / 2;
-		int top = ( getBounds( ).height - rc.height ) / 2;
+		int left = ( getClientArea( ).width - rc.width ) / 2;
+		int top = ( getClientArea( ).height - rc.height ) / 2;
 
-		g.drawString( s, getBounds( ).x + left, getBounds( ).y + top );
+		g.drawString( s, getClientArea( ).x + left, getClientArea( ).y + top );
 	}
 
 	/**

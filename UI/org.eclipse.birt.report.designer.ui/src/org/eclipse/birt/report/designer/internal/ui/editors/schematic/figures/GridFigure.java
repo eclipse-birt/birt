@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorder;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
  * Presents grid figure for grid edit part
  * 
  * @author Dazhen Gao
- * @version $Revision: #2 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
 public class GridFigure extends TableFigure
 {
@@ -32,9 +33,9 @@ public class GridFigure extends TableFigure
 	 */
 	public GridFigure( )
 	{
-		SectionBorder border = new SectionBorder( );
+		SectionBorder border = new TableBorder( );
 		border.setIndicatorLabel( BORDER_TEXT );
-		
+
 		border.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
 		setBorder( border );
 	}

@@ -26,8 +26,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class LineBorder extends BaseBorder
 {
 
-	private static final Insets DEFAULT_CROP = new Insets( 0, 0, 1, 1 );
-
 	private Insets paddingInsets = new Insets( );
 
 	/*
@@ -55,7 +53,7 @@ public class LineBorder extends BaseBorder
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getTrueBorderInsets()
 	 */
-	protected Insets getTrueBorderInsets( )
+	public Insets getTrueBorderInsets( )
 	{
 		int t = 1, b = 1, l = 1, r = 1;
 
@@ -140,22 +138,22 @@ public class LineBorder extends BaseBorder
 		g.restoreState( );
 
 		//draw bottom line
-		drawBorder( figure, g, BOTTOM, i_bottom_style, new int[]{
+		drawBorder( figure, g, BorderUtil.BOTTOM, i_bottom_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, bottomColor, insets );
 
 		//draw top line
-		drawBorder( figure, g, TOP, i_top_style, new int[]{
+		drawBorder( figure, g, BorderUtil.TOP, i_top_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, topColor, insets );
 
 		//draw left line
-		drawBorder( figure, g, LEFT, i_left_style, new int[]{
+		drawBorder( figure, g, BorderUtil.LEFT, i_left_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, leftColor, insets );
 
 		//draw right line
-		drawBorder( figure, g, RIGHT, i_right_style, new int[]{
+		drawBorder( figure, g, BorderUtil.RIGHT, i_right_style, new int[]{
 				i_top_width, i_bottom_width, i_left_width, i_right_width
 		}, rightColor, insets );
 	}
@@ -174,10 +172,7 @@ public class LineBorder extends BaseBorder
 	protected void drawBorder( IFigure figure, Graphics g, int side, int style,
 			int[] width, String color, Insets insets )
 	{
-		Rectangle r = figure.getBounds( )
-				.getCopy( )
-				.crop( DEFAULT_CROP )
-				.crop( insets );
+		Rectangle r = figure.getBounds( ).getCopy( ).crop( insets );
 
 		if ( style != 0 )
 		{
@@ -188,13 +183,13 @@ public class LineBorder extends BaseBorder
 			//draw a double line with the given width and style of "solid"
 			if ( style == -2 )
 			{
-				drawDoubleLine( figure, g, side, width, r );
+				BorderUtil.drawDoubleLine( g, side, width, r );
 			}
 			// if the border style is set to "solid", "dotted" or "dashed",
 			//draw a single line according to the give style and width
 			else
 			{
-				drawSingleLine( figure, g, side, style, width, r );
+				BorderUtil.drawSingleLine( g, side, style, width, r );
 			}
 		}
 		else
@@ -202,7 +197,7 @@ public class LineBorder extends BaseBorder
 			g.setForegroundColor( ReportColorConstants.ShadowLineColor );
 			//if the border style is set to none, draw a default dot line in
 			// black as default
-			drawDefaultLine( figure, g, side, r );
+			BorderUtil.drawDefaultLine( g, side, r );
 		}
 
 		g.restoreState( );

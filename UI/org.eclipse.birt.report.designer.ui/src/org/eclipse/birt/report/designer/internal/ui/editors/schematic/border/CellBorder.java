@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
@@ -27,11 +28,11 @@ public class CellBorder extends LineBorder
 {
 
 	private static final Insets DEFAULT_CROP = new Insets( 2, 2, 2, 2 );
-	private static final Insets DEFAULT_SPACE_CROP = new Insets( 2, 2, 1, 1 );
 
-	private static final Insets DEFAULTINSETS = new Insets( 5, 5, 4, 4 );
+	private static final Insets DEFAULTINSETS = new Insets( 3, 3, 2, 2 );
 
-	private Insets insets = new Insets( DEFAULTINSETS );
+	private Insets paddingInsets = new Insets( DEFAULTINSETS );
+	private Insets borderInsets;
 
 	/*
 	 * (non-Javadoc)
@@ -40,7 +41,12 @@ public class CellBorder extends LineBorder
 	 */
 	public Insets getInsets( IFigure figure )
 	{
-		return getTrueBorderInsets( ).add( insets );
+		if ( borderInsets != null )
+		{
+			return new Insets( borderInsets ).add( paddingInsets );
+		}
+
+		return new Insets( paddingInsets );
 	}
 
 	/*
@@ -50,7 +56,22 @@ public class CellBorder extends LineBorder
 	 */
 	public Insets getBorderInsets( )
 	{
-		return new Insets( super.getBorderInsets( ) ).add( DEFAULT_SPACE_CROP );
+		if ( borderInsets != null )
+		{
+			return new Insets( borderInsets );
+		}
+
+		return Figure.NO_INSETS;
+	}
+
+	/**
+	 * Sets the border insets.
+	 * 
+	 * @param borderInsets
+	 */
+	public void setBorderInsets( Insets borderInsets )
+	{
+		this.borderInsets = borderInsets;
 	}
 
 	/*
@@ -63,16 +84,17 @@ public class CellBorder extends LineBorder
 		if ( in == null
 				|| ( in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0 ) )
 		{
-			insets = new Insets( DEFAULTINSETS );
+			paddingInsets = new Insets( DEFAULTINSETS );
 			return;
 		}
 
-		insets.top = in.top > DEFAULTINSETS.top ? in.top : DEFAULTINSETS.top;
-		insets.bottom = in.bottom > DEFAULTINSETS.bottom ? in.bottom
+		paddingInsets.top = in.top > DEFAULTINSETS.top ? in.top
+				: DEFAULTINSETS.top;
+		paddingInsets.bottom = in.bottom > DEFAULTINSETS.bottom ? in.bottom
 				: DEFAULTINSETS.bottom;
-		insets.left = in.left > DEFAULTINSETS.left ? in.left
+		paddingInsets.left = in.left > DEFAULTINSETS.left ? in.left
 				: DEFAULTINSETS.left;
-		insets.right = in.right > DEFAULTINSETS.right ? in.right
+		paddingInsets.right = in.right > DEFAULTINSETS.right ? in.right
 				: DEFAULTINSETS.right;
 	}
 
@@ -104,13 +126,13 @@ public class CellBorder extends LineBorder
 			//draw a double line with the given width and style of "solid"
 			if ( style == -2 )
 			{
-				drawDoubleLine( figure, g, side, width, r );
+				BorderUtil.drawDoubleLine( g, side, width, r );
 			}
 			// if the border style is set to "solid", "dotted" or "dashed",
 			//draw a single line according to the give style and width
 			else
 			{
-				drawSingleLine( figure, g, side, style, width, r );
+				BorderUtil.drawSingleLine( g, side, style, width, r );
 			}
 		}
 		else
@@ -118,9 +140,130 @@ public class CellBorder extends LineBorder
 			g.setForegroundColor( ReportColorConstants.ShadowLineColor );
 			//if the border style is set to none, draw a default dot line in
 			// black as default
-			drawDefaultLine( figure, g, side, r );
+			BorderUtil.drawDefaultLine( g, side, r );
 		}
 
 		g.restoreState( );
 	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderStyle( )
+	{
+		return getBorderStyle( leftStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderStyle( )
+	{
+		return getBorderStyle( rightStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderStyle( )
+	{
+		return getBorderStyle( topStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderStyle( )
+	{
+		return getBorderStyle( bottomStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderWidth( )
+	{
+		return getBorderWidth( leftWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderWidth( )
+	{
+		return getBorderWidth( rightWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderWidth( )
+	{
+		return getBorderWidth( topWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderWidth( )
+	{
+		return getBorderWidth( bottomWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderColor( )
+	{
+		return ColorUtil.parseColor( leftColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderColor( )
+	{
+		return ColorUtil.parseColor( rightColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderColor( )
+	{
+		return ColorUtil.parseColor( topColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderColor( )
+	{
+		return ColorUtil.parseColor( bottomColor );
+	}
+
 }

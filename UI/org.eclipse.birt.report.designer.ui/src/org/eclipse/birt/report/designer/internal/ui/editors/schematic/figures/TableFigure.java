@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorder;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -34,11 +35,10 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Presents table figure for table edit part 
+ * Presents table figure for table edit part
  */
-public class TableFigure extends FreeformViewport
-		implements
-			IReportElementFigure
+public class TableFigure extends FreeformViewport implements
+		IReportElementFigure
 {
 
 	private static final String BORDER_TEXT = Messages.getString( "TableFigure.BORDER_TEXT" ); //$NON-NLS-1$
@@ -103,12 +103,12 @@ public class TableFigure extends FreeformViewport
 	}
 
 	/**
-	 *  Constructor
+	 * Constructor
 	 */
 	public TableFigure( )
 	{
 
-		SectionBorder border = new SectionBorder( );
+		SectionBorder border = new TableBorder( );
 		border.setIndicatorLabel( BORDER_TEXT );//name come from adapt set
 
 		// table name throught Adapt may be set icon
@@ -138,7 +138,8 @@ public class TableFigure extends FreeformViewport
 		{
 			if ( getBorder( ) instanceof BaseBorder )
 			{
-				graphics.fillRectangle( getBounds( ).getCopy().crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
+				graphics.fillRectangle( getBounds( ).getCopy( )
+						.crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
 			}
 			else
 			{
@@ -327,17 +328,20 @@ public class TableFigure extends FreeformViewport
 	{
 		this.repeat = flag;
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure#getMargin()
 	 */
 	public Insets getMargin( )
 	{
 		return margin;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure#setMargin(org.eclipse.draw2d.geometry.Insets)
 	 */
 	public void setMargin( Insets newMargin )

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
@@ -60,6 +61,8 @@ public class TableLayout extends XYLayout
 	private TableEditPart owner;
 
 	private boolean needlayout = true;
+
+	private TableBorderHelper helper;
 
 	/**
 	 * Default constructor
@@ -105,6 +108,14 @@ public class TableLayout extends XYLayout
 		needlayout = true;
 	}
 
+	/**
+	 * Returns the helper for current tableLayout.
+	 */
+	public TableBorderHelper getBorderHelper( )
+	{
+		return helper;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -122,6 +133,11 @@ public class TableLayout extends XYLayout
 		{
 			return;
 		}
+
+		helper = new TableBorderHelper( owner );
+
+		helper.updateCellBorderInsets( );
+
 		data = new WorkingData( );
 		data.columnWidths = new TableLayoutData.ColumnData[getColumnCount( )];
 		data.rowHeights = new TableLayoutData.RowData[getRowCount( )];
@@ -530,7 +546,7 @@ public class TableLayout extends XYLayout
 				.getClientArea( )
 				.getSize( ).width;
 
-		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) ).getWidth();
+		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) ).getWidth( );
 
 		TableHandleAdapter tadp = null;
 
