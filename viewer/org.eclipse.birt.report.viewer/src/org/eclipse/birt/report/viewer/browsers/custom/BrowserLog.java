@@ -55,7 +55,6 @@ public class BrowserLog
 		catch ( Exception e )
 		{
 			// can get here if platform is shutting down
-			;
 		}
 	}
 
@@ -124,7 +123,6 @@ public class BrowserLog
 				catch ( IOException ioe )
 				{
 					// Rarely happen
-					;
 				}
 			}
 		}

@@ -205,6 +205,7 @@ public class EmbeddedBrowser
 
 			public void changed( LocationEvent e )
 			{
+				// Do nothing
 			}
 		} );
 	}
@@ -249,6 +250,7 @@ public class EmbeddedBrowser
 
 			public void changed( LocationEvent e )
 			{
+				// Do nothing
 			}
 		} );
 	}

@@ -69,7 +69,7 @@ public class WebViewer
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			;
+			// Do nothing
 		}
 		
 		/**
@@ -93,7 +93,7 @@ public class WebViewer
 		}
 		catch ( CoreException e )
 		{
-			;
+			// Do nothing
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class WebViewer
 		}
 		catch ( Exception e )
 		{
-			;
+			// Do nothing
 		}
 	}
 

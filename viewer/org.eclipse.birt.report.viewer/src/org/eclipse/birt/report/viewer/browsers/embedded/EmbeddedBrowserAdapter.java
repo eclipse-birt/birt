@@ -28,6 +28,7 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 */
 	public EmbeddedBrowserAdapter( )
 	{
+		// Do nothing
 	}
 
 	/**

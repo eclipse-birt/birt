@@ -127,11 +127,8 @@ public class CurrentBrowser implements IBrowser
 		{
 			return browserAdapter.isSetLocationSupported( );
 		}
-		else
-		{
-			return browserAdapter.isSetLocationSupported( )
-					|| newBrowserAdapter.isSetLocationSupported( );
-		}
+		return browserAdapter.isSetLocationSupported( )
+				|| newBrowserAdapter.isSetLocationSupported( );
 	}
 
 	/**
@@ -147,11 +144,8 @@ public class CurrentBrowser implements IBrowser
 		{
 			return browserAdapter.isSetSizeSupported( );
 		}
-		else
-		{
-			return browserAdapter.isSetSizeSupported( )
-					|| newBrowserAdapter.isSetSizeSupported( );
-		}
+		return browserAdapter.isSetSizeSupported( )
+				|| newBrowserAdapter.isSetSizeSupported( );
 	}
 
 	/**

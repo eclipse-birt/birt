@@ -41,14 +41,11 @@ public class BrowserAccessor
 
 			return internalBrowser;
 		}
-		else
+		if ( browser == null )
 		{
-			if ( browser == null )
-			{
-				browser = BrowserManager.getInstance( ).createBrowser( true );
-			}
-
-			return browser;
+			browser = BrowserManager.getInstance( ).createBrowser( true );
 		}
+
+		return browser;
 	}
 }

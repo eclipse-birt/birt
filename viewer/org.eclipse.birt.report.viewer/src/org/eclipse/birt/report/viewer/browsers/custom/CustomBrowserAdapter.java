@@ -36,6 +36,7 @@ public class CustomBrowserAdapter implements IBrowser
 	 */
 	public void close( )
 	{
+		// Do nothing
 	}
 
 	/**
@@ -116,6 +117,7 @@ public class CustomBrowserAdapter implements IBrowser
 	 */
 	public void setLocation( int x, int y )
 	{
+		// Do nothing
 	}
 
 	/**
@@ -126,6 +128,7 @@ public class CustomBrowserAdapter implements IBrowser
 	 */
 	public void setSize( int width, int height )
 	{
+		// Do nothing
 	}
 
 	/**

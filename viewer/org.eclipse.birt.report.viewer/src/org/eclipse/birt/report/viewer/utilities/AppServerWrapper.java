@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.help.internal.appserver.AppserverPlugin;
 import org.eclipse.help.internal.appserver.IWebappServer;
-import org.osgi.framework.BundleContext;
 
 /**
  * Wrapper class for embedded web application server.
@@ -52,8 +51,6 @@ public class AppServerWrapper
 	 * App server instance
 	 */
 	private IWebappServer appServer;
-
-	private static BundleContext bundleContext;
 
 	/**
 	 * Host address
@@ -189,7 +186,7 @@ public class AppServerWrapper
 		}
 		catch ( Exception e )
 		{
-			;
+			// Do nothing
 		}
 
 		try
@@ -205,7 +202,7 @@ public class AppServerWrapper
 		}
 		catch ( Exception e )
 		{
-			;
+			// Do nothing
 		}
 
 		if ( appServer == null )

@@ -41,6 +41,7 @@ public class WebappAccessor
 	 */
 	private WebappAccessor( )
 	{
+		// Do nothing
 	}
 
 	/**

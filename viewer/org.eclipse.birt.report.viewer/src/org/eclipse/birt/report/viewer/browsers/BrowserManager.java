@@ -105,7 +105,7 @@ public class BrowserManager
 	 */
 	private BrowserManager( )
 	{
-		;
+		// Do nothing
 	}
 
 	/**
@@ -198,6 +198,7 @@ public class BrowserManager
 
 								public void close( )
 								{
+									// Do nothing
 								}
 
 								public void displayURL( String url )
@@ -227,10 +228,12 @@ public class BrowserManager
 
 								public void setLocation( int width, int height )
 								{
+									// Do nothing
 								}
 
 								public void setSize( int x, int y )
 								{
+									// Do nothing
 								}
 							};
 						}
@@ -321,7 +324,7 @@ public class BrowserManager
 			}
 			catch ( CoreException ce )
 			{
-				;
+				// Do nothing
 			}
 		}
 
@@ -366,10 +369,7 @@ public class BrowserManager
 		{
 			return internalBrowserDesc.getID( );
 		}
-		else
-		{
-			return getCurrentBrowserID( );
-		}
+		return getCurrentBrowserID( );
 	}
 
 	/**
@@ -437,12 +437,9 @@ public class BrowserManager
 					getCurrentBrowserID( ),
 					true );
 		}
-		else
-		{
-			return new CurrentBrowser( createBrowserAdapter( alwaysUseExternal ),
-					getCurrentInternalBrowserID( ),
-					false );
-		}
+		return new CurrentBrowser( createBrowserAdapter( alwaysUseExternal ),
+				getCurrentInternalBrowserID( ),
+				false );
 	}
 
 	/**
@@ -510,20 +507,5 @@ public class BrowserManager
 	public void setAlwaysUseExternal( boolean alwaysExternal )
 	{
 		alwaysUseExternal = alwaysExternal || !isEmbeddedBrowserPresent( );
-	}
-
-	/**
-	 * Is always using external browser.
-	 * 
-	 * @return always using external browser or not
-	 */
-	private boolean isAlwaysUseExternal( )
-	{
-		if ( !isEmbeddedBrowserPresent( ) )
-		{
-			return true;
-		}
-
-		return alwaysUseExternal;
 	}
 }
