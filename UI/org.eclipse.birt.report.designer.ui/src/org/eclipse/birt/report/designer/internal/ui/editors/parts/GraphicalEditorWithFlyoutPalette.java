@@ -85,7 +85,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.4 $ $Date: 2005/02/17 07:27:38 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/22 02:39:04 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -120,7 +120,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	protected void initializeGraphicalViewer( )
 	{
 		splitter.hookDropTargetListener( getGraphicalViewer( ) );
-		createActions( );
+		//createActions( );
 		updateActions( stackActionIDs );
 		// add selection change listener
 		getSite( ).getWorkbenchWindow( )

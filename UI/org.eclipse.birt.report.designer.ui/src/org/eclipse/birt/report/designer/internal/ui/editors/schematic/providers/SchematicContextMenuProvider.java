@@ -244,8 +244,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				Object selection = ( (IStructuredSelection) getSelection( ) ).getFirstElement( );
 				if ( selection instanceof LabelEditPart )
 				{
+//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+//							new EditLabelAction( (LabelEditPart) selection ) );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-							new EditLabelAction( (LabelEditPart) selection ) );
+							getAction( EditLabelAction.ID ));
 				}
 			}
 
