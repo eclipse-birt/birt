@@ -959,16 +959,30 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public void deleteColumn( int[] columns ) throws SemanticException
 	{
 
-		if ( getColumnCount( ) == 1 )
+		if (columns == null)
 		{
-			getTableHandle( ).drop( );
-			return;
+			return ;
 		}
 		transStar( TRANS_LABEL_DELETE_COLUMNS );
+		if ( getColumnCount( ) == columns.length )
+		{
+			getHandle( ).drop( );
+			transEnd( );
+			return;
+		}
+		Arrays.sort( columns );
+		List temp = new ArrayList();
 		int len = columns.length;
 		for ( int i = 0; i < len; i++ )
 		{
-			deleteColumn( columns[i] );
+			temp.add(getColumn(columns[i]));
+		}
+		
+		
+		for ( int i = 0; i < len; i++ )
+		{
+			//deleteColumn( columns[i] );
+			deleteColumn( HandleAdapterFactory.getInstance().getColumnHandleAdapter(temp.get(i)).getColumnNumber());
 		}
 		transEnd( );
 	}
@@ -1044,17 +1058,31 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public void deleteRow( int[] rows ) throws SemanticException
 	{
 
-		if ( getRowCount( ) == 1 )
+		if (rows == null)
 		{
-			getTableHandle( ).drop( );
-			return;
+			return ;
 		}
 		transStar( TRANS_LABEL_DELETE_ROWS );
+		if ( getRowCount( ) == rows.length )
+		{
+			getHandle( ).drop( );
+			transEnd( );
+			return;
+		}
+		
 		Arrays.sort( rows );
+		List temp = new ArrayList();
 		int len = rows.length;
+		for ( int i = 0; i < len; i++ )
+		{
+			temp.add(getRow(rows[i]));
+		}
+		
+
 		for ( int i = len - 1; i >= 0; i-- )
 		{
-			deleteRow( rows[i] );
+			//deleteRow( rows[i] );
+			deleteRow( HandleAdapterFactory.getInstance().getRowHandleAdapter(temp.get(i)).getRowNumber());
 		}
 		transEnd( );
 	}

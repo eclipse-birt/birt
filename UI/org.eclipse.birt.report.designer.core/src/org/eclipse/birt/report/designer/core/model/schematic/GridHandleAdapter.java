@@ -106,29 +106,4 @@ public class GridHandleAdapter extends TableHandleAdapter
 		return false;
 	}
 
-	/**
-	 * Provides delete row function.
-	 */
-	public void deleteRow( int[] rows ) throws SemanticException
-	{
-		if ( getRowCount( ) == 1 )
-		{
-			getGridHandle( ).drop( );
-			return;
-		}
-		super.deleteRow( rows );
-	}
-
-	/**
-	 * Provides delete row function.
-	 */
-	public void deleteColumn( int[] columns ) throws SemanticException
-	{
-		if ( getColumnCount( ) == 1 )
-		{
-			getGridHandle( ).drop( );
-			return;
-		}
-		super.deleteColumn( columns );
-	}
 }
