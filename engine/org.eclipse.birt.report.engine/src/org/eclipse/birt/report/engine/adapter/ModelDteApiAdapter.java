@@ -198,21 +198,9 @@ public class ModelDteApiAdapter
             
         // Adapt extended data set elements
             
-        // query text or query script
-        String queryChoice = modelDataSet.getQueryChoiceType();
-        if ( queryChoice.equals( DesignChoiceConstants.QUERY_CHOICE_TYPE_TEXT ) )
-        {
-            dteDataSet.setQueryText( modelDataSet.getQueryText() );
-        }
-        else if ( queryChoice.equals( DesignChoiceConstants.QUERY_CHOICE_TYPE_SCRIPT ) )
-        {
-            dteDataSet.setQueryScript( modelDataSet.getQueryScript() );         
-        }
-        else
-        {
-            assert queryChoice.equals( DesignChoiceConstants.QUERY_CHOICE_TYPE_NONE );
-            dteDataSet.setQueryText( "" );	// empty query text
-        }
+        // static query text and dynamic query script
+        dteDataSet.setQueryText( modelDataSet.getQueryText() );
+        dteDataSet.setQueryScript( modelDataSet.getQueryScript() );         
         
         // type of extended data set
         dteDataSet.setDataSetType( modelDataSet.getType() );
