@@ -31,7 +31,7 @@ public class SingleElementSlot extends ContainerSlot
 	 * relationship between content and container is not kept.
 	 * <p>
 	 * If the content-container relationship needs to be kept, call
-	 * {@link ContainerSlot#copy(DesignElement)}.
+	 * {@link ContainerSlot#copy(DesignElement, int)}.
 	 * 
 	 * @return Object the cloned slot.
 	 * 

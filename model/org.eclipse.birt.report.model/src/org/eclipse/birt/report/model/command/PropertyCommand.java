@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- * 
+ *  
  */
 
 public class PropertyCommand extends AbstractElementCommand
@@ -81,7 +81,7 @@ public class PropertyCommand extends AbstractElementCommand
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		if ( prop == null )
 			throw new PropertyNameException( element, propName );
-		
+
 		setProperty( prop, value );
 	}
 
@@ -155,28 +155,26 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( element instanceof ExtendedItem )
 		{
 			ExtendedItem extendedItem = ( (ExtendedItem) element );
-			
+
 			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
 					|| extendedItem.isExtensionXMLType( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
-//				if ( extElement == null )
-//				{
-//					extendedItem.initializeReportItem( design );
-//					extElement = ( (ExtendedItem) element )
-//							.getExtendedElement( );
-//				}
+				//				if ( extElement == null )
+				//				{
+				//					extendedItem.initializeReportItem( design );
+				//					extElement = ( (ExtendedItem) element )
+				//							.getExtendedElement( );
+				//				}
 				assert extElement != null;
-				
+
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
 				sendNotifcations( element, prop.getName( ) );
-				
+
 				return;
 			}
 		}
-
-		assertExtendedElement( design, element, prop );
 
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		getActivityStack( ).execute( record );
@@ -223,6 +221,10 @@ public class PropertyCommand extends AbstractElementCommand
 	/**
 	 * Justifies whether the extended element is created if the UI invokes some
 	 * operations to change the extension properties.
+	 * 
+	 * Note that <code>PropertyCommand</code> do not support structure
+	 * operations like addItem, removeItem, etc. for extension elements. This
+	 * method is kept but NERVER call it in <code>doSetProperty</code>.
 	 * 
 	 * @param design
 	 *            the report design
@@ -543,7 +545,8 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		if ( posn < 0 || posn >= list.size( ) )
 			throw new IndexOutOfBoundsException(
@@ -584,12 +587,14 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		int posn = list.indexOf( structure );
 		if ( posn == -1 )
 			throw new PropertyValueException( element, ref.getPropDefn( )
-					.getName( ), null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					.getName( ), null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		doRemoveItem( new MemberRef( ref, posn ) );
 	}
@@ -655,7 +660,8 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		if ( newItem != null )
 		{
@@ -673,7 +679,8 @@ public class PropertyCommand extends AbstractElementCommand
 		int index = list.indexOf( oldItem );
 		if ( index == -1 )
 			throw new PropertyValueException( element, ref.getPropDefn( )
-					.getName( ), oldItem, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					.getName( ), oldItem,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
 				list, index, newItem );
@@ -756,7 +763,8 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+					null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		ActivityStack stack = getActivityStack( );
 		String label = ThreadResources

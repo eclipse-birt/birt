@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;

@@ -229,9 +229,9 @@ into the internal value for persistent storage.</dd>
 The applicaiton must be sure to call the correct method to get the value as either
 a display string or as an internal value. Similarly, distinct methods exist to
 set the internal value vs. the display value. In general, call
-{@link org.eclipse.birt.report.model.api.DesignElementHandle#getLocalizedProperty}
+{@link org.eclipse.birt.report.model.api.DesignElementHandle#getStringProperty}
 to get a localized property value
-and {@link org.eclipse.birt.report.model.api.DesignElementHandle#setLocalizedProperty} to set a localized property
+and {@link org.eclipse.birt.report.model.api.DesignElementHandle#setStringProperty} to set a localized property
 value. The API will perform any required translation. These calls work for all
 properties except lists.
 <p>

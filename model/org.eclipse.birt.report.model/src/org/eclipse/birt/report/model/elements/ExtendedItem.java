@@ -36,7 +36,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.ExtensionValidator;
 
 /**
@@ -62,7 +61,7 @@ import org.eclipse.birt.report.model.validators.ExtensionValidator;
  * to HTML, PDF or other formats.
  * </ul>
  * 
- * 
+ *  
  */
 
 public class ExtendedItem extends ReportItem
@@ -354,12 +353,15 @@ public class ExtendedItem extends ReportItem
 		List props = super.getPropertyDefns( );
 		assert props != null;
 
-		if ( !hasExtension( ) )
+		ExtensionElementDefn extDefn = getExtDefn( );
+
+		// if no extension definition exists, just return the definition on
+		// extended item.
+
+		if ( extDefn == null )
 			return props;
 
 		List temp = new ArrayList( );
-		ExtensionElementDefn extDefn = getExtDefn( );
-
 		for ( int i = 0; i < props.size( ); i++ )
 		{
 			ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
@@ -378,9 +380,6 @@ public class ExtendedItem extends ReportItem
 		}
 
 		props = temp;
-
-		assert extDefn != null;
-
 		if ( extDefn.getProperties( ) != null )
 		{
 			props.addAll( extDefn.getProperties( ) );
@@ -461,18 +460,6 @@ public class ExtendedItem extends ReportItem
 	}
 
 	/**
-	 * Justifies whether the extended item is extensible or it is a normal
-	 * report item.
-	 * 
-	 * @return true if the extended item is extensible, otherwise false
-	 */
-
-	protected boolean hasExtension( )
-	{
-		return !StringUtil.isBlank( extName );
-	}
-
-	/**
 	 * Checks whether the property has the mask defined by the peer extension
 	 * given the property name.
 	 * 
@@ -509,12 +496,13 @@ public class ExtendedItem extends ReportItem
 	public void initializeReportItem( ReportDesign design )
 			throws ExtendedElementException
 	{
-		assert hasExtension( );
+		ExtensionElementDefn extDefn = getExtDefn( );
+		if ( extDefn == null )
+			throw new ExtendedElementException(
+					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+
 		if ( extElement != null )
 			return;
-
-		ExtensionElementDefn extDefn = getExtDefn( );
-		assert extDefn != null;
 
 		IReportItemFactory elementFactory = extDefn.getElementFactory( );
 		assert elementFactory != null;
@@ -651,8 +639,10 @@ public class ExtendedItem extends ReportItem
 		// }
 		// }
 
-		list.addAll( ExtensionValidator.getInstance().validate( design, this ));
-		
+		list
+				.addAll( ExtensionValidator.getInstance( ).validate( design,
+						this ) );
+
 		return list;
 	}
 
@@ -784,7 +774,9 @@ public class ExtendedItem extends ReportItem
 	public boolean isExtensionXMLType( String propName )
 	{
 		ExtensionElementDefn extDefn = getExtDefn( );
-		assert extDefn != null;
+		if ( extDefn == null )
+			return false;
+
 		PropertyDefn prop = extDefn.getProperty( propName );
 		if ( prop != null && PropertyType.XML_TYPE == prop.getTypeCode( ) )
 			return true;

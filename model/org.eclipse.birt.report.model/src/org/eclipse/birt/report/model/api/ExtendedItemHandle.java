@@ -85,8 +85,10 @@ public class ExtendedItemHandle extends ReportItemHandle
 	{
 		if ( ExtendedItem.EXTENSION_PROP.equals( propName ) )
 		{
-			throw new PropertyValueException( getElement( ),
-					ExtendedItem.EXTENSION_PROP, value,
+			throw new PropertyValueException(
+					getElement( ),
+					ExtendedItem.EXTENSION_PROP,
+					value,
 					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN );
 		}
 
@@ -103,8 +105,10 @@ public class ExtendedItemHandle extends ReportItemHandle
 	public ElementDefn getDefn( )
 	{
 		ElementDefn extDefn = ( (ExtendedItem) getElement( ) ).getExtDefn( );
-		assert extDefn != null;
-		return extDefn;
+		if ( extDefn != null )
+			return extDefn;
+
+		return getElement( ).getDefn( );
 	}
 
 	/**
