@@ -176,9 +176,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		Object selectedElements = getSelectedElement( );
 		Object multiSelection = getMultiSelectedElement( );
 
-		// except for dealing with multi selected elements.
+		// special for dealing with multi selected elements (items).
 		if ( multiSelection == Object.class // report design and slot
-				// ...
+				// multi  ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
 				|| multiSelection == ReportDesignHandle.class
@@ -233,8 +233,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new CopyAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new PasteAction( selectedElements ) );
-			//			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
-			//					new DeleteAction( selectedElements ) );
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
@@ -243,18 +241,22 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				action = getAction( GEFActionConstants.DIRECT_EDIT );
 				action.setAccelerator( SWT.F2 );
-				action.setText( "Edit" );
+				action.setText( Messages.getString("SchematicContextMenuProvider.ActionText.editLabel") ); //$NON-NLS-1$
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						action );
 			}
 
 			if ( firstSelectedElement instanceof RowHandle )
 			{
-				MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
-				insertMenu.add( getAction( InsertRowAboveAction.ID ) );
-				insertMenu.add( getAction( InsertRowBelowAction.ID ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-						insertMenu );
+				if ( getRowHandles( ).size( ) == 1 )
+				{
+					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+					insertMenu.add( getAction( InsertRowAboveAction.ID ) );
+					insertMenu.add( getAction( InsertRowBelowAction.ID ) );
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							insertMenu );
+				}
+				// delete row action.
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( DeleteRowAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
@@ -264,11 +266,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( firstSelectedElement instanceof ColumnHandle )
 			{
-				MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
-				subMenu.add( getAction( InsertColumnRightAction.ID ) );
-				subMenu.add( getAction( InsertColumnLeftAction.ID ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-						subMenu );
+				if ( getColumnHandles( ).size( ) == 1 )
+				{
+					MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+					subMenu.add( getAction( InsertColumnRightAction.ID ) );
+					subMenu.add( getAction( InsertColumnLeftAction.ID ) );
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							subMenu );
+				}
+				// delete column action.
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( DeleteColumnAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
@@ -284,11 +290,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 						getAction( MergeAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( SplitAction.ID ) );
+				// delete action in cell
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						new DeleteAction( selectedElements ) );
 			}
 			else
 			{
+				// common delete action
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						new DeleteAction( selectedElements ) );
 			}
@@ -331,7 +339,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( DeleteGroupAction.ID ) );
 			if ( getTableEditParts( ).size( ) == 1 )
 			{
-				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
 				menuManager.appendToGroup( EditBindingAction.ID,
@@ -347,7 +355,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( DeleteListGroupAction.ID ) );
 			if ( getListEditParts( ).size( ) == 1 )
 			{
-				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			}
 		}
 	}
@@ -478,7 +486,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * @param group_name
 	 *            The action group contains the sub menu.
 	 */
-	private void createGroupMenu( IMenuManager menuManager, String group_name )
+	private void createEditGroupMenu( IMenuManager menuManager,
+			String group_name )
 	{
 		//If select on Group, no need to provide cascade menu
 		if ( getFirstElement( ) instanceof RowHandle )
@@ -625,6 +634,59 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	}
 
 	/**
+	 * Gets the current selected row objects.
+	 * 
+	 * @return The current selected row objects.
+	 */
+
+	public List getRowHandles( )
+	{
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+
+		List rowHandles = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof DummyEditpart )
+			{
+				if ( ( (DummyEditpart) obj ).getModel( ) instanceof RowHandle )
+				{
+					rowHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+				}
+			}
+		}
+		return rowHandles;
+	}
+
+	/**
+	 * Gets the current selected column objects.
+	 * 
+	 * @return The current column objects
+	 */
+	public List getColumnHandles( )
+	{
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+
+		List columnHandles = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof DummyEditpart )
+			{
+				if ( ( (DummyEditpart) obj ).getModel( ) instanceof ColumnHandle )
+				{
+					columnHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+				}
+			}
+		}
+		return columnHandles;
+	}
+
+	/**
 	 * Gets style of the selected elements.
 	 * 
 	 * @return the style handle of the selected elements
@@ -667,7 +729,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			Object obj = itor.next( );
 			if ( obj instanceof DummyEditpart )
 			{
-				// Column or Row
+				// Column or Row indicators
 				// ignore, do nothing.
 			}
 			else if ( obj instanceof TableEditPart )

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -64,7 +66,7 @@ public class DeleteColumnAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getColumnObject( ) != null;
+		return !getColumnHandles( ).isEmpty( );
 	}
 
 	/**
@@ -77,10 +79,7 @@ public class DeleteColumnAction extends SelectionAction
 		if ( part != null )
 		{
 			EditPartViewer viewer = part.getViewer( );
-			part.deleteColumn( new int[]{
-				getRowNumber( )
-			} );
-			// set selection to the table(grid) part after deleting
+			part.deleteColumn( getColumnNumbers( ) );
 			viewer.select( part );
 		}
 	}
@@ -92,15 +91,14 @@ public class DeleteColumnAction extends SelectionAction
 	 */
 	private TableEditPart getTableEditPart( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
 		List list = getSelectedObjects( );
-		int size = list.size( );
-		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
+		if ( list.isEmpty( ) )
+			return null;
 
+		TableEditPart part = null;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
 			if ( obj instanceof TableEditPart )
 			{
 				part = (TableEditPart) obj;
@@ -114,24 +112,47 @@ public class DeleteColumnAction extends SelectionAction
 	}
 
 	/**
-	 * Gets the current selected column object.
+	 * Gets the current selected column objects.
 	 * 
-	 * @return The current column object
+	 * @return The current column objects
 	 */
-	public Object getColumnObject( )
+	public List getColumnHandles( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		Object obj = getSelectedObjects( ).get( 0 );
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+			return Collections.EMPTY_LIST;
 
-		if ( obj instanceof DummyEditpart )
+		List columnHandles = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( ( (DummyEditpart) obj ).getModel( ) instanceof ColumnHandle )
+			Object obj = list.get( i );
+			if ( obj instanceof DummyEditpart )
 			{
-				return ( (DummyEditpart) obj ).getModel( );
+				if ( ( (DummyEditpart) obj ).getModel( ) instanceof ColumnHandle )
+				{
+					columnHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+				}
 			}
 		}
-		return null;
+		return columnHandles;
+	}
+
+	/**
+	 * Gets column numbers of selected columns.
+	 */
+	public int[] getColumnNumbers( )
+	{
+		List columnHandles = getColumnHandles( );
+		if ( columnHandles.isEmpty( ) )
+		{
+			return new int[0];
+		}
+		int[] colNumbers = new int[columnHandles.size( )];
+		for ( int i = 0; i < columnHandles.size( ); i++ )
+		{
+			colNumbers[i] = getColumnNumber( columnHandles.get( i ) );
+		}
+		return colNumbers;
 	}
 
 	/**
@@ -139,10 +160,10 @@ public class DeleteColumnAction extends SelectionAction
 	 * 
 	 * @return the column number
 	 */
-	public int getRowNumber( )
+	public int getColumnNumber( Object columnHandle )
 	{
 		return HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( getColumnObject( ) )
+				.getColumnHandleAdapter( columnHandle )
 				.getColumnNumber( );
 	}
 }

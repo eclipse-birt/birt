@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -64,7 +66,7 @@ public class DeleteRowAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getRowObject( ) != null;
+		return !getRowHandles( ).isEmpty( );
 	}
 
 	/**
@@ -77,10 +79,7 @@ public class DeleteRowAction extends SelectionAction
 		if ( part != null )
 		{
 			EditPartViewer viewer = part.getViewer( );
-			part.deleteRow( new int[]{
-				getRowNumber( )
-			} );
-			// set selection to the table(grid) part after deleting
+			part.deleteRow( getRowNumbers( ) );
 			viewer.select( part );
 		}
 	}
@@ -93,15 +92,12 @@ public class DeleteRowAction extends SelectionAction
 	private TableEditPart getTableEditPart( )
 	{
 		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
+		if ( list.isEmpty( ) )
 			return null;
-
-		int size = list.size( );
 		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
+		for ( int i = 0; i < list.size( ); i++ )
 		{
 			Object obj = list.get( i );
-
 			if ( obj instanceof TableEditPart )
 			{
 				part = (TableEditPart) obj;
@@ -115,26 +111,48 @@ public class DeleteRowAction extends SelectionAction
 	}
 
 	/**
-	 * Gets the current selected row object.
+	 * Gets the current selected row objects.
 	 * 
-	 * @return The current selected row object.
+	 * @return The current selected row objects.
 	 */
-	public Object getRowObject( )
+
+	public List getRowHandles( )
 	{
 		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
+		if ( list.isEmpty( ) )
+			return Collections.EMPTY_LIST;
 
-		Object obj = list.get( 0 );
-
-		if ( obj instanceof DummyEditpart )
+		List rowHandles = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( ( (DummyEditpart) obj ).getModel( ) instanceof RowHandle )
+			Object obj = list.get( i );
+			if ( obj instanceof DummyEditpart )
 			{
-				return ( (DummyEditpart) obj ).getModel( );
+				if ( ( (DummyEditpart) obj ).getModel( ) instanceof RowHandle )
+				{
+					rowHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+				}
 			}
 		}
-		return null;
+		return rowHandles;
+	}
+
+	/**
+	 * Gets row numbers of selected rows.
+	 */
+	private int[] getRowNumbers( )
+	{
+		List rowHandles = getRowHandles( );
+		if ( rowHandles.isEmpty( ) )
+		{
+			return new int[0];
+		}
+		int[] rowNumbers = new int[rowHandles.size( )];
+		for ( int i = 0; i < rowHandles.size( ); i++ )
+		{
+			rowNumbers[i] = getRowNumber( rowHandles.get( i ) );
+		}
+		return rowNumbers;
 	}
 
 	/**
@@ -142,10 +160,10 @@ public class DeleteRowAction extends SelectionAction
 	 * 
 	 * @return The row number of the selected row object.
 	 */
-	public int getRowNumber( )
+	public int getRowNumber( Object rowHandle )
 	{
 		return HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getRowObject( ) )
+				.getRowHandleAdapter( rowHandle )
 				.getRowNumber( );
 	}
 
