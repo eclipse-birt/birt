@@ -38,11 +38,11 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: #6 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/07 02:00:39 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
-
+	public static String OUTPUT_FORMAT_HTML = "HTML";		// $NON-NLS-1$
 	public static final String REPORT_FILE = "report.html"; //$NON-NLS-1$
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 	public static final String CSS_FILE = "report.css"; //$NON-NLS-1$
@@ -102,12 +102,18 @@ public class HTMLReportEmitter implements IReportEmitter
 	private ResourceManager resourceManager;
 
 	/**
-	 * A <code>IHyperlinkProcessor</code> object that transforms hyperlink.
+	 * A <code>IHyperlinkProcessor</code> object that customizes hyperlink.
 	 */
 	private IHyperlinkProcessor hyperlinkProcessor;
 	
+	/**
+	 * emitter services
+	 */
 	private IEmitterServices services;
 
+	/**
+	 * Dow e need to save image files in temp location?
+	 */
 	private boolean saveImgFile = false;
 
 	/**
@@ -410,5 +416,20 @@ public class HTMLReportEmitter implements IReportEmitter
 	public boolean needSaveImgFile( )
 	{
 		return saveImgFile;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getEmitterServices()
+	 */
+	public IEmitterServices getEmitterServices() {
+		return services;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#getOutputFormat()
+	 */	
+	public String getOutputFormat() {
+		// TODO Auto-generated method stub
+		return OUTPUT_FORMAT_HTML;
 	}
 }
