@@ -186,16 +186,31 @@ public class Statement implements IStatement
 		JDBCConnectionFactory
 				.log( Level.FINE_LEVEL, "Statement.getMetaData( )" );
 		assertNotNull( preStat );
+
+	    java.sql.ResultSetMetaData resultmd = null;
 		try
 		{
 			/* redirect the call to JDBC preparedStatement.getMetaData() */
-			return new ResultSetMetaData( this.preStat.getMetaData( ) );
+			resultmd = preStat.getMetaData( );
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
 		}
 
+		IResultSetMetaData pstmtResultMetaData = null;
+		if ( resultmd != null )
+		{
+			pstmtResultMetaData = new ResultSetMetaData( resultmd );
+		}
+		else
+		{
+			// If Jdbc driver throw an SQLexception or return null, when we get
+			// MetaData from ResultSet
+			execute( );
+			IResultSet mdRs = this.getResultSet( );
+			pstmtResultMetaData = mdRs.getMetaData( );
+		}
+		return pstmtResultMetaData;
 	}
 
 	/*
