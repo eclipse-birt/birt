@@ -12,6 +12,10 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -19,6 +23,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
@@ -28,7 +33,9 @@ import org.eclipse.swt.widgets.Display;
 /**
  * A text angle selector that facilitates text rotation angle specification
  */
-public final class AngleSelectorComposite extends Canvas implements PaintListener, MouseListener, MouseMoveListener
+public final class AngleSelectorComposite extends Canvas 
+	implements PaintListener, MouseListener, MouseMoveListener,
+		DisposeListener, ControlListener
 {
     /**
      *  
@@ -54,12 +61,28 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
      *  
      */
     private transient Color clrBG = null;
+    
+    /**
+     * An offscreen image used to render the palette entries using double buffering. This image is re-created when a composite resize occurs.
+     */
+    private Image imgBuffer = null;
+    
+    /**
+     * Associated with the offscreen image and whose lifecycle depends on the buffered image's lifecycle
+     */
+    private GC gcBuffer = null;
 
+    /**
+     * Arrow co-ordinates 
+     */
+    private transient final int[] iaPolygon = new int[6]; 
+    
     /**
      * 
      * @param coParent
      * @param iStyle
      * @param iAngle
+     * @param clrBG
      */
     public AngleSelectorComposite(Composite coParent, int iStyle, int iAngle, Color clrBG)
     {
@@ -67,8 +90,11 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
         this.iLastAngle = iAngle;
         addPaintListener(this);
         addMouseListener(this);
+        addDisposeListener(this);
+        addControlListener(this);
         addMouseMoveListener(this);
         this.clrBG = clrBG;
+        setBackground(clrBG);
     }
 
     /*
@@ -79,23 +105,29 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
     public void paintControl(PaintEvent pev)
     {
         final Display d = Display.getCurrent();
-        final GC gc = pev.gc;
-        final Rectangle r = getClientArea();
-        final int iWidth = r.height / 2 - 8;
-        final int iHeight = r.height - 16;
+        final GC gcCanvas = pev.gc;
+        final Rectangle rCA = getClientArea();
+        final int iWidth = rCA.height / 2 - 8;
+        final int iHeight = rCA.height - 16;
+        
+        if (imgBuffer == null)
+        {
+            imgBuffer = new Image(d, rCA.width, rCA.height);
+            gcBuffer = new GC(imgBuffer);
+        }
 
         // PAINT THE CLIENT AREA BLOCK
-        gc.setBackground(clrBG);
-        gc.setForeground(d.getSystemColor(SWT.COLOR_GRAY));
-        gc.fillRectangle(0, 0, r.width, iHeight + 15);
+        gcBuffer.setBackground(clrBG);
+        gcBuffer.setForeground(d.getSystemColor(SWT.COLOR_GRAY));
+        gcBuffer.fillRectangle(rCA);
 
         // PAINT THE BIG/SMALL DOTS
         p.x = 10;
         p.y = iHeight / 2 + 8;
         double dRadians;
         int x, y;
-        gc.setForeground(d.getSystemColor(SWT.COLOR_BLACK));
-        gc.setBackground(d.getSystemColor(SWT.COLOR_RED));
+        gcBuffer.setForeground(d.getSystemColor(SWT.COLOR_BLACK));
+        gcBuffer.setBackground(d.getSystemColor(SWT.COLOR_RED));
         for (int i = -90; i <= 90; i += 15)
         {
             dRadians = Math.toRadians(i);
@@ -103,18 +135,20 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
             y = (int) (p.y - iWidth * Math.sin(dRadians));
             if ((i % 45) == 0) // CHECK FOR MULTIPLES OF 45
             {
-                bigPoint(d, gc, x, y, i == iLastAngle);
+                bigPoint(d, gcBuffer, x, y, i == iLastAngle);
             }
             else
             // ALWAYS A MULTIPLE OF 15 DUE TO THE INCREMENT
             {
-                smallPoint(d, gc, x, y, i == iLastAngle);
+                smallPoint(d, gcBuffer, x, y, i == iLastAngle);
             }
         }
 
         // DRAW THE HAND POINTER
         iRadius = iWidth;
-        drawHand(d, gc, p.x, p.y, iRadius - 10, iLastAngle, false);
+        drawHand(d, gcBuffer, p.x, p.y, iRadius - 10, iLastAngle, false);
+        
+        gcCanvas.drawImage(imgBuffer, 0, 0);
     }
 
     /**
@@ -170,12 +204,18 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
         final int xTip = (int) (x + r * Math.cos(dAngleInRadians));
         final int yTip = (int) (y - r * Math.sin(dAngleInRadians));
 
-        // DRAW THE HAND NOW
+        // DRAW THE STICK
         gc.drawLine(x, y, xTip, yTip);
-        gc.drawLine(xTip, yTip, (int) (x + rMinus * Math.cos(dAngleInRadiansMinus)), (int) (y - rMinus
-            * Math.sin(dAngleInRadiansMinus)));
-        gc.drawLine(xTip, yTip, (int) (x + rMinus * Math.cos(dAngleInRadiansPlus)), (int) (y - rMinus
-            * Math.sin(dAngleInRadiansPlus)));
+        
+        // DRAW THE ARROW
+        iaPolygon[0] = xTip;
+        iaPolygon[1] = yTip;
+        iaPolygon[2] = (int) (x + rMinus * Math.cos(dAngleInRadiansMinus));
+        iaPolygon[3] = (int) (y - rMinus * Math.sin(dAngleInRadiansMinus));
+        iaPolygon[4] = (int) (x + rMinus * Math.cos(dAngleInRadiansPlus));
+        iaPolygon[5] = (int) (y - rMinus * Math.sin(dAngleInRadiansPlus));
+        gc.fillPolygon(iaPolygon);
+        gc.drawPolygon(iaPolygon);
     }
 
     /*
@@ -288,8 +328,48 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
         this.iacl = iacl;
     }
 
+    /**
+     * 
+     * @param iNewAngle
+     */
     public void setAngle(int iNewAngle)
     {
         iLastAngle = iNewAngle;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
+     */
+    public void widgetDisposed(DisposeEvent e)
+    {
+        if (imgBuffer != null)
+        {    
+            gcBuffer.dispose();
+            imgBuffer.dispose();
+            gcBuffer = null;
+            imgBuffer = null;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
+     */
+    public void controlResized(ControlEvent e)
+    {
+        if (imgBuffer != null)
+        {    
+            gcBuffer.dispose();
+            imgBuffer.dispose();
+            gcBuffer = null;
+            imgBuffer = null;
+        }
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
+     */
+    public void controlMoved(ControlEvent e)
+    {
+        // NOT USED
     }
 }
