@@ -128,8 +128,26 @@ public class ImageEditPart extends ReportElementEditPart
 		}
 		else if ( image != null )
 		{
-			this.getFigure( ).setSize( new Dimension( image.getBounds( ).width,
-					image.getBounds( ).height ) );
+			Dimension rawSize = getImageAdapter( ).getRawSize( );
+
+			if ( rawSize.height == 0 && rawSize.width == 0 )
+			{
+				this.getFigure( )
+						.setSize( new Dimension( image.getBounds( ).width,
+								image.getBounds( ).height ) );
+			}
+			else if ( rawSize.height == 0 )
+			{
+				this.getFigure( ).setSize( new Dimension( rawSize.width,
+						image.getBounds( ).height ) );
+			}
+			else
+			{
+				this.getFigure( )
+						.setSize( new Dimension( image.getBounds( ).width,
+								rawSize.height ) );
+			}
+
 		}
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,

@@ -109,6 +109,22 @@ public class ImageHandleAdapter extends DesignElementHandleAdapter
 		return null;
 	}
 
+	/**
+	 * Gets size of image item. Always returns a non-null value.
+	 * 
+	 * @return
+	 */
+	public Dimension getRawSize( )
+	{
+		DimensionHandle handle = getImageHandle( ).getWidth( );
+		int px = (int) DEUtil.convertoToPixel( handle );
+
+		handle = getImageHandle( ).getHeight( );
+		int py = (int) DEUtil.convertoToPixel( handle );
+
+		return new Dimension( Math.max( px, 0 ), Math.max( py, 0 ) );
+	}
+
 	public void setSize( Dimension size )
 	{
 		String w = size.width + DesignChoiceConstants.UNITS_PX;
