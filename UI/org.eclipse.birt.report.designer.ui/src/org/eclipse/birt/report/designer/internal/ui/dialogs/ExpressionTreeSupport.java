@@ -217,10 +217,10 @@ public class ExpressionTreeSupport
 	}
 
 	/**
-	 * Create functions band.Must set Tree before execution.
+	 * Create native object band.Must set Tree before execution.
 	 *  
 	 */
-	public void createFunctionsTree( )
+	public void createNativeObjectsTree( )
 	{
 		Assert.isNotNull( tree );
 		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_FUNCTIONS );
@@ -298,10 +298,10 @@ public class ExpressionTreeSupport
 	}
 
 	/**
-	 * Creates object tree. Must set Tree before execution.
+	 * Creates birt object tree. Must set Tree before execution.
 	 *  
 	 */
-	public void createObjectsTree( )
+	public void createBirtObjectsTree( )
 	{
 		Assert.isNotNull( tree );
 		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_OBJECTS );

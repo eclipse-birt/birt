@@ -18,6 +18,11 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportSelectionSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportDesigner;
+import org.eclipse.birt.report.designer.internal.ui.views.NonGEFSynchronizer;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
+import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
@@ -81,10 +86,11 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/16 19:16:45 $
  */
-public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
-		EditorSelectionProvider
+public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
+		implements
+			EditorSelectionProvider
 {
 
 	private PaletteViewerProvider provider;
@@ -124,7 +130,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	}
 
 	/**
-	 *  @return the wrapper command stack for GEF framework
+	 * @return the wrapper command stack for GEF framework
 	 */
 	public WrapperCommandStack getWrapperCommandStack( )
 	{
@@ -296,8 +302,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	{
 		return bPane;
 	}
-	
-	protected boolean hasRuler()
+
+	protected boolean hasRuler( )
 	{
 		return false;
 	}
@@ -307,7 +313,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void createPartControl( Composite parent )
 	{
-		bPane = new ButtonPaneComposite( parent, 0, hasRuler() );
+		bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
 
 		splitter = new FlyoutPaletteComposite( bPane,
 				SWT.NONE,
@@ -361,6 +367,16 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		if ( type == PaletteRoot.class )
 		{
 			return getPaletteRoot( );
+		}
+
+		if ( type == DataViewPage.class )
+		{
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage( (ReportDesignHandle) ( (MultiEditorProvider) getMultiPageEditor( ) ).getModel( ) );
+			if ( this instanceof ReportDesigner )
+			{
+				( (ReportSelectionSynchronizer) ( (ReportDesigner) this ).getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer) page.getAdapter( NonGEFSynchronizer.class ) );
+			}
+			return page;
 		}
 
 		if ( type == ZoomManager.class )
