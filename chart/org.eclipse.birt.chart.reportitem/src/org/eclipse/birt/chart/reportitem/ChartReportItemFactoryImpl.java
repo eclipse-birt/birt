@@ -15,12 +15,12 @@ import java.util.Locale;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.extension.IMessages;
 import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.extension.ReportItemFactory;
 
 /**
  *  
  */
-public class ChartReportItemFactoryImpl implements IReportItemFactory, IMessages
+public class ChartReportItemFactoryImpl extends ReportItemFactory implements IMessages
 {
     /**
      *  

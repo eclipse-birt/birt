@@ -10,12 +10,12 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
-import org.eclipse.birt.report.model.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.extension.ChoiceDefinition;
 
 /**
  * 
  */
-public final class ChartChoiceDefinitionImpl implements IChoiceDefinition
+public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
 {
     /**
      * 
