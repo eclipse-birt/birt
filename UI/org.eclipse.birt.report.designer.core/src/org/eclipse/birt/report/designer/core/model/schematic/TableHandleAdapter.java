@@ -1491,7 +1491,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			if ( handle.isLocal( )
 					&& ( !( Cell.COL_SPAN_PROP.equals( key ) || Cell.ROW_SPAN_PROP.equals( key ) ) ) )
 			{
-				cell.setProperty( key, cellHandle.getProperty( key ) );
+				//cell.setProperty( key, cellHandle.getProperty( key ) );
+				cellHandle.copyPropertyTo( key, cell );
 			}
 		}
 		return cell;

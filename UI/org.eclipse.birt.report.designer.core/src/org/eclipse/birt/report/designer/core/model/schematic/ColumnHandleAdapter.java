@@ -206,7 +206,8 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( ) )
 			{
-				retValue.setProperty( key, getColumnHandle( ).getProperty( key ) );
+				//retValue.setProperty( key, getColumnHandle( ).getProperty( key ) );
+				getColumnHandle( ).copyPropertyTo( key, retValue );
 			}
 		}
 		return retValue;

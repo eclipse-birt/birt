@@ -228,7 +228,8 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( ) )
 			{
-				retValue.setProperty( key, getRowHandle( ).getProperty( key ) );
+				//retValue.setProperty( key, getRowHandle( ).getProperty( key ) );
+				getRowHandle( ).copyPropertyTo( key, retValue);
 			}
 		}
 
