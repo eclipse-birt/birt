@@ -11,21 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.DataBindingDialog;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.PropertyProcessor;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -54,7 +46,10 @@ public class EditBindingAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return true;
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getDataSets( )
+				.getCount( ) != 0;
 	}
 
 	/*
@@ -72,32 +67,21 @@ public class EditBindingAction extends InsertRowAction
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getReportDesign( )
 					.getActivityStack( );
+			ReportItemHandle handle = (ReportItemHandle) editPart.getModel( );
 			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
-			PropertyProcessor processor = new PropertyProcessor( ReportDesignConstants.TABLE_ITEM,
-					ReportItem.DATA_SET_PROP );
-			ArrayList items = new ArrayList( );
-			items.add( editPart.getModel( ) );
-			String currentDataSetName = processor.getStringValue( items );
 			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),
-					(DesignElementHandle) editPart.getModel( ) );
+					handle );
 
 			if ( dialog.open( ) == Dialog.OK )
 			{
-				String newDataSetName = processor.getStringValue( items );
-				if ( !currentDataSetName.equals( newDataSetName ) )
-				{
-					if ( StringUtil.isBlank( currentDataSetName )
-							|| MessageDialog.openQuestion( UIUtil.getDefaultShell( ),
-									Messages.getString( "dataBinding.title.changeDataSet" ), Messages.getString( "dataBinding.message.changeDataSet" ) ) ) //$NON-NLS-1$
-					{
-						stack.commit( );
-						return;
-					}
-				}
+				stack.commit( );	
 			}
-			stack.rollback( );
+			else
+			{
+				stack.rollback( );
+			}
 		}
 	}
 }
