@@ -97,11 +97,14 @@ public class Statement implements IStatement
 				+ command + "\" )" );
 		try
 		{
+			if ( command == null )
+				throw new OdaException( "Query text can not be null." );
+				
 			/*
 			 * call the JDBC Connection.prepareStatement(String) method to get
 			 * the preparedStatement
 			 */
-			this.preStat = conn.prepareStatement( command );
+			this.preStat = conn.prepareStatement( formatQueryText( command ) );
 		}
 		catch ( SQLException e )
 		{
@@ -666,5 +669,16 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( ex );
 		}
+	}
+	
+	/**
+	 * Format Query Text
+	 * Simply replace all LF(10) with " "
+	 * @param source
+	 * @return
+	 */
+	private String formatQueryText(String source)
+	{
+		return source.replaceAll("\n"," ");
 	}
 }
