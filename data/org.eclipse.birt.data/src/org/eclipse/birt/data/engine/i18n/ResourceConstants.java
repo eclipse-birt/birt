@@ -99,6 +99,7 @@ public class ResourceConstants
 	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
 	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
 	
+	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "EXPRESSION_CANNOT_BE_NULL_OR_BLANK";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
