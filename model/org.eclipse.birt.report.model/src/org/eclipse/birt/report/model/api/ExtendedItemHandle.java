@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
@@ -91,19 +92,21 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 		super.setProperty( propName, value );
 
-	}	
-	
-	/* (non-Javadoc)
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getDefn()
 	 */
-	
+
 	public ElementDefn getDefn( )
 	{
 		ElementDefn extDefn = ( (ExtendedItem) getElement( ) ).getExtDefn( );
 		assert extDefn != null;
 		return extDefn;
 	}
-	
+
 	/**
 	 * Loads the instance of extended element. When the application invokes UI
 	 * for the extended element, such as listing property values in property
@@ -118,8 +121,30 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void loadExtendedElement( ) throws ExtendedElementException
 	{
-		( (ExtendedItem) getElement( ) ).newPeerElement( design );
+		( (ExtendedItem) getElement( ) ).initializeReportItem( design );
 	}
 
-	
+	/**
+	 * Returns the interface <code>IReportItem</code> for extension.
+	 * 
+	 * @return the interface <code>IReportItem</code> for extension
+	 * 
+	 * @throws ExtendedElementException
+	 *             if the serialized model is invalid
+	 */
+
+	public IReportItem getReportItem( ) throws ExtendedElementException
+	{
+		IReportItem reportItem = ( (ExtendedItem) getElement( ) )
+				.getExtendedElement( );
+
+		if ( reportItem == null )
+		{
+			loadExtendedElement( );
+			reportItem = ( (ExtendedItem) getElement( ) ).getExtendedElement( );
+		}
+
+		return reportItem;
+	}
+
 }

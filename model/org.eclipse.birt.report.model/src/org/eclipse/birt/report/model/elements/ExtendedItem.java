@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -59,7 +60,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * to HTML, PDF or other formats.
  * </ul>
  * 
- *  
+ * 
  */
 
 public class ExtendedItem extends ReportItem
@@ -103,12 +104,12 @@ public class ExtendedItem extends ReportItem
 
 	ExtensionElementDefn cachedExtDefn = null;
 
-	//	/**
-	//	 * The style masks list of the extension defined. The object in it is the
-	//	 * property name of those BIRT standard properties made invisible.
-	//	 */
+	// /**
+	// * The style masks list of the extension defined. The object in it is the
+	// * property name of those BIRT standard properties made invisible.
+	// */
 	//
-	//	ArrayList styleMasks = null;
+	// ArrayList styleMasks = null;
 
 	/**
 	 * Default constructor.
@@ -301,21 +302,24 @@ public class ExtendedItem extends ReportItem
 		ExtensionElementDefn extDefn = getExtDefn( );
 		if ( extDefn == null )
 			return null;
-		
+
 		ElementPropertyDefn prop = extDefn.getProperty( propName );
 		if ( prop != null )
 			return prop;
 
-		IPropertyDefinition[] extProps = getExtensionModel( );
-		if ( extProps == null )
+		if ( getExtendedElement( ) == null )
 			return null;
-		
-		for ( int i = 0; i < extProps.length; i++ )
+
+		IPropertyDefinition[] extProps = getExtensionModel( );
+		if ( extProps != null )
 		{
-			IPropertyDefinition extProp = extProps[i];
-			if ( propName.equalsIgnoreCase( extProp.getName( ) ) )
-				return new ExtensionModelPropertyDefn( extProp, getExtDefn( )
-						.getElementFactory( ).getMessages( ) );
+			for ( int i = 0; i < extProps.length; i++ )
+			{
+				IPropertyDefinition extProp = extProps[i];
+				if ( propName.equalsIgnoreCase( extProp.getName( ) ) )
+					return new ExtensionModelPropertyDefn( extProp,
+							getExtDefn( ).getElementFactory( ).getMessages( ) );
+			}
 		}
 
 		return null;
@@ -398,7 +402,7 @@ public class ExtendedItem extends ReportItem
 	{
 		if ( extName == null )
 			return null;
-		
+
 		if ( cachedExtDefn != null )
 			return cachedExtDefn;
 
@@ -414,20 +418,20 @@ public class ExtendedItem extends ReportItem
 	 * @return the list of the style masks
 	 */
 
-	protected ArrayList getStyleMasks( )
+	protected List getStyleMasks( )
 	{
-		//		if ( !isExtended( ) )
-		//			return null;
-		//		IROMExtension peer = getExtDefn( );
-		//		assert peer != null;
+		// if ( !isExtended( ) )
+		// return null;
+		// IROMExtension peer = getExtDefn( );
+		// assert peer != null;
 		//
-		//		if ( styleMasks != null )
-		//			return styleMasks;
-		//		if ( peer != null )
-		//			styleMasks = peer.getStyleMasks( );
+		// if ( styleMasks != null )
+		// return styleMasks;
+		// if ( peer != null )
+		// styleMasks = peer.getStyleMasks( );
 		//
-		//		return styleMasks;
-		return null;
+		// return styleMasks;
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -454,14 +458,14 @@ public class ExtendedItem extends ReportItem
 
 	protected boolean isMasked( String propName )
 	{
-		ArrayList masks = getStyleMasks( );
+		List masks = getStyleMasks( );
 		if ( masks == null )
 			return false;
 		return masks.contains( propName );
 	}
 
 	/**
-	 * Creates an instance of <code>IPeerElement</code> to store the
+	 * Creates an instance of <code>IReportItem</code> to store the
 	 * information of the peer extension. When the application invokes UI for
 	 * the extended item, it calls this method to get the instance of the peer
 	 * extension and reads the information--property values from the BIRT ROM
@@ -476,17 +480,21 @@ public class ExtendedItem extends ReportItem
 	 *             if the serialized model is invalid
 	 */
 
-	public void newPeerElement( ReportDesign design )
+	public void initializeReportItem( ReportDesign design )
 			throws ExtendedElementException
 	{
 		assert hasExtension( );
 		if ( extElement != null )
 			return;
+
 		ExtensionElementDefn extDefn = getExtDefn( );
 		assert extDefn != null;
+
 		IReportItemFactory elementFactory = extDefn.getElementFactory( );
 		assert elementFactory != null;
-		extElement = elementFactory.newReportItem( design.handle( ) );
+
+		IReportItem reportItem = elementFactory
+				.newReportItem( design.handle( ) );
 
 		// if the item caches the property values of extension, transfer them
 		// and then clear the cached values
@@ -505,16 +513,18 @@ public class ExtendedItem extends ReportItem
 
 				Object value = extValues.get( propName );
 				assert value != null;
+
 				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE )
 				{
-					extElement.deserialize( prop.getName( ),
+					reportItem.deserialize( prop.getName( ),
 							new ByteArrayInputStream( value.toString( )
 									.getBytes( ) ) );
 					names.add( propName );
 				}
 			}
-
 		}
+
+		extElement = reportItem;
 
 		for ( int i = 0; i < names.size( ); i++ )
 		{
@@ -584,36 +594,36 @@ public class ExtendedItem extends ReportItem
 		List list = super.validate( design );
 
 		// Note: the following errors are treated as syntax error.
-		
-//		if ( StringUtil.isBlank( extName ) )
-//		{
-//			list.add( new SemanticError( this,
-//					SemanticError.MISSING_EXTENSION ) );
-//		}
-//		else
-//		{
-//			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-//			ExtensionElementDefn extDefn = dd.getExtension( extName );
-//			if ( extDefn == null )
-//			{
-//				list.add( new SemanticError( this, new String[]{ extName },
-//						SemanticError.EXTENSION_NOT_FOUND ) );
-//			}
-//			else
-//			{
-//				if ( extElement != null )
-//				{
-//					try
-//					{
-//						extElement.validate( );
-//					}
-//					catch ( ExtendedElementException e )
-//					{
-//						list.add( e );
-//					}
-//				}
-//			}
-//		}
+
+		// if ( StringUtil.isBlank( extName ) )
+		// {
+		// list.add( new SemanticError( this,
+		// SemanticError.MISSING_EXTENSION ) );
+		// }
+		// else
+		// {
+		// MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		// ExtensionElementDefn extDefn = dd.getExtension( extName );
+		// if ( extDefn == null )
+		// {
+		// list.add( new SemanticError( this, new String[]{ extName },
+		// SemanticError.EXTENSION_NOT_FOUND ) );
+		// }
+		// else
+		// {
+		// if ( extElement != null )
+		// {
+		// try
+		// {
+		// extElement.validate( );
+		// }
+		// catch ( ExtendedElementException e )
+		// {
+		// list.add( e );
+		// }
+		// }
+		// }
+		// }
 
 		if ( extElement != null )
 		{
@@ -626,7 +636,7 @@ public class ExtendedItem extends ReportItem
 				list.add( e );
 			}
 		}
-		
+
 		return list;
 	}
 
@@ -706,7 +716,7 @@ public class ExtendedItem extends ReportItem
 			}
 			else if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
 			{
-				//Primitive or immutable values
+				// Primitive or immutable values
 
 				element.extValues.put( key, extValues.get( key ) );
 			}

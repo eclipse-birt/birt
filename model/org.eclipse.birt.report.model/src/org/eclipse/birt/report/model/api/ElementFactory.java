@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -601,7 +602,19 @@ public class ElementFactory
 			return null;
 		ExtendedItem element = new ExtendedItem( name );
 		element.setExtension( extensionName );
-		return element.handle( design );
+		ExtendedItemHandle handle = element.handle( design );
+		try
+		{
+			handle.loadExtendedElement();
+		}
+		catch ( ExtendedElementException e )
+		{
+			// It's impossible to fail when deserializing.
+			
+			assert false;
+		}
+		return handle;
+		
 	}
 
 	/**

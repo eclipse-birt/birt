@@ -135,9 +135,9 @@ public class PropertyRecord extends SimpleRecord
 		{
 			IReportItem extElement = ( (ExtendedItem) element )
 					.getExtendedElement( );
-			assert extElement != null;
+//			assert extElement != null;
 
-			if ( extElement.refreshPropertyDefinition( ) )
+			if ( extElement != null && extElement.refreshPropertyDefinition( ) )
 			{
 				return new ExtensionPropertyDefinitionEvent( element );
 			}

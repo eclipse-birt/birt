@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.command.ContentException;

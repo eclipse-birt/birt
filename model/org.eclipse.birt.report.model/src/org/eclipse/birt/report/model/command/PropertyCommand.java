@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- *  
+ * 
  */
 
 public class PropertyCommand extends AbstractElementCommand
@@ -81,6 +81,7 @@ public class PropertyCommand extends AbstractElementCommand
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		if ( prop == null )
 			throw new PropertyNameException( element, propName );
+		
 		setProperty( prop, value );
 	}
 
@@ -153,17 +154,24 @@ public class PropertyCommand extends AbstractElementCommand
 
 		if ( element instanceof ExtendedItem )
 		{
-			if ( ( (ExtendedItem) element ).isExtensionModelProperty( prop.getName( ) )
-					|| ( (ExtendedItem) element )
-							.isExtensionXMLType( prop.getName( ) ) )
+			ExtendedItem extendedItem = ( (ExtendedItem) element );
+			
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
+					|| extendedItem.isExtensionXMLType( prop.getName( ) ) )
 			{
-
-				IReportItem extElement = ( (ExtendedItem) element )
-						.getExtendedElement( );
+				IReportItem extElement = extendedItem.getExtendedElement( );
+//				if ( extElement == null )
+//				{
+//					extendedItem.initializeReportItem( design );
+//					extElement = ( (ExtendedItem) element )
+//							.getExtendedElement( );
+//				}
 				assert extElement != null;
+				
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
-				this.sendNotifcations( element, prop.getName( ) );
+				sendNotifcations( element, prop.getName( ) );
+				
 				return;
 			}
 		}
@@ -191,13 +199,12 @@ public class PropertyCommand extends AbstractElementCommand
 		NotificationEvent event = null;
 		assert element instanceof ExtendedItem;
 
-		IReportItem extElement = ( (ExtendedItem) element ).getExtendedElement( );
+		IReportItem extElement = ( (ExtendedItem) element )
+				.getExtendedElement( );
 		assert extElement != null;
 
 		if ( extElement.refreshPropertyDefinition( ) )
-
 			event = new ExtensionPropertyDefinitionEvent( element );
-
 		else
 			event = new PropertyEvent( element, propName );
 
@@ -205,8 +212,8 @@ public class PropertyCommand extends AbstractElementCommand
 		// The sender is not sent for undo, redo because such actions are
 		// triggered by the activity stack, not dialog or editor.
 
-//		if ( state == DONE_STATE )
-//			event.setSender( sender );
+		// if ( state == DONE_STATE )
+		// event.setSender( sender );
 
 		// Broadcast the event to the target.
 
