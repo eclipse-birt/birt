@@ -13,12 +13,10 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
-import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -33,7 +31,6 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
@@ -679,7 +676,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         // Update the base axis to type text if it isn't already
         if (chart instanceof ChartWithAxes)
         {
-            ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+            ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).setCategoryAxis(true);
         }
         else
         {
@@ -694,17 +691,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
     private SampleData getConvertedSampleData(SampleData currentSampleData, int iSeriesDefinitionIndex)
     {
-        // Convert base sample data
-        EList bsdList = currentSampleData.getBaseSampleData();
-        Vector vNewBaseSampleData = new Vector();
-        for (int i = 0; i < bsdList.size(); i++)
-        {
-            BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
-            bsd.setDataSetRepresentation(getConvertedBaseSampleDataRepresentation(bsd.getDataSetRepresentation()));
-            vNewBaseSampleData.add(bsd);
-        }
-        currentSampleData.getBaseSampleData().clear();
-        currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
+        // Do NOT convert the base sample data since the base axis is not being changed
 
         // Convert orthogonal sample data
         EList osdList = currentSampleData.getOrthogonalSampleData();
@@ -719,28 +706,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
             }
         }
         return currentSampleData;
-    }
-
-    private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
-    {
-        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
-        StringBuffer sbNewRepresentation = new StringBuffer("");
-        while (strtok.hasMoreTokens())
-        {
-            String sElement = strtok.nextToken().trim();
-            if (!sElement.startsWith("'"))
-            {
-                sbNewRepresentation.append("'");
-                sbNewRepresentation.append(sElement);
-                sbNewRepresentation.append("'");
-            }
-            else
-            {
-                sbNewRepresentation.append(sElement);
-            }
-            sbNewRepresentation.append(",");
-        }
-        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
