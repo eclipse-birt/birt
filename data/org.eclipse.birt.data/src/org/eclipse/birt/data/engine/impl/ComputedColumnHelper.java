@@ -41,13 +41,13 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private List ccList;
 	
 	// computed column string array which will be evaluated
-	private String[] columnExpr;
+	private String[] columnExprArray;
 	
 	// computed column position index array
-	private int[] columnIndex;
+	private int[] columnIndexArray;
 	
 	// prepared flag
-	private boolean isPreapred;
+	private boolean isPrepared;
 	
 	ComputedColumnHelper( Scriptable scope, JSRowObject rowObject, List ccList )
 	{
@@ -57,7 +57,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.scope = scope;
 		this.rowObject = rowObject;
 		this.ccList = ccList;
-		this.isPreapred = false;
+		this.isPrepared = false;
 	}
 
 	/*
@@ -67,12 +67,12 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	{	
 		assert resultObject != null;
 		
-		if ( isPreapred == false )
+		if ( isPrepared == false )
 			prepare( resultObject.getResultClass( ) );
 
 		// check if no computed columns are found as custom fields in the result
 		// set
-		if ( columnExpr.length == 0 )
+		if ( columnExprArray.length == 0 )
 			return true; // done
 
 		// bind new object to row script object
@@ -85,14 +85,14 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		{
 			// iterate through each projected computed column,
 			// and assign it the computed value
-			for ( int i = 0; i < columnExpr.length; i++ )
+			for ( int i = 0; i < columnExprArray.length; i++ )
 			{
 				Object value = ScriptEvalUtil.evaluateJSExpr( cx,
 						scope,
-						columnExpr[i],
+						columnExprArray[i],
 						"ComputedColumn",
 						0 );
-				resultObject.setCustomFieldValue( columnIndex[i], value );
+				resultObject.setCustomFieldValue( columnIndexArray[i], value );
 			}
 		}
 		finally
@@ -127,18 +127,18 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		}
 		
 		int size = cmptList.size( );
-		columnExpr = new String[size];
-		columnIndex = new int[size];
+		columnExprArray = new String[size];
+		columnIndexArray = new int[size];
 
 		for ( int i = 0; i < size; i++ )
 		{
 			int pos = ( (Integer) cmptList.get( i ) ).intValue( );
 			IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( pos );
-			columnExpr[i] = cmptdColumn.getExpression( );
-			columnIndex[i] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+			columnExprArray[i] = cmptdColumn.getExpression( );
+			columnIndexArray[i] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
 		}
 		
-		isPreapred = true;
+		isPrepared = true;
 	}
 	
 }
