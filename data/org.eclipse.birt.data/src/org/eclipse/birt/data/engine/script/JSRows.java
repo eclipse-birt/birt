@@ -77,7 +77,14 @@ public class JSRows extends ScriptableObject
 	 */
 	public Object get( int index, Scriptable start )
 	{
-		return rows.get( rows.size( ) - 1 - index );
+		if ( has( index, start ) )
+		{
+			return rows.get( rows.size( ) - 1 - index );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
