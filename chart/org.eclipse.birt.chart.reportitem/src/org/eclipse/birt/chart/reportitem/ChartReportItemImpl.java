@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -259,7 +258,7 @@ public final class ChartReportItemImpl extends ReportItem
         }
         else if (propName.equals("title.font.rotation"))
         {
-            cm.getTitle().getLabel().getCaption().getFont().setRotation(((BigDecimal) value).doubleValue());
+            cm.getTitle().getLabel().getCaption().getFont().setRotation(((Double) value).doubleValue());
         }
         else if (propName.equals("legend.position"))
         {
