@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.model.data.DataSet;
 
 /**
- * This class provides a no-op implementation of the IDataSetProcessor interface to be subclassed by each extension
- * writer as needed.
+ * This class provides a no-op implementation of the IDataSetProcessor interface to be
+ * subclassed by each extension writer as needed.
  */
 public class DataSetAdapter extends Methods implements IDataSetProcessor
 {
@@ -28,7 +28,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
      */
     public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws DataSetException
     {
-        // TODO Auto-generated method stub
+        // NO-OP IMPL
         return null;
     }
 
@@ -38,31 +38,27 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
      * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
      *      org.eclipse.birt.chart.model.data.DataSet)
      */
-    public void populate(Object oResultSetDef, DataSet ds) throws DataSetException
+    public DataSet populate(Object oResultSetDef, DataSet ds) throws DataSetException
     {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet, int)
-     */
-    public Object getMinimum(DataSet ds, int iAxisType) throws DataSetException
-    {
-        // TODO Auto-generated method stub
+        // NO-OP IMPL
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet, int)
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet)
      */
-    public Object getMaximum(DataSet ds, int iAxisType) throws DataSetException
+    public Object getMinimum(DataSet ds) throws DataSetException
     {
-        // TODO Auto-generated method stub
+        // NO-OP IMPL
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet)
+     */
+    public Object getMaximum(DataSet ds) throws DataSetException
+    {
+        // NO-OP IMPL
         return null;
     }
 
@@ -73,7 +69,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
      */
     public String getExpectedStringFormat()
     {
-        // TODO Auto-generated method stub
+        // NO-OP IMPL
         return null;
     }
 }

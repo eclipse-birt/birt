@@ -844,8 +844,8 @@ public final class PlotWith2DAxes extends PlotContent
             iDSP = ps.getDataSetProcessor(sea[i].getClass());
             ds = sea[i].getDataSet();
 
-            oV1 = iDSP.getMinimum(ds, iType);
-            oV2 = iDSP.getMaximum(ds, iType);
+            oV1 = iDSP.getMinimum(ds);
+            oV2 = iDSP.getMaximum(ds);
 
             if ((iType & NUMERICAL) == NUMERICAL)
             {
