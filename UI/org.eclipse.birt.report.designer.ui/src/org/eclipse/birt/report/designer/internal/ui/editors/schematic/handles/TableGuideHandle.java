@@ -78,7 +78,7 @@ public class TableGuideHandle extends AbstractGuideHandle
 			graphics.drawImage( image, x , bounds.y + gapInsets.top  );
 			x += image.getBounds( ).width + gap;
 		}
-		graphics.drawString( indicatorLabel, x + 2 * width, bounds.y
+		graphics.drawString( indicatorLabel, x + 2 * width, bounds.y + 2
 		+ gapInsets.top
 		- width );
 	}
