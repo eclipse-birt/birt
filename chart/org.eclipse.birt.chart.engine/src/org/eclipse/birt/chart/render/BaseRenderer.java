@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -282,12 +283,15 @@ public abstract class BaseRenderer
         final Enumeration e = bl.children(true);
         final BlockGenerationEvent bge = new BlockGenerationEvent(this);
         final IDeviceRenderer idr = getDevice();
+        final ScriptHandler sh = getModel().getScriptHandler();
 
         if (bFirstInSequence)
         {
             // ALWAYS RENDER THE OUTERMOST BLOCK FIRST
+            ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
             bge.updateBlock(bl);
             renderBlock(idr, bl);
+            ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
         }
 
         // RENDER ALL BLOCKS EXCEPT FOR THE LEGEND IN THIS ITERATIVE LOOP
@@ -298,7 +302,9 @@ public abstract class BaseRenderer
 
             if (bl instanceof Plot)
             {
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
                 renderPlot(ir, (Plot) bl);
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
                 if (bFirstInSequence && !bLastInSequence)
                 {
                     break;
@@ -311,21 +317,27 @@ public abstract class BaseRenderer
             }
             else if (bl instanceof TitleBlock && bStarted)
             {
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
                 renderTitle(ir, bl);
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
             }
             else if (bl instanceof LabelBlock && bStarted)
             {
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
                 renderLabel(ir, bl);
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
             }
             else if (bl instanceof Legend && bStarted)
             {
-                // ALWAYS DRAW LEGEND NEXT
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
                 renderLegend(idr, (Legend) bl, htRenderers);
-                //continue; // DO NOTHING BECAUSE LEGEND IS ALREADY DRAWN
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
             }
             else if (bStarted)
             {
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_BLOCK, bl); 
                 renderBlock(ir, bl);
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_BLOCK, bl); 
             }
         }
 
@@ -868,6 +880,8 @@ public abstract class BaseRenderer
         double dItemHeight, double dFullHeight, double dLeftInset, double dHorizontalSpacing, Series se,
         Fill fPaletteEntry, LegendItemRenderingHints lirh) throws RenderingException
     {
+        ScriptHandler sh = getModel().getScriptHandler();
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY, la); 
         final Bounds bo = lirh.getLegendGraphicBounds();
         bo.setLeft(dX + dLeftInset + 1);
         bo.setTop(dY + 1);
@@ -914,6 +928,7 @@ public abstract class BaseRenderer
             iev.setHotSpot(pre);
             ipr.enableInteraction(iev);
         }
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_LEGEND_ENTRY, la); 
     }
 
     /**
@@ -932,12 +947,10 @@ public abstract class BaseRenderer
         {
             renderBackground(ipr, p);
         }
-        /*
-         * srh = null; try { srh = ((PlotWithoutAxes) getComputations()).getSeriesRenderingHints(getSeries()); } catch
-         * (Exception ex) { throw new RenderingException(ex); }
-         */
+
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.BEFORE_DRAW_SERIES, getSeries(), this); 
         renderSeries(ipr, p, srh); // CALLS THE APPROPRIATE SUBCLASS FOR
-        // GRAPHIC ELEMENT RENDERING
+        ScriptHandler.callFunction(getModel().getScriptHandler(), ScriptHandler.AFTER_DRAW_SERIES, getSeries(), this); 
 
         if (bLastInSequence)
         {
@@ -1313,6 +1326,8 @@ public abstract class BaseRenderer
             if (fDarker instanceof ColorDefinition)
             {
                 fDarker = ((ColorDefinition) fDarker).darker();
+                ColorDefinition cdD = (ColorDefinition) fDarker;
+                System.out.println("darker Creating color " + cdD.getRed() + ", "+ cdD.getGreen()+ ", "+cdD.getBlue());
             }
             fBrighter = f;
             if (fBrighter instanceof ColorDefinition)

@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -39,6 +40,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutManager;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * This class provides a factory entry point into building a chart for a given model. It is implemented as a singleton
@@ -96,22 +98,34 @@ public final class Generator
     }
 
     /**
-     * This method builds the chart (offscreen) using the provided XServer
+     * This method builds the chart (offscreen) using the provided display server
      * 
      * @param xs
      * @param cm
      * @param bo
+     * @param lo
      * 
      * @return
-     * 
      * @throws GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cm, Bounds bo, Locale lo)
-        throws GenerationException
+    public final GeneratedChartState build(IDisplayServer xs, Chart cm,
+        Scriptable scParent, Bounds bo, Locale lo) throws GenerationException
     {
         if (lo == null)
         {
             lo = Locale.getDefault();
+        }
+        
+        final String sScriptContent = cm.getScript();
+        ScriptHandler sh = null;
+        if (sScriptContent != null)
+        {
+            sh = new ScriptHandler();
+            sh.init(scParent);
+            sh.setRunTimeModel(cm);
+            cm.setScriptHandler(sh);
+            sh.register(sScriptContent);
+            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cm); 
         }
 
         // SETUP THE COMPUTATIONS
@@ -155,6 +169,7 @@ public final class Generator
         // PERFORM THE BLOCKS' LAYOUT
         Block bl = cm.getBlock();
         final LayoutManager lm = new LayoutManager(bl);
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cm); 
         try
         {
             lm.doLayout_tmp(xs, cm, bo);
@@ -163,12 +178,14 @@ public final class Generator
         {
             throw new GenerationException(oex);
         }
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_LAYOUT, cm); 
 
         // COMPUTE THE PLOT AREA
         Bounds boPlot = cm.getPlot().getBounds();
         Insets insPlot = cm.getPlot().getInsets();
         boPlot = boPlot.adjustedInstance(insPlot);
 
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTATIONS, cm, oComputations); 
         long lTimer = System.currentTimeMillis();
         if (iChartType == WITH_AXES)
         {
@@ -195,6 +212,7 @@ public final class Generator
                 throw new GenerationException(ex);
             }
         }
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTATIONS, cm, oComputations); 
 
         final Collection co = lhmRenderers.values();
         final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray(EMPTY_LIRHA);
@@ -216,43 +234,41 @@ public final class Generator
                 {
                     br.set(((PlotWith2DAxes) br.getComputations()).getSeriesRenderingHints(br.getSeries()));
                 }
-                br.compute(bo, cm.getPlot(), br.getSeriesRenderingHints()); // 'bo'
-                // MUST
-                // BE
-                // CLIENT
-                // AREA
-                // WITHIN
-                // ANY
-                // 'shell'
-                // OR
-                // 'frame'
+                ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTE_SERIES, br.getSeries()); 
+                br.compute(bo, cm.getPlot(), br.getSeriesRenderingHints());
+                ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTE_SERIES, br.getSeries()); 
             }
             catch (Exception ex )
             {
                 throw new GenerationException(ex);
             }
         }
-        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer)
-            + " ms");
-        return new GeneratedChartState(xs, cm, lhmRenderers, oComputations);
+        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer) + " ms");
+        final GeneratedChartState gcs = new GeneratedChartState(xs, cm, lhmRenderers, oComputations);
+        if (sh != null)
+        {
+            sh.setGeneratedChartState(gcs);
+            ScriptHandler.callFunction(sh, ScriptHandler.FINISH_GENERATION, gcs); 
+        }
+        return gcs;
     }
 
     /**
      * This method may be used to minimize re-computation of the chart if ONLY the dataset content has changed.
      * Attribute changes require a new chart build.
      * 
-     * @param gcs
-     *            A previously built chart
+     * @param gcs	A previously built chart
      * 
      * @throws GenerationException
      */
     public final void refresh(GeneratedChartState gcs) throws GenerationException
     {
-        long lTimer = System.currentTimeMillis();
-        int iChartType = gcs.getType();
         Chart cm = gcs.getChartModel();
+        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.BEFORE_COMPUTATIONS, gcs);
 
         // COMPUTE THE PLOT AREA
+        long lTimer = System.currentTimeMillis();
+        int iChartType = gcs.getType();
         Bounds boPlot = cm.getPlot().getBounds();
         Insets insPlot = cm.getPlot().getInsets();
         boPlot = boPlot.adjustedInstance(insPlot);
@@ -286,6 +302,7 @@ public final class Generator
             il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = "
                 + (System.currentTimeMillis() - lTimer) + " ms");
         }
+        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.AFTER_COMPUTATIONS, gcs);
     }
 
     /**
@@ -299,6 +316,8 @@ public final class Generator
     public final void render(IDeviceRenderer idr, GeneratedChartState gcs) throws RenderingException
     {
         final Chart cm = gcs.getChartModel();
+        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.START_RENDERING, gcs);
+        
         Legend lg = cm.getLegend();
         lg.updateLayout(cm); // RE-ORGANIZE BLOCKS IF REQUIRED
         if (lg.getPosition() == Position.INSIDE_LITERAL)
@@ -324,17 +343,11 @@ public final class Generator
         BaseRenderer br;
         final Collection co = lhm.values();
         final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray(EMPTY_LIRHA);
-        final DeferredCache dc = new DeferredCache(idr, cm); // USED IN
-        // RENDERING
-        // ELEMENTS WITH
-        // THE CORRECT
-        // Z-ORDER
+        final DeferredCache dc = new DeferredCache(idr, cm); // USED IN RENDERING ELEMENTS WITH THE CORRECT Z-ORDER
 
-        // USE SAME BOUNDS FOR RENDERING AS THOSE USED TO PREVIOUSLY COMPUTE THE
-        // CHART OFFSCREEN
+        // USE SAME BOUNDS FOR RENDERING AS THOSE USED TO PREVIOUSLY COMPUTE THE CHART OFFSCREEN
         final Bounds bo = gcs.getChartModel().getBlock().getBounds();
-        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo
-            .scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
+        idr.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, bo.scaledInstance(idr.getDisplayServer().getDpiResolution() / 72d));
         idr.before(); // INITIALIZATION BEFORE RENDERING BEGINS
         for (int i = 0; i < iSize; i++)
         {
@@ -352,6 +365,7 @@ public final class Generator
             }
         }
         idr.after(); // ANY CLEANUP AFTER THE CHART HAS BEEN RENDERED
+        ScriptHandler.callFunction(cm.getScriptHandler(), ScriptHandler.FINISH_RENDERING, gcs);
     }
 
     /**

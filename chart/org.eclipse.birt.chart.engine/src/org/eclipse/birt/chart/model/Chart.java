@@ -543,4 +543,22 @@ public interface Chart extends EObject
      *            Possible values are IConstants.RUN_TIME and IConstants.USER_INTERFACE
      */
     void clearSections(int iSectionType);
+    
+    /**
+     * 
+     * @param sh
+     */
+    void setScriptHandler(ScriptHandler sh);
+    
+    /**
+     * 
+     * @return
+     */
+    ScriptHandler getScriptHandler();
+    
+    /**
+     * Builds runtime series instances for each design-time series based on the sample data
+     * contained in the model 
+     */
+    void createSampleRuntimeSeries();
 } // Chart
