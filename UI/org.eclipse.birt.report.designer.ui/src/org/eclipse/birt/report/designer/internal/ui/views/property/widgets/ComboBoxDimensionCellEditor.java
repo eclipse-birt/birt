@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
@@ -71,7 +70,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 	private String unitName;
 
 	private String[] units;
-	
+
 	private int inProcessing = 0;
 
 	/**
@@ -236,38 +235,11 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 	 */
 	void applyEditorValueAndDeactivate( )
 	{
-		inProcessing =1;
-		if(selection != comboBox.getSelectionIndex( ))
-		{
-			markDirty();
-		}		
-		//	must set the selection before getting value
-		selection = comboBox.getSelectionIndex( );
-		Object newValue=null;
-		if(selection == -1)
-		{
-			newValue = comboBox.getText();
-		}
-		else
-		{
-			newValue = comboBox.getItem(selection);
-		}
-		
-		if ( newValue != null )
-		{
-			boolean newValidState = isCorrect( newValue );
-			if ( newValidState )
-			{
-				doSetValue(newValue);
-				markDirty( );
-			}
-			else
-			{
-			}
-		}
-		fireApplyEditorValue();
+		inProcessing = 1;
+		doValueChanged();
+		fireApplyEditorValue( );
 		deactivate( );
-		inProcessing =0;
+		inProcessing = 0;
 	}
 
 	/*
@@ -298,14 +270,14 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 			dialog.setMeasureData( new Double( value.getMeasure( ) ) );
 		}
 
-		if(Window.OK == dialog.open())
+		if ( Window.OK == dialog.open( ) )
 		{
 			deactivate( );
 			return dialog.getMeasureData( ).toString( ) + dialog.getUnitName( );
 		}
 		else
 		{
-			deactivate( );
+			comboBox.setFocus();
 			return null;
 		}
 	}
@@ -368,37 +340,62 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 		this.units = unitsList;
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on CellEditor. The focus is set to the cell
-	 * editor's ComboBox.
-	 */
-//	protected void doSetFocus( )
-//	{
-//		comboBox.setFocus( );
-//	}
-
 	/**
 	 * Processes a focus lost event that occurred in this cell editor.
 	 * <p>
 	 * The default implementation of this framework method applies the current
-	 * value and deactivates the cell editor.
-	 * Subclasses should call this method at appropriate times. 
-	 * Subclasses may also extend or reimplement.
+	 * value and deactivates the cell editor. Subclasses should call this method
+	 * at appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
-	protected void focusLost() {
-		if(inProcessing==1) return;
-		if(comboBox.getSelectionIndex() ==-1)
+	protected void focusLost( )
+	{
+		if ( inProcessing == 1 )
+			return;
+
+		super.focusLost( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
+	 */
+	protected void doSetFocus( )
+	{
+		comboBox.setFocus();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
+	 */
+	protected void doValueChanged( )
+	{
+		if ( selection != comboBox.getSelectionIndex( ) )
 		{
-			if(comboBox.getText().equals(doGetValue()))  //$NON-NLS-1$
-			{
-				markDirty();
-			}
-			doSetValue(comboBox.getText());
+			markDirty( );
 		}
-		if (isActivated()) {
-			fireApplyEditorValue();
-			deactivate();
+		//	must set the selection before getting value
+		selection = comboBox.getSelectionIndex( );
+		Object newValue = null;
+		if ( selection == -1 )
+		{
+			newValue = comboBox.getText( );
+		}
+		else
+		{
+			newValue = comboBox.getItem( selection );
+		}
+
+		if ( newValue != null )
+		{
+			boolean newValidState = isCorrect( newValue );
+			if ( newValidState )
+			{
+				doSetValue( newValue );
+				markDirty( );
+			}
+			else
+			{
+			}
 		}
 	}
 }

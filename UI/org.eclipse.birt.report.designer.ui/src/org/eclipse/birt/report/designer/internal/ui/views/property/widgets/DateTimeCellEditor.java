@@ -73,4 +73,13 @@ public class DateTimeCellEditor extends CDialogCellEditor
 		return value;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
+	 */
+	protected void doValueChanged( )
+	{
+		// nothing
+		
+	}
+
 }

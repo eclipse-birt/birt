@@ -2,11 +2,14 @@
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import org.eclipse.jface.viewers.DialogCellEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 abstract public class CDialogCellEditor extends DialogCellEditor
 {
 
+	private Button result;
 	/**
 	 * @param parent
 	 */
@@ -22,6 +25,14 @@ abstract public class CDialogCellEditor extends DialogCellEditor
 	public CDialogCellEditor( Composite parent, int style )
 	{
 		super( parent, style );
+	}
+
+	/**
+	 * 
+	 */
+	public CDialogCellEditor( )
+	{
+		super();
 	}
 
 	/**
@@ -45,4 +56,43 @@ abstract public class CDialogCellEditor extends DialogCellEditor
 		return super.isCorrect( value );
 	}
 
+	/**
+	 * Creates the button for this cell editor under the given parent control.
+	 * <p>
+	 * The default implementation of this framework method creates the button 
+	 * display on the right hand side of the dialog cell editor. Subclasses
+	 * may extend or reimplement.
+	 * </p>
+	 *
+	 * @param parent the parent control
+	 * @return the new button control
+	 */
+	protected Button createButton(Composite parent) {
+		result = new Button(parent, SWT.DOWN);
+		result.setText("..."); //$NON-NLS-1$
+		return result;
+	}
+	
+	protected Button getButton()
+	{
+		return result;
+	}
+	
+	/**
+	 * Processes a focus lost event that occurred in this cell editor.
+	 * <p>
+	 * The default implementation of this framework method applies the current
+	 * value and deactivates the cell editor. Subclasses should call this method
+	 * at appropriate times. Subclasses may also extend or reimplement.
+	 * </p>
+	 */
+	protected void focusLost( )
+	{
+		if (!(getButton()==null) && !getButton().isFocusControl() && !getControl().isFocusControl()) {
+			doValueChanged();
+			super.focusLost();
+		}
+	}
+	
+	protected abstract void doValueChanged();
 }

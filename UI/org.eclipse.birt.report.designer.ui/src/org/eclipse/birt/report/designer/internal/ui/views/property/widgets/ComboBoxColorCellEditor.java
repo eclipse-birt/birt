@@ -224,6 +224,19 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	void applyEditorValueAndDeactivate( )
 	{
 		inProcessing = 1;
+		
+		doValueChanged();
+
+		fireApplyEditorValue( );
+		deactivate( );
+		inProcessing = 0;
+	}
+
+	/**
+	 * 
+	 */
+	protected void doValueChanged( )
+	{
 		if ( selection != comboBox.getSelectionIndex( ) )
 		{
 			markDirty( );
@@ -256,10 +269,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 				//setErrorMessage(MessageFormat.format(getErrorMessage(), new
 				// Object[] { newValue.toString()}));
 			}
-		}
-		fireApplyEditorValue( );
-		deactivate( );
-		inProcessing = 0;
+		}		
 	}
 
 	/*
@@ -303,7 +313,8 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		}
 		//TODO: temp solution, remove following line after the equals method
 		// is ok
-		deactivate( );
+		//deactivate( );
+		comboBox.setFocus();
 
 		return value;
 	}
@@ -363,12 +374,15 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 */
 	protected void focusLost( )
 	{
-		if ( inProcessing  == 1 )
-			return;
-		if ( isActivated( ) )
-		{
-			fireApplyEditorValue( );
-			deactivate( );
-		}
+		if ( inProcessing  == 1 )	return;
+		super.focusLost();
 	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
+	 */
+	protected void doSetFocus( )
+	{
+		comboBox.setFocus();
+	}
+
 }
