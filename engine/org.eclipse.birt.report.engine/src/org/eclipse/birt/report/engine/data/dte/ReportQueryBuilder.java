@@ -16,9 +16,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -90,7 +90,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.11 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.12 $ $Date: 2005/03/04 05:54:43 $
  */
 public class ReportQueryBuilder {
 
@@ -119,7 +119,7 @@ public class ReportQueryBuilder {
 		/**
 		 * for logging
 		 */
-		protected Log logger = LogFactory.getLog(QueryBuilderVisitor.class);
+		protected Logger logger = Logger.getLogger(QueryBuilderVisitor.class.getName());
 
 		/**
 		 * a collection of all the queries
@@ -308,6 +308,7 @@ public class ReportQueryBuilder {
 				}
 				catch(BirtException ex)
 				{
+				     
 				}
 				finally {
 					itemGeneration.finish();
@@ -767,11 +768,9 @@ public class ReportQueryBuilder {
 			}
 			String ret = report.getMessage(resourceKey, context.getLocale());
 			if (ret == null) {
-				if (logger.isErrorEnabled()) {
-					logger.error("get resource error, resource key:" // $NON-NLS-1$
+			    logger.log( Level.SEVERE, "get resource error, resource key:" // $NON-NLS-1$
 							+ resourceKey + " Locale:" // $NON-NLS-1$
 							+ context.getLocale().toString());
-				}
 				return text;
 			}
 			return ret;

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.html;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumnContent;
@@ -27,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.StyleDesign;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/23 06:50:04 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:39 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +38,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.3 $ $Date: 2005/02/23 06:50:04 $
+	 * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:39 $
 	 */
 	private class PersistData
 	{
@@ -227,11 +228,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		if ( log.isTraceEnabled( ) )
-		{
-			log.trace( "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
-		}
-
+		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		int type;
 		DimensionType x = tableObj.getX( );
 		DimensionType y = tableObj.getY( );
@@ -295,10 +292,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			currentData = null;
 		}
 
-		if ( log.isTraceEnabled( ) )
-		{
-			log.trace( "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
-		}
+		logger.log( Level.FINE,  "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -445,10 +439,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		int span;
 		int columnID;
 
-		if ( log.isTraceEnabled( ) )
-		{
-			log.trace( "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
-		}
+		logger.log( Level.FINE,  "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
 
 		if ( cellObj != null )
 		{
@@ -506,10 +497,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			return;
 		}
-		if ( log.isTraceEnabled( ) )
-		{
-			log.trace( "[HTMLTableEmitter] End cell." ); //$NON-NLS-1$
-		}
+		logger.log( Level.FINE,  "[HTMLTableEmitter] End cell." ); //$NON-NLS-1$
 
 		writer.closeTag( "td" ); //$NON-NLS-1$
 	}

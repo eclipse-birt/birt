@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
@@ -184,10 +185,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				else
 				{
 					assert false;
-					if (logger.isErrorEnabled())
-					{
-						logger.error("unsupport image type:" + output);
-					}
+					logger.log( Level.SEVERE,"unsupport image type:{0}", output);
+
 				}
 				image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
 				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); // $NON-NLS-1$
@@ -249,10 +248,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		}
 		catch(IOException ex)
 		{
-			if (logger.isErrorEnabled())
-			{
-				logger.error(ex);
-			}
+		    logger.log( Level.SEVERE, ex.getMessage(), ex);
 		}
 		return out.toByteArray();
 	}

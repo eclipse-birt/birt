@@ -13,9 +13,9 @@ package org.eclipse.birt.report.engine.executor.css;
 
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
@@ -26,13 +26,13 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class HTMLProcessor
 {
 
 	/** the logger */
-	private Log logger = LogFactory.getLog( HTMLProcessor.class );
+	private Logger logger = Logger.getLogger( HTMLProcessor.class.getName() );
 
 	/** the execution context */
 	ExecutionContext context;
@@ -85,7 +85,7 @@ public class HTMLProcessor
 			}
 			catch ( Exception e )
 			{
-				logger.error( "The css statement is:"
+				logger.log(Level.SEVERE,"The css statement is:"
 						+ ele.getAttribute( "style" ), e );
 			}
 			cssStyle = cssParser.getCssProperties( );
@@ -151,8 +151,7 @@ public class HTMLProcessor
 				}
 				catch ( Exception e )
 				{
-					logger
-							.error( "There is a invalid value for property SIZE of element FONT in the HTML." );
+				    logger.log(Level.SEVERE, "There is a invalid value for property SIZE of element FONT in the HTML." );
 				}
 			}
 			//Removes these attributes to avoid for being copied again.

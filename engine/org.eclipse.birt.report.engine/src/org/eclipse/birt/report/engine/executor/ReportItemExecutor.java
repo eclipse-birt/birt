@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.content.IHyperlinkAction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
@@ -34,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/01 01:35:35 $
  */
 public abstract class ReportItemExecutor
 {
@@ -42,7 +43,7 @@ public abstract class ReportItemExecutor
 	/**
 	 * the logger, log info, debug, and error message
 	 */
-	protected static Log logger = LogFactory.getLog( ReportItemExecutor.class );
+	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class.getName() );
 
 	/**
 	 * the executor context
@@ -167,8 +168,7 @@ public abstract class ReportItemExecutor
 				context.getLocale( ) );
 		if ( ret == null )
 		{
-			logger.error( "get resource error, resource key:" + resourceKey
-					+ " Locale:" + context.getLocale( ).toString( ) );
+		    logger.log(Level.SEVERE,"get resource error, resource key: {0} Locale: {1}", new Object[]{resourceKey, context.getLocale().toString()} );
 			return text;
 		}
 		return ret;
@@ -252,10 +252,7 @@ public abstract class ReportItemExecutor
 			catch ( Exception e )
 			{
 				itemContent.setHyperlinkAction( null );
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( "Failed to process Action String" );
-				}
+				logger.log(Level.SEVERE,"Failed to process Action String" );
 			}
 		}
 	}

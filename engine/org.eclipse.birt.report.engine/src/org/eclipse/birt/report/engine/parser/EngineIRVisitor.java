@@ -14,9 +14,9 @@ package org.eclipse.birt.report.engine.parser;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.10 $ $Date: 2005/03/04 03:22:06 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -141,7 +141,7 @@ class EngineIRVisitor extends DesignVisitor
 	/**
 	 * logger used to log the error.
 	 */
-	protected static Log logger = LogFactory.getLog( EngineIRVisitor.class );
+	protected static Logger logger = Logger.getLogger( EngineIRVisitor.class.getName() );
 
 	/**
 	 * current report element created by visitor
@@ -1709,10 +1709,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		catch ( BirtException e )
 		{
-			if ( logger.isErrorEnabled( ) )
-			{
-				logger.error( e );
-			}
+		    logger.log( Level.SEVERE, e.getLocalizedMessage(),  e );
 			return null;
 		}
 	}

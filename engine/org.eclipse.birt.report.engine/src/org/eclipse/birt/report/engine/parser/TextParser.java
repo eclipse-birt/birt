@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -35,7 +35,7 @@ import org.w3c.dom.Document;
  * nodes that need to be processed are descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.1 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/07 02:33:18 $
  */
 public class TextParser
 {
@@ -51,7 +51,7 @@ public class TextParser
 	/**
 	 * logs syntax errors.
 	 */
-	protected static Log logger = LogFactory.getLog( TextParser.class );
+	protected static Logger logger = Logger.getLogger( TextParser.class.getName() );
 
 	/**
 	 * Parse the input text to get a DOM tree.
@@ -110,7 +110,7 @@ public class TextParser
 			}
 			catch ( UnsupportedEncodingException e )
 			{
-				logger.error( e );
+			    logger.log( Level.SEVERE, e.getMessage(),  e );
 				return null;
 			}
 		}
@@ -121,10 +121,10 @@ public class TextParser
 		}
 		else
 		{
-			if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
-				logger
-						.warn( "Invalid text type. The content is treated as plain text." );
-			return new PlainTextParser( ).parsePlainText( text );
+		    if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
+		        logger.log( Level.WARNING, "Invalid text type. The content is treated as plain text." );
+			return new PlainTextParser( ).parsePlainText( text );		    			
+
 		}
 	}
 
@@ -190,7 +190,7 @@ public class TextParser
 			}
 			catch ( IOException e )
 			{
-				logger.error( e );
+			    logger.log( Level.SEVERE, e.getMessage(),  e );
 				return null;
 			}
 		}
@@ -203,12 +203,12 @@ public class TextParser
 			return null;
 		}
 		else
-		{
-			if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
-				logger
-						.warn( "Invalid text type. The content is treated as plain text." );
-			// All other types are considered as the plain text.
-			return new PlainTextParser( ).parsePlainText( tmpInputStream );
+		{		
+		    if ( !TEXT_TYPE_PLAIN.equalsIgnoreCase( textType ) )
+		        logger.log( Level.WARNING, "Invalid text type. The content is treated as plain text." );
+	        // All other types are considered as the plain text.
+	        return new PlainTextParser( ).parsePlainText( tmpInputStream );
+
 		}
 	}
 }

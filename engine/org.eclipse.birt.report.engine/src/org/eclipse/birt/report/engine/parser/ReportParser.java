@@ -13,9 +13,8 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -28,7 +27,7 @@ import org.eclipse.birt.report.model.api.SessionHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/24 08:29:31 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/25 08:21:38 $
  */
 public class ReportParser
 {
@@ -36,7 +35,7 @@ public class ReportParser
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Log logger = LogFactory.getLog( ReportParser.class );
+	static protected Logger logger = Logger.getLogger( ReportParser.class.getName() );
 
 	/**
 	 * constructor.

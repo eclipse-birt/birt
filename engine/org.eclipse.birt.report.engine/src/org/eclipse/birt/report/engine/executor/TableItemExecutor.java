@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumnContent;
@@ -33,7 +35,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/23 06:49:59 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -107,10 +109,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		this.emitter = emitter;
 
 		table = (TableItemDesign) item;
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "start table item" );
-		}
+		logger.log( Level.FINE,"start table item" );
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
 		ITableContent tableObj = ContentFactory.createTableContent( table );
@@ -123,15 +122,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		if ( bookmarkStr != null )
 			tableObj.setBookmarkValue( bookmarkStr );
 
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "start get table data" );
-		}
+		logger.log( Level.FINE, "start get table data" );
 		rs = openResultSet( table );
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "end get table data" );
-		}
+		logger.log( Level.FINE, "end get table data" );
 		boolean isRowAvailable = false;
 		if ( rs != null )
 		{
@@ -160,10 +153,7 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		closeResultSet( rs );
 
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "end table item" );
-		}
+		logger.log( Level.FINE, "end table item" );
 		//execute the on finish script
 		context.execute( table.getOnFinish( ) );
 	}

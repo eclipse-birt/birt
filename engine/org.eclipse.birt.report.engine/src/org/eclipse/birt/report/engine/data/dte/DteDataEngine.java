@@ -14,18 +14,18 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
@@ -44,7 +44,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -97,7 +97,7 @@ public class DteDataEngine implements IDataEngine
 	/**
 	 * the logger
 	 */
-	protected static Log logger = LogFactory.getLog( DteDataEngine.class );
+	protected static Logger logger = Logger.getLogger( DteDataEngine.class.getName() );
 	
 	/**
 	 * resultset  stack
@@ -130,11 +130,7 @@ public class DteDataEngine implements IDataEngine
 			if ( !file.exists( ) || !file.isDirectory( ) )
 			{
 				file = new File( "." );
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( "the direcotory:" + odaDriver
-							+ " is not exist! use current path as it." );
-				}
+				logger.log( Level.SEVERE, "the direcotory: {0} is not exist! use current path as it.", odaDriver );
 			}
 		}
 		else
@@ -167,11 +163,11 @@ public class DteDataEngine implements IDataEngine
 			}
 			catch ( EngineException e )
 			{
-				logger.error( e.getMessage( ), e );
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			catch ( DataException e )
 			{
-				logger.error( e.getMessage( ), e );
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}	// End of data source handling
 
@@ -187,17 +183,12 @@ public class DteDataEngine implements IDataEngine
 			}
 			catch ( EngineException e )
 			{
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( e.getMessage( ), e );
-				}
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
+				
 			}
 			catch ( DataException e )
 			{
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( e.getMessage( ), e );
-				}
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		} // End of data set handling
 
@@ -217,10 +208,7 @@ public class DteDataEngine implements IDataEngine
 			}
 			catch ( DataException e )
 			{
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( e.getMessage( ), e );
-				}
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}	// end of prepare 
 	}
@@ -261,10 +249,7 @@ public class DteDataEngine implements IDataEngine
 				}
 				catch ( DataException e )
 				{
-					if ( logger.isErrorEnabled( ) )
-					{
-						logger.error( e.getMessage( ), e );
-					}
+				    logger.log( Level.SEVERE, e.getMessage( ), e );
 					return null;
 				}
 			}
@@ -285,10 +270,7 @@ public class DteDataEngine implements IDataEngine
 			}
 			catch ( DataException e )
 			{
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( e.getMessage( ), e );
-				}
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;
 			}
 		}
@@ -347,10 +329,7 @@ public class DteDataEngine implements IDataEngine
 			}
 			catch ( DataException e )
 			{
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( e.getMessage( ), e );
-				}
+			    logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;
 			}
 		}
@@ -475,10 +454,7 @@ public class DteDataEngine implements IDataEngine
 			context.exitScope();
 			return ret;
 		}
-		if ( logger.isErrorEnabled( ) )
-		{
-			logger.error( "Invalid operator: " + operator );
-		}
+		logger.log( Level.SEVERE, "Invalid operator: " + operator );
 		context.exitScope();
 		return new Boolean(false);
 	}

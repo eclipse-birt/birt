@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.Date;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -40,7 +41,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/21 06:43:49 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -469,12 +470,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
-					if ( logger.isErrorEnabled( ) )
-					{
-						logger
-								.warn( "The following visibility expression does not evaluate to a legal boolean value: " //$NON-NLS-1$
-										+ rule.getExpression( ).getExpr( ) );
-					}
+				    logger.log( Level.WARNING, "The following visibility expression does not evaluate to a legal boolean value: {0}",  //$NON-NLS-1$
+										rule.getExpression( ).getExpr( ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );

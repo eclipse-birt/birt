@@ -18,11 +18,11 @@ import java.io.LineNumberReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,7 +42,7 @@ import org.w3c.dom.Text;
  * other nodes that need to be processed are descendant nodes of "body" 
  * node.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/03 22:15:34 $
  */
 public class PlainTextParser
 {
@@ -50,7 +50,7 @@ public class PlainTextParser
 	/**
 	 * logs syntax errors.
 	 */
-	protected static Log logger = LogFactory.getLog( PlainTextParser.class );
+	protected static Logger logger = Logger.getLogger( PlainTextParser.class.getName() );
 
 	/**
 	 * Parses the character stream to get the DOM tree.
@@ -90,7 +90,7 @@ public class PlainTextParser
 		}
 		catch ( Exception e )
 		{
-			logger.error( e );
+		    logger.log( Level.SEVERE, e.getMessage(),  e );
 		}
 		return null;
 	}
@@ -142,7 +142,7 @@ public class PlainTextParser
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			logger.error( e );
+		    logger.log( Level.SEVERE, e.getMessage(),  e );
 		}
 		return null;
 	}

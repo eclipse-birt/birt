@@ -15,16 +15,14 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.LinkedList;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 /**
  * 
  * report item executor manager
  * 
  * @author liugang
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/07 09:43:34 $
  */
 public class ExecutorManager
 {
@@ -47,7 +45,7 @@ public class ExecutorManager
      */
     public static final int NUMBER = 9;
 
-	protected static Log log = LogFactory.getLog( ExecutorManager.class );
+	protected static Logger log = Logger.getLogger( ExecutorManager.class.getName() );
 
     /**
      * execution context

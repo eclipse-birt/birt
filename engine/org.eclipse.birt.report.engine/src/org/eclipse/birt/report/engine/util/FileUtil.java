@@ -20,14 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/04 07:32:26 $
  */
 public class FileUtil
 {
@@ -48,7 +47,7 @@ public class FileUtil
 	 * The Log object that <code>FileUtil</code> uses to log the error, debug,
 	 * information messages.
 	 */
-	protected static Log log = LogFactory.getLog( FileUtil.class );
+	protected static Logger logger = Logger.getLogger( FileUtil.class.getName() );
 
 	/**
 	 * The <code>HashMap</code> object that stores image type/file extension
@@ -94,7 +93,7 @@ public class FileUtil
 		{
 			if ( dir.mkdirs( ) == false )
 			{
-				log.error( "[FileUtil] Cannot create directory." );
+			    logger.log( Level.SEVERE,  "[FileUtil] Cannot create directory." );
 				return null;
 			}
 		}
@@ -106,7 +105,7 @@ public class FileUtil
 		}
 		catch ( IOException e )
 		{
-			log.error( "[FileUtil] " + e.getMessage( ) );
+		    logger.log( Level.SEVERE, e.getMessage(),  e );
 			e.printStackTrace( );
 			return null;
 		}
@@ -146,7 +145,7 @@ public class FileUtil
 		}
 		catch ( Exception e )
 		{
-			log.error( e.getMessage( ) );
+		    logger.log( Level.SEVERE, e.getMessage(),  e );
 			return false;
 		}
 	}
@@ -265,7 +264,7 @@ public class FileUtil
 		}
 		catch ( IOException e )
 		{
-			log.error( "[FileUtil] " + e.getMessage( ) );
+		    logger.log( Level.SEVERE, e.getMessage(),  e );
 			return false;
 		}
 	}
@@ -321,7 +320,7 @@ public class FileUtil
 		}
 		catch ( Exception e )
 		{
-			log.error( "Cannot get the content of the file " + fileName, e );
+		    logger.log( Level.SEVERE,  "Cannot get the content of the file " + fileName, e );
 		}
 		return null;
 	}

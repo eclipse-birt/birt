@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IImageItemContent;
@@ -52,7 +53,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -139,11 +140,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 
 				if ( imageFile == null )
 				{
-					if ( logger.isErrorEnabled( ) )
-					{
-						logger
-								.error( "[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
-					}
+				    logger.log( Level.SEVERE, "[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
 				}
 				break;
 
@@ -171,12 +168,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 				}
 				catch ( Exception e )
 				{
-					if ( logger.isErrorEnabled( ) )
-					{
-						logger
-								.error( "[ImageItemExecutor] Fail to handle embedded image with an exception below:" ); //$NON-NLS-1$
-						logger.error( e.getMessage( ) );
-					}
+				    logger.log( Level.SEVERE, "[ImageItemExecutor] Fail to handle embedded image with an exception below:", e ); //$NON-NLS-1$
 				}
 
 				break;
@@ -220,28 +212,19 @@ public class ImageItemExecutor extends StyledItemExecutor
 					}
 					else
 					{
-						if ( logger.isErrorEnabled( ) )
-						{
-							logger
-									.error( "[ImageItemExecutor] cannot query image data from database" ); //$NON-NLS-1$
-						}
+					    logger.log( Level.SEVERE, "[ImageItemExecutor] cannot query image data from database"); //$NON-NLS-1$
 					}
 					closeResultSet( rs );
 				}
 				catch ( Exception e )
 				{
-					logger
-							.error( "[ImageItemExecutor] fail to handle database image with an exception below:" ); //$NON-NLS-1$
-					logger.error( e.getMessage( ) );
+				    logger.log( Level.SEVERE,"[ImageItemExecutor] fail to handle database image with an exception below:", e ); //$NON-NLS-1$
 				}
 
 				break;
 
 			default :
-				if ( logger.isErrorEnabled( ) )
-				{
-					logger.error( "[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
-				}
+			    logger.log( Level.SEVERE, "[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
 				assert false;
 		}
 

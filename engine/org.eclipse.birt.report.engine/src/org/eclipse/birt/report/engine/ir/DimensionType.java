@@ -11,19 +11,20 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class DimensionType
 {
-	private static Log log=LogFactory.getLog(DimensionType.class);
+	private static Logger log = Logger.getLogger(DimensionType.class.getName());
 
 	public final static int TYPE_DIMENSION = 1;
 	public final static int TYPE_CHOICE = 0;
@@ -161,7 +162,7 @@ public class DimensionType
 			}
 			catch ( PropertyValueException e )
 			{
-				log.error(e);
+				log.log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return new DimensionType(0,DimensionType.UNITS_CM);

@@ -13,9 +13,8 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IMasterPageContent;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
@@ -47,13 +46,13 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/23 02:57:46 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ReportExecutor
 {
 
 	// for logging
-	private static Log log = LogFactory.getLog( ReportExecutor.class );
+	private static Logger log = Logger.getLogger( ReportExecutor.class.getName() );
 
 	// the report execution context
 	private ExecutionContext context;

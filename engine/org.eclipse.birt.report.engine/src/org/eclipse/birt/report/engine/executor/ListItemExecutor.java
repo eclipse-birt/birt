@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
@@ -23,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/23 06:49:59 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -64,10 +66,7 @@ public class ListItemExecutor extends ListingElementExecutor
 			return;
 		}
 		list = (ListItemDesign) item;
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "start list item" );
-		}
+		logger.log( Level.FINE,"start list item" );
 		//execute the on start script
 		context.execute( list.getOnStart( ) );
 
@@ -80,15 +79,9 @@ public class ListItemExecutor extends ListingElementExecutor
 		setVisibility( item, listContent );
 		setStyles( listContent, item );
 		emitter.getContainerEmitter( ).start( listContent );
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "start get list data" );
-		}
+		logger.log( Level.FINE, "start get list data" );
 		rs = openResultSet( list );
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "end get list data" );
-		}
+		logger.log( Level.FINE, "end get list data" );
 
 		boolean isRowAvailable = false;
 		if ( rs != null )
@@ -108,10 +101,7 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		emitter.getContainerEmitter( ).end( );
 		context.execute( list.getOnFinish( ) );
-		if ( logger.isTraceEnabled( ) )
-		{
-			logger.trace( "end list item" );
-		}
+		logger.log( Level.FINE, "end list item" );
 	}
 
 	/**

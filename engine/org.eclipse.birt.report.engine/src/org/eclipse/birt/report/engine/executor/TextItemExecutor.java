@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.io.ByteArrayInputStream;
+import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.content.ContentFactory;
@@ -36,7 +37,7 @@ import org.w3c.dom.Text;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -287,10 +288,7 @@ public class TextItemExecutor extends StyledItemExecutor
 				}
 				else
 				{
-					if ( logger.isErrorEnabled( ) )
-					{
-						logger.error( "can't handle image element in HTML" );
-					}
+				    logger.log(Level.SEVERE, "can't handle image element in HTML" );
 				}
 
 				return;

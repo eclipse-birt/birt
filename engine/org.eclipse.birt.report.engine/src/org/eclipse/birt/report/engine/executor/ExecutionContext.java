@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.content.IPageSetupContent;
@@ -43,13 +43,13 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/03 22:15:34 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
 
 	// for logging
-	protected static Log log = LogFactory.getLog( ExecutionContext.class );
+	protected static Logger log = Logger.getLogger( ExecutionContext.class.getName() );
 
 	// The scripting context
 	protected ScriptContext scriptContext;
@@ -181,7 +181,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
-			log.error( e );
+			log.log( Level.SEVERE,e.getMessage(),  e );
 		}
 		return null;
 
@@ -223,7 +223,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
-			log.error( e );
+		    log.log( Level.SEVERE,e.getMessage(),  e );
 		}
 		return null;
 	}
@@ -570,7 +570,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( IOException ex )
 		{
-			log.error( "loading external script file " + fileName + " failed.",
+		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.",
 					ex );
 			//TODO This is a fatal error. Should throw an exception.
 		}

@@ -14,13 +14,13 @@ package org.eclipse.birt.report.engine.parser;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.1 $ $Date: 2005/03/03 22:15:34 $
  */
 public class HTMLTextParser
 {
@@ -44,7 +44,7 @@ public class HTMLTextParser
 	/**
 	 * logger used to log syntax errors.
 	 */
-	protected static Log logger = LogFactory.getLog( HTMLTextParser.class );
+	protected static Logger logger = Logger.getLogger( HTMLTextParser.class.getName() );
 
 	/** Supported tags in HTML */
 	protected static HashSet supportedTags = new HashSet( );
@@ -110,7 +110,7 @@ public class HTMLTextParser
 		}
 		catch ( Exception ex )
 		{
-			logger.fatal( ex );
+		    logger.log( Level.SEVERE, ex.getMessage(), ex );
 		}
 	}
 
@@ -154,7 +154,7 @@ public class HTMLTextParser
 		}
 		catch ( ParserConfigurationException e )
 		{
-			logger.error( e );
+		    logger.log( Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 		return desDoc;

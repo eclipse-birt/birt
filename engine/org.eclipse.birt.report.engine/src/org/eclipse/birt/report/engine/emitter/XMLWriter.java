@@ -15,21 +15,22 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Output the content following the XML specification. Only when the events of
  * endding the writer and closing the tag come, the stream is flushed.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/24 06:41:07 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/04 07:32:26 $
  */
 public class XMLWriter
 {
 
 	/** logger */
-	protected Log log = LogFactory.getLog( XMLWriter.class );
+	protected Logger log = Logger.getLogger( XMLWriter.class.getName() );
 
 	/** the print writer for outputting */
 	protected PrintWriter printWriter;
@@ -67,7 +68,7 @@ public class XMLWriter
 	{
 	}
 
-	public void setLogger( Log log )
+	public void setLogger( Logger log )
 	{
 		this.log = log;
 	}
@@ -85,8 +86,7 @@ public class XMLWriter
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			log.error( "the character encoding " + encoding //$NON-NLS-1$
-					+ " unsupported !" ); //$NON-NLS-1$
+		    log.log( Level.SEVERE, "the character encoding {0} unsupported !",  encoding); //$NON-NLS-1$
 		}
 	}
 
@@ -395,8 +395,8 @@ public class XMLWriter
 			{
 				//Ignores the illegal character.
 				replacement = "";
-				log.warn( "Ignore the illegal XML character: 0x"
-						+ Integer.toHexString( c ) + ";" );
+				log.log( Level.WARNING, "Ignore the illegal XML character: 0x{0};",
+						 Integer.toHexString( c )  );
 			}
 			if ( c == '&' )
 			{
