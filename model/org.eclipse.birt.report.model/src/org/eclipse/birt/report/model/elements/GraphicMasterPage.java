@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.validators.MasterPageTypeValidator;
  * of the content area. Use the
  * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
  * access the content slot of the graphic master page.
- * 
+ *  
  */
 public class GraphicMasterPage extends MasterPage
 {
@@ -66,7 +66,7 @@ public class GraphicMasterPage extends MasterPage
 	protected MultiElementSlot contents = new MultiElementSlot( );
 
 	/**
-	 * Default Constructor
+	 * Default Constructor.
 	 */
 
 	public GraphicMasterPage( )
@@ -117,6 +117,7 @@ public class GraphicMasterPage extends MasterPage
 	 * Returns an API handle for this element.
 	 * 
 	 * @param design
+	 *            the report design
 	 * @return an API handle for this element
 	 */
 

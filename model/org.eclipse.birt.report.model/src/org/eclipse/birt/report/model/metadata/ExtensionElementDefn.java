@@ -45,7 +45,7 @@ public class ExtensionElementDefn extends ElementDefn
 	protected IReportItemFactory elementFactory = null;
 
 	/**
-	 * The list contains the hidden properties in plugin.xml
+	 * The list contains the hidden properties in plugin.xml.
 	 */
 
 	protected List invisibleProps = new ArrayList( );

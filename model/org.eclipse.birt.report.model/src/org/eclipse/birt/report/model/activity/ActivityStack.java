@@ -505,7 +505,7 @@ public final class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Clears the record stack
+	 * Clears the record stack.
 	 */
 
 	public void flush( )

@@ -35,7 +35,7 @@ public class ResourceKeyPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.messageId"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public ResourceKeyPropertyType( )

@@ -61,7 +61,7 @@ public class MapRuleHandle extends StyleRuleHandle
 	}
 	
 	/**
-	 * Returns the resource key of display value
+	 * Returns the resource key of display value.
 	 * 
 	 * @return the resource key of display value.
 	 */

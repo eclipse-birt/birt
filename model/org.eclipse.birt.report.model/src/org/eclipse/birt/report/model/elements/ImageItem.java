@@ -63,7 +63,7 @@ public class ImageItem extends ReportItem
 
 	/**
 	 * Name of the optional text property, which is used to display in place of
-	 * the image in a web browser
+	 * the image in a web browser.
 	 */
 
 	public static final String ALT_TEXT_PROP = "altText"; //$NON-NLS-1$
@@ -94,7 +94,7 @@ public class ImageItem extends ReportItem
 	public static final String URI_PROP = "uri"; //$NON-NLS-1$
 
 	/**
-	 * Name of the image reference type property
+	 * Name of the image reference type property.
 	 */
 
 	public static final String SOURCE_PROP = "source"; //$NON-NLS-1$
@@ -119,19 +119,19 @@ public class ImageItem extends ReportItem
 	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
 
 	/**
-	 * Name of the help text property
+	 * Name of the help text property.
 	 */
 
 	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
 
 	/**
-	 * Name of the help text id property
+	 * Name of the help text id property.
 	 */
 
 	public static final String HELP_TEXT_ID_PROP = "helpTextID"; //$NON-NLS-1$
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 
 	public ImageItem( )

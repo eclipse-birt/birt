@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
  * around the column, use a different background color, etc.</dd>
  * 
  * <dt><strong>Alignment </strong></dt>
- * <dd>how to align items with the column: left, center or right.</li>
+ * <dd>how to align items with the column: left, center or right.</dd>
  * </dl>
  *  
  */

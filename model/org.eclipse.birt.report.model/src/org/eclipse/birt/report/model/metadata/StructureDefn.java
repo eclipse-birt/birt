@@ -35,7 +35,7 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 	}
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 *  
 	 */
 	protected StructureDefn( )

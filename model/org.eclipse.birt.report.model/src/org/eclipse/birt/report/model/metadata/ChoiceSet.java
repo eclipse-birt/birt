@@ -146,12 +146,13 @@ public class ChoiceSet implements Cloneable
 	}
 
 	/**
-	 * Finds a Choice in the <code>ChoiceSet<code> for the given choice name.
+	 * Finds a Choice in the <code>ChoiceSet</code> for the given choice name.
 	 * 
-	 * @param name the name of a Choice.
-	 * @return the instance of the Choice that matches or <code>null</code> if choice
-	 * 	not found. 
-	 *
+	 * @param name
+	 *            the name of a Choice.
+	 * @return the instance of the Choice that matches or <code>null</code> if
+	 *         choice not found.
+	 *  
 	 */
 
 	public Choice findChoice( String name )
@@ -171,12 +172,13 @@ public class ChoiceSet implements Cloneable
 	}
 
 	/**
-	 * Finds a Choice in the <code>ChoiceSet<code> for its display name. For a 
-	 * user defined choice, the display name can be <code>null</code>.
+	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For
+	 * a user defined choice, the display name can be <code>null</code>.
 	 * 
-	 * @param name display name of a Choice.
-	 * @return the instance of the Choice that matches or <code>null</code> if choice
-	 * is not found.
+	 * @param name
+	 *            display name of a Choice.
+	 * @return the instance of the Choice that matches or <code>null</code> if
+	 *         choice is not found.
 	 */
 
 	public Choice findChoiceByDisplayName( String name )
@@ -199,13 +201,15 @@ public class ChoiceSet implements Cloneable
 	}
 
 	/**
-	 * Finds a Choice in the <code>ChoiceSet<code> for its display name. For a 
-	 * user defined choice, the display name can be <code>null</code>.
-	 * @param design
+	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For
+	 * a user defined choice, the display name can be <code>null</code>.
 	 * 
-	 * @param name display name of a Choice.
-	 * @return the instance of the Choice that matches or <code>null</code> if choice
-	 * is not found.
+	 * @param design
+	 *            the report design
+	 * @param name
+	 *            display name of a Choice.
+	 * @return the instance of the Choice that matches or <code>null</code> if
+	 *         choice is not found.
 	 */
 
 	public UserChoice findUserChoiceByDisplayName( ReportDesign design,
@@ -215,7 +219,8 @@ public class ChoiceSet implements Cloneable
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
 			choice = (UserChoice) choices.get( i );
-			String displayName = design.getMessage( choice.getDisplayNameKey( ) );
+			String displayName = design
+					.getMessage( choice.getDisplayNameKey( ) );
 
 			if ( ( displayName != null )
 					&& ( displayName.equalsIgnoreCase( name ) ) )

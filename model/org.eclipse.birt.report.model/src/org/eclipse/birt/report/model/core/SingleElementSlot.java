@@ -89,6 +89,7 @@ public class SingleElementSlot extends ContainerSlot
 	 * Removes the element from this slot.
 	 * 
 	 * @param element
+	 *            the design element to remove
 	 *  
 	 */
 

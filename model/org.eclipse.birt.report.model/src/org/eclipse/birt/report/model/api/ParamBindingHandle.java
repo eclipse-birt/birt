@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.elements.structures.ParamBinding;
  * <dd>a parameter bing has a required parameter name to bind.</dd>
  * 
  * <dt><strong>Expression </strong></dt>
- * <dd>associated an expression with a named input parameter.</li>
+ * <dd>associated an expression with a named input parameter.</dd>
  * </dl>
  *  
  */

@@ -25,7 +25,7 @@ public abstract class AbstractElementRecord extends ActivityRecord
 {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public AbstractElementRecord( )

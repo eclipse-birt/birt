@@ -30,19 +30,16 @@ import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
  * 
  * <dt><strong>Data Type </strong></dt>
  * <dd>a data set parameter has a choice data type: any, integer, string, data
- * time, decimal, float, structure or table.</li>
+ * time, decimal, float, structure or table.</dd>
  * 
  * <dt><strong>Is optional </strong></dt>
  * <dd>whether this parameter is optional.</dd>
- * </dl>
  * 
  * <dt><strong>Is Nullable </strong></dt>
  * <dd>whether the value of this parameter can be nullable.</dd>
- * </dl>
  * 
  * <dt><strong>Is Input </strong></dt>
  * <dd>whether this parameter is an input parameter.</dd>
- * </dl>
  * 
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>

@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.util.ColorUtil;
  * </dd>
  * <dt><strong>Resource Key </strong></dt>
  * <dd>a custom color has an optional display name ID to localize the display
- * name.</li>
+ * name.
  * </dl>
  * 
  * <p>

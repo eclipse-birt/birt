@@ -32,7 +32,7 @@ public abstract class Structure implements IStructure
 {
 
 	/**
-	 * Gets a copy of this structure
+	 * Gets a copy of this structure.
 	 * 
 	 * @return the copied structure.
 	 *  

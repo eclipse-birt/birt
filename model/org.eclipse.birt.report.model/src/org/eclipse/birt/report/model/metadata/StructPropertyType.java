@@ -36,7 +36,7 @@ public class StructPropertyType extends PropertyType
 
 
     /**
-     * Constructor
+     * Constructor.
      */
 
     public StructPropertyType( )

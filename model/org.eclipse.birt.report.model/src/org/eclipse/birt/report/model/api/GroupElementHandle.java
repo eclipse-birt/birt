@@ -259,7 +259,7 @@ public class GroupElementHandle
 
 	/**
 	 * If property is shared by the group of elements, return the corresponding
-	 * <code>GroupPropertyHandle</code>; Otherwise, return <code>null</code>;
+	 * <code>GroupPropertyHandle</code>, otherwise, return <code>null</code>.
 	 * 
 	 * @param propName
 	 *            name of the property needs to be handled.

@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * x-png.</dd>
  * 
  * <dt><strong>Data </strong></dt>
- * <dd>value of the image data in Base64 encoding.</li>
+ * <dd>value of the image data in Base64 encoding.</dd>
  * </dl>
  *  
  */

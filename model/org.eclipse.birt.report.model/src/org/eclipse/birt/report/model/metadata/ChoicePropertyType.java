@@ -32,7 +32,7 @@ public class ChoicePropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.choice"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public ChoicePropertyType( )

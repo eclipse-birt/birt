@@ -26,7 +26,7 @@ public class URIPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.uri"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public URIPropertyType( )

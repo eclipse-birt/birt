@@ -286,7 +286,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * Name option: one of following defined in MetaDataConstants:
 	 * {@link MetaDataConstants#NO_NAME NO_NAME},
 	 * {@link MetaDataConstants#OPTIONAL_NAME OPTIONAL_NAME}, or
-	 * {@link MetaDataConstants#REQUIRED_NAME REQUIRED_NAME}
+	 * {@link MetaDataConstants#REQUIRED_NAME REQUIRED_NAME}.
 	 */
 
 	protected int nameOption = MetaDataConstants.OPTIONAL_NAME;

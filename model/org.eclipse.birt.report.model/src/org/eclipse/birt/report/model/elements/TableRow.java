@@ -60,7 +60,7 @@ public class TableRow extends StyledElement
 	protected ContainerSlot contents = new MultiElementSlot( );
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 
 	public TableRow( )

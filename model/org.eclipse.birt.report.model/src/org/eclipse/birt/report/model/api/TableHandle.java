@@ -72,7 +72,7 @@ public class TableHandle extends ListingHandle
 	}
 
 	/**
-	 * Tests whether to repeat the headings at the top of each page
+	 * Tests whether to repeat the headings at the top of each page.
 	 * 
 	 * @return <code>true</code> if repeat the headings, otherwise
 	 *         <code>false</code>.
@@ -84,7 +84,7 @@ public class TableHandle extends ListingHandle
 	}
 
 	/**
-	 * Sets whether to repeat the headings at the top of each page
+	 * Sets whether to repeat the headings at the top of each page.
 	 * 
 	 * @param value
 	 *            <code>true</code> if repeat the headings, otherwise

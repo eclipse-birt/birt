@@ -71,7 +71,7 @@ public class XMLWriter
 	private Stack pendingElementStack = new Stack( );
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param outputFile
 	 *            the file to write
@@ -90,7 +90,7 @@ public class XMLWriter
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.

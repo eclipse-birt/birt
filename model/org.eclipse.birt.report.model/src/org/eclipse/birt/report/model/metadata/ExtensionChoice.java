@@ -50,7 +50,7 @@ public class ExtensionChoice extends Choice
 	String value = null;
 
 	/**
-	 * Constructs an empty choice
+	 * Constructs an empty choice.
 	 * 
 	 * @param messages
 	 *            the messages provideing localized messages

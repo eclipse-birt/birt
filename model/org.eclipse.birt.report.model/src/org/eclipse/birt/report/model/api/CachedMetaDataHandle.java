@@ -39,7 +39,7 @@ public class CachedMetaDataHandle extends StructureHandle
 	}
 
 	/**
-	 * Get a handle to deal with the cached input parameter list member
+	 * Get a handle to deal with the cached input parameter list member.
 	 * 
 	 * @return a handle to deal with the cached input parameter list member.
 	 * 
@@ -52,7 +52,7 @@ public class CachedMetaDataHandle extends StructureHandle
 	}
 
 	/**
-	 * Get a handle to deal with the cached output parameter list member
+	 * Get a handle to deal with the cached output parameter list member.
 	 * 
 	 * @return a handle to deal with the cached output parameter list member.
 	 * 
@@ -76,7 +76,7 @@ public class CachedMetaDataHandle extends StructureHandle
 	}
 
 	/**
-	 * Get a handle to deal with the cached resuklt set list member
+	 * Get a handle to deal with the cached resuklt set list member.
 	 * 
 	 * @return a handle to deal with the cached result set list member.
 	 */

@@ -26,7 +26,7 @@ public class HTMLPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.html"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public HTMLPropertyType( )

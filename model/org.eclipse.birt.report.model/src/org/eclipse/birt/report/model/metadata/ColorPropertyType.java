@@ -153,7 +153,7 @@ public class ColorPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.color"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public ColorPropertyType( )

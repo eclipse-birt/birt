@@ -33,7 +33,7 @@ public class ExtensionLoader
 {
 
 	/**
-	 * The name of extension point
+	 * The name of extension point.
 	 */
 
 	public static final String EXTENSION_POINT = "org.eclipse.birt.report.model.reportitem"; //$NON-NLS-1$

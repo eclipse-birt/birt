@@ -80,7 +80,7 @@ public class DimensionPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.dimension"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public DimensionPropertyType( )
@@ -161,6 +161,7 @@ public class DimensionPropertyType extends PropertyType
 	 * units specifier. Units can be any of the recognized BIRT units: in, cm,
 	 * mm, pt, pc, px, em, ex or % . If the unit specifier is omitted, use the
 	 * default for the design.</li>
+	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
 	 *  

@@ -68,7 +68,7 @@ public class BooleanPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.boolean"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public BooleanPropertyType( )
@@ -88,7 +88,6 @@ public class BooleanPropertyType extends PropertyType
 	 * <li>An Integer object 0 (false) and non-zero (true).</li>
 	 * <li>A Double,Float or BigDecimal object with int value 0 (false) and
 	 * non-zero (true).</li>
-	 * </li>
 	 * </ul>
 	 * <p>
 	 * Boolean property type is stored as <code>java.lang.Boolean</code>

@@ -32,13 +32,13 @@ public class SimpleMasterPage extends MasterPage
 {
 
 	/**
-	 * The page header slot ID
+	 * The page header slot ID.
 	 */
 
 	public static final int PAGE_HEADER_SLOT = 0;
 
 	/**
-	 * The page footer slot ID
+	 * The page footer slot ID.
 	 */
 
 	public static final int PAGE_FOOTER_SLOT = 1;
@@ -71,13 +71,13 @@ public class SimpleMasterPage extends MasterPage
 	public static final String SHOW_FOOTER_ON_LAST_PROP = "showFooterOnLast"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property 'floating-footer'
+	 * Name of the property 'floating-footer'.
 	 */
 
 	public static final String FLOATING_FOOTER = "floatingFooter"; //$NON-NLS-1$
 
 	/**
-	 * Default Constructor
+	 * Default Constructor.
 	 */
 
 	public SimpleMasterPage( )

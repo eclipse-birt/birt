@@ -41,19 +41,19 @@ public class Label extends ReportItem
 	public static final String TEXT_ID_PROP = "textID"; //$NON-NLS-1$
 
 	/**
-	 * Name of the help text property
+	 * Name of the help text property.
 	 */
 
 	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
 
 	/**
-	 * Name of the help text id property
+	 * Name of the help text id property.
 	 */
 
 	public static final String HELP_TEXT_ID_PROP = "helpTextID"; //$NON-NLS-1$
 
 	/**
-	 * Name of the action property
+	 * Name of the action property.
 	 */
 	
     public static final String ACTION_PROP = "action"; //$NON-NLS-1$

@@ -28,12 +28,11 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * A slot has the following attributes:
  * <p>
  * <li><strong>Name </strong>-- A display name to present to the user</li>
- * <li><strong>ID </strong>-- The internal identifier for the slot.</em>
+ * <li><strong>ID </strong>-- The internal identifier for the slot.</li>
  * <li><strong>Cardinality </strong>-- Whether the slot stores one item or a
  * list of items.</li>
  * <li><strong>Content Types </strong>-- The element type(s) that can appear
  * in the slot.</li>
- * </ul>
  * <p>
  * As with all meta-data objects, the set methods must be called only while
  * building the meta-data, before building the meta-data.

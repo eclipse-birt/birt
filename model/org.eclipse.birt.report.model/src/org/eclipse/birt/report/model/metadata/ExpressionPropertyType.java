@@ -31,7 +31,7 @@ public class ExpressionPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.expression"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public ExpressionPropertyType( )

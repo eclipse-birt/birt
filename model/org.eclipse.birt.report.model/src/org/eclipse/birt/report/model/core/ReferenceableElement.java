@@ -46,13 +46,13 @@ public abstract class ReferenceableElement extends DesignElement
 	{
 
 		/**
-		 * The client element that refers to one referencable element
+		 * The client element that refers to one referencable element.
 		 */
 
 		public DesignElement element;
 
 		/**
-		 * The name of the property that refers to one referencable element
+		 * The name of the property that refers to one referencable element.
 		 */
 
 		public String propName;

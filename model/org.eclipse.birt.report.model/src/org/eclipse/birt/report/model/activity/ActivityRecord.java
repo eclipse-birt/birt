@@ -220,7 +220,7 @@ public abstract class ActivityRecord
 	private int transNo = 0;
 	
     /**
-    * Default constructor
+    * Default constructor.
     */
 	
     public ActivityRecord( )

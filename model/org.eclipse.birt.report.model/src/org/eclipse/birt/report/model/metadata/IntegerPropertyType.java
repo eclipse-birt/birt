@@ -30,7 +30,7 @@ public class IntegerPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.integer"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public IntegerPropertyType( )
@@ -50,8 +50,7 @@ public class IntegerPropertyType extends PropertyType
      * </li>
 	 * <li>String that must evaluate to an integer in either of the two Java
 	 * forms: decimal [1-9][0-9]* or hexadecimal format &[hH]xxxx.</li>
-	 * <li>String that must evaluate to an HTML hexidecimal: #xxxxx.</li>
-	 * </ul>
+	 * <li>String that must evaluate to an HTML hexidecimal: #xxxxx.</li>.
 	 * <p>
 	 * 
 	 * @return object of type Integer or null if value is null..

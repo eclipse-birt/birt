@@ -45,7 +45,6 @@ import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
-import org.eclipse.birt.report.model.elements.TableItem;
 
 ;
 
@@ -182,25 +181,25 @@ import org.eclipse.birt.report.model.elements.TableItem;
  * value is that defined by the most derived ancestor. This rule is similar to
  * the method overriding rules in Java.</dd>
  * 
- * <dt><strong>Named style </strong> </strong></dt>
+ * <dt><strong>Named style </strong></dt>
  * <dd>If an ancestor element explicitly names a style, then the derived
  * element will also use that style (unless the derived element specifies a
  * different style.)</dd>
  * 
- * <dt><strong>Element type </strong> </strong></dt>
+ * <dt><strong>Element type </strong></dt>
  * <dd>Inheritance only works between elements of the same type. One could say
  * that a derived element inherits the element type of the parent element. More
  * precisely, both the parent and derived elements have a type, and the
  * semantics of the application require that the element types be the same. It
  * is an error to extend an element of a different type.</dd>
  * 
- * <dt><strong>User-defined properties </strong> </strong></dt>
+ * <dt><strong>User-defined properties </strong></dt>
  * <dd>The user can define a custom property. All derived elements also have
  * that property.</dd>
  * 
- * <dt><strong>Custom behavior </strong> </strong></dt>
+ * <dt><strong>Custom behavior </strong></dt>
  * <dd>The user can define custom behavior by associating the element with a
- * Java class. Derived elements inherit this behavior.</li>
+ * Java class. Derived elements inherit this behavior.</dd>
  * </dl>
  * <p>
  * 
@@ -564,7 +563,7 @@ public abstract class DesignElement implements IPropertySet
 	public static final int USER_LABEL = 0;
 
 	/**
-	 * The display name, name or metadata name of element
+	 * The display name, name or metadata name of element.
 	 */
 
 	public static final int SHORT_LABEL = 1;
@@ -577,7 +576,7 @@ public abstract class DesignElement implements IPropertySet
 
 	/**
 	 * The max length the display label for every element. If the length exceeds
-	 * this limit, the exceeding part will be shown as "..."
+	 * this limit, the exceeding part will be shown as "...".
 	 */
 	private static final int MAX_DISPLAY_LABEL_LEN = 30;
 
@@ -2165,7 +2164,7 @@ public abstract class DesignElement implements IPropertySet
 	}
 
 	/**
-	 * Returns the value of a property as a number (BigDecimal.)
+	 * Returns the value of a property as a number (BigDecimal).
 	 * 
 	 * @param design
 	 *            the report design

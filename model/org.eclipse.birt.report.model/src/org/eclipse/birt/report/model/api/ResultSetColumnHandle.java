@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.elements.structures.ResultSetColumn;
  * 
  * <dt><strong>Data Type </strong></dt>
  * <dd>a result set column has a choice data type: any, integer, string, data
- * time, decimal, float, structure or table.</li>
+ * time, decimal, float, structure or table.</dd>
  * </dl>
  *  
  */

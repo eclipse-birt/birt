@@ -42,7 +42,7 @@ public class FloatPropertyType extends PropertyType
 	private static final DecimalFormat formatter = new DecimalFormat( "#0.0#" ); //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public FloatPropertyType( )

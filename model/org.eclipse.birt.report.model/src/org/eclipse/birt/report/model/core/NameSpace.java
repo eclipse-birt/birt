@@ -44,7 +44,7 @@ public final class NameSpace implements Cloneable
 	private HashMap names = new HashMap( );
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public NameSpace( )

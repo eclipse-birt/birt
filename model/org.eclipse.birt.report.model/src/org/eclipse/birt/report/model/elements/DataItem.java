@@ -42,6 +42,10 @@ public class DataItem extends ReportItem
 
 	public static final String HELP_TEXT_KEY_PROP = "helpTextID"; //$NON-NLS-1$
 
+	/**
+	 * Name of the action property.
+	 */
+	
     public static final String ACTION_PROP = "action"; //$NON-NLS-1$
       
 	/**

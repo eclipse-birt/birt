@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
 
 /**
- * Parses the abstract property, that is the XML file like:
+ * Parses the abstract property. The XML file is like:
  * 
  * <pre>                                 
  *   &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
@@ -50,25 +50,25 @@ public class AbstractPropertyState extends AbstractParseState
 {
 
 	/**
-	 * The design file parser handler
+	 * The design file parser handler.
 	 */
 
 	protected DesignParserHandler handler = null;
 
 	/**
-	 * The element holding this property
+	 * The element holding this property.
 	 */
 
 	protected DesignElement element = null;
 
 	/**
-	 * The element property name or structure member name
+	 * The element property name or structure member name.
 	 */
 
 	protected String name = null;
 
 	/**
-	 * The structure which holds this property as a member
+	 * The structure which holds this property as a member.
 	 */
 
 	protected IStructure struct = null;

@@ -106,7 +106,7 @@ public class SemanticTriggerDefn
 	}
 
 	/**
-	 * Returns the validator name
+	 * Returns the validator name.
 	 * 
 	 * @return the validator name
 	 */

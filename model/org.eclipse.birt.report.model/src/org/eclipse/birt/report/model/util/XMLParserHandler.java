@@ -62,7 +62,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 	protected ArrayList errors = new ArrayList( );
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public XMLParserHandler( )

@@ -57,7 +57,7 @@ public class IndentableXMLWriter extends XMLWriter
 	private String currentTagName = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param outputFile
 	 *            the file to write
@@ -74,7 +74,7 @@ public class IndentableXMLWriter extends XMLWriter
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.

@@ -109,7 +109,7 @@ public class CustomMsgRecord extends SimpleRecord
 	}
 
 	/**
-	 * Constructs a record to set locale or text for a translation
+	 * Constructs a record to set locale or text for a translation.
 	 * 
      * @param design
      *            the report design

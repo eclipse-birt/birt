@@ -61,7 +61,7 @@ public final class TranslationTable implements Cloneable
 	Map resourceMap = null;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 
 	public TranslationTable( )

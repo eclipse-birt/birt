@@ -28,7 +28,7 @@ public class ScriptPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.script"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public ScriptPropertyType( )

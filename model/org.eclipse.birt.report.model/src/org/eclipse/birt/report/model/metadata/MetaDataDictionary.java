@@ -70,7 +70,7 @@ import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
  * 
  * Meta-data is built-up in a three-step process.
  * <p>
- * <ol>
+ * <ul>
  * <li><strong>Internal tables </strong>-- Some of the meta-data comes from
  * tables defined in code. Such tables exist to define parts of the system that
  * must match Java code, and which are needed to bootstrap the next step.</li>
@@ -493,7 +493,7 @@ public final class MetaDataDictionary
 	}
 
 	/**
-	 * Determines if the meta data dictionary is empty (uninitialized.)
+	 * Determines if the meta data dictionary is empty (uninitialized).
 	 * 
 	 * @return true if empty, false if it contains content
 	 */
@@ -740,7 +740,7 @@ public final class MetaDataDictionary
 	}
 
 	/**
-	 * Return a property value validator given its name
+	 * Return a property value validator given its name.
 	 * 
 	 * @param name
 	 *            name of the value validator.

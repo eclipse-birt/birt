@@ -43,7 +43,7 @@ public class DateTimePropertyType extends PropertyType
 			"yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public DateTimePropertyType( )

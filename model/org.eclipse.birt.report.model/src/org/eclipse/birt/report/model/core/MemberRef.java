@@ -139,12 +139,15 @@ public class MemberRef
 	}
 
 	/**
-     * Reference to a member of a top-level structure.
-     * <p>
+	 * Reference to a member of a top-level structure.
+	 * <p>
 	 * property.member
 	 * 
 	 * @param prop
+	 *            the element property definition which is structure or
+	 *            structure list type
 	 * @param memberName
+	 *            the structure member name of the element property definition
 	 */
 
 	public MemberRef( ElementPropertyDefn prop, String memberName )
@@ -160,18 +163,22 @@ public class MemberRef
 		assert memberDefn != null;
 
 		refType = PROPERTY_MEMBER;
-		member[0] = (StructPropertyDefn)memberDefn;
+		member[0] = (StructPropertyDefn) memberDefn;
 		index[0] = -1;
 		depth = 1;
 	}
 
 	/**
-     * Reference to a member of a top-level structure.
-     * <p>
+	 * Reference to a member of a top-level structure.
+	 * <p>
 	 * property.member
 	 * 
 	 * @param prop
+	 *            the element property definition which is structure or
+	 *            structure list type
 	 * @param memberDef
+	 *            the structure member definition of the element property
+	 *            definition
 	 */
 
 	public MemberRef( ElementPropertyDefn prop, StructPropertyDefn memberDef )
@@ -211,8 +218,8 @@ public class MemberRef
 		assert propDefn.isList( );
 		assert n >= 0;
 
-		StructPropertyDefn memberDefn = (StructPropertyDefn)propDefn.getStructDefn( ).getMember(
-				memberName );
+		StructPropertyDefn memberDefn = (StructPropertyDefn) propDefn
+				.getStructDefn( ).getMember( memberName );
 		assert memberDefn != null;
 
 		refType = PROPERTY_LISTn_MEMBER;
@@ -244,7 +251,7 @@ public class MemberRef
 		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
 		assert propDefn.isList( );
 		assert n >= 0;
-        assert memberDef != null;
+		assert memberDef != null;
 
 		refType = PROPERTY_LISTn_MEMBER;
 		index[0] = n;
@@ -272,7 +279,7 @@ public class MemberRef
 
 		assert ref.depth < 2;
 		assert n >= 0;
-        assert ref.isListRef();
+		assert ref.isListRef( );
 
 		if ( propDefn.isList( ) )
 		{
@@ -405,7 +412,8 @@ public class MemberRef
 
 	public MemberRef( MemberRef ref, String memberName )
 	{
-		this( ref, (StructPropertyDefn)ref.getStructDefn( ).getMember( memberName ) );
+		this( ref, (StructPropertyDefn) ref.getStructDefn( ).getMember(
+				memberName ) );
 	}
 
 	/**
@@ -528,7 +536,7 @@ public class MemberRef
 	/**
 	 * Returns a reference to the parent.
 	 * <p>
-	 * <strong>property.list[n].member <\b>.list[n][.member]
+	 * <strong>property.list[n].member.list[n][member]</strong>
 	 * 
 	 * @return a reference to the parent member
 	 */
@@ -608,8 +616,7 @@ public class MemberRef
 		}
 	}
 
-    
-    /**
+	/**
 	 * Returns the definition of the property portion of the reference.
 	 * 
 	 * @return the property definition
@@ -625,7 +632,7 @@ public class MemberRef
 	 * <p>
 	 * property. <strong>member </strong> <br>
 	 * property.member. <strong>member </strong> <br>
-	 * property.member.list[n]. <strong>member <strong><br>
+	 * property.member.list[n]. <strong>member </strong><br>
 	 * 
 	 * property.list[n]. <strong>member </strong> <br>
 	 * property.list[n].member.list[n]. <strong>member </strong> <br>
@@ -799,14 +806,13 @@ public class MemberRef
 		return depth;
 	}
 
-    
-    /**
+	/**
 	 * Returns the list pointed to by this reference.
 	 * <p>
-     * <strong>property</strong> <br>
+	 * <strong>property </strong> <br>
 	 * property. <strong>list </strong>[n][.member] <br>
-	 * property.list[n].member. <strong>list </strong>[n][.member] 
-     * property.list[n] </strong>.member.member <br>
+	 * property.list[n].member. <strong>list </strong>[n][.member]
+	 * property.list[n] <strong>.member.member </strong> <br>
 	 * 
 	 * property.member. <strong>list </strong>[n][.member] <br>
 	 * 
@@ -856,29 +862,29 @@ public class MemberRef
 		return null;
 	}
 
-    /**
-     * Indicates whether this member reference points to a list.
-     * 
-     * @return true if points to a list.
-     */
-    
-    public boolean isListRef()
-    {
-    	switch( refType )
-        {
-    		case PROPERTY:
-                return propDefn.isList(); 
-            case PROPERTY_MEMBER:
-            case PROPERTY_LISTn_MEMBER:
-                return member[0].isList(); 
-            case PROPERTY_MEMBER_MEMBER:
-            case PROPERTY_MEMBER_LISTn_MEMBER:
-            case PROPERTY_LISTn_MEMBER_LISTn_MEMBER:
-            case PROPERTY_LISTn_MEMBER_MEMBER:
-                return member[1].isList();
-            default:
-                return false;
-        }
-        
-    }
+	/**
+	 * Indicates whether this member reference points to a list.
+	 * 
+	 * @return true if points to a list.
+	 */
+
+	public boolean isListRef( )
+	{
+		switch ( refType )
+		{
+			case PROPERTY :
+				return propDefn.isList( );
+			case PROPERTY_MEMBER :
+			case PROPERTY_LISTn_MEMBER :
+				return member[0].isList( );
+			case PROPERTY_MEMBER_MEMBER :
+			case PROPERTY_MEMBER_LISTn_MEMBER :
+			case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
+			case PROPERTY_LISTn_MEMBER_MEMBER :
+				return member[1].isList( );
+			default :
+				return false;
+		}
+
+	}
 }

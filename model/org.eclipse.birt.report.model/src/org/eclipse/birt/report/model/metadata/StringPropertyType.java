@@ -32,7 +32,7 @@ public class StringPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.string"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public StringPropertyType( )

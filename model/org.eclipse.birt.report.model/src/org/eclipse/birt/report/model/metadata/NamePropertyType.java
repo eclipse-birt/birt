@@ -27,7 +27,7 @@ public class NamePropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.name"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public NamePropertyType( )

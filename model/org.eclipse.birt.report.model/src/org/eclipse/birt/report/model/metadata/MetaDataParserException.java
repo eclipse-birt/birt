@@ -126,14 +126,14 @@ public class MetaDataParserException extends XMLParserException
 
 	/**
 	 * Error code constant indicating that the detail type (choice set name)
-	 * attribute must be specifed for a choice property.
+	 * attribute must be specified for a choice property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED = "CHOICE_TYPE_REQUIRED"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating that the detail type (structure name)
-	 * attribute must be specifed for a structure list property.
+	 * attribute must be specified for a structure list property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED = "STRUCT_TYPE_REQUIRED"; //$NON-NLS-1$
@@ -147,7 +147,7 @@ public class MetaDataParserException extends XMLParserException
 
 	/**
 	 * Error code constant indicating that the detail type (element type name)
-	 * attribute must be specifed for an an element reference property.
+	 * attribute must be specified for an an element reference property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED = "ELEMENT_REF_TYPE_REQUIRED"; //$NON-NLS-1$

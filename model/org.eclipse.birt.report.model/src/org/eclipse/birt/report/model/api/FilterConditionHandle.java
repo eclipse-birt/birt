@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.elements.structures.FilterCondition;
  * 
  * <dt><strong>Value 2 Expression </strong></dt>
  * <dd>a filter condition has an optional value 2 expression of the second
- * comparison value for trinary operators(between, not between).</li>
+ * comparison value for trinary operators(between, not between).</dd>
  * </dl>
  *  
  */

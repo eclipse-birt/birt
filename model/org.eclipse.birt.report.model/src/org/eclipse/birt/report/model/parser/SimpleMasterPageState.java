@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -19,7 +19,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a simple master page.
- * 
+ *  
  */
 
 public class SimpleMasterPageState extends MasterPageState
@@ -29,8 +29,9 @@ public class SimpleMasterPageState extends MasterPageState
 	 * Constructs the simple master page with the design file parser handler.
 	 * 
 	 * @param handler
+	 *            the design file parser handler
 	 */
-	
+
 	public SimpleMasterPageState( DesignParserHandler handler )
 	{
 		super( handler );
@@ -53,7 +54,7 @@ public class SimpleMasterPageState extends MasterPageState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 	 */
-	
+
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_HEADER_TAG ) )
@@ -73,10 +74,10 @@ public class SimpleMasterPageState extends MasterPageState
 	{
 
 		/**
-		 * The marker to identify which header this state is referencing for, the
-		 * header or footer.
+		 * The marker to identify which header this state is referencing for,
+		 * the header or footer.
 		 */
-		private int	page;
+		private int page;
 
 		/**
 		 * Constructor
@@ -94,7 +95,7 @@ public class SimpleMasterPageState extends MasterPageState
 		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 		 */
-		
+
 		public XMLParserHandler getHandler( )
 		{
 			return handler;
@@ -105,7 +106,7 @@ public class SimpleMasterPageState extends MasterPageState
 		 * 
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 		 */
-		
+
 		public AbstractParseState startElement( String tagName )
 		{
 

@@ -35,7 +35,7 @@ public class NumberPropertyType extends PropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.number"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public NumberPropertyType( )

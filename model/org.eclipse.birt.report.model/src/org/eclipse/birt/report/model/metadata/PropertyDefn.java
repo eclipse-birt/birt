@@ -102,7 +102,10 @@ public abstract class PropertyDefn implements IPropertyDefn
 	 * 
 	 * <dt><strong>Structure definition </strong></dt>
 	 * <dd>details holds an object of type <code>StructureDefn</code> that
-	 * defines the structures in the list.</li>
+	 * defines the structures in the list.</dd>
+	 * 
+	 * <dt><strong>Argument List </strong></dt>
+	 * <dd>details holds a list of argument <code>ArgumentDefn</code>.</dd>
 	 * </dl>
 	 */
 
@@ -156,7 +159,7 @@ public abstract class PropertyDefn implements IPropertyDefn
 	}
 
 	/**
-	 * Returns the type of this value, the return can be one of the following
+	 * Returns the type of this value. The return can be one of the following
 	 * constants:
 	 * <p>
 	 * <ul>

@@ -65,7 +65,7 @@ import org.eclipse.birt.report.model.elements.structures.ColumnHint;
  * 
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
- * localize the help text.</li>
+ * localize the help text.</dd>
  * </dl>
  *  
  */

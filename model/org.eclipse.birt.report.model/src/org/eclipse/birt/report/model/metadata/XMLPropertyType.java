@@ -26,7 +26,7 @@ public class XMLPropertyType extends TextualPropertyType
 	private static final String DISPLAY_NAME_KEY = "Property.xml"; //$NON-NLS-1$
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	
 	public XMLPropertyType( )
