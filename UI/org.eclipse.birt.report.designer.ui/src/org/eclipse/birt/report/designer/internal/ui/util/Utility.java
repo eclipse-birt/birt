@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:15 $
  */
 public final class Utility
 {
@@ -34,38 +34,38 @@ public final class Utility
     {
     }
     
-    public static void setProperty(Object editor, String propertyName, Object value) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
+    public static void setProperty(Object obj, String propertyName, Object value) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
     {
-        PropertyDescriptor descriptor = getPropertyDescriptor(editor, propertyName);
+        PropertyDescriptor descriptor = getPropertyDescriptor(obj, propertyName);
         if(descriptor != null)
         {
             Method method = descriptor.getWriteMethod();
             if(method != null)
             {
-                method.invoke(editor, new Object[]{value});
+                method.invoke(obj, new Object[]{value});
             }
         }
     }
     
-    public static Object getProperty(Object editor, String propertyName) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
+    public static Object getProperty(Object obj, String propertyName) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
     {
         Object value = null;
-        PropertyDescriptor descriptor = getPropertyDescriptor(editor, propertyName);
+        PropertyDescriptor descriptor = getPropertyDescriptor(obj, propertyName);
         if(descriptor != null)
         {
             Method method = descriptor.getReadMethod();
             if(method != null)
             {
-                value = method.invoke(editor, null);
+                value = method.invoke(obj, null);
             }
         }
         
         return value;
     }
     
-    private static PropertyDescriptor getPropertyDescriptor(Object editor, String propertyName) throws IntrospectionException
+    private static PropertyDescriptor getPropertyDescriptor(Object obj, String propertyName) throws IntrospectionException
     {
-        PropertyDescriptor[] descriptors = getPropertyDescriptors(editor);
+        PropertyDescriptor[] descriptors = getPropertyDescriptors(obj);
         for(int n = 0; n < descriptors.length; n++)
         {
             if(descriptors[n].getName().equals(propertyName))
@@ -76,9 +76,9 @@ public final class Utility
         return null;
     }
     
-    private static PropertyDescriptor[] getPropertyDescriptors(Object editor) throws IntrospectionException
+    private static PropertyDescriptor[] getPropertyDescriptors(Object obj) throws IntrospectionException
     {
-        BeanInfo info = Introspector.getBeanInfo(editor.getClass());
+        BeanInfo info = Introspector.getBeanInfo(obj.getClass());
         return info.getPropertyDescriptors();
     }
     
