@@ -130,8 +130,8 @@ public class EventObjectCache
         {
             if (!(fBackground instanceof ColorDefinition))
             {
-                DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                    "Cannot draw edge with an undefined color because the fill color is not a solid color");
+                /*DefaultLoggerImpl.instance().log(ILogger.WARNING,
+                    "Cannot draw edge with an undefined color because the fill color is not a solid color");*/
                 return null;
             }
             else
