@@ -14,19 +14,18 @@ package org.eclipse.birt.chart.device;
 import org.eclipse.birt.chart.exception.RenderingException;
 
 /**
- * This interface combines the high and low level notifications provided in the primitive and block rendering
- * interfaces. In addition, it provides an accessor to retrieve the underlying graphics context.
+ * Combines the primitive rendering notifications provided in the primitive and other
+ * convenience methods needed by a device renderer. In addition, it provides an accessor
+ * to retrieve the underlying graphics context on which primitives are being rendered.
  * 
- * Any new device renderer would have to implement this interface for it to transparently build charts via the rendering
- * framework provided.
+ * Any new device renderer would have to implement this interface for it to transparently
+ * build charts via the rendering framework provided.
  * 
- * Note that the device renderer works in conjunction with an Xserver implementation to correctly layout primitives.
- * 
- * @author Actuate Corporation
+ * Note that the device renderer works in conjunction with a display server implementation
+ * to correctly layout primitives.
  */
 public interface IDeviceRenderer extends IPrimitiveRenderer
 {
-
     /**
      * A property name that identifies a device-specific file identifier
      */
@@ -62,17 +61,21 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
     /**
      * Device-specific write-only properties that may be set for each device renderer
      * 
-     * @param sProperty
-     * @param oValue
+     * @param sProperty     The property whose value is to be set
+     * @param oValue        The value associated with the property
      */
     void setProperty(String sProperty, Object oValue);
 
     /**
+     * Returns an instance of the low level graphics context being used to render primitives
+     * 
      * @return An instance of the low level graphics context being used to render primitives
      */
     Object getGraphicsContext();
 
     /**
+     * Returns an instance of the low level display server capable of providing text metrics, screen resolution, etc.
+     * 
      * @return An instance of the low level display server capable of providing text metrics, screen resolution, etc.
      */
     IDisplayServer getDisplayServer();
@@ -92,7 +95,9 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
     void after() throws RenderingException;
 
     /**
-     * @param ex
+     * Notifies a device renderer to present an exception in its context
+     * 
+     * @param ex    The exception to be presented
      */
     void presentException(Exception ex);
 }
