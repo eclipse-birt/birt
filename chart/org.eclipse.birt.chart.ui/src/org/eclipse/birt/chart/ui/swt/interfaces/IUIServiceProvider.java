@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.model.Chart;
 
 /**
@@ -64,8 +66,24 @@ public interface IUIServiceProvider
      * @param chartModel
      *            the model to be validated
      * @param oContext
-     *            the application-specific context associated with the extended chart item 
+     *            the application-specific context associated with the extended chart item
      * @return an array of user-friendly messages indicating problems with the model
      */
     public String[] validate(Chart chartModel, Object oContext);
+
+    /**
+     * Fetches the list of registered keys for externalizing chart content
+     * 
+     * @return List containing available keys for externalized content
+     */
+    public List getRegisteredKeys();
+
+    /**
+     * Fetches the value for the specified key from the properties file appropriate for the current locale
+     * 
+     * @param sKey
+     *            the lookup key for the externalized string
+     * @return the value associated with the key for the current locale, null if resource key is blank
+     */
+    public String getValue(String sKey);
 }

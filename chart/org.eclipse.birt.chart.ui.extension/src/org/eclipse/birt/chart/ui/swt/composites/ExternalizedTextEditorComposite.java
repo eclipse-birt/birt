@@ -10,8 +10,10 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -47,16 +49,25 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public static final int TEXT_CHANGED_EVENT = 1;
 
-    public static final String SEPARATOR = " - ";
+    public static final String SEPARATOR = "=";
+
+    private transient String sKey = null;
 
     private transient String sCurrent = "";
 
-    public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint)
+    private transient List keys = null;
+
+    private transient IUIServiceProvider serviceprovider = null;
+
+    public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint, List keys,
+        IUIServiceProvider serviceprovider)
     {
         super(parent, SWT.NONE);
         this.iStyle = style;
         this.iHeightHint = iHeightHint;
         this.iWidthHint = iWidthHint;
+        this.keys = keys;
+        this.serviceprovider = serviceprovider;
         init();
         placeComponents();
     }
@@ -101,38 +112,39 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     public void setText(String str)
     {
-        sCurrent = str;
+        sKey = getKey(str);
+        sCurrent = getValue(str);
+        txtSelection.setText(sCurrent);
+    }
+
+    public String getText()
+    {
+        return buildString();
+    }
+
+    private String buildString()
+    {
+        return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
+    }
+
+    public String getKey(String str)
+    {
+        int iSeparator = str.indexOf(SEPARATOR);
+        if (iSeparator == -1)
+        {
+            iSeparator = 0;
+        }
+        return str.substring(0, iSeparator);
+    }
+
+    public String getValue(String str)
+    {
         int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
         if (iSeparator == (-1 + SEPARATOR.length()))
         {
             iSeparator = 0;
         }
-        txtSelection.setText(sCurrent.substring(iSeparator));
-    }
-
-    public String getText()
-    {
-        return sCurrent;
-    }
-
-    public String getKey()
-    {
-        int iSeparator = sCurrent.indexOf(SEPARATOR);
-        if (iSeparator == -1)
-        {
-            iSeparator = sCurrent.length();
-        }
-        return sCurrent.substring(0, iSeparator);
-    }
-
-    public String getValue()
-    {
-        int iSeparator = sCurrent.indexOf(SEPARATOR) + SEPARATOR.length();
-        if (iSeparator == (-1 + SEPARATOR.length()))
-        {
-            iSeparator = 0;
-        }
-        return sCurrent.substring(iSeparator);
+        return str.substring(iSeparator);
     }
 
     public void addListener(Listener listener)
@@ -145,7 +157,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         Event event = new Event();
         event.widget = this;
         event.type = TEXT_CHANGED_EVENT;
-        event.data = txtSelection.getText();
+        event.data = buildString();
         for (int iL = 0; iL < vListeners.size(); iL++)
         {
             ((Listener) vListeners.elementAt(iL)).handleEvent(event);
@@ -159,7 +171,14 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
      */
     public void widgetSelected(SelectionEvent e)
     {
-        // Invoke dialog to specify key / value pair for externalized text
+        ExternalizedTextEditorDialog editor = new ExternalizedTextEditorDialog(getShell(), SWT.APPLICATION_MODAL,
+            buildString(), keys, serviceprovider);
+        String sTxt = editor.open();
+        if (sTxt != null)
+        {
+            this.setText(sTxt);
+            fireEvent();
+        }
     }
 
     /*
