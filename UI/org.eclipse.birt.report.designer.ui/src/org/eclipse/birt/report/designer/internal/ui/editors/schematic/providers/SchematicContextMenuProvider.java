@@ -26,7 +26,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditLabelAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
@@ -77,6 +76,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
@@ -241,14 +241,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1
 					&& ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof LabelEditPart )
 			{
-				Object selection = ( (IStructuredSelection) getSelection( ) ).getFirstElement( );
-				if ( selection instanceof LabelEditPart )
-				{
-//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-//							new EditLabelAction( (LabelEditPart) selection ) );
-					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-							getAction( EditLabelAction.ID ));
-				}
+				action = getAction( GEFActionConstants.DIRECT_EDIT );
+				action.setAccelerator( SWT.F2 );
+				action.setText( "Edit" );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						action );
 			}
 
 			if ( firstSelectedElement instanceof RowHandle )

@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditLabelAction;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
@@ -54,8 +55,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		put( SWT.DEL, SWT.DEL, NO_MASK, ActionFactory.DELETE.getId( ) );
 
 		put( KeyStroke.getPressed( SWT.F2, 0 ),
-				actionRegistry.getAction(
-						EditLabelAction.ID ) );
+				actionRegistry.getAction( GEFActionConstants.DIRECT_EDIT) );
 		tableDelgate = new TableCellKeyDelegate( viewer );
 	}
 
@@ -75,7 +75,6 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 			put( KeyStroke.getReleased( character, keyCode, stateMask ), action );
 		}
 	}
-	
 
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler#keyPressed(org.eclipse.swt.events.KeyEvent)
