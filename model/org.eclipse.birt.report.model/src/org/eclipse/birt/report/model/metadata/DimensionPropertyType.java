@@ -111,11 +111,13 @@ public class DimensionPropertyType extends PropertyType
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
-			return null;
+			return null;		
 
 		if ( value instanceof String )
 		{
 			DimensionValue dim = DimensionValue.parseInput( (String) value );
+			if ( dim == null )
+				return null;
 			if ( !StringUtil.isBlank( dim.getUnits( ) ) )
 				return dim;
 		}
@@ -147,7 +149,7 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parse( value );
 
 		if ( dim != null )
-			validateUnits( defn, dim.getUnits( ), value );
+			validateUnits( defn, dim );
 
 		return dim;
 
@@ -176,7 +178,7 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parseInput( value );
 
 		if ( dim != null )
-			validateUnits( defn, dim.getUnits( ), value );
+			validateUnits( defn, dim );
 
 		return dim;
 	}
@@ -207,22 +209,19 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @param defn
 	 *            property definition.
-	 * @param unit
-	 *            unit part of the value.
 	 * @param value
-	 *            the string value of the dimension.
+	 *            the dimension value of the dimension.
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
 	 *  
 	 */
 
-	private void validateUnits( PropertyDefn defn, String unit, String value )
+	private void validateUnits( PropertyDefn defn, DimensionValue value )
 			throws PropertyValueException
 	{
-		if ( StringUtil.isBlank( unit ) )
+		assert value != null;
+		if ( StringUtil.isBlank( value.getUnits() ) )
 		{
-			if ( Style.FONT_SIZE_PROP.equalsIgnoreCase( defn.getName( ) ) )
-				return;
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
 		}
@@ -230,7 +229,7 @@ public class DimensionPropertyType extends PropertyType
 		ChoiceSet units = defn.getAllowedChoices( );
 
 		assert units != null;
-		if ( !units.contains( unit ) )
+		if ( !units.contains( value.getUnits() ) )
 		{
 			// unit not allowed.
 

@@ -29,8 +29,10 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- *                                  
- *    &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ * 
+ *                                   
+ *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *   
  *  
  * </pre>
  * 
@@ -305,7 +307,10 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode )
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
+						.equalsIgnoreCase( errorCode )
+				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED
 						.equalsIgnoreCase( errorCode ) )
+
 			return true;
 		return false;
 	}
