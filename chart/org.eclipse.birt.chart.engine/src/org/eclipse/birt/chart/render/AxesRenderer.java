@@ -379,7 +379,6 @@ public abstract class AxesRenderer extends BaseRenderer
         Bounds boText = BoundsImpl.create(0, 0, 0, 0);
         Anchor anc = null;
         Label la = null;
-        Position po;
         TextRenderEvent tre;
         Orientation or;
         double dOriginalAngle = 0;
@@ -503,7 +502,6 @@ public abstract class AxesRenderer extends BaseRenderer
                 la = mr.getLabel();
                 if (la.isVisible())
                 {
-                    po = mr.getLabelPosition();
                     try
                     {
                         sb.delete(0, sb.length());

@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -766,7 +767,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         xAxisBase.setLabelPosition(Position.BELOW_LITERAL);
         xAxisBase.setOrientation(Orientation.HORIZONTAL_LITERAL);
         xAxisBase.getOrigin().setType(IntersectionType.MIN_LITERAL);
-        xAxisBase.getOrigin().setValue(new Double(0));
+        xAxisBase.getOrigin().setValue(NumberDataElementImpl.create(0));
         xAxisBase.getTitle().setVisible(true);
         xAxisBase.setType(AxisType.TEXT_LITERAL);
 
@@ -780,7 +781,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         yAxisOrthogonal.setLabelPosition(Position.LEFT_LITERAL);
         yAxisOrthogonal.setOrientation(Orientation.VERTICAL_LITERAL);
         yAxisOrthogonal.getOrigin().setType(IntersectionType.MIN_LITERAL);
-        yAxisOrthogonal.getOrigin().setValue(new Double(0));
+        yAxisOrthogonal.getOrigin().setValue(NumberDataElementImpl.create(0));
         yAxisOrthogonal.setType(AxisType.LINEAR_LITERAL);
 
         xAxisBase.getAssociatedAxes().add(yAxisOrthogonal); // ADD THE ORTHOGONAL AXIS TO THE BASE AXIS

@@ -2869,7 +2869,8 @@ public final class PlotWith2DAxes extends PlotContent
             dLength = (i < iTickCount - 1) ? daTickCoordinates[i + 1] - daTickCoordinates[i] : 0;
 
             dpa[i] = new DataPointHints(
-                oDataBase, oDataOrthogonal, seOrthogonal.getSeriesIdentifier(), 
+                oDataBase, oDataOrthogonal, 
+                String.valueOf(seOrthogonal.getSeriesIdentifier()), // TBD: APPLY FORMAT SPECIFIER 
                 seOrthogonal.getDataPoint(), 
                 (seBaseRuntime != null) ? seBaseRuntime.getFormatSpecifier() : null,
                 seOrthogonal.getFormatSpecifier(), lo, dLength, lcl

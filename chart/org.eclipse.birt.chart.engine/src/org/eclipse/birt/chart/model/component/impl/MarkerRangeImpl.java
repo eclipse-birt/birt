@@ -674,7 +674,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
         mr.setEndValue(deEnd);
         mr.setLabel(LabelImpl.create());
 
-        mr.setLabelPosition(Position.INSIDE_LITERAL);
+        //mr.setLabelPosition(Position.INSIDE_LITERAL);
         mr.setLabelAnchor(ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL
             : Anchor.NORTH_WEST_LITERAL);
 

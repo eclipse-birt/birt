@@ -594,9 +594,9 @@ public class LabelImpl extends EObjectImpl implements Label
 
         setBackground(ColorDefinitionImpl.TRANSPARENT());
 
-        final FormatSpecifier fs = AttributeFactory.eINSTANCE.createFormatSpecifier();
+        //final FormatSpecifier fs = AttributeFactory.eINSTANCE.createFormatSpecifier();
         //((FormatSpecifierImpl) fs).initialize();
-        setFormatSpecifier(fs);
+        //setFormatSpecifier(fs);
 
         final Insets ins = AttributeFactory.eINSTANCE.createInsets();
         ((InsetsImpl) ins).set(0, 2, 0, 3);
