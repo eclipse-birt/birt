@@ -152,6 +152,7 @@ public class DataEngineImpl extends DataEngine
 	    Object existingDefn = dataSources.get( dataSource.getName() );
 	    if ( existingDefn != null )
 	    {
+	    	(( DataSourceRuntime ) existingDefn).closeOdiDataSource();
 	        (( DataSourceRuntime ) existingDefn).setDesign( dataSource );
 	    }
 	    else
