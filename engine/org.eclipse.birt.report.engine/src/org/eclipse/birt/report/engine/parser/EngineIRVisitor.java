@@ -89,7 +89,6 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
-import org.eclipse.birt.report.model.api.MultiLineDataHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -103,6 +102,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/03/17 07:57:03 $
+ * @version $Revision: 1.15 $ $Date: 2005/03/18 19:51:20 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -399,7 +399,7 @@ class EngineIRVisitor extends DesignVisitor
 		currentElement = container;
 	}
 
-	public void visitMultiLineDataItem( MultiLineDataHandle handle )
+	public void visitTextDataItem( TextDataHandle handle )
 	{
 		MultiLineItemDesign multiLineItem = new MultiLineItemDesign( );
 
