@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" units="in">
+<page-setup>
+<simple-master-page name="Simple MasterPage"/>
+</page-setup>
+</report>

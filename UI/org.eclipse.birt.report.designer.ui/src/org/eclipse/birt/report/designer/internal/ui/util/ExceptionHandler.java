@@ -178,7 +178,7 @@ public class ExceptionHandler
 							+ ":" //$NON-NLS-1$
 							+ birtException.getLocalizedMessage( ),
 			};
-			reason = ( (BirtException) e ).getErrorCode( )
+			reason = e.getClass( ).getName( )
 					+ " " //$NON-NLS-1$
 					+ MSG_OCURR
 					+ "\n" //$NON-NLS-1$
