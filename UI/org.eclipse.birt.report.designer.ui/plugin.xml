@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.designer.ui"
+   name="BIRT Designer UI"
+   version="1.0.0"
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.designer.ui.ReportPlugin">
+
+   <runtime>
+      <library name="ui.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/jseditor.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.help.base"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
+   </requires>
+   
+   <!-- Extension points -->
+   <extension-point id="browser" name="%designer.preview.preference.browser.extensionPointName" schema="schema/browser.exsd"/>
+   <extension-point id="datasource" name="datasource" schema="schema/datasource.exsd"/>
+   <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
+   
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            icon="icons/data_explorer_view.gif"
+            class="org.eclipse.birt.report.designer.ui.views.data.DataView"
+            category="org.eclipse.birt.report.designer.ui.views.category"
+            name="%DataExplorerView"
+            id="org.eclipse.birt.report.designer.ui.views.data.DataView"/>
+    <category
+            name="%ReportViews"
+            id="org.eclipse.birt.report.designer.ui.views.category"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
+            icon="icons/report.gif"
+            contributorClass="org.eclipse.birt.report.designer.ui.actions.DesignerActionBarContributor"
+            name="%ReportEditor"
+            id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
+            extensions="iard"/>
+   </extension>
+      <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            icon="icons/report_perspective.gif"
+            class="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            name="%ReportPerspective"
+            id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            icon="icons/quick_edit.gif"
+            class="org.eclipse.birt.report.designer.ui.views.attributes.AttributeView"
+            category="org.eclipse.birt.report.designer.ui.views.category"
+            name="%QuickEditView"
+            id="org.eclipse.birt.report.designer.ui.attributes.AttributeView"/>
+   </extension>
+   
+   <!-- ActionSets -->
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Preview"
+            visible="true"
+            id="com.actuate.istudio.ui.actionSet">
+         <action
+               disabledIcon="icons/preview_disabled.gif"
+               hoverIcon="icons/Preview.gif"
+               enablesFor="*"
+               toolbarPath="previewGroup"
+               label="%designer.preview.previewtoolbarmenuaction.label"
+               tooltip="%designer.preview.previewtoolbarmenuaction.label"
+               icon="icons/Preview.gif"
+               class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
+               style="pulldown"
+               id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu">
+            <selection
+                  class="org.eclipse.core.resources.IResource">
+            </selection>
+         </action>
+         <action
+               disabledIcon="icons/preview_pdf_disabled.gif"
+               label="%designer.preview.previewinpdfaction.label"
+               icon="icons/preview_pdf.gif"
+               tooltip="%designer.preview.previewinpdfaction.label"
+               class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
+               menubarPath="file/preview"
+               id="org.eclipse.birt.report.designer.ui.actions.PreviewInPDFAction"/>
+         <action
+               disabledIcon="icons/preview_disabled.gif"
+               label="%designer.preview.previewaction.label"
+               icon="icons/preview.gif"
+               tooltip="%designer.preview.previewaction.label"
+               class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
+               menubarPath="file/preview"
+               id="org.eclipse.birt.report.designer.ui.actions.PreviewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%WizardCategoryName"
+            id="org.eclipse.birt.report.designer.ui.wizard.category"/>
+      <wizard
+            class="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"
+            icon="icons/new_report.gif"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="false"
+            name="%ReportWizard"
+            id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard">
+      <description>%ReportWizardDescription</description>
+      </wizard>
+   </extension>
+   
+   <!-- Popup menu -->
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.iard"
+            id="com.actuate.istudio.ui.publishmenucontribution">
+         <menu
+               label="%designer.preview.previewtoolbarmenuaction.label"
+               id="org.eclipse.birt.report.designer.ui.previewmenu">
+            <separator name="group1"/>
+         </menu>
+         <action
+               enablesFor="1"
+               label="%designer.preview.previewinpdfaction.label"
+               icon="icons/preview_pdf.gif"
+               class="org.eclipse.birt.report.designer.ui.actions.PreviewPopUpMenuAction"
+               menubarPath="org.eclipse.birt.report.designer.ui.previewmenu/group1"
+               id="org.eclipse.birt.report.designer.ui.actions.PreviewInPDFPopupMenuAction"/>
+         <action
+               enablesFor="1"
+               label="%designer.preview.previewaction.label"
+               icon="icons/preview.gif"
+               class="org.eclipse.birt.report.designer.ui.actions.PreviewPopUpMenuAction"
+               menubarPath="org.eclipse.birt.report.designer.ui.previewmenu/group1"
+               id="org.eclipse.birt.report.designer.ui.actions.PreviewPopupMenuAction"/>
+      </objectContribution>
+   </extension>
+
+   <!-- Preference pages -->
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            name="Preview"
+            id="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"/>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
+            name="Preview Server"
+            id="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"/>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
+            name="%preference.birt"
+            id="birt"/>
+   </extension>
+
+   <!-- Preview browsers -->
+   <extension
+         point="org.eclipse.birt.report.designer.ui.browser">
+      <browser
+            factoryclass="org.eclipse.birt.report.designer.internal.ui.browsers.system.SystemBrowserFactory"
+            name="%designer.preview.preference.browser.systemBrowser"
+            id="org.eclipse.birt.report.designer.ui.systembrowser">
+      </browser>
+      <browser
+            factoryclass="org.eclipse.birt.report.designer.internal.ui.browsers.embedded.EmbeddedBrowserFactory"
+            name="%designer.preview.preference.browser.embeddedBrowser"
+            id="org.eclipse.birt.report.designer.ui.embeddedbrowser">
+      </browser>
+      <browser
+            factoryclass="org.eclipse.birt.report.designer.internal.ui.browsers.custom.CustomBrowserFactory"
+            name="%designer.preview.preference.browser.customBrowser"
+            id="org.eclipse.birt.report.designer.ui.custombrowser">
+      </browser>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            name="%cheatsheet.category"
+            id="org.eclipse.birt.report.designer.ui.cheatsheetcategory"/>
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="/templates/simple_listing.xml"
+            name="%cheatsheet.simplelisting"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting"/>
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="templates/grouped_listing.xml"
+            name="%cheatsheet.groupedlisting"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting"/>
+   </extension>
+</plugin>
