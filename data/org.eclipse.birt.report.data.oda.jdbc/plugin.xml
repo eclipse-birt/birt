@@ -7,15 +7,6 @@
    provider-name="Eclipse.org"
    >
    <runtime>
-      <library name="lib/junit.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/oda.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/jtds-0.9.jar">
-         <export name="*"/>
-      </library>
       <library name="oda-jdbc.jar">
          <export name="*"/>
       </library>
