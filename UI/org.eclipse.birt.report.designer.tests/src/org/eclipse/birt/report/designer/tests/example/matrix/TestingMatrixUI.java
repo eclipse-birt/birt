@@ -137,4 +137,11 @@ public class TestingMatrixUI implements IReportItemUI
 				+ handle.getProperty( TEST_PROPERTY[1] ).toString( ) );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#disposeFigure(org.eclipse.birt.report.model.api.ExtendedItemHandle, org.eclipse.draw2d.IFigure)
+	 */
+	public void disposeFigure(ExtendedItemHandle handle, IFigure figure)
+	{
+	}
+
 }

@@ -152,4 +152,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 
 		return bool.booleanValue( );
 	}
+	
+	public void deactivate( )
+	{
+		elementUI.disposeFigure( getExtendedItemHandle( ), getFigure( ) );
+		super.deactivate( );
+	}
 }
