@@ -22,7 +22,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/16 20:16:40 $
  */
 public class ScriptContext
 {
@@ -104,6 +104,7 @@ public class ScriptContext
         Scriptable newScope;
 		try {
 			newScope = context.newObject( scope );
+			newScope.setParentScope(scope);
 			scope = newScope;
 		} catch (EvaluatorException e) {
 			logger.error( e );
