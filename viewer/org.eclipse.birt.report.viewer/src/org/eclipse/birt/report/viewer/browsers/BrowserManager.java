@@ -50,12 +50,12 @@ public class BrowserManager
 	/**
 	 * Embedded browser id
 	 */
-	public static final String BROWSER_ID_EMBEDDED = ViewerPlugin.PLUGIN_ID + ".embeddedbrowser";
+	public static final String BROWSER_ID_EMBEDDED = ViewerPlugin.PLUGIN_ID + ".embeddedbrowser"; //$NON-NLS-1$
 
 	/**
 	 * System browser id
 	 */
-	public static final String BROWSER_ID_SYSTEM = ViewerPlugin.PLUGIN_ID + ".systembrowser";
+	public static final String BROWSER_ID_SYSTEM = ViewerPlugin.PLUGIN_ID + ".systembrowser"; //$NON-NLS-1$
 
 	/**
 	 * Mozilla browser id
@@ -121,7 +121,7 @@ public class BrowserManager
 				.getPluginPreferences( )
 				.getDefaultString( DEFAULT_BROWSER_ID_KEY );
 
-		if ( defBrowserID != null && ( !"".equals( defBrowserID ) ) )
+		if ( defBrowserID != null && ( !"".equals( defBrowserID ) ) ) //$NON-NLS-1$
 		{
 			setDefaultBrowserID( defBrowserID );
 		}
@@ -242,7 +242,7 @@ public class BrowserManager
 				.getPluginPreferences( )
 				.getString( DEFAULT_BROWSER_ID_KEY );
 
-		if ( curBrowserID != null && ( !"".equals( curBrowserID ) ) )
+		if ( curBrowserID != null && ( !"".equals( curBrowserID ) ) ) //$NON-NLS-1$
 		{
 			setCurrentBrowserID( curBrowserID );
 			// may fail if such browser does not exist

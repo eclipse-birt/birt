@@ -166,7 +166,7 @@ public class AppServerWrapper
 				.getPluginPreferences( )
 				.getString( HOST_KEY );
 
-		if ( "".equals( hostAddress ) )
+		if ( "".equals( hostAddress ) ) //$NON-NLS-1$
 		{
 			hostAddress = null;
 		}

@@ -63,11 +63,12 @@ public class CustomBrowser implements IBrowser
 		}
 		catch ( Exception e )
 		{
-			ViewerPlugin.logError( 
-					ViewerPlugin.getFormattedResourceString( "viewer.browser.customBrowser.errorLaunching",
-							new Object[]{url, path} ), e); //$NON-NLS-1$
-			throw new Exception( ViewerPlugin.getFormattedResourceString( "viewer.browser.customBrowser.errorLaunching",
-					new Object[] { url, path } ) ); //$NON-NLS-1$
+			ViewerPlugin.logError( ViewerPlugin
+					.getFormattedResourceString( "viewer.browser.customBrowser.errorLaunching", //$NON-NLS-1$
+							new Object[]{url, path} ), e);
+			throw new Exception( ViewerPlugin
+					.getFormattedResourceString( "viewer.browser.customBrowser.errorLaunching", //$NON-NLS-1$
+							new Object[] { url, path } ) );
 		}
 	}
 

@@ -48,7 +48,8 @@ public class WebViewer
 	 */
 	private static String getBaseURL( )
 	{
-		return "http://" + WebappAccessor.getHost( ) + ":" + WebappAccessor.getPort( )	+ "/viewer/"; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+		return "http://" + WebappAccessor.getHost( ) + ":" //$NON-NLS-1$ //$NON-NLS-2$
+			+ WebappAccessor.getPort( )	+ "/viewer/"; //$NON-NLS-1$
 	}
 	
 	/**
@@ -74,7 +75,8 @@ public class WebViewer
 		/**
 		 * So far, only uri is encoded as utf-8 format 
 		 */
-		return getBaseURL( ) + servletName + "?" + "__uri=" + encodedUri + "&__format=" + format; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+		return getBaseURL( ) + servletName + "?" + "__uri=" //$NON-NLS-1$ //$NON-NLS-2$
+			+ encodedUri + "&__format=" + format; //$NON-NLS-1$
 	}
 
 	/**
