@@ -1976,8 +1976,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, DataSet.AFTER_OPEN_METHOD );
 		property( obj, DataSet.AFTER_CLOSE_METHOD );
 
-		writeStructureList( obj, DataSet.INPUT_PARAMETERS_PROP );
-		writeStructureList( obj, DataSet.OUTPUT_PARAMETERS_PROP );
+		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.PARAM_BINDINGS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
@@ -1994,10 +1993,7 @@ public class DesignWriter extends ElementVisitor
 			writer.attribute( DesignElement.NAME_PROP,
 					DataSet.CACHED_METADATA_PROP );
 
-			writeStructureList( metadata,
-					CachedMetaData.INPUT_PARAMETERS_MEMBER );
-			writeStructureList( metadata,
-					CachedMetaData.OUTPUT_PARAMETERS_MEMBER );
+			writeStructureList( metadata, CachedMetaData.PARAMETERS_MEMBER );
 			writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
 
 			writer.endElement( );

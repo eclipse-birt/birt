@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.elements.structures.FilterCondition;
@@ -97,25 +98,44 @@ public class StructureFactory
 	}
 
 	/**
+	 * Creates an empty data-set parameter structure.
+	 * 
+	 * @return an empty data-set parameter structure
+	 */
+
+	public static DataSetParameter createDataSetParameter( )
+	{
+		return new DataSetParameter( );
+	}
+
+	/**
 	 * Creates an empty output parameter structure.
 	 * 
 	 * @return an empty output parameter structure
+	 * 
+	 * @deprecated by the method {@link #createDataSetParameter()}
 	 */
 
 	public static OutputParameter createOutputParameter( )
 	{
-		return new OutputParameter( );
+		OutputParameter param = new OutputParameter( );
+		param.setIsOutput( true );
+		return param;
 	}
 
 	/**
 	 * Creates an empty input parameter structure.
 	 * 
 	 * @return an empty input parameter structure
+	 * 
+	 * @deprecated by the method {@link #createDataSetParameter()}
 	 */
 
 	public static InputParameter createInputParameter( )
 	{
-		return new InputParameter( );
+		InputParameter param = new InputParameter( );
+		param.setIsInput( true );
+		return param;
 	}
 
 	/**

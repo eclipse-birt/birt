@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -64,8 +67,22 @@ import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
  *             
  *              
  *               
- *                DataSetHandle dataHandle = designHandle
- *                         		findDataSet( &quot;My First Data Set &quot; );
+ *                
+ *                 
+ *                  
+ *                   
+ *                    
+ *                     
+ *                      
+ *                       DataSetHandle dataHandle = designHandle
+ *                                		findDataSet( &quot;My First Data Set &quot; );
+ *                       
+ *                      
+ *                     
+ *                    
+ *                   
+ *                  
+ *                 
  *                
  *               
  *              
@@ -159,18 +176,34 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	/**
 	 * Returns an iterator over the list of input parameters. The iterator
-	 * returns instances of <code>InputParameterHandle</code> that represents
-	 * input parameter object.
+	 * returns instances of <code>DataSetParameterHandle</code> that
+	 * represents input parameter object.
 	 * 
 	 * @return iterator over input parameter definitions.
 	 * @see org.eclipse.birt.report.model.elements.structures.InputParameter
+	 * 
+	 * @deprecated by the method {@link #parametersIterator()}
 	 */
 
 	public Iterator inputParametersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.INPUT_PARAMETERS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
 		assert propHandle != null;
-		return propHandle.iterator( );
+
+		List list = propHandle.getListValue( );
+		if ( list == null )
+			return Collections.EMPTY_LIST.iterator( );
+
+		List retList = new ArrayList( );
+		for ( Iterator iter = propHandle.iterator( ); iter.hasNext( ); )
+		{
+			DataSetParameterHandle paramHandle = (DataSetParameterHandle) iter
+					.next( );
+			if ( paramHandle.isInput( ) )
+				retList.add( paramHandle );
+		}
+
+		return retList.iterator( );
 	}
 
 	/**
@@ -180,11 +213,43 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return iterator over output parameter definitions.
 	 * @see org.eclipse.birt.report.model.elements.structures.OutputParameter
+	 * 
+	 * @deprecated by the method {@link #parametersIterator()}
 	 */
 
 	public Iterator outputParametersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.OUTPUT_PARAMETERS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
+		assert propHandle != null;
+
+		List list = propHandle.getListValue( );
+		if ( list == null )
+			return Collections.EMPTY_LIST.iterator( );
+
+		List retList = new ArrayList( );
+		for ( Iterator iter = propHandle.iterator( ); iter.hasNext( ); )
+		{
+			DataSetParameterHandle paramHandle = (DataSetParameterHandle) iter
+					.next( );
+			if ( paramHandle.isOutput( ) )
+				retList.add( paramHandle );
+		}
+
+		return retList.iterator( );
+	}
+
+	/**
+	 * Returns an iterator over the list of output parameter definitions. The
+	 * iterator returns instances of <code>DataSetParameterHandle</code> that
+	 * represents parameter objects.
+	 * 
+	 * @return iterator over output parameter definitions.
+	 * @see org.eclipse.birt.report.model.elements.structures.DataSetParameter
+	 */
+
+	public Iterator parametersIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}

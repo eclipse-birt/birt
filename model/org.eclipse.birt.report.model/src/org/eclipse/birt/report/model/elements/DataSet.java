@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
@@ -77,13 +80,23 @@ public abstract class DataSet extends ReferenceableElement
 	public static final String ON_FETCH_METHOD = "onFetch"; //$NON-NLS-1$
 
 	/**
+	 * The property name of the data set parameters definitions.
+	 */
+
+	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
+
+	/**
 	 * The property name of the input data set parameters definitions.
+	 * 
+	 * @deprecated by {@link #PARAMETERS_PROP}
 	 */
 
 	public static final String INPUT_PARAMETERS_PROP = "inputParameters"; //$NON-NLS-1$
 
 	/**
 	 * The property name of the output data set parameters definitions.
+	 * 
+	 * @deprecated by {@link #PARAMETERS_PROP}
 	 */
 
 	public static final String OUTPUT_PARAMETERS_PROP = "outputParameters"; //$NON-NLS-1$
@@ -117,13 +130,12 @@ public abstract class DataSet extends ReferenceableElement
 	 */
 
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
-    
+
 	/**
-     * The property name of the cached data set information.
-     */
-    
-    public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
-    
+	 * The property name of the cached data set information.
+	 */
+
+	public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -146,36 +158,43 @@ public abstract class DataSet extends ReferenceableElement
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
-	
+
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
+
 		// Check the data source value is required
-		
-		list.addAll( ValueRequiredValidator.getInstance().validate( design, this, DATA_SOURCE_PROP ) );
+
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+				this, DATA_SOURCE_PROP ) );
 
 		// Check the element reference of dataSource property
 
-		list.addAll( ElementReferenceValidator.getInstance().validate( design, this, DATA_SOURCE_PROP ) );
+		list.addAll( ElementReferenceValidator.getInstance( ).validate( design,
+				this, DATA_SOURCE_PROP ) );
 
 		// Check input parameter structure list
 
-		list.addAll( validateStructureList( design, INPUT_PARAMETERS_PROP ) );
-		list.addAll( validateStructureList( design, OUTPUT_PARAMETERS_PROP ) );
+		//		list.addAll( validateStructureList( design, INPUT_PARAMETERS_PROP )
+		// );
+		//		list.addAll( validateStructureList( design, OUTPUT_PARAMETERS_PROP )
+		// );
+		list.addAll( validateStructureList( design, PARAMETERS_PROP ) );
 		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );
 		list.addAll( validateStructureList( design, COMPUTED_COLUMNS_PROP ) );
 		list.addAll( validateStructureList( design, COLUMN_HINTS_PROP ) );
 		list.addAll( validateStructureList( design, FILTER_PROP ) );
-		
-		list.addAll( DataSetResultSetValidator.getInstance().validate( design, this ) );
 
-		return list; 
+		list.addAll( DataSetResultSetValidator.getInstance( ).validate( design,
+				this ) );
+
+		return list;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -185,5 +204,76 @@ public abstract class DataSet extends ReferenceableElement
 	protected void adjustDeliveryPath( NotificationEvent ev )
 	{
 		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
+	}
+
+	/*
+	 * This method will be removed after M14.
+	 * 
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	public void setProperty( String propName, Object value )
+	{
+		// Do a tricky translation here.
+
+		if ( !INPUT_PARAMETERS_PROP.equals( propName )
+				&& !OUTPUT_PARAMETERS_PROP.equals( propName ) )
+
+		{
+			super.setProperty( propName, value );
+			return;
+		}
+
+		
+		Object obj = super.getLocalProperty( null, PARAMETERS_PROP );
+
+		if ( value instanceof List )
+		{
+			// set isInput and isOutput flag here.
+
+			for ( Iterator iter = ( (List) value ).iterator( ); iter.hasNext( ); )
+			{
+				DataSetParameter param = (DataSetParameter) iter.next( );
+				if ( INPUT_PARAMETERS_PROP.equals( propName ) )
+					param.setIsInput( true );
+				else
+					param.setIsOutput( true );
+			}
+
+			if ( obj == null )
+				super.setProperty( PARAMETERS_PROP, value );
+			else
+			{
+				List list = (List) obj;
+				list.addAll( (List) value );
+			}
+		}
+		else if ( value == null )
+		{
+			if ( obj == null )
+				super.setProperty( PARAMETERS_PROP, value );
+			else
+			{
+				List list = (List) obj;
+				List removedParams = new ArrayList( );
+
+				for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
+				{
+					DataSetParameter param = (DataSetParameter) iter.next( );
+					if ( INPUT_PARAMETERS_PROP.equals( propName )
+							&& param.isInput( ) )
+						removedParams.add( param );
+					if ( OUTPUT_PARAMETERS_PROP.equals( propName )
+							&& param.isOutput( ) )
+						removedParams.add( param );
+				}
+
+				list.removeAll( removedParams );
+			}
+		}
+		else
+			assert false;
 	}
 }

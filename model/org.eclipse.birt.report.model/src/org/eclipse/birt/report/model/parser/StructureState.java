@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.elements.structures.Hide;
 import org.eclipse.birt.report.model.elements.structures.HighlightRule;
@@ -146,8 +147,9 @@ public class StructureState extends AbstractPropertyState
 			propDefn = element.getPropertyDefn( name );
 			if ( propDefn == null )
 			{
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
 				valid = false;
 				return;
 			}
@@ -326,13 +328,18 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( IncludeScript.INCLUDE_SCRIPT_STRUCT.toLowerCase( ),
 				IncludeScript.class );
 
-		structDict.put( InputParameter.STRUCT_NAME.toLowerCase( ),
-				InputParameter.class );
+		// InputParameter and OutputParameter will be removed after M14.
 
-		structDict.put( MapRule.STRUCTURE_NAME.toLowerCase( ), MapRule.class );
+		structDict.put( InputParameter.STRUCT_NAME.toLowerCase( ),
+				DataSetParameter.class );
 
 		structDict.put( OutputParameter.STRUCT_NAME.toLowerCase( ),
-				OutputParameter.class );
+				DataSetParameter.class );
+
+		structDict.put( DataSetParameter.STRUCT_NAME.toLowerCase( ),
+				DataSetParameter.class );
+
+		structDict.put( MapRule.STRUCTURE_NAME.toLowerCase( ), MapRule.class );
 
 		structDict.put( ParamBinding.PARAM_BINDING_STRUCT.toLowerCase( ),
 				ParamBinding.class );

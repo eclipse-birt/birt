@@ -38,38 +38,51 @@ public class CachedMetaDataHandle extends StructureHandle
 		super( element, ref );
 	}
 
-    /**
-     * Get a handle to deal with the cached input parameter list member
-     * 
-     * @return a handle to deal with the cached input parameter list member.
-     */
-    
-    public MemberHandle getInputParameters()
-    {
-    	return getMember( CachedMetaData.INPUT_PARAMETERS_MEMBER );
-    }
-    
+	/**
+	 * Get a handle to deal with the cached input parameter list member
+	 * 
+	 * @return a handle to deal with the cached input parameter list member.
+	 * 
+	 * @deprecated by the method {@link #getParameters()}
+	 */
 
-    /**
-     * Get a handle to deal with the cached output parameter list member
-     * 
-     * @return a handle to deal with the cached output parameter list member.
-     */
-    
-    public MemberHandle getOutputParameters()
-    {
-    	return getMember( CachedMetaData.OUTPUT_PARAMETERS_MEMBER );
-    }
-    
+	public MemberHandle getInputParameters( )
+	{
+		return getMember( CachedMetaData.PARAMETERS_MEMBER );
+	}
 
-    /**
-     * Get a handle to deal with the cached resuklt set list member
-     * 
-     * @return a handle to deal with the cached result set list member.
-     */
-    
-    public MemberHandle getResultSet()
-    {
-    	return getMember( CachedMetaData.RESULT_SET_MEMBER );
-    }
+	/**
+	 * Get a handle to deal with the cached output parameter list member
+	 * 
+	 * @return a handle to deal with the cached output parameter list member.
+	 * 
+	 * @deprecated by the method {@link #getParameters()}
+	 */
+
+	public MemberHandle getOutputParameters( )
+	{
+		return getMember( CachedMetaData.PARAMETERS_MEMBER );
+	}
+
+	/**
+	 * Get a handle to deal with the cached parameter list member.
+	 * 
+	 * @return a handle to deal with the cached parameter list member.
+	 */
+	
+	public MemberHandle getParameters( )
+	{
+		return getMember( CachedMetaData.PARAMETERS_MEMBER );
+	}
+
+	/**
+	 * Get a handle to deal with the cached resuklt set list member
+	 * 
+	 * @return a handle to deal with the cached result set list member.
+	 */
+
+	public MemberHandle getResultSet( )
+	{
+		return getMember( CachedMetaData.RESULT_SET_MEMBER );
+	}
 }

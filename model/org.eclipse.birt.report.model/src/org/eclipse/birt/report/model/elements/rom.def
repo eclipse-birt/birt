@@ -1414,17 +1414,23 @@
     <Member name="name" displayNameID="Structure.ExtendedProperty.name" type="name" isIntrinsic="true" />
     <Member name="value" displayNameID="Structure.ExtendedProperty.value" type="string" isIntrinsic="true" />
   </Structure>
-  <Structure name="OutputParam" displayNameID="Structure.OutputParam">
-    <Member name="position" displayNameID="Structure.OutputParam.position" type="integer" isIntrinsic="true" />
-    <Member name="name" displayNameID="Structure.OutputParam.name" type="string" isIntrinsic="true" />
-    <Member name="dataType" displayNameID="Structure.OutputParam.dataType" type="choice" detailType="columnDataType" isIntrinsic="true" />
-  </Structure>
-  <Structure name="InputParam" displayNameID="Structure.InputParam">
-    <Member name="position" displayNameID="Structure.InputParam.position" type="integer" isIntrinsic="true" />
-    <Member name="name" displayNameID="Structure.InputParam.name" type="string" isIntrinsic="true" />
-    <Member name="dataType" displayNameID="Structure.InputParam.dataType" type="choice" detailType="columnDataType" isIntrinsic="true" />
-    <Member name="isOptional" displayNameID="Structure.InputParam.isOptional" type="boolean" isIntrinsic="true" />
-	<Member name="defaultValue" displayNameID="Structure.InputParam.defaultValue" type="expression" isIntrinsic="true" />
+  <Structure name="DataSetParam" displayNameID="Structure.DataSetParam">
+    <Member name="name" displayNameID="Structure.DataSetParam.name" type="string" isIntrinsic="true" />
+    <Member name="dataType" displayNameID="Structure.DataSetParam.dataType" type="choice" detailType="columnDataType" isIntrinsic="true" /> 
+    <Member name="position" displayNameID="Structure.DataSetParam.position" type="integer" isIntrinsic="true" />
+	<Member name="defaultValue" displayNameID="Structure.DataSetParam.defaultValue" type="expression" isIntrinsic="true" />    
+    <Member name="isOptional" displayNameID="Structure.DataSetParam.isOptional" type="boolean" isIntrinsic="true">
+    	<Default>false</Default>
+	</Member>    	
+	<Member name="isNullable" displayNameID="Structure.DataSetParam.isNullable" type="boolean" isIntrinsic="true">	
+		<Default>false</Default>	
+	</Member>   		
+	<Member name="isInput" displayNameID="Structure.DataSetParam.isInput" type="boolean" isIntrinsic="true">
+		<Default>false</Default>	
+	</Member>   		
+	<Member name="isOutput" displayNameID="Structure.DataSetParam.isOutput" type="boolean" isIntrinsic="true">			
+		<Default>false</Default>	
+	</Member>   		
   </Structure>
   <Structure name="ParamBinding" displayNameID="Structure.ParamBinding">
     <Member name="paramName" displayNameID="Structure.ParamBinding.paramName" type="name" isIntrinsic="true" />
@@ -1485,8 +1491,7 @@
     <Member name="fileName" displayNameID="Structure.IncludeLibrary.fileName" type="string" isIntrinsic="true" />
   </Structure>
   <Structure name="CachedMetaData" displayNameID="Structure.CachedMetaData">
-    <Member name="inputParameters" displayNameID="Structure.CachedMetaData.inputParameters" type="structure" isList="true" detailType="InputParam"/>
-    <Member name="outputParameters" displayNameID="Structure.CachedMetaData.outputParameters" type="structure" isList="true" detailType="OutputParam"/>
+    <Member name="parameters" displayNameID="Structure.CachedMetaData.parameters" type="structure" isList="true" detailType="DataSetParam"/>
     <Member name="resultSet" displayNameID="Structure.CachedMetaData.resultSet" type="structure" isList="true" detailType="ResultSetColumn"/>		
   </Structure>
   <Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="report">
@@ -1609,8 +1614,7 @@
     <Method name="onFetch" displayNameID="Element.DataSet.onFetch" toolTipID="Element.DataSet.onFetch.toolTip" />
     <Method name="afterOpen" displayNameID="Element.DataSet.afterOpen" toolTipID="Element.DataSet.afterOpen.toolTip" />
     <Method name="afterClose" displayNameID="Element.DataSet.afterClose" toolTipID="Element.DataSet.afterClose.toolTip" />
-    <Property name="inputParameters" type="structure" isList="true" detailType="InputParam" displayNameID="Element.DataSet.inputParameters" />
-    <Property name="outputParameters" type="structure" isList="true" detailType="OutputParam" displayNameID="Element.DataSet.outputParameters" />
+    <Property name="parameters" type="structure" isList="true" detailType="DataSetParam" displayNameID="Element.DataSet.parameters" />
     <Property name="paramBindings" type="structure" isList="true" detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" />
     <Property name="resultSet" type="structure" isList="true" detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" />
     <Property name="computedColumns" type="structure" isList="true" detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" />
