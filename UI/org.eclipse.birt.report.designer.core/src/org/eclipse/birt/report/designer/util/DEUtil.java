@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
@@ -721,11 +720,11 @@ public class DEUtil
 		}
 		if ( model instanceof DataSetItemModel )
 		{
-			return IReportElementConstants.DATA_SET_PREFIX
-					+ "[\""
-					+ ( (DataSetHandle) ( (DataSetItemModel) model ).getParent( ) ).getName( )
-					+ "\"]."
-					+ IReportElementConstants.DATA_COLUMN_PREFIX
+			return /* Roll back because engine hasn't support full path yet
+				    * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
+				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
+				    * ).getName( ) + "\"]." +
+				    */IReportElementConstants.DATA_COLUMN_PREFIX
 					+ "[\""
 					+ ( (DataSetItemModel) model ).getName( )
 					+ "\"]";
