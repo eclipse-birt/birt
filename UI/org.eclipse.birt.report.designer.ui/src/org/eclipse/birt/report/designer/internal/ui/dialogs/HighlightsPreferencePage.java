@@ -302,9 +302,11 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 			HighlightRuleHandle handle = (HighlightRuleHandle) ti.getData( );
 
-			ti.setForeground( 0,
-					ColorManager.getColor( handle.getColor( )
-							.getRGB( ) ) );
+			if ( handle.getColor( ).isSet( ) )
+			{
+				ti.setForeground( 0, ColorManager.getColor( handle.getColor( )
+						.getRGB( ) ) );
+			}
 			ti.setText( 0, provider.getColumnText( handle, 0 ) );
 			ti.setText( 1, provider.getColumnText( handle, 1 ) );
 		}
