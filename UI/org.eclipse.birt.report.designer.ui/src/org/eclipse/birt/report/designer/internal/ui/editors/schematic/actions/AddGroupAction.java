@@ -23,18 +23,15 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *  Add group action
+ * Add group action
  */
 
 public class AddGroupAction extends SelectionAction
@@ -48,6 +45,7 @@ public class AddGroupAction extends SelectionAction
 
 	/**
 	 * Constructor
+	 * 
 	 * @param part
 	 */
 	public AddGroupAction( IWorkbenchPart part )
@@ -76,38 +74,29 @@ public class AddGroupAction extends SelectionAction
 		CommandStack stack = getActiveCommandStack( );
 		stack.startTrans( STACK_MSG_ADD_GROUP );
 
-		ReportDesignHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		ListingHandle parentHandle = null;
 		GroupHandle groupHandle = null;
-
 		if ( getTableEditPart( ) != null )
 		{
-			parentHandle = (ListingHandle) getTableEditPart( ).getModel( );
-			groupHandle = reportDesignHandle.getElementFactory( )
-					.newTableGroup( );
+			groupHandle = getTableEditPart( ).insertGroup( );
 		}
 		else
 		{
-			parentHandle = (ListingHandle) getListEditPart( ).getModel( );
-			groupHandle = reportDesignHandle.getElementFactory( )
-					.newListGroup( );
+			groupHandle = getListEditPart( ).insertGroup( );
 		}
 
 		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ) );
-		dialog.setDataSetList( DEUtil.getDataSetList( parentHandle ) );
+		dialog.setDataSetList( DEUtil.getDataSetList( groupHandle ) );
 		dialog.setInput( groupHandle );
 
 		if ( dialog.open( ) == Window.OK )
 		{
 			try
 			{
-				parentHandle.getGroups( ).add( groupHandle );
 				stack.commit( );
 			}
-			catch ( SemanticException e )
+			catch ( Exception e )
 			{
 				stack.rollbackAll( );
 				ExceptionHandler.handle( e );
