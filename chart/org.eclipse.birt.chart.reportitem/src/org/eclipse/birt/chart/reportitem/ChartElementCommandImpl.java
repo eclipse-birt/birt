@@ -25,8 +25,6 @@ public class ChartElementCommandImpl extends ElementCommand
     public ChartElementCommandImpl()
     {
         super();
-        // TODO Auto-generated constructor stub
-        int i = 0;
     }
 
     /*
@@ -36,7 +34,6 @@ public class ChartElementCommandImpl extends ElementCommand
      */
     public void execute()
     {
-        int i = 0;
     }
 
     /*
