@@ -46,14 +46,13 @@ public final class DriverLoader
 				StringTokenizer st = new StringTokenizer( classPath, ";" ); //$NON-NLS-1$
 				while ( st.hasMoreTokens( ) )
 				{
-					classPathEntries.add( new URL( "file:///" //$NON-NLS-1$
-							+ escapeCharacters( st.nextToken( ) ) ) );
+					 classPathEntries.add( new URL( "file", //$NON-NLS-1$
+	                        null, -1, escapeCharacters( st.nextToken( ) ) ) );
 				}
 			}
 
-			URL[] urlClasspath = new URL[classPathEntries.size( )];//(URL[])
-			// (classPathEntries.toArray(
-			// URL[] ));
+			URL[] urlClasspath = new URL[classPathEntries.size( )];
+			
 			for ( int i = 0; i < classPathEntries.size( ); i++ )
 			{
 				urlClasspath[i] = (URL) classPathEntries.get( i );

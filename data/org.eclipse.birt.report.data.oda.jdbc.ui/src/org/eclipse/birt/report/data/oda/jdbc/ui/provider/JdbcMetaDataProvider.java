@@ -410,10 +410,7 @@ public class JdbcMetaDataProvider
 
 						extraNameCharacters = metaData.getExtraNameCharacters();
 						
-						if( extraNameCharacters != null )
-						{
-							
-						}
+						
 						
 						searchEscapeCharacter = metaData.getSearchStringEscape();
 						
@@ -441,9 +438,11 @@ public class JdbcMetaDataProvider
 			String endDelimitor = delimitors[1];
 			
 			
+			
         	String sqlStatement = null;
-        	String SELECT = " SELECT ";
+        
         	String SELECT_COLUMN_SPACING = "        ";
+        	String SELECT = " SELECT ";
         	if ( tableList != null && columnList != null)
         	{
         		
@@ -473,6 +472,7 @@ public class JdbcMetaDataProvider
        			fromAndWhereClause = getFromAndOnClause(tableList, joinList, startDelimitor, endDelimitor, schemaSupported);
         		sqlStatement = selectClause.toString() + "\n" + fromAndWhereClause;
         	}
+        	
         	
         	return sqlStatement;
         }
@@ -542,138 +542,6 @@ public class JdbcMetaDataProvider
         		createJoinClause(joins, fromClause, startDelimitor, endDelimitor, tableList);
         	}
         	
-    		/*
-        	if(joins != null && joins.size()  > 0)
-        	{
-
-        		
-	        	Iterator joinIterator = joins.iterator();
-	        	JoinImpl prevJoin = null;
-	        	while(joinIterator.hasNext())
-	        	{
-	
-	        		
-	        		boolean addParanthesis = false;
-	        		JoinImpl join = (JoinImpl)joinIterator.next();
-	        		JoinCondition joinCondition = join.getCondition();
-	        		if(joinCondition == null)
-	        		{
-	        			continue;
-	        		}
-	        		
-	        		String leftTable = join.getLeft().getFullyQualifiedName();
-	        		String rightTable = join.getRight().getFullyQualifiedName();
-	        		
-	        		String leftColumn = joinCondition.getLeftExpr();
-	        		String rightColumn = joinCondition.getRightExpr();
-	        	
-	    	
-	        		int joinType = joinCondition.getJoinType();
-	        		int operation = joinCondition.getOperationType();
-	        		
-	        		
-	        		
-	        		if( ! fromTables.contains(leftTable) && 
-	    	        	! fromTables.contains(rightTable)	)
-	    	        {
-		        		addParanthesis = true;
-	    	        }
-	        		
-	        		if( addParanthesis )
-	        		{
-	        			fromClause.append("(");
-	        		}
-	        		
-	        		if(!fromTables.contains(leftTable))
-	    			{
-	    				fromTables.add(leftTable);
-	    				fromClause.append(quoteName(leftTable, startDelimitor, endDelimitor ));
-	    			}
-	        		
-	    			boolean addAndCondition = false;
-	    			if ( prevJoin !=null &&
-	    				 prevJoin.getLeft() == join.getLeft() &&
-	    				 prevJoin.getRight() == join.getRight() &&
-						 prevJoin.getCondition().getJoinType() == join.getCondition().getJoinType() )
-	    			{
-	    				addAndCondition = true;
-	    			}
-
-	    			if ( ! addAndCondition )
-	    			{
-		        		if((joinType == -1) || (joinType == JoinType.INNER))
-		        		{
-		       				fromClause.append(" INNER JOIN ");
-		        		}
-		        		else if( joinType == JoinType.LEFT_OUTER )
-		        		{
-		        			 fromClause.append(" LEFT OUTER JOIN ");
-		        		}
-		        		else if( joinType == JoinType.RIGHT_OUTER )
-		        		{
-		        			fromClause.append(" RIGHT OUTER JOIN ");
-		        		}
-		        		else if ( joinType == JoinType.FULL_OUTER)
-		        		{
-		        			fromClause.append(" FULL OUTER JOIN ");
-		        		}
-	    			}
-	        		
-	    			if(!fromTables.contains(rightTable))
-	    			{
-	    				fromTables.add(rightTable);
-	    				fromClause.append(quoteName(rightTable, startDelimitor, endDelimitor));
-	    			}
-
-					
-					
-	    			
-	    			if ( addAndCondition )
-	    			{
-	    				fromClause.append("( ");
-	    				fromClause.append( " AND ");
-	    			}
-	    			else
-	    			{
-	    				// ON condition
-	    				fromClause.append(" ON ");
-	    			}
-					
-		        	// Appending the Operator
-		        	String leftColumnFullName = quoteName(leftTable, startDelimitor, endDelimitor ) + "." +
-											   quoteName(leftColumn, startDelimitor, endDelimitor);
-		        	String rightColumnFullName = quoteName(rightTable, startDelimitor, endDelimitor)+ "." + 
-										          quoteName(rightColumn, startDelimitor, endDelimitor);
-		        	
-		        	fromClause.append(leftColumnFullName);
-		        	fromClause.append(" ");
-		        	fromClause.append(joinCondition.getOperatorString());
-		        	fromClause.append(" ");
-		        	fromClause.append(rightColumnFullName);
-		        	fromClause.append(" ");
-		        	
-		        	
-		        	if( addParanthesis )
-		        	{
-		        		fromClause.append(")");
-		        	}
-		        	
-		        	if ( addAndCondition )
-		        	{
-		        		addAndCondition = false;
-		        		fromClause.append(")");
-						
-		        	}
-		        	
-		        	fromClause.append("\n");
-		        	
-		        	prevJoin = join;
-		        		
-	        	}
-	        	*/
-	        	
-	       
-        	//}
         	
         	String fromClauseStr = "";
         	if( fromClause.length() > 0)
@@ -781,6 +649,11 @@ public class JdbcMetaDataProvider
 		{
 			delimitors[0] = "[";
 			delimitors[1] = "]";
+		}
+		else if ( "Informix Dynamic Server".equalsIgnoreCase(databaseName))
+		{
+			delimitors[0] = null;
+			delimitors[1] = null;
 		}
 		
 		
