@@ -119,7 +119,20 @@ public class ExtensionLoader
 		if ( extensions != null )
 		{
 			for ( int i = 0; i < extensions.length; i++ )
-				loadExtension( extensions[i] );
+			{
+				try
+				{
+					loadExtension( extensions[i] );
+				}
+				catch ( ExtensionException e )
+				{
+					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+				}
+				catch ( MetaDataException e )
+				{
+					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+				}
+			}
 		}
 	}
 
