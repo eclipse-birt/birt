@@ -17,7 +17,10 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseTransform;
+import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
@@ -40,7 +43,7 @@ import org.eclipse.ui.PlatformUI;
  * from the data set.
  * It allows both multiple and single selection. The default is single selection.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/21 23:45:04 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/24 04:48:32 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -193,6 +196,46 @@ public class SelectValueDialog extends BaseDialog
         }
         catch (Exception e)
         {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    private void populateList1()
+    {
+        try
+        {
+            //Execute the query and populate this list
+            OdaDataSetDesign design = (OdaDataSetDesign)DataSetManager.getCurrentInstance().getDataSetDesign(getDataSetHandle(), true, false);
+            design.addComputedColumn(new ComputedColumn("selectValue", getExpression()));
+            QueryDefinition query = DataSetManager.getCurrentInstance().getQueryDefinition(design);
+            ScriptExpression expression = new ScriptExpression("row[\"selectValue\"]");
+            
+            GroupDefinition defn = new GroupDefinition();
+            defn.setKeyExpression(expression.getText());
+            query.setUsesDetails(false);
+            query.addGroup(defn);
+            query.addExpression(expression, BaseTransform.BEFORE_FIRST_ROW);
+            
+            IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance().getPreparedQuery(query);
+            IQueryResults results = preparedQuery.execute(null);
+            selectValueList.removeAll();
+            if(results != null)
+            {
+                IResultIterator iter = results.getResultIterator();
+                if(iter != null)
+                {
+                    while(iter.next())
+                    {
+                        selectValueList.add(iter.getString(expression));
+                    }
+                }
+                
+                results.close();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
             ExceptionHandler.handle(e);
         }
     }

@@ -32,6 +32,8 @@ public class DataSetItemModel
     
     private transient String helpText = null;
     
+    private transient boolean isComputedColumn = false;
+    
 
 	/**
 	 * @return the dataType.
@@ -182,5 +184,19 @@ public class DataSetItemModel
     public void setDataSetColumnName(String dataSetColumnName)
     {
         this.dataSetColumnName = dataSetColumnName;
+    }
+    /**
+     * @return Returns the isComputedColumn.
+     */
+    public boolean isComputedColumn()
+    {
+        return isComputedColumn;
+    }
+    /**
+     * @param isComputedColumn The isComputedColumn to set.
+     */
+    public void setComputedColumn(boolean isComputedColumn)
+    {
+        this.isComputedColumn = isComputedColumn;
     }
 }

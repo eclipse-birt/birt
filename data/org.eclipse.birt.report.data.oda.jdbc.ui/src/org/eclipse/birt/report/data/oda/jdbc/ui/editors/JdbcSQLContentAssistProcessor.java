@@ -21,11 +21,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
 import org.eclipse.birt.report.designer.ui.editors.sql.ISQLSyntax;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.InputParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
@@ -43,7 +40,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/24 04:48:35 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/28 00:48:06 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -88,14 +85,7 @@ public class JdbcSQLContentAssistProcessor implements
 				//Check the character before the offset
 				char ch = viewer.getDocument( ).getChar( offset - 1 );
 
-				//If this is a ? then get the list of parameters
-				if ( ch == '?' ) //$NON-NLS-1$
-				{
-					lastProposals = getParameterCompletionProposals( viewer,
-							offset );
-					return lastProposals;
-				}
-				else if ( ch == '.' ) //$NON-NLS-1$
+				if ( ch == '.' ) //$NON-NLS-1$
 				{
 					lastProposals = getTableOrColumnCompletionProposals( viewer,
 							offset );
@@ -133,7 +123,7 @@ public class JdbcSQLContentAssistProcessor implements
 	public char[] getCompletionProposalAutoActivationCharacters( )
 	{
 		return new char[]{
-				'?', '.'
+				'.'
 		}; //$NON-NLS-1$
 	}
 
@@ -370,32 +360,6 @@ public class JdbcSQLContentAssistProcessor implements
 
 		return viewer.getDocument( )
 				.get( startOffset, offset - startOffset + 1 );
-	}
-
-	/**
-	 * @param viewer
-	 * @param offset
-	 * @return
-	 */
-	private ICompletionProposal[] getParameterCompletionProposals(
-			ITextViewer viewer, int offset )
-	{
-		//Retrieve the list of parameters from the nandle
-		PropertyHandle parameters = handle.getPropertyHandle( DataSet.INPUT_PARAMETERS_PROP );
-		Iterator iter = parameters.iterator( );
-		ArrayList items = new ArrayList( );
-		while ( iter.hasNext( ) )
-		{
-			InputParameterHandle parameter = (InputParameterHandle) iter.next( );
-			String name = parameter.getName( );
-
-			CompletionProposal proposal = new CompletionProposal( name,
-					offset,
-					0,
-					name.length( ) );
-			items.add( proposal );
-		}
-		return (ICompletionProposal[]) items.toArray( new ICompletionProposal[]{} );
 	}
 
 	private String stripQuotes( String string )
