@@ -34,6 +34,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * values that are identical for all items. Finally, return an indication of
  * whether all elements are of the same type.
  * <p>
+ * This class also supports a collection of elements contains some objects that
+ * are not a <code>DesignElementHandle</code> or its subclass. For this case,
+ * <code>getCommonProperties</code> always returns an empty list.
+ * <p>
  * For BIRT UI usage, the attributes view will go blank if the providing
  * elements are not of the same type, the property sheet will show the common
  * properties(including user property definitions).
@@ -44,7 +48,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * Note that the Model special handling of the case where all elements are the
  * same type: in this case, by definition, all BIRT-defined properties are the
  * same. (User-defined properties may differ.)
- *  
  */
 
 public class GroupElementHandle
@@ -70,25 +73,17 @@ public class GroupElementHandle
 	 * @param design
 	 *            the report design
 	 * @param elements
-	 *            List of handles to design elements, the contents of it should
-	 *            be <code>DesignElementHandle</code>
-	 * 
+	 *            a list of handles of design elements. If a item is not
+	 *            <code>DesignElementHandle</code>, it is ignored.
 	 * @see DesignElementHandle
 	 */
 
 	public GroupElementHandle( ReportDesign design, List elements )
 	{
 		this.design = design;
-		this.elements = elements;
-
 		assert elements != null;
 
-		Iterator iter = elements.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Object o = iter.next( );
-			assert o instanceof DesignElementHandle;
-		}
+		this.elements = elements;
 	}
 
 	/**
@@ -132,24 +127,38 @@ public class GroupElementHandle
 	/**
 	 * Indicates that if the given elements are of the same definition. Elements
 	 * are considered of same type if their element definitions are identical.
+	 * <p>
+	 * If elements have different definitions. Even the same element type, the
+	 * return value is <code>false</code>. For example, if the list contains
+	 * an <code>OdaDataSource</code> and a <code>OdaDataSource</code>, this
+	 * method returns <code>false</code>.
 	 * 
 	 * @return <code>true</code> if the given elements are of the same type;
-	 *         return <code>false</code> if elements are of different type or
-	 *         the given collection contains no elements.
+	 *         return <code>false</code> if elements are of different element
+	 *         types, or the given list is empty, or the list contains any
+	 *         object that is not an instance of
+	 *         <code>DesignElementHandle</code>.
 	 */
 
 	public boolean isSameType( )
 	{
-		Iterator iter = elements.iterator( );
-		if ( !iter.hasNext( ) )
+		if ( elements.size( ) == 0 )
 			return false;
 
-		IElementDefn baseDefn = ( (DesignElementHandle) iter.next( ) ).getDefn( );
-		while ( iter.hasNext( ) )
+		IElementDefn baseDefn = null;
+
+		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			IElementDefn elemDefn = ( (DesignElementHandle) iter.next( ) )
-					.getDefn( );
-			if ( !elemDefn.equals( baseDefn ) )
+			Object item = elements.get( i );
+			if ( !( item instanceof DesignElementHandle ) )
+				return false;
+
+			IElementDefn elemDefn = ( (DesignElementHandle) item ).getDefn( );
+
+			if ( baseDefn == null )
+				baseDefn = elemDefn;
+
+			if ( elemDefn != baseDefn )
 				return false;
 		}
 
@@ -160,34 +169,35 @@ public class GroupElementHandle
 	 * Returns the common properties shared by the given group of
 	 * elements(including user properties). Contents of the list is element
 	 * property definitions. If elements do not share any common property,
-	 * return a list containing with no contents.
+	 * return an empty list.
 	 * 
 	 * @return the common properties shared by the given group of elements. If
-	 *         elements do not share any common property or there is no element
-	 *         in the given collection, return a blank list.
+	 *         elements do not share any common property, or the given list is
+	 *         empty, or the list contains any item that is not an instance of
+	 *         <code>DesignElementHandle</code>, return an empty list.
 	 */
 
 	public final List getCommonProperties( )
 	{
-		int size = elements.size( );
+		List commonProps = Collections.EMPTY_LIST;
 
-		if ( size == 0 )
-			return Collections.EMPTY_LIST;
-		else if ( size == 1 )
-			return ( (DesignElementHandle) elements.get( 0 ) ).getElement( )
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			Object item = elements.get( i );
+
+			if ( !( item instanceof DesignElementHandle ) )
+				return Collections.EMPTY_LIST;
+
+			List elemProps = ( (DesignElementHandle) item ).getElement( )
 					.getPropertyDefns( );
 
-		List commonProps = ( (DesignElementHandle) elements.get( 0 ) )
-				.getElement( ).getPropertyDefns( );
-		for ( int i = 1; i < size; i++ )
-		{
-			if ( commonProps.size( ) == 0 )
-				break;
+			if ( i == 0 )
+				commonProps = elemProps;
+			else
+				commonProps = findInCommon( commonProps, elemProps );
 
-			List elemProps = ( (DesignElementHandle) elements.get( i ) )
-					.getElement( ).getPropertyDefns( );
-
-			commonProps = findInCommon( commonProps, elemProps );
+			if ( commonProps.isEmpty( ) )
+				return Collections.EMPTY_LIST;
 		}
 
 		return commonProps;
@@ -295,7 +305,6 @@ public class GroupElementHandle
 	 *         all the elements have the same value. Return null if the property
 	 *         is not a common property or elements have different values for
 	 *         this property.
-	 * 
 	 * @see GroupPropertyHandle#getStringValue()
 	 */
 
@@ -320,7 +329,6 @@ public class GroupElementHandle
 	 * @return <code>true</code> if the group of element share the same value.
 	 *         Return <code>false</code> if the property is not a common
 	 *         property or elements have different values for this property.
-	 *  
 	 */
 
 	public final boolean shareSameValue( String propName )

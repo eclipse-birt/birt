@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 
 /**
  * A handle for working with a top-level property of a collection of elements.
@@ -193,7 +194,7 @@ public class GroupPropertyHandle
 	 * @return the property definition.
 	 */
 
-	public ElementPropertyDefn getPropertyDefn( )
+	public IElementPropertyDefn getPropertyDefn( )
 	{
 		return this.propDefn;
 	}

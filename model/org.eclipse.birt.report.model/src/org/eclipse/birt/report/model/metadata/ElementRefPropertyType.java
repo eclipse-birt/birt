@@ -85,11 +85,9 @@ public class ElementRefPropertyType extends PropertyType
 	 * @return the corresponding <code>ElementRefValue</code>, it will be
 	 *         resolved if the target element is found in the namespace. Return
 	 *         <code>null</code> if value is null.
-	 * 
 	 * @throws PropertyValueException
 	 *             if the target element is of different meta definition as the
 	 *             one defined in the <code>defn</code>.
-	 *  
 	 */
 
 	public Object validateValue( ReportDesign design, PropertyDefn defn,
@@ -98,7 +96,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		ElementDefn targetDefn = (ElementDefn)defn.getTargetElementType( );
+		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
 			String name = StringUtil.trimString( (String) value );
@@ -154,7 +152,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		return new ElementRefValue( target );
 	}
-	
+
 	/**
 	 * Validates the element value.
 	 * 
@@ -191,13 +189,15 @@ public class ElementRefPropertyType extends PropertyType
 	 * 
 	 * @return the element name of the referenced element, return
 	 *         <code>null</code> if value is null;
-	 *  
 	 */
 
 	public String toString( ReportDesign design, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
+
+		if ( value instanceof String )
+			return (String) value;
 
 		return ( (ElementRefValue) value ).getName( );
 	}
@@ -220,7 +220,7 @@ public class ElementRefPropertyType extends PropertyType
 	{
 		if ( ref.isResolved( ) )
 			return;
-		ElementDefn targetDefn = (ElementDefn)defn.getTargetElementType( );
+		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
 		DesignElement target = ns.getElement( ref.getName( ) );
 		if ( target != null )

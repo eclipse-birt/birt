@@ -1910,22 +1910,22 @@
     </Property>
     <PropertyGroup displayNameID="Element.MasterPage.margin">
       <Property name="topMargin" displayNameID="Element.MasterPage.topMargin" type="dimension">
-        <Default>1in</Default>
+        <Default>0.5in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="leftMargin" displayNameID="Element.MasterPage.leftMargin" type="dimension">
-        <Default>1in</Default>
+        <Default>0.5in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="bottomMargin" displayNameID="Element.MasterPage.bottomMargin" type="dimension">
-        <Default>1in</Default>
+        <Default>0.5in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property name="rightMargin" displayNameID="Element.MasterPage.rightMargin" type="dimension">
-        <Default>1in</Default>
+        <Default>0.5in</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
