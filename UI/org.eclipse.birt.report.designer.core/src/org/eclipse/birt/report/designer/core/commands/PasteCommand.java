@@ -228,6 +228,10 @@ public class PasteCommand extends Command
 	 */
 	public boolean canExecute( )
 	{
+		if ( cloneElement == null )
+		{
+			return false;
+		}
 		DesignElementHandle childHandle = sourceHandle;
 		if ( childHandle == null )
 		{

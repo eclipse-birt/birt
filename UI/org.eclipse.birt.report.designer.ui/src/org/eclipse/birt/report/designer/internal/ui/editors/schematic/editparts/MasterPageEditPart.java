@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
@@ -29,8 +30,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
  * Master Page editor
@@ -128,7 +131,7 @@ public class MasterPageEditPart extends ReportElementEditPart
 				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
-		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( Style.BACKGROUND_COLOR_PROP ));
+		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( Style.BACKGROUND_COLOR_PROP ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		refreshBackground( (MasterPageHandle) getModel( ) );
@@ -161,9 +164,9 @@ public class MasterPageEditPart extends ReportElementEditPart
 }
 
 /**
- * Provide getTargetEditPart for GEF framework. When the user click on magin
+ * Provide getTargetEditPart for GEF framework. When the user click on margin
  * area of master page, the GEF framework need to iterator on installed edit
- * policies of target editpart to get the target edir part. This simple class is
+ * policies of target editpart to get the target edit part. This simple class is
  * written for this target and can avoid NULL pointer exception.
  */
 
@@ -184,4 +187,27 @@ class MasterPageEditPolicy extends GraphicalEditPolicy
 			return getHost( );
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editpolicies.AbstractEditPolicy#getCommand(org.eclipse.gef.Request)
+	 */
+	public Command getCommand( Request request )
+	{
+		if ( REQ_ADD.equals( request.getType( ) ) )
+			return getAddCommand( (ChangeBoundsRequest) request );
+
+		return super.getCommand( request );
+	}
+
+	/**
+	 * @param request
+	 */
+	protected Command getAddCommand( ChangeBoundsRequest request )
+	{
+		//Returns a invalid command to disable the whole request
+		return new PasteCommand( null, null, null );
+	}
+
 }
