@@ -253,4 +253,13 @@ public class QueryImpl extends EObjectImpl implements Query
         return q;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.data.Query#isDefined()
+     */
+    public final boolean isDefined()
+    {
+        final String sDefinition = getDefinition();
+        return sDefinition != null && sDefinition.trim().length() != 0;
+    }
+
 } //QueryImpl

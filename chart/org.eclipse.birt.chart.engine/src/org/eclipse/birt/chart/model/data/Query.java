@@ -70,4 +70,10 @@ public interface Query extends EObject
      */
     EList getRules();
 
+    /**
+     * 
+     * @return
+     */
+    boolean isDefined();
+    
 } // Query
