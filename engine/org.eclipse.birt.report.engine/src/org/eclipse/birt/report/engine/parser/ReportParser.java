@@ -12,12 +12,10 @@
 package org.eclipse.birt.report.engine.parser;
 
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -30,7 +28,7 @@ import org.eclipse.birt.report.model.api.SessionHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/23 07:33:53 $
  */
 public class ReportParser
 {
@@ -54,43 +52,16 @@ public class ReportParser
 	 *            design file
 	 * @return created report IR, null if exit any errors.
 	 */
-	public Report parse( String name, InputStream in ) throws EngineException
+	public Report parse( String name, InputStream in ) throws DesignFileException
 	{
 		// Create new design session
 		SessionHandle sessionHandle = DesignEngine.newSession( Locale
 				.getDefault( ) );
 
 		// Obtain design handle
-		ReportDesignHandle designHandle = null;
-		try
-		{
-			designHandle = sessionHandle.openDesign( name, in );
-		}
-		catch ( DesignFileException dfe )
-		{
-			if (logger.isErrorEnabled())
-			{
-				logger.error( "parser exception", dfe );
-			}
-			throw new EngineException(dfe);
-		}
-
-		if ( designHandle.getErrorList( ).isEmpty( ) )
-		{
-			return parse( designHandle );
-		}
-
-		// output the error message into logger
-		if ( logger.isErrorEnabled( ) )
-		{
-			Iterator iter = designHandle.getErrorList( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object error = iter.next( );
-				logger.error( error );
-			}
-		}
-		throw new EngineException("report contains fatal errors");
+		ReportDesignHandle designHandle = sessionHandle.openDesign( name, in );
+	
+		return parse( designHandle );
 	}
 
 	/**

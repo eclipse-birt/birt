@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/17 07:58:02 $
+ * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
  */
 public class Report
 {
@@ -482,5 +482,10 @@ public class Report
 	public void setBasePath( String basePath )
 	{
 		this.basePath = basePath;
+	}
+	
+	public List getErrors()
+	{
+		return this.reportDesign.handle().getErrorList();
 	}
 }

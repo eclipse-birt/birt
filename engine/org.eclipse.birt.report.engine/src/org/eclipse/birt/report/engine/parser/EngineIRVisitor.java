@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/17 07:58:02 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/17 09:10:04 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -156,6 +156,8 @@ class EngineIRVisitor extends DesignVisitor
 	 * Factory IR created by this visitor
 	 */
 	protected Report report;
+	
+	protected ReportDesignHandle handle;
 
 	/**
 	 * constructor
@@ -166,7 +168,8 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	EngineIRVisitor( ReportDesignHandle handle )
 	{
-		super( handle );
+		super(  );
+		this.handle = handle;
 	}
 
 	/**
@@ -177,8 +180,8 @@ class EngineIRVisitor extends DesignVisitor
 	public Report translate( )
 	{
 		report = new Report( );
-		report.setReportDesign( design );
-		visitReportDesign( design.handle( ) );
+		report.setReportDesign(handle.getDesign() );
+		apply(handle);
 		return report;
 	}
 
@@ -464,7 +467,7 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
 					.next( );
-			SelectionChoice selectionChoice = new SelectionChoice( design );
+			SelectionChoice selectionChoice = new SelectionChoice( handle.getDesign() );
 			selectionChoice.setLabel( selection.getLabelKey( ), selection
 					.getLabel( ) );
 			selectionChoice.setValue( selection.getValue( ) );
