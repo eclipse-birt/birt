@@ -12,20 +12,22 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
-import org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessor;
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
 import org.eclipse.birt.report.engine.content.StyledElementContent;
+import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
+import org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessor;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
+import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
@@ -38,7 +40,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/18 05:40:20 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/23 06:50:04 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -119,6 +121,11 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * Dow e need to save image files in temp location?
 	 */
 	private boolean saveImgFile = false;
+
+	/**
+	 * A <code>HashMap</code> object that maps a style name to actual output name of the style.
+	 */
+	private HashMap styleNameMapping = new HashMap( );
 
 	/**
 	 * Create a new <code>HTMLReportEmitter</code> object to output all the
@@ -206,9 +213,9 @@ public class HTMLReportEmitter implements IReportEmitter
 			return null;
 
 		//TODO: Make this implementation more generic
-		if ( type.equals( "image" ) )
+		if ( type.equals( "image" ) ) //$NON-NLS-1$
 			return imageEmitter;
-		else if ( type.equals( "text" ) )
+		else if ( type.equals( "text" ) ) //$NON-NLS-1$
 			return textEmitter;
 		else
 			return null;
@@ -255,7 +262,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startReport( Report report )
 	{
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 		}
@@ -287,26 +294,60 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 		else
 		{
+			ArrayList styleList = new ArrayList( );
+			int styleNum = 0;
+			int m;
 			for ( int n = 0; n < report.getStyleCount( ); n++ )
 			{
 				styleBuffer.delete( 0, styleBuffer.capacity( ) );
 				style = report.getStyle( n );
-				if ( style != null && style.entrySet( ).size( ) > 0 )
+				if ( style != null )
 				{
-					AttributeBuilder.buildStyle( styleBuffer, style, this );
-					if ( styleBuffer.length( ) > 0 )
+					if ( style.entrySet( ).size( ) == 0 )
 					{
-						if ( !hasStyle )
+						styleNameMapping.put( style.getName( ), null );
+					}
+					else
+					{
+						StyleDesign tempStyle;
+						for ( m = 0; m < styleNum; m++ )
 						{
-							hasStyle = true;
-							writer.openTag( "style" ); //$NON-NLS-1$
-							writer.attribute( "type", //$NON-NLS-1$
-									"text/css" ); //$NON-NLS-1$
+							tempStyle = (StyleDesign) styleList.get( m );
+							if ( style.equals( tempStyle ) )
+							{
+								styleNameMapping.put( style.getName( ),
+										tempStyle.getName( ) );
+								break;
+							}
 						}
 
-						writer
-								.style( style.getName( ), styleBuffer
+						if ( m == styleNum )
+						{
+							AttributeBuilder.buildStyle( styleBuffer, style,
+									this );
+							if ( styleBuffer.length( ) > 0 )
+							{
+								styleList.add( style );
+								styleNum++;
+								styleNameMapping.put( style.getName( ), style
+										.getName( ) );
+
+								if ( !hasStyle )
+								{
+									hasStyle = true;
+									writer.openTag( "style" ); //$NON-NLS-1$
+									writer.attribute( "type", //$NON-NLS-1$
+											"text/css" ); //$NON-NLS-1$
+								}
+
+								writer.style( style.getName( ), styleBuffer
 										.toString( ) );
+							}
+							else
+							{
+								styleNameMapping.put( style.getName( ), null );
+							}
+						}
 					}
 				}
 			}
@@ -327,7 +368,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endReport( )
 	{
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
 		}
@@ -359,7 +400,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endBody( )
 	{
-		if ( logger.isTraceEnabled() )
+		if ( logger.isTraceEnabled( ) )
 		{
 			logger.trace( "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		}
@@ -368,7 +409,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	}
 
 	/**
-	 * @return
+	 * @return the <code>Report</code> object.
 	 */
 	public Report getReport( )
 	{
@@ -417,7 +458,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	}
 
 	/**
-	 * @return
+	 * @return the <code>saveImgFile</code> flag.
 	 */
 	public boolean needSaveImgFile( )
 	{
@@ -443,5 +484,14 @@ public class HTMLReportEmitter implements IReportEmitter
 	{
 		// TODO Auto-generated method stub
 		return OUTPUT_FORMAT_HTML;
+	}
+
+	/**
+	 * @param name the original style name
+	 * @return the actual output style name
+	 */
+	public String getMappedStyleName( String name )
+	{
+		return (String) styleNameMapping.get( name );
 	}
 }
