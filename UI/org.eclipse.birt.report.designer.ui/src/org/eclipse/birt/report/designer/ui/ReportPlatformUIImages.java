@@ -154,7 +154,7 @@ public class ReportPlatformUIImages
 				ICONS_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_STYLE, ICONS_PATH
-				+ "styles.gif" ); //$NON-NLS-1$
+				+ "style.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TABLE, ICONS_PATH
 				+ "table.gif" ); //$NON-NLS-1$
@@ -337,6 +337,11 @@ public class ReportPlatformUIImages
 				ICONS_PATH + "parameters.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ "refresh.gif" ); //$NON-NLS-1$
+		
+		//Auto Text Icon
+		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH
+				+ "autotext.gif" ); //$NON-NLS-1$
+		
 	}
 
 	/**

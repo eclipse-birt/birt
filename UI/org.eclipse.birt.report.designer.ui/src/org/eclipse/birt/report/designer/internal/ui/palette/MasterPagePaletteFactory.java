@@ -15,14 +15,15 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Factory to populate Master Page graphical editor palette root.
@@ -79,9 +80,8 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 		PaletteRoot root = BasePaletteFactory.createPalette( );
 		root.addAll( createCategories( ) );
 		root.add( createAutoTextDrawer( ) );
-		
-		IExtension extension = new IExtension.Stub( ) 
-		{
+
+		IExtension extension = new IExtension.Stub( ) {
 
 			public String getExtendsionIdentify( )
 			{
@@ -101,91 +101,79 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	{
 		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_AUTOTEXT,
 				AUTOTEXT_LABEL,
-				null );		
+				null );
 		List entries = new ArrayList( );
 
-		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_PAGE,
+		CombinedTemplateCreationEntry combined = createAutoText( AUTOTEXT_PAGE,
 				AUTOTEXT_TOOLTIP_PAGE,
-				IReportElementConstants.AUTOTEXT_PAGE,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_PAGE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_PAGE );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_AUTHOR_PAGE_DATE,
+		combined = createAutoText( AUTOTEXT_AUTHOR_PAGE_DATE,
 				AUTOTEXT_TOOLTIP_AUTHOR_PAGE_DATE,
-				IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				new GridToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_CONFIDENTIAL_PAGE,
+		combined = createAutoText( AUTOTEXT_CONFIDENTIAL_PAGE,
 				AUTOTEXT_TOOLTIP_CONFIDENTIAL_PAGE,
-				IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				new GridToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_DATE,
+		combined = createAutoText( AUTOTEXT_DATE,
 				AUTOTEXT_TOOLTIP_DATE,
-				IReportElementConstants.AUTOTEXT_DATE,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_DATE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_DATE );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_CREATED_ON,
+		combined = createAutoText( AUTOTEXT_CREATED_ON,
 				AUTOTEXT_TOOLTIP_CREATED_ON,
-				IReportElementConstants.AUTOTEXT_CREATEDON,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_CREATEDON ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_CREATEDON );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_CREATED_BY,
+		combined = createAutoText( AUTOTEXT_CREATED_BY,
 				AUTOTEXT_TOOLTIP_CREATED_BY,
-				IReportElementConstants.AUTOTEXT_CREATEDBY,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_CREATEDBY ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_CREATEDBY );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_FILENAME,
+		combined = createAutoText( AUTOTEXT_FILENAME,
 				AUTOTEXT_TOOLTIP_FILENAME,
-				IReportElementConstants.AUTOTEXT_FILENAME,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_FILENAME ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_FILENAME );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_LAST_PRINTED,
+		combined = createAutoText( AUTOTEXT_LAST_PRINTED,
 				AUTOTEXT_TOOLTIP_LAST_PRINTED,
-				IReportElementConstants.AUTOTEXT_LASTPRINTED,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_LASTPRINTED ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_LASTPRINTED );
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( AUTOTEXT_PAGE_X_OF_Y,
+		combined = createAutoText( AUTOTEXT_PAGE_X_OF_Y,
 				AUTOTEXT_TOOLTIP_PAGE_X_OF_Y,
-				IReportElementConstants.AUTOTEXT_PAGEXOFY,
-				new ReportElementFactory( IReportElementConstants.AUTOTEXT_PAGEXOFY ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				IReportElementConstants.AUTOTEXT_PAGEXOFY );
 		entries.add( combined );
 
-		category .addAll( entries );
-		return category ;
+		category.addAll( entries );
+		return category;
+	}
+
+	private static CombinedTemplateCreationEntry createAutoText( String label,
+			String shortDesc, Object template )
+	{
+		AbstractToolHandleExtends preHandle = null;
+		if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( template )
+				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equals( template ) )
+		{
+			preHandle = new GridToolExtends( );
+		}
+		else
+		{
+			preHandle = new TextToolExtends( );
+		}
+		ImageDescriptor icon = ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_AUTOTEXT );
+		CombinedTemplateCreationEntry entry = new ReportCombinedTemplateCreationEntry( label,
+				shortDesc,
+				template,
+				new ReportElementFactory( template ),
+				icon,
+				icon,
+				preHandle );
+		return entry;
 	}
 }

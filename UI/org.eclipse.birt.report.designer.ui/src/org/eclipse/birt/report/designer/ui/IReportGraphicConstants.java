@@ -42,7 +42,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_DATA_SET = ReportDesignConstants.DATA_SET_ELEMENT;
 
 	public final static String ICON_ELEMENT_DATA_SOURCE = ReportDesignConstants.DATA_SOURCE_ELEMENT;
-	
+
 	public final static String ICON_ELEMENT_EXTENDED_ITEM = ReportDesignConstants.EXTENDED_ITEM;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
@@ -97,16 +97,16 @@ public interface IReportGraphicConstants
 	public final static String ICON_NODE_FOOTER = "Footer"; //$NON-NLS-1$
 
 	public final static String ICON_NODE_GROUPS = "Groups"; //$NON-NLS-1$
-	
+
 	public final static String ICON_NODE_GROUP_HEADER = "Group Header"; //$NON-NLS-1$
-	
+
 	public final static String ICON_NODE_GROUP_FOOTER = "Group Footer"; //$NON-NLS-1$
-	
+
 	//icons for layout
 	public final static String ICON_LAYOUT_NORMAL = "Layout Normal"; //$NON-NLS-1$
-	
+
 	public final static String ICON_LAYOUT_MASTERPAGE = "Layout Master Page"; //$NON-NLS-1$
-	
+
 	public final static String ICON_LAYOUT_RULER = "Layout Ruler"; //$NON-NLS-1$
 
 	// add image constants for border
@@ -124,7 +124,7 @@ public interface IReportGraphicConstants
 
 	// add image constants for chart
 	public final static String ICON_CHART = "Chart icon"; //$NON-NLS-1$
-	
+
 	// missing image icon
 	public final static String ICON_MISSING_IMG = "Missing image";
 
@@ -140,6 +140,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_DATA_COLUMN = "DataColumn"; //$NON-NLS-1$
 
 	//auto text icon
+	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
+
 	public final static String ICON_AUTOTEXT_PAGE = "Page"; //$NON-NLS-1$
 
 	public final static String ICON_AUTOTEXT_DATE = "Date"; //$NON-NLS-1$
@@ -214,7 +216,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ATTRIBUTE_LEFT_MARGIN = MasterPage.LEFT_MARGIN_PROP;
 
 	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPage.RIGHT_MARGIN_PROP;
-	
+
 	//Preview editer icons
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters";//$NON-NLS-1$	
 

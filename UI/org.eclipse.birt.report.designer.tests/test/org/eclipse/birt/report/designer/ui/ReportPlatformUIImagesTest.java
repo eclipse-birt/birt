@@ -97,6 +97,7 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_DATA_COLUMN,
 
 				//auto text icon
+				IReportGraphicConstants.ICON_AUTOTEXT,
 				//IReportGraphicConstants.ICON_AUTOTEXT_PAGE,
 				//IReportGraphicConstants.ICON_AUTOTEXT_DATE,
 				//IReportGraphicConstants.ICON_AUTOTEXT_CREATEDON,
