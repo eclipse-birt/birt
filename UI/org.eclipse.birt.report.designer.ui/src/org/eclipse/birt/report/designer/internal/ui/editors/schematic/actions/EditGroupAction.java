@@ -58,9 +58,9 @@ public class EditGroupAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.Action#isEnabled()
 	 */
-	public  boolean isEnabled( )
+	public boolean isEnabled( )
 	{
-		return true;
+		return !DEUtil.getDataSetList( handle ).isEmpty( );
 	}
 
 	/*

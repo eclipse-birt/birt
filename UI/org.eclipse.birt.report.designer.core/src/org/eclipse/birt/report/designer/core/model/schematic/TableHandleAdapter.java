@@ -360,8 +360,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Get GUI infromation of row. 
-	 * For CSS table support auto layout, the GUI infor is different with model info.
+	 * Get GUI infromation of row. For CSS table support auto layout, the GUI
+	 * infor is different with model info.
+	 * 
 	 * @param row
 	 * @return
 	 */
@@ -456,8 +457,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				.getCellHandleAdapter( retValue )
 				.getRowNumber( ) != rowNumber
 				|| HandleAdapterFactory.getInstance( )
-				.getCellHandleAdapter( retValue )
-				.getColumnNumber( ) != columnNumber )
+						.getCellHandleAdapter( retValue )
+						.getColumnNumber( ) != columnNumber )
 		{
 			retValue = null;
 		}
@@ -481,8 +482,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Calculates table layout size.
-	 * For table supports auto layout, the layout size need to be calculated when drawing.
+	 * Calculates table layout size. For table supports auto layout, the layout
+	 * size need to be calculated when drawing.
+	 * 
 	 * @return
 	 */
 	public Dimension calculateSize( )
@@ -516,6 +518,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Adjust size of table layout.
+	 * 
 	 * @param size
 	 *            is all figure size
 	 * @throws SemanticException
@@ -1431,6 +1434,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Gets the cell handle copoy to support row/column insert.
+	 * 
 	 * @param cellHandle
 	 * @return
 	 * @throws SemanticException
@@ -1459,12 +1463,18 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Provides insert group function.
+	 * 
 	 * @return
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public TableGroupHandle insertGroup( ) throws ContentException, NameException
+	public TableGroupHandle insertGroup( ) throws ContentException,
+			NameException
 	{
+		if ( DEUtil.getDataSetList( getTableHandle( ) ).isEmpty( ) )
+		{
+			return null;
+		}
 		transStar( TRANS_LABEL_INSERT_GROUP );
 
 		RowHandle header = getTableHandle( ).getElementFactory( ).newTableRow( );
@@ -1486,6 +1496,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Provides remove group function
+	 * 
 	 * @throws SemanticException
 	 *  
 	 */
@@ -1507,6 +1518,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Insert row in model
+	 * 
 	 * @param id
 	 * @throws ContentException
 	 * @throws NameException
@@ -1524,6 +1536,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Delete row in model
+	 * 
 	 * @param id
 	 * @throws SemanticException
 	 */
@@ -1565,6 +1578,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Check if the slot handle contains specified id.
+	 * 
 	 * @param id
 	 * @return
 	 */

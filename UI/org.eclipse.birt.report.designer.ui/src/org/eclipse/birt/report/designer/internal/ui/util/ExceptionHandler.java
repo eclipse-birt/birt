@@ -214,7 +214,7 @@ public class ExceptionHandler
 	 * @param style
 	 *            the style of the message box
 	 */
-	public static void openMeesageBox( String title, String message, int style )
+	public static void openMessageBox( String title, String message, int style )
 	{
 		MessageBox box = new MessageBox( PlatformUI.getWorkbench( )
 				.getDisplay( )
@@ -235,6 +235,6 @@ public class ExceptionHandler
 	 */
 	public static void openErrorMessageBox( String title, String errorMessage )
 	{
-		openMeesageBox( title, errorMessage, SWT.ICON_ERROR );
+		openMessageBox( title, errorMessage, SWT.ICON_ERROR );
 	}
 }
