@@ -8,7 +8,7 @@
    >
 
    <runtime>
-      <library name="chartadapter.jar">
+      <library name="reportitem.jar">
          <export name="*"/>
       </library>
    </runtime>

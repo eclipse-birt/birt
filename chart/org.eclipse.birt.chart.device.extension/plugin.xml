@@ -8,7 +8,7 @@
    >
 
    <runtime>
-      <library name="device-extensions.jar">
+      <library name="device-extension.jar">
          <export name="*"/>
       </library>
    </runtime>

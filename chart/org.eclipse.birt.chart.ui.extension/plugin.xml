@@ -8,7 +8,7 @@
    >
 
    <runtime>
-      <library name="ui-extensions.jar">
+      <library name="ui-extension.jar">
          <export name="*"/>
       </library>
    </runtime>
