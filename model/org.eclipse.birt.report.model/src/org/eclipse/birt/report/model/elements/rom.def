@@ -1585,7 +1585,7 @@
   <Element name="ExtendedDataSource" javaClass="org.eclipse.birt.report.model.elements.ExtendedDataSource" displayNameID="Element.ExtendedDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Property name="driverName" type="string" displayNameID="Element.ExtendedDataSource.driverName" />
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSource.publicDriverProperties" />
-    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSource.privateDriverProperties" />
+    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSource.privateDriverProperties" isVisible="false"/>
   </Element>
   <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" />
@@ -1605,7 +1605,7 @@
     <Property name="computedColumns" type="structure" isList="true" detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" />
     <Property name="columnHints" type="structure" isList="true" detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" />
     <Property name="filter" type="structure" isList="true" detailType="FilterCond" displayNameID="Element.DataSet.filter" />
-	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" />
+	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isVisible="false" />
   </Element>
   <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSet.open" toolTipID="Element.ScriptDataSet.open.toolTip" />
@@ -1620,9 +1620,9 @@
     </Property>
     <Property name="type" type="string" displayNameID="Element.ExtendedDataSet.type" />
     <Property name="resultSetName" type="string" displayNameID="Element.ExtendedDataSet.resultSetName" />
-    <Property name="privateDriverDesignState" type="string" displayNameID="Element.ExtendedDataSet.privateDriverDesignState" />
+    <Property name="privateDriverDesignState" type="string" displayNameID="Element.ExtendedDataSet.privateDriverDesignState" isVisible="false"/>
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSet.publicDriverProperties" />
-    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSet.privateDriverProperties" />
+    <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.ExtendedDataSet.privateDriverProperties" isVisible="false"/>
     <Method name="queryScript" displayNameID="Element.ExtendedDataSet.queryScript" toolTipID="Element.ExtendedDataSet.queryScript.toolTip" returnType="String" />
   </Element>
   <Element name="Parameter" displayNameID="Element.Parameter" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="true" hasStyle="false" nameSpace="parameter" isNameRequired="true">

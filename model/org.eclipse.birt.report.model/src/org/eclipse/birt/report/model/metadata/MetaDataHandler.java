@@ -80,6 +80,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String VALIDATOR_ATTRIB = "validator"; //$NON-NLS-1$
 	private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 	private static final String NATIVE_ATTRIB = "native"; //$NON-NLS-1$
+	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -747,6 +748,8 @@ class MetaDataHandler extends XMLParserHandler
 					IS_INTRINSIC_ATTRIB, false ) );
 			propDefn.setStyleProperty( getBooleanAttrib( attrs,
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
+			propDefn.setVisible( getBooleanAttrib( attrs, IS_VISIBLE_ATTRIB,
+					true ) );
 
 			if ( !StringUtil.isBlank( validator ) )
 			{

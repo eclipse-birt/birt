@@ -57,7 +57,8 @@ public class ExtensionLoader
 	private static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
 	private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
 	private static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
-
+	private static final String IS_VISIBLE_ATTRIB = "isVisible"; //$NON-NLS-1$
+	
 	/**
 	 * Loads the extended elements in plug-ins, and add them into metadata
 	 * dictionary.
@@ -266,7 +267,8 @@ public class ExtensionLoader
 				.getAttribute( IS_STYLE_PROPERTY_ATTRIB );
 		String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
 		String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
-
+		String isVisible = propTag.getAttribute( IS_VISIBLE_ATTRIB );
+		
 		checkRequiredAttribute( NAME_ATTRIB, name );
 		checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
 		checkRequiredAttribute( TYPE_ATTRIB, type );
@@ -300,6 +302,10 @@ public class ExtensionLoader
 			extPropDefn.setCanInherit( Boolean.valueOf( canInherit )
 					.booleanValue( ) );
 
+		if ( !StringUtil.isBlank( isVisible ) )
+			extPropDefn.setVisible( Boolean.valueOf( isVisible )
+					.booleanValue( ) );
+		
 		List choiceList = new ArrayList( );
 
 		IConfigurationElement[] elements = propTag.getChildren( );

@@ -28,10 +28,18 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	protected String groupNameKey = null;
 
 	/**
-	 * True if the value of the property can be inherited, false if not.
+	 * <code>true</code> if the value of the property can be inherited,
+	 * <code>false</code> if not.
 	 */
 
 	protected boolean isInheritable = true;
+
+	/**
+	 * <code>true</code> if the property definition is visible for the property sheet in UI,
+	 * <code>false</code> if not.
+	 */
+
+	protected boolean isVisible = true;
 
 	/**
 	 * Default constructor.
@@ -152,7 +160,8 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Sets whether the property value can be inherited by subclasses.
 	 * 
 	 * @param flag
-	 *            True if the property value can be inherited, false otherwise.
+	 *            <code>true</code> if the property value can be inherited,
+	 *            <code>false</code> otherwise.
 	 */
 
 	void setCanInherit( boolean flag )
@@ -173,12 +182,37 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
+	 * Sets whether the property is visible to the property sheet.
+	 * 
+	 * @param flag
+	 *            <code>true</code> if the property value is visible,
+	 *            <code>false otherwise.
+	 */
+
+	void setVisible( boolean flag )
+	{
+		isVisible = flag;
+	}
+
+	/**
+	 * Checks whether the property is visible to the property sheet.
+	 * 
+	 * @return <code>true</code> if the property value is visible,
+	 *         <code>false otherwise.
+	 */
+
+	public boolean isVisible( )
+	{
+		return isVisible;
+	}
+
+	/**
 	 * Returns the method information of this property.
 	 * 
 	 * @return the method information of this property. Return null, if this
 	 *         property is not a method property.
 	 */
-	
+
 	public MethodInfo getMethodInfo( )
 	{
 		if ( getTypeCode( ) == PropertyType.SCRIPT_TYPE )
