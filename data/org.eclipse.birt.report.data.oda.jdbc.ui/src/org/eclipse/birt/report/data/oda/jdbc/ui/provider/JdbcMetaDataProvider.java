@@ -25,6 +25,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
@@ -93,7 +94,7 @@ public class JdbcMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace( );
+				ExceptionHandler.handle( e );
 			}
 			
 		}
@@ -146,7 +147,7 @@ public class JdbcMetaDataProvider
     {
     	if( jdbcConnection == null)
     	{
-    		return null;
+    		return "";
     	}
     	
     	if ( metaData == null)
@@ -157,13 +158,13 @@ public class JdbcMetaDataProvider
 			}
       		catch(SQLException e)
 			{
-      			e.printStackTrace();
+      			ExceptionHandler.handle( e );
 			}
       	}
       
     	if(metaData == null)
     	{
-    		return null;
+    		return "";
     	}
     	
     	String databaseName = "";
@@ -222,7 +223,11 @@ public class JdbcMetaDataProvider
 	public ResultSet getAlltables( String cataLog, String schemaPattern,
 			String namePattern, String[] types )
         {
-        	assert jdbcConnection != null;
+
+        	if( jdbcConnection == null)
+        	{
+        		return null;
+        	}
         	
         	if ( metaData == null )
         	{
@@ -354,8 +359,42 @@ public class JdbcMetaDataProvider
         }
         
 	public static String constructSql( ArrayList tableList,
-			ArrayList columnList, ArrayList joinList )
+			ArrayList columnList, ArrayList joinList, JdbcMetaDataProvider metaDataProvider )
         {
+		
+			// String used to quote the identifiers by default
+		    // when they have to be escaped
+			String quoteString = null;
+			String extraNameCharacters = null;
+			String searchEscapeCharacter = null;
+			
+			char escapeChar = '\'';
+			
+			if  (metaDataProvider != null)
+			{
+				DatabaseMetaData metaData = metaDataProvider.getMetaData();
+				if ( metaData != null )
+				{
+					try
+					{
+						quoteString = metaData.getIdentifierQuoteString();
+						extraNameCharacters = metaData.getExtraNameCharacters();
+						searchEscapeCharacter = metaData.getSearchStringEscape();
+						
+					}
+					catch(SQLException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			if( quoteString == null || quoteString.trim().length() == 0)
+			{
+				quoteString = "\"";
+			}
+			
+			
         	String sqlStatement = null;
         	String SELECT = " SELECT ";
         	String SELECT_COLUMN_SPACING = "        ";
@@ -369,7 +408,10 @@ public class JdbcMetaDataProvider
         		
         		for ( int i=0; i < columnCount; i++)
         		{
-        			selectClause.append((String)columnList.get(i));
+        			String columnName = (String)columnList.get(i);
+        			selectClause.append(columnName);
+        			//selectClause.append(quoteName(columnName, quoteString, extraNameCharacters, searchEscapeCharacter ));
+
         			if ( i != (columnCount -1))
         			{
         				 selectClause.append(",");//$NON-NLS-1$
@@ -617,6 +659,150 @@ public class JdbcMetaDataProvider
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * If there is a space character in the Table name or the column Name
+	 * then " ( double quotes ) are added to the name
+	 * 
+	 * @param name
+	 * @param extraNameCharacters
+	 * @param quoteString
+	 * @param searchEscapeCharacter
+	 * @return
+	 */
+	private static String quoteName(String name, String quoteString, String extraNameCharacters, String escapeCharacter)
+	{
+		String escapedName = name;
+		if ( name == null )
+		{
+			return escapedName;
+		}
+		
+		if( quoteString == null || 
+			quoteString.trim().length() == 0 )
+		{
+			quoteString = "\"";
+		}
+		
+		quoteString = "\"";
+		
+		String extraCharacters = extraNameCharacters; 
+		
+		int schemaSepIndex1 = name.indexOf(".");
+		int schemaSepIndex2 = name.lastIndexOf(".");
+		
+		boolean schemaSupported = false;
+		
+		if( schemaSepIndex1 != schemaSepIndex2 && schemaSepIndex1 != -1 && schemaSepIndex2 != -1)
+		{
+			schemaSupported = true;
+		}
+ 
+		if(schemaSupported)
+		{
+			String schemaName = name.substring(0, schemaSepIndex1);
+			int spaceIndex = schemaName.indexOf(' ');
+			if( spaceIndex != -1)
+			{
+				//schemaName = quoteString + escapeName(schemaName, escapeCharacter, extraNameCharacters) + quoteString;
+				schemaName = quoteString + schemaName + quoteString;
+			}
+			
+			String tableName = name.substring(schemaSepIndex1 + 1,schemaSepIndex1);
+			spaceIndex = tableName.indexOf(' ');
+			if( spaceIndex != -1)
+			{
+				//tableName = quoteString + escapeName(tableName,escapeCharacter, extraNameCharacters) + quoteString;
+				tableName = quoteString + tableName + quoteString;
+			}
+			
+			String columnName = name.substring(schemaSepIndex2 + 1);
+			spaceIndex = columnName.indexOf(' ');
+			if ( spaceIndex != -1 )
+			{
+				//columnName = quoteString + escapeName(columnName, escapeCharacter, extraNameCharacters) + quoteString;	
+				columnName = quoteString + columnName + quoteString;
+			}
+			
+			
+			escapedName = schemaName + "." + tableName + "." + columnName;
+		}
+		else
+		{
+			
+			String tableName = name.substring(0,schemaSepIndex1);
+			int spaceIndex = tableName.indexOf(' ');
+			if( spaceIndex != -1 )
+			{
+				//tableName = quoteString + escapeName(tableName, escapeCharacter, extraNameCharacters) + quoteString;
+				tableName = quoteString + tableName + quoteString;
+			}
+			
+			String columnName = name.substring(schemaSepIndex1 +1);
+			spaceIndex = columnName.indexOf(' ');
+			if( spaceIndex != -1 )
+			{
+				//columnName = quoteString + escapeName(columnName, escapeCharacter, extraNameCharacters) + quoteString;
+				columnName = quoteString + columnName + quoteString;
+			}
+			
+			escapedName = tableName + "." + columnName;
+		}
+		
+		return escapedName;
+		
+	}
+
+	/**
+	 * @param schemaName
+	 * @param escapeCharacter
+	 * @return
+	 */
+	private static String escapeName(String name, String escapeCharacter, String extraChars ) 
+	{
+		if( name == null || name.trim().length() == 0 ||
+			escapeCharacter == null || escapeCharacter.trim().length() == 0 )
+		{
+			return name;
+		}
+		
+		String escapedName = "";
+		for(int i=0; i< name.length(); i++)
+		{
+			char c = name.charAt(i);
+			/*
+			if (Character.isLetterOrDigit(c) || Character.isSpaceChar(c))
+			{
+				escapedName = escapedName + c;
+				continue;
+			}
+			*/
+			
+			if( c == '\'')
+			{
+				escapedName = escapedName + '\'' + c;
+			}
+			else if( c == '\\')
+			{
+				escapedName = escapedName + '\\' + c;
+			}
+			else
+			{
+				escapedName = escapedName + c;
+			}
+			
+			/*
+			if( extraChars != null)
+			{
+				if( extraChars.indexOf(c) == -1)
+				{
+					escapedName = escapedName + escapeCharacter + c;
+				}
+			}
+			*/
+		}
+		return escapedName;
 	}
 	
 	

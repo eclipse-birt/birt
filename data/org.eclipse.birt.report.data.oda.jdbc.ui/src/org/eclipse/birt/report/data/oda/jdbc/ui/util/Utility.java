@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 public class Utility
 {
@@ -154,6 +154,7 @@ public class Utility
 			item[i].setText((String)dataSource.get(i));
 			item[i].setImage( image );
 			parent.setTopItem(item[i]);
+			item[i].setExpanded(false);
 		}
 		return item;
 	}
@@ -220,6 +221,7 @@ public class Utility
 			item[i].setData(name);
 			item[i].setImage( image );
 			parent.setTopItem(item[i]);
+			item[i].setExpanded(false);
 	
 		}
 		return item;
