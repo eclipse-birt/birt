@@ -31,6 +31,11 @@ public class CDateTime extends GregorianCalendar
 {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      *  
      */
     public CDateTime()

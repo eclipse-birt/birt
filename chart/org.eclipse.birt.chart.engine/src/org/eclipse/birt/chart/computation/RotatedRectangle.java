@@ -18,12 +18,14 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
- * This class ...
  * 
- * @author Actuate Corporation
  */
 public final class RotatedRectangle extends Polygon
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     RotatedRectangle(double dX0, double dY0, double dX1, double dY1, double dX2, double dY2, double dX3, double dY3)
     {

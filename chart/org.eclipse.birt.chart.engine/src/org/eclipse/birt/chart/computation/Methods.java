@@ -22,8 +22,6 @@ import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.NullValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
-import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
@@ -202,8 +200,8 @@ public class Methods implements IConstants
         {
             return getDateLocation(sc, ((DateTimeDataElement) oValue).getValueAsCDateTime());
         }
-        DefaultLoggerImpl.instance().log(ILogger.WARNING,
-            "Unexpected data type " + oValue.getClass().getName() + "[value=" + oValue + "] specified");
+        /*DefaultLoggerImpl.instance().log(ILogger.WARNING,
+            "Unexpected data type " + oValue.getClass().getName() + "[value=" + oValue + "] specified");*/
         return sc.getStart(); // RETURNS THE START EDGE OF THE SCALE
     }
 
