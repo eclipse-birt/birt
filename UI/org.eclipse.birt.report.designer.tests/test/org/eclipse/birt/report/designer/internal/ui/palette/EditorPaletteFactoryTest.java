@@ -41,8 +41,13 @@ public class EditorPaletteFactoryTest extends TestCase
 	{
 
 		PaletteRoot root = MasterPagePaletteFactory.createPalette( );
-
-		assertEquals( 4, root.getChildren( ).size( ) );
+		int size = 3;
+		if ( ExtensionPointManager.getInstance( )
+				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
+		{
+			size++;
+		}
+		assertEquals( size, root.getChildren( ).size( ) );
 	}
 
 	/*

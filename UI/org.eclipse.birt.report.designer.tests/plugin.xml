@@ -33,7 +33,7 @@
          name="Matrix for testing"
          point="org.eclipse.birt.report.model.reportitem">
 	    <Element class="org.eclipse.birt.report.designer.tests.example.matrix.ROMExtension"				isNameRequired="true" 
-			name="TestingMatrix"
+			extensionName="TestingMatrix"
 			displayNameID="Element.TestingMatrix">
 			<Property defaultValue="default test" 
 				type="string" 
