@@ -125,11 +125,26 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	}
 	
 	/**
-	 * Called after data source is open, to set the associated Odi data source
+	 * Opens the specified odiDataSource and associate it with this data source runtime.
+	 * Event scripts associated with this data source are NOT run in this method
 	 */
-	public void setOdiDataSource( IDataSource odiDataSource)
+	public void openOdiDataSource( IDataSource odiDataSource ) throws DataException
 	{
+		odiDataSource.open();
 		this.odiDataSource = odiDataSource;
+	}
+	
+	/**
+	 * Closes the associated odiDataSource. Event scripts associated with this data source
+	 * are NOT runt in this method
+	 */
+	public void closeOdiDataSource() throws DataException
+	{
+		if ( odiDataSource != null )
+		{
+			odiDataSource.close();
+			odiDataSource = null;
+		}
 	}
 	
 	/**

@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
 import org.eclipse.birt.data.oda.util.driverconfig.DriverSetup;
@@ -142,6 +141,9 @@ public class DataEngineImpl extends DataEngine
 	{
 		if ( dataSource == null )
 			throw new NullPointerException("dataSource param cannot be null ");
+		if ( dataSources == null )
+			throw new IllegalStateException("DataEngine has been shutdown");
+			
 		String name = dataSource.getName();
 		if ( name == null || name.length() == 0 )
 			throw new IllegalArgumentException("Data source has no name");
@@ -171,6 +173,9 @@ public class DataEngineImpl extends DataEngine
 	{
 		if ( dataSet == null )
 			throw new NullPointerException("dataSet param cannot be null ");
+		if ( dataSources == null )
+			throw new IllegalStateException("DataEngine has been shutdown");
+		
 		String name = dataSet.getName();
 		if ( name == null || name.length() == 0 )
 			throw new IllegalArgumentException("Data Set has no name");
@@ -244,6 +249,8 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
 			throws DataException
 	{ 
+		if ( dataSources == null )
+			throw new IllegalStateException("DataEngine has been shutdown");
 		PreparedDataSourceQuery result = PreparedDataSourceQuery.newInstance( this,
 				querySpec );
 		return result;
@@ -266,6 +273,9 @@ public class DataEngineImpl extends DataEngine
 	public void closeDataSource( String dataSourceName )
 			throws DataException
 	{
+		if ( dataSources == null )
+			throw new IllegalStateException("DataEngine has been shutdown");
+		
 		DataSourceRuntime  ds = getDataSourceRuntime( dataSourceName );
 		if ( ds != null )
 		{
@@ -277,13 +287,10 @@ public class DataEngineImpl extends DataEngine
 	private static void closeDataSource( DataSourceRuntime ds ) throws DataException
 	{
 		assert ds != null;
-		// Data source is open if it has an associated odi Data Source
-		IDataSource odiDS = ds.getOdiDataSource();
-		if ( odiDS != null )
+		if ( ds.isOpen() )
 		{
 			ds.beforeClose();
-			odiDS.close();
-			ds.setOdiDataSource( null );
+			ds.closeOdiDataSource();
 			ds.afterClose();
 		}
 	}
@@ -306,6 +313,10 @@ public class DataEngineImpl extends DataEngine
 	
 	public void shutdown()
 	{
+		if ( dataSources == null )
+			// Already shutdown
+			return;
+
 		// Close all open data sources
 		Collection col = dataSources.values();
 		Iterator it = col.iterator();
@@ -335,6 +346,9 @@ public class DataEngineImpl extends DataEngine
 	// TODO: Add this method to DataEngine api 
 	public Scriptable getDataSourcesScriptObject()
 	{
+		if ( dataSources == null )
+			throw new IllegalStateException("DataEngine has been shutdown");
+			
 		if ( dataSourcesJSObject == null )
 		{
 			dataSourcesJSObject = new JSDataSources( this.dataSources );

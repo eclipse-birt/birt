@@ -82,4 +82,9 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 		return runScript( getDescribeScript(), "describe" );
 	}
 	
+	/** Executes the close script to close the data set */
+	public void close() throws DataException
+	{
+		runCloseScript();
+	}
 }

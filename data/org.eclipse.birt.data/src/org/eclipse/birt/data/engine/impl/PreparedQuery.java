@@ -422,12 +422,28 @@ abstract class PreparedQuery
 		    rowObject = new JSRowObject( dataSet );
 		    scope.put( "row", scope,  rowObject );
 				
-			// Create, populate and prepare Odi query
-			prepareOdiResources( );
+			openDataSource( );
+			
+			if ( dataSet != null  )
+			{
+				// Run beforeOpen script now so the script can modify the DataSetRuntime properties
+				dataSet.beforeOpen();
+			}
+			
+			// Let subclass create a new and empty intance of the appropriate odi IQuery
+			odiQuery = createOdiQuery( );
+			populateOdiQuery( );
+			prepareOdiQuery( );
 				
 			// Execute the query
 			odiResult = executeOdiQuery( outerResults );
 
+			// Data set is open in executeOdiQuery; now run aferOpen script
+			if ( dataSet != null )
+			{
+				dataSet.afterOpen();
+			}
+			
 			// Bind the row object to the odi result set
 			rowObject.setResultSet( odiResult, false );
 				
@@ -487,7 +503,10 @@ abstract class PreparedQuery
 		    try
 			{
 		    	if ( dataSet != null )
+		    	{
+		    		dataSet.close();
 		    		dataSet.afterClose();
+		    	}
 			}
 		    catch (DataException e )
 			{
@@ -506,10 +525,9 @@ abstract class PreparedQuery
 			scope = null;
 		}
 		
-		/** Creates, opens and prepares required Odi data source and data set */
-		protected void prepareOdiResources( ) throws DataException
+		/** Creates and/or opens the required data source */
+		protected void openDataSource( ) throws DataException
 		{
-			assert odiQuery == null;
 			assert odiDataSource == null;
 			
 			// Open the underlying data source
@@ -527,8 +545,7 @@ abstract class PreparedQuery
 					odiDataSource = createOdiDataSource( ); 
 					
 					// Open the odi data source
-					odiDataSource.open();
-					dataSource.setOdiDataSource( odiDataSource );
+					dataSource.openOdiDataSource( odiDataSource );
 					
 					dataSource.afterOpen();
 				}
@@ -537,22 +554,6 @@ abstract class PreparedQuery
 					// Use existing odiDataSource created for the data source runtime
 					odiDataSource = dataSource.getOdiDataSource();
 				}
-			}
-			
-			if ( dataSet != null  )
-			{
-				// Run beforeOpen script now so the script can modify the DataSetRuntime properties
-				dataSet.beforeOpen();
-			}
-			
-			// Let subclass create a new and empty intance of the appropriate odi IQuery
-			odiQuery = createOdiQuery( );
-			populateOdiQuery( );
-			prepareOdiQuery( );
-			
-			if ( dataSet != null )
-			{
-				dataSet.afterOpen();
 			}
 		}
 		

@@ -228,6 +228,13 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 		runScript( getAfterCloseScript(), "onFetch" );
 	}
 	
+	/** Performs custom action to close a data set. beforeClose and afterClose
+	 * event scripts are NOT run in this method */
+	public void close() throws DataException
+	{
+		
+	}
+	
 	protected Object runScript( String script, String eventName ) throws DataException
 	{
 		if ( script != null && script.length() > 0 )

@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IDataSource;
 
 /**
  * Encapulates the runtime definition of a scripted data source.
@@ -54,4 +55,24 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScrip
     	return runScript( getCloseScript(), "close");
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#openOdiDataSource(org.eclipse.birt.data.engine.odi.IDataSource)
+	 */
+	public void openOdiDataSource(IDataSource odiDataSource) throws DataException
+	{
+		// This is when we should run the Open script associated with the script data source
+		runOpenScript();
+		super.openOdiDataSource(odiDataSource);
+	}
+	
+	
+	/**
+	 * @see org.eclipse.birt.data.engine.impl.DataSourceRuntime#closeOdiDataSource()
+	 */
+	public void closeOdiDataSource() throws DataException
+	{
+		// This is when we should run the Open script associated with the script data source
+		runCloseScript();
+		super.closeOdiDataSource();
+	}
 }
