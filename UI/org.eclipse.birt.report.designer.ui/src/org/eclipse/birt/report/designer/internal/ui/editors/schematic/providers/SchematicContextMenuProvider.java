@@ -54,19 +54,16 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -175,8 +172,18 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		Object firstSelectedElement = getFirstElement( );
 		Object selectedElements = getSelectedElement( );
+		Object multiSelection = getMultiSeletedElement( );
 
-		if ( firstSelectedElement instanceof DesignElementHandle )
+		// except for dealing with multi selected elements.
+		if ( multiSelection == Object.class // report design and slot
+				// ...
+				|| multiSelection == DesignElementHandle.class
+				// report design
+				|| multiSelection == ReportDesignHandle.class
+				// saveral report items
+				|| multiSelection == ReportItemHandle.class
+				// table and list
+				|| multiSelection == ListHandle.class )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
@@ -201,32 +208,34 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
-			if ( firstSelectedElement instanceof ReportDesignHandle )
+		}
+		//-----------------------------------------------------------------
+		else if ( firstSelectedElement instanceof DesignElementHandle )
+		{
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.UNDO.getId( ) ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
+					getAction( ActionFactory.REDO.getId( ) ) );
+			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+			if ( action != null )
 			{
+				action.setEnabled( action.isEnabled( ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+						action );
 			}
-			if ( firstSelectedElement instanceof MasterPageHandle )
-			{
-			}
-			if ( firstSelectedElement instanceof ReportItemHandle )
-			{
-				if ( firstSelectedElement instanceof ListingHandle )
-				{
-					if ( firstSelectedElement instanceof ListHandle )
-					{
-					}
-					else if ( firstSelectedElement instanceof TableHandle )
-					{
-					}
-					else if ( firstSelectedElement instanceof GridHandle )
-					{
-					}
-					else
-					{
-						//
-					}
-				}
-			}
-			else if ( firstSelectedElement instanceof RowHandle )
+
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CutAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new CopyAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new PasteAction( selectedElements ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
+					new DeleteAction( selectedElements ) );
+
+			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
+
+			if ( firstSelectedElement instanceof RowHandle )
 			{
 				MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
 				insertMenu.add( getAction( InsertRowAboveAction.ID ) );
@@ -297,28 +306,33 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			//
 		}
-		if ( getTableEditParts( ) != null )
+
+		if ( !getTableEditParts( ).isEmpty( ) )
 		{
-			if ( !( getTableEditParts( ).get( 0 ) instanceof GridEditPart ) )
+			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+					getAction( InsertGroupAction.ID ) );
+			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+					getAction( DeleteGroupAction.ID ) );
+			if ( getTableEditParts( ).size( ) == 1 )
 			{
-				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-						getAction( InsertGroupAction.ID ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-						getAction( DeleteGroupAction.ID ) );
+				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
 				menuManager.appendToGroup( EditBindingAction.ID,
 						getAction( EditBindingAction.ID ) );
-				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			}
 		}
-		if ( getListEditParts( ) != null )
+
+		if ( !getListEditParts( ).isEmpty( ) )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( InsertListGroupAction.ID ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteListGroupAction.ID ) );
-			createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+			if ( getListEditParts( ).size( ) == 1 )
+			{
+				createGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+			}
 		}
 	}
 
@@ -480,22 +494,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		MenuManager subMenu = new MenuManager( EDIT_GROUP_MENU_ITEM_TEXT );
 		ListingHandle parentHandle = null;
 
-		if ( ( getTableEditParts( ) != null )
-				&& !( getTableEditParts( ).get( 0 ) instanceof GridEditPart ) )
+		if ( !getTableEditParts( ).isEmpty( ) )
 
 		{
-			if ( getTableEditParts( ).size( ) > 1 )
-			{
-				return;
-			}
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 		}
-		else if ( getListEditParts( ) != null )
+		else if ( !getListEditParts( ).isEmpty( ) )
 		{
-			if ( getListEditParts( ).size( ) > 1 )
-			{
-				return;
-			}
 			parentHandle = (ListingHandle) ( (ListEditPart) getListEditParts( ).get( 0 ) ).getModel( );
 		}
 		else
@@ -517,7 +522,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return elements in the form of array
 	 */
-	protected Object[] getElements( )
+	protected List getElements( )
 	{
 		List list = getSelectedObjects( );
 		if ( list == null || list.isEmpty( ) )
@@ -537,7 +542,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				result.add( model );
 			}
 		}
-		return result.toArray( );
+		return result;
 	}
 
 	/**
@@ -548,7 +553,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	protected Object getSelectedElement( )
 	{
-		Object[] array = getElements( );
+		Object[] array = getElements( ).toArray( );
 		if ( array.length == 1 )
 		{
 			return array[0];
@@ -563,12 +568,44 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	protected Object getFirstElement( )
 	{
-		Object[] array = getElements( );
+		Object[] array = getElements( ).toArray( );
 		if ( array.length > 0 )
 		{
 			return array[0];
 		}
 		return null;
+	}
+
+	/**
+	 * Gets multi selected elements
+	 * 
+	 * @return The (base) class type all the multi selected elements
+	 */
+	private Object getMultiSeletedElement( )
+	{
+		List list = (ArrayList) getElements( );
+		Object baseHandle = list.get( 0 );
+		Class base = baseHandle.getClass( );
+
+		for ( int i = 1; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( base.isInstance( obj ) )
+			{
+				continue;
+			}
+			else
+			{
+				// Insure multi selected elements are instance of the "base"
+				// class.
+				while ( !base.isInstance( obj ) )
+				{
+					base = base.getSuperclass( );
+				}
+				continue;
+			}
+		}
+		return base;
 	}
 
 	/**
@@ -578,7 +615,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	protected SharedStyleHandle getStyleHandle( )
 	{
-		Object[] elements = getElements( );
+		Object[] elements = getElements( ).toArray( );
 		if ( elements.length > 0 && elements[0] instanceof DesignElementHandle )
 		{
 			SharedStyleHandle style = ( (DesignElementHandle) elements[0] ).getStyle( );
@@ -606,24 +643,23 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * @return The current selected table edit part, null if no table edit part
 	 *         is selected.
 	 */
-	protected ArrayList getTableEditParts( )
+	protected List getTableEditParts( )
 	{
-		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
-		int size = list.size( );
-
-		ArrayList tableParts = new ArrayList( );
-		for ( int i = 0; i < size; i++ )
+		List tableParts = new ArrayList( );
+		for ( Iterator itor = getSelectedObjects( ).iterator( ); itor.hasNext( ); )
 		{
-			Object obj = list.get( i );
-
+			Object obj = itor.next( );
 			if ( obj instanceof DummyEditpart )
 			{
-				// do nothing.
+				// Column or Row
+				// ignore, do nothing.
 			}
 			else if ( obj instanceof TableEditPart )
 			{
+				if ( obj instanceof GridEditPart )
+				{
+					return Collections.EMPTY_LIST;
+				}
 				if ( !( tableParts.contains( obj ) ) )
 				{
 					tableParts.add( obj );
@@ -632,6 +668,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			else if ( obj instanceof TableCellEditPart )
 			{
 				Object parent = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+				if ( parent instanceof GridEditPart )
+				{
+					return Collections.EMPTY_LIST;
+				}
 				if ( !( tableParts.contains( parent ) ) )
 				{
 					tableParts.add( parent );
@@ -639,37 +679,26 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else
 			{
-				return null;
+				return Collections.EMPTY_LIST;
 			}
 		}
 		return tableParts;
 	}
 
 	/**
-	 * Gets list edit part.
+	 * Gets list edit parts.
 	 * 
-	 * @return The current selected list edit part, null if no list edit part is
-	 *         selected.
+	 * @return The current selected list edit parts, null if no list edit part
+	 *         is selected.
 	 */
-	protected ArrayList getListEditParts( )
+	protected List getListEditParts( )
 	{
-		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
-		int size = list.size( );
-
-		// creates a arrayList to contain the single selected or multi selected
-		// listEditPart(s).
-		ArrayList listParts = new ArrayList( );
-		for ( int i = 0; i < size; i++ )
+		List listParts = new ArrayList( );
+		for ( Iterator iter = getSelectedObjects( ).iterator( ); iter.hasNext( ); )
 		{
-			Object obj = list.get( i );
-
+			Object obj = iter.next( );
 			if ( obj instanceof ListEditPart )
 			{
-				// if listParts already contains this listEditPart since the sub
-				// listBandEditPart was selected before, then do not contains
-				// this listEditPart again.
 				if ( !( listParts.contains( obj ) ) )
 				{
 					listParts.add( (ListEditPart) obj );
@@ -677,9 +706,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				// if the parent listEditPart of this listBandEditPart has been
-				// already contained in the ArryList, then do not contain the
-				// parent again.
 				Object parent = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
 				if ( !( listParts.contains( parent ) ) )
 				{
@@ -688,8 +714,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else
 			{
-				listParts = null;
-				return null;
+				return Collections.EMPTY_LIST;
 			}
 		}
 		return listParts;

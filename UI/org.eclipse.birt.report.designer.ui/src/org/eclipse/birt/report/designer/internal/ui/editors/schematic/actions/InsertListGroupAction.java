@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -58,11 +60,12 @@ public class InsertListGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		if ( getListEditParts( ) == null )
+		List parts = getListEditParts( );
+		if ( parts.size( ) != 1 )
 		{
 			return false;
 		}
-		ListEditPart tep = (ListEditPart) getListEditParts( ).get( 0 );
+		ListEditPart tep = (ListEditPart) parts.get( 0 );
 		if ( tep == null )
 		{
 			return false;
@@ -101,40 +104,27 @@ public class InsertListGroupAction extends SelectionAction
 	}
 
 	/**
+	 * Gets list edit parts.
 	 * 
-	 * @return
+	 * @return The current selected list edit parts, null if no list edit part
+	 *         is selected.
 	 */
-	protected ArrayList getListEditParts( )
+	protected List getListEditParts( )
 	{
-		List list = getSelectedObjects( );
-		if ( list == null || list.isEmpty( ) )
-			return null;
-		int size = list.size( );
-
-		// creates a arrayList to contain the single selected or multi selected
-		// listEditPart(s).
-		ArrayList listParts = new ArrayList( );
-		for ( int i = 0; i < size; i++ )
+		List listParts = new ArrayList( );
+		for ( Iterator iter = getSelectedObjects( ).iterator( ); iter.hasNext( ); )
 		{
-			Object obj = list.get( i );
-
+			Object obj = iter.next( );
 			if ( obj instanceof ListEditPart )
 			{
-				// if listParts already contains this listEditPart since the sub
-				// listBandEditPart was selected before, then do not contains
-				// this listEditPart again.
 				if ( !( listParts.contains( obj ) ) )
 				{
-					listParts.add( obj );
+					listParts.add( (ListEditPart) obj );
 				}
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				Object parent = ( (ListBandEditPart) obj ).getParent( );
-
-				// if the parent listEditPart of this listBandEditPart has been
-				// already contained in the ArryList, then do not contain the
-				// parent again.
+				Object parent = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
 				if ( !( listParts.contains( parent ) ) )
 				{
 					listParts.add( parent );
@@ -142,11 +132,7 @@ public class InsertListGroupAction extends SelectionAction
 			}
 			else
 			{
-				// if a non- listEditPart or listBandEditPart is selected, then
-				// returns null, to disenable this action( judged in
-				// calculateEnabled( ) ).
-				listParts = null;
-				return null;
+				return Collections.EMPTY_LIST;
 			}
 		}
 		return listParts;
