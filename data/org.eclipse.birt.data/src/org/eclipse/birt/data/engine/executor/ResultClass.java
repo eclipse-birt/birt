@@ -43,23 +43,31 @@ public class ResultClass implements IResultClass
 			ResultFieldMetadata column = 
 				(ResultFieldMetadata) projectedColumns.get( i );
 			
-			String name = column.getName();
+			String upperCaseName = column.getName();
+			if ( upperCaseName != null )
+				upperCaseName = upperCaseName.toUpperCase();
+			
 			// need to add 1 to the 0-based array index, so we can put the 
 			// 1-based index into the name-to-id mapping that will be used 
 			// for the rest of the interfaces in this class
 			Integer index = new Integer( i + 1 );
-			if ( m_nameToIdMapping.put( name.toUpperCase( ), index ) != null )
+			
+			// If the name is a duplicate of an existing column name or alias,
+			// this entry is not put into the mapping table. This effectively
+			// makes this entry inaccessible by name, which is the intended behavior
+			
+			if ( ! m_nameToIdMapping.containsKey(upperCaseName ) )
 			{
-				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
-						name );
+				m_nameToIdMapping.put( upperCaseName, index );
 			}
 			
-			// note that the column alias can be the same as the column name
-			String alias = column.getAlias();
-			if( alias != null && alias.length() > 0 && ! alias.equals( name ) )
+			String upperCaseAlias = column.getAlias();
+			if ( upperCaseAlias != null )
+				upperCaseAlias = upperCaseAlias.toUpperCase();
+			if( upperCaseAlias != null && upperCaseAlias.length() > 0 && 
+					! m_nameToIdMapping.containsKey( upperCaseAlias) )
 			{
-				if ( m_nameToIdMapping.put( alias.toUpperCase( ), index ) != null )
-					throw new DataException( ResourceConstants.DUPLICATE_ALIAS_NAME , alias );
+				m_nameToIdMapping.put( upperCaseAlias, index );
 			}
 		}
 	}
