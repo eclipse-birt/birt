@@ -1063,7 +1063,9 @@ public class ReportDesign extends RootElement
 
 	public List getErrorList( )
 	{
-		return getSemanticErrors( DesignFileException.SEMANTIC_ERROR );
+		List list = getSemanticErrors( DesignFileException.SEMANTIC_ERROR );
+		list.addAll( getSemanticErrors( DesignFileException.SYNTAX_ERROR ) );
+		return list;
 	}
 
 	/**
@@ -1204,6 +1206,7 @@ public class ReportDesign extends RootElement
 	 *            <ul>
 	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
 	 *            <li><code>DesignFileException.SEMANTIC_WARNING</code>
+	 * 			  <li><code>DesignFileException.SYNTAX_ERROR</code>
 	 *            </ul>
 	 * @return a list containing specified semantic errors. Each element in the
 	 *         list is <code>ErrorDetail</code>.

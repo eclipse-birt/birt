@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -105,15 +110,38 @@ public class DesignParserHandler extends XMLParserHandler
 		// Doing the semantic check would just uncover bogus errors
 		// due to the ones we've already seen.
 
+		// report design keeps the serious errors that cannot be recovered.
+		// errors on XMLParserHandler keeps the error that are recoverable.
+
 		if ( !design.getErrors( ).isEmpty( ) )
 		{
+			List allErrors = new ArrayList( );
+			allErrors.addAll( design.getErrors( ) );
+			allErrors.addAll( getErrors( ) );
+
 			DesignFileException exception = new DesignFileException( design
-					.getFileName( ), design.getErrors( ) );
+					.getFileName( ), allErrors );
 
 			throw new SAXException( exception );
+
 		}
 
 		design.semanticCheck( design );
+
+		// translates warnings during parsing design files to ErrorDetail.
+
+		if ( getErrors( ) != null )
+		{
+			Iterator iter = getErrors( ).iterator( );
+			ArrayList detailList = new ArrayList( );
+
+			while ( iter.hasNext( ) )
+			{
+				ErrorDetail error = new ErrorDetail( (Exception) iter.next( ) );
+				detailList.add( error );
+			}
+			design.getErrors( ).addAll( detailList );
+		}
 	}
 
 	/*
@@ -128,7 +156,7 @@ public class DesignParserHandler extends XMLParserHandler
 	}
 
 	/**
-	 * Adds a recoverable semantic error to the error list.
+	 * Adds a recoverable semantic error to the error list on the report design.
 	 * 
 	 * @param e
 	 *            The exception to log.
@@ -139,6 +167,22 @@ public class DesignParserHandler extends XMLParserHandler
 		e.setLineNumber( locator.getLineNumber( ) );
 		e.setTag( currentElement );
 		design.getErrors( ).add( e );
+	}
+
+	/**
+	 * Adds a warning to the warning list inherited from XMLParserHandler during
+	 * parsing the design file.
+	 * 
+	 * @param e
+	 *            the exception to log
+	 */
+
+	public void semanticWarning( Exception e )
+	{
+		XMLParserException xmlException = new XMLParserException( e );
+		xmlException.setLineNumber( locator.getLineNumber( ) );
+		xmlException.setTag( currentElement );
+		getErrors( ).add( xmlException );
 	}
 
 	/**
@@ -174,5 +218,4 @@ public class DesignParserHandler extends XMLParserHandler
 	{
 		return design;
 	}
-
 }

@@ -24,9 +24,10 @@ import org.xml.sax.Attributes;
 
 public class TextPropertyState extends AbstractPropertyState
 {
+
 	PropertyDefn propDefn = null;
 	PropertyDefn keyPropDefn = null;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -57,10 +58,11 @@ public class TextPropertyState extends AbstractPropertyState
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
 	 */
-	
+
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
@@ -86,7 +88,7 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( propDefn == null || keyPropDefn == null )
 		{
-			handler.semanticError( new DesignParserException(
+			handler.semanticWarning( new DesignParserException(
 					DesignParserException.UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;

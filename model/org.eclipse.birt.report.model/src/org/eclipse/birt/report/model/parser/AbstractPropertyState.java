@@ -29,7 +29,9 @@ import org.xml.sax.Attributes;
  * 
  * <pre>
  * 
- *    &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *  
+ *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *   
  *  
  * </pre>
  * 
@@ -158,7 +160,7 @@ public class AbstractPropertyState extends AbstractParseState
 		StructPropertyDefn memberDefn = structDefn.getMember( member );
 		if ( memberDefn == null )
 		{
-			handler.semanticError( new DesignParserException(
+			handler.semanticWarning( new DesignParserException(
 					DesignParserException.UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
@@ -213,7 +215,7 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		if ( prop == null )
 		{
-			handler.semanticError( new DesignParserException(
+			handler.semanticWarning( new DesignParserException(
 					DesignParserException.UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;

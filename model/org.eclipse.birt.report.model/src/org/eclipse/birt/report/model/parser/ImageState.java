@@ -112,7 +112,7 @@ public class ImageState extends ReportItemState
 		{
 			if ( imageRef != -1 )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.IMAGE_REF_CONFLICT ) );
 			}
 
@@ -124,7 +124,7 @@ public class ImageState extends ReportItemState
 		{
 			if ( imageRef != -1 )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 1;
@@ -135,7 +135,7 @@ public class ImageState extends ReportItemState
 		{
 			if ( imageRef == 0 || imageRef == 1 )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 2;
@@ -146,7 +146,7 @@ public class ImageState extends ReportItemState
 		{
 			if ( imageRef == 0 || imageRef == 1 )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 2;
@@ -205,7 +205,7 @@ public class ImageState extends ReportItemState
 		}
 
 		if ( type > 1 )
-			handler.semanticError( new XMLParserException(
+			handler.semanticError( new DesignParserException(
 					DesignParserException.IMAGE_REF_CONFLICT ) );
 	}
 
@@ -234,7 +234,7 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isBlank( typeExpr )
 					|| StringUtil.isBlank( valueExpr ) )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.INVALID_IMAGEREF_EXPR_VALUE ) );
 			}
 		}
@@ -246,7 +246,7 @@ public class ImageState extends ReportItemState
 			String uri = image.getStringProperty( design, ImageItem.URI_PROP );
 			if ( StringUtil.isBlank( uri ) )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.INVALID_IMAGE_URL_VALUE ) );
 			}
 		}
@@ -258,7 +258,7 @@ public class ImageState extends ReportItemState
 
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler.semanticError( new XMLParserException(
+				handler.semanticError( new DesignParserException(
 						DesignParserException.INVALID_IMAGE_NAME_VALUE ) );
 			}
 		}
