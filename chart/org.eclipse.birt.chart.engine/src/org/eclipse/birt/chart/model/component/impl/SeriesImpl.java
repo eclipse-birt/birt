@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -974,5 +975,16 @@ public class SeriesImpl extends EObjectImpl implements Series
     public boolean canShareAxisUnit()
     {
         return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series,
+     *      org.eclipse.birt.chart.model.Chart)
+     */
+    public void translateFrom(Series sourceSeries, Chart chart)
+    {
+        // Do nothing
     }
 } //SeriesImpl

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -451,6 +452,16 @@ public interface Series extends EObject
      * @return
      */
     boolean canParticipateInCombination();
+
+    /**
+     * This method should modify the series instance to extract whatever information it can from the series
+     * provided...updating the model if necessary. This method should be overridden by each series type implementation
+     * in particular if the series type can participate in a combination. It will be called when converting from one
+     * series type to another.
+     * 
+     * NOTE: Manually written
+     */
+    void translateFrom(Series sourceSeries, Chart chart);
 
     /**
      *  

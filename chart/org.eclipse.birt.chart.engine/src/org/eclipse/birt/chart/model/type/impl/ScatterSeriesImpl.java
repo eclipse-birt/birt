@@ -302,6 +302,16 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
         return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
+     */
+    public final boolean canParticipateInCombination()
+    {
+        return false;
+    }
+
     /**
      * A convenience method to create an initialized 'Series' instance
      * 

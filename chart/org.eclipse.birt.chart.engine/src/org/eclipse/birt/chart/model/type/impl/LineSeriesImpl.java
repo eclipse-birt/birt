@@ -12,8 +12,13 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -23,15 +28,25 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -608,9 +623,157 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * 
      * @see org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
      */
-    public final boolean canParticipateInCombination()
+    public boolean canParticipateInCombination()
     {
         return true;
+    }
+
+    public void translateFrom(Series series, Chart chart)
+    {
+        System.out.println("LineSeriesImpl: DEBUG: translating from " + series.getClass().getName()
+            + " to line series.");
+        this.getLineAttributes().setVisible(true);
+        this.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
+        if (!(series instanceof ScatterSeries))
+        {
+            Marker marker = AttributeFactory.eINSTANCE.createMarker();
+            marker.setSize(5);
+            marker.setType(MarkerType.BOX_LITERAL);
+            marker.setVisible(true);
+            this.setMarker(marker);
+        }
+        else
+        {
+            this.setMarker(((ScatterSeries) series).getMarker());
+        }
+
+        // Copy generic series properties
+        this.setLabel(series.getLabel());
+        if (series.getLabelPosition().equals(Position.INSIDE_LITERAL)
+            || series.getLabelPosition().equals(Position.OUTSIDE_LITERAL))
+        {
+            this.setLabelPosition(Position.ABOVE_LITERAL);
+        }
+        else
+        {
+            this.setLabelPosition(series.getLabelPosition());
+        }
+
+        this.setVisible(series.isVisible());
+        this.setStacked(series.isStacked());
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_Triggers()))
+        {
+            this.getTriggers().addAll(series.getTriggers());
+        }
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataPoint()))
+        {
+            this.setDataPoint(series.getDataPoint());
+        }
+        if (series.eIsSet(ComponentPackage.eINSTANCE.getSeries_DataDefinition()))
+        {
+            this.getDataDefinition().addAll(series.getDataDefinition());
+        }
+
+        // Copy series specific properties
+        if (series instanceof BarSeries)
+        {
+            this.getLineAttributes().setColor(((BarSeries) series).getRiserOutline());
+        }
+        else if (series instanceof PieSeries)
+        {
+            this.getLineAttributes().setColor(((PieSeries) series).getSliceOutline());
+        }
+        else if (series instanceof StockSeries)
+        {
+            this.getLineAttributes().setColor(((StockSeries) series).getLineAttributes().getColor());
+        }
+
+        // Update the base axis to type text if it isn't already
+        if (chart instanceof ChartWithAxes)
+        {
+            ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
+        }
+        else
+        {
+            throw new IllegalArgumentException(
+                chart.getClass().getName()
+                    + " is an invalid argument for LineSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+        }
+
+        // Update the sampledata in the model
+        chart.setSampleData(getConvertedSampleData(chart.getSampleData()));
+    }
+
+    private SampleData getConvertedSampleData(SampleData currentSampleData)
+    {
+        // Convert base sample data
+        EList bsdList = currentSampleData.getBaseSampleData();
+        Vector vNewBaseSampleData = new Vector();
+        for (int i = 0; i < bsdList.size(); i++)
+        {
+            BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
+            bsd.setDataSetRepresentation(getConvertedBaseSampleDataRepresentation(bsd.getDataSetRepresentation()));
+            vNewBaseSampleData.add(bsd);
+        }
+        currentSampleData.getBaseSampleData().clear();
+        currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
+
+        // Convert orthogonal sample data
+        EList osdList = currentSampleData.getOrthogonalSampleData();
+        Vector vNewOrthogonalSampleData = new Vector();
+        for (int i = 0; i < osdList.size(); i++)
+        {
+            OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get(i);
+            osd
+                .setDataSetRepresentation(getConvertedOrthogonalSampleDataRepresentation(osd.getDataSetRepresentation()));
+            vNewOrthogonalSampleData.add(osd);
+        }
+        currentSampleData.getOrthogonalSampleData().clear();
+        currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
+        return currentSampleData;
+    }
+
+    private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation)
+    {
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringBuffer sbNewRepresentation = new StringBuffer("");
+        while (strtok.hasMoreTokens())
+        {
+            String sElement = strtok.nextToken().trim();
+            if (!sElement.startsWith("'"))
+            {
+                sbNewRepresentation.append("'");
+                sbNewRepresentation.append(sElement);
+                sbNewRepresentation.append("'");
+            }
+            else
+            {
+                sbNewRepresentation.append(sElement);
+            }
+            sbNewRepresentation.append(",");
+        }
+        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
+    }
+
+    private String getConvertedOrthogonalSampleDataRepresentation(String sOldRepresentation)
+    {
+        StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ",");
+        StringBuffer sbNewRepresentation = new StringBuffer("");
+        while (strtok.hasMoreTokens())
+        {
+            String sElement = strtok.nextToken().trim();
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+                                          // be text
+            {
+                sbNewRepresentation.append(sElement.substring(1));
+            }
+            else
+            {
+                sbNewRepresentation.append(sElement);
+            }
+            sbNewRepresentation.append(",");
+        }
+        return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
     }
 
     /*
