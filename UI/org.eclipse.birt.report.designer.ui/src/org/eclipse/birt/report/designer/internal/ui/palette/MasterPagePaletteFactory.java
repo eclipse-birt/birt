@@ -99,7 +99,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	 */
 	private static PaletteContainer createAutoTextDrawer( )
 	{
-		PaletteCategroy category = new PaletteCategroy( IPreferenceConstants.PALETTE_AUTOTEXT,
+		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_AUTOTEXT,
 				AUTOTEXT_LABEL,
 				null );		
 		List entries = new ArrayList( );

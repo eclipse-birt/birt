@@ -100,7 +100,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	 */
 	private static PaletteContainer createContentCategory( )
 	{
-		PaletteCategroy category = new PaletteCategroy( IPreferenceConstants.PALETTE_CONTENT,
+		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
 				CONTENTS_LABEL,
 				null );		
 		List entries = new ArrayList( );

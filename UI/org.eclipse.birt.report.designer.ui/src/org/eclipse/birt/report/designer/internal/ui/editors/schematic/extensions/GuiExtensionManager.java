@@ -19,7 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
-import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategroy;
+import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -235,7 +235,7 @@ public class GuiExtensionManager
 				{
 					categoryLabel = category;
 				}
-				entry = new PaletteCategroy( category, categoryLabel, null );
+				entry = new PaletteCategory( category, categoryLabel, null );
 				root.add( entry );
 			}
 			entry.add( combined );
@@ -243,17 +243,17 @@ public class GuiExtensionManager
 		return root;
 	}
 
-	private static PaletteCategroy findCategory( List list, String category )
+	private static PaletteCategory findCategory( List list, String category )
 	{
 		for ( Iterator itor = list.iterator( ); itor.hasNext( ); )
 		{
 			Object entry = itor.next( );
-			if ( entry instanceof PaletteCategroy )
+			if ( entry instanceof PaletteCategory )
 			{
-				if ( ( (PaletteCategroy) entry ).getCategoryName( )
+				if ( ( (PaletteCategory) entry ).getCategoryName( )
 						.equals( category ) )
 				{
-					return (PaletteCategroy) entry;
+					return (PaletteCategory) entry;
 				}
 			}
 		}
