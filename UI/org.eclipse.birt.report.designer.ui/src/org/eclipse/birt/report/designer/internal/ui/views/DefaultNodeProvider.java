@@ -367,20 +367,6 @@ public class DefaultNodeProvider implements INodeProvider
 		return createElement( type );
 	}
 
-	/**
-	 * @param model
-	 * @param slotHandle
-	 * @param type
-	 * @param position
-	 * @return Returns true if performed correctly,otherwise returns false
-	 * @throws SemanticException
-	 */
-	protected boolean performInsert( Object model, SlotHandle slotHandle,
-			String type, String position ) throws Exception
-	{
-		return performInsert( model, slotHandle, type, position, null );
-	}
-
 	protected boolean performInsert( Object model, SlotHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 	{
@@ -410,6 +396,10 @@ public class DefaultNodeProvider implements INodeProvider
 					if ( pos > 0 )
 					{
 						pos--;
+					}
+					else
+					{
+						pos = 0;
 					}
 				}
 				else if ( position == InsertAction.BELOW )

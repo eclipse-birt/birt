@@ -42,7 +42,7 @@ public class InsertAction extends AbstractElementAction
 
 	private SlotHandle slotHandle;
 
-	private String position = CURRENT;
+	private String position;
 
 	private String type = null;
 
@@ -69,8 +69,7 @@ public class InsertAction extends AbstractElementAction
 	 */
 	public InsertAction( Object selectedObject, String text )
 	{
-		super( selectedObject, text );
-		slotHandle = getDefaultSlotHandle( );
+		this( selectedObject, text, null );
 	}
 
 	/**
@@ -83,8 +82,7 @@ public class InsertAction extends AbstractElementAction
 	 */
 	public InsertAction( Object selectedObject, String text, String type )
 	{
-		this( selectedObject, text );
-		this.type = type;
+		this( selectedObject, text, type, CURRENT );
 	}
 
 	/**
@@ -103,15 +101,23 @@ public class InsertAction extends AbstractElementAction
 	public InsertAction( Object selectedObject, String text, String type,
 			String pos )
 	{
-		this( selectedObject, text, type );
-		this.position = pos;
+		this( selectedObject, text, null, type, pos );
 	}
 
 	public InsertAction( Object selectedObject, String text,
 			SlotHandle slotHandle, String type, String pos )
 	{
-		this( selectedObject, text, type, pos );
-		this.slotHandle = slotHandle;
+		super( selectedObject, text );
+		this.type = type;
+		this.position = pos;
+		if ( slotHandle != null )
+		{
+			this.slotHandle = slotHandle;
+		}
+		else
+		{
+			this.slotHandle = getDefaultSlotHandle( );
+		}
 	}
 
 	/**
