@@ -120,6 +120,8 @@
                menubarPath="file/preview"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewAction"/>
       </actionSet>
+      <actionSet label="" visible="false" id="org.eclipse.ui.externaltools.ExternalToolsSet">
+      </actionSet>
    </extension>
 
    <extension
