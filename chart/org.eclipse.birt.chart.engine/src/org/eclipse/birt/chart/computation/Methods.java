@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.computation;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
@@ -47,6 +48,10 @@ public class Methods implements IConstants
         {
             return new CDateTime((Calendar) o);
         }
+        else if (o instanceof Date)
+        {
+            return new CDateTime((Date) o);
+        }
         return (CDateTime) o;
     }
 
@@ -64,6 +69,10 @@ public class Methods implements IConstants
         else if (o instanceof NumberDataElement)
         {
             return new Double(((NumberDataElement) o).getValue());
+        }
+        else if (o instanceof Double)
+        {
+            return (Double) o;
         }
         return new Double(((Number) o).doubleValue());
     }
