@@ -80,8 +80,8 @@ public final class PropertyHandleTableViewer
             GridData btnData = new GridData(GridData.CENTER);
             btnData.widthHint = 20;
             btnData.heightHint = 20;
-            btnData.minimumHeight = 20;
-            btnData.minimumWidth = 20;
+//            btnData.minimumHeight = 20;
+//            btnData.minimumWidth = 20;
             btnUp = new Button(btnComposite, SWT.ARROW | SWT.UP);
             btnUp.setLayoutData(btnData);
             btnUp.addSelectionListener(new SelectionListener(){
