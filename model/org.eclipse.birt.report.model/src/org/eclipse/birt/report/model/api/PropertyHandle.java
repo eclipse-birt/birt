@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 
@@ -84,7 +85,11 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public Object getValue( )
 	{
-		return getElement( ).getProperty( getDesign( ), propDefn );
+		Object value = getElement( ).getProperty( getDesign( ), propDefn );
+
+		if ( value instanceof ElementRefValue )
+			value = ( (ElementRefValue) value ).getName( );
+		return value;
 	}
 
 	// Implementation of abstract method defined in base class.

@@ -142,7 +142,8 @@ public abstract class DesignElementHandle
 
 	/**
 	 * Returns the value of a property as a generic object. The value is the
-	 * internal property value, it is not localized.
+	 * internal property value, it is not localized. For a property with the
+	 * element reference type, the reference element name is returned.
 	 * 
 	 * @param propName
 	 *            the name of the property of interest
@@ -159,7 +160,12 @@ public abstract class DesignElementHandle
 		// Must be attached to use this method.
 
 		DesignElement element = getElement( );
-		return element.getProperty( design, propName );
+		Object value = element.getProperty( design, propName );
+
+		if ( value instanceof ElementRefValue )
+			value = ( (ElementRefValue) value ).getName( );
+
+		return value;
 	}
 
 	/**
@@ -1319,11 +1325,13 @@ public abstract class DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
 
-		PropertyDefn propDefn = (ElementPropertyDefn)getDefn( ).getProperty( propName );
+		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty(
+				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
 
-		propDefn = (ElementPropertyDefn)targetHandle.getDefn( ).getProperty( propName );
+		propDefn = (ElementPropertyDefn) targetHandle.getDefn( ).getProperty(
+				propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( targetHandle.getElement( ),
 					propName );

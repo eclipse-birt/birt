@@ -205,6 +205,9 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	public boolean isVisible( )
 	{
+		if ( getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			return false;
+
 		return isVisible;
 	}
 

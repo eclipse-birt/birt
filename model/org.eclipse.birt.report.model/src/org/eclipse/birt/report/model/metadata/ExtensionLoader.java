@@ -327,6 +327,8 @@ public class ExtensionLoader
 		if ( !StringUtil.isBlank( isVisible ) )
 			extPropDefn
 					.setVisible( Boolean.valueOf( isVisible ).booleanValue( ) );
+		else if ( propType.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			extPropDefn.setVisible( false );
 
 		List choiceList = new ArrayList( );
 
