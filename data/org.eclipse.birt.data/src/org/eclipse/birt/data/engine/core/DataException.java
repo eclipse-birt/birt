@@ -67,7 +67,16 @@ public class DataException extends Exception
     	super(cause);
     	this.errorCode = errorCode;
     }
-	
+    
+    public DataException( String errorCode, Throwable cause, Object argv )
+    {
+    	super(cause);
+    	this.errorCode = errorCode;
+		this.argv = new Object[]{
+				argv
+			};
+    }
+    
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
     	super(cause);
