@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -32,7 +33,10 @@ import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.command.PropertyEvent;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 
 /**
  * List element edit part.
@@ -300,5 +304,29 @@ public class ListEditPart extends ReportElementEditPart
 		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
 				.get( model );
 		return part.isRenderVisile( );
+	}
+	
+	
+	public void showTargetFeedback(Request request)
+	{
+	    if ( this.getSelected() == 0 && request.getType() == RequestConstants.REQ_SELECTION )
+	    {
+		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
+	    }
+	    super.showTargetFeedback( request );
+	}
+	
+	public void eraseTargetFeedback( Request request)
+	{
+	    this.getViewer().setCursor( null );
+	    super.eraseTargetFeedback( request );
+	}
+	
+	protected void addChildVisual(EditPart part, int index)
+	{
+	    // make sure we don't keep a select cell cursor after new contents
+	    // are added
+	    this.getViewer().setCursor( null );
+	    super.addChildVisual(part, index);
 	}
 }

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.Tabl
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -55,6 +56,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.GridLayer;
 import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.LayerManager;
@@ -1174,6 +1176,30 @@ public class TableEditPart extends ReportElementEditPart
 		}
 	}
 	
+	
+	
+	public void showTargetFeedback(Request request)
+	{
+	    if ( this.getSelected() == 0 && request.getType() == RequestConstants.REQ_SELECTION )
+	    {
+		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
+	    }
+	    super.showTargetFeedback( request );
+	}
+	
+	public void eraseTargetFeedback( Request request)
+	{
+	    this.getViewer().setCursor( null );
+	    super.eraseTargetFeedback( request );
+	}
+	
+	protected void addChildVisual(EditPart part, int index)
+	{
+	    // make sure we don't keep a select cell cursor after new contents
+	    // are added
+	    this.getViewer().setCursor( null );
+	    super.addChildVisual(part, index);
+	}
 	/**
 	 * The class use for select row in table.
 	 * 

@@ -28,7 +28,8 @@ import org.eclipse.swt.graphics.Image;
 public class SectionBorder extends BaseBorder
 {
 
-	private static final Insets DEFAULTINSETS = new Insets( 3, 2, 23, 3 );
+	//private static final Insets DEFAULTINSETS = new Insets( 3, 2, 23, 3 );
+	private static final Insets DEFAULTINSETS = new Insets( 3, 2, 3, 3 );
 	public static final int LEFT = 10;
 	private Insets insets = new Insets( DEFAULTINSETS );
 	private Dimension indicatorDimension = new Dimension( );
@@ -341,91 +342,91 @@ public class SectionBorder extends BaseBorder
 			Dimension indicatorDimension, int style, int width, String side,
 			boolean db )
 	{
-		Dimension cale = calculateIndicatorDimension( g, width );
-		int indicatorWidth = cale.width;
-		int indicatorHeight = cale.height;
-		indicatorArea = new Rectangle( rec.x,
-				rec.bottom( ) - indicatorHeight,
-				indicatorWidth,
-				indicatorHeight );
-
-		g.setLineStyle( style );
-		if ( side.equals( "bottom" ) )//$NON-NLS-1$
-		{
-			if ( db == false )
-			{
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( indicatorArea.x,
-							indicatorArea.bottom( ) - 1 - i,
-							indicatorArea.x + indicatorDimension.width,
-							indicatorArea.bottom( ) - 1 - i );
-					g.drawLine( indicatorArea.x + indicatorDimension.width + i,
-							indicatorArea.y,
-							indicatorArea.x + indicatorDimension.width + i,
-							indicatorArea.bottom( ) - 1 );
-				}
-			}
-			//if the border style is "double", draw the second line with 1
-			// pixel inside the Indicator
-			else
-			{
-				for ( int i = 0; i < width; i++ )
-				{
-					g.drawLine( indicatorArea.x + leftGap,
-							indicatorArea.bottom( ) - 1 - i - width - 1,
-							indicatorArea.x
-									+ indicatorDimension.width
-									- 1
-									- width,
-							indicatorArea.bottom( ) - 1 - i - width - 1 );
-					g.drawLine( indicatorArea.x
-							+ indicatorDimension.width
-							+ i
-							- width
-							- 1, indicatorArea.y - 1 - width, indicatorArea.x
-							+ indicatorDimension.width
-							+ i
-							- width
-							- 1, indicatorArea.bottom( ) - 1 - 1 - width );
-				}
-			}
-			//draw text "table"
-			int x = indicatorArea.x + gapInsets.left;
-			if ( image != null )
-			{
-				g.drawImage( image, x + 4, indicatorArea.y + gapInsets.top - 3 );
-				x += image.getBounds( ).width + gap;
-			}
-
-			g.drawString( indicatorLabel, x + 2 * width + 2, indicatorArea.y
-					+ gapInsets.top
-					- width );
-
-		}
-		if ( side.equals( "left" ) )//$NON-NLS-1$
-		{
-			if ( db == false )
-			{
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( indicatorArea.x + j,
-							indicatorArea.y,
-							indicatorArea.x + j,
-							indicatorArea.bottom( ) - 1 );
-				}
-			}
-			else
-			{
-				for ( int j = 0; j < width; j++ )
-				{
-					g.drawLine( indicatorArea.x + j + width + 1,
-							indicatorArea.y,
-							indicatorArea.x + j + width + 1,
-							indicatorArea.bottom( ) - 1 - bottomGap );
-				}
-			}
-		}
+//		Dimension cale = calculateIndicatorDimension( g, width );
+//		int indicatorWidth = cale.width;
+//		int indicatorHeight = cale.height;
+//		indicatorArea = new Rectangle( rec.x,
+//				rec.bottom( ) - indicatorHeight,
+//				indicatorWidth,
+//				indicatorHeight );
+//
+//		g.setLineStyle( style );
+//		if ( side.equals( "bottom" ) )//$NON-NLS-1$
+//		{
+//			if ( db == false )
+//			{
+//				for ( int i = 0; i < width; i++ )
+//				{
+//					g.drawLine( indicatorArea.x,
+//							indicatorArea.bottom( ) - 1 - i,
+//							indicatorArea.x + indicatorDimension.width,
+//							indicatorArea.bottom( ) - 1 - i );
+//					g.drawLine( indicatorArea.x + indicatorDimension.width + i,
+//							indicatorArea.y,
+//							indicatorArea.x + indicatorDimension.width + i,
+//							indicatorArea.bottom( ) - 1 );
+//				}
+//			}
+//			//if the border style is "double", draw the second line with 1
+//			// pixel inside the Indicator
+//			else
+//			{
+//				for ( int i = 0; i < width; i++ )
+//				{
+//					g.drawLine( indicatorArea.x + leftGap,
+//							indicatorArea.bottom( ) - 1 - i - width - 1,
+//							indicatorArea.x
+//									+ indicatorDimension.width
+//									- 1
+//									- width,
+//							indicatorArea.bottom( ) - 1 - i - width - 1 );
+//					g.drawLine( indicatorArea.x
+//							+ indicatorDimension.width
+//							+ i
+//							- width
+//							- 1, indicatorArea.y - 1 - width, indicatorArea.x
+//							+ indicatorDimension.width
+//							+ i
+//							- width
+//							- 1, indicatorArea.bottom( ) - 1 - 1 - width );
+//				}
+//			}
+//			//draw text "table"
+//			int x = indicatorArea.x + gapInsets.left;
+//			if ( image != null )
+//			{
+//				g.drawImage( image, x + 4, indicatorArea.y + gapInsets.top - 3 );
+//				x += image.getBounds( ).width + gap;
+//			}
+//
+//			g.drawString( indicatorLabel, x + 2 * width + 2, indicatorArea.y
+//					+ gapInsets.top
+//					- width );
+//
+//		}
+//		if ( side.equals( "left" ) )//$NON-NLS-1$
+//		{
+//			if ( db == false )
+//			{
+//				for ( int j = 0; j < width; j++ )
+//				{
+//					g.drawLine( indicatorArea.x + j,
+//							indicatorArea.y,
+//							indicatorArea.x + j,
+//							indicatorArea.bottom( ) - 1 );
+//				}
+//			}
+//			else
+//			{
+//				for ( int j = 0; j < width; j++ )
+//				{
+//					g.drawLine( indicatorArea.x + j + width + 1,
+//							indicatorArea.y,
+//							indicatorArea.x + j + width + 1,
+//							indicatorArea.bottom( ) - 1 - bottomGap );
+//				}
+//			}
+//		}
 
 	}
 
@@ -459,29 +460,30 @@ public class SectionBorder extends BaseBorder
 	 */
 	private Dimension calculateIndicatorDimension( Graphics g, int width )
 	{
-		gap = 0;
-		Dimension iconDimension = new Dimension( );
-		if ( image != null )
-		{
-			iconDimension = new Dimension( image );
-			gap = 3;
-		}
-		Dimension d = FigureUtilities.getTextExtents( indicatorLabel,
-				g.getFont( ) );
-		int incheight = 0;
-		if ( iconDimension.height > d.height )
-		{
-			incheight = iconDimension.height - d.height;
-		}
-		d.expand( iconDimension.width
-				+ gap
-				+ gapInsets.left
-				+ gapInsets.right
-				+ 4
-				* width
-				+ 2, incheight + gapInsets.top + gapInsets.bottom );
-
-		return d;
+//		gap = 0;
+//		Dimension iconDimension = new Dimension( );
+//		if ( image != null )
+//		{
+//			iconDimension = new Dimension( image );
+//			gap = 3;
+//		}
+//		Dimension d = FigureUtilities.getTextExtents( indicatorLabel,
+//				g.getFont( ) );
+//		int incheight = 0;
+//		if ( iconDimension.height > d.height )
+//		{
+//			incheight = iconDimension.height - d.height;
+//		}
+//		d.expand( iconDimension.width
+//				+ gap
+//				+ gapInsets.left
+//				+ gapInsets.right
+//				+ 4
+//				* width
+//				+ 2, incheight + gapInsets.top + gapInsets.bottom );
+//
+//		return d;
+		return new Dimension(0, 0);
 	}
 
 	/**
