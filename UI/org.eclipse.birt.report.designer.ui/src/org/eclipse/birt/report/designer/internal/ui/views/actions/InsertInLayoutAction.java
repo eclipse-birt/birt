@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 
@@ -148,7 +149,8 @@ public class InsertInLayoutAction extends AbstractViewAction
 
 	public static final String DISPLAY_TEXT = Messages.getString( "InsertInLayoutAction.action.text" ); //$NON-NLS-1$
 
-	protected List selections, targets;
+	protected List selections;
+	private IStructuredSelection targets;
 
 	/**
 	 * Constructor. Uses DISPLAY_TEXT as default text.
@@ -184,8 +186,8 @@ public class InsertInLayoutAction extends AbstractViewAction
 		if ( !( reportEditor.getActiveEditor( ) instanceof ReportDesigner ) )
 			return false;
 
-		targets = ( (ReportDesigner) reportEditor.getActiveEditor( ) ).getGraphicalViewer( )
-				.getSelectedEditParts( );
+		targets = (IStructuredSelection) ( (ReportDesigner) reportEditor.getActiveEditor( ) ).getGraphicalViewer( )
+				.getSelection( );
 
 		if ( selections.isEmpty( ) || targets.isEmpty( ) )
 			return false;
@@ -397,6 +399,10 @@ public class InsertInLayoutAction extends AbstractViewAction
 	protected static boolean handleValidateDataSetDropContainer(
 			EditPart dropPart )
 	{
+		if ( dropPart.getParent( ) == null )
+		{
+			return false;
+		}
 		Object container = dropPart.getParent( ).getModel( );
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
@@ -413,6 +419,10 @@ public class InsertInLayoutAction extends AbstractViewAction
 	protected static boolean handleValidateDataSetColumnDropContainer(
 			EditPart dropPart )
 	{
+		if ( dropPart.getParent( ) == null )
+		{
+			return false;
+		}
 		Object container = dropPart.getParent( ).getModel( );
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle || container instanceof FreeFormHandle );
@@ -427,6 +437,10 @@ public class InsertInLayoutAction extends AbstractViewAction
 	protected static boolean handleValidateParameterDropContainer(
 			EditPart dropPart )
 	{
+		if ( dropPart.getParent( ) == null )
+		{
+			return false;
+		}
 		Object container = dropPart.getParent( ).getModel( );
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
@@ -462,7 +476,9 @@ public class InsertInLayoutAction extends AbstractViewAction
 					.getModel( );
 			if ( handle instanceof ReportItemHandle
 					&& ( (ReportItemHandle) handle ).getDataSet( ) == null )
+			{
 				return true;
+			}
 			return DEUtil.getDataSetList( handle )
 					.contains( insertObj.getParent( ) );
 		}
