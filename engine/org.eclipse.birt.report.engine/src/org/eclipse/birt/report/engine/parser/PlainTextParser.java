@@ -29,25 +29,26 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * Parses the content of plain text to get the DOM tree.
- * 
+ * Parses the content of a text-related item.
  * <p>
- * During parsing the plain text, only the control codes '\r','\n' or '\r\n'
- * that format the layout are converted to "p" element in HTML and others are
+ * During parsing a plain text string, only control codes 
+ * '\r', '\n', '\r\n' '\n\r' are converted to "p" element in HTML,
+ * space chars are treated as non-breaking space, i.e., &nbsp; tab
+ * characters are treated as spaces, and others characters are 
  * preserved without change to be passed on to Emitter for outputting.
  * <p>
- * After parsing, the DOM tree has a <code>Document</code> node that has a
- * <code>Element</code> child node whose tag name is body. All other nodes
- * that need to be processed to output are the descendant nodes of "body" node.
+ * After parsing, the root of the DOM tree is a <code>Document</code> node 
+ * with an <code>Element</code> child node whose tag name is body. All 
+ * other nodes that need to be processed are descendant nodes of "body" 
+ * node.
  * 
- * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class PlainTextParser
 {
 
 	/**
-	 * logger used to log syntax errors.
+	 * logs syntax errors.
 	 */
 	protected static Log logger = LogFactory.getLog( PlainTextParser.class );
 

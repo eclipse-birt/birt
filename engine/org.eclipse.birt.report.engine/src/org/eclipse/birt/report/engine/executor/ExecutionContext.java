@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.parser.DOMParser;
+import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -43,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/16 20:26:11 $
+ * @version $Revision: 1.6 $ $Date: 2005/02/25 06:02:24 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -88,7 +88,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	protected Locale locale;
 
 	// A DOM Parser for parsing HTML
-	protected DOMParser parser;
+	protected TextParser parser;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -97,7 +97,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public ExecutionContext( )
 	{
-		parser = new DOMParser( );
+		parser = new TextParser( );
 
 		locale = Locale.getDefault( );
 		scriptContext = new ScriptContext( );
@@ -440,7 +440,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * @return Returns the parser.
 	 */
-	public DOMParser getParser( )
+	public TextParser getParser( )
 	{
 		return parser;
 	}

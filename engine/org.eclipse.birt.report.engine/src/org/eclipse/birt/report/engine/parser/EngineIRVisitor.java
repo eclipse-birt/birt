@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report geenration, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/02/24 08:29:31 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/03 02:37:20 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -849,9 +849,9 @@ class EngineIRVisitor extends DesignVisitor
 		String contentType = handle.getContentType( );
 		if ( contentType != null )
 		{
-			textItem.setContentType( contentType );
+			textItem.setTextType( contentType );
 		}
-		textItem.setContent( handle.getContentKey( ), handle.getContent( ) );
+		textItem.setText( handle.getContentKey( ), handle.getContent( ) );
 
 		currentElement = textItem;
 	}

@@ -68,7 +68,7 @@ import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.parser.DOMParser;
+import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -89,7 +89,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to send to
  * data engine
  * 
- * @version $Revision: 1.9 $ $Date: 2005/02/21 01:14:42 $
+ * @version $Revision: 1.10 $ $Date: 2005/02/25 13:19:21 $
  */
 public class ReportQueryBuilder {
 
@@ -352,10 +352,10 @@ public class ReportQueryBuilder {
 		public void visitTextItem(TextItemDesign text) {
 			BaseQueryDefinition query = prepareVisit(text);
 			if (text.getDomTree() == null) {
-				String content = getLocalizedString(text.getContentKey(), text
-						.getContent());
-				text.setDomTree(new DOMParser().parse(content, text
-						.getContentType()));
+				String content = getLocalizedString(text.getTextKey(), text
+						.getText());
+				text.setDomTree(new TextParser().parse(content, text
+						.getTextType()));
 			}
 			Document doc = text.getDomTree();
 			if (doc != null) {
@@ -784,7 +784,7 @@ public class ReportQueryBuilder {
 				Element ele = (Element) node;
 				if (node.getNodeName().equals("value-of")) // $NON-NLS-1$
 				{
-					if (!text.containExpr(node.getFirstChild().getNodeValue())) {
+					if (!text.hasExpression(node.getFirstChild().getNodeValue())) {
 						Expression expr = new Expression(node.getFirstChild()
 								.getNodeValue());
 						this.addExpression(expr);
@@ -801,7 +801,7 @@ public class ReportQueryBuilder {
 
 					if ("expr".equals(imageType)) // $NON-NLS-1$
 					{
-						if (!text.containExpr(node.getFirstChild()
+						if (!text.hasExpression(node.getFirstChild()
 								.getNodeValue())) {
 							Expression expr = new Expression(node
 									.getFirstChild().getNodeValue());

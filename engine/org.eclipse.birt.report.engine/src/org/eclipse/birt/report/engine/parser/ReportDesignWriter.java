@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 class ReportDesignWriter
 {
@@ -404,9 +404,9 @@ class ReportDesignWriter
 		{
 			pushTag( "text" );
 			writeReportItem( text );
-			attribute( "content-type", text.getContentType( ) );
-			attribute( "resource-key", text.getContentKey( ) );
-			text( text.getContent( ) );
+			attribute( "content-type", text.getTextType( ) );
+			attribute( "resource-key", text.getTextKey( ) );
+			text( text.getText( ) );
 			popTag( );
 		}
 

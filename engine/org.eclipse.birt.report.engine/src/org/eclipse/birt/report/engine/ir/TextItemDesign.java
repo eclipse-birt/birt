@@ -16,39 +16,42 @@ import java.util.HashMap;
 import org.w3c.dom.Document;
 
 /**
- * Text element is a element which will show text on the report.
+ * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
 	/**
-	 * text content type, such as "html", "auto", "rtf", "plain" 
+	 * text type, supports "html", "auto", "rtf", and "plain" 
 	 */
-	protected String contentType;
+	protected String textType;
+	
 	/**
-	 * content text key
+	 * the text key
 	 */
-	protected String contentKey;
+	protected String textKey;
+	
 	/**
 	 * text content
 	 */
-	protected String content;
+	protected String text;
 
 	/**
-	 * DOM tree, and IR do not set this value
+	 * the parsed tree for text
 	 */
 	protected Document domTree;
 	
 	/**
-	 * expression map in html 
+	 * captures all expressions from <value-of> tags
 	 */
 	protected HashMap exprMap = new HashMap();
 	
 	/**
-	 * add expression to hashmap
-	 * @param key
-	 * @param expr
+	 * add an expression to expression collection
+	 * 
+	 * @param key expression key
+	 * @param expr actual expression
 	 */
 	public void addExpression(String key, Expression expr)
 	{
@@ -56,56 +59,56 @@ public class TextItemDesign extends ReportItemDesign
 	}
 	
 	/**
-	 * 
-	 * @param key
-	 * @return
+	 * @param expressionKey key for an expression
+	 * @return whether the expression with a given key exists in HTML text
 	 */
-	public boolean containExpr(String key)
+	public boolean hasExpression(String expressionKey)
 	{
-		return exprMap.containsKey(key);
+		return exprMap.containsKey(expressionKey);
 	}
 	/**
-	 * get expression from map
-	 * @param key
-	 * @return
+	 * get an embedded expression based on expression key  
+	 * 
+	 * @param key expression key
+	 * @return the expression keyed by the given string
 	 */
 	public Expression getExpression(String key)
 	{
 		if(exprMap.containsKey(key))
-		{
 			return (Expression)exprMap.get(key);
-		}
 		else
-		{
 			return null;
-		}
 	}
+
 	/**
-	 * @param content
-	 *            The content to set.
+	 * @param textKey the message key for the text
+	 * @param text the actual text
 	 */
-	public void setContent( String textKey, String text )
+	public void setText( String textKey, String text )
 	{
-		this.contentKey = textKey;
-		this.content = text;
+		this.textKey = textKey;
+		this.text = text;
 	}
 
 	/**
 	 * @return Returns the resourceKey.
 	 */
-	public String getContentKey( )
+	public String getTextKey( )
 	{
-		return contentKey;
+		return textKey;
 	}
 
 	/**
 	 * @return Returns the content.
 	 */
-	public String getContent( )
+	public String getText( )
 	{
-		return content;
+		return text;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
+	 */
 	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitTextItem( this );
@@ -114,17 +117,19 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the encoding.
 	 */
-	public String getContentType( )
+	public String getTextType( )
 	{
-		return contentType;
+		return textType;
 	}
+	
 	/**
 	 * @param encoding The encoding to set.
 	 */
-	public void setContentType( String contentType )
+	public void setTextType( String textType )
 	{
-		this.contentType = contentType;
+		this.textType = textType;
 	}
+	
 	/**
 	 * @return Returns the domTree.
 	 */
@@ -132,6 +137,7 @@ public class TextItemDesign extends ReportItemDesign
 	{
 		return domTree;
 	}
+	
 	/**
 	 * @param domTree The domTree to set.
 	 */

@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.parser.DOMParser;
+import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.w3c.dom.Document;
@@ -36,7 +36,7 @@ import org.w3c.dom.Text;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -81,10 +81,10 @@ public class TextItemExecutor extends StyledItemExecutor
 		setVisibility( item, textContent );
 		if ( textItem.getDomTree( ) == null )
 		{
-			String content = getLocalizedString( textItem.getContentKey( ),
-					textItem.getContent( ) );
-			textItem.setDomTree( new DOMParser( ).parse( content, textItem
-					.getContentType( ) ) );
+			String content = getLocalizedString( textItem.getTextKey( ),
+					textItem.getText( ) );
+			textItem.setDomTree( new TextParser( ).parse( content, textItem
+					.getTextType( ) ) );
 		}
 		Document doc = textItem.getDomTree( );
 		if ( doc != null )
@@ -183,12 +183,12 @@ public class TextItemExecutor extends StyledItemExecutor
 								&& value.getClass( ).getComponentType( ) == byte.class )
 						{
 							byte[] blob = (byte[]) value;
-							doc = new DOMParser( ).parse(
+							doc = new TextParser( ).parse(
 									new ByteArrayInputStream( blob ), "html" );
 						}
 						else
 						{
-							doc = new DOMParser( ).parse( value.toString( ),
+							doc = new TextParser( ).parse( value.toString( ),
 									"html" );
 						}
 						appendedNode = node.getOwnerDocument( ).createElement(
