@@ -52,7 +52,8 @@ public class JSRows extends ScriptableObject
 	 */
 	public JSRows( IQueryResults outerResults, JSRowObject currentRowObj ) throws DataException
 	{
-		rows.add( currentRowObj );
+		if ( currentRowObj != null )
+			rows.add( currentRowObj );
 		if ( outerResults == null )
 			return;
 		IResultIterator resultIterator = outerResults.getResultIterator( );

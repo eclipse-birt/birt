@@ -73,13 +73,11 @@ public class ScriptEvalUtil
 				break;
 			case IConditionalExpression.OP_BETWEEN :
 				validateExpression( resultObject, resultOp1, resultOp2 );
-				result = compare( resultObject, resultOp1 ) >= 0
-						&& compare( resultObject, resultOp2 ) <= 0;
+				result = between( resultObject, resultOp1, resultOp2 );
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
 				validateExpression( resultObject, resultOp1, resultOp2 );
-				result = !( compare( resultObject, resultOp1 ) >= 0 && compare(
-						resultObject, resultOp2 ) <= 0 );
+				result = !( between( resultObject, resultOp1, resultOp2 ) );
 				break;
 			case IConditionalExpression.OP_NULL :
 				result = resultObject == null;
@@ -337,5 +335,23 @@ public class ScriptEvalUtil
 			throw new DataException( ResourceConstants.INVALID_TYPE, e );
 		}
 		return b;
+	}
+	
+	private static boolean between( Object resultObject, Object resultOp1,
+			Object resultOp2 ) throws DataException
+	{
+		Object min, max;
+		if ( compare( resultOp1, resultOp2 ) <= 0 )
+		{
+			min = resultOp1;
+			max = resultOp2;
+		}
+		else
+		{
+			min = resultOp2;
+			max = resultOp1;
+		}
+		return compare( resultObject, min ) >= 0
+				&& compare( resultObject, max ) <= 0;
 	}
 }
