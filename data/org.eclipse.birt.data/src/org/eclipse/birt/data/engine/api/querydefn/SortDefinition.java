@@ -44,7 +44,7 @@ public class SortDefinition implements ISortDefinition
 	}
 	
 	/**
-	 * @param keyExpr The group key expression to set.
+	 * @param keyColumn Name of key column to sorty by
 	 */
 	public void setColumn( String keyColumn ) 
 	{
@@ -53,7 +53,7 @@ public class SortDefinition implements ISortDefinition
 	}
 
 	/**
-	 * @param keyExpr The group key expression to set.
+	 * @param keyExpr Key expression to sort by
 	 */
 	public void setExpression( String keyExpr) 
 	{

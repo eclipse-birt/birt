@@ -76,7 +76,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	
 	
 	/**
-	 * @param usesDetail Whether detail rows are used in this query
+	 * @param usesDetails Whether detail rows are used in this query
 	 */
 	public void setUsesDetails(boolean usesDetails) 
 	{

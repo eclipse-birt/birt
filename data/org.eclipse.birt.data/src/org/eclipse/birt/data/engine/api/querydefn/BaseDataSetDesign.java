@@ -88,7 +88,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 
 	/**
 	 * Specifies the data source (connection) name.
-	 * @param dataSource The name of the dataSource to set.
+	 * @param dataSourceName The name of the dataSource to set.
 	 */
 	public void setDataSource( String dataSourceName ) 
 	{

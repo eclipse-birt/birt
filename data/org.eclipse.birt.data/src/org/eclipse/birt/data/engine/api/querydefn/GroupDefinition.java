@@ -140,7 +140,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	}
 	
 	/**
-	 * @param keyExpr The group key expression to set.
+	 * @param keyColumn Name of the column to group by
 	 */
 	public void setKeyColumn( String keyColumn ) 
 	{
@@ -149,7 +149,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	}
 
 	/**
-	 * @param keyExpr The group key expression to set.
+	 * @param keyExpr Key expression to group by
 	 */
 	public void setKeyExpression( String keyExpr) 
 	{
