@@ -157,6 +157,31 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 	    return m_design.getFilters();
 	}
 
+    public List getParameters()
+    {
+        return m_design.getParameters();
+    }
+	
+    /**
+     * @deprecated use getParameters()
+     */
+    public List getInputParameters()
+    {
+        return getParameters();
+    }
+	
+    /**
+     * @deprecated use getParameters()
+     */
+    public List getOutputParameters()
+    {
+        return getParameters();
+    }
+   
+	public List getResultSetHints()
+	{
+		return m_design.getResultSetHints();
+	}
 	
 	public String getAfterCloseScript()
 	{
@@ -178,24 +203,9 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 		return m_design.getBeforeOpenScript();
 	}
 	
-	public List getInputParameters()
-	{
-		return m_design.getInputParameters();
-	}
-	
 	public String getOnFetchScript()
 	{
 		return m_design.getOnFetchScript();
-	}
-	
-	public List getOutputParameters()
-	{
-		return m_design.getOutputParameters();
-	}
-	
-	public List getResultSetHints()
-	{
-		return m_design.getResultSetHints();
 	}
 	
 	/** Executes the beforeOpen script associated with the data source */

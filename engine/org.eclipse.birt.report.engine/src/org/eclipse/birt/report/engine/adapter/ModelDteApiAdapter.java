@@ -25,10 +25,9 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
-import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -38,10 +37,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
-import org.eclipse.birt.data.engine.api.querydefn.OutputParameterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -258,23 +256,14 @@ public class ModelDteApiAdapter
         dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose() );
         dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose() );
 
-        // dataset parameters
+        // dataset parameters definition
         Iterator elmtIter = modelDataSet.parametersIterator();
         if ( elmtIter != null )
         {
             while ( elmtIter.hasNext() )
             {
             	DataSetParameterHandle modelParam = (DataSetParameterHandle ) elmtIter.next();
-            	// input parameters
-            	if ( modelParam.isInput( ) )
-				{
-					dteDataSet.addInputParameter( newInputParam( modelParam ) );
-				}
-				// output parameters
-				if ( modelParam.isOutput( ) )
-				{
-					dteDataSet.addOutputParameter( newOutputParam( modelParam ) );
-				}
+				dteDataSet.addParameter( newParam( modelParam ) );
             }
         }
 
@@ -285,7 +274,7 @@ public class ModelDteApiAdapter
             while ( elmtIter.hasNext() )
             {
                 ParamBindingHandle modelParamBinding = (ParamBindingHandle) elmtIter.next();
-                dteDataSet.addInuptParamBinding( newInputParamBinding( modelParamBinding ) );
+                dteDataSet.addInputParamBinding( newInputParamBinding( modelParamBinding ) );
             }
         }
         
@@ -347,29 +336,24 @@ public class ModelDteApiAdapter
 
     }
     
-    IInputParameterDefinition newInputParam( DataSetParameterHandle modelInputParam )
+    /**
+     * Creates a new DtE API IParameterDefinition from a model's DataSetParameterHandle.
+     */
+    IParameterDefinition newParam( DataSetParameterHandle modelParam )
     {
-        InputParameterDefinition dteInputParam = new InputParameterDefinition();
+        ParameterDefinition dteParam = new ParameterDefinition();
 
-        dteInputParam.setName( modelInputParam.getName() );
-        if ( modelInputParam.getPosition() != null )
-            dteInputParam.setPosition( modelInputParam.getPosition().intValue() );
-        dteInputParam.setType( toDteDataType( modelInputParam.getDataType() ) );
-        dteInputParam.setOptional( modelInputParam.isOptional() );
+        dteParam.setName( modelParam.getName() );
+        if ( modelParam.getPosition() != null )
+            dteParam.setPosition( modelParam.getPosition().intValue() );
+        dteParam.setType( toDteDataType( modelParam.getDataType() ) );
+        dteParam.setInputMode( modelParam.isInput() );
+        dteParam.setOutputMode( modelParam.isOutput() );
+        dteParam.setNullable( modelParam.getIsNullable() );
+        dteParam.setInputOptional( modelParam.isOptional() );
+        dteParam.setDefaultInputValue( modelParam.getDefaultValue() );
         
-        return dteInputParam;
-    }
-
-    IOutputParameterDefinition newOutputParam( DataSetParameterHandle modelOutputParam )
-    {
-        OutputParameterDefinition dteOutputParam = new OutputParameterDefinition();
-
-        dteOutputParam.setName( modelOutputParam.getName() );
-        if ( modelOutputParam.getPosition() != null )
-            dteOutputParam.setPosition( modelOutputParam.getPosition().intValue() );
-        dteOutputParam.setType( toDteDataType( modelOutputParam.getDataType() ) );
-        
-        return dteOutputParam;
+        return dteParam;
     }
 
     /** Creates a new DtE API InputParamBinding from a model's binding.

@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,29 +14,68 @@
 package org.eclipse.birt.data.engine.api;
 
 /**
- * Common interface for defining input and output parameters. A parameter has an ID (either by name or by 
- * 1-based index), and a data type
+ * Describes the metadata of a data set parameter.
+ * The definition is used to provide a parameter's metadata
+ * when such information cannot be dynamically obtained from the 
+ * underlying data source.
  */
 public interface IParameterDefinition
 {
     /**
      * Returns the parameter name. 
-     * 
      * @return the name of the parameter. Null if parameter is identified by index.
      */
     public abstract String getName();
 
     /**
      * Returns the parameter position. Parameter positions start from 1.
-     * 
      * @return the parameter position. -1 if parameter is identified by name.
      */
     public abstract int getPosition();
 
     /**
      * Returns the parameter data type. See the DataType class for return value constants.
-     * 
      * @return the parameter data type
      */
     public abstract int getType();
+	
+	/**
+	 * Returns whether this parameter is an input parameter. 
+	 * A parameter can be of both input and output modes.
+	 * @return	true if this parameter is of input mode, 
+	 * 			false otherwise.
+	 */
+	public abstract boolean isInputMode();
+	
+	/**
+	 * Returns whether this parameter is an output parameter. 
+	 * A parameter can be of both input and output modes.
+	 * @return	true if this parameter is of output mode, 
+	 * 			false otherwise.
+	 */
+	public abstract boolean isOutputMode();
+    
+    /**
+	 * Specifies whether this parameter is optional.
+	 * Applies to the parameter only if it is of input mode.
+	 * @return	true if this parameter is optional, 
+	 * 			false if this parameter is required.
+     */
+    public abstract boolean isInputOptional();
+    
+    /**
+     * Returns the default input value of this parameter.
+     * @return	the default value, or null if the default value 
+	 * 			is not specified or 
+	 * 			if this is an output only parameter.
+     */
+    public abstract String getDefaultInputValue();
+    
+	/**
+	 * Specifies whether null values are allowed for this parameter.
+	 * @return	true if this parameter value can be null, 
+	 * 			false otherwise.
+	 */
+	public abstract boolean isNullable();
+
 }

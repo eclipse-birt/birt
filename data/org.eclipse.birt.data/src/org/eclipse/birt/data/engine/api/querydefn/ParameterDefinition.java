@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,34 +23,52 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
  * 1-based index), and a data type
  */
 
-abstract public class ParameterDefinition implements IParameterDefinition 
+public class ParameterDefinition implements IParameterDefinition 
 {
-	protected int posn = -1;
-	protected String name;
-	protected int type = DataType.UNKNOWN_TYPE;
+	private int posn = -1;
+	private String name;
+	private int type = DataType.UNKNOWN_TYPE;
+	private boolean isInputMode = false;
+	private boolean isOutputMode = false;
+	private boolean isInputOptional = true;
+	private String defaultInputValue;
+	private boolean isNullable = true;
 
-	ParameterDefinition()
+	public ParameterDefinition()
 	{
 	}
 	
-	ParameterDefinition( String name, int type )
+	public ParameterDefinition( String name, int type )
 	{
 	    this.name = name;
 	    this.type = type;
 	}
 	
-	ParameterDefinition( int position, int type )
+	public ParameterDefinition( int position, int type )
 	{
 	    this.posn = position;
 	    this.type = type;
 	}
 	
-	/**
-	 * Returns the parameter name.
-	 * 
-	 * @return the name of the parameter
-	 */
+	public ParameterDefinition( String name, int type, boolean isInput, boolean isOutput )
+	{
+	    this.name = name;
+	    this.type = type;
+	    isInputMode = isInput;
+	    isOutputMode = isOutput;
+	}
 	
+	public ParameterDefinition( int position, int type, boolean isInput, boolean isOutput )
+	{
+	    this.posn = position;
+	    this.type = type;
+	    isInputMode = isInput;
+	    isOutputMode = isOutput;
+	}
+	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getName()
+     */	
 	public String getName( )
 	{
 		return name;
@@ -64,12 +82,9 @@ abstract public class ParameterDefinition implements IParameterDefinition
 	    this.name = name;
 	}
 	
-	/**
-	 * Returns the parameter position.
-	 * 
-	 * @return the parameter position
-	 */
-	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getPosition()
+     */	
 	public int getPosition( )
 	{
 		return posn;
@@ -83,22 +98,112 @@ abstract public class ParameterDefinition implements IParameterDefinition
 	    this.posn = posn;
 	}
 	
-	/**
-	 * Returns the parameter data type. See the DataType class for return value constants.
-	 * 
-	 * @return the parameter data type
-	 */
-	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getType()
+     */	
 	public int getType( )
 	{
 		return type;
 	}
 	
 	/**
-	 * Sets the parameter type
+	 * Sets the parameter data type
 	 */
 	public void setType( int type )
 	{
 	    this.type = type;
+	}	
+	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputMode()
+     */	
+	public boolean isInputMode()
+	{
+	    return isInputMode;
+	}
+	
+	/**
+	 * Sets the input mode of the parameter.
+	 * @param isInput	true if the parameter is of input mode,
+	 * 					false otherwise.
+	 */
+	public void setInputMode( boolean isInput )
+	{
+	    this.isInputMode = isInput;
+	}
+	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isOutputMode()
+     */	
+	public boolean isOutputMode()
+	{
+	    return isOutputMode;
+	}
+	
+	/**
+	 * Sets the output mode of the parameter.
+	 * @param isOutput	true if the parameter is of output mode,
+	 * 					false otherwise.
+	 */
+	public void setOutputMode( boolean isOutput )
+	{
+	    this.isOutputMode = isOutput;
+	}
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputOptional()
+     */	
+    public boolean isInputOptional()
+    {
+        return isInputMode() ? isInputOptional : true;
+    }
+    
+    /**
+     * Sets whether the parameter's input value is optional.
+	 * Applies to the parameter only if it is of input mode.
+     * @param isOptional	true if the parameter input value is optional,
+     * 						false otherwise.
+     */
+    public void setInputOptional( boolean isOptional )
+    {
+        if ( isInputMode() )
+            isInputOptional = isOptional;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getDefaultInputValue()
+     */	
+    public String getDefaultInputValue()
+    {
+        return isInputMode() ? defaultInputValue : null;
+    }
+    
+    /**
+     * Sets the parameter's default input value.
+	 * Applies to the parameter only if it is of input mode.
+     * @param defaultValue	Default input value.
+     */
+    public void setDefaultInputValue( String defaultValue )
+    {
+        if ( isInputMode() )
+            defaultInputValue = defaultValue;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isNullable()
+     */	
+	public boolean isNullable()
+	{
+	    return isNullable;
+	}
+	
+	/**
+	 * Sets whether the parameter's value can be null.
+	 * @param isNullable	true if the parameter value can be null,
+	 * 						false otherwise.
+	 */
+	public void setNullable( boolean isNullable )
+	{
+	    this.isNullable = isNullable;
 	}
 }

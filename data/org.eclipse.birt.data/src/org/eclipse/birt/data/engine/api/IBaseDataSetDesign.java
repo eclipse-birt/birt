@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,18 +53,28 @@ public interface IBaseDataSetDesign
     public abstract List getFilters();
 
     /**
+     * Returns the data set parameter definitions as a list
+     * of IParameterDefinition objects. 
+     * @return the parameter definitions. 
+     * 			An empty list if none is defined.
+     */
+    public abstract List getParameters();
+
+    /**
      * Returns the input parameter definitions as a list
-     * of IInputParamDefn objects. 
+     * of IInputParameterDefinition objects. 
      * @return the input parameter definitions. 
      * 			An empty list if none is defined.
+     * @deprecated use getParameters()
      */
     public abstract List getInputParameters();
 
     /**
      * Returns the output parameter definitions as a list
-     * of IOutputParamDefn objects.
+     * of IOutputParameterDefinition objects.
      * @return the output parameter definitions. 
      * 			An empty list if none is defined.
+     * @deprecated use getParameters()
      */
     public abstract List getOutputParameters();
 

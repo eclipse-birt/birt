@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,11 +18,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterDefinition;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.InputParameterHint;
+import org.eclipse.birt.data.engine.odaconsumer.OutputParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -67,30 +68,36 @@ final class CustomField
     }
 }
 
-class ParameterBinding{
+class ParameterBinding
+{
 	private String name;
-	private int position=-1;
+	private int position = -1;
 	private Object value;
 	
-	ParameterBinding(String name,Object value){
-		this.name=name;
-		this.value=value;
+	ParameterBinding( String name, Object value )
+	{
+		this.name = name;
+		this.value = value;
 	}
 	
-	ParameterBinding(int position,Object value){
-		this.position=position;
-		this.value=value;
+	ParameterBinding( int position, Object value )
+	{
+		this.position = position;
+		this.value = value;
 	}
 	
-	public int getPosition(){
+	public int getPosition()
+	{
 		return position;
 	}
 	
-	public String getName(){
+	public String getName()
+	{
 		return name;
 	}
 
-	public Object getValue(){
+	public Object getValue()
+	{
 		return value;
 	}
 }
@@ -115,11 +122,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     
     // Names (or aliases) of columns in the projected result set
     protected String[]			projectedFields;
-    
-	// Collection of Input Parameters
-	private Collection inputParams = new ArrayList( );
 	
-	private Collection inputParamHints;
+	// input/output parameter hints
+	private Collection paramHints;
+    
+	// input parameter values
+	private Collection inputParamValues;
 
     DataSourceQuery( DataSource dataSource, String queryType, String queryText )
     {
@@ -128,7 +136,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         this.queryType = queryType;
     }
     
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getDataSource()
      */
     public IDataSource getDataSource()
@@ -136,7 +144,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return dataSource;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getQueryText()
      */
     public String getQueryText()
@@ -144,7 +152,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return queryText;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getQueryType()
      */
     public String getQueryType()
@@ -152,7 +160,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return queryType;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultHints(java.util.Collection)
      */
     public void setResultHints(Collection columnDefns)
@@ -160,7 +168,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         resultHints = columnDefns;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getResultHints()
      */
     public Collection getResultHints()
@@ -168,7 +176,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return resultHints;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultProjection(java.lang.String[])
      */
     public void setResultProjection(String[] fieldNames) throws DataException
@@ -178,55 +186,35 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         this.projectedFields = fieldNames;
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getResultProjection()
      */
     public String[] getResultProjection()
     {
     	return projectedFields;
     }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setInputParamHints(java.util.Collection)
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setParameterHints()
      */
-    public void setInputParamHints(Collection parameterDefns)
-    {
-        if ( parameterDefns == null || parameterDefns.isEmpty( ) )
-			return; // nothing to set
-		inputParamHints=parameterDefns;
-    }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getInputParamHints()
-     */
-    public Collection getInputParamHints()
-    {
-        return inputParamHints;
-    }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setOutputParamHints(java.util.Collection)
-     */
-    public void setOutputParamHints(Collection parameterDefns)
-    {
+	public void setParameterHints( Collection parameterDefns )
+	{
         if ( parameterDefns == null || parameterDefns.isEmpty() )
-            return;		// nothing to set
+			return; 	// nothing to set
         
-        // TODO implement this
-        assert false;
-    }
+        // assign to placeholder, for use later during prepare()
+		paramHints = parameterDefns;
+	}
 
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getOutputParamHints()
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#getParameterHints()
      */
-    public Collection getOutputParamHints()
-    {
-        // TODO implement this
-        assert false;
-        return null;
-    }
+	public Collection getParameterHints()
+	{
+	    return paramHints;
+	}
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#addProperty(java.lang.String, java.lang.String)
      */
     public void addProperty(String name, String value)
@@ -236,10 +224,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         // before it is prepared
     }
 
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#declareCustomField(java.lang.String, int)
      */
-    public void declareCustomField(String fieldName, int dataType) throws DataException
+    public void declareCustomField( String fieldName, int dataType ) throws DataException
     {
         if ( fieldName == null || fieldName.length() == 0 )
             throw new DataException( ResourceConstants.CUSTOM_FIELD_EMPTY );
@@ -342,22 +330,44 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	}
 	}
    
-	/** Adds input and output parameter hints to odaStatement */
+	/** 
+	 * Adds input and output parameter hints to odaStatement
+	 */
 	private void addParameterHints() throws DataException
 	{
-		if ( inputParamHints != null )
+		if ( paramHints == null )
+		    return;	// nothing to add
+
+		// first iterate thru the collection to add input parameter hints
+		Iterator list = paramHints.iterator( );
+		while ( list.hasNext( ) )
 		{
-			Iterator list = inputParamHints.iterator( );
-			while ( list.hasNext( ) )
-			{
-				InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
-				InputParameterHint parameterHint = new InputParameterHint(
-						paramDef.getName( ) );
-				parameterHint.setPosition( paramDef.getPosition( ) );
-				parameterHint.setIsOptional( paramDef.isOptional( ) );
-				parameterHint.setDefaultValue( paramDef.getDefaultValue() );
-				odaStatement.addInputParameterHint( parameterHint );
-			}
+		    IParameterDefinition paramDef = (IParameterDefinition) list.next( );
+		    if ( ! paramDef.isInputMode() )
+		        continue;	// skip non input parameter
+		    
+			InputParameterHint parameterHint = new InputParameterHint(
+					paramDef.getName( ) );
+			parameterHint.setPosition( paramDef.getPosition( ) );
+			parameterHint.setDataType( DataType.getClass( paramDef.getType() ));
+			parameterHint.setIsOptional( paramDef.isInputOptional( ) );
+			parameterHint.setDefaultValue( paramDef.getDefaultInputValue() );
+			odaStatement.addInputParameterHint( parameterHint );
+		}
+		
+		// re-iterate thru the collection to add output parameter hints
+		list = paramHints.iterator( );
+		while ( list.hasNext( ) )
+		{
+		    IParameterDefinition paramDefn = (IParameterDefinition) list.next( );
+		    if ( ! paramDefn.isOutputMode() )
+		        continue;	// skip non output parameter
+		    
+		    OutputParameterHint parameterHint = new OutputParameterHint(
+		            paramDefn.getName( ) );
+			parameterHint.setPosition( paramDefn.getPosition( ) );
+			parameterHint.setDataType( DataType.getClass( paramDefn.getType() ));
+			odaStatement.addOutputParameterHint( parameterHint );
 		}
 	}
 	
@@ -394,19 +404,26 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         return paramMetaDataList;
 	}
     
+	private Collection getInputParamValues()
+	{
+	    if ( inputParamValues == null )
+	        inputParamValues = new ArrayList();
+	    return inputParamValues;
+	}
+
 	public void setInputParamValue( String inputParamName, Object paramValue )
 			throws DataException
 	{
 
 		ParameterBinding pb = new ParameterBinding( inputParamName, paramValue );
-		inputParams.add( pb );
+		getInputParamValues().add( pb );
 	}
 
 	public void setInputParamValue( int inputParamPos, Object paramValue )
 			throws DataException
 	{
 		ParameterBinding pb = new ParameterBinding( inputParamPos, paramValue );
-		inputParams.add( pb );
+		getInputParamValues().add( pb );
 	}
     
     public IResultIterator execute( ) throws DataException
@@ -414,7 +431,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	assert odaStatement != null;
 
     	// set input parameter bindings
-		Iterator list = inputParams.iterator( );
+		Iterator list = getInputParamValues().iterator( );
 		while ( list.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) list.next( );

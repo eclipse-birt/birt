@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -108,42 +108,23 @@ public interface IDataSourceQuery extends IQuery
 	public String[] getResultProjection();
 	
     /**
-     * Specify one or more input parameter definition hints to the
+     * Specify one or more input/output parameter definition hints to the
      * ODI Executor for data access.  One is not required
-     * to provide hints for every expected input parameter.
+     * to provide hints for every expected parameter.
      * Any parameter hints provided will be applied only 
      * if the underlying data provider is not able to 
      * provide corresponding runtime metadata.  
      * @param parameterDefns	One or more parameter hints as a collection
-     * 				of birt.data.engine.api.IInputParamDefn objects.
+     * 				of birt.data.engine.api.IParameterDefinition objects.
      */
-	public void setInputParamHints( Collection parameterDefns );
+	public void setParameterHints( Collection parameterDefns );
   
     /**
-     * Return a collection of input parameter hints associated with this query.
-     * @return	A collection of one or more IInputParamDefn hints
-     * 			provided to assist in data access.
+     * Return a collection of input/output parameter hints associated with this query.
+     * @return	A collection of one or more IParameterDefinition objects
+     * 			to assist in data access.
      */
-	public Collection getInputParamHints();
-
-    /**
-     * Specify one or more output parameter definition hints to the
-     * ODI Executor for data access.  One is not required
-     * to provide hints for every expected output parameter.
-     * Any parameter hints provided will be applied only 
-     * if the underlying data provider is not able to 
-     * provide corresponding runtime metadata.  
-     * @param parameterDefns	One or more parameter hints as a collection
-     * 				of birt.data.engine.api.IOutputParamDefn objects.
-     */
-	public void setOutputParamHints( Collection parameterDefns );
-  
-    /**
-     * Return a collection of output parameter hints associated with this query.
-     * @return	A collection of one or more IOutputParamDefn hints
-     * 			provided to assist in data access.
-     */
-	public Collection getOutputParamHints();
+	public Collection getParameterHints();	
 
 	/**
 	 * Adds the specified value to the named property. 

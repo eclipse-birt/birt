@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,12 +16,14 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -35,8 +37,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 {
     private String 	name;
     private String 	dataSourceName;
-    private List	inputParameters;
-    private List 	outputParameters;
+    private List	parameters;
     private List	resultSetHints;
     private List	computedColumns;
     private List	filters;
@@ -69,20 +70,17 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.dataSourceName = dataSourceName;
 	}
 	
-	/**
-	 * Gets the name of the data set
-	 * @return Name of data set.
-	 */
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getName()
+     */	
 	public String getName( )
 	{
 		return name;
 	}
 	
-	/**
-	 * Returns the data source name for this data set. 
-	 * @return Name of the data source (connection) for this data set. If null, no data source
-	 * is specified for this data set
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getDataSourceName()
+     */	
 	public String getDataSourceName( )
 	{
 		return dataSourceName;
@@ -97,13 +95,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.dataSourceName = dataSourceName;
 	}
 	
-	/**
-	 * Returns a list of computed columns. Contains
-	 * ComputedColumn objects. Computed columns must be computed before
-	 * applying filters.
-	 * @return the computed columns.  
-	 * 			An empty list if no computed columns are defined
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getComputedColumns()()
+     */	
 	public List getComputedColumns( )
 	{
 	    if ( computedColumns == null )
@@ -122,11 +116,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getComputedColumns().add( column );
 	}
 	
-	/**
-	 * Returns a list of filters. The List contains Filter objects. The data set should discard any
-	 * row that does not satisfy all the filters.
-	 * @return the filters.  An empty list if no filters are defined.
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getFilters()
+     */	
 	public List getFilters( )
 	{
 	    if ( filters == null )
@@ -144,59 +136,99 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	    if ( filter != null )
 	        getFilters().add( filter );
 	}
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getParameters()
+     */	
+    public List getParameters()
+    {
+	    if ( parameters == null )
+	        parameters = new ArrayList();
+		return parameters;
+    }
 	
 	/**
-	 * Returns the input parameter definitions as a list
-	 * of InputParameterDefn objects. 
-	 * @return the input parameter definitions.  
-	 * 			An empty list if no input parameter are defined.
-	 */	
+	 * Adds a parameter definition to the data set.
+	 */
+	public void addParameter( IParameterDefinition param )
+	{
+	    if ( param != null )
+	        getParameters().add( param );
+	}
+	
+    /**
+     * Returns the input parameter definitions as a list
+     * of IInputParameterDefinition objects. 
+     * @return the input parameter definitions. 
+     * 			An empty list if none is defined.
+     * @deprecated use getParameters()
+     */
 	public List getInputParameters( )
 	{
-	    if ( inputParameters == null )
-	        inputParameters = new ArrayList();
-		return inputParameters;
+	    List params = getParameters();
+	    if ( params.isEmpty() )
+	        return params;
+	    
+	    // iterate through the parameters list, and return only
+	    // those that are of input mode
+        List inputParams = new ArrayList();
+		Iterator paramItr = params.iterator( );
+		while ( paramItr.hasNext() )
+		{
+		    IParameterDefinition paramDefn = (IParameterDefinition) paramItr.next();
+		    if ( paramDefn.isInputMode() )
+		        inputParams.add( paramDefn );
+		}
+		return inputParams;
 	}
 	
 	/**
 	 * Adds an input paramter definition to the data set.
+     * @deprecated use addParameter()
 	 */
 	public void addInputParameter( IInputParameterDefinition param )
 	{
-	    if ( param != null )
-	        getInputParameters().add( param );
+	    addParameter( param );
 	}
 	
-	/**
-	 * Returns the output parameter definitions as a list
-	 * of OutputParameterDefn objects.
-	 * @return the output parameter definitions. 
-	 * 			An empty list if no output parameters are defined.
-	 */
+    /**
+     * Returns the output parameter definitions as a list
+     * of IOutputParameterDefinition objects.
+     * @return the output parameter definitions. 
+     * 			An empty list if none is defined.
+     * @deprecated use getParameters()
+     */
 	public List getOutputParameters( )
 	{
-	    if ( outputParameters == null )
-	        outputParameters = new ArrayList();
-		return outputParameters;
+	    List params = getParameters();
+	    if ( params.isEmpty() )
+	        return params;
+	    
+	    // iterate through the parameters list, and return only
+	    // those that are of output mode
+        List outputParams = new ArrayList();
+		Iterator paramItr = params.iterator( );
+		while ( paramItr.hasNext() )
+		{
+		    IParameterDefinition paramDefn = (IParameterDefinition) paramItr.next();
+		    if ( paramDefn.isOutputMode() )
+		        outputParams.add( paramDefn );
+		}
+		return outputParams;
 	}
 	
 	/**
 	 * Adds an output paramter definition to the list.
+     * @deprecated use addParameter()
 	 */
 	public void addOutputParameter( IOutputParameterDefinition param )
 	{
-	    if ( param != null )
-	        getOutputParameters().add( param );
+	    addParameter( param );
 	}
 		
-	/**
-	 * Returns the result set hints definition as a list of ColumnDefn
-	 * objects. Returns null if this data set does not provide a result set
-	 * hints definition. (A null pointer usually means that the data set definition
-	 * can provide the definition from the underlying implementation.) 
-	 * @return the result set hints definition.
-	 * 			An empty list if none is defined.
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getResultSetHints()
+     */	
 	public List getResultSetHints()
 	{
 	    if ( resultSetHints == null )
@@ -214,12 +246,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	        getResultSetHints().add( col );
 	}
 
-	/**
-	 * Returns the set of input parameter bindings as an unordered collection
-	 * of IInputParamBinding objects.
-	 * @return	the data set's input parameter bindings.
-	 * 			An empty collection if none is defined.
-	 */
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParamBindings()
+     */	
 	public Collection getInputParamBindings()
 	{
 	    if ( inputParamBindings == null )
@@ -232,17 +261,15 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 * Ignores given binding if null.
 	 * @param binding	Could be null.
 	 */
-	public void addInuptParamBinding( IInputParameterBinding binding )
+	public void addInputParamBinding( IInputParameterBinding binding )
 	{
 	    if ( binding != null )
 	        getInputParamBindings().add( binding );
 	}
 	
-	/**
-	 * Returns the BeforeOpen script to be called just before opening the data
-	 * set.
-	 * @return the BeforeOpen script
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeOpenScript()
+     */	
 	public String getBeforeOpenScript( )
 	{
 		return beforeOpenScript;
@@ -257,11 +284,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.beforeOpenScript = beforeOpenScript;
 	}
 	
-	/**
-	 * Returns the AfterOpen script to be called just after the data set is
-	 * opened, but before fetching each row.
-	 * @return the AfterOpen script
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterOpenScript()
+     */	
 	public String getAfterOpenScript( )
 	{
 		return afterOpenScript;
@@ -276,13 +301,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.afterOpenScript = afterOpenScript;
 	}
 	
-	/**
-	 * Returns the OnFetch script to be called just after the a row is read
-	 * from the data set. Called after setting computed columns and only for
-	 * rows that pass the filters. (Not called for rows that are filtered out
-	 * of the data set.)
-	 * @return the OnFetch script
-	 */
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getOnFetchScript()
+     */	
 	public String getOnFetchScript( )
 	{
 		return onFetchScript;
@@ -297,11 +318,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.onFetchScript = onFetchScript;
 	}
 	
-	/**
-	 * Returns the before-close script to be called just before closing the
-	 * data set.
-	 * @return the before-close script
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getBeforeCloseScript()
+     */	
 	public String getBeforeCloseScript( )
 	{
 		return beforeCloseScript;
@@ -316,11 +335,9 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 		this.beforeCloseScript = beforeCloseScript;
 	}
 
-	/**
-	 * Returns the AfterClose script to be called just after the data set is
-	 * closed.
-	 * @return the AfterClose script
-	 */	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterCloseScript()
+     */	
 	public String getAfterCloseScript( )
 	{
 		return afterCloseScript;
