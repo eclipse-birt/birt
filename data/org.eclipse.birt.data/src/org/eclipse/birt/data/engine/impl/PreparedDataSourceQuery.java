@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collection;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -89,6 +90,15 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		return (IQueryDefinition) getQueryDefn();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+	 */
+    public Collection getParameterMetaData() throws DataException
+	{
+    	throw new UnsupportedOperationException();
+	}
+    
 	/**
 	 * Executes the prepared execution plan.  This returns
 	 * a QueryResult object at a state ready to return its 

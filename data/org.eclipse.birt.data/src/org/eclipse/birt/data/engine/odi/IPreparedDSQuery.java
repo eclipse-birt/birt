@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.Collection;
+
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -35,7 +37,23 @@ public interface IPreparedDSQuery
      * 			expected metadata of the query result objects.
      */
     public IResultClass getResultClass();
-
+    
+    /**
+     * Returns a collection of <code>IParameterMetaData</code> that 
+     * describes the meta-data of each parameter defined in 
+     * this prepared data source query.
+     * The sequence in the collection has no implied meaning.
+     * A parameter's position value, if defined, is specified 
+     * in a IParameterMetaData.
+     * Each parameter can be of input and/or output mode.
+     * @return	The collection of IParameterMetaData to describe
+     * 			the meta-data of all parameters defined in this
+     * 			prepared query.  Returns null if no parameters
+     * 			are defined, or no parameter metadata is available.
+     */
+    public Collection getParameterMetaData()
+    					throws DataException;
+    
     /** 
      * Binds an input value to the query's input parameter.
      * <br>
