@@ -58,7 +58,6 @@ public abstract class WrapperSelectionAction extends SelectionAction
 	public void run( )
 	{
 		actionHandler.run( );
-		refresh( );
 	}
 
 	/*
@@ -68,7 +67,6 @@ public abstract class WrapperSelectionAction extends SelectionAction
 	 */
 	protected void handleSelectionChanged( )
 	{
-		super.handleSelectionChanged( );
 		ISelection model = DNDUtil.editPart2Model( getSelection( ) );
 		if ( model.isEmpty( ) )
 		{
@@ -78,6 +76,7 @@ public abstract class WrapperSelectionAction extends SelectionAction
 		{
 			actionHandler = createActionHandler( model );
 		}
+		super.handleSelectionChanged( );
 	}
 
 	/**
