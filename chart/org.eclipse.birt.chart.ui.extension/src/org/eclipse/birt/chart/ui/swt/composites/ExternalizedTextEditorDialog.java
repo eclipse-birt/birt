@@ -105,7 +105,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         GridLayout glContent = new GridLayout();
         glContent.numColumns = 2;
         glContent.horizontalSpacing = 5;
-        glContent.verticalSpacing = 5;
+        glContent.verticalSpacing = 16;
         glContent.marginHeight = 7;
         glContent.marginWidth = 7;
 
@@ -129,33 +129,54 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         cmbKeys.setLayoutData(gdCMBKeys);
         cmbKeys.addSelectionListener(this);
 
-        Label lblValue = new Label(cmpContent, SWT.NONE);
+        // Layout for Current Value composite
+        GridLayout glCurrent = new GridLayout();
+        glCurrent.horizontalSpacing = 5;
+        glCurrent.verticalSpacing = 5;
+        glCurrent.marginHeight = 0;
+        glCurrent.marginWidth = 0;
+
+        Composite cmpCurrent = new Composite(cmpContent, SWT.NONE);
+        GridData gdCMPCurrent = new GridData(GridData.FILL_BOTH);
+        gdCMPCurrent.horizontalSpan = 2;
+        cmpCurrent.setLayoutData(gdCMPCurrent);
+        cmpCurrent.setLayout(glCurrent);
+
+        Label lblValue = new Label(cmpCurrent, SWT.NONE);
         GridData gdLBLValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-        gdLBLValue.horizontalSpan = 2;
         lblValue.setLayoutData(gdLBLValue);
         lblValue.setText("Default Value:");
 
-        txtValue = new Text(cmpContent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
-        GridData gdTXTValue = new GridData(GridData.FILL_HORIZONTAL);
-        gdTXTValue.horizontalSpan = 2;
-        gdTXTValue.widthHint = 150;
+        txtValue = new Text(cmpCurrent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
+        GridData gdTXTValue = new GridData(GridData.FILL_BOTH);
+        gdTXTValue.widthHint = 280;
         gdTXTValue.heightHint = 40;
         txtValue.setLayoutData(gdTXTValue);
 
-        Label lblExtValue = new Label(cmpContent, SWT.NONE);
+        // Layout for Current Value composite
+        GridLayout glExtValue = new GridLayout();
+        glExtValue.horizontalSpacing = 5;
+        glExtValue.verticalSpacing = 5;
+        glExtValue.marginHeight = 0;
+        glExtValue.marginWidth = 0;
+
+        Composite cmpExtValue = new Composite(cmpContent, SWT.NONE);
+        GridData gdCMPExtValue = new GridData(GridData.FILL_BOTH);
+        gdCMPExtValue.horizontalSpan = 2;
+        cmpExtValue.setLayoutData(gdCMPExtValue);
+        cmpExtValue.setLayout(glExtValue);
+
+        Label lblExtValue = new Label(cmpExtValue, SWT.NONE);
         GridData gdLBLExtValue = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-        gdLBLExtValue.horizontalSpan = 2;
         lblExtValue.setLayoutData(gdLBLExtValue);
         lblExtValue.setText("Externalized Value:");
 
-        txtCurrent = new Text(cmpContent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL
+        txtCurrent = new Text(cmpExtValue, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL
             | SWT.READ_ONLY);
-        GridData gdTXTCurrent = new GridData(GridData.FILL_HORIZONTAL);
-        gdTXTCurrent.horizontalSpan = 2;
-        gdTXTCurrent.widthHint = 150;
+        GridData gdTXTCurrent = new GridData(GridData.FILL_BOTH);
+        gdTXTCurrent.widthHint = 280;
         gdTXTCurrent.heightHint = 40;
         txtCurrent.setLayoutData(gdTXTCurrent);
-        txtCurrent.setText(getCurrentPropertyValue());
 
         // Layout for button composite
         GridLayout glButtons = new GridLayout();
@@ -216,6 +237,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
             }
         }
         txtValue.setText(getDisplayValue());
+        txtCurrent.setText(getCurrentPropertyValue());
     }
 
     private String getKeyComponent(String sText)
@@ -258,7 +280,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
 
     private String getCurrentPropertyValue()
     {
-        if (sResult == null || "".equals(sResult))
+        if (!cbExternalize.getSelection() || sResult == null || "".equals(sResult))
         {
             return "";
         }

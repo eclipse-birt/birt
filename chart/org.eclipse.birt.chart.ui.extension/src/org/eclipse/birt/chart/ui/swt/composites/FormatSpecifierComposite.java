@@ -152,6 +152,12 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         btnUndefined.setText("Undefined");
         btnUndefined.addSelectionListener(this);
 
+        Label lblDummyStandard = new Label(this, SWT.NONE);
+        GridData gdLBLDummyStandard = new GridData();
+        gdLBLDummyStandard.horizontalSpan = 2;
+        gdLBLDummyStandard.heightHint = 10;
+        lblDummyStandard.setLayoutData(gdLBLDummyStandard);
+
         btnStandard = new Button(this, SWT.RADIO);
         GridData gdBTNStandard = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNStandard.horizontalSpan = 2;
@@ -161,6 +167,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
         cmpStandardDetails = new Composite(this, SWT.NONE);
         GridData gdCMPStandardDetails = new GridData(GridData.FILL_BOTH);
+        gdCMPStandardDetails.horizontalIndent = 16;
         gdCMPStandardDetails.horizontalSpan = 2;
         cmpStandardDetails.setLayoutData(gdCMPStandardDetails);
         cmpStandardDetails.setLayout(slStandardDetails);
@@ -269,6 +276,12 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         iscFractionDigits.setLayoutData(gdISCFractionDigits);
         iscFractionDigits.addListener(this);
 
+        Label lblDummyAdvanced = new Label(this, SWT.NONE);
+        GridData gdLBLDummyAdvanced = new GridData();
+        gdLBLDummyAdvanced.horizontalSpan = 2;
+        gdLBLDummyAdvanced.heightHint = 10;
+        lblDummyAdvanced.setLayoutData(gdLBLDummyAdvanced);
+
         btnAdvanced = new Button(this, SWT.RADIO);
         GridData gdBTNAdvanced = new GridData(GridData.FILL_HORIZONTAL);
         gdBTNAdvanced.horizontalSpan = 2;
@@ -278,6 +291,7 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
 
         cmpAdvancedDetails = new Composite(this, SWT.NONE);
         GridData gdCMPAdvancedDetails = new GridData(GridData.FILL_BOTH);
+        gdCMPAdvancedDetails.horizontalIndent = 16;
         gdCMPAdvancedDetails.horizontalSpan = 2;
         cmpAdvancedDetails.setLayoutData(gdCMPAdvancedDetails);
         cmpAdvancedDetails.setLayout(slAdvancedDetails);
