@@ -133,6 +133,14 @@ public class LabelFigure extends ReportElementFigure
 					getInsets( ).getHeight( ) );
 		}
 
+		//return the true minimum size with minimum width;
+		Dimension dim = super.getMinimumSize( -1, hHint );
+		
+		if (dim.width < wHint)
+		{
+			return dim; 
+		}
+
 		return super.getMinimumSize( wHint, hHint );
 	}
 

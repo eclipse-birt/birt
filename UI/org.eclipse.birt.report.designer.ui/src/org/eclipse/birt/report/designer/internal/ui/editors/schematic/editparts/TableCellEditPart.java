@@ -197,12 +197,7 @@ public class TableCellEditPart extends ReportElementEditPart
 
 		ReportFlowLayout rflayout = (ReportFlowLayout) getFigure( ).getLayoutManager( );
 
-		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign )
-				|| DesignChoiceConstants.TEXT_ALIGN_JUSTIFY.equals( hAlign ) )
-		{
-			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
-		}
-		else if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( hAlign ) )
+		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( hAlign ) )
 		{
 			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_CENTER );
 		}
@@ -210,18 +205,22 @@ public class TableCellEditPart extends ReportElementEditPart
 		{
 			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
 		}
-
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ) )
+		else
 		{
-			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
 		}
-		else if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
+
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
 		{
 			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_CENTER );
 		}
 		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
 		{
 			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
 		}
 
 		rflayout.layout( getFigure( ) );

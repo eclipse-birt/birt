@@ -78,9 +78,11 @@ public class ReportFlowLayout extends AbstractHintLayout
 	class WorkingData
 	{
 
-		int rowHeight, rowWidth, rowCount, rowX, rowY, maxWidth;
+		int rowHeight, rowWidth, rowCount, rowX, rowY, maxWidth, rowPos;
 
 		Rectangle bounds[], area;
+
+		Insets margin[];
 
 		IFigure row[];
 	}
@@ -170,7 +172,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		data.rowX = 0;
 		data.rowHeight = 0;
 		data.rowWidth = 0;
-		data.rowCount = 0;
+		//data.rowCount = 0;
 	}
 
 	/**
@@ -185,6 +187,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 	{
 		data.row = new IFigure[parent.getChildren( ).size( )];
 		data.bounds = new Rectangle[data.row.length];
+		data.margin = new Insets[data.row.length];
 		data.maxWidth = data.area.width;
 	}
 
@@ -250,7 +253,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 			display = getDisplay( f );
 
-			if ( data.rowCount > 0 )
+			if ( data.rowCount > data.rowPos )
 			{
 				if ( ( data.rowWidth + r.width > data.maxWidth )
 						|| display == ReportItemConstraint.BLOCK
@@ -266,15 +269,66 @@ public class ReportFlowLayout extends AbstractHintLayout
 			data.rowWidth += dx;
 			data.rowHeight = Math.max( data.rowHeight, r.height );
 			data.row[data.rowCount] = f;
+			data.margin[data.rowCount] = fmargin;
 			data.bounds[data.rowCount] = r;
 			data.rowCount++;
 			i++;
 		}
-		if ( data.rowCount != 0 )
+		if ( data.rowCount > data.rowPos )
 		{
 			layoutRow( parent );
 		}
+		layoutVertical( parent );
 		data = null;
+	}
+
+	private void layoutVertical( IFigure parent )
+	{
+		if ( minorAlignment == ALIGN_CENTER
+				|| minorAlignment == ALIGN_RIGHTBOTTOM )
+		{
+			int minTop = 0;
+			int maxBottom = 0;
+
+			for ( int i = 0; i < data.bounds.length; i++ )
+			{
+				if ( data.bounds[i].y < minTop )
+				{
+					minTop = data.bounds[i].y;
+				}
+				if ( data.bounds[i].y + data.bounds[i].height > maxBottom )
+				{
+					maxBottom = data.bounds[i].y + data.bounds[i].height;
+				}
+			}
+
+			if ( maxBottom - minTop < data.area.height )
+			{
+				int adjustment = data.area.height - maxBottom + minTop;
+
+				if ( minorAlignment == ALIGN_CENTER )
+				{
+					adjustment /= 2;
+				}
+
+				for ( int i = 0; i < data.bounds.length; i++ )
+				{
+					Rectangle fbounds = data.bounds[i].getCopy( )
+							.crop( data.margin[i] );
+					fbounds.y += adjustment;
+					setBoundsOfChild( parent, data.row[i], fbounds );
+				}
+			}
+			else
+			{
+				for ( int i = 0; i < data.bounds.length; i++ )
+				{
+					Rectangle fbounds = data.bounds[i].getCopy( )
+							.crop( data.margin[i] );
+					setBoundsOfChild( parent, data.row[i], fbounds );
+				}
+			}
+		}
 	}
 
 	/**
@@ -306,7 +360,10 @@ public class ReportFlowLayout extends AbstractHintLayout
 				break;
 		}
 
-		for ( int j = 0; j < data.rowCount; j++ )
+		boolean needVerticalAlign = minorAlignment == ALIGN_CENTER
+				|| minorAlignment == ALIGN_RIGHTBOTTOM;
+
+		for ( int j = data.rowPos; j < data.rowCount; j++ )
 		{
 			if ( fill )
 			{
@@ -331,10 +388,13 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 			data.bounds[j].x += majorAdjustment;
 
-			setBoundsOfChild( parent,
-					data.row[j],
-					data.bounds[j].crop( getFigureMargin( data.row[j] ) ) );
+			if ( !needVerticalAlign )
+			{
+				setBoundsOfChild( parent, data.row[j], data.bounds[j].getCopy( )
+						.crop( data.margin[j] ) );
+			}
 		}
+		data.rowPos = data.rowCount;
 		data.rowY += getMajorSpacing( ) + data.rowHeight;
 		initRow( );
 	}
