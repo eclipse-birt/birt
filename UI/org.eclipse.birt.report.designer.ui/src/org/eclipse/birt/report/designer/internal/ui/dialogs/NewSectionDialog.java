@@ -16,7 +16,9 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -155,5 +157,9 @@ public class NewSectionDialog extends SelectionDialog
 	{
 		assert cons != null;
 		this.contents = cons;
+		
+		//Temporarily disabled
+		contents.remove( MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 }
