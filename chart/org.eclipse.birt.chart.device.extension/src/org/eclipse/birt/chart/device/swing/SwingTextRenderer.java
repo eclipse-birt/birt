@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -192,7 +193,13 @@ final class SwingTextRenderer implements IConstants
         g2d.setFont((java.awt.Font) xs.createFont(fd));
 
         la.getCaption().setValue(sText);
-        BoundingBox bb = Methods.computeBox(xs, ABOVE, la, 0, 0);
+        BoundingBox bb = null;
+        try {
+            bb = Methods.computeBox(xs, ABOVE, la, 0, 0);
+        } catch (UnexpectedInputException uiex)
+        {
+            throw new RenderingException(uiex);
+        }
         if (taBlock == null)
         {
             taBlock = AttributeFactory.eINSTANCE.createTextAlignment();
