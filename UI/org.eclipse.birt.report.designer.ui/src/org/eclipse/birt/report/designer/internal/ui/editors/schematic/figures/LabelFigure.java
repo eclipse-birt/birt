@@ -23,6 +23,7 @@ import org.eclipse.draw2d.text.FlowBox;
 import org.eclipse.draw2d.text.FlowFigure;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
+import org.eclipse.swt.graphics.Font;
 
 /**
  * A Figure with an embedded TextFlow within a FlowPage that contains text.
@@ -126,10 +127,23 @@ public class LabelFigure extends ReportElementFigure
 
 		if ( wHint == -1 && hHint == -1 )
 		{
-			return ZERO_DIMENSION;
+			//return ZERO_DIMENSION;
+			return new Dimension( getInsets( ).getWidth( )
+					+ getMinimumFontSize( getFont( ) ),
+					getInsets( ).getHeight( ) );
 		}
 
 		return super.getMinimumSize( wHint, hHint );
+	}
+
+	private static int getMinimumFontSize( Font ft )
+	{
+		if ( ft != null && ft.getFontData( ).length > 0 )
+		{
+			return ft.getFontData( )[0].height;
+		}
+
+		return 0;
 	}
 
 	/**
