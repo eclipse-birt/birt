@@ -16,6 +16,7 @@
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.tomcat"/>
+      <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.report.engine"/>
    </requires>
 

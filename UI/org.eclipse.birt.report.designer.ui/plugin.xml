@@ -34,7 +34,6 @@
       <import plugin="org.eclipse.birt.report.designer.core"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.ui.cheatsheets"/>
-      <import plugin="org.eclipse.birt.core"/>
    </requires>
    
    <!-- Extension points -->
