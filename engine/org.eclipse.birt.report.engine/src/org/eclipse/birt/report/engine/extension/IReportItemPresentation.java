@@ -18,14 +18,13 @@ import org.eclipse.birt.core.exception.BirtException;
  * Represents the extended item presentation time extension. 
  *  
  * The calling sequence in presentation engine might work as follows:<p>
- * <li> Design engine creates a new instance of the extended item. This includes 
- * instantiation of the IPeer type.  
- * <li> Presentation engine, at execution time, detected that the element is an 
+ * <li> Design engine creates a new instance of the extended item. 
+ * <li> Presentation engine detects that the element is an 
  * extended item. It dynamically creates an object with type IReportItemPresentation.
  * <li> The presentation engine calls initialize() to pass initialization parameters 
- * to the presentation peer. 
- * <li> If the extended item has serialized anything during generation time, restore
- * is called to allow the presentation peer to restore its states.
+ * to the extension implementation. 
+ * <li> If the extended item has returned a generation state object during generation time, 
+ * restore is called to allow the presentation peer to restore its states.
  * <li> Negotiate with the extension to know what the output format is. 
  * <li> Render the extended item
  * <li> Call finish() for cleanup.
@@ -63,17 +62,18 @@ public interface IReportItemPresentation {
     public void initialize(HashMap parameters) throws BirtException;
     
     /**
-     * De-serializes the peer state that was serialized during generation time. 
-     * This function is currently not supported.
+     * Passes the report generation state to the extension classes. Before calling this
+     * function, the presentation engine may have deserialized the generation state object
+     * from report document file.  
      * 
-     * @param instream input stream so that the peer can de-serialize its state
+     * @param genState the genration state object that implements IReportItemSerializable
      */
     public void restoreGenerationState(IReportItemSerializable genState);
     
     /**
+     * returns the output type, which could be IMAGE, TEXT, HTML TEXT, DRAWING, etc. 
+     * 
      * @param format the output format for the request 
-     * @param supportedTypes an array of supported output types that the engine 
-     * can accormodate. This allows the extended item to choose the best type of output.
      * @param mimeType an out parameter that returns the MIME type of the output 
      * @return output type, for now OUTPUT_AS_IMAGE only
      */
@@ -85,7 +85,7 @@ public interface IReportItemPresentation {
      * @return the returned value could be different depending on the type of the output.
      * For image, returns an input stream or byte array that the engine could retrieve data from;
      * For text and html text, a Java String; For drawing, returns ??; For custom format,
-     * engine does not care and passes the Object to emitter.   
+     * a generic Object that engine can pass to emitter.   
      */
     public Object process( ) throws BirtException;
 
@@ -102,7 +102,7 @@ public interface IReportItemPresentation {
     public Size getSize();
     
     /**
-     * Performs clean up
+     * Performs clean up work
      */
     public void finish();
 }

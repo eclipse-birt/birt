@@ -24,18 +24,19 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
  * <li> process the extended item 
  * </ul>
  * 
- * <p>The calling sequence in factory might work as follows:<p>
+ * <p>The calling sequence in generation engine might work as follows:<p>
  * <li> Design engine creates a new instance of the extended item. This includes an object
  * of the IReportItem type.  
- * <li> Factory detects that the element is an extended item. It dynamically creates the
- * IReportItemGeneration object.
+ * <li> Generation engine detects that the element is an extended item. It dynamically 
+ * creates the IReportItemGeneration object.
  * <li> initialization method is called on the object. 
- * <li> Whan factory prepares report query, it calls getReportQuery to retrieve a report 
- *    query for the extended item. For chart, the report query is relevant; for other
- *    extended items where a report query does not make sense, simply return null.
- * <li> Factory calls IFactorypeer::process when it executes the item.
- * <li> If there is a need for serialization, call serialize.
- * <li> Call finish() for cleanup.
+ * <li> Whan generation engine prepares report query, it repeatedly calls nextQuery to 
+ * retrieve report queries for the extended item. For chart, the report query is relevant; 
+ * for other extended items where a report query does not make sense, simply return null.
+ * <li> Generation engine calls process() to process the report item.
+ * <li> If there is a need for serialization, call getGenerationState, then call serialize on
+ * the returned object.
+ * <li> Call finish() for cleanup work.
  */
 public interface IReportItemGeneration {
 	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$ //$NON-NLS-1$
@@ -65,17 +66,28 @@ public interface IReportItemGeneration {
     public void initialize(HashMap parameters) throws BirtException;
     
     /**
-     * @return an IReportQueryDefn object that the fatory can pass to DTE 
+     * returns the next report query that the extension uses. A report query provides data 
+     * requirement specification to allow the data module in engine to prepare for data access.  
+     * 
+     * @param parent an in parameter specifying the parent query for the next query.  
+     * @return the next report query that is used for data preparation, null if no more queries
+     * @throws BirtException throwed when the extension fails to construct the next wuery 
      */
     public IBaseQueryDefinition nextQuery(IBaseQueryDefinition parent) throws BirtException;   
     
 	/**
-	 * @param query a prepared query
+	 * provides the extension with prepared query, from which the extension can retrieve data.  
+	 * 
+	 * @param query the parent query
+	 * @param preparedQuery the prepared query
 	 */
 	public void pushPreparedQuery(IBaseQueryDefinition query, IPreparedQuery preparedQuery);
 	
     /**
-     * @param dataEngine a data engine instance on which the extension developer calls <code>execute</code> method  
+     * process the extended item in report generation environment. 
+     * 
+     * @param dataEngine a data engine instance on which the extension developer can retrieve 
+     * data based on a prepared query
      */
     public void process(IDataEngine dataEngine) throws BirtException;
 
@@ -92,17 +104,15 @@ public interface IReportItemGeneration {
     public Size getSize();
     
     /**
-     * Serializes the extended item to report document. This function is currently not supported.
-     * Factory guarantees that the same data in the stream will be returned to the
-     * presentation engine at presentation time.   
-     * 
-     * @param ostream output stream so that the peer can serialize its content
-     * @return the number of bytes that the extended item has written 
+     * Retrieves an object that captures the generation-time state information about the 
+     * extended item. Presentation engine guarantees that the same object is returned to the
+     * extended item instance at presentation time. To achive such a goal, generation engine
+     * may uses serialization services provided by the IReportItemSerializable interface.     
      */
     public IReportItemSerializable getGenerateState();
     
     /**
-     * Performs clean up
+     * Performs clean up work
      */
     public void finish();
 }
