@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -28,9 +29,20 @@ public class UIUtil
 	/**
 	 * Returns if current active editor is reportEditor.
 	 * 
-	 * @return
+	 * @return Returns if current active editor is reportEditor.
 	 */
 	public static boolean isReportEditorActivated( )
+	{
+		return getActiveEditor( ) != null;
+	}
+
+	/**
+	 * Returns the current active report editor.
+	 * 
+	 * @return Returns the current active report editor, or null if no report
+	 *         editor is active.
+	 */
+	public static ReportEditor getActiveEditor( )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -48,13 +60,22 @@ public class UIUtil
 				{
 					if ( editor instanceof ReportEditor )
 					{
-						return true;
+						return (ReportEditor) editor;
 					}
 				}
 			}
 		}
+		return null;
+	}
 
-		return false;
+	/**
+	 * Returns the default shell used by dialogs
+	 * 
+	 * @return Returns the active shell of the current display
+	 */
+	public static Shell getDefaultShell( )
+	{
+		return PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
 	}
 
 }
