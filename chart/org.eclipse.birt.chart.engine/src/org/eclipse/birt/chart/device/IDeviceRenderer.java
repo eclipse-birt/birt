@@ -81,4 +81,8 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
      */
     void after() throws RenderingException;
 
+    /**
+     * @param ex
+     */
+    void presentException(Exception ex);
 }
