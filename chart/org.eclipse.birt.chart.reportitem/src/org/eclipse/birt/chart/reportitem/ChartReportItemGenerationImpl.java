@@ -92,29 +92,39 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: initialize(...) - start");
         super.initialize(hm);
         cm = getModelFromWrapper(hm.get(MODEL_OBJ));
-
-        // SETUP THE SCRIPTABLE INSTANCE
-        final Scriptable scParent = null;
-        final String sScriptContent = cm.getScript();
-        ScriptHandler sh = null;
-        if (sScriptContent != null)
+        final String sStage = (String) hm.get(GENERATION_STAGE);
+        if (sStage.equals(GENERATION_STAGE_PREPARATION))
         {
-            sh = new ScriptHandler();
-            try
-            {
-                sh.init(scParent);
-                sh.setRunTimeModel(cm);
-                cm.setScriptHandler(sh);
-                sh.register(sScriptContent);
-            }
-            catch (ScriptException sx)
-            {
-                throw new BirtException("initialize", sx);
-            }
+        	iStage = PREPARATION;
+        }
+        else if (sStage.equals(GENERATION_STAGE_EXECUTION))
+        {
+        	iStage = EXECUTION;
         }
         
-        if (iStage == PREPARATION)
+        
+        // NOTIFY THE SCRIPT HANDLER AT EXECUTION TIME ONLY
+        if (iStage == EXECUTION)
         {
+            // SETUP THE SCRIPTABLE INSTANCE
+            final Scriptable scParent = null;
+            final String sScriptContent = cm.getScript();
+            ScriptHandler sh = null;
+            if (sScriptContent != null)
+            {
+                sh = new ScriptHandler();
+                try
+                {
+                    sh.init(scParent);
+                    sh.setRunTimeModel(cm);
+                    cm.setScriptHandler(sh);
+                    sh.register(sScriptContent);
+                }
+                catch (ScriptException sx)
+                {
+                    throw new BirtException("initialize", sx);
+                }
+            }
         	ScriptHandler.callFunction(sh, ScriptHandler.START_DATA_BINDING, cm);
         }
         
@@ -239,9 +249,9 @@ public class ChartReportItemGenerationImpl extends DefaultReportItemGenerationIm
      */
     public void finish()
     {
-        final ScriptHandler sh = cm.getScriptHandler();
         if (iStage == EXECUTION)
         {
+            final ScriptHandler sh = cm.getScriptHandler();
         	ScriptHandler.callFunction(sh, ScriptHandler.FINISH_DATA_BINDING, cm);
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: finish(...) - start");
