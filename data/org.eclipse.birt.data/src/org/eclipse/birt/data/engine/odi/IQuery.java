@@ -65,29 +65,12 @@ public interface IQuery
     public void setGrouping( List groupSpecs ) throws DataException;
     
     /**
-     * Specify the filtering criteria 
-     * @param filter User defined filtering criteria on query results
-     */
-    public void setFiltering( IFilter filter ) throws DataException;
-    
-    /**
      * Specifies the maximum number of detail rows that can be retrieved by this query.
      * @param maxRows	Maximum number of rows. 
      * 					A value of 0 means no limit on how many rows this query can retrieve.
      */
     public void setMaxRows( int maxRows );
-    	
-	/**
-	 * Bind the query filter to the query instance, to be used to filter
-	 * query results returned.
-	 * If the filter is not specified, then it defaults to <code>true</code>.
-	 * <br>
-	 * Not supported in first BIRT release.
-     * @param filterSpec	
-     * @throws OdiException	if given filterSpec is invalid.
-     */
-    // void setFilter( String filterSpec ) throws OdiException;
-
+    
     /**
      * Define a custom event object, which is called after the query retrieves a result object
      * and before any processing is done. Multiple events can be added using this method. 

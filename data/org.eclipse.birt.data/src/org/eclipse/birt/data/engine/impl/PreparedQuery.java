@@ -26,15 +26,14 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
 import org.eclipse.birt.data.engine.odi.IDataSource;
-import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -608,12 +607,25 @@ abstract class PreparedQuery
 					}
 					odiQuery.setOrdering( Arrays.asList( sortSpecs));
 				}
-				
+
+			    // set computed column event
+			    if ( dataSet != null )
+				{
+					List computedColumns = this.dataSet.getComputedColumns( );
+					if ( computedColumns != null && computedColumns.size( ) > 0 )
+					{
+						IResultObjectEvent objectEvent = new ComputedColumnHelper( this.scope,
+								this.rowObject,
+								computedColumns );
+						odiQuery.addOnFetchEvent( objectEvent );
+					}
+				}
+			    
 				// Set filtering
 		    	assert rowObject != null;
 		    	assert scope != null;
 
-			    // set filter
+			    // set filter event
 			    List mergedFilters = new ArrayList( );
 			    if ( queryDefn.getFilters( ) != null )
 				{
@@ -628,22 +640,10 @@ abstract class PreparedQuery
 			    
 			    if ( mergedFilters.size() > 0 )
 			    {
-					IFilter filter = new FilterByRow( mergedFilters, 
+			    	IResultObjectEvent objectEvent = new FilterByRow( mergedFilters, 
 							scope,  rowObject );
-					odiQuery.setFiltering( filter );
+			    	odiQuery.addOnFetchEvent( objectEvent );
 			    }
-			    
-			    if ( dataSet != null )
-				{
-					List computedColumns = this.dataSet.getComputedColumns( );
-					if ( computedColumns != null && computedColumns.size( ) > 0 )
-					{
-						IResultObjectEvent objectEvent = new ComputedColumnHelper( this.scope,
-								this.rowObject,
-								computedColumns );
-						odiQuery.addOnFetchEvent( objectEvent );
-					}
-				}
 			}
 			finally
 			{

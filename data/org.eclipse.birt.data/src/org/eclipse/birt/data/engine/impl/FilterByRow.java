@@ -20,8 +20,8 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.odi.IFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -30,7 +30,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Implementation of IFilter, which will do filtering on row data.
  */
-class FilterByRow implements IFilter
+class FilterByRow implements IResultObjectEvent
 {
 
 	protected List filters;
@@ -44,7 +44,10 @@ class FilterByRow implements IFilter
 		this.scriptObj = scriptObj;
 	}
 	
-	public boolean accept( IResultObject row ) throws DataException
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
+	 */
+	public boolean process( IResultObject row ) throws DataException
 	{
 		Context cx = Context.enter();
 		try

@@ -16,10 +16,9 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.odi.IQuery;
-import org.eclipse.birt.data.engine.odi.IFilter;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IQuery;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
 /**
  * Implementation of the ODI IQuery interface. Common base class for DataSourceQuery and CandidateQuery
@@ -29,7 +28,6 @@ public abstract class BaseQuery implements IQuery
     protected SortSpec[] 	sorts;
     protected GroupSpec[] 	groups;
     protected int			maxRows = 0;
-    protected IFilter		filter;
     protected List 			fetchEventList;
     
     /**
@@ -46,19 +44,6 @@ public abstract class BaseQuery implements IQuery
     public void setGrouping(List groupSpecs) throws DataException
     {
         groups = ( GroupSpec[] ) groupSpecs.toArray( new GroupSpec[0]);
-    }
-
-    /**
-     * @see org.eclipse.birt.data.engine.odi.IQuery#setFiltering(IFilter)
-     */
-    public void setFiltering( IFilter filter ) throws DataException
-    {
-        this.filter = filter;
-    }
-    
-    IFilter getFiltering() 
-    {
-        return filter;
     }
     
     /**
@@ -95,6 +80,8 @@ public abstract class BaseQuery implements IQuery
      */
 	public void addOnFetchEvent( IResultObjectEvent event )
 	{
+		assert event != null;
+		
 		if ( fetchEventList == null )
 			fetchEventList = new ArrayList( );
 		
