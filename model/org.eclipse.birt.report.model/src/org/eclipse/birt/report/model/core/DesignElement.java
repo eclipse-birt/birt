@@ -932,6 +932,77 @@ public abstract class DesignElement implements IPropertySet
 	}
 
 	/**
+	 * Gets a property value given its definition. This version does the
+	 * property search as defined by the given derived component. That is, it
+	 * gets the "effective" property value. The definition can be for a system
+	 * or user-defined property.
+	 * <p>
+	 * The search won't search up the containment hierarchy. Meanwhile, ti won't
+	 * the inheritance hierarchy if the non-style property is defined to not
+	 * inherit. And style property won't be searched up the containment
+	 * hierarchy if it'd defined to no inherit.
+	 * <p>
+	 * Part of: Property value system.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 */
+
+	public Object getPropertyFromElement( ReportDesign design,
+			ElementPropertyDefn prop )
+	{
+		Object value = null;
+
+		// 1). If we can find the value here, return it.
+
+		value = getLocalProperty( design, prop );
+		if ( value != null )
+			return value;
+
+		// 2). Does the style provide the value of this property ?
+
+		StyleElement style = getLocalStyle( );
+		if ( style != null )
+		{
+			value = style.getLocalProperty( design, prop );
+			if ( value != null )
+				return value;
+		}
+
+		// Can we search the parent element and container element ?
+
+		if ( !prop.canInherit( ) )
+		{
+			return getDefaultValue( design, prop );
+		}
+
+		// 3). Does the parent provide the value of this property?
+
+		value = getPropertyFromParent( design, prop );
+		if ( value != null )
+			return value;
+
+		// 4). Check if this element predefined style provides
+		// the property value
+
+		String selector = getDefn( ).getSelector( );
+		value = getPropertyFromSelector( design, prop, selector );
+		if ( value != null )
+			return value;
+
+		// Is this property style property? or
+		// Is this element is a style?
+
+		if ( !prop.isStyleProperty( ) || isStyle( ) )
+			return getDefaultValue( design, prop );
+
+		return null;
+	}
+
+	/**
 	 * Gets a property value given its definition. This version does the full
 	 * property search as defined by the given derived component. That is, it
 	 * gets the "effective" property value. The definition can be for a system
@@ -966,47 +1037,11 @@ public abstract class DesignElement implements IPropertySet
 		Object value;
 		while ( e != null )
 		{
-			// 1). If we can find the value here, return it.
-
-			value = e.getLocalProperty( design, prop );
+			value = e.getPropertyFromElement( design, prop );
 			if ( value != null )
 				return value;
 
-			// 2). Does the style provide the value of this property ?
-
-			StyleElement style = e.getLocalStyle( );
-			if ( style != null )
-			{
-				value = style.getLocalProperty( design, prop );
-				if ( value != null )
-					return value;
-			}
-
-			// Can we search the parent element and container element ?
-
-			if ( !prop.canInherit( ) )
-			{
-				return getDefaultValue( design, prop );
-			}
-
-			// 3). Does the parent provide the value of this property?
-
-			value = e.getPropertyFromParent( design, prop );
-			if ( value != null )
-				return value;
-
-			// 4). Check if this element predefined style provides
-			// the property value
-
-			String selector = e.getDefn( ).getSelector( );
-			value = e.getPropertyFromSelector( design, prop, selector );
-			if ( value != null )
-				return value;
-
-			// Is this property style property? or
-			// Is this element is a style?
-
-			if ( !prop.isStyleProperty( ) || e.isStyle( ) )
+			if ( !prop.canInherit( ) || !prop.isStyleProperty( ) || isStyle( ) )
 				return getDefaultValue( design, prop );
 
 			// 5, 6, 7).Check if the container/slot predefined style provides
@@ -1018,7 +1053,7 @@ public abstract class DesignElement implements IPropertySet
 				// provides the property value.
 
 				String[] selectors = e.getContainer( ).getSelectors(
-						e.getContainerSlot( ) );
+						getContainerSlot( ) );
 				for ( int i = 0; i < selectors.length; i++ )
 				{
 					value = e.getPropertyFromSelector( design, prop,
@@ -2788,7 +2823,7 @@ public abstract class DesignElement implements IPropertySet
 
 		return slotDefn.canContain( defn );
 	}
-	
+
 	/**
 	 * Checks whether the <code>content</code> can be inserted to the slot
 	 * <code>slotId</code> in another element <code>container</code>.

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -18,6 +19,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a Grid item. A grid item contains a set of report
@@ -267,6 +269,83 @@ public class GridItem extends ReportItem
 				maxCols = cols;
 		}
 		return maxCols;
+	}
+
+	/**
+	 * Returns the style property defined on the column for the cell
+	 * <code>target</code>.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param target
+	 *            the target cell to search
+	 * @param prop
+	 *            the property definition.
+	 * 
+	 * @return the value of a style property
+	 */
+
+	protected Object getPropertyFromColumn( ReportDesign design, Cell target,
+			ElementPropertyDefn prop )
+	{
+		assert prop.isStyleProperty( );
+
+		ContainerSlot columnSlot = slots[COLUMN_SLOT];
+		if ( columnSlot.getCount( ) == 0 )
+			return null;
+		
+		int columnNum = findCellColumn( design, target );
+
+		assert columnNum > 0;
+		TableColumn column = ColumnHelper.findColumn( design,
+				slots[COLUMN_SLOT], columnNum );
+
+		if ( column != null )
+			return column.getPropertyFromElement(design, prop);
+
+		return null;
+	}
+
+	/**
+	 * Returns the column number for the cell that has no "column" property
+	 * defined.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param target
+	 *            the cell to find
+	 * 
+	 * @return the column number
+	 */
+
+	private int findCellColumn( ReportDesign design, Cell target )
+	{
+		int pos = target.getColumn( design );
+		if ( pos > 0 )
+			return pos;
+
+		// the first column is 1.
+
+		pos = 1;
+
+		TableRow row = (TableRow) target.getContainer( );
+		List list = row.getContentsSlot( );
+
+		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
+		{
+			Cell cell = (Cell) iter.next( );
+			int cellPos = target.getColumn( design );
+			if ( cellPos > 0 )
+				pos = cellPos;
+
+			if ( cell == target )
+				return pos;
+
+			pos = pos + target.getColSpan( design );
+
+		}
+
+		return pos;
 	}
 
 	/*

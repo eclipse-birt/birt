@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -264,99 +263,14 @@ public class TableItem extends ListingElement
 		}
 
 		assert columnNum > 0;
-		TableColumn column = findColumn( design, columnNum );
+		TableColumn column = ColumnHelper.findColumn( design,
+				slots[COLUMN_SLOT], columnNum );
+
 		if ( column != null )
-			return getEffectivePropFromColumn( design, prop, column );
+			return column.getPropertyFromElement(design, prop);
 
 		return null;
 	}
-
-	/**
-	 * Figures out the column according to the index of the column.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param columnNum
-	 *            the column number to search
-	 * 
-	 * @return the index of a column.
-	 */
-
-	private TableColumn findColumn( ReportDesign design, int columnNum )
-	{
-		assert columnNum > 0;
-
-		ContainerSlot columnSlot = slots[COLUMN_SLOT];
-		for ( int i = 0, index = 0; i < columnSlot.getCount( ); i++ )
-		{
-			TableColumn column = (TableColumn) ( columnSlot.getContent( i ) );
-			int repeat = column
-					.getIntProperty( design, TableColumn.REPEAT_PROP );
-
-			// in default, repeat is one.
-
-			repeat = ( repeat == 0 ) ? 1 : repeat;
-
-			index += repeat;
-
-			if ( index >= columnNum )
-				return column;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Finds the style property defined on a column. Only the local property,
-	 * the shared style and the predefined values on selectors are involved.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param prop
-	 *            the property definition.
-	 * @param column
-	 *            the table column
-	 * 
-	 * @return the value of a style property
-	 */
-
-	private Object getEffectivePropFromColumn( ReportDesign design,
-			ElementPropertyDefn prop, TableColumn column )
-	{
-		Object value = null;
-
-		// 1). If we can find the value here, return it.
-
-		value = column.getLocalProperty( design, prop );
-		if ( value != null )
-			return value;
-
-		// 2). Does the style provide the value of this property ?
-
-		StyleElement style = column.getLocalStyle( );
-		if ( style != null )
-		{
-			value = style.getLocalProperty( design, prop );
-			if ( value != null )
-				return value;
-		}
-
-		// 3). Check if this element predefined style provides
-		// the property value
-
-		String selector = column.getDefn( ).getSelector( );
-		value = column.getPropertyFromSelector( design, prop, selector );
-		if ( value != null )
-			return value;
-
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
-	 */
 
 	public List validate( ReportDesign design )
 	{

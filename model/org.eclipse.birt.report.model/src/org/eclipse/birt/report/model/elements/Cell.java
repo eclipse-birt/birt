@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -25,8 +24,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * some number of cells. Cell is a point at which a row and column intersect. A
  * cell can span rows and columns. A cell can span multiple columns. The design
  * need not specify a cell for each column; Columns without cells are presumed
- * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to change
- * the properties.
+ * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to
+ * change the properties.
  *  
  */
 
@@ -227,85 +226,81 @@ public class Cell extends StyledElement
 	 * style property definition, also check style values defined on the Table
 	 * columns.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromElement(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	public Object getProperty( ReportDesign design, ElementPropertyDefn prop )
+	public Object getPropertyFromElement( ReportDesign design,
+			ElementPropertyDefn prop )
 	{
+		Object value;
+
+		// Get property from cell itself.
+
+		value = super.getPropertyFromElement( design, prop );
+		if ( value != null )
+			return value;
+
+		if ( !prop.canInherit( ) )
+			return getDefaultValue( design, prop );
 
 		if ( !prop.isStyleProperty( ) )
-			return super.getProperty( design, prop );
+			return getDefaultValue( design, prop );
 
-		DesignElement e = this;
-		Object value;
-		Cell cell = this;
+		// Get property from the container of this cell. If the container
+		// has column, get property from column.
 
+		DesignElement e = this.getContainer( );
 		while ( e != null )
 		{
-			// 1). If we can find the value here, return it.
-
-			value = e.getLocalProperty( design, prop );
+			value = e.getPropertyFromElement( design, prop );
 			if ( value != null )
 				return value;
 
-			// 2). Does the style provide the value of this property ?
+			// check property values on the columns.
 
-			StyleElement style = e.getLocalStyle( );
-			if ( style != null )
-			{
-				value = style.getLocalProperty( design, prop );
-				if ( value != null )
-					return value;
-			}
+			if ( e.getContainer( ) instanceof TableItem
+					|| e.getContainer( ) instanceof GridItem )
+				return getColumnProperty( design, e.getContainer( ), this, prop );
 
-			// returns if the property can not be inherited.
-			
-			if (!prop.canInherit())
-				return getDefaultValue( design, prop );
-			
-			// 3). Check if this element predefined style provides
-			// the property value
-
-			String selector = e.getDefn( ).getSelector( );
-			value = e.getPropertyFromSelector( design, prop, selector );
-			if ( value != null )
-				return value;
-
-			// 4).Check if the container/slot predefined style provides
-			// the property value
-
-			if ( e.getContainer( ) != null )
-			{
-				// check property values on the Table columns.
-
-				if ( e.getContainer( ) instanceof TableItem )
-				{
-					TableItem table = (TableItem) e.getContainer( );
-					value = table.getPropertyFromColumn( design, cell, prop );
-					if ( value != null )
-						return value;
-				}
-				if ( e.getContainer( ) instanceof Cell )
-					cell = (Cell) e.getContainer( );
-
-				String[] selectors = e.getContainer( ).getSelectors(
-						e.getContainerSlot( ) );
-				for ( int i = 0; i < selectors.length; i++ )
-				{
-					value = e.getPropertyFromSelector( design, prop,
-							selectors[i] );
-					if ( value != null )
-						return value;
-				}
-
-			}
 			e = e.getContainer( );
 		}
 
-		// Still not found. Use the default.
-
-		return getDefaultValue( design, prop );
+		return null;
 	}
 
+	/**
+	 * Gets a property value on the container column with the given definition.
+	 * If <code>prop</code> is a style property definition, also check style
+	 * values defined on the Table/Grid columns.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param container
+	 *            the container, must be Table or Grid
+	 * @param cell
+	 *            the cell on which the property value to find
+	 * @param prop
+	 *            the property definition
+	 * @return the property value
+	 */
+
+	private Object getColumnProperty( ReportDesign design,
+			DesignElement container, Cell cell, ElementPropertyDefn prop )
+	{
+		Object value = null;
+		if ( container instanceof TableItem )
+		{
+			TableItem table = (TableItem) container;
+			value = table.getPropertyFromColumn( design, cell, prop );
+		}
+
+		if ( container instanceof GridItem )
+		{
+			GridItem grid = (GridItem) container;
+			value = grid.getPropertyFromColumn( design, cell, prop );
+		}
+
+		return value;
+	}
 }
