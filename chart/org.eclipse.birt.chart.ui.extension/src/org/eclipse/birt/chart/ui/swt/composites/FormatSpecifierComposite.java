@@ -305,11 +305,27 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         cmbDataType.add("Date/Time");
         cmbDataType.add("Number");
 
+        if (formatspecifier instanceof DateFormatSpecifier || formatspecifier instanceof JavaDateFormatSpecifier)
+        {
+            cmbDataType.select(0);
+            slDetails.topControl = this.cmpDateDetails;
+        }
+        else
+        {
+            cmbDataType.select(1);
+            slDetails.topControl = cmpNumberDetails;
+        }
+
         // Populate Date Types
         Object[] oArrDT = DateFormatType.VALUES.toArray();
         for (int iDT = 0; iDT < oArrDT.length; iDT++)
         {
             cmbDateType.add(((DateFormatType) oArrDT[iDT]).getName());
+            if (formatspecifier instanceof DateFormatSpecifier
+                && ((DateFormatSpecifier) formatspecifier).getType().equals((DateFormatType) oArrDT[iDT]))
+            {
+                cmbDateType.select(iDT);
+            }
         }
 
         // Populate Date Details
@@ -317,76 +333,110 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         for (int iDD = 0; iDD < oArrDD.length; iDD++)
         {
             cmbDateForm.add(((DateFormatDetail) oArrDD[iDD]).getName());
+            if (formatspecifier instanceof DateFormatSpecifier
+                && ((DateFormatSpecifier) formatspecifier).getDetail().equals((DateFormatDetail) oArrDD[iDD]))
+            {
+                cmbDateForm.select(iDD);
+            }
         }
         String str = "";
-        if (formatspecifier instanceof DateFormatSpecifier || formatspecifier instanceof JavaDateFormatSpecifier)
+        if (formatspecifier instanceof JavaDateFormatSpecifier)
         {
-            cmbDataType.select(0);
-            slDetails.topControl = cmpDateDetails;
-            if (formatspecifier instanceof DateFormatSpecifier)
+            str = ((JavaDateFormatSpecifier) formatspecifier).getPattern();
+            if (str == null)
             {
-                cmbDateType.setText(((DateFormatSpecifier) formatspecifier).getType().getName());
-                cmbDateForm.setText(((DateFormatSpecifier) formatspecifier).getDetail().getName());
+                str = "";
             }
-            else
-            {
-                str = ((JavaDateFormatSpecifier) formatspecifier).getPattern();
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtDatePattern.setText(str);
-            }
+            txtDatePattern.setText(str);
         }
-        else
+        if (formatspecifier instanceof NumberFormatSpecifier)
         {
-            cmbDataType.select(1);
-            slDetails.topControl = cmpNumberDetails;
-            if (formatspecifier instanceof NumberFormatSpecifier)
+            str = ((NumberFormatSpecifier) formatspecifier).getPrefix();
+            if (str == null)
             {
-                str = ((NumberFormatSpecifier) formatspecifier).getPrefix();
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtPrefix.setText(str);
-                str = ((NumberFormatSpecifier) formatspecifier).getSuffix();
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtSuffix.setText(str);
-                str = String.valueOf(((NumberFormatSpecifier) formatspecifier).getMultiplier());
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtMultiplier.setText(str);
-                iscFractionDigits.setValue(((NumberFormatSpecifier) formatspecifier).getFractionDigits());
+                str = "";
             }
-            else
+            txtPrefix.setText(str);
+            str = ((NumberFormatSpecifier) formatspecifier).getSuffix();
+            if (str == null)
             {
-                str = String.valueOf(((JavaNumberFormatSpecifier) formatspecifier).getMultiplier());
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtAdvMultiplier.setText(str);
-                str = ((JavaNumberFormatSpecifier) formatspecifier).getPattern();
-                if (str == null)
-                {
-                    str = "";
-                }
-                txtNumberPattern.setText(str);
+                str = "";
             }
-            cmpDetails.layout();
+            txtSuffix.setText(str);
+            str = String.valueOf(((NumberFormatSpecifier) formatspecifier).getMultiplier());
+            if (str == null)
+            {
+                str = "";
+            }
+            txtMultiplier.setText(str);
+            iscFractionDigits.setValue(((NumberFormatSpecifier) formatspecifier).getFractionDigits());
         }
+        if (formatspecifier instanceof JavaNumberFormatSpecifier)
+        {
+            str = String.valueOf(((JavaNumberFormatSpecifier) formatspecifier).getMultiplier());
+            if (str == null)
+            {
+                str = "";
+            }
+            txtAdvMultiplier.setText(str);
+            str = ((JavaNumberFormatSpecifier) formatspecifier).getPattern();
+            if (str == null)
+            {
+                str = "";
+            }
+            txtNumberPattern.setText(str);
+        }
+        this.layout();
         this.bEnableEvents = true;
     }
 
     public FormatSpecifier getFormatSpecifier()
     {
+        // Build (or set) the format specifier instance
+        formatspecifier = buildFormatSpecifier();
         return this.formatspecifier;
+    }
+
+    private FormatSpecifier buildFormatSpecifier()
+    {
+        FormatSpecifier fs = null;
+        if (cmbDataType.getText().equals("Date/Time"))
+        {
+            if (txtDatePattern.getText().trim().length() != 0)
+            {
+                fs = JavaDateFormatSpecifierImpl.create(txtDatePattern.getText());
+            }
+            else
+            {
+                fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
+                ((DateFormatSpecifier) fs).setType(DateFormatType.get(cmbDateType.getText()));
+                ((DateFormatSpecifier) fs).setDetail(DateFormatDetail.get(cmbDateForm.getText()));
+            }
+        }
+        else
+        {
+            if (txtNumberPattern.getText().trim().length() != 0)
+            {
+                fs = JavaNumberFormatSpecifierImpl.create(txtNumberPattern.getText());
+                if (txtAdvMultiplier.getText().length() > 0)
+                {
+                    ((JavaNumberFormatSpecifierImpl) fs).setMultiplier(Double.valueOf(txtAdvMultiplier.getText())
+                        .doubleValue());
+                }
+            }
+            else
+            {
+                fs = NumberFormatSpecifierImpl.create();
+                ((NumberFormatSpecifier) fs).setPrefix(txtPrefix.getText());
+                ((NumberFormatSpecifier) fs).setSuffix(txtSuffix.getText());
+                ((NumberFormatSpecifier) fs).setFractionDigits(iscFractionDigits.getValue());
+                if (txtMultiplier.getText().length() > 0)
+                {
+                    ((NumberFormatSpecifier) fs).setMultiplier(Double.valueOf(txtMultiplier.getText()).doubleValue());
+                }
+            }
+        }
+        return fs;
     }
 
     /**
@@ -412,41 +462,13 @@ public class FormatSpecifierComposite extends Composite implements SelectionList
         {
             if (cmbDataType.getText().equals("Number"))
             {
-                if (!(formatspecifier instanceof NumberFormatSpecifier)
-                    && !(formatspecifier instanceof JavaNumberFormatSpecifier))
-                {
-                    formatspecifier = NumberFormatSpecifierImpl.create();
-                }
                 slDetails.topControl = cmpNumberDetails;
             }
             else
             {
-                if (!(formatspecifier instanceof DateFormatSpecifier)
-                    && !(formatspecifier instanceof JavaDateFormatSpecifier))
-                {
-                    formatspecifier = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
-                }
                 slDetails.topControl = cmpDateDetails;
             }
             cmpDetails.layout();
-        }
-        else if (e.getSource().equals(cmbDateType))
-        {
-            if (!(formatspecifier instanceof DateFormatSpecifier))
-            {
-                formatspecifier = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
-                ((DateFormatSpecifier) formatspecifier).setDetail(DateFormatDetail.get(cmbDateForm.getText()));
-            }
-            ((DateFormatSpecifier) formatspecifier).setType(DateFormatType.get(cmbDateType.getText()));
-        }
-        else if (e.getSource().equals(cmbDateForm))
-        {
-            if (!(formatspecifier instanceof DateFormatSpecifier))
-            {
-                formatspecifier = AttributeFactory.eINSTANCE.createDateFormatSpecifier();
-                ((DateFormatSpecifier) formatspecifier).setType(DateFormatType.get(cmbDateType.getText()));
-            }
-            ((DateFormatSpecifier) formatspecifier).setDetail(DateFormatDetail.get(cmbDateForm.getText()));
         }
     }
 
