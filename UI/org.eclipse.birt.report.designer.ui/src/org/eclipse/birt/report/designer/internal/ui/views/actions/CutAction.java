@@ -23,10 +23,10 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Cut action
  */
-public class CutAction extends AbstractElementAction
+public class CutAction extends AbstractViewAction
 {
 
-	private static final String TEXT = Messages.getString( "CutAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString( "CutAction.text" ); //$NON-NLS-1$
 
 	/**
 	 * Create a new cut action with given selection and default text
@@ -37,7 +37,7 @@ public class CutAction extends AbstractElementAction
 	 */
 	public CutAction( Object selectedObject )
 	{
-		this( selectedObject, TEXT );
+		this( selectedObject, DEFAULT_TEXT );
 	}
 
 	/**
@@ -65,36 +65,43 @@ public class CutAction extends AbstractElementAction
 	 */
 	public boolean isEnabled( )
 	{
-		if ( DNDUtil.handleValidateDragInOutline( getSelection( ) ) )
-			return super.isEnabled( );
-		return false;
+		return DNDUtil.handleValidateDragInOutline( getSelection( ) )
+				&& createDeleteAction( getSelection( ) ).isEnabled( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	protected boolean doAction( ) throws Exception
+	public void run( )
 	{
 		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
-		TemplateTransfer.getInstance( ).setTemplate( cloneElements );
-		DNDUtil.dropSource( getSelection( ) );
-		return true;
+		DeleteAction action = createDeleteAction( getSelection( ) );
+		action.run( );
+		if ( action.hasExecuted( ) )
+		{
+			TemplateTransfer.getInstance( ).setTemplate( cloneElements );
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
-	 */
-
-	protected String getTransactionLabel( )
+	protected DeleteAction createDeleteAction( final Object objects )
 	{
-		if ( getSelection( ) instanceof IStructuredSelection )
-		{
-			return Messages.getString( "CutAction.trans" ); //$NON-NLS-1$
-		}
-		return TEXT + " " + DEUtil.getDisplayLabel( getSelection( ) ); //$NON-NLS-1$
+		return new DeleteAction( objects ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#getTransactionLabel()
+			 */
+			protected String getTransactionLabel( )
+			{
+				if ( objects instanceof IStructuredSelection )
+				{
+					return Messages.getString( "CutAction.trans" ); //$NON-NLS-1$
+				}
+				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( objects ); //$NON-NLS-1$
+			}
+		};
 	}
 }

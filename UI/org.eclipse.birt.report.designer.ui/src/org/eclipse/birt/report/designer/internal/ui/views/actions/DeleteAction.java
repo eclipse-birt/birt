@@ -11,16 +11,18 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
-import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.gef.Request;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -34,10 +36,19 @@ import org.eclipse.ui.PlatformUI;
 public class DeleteAction extends AbstractElementAction
 {
 
-	/**
-	 * the default text
-	 */
-	private static final String TEXT = Messages.getString( "DeleteAction.text" ); //$NON-NLS-1$
+	public static final String CONFIRM_PARAM_DELETE_TITLE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmTitle" ); //$NON-NLS-1$
+
+	public static final String CONFIRM_PARAM_DELETE_MESSAGE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmMessage" ); //$NON-NLS-1$
+
+	public static final String DLG_CONFIRM_MSG = Messages.getString( "DefaultNodeProvider.Dlg.Confirm" ); //$NON-NLS-1$
+
+	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "DefaultNodeProvider.Tree.Clients" ); //$NON-NLS-1$
+
+	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
+
+	private static final String DEFAULT_TEXT = Messages.getString( "DeleteAction.text" ); //$NON-NLS-1$
+
+	private boolean hasExecuted = false;
 
 	/**
 	 * Create a new delete action with given selection and default text
@@ -48,7 +59,7 @@ public class DeleteAction extends AbstractElementAction
 	 */
 	public DeleteAction( Object selectedObject )
 	{
-		this( selectedObject, TEXT );
+		this( selectedObject, DEFAULT_TEXT );
 	}
 
 	/**
@@ -71,44 +82,79 @@ public class DeleteAction extends AbstractElementAction
 
 	protected boolean doAction( ) throws Exception
 	{
-		if ( isEnabled( ) )
+		hasExecuted = isOKPressed( getSelection( ) );
+		if ( hasExecuted( ) )
 		{
-			return ProviderFactory.createProvider( getSelection( ) )
-					.performRequest( getSelection( ),
-							new Request( IRequestConstants.REQUEST_TYPE_DELETE ) );
+			createDeleteCommand( getSelection( ) ).execute( );
 		}
-		return false;
+		return hasExecuted( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
 	public boolean isEnabled( )
 	{
-		Object obj = getSelection( );
-		if ( obj instanceof IStructuredSelection )
+		Command cmd = createDeleteCommand( getSelection( ) );
+		if ( cmd == null )
+			return false;
+		return cmd.canExecute( );
+	}
+
+	protected boolean isOKPressed( Object model )
+	{
+		if ( model instanceof IStructuredSelection )
 		{
-			if ( ( (IStructuredSelection) obj ).isEmpty( ) )
+			for ( Iterator itor = ( (IStructuredSelection) model ).iterator( ); itor.hasNext( ); )
 			{
-				return false;
-			}
-			for ( Iterator itor = ( (IStructuredSelection) obj ).iterator( ); itor.hasNext( ); )
-			{
-				if ( !canDelete( itor.next( ) ) )
+				Object obj = itor.next( );
+				if ( !isOKPressed( obj ) )
 				{
 					return false;
 				}
 			}
 			return true;
 		}
-		return canDelete( obj );
-	}
-
-	private boolean canDelete( Object obj )
-	{
-		return obj instanceof ReportElementHandle
-				&& !( obj instanceof CellHandle )
-				&& !( obj instanceof MasterPageHandle );
+		else if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
+			if ( handle instanceof ParameterGroupHandle )
+			{
+				if ( ( (ParameterGroupHandle) handle ).getParameters( )
+						.getCount( ) > 0 )
+				{
+					if ( !MessageDialog.openQuestion( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							CONFIRM_PARAM_DELETE_TITLE,
+							CONFIRM_PARAM_DELETE_MESSAGE ) )
+					{
+						return false;
+					}
+				}
+			}
+			ArrayList referenceList = new ArrayList( );
+			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
+			{
+				referenceList.add( itor.next( ) );
+			}
+			if ( !referenceList.isEmpty( ) )
+			{
+				DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						DLG_REFERENCE_FOUND_TITLE,
+						referenceList );
+				dialog.setPreString( DEUtil.getDisplayLabel( handle )
+						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
+				dialog.setSufString( DLG_CONFIRM_MSG );
+				return dialog.open( ) != Dialog.CANCEL;
+			}
+			return true;
+		}
+		return true;
 	}
 
 	/*
@@ -123,7 +169,20 @@ public class DeleteAction extends AbstractElementAction
 		{
 			return Messages.getString( "DeleteAction.trans" ); //$NON-NLS-1$
 		}
-		return TEXT + " " + DEUtil.getDisplayLabel( getSelection( ) ); //$NON-NLS-1$
+		return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( getSelection( ) ); //$NON-NLS-1$
+	}
+
+	protected Command createDeleteCommand( Object objects )
+	{
+		return new DeleteCommand( objects );
+	}
+
+	/**
+	 * Returns if user press OK to run the action.
+	 */
+	public boolean hasExecuted( )
+	{
+		return hasExecuted;
 	}
 
 }

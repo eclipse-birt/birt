@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -33,7 +32,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.PageSetAction.CodePageAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -50,8 +48,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -64,12 +60,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class DefaultNodeProvider implements INodeProvider
 {
-
-	private static final String DLG_CONFIRM_MSG = Messages.getString( "DefaultNodeProvider.Dlg.Confirm" ); //$NON-NLS-1$
-
-	private static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "DefaultNodeProvider.Tree.Clients" ); //$NON-NLS-1$
-
-	private static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
 
 	public static final String BODY = Messages.getString( "DefaultNodeProvider.Tree.Body" ); //$NON-NLS-1$
 
@@ -98,10 +88,6 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String GROUPS_DISPALYNAME = Messages.getString( "DefaultNodeProvider.Tree.Groups" ); //$NON-NLS-1$
 
 	public static final String MISSINGNAME = Messages.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
-
-	public static final String CONFIRM_PARAM_DELETE_TITLE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmTitle" ); //$NON-NLS-1$
-
-	public static final String CONFIRM_PARAM_DELETE_MESSAGE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmMessage" ); //$NON-NLS-1$
 
 	/**
 	 * Creates the context menu
@@ -298,23 +284,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_DELETE ) )
 		{
-			if ( model instanceof IStructuredSelection )
-			{
-				boolean retValue = false;
-				for ( Iterator itor = ( (IStructuredSelection) model ).iterator( ); itor.hasNext( ); )
-				{
-					Object obj = itor.next( );
-					retValue |= ProviderFactory.createProvider( obj )
-							.performRequest( obj, request );
-				}
-				return retValue;
-			}
-			DesignElementHandle handle = (DesignElementHandle) model;
-			if ( handle.getContainer( ) == null )
-			{//has been deleted
-				return false;
-			}
-			return performDelete( handle );
+			return false;
 		}
 		return false;
 	}
@@ -440,47 +410,6 @@ public class DefaultNodeProvider implements INodeProvider
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		return false;
-	}
-
-	protected boolean performDelete( DesignElementHandle handle )
-			throws SemanticException
-	{
-		if ( handle instanceof ParameterGroupHandle )
-		{
-			if ( ( (ParameterGroupHandle) handle ).getParameters( ).getCount( ) > 0 )
-			{
-				if ( !MessageDialog.openQuestion( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						CONFIRM_PARAM_DELETE_TITLE,
-						CONFIRM_PARAM_DELETE_MESSAGE ) )
-				{
-					return false;
-				}
-			}
-		}
-		ArrayList referenceList = new ArrayList( );
-		for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
-		{
-			referenceList.add( itor.next( ) );
-		}
-		if ( !referenceList.isEmpty( ) )
-		{
-			DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					DLG_REFERENCE_FOUND_TITLE,
-					referenceList );
-			dialog.setPreString( DEUtil.getDisplayLabel( handle )
-					+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
-			dialog.setSufString( DLG_CONFIRM_MSG );
-			if ( dialog.open( ) == Dialog.CANCEL )
-			{
-				return false;
-			}
-		}
-		handle.drop( );
-		return true;
 	}
 
 	/*
