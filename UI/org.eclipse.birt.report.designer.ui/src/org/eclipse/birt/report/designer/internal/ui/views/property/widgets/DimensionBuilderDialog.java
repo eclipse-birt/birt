@@ -30,11 +30,14 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
 public class DimensionBuilderDialog extends SelectionStatusDialog
 {
 
-	private static String TITLE = Messages.getString( "DimensionBuilderDialog.Title" ); //$NON-NLS-1$
+	private static String TITLE = Messages
+			.getString( "DimensionBuilderDialog.Title" ); //$NON-NLS-1$
 
-	private static String LABEL_MEASURE = Messages.getString( "DimensionBuilderDialog.LabelMeasure" ); //$NON-NLS-1$
+	private static String LABEL_MEASURE = Messages
+			.getString( "DimensionBuilderDialog.LabelMeasure" ); //$NON-NLS-1$
 
-	private static String LABEL_UNIT = Messages.getString( "DimensionBuilderDialog.LabelUnit" ); //$NON-NLS-1$
+	private static String LABEL_UNIT = Messages
+			.getString( "DimensionBuilderDialog.LabelUnit" ); //$NON-NLS-1$
 
 	private Button[] units = new Button[]{};
 
@@ -183,7 +186,8 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 */
 	public String getUnitName( )
 	{
-		if ( unitData == 0 )
+		if ( unitData == 0 || unitData > ( unitNames.length - 1 )
+				|| unitData < 0 )
 			return ""; //$NON-NLS-1$
 		return unitNames[unitData];
 	}

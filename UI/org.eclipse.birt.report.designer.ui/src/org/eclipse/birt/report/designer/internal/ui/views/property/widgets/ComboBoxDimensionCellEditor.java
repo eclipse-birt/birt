@@ -13,8 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.Arrays;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.birt.report.model.metadata.DimensionValue;
+import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.osgi.framework.msg.MessageFormat;
@@ -29,9 +29,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -44,7 +42,7 @@ import org.eclipse.swt.widgets.Control;
  * the comobox or click the builder button to open the color dialog to select
  * the right color.
  */
-public class ComboBoxColorCellEditor extends DialogCellEditor
+public class ComboBoxDimensionCellEditor extends DialogCellEditor
 {
 
 	/**
@@ -72,6 +70,10 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 */
 	private Composite composite;
 
+	private String unitName;
+	
+	private String[] units;	
+
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
@@ -79,7 +81,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 * @param parent
 	 *            the parent control
 	 */
-	public ComboBoxColorCellEditor( Composite parent )
+	public ComboBoxDimensionCellEditor( Composite parent )
 	{
 		super( parent );
 		setStyle( defaultStyle );
@@ -94,7 +96,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 * @param items
 	 *            the initilizing combobox list
 	 */
-	public ComboBoxColorCellEditor( Composite parent, String[] items )
+	public ComboBoxDimensionCellEditor( Composite parent, String[] items )
 	{
 		this( parent, items, defaultStyle );
 	}
@@ -111,7 +113,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	 * @param style
 	 *            the style of this editor
 	 */
-	public ComboBoxColorCellEditor( Composite parent, String[] items, int style )
+	public ComboBoxDimensionCellEditor( Composite parent, String[] items, int style )
 	{
 		super( parent, style );
 		if ( items != null )
@@ -180,7 +182,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 			public void widgetDefaultSelected( SelectionEvent event )
 			{
 				applyEditorValueAndDeactivate( );
-				ComboBoxColorCellEditor.this.fireApplyEditorValue();
+				ComboBoxDimensionCellEditor.this.fireApplyEditorValue();
 			}
 
 			public void widgetSelected( SelectionEvent event )
@@ -189,7 +191,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 				comboBox.select( selection );
 				doSetValue( comboBox.getItem( selection ) );
 				applyEditorValueAndDeactivate( );
-				ComboBoxColorCellEditor.this.fireApplyEditorValue();
+				ComboBoxDimensionCellEditor.this.fireApplyEditorValue();
 			}
 		} );
 
@@ -218,7 +220,7 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 
 			public void focusLost( FocusEvent e )
 			{
-				ComboBoxColorCellEditor.this.focusLost( );
+				ComboBoxDimensionCellEditor.this.focusLost( );
 			}
 		} );
 
@@ -248,42 +250,36 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 	}
 
 	/*
-	 * (non-Javadoc) Method declared on DialogCellEditor.
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.widgets.Control)
 	 */
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
-		ColorDialog dialog = new ColorDialog( cellEditorWindow.getShell( ) );
-		Object value = getValue( );
+		DimensionBuilderDialog dialog = new DimensionBuilderDialog( cellEditorWindow.getShell( ) );
 
+		DimensionValue value;
 		try
 		{
-			int color;
-
-			if ( value instanceof String )
-			{
-				color = ColorUtil.parseColor( (String) value );
-			}
-			else
-			{
-				color = ( (Integer) value ).intValue( );
-			}
-
-			dialog.setRGB( DEUtil.getRGBValue( color ) );
-
+			value = DimensionValue.parse( (String) this.getValue( ) );
 		}
-		catch ( Exception e )
+		catch ( PropertyValueException e )
 		{
-			//ignore.
+			value = null;
 		}
+		
+		dialog.setUnitNames( units );
+		dialog.setUnitData(Arrays.asList(units).indexOf(unitName));
 
-		value = dialog.open( );
-		if ( dialog.getRGB( ) != null )
+		if ( value != null )
 		{
-			return ColorUtil.format( dialog.getRGB( ).hashCode( ),
-					ColorUtil.HTML_FORMAT );
+			dialog.setMeasureData( new Double( value.getMeasure( ) ) );
 		}
+		
+		dialog.open( );
+		deactivate( );
 
-		return value;
+		return dialog.getMeasureData( ).toString( ) + dialog.getUnitName( );
 	}
 
 	/*
@@ -297,17 +293,10 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 		String text = "";//$NON-NLS-1$
 		if ( value != null )
 		{
-			if ( value instanceof RGB )
-			{
-				text = "0x" //$NON-NLS-1$
-						+ Integer.toHexString( DEUtil.getRGBInt( (RGB) value ) );
-			}
-			else
-			{
-				text = value.toString( );
-			}
+			text = value.toString( );
 		}
-		comboBox.setText( text );
+		
+		comboBox.setText( text);
 	}
 
 	/*
@@ -331,5 +320,24 @@ public class ComboBoxColorCellEditor extends DialogCellEditor
 			fireApplyEditorValue();
 			deactivate();
 		}
+	}
+	
+	/**
+	 * Set current units
+	 * @param units
+	 */
+	public void setUnits(String units)
+	{
+		this.unitName = units; 
+	}
+	
+	
+	/**
+	 * Set units list the needed by dimension dialog
+	 * @param unitsList
+	 */
+	public void setUnitsList(String[] unitsList)
+	{
+		this.units = unitsList;
 	}
 }

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.jface.viewers.DialogCellEditor;
@@ -24,6 +26,7 @@ public class DimensionCellEditor extends DialogCellEditor
 {
 
 	private String[] units;
+	private String unitName;
 
 	public DimensionCellEditor( Composite parent, String[] unitNames )
 	{
@@ -44,23 +47,33 @@ public class DimensionCellEditor extends DialogCellEditor
 		try
 		{
 			value = DimensionValue.parse( (String) this.getValue( ) );
-			dialog.setUnitNames( units );
-
-			if ( value != null )
-			{
-				dialog.setMeasureData( new Double( value.getMeasure( ) ) );
-				//				dialog.setUnitData( value.getUnits( ) );
-			}
 		}
 		catch ( PropertyValueException e )
 		{
-
+			value = null;
 		}
+		
+		dialog.setUnitNames( units );
+		dialog.setUnitData(Arrays.asList(units).indexOf(unitName));
+
+		if ( value != null )
+		{
+			dialog.setMeasureData( new Double( value.getMeasure( ) ) );
+		}
+		
 		dialog.open( );
 		deactivate( );
 
 		return dialog.getMeasureData( ).toString( ) + dialog.getUnitName( );
-		//		return null;
+	}
+	
+	/**
+	 * Set current units
+	 * @param units
+	 */
+	public void setUnits(String units)
+	{
+		this.unitName = units; 
 	}
 
 }
