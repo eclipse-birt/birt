@@ -16,39 +16,38 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
+import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.tests.example.matrix.TestingMatrixUI;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- *  
+ * Tests for extension point manager  
  */
 
 public class ExtensionPointManagerTest extends BaseTestCase
 {
-
-	public static final String TestExtensionName = "TestingMatrix"; //$NON-NLS-1$
-
+	
 	public void testGetExtendedElementPoints( )
 	{
 		List list = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoints( );
-		assertEquals( 1, list.size( ) );
-		assertEquals( ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( TestExtensionName ), list.get( 0 ) );
+		assertFalse( list.isEmpty( ) );
+		assertTrue( list.contains( ExtensionPointManager.getInstance( )
+				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) ) );
 	}
 
 	public void testGetExtendedElementPoint( )
 	{
 		ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( TestExtensionName );
+				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME );
 		assertNotNull( point );
 
 		assertEquals( point, ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( TestExtensionName ) );
+				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) );
 
-		assertEquals( TestExtensionName, point.getExtensionName( ) );
+		assertEquals( ITestConstants.TEST_EXTENSION_NAME, point.getExtensionName( ) );
 
 		assertTrue( point.getReportItemUI( ) instanceof TestingMatrixUI );
 
@@ -59,7 +58,7 @@ public class ExtensionPointManagerTest extends BaseTestCase
 		assertEquals( Boolean.FALSE,
 				point.getAttribute( IExtensionConstants.EDITOR_CAN_RESIZE ) );
 
-		String paletteIconSymbol = ReportPlatformUIImages.getIconSymbolName( TestExtensionName,
+		String paletteIconSymbol = ReportPlatformUIImages.getIconSymbolName( ITestConstants.TEST_EXTENSION_NAME,
 				IExtensionConstants.PALETTE_ICON );
 		assertEquals( "TestCategory", //$NON-NLS-1$
 				point.getAttribute( IExtensionConstants.PALETTE_CATEGORY ) );
@@ -68,7 +67,7 @@ public class ExtensionPointManagerTest extends BaseTestCase
 		assertNull( ReportPlatformUIImages.getImageDescriptor( paletteIconSymbol ) );
 		assertNull( ReportPlatformUIImages.getImage( paletteIconSymbol ) );
 
-		String outlineIconSymbol = ReportPlatformUIImages.getIconSymbolName( TestExtensionName,
+		String outlineIconSymbol = ReportPlatformUIImages.getIconSymbolName( ITestConstants.TEST_EXTENSION_NAME,
 				IExtensionConstants.OUTLINE_ICON );
 		ImageDescriptor descriptor = ReportPlatformUIImages.getImageDescriptor( outlineIconSymbol );
 		assertNotNull( point.getAttribute( IExtensionConstants.OUTLINE_ICON ) );

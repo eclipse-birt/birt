@@ -34,4 +34,6 @@ public interface ITestConstants
 	String PLUGIN_PROVIDER = "Eclipse.org";
 
 	String TEST_DESIGN_FILE = "test.rptdesign"; //$NON-NLS-1$
+	
+	String TEST_EXTENSION_NAME = "TestingMatrix"; //$NON-NLS-1$
 }

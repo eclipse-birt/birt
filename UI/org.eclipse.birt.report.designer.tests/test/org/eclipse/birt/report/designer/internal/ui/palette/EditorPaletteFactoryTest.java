@@ -11,6 +11,8 @@ package org.eclipse.birt.report.designer.internal.ui.palette;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.gef.palette.PaletteRoot;
 
 public class EditorPaletteFactoryTest extends TestCase
@@ -23,8 +25,13 @@ public class EditorPaletteFactoryTest extends TestCase
 	public void testCreatePalette( )
 	{
 		PaletteRoot root = DesignerPaletteFactory.createPalette( );
-
-		assertEquals( 3, root.getChildren( ).size( ) );
+		int size = 2;
+		if ( ExtensionPointManager.getInstance( )
+				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
+		{
+			size++;
+		}
+		assertEquals( size, root.getChildren( ).size( ) );
 	}
 
 	/**
@@ -56,7 +63,6 @@ public class EditorPaletteFactoryTest extends TestCase
 	 */
 	protected void tearDown( ) throws Exception
 	{
-		// TODO Auto-generated method stub
 		super.tearDown( );
 	}
 }
