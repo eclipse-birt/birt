@@ -78,7 +78,7 @@ public class ActionStructureState extends StructureState
 						DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
 			else
 				handler.semanticError( new DesignParserException(
-						DesignParserException.CHOICE_RESTRICTION_VIOLATION ) );
+						DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 		}
 
 		element.setProperty( name, struct );
@@ -110,14 +110,14 @@ public class ActionStructureState extends StructureState
 			if ( ( searchKey != null ) || ( bookmarkLink != null )
 					|| ( parameter != null ) )
 				handler.semanticError( new DesignParserException(
-						DesignParserException.ACTION_REPORTNAME_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED ) );
 			return false;
 		}
 
 		if ( ( searchKey != null ) && ( bookmarkLink != null ) )
 		{
 			handler.semanticError( new DesignParserException(
-					DesignParserException.CHOICE_RESTRICTION_VIOLATION ) );
+					DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 			return false;
 		}
 		else if ( searchKey != null )
@@ -166,7 +166,7 @@ public class ActionStructureState extends StructureState
 				{
 					handler
 							.semanticError( new DesignParserException(
-									DesignParserException.CHOICE_RESTRICTION_VIOLATION ) );
+									DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 					return;
 				}
 				setMember( struct, propDefn.getName( ),
@@ -180,7 +180,7 @@ public class ActionStructureState extends StructureState
 				{
 					handler
 							.semanticError( new DesignParserException(
-									DesignParserException.CHOICE_RESTRICTION_VIOLATION ) );
+									DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 					return;
 				}
 				setMember( struct, propDefn.getName( ),

@@ -366,7 +366,7 @@ public class GridItem extends ReportItem
 		int maxCols = findMaxCols( design );
 		if ( colDefnCount != maxCols && colDefnCount != 0 )
 			list.add( new SemanticError( this,
-					SemanticError.INCONSITENT_GRID_COL_COUNT ) );
+					SemanticError.DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT ) );
 
 		return list;
 	}

@@ -656,7 +656,7 @@ public class ExtendedItem extends ReportItem
 		assert extName != null;
 		if ( !extName.equalsIgnoreCase( parentExt ) )
 			throw new ExtendsException( this, parent,
-					ExtendsException.WRONG_EXTENSION_TYPE );
+					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 	}
 
 	/*

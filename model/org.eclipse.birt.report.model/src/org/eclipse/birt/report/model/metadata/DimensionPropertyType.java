@@ -123,7 +123,7 @@ public class DimensionPropertyType extends PropertyType
 		if ( value instanceof BigDecimal )
 			return fromDouble( design, ( (BigDecimal) value ).doubleValue( ) );
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.DIMENSION_TYPE );
 	}
 
@@ -253,7 +253,7 @@ public class DimensionPropertyType extends PropertyType
 			// unit not allowed.
             
 			throw new PropertyValueException( null, defn, value,
-					PropertyValueException.UNIT_NOT_ALLOWED );
+					PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED );
 		}
 
 	}

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ExtensionLoader;
 import org.eclipse.birt.report.model.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
@@ -29,8 +30,9 @@ import org.eclipse.birt.report.model.metadata.MetaLogManager;
  * The design engine uses <em>meta-data</em> defined in an external file. This
  * file is defined by BIRT and should both be available and valid. However, if
  * an application wants to catch and handle errors associated with this file, it
- * can create and register an instance of <code>IMetaLogger</code> before creating
- * or opening the first report design. The logger is most useful for test suites.
+ * can create and register an instance of <code>IMetaLogger</code> before
+ * creating or opening the first report design. The logger is most useful for
+ * test suites.
  * 
  * @see IMetaLogger
  * @see MetaLogManager
@@ -62,11 +64,19 @@ public final class DesignEngine
 	public static void initialize( String defnFileName )
 			throws MetaDataReaderException
 	{
-		MetaDataReader.read( defnFileName );
-		
-		ExtensionLoader.init( );
-		
-		MetaLogManager.shutDown( );
+		try
+		{
+			MetaDataReader.read( defnFileName );
+
+			ExtensionLoader.init( );
+
+			MetaLogManager.shutDown( );
+		}
+		catch ( MetaDataParserException e )
+		{
+			throw new MetaDataReaderException(
+					MetaDataReaderException.DESIGN_EXCEPTION_META_DATA_ERROR, e );
+		}
 
 	}
 
@@ -87,11 +97,19 @@ public final class DesignEngine
 	public static void initialize( InputStream is )
 			throws MetaDataReaderException
 	{
-		MetaDataReader.read( is );
-		
-		ExtensionLoader.init( );
-		
-		MetaLogManager.shutDown( );
+		try
+		{
+			MetaDataReader.read( is );
+
+			ExtensionLoader.init( );
+
+			MetaLogManager.shutDown( );
+		}
+		catch ( MetaDataParserException e )
+		{
+			throw new MetaDataReaderException(
+					MetaDataReaderException.DESIGN_EXCEPTION_META_DATA_ERROR, e );
+		}
 	}
 
 	/**
@@ -108,17 +126,17 @@ public final class DesignEngine
 
 	public static SessionHandle newSession( Locale locale )
 	{
-        // meta-data ready.
-        
-		if ( !MetaDataDictionary.getInstance().isEmpty() )
+		// meta-data ready.
+
+		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
 			return new SessionHandle( locale );
 
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
-		
+
 		synchronized ( DesignEngine.class )
 		{
-			if ( !MetaDataDictionary.getInstance().isEmpty() )
+			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
 				return new SessionHandle( locale );
 
 			MetaDataDictionary.reset( );
@@ -160,8 +178,8 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Opens a design by a given stream file name of the design. The file name is
-	 * used for error reporting, and when saving the design.
+	 * Opens a design by a given stream file name of the design. The file name
+	 * is used for error reporting, and when saving the design.
 	 * 
 	 * @param fileName
 	 *            the name of the file to open. If <code>null</code>, the
@@ -183,8 +201,8 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Registers a <code>IMetaLogger</code> to record initialization errors. The
-	 * logger will be notified of the errors during meta-data
+	 * Registers a <code>IMetaLogger</code> to record initialization errors.
+	 * The logger will be notified of the errors during meta-data
 	 * initialization. The meta-data system will be initialized once (and only
 	 * once). Loggers should be registered before the first time a session is
 	 * created so that it can be notified of the logging actions.
@@ -201,12 +219,11 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Removes a <code>IMetaLogger</code>. This method
-	 * will remove the logger from the list and close the logger if it has
-	 * already been registered. The logger will no longer be
-	 * notified of the errors during metadata initialization. Returns
-	 * <code>true</code> if this logger manager contained the specified
-	 * logger.
+	 * Removes a <code>IMetaLogger</code>. This method will remove the logger
+	 * from the list and close the logger if it has already been registered. The
+	 * logger will no longer be notified of the errors during metadata
+	 * initialization. Returns <code>true</code> if this logger manager
+	 * contained the specified logger.
 	 * 
 	 * @param logger
 	 *            the <code>MetaLogger</code> to be removed.

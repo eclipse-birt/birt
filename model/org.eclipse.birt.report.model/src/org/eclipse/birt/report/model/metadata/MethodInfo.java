@@ -77,7 +77,7 @@ public class MethodInfo extends LocalizableInfo
 		{
 			throw new MetaDataException(
 					new String[]{name, argument.getName( )},
-					MetaDataException.DUPLICATE_ARGUMENT_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
 		}
 		( (ArrayList) arguments ).add( argument );
 	}

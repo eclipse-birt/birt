@@ -215,7 +215,7 @@ public abstract class StyledElement extends DesignElement
 			if ( theStyle == null )
 			{
 				list.add( new StyleException( this, style.getName( ),
-						StyleException.NOT_FOUND ) );
+						StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			}
 			else
 			{

@@ -36,10 +36,10 @@ public final class MetaDataReader
 	 * 
 	 * @param fileName
 	 *            meta source file name.
-	 * @throws MetaDataReaderException
+	 * @throws MetaDataParserException
 	 */
 
-	public static void read( String fileName ) throws MetaDataReaderException
+	public static void read( String fileName ) throws MetaDataParserException
 	{
 		InputStream inputStream = null;
 		try
@@ -49,15 +49,15 @@ public final class MetaDataReader
 		catch ( FileNotFoundException e )
 		{
 			MetaLogManager.log( "Metadata definition file not found", e ); //$NON-NLS-1$
-			throw new MetaDataReaderException( fileName,
-					MetaDataReaderException.FILE_NOT_FOUND );
+			throw new MetaDataParserException( fileName,
+					MetaDataParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
 		}
         
 		try
 		{
 			read( inputStream );
 		}
-		catch ( MetaDataReaderException e )
+		catch ( MetaDataParserException e )
 		{
 			e.setFileName( fileName );
 			throw e;
@@ -83,11 +83,11 @@ public final class MetaDataReader
 	 * 
 	 * @param inputStream
 	 *            meta source file stream.
-	 * @throws MetaDataReaderException
+	 * @throws MetaDataParserException
 	 */
 
 	public static void read( InputStream inputStream )
-			throws MetaDataReaderException
+			throws MetaDataParserException
 	{
 		assert MetaDataDictionary.getInstance( ).isEmpty( );
 		MetaDataHandler handler = new MetaDataHandler( );
@@ -100,8 +100,8 @@ public final class MetaDataReader
 		catch ( Exception e )
 		{
 			MetaLogManager.log( "Metadata parsing error", e ); //$NON-NLS-1$
-			throw new MetaDataReaderException( e,
-					MetaDataReaderException.PARSER_ERROR );
+			throw new MetaDataParserException( e,
+					MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR );
 		}
 
 	}

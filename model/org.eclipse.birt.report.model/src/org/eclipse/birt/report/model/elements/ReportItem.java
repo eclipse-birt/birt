@@ -154,7 +154,7 @@ public abstract class ReportItem extends StyledElement
 		if ( !checkElementReference( design, DATA_SET_PROP ) )
 		{
 			list.add( new SemanticError( this, new String[]{DATA_SET_PROP},
-					SemanticError.INVALID_ELEMENT_REF ) );
+					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
 		}
 
 		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );

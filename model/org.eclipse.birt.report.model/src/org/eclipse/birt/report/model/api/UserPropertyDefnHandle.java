@@ -15,13 +15,12 @@ import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Represents a top-level user-defined property of an element.
- *  
+ * 
  * @see org.eclipse.birt.report.model.core.UserPropertyDefn
  */
 
@@ -101,16 +100,14 @@ public class UserPropertyDefnHandle extends PropertyHandle
 	 *            the new definition of the user-defined property
 	 * @throws UserPropertyException
 	 *             if the property is not found, is not a user property, or is
-	 *             not defined on this element.
+	 *             not defined on this element, or the user property definition
+	 *             is inconsistent.
 	 * @throws PropertyValueException,
-	 *             if the type changes, the value becomes invalid.
-	 * @throws MetaDataException
-	 *             if the user property definition is inconsistent.
+	 *             if the type changes, the value becomes invalid. 
 	 */
 
 	public void setUserPropertyDefn( UserPropertyDefn prop )
-			throws UserPropertyException, PropertyValueException,
-			MetaDataException
+			throws UserPropertyException, PropertyValueException
 	{
 		ReportDesign design = elementHandle.getDesign( );
 		UserPropertyCommand cmd = new UserPropertyCommand( design, getElement( ) );

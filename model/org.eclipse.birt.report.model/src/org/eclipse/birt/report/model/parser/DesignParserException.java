@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -35,128 +34,128 @@ public class DesignParserException  extends BirtException
 	 * A custom color did not have a correct RGB value.
 	 */
 
-	public static final String RGB_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_RGB_REQUIRED;
+	public static final String DESIGN_EXCEPTION_RGB_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_RGB_REQUIRED;
 
 	/**
 	 * A custom color is missing the color name.
 	 */
 
-	public static final String COLOR_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_COLOR_NAME_REQUIRED;
+	public static final String DESIGN_EXCEPTION_COLOR_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_COLOR_NAME_REQUIRED;
 
 	/**
 	 * Use of "extends" to reference a style when "name" should be used.
 	 */
 
-	public static final String ILLEGAL_EXTENDS = MessageConstants.DESIGN_PARSER_EXCEPTION_ILLEGAL_EXTENDS;
+	public static final String DESIGN_EXCEPTION_ILLEGAL_EXTENDS = MessageConstants.DESIGN_PARSER_EXCEPTION_ILLEGAL_EXTENDS;
 
 	/**
 	 * Image item has more then one kind of reference type.
 	 */
 
-	public static final String IMAGE_REF_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_IMAGE_REF_CONFLICT;
+	public static final String DESIGN_EXCEPTION_IMAGE_REF_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_IMAGE_REF_CONFLICT;
 
 	/**
 	 * Image reference type is expression, but not both type expression and
 	 * value expression are present in the design file.
 	 */
 
-	public static final String INVALID_IMAGEREF_EXPR_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE;
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE;
 
 	/**
 	 * Image URL value is empty.
 	 */
 
-	public static final String INVALID_IMAGE_URL_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_URL_VALUE;
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_URL_VALUE;
 
 	/**
 	 * Image Name is empty.
 	 */
 
-	public static final String INVALID_IMAGE_NAME_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_NAME_VALUE;
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_NAME_VALUE;
 
 	/**
 	 * An action Drillthrough is missing the "reportName" value.
 	 */
 
-	public static final String ACTION_REPORTNAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_REPORTNAME_REQUIRED;
+	public static final String DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_REPORTNAME_REQUIRED;
 
 	/**
 	 * An parameter in an Action is missing the "name" value.
 	 */
 
-	public static final String ACTION_PARAMETER_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_PARAMETER_NAME_REQUIRED;
+	public static final String DESIGN_EXCEPTION_ACTION_PARAMETER_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_ACTION_PARAMETER_NAME_REQUIRED;
 
 	/**
 	 * Break the restriction that "occurrence == 1" for a choice type.
 	 */
 
-	public static final String CHOICE_RESTRICTION_VIOLATION = MessageConstants.DESIGN_PARSER_EXCEPTION_CHOICE_RESTRICTION_VIOLATION;
+	public static final String DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION = MessageConstants.DESIGN_PARSER_EXCEPTION_CHOICE_RESTRICTION_VIOLATION;
 
 	/**
 	 * User-defined message is missing the "resouece-Key" value.
 	 */
 
-	public static final String MESSAGE_KEY_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_MESSAGE_KEY_REQUIRED;
+	public static final String DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_MESSAGE_KEY_REQUIRED;
 
 	/**
 	 * Two translations with the same locale appeared in a User-defined message.
 	 */
 
-	public static final String DUPLICATE_TRANSLATION_LOCALE = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE;
+	public static final String DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE;
 
 	/**
 	 * The property name or member name is required.
 	 */
 	
-	public static final String NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_NAME_REQUIRED;
+	public static final String DESIGN_EXCEPTION_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_NAME_REQUIRED;
 	
 	/**
 	 * The property is not a structure list.
 	 */
 	
-	public static final String WRONG_STRUCTURE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE;
 
 	/**
 	 * The property is not a expression.
 	 */
 	
-	public static final String WRONG_EXPRESSION_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXPRESSION_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_EXPRESSION_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXPRESSION_TYPE;
 	
 	/**
 	 * The property is not an XML.
 	 */
 	
-	public static final String WRONG_XML_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_XML_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_XML_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_XML_TYPE;
 	
 	/**
 	 * The property is not an extended property.
 	 */
 	
-	public static final String WRONG_EXTENDED_PROPERTY_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE;
+	public static final String DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE;
 	
 	/**
 	 * Both query text and script exist. 
 	 */
 	
-	public static final String QUERY_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT;
+	public static final String DESIGN_EXCEPTION_QUERY_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT;
 
 	/**
 	 * The structure name is invalid.
 	 */
 	
-	public static final String INVALID_STRUCTURE_NAME = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_STRUCTURE_NAME;
+	public static final String DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_STRUCTURE_NAME;
 	
 	/**
 	 * The property syntax is invalid.
 	 */
 	
-	public static final String INVALID_PROPERTY_SYNTAX = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_PROPERTY_SYNTAX;
+	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_PROPERTY_SYNTAX;
 	
 	/**
 	 * The property is not defined.
 	 */
 	
-	public static final String UNDEFINED_PROPERTY = MessageConstants.DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY;
+	public static final String DESIGN_EXCEPTION_UNDEFINED_PROPERTY = MessageConstants.DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY;
 
 	/**
 	 * Constructs the design parser exception with the error code.
@@ -231,13 +230,5 @@ public class DesignParserException  extends BirtException
 	public String getMessage( )
 	{
 		return getLocalizedMessage( );
-	}	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.exception.BirtException#getErrorCode()
-	 */
-	public String getErrorCode( )
-	{
-		return SemanticException.ERROR_CODE_PREFIX + super.getErrorCode( ); //$NON-NLS-1$
 	}
 }

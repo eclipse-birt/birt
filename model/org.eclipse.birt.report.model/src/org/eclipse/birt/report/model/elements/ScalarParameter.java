@@ -203,7 +203,7 @@ public class ScalarParameter extends Parameter
 			if ( getLocalProperty( design, ScalarParameter.DATASET_NAME_PROP ) == null )
 				list.add( new PropertyValueException( this,
 						ScalarParameter.DATASET_NAME_PROP,
-						null, PropertyValueException.VALUE_REQUIRED ) );
+						null, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 
 		}
 

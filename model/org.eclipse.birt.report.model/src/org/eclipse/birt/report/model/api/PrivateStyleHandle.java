@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.MetaDataException;
 
 /**
  * Represents the "private style" for an element. The private style is the set
@@ -65,8 +64,7 @@ public class PrivateStyleHandle extends StyleHandle
 	 */
 
 	public void addUserPropertyDefn( UserPropertyDefn prop )
-			throws UserPropertyException, 
-			MetaDataException
+			throws UserPropertyException
 	{
 		assert false;
 	}

@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.Listener;
-import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
@@ -492,9 +491,7 @@ public abstract class DesignElementHandle
 	 *             if the element is not allowed to have user property or the
 	 *             user property definition is invalid, or if the value of the
 	 *             user-defined choice is invalid for the type of user property
-	 *             definition.
-	 * @throws MetaDataException
-	 *             If the property type is incorrect.
+	 *             definition, the property type is incorrect.
 	 */
 
 	public void addUserPropertyDefn( UserPropertyDefn prop )
@@ -971,7 +968,7 @@ public abstract class DesignElementHandle
 		DesignElement oldContainer = element.getContainer( );
 		if ( oldContainer == null )
 			throw new ContentException( element, -1,
-					ContentException.HAS_NO_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 		int oldSlot = element.getContainerSlot( );
 		assert oldSlot != -1;
 		ContentCommand cmd = new ContentCommand( design, oldContainer );
@@ -994,7 +991,7 @@ public abstract class DesignElementHandle
 		DesignElement container = element.getContainer( );
 		if ( container == null )
 			throw new ContentException( element, -1,
-					ContentException.HAS_NO_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
 		ContentCommand cmd = new ContentCommand( design, container );
@@ -1320,7 +1317,7 @@ public abstract class DesignElementHandle
 		if ( targetHandle.getDefn( ) != getDefn( ) )
 			throw new PropertyValueException(
 					targetHandle.getDefn( ).getName( ),
-					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
 
 		PropertyDefn propDefn = getDefn( ).getProperty( propName );
@@ -1344,7 +1341,7 @@ public abstract class DesignElementHandle
 				|| DesignElement.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
-					SemanticError.PROPERTY_COPY_FORBIDDEN );
+					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
 		}
 
 		switch ( propDefn.getTypeCode( ) )

@@ -395,7 +395,7 @@ public class ReportState extends DesignParseState
 			if ( StringUtil.isBlank( name ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.COLOR_NAME_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_COLOR_NAME_REQUIRED ) );
 				return;
 			}
 			String colorValue = getAttrib( attrs,
@@ -403,7 +403,7 @@ public class ReportState extends DesignParseState
 			if ( colorValue == null )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.RGB_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_RGB_REQUIRED ) );
 				return;
 			}
 			color = new CustomColor( name, colorValue );
@@ -665,7 +665,7 @@ public class ReportState extends DesignParseState
 			if ( StringUtil.isBlank( key ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.MESSAGE_KEY_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
 				return;
 			}
 
@@ -727,7 +727,7 @@ public class ReportState extends DesignParseState
 			if ( design.findTranslation( resourceKey, locale ) != null )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.DUPLICATE_TRANSLATION_LOCALE ) );
+						DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
 				return;
 			}
 

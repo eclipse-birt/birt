@@ -148,7 +148,7 @@ public class UserPropertyStructureState extends StructureState
 			if ( StringUtil.isBlank( name ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.NAME_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
 			}
@@ -156,7 +156,7 @@ public class UserPropertyStructureState extends StructureState
 			if ( !UserPropertyDefn.CHOICES_MEMBER.equalsIgnoreCase( name ) )
 			{
 				handler.semanticWarning( new DesignParserException(
-						DesignParserException.UNDEFINED_PROPERTY ) );
+						DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 				valid = false;
 				return;
 			}
@@ -290,7 +290,7 @@ public class UserPropertyStructureState extends StructureState
 					{
 						handler.semanticError( new UserPropertyException(
 								element, name,
-								UserPropertyException.INVALID_CHOICE_VALUE ) );
+								UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
 						return;
 					}
 				}
@@ -393,7 +393,7 @@ public class UserPropertyStructureState extends StructureState
 				{
 					handler.semanticError( new UserPropertyException( element,
 							( (UserPropertyDefn) struct ).getName( ),
-							UserPropertyException.INVALID_TYPE ) );
+							UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 					return;
 				}
 

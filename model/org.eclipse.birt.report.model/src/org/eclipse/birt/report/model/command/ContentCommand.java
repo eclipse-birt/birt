@@ -152,20 +152,20 @@ public class ContentCommand extends AbstractElementCommand
 		ElementDefn metaData = element.getDefn( );
 		if ( !metaData.isContainer( ) )
 			throw new ContentException( element, slotID,
-					ContentException.NOT_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
 		SlotDefn slotInfo = metaData.getSlot( slotID );
 		if ( slotInfo == null )
 			throw new ContentException( element, slotID,
-					ContentException.SLOT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !slotInfo.canContain( content ) )
 			throw new ContentException( element, slotID,
-					ContentException.WRONG_TYPE );
+					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 
 		// This element is already the content of the element to add.
 
 		if ( element.isContentOf( content ) )
 			throw new ContentException( element, slotID, content,
-					ContentException.RECURSIVE );
+					ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
@@ -173,12 +173,12 @@ public class ContentCommand extends AbstractElementCommand
 				&& element.getSlot( slotID ).getCount( ) > 0 )
 		{
 			throw new ContentException( element, slotID,
-					ContentException.SLOT_IS_FULL );
+					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 		}
 
 		if ( !element.canContain( design, slotID, content ) )
 			throw new ContentException( element, slotID, content,
-					ContentException.INVALID_CONTEXT_CONTAINMENT );
+					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 		// Ensure we can add the name.
 
@@ -242,17 +242,17 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( !element.getDefn( ).isContainer( ) )
 			throw new ContentException( element, slotID,
-					ContentException.NOT_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
 		ContainerSlot slot = element.getSlot( slotID );
 		if ( slot == null )
 			throw new ContentException( element, slotID,
-					ContentException.SLOT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !slot.contains( content ) )
 			throw new ContentException( element, slotID, content,
-					ContentException.CONTENT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 		if ( !slot.canDrop( content ) )
 			throw new ContentException( element, slotID,
-					ContentException.DROP_FORBIDDEN );
+					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -260,7 +260,7 @@ public class ContentCommand extends AbstractElementCommand
 		if ( hasDescendents( content, slotID ) )
 		{
 			throw new ContentException( element, slotID,
-					ContentException.HAS_DESCENDENTS );
+					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
 		// Prepare the transaction.
@@ -570,30 +570,30 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( to.isContentOf( content ) )
 			throw new ContentException( to, fromSlotID, content,
-					ContentException.RECURSIVE );
+					ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
 		// Ensure that the content can be put into the container.
 
 		if ( !element.getDefn( ).isContainer( ) )
 			throw new ContentException( element, fromSlotID,
-					ContentException.NOT_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
 		if ( !to.getDefn( ).isContainer( ) )
 			throw new ContentException( to, toSlotID,
-					ContentException.NOT_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
 		ContainerSlot fromSlot = element.getSlot( fromSlotID );
 		if ( fromSlot == null )
 			throw new ContentException( element, fromSlotID,
-					ContentException.SLOT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		ContainerSlot toSlot = to.getSlot( toSlotID );
 		if ( toSlot == null )
 			throw new ContentException( to, toSlotID,
-					ContentException.SLOT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !fromSlot.contains( content ) )
 			throw new ContentException( element, fromSlotID, content,
-					ContentException.CONTENT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 		if ( !fromSlot.canDrop( content ) )
 			throw new ContentException( element, fromSlotID,
-					ContentException.DROP_FORBIDDEN );
+					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
 		//  if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -601,20 +601,20 @@ public class ContentCommand extends AbstractElementCommand
 		if ( hasDescendents( content, fromSlotID ) )
 		{
 			throw new ContentException( element, fromSlotID,
-					ContentException.HAS_DESCENDENTS );
+					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
 		SlotDefn slotInfo = to.getDefn( ).getSlot( toSlotID );
 		if ( !slotInfo.canContain( content ) )
 			throw new ContentException( to, toSlotID,
-					ContentException.WRONG_TYPE );
+					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 		if ( !slotInfo.isMultipleCardinality( ) && toSlot.getCount( ) > 0 )
 			throw new ContentException( to, toSlotID,
-					ContentException.SLOT_IS_FULL );
+					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 
 		if ( !to.canContain( design, toSlotID, content ) )
 			throw new ContentException( to, toSlotID, content,
-					ContentException.INVALID_CONTEXT_CONTAINMENT );
+					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -710,14 +710,14 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( !element.getDefn( ).isContainer( ) )
 			throw new ContentException( element, slotID,
-					ContentException.NOT_CONTAINER );
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
 		ContainerSlot slot = element.getSlot( slotID );
 		if ( slot == null )
 			throw new ContentException( element, slotID,
-					ContentException.SLOT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !content.isContentOf( element ) )
 			throw new ContentException( element, slotID, content,
-					ContentException.CONTENT_NOT_FOUND );
+					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
 		// Skip the step if the slotID has only single content.
 
@@ -727,7 +727,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( !canMovePosition( content, slotID, newPosn ) )
 			throw new ContentException( element, slotID,
-					ContentException.MOVE_FORBIDDEN );
+					ContentException.DESIGN_EXCEPTION_MOVE_FORBIDDEN );
 
 		// Move the new position so that it is in range.
 

@@ -50,7 +50,7 @@ public abstract class TextualPropertyType extends PropertyType
 			return null;
 		if ( value instanceof String )
 			return StringUtil.trimString( (String) value );
-		throw new PropertyValueException( value, PropertyValueException.INVALID_VALUE, VARIANT_TYPE );
+		throw new PropertyValueException( value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, VARIANT_TYPE );
 	}
 
 	/* (non-Javadoc)

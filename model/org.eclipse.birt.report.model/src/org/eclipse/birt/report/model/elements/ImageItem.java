@@ -246,7 +246,7 @@ public class ImageItem extends ReportItem
 			{
 				setValid( false );
 				list.add( new SemanticError( this, new String[]{filePath},
-						SemanticError.IMAGE_FILE_NOT_EXIST,
+						SemanticError.DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST,
 						SemanticError.WARNING ) );
 			}
 		}

@@ -62,13 +62,11 @@ public class UserPropertyCommand extends AbstractElementCommand
 	 *             if the element is not allowed to have user property or the
 	 *             user property definition is invalid, or if the value of the
 	 *             user-defined choice is invalid for the type of user property
-	 *             definition.
-	 * @throws MetaDataException
-	 *             if the user property definition is inconsistent.
+	 *             definition, or the user property definition is inconsistent.
 	 */
 
 	public void addUserProperty( UserPropertyDefn prop )
-			throws UserPropertyException, MetaDataException
+			throws UserPropertyException
 	{
 		if ( prop == null )
 			return;
@@ -80,7 +78,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 		String name = prop.getName( );
 		if ( element.getPropertyDefn( name ) != null )
 			throw new UserPropertyException( element, name,
-					UserPropertyException.DUPLICATE_NAME );
+					UserPropertyException.DESIGN_EXCEPTION_DUPLICATE_NAME );
 
 		// Make the changes. If the property has a default value, set that
 		// value.
@@ -113,12 +111,12 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		if ( !element.getDefn( ).allowsUserProperties( ) )
 			throw new UserPropertyException( element, propName,
-					UserPropertyException.USER_PROP_DISALLOWED );
+					UserPropertyException.DESIGN_EXCEPTION_USER_PROP_DISALLOWED );
 
 		UserPropertyDefn prop = element.getLocalUserPropertyDefn( propName );
 		if ( prop == null )
 			throw new UserPropertyException( element, propName,
-					UserPropertyException.NOT_FOUND );
+					UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND );
 
 		// Create the command to remove the property. Start a transaction
 		// using the label of this command.
@@ -166,17 +164,15 @@ public class UserPropertyCommand extends AbstractElementCommand
 	 *             if the element is not allowed to have user property or the
 	 *             user property definition is invalid, or if the value of the
 	 *             user-defined choice is invalid for the type of user property
-	 *             definition.
+	 *             definition, or the user property definition is inconsistent.
 	 * @throws PropertyValueException
 	 *             if the property value is invalid for the new user-defined
 	 *             property
-	 * @throws MetaDataException
-	 *             if the user property definition is inconsistent.
 	 */
 
 	public void setPropertyDefn( UserPropertyDefn oldPropDefn,
 			UserPropertyDefn newPropDefn ) throws UserPropertyException,
-			PropertyValueException, MetaDataException
+			PropertyValueException
 	{
 
 		assert element != null;
@@ -190,12 +186,11 @@ public class UserPropertyCommand extends AbstractElementCommand
 			return;
 		}
 
-
 		String propName = oldPropDefn.getName( );
 
 		if ( element.getLocalUserPropertyDefn( propName ) == null )
 			throw new UserPropertyException( element, propName,
-					UserPropertyException.NOT_FOUND );
+					UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND );
 
 		checkUserPropertyDefn( newPropDefn );
 		String name = newPropDefn.getName( );
@@ -299,33 +294,31 @@ public class UserPropertyCommand extends AbstractElementCommand
 	 *             if the element is not allowed to have user property or the
 	 *             user property definition is invalid, or if the value of the
 	 *             user-defined choice is invalid for the type of user property
-	 *             definition.
-	 * @throws MetaDataException
-	 *             if the user property definition is inconsistent.
+	 *             definition, or the user property definition is inconsistent.
 	 */
 
 	private void checkUserPropertyDefn( UserPropertyDefn prop )
-			throws UserPropertyException, MetaDataException
+			throws UserPropertyException
 	{
 		// Does the element allow user properties?
 
 		String name = prop.getName( );
 		if ( !element.getDefn( ).allowsUserProperties( ) )
 			throw new UserPropertyException( element, name,
-					UserPropertyException.USER_PROP_DISALLOWED );
+					UserPropertyException.DESIGN_EXCEPTION_USER_PROP_DISALLOWED );
 
 		// Validate the name.
 
 		if ( StringUtil.isBlank( name ) )
 			throw new UserPropertyException( element, name,
-					UserPropertyException.NAME_REQUIRED );
+					UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		if ( dd.getPropertyType( prop.getTypeCode( ) ) == null
 				|| prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
 				|| prop.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 			throw new UserPropertyException( element, name,
-					UserPropertyException.INVALID_TYPE );
+					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 
 		// Check the display name or id.
 
@@ -335,8 +328,10 @@ public class UserPropertyCommand extends AbstractElementCommand
 		{
 			displayName = design.getMessage( msgID );
 			if ( StringUtil.isBlank( displayName ) )
-				throw new UserPropertyException( element, name,
-						UserPropertyException.INVALID_DISPLAY_ID );
+				throw new UserPropertyException(
+						element,
+						name,
+						UserPropertyException.DESIGN_EXCEPTION_INVALID_DISPLAY_ID );
 		}
 
 		// Ensure choices exist if this is a choice typeCode.
@@ -346,7 +341,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 			ChoiceSet choices = prop.getChoices( );
 			if ( choices == null || choices.getChoices( ).length == 0 )
 				throw new UserPropertyException( element, name,
-						UserPropertyException.MISSING_CHOICES );
+						UserPropertyException.DESIGN_EXCEPTION_MISSING_CHOICES );
 		}
 
 		// if the user-defined property has choices and its type is not
@@ -363,12 +358,16 @@ public class UserPropertyCommand extends AbstractElementCommand
 				Object value = choice.getValue( );
 				if ( StringUtil.isBlank( choice.getName( ) ) )
 				{
-					throw new UserPropertyException( element, name,
-							UserPropertyException.NAME_REQUIRED );
+					throw new UserPropertyException(
+							element,
+							name,
+							UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED );
 				}
 				if ( value == null )
-					throw new UserPropertyException( element, name,
-							UserPropertyException.CHOICE_VALUE_REQUIRED );
+					throw new UserPropertyException(
+							element,
+							name,
+							UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED );
 				if ( prop.getTypeCode( ) != PropertyType.CHOICE_TYPE )
 				{
 					try
@@ -377,8 +376,10 @@ public class UserPropertyCommand extends AbstractElementCommand
 					}
 					catch ( PropertyValueException e )
 					{
-						throw new UserPropertyException( element, name,
-								UserPropertyException.INVALID_CHOICE_VALUE );
+						throw new UserPropertyException(
+								element,
+								name,
+								UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE );
 					}
 				}
 			}
@@ -386,7 +387,16 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		// Build the cached semantic data.
 
-		prop.build( );
+		try
+		{
+			prop.build( );
+		}
+		catch ( MetaDataException e )
+		{
+			throw new UserPropertyException( element, name,
+					UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFINITION,
+					e );
+		}
 
 	}
 

@@ -100,7 +100,7 @@ public abstract class AbstractParseState
 	public AbstractParseState startElement( String tagName )
 	{
 		getHandler( ).semanticError(
-				new XMLParserException( XMLParserException.UNKNOWN_TAG ) );
+				new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
 		return new AnyElementState( getHandler( ) );
 	}
 
@@ -175,7 +175,7 @@ public abstract class AbstractParseState
 		else if ( value.equalsIgnoreCase( "false" ) ) //$NON-NLS-1$ 
 			return false;
 		getHandler( ).semanticError(
-				new XMLParserException( XMLParserException.INVALID_BOOLEAN ) );
+				new XMLParserException( XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN ) );
 		return defaultValue;
 	}
 
@@ -221,7 +221,7 @@ public abstract class AbstractParseState
 			getHandler( )
 					.semanticError(
 							new XMLParserException(
-									XMLParserException.INVALID_INTEGER ) );
+									XMLParserException.DESIGN_EXCEPTION_INVALID_INTEGER ) );
 			return 0;
 		}
 	}

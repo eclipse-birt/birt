@@ -294,7 +294,7 @@ public class DesignSession
 			units = newUnits;
 		else
 			throw new PropertyValueException( newUnits,
-					PropertyValueException.INVALID_VALUE,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					PropertyType.CHOICE_TYPE );
 	}
 
@@ -331,7 +331,7 @@ public class DesignSession
 			colorFormat = format;
 		else
 			throw new PropertyValueException( new Integer( format ),
-					PropertyValueException.INVALID_VALUE,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					PropertyType.CHOICE_TYPE );
 	}
 

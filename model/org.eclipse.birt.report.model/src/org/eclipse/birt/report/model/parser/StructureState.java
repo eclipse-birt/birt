@@ -138,7 +138,7 @@ public class StructureState extends AbstractPropertyState
 			if ( StringUtil.isBlank( name ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.NAME_REQUIRED ) );
+						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
 			}
@@ -147,7 +147,7 @@ public class StructureState extends AbstractPropertyState
 			if ( propDefn == null )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.INVALID_STRUCTURE_NAME ) );
+						DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
 				valid = false;
 				return;
 			}

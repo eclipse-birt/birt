@@ -284,7 +284,7 @@ public final class MetaDataDictionary
 	{
 		if ( getElement( name ) == null )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.ELEMENT_NAME_CONST );
+					MetaDataException.DESIGN_EXCEPTION_ELEMENT_NAME_CONST );
 	}
 
 	/**
@@ -314,7 +314,7 @@ public final class MetaDataDictionary
 
 		style = getElement( MetaDataConstants.STYLE_NAME );
 		if ( style == null )
-			throw new MetaDataException( MetaDataException.STYLE_TYPE_MISSING );
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
 		style.build( );
 
 		// Build the element metadata.
@@ -410,10 +410,10 @@ public final class MetaDataDictionary
 	{
 		String name = type.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.MISSING_ELEMENT_NAME );
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_NAME );
 		if ( elementNameMap.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.DUPLICATE_ELEMENT_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_NAME );
 		elementNameMap.put( name, type );
 	}
 
@@ -454,10 +454,10 @@ public final class MetaDataDictionary
 		String name = style.getName( );
 
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.MISSING_STYLE_NAME );
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_STYLE_NAME );
 		if ( predefinedStyles.get( name ) != null )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.DUPLICATE_STYLE_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_STYLE_NAME );
 		predefinedStyles.put( name, style );
 	}
 
@@ -501,10 +501,10 @@ public final class MetaDataDictionary
 
 		if ( StringUtil.isBlank( name ) )
 			throw new MetaDataException(
-					MetaDataException.MISSING_CHOICE_SET_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_CHOICE_SET_NAME );
 		if ( choiceSets.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.DUPLICATE_CHOICE_SET_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CHOICE_SET_NAME );
 
 		choiceSets.put( name, choiceSet );
 	}
@@ -535,10 +535,10 @@ public final class MetaDataDictionary
 	{
 		String name = struct.getName( );
 		if ( StringUtil.isBlank( name ) )
-			throw new MetaDataException( MetaDataException.MISSING_STRUCT_NAME );
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_NAME );
 		if ( structures.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.DUPLICATE_STRUCT_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_STRUCT_NAME );
 		structures.put( name, struct );
 	}
 
@@ -628,11 +628,11 @@ public final class MetaDataDictionary
 	void addClass( ClassInfo classDefn ) throws MetaDataException
 	{
 		if ( StringUtil.isBlank( classDefn.getName( ) ) )
-			throw new MetaDataException( MetaDataException.MISSING_CLASS_NAME );
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_MISSING_CLASS_NAME );
 
 		if ( classes.get( classDefn.getName( ) ) != null )
 			throw new MetaDataException( new String[]{classDefn.getName( )},
-					MetaDataException.DUPLICATE_CLASS_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CLASS_NAME );
 
 		classes.put( classDefn.getName( ), classDefn );
 
@@ -683,12 +683,12 @@ public final class MetaDataDictionary
 		assert extDefn != null;
 		if ( StringUtil.isBlank( extDefn.getName( ) ) )
 			throw new MetaDataException(
-					MetaDataException.MISSING_EXTENSION_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_EXTENSION_NAME );
 		if ( extensionNameMap == null )
 			extensionNameMap = new HashMap( );
 		if ( extensionNameMap.get( extDefn.getName( ) ) != null )
 			throw new MetaDataException( new String[]{extDefn.getName( )},
-					MetaDataException.DUPLICATE_EXTENSION_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_EXTENSION_NAME );
 
 		extensionNameMap.put( extDefn.getName( ), extDefn );
 		extDefn.build( );
@@ -718,10 +718,10 @@ public final class MetaDataDictionary
 		String name = validator.getName( );
 		if ( StringUtil.isBlank( name ) )
 			throw new MetaDataException(
-					MetaDataException.MISSING_VALIDATOR_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_VALIDATOR_NAME );
 		if ( validators.containsKey( name ) )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.DUPLICATE_VALIDATOR_NAME );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_VALIDATOR_NAME );
 
 		validators.put( name, validator );
 	}

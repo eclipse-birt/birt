@@ -115,7 +115,7 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( StringUtil.isBlank( name ) )
 		{
 			handler.semanticError( new DesignParserException(
-					DesignParserException.NAME_REQUIRED ) );
+					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			valid = false;
 			return;
 		}
@@ -161,7 +161,7 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( memberDefn == null )
 		{
 			handler.semanticWarning( new DesignParserException(
-					DesignParserException.UNDEFINED_PROPERTY ) );
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}
@@ -204,7 +204,7 @@ public class AbstractPropertyState extends AbstractParseState
 				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
 		{
 			handler.semanticError( new DesignParserException(
-					DesignParserException.INVALID_PROPERTY_SYNTAX ) );
+					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX ) );
 			valid = false;
 			return;
 		}
@@ -216,7 +216,7 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( prop == null )
 		{
 			handler.semanticWarning( new DesignParserException(
-					DesignParserException.UNDEFINED_PROPERTY ) );
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}

@@ -68,7 +68,7 @@ public class ClassInfo extends LocalizableInfo
 
 		if ( StringUtil.isBlank( methodInfo.getName( ) ) )
 			throw new MetaDataException( new String[]{methodInfo.getName( )},
-					MetaDataException.MISSING_METHOD_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 
 		methods.add( methodInfo );
 	}
@@ -91,12 +91,12 @@ public class ClassInfo extends LocalizableInfo
 
 		if ( StringUtil.isBlank( memberDefn.getName( ) ) )
 			throw new MetaDataException( new String[]{memberDefn.getName( )},
-					MetaDataException.MISSING_MEMBER_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_MEMBER_NAME );
 
 		if ( findMember( memberDefn.getName( ) ) != null )
 		{
 			throw new MetaDataException( new String[]{memberDefn.getName( ),
-					name}, MetaDataException.DUPLICATE_MEMBER_NAME );
+					name}, MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME );
 		}
 
 		members.add( memberDefn );
@@ -232,7 +232,7 @@ public class ClassInfo extends LocalizableInfo
 
 		if ( StringUtil.isBlank( constructor.getName( ) ) )
 			throw new MetaDataException( new String[]{constructor.getName( )},
-					MetaDataException.MISSING_METHOD_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 
 		constructors.add( constructor );
 	}

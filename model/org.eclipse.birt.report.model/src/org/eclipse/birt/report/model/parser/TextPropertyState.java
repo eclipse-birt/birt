@@ -69,7 +69,7 @@ public class TextPropertyState extends AbstractPropertyState
 		if ( StringUtil.isBlank( name ) )
 		{
 			handler.semanticError( new DesignParserException(
-					DesignParserException.NAME_REQUIRED ) );
+					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			valid = false;
 			return;
 		}
@@ -89,7 +89,7 @@ public class TextPropertyState extends AbstractPropertyState
 		if ( propDefn == null || keyPropDefn == null )
 		{
 			handler.semanticWarning( new DesignParserException(
-					DesignParserException.UNDEFINED_PROPERTY ) );
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}

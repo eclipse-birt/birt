@@ -223,7 +223,7 @@ public class ColorPropertyType extends PropertyType
 				return value;
 		}
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class ColorPropertyType extends PropertyType
 		// String does not make sense.
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
 	}
 
 	/*
@@ -489,7 +489,7 @@ public class ColorPropertyType extends PropertyType
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
 	}
 
 	/**
@@ -554,7 +554,7 @@ public class ColorPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, COLOR_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
 		}
 
 		// 3. Checks in the customer color pallete.

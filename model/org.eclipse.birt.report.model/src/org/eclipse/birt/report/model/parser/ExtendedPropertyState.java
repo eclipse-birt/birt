@@ -47,7 +47,7 @@ public class ExtendedPropertyState extends StructureState
 			struct = new ExtendedProperty( );
 		else
 			handler.semanticError( new DesignParserException(
-					DesignParserException.WRONG_EXTENDED_PROPERTY_TYPE ) );
+					DesignParserException.DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE ) );
 	}
 
 	/*

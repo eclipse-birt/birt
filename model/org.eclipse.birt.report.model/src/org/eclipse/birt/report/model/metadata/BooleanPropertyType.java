@@ -120,7 +120,7 @@ public class BooleanPropertyType extends PropertyType
 					: Boolean.TRUE;
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class BooleanPropertyType extends PropertyType
 			return Boolean.FALSE;
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
 	}
 
 	/*
@@ -292,7 +292,7 @@ public class BooleanPropertyType extends PropertyType
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, BOOLEAN_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, BOOLEAN_TYPE );
 	}
 
 	/**

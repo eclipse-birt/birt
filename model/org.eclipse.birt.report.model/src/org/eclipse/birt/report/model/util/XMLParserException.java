@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.xml.sax.SAXException;
@@ -61,37 +60,37 @@ public class XMLParserException extends SAXException
 	 * The XML file contains an unsupported element.
 	 */
 	
-	public static final String UNKNOWN_TAG = MessageConstants.XML_PARSER_EXCEPTION_UNKNOWN_TAG;
+	public static final String DESIGN_EXCEPTION_UNKNOWN_TAG = MessageConstants.XML_PARSER_EXCEPTION_UNKNOWN_TAG;
 	
 	/**
 	 * SAX detected an error with the basic XML syntax of the file.
 	 */
 	
-	public static final String SAX_ERROR = MessageConstants.XML_PARSER_EXCEPTION_SAX_ERROR;
+	public static final String DESIGN_EXCEPTION_SAX_ERROR = MessageConstants.XML_PARSER_EXCEPTION_SAX_ERROR;
 	
 	/**
 	 * A Boolean attribute does not contain a valid value.
 	 */
 	
-	public static final String INVALID_BOOLEAN = MessageConstants.XML_PARSER_EXCEPTION_INVALID_BOOLEAN;
+	public static final String DESIGN_EXCEPTION_INVALID_BOOLEAN = MessageConstants.XML_PARSER_EXCEPTION_INVALID_BOOLEAN;
 	
 	/**
 	 * The parse completed, but recoverable errors occurred.
 	 */
 	
-	public static final String WARNINGS_FOUND = MessageConstants.XML_PARSER_EXCEPTION_WARNINGS_FOUND;
+	public static final String DESIGN_EXCEPTION_WARNINGS_FOUND = MessageConstants.XML_PARSER_EXCEPTION_WARNINGS_FOUND;
 	
 	/**
 	 * A generic exception occurred.
 	 */
 	
-	public static final String EXCEPTION = MessageConstants.XML_PARSER_EXCEPTION_EXCEPTION;
+	public static final String DESIGN_EXCEPTION_EXCEPTION = MessageConstants.XML_PARSER_EXCEPTION_EXCEPTION;
 	
 	/**
 	 * An integer attribute contains an invalid value.
 	 */
 	
-	public static final String INVALID_INTEGER = MessageConstants.XML_PARSER_EXCEPTION_INVALID_INTEGER;
+	public static final String DESIGN_EXCEPTION_INVALID_INTEGER = MessageConstants.XML_PARSER_EXCEPTION_INVALID_INTEGER;
 
     
 	/**
@@ -116,7 +115,7 @@ public class XMLParserException extends SAXException
 	{
 		super( e );
 		saxException = e;
-		errorCode = SAX_ERROR;
+		errorCode = DESIGN_EXCEPTION_SAX_ERROR;
 	}
 	
 	/**
@@ -128,7 +127,7 @@ public class XMLParserException extends SAXException
 	public XMLParserException( Exception e )
 	{
 		super( e );
-		errorCode = EXCEPTION;
+		errorCode = DESIGN_EXCEPTION_EXCEPTION;
 	}
 	
 	/**
@@ -153,7 +152,7 @@ public class XMLParserException extends SAXException
 	public XMLParserException( ArrayList errors )
 	{
 		super( (String) null );
-		errorCode = WARNINGS_FOUND;
+		errorCode = DESIGN_EXCEPTION_WARNINGS_FOUND;
 		errorList = errors;
 	}
 
@@ -186,7 +185,7 @@ public class XMLParserException extends SAXException
      */
     public String getErrorCode( )
     {
-        return SemanticException.ERROR_CODE_PREFIX + errorCode;  //$NON-NLS-1$
+        return errorCode;  //$NON-NLS-1$
     }
     
     /**

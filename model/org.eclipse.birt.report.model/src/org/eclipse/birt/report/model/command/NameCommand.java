@@ -115,13 +115,13 @@ public class NameCommand extends AbstractElementCommand
 
 			if ( element.hasDerived( ) || element.hasReferences( ))
 				throw new NameException( element, name,
-						NameException.HAS_REFERENCES );
+						NameException.DESIGN_EXCEPTION_HAS_REFERENCES );
 			
 			// Cannot clear the name of an element when the name is required.
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 				throw new NameException( element, name,
-						NameException.NAME_REQUIRED );
+						NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
 		}
 		else
 		{
@@ -129,13 +129,13 @@ public class NameCommand extends AbstractElementCommand
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
-						NameException.NAME_FORBIDDEN );
+						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
 			// Ensure that the name is not a duplicate.
 
 			int ns = metaData.getNameSpaceID( );
 			if ( getRootElement( ).getNameSpace( ns ).getElement( name ) != null )
-				throw new NameException( element, name, NameException.DUPLICATE );
+				throw new NameException( element, name, NameException.DESIGN_EXCEPTION_DUPLICATE );
 		}
 	}
 

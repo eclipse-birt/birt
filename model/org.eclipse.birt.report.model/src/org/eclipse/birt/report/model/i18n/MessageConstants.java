@@ -23,6 +23,7 @@ public interface MessageConstants
 	public static final String	NAME_PREFIX_NEW_MESSAGE									= "Message.NamePrefixNew";											//$NON-NLS-1$
 
 	public static final String	CHANGE_PROPERTY_MESSAGE									= "Message.ChangeProperty";											//$NON-NLS-1$
+
 	public static final String	CHANGE_PROPERTY_DEFINITION_MESSAGE						= "Message.ChangePropertyDefinition";								//$NON-NLS-1$
 
 	public static final String	MOVE_ITEM_MESSAGE										= "Message.MoveItem";												//$NON-NLS-1$
@@ -195,30 +196,6 @@ public interface MessageConstants
 	public static final String	XML_PARSER_EXCEPTION_EXCEPTION							= "Error.XMLParserException.EXCEPTION";							//$NON-NLS-1$
 	public static final String	XML_PARSER_EXCEPTION_INVALID_INTEGER					= "Error.XMLParserException.INVALID_INTEGER";						//$NON-NLS-1$
 
-	// MetaDataReaderException
-	public static final String	METADATA_READER_EXCEPTION_FILE_NOT_FOUND				= "Error.MetaDataReaderException.FILE_NOT_FOUND";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_PARSER_ERROR					= "Error.MetaDataReaderException.PARSER_ERROR";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_NAME_REQUIRED					= "Error.MetaDataReaderException.NAME_REQUIRED";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_DISPLAY_NAME_ID_REQUIRED		= "Error.MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED";		//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_MULTIPLE_CARDINALITY_REQUIRED	= "Error.MetaDataReaderException.MULTIPLE_CARDINALITY_REQUIRED";	//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_TYPE_REQUIRED					= "Error.MetaDataReaderException.TYPE_REQUIRED";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_NAME_SPACE			= "Error.MetaDataReaderException.INVALID_NAME_SPACE";				//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_UNKNOWN_TYPE					= "Error.MetaDataReaderException.UNKNOWN_TYPE";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_VALUE_REQUIRED				= "Error.MetaDataReaderException.VALUE_REQUIRED";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_XML_NAME_REQUIRED				= "Error.MetaDataReaderException.XML_NAME_REQUIRED";				//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_DEFAULT				= "Error.MetaDataReaderException.INVALID_DEFAULT";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_TYPE					= "Error.MetaDataReaderException.INVALID_TYPE";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_CLASS_NAME_REQUIRED			= "Error.MetaDataReaderException.CLASS_NAME_REQUIRED";				//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_BUILD_FAILED					= "Error.MetaDataReaderException.BUILD_FAILED";					//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_GROUP_PREFIX_REQUIRED			= "Error.MetaDataReaderException.GROUP_PREFIX_REQUIRED";			//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_GROUP_NAME_ID_REQUIRED		= "Error.MetaDataReaderException.GROUP_NAME_ID_REQUIRED";			//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_CHOICE_TYPE			= "Error.MetaDataReaderException.INVALID_CHOICE_TYPE";				//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_CHOICE_TYPE_REQUIRED			= "Error.MetaDataReaderException.CHOICE_TYPE_REQUIRED";			//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_STRUCT_TYPE_REQUIRED			= "Error.MetaDataReaderException.STRUCT_TYPE_REQUIRED";			//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_STRUCT_TYPE			= "Error.MetaDataReaderException.INVALID_STRUCT_TYPE";				//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED		= "Error.MetaDataReaderException.ELEMENT_REF_TYPE_REQUIRED";		//$NON-NLS-1$
-	public static final String	METADATA_READER_EXCEPTION_INVALID_META_VALIDATOR		= "Error.MetaDataReaderException.INVALID_META_VALIDATOR";			//$NON-NLS-1$
-
 	//UserPropertyException
 	public static final String	USER_PROPERTY_EXCEPTION_NAME_REQUIRED					= "Error.UserPropertyException.NAME_REQUIRED";						//$NON-NLS-1$
 	public static final String	USER_PROPERTY_EXCEPTION_DUPLICATE_NAME					= "Error.UserPropertyException.DUPLICATE_NAME";					//$NON-NLS-1$
@@ -232,5 +209,7 @@ public interface MessageConstants
 	public static final String 	USER_PROPERTY_EXCEPTION_CHOICE_NAME_REQUIRED 			= "Error.UserPropertyException.CHOICE_NAME_REQUIRED"; 			//$NON-NLS-1$
 	public static final String 	USER_PROPERTY_EXCEPTION_INVALID_DEFINITION 				= "Error.UserPropertyException.INVALID_DEFINITION"; 			//$NON-NLS-1$
 
+	// MetaDataReaderException
+	public static final String 	META_DATA_READER_EXCEPTION_META_DATA_ERROR 				= "Error.MetaDataReaderException.META_DATA_ERROR"; 				//$NON-NLS-1$
 }
 

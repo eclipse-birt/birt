@@ -251,7 +251,7 @@ public abstract class GroupElement extends DesignElement
 		{
 			list.add( new PropertyValueException( this,
 					KEY_EXPR_PROP, value,
-					PropertyValueException.VALUE_REQUIRED ) );
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;

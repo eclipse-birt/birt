@@ -97,7 +97,7 @@ public class ExtendsPropertyType extends PropertyType
 		
 		// Invalid property value.
 		
-		throw new PropertyValueException( value, PropertyValueException.INVALID_VALUE, PropertyType.ELEMENT_REF_TYPE );
+		throw new PropertyValueException( value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, PropertyType.ELEMENT_REF_TYPE );
 	}
 
     /**

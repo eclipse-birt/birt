@@ -78,7 +78,7 @@ public class IntegerPropertyType extends PropertyType
 					: BooleanPropertyType.INT_FALSE );
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, INTEGER_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, INTEGER_TYPE );
 	}
 
 	/*
@@ -153,7 +153,7 @@ public class IntegerPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, INTEGER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, INTEGER_TYPE );
 		}
 	}
 

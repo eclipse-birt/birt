@@ -205,7 +205,7 @@ public abstract class PropertyDefn
 
 		if ( getType( ) == null )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.PROP_TYPE_ERROR );
+					MetaDataException.DESIGN_EXCEPTION_PROP_TYPE_ERROR );
 
 		displayNameID = StringUtil.trimString( displayNameID );
 
@@ -221,7 +221,7 @@ public abstract class PropertyDefn
 
 				if ( getChoices( ) == null )
 					throw new MetaDataException( new String[]{name},
-							MetaDataException.MISSING_PROP_CHOICES );
+							MetaDataException.DESIGN_EXCEPTION_MISSING_PROP_CHOICES );
 				break;
 
 			case PropertyType.STRUCT_TYPE :
@@ -230,13 +230,13 @@ public abstract class PropertyDefn
 
 				if ( getStructDefn( ) == null )
 					throw new MetaDataException( new String[]{name},
-							MetaDataException.MISSING_STRUCT_DEFN );
+							MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN );
 				break;
 
 			case PropertyType.ELEMENT_REF_TYPE :
 				if ( details == null )
 					throw new MetaDataException( new String[]{name},
-							MetaDataException.MISSING_ELEMENT_TYPE );
+							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
 				// Look up a string name reference.
 
@@ -248,11 +248,11 @@ public abstract class PropertyDefn
 					if ( elementDefn == null )
 						throw new MetaDataException( new String[]{
 								(String) details, name},
-								MetaDataException.UNDEFINED_ELEMENT_TYPE );
+								MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
 					if ( elementDefn.getNameSpaceID( ) == MetaDataConstants.NO_NAME_SPACE )
 						throw new MetaDataException( new String[]{
 								(String) details, name},
-								MetaDataException.UNNAMED_ELEMENT_TYPE );
+								MetaDataException.DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE );
 					details = elementDefn;
 				}
 
@@ -260,7 +260,7 @@ public abstract class PropertyDefn
 
 				else if ( getTargetElementType( ) == null )
 					throw new MetaDataException( new String[]{name},
-							MetaDataException.MISSING_ELEMENT_TYPE );
+							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 				break;
 		}
 
@@ -269,7 +269,7 @@ public abstract class PropertyDefn
 			// only support list of structures.
 
 			throw new MetaDataException( new String[]{getType( ).getName( )},
-					MetaDataException.INVALID_LIST_TYPE );
+					MetaDataException.DESIGN_EXCEPTION_INVALID_LIST_TYPE );
 		}
 
 		// if the property has a defalut value, validate it again. At this time,
@@ -285,7 +285,7 @@ public abstract class PropertyDefn
 			{
 				throw new MetaDataException( new String[]{name,
 						defaultValue.toString( )},
-						MetaDataException.INVALID_DEFAULT_VALUE );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
 			}
 		}
 
@@ -296,7 +296,7 @@ public abstract class PropertyDefn
 			MetaDataDictionary dict = MetaDataDictionary.getInstance( );
 			if ( dict.getValidator( validator ) == null )
 				throw new MetaDataException( new String[]{validator, name},
-						MetaDataException.VALIDATOR_NOT_FOUND );
+						MetaDataException.DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND );
 		}
 
 	}

@@ -602,7 +602,7 @@ public class ElementDefn extends ObjectDefn
 			parent = dd.getElement( extendsFrom );
 			if ( parent == null )
 				throw new MetaDataException( new String[]{extendsFrom, name},
-						MetaDataException.ELEMENT_PARENT_NOT_FOUND );
+						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
 			parent.build( );
 
 			// Cascade the setting of whether this element has a style.
@@ -647,7 +647,7 @@ public class ElementDefn extends ObjectDefn
 			if ( !hasStyle && stylePropertyNames != null || hasStyle
 					&& isContainer( ) && stylePropertyNames != null )
 				throw new MetaDataException( new String[]{this.name},
-						MetaDataException.ILLEGAL_STYLE_PROPS );
+						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
 		}
 
 		// This element cannot forbid user-defined properties if
@@ -661,7 +661,7 @@ public class ElementDefn extends ObjectDefn
 
 		if ( isAbstract( ) && parent != null && !parent.isAbstract( ) )
 			throw new MetaDataException( new String[]{name, parent.getName( )},
-					MetaDataException.ILLEGAL_ABSTRACT_ELEMENT );
+					MetaDataException.DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT );
 
 		// Cascade the name space ID.
 
@@ -671,7 +671,7 @@ public class ElementDefn extends ObjectDefn
 				nameSpaceID = parent.getNameSpaceID( );
 			else if ( parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
 				throw new MetaDataException( new String[]{name},
-						MetaDataException.INVALID_NAME_OPTION );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 		}
 
 		// Validate that the name and name space options are consistent.
@@ -683,7 +683,7 @@ public class ElementDefn extends ObjectDefn
 			if ( nameSpaceID != MetaDataConstants.NO_NAME_SPACE
 					&& nameOption == MetaDataConstants.NO_NAME )
 				throw new MetaDataException( new String[]{name},
-						MetaDataException.INVALID_NAME_OPTION );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 		}
 
 		// The user can't extend abstract elements (only the design schema
@@ -716,7 +716,7 @@ public class ElementDefn extends ObjectDefn
 		if ( StringUtil.isBlank( javaClass ) )
 		{
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.MISSING_JAVA_CLASS );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_JAVA_CLASS );
 		}
 
 		try
@@ -726,7 +726,7 @@ public class ElementDefn extends ObjectDefn
 			if ( !( c.newInstance( ) instanceof DesignElement ) )
 
 				throw new MetaDataException( new String[]{javaClass},
-						MetaDataException.INVALID_ELEMENT_JAVA_CLASS );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS );
 
 		}
 		catch ( ClassNotFoundException e )
@@ -734,7 +734,7 @@ public class ElementDefn extends ObjectDefn
 			// can not load the class specified by javaclass name.
 
 			throw new MetaDataException( new String[]{name, javaClass},
-					MetaDataException.JAVA_CLASS_LOAD_ERROR );
+					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_LOAD_ERROR );
 		}
 		catch ( InstantiationException e )
 		{
@@ -743,7 +743,7 @@ public class ElementDefn extends ObjectDefn
 			// itself does not privide a default constructor.
 
 			throw new MetaDataException( new String[]{name, javaClass},
-					MetaDataException.JAVA_CLASS_INITIALIZE_ERROR );
+					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
 		}
 		catch ( IllegalAccessException e )
 		{
@@ -775,7 +775,7 @@ public class ElementDefn extends ObjectDefn
 			if ( prop.isStyleProperty( ) && !isStyle )
 				throw new MetaDataException(
 						new String[]{name, prop.getName( )},
-						MetaDataException.INVALID_STYLE_PROP_OPTION );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_STYLE_PROP_OPTION );
 
 			// Build the property.
 
@@ -826,7 +826,7 @@ public class ElementDefn extends ObjectDefn
 
 			if ( prop == null )
 				throw new MetaDataException( new String[]{propName, name},
-						MetaDataException.STYLE_PROP_NOT_FOUND );
+						MetaDataException.DESIGN_EXCEPTION_STYLE_PROP_NOT_FOUND );
 			assert prop.isStyleProperty( );
 
 			// Copy a reference to the style property into the property
@@ -1216,7 +1216,7 @@ public class ElementDefn extends ObjectDefn
 				{
 					throw new MetaDataException( new String[]{
 							property.getName( ), this.name},
-							MetaDataException.DUPLICATE_PROPERTY );
+							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 				}
 				parentTemp = dd.getElement( parentTemp.getExtends( ) );
 			}
@@ -1235,13 +1235,13 @@ public class ElementDefn extends ObjectDefn
 			if ( styleDefn == null )
 			{
 				throw new MetaDataException( new String[]{this.name},
-						MetaDataException.STYLE_NOT_DEFINED );
+						MetaDataException.DESIGN_EXCEPTION_STYLE_NOT_DEFINED );
 			}
 
 			if ( styleDefn.properties.containsKey( property.getName( ) ) )
 			{
 				throw new MetaDataException( new String[]{property.getName( ),
-						this.name}, MetaDataException.DUPLICATE_PROPERTY );
+						this.name}, MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 			}
 
 		}

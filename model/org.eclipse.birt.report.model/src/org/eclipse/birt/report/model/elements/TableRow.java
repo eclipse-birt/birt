@@ -246,7 +246,7 @@ public class TableRow extends StyledElement
 
 		if ( !ok )
 			list.add( new SemanticError( getContainer( ),
-					SemanticError.OVERLAPPING_TABLE_CELLS ) );
+					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_TABLE_CELLS ) );
 		
 		return list;
 	}

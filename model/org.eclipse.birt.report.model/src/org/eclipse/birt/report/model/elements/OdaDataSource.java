@@ -125,7 +125,7 @@ public class OdaDataSource extends DataSource
 		if ( StringUtil.isBlank( driverName ) )
 		{
 			list.add( new PropertyValueException( this, DRIVER_NAME_PROP,
-					driverName, PropertyValueException.VALUE_REQUIRED ) );
+					driverName, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		list.addAll( validateStructureList( design,

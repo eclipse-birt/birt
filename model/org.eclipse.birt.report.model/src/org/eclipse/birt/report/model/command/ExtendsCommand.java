@@ -75,7 +75,7 @@ public class ExtendsCommand extends AbstractElementCommand
 			RootElement root = getRootElement( );
 			if ( !metaData.canExtend( ) )
 				throw new ExtendsException( element, base,
-						ExtendsException.CANT_EXTEND );
+						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
 			parent = root.getNameSpace( ns ).getElement( base );
 			element.checkExtends( parent );
 
@@ -83,7 +83,7 @@ public class ExtendsCommand extends AbstractElementCommand
 					&& ( parent.getContainer( ) != root || parent
 							.getContainerSlot( ) != ReportDesign.COMPONENT_SLOT ) )
 				throw new ExtendsException( element, base,
-						ExtendsException.PARENT_NOT_IN_COMPONENT );
+						ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
 		}
 
 		// Ignore if the setting is the same as current.
@@ -160,7 +160,7 @@ public class ExtendsCommand extends AbstractElementCommand
 			name = parent.getName( );
 			if ( StringUtil.isBlank( name ) )
 				throw new ExtendsException( element, "", //$NON-NLS-1$
-						ExtendsException.UNNAMED_PARENT );
+						ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
 		}
 		setExtendsName( name );
 	}

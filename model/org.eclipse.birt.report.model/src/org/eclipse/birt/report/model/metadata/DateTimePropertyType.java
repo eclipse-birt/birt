@@ -76,7 +76,7 @@ public class DateTimePropertyType extends PropertyType
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, DATE_TIME_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, DATE_TIME_TYPE );
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class DateTimePropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, getTypeCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
 		}
 
 	}
@@ -172,7 +172,7 @@ public class DateTimePropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, DATE_TIME_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, DATE_TIME_TYPE );
 		}
 
 	}

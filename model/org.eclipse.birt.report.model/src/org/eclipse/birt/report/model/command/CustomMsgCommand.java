@@ -61,19 +61,19 @@ public class CustomMsgCommand extends AbstractElementCommand
 
 		if ( StringUtil.trimString( resourceKey ) == null )
 			throw new CustomMsgException( element,
-					CustomMsgException.RESOURCE_KEY_REQUIRED );
+					CustomMsgException.DESIGN_EXCEPTION_RESOURCE_KEY_REQUIRED );
 
 		//check well-form locale e.g: en_US, zh_CN
 
 		if ( !StringUtil.isValidLocale( locale ) )
 			throw new CustomMsgException( element,
-					CustomMsgException.INVALID_LOCALE );
+					CustomMsgException.DESIGN_EXCEPTION_INVALID_LOCALE );
 
 		// check duplicated locale for one single message.
 
 		if ( design.findTranslation( resourceKey, locale ) != null )
 			throw new CustomMsgException( element, resourceKey, locale,
-					CustomMsgException.DUPLICATE_LOCALE );
+					CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE );
 
 		// Make the changes.
 
@@ -105,7 +105,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 
 		if ( translation == null )
 			throw new CustomMsgException( element,
-					CustomMsgException.TRANSLATION_NOT_FOUND );
+					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 
 		// Make the changes.
 
@@ -138,7 +138,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 
 		if ( !design.contains( translation ) )
 			throw new CustomMsgException( element,
-					CustomMsgException.TRANSLATION_NOT_FOUND );
+					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 
         
 		String oldLocale = translation.getLocale( );
@@ -152,13 +152,13 @@ public class CustomMsgCommand extends AbstractElementCommand
 
         if ( !StringUtil.isValidLocale( newLocale ) )
             throw new CustomMsgException( element,
-                    CustomMsgException.INVALID_LOCALE );
+                    CustomMsgException.DESIGN_EXCEPTION_INVALID_LOCALE );
 
         // locale duplicates.
         
         if( design.findTranslation( translation.getResourceKey(), newLocale ) != null )
         	throw new CustomMsgException( element, translation.getResourceKey(), newLocale,
-                    CustomMsgException.DUPLICATE_LOCALE );
+                    CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE );
             
 		// Make the changes.
 
@@ -192,7 +192,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 
 		if ( !design.contains( translation ) )
 			throw new CustomMsgException( element,
-					CustomMsgException.TRANSLATION_NOT_FOUND );
+					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 
 		ActivityStack stack = getActivityStack( );
 		CustomMsgRecord msgRecord = new CustomMsgRecord(

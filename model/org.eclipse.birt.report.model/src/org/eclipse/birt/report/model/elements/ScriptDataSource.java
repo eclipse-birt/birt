@@ -140,14 +140,14 @@ public class ScriptDataSource extends DataSource
 		if ( StringUtil.isBlank( value ) )
 		{
 			list.add( new PropertyValueException( this, OPEN_METHOD,
-					value, PropertyValueException.VALUE_REQUIRED ) );
+					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		value = getStringProperty( design,  CLOSE_METHOD );
 		if ( StringUtil.isBlank( value ) )
 		{
 			list.add( new PropertyValueException( this, CLOSE_METHOD,
-					value, PropertyValueException.VALUE_REQUIRED ) );
+					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;

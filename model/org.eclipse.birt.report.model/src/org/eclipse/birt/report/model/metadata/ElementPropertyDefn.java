@@ -142,7 +142,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 		if ( isIntrinsic( ) && isStyleProperty( ) )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.INCONSISTENT_PROP_TYPE );
+					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE );
 	}
 
 	/**

@@ -113,7 +113,7 @@ public class ImageState extends ReportItemState
 			if ( imageRef != -1 )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.IMAGE_REF_CONFLICT ) );
+						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 			}
 
 			imageRef = 0;
@@ -125,7 +125,7 @@ public class ImageState extends ReportItemState
 			if ( imageRef != -1 )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.IMAGE_REF_CONFLICT ) );
+						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 1;
 			return new TextState( handler, image, ImageItem.IMAGE_NAME_PROP );
@@ -136,7 +136,7 @@ public class ImageState extends ReportItemState
 			if ( imageRef == 0 || imageRef == 1 )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.IMAGE_REF_CONFLICT ) );
+						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 2;
 			return new TextState( handler, image, ImageItem.VALUE_EXPR_PROP );
@@ -147,7 +147,7 @@ public class ImageState extends ReportItemState
 			if ( imageRef == 0 || imageRef == 1 )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.IMAGE_REF_CONFLICT ) );
+						DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 			}
 			imageRef = 2;
 			return new TextState( handler, image, ImageItem.TYPE_EXPR_PROP );
@@ -206,7 +206,7 @@ public class ImageState extends ReportItemState
 
 		if ( type > 1 )
 			handler.semanticError( new DesignParserException(
-					DesignParserException.IMAGE_REF_CONFLICT ) );
+					DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 	}
 
 	/*
@@ -235,7 +235,7 @@ public class ImageState extends ReportItemState
 					|| StringUtil.isBlank( valueExpr ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.INVALID_IMAGEREF_EXPR_VALUE ) );
+						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
@@ -247,7 +247,7 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isBlank( uri ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.INVALID_IMAGE_URL_VALUE ) );
+						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
@@ -259,7 +259,7 @@ public class ImageState extends ReportItemState
 			if ( StringUtil.isBlank( name ) )
 			{
 				handler.semanticError( new DesignParserException(
-						DesignParserException.INVALID_IMAGE_NAME_VALUE ) );
+						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
 			}
 		}
 

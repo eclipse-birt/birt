@@ -68,7 +68,7 @@ public class ExtendedItemState extends ReportItemState
 		if ( StringUtil.isBlank( extension ) )
 		{
 			handler.semanticWarning( new SemanticError( element,
-					SemanticError.MISSING_EXTENSION ) );
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
 		}
 		else
 		{
@@ -78,7 +78,7 @@ public class ExtendedItemState extends ReportItemState
 			{
 				handler.semanticWarning( new SemanticError( element,
 						new String[]{extension},
-						SemanticError.EXTENSION_NOT_FOUND ) );
+						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
 			}
 		}
 		setProperty( ExtendedItem.EXTENSION_PROP, attrs,

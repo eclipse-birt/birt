@@ -108,7 +108,7 @@ public class PropertyCommand extends AbstractElementCommand
 				.equalsIgnoreCase( mask ) )
 		{
 			throw new PropertyValueException( element, prop, value,
-					PropertyValueException.VALUE_LOCKED );
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_LOCKED );
 		}
 
 		value = validateValue( prop, value );
@@ -536,7 +536,7 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.ITEM_NOT_FOUND );
+					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		if ( posn < 0 || posn >= list.size( ) )
 			throw new IndexOutOfBoundsException(
@@ -577,12 +577,12 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.ITEM_NOT_FOUND );
+					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		int posn = list.indexOf( structure );
 		if ( posn == -1 )
 			throw new PropertyValueException( element, ref.getPropDefn( )
-					.getName( ), null, PropertyValueException.ITEM_NOT_FOUND );
+					.getName( ), null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		doRemoveItem( new MemberRef( ref, posn ) );
 	}
@@ -648,7 +648,7 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.ITEM_NOT_FOUND );
+					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		if ( newItem != null )
 		{
@@ -666,7 +666,7 @@ public class PropertyCommand extends AbstractElementCommand
 		int index = list.indexOf( oldItem );
 		if ( index == -1 )
 			throw new PropertyValueException( element, ref.getPropDefn( )
-					.getName( ), oldItem, PropertyValueException.ITEM_NOT_FOUND );
+					.getName( ), oldItem, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
 				list, index, newItem );
@@ -749,7 +749,7 @@ public class PropertyCommand extends AbstractElementCommand
 		List list = ref.getList( design, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.ITEM_NOT_FOUND );
+					null, PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		ActivityStack stack = getActivityStack( );
 		String label = ThreadResources
@@ -852,7 +852,7 @@ public class PropertyCommand extends AbstractElementCommand
 	{
 		if ( !ref.isListRef( ) )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.NOT_LIST_TYPE );
+					null, PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
 	}
 
 	/**
@@ -887,7 +887,7 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( item.getDefn( ) != propDefn.getStructDefn( ) )
 		{
 			throw new PropertyValueException( element, propDefn, item,
-					PropertyValueException.WRONG_ITEM_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 		}
 
 		for ( Iterator iter = item.getDefn( ).getPropertyIterator( ); iter

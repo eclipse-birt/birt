@@ -86,7 +86,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 		{
 			throw new PropertyValueException( getElement( ),
 					ExtendedItem.EXTENSION_PROP, value,
-					PropertyValueException.EXTENSION_SETTING_FORBIDDEN );
+					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN );
 		}
 
 		super.setProperty( propName, value );

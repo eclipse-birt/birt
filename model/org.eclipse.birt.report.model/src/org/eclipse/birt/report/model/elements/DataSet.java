@@ -157,7 +157,7 @@ public abstract class DataSet extends ReferencableElement
 		if ( StringUtil.isBlank( value ) )
 		{
 			list.add( new PropertyValueException( this, DATA_SOURCE_PROP,
-					value, PropertyValueException.VALUE_REQUIRED ) );
+					value, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		// Check the element reference of dataSource property
@@ -165,7 +165,7 @@ public abstract class DataSet extends ReferencableElement
 		if ( !checkElementReference( design, DATA_SOURCE_PROP ) )
 		{
 			list.add( new SemanticError( this, new String[]{DATA_SOURCE_PROP},
-					SemanticError.INVALID_ELEMENT_REF ) );
+					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
 		}
 
 		// Check input parameter structure list
@@ -180,7 +180,7 @@ public abstract class DataSet extends ReferencableElement
 		List columns = (List) getProperty( design, RESULT_SET_PROP );
 		if ( columns != null && columns.size( ) == 0 )
 		{
-			list.add( new SemanticError( this, SemanticError.AT_LEAST_ONE_COLUMN ) );
+			list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_AT_LEAST_ONE_COLUMN ) );
 		}
 
 		return list; 

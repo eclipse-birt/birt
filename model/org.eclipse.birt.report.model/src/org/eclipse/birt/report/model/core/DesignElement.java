@@ -2307,7 +2307,7 @@ public abstract class DesignElement implements IPropertySet
 			if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
 			{
 				list.add( new SemanticError( this,
-						SemanticError.UNSUPPORTED_ELEMENT,
+						SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
 						SemanticError.WARNING ) );
 			}
 		}
@@ -2453,7 +2453,7 @@ public abstract class DesignElement implements IPropertySet
 					if ( checkList )
 						errorList.add( new PropertyValueException( this,
 								propDefn, value,
-								PropertyValueException.VALUE_EXISTS ) );
+								PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
 				}
 				else
 				{
@@ -2474,7 +2474,7 @@ public abstract class DesignElement implements IPropertySet
 				errorList
 						.add( new PropertyValueException( this, propDefn
 								.getName( ), value,
-								PropertyValueException.VALUE_EXISTS ) );
+								PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS ) );
 			}
 		}
 
@@ -2500,21 +2500,21 @@ public abstract class DesignElement implements IPropertySet
 		if ( parent == null )
 		{
 			throw new ExtendsException( this, extendsName,
-					ExtendsException.NOT_FOUND );
+					ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
 		}
 		else if ( parent.getDefn( ) != defn )
 		{
 			throw new ExtendsException( this, parent,
-					ExtendsException.WRONG_TYPE );
+					ExtendsException.DESIGN_EXCEPTION_WRONG_TYPE );
 		}
 		else if ( parent == this )
 		{
 			throw new ExtendsException( this, extendsName,
-					ExtendsException.SELF_EXTEND );
+					ExtendsException.DESIGN_EXCEPTION_SELF_EXTEND );
 		}
 		else if ( parent.isKindOf( this ) )
 		{
-			throw new ExtendsException( this, parent, ExtendsException.CIRCULAR );
+			throw new ExtendsException( this, parent, ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 
 	}
@@ -2547,7 +2547,7 @@ public abstract class DesignElement implements IPropertySet
 					&& curSlotID == slotID )
 			{
 				throw new ContentException( curContainer, curSlotID, this,
-						ContentException.INVALID_CONTEXT_CONTAINMENT );
+						ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 			}
 
 			curSlotID = curContainer.getContainerSlot( );

@@ -66,7 +66,7 @@ public class ChoicePropertyType extends PropertyType
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
 	}
 
 	/**
@@ -105,11 +105,11 @@ public class ChoicePropertyType extends PropertyType
 			// The is in the whole choice set, but not in the allowed list.
 
 			throw new PropertyValueException( value,
-					PropertyValueException.CHOICE_NOT_ALLOWED, getTypeCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED, getTypeCode( ) );
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.CHOICE_NOT_FOUND, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, getTypeCode( ) );
 	}
 
 	/*
@@ -254,11 +254,11 @@ public class ChoicePropertyType extends PropertyType
 			// The is in the whole choice set, but not in the allowed list.
 
 			throw new PropertyValueException( name,
-					PropertyValueException.CHOICE_NOT_ALLOWED, getTypeCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED, getTypeCode( ) );
 		}
 
 		throw new PropertyValueException( name,
-				PropertyValueException.CHOICE_NOT_FOUND, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, getTypeCode( ) );
 
 	}
 }

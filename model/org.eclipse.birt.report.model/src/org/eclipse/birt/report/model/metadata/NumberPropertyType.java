@@ -78,7 +78,7 @@ public class NumberPropertyType extends PropertyType
 			return validateInputString( design, defn, (String) value );
 		}
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, NUMBER_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class NumberPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, NUMBER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
 		}
 	}
 
@@ -253,7 +253,7 @@ public class NumberPropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, NUMBER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
 		}
 
 		return new BigDecimal( number.doubleValue( ) );

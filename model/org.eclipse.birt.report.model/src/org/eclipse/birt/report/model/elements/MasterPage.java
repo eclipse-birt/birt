@@ -287,7 +287,7 @@ public abstract class MasterPage extends StyledElement
 		Point size = getSize( design );
 		if ( size.x <= 0 || size.y <= 0 )
 		{
-			list.add( new SemanticError( this, SemanticError.INVALID_PAGE_SIZE ) );
+			list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_SIZE ) );
 		}
 		else
 		{
@@ -298,7 +298,7 @@ public abstract class MasterPage extends StyledElement
 			if ( margins.x >= size.x || margins.y >= size.y
 					|| margins.height <= 0 || margins.width <= 0 )
 			{
-				list.add( new SemanticError( this, SemanticError.INVALID_PAGE_MARGINS ) );
+				list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS ) );
 			}
 		}
 
@@ -331,7 +331,7 @@ public abstract class MasterPage extends StyledElement
 
 			if ( StringUtil.isBlank( height ) || StringUtil.isBlank( width ) )
 			{
-				list.add( new SemanticError( this, SemanticError.MISSING_PAGE_SIZE ) );
+				list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_MISSING_PAGE_SIZE ) );
 			}
 		}
 		else
@@ -342,7 +342,7 @@ public abstract class MasterPage extends StyledElement
 			if ( !StringUtil.isBlank( height ) || !StringUtil.isBlank( width ) )
 			{
 				list.add( new SemanticError( this,
-						SemanticError.CANNOT_SPECIFY_PAGE_SIZE ) );
+						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE ) );
 			}
 		}
 		

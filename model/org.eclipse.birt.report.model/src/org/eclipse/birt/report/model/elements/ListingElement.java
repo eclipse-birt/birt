@@ -251,7 +251,7 @@ public abstract class ListingElement extends ReportItem
 			if ( !dataSetFound && ReportDesign.COMPONENT_SLOT != slot )
 			{
 				list.add( new SemanticError( this,
-						SemanticError.MISSING_DATA_SET ) );
+						SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
 			}
 		}
 		else
@@ -312,7 +312,7 @@ public abstract class ListingElement extends ReportItem
 						&& names.contains( name ) ) )
 				{
 					list.add( new SemanticError( this, new String[]{name},
-							SemanticError.DUPLICATE_GROUP_NAME ) );
+							SemanticError.DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME ) );
 				}
 				else
 				{

@@ -113,7 +113,7 @@ public class ElementRefPropertyType extends PropertyType
 		// Invalid property value.
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
 	}
 
@@ -147,14 +147,14 @@ public class ElementRefPropertyType extends PropertyType
 
 		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
 			throw new PropertyValueException( target.getName( ),
-					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
 
 		// Resolved reference.
 
 		return new ElementRefValue( target );
 	}
-
+	
 	/**
 	 * Validates the element value.
 	 * 
@@ -177,7 +177,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
 			throw new PropertyValueException( target.getName( ),
-					PropertyValueException.WRONG_ELEMENT_TYPE,
+					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
 
 		// Resolved reference.

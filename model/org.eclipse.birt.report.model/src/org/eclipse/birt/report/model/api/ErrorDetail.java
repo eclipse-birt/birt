@@ -204,7 +204,7 @@ public final class ErrorDetail
 
 	private void translate( XMLParserException e )
 	{
-		type = DesignFileException.SYNTAX_ERROR;
+		type = DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR;
 		lineNo = e.getLineNumber( );
 		tagName = e.getTag( );
 
@@ -215,7 +215,7 @@ public final class ErrorDetail
 		description.append( e.getTag( ) );
 		description.append( ") " ); //$NON-NLS-1$
 
-		if ( e.getErrorCode( ).equalsIgnoreCase( SemanticException.ERROR_CODE_PREFIX + XMLParserException.EXCEPTION ) ) //$NON-NLS-1$
+		if ( e.getErrorCode( ).equalsIgnoreCase( XMLParserException.DESIGN_EXCEPTION_EXCEPTION ) ) //$NON-NLS-1$
 		{
 			if ( e.getException( ) instanceof DesignParserException )
 			{
@@ -253,7 +253,7 @@ public final class ErrorDetail
 
 	private void translate( DesignParserException e )
 	{
-		type = DesignFileException.SYNTAX_ERROR;
+		type = DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR;
 		exceptionName = e.getClass( ).getName( );
 		errorCode = e.getErrorCode( );
 		message = e.getMessage( );
@@ -279,11 +279,11 @@ public final class ErrorDetail
 
 	private void translate( SemanticException e )
 	{
-		type = DesignFileException.SEMANTIC_ERROR;
+		type = DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR;
 
 		if ( ( e instanceof SemanticError )
 				&& ( ( (SemanticError) e ).getErrorLevel( ) == SemanticError.WARNING ) )
-			type = DesignFileException.SEMANTIC_WARNING;
+			type = DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING;
 
 		element = e.getElement( );
 
@@ -328,7 +328,7 @@ public final class ErrorDetail
 
 	private void translate( SAXParseException e )
 	{
-		type = DesignFileException.INVALID_XML;
+		type = DesignFileException.DESIGN_EXCEPTION_INVALID_XML;
 
 		exceptionName = e.getClass( ).getName( );
 		message = e.getMessage( );
@@ -357,7 +357,7 @@ public final class ErrorDetail
 
 	private void translate( SAXException e )
 	{
-		type = DesignFileException.INVALID_XML;
+		type = DesignFileException.DESIGN_EXCEPTION_INVALID_XML;
 
 		exceptionName = e.getClass( ).getName( );
 		message = e.getMessage( );

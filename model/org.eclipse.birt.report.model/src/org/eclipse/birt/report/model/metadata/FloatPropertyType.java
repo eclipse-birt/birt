@@ -116,7 +116,7 @@ public class FloatPropertyType extends PropertyType
 			return validateInputString( design, defn, (String) value );
 
 		throw new PropertyValueException( value,
-				PropertyValueException.INVALID_VALUE, FLOAT_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, FLOAT_TYPE );
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class FloatPropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, NUMBER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
 		}
 
 		return new Double( number.doubleValue( ) );
@@ -259,7 +259,7 @@ public class FloatPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.INVALID_VALUE, FLOAT_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, FLOAT_TYPE );
 		}
 	}
 }

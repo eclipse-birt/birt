@@ -63,11 +63,11 @@ public class ExtensionLoader
 	 * Loads the extended elements in plug-ins, and add them into metadata
 	 * dictionary.
 	 * 
-	 * @throws MetaDataReaderException
+	 * @throws MetaDataParserException
 	 *             if error is found when loading extension.
 	 */
 
-	public static void init( ) throws MetaDataReaderException
+	public static void init( ) throws MetaDataParserException
 	{
 		try
 		{
@@ -76,14 +76,14 @@ public class ExtensionLoader
 		catch ( ExtensionException e )
 		{
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-			throw new MetaDataReaderException( e,
-					MetaDataReaderException.EXTENSION_ERROR );
+			throw new MetaDataParserException( e,
+					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
 		catch ( MetaDataException e )
 		{
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-			throw new MetaDataReaderException( e,
-					MetaDataReaderException.EXTENSION_ERROR );
+			throw new MetaDataParserException( e,
+					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
 	}
 
@@ -277,7 +277,7 @@ public class ExtensionLoader
 				.getPropertyType( type );
 		if ( propType == null )
 			throw new ExtensionException( new String[]{type},
-					ExtensionException.INVALID_PROPERTY_TYPE );
+					ExtensionException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE );
 
 		SystemPropertyDefn extPropDefn = null;
 

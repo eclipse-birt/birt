@@ -846,14 +846,14 @@ public class ReportDesignHandle extends DesignElementHandle
 		if ( configVar != null && StringUtil.isBlank( configVar.getName( ) ) )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
-					configVar, PropertyValueException.INVALID_VALUE );
+					configVar, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
 		}
 
 		if ( configVar != null
 				&& findConfigVariable( configVar.getName( ) ) != null )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
-					configVar.getName( ), PropertyValueException.VALUE_EXISTS );
+					configVar.getName( ), PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
 		}
 
 		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
@@ -910,7 +910,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		if ( posn < 0 )
 			throw new PropertyValueException( getElement( ), propHandle
 					.getPropertyDefn( ), name,
-					PropertyValueException.ITEM_NOT_FOUND );
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( posn );
 
@@ -1038,7 +1038,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		if ( pos < 0 )
 			throw new PropertyValueException( getElement( ), propHandle
 					.getPropertyDefn( ), name,
-					PropertyValueException.ITEM_NOT_FOUND );
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( pos );
 	}

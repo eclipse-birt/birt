@@ -83,7 +83,7 @@ public class StructPropertyType extends PropertyType
 
         if ( defn.isList( ) )
             throw new PropertyValueException( value,
-                    PropertyValueException.INVALID_VALUE, STRUCT_TYPE );
+                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, STRUCT_TYPE );
 
         if ( value instanceof Structure )
         {

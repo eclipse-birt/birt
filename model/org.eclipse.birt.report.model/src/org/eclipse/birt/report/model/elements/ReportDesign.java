@@ -494,7 +494,7 @@ public class ReportDesign extends RootElement
 		if ( getSlot( ReportDesign.PAGE_SLOT ).getCount( ) == 0 )
 		{
 			list.add( new SemanticError( this,
-					SemanticError.MISSING_MASTER_PAGE ) );
+					SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE ) );
 		}
 
 		list.addAll( validateStructureList( design, IMAGES_PROP ) );
@@ -1063,8 +1063,8 @@ public class ReportDesign extends RootElement
 
 	public List getErrorList( )
 	{
-		List list = getSemanticErrors( DesignFileException.SEMANTIC_ERROR );
-		list.addAll( getSemanticErrors( DesignFileException.SYNTAX_ERROR ) );
+		List list = getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
+		list.addAll( getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
 		return list;
 	}
 
@@ -1079,7 +1079,7 @@ public class ReportDesign extends RootElement
 
 	public List getWarningList( )
 	{
-		return getSemanticErrors( DesignFileException.SEMANTIC_WARNING );
+		return getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING );
 	}
 
 	/**

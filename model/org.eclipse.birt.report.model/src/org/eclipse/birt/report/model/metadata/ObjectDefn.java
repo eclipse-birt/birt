@@ -146,7 +146,7 @@ public class ObjectDefn
 		assert name != null && name.trim( ).length( ) != 0;
 		if ( properties.containsKey( name ) )
 			throw new MetaDataException( new String[]{name, this.name},
-					MetaDataException.DUPLICATE_PROPERTY );
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 		properties.put( name, property );
 	}
 

@@ -56,7 +56,7 @@ public class StyleCommand extends AbstractElementCommand
 		// Ensure that the element can have a style.
 
 		if ( !element.getDefn( ).hasStyle( ) )
-			throw new StyleException( element, name, StyleException.FORBIDDEN );
+			throw new StyleException( element, name, StyleException.DESIGN_EXCEPTION_FORBIDDEN );
 		StyledElement obj = (StyledElement) element;
 
 		// Ensure that the style exists.
@@ -67,7 +67,7 @@ public class StyleCommand extends AbstractElementCommand
 			style = getRootElement( ).findStyle( name );
 			if ( style == null )
 				throw new StyleException( element, name,
-						StyleException.NOT_FOUND );
+						StyleException.DESIGN_EXCEPTION_NOT_FOUND );
 		}
 
 		// Make the change.

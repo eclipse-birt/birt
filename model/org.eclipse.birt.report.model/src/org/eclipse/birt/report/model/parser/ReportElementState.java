@@ -163,7 +163,7 @@ public abstract class ReportElementState extends DesignParseState
 					handler
 							.semanticError( new UserPropertyException( element,
 									name.toString( ),
-									UserPropertyException.NOT_FOUND ) );
+									UserPropertyException.DESIGN_EXCEPTION_NOT_FOUND ) );
 				}
 				else
 				{
@@ -214,7 +214,7 @@ public abstract class ReportElementState extends DesignParseState
 			{
 				handler.semanticError( new UserPropertyException(
 						getElement( ), name,
-						UserPropertyException.NAME_REQUIRED ) );
+						UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			}
 		}
 
@@ -277,7 +277,7 @@ public abstract class ReportElementState extends DesignParseState
 				&& container.getSlot( slotID ).getCount( ) > 0 )
 		{
 			handler.semanticError( new ContentException( container, slotID,
-					ContentException.SLOT_IS_FULL ) );
+					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
 			return false;
 		}
 
@@ -299,7 +299,7 @@ public abstract class ReportElementState extends DesignParseState
 					&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 			{
 				handler.semanticError( new NameException( container, name,
-						NameException.NAME_REQUIRED ) );
+						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				return false;
 			}
 
@@ -308,7 +308,7 @@ public abstract class ReportElementState extends DesignParseState
 				if ( ns.getElement( name ) != null )
 				{
 					handler.semanticError( new NameException( container, name,
-							NameException.DUPLICATE ) );
+							NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 					return false;
 				}
 				DesignElement parent = content.getExtendsElement( );
@@ -319,7 +319,7 @@ public abstract class ReportElementState extends DesignParseState
 					{
 						handler.semanticError( new ExtendsException( content,
 								content.getElementName( ),
-								ExtendsException.PARENT_NOT_IN_COMPONENT ) );
+								ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
 						return false;
 					}
 				}
@@ -365,7 +365,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			if ( nameRequired )
 				handler.semanticError( new NameException( element, null,
-						NameException.NAME_REQUIRED ) );
+						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 		}
 		else
 			element.setName( name );
@@ -383,7 +383,7 @@ public abstract class ReportElementState extends DesignParseState
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
 				handler.semanticError( new DesignParserException(
-						DesignParserException.ILLEGAL_EXTENDS ) );
+						DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
 		if ( !addToSlot( container, slotID, element ) )
 			return;

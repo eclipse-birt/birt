@@ -166,7 +166,7 @@ public class GraphicMasterPage extends MasterPage
 						GraphicMasterPage.COLUMN_SPACING_PROP );
 				if ( margins.width < ( columns - 1 ) * columnSpacing )
 				{
-					list.add( new SemanticError( this, SemanticError.INVALID_MULTI_COLUMN ) );
+					list.add( new SemanticError( this, SemanticError.DESIGN_EXCEPTION_INVALID_MULTI_COLUMN ) );
 				}
 			}
 		}

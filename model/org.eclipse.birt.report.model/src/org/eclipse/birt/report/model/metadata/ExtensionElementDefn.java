@@ -82,7 +82,7 @@ public class ExtensionElementDefn extends ElementDefn
 			parent = dd.getElement( extendsFrom );
 			if ( parent == null )
 				throw new MetaDataException( new String[]{extendsFrom, name},
-						MetaDataException.ELEMENT_PARENT_NOT_FOUND );
+						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
 			parent.build( );
 
 			// Cascade the setting of whether this element has a style.
@@ -129,7 +129,7 @@ public class ExtensionElementDefn extends ElementDefn
 
 		if ( isAbstract( ) && parent != null && !parent.isAbstract( ) )
 			throw new MetaDataException( new String[]{name, parent.getName( )},
-					MetaDataException.ILLEGAL_ABSTRACT_ELEMENT );
+					MetaDataException.DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT );
 
 		// Cascade the name space ID.
 
@@ -147,7 +147,7 @@ public class ExtensionElementDefn extends ElementDefn
 			if ( nameSpaceID != MetaDataConstants.NO_NAME_SPACE
 					&& nameOption == MetaDataConstants.NO_NAME )
 				throw new MetaDataException( new String[]{name},
-						MetaDataException.INVALID_NAME_OPTION );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 		}
 
 		// The user can't extend abstract elements (only the design schema

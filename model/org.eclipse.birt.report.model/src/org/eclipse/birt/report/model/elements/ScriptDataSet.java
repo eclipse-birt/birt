@@ -138,7 +138,7 @@ public class ScriptDataSet extends DataSet
 		{
 			list.add( new PropertyValueException( this,
 					ScriptDataSet.FETCH_METHOD, value,
-					PropertyValueException.VALUE_REQUIRED ) );
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;

@@ -193,13 +193,13 @@ public class SlotDefn
 	{
 		if ( contentTypes.isEmpty( ) )
 			throw new MetaDataException( new String[]{this.name},
-					MetaDataException.MISSING_SLOT_TYPE );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE );
 
 		// The display name should not be provided, but the display name
 		// ID must be provided.
 		if ( displayNameID == null )
 			throw new MetaDataException( new String[]{name},
-					MetaDataException.MISSING_SLOT_NAME );
+					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_NAME );
 
 		// Translate the type names into element types.
 
@@ -212,7 +212,7 @@ public class SlotDefn
 			ElementDefn type = dd.getElement( name );
 			if ( type == null )
 				throw new MetaDataException( new String[]{this.name, name},
-						MetaDataException.INVALID_SLOT_TYPE );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
 			contentElements.add( type );
 		}
 	}

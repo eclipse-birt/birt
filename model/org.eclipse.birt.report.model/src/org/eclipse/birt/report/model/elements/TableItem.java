@@ -284,7 +284,7 @@ public class TableItem extends ListingElement
 		int maxCols = findMaxCols( design );
 		if ( colDefnCount != maxCols && colDefnCount != 0 )
 			list.add( new SemanticError( this,
-					SemanticError.INCONSITENT_TABLE_COL_COUNT ) );
+					SemanticError.DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT ) );
 
 		// Check table's slot context containment.
 
@@ -295,7 +295,7 @@ public class TableItem extends ListingElement
 
 		if ( DroppingHelper.isGHDroppingValid( design, this ) == false )
 			list.add( new SemanticError( this,
-					SemanticError.INCONSITENT_DROP_HEADINGS ) );
+					SemanticError.DESIGN_EXCEPTION_INCONSITENT_DROP_HEADINGS ) );
 
 		return list;
 	}

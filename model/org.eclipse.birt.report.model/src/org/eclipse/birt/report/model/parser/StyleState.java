@@ -128,7 +128,7 @@ class StyleState extends ReportElementState
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignElement.EXTENDS_PROP ) ) )
 				handler.semanticError( new DesignParserException(
-						DesignParserException.ILLEGAL_EXTENDS ) );
+						DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
 
 		parseStyleAttribute( attrs );
