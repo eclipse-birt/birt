@@ -18,20 +18,21 @@ import org.w3c.dom.Document;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
+
 	/**
-	 * text type, supports "html", "auto", "rtf", and "plain" 
+	 * text type, supports "html", "auto", "rtf", and "plain"
 	 */
 	protected String textType;
-	
+
 	/**
 	 * the text key
 	 */
 	protected String textKey;
-	
+
 	/**
 	 * text content
 	 */
@@ -41,48 +42,62 @@ public class TextItemDesign extends ReportItemDesign
 	 * the parsed tree for text
 	 */
 	protected Document domTree;
-	
 	/**
-	 * captures all expressions from <value-of> tags
+	 * the corresponding css style set.
 	 */
-	protected HashMap exprMap = new HashMap();
-	
+	protected HashMap cssStyleSet;
+	/**
+	 * Indicates the DOM tree can be reused.
+	 */
+	protected boolean isReused;
+	/**
+	 * captures all expressions from <value-of>tags
+	 */
+	protected HashMap exprMap = new HashMap( );
+
 	/**
 	 * add an expression to expression collection
 	 * 
-	 * @param key expression key
-	 * @param expr actual expression
+	 * @param key
+	 *            expression key
+	 * @param expr
+	 *            actual expression
 	 */
-	public void addExpression(String key, Expression expr)
+	public void addExpression( String key, Expression expr )
 	{
-		exprMap.put(key, expr);
+		exprMap.put( key, expr );
 	}
-	
+
 	/**
-	 * @param expressionKey key for an expression
+	 * @param expressionKey
+	 *            key for an expression
 	 * @return whether the expression with a given key exists in HTML text
 	 */
-	public boolean hasExpression(String expressionKey)
+	public boolean hasExpression( String expressionKey )
 	{
-		return exprMap.containsKey(expressionKey);
+		return exprMap.containsKey( expressionKey );
 	}
+
 	/**
-	 * get an embedded expression based on expression key  
+	 * get an embedded expression based on expression key
 	 * 
-	 * @param key expression key
+	 * @param key
+	 *            expression key
 	 * @return the expression keyed by the given string
 	 */
-	public Expression getExpression(String key)
+	public Expression getExpression( String key )
 	{
-		if(exprMap.containsKey(key))
-			return (Expression)exprMap.get(key);
+		if ( exprMap.containsKey( key ) )
+			return (Expression) exprMap.get( key );
 		else
 			return null;
 	}
 
 	/**
-	 * @param textKey the message key for the text
-	 * @param text the actual text
+	 * @param textKey
+	 *            the message key for the text
+	 * @param text
+	 *            the actual text
 	 */
 	public void setText( String textKey, String text )
 	{
@@ -106,14 +121,16 @@ public class TextItemDesign extends ReportItemDesign
 		return text;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
 	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitTextItem( this );
 	}
-	
+
 	/**
 	 * @return Returns the encoding.
 	 */
@@ -121,15 +138,16 @@ public class TextItemDesign extends ReportItemDesign
 	{
 		return textType;
 	}
-	
+
 	/**
-	 * @param encoding The encoding to set.
+	 * @param encoding
+	 *            The encoding to set.
 	 */
 	public void setTextType( String textType )
 	{
 		this.textType = textType;
 	}
-	
+
 	/**
 	 * @return Returns the domTree.
 	 */
@@ -137,12 +155,47 @@ public class TextItemDesign extends ReportItemDesign
 	{
 		return domTree;
 	}
-	
+
 	/**
-	 * @param domTree The domTree to set.
+	 * @param domTree
+	 *            The domTree to set.
 	 */
 	public void setDomTree( Document domTree )
 	{
 		this.domTree = domTree;
+	}
+
+	/**
+	 * @return Returns the cssStyleSet.
+	 */
+	public HashMap getCssStyleSet( )
+	{
+		return cssStyleSet;
+	}
+
+	/**
+	 * @param cssStyleSet
+	 *            The cssStyleSet to set.
+	 */
+	public void setCssStyleSet( HashMap cssStyleSet )
+	{
+		this.cssStyleSet = cssStyleSet;
+	}
+
+	/**
+	 * @return Returns the isReused.
+	 */
+	public boolean isReused( )
+	{
+		return isReused;
+	}
+
+	/**
+	 * @param isReused
+	 *            The isReused to set.
+	 */
+	public void setReused( boolean isReused )
+	{
+		this.isReused = isReused;
 	}
 }

@@ -37,7 +37,7 @@ import org.w3c.dom.Text;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/03 22:15:34 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/07 03:33:25 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -75,30 +75,56 @@ public class TextItemExecutor extends StyledItemExecutor
 			rs.next( );
 		}
 		ITextContent textContent = ContentFactory.createTextContent( textItem );
-		/* text has no help text now */
-		//textContent.setHelpText( getLocalizedString(
-		//		textItem.getHelpTextKey( ), textItem.getHelpText( ) ) );
+
 		setStyles( textContent, item );
 		setVisibility( item, textContent );
+
+		//Checks if the content has been parsed before. If so, use the DOM tree
+		// directly to improve performance. In addition to the DOM tree, the CSS
+		// style is also a part of the parsed content. Or else, parse the
+		// content and save the DOM tree and CSS style in the Text item design.
+		HTMLProcessor htmlProcessor = new HTMLProcessor( context );
 		if ( textItem.getDomTree( ) == null )
 		{
+			//Should never happen.
+			//Because ExpressionBuilder has parsed the content. And the style
+			// has not been extracted yet.
 			String content = getLocalizedString( textItem.getTextKey( ),
 					textItem.getText( ) );
 			textItem.setDomTree( new TextParser( ).parse( content, textItem
 					.getTextType( ) ) );
 		}
 		Document doc = textItem.getDomTree( );
+		Element body = null;
 		if ( doc != null )
 		{
-			evaluateEmbeddedExpression( doc.getFirstChild( ), textItem,
-					textContent );
-			new HTMLProcessor( context ).execute(
-					(Element) doc.getFirstChild( ), textContent );
+			Node node = doc.getFirstChild( );
+			//The following must be true
+			if ( node instanceof Element )
+			{
+				body = (Element) node;
+			}
 		}
-		textContent.setDomTree( doc );
+		if ( body != null )
+		{
+			//Checks if the DOM can be reused here. If no, then convert the DOM
+			// tree.
+			if ( !textItem.isReused( ) )
+			{
+				htmlProcessor.execute( body, textContent );
+				//Saves the CSS style associated with the original text content
+				textItem.setCssStyleSet( textContent.getCssStyleSet( ) );
+				textItem.setReused( true );
+			}
+			evaluateEmbeddedExpression( body, textItem, textContent,
+					htmlProcessor );
+		}
+
 		String bookmarkStr = evalBookmark( textItem );
 		if ( bookmarkStr != null )
+		{
 			textContent.setBookmarkValue( bookmarkStr );
+		}
 
 		textEmitter.start( textContent );
 		textEmitter.end( );
@@ -108,17 +134,6 @@ public class TextItemExecutor extends StyledItemExecutor
 	/**
 	 * Walks through the DOM tree to evaluate the embedded expression and
 	 * format.
-	 * <p>
-	 * After evaluating,the second child node of embedded expression node holds
-	 * the value if no error exists, otherwise it has not the second child node.
-	 * <p>
-	 * Note: After evaluating, a text-type node for text or a element-type node
-	 * for image is created and then it is appended to a element node whose tag
-	 * name is body. The "body" node is the node holding the value. The reason
-	 * why add this node is that if there are two text-type nodes placed
-	 * together they may be merged into one. So we must insert an element node
-	 * to separate the text-type node holding the expression from the value
-	 * node.
 	 * 
 	 * @param node
 	 *            the node in the DOM tree
@@ -128,7 +143,7 @@ public class TextItemExecutor extends StyledItemExecutor
 	 *            the text item content used to store the image if possible.
 	 */
 	private void evaluateEmbeddedExpression( Node node, TextItemDesign text,
-			ITextContent content )
+			ITextContent content, HTMLProcessor htmlProcessor )
 	{
 		if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 		{
@@ -152,12 +167,6 @@ public class TextItemExecutor extends StyledItemExecutor
 			}
 			else if ( node.getNodeName( ).equals( "value-of" ) )
 			{
-				// If there are more than one child node, it must have and only
-				// have two children nodes, remove the last child node.
-				if ( node.getChildNodes( ).getLength( ) > 1 )
-				{
-					node.removeChild( node.getLastChild( ) );
-				}
 				String strExpr = node.getFirstChild( ).getNodeValue( );
 				IBaseExpression expr = text.getExpression( strExpr );
 				Object value;
@@ -173,7 +182,7 @@ public class TextItemExecutor extends StyledItemExecutor
 				{
 					String format = ( (Element) ( node ) )
 							.getAttribute( "format" );
-					Node appendedNode = null;
+
 					//TODO Only the type string and blob are done in the format
 					// of HTML, or else only string type.
 					if ( "html".equals( format ) )
@@ -192,9 +201,20 @@ public class TextItemExecutor extends StyledItemExecutor
 							doc = new TextParser( ).parse( value.toString( ),
 									"html" );
 						}
-						appendedNode = node.getOwnerDocument( ).createElement(
-								"body" );
-						copyChildrenNodes( doc.getFirstChild( ), appendedNode );
+
+						if ( doc != null )
+						{
+							Element body = null;
+							if ( doc.getFirstChild( ) instanceof Element )
+							{
+								body = (Element) doc.getFirstChild( );
+							}
+							if ( body != null )
+							{
+								htmlProcessor.execute( body, content );
+								content.addExpressionVal( node, body );
+							}
+						}
 					}
 					else
 					{
@@ -204,34 +224,25 @@ public class TextItemExecutor extends StyledItemExecutor
 						// same as those of the content.
 						formatValue( value, format, text.getStyle( ),
 								formattedStr );
-
+						Element appendedNode = null;
 						appendedNode = node.getOwnerDocument( ).createElement(
 								"body" );
 						appendedNode.appendChild( node.getOwnerDocument( )
 								.createTextNode( formattedStr.toString( ) ) );
+						content.addExpressionVal( node, appendedNode );
 					}
-					node.appendChild( appendedNode );
 				}
 				return;
 
 			}
 			else if ( node.getNodeName( ).equals( "image" ) )
 			{
-				//For the embedded image, this node does not have child node
-				// before evaluating. But for the expression, the node has a
-				// text-type node holding the expression. So we must find the
-				// value node dependent on the different situations and remove
-				// it.
-				if ( node.getChildNodes( ).getLength( ) > 0
-						&& node.getLastChild( ).getNodeType( ) == Node.ELEMENT_NODE )
-				{
-					node.removeChild( node.getLastChild( ) );
-				}
-				Node body = node.getOwnerDocument( ).createElement( "body" );
+				Element body = node.getOwnerDocument( ).createElement( "body" );
 				Element imgNode = node.getOwnerDocument( )
 						.createElement( "img" );
 
-				IImageItemContent image = ContentFactory.createImageContent( null );
+				IImageItemContent image = ContentFactory
+						.createImageContent( null );
 
 				//Get the image content
 				String imageType = ( (Element) ( node ) ).getAttribute( "type" );
@@ -248,14 +259,6 @@ public class TextItemExecutor extends StyledItemExecutor
 					{
 						image.setData( (byte[]) value );
 					}
-
-					//Note: Actually the type just means that the image is from
-					// the data source and there is not an attribute indicating
-					// the file type.
-					/*
-					 * fileExt = (String) context.evaluate( text .getExpression(
-					 * imageType ) );
-					 */
 				}
 				else
 				{
@@ -284,7 +287,7 @@ public class TextItemExecutor extends StyledItemExecutor
 					content.addImageContent( imgNode, image );
 					// add image node to DOM tree
 					body.appendChild( imgNode );
-					node.appendChild( body );
+					content.addExpressionVal( node, body );
 				}
 				else
 				{
@@ -297,50 +300,7 @@ public class TextItemExecutor extends StyledItemExecutor
 			for ( Node child = node.getFirstChild( ); child != null; child = child
 					.getNextSibling( ) )
 			{
-				evaluateEmbeddedExpression( child, text, content );
-			}
-		}
-	}
-
-	/**
-	 * Copy the children nodes of source node to destination node.
-	 * 
-	 * There are only two types: <code>TEXT_NODE</code> and
-	 * <code>ELEMENT_NODE</code> in source children nodes.
-	 * 
-	 * @param srcNode
-	 * @param desNode
-	 */
-	private void copyChildrenNodes( Node srcNode, Node desNode )
-	{
-		assert srcNode != null && desNode != null;
-
-		for ( Node child = srcNode.getFirstChild( ); child != null; child = child
-				.getNextSibling( ) )
-		{
-			// The child node is a text node, and create it and return
-			if ( child.getNodeType( ) == Node.TEXT_NODE )
-			{
-				Text txtNode = desNode.getOwnerDocument( ).createTextNode(
-						child.getNodeValue( ) );
-				desNode.appendChild( txtNode );
-			}
-			else if ( child.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				// copy the element node
-				Element ele = null;
-				ele = desNode.getOwnerDocument( ).createElement(
-						child.getNodeName( ) );
-				// copy the attributes
-				for ( int i = 0; i < child.getAttributes( ).getLength( ); i++ )
-				{
-					Node attr = child.getAttributes( ).item( i );
-					ele
-							.setAttribute( attr.getNodeName( ), attr
-									.getNodeValue( ) );
-				}
-				desNode.appendChild( ele );
-				copyChildrenNodes( child, ele );
+				evaluateEmbeddedExpression( child, text, content, htmlProcessor );
 			}
 		}
 	}

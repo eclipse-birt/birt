@@ -14,13 +14,14 @@ package org.eclipse.birt.report.engine.content;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
  * Provides the interfaces for the Text Content
  * 
  * 
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public interface ITextContent extends IReportItemContent
 {
@@ -32,6 +33,8 @@ public interface ITextContent extends IReportItemContent
 
 	/**
 	 * Adds CSS2.0 Properties
+	 * <p>
+	 * The caller calls it only if the Text-Item or multi-line is involved
 	 * 
 	 * @param node
 	 * @param properties
@@ -40,6 +43,8 @@ public interface ITextContent extends IReportItemContent
 
 	/**
 	 * Gets the corresponding CSS properties of the specified node.
+	 * <p>
+	 * The caller calls it only if the Text-Item or multi-line is involved
 	 * 
 	 * @param node
 	 *            the specified node
@@ -47,6 +52,16 @@ public interface ITextContent extends IReportItemContent
 	 *         key is the property name and the value is the property value.
 	 */
 	public HashMap getCssStyle( Node node );
+
+	/**
+	 * Gets the entire CSS style set,key--XML DOM node and value--the same as
+	 * the return value of the method <code>getCssStyle(Node)</code>
+	 * <p>
+	 * The caller calls it only if the Text-Item or multi-line is involved
+	 * 
+	 * @return hash map if exists, otherwise null
+	 */
+	public HashMap getCssStyleSet( );
 
 	/**
 	 * @return The stringFormatted.
@@ -79,6 +94,8 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public IImageItemContent getImageContent( Node node );
 
+	public void addExpressionVal(Node expr,Element val);
+	public Element getExpressionVal(Node expr); 
 	/**
 	 * @param helpText
 	 *            The helpText to set.
