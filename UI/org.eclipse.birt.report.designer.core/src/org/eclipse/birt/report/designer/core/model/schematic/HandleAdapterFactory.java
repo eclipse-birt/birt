@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
@@ -135,7 +136,7 @@ public class HandleAdapterFactory
 	 *            TableItem instance
 	 * @return Table Handle Adapter
 	 */
-	
+
 	public GridHandleAdapter getGridHandleAdapter( Object obj )
 	{
 		return getGridHandleAdapter( obj, null );
@@ -167,7 +168,7 @@ public class HandleAdapterFactory
 	 *            Listtem instance
 	 * @return List Handle Adapter
 	 */
-	
+
 	public ListHandleAdapter getListHandleAdapter( Object obj )
 	{
 		return getListHandleAdapter( obj, null );
@@ -194,8 +195,8 @@ public class HandleAdapterFactory
 	 */
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
 	{
-		return new ReportDesignHandleAdapter( SessionHandleAdapter
-				.getInstance( ).getReportDesignHandle( ) );
+		return new ReportDesignHandleAdapter( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ) );
 	}
 
 	/**
@@ -204,7 +205,7 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            TableItem instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Table Handle Adapter
 	 */
 	public TableHandleAdapter getTableHandleAdapter( Object obj,
@@ -232,12 +233,46 @@ public class HandleAdapterFactory
 	}
 
 	/**
+	 * Get Table Group Handle Adapter
+	 * 
+	 * @param obj
+	 *            TableGroupItem instance
+	 * @param mark
+	 *            Helper instance
+	 * @return Table Group Handle Adapter
+	 */
+	public TableGroupHandleAdapter getTableGroupHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
+	{
+		TableGroupHandleAdapter retValue = (TableGroupHandleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new TableGroupHandleAdapter( (TableGroupHandle) obj,
+					mark );
+			map.put( obj, retValue );
+		}
+		return retValue;
+	}
+
+	/**
+	 * Get Table Group Handle Adapter
+	 * 
+	 * @param obj
+	 *            TableGroupItem instance
+	 * @return Table Group Handle Adapter
+	 */
+	public TableGroupHandleAdapter getTableGroupHandleAdapter( Object obj )
+	{
+		return getTableGroupHandleAdapter( obj, null );
+	}
+
+	/**
 	 * Get Cell Handle Adapter
 	 * 
 	 * @param obj
 	 *            Cell instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Cell Handle Adapter
 	 */
 	public CellHandleAdapter getCellHandleAdapter( Object obj,
@@ -259,7 +294,7 @@ public class HandleAdapterFactory
 	 *            CessItem instance
 	 * @return Cess Handle Adapter
 	 */
-	
+
 	public CellHandleAdapter getCellHandleAdapter( Object obj )
 	{
 		return getCellHandleAdapter( obj, null );
@@ -271,7 +306,7 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            Row instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Row Handle Adapter
 	 */
 	public RowHandleAdapter getRowHandleAdapter( Object obj,
@@ -304,7 +339,7 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            Column instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Column Handle Adapter
 	 */
 	public ColumnHandleAdapter getColumnHandleAdapter( Object obj,
@@ -327,7 +362,7 @@ public class HandleAdapterFactory
 	 *            Column Item instance
 	 * @return Column Handle Adapter
 	 */
-	
+
 	public ColumnHandleAdapter getColumnHandleAdapter( Object obj )
 	{
 		return getColumnHandleAdapter( obj, null );
@@ -339,10 +374,10 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            ImageItem instance
 	 * @param mark
-	 * 			  Helper instance 
+	 *            Helper instance
 	 * @return Image Handle Adapter
 	 */
-	
+
 	public ImageHandleAdapter getImageHandleAdapter( Object obj,
 			IModelAdapterHelper mark )
 	{
@@ -362,17 +397,17 @@ public class HandleAdapterFactory
 	 *            ImageItem instance
 	 * @return Image Handle Adapter
 	 */
-	
+
 	public ImageHandleAdapter getImageHandleAdapter( Object obj )
 	{
 		return getImageHandleAdapter( obj, null );
 	}
 
-	
 	/**
 	 * Remove cached adapter
+	 * 
 	 * @param obj
-	 * 		Key to find the adapter
+	 *            Key to find the adapter
 	 */
 	public void remove( Object obj )
 	{
@@ -385,7 +420,7 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            LabelItem instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Label Handle Adapter
 	 */
 	public LabelHandleAdapter getLabelHandleAdapter( Object obj,
@@ -407,7 +442,7 @@ public class HandleAdapterFactory
 	 *            LabelItem instance
 	 * @return Label Handle Adapter
 	 */
-	
+
 	public LabelHandleAdapter getLabelHandleAdapter( Object obj )
 	{
 		return getLabelHandleAdapter( obj, null );
@@ -419,8 +454,8 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            TextItem instance
 	 * @param mark
-	 * 			  Helper instance
-	 *  
+	 *            Helper instance
+	 * 
 	 * @return Table Handle Adapter
 	 */
 	public TextItemHandleAdapter getTextItemHandleAdapter( Object obj,
@@ -454,7 +489,7 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            DataItem instance
 	 * @param mark
-	 * 			  Helper instance
+	 *            Helper instance
 	 * @return Table Handle Adapter
 	 */
 	public DataItemHandleAdapter getDataItemHandleAdapter( Object obj,

@@ -1541,7 +1541,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		( (RowHandle) group ).getContainer( ).drop( );
 	}
 
-	private void addCell( RowHandle handle ) throws ContentException,
+	protected void addCell( RowHandle handle ) throws ContentException,
 			NameException
 	{
 		int count = getColumnCount( );
@@ -1597,7 +1597,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		transEnd( );
 	}
 
-	private String getOperationName( int id )
+	protected static String getOperationName( int id )
 	{
 		switch ( id )
 		{
