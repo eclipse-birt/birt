@@ -107,7 +107,7 @@ public class WebViewer
 		// So far, only uri is encoded as utf-8 format 
 		return getBaseURL( )
 			+ servletName + "?" //$NON-NLS-1$
-			+ "__uri=" + encodedUri //$NON-NLS-1$
+			+ "__report=" + encodedUri //$NON-NLS-1$
 			+ "&__format=" + format //$NON-NLS-1$
 			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
 		
