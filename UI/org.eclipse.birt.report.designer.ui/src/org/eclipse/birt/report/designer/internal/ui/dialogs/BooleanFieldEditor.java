@@ -48,7 +48,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	/**
 	 * The previously selected, or "before", value.
 	 */
-	private boolean wasSelected;
 	private boolean isSelected;
 
 	/**
@@ -143,7 +142,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 		{
 			boolean value = getPreferenceStore( ).getBoolean( getPreferenceName( ) );
 			checkBox.setSelection( value );
-			wasSelected = value;
 			isSelected = value;
 		}
 		markDirty( false );
@@ -159,7 +157,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 		{
 			boolean value = getPreferenceStore( ).getDefaultBoolean( getPreferenceName( ) );
 			checkBox.setSelection( value );
-			wasSelected = value;
 			isSelected = value;
 		}
 		markDirty( false );

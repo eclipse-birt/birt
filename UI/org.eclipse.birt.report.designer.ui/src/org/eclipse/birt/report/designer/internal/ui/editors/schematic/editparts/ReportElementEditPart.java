@@ -43,7 +43,6 @@ import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
@@ -182,7 +181,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private IFigure getHandleLayer( )
 	{
-		super.getLayer(LayerConstants.HANDLE_LAYER);
+		super.getLayer( LayerConstants.HANDLE_LAYER );
 		LayerManager manager = (LayerManager) getViewer( ).getEditPartRegistry( )
 				.get( LayerManager.ID );
 		return manager.getLayer( LayerConstants.HANDLE_LAYER );
@@ -225,8 +224,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 
 		} );
-		
-		getFigure().setFocusTraversable(true);
+
+		getFigure( ).setFocusTraversable( true );
 	}
 
 	/**
@@ -404,9 +403,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		Object size = handle.getPrivateStyle( ).getFontSize( ).getValue( );
 		if ( size instanceof DimensionValue )
 		{
-			fontSize = (int) DimensionUtil.convertTo( (DimensionValue) size,
-					DesignChoiceConstants.UNITS_PT,
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+			fontSize = (int) ( (DimensionValue) size ).getMeasure( );
 		}
 		else
 		{
@@ -797,19 +794,20 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPart#isActive()
 	 */
 	public boolean isDelete( )
 	{
 		boolean bool = false;
-		if (getModel() instanceof DesignElementHandle)
+		if ( getModel( ) instanceof DesignElementHandle )
 		{
-			if (!(getModel() instanceof ReportDesignHandle))
+			if ( !( getModel( ) instanceof ReportDesignHandle ) )
 			{
-				bool = ((DesignElementHandle)getModel()).getContainer() == null;
+				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null;
 			}
 		}
 		return bool;

@@ -15,10 +15,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -54,6 +50,10 @@ public class BaseAttributePageTest extends TestCase
 			{
 			}
 
+			public void setCategoryInput( Composite parent, List input )
+			{
+			}
+
 			public Control getCategoryPane( String category )
 			{
 				return null;
@@ -63,43 +63,4 @@ public class BaseAttributePageTest extends TestCase
 		assertEquals( 0, page.categoryList.getSelectionIndex( ) );
 	}
 
-	private class TestElelemnt extends DesignElement
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.model.core.DesignElement#apply(org.eclipse.birt.model.elements.ElementVisitor)
-		 */
-		public void apply( ElementVisitor arg0 )
-		{
-
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.model.core.DesignElement#getElementName()
-		 */
-		public String getElementName( )
-		{
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.model.core.DesignElement#getHandle(org.eclipse.birt.model.elements.ReportDesign)
-		 */
-		public DesignElementHandle getHandle( ReportDesign arg0 )
-		{
-			return null;
-		}
-
-		public List getListener( )
-		{
-			return this.listeners;
-		}
-
-	}
 }
