@@ -84,7 +84,7 @@ public class NameRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return new NameEvent( element );
+		return new NameEvent( element, oldName, newName );
 	}
 
 }

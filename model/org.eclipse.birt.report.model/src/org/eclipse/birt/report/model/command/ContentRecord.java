@@ -11,13 +11,18 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.command.StyleEvent;
 
 /**
  * Records adding a content into a container, or removing content from a
@@ -253,7 +258,7 @@ public class ContentRecord extends SimpleRecord
 
 		// Broadcast the event to the target.
 
-		container.broadcast( event );
+		container.broadcast( event);
 
 		// If the content was dropped, then send an element deleted
 		// event to the content.
@@ -264,7 +269,7 @@ public class ContentRecord extends SimpleRecord
 		event = new ElementDeletedEvent( content );
 		if ( state == DONE_STATE )
 			event.setSender( sender );
-		content.broadcast( event );
+		content.broadcast( event, container.getRoot( ) );
 	}
 
 	/**

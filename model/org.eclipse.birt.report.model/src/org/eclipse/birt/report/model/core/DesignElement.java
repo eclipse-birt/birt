@@ -45,6 +45,9 @@ import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
+import org.eclipse.birt.report.model.elements.TableItem;
+
+;
 
 /**
  * Base class for all design elements in BIRT. This class provides a number of
@@ -770,7 +773,7 @@ public abstract class DesignElement implements IPropertySet
 	 * @return the root node of the design tree
 	 */
 
-	protected ReportDesign getRoot( )
+	public ReportDesign getRoot( )
 	{
 		DesignElement element = this;
 
@@ -796,7 +799,8 @@ public abstract class DesignElement implements IPropertySet
 
 	public final void broadcast( NotificationEvent ev )
 	{
-		broadcast( ev, getRoot( ) );
+		if ( this instanceof ReportDesign || getContainer( ) != null )
+			broadcast( ev, getRoot( ) );
 	}
 
 	/**
@@ -812,7 +816,7 @@ public abstract class DesignElement implements IPropertySet
 	 *            the root node of the design tree.
 	 */
 
-	protected void broadcast( NotificationEvent ev, ReportDesign design )
+	public void broadcast( NotificationEvent ev, ReportDesign design )
 	{
 
 		// copy a temporary ArrayList and send to all direct listeners.
@@ -1062,7 +1066,7 @@ public abstract class DesignElement implements IPropertySet
 				// provides the property value.
 
 				String[] selectors = e.getContainer( ).getSelectors(
-						getContainerSlot( ) );
+						e.getContainerSlot( ) );
 				for ( int i = 0; i < selectors.length; i++ )
 				{
 					value = e.getPropertyFromSelector( design, prop,

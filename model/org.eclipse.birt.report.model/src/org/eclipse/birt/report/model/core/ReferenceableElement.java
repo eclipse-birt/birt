@@ -179,7 +179,7 @@ public abstract class ReferenceableElement extends DesignElement
 	 *            the root node of the design tree.
 	 */
 
-	protected void broadcast( NotificationEvent ev, ReportDesign design )
+	public void broadcast( NotificationEvent ev, ReportDesign design )
 	{
 		super.broadcast( ev, design );
 
