@@ -39,7 +39,7 @@ public interface ISeriesUIProvider
      * @return the series data composite
      */
     public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition,
-        IExpressionBuilder builder, Object oContext);
+        IUIServiceProvider builder, Object oContext);
 
     /**
      * Fetches the class of the series for which this class provides services
