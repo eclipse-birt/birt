@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 
 /**
  * Abstract base class for value-based handles.
@@ -42,7 +42,7 @@ public abstract class ValueHandle extends ElementDetailHandle
 	 * @return the property definition
 	 */
 
-	public abstract ElementPropertyDefn getPropertyDefn( );
+	public abstract IElementPropertyDefn getPropertyDefn( );
 
 	/**
 	 * Returns a reference to the value. The reference is used to identify a

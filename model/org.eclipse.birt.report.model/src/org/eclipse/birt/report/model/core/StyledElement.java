@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
@@ -22,7 +23,7 @@ import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
 /**
  * Base class for all report elements with a style. Implements operations that
  * are specific to styled elements.
- * 
+ *  
  */
 
 public abstract class StyledElement extends DesignElement
@@ -90,7 +91,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 * 
+	 *  
 	 */
 	public StyleElement getLocalStyle( )
 	{
@@ -118,7 +119,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. null if this element didn't define a style on it.
 	 * 
-	 * 
+	 *  
 	 */
 	public StyleElement getStyle( )
 	{
@@ -268,7 +269,7 @@ public abstract class StyledElement extends DesignElement
 		// 4). Check if this element predefined style provides
 		// the property value
 
-		String selector = e.getDefn( ).getSelector( );
+		String selector = ( (ElementDefn) e.getDefn( ) ).getSelector( );
 		value = e.getPropertyFromSelector( design, prop, selector );
 		if ( value != null )
 			return value;

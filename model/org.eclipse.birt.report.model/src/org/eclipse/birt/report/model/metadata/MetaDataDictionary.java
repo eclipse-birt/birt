@@ -230,9 +230,9 @@ public final class MetaDataDictionary
 	 *         dictionary.
 	 */
 
-	public ElementDefn getElement( String name )
+	public IElementDefn getElement( String name )
 	{
-		return (ElementDefn) elementNameMap.get( name );
+		return (IElementDefn) elementNameMap.get( name );
 	}
 
 	/**
@@ -244,7 +244,7 @@ public final class MetaDataDictionary
 	 *             if any build error occurs
 	 */
 
-	public void build( ) throws MetaDataException
+	void build( ) throws MetaDataException
 	{
 		buildPropertyTypes( );
 		buildElementDefinitions( );
@@ -312,7 +312,7 @@ public final class MetaDataDictionary
 		// Build the style first, since most other elements will
 		// reference it.
 
-		style = getElement( MetaDataConstants.STYLE_NAME );
+		style = (ElementDefn)getElement( MetaDataConstants.STYLE_NAME );
 		if ( style == null )
 			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
 		style.build( );
@@ -380,7 +380,7 @@ public final class MetaDataDictionary
 	 * @return the definition of the style element
 	 */
 
-	public ElementDefn getStyle( )
+	public IElementDefn getStyle( )
 	{
 		return style;
 	}
@@ -406,7 +406,7 @@ public final class MetaDataDictionary
 	 *  
 	 */
 
-	public void addElementDefn( ElementDefn type ) throws MetaDataException
+	void addElementDefn( ElementDefn type ) throws MetaDataException
 	{
 		String name = type.getName( );
 		if ( StringUtil.isBlank( name ) )
@@ -448,7 +448,7 @@ public final class MetaDataDictionary
 	 *             already exists.
 	 */
 
-	public void addPredefinedStyle( PredefinedStyle style )
+	void addPredefinedStyle( PredefinedStyle style )
 			throws MetaDataException
 	{
 		String name = style.getName( );
@@ -494,7 +494,7 @@ public final class MetaDataDictionary
 	 *             if the choice set is not valid
 	 */
 
-	public void addChoiceSet( ChoiceSet choiceSet ) throws MetaDataException
+	void addChoiceSet( ChoiceSet choiceSet ) throws MetaDataException
 	{
 
 		String name = choiceSet.getName( );
@@ -531,7 +531,7 @@ public final class MetaDataDictionary
 	 *             if the structure definition is not valid
 	 */
 
-	public void addStructure( StructureDefn struct ) throws MetaDataException
+	void addStructure( StructureDefn struct ) throws MetaDataException
 	{
 		String name = struct.getName( );
 		if ( StringUtil.isBlank( name ) )
@@ -550,14 +550,14 @@ public final class MetaDataDictionary
 	 * @return the structure, or null if the structure is not found
 	 */
 
-	public StructureDefn getStructure( String name )
+	public IStructureDefn getStructure( String name )
 	{
-		return (StructureDefn) structures.get( name );
+		return (IStructureDefn) structures.get( name );
 	}
 
 	/**
 	 * Returns the element list. Each one is the instance of
-	 * <code>ElementDefn</code>.
+	 * <code>IElementDefn</code>.
 	 * 
 	 * @return the element list.
 	 */
@@ -569,7 +569,7 @@ public final class MetaDataDictionary
 
 	/**
 	 * Returns the structure list. Each one is the instance of
-	 * <code>StructureDefn</code>.
+	 * <code>IStructureDefn</code>.
 	 * 
 	 * @return the structure list.
 	 */
@@ -593,7 +593,7 @@ public final class MetaDataDictionary
 
 	/**
 	 * Returns the class list. Each one is the instance of
-	 * <code>ClassDefn</code>.
+	 * <code>ClassInfo</code>.
 	 * 
 	 * @return the class list.
 	 */
@@ -640,7 +640,7 @@ public final class MetaDataDictionary
 
 	/**
 	 * Returns the extension list. Each one is the instance of
-	 * {@link ExtensionElementDefn}.
+	 * {@link IElementDefn}.
 	 * 
 	 * @return the extension definition list. Return empty list if no extension
 	 *         is found.
@@ -662,11 +662,11 @@ public final class MetaDataDictionary
 	 * @return the extension definition if found
 	 */
 
-	public ExtensionElementDefn getExtension( String name )
+	public IElementDefn getExtension( String name )
 	{
 		if ( extensionNameMap == null )
 			return null;
-		return (ExtensionElementDefn) extensionNameMap.get( name );
+		return (IElementDefn) extensionNameMap.get( name );
 	}
 
 	/**
@@ -678,7 +678,7 @@ public final class MetaDataDictionary
 	 *             if the extension name is not provided or duplicate.
 	 */
 
-	public void addExtension( ExtensionElementDefn extDefn ) throws MetaDataException
+	void addExtension( ExtensionElementDefn extDefn ) throws MetaDataException
 	{
 		assert extDefn != null;
 		if ( StringUtil.isBlank( extDefn.getName( ) ) )
@@ -712,7 +712,7 @@ public final class MetaDataDictionary
 	 *             an exsiting one.
 	 */
 
-	public void addValidator( IMetaValidator validator )
+	void addValidator( IMetaValidator validator )
 			throws MetaDataException
 	{
 		String name = validator.getName( );

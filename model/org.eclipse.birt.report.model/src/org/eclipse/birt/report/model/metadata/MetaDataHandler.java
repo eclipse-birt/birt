@@ -409,7 +409,7 @@ class MetaDataHandler extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
-					structDefn = dictionary.getStructure( detailName );
+					structDefn = (StructureDefn)dictionary.getStructure( detailName );
 					if ( structDefn == null )
 					{
 						semanticError( new MetaDataParserException(
@@ -710,7 +710,7 @@ class MetaDataHandler extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
-					struct = dictionary.getStructure( detailName );
+					struct = (StructureDefn)dictionary.getStructure( detailName );
 					if ( struct == null )
 					{
 						semanticError( new MetaDataParserException(

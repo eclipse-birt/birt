@@ -30,7 +30,9 @@ import org.xml.sax.Attributes;
  * <pre>
  * 
  *  
- *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *   
+ *      &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *    
  *   
  *  
  * </pre>
@@ -154,14 +156,16 @@ public class AbstractPropertyState extends AbstractParseState
 
 		// Ensure that the member is defined.
 
-		StructureDefn structDefn = struct.getDefn( );
+		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
 		assert structDefn != null;
 
-		StructPropertyDefn memberDefn = structDefn.getMember( member );
+		StructPropertyDefn memberDefn = (StructPropertyDefn) structDefn
+				.getMember( member );
 		if ( memberDefn == null )
 		{
-			handler.semanticWarning( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			handler
+					.semanticWarning( new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}
@@ -203,8 +207,9 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( propName.equalsIgnoreCase( DesignElement.NAME_PROP )
 				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
 		{
-			handler.semanticError( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX ) );
+			handler
+					.semanticError( new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX ) );
 			valid = false;
 			return;
 		}
@@ -215,8 +220,9 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		if ( prop == null )
 		{
-			handler.semanticWarning( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			handler
+					.semanticWarning( new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}

@@ -17,10 +17,10 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
  * Base class for property structures. Implements the two "boiler-plate" methods
@@ -57,7 +57,7 @@ public abstract class Structure implements IStructure
 	 * @return structure definition.
 	 */
 
-	public StructureDefn getDefn( )
+	public IStructureDefn getDefn( )
 	{
 		return MetaDataDictionary.getInstance( )
 				.getStructure( getStructName( ) );
@@ -70,7 +70,7 @@ public abstract class Structure implements IStructure
 	 *  
 	 */
 
-	public ObjectDefn getObjectDefn( )
+	public IObjectDefn getObjectDefn( )
 	{
 		return MetaDataDictionary.getInstance( )
 				.getStructure( getStructName( ) );
@@ -90,7 +90,7 @@ public abstract class Structure implements IStructure
 
 	public final Object getProperty( ReportDesign design, String memberName )
 	{
-		PropertyDefn prop = getDefn( ).getMember( memberName );
+		PropertyDefn prop = (PropertyDefn)getDefn( ).getMember( memberName );
 		if ( prop == null )
 			return null;
 
@@ -129,7 +129,7 @@ public abstract class Structure implements IStructure
 
 	public final void setProperty( String propName, Object value )
 	{
-		PropertyDefn prop = getDefn( ).getMember( propName );
+		PropertyDefn prop = (PropertyDefn)getDefn( ).getMember( propName );
 		if ( prop == null )
 			return;
 

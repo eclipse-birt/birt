@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  */
 
 public abstract class ElementPropertyDefn extends PropertyDefn
+		implements
+			IElementPropertyDefn
 {
 
 	/**
@@ -35,8 +37,8 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	protected boolean isInheritable = true;
 
 	/**
-	 * <code>true</code> if the property definition is visible for the property sheet in UI,
-	 * <code>false</code> if not.
+	 * <code>true</code> if the property definition is visible for the
+	 * property sheet in UI, <code>false</code> if not.
 	 */
 
 	protected boolean isVisible = true;

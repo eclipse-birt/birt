@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -144,10 +144,10 @@ public class GroupElementHandle
 		if ( !iter.hasNext( ) )
 			return false;
 
-		ElementDefn baseDefn = ( (DesignElementHandle) iter.next( ) ).getDefn( );
+		IElementDefn baseDefn = ( (DesignElementHandle) iter.next( ) ).getDefn( );
 		while ( iter.hasNext( ) )
 		{
-			ElementDefn elemDefn = ( (DesignElementHandle) iter.next( ) )
+			IElementDefn elemDefn = ( (DesignElementHandle) iter.next( ) )
 					.getDefn( );
 			if ( !elemDefn.equals( baseDefn ) )
 				return false;

@@ -35,8 +35,10 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
+import org.eclipse.birt.report.model.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
@@ -660,7 +662,7 @@ public abstract class DesignElement implements IPropertySet
 	 * change.
 	 */
 
-	protected ElementDefn cachedDefn = null;
+	protected IElementDefn cachedDefn = null;
 
 	/**
 	 * Indicates whether the element is valid. The initial value is true.
@@ -977,7 +979,7 @@ public abstract class DesignElement implements IPropertySet
 		{
 			if ( prop.isStyleProperty( ) )
 			{
-				String selector = getDefn( ).getSelector( );
+				String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
 				value = getPropertyFromSelector( design, prop, selector );
 				if ( value != null )
 					return value;
@@ -995,7 +997,7 @@ public abstract class DesignElement implements IPropertySet
 		// 4). Check if this element predefined style provides
 		// the property value
 
-		String selector = getDefn( ).getSelector( );
+		String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
 		value = getPropertyFromSelector( design, prop, selector );
 		if ( value != null )
 			return value;
@@ -1120,9 +1122,9 @@ public abstract class DesignElement implements IPropertySet
 	{
 		String[] selectors = {null, null};
 
-		ElementDefn defn = getDefn( );
-		SlotDefn slotDefn = defn.getSlot( slotID );
-		String selector = defn.getSelector( );
+		IElementDefn defn = getDefn( );
+		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
+		String selector = ( (ElementDefn) defn ).getSelector( );
 
 		if ( slotDefn == null )
 		{
@@ -1528,7 +1530,7 @@ public abstract class DesignElement implements IPropertySet
 	 * @return The element definition. Will always be non-null in a valid build.
 	 */
 
-	public ElementDefn getDefn( )
+	public IElementDefn getDefn( )
 	{
 		if ( cachedDefn != null )
 			return cachedDefn;
@@ -1734,7 +1736,8 @@ public abstract class DesignElement implements IPropertySet
 	{
 		// Look for the property defined on this element.
 
-		ElementPropertyDefn prop = getDefn( ).getProperty( propName );
+		ElementPropertyDefn prop = (ElementPropertyDefn) getDefn( )
+				.getProperty( propName );
 		if ( prop == null )
 			prop = getUserPropertyDefn( propName );
 		return prop;
@@ -2343,8 +2346,8 @@ public abstract class DesignElement implements IPropertySet
 
 	protected List validateStructureList( ReportDesign design, String propName )
 	{
-		return StructureListValidator.getInstance( ).validate(
-				design, this, propName );
+		return StructureListValidator.getInstance( ).validate( design, this,
+				propName );
 	}
 
 	/**
@@ -2369,14 +2372,13 @@ public abstract class DesignElement implements IPropertySet
 	public void checkStructureList( ReportDesign design, PropertyDefn propDefn,
 			List list, IStructure toAdd ) throws PropertyValueException
 	{
-		List errorList = StructureListValidator.getInstance( ).validateForAdding(
-				getHandle( design ), propDefn, list, toAdd );
+		List errorList = StructureListValidator.getInstance( )
+				.validateForAdding( getHandle( design ), propDefn, list, toAdd );
 		if ( errorList.size( ) > 0 )
 		{
 			throw (PropertyValueException) errorList.get( 0 );
 		}
 	}
-
 
 	/**
 	 * Checks the parent element.
@@ -2392,7 +2394,7 @@ public abstract class DesignElement implements IPropertySet
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
 		String extendsName = getExtendsName( );
-		ElementDefn defn = getDefn( );
+		IElementDefn defn = getDefn( );
 
 		if ( parent == null )
 		{
@@ -2578,7 +2580,7 @@ public abstract class DesignElement implements IPropertySet
 
 	public int findSlotOf( DesignElement content )
 	{
-		ElementDefn defn = getDefn( );
+		IElementDefn defn = getDefn( );
 		int count = defn.getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -2643,7 +2645,7 @@ public abstract class DesignElement implements IPropertySet
 	 */
 
 	public final boolean canContain( ReportDesign design, int slotId,
-			ElementDefn defn )
+			IElementDefn defn )
 	{
 		assert defn != null;
 
@@ -2684,12 +2686,12 @@ public abstract class DesignElement implements IPropertySet
 	 *         <code>false</code>.
 	 */
 
-	private boolean canContainInRom( int slotId, ElementDefn defn )
+	private boolean canContainInRom( int slotId, IElementDefn defn )
 	{
 		if ( slotId < 0 || slotId >= getDefn( ).getSlotCount( ) )
 			return false;
 
-		SlotDefn slotDefn = getDefn( ).getSlot( slotId );
+		ISlotDefn slotDefn = getDefn( ).getSlot( slotId );
 		assert slotDefn != null;
 
 		return slotDefn.canContain( defn );
@@ -2735,7 +2737,7 @@ public abstract class DesignElement implements IPropertySet
 	 */
 
 	protected List checkContent( ReportDesign design, DesignElement container,
-			int slotId, ElementDefn defn )
+			int slotId, IElementDefn defn )
 	{
 		return new ArrayList( );
 	}
@@ -2757,7 +2759,7 @@ public abstract class DesignElement implements IPropertySet
 	 * @see org.eclipse.birt.report.model.core.IPropertySet#getObjectDefn()
 	 */
 
-	public ObjectDefn getObjectDefn( )
+	public IObjectDefn getObjectDefn( )
 	{
 		return getDefn( );
 	}
@@ -3056,7 +3058,7 @@ public abstract class DesignElement implements IPropertySet
 		}
 
 		MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
-		ElementDefn elementDefn = dictionary.getElement( getElementName( ) );
+		IElementDefn elementDefn = dictionary.getElement( getElementName( ) );
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = elementDefn.getDisplayName( );
@@ -3124,7 +3126,7 @@ public abstract class DesignElement implements IPropertySet
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 * 
+	 *  
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException

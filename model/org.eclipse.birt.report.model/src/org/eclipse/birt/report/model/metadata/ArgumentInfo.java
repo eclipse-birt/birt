@@ -82,7 +82,7 @@ public class ArgumentInfo
 	 *            the internal property name
 	 */
 
-	public void setName( String theName )
+	void setName( String theName )
 	{
 		name = theName;
 	}

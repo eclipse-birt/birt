@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  *  
  */
 
-public class SlotDefn
+public class SlotDefn implements ISlotDefn
 {
 
 	/**
@@ -209,7 +209,7 @@ public class SlotDefn
 		while ( iter.hasNext( ) )
 		{
 			String name = (String) iter.next( );
-			ElementDefn type = dd.getElement( name );
+			ElementDefn type = (ElementDefn)dd.getElement( name );
 			if ( type == null )
 				throw new MetaDataException( new String[]{this.name, name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
@@ -225,7 +225,7 @@ public class SlotDefn
 	 * @return true if the slot can contain the type, false otherwise
 	 */
 
-	public boolean canContain( ElementDefn type )
+	public boolean canContain( IElementDefn type )
 	{
 		Iterator iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )

@@ -846,14 +846,16 @@ public class ReportDesignHandle extends DesignElementHandle
 		if ( configVar != null && StringUtil.isBlank( configVar.getName( ) ) )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
-					configVar, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
+					configVar,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
 		}
 
 		if ( configVar != null
 				&& findConfigVariable( configVar.getName( ) ) != null )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
-					configVar.getName( ), PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
+					configVar.getName( ),
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
 		}
 
 		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
@@ -908,8 +910,8 @@ public class ReportDesignHandle extends DesignElementHandle
 
 		int posn = findConfigVariablePos( name );
 		if ( posn < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
+			throw new PropertyValueException( getElement( ),
+					(ElementPropertyDefn) propHandle.getPropertyDefn( ), name,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( posn );
@@ -1036,8 +1038,8 @@ public class ReportDesignHandle extends DesignElementHandle
 
 		int pos = findImagePos( name );
 		if ( pos < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
+			throw new PropertyValueException( getElement( ),
+					(ElementPropertyDefn) propHandle.getPropertyDefn( ), name,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( pos );
@@ -1513,7 +1515,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		if ( element == null )
 			return;
 
-		ElementDefn defn = element.getDefn( );
+		ElementDefn defn = (ElementDefn) element.getDefn( );
 
 		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 			design.makeUniqueName( element );
@@ -1537,7 +1539,7 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	/**
 	 * Checks this whole report.
-	 * 
+	 *  
 	 */
 
 	public void checkReport( )

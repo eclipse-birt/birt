@@ -268,7 +268,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getStructDefn()
 	 */
 
-	public StructureDefn getStructDefn( )
+	public IStructureDefn getStructDefn( )
 	{
 		if ( details instanceof StructureDefn )
 			return (StructureDefn) details;
@@ -300,7 +300,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getTargetElementType()
 	 */
 
-	public ElementDefn getTargetElementType( )
+	public IElementDefn getTargetElementType( )
 	{
 		// till now, the extension elements do not support
 		// element reference type?

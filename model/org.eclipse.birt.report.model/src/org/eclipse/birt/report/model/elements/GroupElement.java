@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
@@ -205,9 +206,9 @@ public abstract class GroupElement extends DesignElement
 	{
 		String[] selectors = {null, null};
 
-		ElementDefn defn = getDefn( );
-		SlotDefn slotDefn = defn.getSlot( slotID );
-		String selector = defn.getSelector( );
+		IElementDefn defn = getDefn( );
+		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
+		String selector = ( (ElementDefn) defn ).getSelector( );
 
 		if ( slotDefn == null )
 		{
@@ -249,8 +250,7 @@ public abstract class GroupElement extends DesignElement
 		String value = (String) getLocalProperty( design, KEY_EXPR_PROP );
 		if ( StringUtil.isBlank( value ) )
 		{
-			list.add( new PropertyValueException( this,
-					KEY_EXPR_PROP, value,
+			list.add( new PropertyValueException( this, KEY_EXPR_PROP, value,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 

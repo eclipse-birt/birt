@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.Choice;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
@@ -54,7 +55,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * @return the value definition.
 	 */
 
-	public abstract PropertyDefn getDefn( );
+	public abstract IPropertyDefn getDefn( );
 
 	/**
 	 * Gets the value of the property as a generic object. Use the specialized
@@ -78,7 +79,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public int getIntValue( )
 	{
-		return getDefn( ).getIntValue( getDesign( ), getValue( ) );
+		return ( (PropertyDefn) getDefn( ) ).getIntValue( getDesign( ),
+				getValue( ) );
 	}
 
 	/**
@@ -89,7 +91,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public String getStringValue( )
 	{
-		return getDefn( ).getStringValue( getDesign( ), getValue( ) );
+		return ( (PropertyDefn) getDefn( ) ).getStringValue( getDesign( ),
+				getValue( ) );
 	}
 
 	/**
@@ -101,7 +104,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public double getFloatValue( )
 	{
-		return getDefn( ).getFloatValue( getDesign( ), getValue( ) );
+		return ( (PropertyDefn) getDefn( ) ).getFloatValue( getDesign( ),
+				getValue( ) );
 	}
 
 	/**
@@ -113,7 +117,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public BigDecimal getNumberValue( )
 	{
-		return getDefn( ).getNumberValue( getDesign( ), getValue( ) );
+		return ( (PropertyDefn) getDefn( ) ).getNumberValue( getDesign( ),
+				getValue( ) );
 	}
 
 	/**
@@ -357,12 +362,11 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *             of the item is incorrect.
 	 */
 
-	public StructureHandle addItem( IStructure item )
-			throws SemanticException
+	public StructureHandle addItem( IStructure item ) throws SemanticException
 	{
-        if( item == null )
-            return null;
-        
+		if ( item == null )
+			return null;
+
 		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
 		cmd.addItem( getReference( ), item );
 
@@ -382,17 +386,17 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.
-     * @throws IndexOutOfBoundsException
-     *             if the given <code>posn</code> is out of range
-     *             <code>(index &lt; 0 || index &gt; list.size())</code>. 
+	 * @throws IndexOutOfBoundsException
+	 *             if the given <code>posn</code> is out of range
+	 *             <code>(index &lt; 0 || index &gt; list.size())</code>.
 	 */
 
 	public StructureHandle insertItem( IStructure item, int posn )
 			throws SemanticException
 	{
-        if( item == null )
-            return null;
-        
+		if ( item == null )
+			return null;
+
 		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
 		cmd.insertItem( this.getReference( ), item, posn );
 
@@ -409,9 +413,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *            The new position of the item to move.
 	 * @throws PropertyValueException
 	 *             If the property is not a list property.
-     * @throws IndexOutOfBoundsException
-     *             if the given from or to index is out of range
-     *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
+	 * @throws IndexOutOfBoundsException
+	 *             if the given from or to index is out of range
+	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
 	public void moveItem( int from, int to ) throws PropertyValueException
@@ -432,7 +436,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public Choice[] getChoices( )
 	{
-		PropertyDefn propDefn = getDefn( );
+		IPropertyDefn propDefn = getDefn( );
 
 		return propDefn.getChoices( ) == null ? null : propDefn.getChoices( )
 				.getChoices( );

@@ -20,7 +20,7 @@ import java.util.List;
  * slots. The slot itself can contain either a single element (see the
  * {@link SingleElementSlot}class), or multiple elements (see the
  * {@link MultiElementSlot}class.) See the
- * {@link org.eclipse.birt.report.model.metadata.SlotDefn}class for more information
+ * {@link org.eclipse.birt.report.model.metadata.ISlotDefn}class for more information
  * about slots.
  *  
  */

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.core;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ObjectDefn;
+import org.eclipse.birt.report.model.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -58,5 +58,5 @@ public interface IPropertySet extends Cloneable
 	 * @return the object definition
 	 */
 
-	ObjectDefn getObjectDefn( );
+	IObjectDefn getObjectDefn( );
 }

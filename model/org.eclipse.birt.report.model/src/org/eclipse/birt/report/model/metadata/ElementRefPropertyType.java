@@ -98,7 +98,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		ElementDefn targetDefn = defn.getTargetElementType( );
+		ElementDefn targetDefn = (ElementDefn)defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
 			String name = StringUtil.trimString( (String) value );
@@ -220,7 +220,7 @@ public class ElementRefPropertyType extends PropertyType
 	{
 		if ( ref.isResolved( ) )
 			return;
-		ElementDefn targetDefn = defn.getTargetElementType( );
+		ElementDefn targetDefn = (ElementDefn)defn.getTargetElementType( );
 		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
 		DesignElement target = ns.getElement( ref.getName( ) );
 		if ( target != null )

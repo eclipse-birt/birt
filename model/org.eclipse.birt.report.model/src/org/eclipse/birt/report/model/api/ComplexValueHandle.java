@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -177,7 +178,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getPropertyDefn()
 	 */
 
-	public ElementPropertyDefn getPropertyDefn( )
+	public IElementPropertyDefn getPropertyDefn( )
 	{
 		return this.propDefn;
 	}

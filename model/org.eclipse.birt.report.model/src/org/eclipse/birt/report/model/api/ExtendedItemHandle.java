@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
@@ -102,7 +103,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getDefn()
 	 */
 
-	public ElementDefn getDefn( )
+	public IElementDefn getDefn( )
 	{
 		ElementDefn extDefn = ( (ExtendedItem) getElement( ) ).getExtDefn( );
 		if ( extDefn != null )

@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.StringUtil;
@@ -381,7 +382,7 @@ public class ReportDesign extends RootElement
 		if ( element == null )
 			return;
 
-		ElementDefn defn = element.getDefn( );
+		IElementDefn defn = element.getDefn( );
 		int id = design.getNextID( );
 		element.setID( id );
 		design.addElementID( element );
@@ -975,7 +976,7 @@ public class ReportDesign extends RootElement
 
 	public void makeUniqueName( DesignElement element )
 	{
-		ElementDefn eDefn = element.getDefn( );
+		ElementDefn eDefn = (ElementDefn)element.getDefn( );
 		String name = StringUtil.trimString( element.getName( ) );
 
 		// Some elements can have a blank name.

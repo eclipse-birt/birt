@@ -19,7 +19,7 @@ import java.util.Iterator;
  *  
  */
 
-public class StructureDefn extends ObjectDefn
+public class StructureDefn extends ObjectDefn implements IStructureDefn
 {
 
 	/**
@@ -51,7 +51,7 @@ public class StructureDefn extends ObjectDefn
 	 * @return the member definition, or null if the member was not found
 	 */
 
-	public StructPropertyDefn getMember( String name )
+	public IPropertyDefn getMember( String name )
 	{
 		return (StructPropertyDefn) findProperty( name );
 	}

@@ -78,8 +78,8 @@ public class TextPropertyState extends AbstractPropertyState
 
 		if ( struct != null )
 		{
-			propDefn = struct.getDefn( ).getMember( name );
-			keyPropDefn = struct.getDefn( ).getMember( keyName );
+			propDefn = (PropertyDefn) struct.getDefn( ).getMember( name );
+			keyPropDefn = (PropertyDefn) struct.getDefn( ).getMember( keyName );
 		}
 		else
 		{
@@ -88,8 +88,9 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( propDefn == null || keyPropDefn == null )
 		{
-			handler.semanticWarning( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			handler
+					.semanticWarning( new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
 		}

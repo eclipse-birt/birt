@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  *  
  */
 
-public class ObjectDefn
+public class ObjectDefn implements IObjectDefn
 {
 
 	/**
@@ -159,7 +159,7 @@ public class ObjectDefn
 	 *         found
 	 */
 
-	public PropertyDefn findProperty( String propName )
+	public IPropertyDefn findProperty( String propName )
 	{
 		assert propName != null;
 		return (PropertyDefn) properties.get( propName );

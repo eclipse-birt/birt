@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.xml.sax.SAXException;
@@ -85,7 +86,7 @@ public class SimpleStructureListState extends PropertyListState
 
 		public void end( ) throws SAXException
 		{
-			struct = createStructure( propDefn.getStructDefn( ) );
+			struct = createStructure( (StructureDefn)propDefn.getStructDefn( ) );
 			assert struct != null;
 
 			String value = text.toString( );

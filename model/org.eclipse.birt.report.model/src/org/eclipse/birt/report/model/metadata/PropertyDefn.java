@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * Base class for both element property and structure member definitions.
  */
 
-public abstract class PropertyDefn
+public abstract class PropertyDefn implements IPropertyDefn
 {
 
 	/**
@@ -243,7 +243,7 @@ public abstract class PropertyDefn
 				if ( details instanceof String )
 				{
 					MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-					ElementDefn elementDefn = dd.getElement( StringUtil
+					ElementDefn elementDefn = (ElementDefn)dd.getElement( StringUtil
 							.trimString( (String) details ) );
 					if ( elementDefn == null )
 						throw new MetaDataException( new String[]{
@@ -795,7 +795,7 @@ public abstract class PropertyDefn
 	 *         structures
 	 */
 
-	public StructureDefn getStructDefn( )
+	public IStructureDefn getStructDefn( )
 	{
 		if ( details instanceof StructureDefn )
 			return (StructureDefn) details;
@@ -856,7 +856,7 @@ public abstract class PropertyDefn
 	 * @return the element type associated with the property
 	 */
 
-	public ElementDefn getTargetElementType( )
+	public IElementDefn getTargetElementType( )
 	{
 		if ( details instanceof ElementDefn )
 			return (ElementDefn) details;

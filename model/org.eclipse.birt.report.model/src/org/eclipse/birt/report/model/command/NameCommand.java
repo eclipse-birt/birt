@@ -107,7 +107,7 @@ public class NameCommand extends AbstractElementCommand
 
 	private void checkName( String name ) throws NameException
 	{
-		ElementDefn metaData = element.getDefn( );
+		ElementDefn metaData = (ElementDefn)element.getDefn( );
 		if ( name == null )
 		{
 			// Cannot clear the name when there are references. It would leave
@@ -176,7 +176,7 @@ public class NameCommand extends AbstractElementCommand
 
 		if ( element.getContainer( ) != null )
 		{
-			int ns = element.getDefn( ).getNameSpaceID( );
+			int ns = ((ElementDefn)element.getDefn( )).getNameSpaceID( );
 			getActivityStack( )
 					.execute(
 							new NameSpaceRecord( getRootElement( ), ns,
@@ -193,7 +193,7 @@ public class NameCommand extends AbstractElementCommand
 	{
 		if ( element.getName( ) == null )
 			return;
-		int ns = element.getDefn( ).getNameSpaceID( );
+		int ns = ((ElementDefn)element.getDefn( )).getNameSpaceID( );
 		if ( !design.getNameSpace( ns ).contains( element.getName( ) ) )
 			return;
 		getActivityStack( ).execute(

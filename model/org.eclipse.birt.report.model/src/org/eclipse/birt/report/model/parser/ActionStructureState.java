@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.structures.Action;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.xml.sax.SAXException;
 
@@ -63,7 +64,7 @@ public class ActionStructureState extends StructureState
 	{
 		if ( hasValidDrillThrough( ) )
 		{
-			PropertyDefn prop = struct.getDefn( ).getMember(
+			PropertyDefn prop = (PropertyDefn) struct.getDefn( ).getMember(
 					Action.LINK_TYPE_MEMBER );
 			assert prop != null;
 
@@ -74,8 +75,9 @@ public class ActionStructureState extends StructureState
 				setMember( struct, name, Action.LINK_TYPE_MEMBER,
 						DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
 			else
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 		}
 
 		element.setProperty( name, struct );
@@ -83,22 +85,24 @@ public class ActionStructureState extends StructureState
 
 	private boolean hasValidDrillThrough( )
 	{
-		PropertyDefn prop = struct.getDefn( ).getMember(
-				Action.DRILLTHROUGH_REPORT_NAME_MEMBER );
+		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
+		PropertyDefn prop = (PropertyDefn) structDefn
+				.getMember( Action.DRILLTHROUGH_REPORT_NAME_MEMBER );
 		assert prop != null;
 		String reportName = (String) struct.getProperty( handler.design, prop );
 
-		prop = struct.getDefn( ).getMember( Action.DRILLTHROUGH_SEARCH_MEMBER );
+		prop = (PropertyDefn) structDefn
+				.getMember( Action.DRILLTHROUGH_SEARCH_MEMBER );
 		assert prop != null;
 		Object searchKey = struct.getProperty( handler.design, prop );
 
-		prop = struct.getDefn( ).getMember(
-				Action.DRILLTHROUGH_BOOKMARK_LINK_MEMBER );
+		prop = (PropertyDefn) structDefn
+				.getMember( Action.DRILLTHROUGH_BOOKMARK_LINK_MEMBER );
 		assert prop != null;
 		Object bookmarkLink = struct.getProperty( handler.design, prop );
 
-		prop = struct.getDefn( ).getMember(
-				Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
+		prop = (PropertyDefn) structDefn
+				.getMember( Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
 		assert prop != null;
 		Object parameter = struct.getProperty( handler.design, prop );
 
@@ -106,15 +110,17 @@ public class ActionStructureState extends StructureState
 		{
 			if ( ( searchKey != null ) || ( bookmarkLink != null )
 					|| ( parameter != null ) )
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_ACTION_REPORTNAME_REQUIRED ) );
 			return false;
 		}
 
 		if ( ( searchKey != null ) && ( bookmarkLink != null ) )
 		{
-			handler.semanticError( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
+			handler
+					.semanticError( new DesignParserException(
+							DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION ) );
 			return false;
 		}
 		else if ( searchKey != null )
@@ -150,7 +156,7 @@ public class ActionStructureState extends StructureState
 
 		public void end( ) throws SAXException
 		{
-			PropertyDefn prop = struct.getDefn( ).getMember(
+			PropertyDefn prop = (PropertyDefn) struct.getDefn( ).getMember(
 					Action.LINK_TYPE_MEMBER );
 			assert prop != null;
 			String linkType = (String) struct

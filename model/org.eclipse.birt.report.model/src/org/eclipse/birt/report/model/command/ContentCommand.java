@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -149,11 +150,11 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Ensure that the content can be put into the container.
 
-		ElementDefn metaData = element.getDefn( );
+		ElementDefn metaData = (ElementDefn)element.getDefn( );
 		if ( !metaData.isContainer( ) )
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		SlotDefn slotInfo = metaData.getSlot( slotID );
+		SlotDefn slotInfo = (SlotDefn)metaData.getSlot( slotID );
 		if ( slotInfo == null )
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
@@ -513,7 +514,7 @@ public class ContentCommand extends AbstractElementCommand
 	{
 		// Skip this step if the element is not a container.
 
-		ElementDefn metaData = obj.getDefn( );
+		IElementDefn metaData = obj.getDefn( );
 		if ( !metaData.isContainer( ) )
 			return;
 
@@ -604,7 +605,7 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
-		SlotDefn slotInfo = to.getDefn( ).getSlot( toSlotID );
+		SlotDefn slotInfo = (SlotDefn)to.getDefn( ).getSlot( toSlotID );
 		if ( !slotInfo.canContain( content ) )
 			throw new ContentException( to, toSlotID,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
@@ -721,7 +722,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Skip the step if the slotID has only single content.
 
-		SlotDefn slotInfo = element.getDefn( ).getSlot( slotID );
+		SlotDefn slotInfo = (SlotDefn)element.getDefn( ).getSlot( slotID );
 		if ( !slotInfo.isMultipleCardinality( ) )
 			return;
 

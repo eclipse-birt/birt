@@ -96,7 +96,7 @@ public class ExtensionElementDefn extends ElementDefn
 
 		if ( extendsFrom != null )
 		{
-			parent = dd.getElement( extendsFrom );
+			parent = (ElementDefn)dd.getElement( extendsFrom );
 			if ( parent == null )
 				throw new MetaDataException(
 						new String[]{extendsFrom, name},
@@ -202,7 +202,7 @@ public class ExtensionElementDefn extends ElementDefn
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#getProperty(java.lang.String)
 	 */
 
-	public SystemPropertyDefn getProperty( String propName )
+	public IElementPropertyDefn getProperty( String propName )
 	{
 		assert propName != null;
 		SystemPropertyDefn prop = (SystemPropertyDefn) this.properties
@@ -269,7 +269,7 @@ public class ExtensionElementDefn extends ElementDefn
 		for ( Iterator iter = invisibleProps.iterator( ); iter.hasNext( ); )
 		{
 			String propName = (String) iter.next( );
-			SystemPropertyDefn sysDefn = parent.getProperty( propName );
+			SystemPropertyDefn sysDefn = (SystemPropertyDefn)parent.getProperty( propName );
 
 			if ( sysDefn != null && sysDefn.isVisible( ) )
 			{

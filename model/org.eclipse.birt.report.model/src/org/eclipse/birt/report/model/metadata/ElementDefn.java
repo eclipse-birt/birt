@@ -217,7 +217,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * mask can change the method visibility.
  */
 
-public class ElementDefn extends ObjectDefn
+public class ElementDefn extends ObjectDefn implements IElementDefn
 {
 
 	/**
@@ -465,7 +465,7 @@ public class ElementDefn extends ObjectDefn
 	 *         found.
 	 */
 
-	public SystemPropertyDefn getProperty( String propName )
+	public IElementPropertyDefn getProperty( String propName )
 	{
 		assert propName != null;
 		ElementDefn e = this;
@@ -486,7 +486,7 @@ public class ElementDefn extends ObjectDefn
 						.equalsIgnoreCase( getName( ) ) )
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			SystemPropertyDefn prop = (SystemPropertyDefn) dd.getStyle( ).properties
+			SystemPropertyDefn prop = (SystemPropertyDefn) ((ElementDefn)dd.getStyle( )).properties
 					.get( propName );
 			if ( prop != null )
 				return prop;
@@ -497,7 +497,7 @@ public class ElementDefn extends ObjectDefn
 
 	/**
 	 * Returns the method definition list of this element definition and parent
-	 * definition. Each one is the instance of <code>MethodDefn</code>.
+	 * definition. Each one is the instance of <code>PropertyDefn</code>.
 	 * 
 	 * @return the method definition list.
 	 */
@@ -510,7 +510,7 @@ public class ElementDefn extends ObjectDefn
 
 	/**
 	 * Returns the method definition list of this element definition. Each one
-	 * is the instance of <code>MethodDefn</code>.
+	 * is the instance of <code>PropertyDefn</code>.
 	 * 
 	 * @return the method definition list.
 	 */
@@ -599,9 +599,10 @@ public class ElementDefn extends ObjectDefn
 
 		if ( extendsFrom != null )
 		{
-			parent = dd.getElement( extendsFrom );
+			parent = (ElementDefn)dd.getElement( extendsFrom );
 			if ( parent == null )
-				throw new MetaDataException( new String[]{extendsFrom, name},
+				throw new MetaDataException(
+						new String[]{extendsFrom, name},
 						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
 			parent.build( );
 
@@ -725,7 +726,8 @@ public class ElementDefn extends ObjectDefn
 
 			if ( !( c.newInstance( ) instanceof DesignElement ) )
 
-				throw new MetaDataException( new String[]{javaClass},
+				throw new MetaDataException(
+						new String[]{javaClass},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS );
 
 		}
@@ -742,7 +744,8 @@ public class ElementDefn extends ObjectDefn
 			// not a valid DesignElement or the class
 			// itself does not privide a default constructor.
 
-			throw new MetaDataException( new String[]{name, javaClass},
+			throw new MetaDataException(
+					new String[]{name, javaClass},
 					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
 		}
 		catch ( IllegalAccessException e )
@@ -803,7 +806,7 @@ public class ElementDefn extends ObjectDefn
 		if ( stylePropertyNames == null )
 			return;
 
-		ElementDefn style = MetaDataDictionary.getInstance( ).getStyle( );
+		ElementDefn style = (ElementDefn)MetaDataDictionary.getInstance( ).getStyle( );
 
 		// Get the style property list this element can access if it's
 		// leaf element.
@@ -817,7 +820,8 @@ public class ElementDefn extends ObjectDefn
 			if ( getProperty( propName ) != null )
 				continue;
 
-			SystemPropertyDefn prop = style.getProperty( propName );
+			SystemPropertyDefn prop = (SystemPropertyDefn) style
+					.getProperty( propName );
 
 			// It is an implementation error if the style property list includes
 			// the name of a property that is not defined in the style element,
@@ -945,7 +949,7 @@ public class ElementDefn extends ObjectDefn
 	 * @return Returns the parent element.
 	 */
 
-	public ElementDefn getParent( )
+	public IElementDefn getParent( )
 	{
 		return parent;
 	}
@@ -1048,7 +1052,7 @@ public class ElementDefn extends ObjectDefn
 	 *         container, or if the ID is not valid for this container.
 	 */
 
-	public SlotDefn getSlot( int slotID )
+	public ISlotDefn getSlot( int slotID )
 	{
 		if ( slots == null )
 			return null;
@@ -1069,7 +1073,7 @@ public class ElementDefn extends ObjectDefn
 	 *         slot can't contain that type of element.
 	 */
 
-	public boolean canContain( int slot, ElementDefn type )
+	public boolean canContain( int slot, IElementDefn type )
 	{
 		if ( slots == null )
 			return false;
@@ -1088,11 +1092,11 @@ public class ElementDefn extends ObjectDefn
 	 * @return True if it is a kind of this element, false otherwise.
 	 */
 
-	public boolean isKindOf( ElementDefn type )
+	public boolean isKindOf( IElementDefn type )
 	{
 		if ( type == this )
 			return true;
-		ElementDefn obj = type.parent;
+		ElementDefn obj = ((ElementDefn) type).parent;
 		while ( obj != null )
 		{
 			if ( obj == this )
@@ -1190,7 +1194,7 @@ public class ElementDefn extends ObjectDefn
 
 	// Override of method in super class.
 
-	public PropertyDefn findProperty( String propName )
+	public IPropertyDefn findProperty( String propName )
 	{
 		return getProperty( propName );
 	}
@@ -1209,16 +1213,16 @@ public class ElementDefn extends ObjectDefn
 
 		if ( dd.getElement( extendsFrom ) != null )
 		{
-			ElementDefn parentTemp = dd.getElement( extendsFrom );
+			ElementDefn parentTemp = (ElementDefn)dd.getElement( extendsFrom );
 			while ( parentTemp != null )
 			{
 				if ( parentTemp.properties.containsKey( property.getName( ) ) )
 				{
-					throw new MetaDataException( new String[]{
-							property.getName( ), this.name},
+					throw new MetaDataException(
+							new String[]{property.getName( ), this.name},
 							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 				}
-				parentTemp = dd.getElement( parentTemp.getExtends( ) );
+				parentTemp = (ElementDefn)dd.getElement( parentTemp.getExtends( ) );
 			}
 		}
 
@@ -1226,7 +1230,7 @@ public class ElementDefn extends ObjectDefn
 
 		if ( hasStyle( ) )
 		{
-			ElementDefn styleDefn = dd
+			ElementDefn styleDefn = (ElementDefn)dd
 					.getElement( ReportDesignConstants.STYLE_ELEMENT );
 
 			// Style should be defined before any element that has a
@@ -1241,7 +1245,8 @@ public class ElementDefn extends ObjectDefn
 			if ( styleDefn.properties.containsKey( property.getName( ) ) )
 			{
 				throw new MetaDataException( new String[]{property.getName( ),
-						this.name}, MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
+						this.name},
+						MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 			}
 
 		}

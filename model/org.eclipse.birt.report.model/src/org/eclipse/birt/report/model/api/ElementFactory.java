@@ -16,8 +16,6 @@ import java.lang.reflect.Constructor;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -28,6 +26,8 @@ import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.MultiLineDataItem;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -93,7 +93,7 @@ public class ElementFactory
 	public DesignElementHandle newElement( String elementTypeName, String name )
 	{
 
-		ElementDefn elemDefn = MetaDataDictionary.getInstance( ).getElement(
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
 				elementTypeName );
 
 		if ( elemDefn == null )
@@ -597,7 +597,7 @@ public class ElementFactory
 	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = dd.getExtension( extensionName );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn)dd.getExtension( extensionName );
 		if ( extDefn == null )
 			return null;
 		ExtendedItem element = new ExtendedItem( name );

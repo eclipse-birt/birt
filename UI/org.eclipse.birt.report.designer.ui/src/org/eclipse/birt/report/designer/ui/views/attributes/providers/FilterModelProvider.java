@@ -31,9 +31,9 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
+import org.eclipse.birt.report.model.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
  * Filter data processor
@@ -68,7 +68,7 @@ public class FilterModelProvider
 		for ( int i = 0; i < keys.length; i++ )
 		{
 			MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-			StructureDefn structure = metaData.getStructure( FilterCondition.FILTER_COND_STRUCT );
+			IStructureDefn structure = metaData.getStructure( FilterCondition.FILTER_COND_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}
 		return columnNames;

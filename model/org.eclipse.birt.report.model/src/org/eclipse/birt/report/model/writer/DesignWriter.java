@@ -31,8 +31,6 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -46,6 +44,8 @@ import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.MultiLineDataItem;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
@@ -1535,10 +1535,11 @@ public class DesignWriter extends ElementVisitor
 	private void writeProperty( IStructure struct, String tag,
 			String memberName, boolean cdata, boolean withoutName )
 	{
-		StructureDefn structDefn = struct.getDefn( );
+		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
 		assert structDefn != null;
 
-		StructPropertyDefn propDefn = structDefn.getMember( memberName );
+		StructPropertyDefn propDefn = (StructPropertyDefn) structDefn
+				.getMember( memberName );
 		assert propDefn != null;
 
 		Object value = struct.getProperty( design, propDefn );
@@ -1662,13 +1663,15 @@ public class DesignWriter extends ElementVisitor
 	private void resourceKey( DesignElement obj, String resourceKey,
 			String resourceName, boolean cdata )
 	{
-		PropertyDefn nameProp = obj.getDefn( ).getProperty( resourceName );
+		PropertyDefn nameProp = (ElementPropertyDefn) obj.getDefn( )
+				.getProperty( resourceName );
 		assert nameProp != null;
 
 		Object value = obj.getLocalProperty( design, nameProp.getName( ) );
 		String xml = nameProp.getXmlValue( design, value );
 
-		PropertyDefn keyProp = obj.getDefn( ).getProperty( resourceKey );
+		PropertyDefn keyProp = (ElementPropertyDefn) obj.getDefn( )
+				.getProperty( resourceKey );
 		assert keyProp != null;
 
 		value = obj.getLocalProperty( design, keyProp.getName( ) );
@@ -1702,16 +1705,18 @@ public class DesignWriter extends ElementVisitor
 	private void resourceKey( IStructure struct, String resourceKey,
 			String resourceName )
 	{
-		StructureDefn structDefn = struct.getDefn( );
+		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
 		assert structDefn != null;
 
-		StructPropertyDefn nameProp = structDefn.getMember( resourceName );
+		StructPropertyDefn nameProp = (StructPropertyDefn) structDefn
+				.getMember( resourceName );
 		assert nameProp != null;
 
 		Object value = struct.getProperty( design, nameProp );
 		String xml = nameProp.getXmlValue( design, value );
 
-		StructPropertyDefn keyProp = structDefn.getMember( resourceKey );
+		StructPropertyDefn keyProp = (StructPropertyDefn) structDefn
+				.getMember( resourceKey );
 		assert keyProp != null;
 
 		value = struct.getProperty( design, keyProp );
@@ -1810,7 +1815,8 @@ public class DesignWriter extends ElementVisitor
 
 	private void writeStructureList( DesignElement obj, String propName )
 	{
-		PropertyDefn prop = obj.getDefn( ).getProperty( propName );
+		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
+				propName );
 		assert prop != null;
 		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
 
@@ -1852,7 +1858,8 @@ public class DesignWriter extends ElementVisitor
 
 	private void writeStructureList( IStructure obj, String memberName )
 	{
-		PropertyDefn prop = obj.getDefn( ).getMember( memberName );
+		PropertyDefn prop = (PropertyDefn) obj.getDefn( )
+				.getMember( memberName );
 		assert prop != null;
 		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
 
@@ -1896,7 +1903,8 @@ public class DesignWriter extends ElementVisitor
 	private void writeSimpleStructureList( DesignElement obj, String propName,
 			String memberName )
 	{
-		PropertyDefn prop = obj.getDefn( ).getProperty( propName );
+		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
+				propName );
 		assert prop != null;
 		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
 
@@ -1907,9 +1915,10 @@ public class DesignWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
-		PropertyDefn propDef = obj.getDefn( ).getProperty( propName );
-		PropertyDefn memberDefn = propDef.getStructDefn( ).getMember(
-				memberName );
+		PropertyDefn propDef = (ElementPropertyDefn) obj.getDefn( )
+				.getProperty( propName );
+		PropertyDefn memberDefn = (PropertyDefn) propDef.getStructDefn( )
+				.getMember( memberName );
 
 		Iterator iter = list.iterator( );
 		while ( iter.hasNext( ) )
@@ -1920,13 +1929,11 @@ public class DesignWriter extends ElementVisitor
 		}
 
 		writer.endElement( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
-	 */
+	} /*
+	   * (non-Javadoc)
+	   * 
+	   * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
+	   */
 
 	public void visitDesignElement( DesignElement obj )
 	{

@@ -16,10 +16,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
  * Reference to a property, list entry, or member in a list. All the following
@@ -154,12 +155,12 @@ public class MemberRef
 		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
 		assert !propDefn.isList( );
 
-		StructPropertyDefn memberDefn = propDefn.getStructDefn( ).getMember(
+		IPropertyDefn memberDefn = propDefn.getStructDefn( ).getMember(
 				memberName );
 		assert memberDefn != null;
 
 		refType = PROPERTY_MEMBER;
-		member[0] = memberDefn;
+		member[0] = (StructPropertyDefn)memberDefn;
 		index[0] = -1;
 		depth = 1;
 	}
@@ -210,7 +211,7 @@ public class MemberRef
 		assert propDefn.isList( );
 		assert n >= 0;
 
-		StructPropertyDefn memberDefn = propDefn.getStructDefn( ).getMember(
+		StructPropertyDefn memberDefn = (StructPropertyDefn)propDefn.getStructDefn( ).getMember(
 				memberName );
 		assert memberDefn != null;
 
@@ -404,7 +405,7 @@ public class MemberRef
 
 	public MemberRef( MemberRef ref, String memberName )
 	{
-		this( ref, ref.getStructDefn( ).getMember( memberName ) );
+		this( ref, (StructPropertyDefn)ref.getStructDefn( ).getMember( memberName ) );
 	}
 
 	/**
@@ -739,7 +740,7 @@ public class MemberRef
 	 * @return the definition of the structure pointed to by the reference
 	 */
 
-	public StructureDefn getStructDefn( )
+	public IStructureDefn getStructDefn( )
 	{
 		switch ( refType )
 		{

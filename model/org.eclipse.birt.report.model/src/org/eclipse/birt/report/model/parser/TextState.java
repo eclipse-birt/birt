@@ -69,7 +69,7 @@ public class TextState extends DesignParseState
 		if ( StringUtil.isBlank( value ) )
 			return;
 
-		PropertyDefn prop = valueSet.getObjectDefn( ).findProperty( valueName );
+		PropertyDefn prop = (PropertyDefn)valueSet.getObjectDefn( ).findProperty( valueName );
 		assert prop != null;
 		valueSet.setProperty( prop, value );
 	}

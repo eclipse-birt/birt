@@ -61,7 +61,7 @@ public class ExtendsCommand extends AbstractElementCommand
 		base = StringUtil.trimString( base );
 
 		DesignElement parent = null;
-		ElementDefn metaData = element.getDefn( );
+		ElementDefn metaData = (ElementDefn)element.getDefn( );
 		int ns = metaData.getNameSpaceID( );
 		if ( base == null )
 		{
@@ -79,7 +79,7 @@ public class ExtendsCommand extends AbstractElementCommand
 			parent = root.getNameSpace( ns ).getElement( base );
 			element.checkExtends( parent );
 
-			if ( element.getDefn( ).getNameSpaceID( ) == RootElement.ELEMENT_NAME_SPACE
+			if ( metaData.getNameSpaceID( ) == RootElement.ELEMENT_NAME_SPACE
 					&& ( parent.getContainer( ) != root || parent
 							.getContainerSlot( ) != ReportDesign.COMPONENT_SLOT ) )
 				throw new ExtendsException( element, base,

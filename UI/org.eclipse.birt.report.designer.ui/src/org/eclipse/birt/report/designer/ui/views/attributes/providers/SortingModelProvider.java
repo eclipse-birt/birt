@@ -30,9 +30,9 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.structures.SortKey;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
+import org.eclipse.birt.report.model.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
  * Sort data processor
@@ -66,7 +66,7 @@ public class SortingModelProvider
 		for ( int i = 0; i < keys.length; i++ )
 		{
 			MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-			StructureDefn structure = metaData.getStructure( SortKey.SORT_STRUCT );
+			IStructureDefn structure = metaData.getStructure( SortKey.SORT_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}
 		return columnNames;

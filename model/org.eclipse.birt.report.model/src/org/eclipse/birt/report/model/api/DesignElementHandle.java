@@ -44,9 +44,9 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -135,7 +135,7 @@ public abstract class DesignElementHandle
 	 * @return the meta-data definition of the element
 	 */
 
-	public ElementDefn getDefn( )
+	public IElementDefn getDefn( )
 	{
 		return getElement( ).getDefn( );
 	}
@@ -1319,11 +1319,11 @@ public abstract class DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
 					PropertyType.ELEMENT_REF_TYPE );
 
-		PropertyDefn propDefn = getDefn( ).getProperty( propName );
+		PropertyDefn propDefn = (ElementPropertyDefn)getDefn( ).getProperty( propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( getElement( ), propName );
 
-		propDefn = targetHandle.getDefn( ).getProperty( propName );
+		propDefn = (ElementPropertyDefn)targetHandle.getDefn( ).getProperty( propName );
 		if ( propDefn == null )
 			throw new PropertyNameException( targetHandle.getElement( ),
 					propName );
@@ -1429,7 +1429,7 @@ public abstract class DesignElementHandle
 		if ( type == null )
 			return false;
 
-		ElementDefn defn = MetaDataDictionary.getInstance( ).getElement( type );
+		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement( type );
 		if ( defn == null )
 			return false;
 

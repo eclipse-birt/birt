@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -75,7 +75,7 @@ public class MemberHandle extends SimpleValueHandle
 
 	// Implementation of abstract method defined in base class.
 
-	public PropertyDefn getDefn( )
+	public IPropertyDefn getDefn( )
 	{
 		return memberRef.getMemberDefn( );
 	}
@@ -97,7 +97,7 @@ public class MemberHandle extends SimpleValueHandle
 
 	// Implementation of abstract method defined in base class.
 
-	public ElementPropertyDefn getPropertyDefn( )
+	public IElementPropertyDefn getPropertyDefn( )
 	{
 		return memberRef.getPropDefn( );
 	}

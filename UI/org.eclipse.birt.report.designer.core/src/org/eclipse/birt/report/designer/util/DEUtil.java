@@ -50,10 +50,10 @@ import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.StringUtil;
@@ -116,7 +116,7 @@ public class DEUtil
 			int slotId )
 	{
 		List list = new ArrayList( );
-		SlotDefn slotDefn = parent.getElement( ).getDefn( ).getSlot( slotId );
+		ISlotDefn slotDefn = parent.getElement( ).getDefn( ).getSlot( slotId );
 		if ( slotDefn != null )
 		{
 			list.addAll( slotDefn.getContentElements( ) );
@@ -694,10 +694,10 @@ public class DEUtil
 	 * @param propertyName
 	 * @return
 	 */
-	public static PropertyDefn getPropertyDefn( String elementName,
+	public static IElementPropertyDefn getPropertyDefn( String elementName,
 			String propertyName )
 	{
-		ElementDefn elementDefn = MetaDataDictionary.getInstance( )
+		IElementDefn elementDefn = MetaDataDictionary.getInstance( )
 				.getElement( elementName );
 		if ( elementDefn != null )
 		{

@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyNameException;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
  * Handle to a structure within a list property. List properties contain objects
@@ -71,7 +71,7 @@ public class StructureHandle extends ValueHandle
 
 	// Implementation of abstract method defined in base class.
 
-	public ElementPropertyDefn getPropertyDefn( )
+	public IElementPropertyDefn getPropertyDefn( )
 	{
 		return structRef.getPropDefn( );
 	}
@@ -185,7 +185,7 @@ public class StructureHandle extends ValueHandle
 	 * @return the structure definition
 	 */
 
-	public StructureDefn getDefn( )
+	public IStructureDefn getDefn( )
 	{
 		return structRef.getStructDefn( );
 	}
@@ -201,7 +201,7 @@ public class StructureHandle extends ValueHandle
 
 	public MemberHandle getMember( String memberName )
 	{
-		StructPropertyDefn memberDefn = getDefn( ).getMember( memberName );
+		StructPropertyDefn memberDefn = (StructPropertyDefn)getDefn( ).getMember( memberName );
 		if ( memberDefn == null )
 			return null;
 

@@ -316,7 +316,7 @@ public class ExtendedItem extends ReportItem
 		if ( extDefn == null )
 			return null;
 
-		ElementPropertyDefn prop = extDefn.getProperty( propName );
+		ElementPropertyDefn prop = (ElementPropertyDefn)extDefn.getProperty( propName );
 		if ( prop != null )
 			return prop;
 
@@ -432,7 +432,7 @@ public class ExtendedItem extends ReportItem
 			return cachedExtDefn;
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		cachedExtDefn = dd.getExtension( extName );
+		cachedExtDefn = (ExtensionElementDefn)dd.getExtension( extName );
 
 		return cachedExtDefn;
 	}
@@ -777,7 +777,7 @@ public class ExtendedItem extends ReportItem
 		if ( extDefn == null )
 			return false;
 
-		PropertyDefn prop = extDefn.getProperty( propName );
+		PropertyDefn prop = (ElementPropertyDefn)extDefn.getProperty( propName );
 		if ( prop != null && PropertyType.XML_TYPE == prop.getTypeCode( ) )
 			return true;
 		return false;

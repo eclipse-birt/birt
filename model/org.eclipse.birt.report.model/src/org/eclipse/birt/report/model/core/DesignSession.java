@@ -24,8 +24,10 @@ import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.parser.DesignReader;
@@ -51,7 +53,8 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * 
  * //Get the absolute library file path.
  * String absoluteFilePath = algorithm.findFile( libraryFileName ); 
- * 
+ *  
+ *  
  * </pre>
  * 
  * To set this algorithm, the Java client needs to do the following when
@@ -376,7 +379,7 @@ public class DesignSession
 		assert !StringUtil.isBlank( propName );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		PropertyDefn propDefn = dd.getStyle( ).getProperty( propName );
+		IElementPropertyDefn propDefn = dd.getStyle( ).getProperty( propName );
 
 		assert propDefn != null;
 
@@ -386,7 +389,8 @@ public class DesignSession
 		}
 		else
 		{
-			Object actualValue = propDefn.validateValue( null, value );
+			Object actualValue = ( (ElementPropertyDefn) propDefn )
+					.validateValue( null, value );
 
 			defaultValues.put( propName, actualValue );
 		}
@@ -407,7 +411,7 @@ public class DesignSession
 		assert !StringUtil.isBlank( propName );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		PropertyDefn propDefn = dd.getStyle( ).getProperty( propName );
+		IPropertyDefn propDefn = dd.getStyle( ).getProperty( propName );
 
 		assert propDefn != null;
 

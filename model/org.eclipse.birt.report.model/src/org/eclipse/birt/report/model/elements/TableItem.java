@@ -20,9 +20,10 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.validators.TablelDroppingValidator;
+import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.validators.ContextContainmentValidator;
 import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
+import org.eclipse.birt.report.model.validators.TablelDroppingValidator;
 
 /**
  * This class represents a table in design.A table is a list that is structured
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
  * is defined by a series of bands. A table defines the same bands as a list.
  * Like a list, each band is divided into a number of sections. Each section
  * contains one or more rows. Each row is further divided into a set of cells.
- * 
+ *  
  */
 
 public class TableItem extends ListingElement
@@ -293,7 +294,8 @@ public class TableItem extends ListingElement
 		// check whether there is any overlapping cells with drop properties in
 		// the group headers.
 
-		list.addAll( TablelDroppingValidator.getInstance( ).validate( design, this ) );
+		list.addAll( TablelDroppingValidator.getInstance( ).validate( design,
+				this ) );
 
 		return list;
 	}
@@ -328,19 +330,19 @@ public class TableItem extends ListingElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.core.DesignElement, int,
-	 *      org.eclipse.birt.report.model.metadata.ElementDefn)
+	 *      org.eclipse.birt.report.model.metadata.IElementDefn)
 	 */
 
 	protected List checkContent( ReportDesign design, DesignElement container,
-			int slotId, ElementDefn defn )
+			int slotId, IElementDefn defn )
 	{
 		List errors = super.checkContent( design, container, slotId, defn );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		if ( defn.getParent( ) == null
-				|| !defn.getParent( ).getName( ).equalsIgnoreCase(
-						ReportDesignConstants.LISTING_ITEM ) )
+		if ( ( (ElementDefn) defn ).getParent( ) == null
+				|| !( (ElementDefn) defn ).getParent( ).getName( )
+						.equalsIgnoreCase( ReportDesignConstants.LISTING_ITEM ) )
 			return errors;
 
 		errors.addAll( ContextContainmentValidator.getInstance( ).validate(

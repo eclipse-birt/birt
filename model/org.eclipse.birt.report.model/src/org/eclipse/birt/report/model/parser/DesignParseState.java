@@ -147,12 +147,12 @@ public abstract class DesignParseState extends AbstractParseState
 
 		// Ensure that the member is defined.
 
-		StructureDefn structDefn = struct.getDefn( );
+		StructureDefn structDefn = (StructureDefn)struct.getDefn( );
 		assert structDefn != null;
 		if ( structDefn == null )
 			return;
 
-		StructPropertyDefn memberDefn = structDefn.getMember( member );
+		StructPropertyDefn memberDefn = (StructPropertyDefn)structDefn.getMember( member );
 		assert memberDefn != null;
 		if ( memberDefn == null )
 			return;

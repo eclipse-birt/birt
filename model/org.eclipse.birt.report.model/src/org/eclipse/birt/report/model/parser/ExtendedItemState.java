@@ -83,7 +83,7 @@ public class ExtendedItemState extends ReportItemState
 		else
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			ExtensionElementDefn extDefn = dd.getExtension( extension );
+			ExtensionElementDefn extDefn = (ExtensionElementDefn)dd.getExtension( extension );
 			if ( extDefn == null )
 			{
 				handler.semanticWarning( new SemanticError( element,

@@ -70,7 +70,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( struct != null )
 		{
-			propDefn = struct.getDefn( ).getMember( name );
+			propDefn = (PropertyDefn) struct.getDefn( ).getMember( name );
 		}
 		else
 		{

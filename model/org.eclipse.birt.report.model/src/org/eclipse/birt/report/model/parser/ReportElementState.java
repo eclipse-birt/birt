@@ -84,7 +84,7 @@ public abstract class ReportElementState extends DesignParseState
 	 */
 
 	public abstract DesignElement getElement( );
-	
+
 	/**
 	 * Adds an element to the given slot. Records a semantic error and returns
 	 * false if an error occurs. (Does not throw an exception because we don't
@@ -104,15 +104,15 @@ public abstract class ReportElementState extends DesignParseState
 	protected boolean addToSlot( DesignElement container, int slotID,
 			DesignElement content )
 	{
-		ElementDefn containerDefn = container.getDefn( );
-		ElementDefn contentDefn = content.getDefn( );
+		ElementDefn containerDefn = (ElementDefn) container.getDefn( );
+		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
 
 		// The following conditions should not occur in the parser --
 		// they indicate parser design errors since they can be prevented
 		// with the right syntax checks.
 
 		assert containerDefn.isContainer( );
-		SlotDefn slotInfo = containerDefn.getSlot( slotID );
+		SlotDefn slotInfo = (SlotDefn) containerDefn.getSlot( slotID );
 		assert slotInfo != null;
 		assert slotInfo.canContain( content );
 
@@ -162,9 +162,11 @@ public abstract class ReportElementState extends DesignParseState
 					if ( !design.getSlot( ReportDesign.COMPONENT_SLOT )
 							.contains( parent ) )
 					{
-						handler.semanticError( new ExtendsException( content,
-								content.getElementName( ),
-								ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
+						handler
+								.semanticError( new ExtendsException(
+										content,
+										content.getElementName( ),
+										ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
 						return false;
 					}
 				}
@@ -227,8 +229,9 @@ public abstract class ReportElementState extends DesignParseState
 
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
-				handler.semanticError( new DesignParserException(
-						DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
+				handler
+						.semanticError( new DesignParserException(
+								DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
 		if ( !addToSlot( container, slotID, element ) )
 			return;
@@ -245,7 +248,7 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		DesignElement element = getElement( );
 		ReportDesign design = handler.getDesign( );
-		ElementDefn defn = element.getDefn( );
+		ElementDefn defn = (ElementDefn) element.getDefn( );
 
 		// Resolve extends
 

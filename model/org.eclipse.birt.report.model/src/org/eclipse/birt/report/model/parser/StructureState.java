@@ -160,7 +160,7 @@ public class StructureState extends AbstractPropertyState
 			// If the structure has its specific state, the structure will be
 			// created by the specific state.
 
-			struct = createStructure( propDefn.getStructDefn( ) );
+			struct = createStructure( (StructureDefn)propDefn.getStructDefn( ) );
 		}
 	}
 

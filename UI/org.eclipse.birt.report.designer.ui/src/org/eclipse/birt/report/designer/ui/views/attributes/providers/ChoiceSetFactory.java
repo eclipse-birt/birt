@@ -29,10 +29,10 @@ import org.eclipse.birt.report.model.elements.structures.SortKey;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
+import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
@@ -139,7 +139,7 @@ public class ChoiceSetFactory
 			String property )
 	{
 		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		SystemPropertyDefn propertyDefn = metaData.getElement( elementName )
+		IElementPropertyDefn propertyDefn = metaData.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE
 				&& propertyDefn.getChoices( ) != null )
@@ -163,7 +163,7 @@ public class ChoiceSetFactory
 			String property )
 	{
 		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		SystemPropertyDefn propertyDefn = metaData.getElement( elementName )
+		IElementPropertyDefn propertyDefn = metaData.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
 		{
@@ -186,7 +186,7 @@ public class ChoiceSetFactory
 			String property )
 	{
 		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		PropertyDefn propertyDefn = metaData.getStructure( structName )
+		IPropertyDefn propertyDefn = metaData.getStructure( structName )
 				.findProperty( property );
 		return propertyDefn.getChoices( );
 	}

@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
@@ -179,7 +180,7 @@ public abstract class StyleElement extends ReferenceableElement
 	 * @param slot
 	 *            the slot to send
 	 */
-	
+
 	private void broadcastToSelectedElementsInSlot( NotificationEvent ev,
 			ReportDesign design, ContainerSlot slot )
 	{
@@ -190,8 +191,9 @@ public abstract class StyleElement extends ReferenceableElement
 			assert element != null;
 
 			// Broadcast the element which is selected by this style
-			
-			String selector = element.getDefn( ).getSelector( );
+
+			String selector = ( (ElementDefn) element.getDefn( ) )
+					.getSelector( );
 			if ( selector != null && selector.equalsIgnoreCase( getName( ) ) )
 				element.broadcast( ev, design );
 
@@ -199,7 +201,8 @@ public abstract class StyleElement extends ReferenceableElement
 					element.getContainerSlot( ) );
 			for ( int i = 0; i < selectors.length; i++ )
 			{
-				if ( selectors[i] != null && selectors[i].equalsIgnoreCase( getName( ) ) )
+				if ( selectors[i] != null
+						&& selectors[i].equalsIgnoreCase( getName( ) ) )
 					element.broadcast( ev, design );
 			}
 
