@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -63,7 +64,16 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Axis extends EObject
 {
-
+    /**
+     * 
+     */
+    public static final int BASE = IConstants.BASE;
+    
+    /**
+     * 
+     */
+    public static final int ORTHOGONAL = IConstants.ORTHOGONAL;
+    
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is <code>"Linear"</code>.
      * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.AxisType}. <!--

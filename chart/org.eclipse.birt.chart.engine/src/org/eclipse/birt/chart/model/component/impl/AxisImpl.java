@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -1857,13 +1858,13 @@ public class AxisImpl extends EObjectImpl implements Axis
 
     /**
      * A convenience method to create an initialized 'Axis' instance
-     * 
+     * @param	iAxisType	The type of axis defined by Axis.BASE or Axis.ORTHOGONAL
      * @return
      */
-    public static final Axis create()
+    public static final Axis create(int iAxisType)
     {
         final Axis ax = ComponentFactory.eINSTANCE.createAxis();
-        ((AxisImpl) ax).initialize();
+        ((AxisImpl) ax).initialize(iAxisType);
         return ax;
     }
 
@@ -1872,10 +1873,9 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * Note: Manually written
      */
-    protected final void initialize()
+    protected final void initialize(int iAxisType)
     {
-        // AXIS LABEL COLOR, FONT, OUTLINE, FILLCOLOR, TEXTALIGNMENT, FORMAT
-        // SPECIFIER
+        // AXIS LABEL COLOR, FONT, OUTLINE, FILLCOLOR, TEXTALIGNMENT, FORMAT SPECIFIER
         setLabel(LabelImpl.create());
 
         // AXIS LINE
@@ -1925,6 +1925,18 @@ public class AxisImpl extends EObjectImpl implements Axis
         sc.setMinorGridsPerUnit(5);
         setScale(sc);
         setPercent(false);
+        
+        if (iAxisType == Axis.BASE)
+        {
+            setOrientation(Orientation.HORIZONTAL_LITERAL);
+            setLabelPosition(Position.ABOVE_LITERAL);
+        }
+        else if (iAxisType == Axis.ORTHOGONAL)
+        {
+            setOrientation(Orientation.VERTICAL_LITERAL);
+            setLabelPosition(Position.RIGHT_LITERAL);
+        }
+        setOrigin(AxisOriginImpl.create(IntersectionType.MAX_LITERAL, null));
     }
 
     /*

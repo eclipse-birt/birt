@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -643,7 +644,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         super.initialize();
 
         // SETUP A BASE AXIS
-        Axis xAxisBase = AxisImpl.create();
+        Axis xAxisBase = AxisImpl.create(Axis.BASE);
         xAxisBase.setTitlePosition(Position.BELOW_LITERAL);
         xAxisBase.getTitle().getCaption().setValue("X-Axis Title");
         xAxisBase.getTitle().setVisible(true);
@@ -653,9 +654,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         xAxisBase.getOrigin().setType(IntersectionType.MIN_LITERAL);
         xAxisBase.getOrigin().setValue(new Double(0));
         xAxisBase.getTitle().setVisible(true);
+        xAxisBase.setType(AxisType.TEXT_LITERAL);
 
         // SETUP AN ORTHOGONAL AXIS
-        Axis yAxisOrthogonal = AxisImpl.create();
+        Axis yAxisOrthogonal = AxisImpl.create(Axis.ORTHOGONAL);
         yAxisOrthogonal.setTitlePosition(Position.LEFT_LITERAL);
         yAxisOrthogonal.getTitle().getCaption().setValue("Y-Axis Title");
         yAxisOrthogonal.getTitle().getCaption().getFont().setRotation(90);
@@ -665,11 +667,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         yAxisOrthogonal.setOrientation(Orientation.VERTICAL_LITERAL);
         yAxisOrthogonal.getOrigin().setType(IntersectionType.MIN_LITERAL);
         yAxisOrthogonal.getOrigin().setValue(new Double(0));
+        yAxisOrthogonal.setType(AxisType.LINEAR_LITERAL);
 
-        xAxisBase.getAssociatedAxes().add(yAxisOrthogonal); // ADD THE
-        // ORTHOGONAL
-        // AXIS TO THE
-        // BASE AXIS
+        xAxisBase.getAssociatedAxes().add(yAxisOrthogonal); // ADD THE ORTHOGONAL AXIS TO THE BASE AXIS
         getAxes().add(xAxisBase); // ADD THE BASE AXIS TO THE CHART
     }
 
