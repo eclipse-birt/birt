@@ -166,31 +166,8 @@ public class ChartReportItemPresentationImpl extends DefaultReportItemPresentati
             //throw new GenerationException(ioex);
         }
         
-        byte[] bya = new byte[(int) fChartImage.length()];
-        try {
-            int iSize = 0;
-            int iOffset = 0;
-	        for(;;)
-	        {
-	            iSize = fis.read(bya, iOffset, bya.length - iOffset);
-	            if (iSize < 0)
-	            {
-	                break;
-	            }
-	            iOffset += iSize;
-	            if (iOffset >= fChartImage.length())
-	            {
-	                break;
-	            }
-	        }
-	    } catch (IOException ioex)
-	    {
-	        DefaultLoggerImpl.instance().log(ioex);
-	        //throw new GenerationException(ioex);
-	    }
-        
         DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemPresentationImpl: process(...) - end");
-        return bya;
+        return fis;
     }
     
      /* (non-Javadoc)
