@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/24 05:04:34 $
  */
 public class Utility
 {
@@ -200,11 +200,9 @@ public class Utility
 			}
 			else if(source instanceof DbObject)
 			{
-				//displayName = ((TableItem)source).getText();
-				//name = (String)((TableItem)source).getData();
 				DbObject dbObject = (DbObject)source;
 				name = dbObject.getName();
-				displayName = name;
+				displayName = dbObject.getDisplayName();
 				
 				if( dbObject.getType() == DbObject.TABLE_TYPE)
 				{
@@ -215,7 +213,7 @@ public class Utility
 					image = JFaceResources.getImage( VIEW_ICON );
 				}
 			}
-			//item[i].setText((String)dataSource.get(i));
+
 	
 			item[i].setText(displayName);
 			item[i].setData(name);

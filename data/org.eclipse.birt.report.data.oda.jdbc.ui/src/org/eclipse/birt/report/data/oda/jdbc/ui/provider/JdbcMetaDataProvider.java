@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinCondition;
@@ -367,6 +368,17 @@ public class JdbcMetaDataProvider
 			String quoteString = null;
 			String extraNameCharacters = null;
 			String searchEscapeCharacter = null;
+
+			
+			String databaseName = "";
+			boolean schemaSupported = true;
+			
+			if ( metaDataProvider != null )
+			{
+				databaseName = metaDataProvider.getDataBaseName();
+				schemaSupported = metaDataProvider.isSchemaSupported();
+			}
+			
 			
 			char escapeChar = '\'';
 			
@@ -378,8 +390,16 @@ public class JdbcMetaDataProvider
 					try
 					{
 						quoteString = metaData.getIdentifierQuoteString();
+
 						extraNameCharacters = metaData.getExtraNameCharacters();
+						
+						if( extraNameCharacters != null )
+						{
+							
+						}
+						
 						searchEscapeCharacter = metaData.getSearchStringEscape();
+						
 						
 					}
 					catch(SQLException e)
@@ -393,6 +413,15 @@ public class JdbcMetaDataProvider
 			{
 				quoteString = "\"";
 			}
+			
+			
+			String[] delimitors = { quoteString, quoteString };
+			
+			// Handling for special cases
+			getQuoteString(databaseName, delimitors);
+			
+			String startDelimitor = delimitors[0];
+			String endDelimitor = delimitors[1];
 			
 			
         	String sqlStatement = null;
@@ -409,8 +438,8 @@ public class JdbcMetaDataProvider
         		for ( int i=0; i < columnCount; i++)
         		{
         			String columnName = (String)columnList.get(i);
-        			selectClause.append(columnName);
-        			//selectClause.append(quoteName(columnName, quoteString, extraNameCharacters, searchEscapeCharacter ));
+        			//selectClause.append(columnName);
+        			selectClause.append(quoteName(columnName, startDelimitor, endDelimitor ));
 
         			if ( i != (columnCount -1))
         			{
@@ -424,7 +453,7 @@ public class JdbcMetaDataProvider
         		StringBuffer fromClause = new StringBuffer(" FROM ");//$NON-NLS-1$
         		
         		String fromAndWhereClause = null;
-       			fromAndWhereClause = getFromAndOnClause(tableList, joinList);
+       			fromAndWhereClause = getFromAndOnClause(tableList, joinList, startDelimitor, endDelimitor, schemaSupported);
         		sqlStatement = selectClause.toString() + "\n" + fromAndWhereClause;
         	}
         	
@@ -432,7 +461,8 @@ public class JdbcMetaDataProvider
         }
 
         
-        public static String  getFromAndOnClause(ArrayList tableList, ArrayList joins)
+        public static String  getFromAndOnClause(ArrayList tableList, ArrayList joins,
+        										 String startDelimitor, String endDelimitor, boolean schemaSupported)
         {
         	
         	StringBuffer fromClause = new StringBuffer("");//$NON-NLS-1$
@@ -459,7 +489,7 @@ public class JdbcMetaDataProvider
         					{
         						fromClause.append(FROM_CLAUSE_SPACING);
         					}
-        					fromClause.append(tableName);
+        					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor));
         					fromClause.append( " AS ");
 							fromClause.append(tableAlias);
 						}
@@ -469,7 +499,7 @@ public class JdbcMetaDataProvider
         					{
         						fromClause.append(FROM_CLAUSE_SPACING);;
         					}
-        					fromClause.append(tableName);
+        					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
         				}
         			}
         			else
@@ -478,7 +508,7 @@ public class JdbcMetaDataProvider
         				{
         					fromClause.append(FROM_CLAUSE_SPACING);
         				}
-    					fromClause.append(tableName);
+    					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
         			}
         			
         			if ( i != (tableCount -1))
@@ -524,34 +554,15 @@ public class JdbcMetaDataProvider
 	        		{
 	        			fromClause.append("(");
 	        		}
-	        		//else
-	        		//{
-	        		//	fromClause.append(",");
-	        		//}
-
-	        		
-	        		//if(fromClause.length() > 0)
-	    			//{
-	        		//	if( ! fromTables.contains(leftTable) && 
-	        		//			! fromTables.contains(rightTable)	)
-	        		//	{
-	        		//		fromClause.append(" , ");
-	        		//	}
-	    			//}
 	        		
 	        		if(!fromTables.contains(leftTable))
 	    			{
 	    				fromTables.add(leftTable);
-	    				fromClause.append(leftTable);
+	    				fromClause.append(quoteName(leftTable, startDelimitor, endDelimitor ));
 	    			}
 	    			
-
-	        		
-	        		//fromClause.append(leftTable);
 	        		if((joinType == -1) || (joinType == JoinType.INNER))
 	        		{
-	        			// Inner join, do no tneed any keyword
-	        			// just add the tables
 	       				fromClause.append(" INNER JOIN ");
 	        		}
 	        		else if( joinType == JoinType.LEFT_OUTER )
@@ -570,7 +581,7 @@ public class JdbcMetaDataProvider
 	    			if(!fromTables.contains(rightTable))
 	    			{
 	    				fromTables.add(rightTable);
-	    				fromClause.append(rightTable);
+	    				fromClause.append(quoteName(rightTable, startDelimitor, endDelimitor));
 	    			}
 
 					
@@ -579,8 +590,10 @@ public class JdbcMetaDataProvider
 					fromClause.append(" ON ");
 					
 		        	// Appending the Operator
-		        	String leftColumnFullName = leftTable + "." + leftColumn;
-		        	String rightColumnFullName = rightTable + "." + rightColumn;
+		        	String leftColumnFullName = quoteName(leftTable, startDelimitor, endDelimitor ) + "." +
+											   quoteName(leftColumn, startDelimitor, endDelimitor);
+		        	String rightColumnFullName = quoteName(rightTable, startDelimitor, endDelimitor)+ "." + 
+										          quoteName(rightColumn, startDelimitor, endDelimitor);
 		        	
 		        	fromClause.append(leftColumnFullName);
 		        	fromClause.append(" ");
@@ -615,7 +628,7 @@ public class JdbcMetaDataProvider
 	        		}
 	        		fromClause.append(",");
 	        		fromClause.append(FROM_CLAUSE_SPACING);
-	        		fromClause.append(tableName);
+	        		fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
 	        		if(alias != null && alias.length() >0 && !tableName.equalsIgnoreCase(alias))
 	        		{
 	        			fromClause.append(" AS ");
@@ -661,150 +674,72 @@ public class JdbcMetaDataProvider
 		}
 	}
 	
-	/**
-	 * If there is a space character in the Table name or the column Name
-	 * then " ( double quotes ) are added to the name
-	 * 
-	 * @param name
-	 * @param extraNameCharacters
-	 * @param quoteString
-	 * @param searchEscapeCharacter
-	 * @return
-	 */
-	private static String quoteName(String name, String quoteString, String extraNameCharacters, String escapeCharacter)
+	
+	private static String quoteName(String name, String startDelimitor, String endDelimitor)
 	{
-		String escapedName = name;
-		if ( name == null )
-		{
-			return escapedName;
-		}
-		
-		if( quoteString == null || 
-			quoteString.trim().length() == 0 )
-		{
-			quoteString = "\"";
-		}
-		
-		quoteString = "\"";
-		
-		String extraCharacters = extraNameCharacters; 
-		
-		int schemaSepIndex1 = name.indexOf(".");
-		int schemaSepIndex2 = name.lastIndexOf(".");
-		
-		boolean schemaSupported = false;
-		
-		if( schemaSepIndex1 != schemaSepIndex2 && schemaSepIndex1 != -1 && schemaSepIndex2 != -1)
-		{
-			schemaSupported = true;
-		}
- 
-		if(schemaSupported)
-		{
-			String schemaName = name.substring(0, schemaSepIndex1);
-			int spaceIndex = schemaName.indexOf(' ');
-			if( spaceIndex != -1)
-			{
-				//schemaName = quoteString + escapeName(schemaName, escapeCharacter, extraNameCharacters) + quoteString;
-				schemaName = quoteString + schemaName + quoteString;
-			}
-			
-			String tableName = name.substring(schemaSepIndex1 + 1,schemaSepIndex1);
-			spaceIndex = tableName.indexOf(' ');
-			if( spaceIndex != -1)
-			{
-				//tableName = quoteString + escapeName(tableName,escapeCharacter, extraNameCharacters) + quoteString;
-				tableName = quoteString + tableName + quoteString;
-			}
-			
-			String columnName = name.substring(schemaSepIndex2 + 1);
-			spaceIndex = columnName.indexOf(' ');
-			if ( spaceIndex != -1 )
-			{
-				//columnName = quoteString + escapeName(columnName, escapeCharacter, extraNameCharacters) + quoteString;	
-				columnName = quoteString + columnName + quoteString;
-			}
-			
-			
-			escapedName = schemaName + "." + tableName + "." + columnName;
-		}
-		else
-		{
-			
-			String tableName = name.substring(0,schemaSepIndex1);
-			int spaceIndex = tableName.indexOf(' ');
-			if( spaceIndex != -1 )
-			{
-				//tableName = quoteString + escapeName(tableName, escapeCharacter, extraNameCharacters) + quoteString;
-				tableName = quoteString + tableName + quoteString;
-			}
-			
-			String columnName = name.substring(schemaSepIndex1 +1);
-			spaceIndex = columnName.indexOf(' ');
-			if( spaceIndex != -1 )
-			{
-				//columnName = quoteString + escapeName(columnName, escapeCharacter, extraNameCharacters) + quoteString;
-				columnName = quoteString + columnName + quoteString;
-			}
-			
-			escapedName = tableName + "." + columnName;
-		}
-		
-		return escapedName;
-		
-	}
-
-	/**
-	 * @param schemaName
-	 * @param escapeCharacter
-	 * @return
-	 */
-	private static String escapeName(String name, String escapeCharacter, String extraChars ) 
-	{
-		if( name == null || name.trim().length() == 0 ||
-			escapeCharacter == null || escapeCharacter.trim().length() == 0 )
+		if ( name == null || startDelimitor == null || endDelimitor ==null )
 		{
 			return name;
 		}
 		
-		String escapedName = "";
-		for(int i=0; i< name.length(); i++)
-		{
-			char c = name.charAt(i);
-			/*
-			if (Character.isLetterOrDigit(c) || Character.isSpaceChar(c))
-			{
-				escapedName = escapedName + c;
-				continue;
-			}
-			*/
-			
-			if( c == '\'')
-			{
-				escapedName = escapedName + '\'' + c;
-			}
-			else if( c == '\\')
-			{
-				escapedName = escapedName + '\\' + c;
-			}
-			else
-			{
-				escapedName = escapedName + c;
-			}
-			
-			/*
-			if( extraChars != null)
-			{
-				if( extraChars.indexOf(c) == -1)
+		StringTokenizer st = new StringTokenizer(name, ".");
+		
+		String delimitedName = "";
+		int count = 0;
+		int tokenCount = st.countTokens();
+	     while (st.hasMoreTokens()) 
+	     {
+	     	String token = st.nextToken();
+	     	// IF the delimitor is a quote , escape the 
+	     	// quotes within the string with 2 double quotes
+	     	if( startDelimitor.equals("\"") && endDelimitor.equals("\""))
+	     	{
+	     		
+	     		if( token.indexOf('"') != -1 )
 				{
-					escapedName = escapedName + escapeCharacter + c;
+					StringBuffer escapedToken = new StringBuffer();
+					for(int i=0; i< token.length(); i++)
+					{
+						char c = token.charAt(i);
+						if( c == '"')
+						{
+							escapedToken.append("\"\"");
+						}
+						else
+						{
+							escapedToken.append(c);
+						}
+					}
+					token = escapedToken.toString();
 				}
+	     	}
+	     	
+			delimitedName = delimitedName + startDelimitor + token + endDelimitor;
+			if(  count != tokenCount - 1)
+			{
+				delimitedName = delimitedName + ".";
 			}
-			*/
-		}
-		return escapedName;
+			count++;
+	     }
+
+		return delimitedName;
 	}
 	
 	
+	private static void getQuoteString(String databaseName,  String[] delimitors)
+	{
+		
+		if( delimitors == null || delimitors.length < 2)
+		{
+			return;
+		}
+		if("ACCESS".equalsIgnoreCase(databaseName))
+		{
+			delimitors[0] = "[";
+			delimitors[1] = "]";
+		}
+		
+		
+	}
 
 }
