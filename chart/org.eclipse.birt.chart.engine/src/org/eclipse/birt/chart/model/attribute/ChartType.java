@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class ChartType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #PIE_LITERAL
      * @model name="Pie"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int PIE = 0;
 
@@ -47,8 +45,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #BAR_LITERAL
      * @model name="Bar"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int BAR = 1;
 
@@ -57,8 +54,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #LINE_LITERAL
      * @model name="Line"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LINE = 2;
 
@@ -67,8 +63,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #COMBO_LITERAL
      * @model name="Combo"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int COMBO = 3;
 
@@ -77,8 +72,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #SCATTER_LITERAL
      * @model name="Scatter"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SCATTER = 4;
 
@@ -87,8 +81,7 @@ public final class ChartType extends AbstractEnumerator
      * 
      * @see #STOCK_LITERAL
      * @model name="Stock"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int STOCK = 5;
 
@@ -101,8 +94,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #PIE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType PIE_LITERAL = new ChartType(PIE, "Pie");
 
@@ -115,8 +107,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BAR
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType BAR_LITERAL = new ChartType(BAR, "Bar");
 
@@ -129,8 +120,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LINE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType LINE_LITERAL = new ChartType(LINE, "Line");
 
@@ -143,8 +133,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #COMBO
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType COMBO_LITERAL = new ChartType(COMBO, "Combo");
 
@@ -157,8 +146,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SCATTER
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType SCATTER_LITERAL = new ChartType(SCATTER, "Scatter");
 
@@ -171,8 +159,7 @@ public final class ChartType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #STOCK
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartType STOCK_LITERAL = new ChartType(STOCK, "Stock");
 

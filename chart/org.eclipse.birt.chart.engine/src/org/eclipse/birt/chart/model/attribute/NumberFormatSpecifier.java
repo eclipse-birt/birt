@@ -33,8 +33,7 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier()
- * @model
- * @generated
+ * @model @generated
  */
 public interface NumberFormatSpecifier extends FormatSpecifier
 {

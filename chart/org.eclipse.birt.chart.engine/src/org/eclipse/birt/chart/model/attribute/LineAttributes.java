@@ -34,8 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineAttributes()
- * @model
- * @generated
+ * @model @generated
  */
 public interface LineAttributes extends EObject
 {

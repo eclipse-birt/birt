@@ -45,8 +45,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getLeft()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double LEFT_EDEFAULT = 0.0;
 
@@ -55,16 +54,14 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getLeft()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double left = LEFT_EDEFAULT;
 
     /**
      * This is true if the Left attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean leftESet = false;
 
@@ -73,8 +70,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getTop()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double TOP_EDEFAULT = 0.0;
 
@@ -83,16 +79,14 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * -->
      * 
      * @see #getTop()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double top = TOP_EDEFAULT;
 
     /**
      * This is true if the Top attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean topESet = false;
 
@@ -101,8 +95,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double WIDTH_EDEFAULT = 0.0;
 
@@ -111,16 +104,14 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double width = WIDTH_EDEFAULT;
 
     /**
      * This is true if the Width attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean widthESet = false;
 
@@ -129,8 +120,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double HEIGHT_EDEFAULT = 0.0;
 
@@ -139,16 +129,14 @@ public class BoundsImpl extends EObjectImpl implements Bounds
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double height = HEIGHT_EDEFAULT;
 
     /**
      * This is true if the Height attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean heightESet = false;
 

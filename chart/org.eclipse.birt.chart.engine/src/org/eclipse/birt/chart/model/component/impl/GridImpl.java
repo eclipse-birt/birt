@@ -46,8 +46,7 @@ public class GridImpl extends EObjectImpl implements Grid
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -56,8 +55,7 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final TickStyle TICK_STYLE_EDEFAULT = TickStyle.LEFT_LITERAL;
 
@@ -66,16 +64,14 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected TickStyle tickStyle = TICK_STYLE_EDEFAULT;
 
     /**
      * This is true if the Tick Style attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean tickStyleESet = false;
 
@@ -84,8 +80,7 @@ public class GridImpl extends EObjectImpl implements Grid
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getTickAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes tickAttributes = null;
 
@@ -94,8 +89,7 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double TICK_SIZE_EDEFAULT = 0.0;
 
@@ -104,16 +98,14 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double tickSize = TICK_SIZE_EDEFAULT;
 
     /**
      * This is true if the Tick Size attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean tickSizeESet = false;
 
@@ -122,8 +114,7 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickCount()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int TICK_COUNT_EDEFAULT = 0;
 
@@ -132,16 +123,14 @@ public class GridImpl extends EObjectImpl implements Grid
      * end-user-doc -->
      * 
      * @see #getTickCount()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int tickCount = TICK_COUNT_EDEFAULT;
 
     /**
      * This is true if the Tick Count attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean tickCountESet = false;
 

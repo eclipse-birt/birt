@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Marker Range</b></em>'. <!-- end-user-doc
@@ -60,8 +62,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes outline = null;
 
@@ -70,8 +71,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * end-user-doc -->
      * 
      * @see #getFill()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Fill fill = null;
 
@@ -80,8 +80,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getStartValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataElement startValue = null;
 
@@ -90,8 +89,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * --> <!-- end-user-doc -->
      * 
      * @see #getEndValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataElement endValue = null;
 
@@ -100,8 +98,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label label = null;
 
@@ -110,8 +107,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
@@ -120,16 +116,14 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Anchor labelAnchor = LABEL_ANCHOR_EDEFAULT;
 
     /**
      * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean labelAnchorESet = false;
 
@@ -138,8 +132,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -148,16 +141,14 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position labelPosition = LABEL_POSITION_EDEFAULT;
 
     /**
      * This is true if the Label Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean labelPositionESet = false;
 
@@ -166,8 +157,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
@@ -833,12 +823,21 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
         mr.setStartValue(deStart);
         mr.setEndValue(deEnd);
         mr.setLabel(LabelImpl.create());
-        /*
-         * mr.setAnchor( ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL :
-         * Anchor.NORTH_WEST_LITERAL );
-         */
+
+        mr.setLabelPosition(Position.INSIDE_LITERAL);
+        mr.setLabelAnchor(ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL
+            : Anchor.NORTH_WEST_LITERAL);
+
+        if (ax.getOrientation().getValue() == Orientation.VERTICAL)
+        {
+            mr.getLabel().getCaption().getFont().setRotation(90);
+        }
+
         ax.getMarkerRanges().add(mr);
-        //mr.setFormatSpecifier(ax.getFormatSpecifier());
+        if (ax.getFormatSpecifier() != null)
+        {
+            mr.setFormatSpecifier((FormatSpecifier) EcoreUtil.copy(ax.getFormatSpecifier()));
+        }
         return mr;
     }
 

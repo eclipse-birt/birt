@@ -45,6 +45,15 @@ public final class AxisSubUnit
     }
 
     /**
+     *  
+     */
+    public final void reset()
+    {
+        dValueMax = 0;
+        dValueMin = 0;
+    }
+
+    /**
      * @return Returns the valueMax.
      */
     public final double getValueMax()

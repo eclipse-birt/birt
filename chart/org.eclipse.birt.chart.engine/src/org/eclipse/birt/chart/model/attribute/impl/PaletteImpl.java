@@ -50,8 +50,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
      * end-user-doc -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String NAME_EDEFAULT = null;
 
@@ -60,8 +59,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
      * -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String name = NAME_EDEFAULT;
 
@@ -70,8 +68,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getEntries()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList entries = null;
 

@@ -40,8 +40,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 
     /**
      * 
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     public final Double[] asDoubleValues() throws DataFormatException
     {
@@ -73,8 +73,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 
     /**
      * 
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     public final double[] asPrimitiveDoubleValues() throws DataFormatException
     {

@@ -33,8 +33,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries()
- * @model
- * @generated
+ * @model @generated
  */
 public interface BarSeries extends Series
 {

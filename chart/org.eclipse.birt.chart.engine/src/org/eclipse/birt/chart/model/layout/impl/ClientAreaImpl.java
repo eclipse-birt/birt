@@ -52,8 +52,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBackground()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Fill background = null;
 
@@ -62,8 +61,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes outline = null;
 
@@ -72,8 +70,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getShadowColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition shadowColor = null;
 
@@ -82,8 +79,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
      * <!-- end-user-doc -->
      * 
      * @see #getInsets()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Insets insets = null;
 

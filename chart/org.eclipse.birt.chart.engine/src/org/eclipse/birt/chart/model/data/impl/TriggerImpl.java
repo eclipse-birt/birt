@@ -44,8 +44,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * end-user-doc -->
      * 
      * @see #getCondition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.MOUSE_HOVER_LITERAL;
 
@@ -54,16 +53,14 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * end-user-doc -->
      * 
      * @see #getCondition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected TriggerCondition condition = CONDITION_EDEFAULT;
 
     /**
      * This is true if the Condition attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean conditionESet = false;
 
@@ -72,8 +69,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
      * <!-- end-user-doc -->
      * 
      * @see #getAction()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Action action = null;
 

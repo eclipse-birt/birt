@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -42,6 +43,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -273,14 +275,98 @@ public final class PlotWith2DAxes extends PlotContent
     }
 
     /**
+     * Transposes the anchor for a given source orientation
+     * 
+     * @param or
+     * @param an
+     * 
+     * @return
+     */
+    public static final Anchor transposedAnchor(Orientation or, Anchor an) throws UnexpectedInputException
+    {
+        if (an == null)
+        {
+            return null; // CENTERED ANCHOR
+        }
+
+        final int iOrientation = or.getValue();
+        if (iOrientation == Orientation.HORIZONTAL)
+        {
+            switch (an.getValue())
+            {
+                case Anchor.NORTH:
+                    return Anchor.WEST_LITERAL;
+                case Anchor.SOUTH:
+                    return Anchor.EAST_LITERAL;
+                case Anchor.EAST:
+                    return Anchor.NORTH_LITERAL;
+                case Anchor.WEST:
+                    return Anchor.SOUTH_LITERAL;
+                case Anchor.NORTH_WEST:
+                    return Anchor.SOUTH_WEST_LITERAL;
+                case Anchor.NORTH_EAST:
+                    return Anchor.NORTH_WEST_LITERAL;
+                case Anchor.SOUTH_WEST:
+                    return Anchor.SOUTH_EAST_LITERAL;
+                case Anchor.SOUTH_EAST:
+                    return Anchor.NORTH_EAST_LITERAL;
+            }
+        }
+        else if (iOrientation == Orientation.VERTICAL)
+        {
+            switch (an.getValue())
+            {
+                case Anchor.NORTH:
+                    return Anchor.EAST_LITERAL;
+                case Anchor.SOUTH:
+                    return Anchor.WEST_LITERAL;
+                case Anchor.EAST:
+                    return Anchor.SOUTH_LITERAL;
+                case Anchor.WEST:
+                    return Anchor.NORTH_LITERAL;
+                case Anchor.NORTH_WEST:
+                    return Anchor.NORTH_EAST_LITERAL;
+                case Anchor.NORTH_EAST:
+                    return Anchor.SOUTH_EAST_LITERAL;
+                case Anchor.SOUTH_WEST:
+                    return Anchor.NORTH_WEST_LITERAL;
+                case Anchor.SOUTH_EAST:
+                    return Anchor.SOUTH_WEST_LITERAL;
+            }
+        }
+        throw new UnexpectedInputException("Cannot transpose anchor " + an + " for axis orientation " + or);
+    }
+
+    /**
+     * Returns a transpose of the original angle
+     * 
+     * @param dOriginalAngle
+     * @return 
+     * @throws UnexpectedInputException
+     */
+    public static final double getTransposedAngle(double dOriginalAngle) throws UnexpectedInputException
+    {
+        if (dOriginalAngle >= 0 && dOriginalAngle <= 90)
+        {
+            return -(90 - dOriginalAngle);
+        }
+        else if (dOriginalAngle < 0 && dOriginalAngle >= -90)
+        {
+            return (dOriginalAngle + 90);
+        }
+        throw new UnexpectedInputException("Cannot transpose [angle=" + dOriginalAngle
+            + "] beyond range (90 >= 0 >= -90)");
+    }
+
+    /**
      * Returns a transposed or the original angle as requested depending on the plot's orientation
      * 
      * @param iBaseOrOrthogonal
      * @param dOriginalAngle
-     * @return
-     * @throws UnexpectedInputException
+     * @return @throws
+     *         UnexpectedInputException
      */
-    final double transposeAngle(double dOriginalAngle) throws UnexpectedInputException
+    public final double transposeAngle(double dOriginalAngle) throws UnexpectedInputException
     {
         if (!cwa.isTransposed())
         {
@@ -303,8 +389,8 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @param iBaseOrOrthogonal
      * @param iOriginalPosition
-     * @return
-     * @throws UnexpectedInputException
+     * @return @throws
+     *         UnexpectedInputException
      */
     public final int transposeLabelPosition(int iBaseOrOrthogonal, int iOriginalPosition)
         throws UnexpectedInputException
@@ -352,8 +438,8 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @param iBaseOrOrthogonal
      * @param iOriginalStyle
-     * @return
-     * @throws UnexpectedInputException
+     * @return @throws
+     *         UnexpectedInputException
      */
     private final int transposeTickStyle(int iBaseOrOrthogonal, int iOriginalStyle) throws UnexpectedInputException
     {
@@ -533,8 +619,8 @@ public final class PlotWith2DAxes extends PlotContent
      * @param iSeriesIndex
      *            The series index for which the typed dataset is being built
      * 
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     private final DataSetIterator getTypedDataSet(Axis ax, int iType, int iSeriesIndex) throws DataFormatException,
         UnexpectedInputException
@@ -573,8 +659,7 @@ public final class PlotWith2DAxes extends PlotContent
      * @param se
      * @param iType
      * 
-     * @return
-     * 
+     * @return 
      * @throws DataFormatException
      */
     private final DataSetIterator getTypedDataSet(Series se, int iType) throws DataFormatException,
@@ -2501,8 +2586,8 @@ public final class PlotWith2DAxes extends PlotContent
 
     /**
      * 
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     public final SeriesRenderingHints getSeriesRenderingHints(Series se) throws NullValueException,
         DataFormatException, NotFoundException, OutOfSyncException, UndefinedValueException, UnexpectedInputException
@@ -2664,5 +2749,14 @@ public final class PlotWith2DAxes extends PlotContent
     public final IDisplayServer getDisplayServer()
     {
         return idss;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public final StackedSeriesLookup getStackedSeriesLookup()
+    {
+        return ssl;
     }
 }

@@ -36,8 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping()
- * @model
- * @generated
+ * @model @generated
  */
 public interface SeriesGrouping extends EObject
 {

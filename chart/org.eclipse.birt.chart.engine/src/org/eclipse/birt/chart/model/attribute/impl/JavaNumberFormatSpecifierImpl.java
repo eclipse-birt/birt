@@ -45,8 +45,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String PATTERN_EDEFAULT = null;
 
@@ -55,8 +54,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String pattern = PATTERN_EDEFAULT;
 
@@ -65,8 +63,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
@@ -75,16 +72,14 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double multiplier = MULTIPLIER_EDEFAULT;
 
     /**
      * This is true if the Multiplier attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean multiplierESet = false;
 

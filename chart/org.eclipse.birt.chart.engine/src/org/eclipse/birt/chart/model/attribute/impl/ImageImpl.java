@@ -38,8 +38,7 @@ public class ImageImpl extends FillImpl implements Image
      * -->
      * 
      * @see #getURL()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String URL_EDEFAULT = null;
 
@@ -48,8 +47,7 @@ public class ImageImpl extends FillImpl implements Image
      * -->
      * 
      * @see #getURL()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String uRL = URL_EDEFAULT;
 

@@ -71,8 +71,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = true;
 
@@ -81,16 +80,14 @@ public class SeriesImpl extends EObjectImpl implements Series
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visibleESet = false;
 
@@ -99,8 +96,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label label = null;
 
@@ -109,8 +105,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataDefinition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList dataDefinition = null;
 
@@ -119,8 +114,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesIdentifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SERIES_IDENTIFIER_EDEFAULT = null;
 
@@ -129,8 +123,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesIdentifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String seriesIdentifier = SERIES_IDENTIFIER_EDEFAULT;
 
@@ -139,8 +132,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataPoint()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataPoint dataPoint = null;
 
@@ -149,8 +141,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * --> <!-- end-user-doc -->
      * 
      * @see #getDataSet()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataSet dataSet = null;
 
@@ -159,8 +150,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
@@ -169,8 +159,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -179,16 +168,14 @@ public class SeriesImpl extends EObjectImpl implements Series
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position labelPosition = LABEL_POSITION_EDEFAULT;
 
     /**
      * This is true if the Label Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean labelPositionESet = false;
 
@@ -197,8 +184,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * end-user-doc -->
      * 
      * @see #isStacked()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean STACKED_EDEFAULT = false;
 
@@ -207,16 +193,14 @@ public class SeriesImpl extends EObjectImpl implements Series
      * end-user-doc -->
      * 
      * @see #isStacked()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean stacked = STACKED_EDEFAULT;
 
     /**
      * This is true if the Stacked attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean stackedESet = false;
 
@@ -225,8 +209,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getTriggers()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList triggers = null;
 
@@ -235,8 +218,7 @@ public class SeriesImpl extends EObjectImpl implements Series
      * <!-- end-user-doc -->
      * 
      * @see #isTranslucent()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean TRANSLUCENT_EDEFAULT = false;
 
@@ -245,16 +227,14 @@ public class SeriesImpl extends EObjectImpl implements Series
      * end-user-doc -->
      * 
      * @see #isTranslucent()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean translucent = TRANSLUCENT_EDEFAULT;
 
     /**
      * This is true if the Translucent attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean translucentESet = false;
 

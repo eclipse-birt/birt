@@ -40,8 +40,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getText()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String TEXT_EDEFAULT = null;
 
@@ -50,8 +49,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * -->
      * 
      * @see #getText()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String text = TEXT_EDEFAULT;
 
@@ -60,8 +58,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getDelay()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int DELAY_EDEFAULT = 0;
 
@@ -70,16 +67,14 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
      * end-user-doc -->
      * 
      * @see #getDelay()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int delay = DELAY_EDEFAULT;
 
     /**
      * This is true if the Delay attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean delayESet = false;
 

@@ -40,7 +40,7 @@ public interface IDeviceRenderer extends IPrimitiveRenderer
     /**
      * A property name that identifies a device-specific visual component (e.g. used for event detection)
      */
-    public static final String COMPONENT = "device.component";
+    public static final String UPDATE_NOTIFIER = "device.component";
 
     /**
      * A property name that identifies the expected bounds of the chart being generated. This notification is sent out

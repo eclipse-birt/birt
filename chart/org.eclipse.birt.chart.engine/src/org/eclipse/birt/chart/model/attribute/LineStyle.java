@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineStyle()
- * @model
- * @generated
+ * @model @generated
  */
 public final class LineStyle extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #SOLID_LITERAL
      * @model name="Solid"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SOLID = 0;
 
@@ -47,8 +45,7 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DASHED_LITERAL
      * @model name="Dashed"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DASHED = 1;
 
@@ -57,8 +54,7 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DOTTED_LITERAL
      * @model name="Dotted"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DOTTED = 2;
 
@@ -67,8 +63,7 @@ public final class LineStyle extends AbstractEnumerator
      * 
      * @see #DASH_DOTTED_LITERAL
      * @model name="Dash_Dotted"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DASH_DOTTED = 3;
 
@@ -81,8 +76,7 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SOLID
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LineStyle SOLID_LITERAL = new LineStyle(SOLID, "Solid");
 
@@ -95,8 +89,7 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DASHED
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LineStyle DASHED_LITERAL = new LineStyle(DASHED, "Dashed");
 
@@ -109,8 +102,7 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DOTTED
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LineStyle DOTTED_LITERAL = new LineStyle(DOTTED, "Dotted");
 
@@ -123,8 +115,7 @@ public final class LineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DASH_DOTTED
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LineStyle DASH_DOTTED_LITERAL = new LineStyle(DASH_DOTTED, "Dash_Dotted");
 

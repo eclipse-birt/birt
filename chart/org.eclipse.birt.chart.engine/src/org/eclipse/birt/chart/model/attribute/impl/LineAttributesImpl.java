@@ -47,8 +47,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final LineStyle STYLE_EDEFAULT = LineStyle.SOLID_LITERAL;
 
@@ -57,16 +56,14 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineStyle style = STYLE_EDEFAULT;
 
     /**
      * This is true if the Style attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean styleESet = false;
 
@@ -75,8 +72,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #getThickness()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int THICKNESS_EDEFAULT = 0;
 
@@ -85,16 +81,14 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #getThickness()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int thickness = THICKNESS_EDEFAULT;
 
     /**
      * This is true if the Thickness attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean thicknessESet = false;
 
@@ -103,8 +97,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * <!-- end-user-doc -->
      * 
      * @see #getColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition color = null;
 
@@ -113,8 +106,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = false;
 
@@ -123,16 +115,14 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visibleESet = false;
 

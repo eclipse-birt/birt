@@ -52,8 +52,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getComponents()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList components = null;
 
@@ -62,8 +61,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String PREFIX_EDEFAULT = null;
 
@@ -72,8 +70,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String prefix = PREFIX_EDEFAULT;
 
@@ -82,8 +79,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SUFFIX_EDEFAULT = null;
 
@@ -92,8 +88,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String suffix = SUFFIX_EDEFAULT;
 
@@ -102,8 +97,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SEPARATOR_EDEFAULT = null;
 
@@ -112,8 +106,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
      * end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String separator = SEPARATOR_EDEFAULT;
 

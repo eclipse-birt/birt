@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -46,8 +47,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalAlignment()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final HorizontalAlignment HORIZONTAL_ALIGNMENT_EDEFAULT = HorizontalAlignment.LEFT_LITERAL;
 
@@ -56,16 +56,14 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalAlignment()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected HorizontalAlignment horizontalAlignment = HORIZONTAL_ALIGNMENT_EDEFAULT;
 
     /**
      * This is true if the Horizontal Alignment attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean horizontalAlignmentESet = false;
 
@@ -74,8 +72,7 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalAlignment()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final VerticalAlignment VERTICAL_ALIGNMENT_EDEFAULT = VerticalAlignment.TOP_LITERAL;
 
@@ -84,16 +81,14 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalAlignment()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected VerticalAlignment verticalAlignment = VERTICAL_ALIGNMENT_EDEFAULT;
 
     /**
      * This is true if the Vertical Alignment attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean verticalAlignmentESet = false;
 
@@ -322,11 +317,23 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
     }
 
     /**
+     * A convenient method to create a new TextAlignment instance and initialize its members
+     * 
+     * @return
+     */
+    public static final TextAlignment create()
+    {
+        final TextAlignment ta = AttributeFactory.eINSTANCE.createTextAlignment();
+        ((TextAlignmentImpl) ta).initialize();
+        return ta;
+    }
+
+    /**
      * Resets all member variables within this object recursively
      * 
      * Note: Manually written
      */
-    public final void initialize()
+    protected final void initialize()
     {
         setHorizontalAlignment(HorizontalAlignment.LEFT_LITERAL);
         setVerticalAlignment(VerticalAlignment.TOP_LITERAL);

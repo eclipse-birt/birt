@@ -37,8 +37,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries()
- * @model
- * @generated
+ * @model @generated
  */
 public interface LineSeries extends Series
 {

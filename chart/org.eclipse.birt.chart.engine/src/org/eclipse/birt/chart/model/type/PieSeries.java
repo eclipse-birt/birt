@@ -42,8 +42,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries()
- * @model
- * @generated
+ * @model @generated
  */
 public interface PieSeries extends Series
 {

@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScaleUnitType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class ScaleUnitType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #SECONDS_LITERAL
      * @model name="Seconds"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SECONDS = 0;
 
@@ -47,8 +45,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #MINUTES_LITERAL
      * @model name="Minutes"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int MINUTES = 1;
 
@@ -57,8 +54,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #HOURS_LITERAL
      * @model name="Hours"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int HOURS = 2;
 
@@ -67,8 +63,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #DAYS_LITERAL
      * @model name="Days"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DAYS = 3;
 
@@ -77,8 +72,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #WEEKS_LITERAL
      * @model name="Weeks"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int WEEKS = 4;
 
@@ -87,8 +81,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #MONTHS_LITERAL
      * @model name="Months"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int MONTHS = 5;
 
@@ -97,8 +90,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * 
      * @see #YEARS_LITERAL
      * @model name="Years"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int YEARS = 6;
 
@@ -111,8 +103,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SECONDS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType SECONDS_LITERAL = new ScaleUnitType(SECONDS, "Seconds");
 
@@ -125,8 +116,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MINUTES
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType MINUTES_LITERAL = new ScaleUnitType(MINUTES, "Minutes");
 
@@ -139,8 +129,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #HOURS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType HOURS_LITERAL = new ScaleUnitType(HOURS, "Hours");
 
@@ -153,8 +142,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DAYS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType DAYS_LITERAL = new ScaleUnitType(DAYS, "Days");
 
@@ -167,8 +155,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #WEEKS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType WEEKS_LITERAL = new ScaleUnitType(WEEKS, "Weeks");
 
@@ -181,8 +168,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MONTHS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType MONTHS_LITERAL = new ScaleUnitType(MONTHS, "Months");
 
@@ -195,8 +181,7 @@ public final class ScaleUnitType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #YEARS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ScaleUnitType YEARS_LITERAL = new ScaleUnitType(YEARS, "Years");
 

@@ -79,8 +79,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getChildren()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList children = null;
 
@@ -89,8 +88,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getBounds()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Bounds bounds = null;
 
@@ -99,8 +97,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Anchor ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
@@ -109,16 +106,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Anchor anchor = ANCHOR_EDEFAULT;
 
     /**
      * This is true if the Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean anchorESet = false;
 
@@ -127,8 +122,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getStretch()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Stretch STRETCH_EDEFAULT = Stretch.HORIZONTAL_LITERAL;
 
@@ -137,16 +131,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getStretch()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Stretch stretch = STRETCH_EDEFAULT;
 
     /**
      * This is true if the Stretch attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean stretchESet = false;
 
@@ -155,8 +147,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getInsets()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Insets insets = null;
 
@@ -165,8 +156,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * -->
      * 
      * @see #getRow()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int ROW_EDEFAULT = 0;
 
@@ -175,16 +165,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * -->
      * 
      * @see #getRow()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int row = ROW_EDEFAULT;
 
     /**
      * This is true if the Row attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean rowESet = false;
 
@@ -193,8 +181,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumn()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int COLUMN_EDEFAULT = 0;
 
@@ -203,16 +190,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumn()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int column = COLUMN_EDEFAULT;
 
     /**
      * This is true if the Column attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean columnESet = false;
 
@@ -221,8 +206,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getRowspan()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int ROWSPAN_EDEFAULT = 0;
 
@@ -231,16 +215,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getRowspan()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int rowspan = ROWSPAN_EDEFAULT;
 
     /**
      * This is true if the Rowspan attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean rowspanESet = false;
 
@@ -249,8 +231,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumnspan()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int COLUMNSPAN_EDEFAULT = 0;
 
@@ -259,16 +240,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #getColumnspan()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int columnspan = COLUMNSPAN_EDEFAULT;
 
     /**
      * This is true if the Columnspan attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean columnspanESet = false;
 
@@ -277,8 +256,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * --> <!-- end-user-doc -->
      * 
      * @see #getMinSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Size minSize = null;
 
@@ -287,8 +265,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes outline = null;
 
@@ -297,8 +274,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBackground()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Fill background = null;
 
@@ -307,8 +283,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = false;
 
@@ -317,16 +292,14 @@ public class BlockImpl extends EObjectImpl implements Block
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visibleESet = false;
 
@@ -335,8 +308,7 @@ public class BlockImpl extends EObjectImpl implements Block
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getTriggers()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList triggers = null;
 

@@ -463,23 +463,18 @@ public abstract class BaseRenderer
             }
         }
         else
-        // USE PREVIOUSLY COMPUTED POSITION IN THE GENERATOR FOR LEGEND 'INSIDE'
-        // PLOT
+        // USE PREVIOUSLY COMPUTED POSITION IN THE GENERATOR FOR LEGEND 'INSIDE' PLOT
         {
             dX = bo.getLeft();
             dY = bo.getTop();
-            sz = SizeImpl.create(bo.getWidth(), bo.getHeight()); // 'bo'
-            // ALREADY
-            // SCALED
+            sz = SizeImpl.create(bo.getWidth(), bo.getHeight()); // 'bo' ALREADY SCALED
         }
 
         // RENDER THE LEGEND CLIENT AREA
         final ClientArea ca = lg.getClientArea();
         LineAttributes lia = ca.getOutline();
         bo = BoundsImpl.create(dX, dY, sz.getWidth(), sz.getHeight());
-        bo = bo.adjustedInstance(lg.getInsets().scaledInstance(dScale)); // SHRINK
-        // BY
-        // INSETS
+        bo = bo.adjustedInstance(lg.getInsets().scaledInstance(dScale)); // SHRINK BY INSETS
         dX = bo.getLeft();
         dY = bo.getTop();
 
@@ -508,9 +503,7 @@ public abstract class BaseRenderer
         final double dHorizontalSpacing = 4;
         final double dVerticalSpacing = 4;
         double dSeparatorThickness = lia.getThickness();
-        final LinkedHashMap htSeriesGroups = new LinkedHashMap(); // ORDER OF
-        // KEYS IS
-        // IMPORTANT
+        final LinkedHashMap htSeriesGroups = new LinkedHashMap(); // ORDER OF KEYS IS IMPORTANT
         Insets insCA = ca.getInsets().scaledInstance(xs.getDpiResolution() / 72d);
 
         String sRC, sSI;
@@ -531,19 +524,16 @@ public abstract class BaseRenderer
                 SeriesDefinition sdBase = null;
                 if (cm instanceof ChartWithAxes)
                 {
-                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR
-                    // NOW
+                    // ONLY SUPPORT 1 BASE AXIS FOR NOW
+                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0];
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
                         return; // NOTHING TO RENDER
                         //throw new RenderingException("The primary base axis
                         // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0);
                 }
                 else if (cm instanceof ChartWithoutAxes)
                 {
@@ -553,19 +543,11 @@ public abstract class BaseRenderer
                         //throw new RenderingException("The primary base axis
                         // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0);
                 }
-                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO
-                // ASSUME
-                // THAT 1
-                // BASE
-                // RUNTIME
-                // SERIES
-                // EXISTS
+                // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+                seBase = (Series) sdBase.getRunTimeSeries().get(0);
                 pa = sdBase.getSeriesPalette();
                 elPaletteEntries = pa.getEntries();
                 iPaletteCount = elPaletteEntries.size();
@@ -1080,8 +1062,7 @@ public abstract class BaseRenderer
      * @param cm
      * @param oComputations
      * 
-     * @return
-     * 
+     * @return 
      * @throws PluginException
      */
     public static final BaseRenderer[] instances(Chart cm, Object oComputations) throws PluginException
@@ -1327,9 +1308,10 @@ public abstract class BaseRenderer
             if (fDarker instanceof ColorDefinition)
             {
                 fDarker = ((ColorDefinition) fDarker).darker();
-                ColorDefinition cdD = (ColorDefinition) fDarker;
-                System.out.println("darker Creating color " + cdD.getRed() + ", " + cdD.getGreen() + ", "
-                    + cdD.getBlue());
+                /*
+                 * ColorDefinition cdD = (ColorDefinition) fDarker; System.out.println("darker Creating color " +
+                 * cdD.getRed() + ", " + cdD.getGreen() + ", " + cdD.getBlue());
+                 */
             }
             fBrighter = f;
             if (fBrighter instanceof ColorDefinition)

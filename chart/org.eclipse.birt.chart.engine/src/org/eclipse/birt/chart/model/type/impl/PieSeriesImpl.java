@@ -67,8 +67,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * end-user-doc -->
      * 
      * @see #getExplosion()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int EXPLOSION_EDEFAULT = 0;
 
@@ -77,16 +76,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * end-user-doc -->
      * 
      * @see #getExplosion()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int explosion = EXPLOSION_EDEFAULT;
 
     /**
      * This is true if the Explosion attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean explosionESet = false;
 
@@ -95,8 +92,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * <!-- end-user-doc -->
      * 
      * @see #getTitle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label title = null;
 
@@ -105,8 +101,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * --> <!-- end-user-doc -->
      * 
      * @see #getTitlePosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -115,16 +110,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * --> <!-- end-user-doc -->
      * 
      * @see #getTitlePosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position titlePosition = TITLE_POSITION_EDEFAULT;
 
     /**
      * This is true if the Title Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean titlePositionESet = false;
 
@@ -133,8 +126,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLeaderLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes leaderLineAttributes = null;
 
@@ -143,8 +135,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLeaderLineStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final LeaderLineStyle LEADER_LINE_STYLE_EDEFAULT = LeaderLineStyle.FIXED_LENGTH_LITERAL;
 
@@ -153,16 +144,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLeaderLineStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LeaderLineStyle leaderLineStyle = LEADER_LINE_STYLE_EDEFAULT;
 
     /**
      * This is true if the Leader Line Style attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean leaderLineStyleESet = false;
 
@@ -171,8 +160,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLeaderLineLength()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double LEADER_LINE_LENGTH_EDEFAULT = 0.0;
 
@@ -181,16 +169,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLeaderLineLength()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double leaderLineLength = LEADER_LINE_LENGTH_EDEFAULT;
 
     /**
      * This is true if the Leader Line Length attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean leaderLineLengthESet = false;
 
@@ -199,8 +185,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSliceOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition sliceOutline = null;
 

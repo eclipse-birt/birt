@@ -34,8 +34,7 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue()
- * @model
- * @generated
+ * @model @generated
  */
 public interface URLValue extends ActionValue
 {

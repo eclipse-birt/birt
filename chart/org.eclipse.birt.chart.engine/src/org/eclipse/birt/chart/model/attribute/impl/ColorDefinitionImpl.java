@@ -44,8 +44,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * <!-- end-user-doc -->
      * 
      * @see #getTransparency()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int TRANSPARENCY_EDEFAULT = 0;
 
@@ -54,16 +53,14 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * <!-- end-user-doc -->
      * 
      * @see #getTransparency()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int transparency = TRANSPARENCY_EDEFAULT;
 
     /**
      * This is true if the Transparency attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean transparencyESet = false;
 
@@ -72,8 +69,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * -->
      * 
      * @see #getRed()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int RED_EDEFAULT = 0;
 
@@ -82,16 +78,14 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * -->
      * 
      * @see #getRed()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int red = RED_EDEFAULT;
 
     /**
      * This is true if the Red attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean redESet = false;
 
@@ -100,8 +94,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * end-user-doc -->
      * 
      * @see #getGreen()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int GREEN_EDEFAULT = 0;
 
@@ -110,16 +103,14 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * end-user-doc -->
      * 
      * @see #getGreen()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int green = GREEN_EDEFAULT;
 
     /**
      * This is true if the Green attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean greenESet = false;
 
@@ -128,8 +119,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * end-user-doc -->
      * 
      * @see #getBlue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int BLUE_EDEFAULT = 0;
 
@@ -138,16 +128,14 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
      * -->
      * 
      * @see #getBlue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int blue = BLUE_EDEFAULT;
 
     /**
      * This is true if the Blue attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean blueESet = false;
 

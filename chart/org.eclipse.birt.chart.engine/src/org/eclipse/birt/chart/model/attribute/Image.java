@@ -28,8 +28,7 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getImage()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Image extends Fill
 {

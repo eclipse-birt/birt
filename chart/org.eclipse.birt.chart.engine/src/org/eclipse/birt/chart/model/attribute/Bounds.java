@@ -33,8 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getBounds()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Bounds extends EObject
 {

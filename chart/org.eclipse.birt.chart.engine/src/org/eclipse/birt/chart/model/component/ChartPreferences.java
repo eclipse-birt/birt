@@ -33,8 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences()
- * @model
- * @generated
+ * @model @generated
  */
 public interface ChartPreferences extends EObject
 {

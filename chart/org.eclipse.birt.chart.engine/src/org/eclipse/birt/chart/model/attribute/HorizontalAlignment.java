@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getHorizontalAlignment()
- * @model
- * @generated
+ * @model @generated
  */
 public final class HorizontalAlignment extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * 
      * @see #LEFT_LITERAL
      * @model name="Left"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LEFT = 0;
 
@@ -47,8 +45,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * 
      * @see #CENTER_LITERAL
      * @model name="Center"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CENTER = 1;
 
@@ -57,8 +54,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * 
      * @see #RIGHT_LITERAL
      * @model name="Right"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int RIGHT = 2;
 
@@ -71,8 +67,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEFT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final HorizontalAlignment LEFT_LITERAL = new HorizontalAlignment(LEFT, "Left");
 
@@ -85,8 +80,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CENTER
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final HorizontalAlignment CENTER_LITERAL = new HorizontalAlignment(CENTER, "Center");
 
@@ -99,8 +93,7 @@ public final class HorizontalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RIGHT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final HorizontalAlignment RIGHT_LITERAL = new HorizontalAlignment(RIGHT, "Right");
 

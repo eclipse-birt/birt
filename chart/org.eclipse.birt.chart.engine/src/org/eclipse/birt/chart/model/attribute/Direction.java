@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDirection()
- * @model
- * @generated
+ * @model @generated
  */
 public final class Direction extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class Direction extends AbstractEnumerator
      * 
      * @see #LEFT_RIGHT_LITERAL
      * @model name="Left_Right"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LEFT_RIGHT = 0;
 
@@ -47,8 +45,7 @@ public final class Direction extends AbstractEnumerator
      * 
      * @see #TOP_BOTTOM_LITERAL
      * @model name="Top_Bottom"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TOP_BOTTOM = 1;
 
@@ -61,8 +58,7 @@ public final class Direction extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEFT_RIGHT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Direction LEFT_RIGHT_LITERAL = new Direction(LEFT_RIGHT, "Left_Right");
 
@@ -75,8 +71,7 @@ public final class Direction extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TOP_BOTTOM
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Direction TOP_BOTTOM_LITERAL = new Direction(TOP_BOTTOM, "Top_Bottom");
 

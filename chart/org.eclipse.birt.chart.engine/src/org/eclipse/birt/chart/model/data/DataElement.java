@@ -25,8 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * 
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDataElement()
- * @model
- * @generated
+ * @model @generated
  */
 public interface DataElement extends EObject
 {

@@ -39,8 +39,7 @@ public class LocationImpl extends EObjectImpl implements Location
      * The default value of the '{@link #getX() <em>X</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getX()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double X_EDEFAULT = 0.0;
 
@@ -48,16 +47,14 @@ public class LocationImpl extends EObjectImpl implements Location
      * The cached value of the '{@link #getX() <em>X</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getX()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double x = X_EDEFAULT;
 
     /**
      * This is true if the X attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean xESet = false;
 
@@ -65,8 +62,7 @@ public class LocationImpl extends EObjectImpl implements Location
      * The default value of the '{@link #getY() <em>Y</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getY()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double Y_EDEFAULT = 0.0;
 
@@ -74,16 +70,14 @@ public class LocationImpl extends EObjectImpl implements Location
      * The cached value of the '{@link #getY() <em>Y</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getY()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double y = Y_EDEFAULT;
 
     /**
      * This is true if the Y attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean yESet = false;
 

@@ -43,8 +43,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final long VALUE_EDEFAULT = 0L;
 
@@ -53,16 +52,14 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected long value = VALUE_EDEFAULT;
 
     /**
      * This is true if the Value attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean valueESet = false;
 

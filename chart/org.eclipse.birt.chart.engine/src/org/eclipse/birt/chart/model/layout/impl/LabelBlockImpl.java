@@ -62,8 +62,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label label = null;
 

@@ -104,8 +104,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static ModelPackage getPackage()
     {

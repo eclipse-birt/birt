@@ -170,12 +170,6 @@ public final class OneAxis
         lia = _la;
     }
 
-    void set(FormatSpecifier _fs, Locale _lcl)
-    {
-        sc.fs = _fs;
-        sc.lcl = _lcl;
-    }
-
     public final LineAttributes getLineAttributes()
     {
         return lia;
@@ -198,7 +192,7 @@ public final class OneAxis
 
     public final FormatSpecifier getFormatSpecifier()
     {
-        return sc.fs;
+        return axModel.getFormatSpecifier();
     }
 
     public final Locale getLocale()

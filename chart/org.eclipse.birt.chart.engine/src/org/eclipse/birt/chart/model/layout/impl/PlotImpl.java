@@ -55,8 +55,7 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
@@ -65,16 +64,14 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Horizontal Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean horizontalSpacingESet = false;
 
@@ -83,8 +80,7 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int VERTICAL_SPACING_EDEFAULT = 0;
 
@@ -93,16 +89,14 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Vertical Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean verticalSpacingESet = false;
 
@@ -111,8 +105,7 @@ public class PlotImpl extends BlockImpl implements Plot
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getClientArea()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ClientArea clientArea = null;
 

@@ -31,8 +31,7 @@ import java.util.Calendar;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier()
- * @model
- * @generated
+ * @model @generated
  */
 public interface JavaDateFormatSpecifier extends FormatSpecifier
 {

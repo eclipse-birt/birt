@@ -42,23 +42,30 @@ import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ScriptHandler;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -245,6 +252,8 @@ public abstract class AxesRenderer extends BaseRenderer
         }
         if (bLastInSequence)
         {
+            final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
+            pw2da.getStackedSeriesLookup().resetSubUnits();
             il.log(ILogger.INFORMATION, "Time to render everything = " + lTimer + " ms");
             htRenderers.remove(TIMER);
         }
@@ -254,8 +263,8 @@ public abstract class AxesRenderer extends BaseRenderer
      * 
      * @param de1
      * @param de2
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     private static final int compare(DataElement de1, DataElement de2) throws DataFormatException
     {
@@ -295,7 +304,52 @@ public abstract class AxesRenderer extends BaseRenderer
     }
 
     /**
-     * Renders all marker ranges associated with all axes (base and orthogonal) in the plot
+     * 
+     * @param anc
+     * @return
+     */
+    private static final TextAlignment anchorToAlignment(Anchor anc)
+    {
+        final TextAlignment ta = TextAlignmentImpl.create(); // SET AS CENTERED HORZ/VERT
+        if (anc == null)
+        {
+            return ta;
+        }
+
+        // SETUP VERTICAL ALIGNMENT
+        switch (anc.getValue())
+        {
+            case Anchor.NORTH:
+            case Anchor.NORTH_EAST:
+            case Anchor.NORTH_WEST:
+                ta.setVerticalAlignment(VerticalAlignment.TOP_LITERAL);
+                break;
+            case Anchor.SOUTH:
+            case Anchor.SOUTH_EAST:
+            case Anchor.SOUTH_WEST:
+                ta.setVerticalAlignment(VerticalAlignment.BOTTOM_LITERAL);
+                break;
+        }
+
+        // SETUP HORIZONTAL ALIGNMENT
+        switch (anc.getValue())
+        {
+            case Anchor.NORTH_EAST:
+            case Anchor.SOUTH_EAST:
+                ta.setHorizontalAlignment(HorizontalAlignment.RIGHT_LITERAL);
+                break;
+            case Anchor.NORTH_WEST:
+            case Anchor.SOUTH_WEST:
+                ta.setHorizontalAlignment(HorizontalAlignment.LEFT_LITERAL);
+                break;
+        }
+
+        return ta;
+    }
+
+    /**
+     * Renders all marker ranges associated with all axes (base and orthogonal) in the plot Marker ranges are drawn
+     * immediately (not rendered as deferred) at an appropriate Z-order immediately after the plot background is drawn.
      * 
      * @param oaxa
      *            An array containing all axes
@@ -319,11 +373,26 @@ public abstract class AxesRenderer extends BaseRenderer
         final Bounds bo = BoundsImpl.create(0, 0, 0, 0);
         final IDeviceRenderer idr = getDevice();
         final ScriptHandler sh = getModel().getScriptHandler();
+        final boolean bTransposed = ((ChartWithAxes) getModel()).isTransposed();
+        final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
+        final StringBuffer sb = new StringBuffer();
+        Bounds boText = BoundsImpl.create(0, 0, 0, 0);
+        Anchor anc = null;
+        Label la = null;
+        Position po;
+        TextRenderEvent tre;
+        Orientation or;
+        double dOriginalAngle = 0;
 
         for (int i = 0; i < iAxisCount; i++)
         {
             ax = oaxa[i].getModelAxis();
             iOrientation = ax.getOrientation().getValue();
+            if (bTransposed) // TOGGLE ORIENTATION
+            {
+                iOrientation = (iOrientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+            }
+
             asc = oaxa[i].getScale();
             el = ax.getMarkerRanges();
             iRangeCount = el.size();
@@ -411,11 +480,79 @@ public abstract class AxesRenderer extends BaseRenderer
                     }
                     bo.set(boPlotClientArea.getLeft(), dMax, boPlotClientArea.getWidth(), dMin - dMax);
                 }
+
+                if (pw2da.getDimension() == IConstants.TWO_5_D)
+                {
+                    if (iOrientation == Orientation.HORIZONTAL)
+                    {
+                        bo.translate(pw2da.getSeriesThickness(), 0);
+                    }
+                    else
+                    {
+                        bo.translate(0, -pw2da.getSeriesThickness());
+                    }
+                }
+
+                // DRAW THE MARKER RANGE (RECTANGULAR AREA)
                 rre.setBounds(bo);
                 rre.setOutline(mr.getOutline());
                 rre.setBackground(mr.getFill());
                 idr.fillRectangle(rre);
                 idr.drawRectangle(rre);
+
+                la = mr.getLabel();
+                if (la.isVisible())
+                {
+                    po = mr.getLabelPosition();
+                    try
+                    {
+                        sb.delete(0, sb.length());
+                        sb.append('[');
+                        sb.append(ValueFormatter.format(deStart, mr.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                        sb.append(" to ");
+                        sb.append(ValueFormatter.format(deEnd, mr.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                        sb.append(']');
+                        la.getCaption().setValue(sb.toString());
+                    }
+                    catch (DataFormatException dfex )
+                    {
+                        throw new RenderingException(dfex);
+                    }
+
+                    // DETERMINE THE LABEL ANCHOR (TRANSPOSE IF NEEDED)
+                    anc = mr.getLabelAnchor();
+                    if (bTransposed)
+                    {
+                        or = ax.getOrientation() == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
+                            : Orientation.HORIZONTAL_LITERAL;
+                        dOriginalAngle = la.getCaption().getFont().getRotation();
+                        try
+                        {
+                            la.getCaption().getFont().setRotation(PlotWith2DAxes.getTransposedAngle(dOriginalAngle));
+                            anc = PlotWith2DAxes.transposedAnchor(or, anc);
+                        }
+                        catch (UnexpectedInputException uiex )
+                        {
+                            throw new RenderingException(uiex);
+                        }
+                    }
+
+                    final BoundingBox bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    boText.set(0, 0, bb.getWidth(), bb.getHeight());
+
+                    // NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
+                    tre = (TextRenderEvent) ((EventObjectCache) idr).getEventObject(mr, TextRenderEvent.class);
+                    tre.setBlockBounds(bo);
+                    tre.setBlockAlignment(anchorToAlignment(anc));
+                    tre.setLabel(la);
+                    tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
+                    idr.drawText(tre);
+
+                    if (bTransposed) // RESTORE ORIGINAL FONT ANGLE IF TRANSPOSED
+                    {
+                        la.getCaption().getFont().setRotation(dOriginalAngle);
+                    }
+                }
 
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_RANGE, ax, mr);
             }
@@ -775,9 +912,7 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 getDeferredCache().flush(); // FLUSH DEFERRED CACHE
             }
-            catch (UnsupportedFeatureException ex ) // NOTE: RENDERING
-            // EXCEPTION ALREADY BEING
-            // THROWN
+            catch (UnsupportedFeatureException ex ) // NOTE: RENDERING EXCEPTION ALREADY BEING THROWN
             {
                 throw new RenderingException(ex);
             }
@@ -804,6 +939,8 @@ public abstract class AxesRenderer extends BaseRenderer
     }
 
     /**
+     * Renders all marker lines (and labels at requested positions) associated with every axis in the plot Note that
+     * marker lines are drawn immediately (not rendered as deferred) at the appropriate Z-order
      * 
      * @param oaxa
      * @param boPlotClientArea
@@ -827,10 +964,23 @@ public abstract class AxesRenderer extends BaseRenderer
         final Location loStart = LocationImpl.create(0, 0);
         final Location loEnd = LocationImpl.create(0, 0);
 
+        Anchor anc;
+        Orientation or;
+        TextRenderEvent tre = null;
+        Label la = null;
+        double dOriginalAngle = 0;
+        final boolean bTransposed = ((ChartWithAxes) getModel()).isTransposed();
+        final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
+        final Bounds boText = BoundsImpl.create(0, 0, 0, 0);
+
         for (int i = 0; i < iAxisCount; i++)
         {
             ax = oaxa[i].getModelAxis();
             iOrientation = ax.getOrientation().getValue();
+            if (bTransposed) // TOGGLE ORIENTATION
+            {
+                iOrientation = (iOrientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+            }
             asc = oaxa[i].getScale();
             el = ax.getMarkerLines();
             iLineCount = el.size();
@@ -845,6 +995,18 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     throw new RenderingException(
                         "Unable to plot a render line for a null value as defined in marker line " + ml);
+                }
+
+                // UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
+                la = ml.getLabel();
+                try
+                {
+                    la.getCaption().setValue(
+                        ValueFormatter.format(deValue, ml.getFormatSpecifier(), oaxa[i].getLocale(), null));
+                }
+                catch (DataFormatException dfex )
+                {
+                    throw new RenderingException(dfex);
                 }
 
                 // COMPUTE THE LOCATION
@@ -896,11 +1058,169 @@ public abstract class AxesRenderer extends BaseRenderer
                     loStart.set(boPlotClientArea.getLeft(), dCoordinate);
                     loEnd.set(boPlotClientArea.getLeft() + boPlotClientArea.getWidth(), dCoordinate);
                 }
+
+                // ADJUST FOR 2D PLOTS AS NEEDED
+                if (pw2da.getDimension() == IConstants.TWO_5_D)
+                {
+                    if (iOrientation == Orientation.HORIZONTAL)
+                    {
+                        loStart.translate(0, pw2da.getSeriesThickness());
+                        loEnd.translate(0, pw2da.getSeriesThickness());
+                    }
+                    else
+                    {
+                        loStart.translate(-pw2da.getSeriesThickness(), 0);
+                        loEnd.translate(-pw2da.getSeriesThickness(), 0);
+                    }
+                }
+
+                // DRAW THE MARKER LINE
                 lre.setStart(loStart);
                 lre.setEnd(loEnd);
                 lre.setLineAttributes(ml.getLineAttributes());
                 idr.drawLine(lre);
 
+                // DRAW THE MARKER LINE LABEL AT THE APPROPRIATE LOCATION
+                if (la.isVisible())
+                {
+                    // DETERMINE THE LABEL ANCHOR (TRANSPOSE IF NEEDED)
+                    anc = ml.getLabelAnchor();
+                    if (bTransposed)
+                    {
+                        or = ax.getOrientation() == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
+                            : Orientation.HORIZONTAL_LITERAL;
+                        la = ml.getLabel();
+                        dOriginalAngle = la.getCaption().getFont().getRotation();
+                        try
+                        {
+                            la.getCaption().getFont().setRotation(PlotWith2DAxes.getTransposedAngle(dOriginalAngle));
+                            anc = PlotWith2DAxes.transposedAnchor(or, anc);
+                        }
+                        catch (UnexpectedInputException uiex )
+                        {
+                            throw new RenderingException(uiex);
+                        }
+                    }
+
+                    final BoundingBox bb = Methods.computeBox(idr.getDisplayServer(), IConstants.LEFT, la, 0, 0);
+                    boText.set(0, 0, bb.getWidth(), bb.getHeight());
+
+                    if (iOrientation == Orientation.VERTICAL)
+                    {
+                        if (anc != null)
+                        {
+                            switch (anc.getValue())
+                            {
+                                case Anchor.NORTH:
+                                case Anchor.NORTH_EAST:
+                                case Anchor.NORTH_WEST:
+                                    boText.setTop(loStart.getY() - boText.getHeight());
+                                    break;
+
+                                case Anchor.SOUTH:
+                                case Anchor.SOUTH_EAST:
+                                case Anchor.SOUTH_WEST:
+                                    boText.setTop(loStart.getY());
+                                    break;
+
+                                default:
+                                    boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight())
+                                        / 2);
+                                    break;
+                            }
+
+                            switch (anc.getValue())
+                            {
+                                case Anchor.NORTH_EAST:
+                                case Anchor.SOUTH_EAST:
+                                case Anchor.EAST:
+                                    boText.setLeft(loEnd.getX() - boText.getWidth());
+                                    break;
+
+                                case Anchor.NORTH_WEST:
+                                case Anchor.SOUTH_WEST:
+                                case Anchor.WEST:
+                                    boText.setLeft(loStart.getX());
+                                    break;
+
+                                default:
+                                    boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth())
+                                        / 2);
+                                    break;
+                            }
+                        }
+                        else
+                        // CENTER ANCHORED
+                        {
+                            boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
+                            boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
+                        }
+                    }
+                    else
+                    {
+                        if (anc != null)
+                        {
+                            switch (anc.getValue())
+                            {
+                                case Anchor.NORTH:
+                                case Anchor.NORTH_EAST:
+                                case Anchor.NORTH_WEST:
+                                    boText.setTop(loStart.getY());
+                                    break;
+
+                                case Anchor.SOUTH:
+                                case Anchor.SOUTH_EAST:
+                                case Anchor.SOUTH_WEST:
+                                    boText.setTop(loEnd.getY() - boText.getHeight());
+                                    break;
+
+                                default:
+                                    boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight())
+                                        / 2);
+                                    break;
+                            }
+
+                            switch (anc.getValue())
+                            {
+                                case Anchor.NORTH_EAST:
+                                case Anchor.SOUTH_EAST:
+                                case Anchor.EAST:
+                                    boText.setLeft(loStart.getX());
+                                    break;
+
+                                case Anchor.NORTH_WEST:
+                                case Anchor.SOUTH_WEST:
+                                case Anchor.WEST:
+                                    boText.setLeft(loEnd.getX() - boText.getWidth());
+                                    break;
+
+                                default:
+                                    boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth())
+                                        / 2);
+                                    break;
+                            }
+                        }
+                        else
+                        // CENTER ANCHORED
+                        {
+                            boText.setLeft(loStart.getX() + (loEnd.getX() - loStart.getX() - boText.getWidth()) / 2);
+                            boText.setTop(loStart.getY() + (loEnd.getY() - loStart.getY() - boText.getHeight()) / 2);
+                        }
+                    }
+
+                    // NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
+                    tre = (TextRenderEvent) ((EventObjectCache) idr).getEventObject(ml, TextRenderEvent.class);
+                    tre.setBlockBounds(boText);
+                    tre.setBlockAlignment(null);
+                    tre.setLabel(la);
+                    tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
+                    idr.drawText(tre);
+
+                    if (bTransposed) // RESTORE FONT ANGLE IF TRANSPOSED
+                    {
+                        la.getCaption().getFont().setRotation(dOriginalAngle);
+                    }
+                }
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_MARKER_LINE, ax, ml);
             }
         }
@@ -939,7 +1259,7 @@ public abstract class AxesRenderer extends BaseRenderer
         int iDimension = pwa.getDimension();
         double dSeriesThickness = pwa.getSeriesThickness();
         final NumberDataElement nde = NumberDataElementImpl.create(0);
-        final FormatSpecifier fs = ax.getFormatSpecifier();
+        final FormatSpecifier fs = ax.getModelAxis().getFormatSpecifier();
 
         DecimalFormat df = null;
 
@@ -1257,7 +1577,10 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 double dAxisValue = Methods.asDouble(sc.getMinimum()).doubleValue();
                 final double dAxisStep = Methods.asDouble(sc.getStep()).doubleValue();
-                df = new DecimalFormat(sc.getNumericPattern());
+                if (fs == null)
+                {
+                    df = new DecimalFormat(sc.getNumericPattern());
+                }
 
                 if (bLabelShadowEnabled)
                 {
@@ -1344,7 +1667,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 final int iUnit = Methods.asInteger(sc.getUnit());
                 final int iStep = Methods.asInteger(sc.getStep());
                 SimpleDateFormat sdf = null;
-                if (ax.getFormatSpecifier() == null)
+                if (fs == null)
                 {
                     sdf = new SimpleDateFormat(CDateTime.getPreferredFormat(iUnit));
                 }
@@ -1643,7 +1966,7 @@ public abstract class AxesRenderer extends BaseRenderer
             {
                 double dAxisValue = Methods.asDouble(sc.getMinimum()).doubleValue();
                 final double dAxisStep = Methods.asDouble(sc.getStep()).doubleValue();
-                if (ax.getFormatSpecifier() == null)
+                if (fs == null)
                 {
                     df = new DecimalFormat(sc.getNumericPattern());
                 }
@@ -1737,7 +2060,7 @@ public abstract class AxesRenderer extends BaseRenderer
                         double y = (iLabelLocation == IConstants.ABOVE) ? dYTick1 - 1 : dYTick2 + 1;
                         for (int i = 0; i < da.length; i++)
                         {
-                            if (ax.getFormatSpecifier() == null)
+                            if (fs == null)
                             {
                                 df = new DecimalFormat(sc.getNumericPattern(dAxisValue));
                             }
@@ -1787,7 +2110,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
                     if (bRenderAxisLabels) // OPTIMIZED: ONLY PROCESS IF AXES LABELS ARE VISIBLE OR REQUESTED FOR
                     {
-                        if (ax.getFormatSpecifier() == null)
+                        if (fs == null)
                         {
                             df = new DecimalFormat(sc.getNumericPattern(dAxisValue));
                         }
@@ -1818,7 +2141,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 final int iStep = Methods.asInteger(sc.getStep());
                 SimpleDateFormat sdf = null;
 
-                if (ax.getFormatSpecifier() == null)
+                if (fs == null)
                 {
                     sdf = new SimpleDateFormat(CDateTime.getPreferredFormat(iUnit));
                 }

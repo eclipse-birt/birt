@@ -43,8 +43,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String PATTERN_EDEFAULT = null;
 
@@ -53,8 +52,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
      * end-user-doc -->
      * 
      * @see #getPattern()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String pattern = PATTERN_EDEFAULT;
 

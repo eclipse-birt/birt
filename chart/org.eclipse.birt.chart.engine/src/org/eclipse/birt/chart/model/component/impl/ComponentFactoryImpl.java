@@ -174,8 +174,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static ComponentPackage getPackage()
     {

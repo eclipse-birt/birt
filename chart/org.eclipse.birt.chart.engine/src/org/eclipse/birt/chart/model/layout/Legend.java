@@ -44,8 +44,7 @@ import org.eclipse.birt.chart.model.attribute.Text;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Legend extends Block
 {

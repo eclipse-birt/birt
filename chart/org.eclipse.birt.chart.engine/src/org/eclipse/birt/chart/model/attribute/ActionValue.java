@@ -25,8 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * 
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getActionValue()
- * @model
- * @generated
+ * @model @generated
  */
 public interface ActionValue extends EObject
 {

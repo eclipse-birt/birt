@@ -52,11 +52,9 @@ public final class ValueFormatter
             return null;
         }
 
-        if (fs == null) // IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE
-        // VALUE
+        if (fs == null) // IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE VALUE
         {
-            if (oCachedJavaFormatter != null) // CHECK IF AN INTERNAL JAVA
-            // FORMAT SPECIFIER WAS COMPUTED
+            if (oCachedJavaFormatter != null) // CHECK IF AN INTERNAL JAVA FORMAT SPECIFIER WAS COMPUTED
             {
                 if (oValue instanceof Double)
                 {
@@ -92,6 +90,17 @@ public final class ValueFormatter
                     }
                 }
             }
+            else
+            {
+                if (oValue instanceof NumberDataElement)
+                {
+                    return String.valueOf(((NumberDataElement) oValue).getValue());
+                }
+                else if (oValue instanceof DateTimeDataElement)
+                {
+                    return String.valueOf(((DateTimeDataElement) oValue).getValueAsCalendar());
+                }
+            }
         }
         else if (NumberFormatSpecifier.class.isInstance(fs))
         {
@@ -115,14 +124,25 @@ public final class ValueFormatter
             final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
             return jdfs.format(asCalendar(oValue));
         }
+        else
+        {
+            if (oValue instanceof NumberDataElement)
+            {
+                return String.valueOf(((NumberDataElement) oValue).getValue());
+            }
+            else if (oValue instanceof DateTimeDataElement)
+            {
+                return String.valueOf(((DateTimeDataElement) oValue).getValueAsCalendar());
+            }
+        }
         return oValue.toString();
     }
 
     /**
      * 
      * @param o
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     private static final double asPrimitiveDouble(Object o) throws DataFormatException
     {
@@ -140,8 +160,8 @@ public final class ValueFormatter
     /**
      * 
      * @param o
-     * @return
-     * @throws DataFormatException
+     * @return @throws
+     *         DataFormatException
      */
     private static final Calendar asCalendar(Object o) throws DataFormatException
     {

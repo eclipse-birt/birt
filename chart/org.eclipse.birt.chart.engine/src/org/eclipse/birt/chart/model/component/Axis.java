@@ -59,8 +59,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Axis extends EObject
 {

@@ -41,8 +41,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String DATA_SET_REPRESENTATION_EDEFAULT = null;
 
@@ -51,8 +50,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String dataSetRepresentation = DATA_SET_REPRESENTATION_EDEFAULT;
 

@@ -52,8 +52,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String NAME_EDEFAULT = null;
 
@@ -62,8 +61,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String name = NAME_EDEFAULT;
 
@@ -72,8 +70,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #getSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final float SIZE_EDEFAULT = 0.0F;
 
@@ -82,16 +79,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * -->
      * 
      * @see #getSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected float size = SIZE_EDEFAULT;
 
     /**
      * This is true if the Size attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean sizeESet = false;
 
@@ -100,8 +95,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * -->
      * 
      * @see #isBold()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean BOLD_EDEFAULT = false;
 
@@ -110,16 +104,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * -->
      * 
      * @see #isBold()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean bold = BOLD_EDEFAULT;
 
     /**
      * This is true if the Bold attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean boldESet = false;
 
@@ -128,8 +120,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isItalic()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean ITALIC_EDEFAULT = false;
 
@@ -138,16 +129,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isItalic()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean italic = ITALIC_EDEFAULT;
 
     /**
      * This is true if the Italic attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean italicESet = false;
 
@@ -156,8 +145,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * <!-- end-user-doc -->
      * 
      * @see #isStrikethrough()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean STRIKETHROUGH_EDEFAULT = false;
 
@@ -166,16 +154,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * <!-- end-user-doc -->
      * 
      * @see #isStrikethrough()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean strikethrough = STRIKETHROUGH_EDEFAULT;
 
     /**
      * This is true if the Strikethrough attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean strikethroughESet = false;
 
@@ -184,8 +170,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isUnderline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean UNDERLINE_EDEFAULT = false;
 
@@ -194,16 +179,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isUnderline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean underline = UNDERLINE_EDEFAULT;
 
     /**
      * This is true if the Underline attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean underlineESet = false;
 
@@ -212,8 +195,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isWordWrap()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean WORD_WRAP_EDEFAULT = false;
 
@@ -222,16 +204,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #isWordWrap()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean wordWrap = WORD_WRAP_EDEFAULT;
 
     /**
      * This is true if the Word Wrap attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean wordWrapESet = false;
 
@@ -240,8 +220,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * --> <!-- end-user-doc -->
      * 
      * @see #getAlignment()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected TextAlignment alignment = null;
 
@@ -250,8 +229,7 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #getRotation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double ROTATION_EDEFAULT = 0.0;
 
@@ -260,16 +238,14 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
      * end-user-doc -->
      * 
      * @see #getRotation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double rotation = ROTATION_EDEFAULT;
 
     /**
      * This is true if the Rotation attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean rotationESet = false;
 

@@ -27,8 +27,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPointComponentType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class DataPointComponentType extends AbstractEnumerator
 {
@@ -38,8 +37,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #BASE_VALUE_LITERAL
      * @model name="Base_Value"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int BASE_VALUE = 0;
 
@@ -48,8 +46,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #ORTHOGONAL_VALUE_LITERAL
      * @model name="Orthogonal_Value"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int ORTHOGONAL_VALUE = 1;
 
@@ -58,8 +55,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * 
      * @see #SERIES_VALUE_LITERAL
      * @model name="Series_Value"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SERIES_VALUE = 2;
 
@@ -72,8 +68,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BASE_VALUE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DataPointComponentType BASE_VALUE_LITERAL = new DataPointComponentType(BASE_VALUE, "Base_Value");
 
@@ -86,8 +81,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ORTHOGONAL_VALUE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DataPointComponentType ORTHOGONAL_VALUE_LITERAL = new DataPointComponentType(ORTHOGONAL_VALUE,
         "Orthogonal_Value");
@@ -101,8 +95,7 @@ public final class DataPointComponentType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES_VALUE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DataPointComponentType SERIES_VALUE_LITERAL = new DataPointComponentType(SERIES_VALUE,
         "Series_Value");

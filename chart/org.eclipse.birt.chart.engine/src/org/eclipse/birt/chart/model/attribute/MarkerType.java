@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarkerType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class MarkerType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #CROSSHAIR_LITERAL
      * @model name="Crosshair"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CROSSHAIR = 0;
 
@@ -47,8 +45,7 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #TRIANGLE_LITERAL
      * @model name="Triangle"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TRIANGLE = 1;
 
@@ -57,8 +54,7 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #BOX_LITERAL
      * @model name="Box"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int BOX = 2;
 
@@ -67,8 +63,7 @@ public final class MarkerType extends AbstractEnumerator
      * 
      * @see #CIRCLE_LITERAL
      * @model name="Circle"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CIRCLE = 3;
 
@@ -81,8 +76,7 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CROSSHAIR
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final MarkerType CROSSHAIR_LITERAL = new MarkerType(CROSSHAIR, "Crosshair");
 
@@ -95,8 +89,7 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TRIANGLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final MarkerType TRIANGLE_LITERAL = new MarkerType(TRIANGLE, "Triangle");
 
@@ -109,8 +102,7 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BOX
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final MarkerType BOX_LITERAL = new MarkerType(BOX, "Box");
 
@@ -123,8 +115,7 @@ public final class MarkerType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CIRCLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final MarkerType CIRCLE_LITERAL = new MarkerType(CIRCLE, "Circle");
 

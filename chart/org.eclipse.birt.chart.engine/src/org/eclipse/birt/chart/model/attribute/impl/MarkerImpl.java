@@ -41,8 +41,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final MarkerType TYPE_EDEFAULT = MarkerType.CROSSHAIR_LITERAL;
 
@@ -51,16 +50,14 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected MarkerType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -69,8 +66,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * end-user-doc -->
      * 
      * @see #getSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int SIZE_EDEFAULT = 0;
 
@@ -79,16 +75,14 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * -->
      * 
      * @see #getSize()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int size = SIZE_EDEFAULT;
 
     /**
      * This is true if the Size attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean sizeESet = false;
 
@@ -97,8 +91,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = false;
 
@@ -107,16 +100,14 @@ public class MarkerImpl extends EObjectImpl implements Marker
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visibleESet = false;
 

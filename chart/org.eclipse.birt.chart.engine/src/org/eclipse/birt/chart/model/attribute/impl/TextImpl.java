@@ -46,8 +46,7 @@ public class TextImpl extends EObjectImpl implements Text
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String VALUE_EDEFAULT = null;
 
@@ -56,8 +55,7 @@ public class TextImpl extends EObjectImpl implements Text
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String value = VALUE_EDEFAULT;
 
@@ -66,8 +64,7 @@ public class TextImpl extends EObjectImpl implements Text
      * end-user-doc -->
      * 
      * @see #getFont()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FontDefinition font = null;
 
@@ -76,8 +73,7 @@ public class TextImpl extends EObjectImpl implements Text
      * <!-- end-user-doc -->
      * 
      * @see #getColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition color = null;
 

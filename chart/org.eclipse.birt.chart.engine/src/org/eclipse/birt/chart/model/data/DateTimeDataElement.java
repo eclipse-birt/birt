@@ -33,8 +33,7 @@ import org.eclipse.birt.chart.util.CDateTime;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDateTimeDataElement()
- * @model
- * @generated
+ * @model @generated
  */
 public interface DateTimeDataElement extends DataElement
 {

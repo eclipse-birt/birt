@@ -47,8 +47,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabels()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList labels = null;
 
@@ -57,8 +56,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
      * --> <!-- end-user-doc -->
      * 
      * @see #getBlocks()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList blocks = null;
 

@@ -74,8 +74,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
@@ -84,16 +83,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getHorizontalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Horizontal Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean horizontalSpacingESet = false;
 
@@ -102,8 +99,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int VERTICAL_SPACING_EDEFAULT = 0;
 
@@ -112,16 +108,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getVerticalSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 
     /**
      * This is true if the Vertical Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean verticalSpacingESet = false;
 
@@ -130,8 +124,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getClientArea()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ClientArea clientArea = null;
 
@@ -140,8 +133,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getText()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Text text = null;
 
@@ -150,8 +142,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
@@ -160,16 +151,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Orientation orientation = ORIENTATION_EDEFAULT;
 
     /**
      * This is true if the Orientation attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean orientationESet = false;
 
@@ -178,8 +167,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Direction DIRECTION_EDEFAULT = Direction.LEFT_RIGHT_LITERAL;
 
@@ -188,16 +176,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Direction direction = DIRECTION_EDEFAULT;
 
     /**
      * This is true if the Direction attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean directionESet = false;
 
@@ -206,8 +192,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * --> <!-- end-user-doc -->
      * 
      * @see #getSeparator()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes separator = null;
 
@@ -216,8 +201,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -226,16 +210,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position position = POSITION_EDEFAULT;
 
     /**
      * This is true if the Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean positionESet = false;
 
@@ -244,8 +226,7 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getItemType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final LegendItemType ITEM_TYPE_EDEFAULT = LegendItemType.SERIES_LITERAL;
 
@@ -254,16 +235,14 @@ public class LegendImpl extends BlockImpl implements Legend
      * end-user-doc -->
      * 
      * @see #getItemType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LegendItemType itemType = ITEM_TYPE_EDEFAULT;
 
     /**
      * This is true if the Item Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean itemTypeESet = false;
 

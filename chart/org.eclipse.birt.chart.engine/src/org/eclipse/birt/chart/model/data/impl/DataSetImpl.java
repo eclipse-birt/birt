@@ -38,8 +38,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
      * end-user-doc -->
      * 
      * @see #getValues()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Object VALUES_EDEFAULT = null;
 
@@ -48,8 +47,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
      * end-user-doc -->
      * 
      * @see #getValues()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Object values = VALUES_EDEFAULT;
 

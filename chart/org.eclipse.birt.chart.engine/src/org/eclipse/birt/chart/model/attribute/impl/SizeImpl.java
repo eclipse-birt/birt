@@ -40,8 +40,7 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double HEIGHT_EDEFAULT = 0.0;
 
@@ -50,16 +49,14 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getHeight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double height = HEIGHT_EDEFAULT;
 
     /**
      * This is true if the Height attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean heightESet = false;
 
@@ -68,8 +65,7 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double WIDTH_EDEFAULT = 0.0;
 
@@ -78,16 +74,14 @@ public class SizeImpl extends EObjectImpl implements Size
      * end-user-doc -->
      * 
      * @see #getWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double width = WIDTH_EDEFAULT;
 
     /**
      * This is true if the Width attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean widthESet = false;
 

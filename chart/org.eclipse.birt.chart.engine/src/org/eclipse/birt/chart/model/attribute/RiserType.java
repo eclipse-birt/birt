@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRiserType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class RiserType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class RiserType extends AbstractEnumerator
      * 
      * @see #RECTANGLE_LITERAL
      * @model name="Rectangle"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int RECTANGLE = 0;
 
@@ -47,8 +45,7 @@ public final class RiserType extends AbstractEnumerator
      * 
      * @see #TRIANGLE_LITERAL
      * @model name="Triangle"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TRIANGLE = 1;
 
@@ -61,8 +58,7 @@ public final class RiserType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RECTANGLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final RiserType RECTANGLE_LITERAL = new RiserType(RECTANGLE, "Rectangle");
 
@@ -75,8 +71,7 @@ public final class RiserType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TRIANGLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final RiserType TRIANGLE_LITERAL = new RiserType(TRIANGLE, "Triangle");
 

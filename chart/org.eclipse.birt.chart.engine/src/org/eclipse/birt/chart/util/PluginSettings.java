@@ -18,12 +18,12 @@ import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.render.BaseRenderer;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.IConfigurationElement;
+import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.IExtensionPoint;
+import org.eclipse.birt.core.framework.IExtensionRegistry;
+import org.eclipse.birt.core.framework.Platform;
 
 /**
  * This class provides default plugin values for testing the 'engine plugin' in a non-plugin environment
@@ -116,8 +116,7 @@ public final class PluginSettings
      * 
      * @param cSeries
      * 
-     * @return
-     * 
+     * @return 
      * @throws PluginException
      */
     public final IDataSetProcessor getDataSetProcessor(Class cSeries) throws PluginException
@@ -156,8 +155,7 @@ public final class PluginSettings
     /**
      * @param cSeries
      * 
-     * @return
-     * 
+     * @return 
      * @throws PluginException
      */
     public final BaseRenderer getRenderer(Class cSeries) throws PluginException
@@ -200,8 +198,8 @@ public final class PluginSettings
     /**
      * 
      * @param sName
-     * @return
-     * @throws PluginException
+     * @return @throws
+     *         PluginException
      */
     public final IDeviceRenderer getDevice(String sName) throws PluginException
     {
@@ -238,8 +236,8 @@ public final class PluginSettings
     /**
      * 
      * @param sName
-     * @return
-     * @throws PluginException
+     * @return @throws
+     *         PluginException
      */
     public final IDisplayServer getDisplayServer(String sName) throws PluginException
     {
@@ -285,8 +283,7 @@ public final class PluginSettings
      * 
      * @param sFQClassName
      * 
-     * @return
-     * 
+     * @return 
      * @throws PluginException
      */
     private static final Object newInstance(String sFQClassName) throws PluginException
@@ -313,10 +310,15 @@ public final class PluginSettings
      * @return
      */
     private static final String getPluginXmlValue(String sXsdListName, String sXsdComplexName, String sXsdElementName,
-        String sXsdElementValue, String sLookupName)
+        String sXsdElementValue, String sLookupName) throws PluginException
     {
         final IExtensionRegistry ier = Platform.getExtensionRegistry();
         final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
+        if (iep == null)
+        {
+            throw new PluginException("Unable to locate any entries for lookup=" + sLookupName + "; element=("
+                + sXsdElementName + ":" + sXsdElementValue + ") in any plugin.xml file in all of the available plugins");
+        }
         final IExtension[] iea = iep.getExtensions();
         IConfigurationElement[] icea;
 
@@ -352,6 +354,11 @@ public final class PluginSettings
     {
         final IExtensionRegistry ier = Platform.getExtensionRegistry();
         final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
+        if (iep == null)
+        {
+            throw new PluginException("Unable to locate any entries for lookup=" + sLookupName + "; element=("
+                + sXsdElementName + ":" + sXsdElementValue + ") in any plugin.xml file in all of the available plugins");
+        }
         final IExtension[] iea = iep.getExtensions();
         IConfigurationElement[] icea;
 
@@ -368,7 +375,7 @@ public final class PluginSettings
                         {
                             return icea[j].createExecutableExtension(sXsdElementValue);
                         }
-                        catch (CoreException cex )
+                        catch (FrameworkException cex )
                         {
                             throw new PluginException(cex);
                         }

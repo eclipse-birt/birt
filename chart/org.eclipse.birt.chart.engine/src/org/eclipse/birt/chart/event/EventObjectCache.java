@@ -94,8 +94,8 @@ public class EventObjectCache
      * 
      * @param oSource
      * @param lia
-     * @return
-     * @throws RenderingException
+     * @return @throws
+     *         RenderingException
      */
     protected final boolean validateLineAttributes(Object oSource, LineAttributes lia) throws RenderingException
     {

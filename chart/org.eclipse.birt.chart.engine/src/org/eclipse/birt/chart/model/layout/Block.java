@@ -56,8 +56,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Block extends EObject
 {

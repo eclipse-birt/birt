@@ -31,8 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getRule()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Rule extends EObject
 {

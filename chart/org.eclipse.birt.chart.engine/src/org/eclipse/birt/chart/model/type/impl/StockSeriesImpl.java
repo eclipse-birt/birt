@@ -57,8 +57,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
      * end-user-doc -->
      * 
      * @see #getFill()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Fill fill = null;
 
@@ -67,8 +66,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes lineAttributes = null;
 

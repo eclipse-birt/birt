@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getVerticalAlignment()
- * @model
- * @generated
+ * @model @generated
  */
 public final class VerticalAlignment extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #TOP_LITERAL
      * @model name="Top"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TOP = 0;
 
@@ -47,8 +45,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #CENTER_LITERAL
      * @model name="Center"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CENTER = 1;
 
@@ -57,8 +54,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * 
      * @see #BOTTOM_LITERAL
      * @model name="Bottom"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int BOTTOM = 2;
 
@@ -71,8 +67,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TOP
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final VerticalAlignment TOP_LITERAL = new VerticalAlignment(TOP, "Top");
 
@@ -85,8 +80,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CENTER
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final VerticalAlignment CENTER_LITERAL = new VerticalAlignment(CENTER, "Center");
 
@@ -99,8 +93,7 @@ public final class VerticalAlignment extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BOTTOM
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final VerticalAlignment BOTTOM_LITERAL = new VerticalAlignment(BOTTOM, "Bottom");
 

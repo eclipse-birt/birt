@@ -45,8 +45,7 @@ public class GradientImpl extends FillImpl implements Gradient
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getStartColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition startColor = null;
 
@@ -55,8 +54,7 @@ public class GradientImpl extends FillImpl implements Gradient
      * --> <!-- end-user-doc -->
      * 
      * @see #getEndColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition endColor = null;
 
@@ -65,8 +63,7 @@ public class GradientImpl extends FillImpl implements Gradient
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double DIRECTION_EDEFAULT = 0.0;
 
@@ -75,16 +72,14 @@ public class GradientImpl extends FillImpl implements Gradient
      * end-user-doc -->
      * 
      * @see #getDirection()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double direction = DIRECTION_EDEFAULT;
 
     /**
      * This is true if the Direction attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean directionESet = false;
 
@@ -93,8 +88,7 @@ public class GradientImpl extends FillImpl implements Gradient
      * end-user-doc -->
      * 
      * @see #isCyclic()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean CYCLIC_EDEFAULT = false;
 
@@ -103,16 +97,14 @@ public class GradientImpl extends FillImpl implements Gradient
      * end-user-doc -->
      * 
      * @see #isCyclic()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean cyclic = CYCLIC_EDEFAULT;
 
     /**
      * This is true if the Cyclic attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean cyclicESet = false;
 
@@ -121,8 +113,7 @@ public class GradientImpl extends FillImpl implements Gradient
      * <!-- end-user-doc -->
      * 
      * @see #getTransparency()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int TRANSPARENCY_EDEFAULT = 0;
 
@@ -131,16 +122,14 @@ public class GradientImpl extends FillImpl implements Gradient
      * <!-- end-user-doc -->
      * 
      * @see #getTransparency()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int transparency = TRANSPARENCY_EDEFAULT;
 
     /**
      * This is true if the Transparency attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean transparencyESet = false;
 

@@ -34,8 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getAction()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Action extends EObject
 {

@@ -44,8 +44,7 @@ public class ActionImpl extends EObjectImpl implements Action
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final ActionType TYPE_EDEFAULT = ActionType.URL_REDIRECT_LITERAL;
 
@@ -54,16 +53,14 @@ public class ActionImpl extends EObjectImpl implements Action
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ActionType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -72,8 +69,7 @@ public class ActionImpl extends EObjectImpl implements Action
      * <!-- end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ActionValue value = null;
 

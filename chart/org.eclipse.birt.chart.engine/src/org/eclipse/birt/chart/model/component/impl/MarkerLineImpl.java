@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Marker Line</b></em>'. <!-- end-user-doc
@@ -56,8 +58,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -66,8 +67,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataElement value = null;
 
@@ -76,8 +76,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label label = null;
 
@@ -86,8 +85,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
@@ -96,16 +94,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * <!-- end-user-doc -->
      * 
      * @see #getLabelAnchor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Anchor labelAnchor = LABEL_ANCHOR_EDEFAULT;
 
     /**
      * This is true if the Label Anchor attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean labelAnchorESet = false;
 
@@ -114,8 +110,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
@@ -576,12 +571,19 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
         ml.setLineAttributes(LineAttributesImpl.create(ColorDefinitionImpl.RED(), LineStyle.DASHED_LITERAL, 1));
         ml.setValue(de);
         ml.setLabel(LabelImpl.create());
-        /*
-         * ml.setAnchor( ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL :
-         * Anchor.NORTH_WEST_LITERAL );
-         */
+        ml.setLabelAnchor(ax.getOrientation().getValue() == Orientation.HORIZONTAL ? Anchor.NORTH_WEST_LITERAL
+            : Anchor.NORTH_EAST_LITERAL);
+
+        if (ax.getOrientation().getValue() == Orientation.HORIZONTAL)
+        {
+            ml.getLabel().getCaption().getFont().setRotation(90);
+        }
+
         ax.getMarkerLines().add(ml);
-        //ml.setFormatSpecifier(ax.getFormatSpecifier());
+        if (ax.getFormatSpecifier() != null)
+        {
+            ml.setFormatSpecifier((FormatSpecifier) EcoreUtil.copy(ax.getFormatSpecifier()));
+        }
         return ml;
     }
 

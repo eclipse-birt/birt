@@ -44,8 +44,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String DATA_SET_REPRESENTATION_EDEFAULT = null;
 
@@ -54,8 +53,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDataSetRepresentation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String dataSetRepresentation = DATA_SET_REPRESENTATION_EDEFAULT;
 
@@ -64,8 +62,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitionIndex()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int SERIES_DEFINITION_INDEX_EDEFAULT = 0;
 
@@ -74,16 +71,14 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements OrthogonalS
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitionIndex()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int seriesDefinitionIndex = SERIES_DEFINITION_INDEX_EDEFAULT;
 
     /**
      * This is true if the Series Definition Index attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean seriesDefinitionIndexESet = false;
 

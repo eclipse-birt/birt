@@ -31,8 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Query extends EObject
 {

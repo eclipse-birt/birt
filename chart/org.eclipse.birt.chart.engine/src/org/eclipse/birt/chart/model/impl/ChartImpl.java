@@ -31,8 +31,10 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -85,8 +87,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getVersion()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String VERSION_EDEFAULT = null;
 
@@ -95,8 +96,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getVersion()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String version = VERSION_EDEFAULT;
 
@@ -105,8 +105,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String TYPE_EDEFAULT = null;
 
@@ -115,8 +114,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String type = TYPE_EDEFAULT;
 
@@ -125,8 +123,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getSubType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SUB_TYPE_EDEFAULT = null;
 
@@ -135,8 +132,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getSubType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String subType = SUB_TYPE_EDEFAULT;
 
@@ -145,8 +141,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getDescription()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Text description = null;
 
@@ -155,8 +150,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * <!-- end-user-doc -->
      * 
      * @see #getBlock()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Block block = null;
 
@@ -165,8 +159,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getDimension()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final ChartDimension DIMENSION_EDEFAULT = ChartDimension.TWO_DIMENSIONAL_LITERAL;
 
@@ -175,16 +168,14 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getDimension()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ChartDimension dimension = DIMENSION_EDEFAULT;
 
     /**
      * This is true if the Dimension attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean dimensionESet = false;
 
@@ -193,8 +184,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getScript()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SCRIPT_EDEFAULT = null;
 
@@ -203,8 +193,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getScript()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String script = SCRIPT_EDEFAULT;
 
@@ -213,8 +202,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getUnits()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String UNITS_EDEFAULT = null;
 
@@ -223,8 +211,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * end-user-doc -->
      * 
      * @see #getUnits()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String units = UNITS_EDEFAULT;
 
@@ -233,8 +220,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesThickness()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double SERIES_THICKNESS_EDEFAULT = 0.0;
 
@@ -243,16 +229,14 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesThickness()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double seriesThickness = SERIES_THICKNESS_EDEFAULT;
 
     /**
      * This is true if the Series Thickness attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean seriesThicknessESet = false;
 
@@ -261,8 +245,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesHints()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected SeriesHint seriesHints = null;
 
@@ -271,8 +254,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGridColumnCount()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int GRID_COLUMN_COUNT_EDEFAULT = 0;
 
@@ -281,16 +263,14 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGridColumnCount()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int gridColumnCount = GRID_COLUMN_COUNT_EDEFAULT;
 
     /**
      * This is true if the Grid Column Count attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean gridColumnCountESet = false;
 
@@ -299,8 +279,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getExtendedProperties()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList extendedProperties = null;
 
@@ -309,8 +288,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSampleData()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected SampleData sampleData = null;
 
@@ -1238,15 +1216,19 @@ public class ChartImpl extends EObjectImpl implements Chart
         {
             return;
         }
+
         try
         {
             // Process Base SeriesDefinitions
             Series seriesBaseRuntime = (Series) EcoreUtil.copy(getBaseSeriesDefinitionForProcessing()
                 .getDesignTimeSeries());
+
             // Clear existing values from the dataset
             seriesBaseRuntime.setDataSet(null);
+
             // Clear any existing Runtime Series
             chart.clearSections(IConstants.RUN_TIME);
+
             // Get the BaseSampleData and use it to construct dataset
             seriesBaseRuntime.setDataSet((PluginSettings.instance()
                 .getDataSetProcessor(getBaseSeriesDefinitionForProcessing().getDesignTimeSeries().getClass()))
@@ -1289,12 +1271,11 @@ public class ChartImpl extends EObjectImpl implements Chart
                     seriesOrthogonalRuntime.getDataSet()));
 
                 // Set sample series identifiers
-                String sIdentifier = "Series";
-                if (sdTmp.getQuery() != null)
-                {
-                    sIdentifier = sdTmp.getQuery().getDefinition();
-                }
-                seriesOrthogonalRuntime.setSeriesIdentifier(sIdentifier + "-" + iO);
+                seriesOrthogonalRuntime.setSeriesIdentifier("Series " + (sdTmp.getSeries().size()));
+
+                // Set sample data definition
+                Query q = QueryImpl.create("Data " + (sdTmp.getSeries().size()));
+                seriesOrthogonalRuntime.getDataDefinition().add(q);
 
                 sdTmp.getSeries().add(seriesOrthogonalRuntime);
             }
@@ -1311,6 +1292,10 @@ public class ChartImpl extends EObjectImpl implements Chart
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     private SeriesDefinition getBaseSeriesDefinitionForProcessing()
     {
         Chart chart = this;
@@ -1324,6 +1309,10 @@ public class ChartImpl extends EObjectImpl implements Chart
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     private Vector getOrthogonalSeriesDefinitions()
     {
         Chart chart = this;

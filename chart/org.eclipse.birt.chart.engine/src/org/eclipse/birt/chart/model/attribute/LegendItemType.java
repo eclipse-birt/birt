@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLegendItemType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class LegendItemType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class LegendItemType extends AbstractEnumerator
      * 
      * @see #SERIES_LITERAL
      * @model name="Series"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SERIES = 0;
 
@@ -47,8 +45,7 @@ public final class LegendItemType extends AbstractEnumerator
      * 
      * @see #CATEGORIES_LITERAL
      * @model name="Categories"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CATEGORIES = 1;
 
@@ -61,8 +58,7 @@ public final class LegendItemType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LegendItemType SERIES_LITERAL = new LegendItemType(SERIES, "Series");
 
@@ -75,8 +71,7 @@ public final class LegendItemType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CATEGORIES
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LegendItemType CATEGORIES_LITERAL = new LegendItemType(CATEGORIES, "Categories");
 

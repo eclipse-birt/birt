@@ -27,8 +27,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getChartDimension()
- * @model
- * @generated
+ * @model @generated
  */
 public final class ChartDimension extends AbstractEnumerator
 {
@@ -38,8 +37,7 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #TWO_DIMENSIONAL_LITERAL
      * @model name="Two_Dimensional"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TWO_DIMENSIONAL = 0;
 
@@ -49,8 +47,7 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #TWO_DIMENSIONAL_WITH_DEPTH_LITERAL
      * @model name="Two_Dimensional_With_Depth"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int TWO_DIMENSIONAL_WITH_DEPTH = 1;
 
@@ -59,8 +56,7 @@ public final class ChartDimension extends AbstractEnumerator
      * 
      * @see #THREE_DIMENSIONAL_LITERAL
      * @model name="Three_Dimensional"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int THREE_DIMENSIONAL = 2;
 
@@ -73,8 +69,7 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TWO_DIMENSIONAL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartDimension TWO_DIMENSIONAL_LITERAL = new ChartDimension(TWO_DIMENSIONAL, "Two_Dimensional");
 
@@ -87,8 +82,7 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #TWO_DIMENSIONAL_WITH_DEPTH
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartDimension TWO_DIMENSIONAL_WITH_DEPTH_LITERAL = new ChartDimension(
         TWO_DIMENSIONAL_WITH_DEPTH, "Two_Dimensional_With_Depth");
@@ -102,8 +96,7 @@ public final class ChartDimension extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #THREE_DIMENSIONAL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final ChartDimension THREE_DIMENSIONAL_LITERAL = new ChartDimension(THREE_DIMENSIONAL,
         "Three_Dimensional");

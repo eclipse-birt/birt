@@ -29,8 +29,7 @@ package org.eclipse.birt.chart.model.data;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTextDataElement()
- * @model
- * @generated
+ * @model @generated
  */
 public interface TextDataElement extends DataElement
 {

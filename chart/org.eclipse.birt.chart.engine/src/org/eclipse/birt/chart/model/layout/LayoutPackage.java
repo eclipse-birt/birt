@@ -78,8 +78,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Children</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__CHILDREN = 0;
 
@@ -87,24 +86,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__BOUNDS = 1;
 
     /**
      * The feature id for the '<em><b>Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__ANCHOR = 2;
 
     /**
      * The feature id for the '<em><b>Stretch</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__STRETCH = 3;
 
@@ -112,40 +108,35 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__INSETS = 4;
 
     /**
      * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__ROW = 5;
 
     /**
      * The feature id for the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__COLUMN = 6;
 
     /**
      * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__ROWSPAN = 7;
 
     /**
      * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__COLUMNSPAN = 8;
 
@@ -153,8 +144,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__MIN_SIZE = 9;
 
@@ -162,8 +152,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__OUTLINE = 10;
 
@@ -171,16 +160,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__BACKGROUND = 11;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__VISIBLE = 12;
 
@@ -188,8 +175,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK__TRIGGERS = 13;
 
@@ -197,8 +183,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Block</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BLOCK_FEATURE_COUNT = 14;
 
@@ -216,8 +201,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CLIENT_AREA__BACKGROUND = 0;
 
@@ -225,8 +209,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CLIENT_AREA__OUTLINE = 1;
 
@@ -234,8 +217,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CLIENT_AREA__SHADOW_COLOR = 2;
 
@@ -243,8 +225,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CLIENT_AREA__INSETS = 3;
 
@@ -252,8 +233,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Client Area</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CLIENT_AREA_FEATURE_COUNT = 4;
 
@@ -271,8 +251,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Children</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__CHILDREN = BLOCK__CHILDREN;
 
@@ -280,24 +259,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__BOUNDS = BLOCK__BOUNDS;
 
     /**
      * The feature id for the '<em><b>Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__ANCHOR = BLOCK__ANCHOR;
 
     /**
      * The feature id for the '<em><b>Stretch</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__STRETCH = BLOCK__STRETCH;
 
@@ -305,40 +281,35 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__INSETS = BLOCK__INSETS;
 
     /**
      * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__ROW = BLOCK__ROW;
 
     /**
      * The feature id for the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__COLUMN = BLOCK__COLUMN;
 
     /**
      * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__ROWSPAN = BLOCK__ROWSPAN;
 
     /**
      * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__COLUMNSPAN = BLOCK__COLUMNSPAN;
 
@@ -346,8 +317,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__MIN_SIZE = BLOCK__MIN_SIZE;
 
@@ -355,8 +325,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__OUTLINE = BLOCK__OUTLINE;
 
@@ -364,16 +333,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__BACKGROUND = BLOCK__BACKGROUND;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__VISIBLE = BLOCK__VISIBLE;
 
@@ -381,8 +348,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__TRIGGERS = BLOCK__TRIGGERS;
 
@@ -390,8 +356,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK__LABEL = BLOCK_FEATURE_COUNT + 0;
 
@@ -399,8 +364,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Label Block</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_BLOCK_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 1;
 
@@ -418,8 +382,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Children</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__CHILDREN = BLOCK__CHILDREN;
 
@@ -427,24 +390,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__BOUNDS = BLOCK__BOUNDS;
 
     /**
      * The feature id for the '<em><b>Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__ANCHOR = BLOCK__ANCHOR;
 
     /**
      * The feature id for the '<em><b>Stretch</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__STRETCH = BLOCK__STRETCH;
 
@@ -452,40 +412,35 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__INSETS = BLOCK__INSETS;
 
     /**
      * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__ROW = BLOCK__ROW;
 
     /**
      * The feature id for the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__COLUMN = BLOCK__COLUMN;
 
     /**
      * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__ROWSPAN = BLOCK__ROWSPAN;
 
     /**
      * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__COLUMNSPAN = BLOCK__COLUMNSPAN;
 
@@ -493,8 +448,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__MIN_SIZE = BLOCK__MIN_SIZE;
 
@@ -502,8 +456,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__OUTLINE = BLOCK__OUTLINE;
 
@@ -511,16 +464,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__BACKGROUND = BLOCK__BACKGROUND;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__VISIBLE = BLOCK__VISIBLE;
 
@@ -528,8 +479,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__TRIGGERS = BLOCK__TRIGGERS;
 
@@ -537,8 +487,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__HORIZONTAL_SPACING = BLOCK_FEATURE_COUNT + 0;
 
@@ -546,8 +495,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Vertical Spacing</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__VERTICAL_SPACING = BLOCK_FEATURE_COUNT + 1;
 
@@ -555,8 +503,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Client Area</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__CLIENT_AREA = BLOCK_FEATURE_COUNT + 2;
 
@@ -564,8 +511,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Text</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__TEXT = BLOCK_FEATURE_COUNT + 3;
 
@@ -573,16 +519,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Orientation</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__ORIENTATION = BLOCK_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Direction</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__DIRECTION = BLOCK_FEATURE_COUNT + 5;
 
@@ -590,24 +534,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Separator</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__SEPARATOR = BLOCK_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__POSITION = BLOCK_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Item Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND__ITEM_TYPE = BLOCK_FEATURE_COUNT + 8;
 
@@ -615,8 +556,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Legend</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 9;
 
@@ -634,8 +574,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Children</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__CHILDREN = BLOCK__CHILDREN;
 
@@ -643,24 +582,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__BOUNDS = BLOCK__BOUNDS;
 
     /**
      * The feature id for the '<em><b>Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__ANCHOR = BLOCK__ANCHOR;
 
     /**
      * The feature id for the '<em><b>Stretch</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__STRETCH = BLOCK__STRETCH;
 
@@ -668,40 +604,35 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__INSETS = BLOCK__INSETS;
 
     /**
      * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__ROW = BLOCK__ROW;
 
     /**
      * The feature id for the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__COLUMN = BLOCK__COLUMN;
 
     /**
      * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__ROWSPAN = BLOCK__ROWSPAN;
 
     /**
      * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__COLUMNSPAN = BLOCK__COLUMNSPAN;
 
@@ -709,8 +640,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__MIN_SIZE = BLOCK__MIN_SIZE;
 
@@ -718,8 +648,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__OUTLINE = BLOCK__OUTLINE;
 
@@ -727,16 +656,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__BACKGROUND = BLOCK__BACKGROUND;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__VISIBLE = BLOCK__VISIBLE;
 
@@ -744,8 +671,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__TRIGGERS = BLOCK__TRIGGERS;
 
@@ -753,8 +679,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Horizontal Spacing</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__HORIZONTAL_SPACING = BLOCK_FEATURE_COUNT + 0;
 
@@ -762,8 +687,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Vertical Spacing</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__VERTICAL_SPACING = BLOCK_FEATURE_COUNT + 1;
 
@@ -771,8 +695,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Client Area</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT__CLIENT_AREA = BLOCK_FEATURE_COUNT + 2;
 
@@ -780,8 +703,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Plot</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PLOT_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 3;
 
@@ -799,8 +721,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Children</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__CHILDREN = LABEL_BLOCK__CHILDREN;
 
@@ -808,24 +729,21 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Bounds</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__BOUNDS = LABEL_BLOCK__BOUNDS;
 
     /**
      * The feature id for the '<em><b>Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__ANCHOR = LABEL_BLOCK__ANCHOR;
 
     /**
      * The feature id for the '<em><b>Stretch</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__STRETCH = LABEL_BLOCK__STRETCH;
 
@@ -833,40 +751,35 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__INSETS = LABEL_BLOCK__INSETS;
 
     /**
      * The feature id for the '<em><b>Row</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__ROW = LABEL_BLOCK__ROW;
 
     /**
      * The feature id for the '<em><b>Column</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__COLUMN = LABEL_BLOCK__COLUMN;
 
     /**
      * The feature id for the '<em><b>Rowspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__ROWSPAN = LABEL_BLOCK__ROWSPAN;
 
     /**
      * The feature id for the '<em><b>Columnspan</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__COLUMNSPAN = LABEL_BLOCK__COLUMNSPAN;
 
@@ -874,8 +787,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Min Size</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__MIN_SIZE = LABEL_BLOCK__MIN_SIZE;
 
@@ -883,8 +795,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__OUTLINE = LABEL_BLOCK__OUTLINE;
 
@@ -892,16 +803,14 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__BACKGROUND = LABEL_BLOCK__BACKGROUND;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__VISIBLE = LABEL_BLOCK__VISIBLE;
 
@@ -909,8 +818,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__TRIGGERS = LABEL_BLOCK__TRIGGERS;
 
@@ -918,8 +826,7 @@ public interface LayoutPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK__LABEL = LABEL_BLOCK__LABEL;
 
@@ -927,8 +834,7 @@ public interface LayoutPackage extends EPackage
      * The number of structural features of the the '<em>Title Block</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TITLE_BLOCK_FEATURE_COUNT = LABEL_BLOCK_FEATURE_COUNT + 0;
 

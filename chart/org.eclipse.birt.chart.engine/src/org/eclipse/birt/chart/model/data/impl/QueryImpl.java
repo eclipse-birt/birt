@@ -46,8 +46,7 @@ public class QueryImpl extends EObjectImpl implements Query
      * end-user-doc -->
      * 
      * @see #getDefinition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String DEFINITION_EDEFAULT = null;
 
@@ -56,8 +55,7 @@ public class QueryImpl extends EObjectImpl implements Query
      * end-user-doc -->
      * 
      * @see #getDefinition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String definition = DEFINITION_EDEFAULT;
 
@@ -66,8 +64,7 @@ public class QueryImpl extends EObjectImpl implements Query
      * --> <!-- end-user-doc -->
      * 
      * @see #getRules()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList rules = null;
 

@@ -54,8 +54,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitions()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList seriesDefinitions = null;
 

@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class DateFormatType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class DateFormatType extends AbstractEnumerator
      * 
      * @see #LONG_LITERAL
      * @model name="Long"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LONG = 0;
 
@@ -47,8 +45,7 @@ public final class DateFormatType extends AbstractEnumerator
      * 
      * @see #SHORT_LITERAL
      * @model name="Short"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SHORT = 1;
 
@@ -57,8 +54,7 @@ public final class DateFormatType extends AbstractEnumerator
      * 
      * @see #MEDIUM_LITERAL
      * @model name="Medium"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int MEDIUM = 2;
 
@@ -67,8 +63,7 @@ public final class DateFormatType extends AbstractEnumerator
      * 
      * @see #FULL_LITERAL
      * @model name="Full"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int FULL = 3;
 
@@ -81,8 +76,7 @@ public final class DateFormatType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LONG
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatType LONG_LITERAL = new DateFormatType(LONG, "Long");
 
@@ -95,8 +89,7 @@ public final class DateFormatType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SHORT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatType SHORT_LITERAL = new DateFormatType(SHORT, "Short");
 
@@ -109,8 +102,7 @@ public final class DateFormatType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MEDIUM
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatType MEDIUM_LITERAL = new DateFormatType(MEDIUM, "Medium");
 
@@ -123,8 +115,7 @@ public final class DateFormatType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #FULL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatType FULL_LITERAL = new DateFormatType(FULL, "Full");
 

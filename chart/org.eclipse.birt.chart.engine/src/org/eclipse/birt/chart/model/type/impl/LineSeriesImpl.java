@@ -62,8 +62,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * <!-- end-user-doc -->
      * 
      * @see #getMarker()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Marker marker = null;
 
@@ -72,8 +71,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -82,8 +80,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * end-user-doc -->
      * 
      * @see #isCurve()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean CURVE_EDEFAULT = false;
 
@@ -92,16 +89,14 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * end-user-doc -->
      * 
      * @see #isCurve()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean curve = CURVE_EDEFAULT;
 
     /**
      * This is true if the Curve attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean curveESet = false;
 
@@ -110,8 +105,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getShadowColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition shadowColor = null;
 

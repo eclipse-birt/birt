@@ -38,8 +38,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
      * end-user-doc -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String NAME_EDEFAULT = null;
 
@@ -48,8 +47,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
      * -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String name = NAME_EDEFAULT;
 

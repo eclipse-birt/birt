@@ -132,8 +132,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static TypePackage getPackage()
     {

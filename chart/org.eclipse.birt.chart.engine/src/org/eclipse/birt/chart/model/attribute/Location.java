@@ -31,8 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Location extends EObject
 {

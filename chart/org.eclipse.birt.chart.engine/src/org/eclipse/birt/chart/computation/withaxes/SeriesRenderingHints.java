@@ -202,8 +202,8 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
     /**
      * 
      * @param se
-     * @return
-     * @throws UndefinedValueException
+     * @return @throws
+     *         UndefinedValueException
      * @throws UnexpectedInputException
      */
     public final Position getLabelPosition(Series se) throws UndefinedValueException, UnexpectedInputException
@@ -243,8 +243,8 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
     /**
      * 
      * @param se
-     * @return
-     * @throws UnexpectedInputException
+     * @return @throws
+     *         UnexpectedInputException
      */
     public final Label getLabelAttributes(Series se) throws UnexpectedInputException
     {

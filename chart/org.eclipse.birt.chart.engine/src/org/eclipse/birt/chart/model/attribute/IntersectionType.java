@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getIntersectionType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class IntersectionType extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #MIN_LITERAL
      * @model name="Min"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int MIN = 0;
 
@@ -47,8 +45,7 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #MAX_LITERAL
      * @model name="Max"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int MAX = 1;
 
@@ -57,8 +54,7 @@ public final class IntersectionType extends AbstractEnumerator
      * 
      * @see #VALUE_LITERAL
      * @model name="Value"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int VALUE = 2;
 
@@ -71,8 +67,7 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MIN
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final IntersectionType MIN_LITERAL = new IntersectionType(MIN, "Min");
 
@@ -85,8 +80,7 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #MAX
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final IntersectionType MAX_LITERAL = new IntersectionType(MAX, "Max");
 
@@ -99,8 +93,7 @@ public final class IntersectionType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #VALUE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final IntersectionType VALUE_LITERAL = new IntersectionType(VALUE, "Value");
 

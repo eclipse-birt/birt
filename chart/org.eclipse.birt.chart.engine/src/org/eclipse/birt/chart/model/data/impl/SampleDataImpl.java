@@ -49,8 +49,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBaseSampleData()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList baseSampleData = null;
 
@@ -59,8 +58,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
      * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getOrthogonalSampleData()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList orthogonalSampleData = null;
 

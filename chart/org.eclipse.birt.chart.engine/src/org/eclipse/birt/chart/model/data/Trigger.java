@@ -32,8 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Trigger extends EObject
 {

@@ -59,8 +59,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * <!-- end-user-doc -->
      * 
      * @see #getCaption()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Text caption = null;
 
@@ -69,8 +68,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
@@ -79,8 +77,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBackground()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Fill background = null;
 
@@ -89,8 +86,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * <!-- end-user-doc -->
      * 
      * @see #getOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes outline = null;
 
@@ -99,8 +95,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getShadowColor()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition shadowColor = null;
 
@@ -109,8 +104,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * <!-- end-user-doc -->
      * 
      * @see #getInsets()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Insets insets = null;
 
@@ -119,8 +113,7 @@ public class LabelImpl extends EObjectImpl implements Label
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean VISIBLE_EDEFAULT = false;
 
@@ -129,16 +122,14 @@ public class LabelImpl extends EObjectImpl implements Label
      * end-user-doc -->
      * 
      * @see #isVisible()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visible = VISIBLE_EDEFAULT;
 
     /**
      * This is true if the Visible attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean visibleESet = false;
 

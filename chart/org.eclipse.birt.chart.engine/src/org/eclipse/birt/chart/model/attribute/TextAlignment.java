@@ -35,8 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTextAlignment()
- * @model
- * @generated
+ * @model @generated
  */
 public interface TextAlignment extends EObject
 {
@@ -154,11 +153,4 @@ public interface TextAlignment extends EObject
      * @generated
      */
     boolean isSetVerticalAlignment();
-
-    /**
-     * Resets all member variables within this object recursively
-     * 
-     * Note: Manually written
-     */
-    void initialize();
 } // TextAlignment

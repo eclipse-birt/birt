@@ -33,8 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getBaseSampleData()
- * @model
- * @generated
+ * @model @generated
  */
 public interface BaseSampleData extends EObject
 {

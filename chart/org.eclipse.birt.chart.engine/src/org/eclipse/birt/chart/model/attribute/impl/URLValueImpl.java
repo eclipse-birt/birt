@@ -48,8 +48,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * end-user-doc -->
      * 
      * @see #getBaseUrl()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String BASE_URL_EDEFAULT = null;
 
@@ -58,8 +57,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * end-user-doc -->
      * 
      * @see #getBaseUrl()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String baseUrl = BASE_URL_EDEFAULT;
 
@@ -68,8 +66,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * end-user-doc -->
      * 
      * @see #getTarget()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String TARGET_EDEFAULT = null;
 
@@ -78,8 +75,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * end-user-doc -->
      * 
      * @see #getTarget()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String target = TARGET_EDEFAULT;
 
@@ -88,8 +84,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBaseParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String BASE_PARAMETER_NAME_EDEFAULT = null;
 
@@ -98,8 +93,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getBaseParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String baseParameterName = BASE_PARAMETER_NAME_EDEFAULT;
 
@@ -108,8 +102,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getValueParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String VALUE_PARAMETER_NAME_EDEFAULT = null;
 
@@ -118,8 +111,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getValueParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String valueParameterName = VALUE_PARAMETER_NAME_EDEFAULT;
 
@@ -128,8 +120,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SERIES_PARAMETER_NAME_EDEFAULT = null;
 
@@ -138,8 +129,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesParameterName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String seriesParameterName = SERIES_PARAMETER_NAME_EDEFAULT;
 

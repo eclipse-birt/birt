@@ -1584,8 +1584,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static AttributePackage getPackage()
     {

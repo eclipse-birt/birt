@@ -77,24 +77,21 @@ public interface ModelPackage extends EPackage
     /**
      * The feature id for the '<em><b>Version</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__VERSION = 0;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__TYPE = 1;
 
     /**
      * The feature id for the '<em><b>Sub Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__SUB_TYPE = 2;
 
@@ -102,8 +99,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Description</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__DESCRIPTION = 3;
 
@@ -111,32 +107,28 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Block</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__BLOCK = 4;
 
     /**
      * The feature id for the '<em><b>Dimension</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__DIMENSION = 5;
 
     /**
      * The feature id for the '<em><b>Script</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__SCRIPT = 6;
 
     /**
      * The feature id for the '<em><b>Units</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__UNITS = 7;
 
@@ -144,8 +136,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Thickness</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__SERIES_THICKNESS = 8;
 
@@ -153,8 +144,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__SERIES_HINTS = 9;
 
@@ -162,8 +152,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__GRID_COLUMN_COUNT = 10;
 
@@ -171,8 +160,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__EXTENDED_PROPERTIES = 11;
 
@@ -180,8 +168,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Sample Data</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART__SAMPLE_DATA = 12;
 
@@ -189,8 +176,7 @@ public interface ModelPackage extends EPackage
      * The number of structural features of the the '<em>Chart</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_FEATURE_COUNT = 13;
 
@@ -207,24 +193,21 @@ public interface ModelPackage extends EPackage
     /**
      * The feature id for the '<em><b>Version</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__VERSION = CHART__VERSION;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__TYPE = CHART__TYPE;
 
     /**
      * The feature id for the '<em><b>Sub Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__SUB_TYPE = CHART__SUB_TYPE;
 
@@ -232,8 +215,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Description</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__DESCRIPTION = CHART__DESCRIPTION;
 
@@ -241,32 +223,28 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Block</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__BLOCK = CHART__BLOCK;
 
     /**
      * The feature id for the '<em><b>Dimension</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__DIMENSION = CHART__DIMENSION;
 
     /**
      * The feature id for the '<em><b>Script</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__SCRIPT = CHART__SCRIPT;
 
     /**
      * The feature id for the '<em><b>Units</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__UNITS = CHART__UNITS;
 
@@ -274,8 +252,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Thickness</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
 
@@ -283,8 +260,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__SERIES_HINTS = CHART__SERIES_HINTS;
 
@@ -292,8 +268,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__GRID_COLUMN_COUNT = CHART__GRID_COLUMN_COUNT;
 
@@ -301,8 +276,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__EXTENDED_PROPERTIES = CHART__EXTENDED_PROPERTIES;
 
@@ -310,8 +284,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Sample Data</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
 
@@ -319,8 +292,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Axes</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__AXES = CHART_FEATURE_COUNT + 0;
 
@@ -328,8 +300,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Orientation</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__ORIENTATION = CHART_FEATURE_COUNT + 1;
 
@@ -337,8 +308,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Unit Spacing</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES__UNIT_SPACING = CHART_FEATURE_COUNT + 2;
 
@@ -346,8 +316,7 @@ public interface ModelPackage extends EPackage
      * The number of structural features of the the '<em>Chart With Axes</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 3;
 
@@ -365,24 +334,21 @@ public interface ModelPackage extends EPackage
     /**
      * The feature id for the '<em><b>Version</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__VERSION = CHART__VERSION;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__TYPE = CHART__TYPE;
 
     /**
      * The feature id for the '<em><b>Sub Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SUB_TYPE = CHART__SUB_TYPE;
 
@@ -390,8 +356,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Description</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__DESCRIPTION = CHART__DESCRIPTION;
 
@@ -399,32 +364,28 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Block</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__BLOCK = CHART__BLOCK;
 
     /**
      * The feature id for the '<em><b>Dimension</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__DIMENSION = CHART__DIMENSION;
 
     /**
      * The feature id for the '<em><b>Script</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SCRIPT = CHART__SCRIPT;
 
     /**
      * The feature id for the '<em><b>Units</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__UNITS = CHART__UNITS;
 
@@ -432,8 +393,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Thickness</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
 
@@ -441,8 +401,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SERIES_HINTS = CHART__SERIES_HINTS;
 
@@ -450,8 +409,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__GRID_COLUMN_COUNT = CHART__GRID_COLUMN_COUNT;
 
@@ -459,8 +417,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__EXTENDED_PROPERTIES = CHART__EXTENDED_PROPERTIES;
 
@@ -468,8 +425,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Sample Data</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
 
@@ -477,8 +433,7 @@ public interface ModelPackage extends EPackage
      * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES__SERIES_DEFINITIONS = CHART_FEATURE_COUNT + 0;
 
@@ -486,8 +441,7 @@ public interface ModelPackage extends EPackage
      * The number of structural features of the the '<em>Chart Without Axes</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 1;
 

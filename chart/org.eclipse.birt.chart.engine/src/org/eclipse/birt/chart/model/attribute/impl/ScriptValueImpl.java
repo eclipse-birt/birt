@@ -38,8 +38,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
      * end-user-doc -->
      * 
      * @see #getScript()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SCRIPT_EDEFAULT = null;
 
@@ -48,8 +47,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
      * end-user-doc -->
      * 
      * @see #getScript()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String script = SCRIPT_EDEFAULT;
 

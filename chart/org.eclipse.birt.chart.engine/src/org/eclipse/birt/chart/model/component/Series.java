@@ -46,8 +46,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getSeries()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Series extends EObject
 {

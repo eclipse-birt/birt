@@ -39,8 +39,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFontDefinition()
- * @model
- * @generated
+ * @model @generated
  */
 public interface FontDefinition extends EObject
 {

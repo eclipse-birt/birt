@@ -40,8 +40,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
      * end-user-doc -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String NAME_EDEFAULT = null;
 
@@ -50,8 +49,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
      * -->
      * 
      * @see #getName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String name = NAME_EDEFAULT;
 
@@ -60,8 +58,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String VALUE_EDEFAULT = null;
 
@@ -70,8 +67,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String value = VALUE_EDEFAULT;
 

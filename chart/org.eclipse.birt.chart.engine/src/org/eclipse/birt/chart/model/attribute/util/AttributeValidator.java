@@ -1012,8 +1012,7 @@ public class AttributeValidator extends EObjectValidator
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @see #validateID_Pattern
+     * @generated @see #validateID_Pattern
      */
     public static final PatternMatcher[][] ID__PATTERN__VALUES = new PatternMatcher[][]
     {
@@ -1112,8 +1111,7 @@ public class AttributeValidator extends EObjectValidator
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @see #validatePercentage_Min
+     * @generated @see #validatePercentage_Min
      */
     public static final double PERCENTAGE__MIN__VALUE = 0.0;
 
@@ -1134,8 +1132,7 @@ public class AttributeValidator extends EObjectValidator
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @see #validatePercentage_Max
+     * @generated @see #validatePercentage_Max
      */
     public static final double PERCENTAGE__MAX__VALUE = 100.0;
 
@@ -1192,8 +1189,7 @@ public class AttributeValidator extends EObjectValidator
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @see #validateRGBValue_Min
+     * @generated @see #validateRGBValue_Min
      */
     public static final int RGB_VALUE__MIN__VALUE = 0;
 
@@ -1214,8 +1210,7 @@ public class AttributeValidator extends EObjectValidator
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @see #validateRGBValue_Max
+     * @generated @see #validateRGBValue_Max
      */
     public static final int RGB_VALUE__MAX__VALUE = 255;
 

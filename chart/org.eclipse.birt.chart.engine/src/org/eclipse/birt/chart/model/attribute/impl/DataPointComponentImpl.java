@@ -47,8 +47,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final DataPointComponentType TYPE_EDEFAULT = DataPointComponentType.BASE_VALUE_LITERAL;
 
@@ -57,16 +56,14 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataPointComponentType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -75,8 +72,7 @@ public class DataPointComponentImpl extends EObjectImpl implements DataPointComp
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 

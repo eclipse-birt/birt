@@ -38,8 +38,7 @@ public class FillImpl extends EObjectImpl implements Fill
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int TYPE_EDEFAULT = 0;
 
@@ -48,16 +47,14 @@ public class FillImpl extends EObjectImpl implements Fill
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 

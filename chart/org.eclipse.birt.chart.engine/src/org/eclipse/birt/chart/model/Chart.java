@@ -53,8 +53,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.ModelPackage#getChart()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Chart extends EObject
 {

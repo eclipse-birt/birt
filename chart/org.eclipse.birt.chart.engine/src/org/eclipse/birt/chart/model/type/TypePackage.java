@@ -78,8 +78,7 @@ public interface TypePackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
 
@@ -87,8 +86,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
 
@@ -96,8 +94,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
 
@@ -105,8 +102,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
 
@@ -114,8 +110,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
@@ -123,8 +118,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
 
@@ -132,8 +126,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__FORMAT_SPECIFIER = ComponentPackage.SERIES__FORMAT_SPECIFIER;
 
@@ -141,16 +134,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
 
@@ -158,8 +149,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
 
@@ -167,16 +157,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
 
     /**
      * The feature id for the '<em><b>Riser</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__RISER = ComponentPackage.SERIES_FEATURE_COUNT + 0;
 
@@ -184,8 +172,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Riser Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES__RISER_OUTLINE = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
@@ -193,8 +180,7 @@ public interface TypePackage extends EPackage
      * The number of structural features of the the '<em>Bar Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BAR_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
@@ -211,8 +197,7 @@ public interface TypePackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
 
@@ -220,8 +205,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
 
@@ -229,8 +213,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
 
@@ -238,8 +221,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
 
@@ -247,8 +229,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
@@ -256,8 +237,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
 
@@ -265,8 +245,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__FORMAT_SPECIFIER = ComponentPackage.SERIES__FORMAT_SPECIFIER;
 
@@ -274,16 +253,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
 
@@ -291,8 +268,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
 
@@ -300,8 +276,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
 
@@ -309,8 +284,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Marker</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__MARKER = ComponentPackage.SERIES_FEATURE_COUNT + 0;
 
@@ -318,16 +292,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Curve</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__CURVE = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
@@ -335,8 +307,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 3;
 
@@ -344,8 +315,7 @@ public interface TypePackage extends EPackage
      * The number of structural features of the the '<em>Line Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
@@ -362,8 +332,7 @@ public interface TypePackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
 
@@ -371,8 +340,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
 
@@ -380,8 +348,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
 
@@ -389,8 +356,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
 
@@ -398,8 +364,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
@@ -407,8 +372,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
 
@@ -416,8 +380,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__FORMAT_SPECIFIER = ComponentPackage.SERIES__FORMAT_SPECIFIER;
 
@@ -425,16 +388,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
 
@@ -442,8 +403,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
 
@@ -451,16 +411,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
 
     /**
      * The feature id for the '<em><b>Explosion</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__EXPLOSION = ComponentPackage.SERIES_FEATURE_COUNT + 0;
 
@@ -468,8 +426,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__TITLE = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
@@ -477,8 +434,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Title Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__TITLE_POSITION = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
@@ -486,8 +442,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Leader Line Attributes</b></em>' containment reference. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__LEADER_LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 3;
 
@@ -495,8 +450,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Leader Line Style</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__LEADER_LINE_STYLE = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
@@ -504,8 +458,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Leader Line Length</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__LEADER_LINE_LENGTH = ComponentPackage.SERIES_FEATURE_COUNT + 5;
 
@@ -513,8 +466,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Slice Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES__SLICE_OUTLINE = ComponentPackage.SERIES_FEATURE_COUNT + 6;
 
@@ -522,8 +474,7 @@ public interface TypePackage extends EPackage
      * The number of structural features of the the '<em>Pie Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 7;
 
@@ -541,8 +492,7 @@ public interface TypePackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__VISIBLE = LINE_SERIES__VISIBLE;
 
@@ -550,8 +500,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__LABEL = LINE_SERIES__LABEL;
 
@@ -559,8 +508,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__DATA_DEFINITION = LINE_SERIES__DATA_DEFINITION;
 
@@ -568,8 +516,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__SERIES_IDENTIFIER = LINE_SERIES__SERIES_IDENTIFIER;
 
@@ -577,8 +524,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__DATA_POINT = LINE_SERIES__DATA_POINT;
 
@@ -586,8 +532,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__DATA_SET = LINE_SERIES__DATA_SET;
 
@@ -595,8 +540,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__FORMAT_SPECIFIER = LINE_SERIES__FORMAT_SPECIFIER;
 
@@ -604,16 +548,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__LABEL_POSITION = LINE_SERIES__LABEL_POSITION;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__STACKED = LINE_SERIES__STACKED;
 
@@ -621,8 +563,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__TRIGGERS = LINE_SERIES__TRIGGERS;
 
@@ -630,8 +571,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__TRANSLUCENT = LINE_SERIES__TRANSLUCENT;
 
@@ -639,8 +579,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Marker</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__MARKER = LINE_SERIES__MARKER;
 
@@ -648,16 +587,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__LINE_ATTRIBUTES = LINE_SERIES__LINE_ATTRIBUTES;
 
     /**
      * The feature id for the '<em><b>Curve</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__CURVE = LINE_SERIES__CURVE;
 
@@ -665,8 +602,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
 
@@ -674,8 +610,7 @@ public interface TypePackage extends EPackage
      * The number of structural features of the the '<em>Scatter Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCATTER_SERIES_FEATURE_COUNT = LINE_SERIES_FEATURE_COUNT + 0;
 
@@ -692,8 +627,7 @@ public interface TypePackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
 
@@ -701,8 +635,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
 
@@ -710,8 +643,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
 
@@ -719,8 +651,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
 
@@ -728,8 +659,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
 
@@ -737,8 +667,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
 
@@ -746,8 +675,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__FORMAT_SPECIFIER = ComponentPackage.SERIES__FORMAT_SPECIFIER;
 
@@ -755,16 +683,14 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
 
@@ -772,8 +698,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
 
@@ -781,8 +706,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
 
@@ -790,8 +714,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__FILL = ComponentPackage.SERIES_FEATURE_COUNT + 0;
 
@@ -799,8 +722,7 @@ public interface TypePackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
@@ -808,8 +730,7 @@ public interface TypePackage extends EPackage
      * The number of structural features of the the '<em>Stock Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 

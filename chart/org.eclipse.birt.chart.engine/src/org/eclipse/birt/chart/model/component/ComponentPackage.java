@@ -77,8 +77,7 @@ public interface ComponentPackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__TYPE = 0;
 
@@ -86,8 +85,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__TITLE = 1;
 
@@ -95,8 +93,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Subtitle</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__SUBTITLE = 2;
 
@@ -104,8 +101,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Title Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__TITLE_POSITION = 3;
 
@@ -113,8 +109,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Associated Axes</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__ASSOCIATED_AXES = 4;
 
@@ -122,16 +117,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__SERIES_DEFINITIONS = 5;
 
     /**
      * The feature id for the '<em><b>Gap Width</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__GAP_WIDTH = 6;
 
@@ -139,8 +132,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Orientation</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__ORIENTATION = 7;
 
@@ -148,8 +140,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__LINE_ATTRIBUTES = 8;
 
@@ -157,8 +148,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__LABEL = 9;
 
@@ -166,8 +156,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__FORMAT_SPECIFIER = 10;
 
@@ -175,16 +164,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__LABEL_POSITION = 11;
 
     /**
      * The feature id for the '<em><b>Staggered</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__STAGGERED = 12;
 
@@ -192,8 +179,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Marker Lines</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__MARKER_LINES = 13;
 
@@ -201,8 +187,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Marker Ranges</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__MARKER_RANGES = 14;
 
@@ -210,8 +195,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Major Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__MAJOR_GRID = 15;
 
@@ -219,8 +203,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Minor Grid</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__MINOR_GRID = 16;
 
@@ -228,8 +211,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Scale</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__SCALE = 17;
 
@@ -237,8 +219,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Origin</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__ORIGIN = 18;
 
@@ -246,8 +227,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Primary Axis</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__PRIMARY_AXIS = 19;
 
@@ -255,16 +235,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Category Axis</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__CATEGORY_AXIS = 20;
 
     /**
      * The feature id for the '<em><b>Percent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS__PERCENT = 21;
 
@@ -272,8 +250,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Axis</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS_FEATURE_COUNT = 22;
 
@@ -292,8 +269,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Labels</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_PREFERENCES__LABELS = 0;
 
@@ -301,8 +277,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Blocks</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_PREFERENCES__BLOCKS = 1;
 
@@ -310,8 +285,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Chart Preferences</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int CHART_PREFERENCES_FEATURE_COUNT = 2;
 
@@ -339,16 +313,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID__LINE_ATTRIBUTES = 0;
 
     /**
      * The feature id for the '<em><b>Tick Style</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID__TICK_STYLE = 1;
 
@@ -356,24 +328,21 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Tick Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID__TICK_ATTRIBUTES = 2;
 
     /**
      * The feature id for the '<em><b>Tick Size</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID__TICK_SIZE = 3;
 
     /**
      * The feature id for the '<em><b>Tick Count</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID__TICK_COUNT = 4;
 
@@ -381,8 +350,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Grid</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRID_FEATURE_COUNT = 5;
 
@@ -390,8 +358,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Caption</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__CAPTION = 0;
 
@@ -399,8 +366,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__FORMAT_SPECIFIER = 1;
 
@@ -408,8 +374,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Background</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__BACKGROUND = 2;
 
@@ -417,8 +382,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__OUTLINE = 3;
 
@@ -426,8 +390,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__SHADOW_COLOR = 4;
 
@@ -435,16 +398,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Insets</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__INSETS = 5;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL__VISIBLE = 6;
 
@@ -452,8 +413,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Label</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LABEL_FEATURE_COUNT = 7;
 
@@ -472,8 +432,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE__LINE_ATTRIBUTES = 0;
 
@@ -481,8 +440,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE__VALUE = 1;
 
@@ -490,8 +448,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE__LABEL = 2;
 
@@ -499,8 +456,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE__LABEL_ANCHOR = 3;
 
@@ -508,8 +464,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE__FORMAT_SPECIFIER = 4;
 
@@ -517,8 +472,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Marker Line</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_LINE_FEATURE_COUNT = 5;
 
@@ -537,8 +491,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__OUTLINE = 0;
 
@@ -546,8 +499,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__FILL = 1;
 
@@ -555,8 +507,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Start Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__START_VALUE = 2;
 
@@ -564,8 +515,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>End Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__END_VALUE = 3;
 
@@ -573,8 +523,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__LABEL = 4;
 
@@ -582,8 +531,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label Anchor</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__LABEL_ANCHOR = 5;
 
@@ -591,8 +539,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__LABEL_POSITION = 6;
 
@@ -600,8 +547,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE__FORMAT_SPECIFIER = 7;
 
@@ -609,8 +555,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Marker Range</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_RANGE_FEATURE_COUNT = 8;
 
@@ -628,8 +573,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Min</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__MIN = 0;
 
@@ -637,24 +581,21 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Max</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__MAX = 1;
 
     /**
      * The feature id for the '<em><b>Step</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__STEP = 2;
 
     /**
      * The feature id for the '<em><b>Unit</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__UNIT = 3;
 
@@ -662,16 +603,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Minor Grids Per Unit</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__MINOR_GRIDS_PER_UNIT = 4;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE__TYPE = 5;
 
@@ -679,8 +618,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Scale</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCALE_FEATURE_COUNT = 6;
 
@@ -697,8 +635,7 @@ public interface ComponentPackage extends EPackage
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__VISIBLE = 0;
 
@@ -706,8 +643,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__LABEL = 1;
 
@@ -715,8 +651,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Data Definition</b></em>' containment reference list. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__DATA_DEFINITION = 2;
 
@@ -724,8 +659,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Series Identifier</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__SERIES_IDENTIFIER = 3;
 
@@ -733,8 +667,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Data Point</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__DATA_POINT = 4;
 
@@ -742,8 +675,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Data Set</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__DATA_SET = 5;
 
@@ -751,8 +683,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__FORMAT_SPECIFIER = 6;
 
@@ -760,16 +691,14 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Label Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__LABEL_POSITION = 7;
 
     /**
      * The feature id for the '<em><b>Stacked</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__STACKED = 8;
 
@@ -777,8 +706,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Triggers</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__TRIGGERS = 9;
 
@@ -786,8 +714,7 @@ public interface ComponentPackage extends EPackage
      * The feature id for the '<em><b>Translucent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES__TRANSLUCENT = 10;
 
@@ -795,8 +722,7 @@ public interface ComponentPackage extends EPackage
      * The number of structural features of the the '<em>Series</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_FEATURE_COUNT = 11;
 

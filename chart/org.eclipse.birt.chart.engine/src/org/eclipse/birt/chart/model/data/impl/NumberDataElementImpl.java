@@ -39,8 +39,7 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double VALUE_EDEFAULT = 0.0;
 
@@ -49,16 +48,14 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double value = VALUE_EDEFAULT;
 
     /**
      * This is true if the Value attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean valueESet = false;
 

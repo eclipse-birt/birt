@@ -62,8 +62,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * <!-- end-user-doc -->
      * 
      * @see #getAxes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList axes = null;
 
@@ -72,8 +71,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
@@ -82,16 +80,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Orientation orientation = ORIENTATION_EDEFAULT;
 
     /**
      * This is true if the Orientation attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean orientationESet = false;
 
@@ -100,8 +96,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * <!-- end-user-doc -->
      * 
      * @see #getUnitSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double UNIT_SPACING_EDEFAULT = 0.0;
 
@@ -110,16 +105,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
      * <!-- end-user-doc -->
      * 
      * @see #getUnitSpacing()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double unitSpacing = UNIT_SPACING_EDEFAULT;
 
     /**
      * This is true if the Unit Spacing attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean unitSpacingESet = false;
 

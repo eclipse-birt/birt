@@ -34,8 +34,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries()
- * @model
- * @generated
+ * @model @generated
  */
 public interface StockSeries extends Series
 {

@@ -77,8 +77,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ACTION__TYPE = 0;
 
@@ -86,8 +85,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Value</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ACTION__VALUE = 1;
 
@@ -95,8 +93,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Action</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ACTION_FEATURE_COUNT = 2;
 
@@ -115,8 +112,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Data Set Representation</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION = 0;
 
@@ -124,8 +120,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Base Sample Data</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BASE_SAMPLE_DATA_FEATURE_COUNT = 1;
 
@@ -143,8 +138,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Element</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_ELEMENT_FEATURE_COUNT = 0;
 
@@ -161,8 +155,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_SET__VALUES = 0;
 
@@ -170,8 +163,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Set</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_SET_FEATURE_COUNT = 1;
 
@@ -189,8 +181,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_TIME_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
@@ -198,8 +189,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Date Time Data Element</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_TIME_DATA_ELEMENT_FEATURE_COUNT = DATA_ELEMENT_FEATURE_COUNT + 1;
 
@@ -217,8 +207,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_TIME_DATA_SET__VALUES = DATA_SET__VALUES;
 
@@ -226,8 +215,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Date Time Data Set</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_TIME_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
@@ -245,8 +233,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
@@ -254,8 +241,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Number Data Element</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_DATA_ELEMENT_FEATURE_COUNT = DATA_ELEMENT_FEATURE_COUNT + 1;
 
@@ -273,8 +259,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_DATA_SET__VALUES = DATA_SET__VALUES;
 
@@ -282,8 +267,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Number Data Set</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
@@ -302,8 +286,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Data Set Representation</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION = 0;
 
@@ -311,8 +294,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Series Definition Index</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX = 1;
 
@@ -320,8 +302,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Orthogonal Sample Data</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ORTHOGONAL_SAMPLE_DATA_FEATURE_COUNT = 2;
 
@@ -338,8 +319,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Definition</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int QUERY__DEFINITION = 0;
 
@@ -347,8 +327,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Rules</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int QUERY__RULES = 1;
 
@@ -356,8 +335,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Query</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int QUERY_FEATURE_COUNT = 2;
 
@@ -374,16 +352,14 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int RULE__TYPE = 0;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int RULE__VALUE = 1;
 
@@ -391,8 +367,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Rule</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int RULE_FEATURE_COUNT = 2;
 
@@ -410,8 +385,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Base Sample Data</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SAMPLE_DATA__BASE_SAMPLE_DATA = 0;
 
@@ -419,8 +393,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Orthogonal Sample Data</b></em>' containment reference list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA = 1;
 
@@ -428,8 +401,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Sample Data</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SAMPLE_DATA_FEATURE_COUNT = 2;
 
@@ -448,8 +420,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Query</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__QUERY = 0;
 
@@ -457,8 +428,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Series Palette</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__SERIES_PALETTE = 1;
 
@@ -466,8 +436,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__SERIES_DEFINITIONS = 2;
 
@@ -475,8 +444,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Series</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__SERIES = 3;
 
@@ -484,16 +452,14 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Grouping</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__GROUPING = 4;
 
     /**
      * The feature id for the '<em><b>Sorting</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION__SORTING = 5;
 
@@ -501,8 +467,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Series Definition</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_DEFINITION_FEATURE_COUNT = 6;
 
@@ -520,8 +485,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Enabled</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING__ENABLED = 0;
 
@@ -529,8 +493,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Grouping Unit</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING__GROUPING_UNIT = 1;
 
@@ -538,16 +501,14 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Grouping Interval</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING__GROUPING_INTERVAL = 2;
 
     /**
      * The feature id for the '<em><b>Group Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING__GROUP_TYPE = 3;
 
@@ -555,8 +516,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Aggregate Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING__AGGREGATE_EXPRESSION = 4;
 
@@ -564,8 +524,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Series Grouping</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_GROUPING_FEATURE_COUNT = 5;
 
@@ -583,8 +542,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_DATA_SET__VALUES = DATA_SET__VALUES;
 
@@ -592,8 +550,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Stock Data Set</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STOCK_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
@@ -611,8 +568,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_DATA_SET__VALUES = DATA_SET__VALUES;
 
@@ -620,8 +576,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Text Data Set</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
@@ -638,8 +593,7 @@ public interface DataPackage extends EPackage
     /**
      * The feature id for the '<em><b>Condition</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TRIGGER__CONDITION = 0;
 
@@ -647,8 +601,7 @@ public interface DataPackage extends EPackage
      * The feature id for the '<em><b>Action</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TRIGGER__ACTION = 1;
 
@@ -656,8 +609,7 @@ public interface DataPackage extends EPackage
      * The number of structural features of the the '<em>Trigger</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TRIGGER_FEATURE_COUNT = 2;
 

@@ -46,8 +46,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #isEnabled()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean ENABLED_EDEFAULT = false;
 
@@ -56,16 +55,14 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #isEnabled()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean enabled = ENABLED_EDEFAULT;
 
     /**
      * This is true if the Enabled attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean enabledESet = false;
 
@@ -74,8 +71,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * <!-- end-user-doc -->
      * 
      * @see #getGroupingUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String GROUPING_UNIT_EDEFAULT = null;
 
@@ -84,8 +80,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * <!-- end-user-doc -->
      * 
      * @see #getGroupingUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String groupingUnit = GROUPING_UNIT_EDEFAULT;
 
@@ -94,8 +89,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGroupingInterval()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int GROUPING_INTERVAL_EDEFAULT = 0;
 
@@ -104,16 +98,14 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getGroupingInterval()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int groupingInterval = GROUPING_INTERVAL_EDEFAULT;
 
     /**
      * This is true if the Grouping Interval attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean groupingIntervalESet = false;
 
@@ -122,8 +114,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #getGroupType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String GROUP_TYPE_EDEFAULT = null;
 
@@ -132,8 +123,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * end-user-doc -->
      * 
      * @see #getGroupType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String groupType = GROUP_TYPE_EDEFAULT;
 
@@ -142,8 +132,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getAggregateExpression()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String AGGREGATE_EXPRESSION_EDEFAULT = null;
 
@@ -152,8 +141,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getAggregateExpression()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String aggregateExpression = AGGREGATE_EXPRESSION_EDEFAULT;
 

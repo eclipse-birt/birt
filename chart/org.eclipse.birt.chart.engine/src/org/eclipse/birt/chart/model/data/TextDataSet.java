@@ -23,8 +23,7 @@ package org.eclipse.birt.chart.model.data;
  * 
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTextDataSet()
- * @model
- * @generated
+ * @model @generated
  */
 public interface TextDataSet extends DataSet
 {

@@ -31,8 +31,7 @@ import org.eclipse.birt.chart.model.component.Label;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLabelBlock()
- * @model
- * @generated
+ * @model @generated
  */
 public interface LabelBlock extends Block
 {

@@ -88,8 +88,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final AxisType TYPE_EDEFAULT = AxisType.LINEAR_LITERAL;
 
@@ -98,16 +97,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected AxisType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -116,8 +113,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getTitle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label title = null;
 
@@ -126,8 +122,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * --> <!-- end-user-doc -->
      * 
      * @see #getSubtitle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label subtitle = null;
 
@@ -136,8 +131,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * --> <!-- end-user-doc -->
      * 
      * @see #getTitlePosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -146,16 +140,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * --> <!-- end-user-doc -->
      * 
      * @see #getTitlePosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position titlePosition = TITLE_POSITION_EDEFAULT;
 
     /**
      * This is true if the Title Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean titlePositionESet = false;
 
@@ -164,8 +156,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getAssociatedAxes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList associatedAxes = null;
 
@@ -174,8 +165,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitions()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList seriesDefinitions = null;
 
@@ -184,8 +174,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #getGapWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double GAP_WIDTH_EDEFAULT = 0.0;
 
@@ -194,16 +183,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #getGapWidth()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double gapWidth = GAP_WIDTH_EDEFAULT;
 
     /**
      * This is true if the Gap Width attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean gapWidthESet = false;
 
@@ -212,8 +199,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
@@ -222,16 +208,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getOrientation()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Orientation orientation = ORIENTATION_EDEFAULT;
 
     /**
      * This is true if the Orientation attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean orientationESet = false;
 
@@ -240,8 +224,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getLineAttributes()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected LineAttributes lineAttributes = null;
 
@@ -250,8 +233,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getLabel()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Label label = null;
 
@@ -260,8 +242,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getFormatSpecifier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected FormatSpecifier formatSpecifier = null;
 
@@ -270,8 +251,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
@@ -280,16 +260,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * --> <!-- end-user-doc -->
      * 
      * @see #getLabelPosition()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Position labelPosition = LABEL_POSITION_EDEFAULT;
 
     /**
      * This is true if the Label Position attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean labelPositionESet = false;
 
@@ -298,8 +276,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #isStaggered()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean STAGGERED_EDEFAULT = false;
 
@@ -308,16 +285,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #isStaggered()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean staggered = STAGGERED_EDEFAULT;
 
     /**
      * This is true if the Staggered attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean staggeredESet = false;
 
@@ -326,8 +301,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMarkerLines()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList markerLines = null;
 
@@ -336,8 +310,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMarkerRanges()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList markerRanges = null;
 
@@ -346,8 +319,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMajorGrid()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Grid majorGrid = null;
 
@@ -356,8 +328,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMinorGrid()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Grid minorGrid = null;
 
@@ -366,8 +337,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getScale()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Scale scale = null;
 
@@ -376,8 +346,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #getOrigin()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected AxisOrigin origin = null;
 
@@ -386,8 +355,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #isPrimaryAxis()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean PRIMARY_AXIS_EDEFAULT = false;
 
@@ -396,16 +364,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #isPrimaryAxis()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean primaryAxis = PRIMARY_AXIS_EDEFAULT;
 
     /**
      * This is true if the Primary Axis attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean primaryAxisESet = false;
 
@@ -414,8 +380,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #isCategoryAxis()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean CATEGORY_AXIS_EDEFAULT = false;
 
@@ -424,16 +389,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * <!-- end-user-doc -->
      * 
      * @see #isCategoryAxis()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean categoryAxis = CATEGORY_AXIS_EDEFAULT;
 
     /**
      * This is true if the Category Axis attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean categoryAxisESet = false;
 
@@ -442,8 +405,7 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #isPercent()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final boolean PERCENT_EDEFAULT = false;
 
@@ -452,16 +414,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * end-user-doc -->
      * 
      * @see #isPercent()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean percent = PERCENT_EDEFAULT;
 
     /**
      * This is true if the Percent attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean percentESet = false;
 

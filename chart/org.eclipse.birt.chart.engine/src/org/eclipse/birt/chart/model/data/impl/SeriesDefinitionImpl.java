@@ -64,8 +64,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * <!-- end-user-doc -->
      * 
      * @see #getQuery()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Query query = null;
 
@@ -74,8 +73,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesPalette()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Palette seriesPalette = null;
 
@@ -84,8 +82,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * list. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getSeriesDefinitions()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList seriesDefinitions = null;
 
@@ -94,8 +91,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * --> <!-- end-user-doc -->
      * 
      * @see #getSeries()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected EList series = null;
 
@@ -104,8 +100,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * --> <!-- end-user-doc -->
      * 
      * @see #getGrouping()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected SeriesGrouping grouping = null;
 
@@ -114,8 +109,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * end-user-doc -->
      * 
      * @see #getSorting()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final SortOption SORTING_EDEFAULT = SortOption.ASCENDING_LITERAL;
 
@@ -124,16 +118,14 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
      * end-user-doc -->
      * 
      * @see #getSorting()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected SortOption sorting = SORTING_EDEFAULT;
 
     /**
      * This is true if the Sorting attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean sortingESet = false;
 

@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutManager;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -105,46 +106,47 @@ public final class Generator
      * @param bo
      * @param lo
      * 
-     * @return
-     * @throws GenerationException
+     * @return @throws
+     *         GenerationException
      */
-    public final GeneratedChartState build(IDisplayServer xs, Chart cm, Scriptable scParent, Bounds bo, Locale lo)
-        throws GenerationException
+    public final GeneratedChartState build(IDisplayServer xs, Chart cmDesignTime, Scriptable scParent, Bounds bo,
+        Locale lo) throws GenerationException
     {
+        Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
         if (lo == null)
         {
             lo = Locale.getDefault();
         }
 
-        final String sScriptContent = cm.getScript();
+        final String sScriptContent = cmRunTime.getScript();
         ScriptHandler sh = null;
         if (sScriptContent != null)
         {
             sh = new ScriptHandler();
             sh.init(scParent);
-            sh.setRunTimeModel(cm);
-            cm.setScriptHandler(sh);
+            sh.setRunTimeModel(cmRunTime);
+            cmRunTime.setScriptHandler(sh);
             sh.register(sScriptContent);
-            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cm);
+            ScriptHandler.callFunction(sh, ScriptHandler.START_GENERATION, cmRunTime);
         }
 
         // SETUP THE COMPUTATIONS
         int iChartType = UNDEFINED;
         Object oComputations = null;
-        if (cm instanceof ChartWithAxes)
+        if (cmRunTime instanceof ChartWithAxes)
         {
             iChartType = WITH_AXES;
-            oComputations = new PlotWith2DAxes(xs, (ChartWithAxes) cm, lo);
+            oComputations = new PlotWith2DAxes(xs, (ChartWithAxes) cmRunTime, lo);
         }
-        else if (cm instanceof ChartWithoutAxes)
+        else if (cmRunTime instanceof ChartWithoutAxes)
         {
             iChartType = WITHOUT_AXES;
-            oComputations = new PlotWithoutAxes(xs, (ChartWithoutAxes) cm, lo);
+            oComputations = new PlotWithoutAxes(xs, (ChartWithoutAxes) cmRunTime, lo);
         }
 
         if (oComputations == null)
         {
-            throw new GenerationException("Unable to compute chart defined by model [" + cm + "]");
+            throw new GenerationException("Unable to compute chart defined by model [" + cmRunTime + "]");
         }
 
         // OBTAIN THE RENDERERS
@@ -153,7 +155,7 @@ public final class Generator
         BaseRenderer[] brna = null;
         try
         {
-            brna = BaseRenderer.instances(cm, oComputations);
+            brna = BaseRenderer.instances(cmRunTime, oComputations);
             for (int i = 0; i < brna.length; i++)
             {
                 lhmRenderers.put(brna[i].getSeries(), new LegendItemRenderingHints(brna[i], BoundsImpl.create(0, 0, 0,
@@ -167,25 +169,25 @@ public final class Generator
         }
 
         // PERFORM THE BLOCKS' LAYOUT
-        Block bl = cm.getBlock();
+        Block bl = cmRunTime.getBlock();
         final LayoutManager lm = new LayoutManager(bl);
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cm);
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cmRunTime);
         try
         {
-            lm.doLayout_tmp(xs, cm, bo);
+            lm.doLayout_tmp(xs, cmRunTime, bo);
         }
         catch (OverlapException oex )
         {
             throw new GenerationException(oex);
         }
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_LAYOUT, cm);
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_LAYOUT, cmRunTime);
 
         // COMPUTE THE PLOT AREA
-        Bounds boPlot = cm.getPlot().getBounds();
-        Insets insPlot = cm.getPlot().getInsets();
+        Bounds boPlot = cmRunTime.getPlot().getBounds();
+        Insets insPlot = cmRunTime.getPlot().getInsets();
         boPlot = boPlot.adjustedInstance(insPlot);
 
-        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTATIONS, cm, oComputations);
+        ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTATIONS, cmRunTime, oComputations);
         long lTimer = System.currentTimeMillis();
         if (iChartType == WITH_AXES)
         {
@@ -212,7 +214,7 @@ public final class Generator
                 throw new GenerationException(ex);
             }
         }
-        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTATIONS, cm, oComputations);
+        ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTATIONS, cmRunTime, oComputations);
 
         final Collection co = lhmRenderers.values();
         final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray(EMPTY_LIRHA);
@@ -235,7 +237,7 @@ public final class Generator
                     br.set(((PlotWith2DAxes) br.getComputations()).getSeriesRenderingHints(br.getSeries()));
                 }
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_COMPUTE_SERIES, br.getSeries());
-                br.compute(bo, cm.getPlot(), br.getSeriesRenderingHints());
+                br.compute(bo, cmRunTime.getPlot(), br.getSeriesRenderingHints());
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_COMPUTE_SERIES, br.getSeries());
             }
             catch (Exception ex )
@@ -245,7 +247,7 @@ public final class Generator
         }
         il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer)
             + " ms");
-        final GeneratedChartState gcs = new GeneratedChartState(xs, cm, lhmRenderers, oComputations);
+        final GeneratedChartState gcs = new GeneratedChartState(xs, cmRunTime, lhmRenderers, oComputations);
         if (sh != null)
         {
             sh.setGeneratedChartState(gcs);
@@ -364,6 +366,7 @@ public final class Generator
             }
             catch (Exception ex )
             {
+                ex.printStackTrace();
                 throw new RenderingException(ex);
             }
         }

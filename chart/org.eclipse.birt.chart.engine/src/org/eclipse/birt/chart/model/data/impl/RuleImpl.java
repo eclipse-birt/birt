@@ -39,8 +39,7 @@ public class RuleImpl extends EObjectImpl implements Rule
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final RuleType TYPE_EDEFAULT = RuleType.FILTER_LITERAL;
 
@@ -49,16 +48,14 @@ public class RuleImpl extends EObjectImpl implements Rule
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected RuleType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -67,8 +64,7 @@ public class RuleImpl extends EObjectImpl implements Rule
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String VALUE_EDEFAULT = null;
 
@@ -77,8 +73,7 @@ public class RuleImpl extends EObjectImpl implements Rule
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String value = VALUE_EDEFAULT;
 

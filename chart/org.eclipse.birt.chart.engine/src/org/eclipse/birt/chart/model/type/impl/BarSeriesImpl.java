@@ -55,8 +55,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
      * end-user-doc -->
      * 
      * @see #getRiser()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final RiserType RISER_EDEFAULT = RiserType.RECTANGLE_LITERAL;
 
@@ -65,16 +64,14 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
      * end-user-doc -->
      * 
      * @see #getRiser()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected RiserType riser = RISER_EDEFAULT;
 
     /**
      * This is true if the Riser attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean riserESet = false;
 
@@ -83,8 +80,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getRiserOutline()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ColorDefinition riserOutline = null;
 

@@ -32,8 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Marker extends EObject
 {

@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLeaderLineStyle()
- * @model
- * @generated
+ * @model @generated
  */
 public final class LeaderLineStyle extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * 
      * @see #FIXED_LENGTH_LITERAL
      * @model name="Fixed_Length"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int FIXED_LENGTH = 0;
 
@@ -47,8 +45,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * 
      * @see #STRETCH_TO_SIDE_LITERAL
      * @model name="Stretch_To_Side"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int STRETCH_TO_SIDE = 1;
 
@@ -61,8 +58,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #FIXED_LENGTH
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LeaderLineStyle FIXED_LENGTH_LITERAL = new LeaderLineStyle(FIXED_LENGTH, "Fixed_Length");
 
@@ -75,8 +71,7 @@ public final class LeaderLineStyle extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #STRETCH_TO_SIDE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final LeaderLineStyle STRETCH_TO_SIDE_LITERAL = new LeaderLineStyle(STRETCH_TO_SIDE,
         "Stretch_To_Side");

@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getOrientation()
- * @model
- * @generated
+ * @model @generated
  */
 public final class Orientation extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class Orientation extends AbstractEnumerator
      * 
      * @see #HORIZONTAL_LITERAL
      * @model name="Horizontal"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int HORIZONTAL = 0;
 
@@ -47,8 +45,7 @@ public final class Orientation extends AbstractEnumerator
      * 
      * @see #VERTICAL_LITERAL
      * @model name="Vertical"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int VERTICAL = 1;
 
@@ -61,8 +58,7 @@ public final class Orientation extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #HORIZONTAL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Orientation HORIZONTAL_LITERAL = new Orientation(HORIZONTAL, "Horizontal");
 
@@ -75,8 +71,7 @@ public final class Orientation extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #VERTICAL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Orientation VERTICAL_LITERAL = new Orientation(VERTICAL, "Vertical");
 

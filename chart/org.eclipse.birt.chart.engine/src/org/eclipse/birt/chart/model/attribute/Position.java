@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPosition()
- * @model
- * @generated
+ * @model @generated
  */
 public final class Position extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #ABOVE_LITERAL
      * @model name="Above"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int ABOVE = 0;
 
@@ -47,8 +45,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #BELOW_LITERAL
      * @model name="Below"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int BELOW = 1;
 
@@ -57,8 +54,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #LEFT_LITERAL
      * @model name="Left"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LEFT = 2;
 
@@ -67,8 +63,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #RIGHT_LITERAL
      * @model name="Right"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int RIGHT = 3;
 
@@ -77,8 +72,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #INSIDE_LITERAL
      * @model name="Inside"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int INSIDE = 4;
 
@@ -87,8 +81,7 @@ public final class Position extends AbstractEnumerator
      * 
      * @see #OUTSIDE_LITERAL
      * @model name="Outside"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int OUTSIDE = 5;
 
@@ -101,8 +94,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ABOVE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position ABOVE_LITERAL = new Position(ABOVE, "Above");
 
@@ -115,8 +107,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #BELOW
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position BELOW_LITERAL = new Position(BELOW, "Below");
 
@@ -129,8 +120,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEFT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position LEFT_LITERAL = new Position(LEFT, "Left");
 
@@ -143,8 +133,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #RIGHT
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position RIGHT_LITERAL = new Position(RIGHT, "Right");
 
@@ -157,8 +146,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #INSIDE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position INSIDE_LITERAL = new Position(INSIDE, "Inside");
 
@@ -171,8 +159,7 @@ public final class Position extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #OUTSIDE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final Position OUTSIDE_LITERAL = new Position(OUTSIDE, "Outside");
 

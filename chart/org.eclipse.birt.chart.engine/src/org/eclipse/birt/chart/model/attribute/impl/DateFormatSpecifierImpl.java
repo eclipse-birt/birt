@@ -46,8 +46,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final DateFormatType TYPE_EDEFAULT = DateFormatType.LONG_LITERAL;
 
@@ -56,16 +55,14 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DateFormatType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -74,8 +71,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
      * end-user-doc -->
      * 
      * @see #getDetail()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final DateFormatDetail DETAIL_EDEFAULT = DateFormatDetail.DATE_LITERAL;
 
@@ -84,16 +80,14 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
      * end-user-doc -->
      * 
      * @see #getDetail()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DateFormatDetail detail = DETAIL_EDEFAULT;
 
     /**
      * This is true if the Detail attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean detailESet = false;
 
@@ -259,8 +253,8 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
     /**
      * 
-     * @return
-     * @throws UndefinedValueException
+     * @return @throws
+     *         UndefinedValueException
      */
     private final int getJavaType() throws UndefinedValueException
     {

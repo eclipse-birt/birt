@@ -48,8 +48,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getMin()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataElement min = null;
 
@@ -58,8 +57,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getMax()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected DataElement max = null;
 
@@ -68,8 +66,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getStep()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double STEP_EDEFAULT = 0.0;
 
@@ -78,16 +75,14 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * -->
      * 
      * @see #getStep()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double step = STEP_EDEFAULT;
 
     /**
      * This is true if the Step attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean stepESet = false;
 
@@ -96,8 +91,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final ScaleUnitType UNIT_EDEFAULT = ScaleUnitType.SECONDS_LITERAL;
 
@@ -106,16 +100,14 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * -->
      * 
      * @see #getUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected ScaleUnitType unit = UNIT_EDEFAULT;
 
     /**
      * This is true if the Unit attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean unitESet = false;
 
@@ -124,8 +116,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMinorGridsPerUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 0;
 
@@ -134,16 +125,14 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @see #getMinorGridsPerUnit()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int minorGridsPerUnit = MINOR_GRIDS_PER_UNIT_EDEFAULT;
 
     /**
      * This is true if the Minor Grids Per Unit attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean minorGridsPerUnitESet = false;
 
@@ -152,8 +141,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String TYPE_EDEFAULT = null;
 
@@ -162,8 +150,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String type = TYPE_EDEFAULT;
 

@@ -25,8 +25,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRuleType()
- * @model
- * @generated
+ * @model @generated
  */
 public final class RuleType extends AbstractEnumerator
 {
@@ -35,8 +34,7 @@ public final class RuleType extends AbstractEnumerator
      * 
      * @see #FILTER_LITERAL
      * @model name="Filter"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int FILTER = 0;
 
@@ -45,8 +43,7 @@ public final class RuleType extends AbstractEnumerator
      * 
      * @see #SUPPRESS_LITERAL
      * @model name="Suppress"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SUPPRESS = 1;
 
@@ -55,8 +52,7 @@ public final class RuleType extends AbstractEnumerator
      * 
      * @see #LINK_LITERAL
      * @model name="Link"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LINK = 2;
 
@@ -69,8 +65,7 @@ public final class RuleType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #FILTER
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final RuleType FILTER_LITERAL = new RuleType(FILTER, "Filter");
 
@@ -83,8 +78,7 @@ public final class RuleType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SUPPRESS
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final RuleType SUPPRESS_LITERAL = new RuleType(SUPPRESS, "Suppress");
 
@@ -97,8 +91,7 @@ public final class RuleType extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LINK
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final RuleType LINK_LITERAL = new RuleType(LINK, "Link");
 

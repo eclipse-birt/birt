@@ -36,8 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getOrthogonalSampleData()
- * @model
- * @generated
+ * @model @generated
  */
 public interface OrthogonalSampleData extends EObject
 {

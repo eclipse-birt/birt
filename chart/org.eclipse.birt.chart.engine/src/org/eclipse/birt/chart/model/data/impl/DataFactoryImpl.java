@@ -300,8 +300,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static DataPackage getPackage()
     {

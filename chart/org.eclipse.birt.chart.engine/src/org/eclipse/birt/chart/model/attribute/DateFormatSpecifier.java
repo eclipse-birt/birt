@@ -33,8 +33,7 @@ import java.util.Locale;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatSpecifier()
- * @model
- * @generated
+ * @model @generated
  */
 public interface DateFormatSpecifier extends FormatSpecifier
 {

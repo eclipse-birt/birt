@@ -32,8 +32,7 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getColorDefinition()
- * @model
- * @generated
+ * @model @generated
  */
 public interface ColorDefinition extends Fill
 {

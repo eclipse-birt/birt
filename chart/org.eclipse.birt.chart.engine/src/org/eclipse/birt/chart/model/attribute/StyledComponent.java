@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyledComponent()
- * @model
- * @generated
+ * @model @generated
  */
 public final class StyledComponent extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #CHART_TITLE_LITERAL
      * @model name="Chart_Title"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CHART_TITLE = 0;
 
@@ -47,8 +45,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #CHART_BACKGROUND_LITERAL
      * @model name="Chart_Background"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int CHART_BACKGROUND = 1;
 
@@ -57,8 +54,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #PLOT_BACKGROUND_LITERAL
      * @model name="Plot_Background"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int PLOT_BACKGROUND = 2;
 
@@ -67,8 +63,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #LEGEND_BACKGROUND_LITERAL
      * @model name="Legend_Background"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LEGEND_BACKGROUND = 3;
 
@@ -77,8 +72,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #LEGEND_LABEL_LITERAL
      * @model name="Legend_Label"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int LEGEND_LABEL = 4;
 
@@ -87,8 +81,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #DATA_LABEL_LITERAL
      * @model name="Data_Label"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DATA_LABEL = 5;
 
@@ -97,8 +90,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #AXIS_TITLE_LITERAL
      * @model name="Axis_Title"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int AXIS_TITLE = 6;
 
@@ -107,8 +99,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #AXIS_LABEL_LITERAL
      * @model name="Axis_Label"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int AXIS_LABEL = 7;
 
@@ -117,8 +108,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #AXIS_LINE_LITERAL
      * @model name="Axis_Line"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int AXIS_LINE = 8;
 
@@ -127,8 +117,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #SERIES_TITLE_LITERAL
      * @model name="Series_Title"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SERIES_TITLE = 9;
 
@@ -137,8 +126,7 @@ public final class StyledComponent extends AbstractEnumerator
      * 
      * @see #SERIES_LABEL_LITERAL
      * @model name="Series_Label"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int SERIES_LABEL = 10;
 
@@ -151,8 +139,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CHART_TITLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent CHART_TITLE_LITERAL = new StyledComponent(CHART_TITLE, "Chart_Title");
 
@@ -165,8 +152,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #CHART_BACKGROUND
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent CHART_BACKGROUND_LITERAL = new StyledComponent(CHART_BACKGROUND,
         "Chart_Background");
@@ -180,8 +166,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #PLOT_BACKGROUND
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent PLOT_BACKGROUND_LITERAL = new StyledComponent(PLOT_BACKGROUND,
         "Plot_Background");
@@ -195,8 +180,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEGEND_BACKGROUND
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent LEGEND_BACKGROUND_LITERAL = new StyledComponent(LEGEND_BACKGROUND,
         "Legend_Background");
@@ -210,8 +194,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #LEGEND_LABEL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent LEGEND_LABEL_LITERAL = new StyledComponent(LEGEND_LABEL, "Legend_Label");
 
@@ -224,8 +207,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DATA_LABEL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent DATA_LABEL_LITERAL = new StyledComponent(DATA_LABEL, "Data_Label");
 
@@ -238,8 +220,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #AXIS_TITLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent AXIS_TITLE_LITERAL = new StyledComponent(AXIS_TITLE, "Axis_Title");
 
@@ -252,8 +233,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #AXIS_LABEL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent AXIS_LABEL_LITERAL = new StyledComponent(AXIS_LABEL, "Axis_Label");
 
@@ -266,8 +246,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #AXIS_LINE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent AXIS_LINE_LITERAL = new StyledComponent(AXIS_LINE, "Axis_Line");
 
@@ -280,8 +259,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES_TITLE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent SERIES_TITLE_LITERAL = new StyledComponent(SERIES_TITLE, "Series_Title");
 
@@ -294,8 +272,7 @@ public final class StyledComponent extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #SERIES_LABEL
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final StyledComponent SERIES_LABEL_LITERAL = new StyledComponent(SERIES_LABEL, "Series_Label");
 

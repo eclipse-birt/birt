@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDateFormatDetail()
- * @model
- * @generated
+ * @model @generated
  */
 public final class DateFormatDetail extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class DateFormatDetail extends AbstractEnumerator
      * 
      * @see #DATE_LITERAL
      * @model name="Date"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DATE = 0;
 
@@ -47,8 +45,7 @@ public final class DateFormatDetail extends AbstractEnumerator
      * 
      * @see #DATE_TIME_LITERAL
      * @model name="Date_Time"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DATE_TIME = 1;
 
@@ -61,8 +58,7 @@ public final class DateFormatDetail extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DATE
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatDetail DATE_LITERAL = new DateFormatDetail(DATE, "Date");
 
@@ -75,8 +71,7 @@ public final class DateFormatDetail extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DATE_TIME
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final DateFormatDetail DATE_TIME_LITERAL = new DateFormatDetail(DATE_TIME, "Date_Time");
 

@@ -146,8 +146,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @deprecated
-     * @generated
+     * @deprecated @generated
      */
     public static LayoutPackage getPackage()
     {

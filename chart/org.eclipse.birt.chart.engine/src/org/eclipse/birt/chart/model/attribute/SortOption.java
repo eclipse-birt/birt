@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * <!-- end-model-doc -->
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSortOption()
- * @model
- * @generated
+ * @model @generated
  */
 public final class SortOption extends AbstractEnumerator
 {
@@ -37,8 +36,7 @@ public final class SortOption extends AbstractEnumerator
      * 
      * @see #ASCENDING_LITERAL
      * @model name="Ascending"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int ASCENDING = 0;
 
@@ -47,8 +45,7 @@ public final class SortOption extends AbstractEnumerator
      * 
      * @see #DESCENDING_LITERAL
      * @model name="Descending"
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final int DESCENDING = 1;
 
@@ -61,8 +58,7 @@ public final class SortOption extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #ASCENDING
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final SortOption ASCENDING_LITERAL = new SortOption(ASCENDING, "Ascending");
 
@@ -75,8 +71,7 @@ public final class SortOption extends AbstractEnumerator
      * <!-- end-user-doc -->
      * 
      * @see #DESCENDING
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     public static final SortOption DESCENDING_LITERAL = new SortOption(DESCENDING, "Descending");
 

@@ -43,8 +43,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getTop()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double TOP_EDEFAULT = 0.0;
 
@@ -53,16 +52,14 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getTop()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double top = TOP_EDEFAULT;
 
     /**
      * This is true if the Top attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean topESet = false;
 
@@ -71,8 +68,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getLeft()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double LEFT_EDEFAULT = 0.0;
 
@@ -81,16 +77,14 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * -->
      * 
      * @see #getLeft()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double left = LEFT_EDEFAULT;
 
     /**
      * This is true if the Left attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean leftESet = false;
 
@@ -99,8 +93,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getBottom()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double BOTTOM_EDEFAULT = 0.0;
 
@@ -109,16 +102,14 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getBottom()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double bottom = BOTTOM_EDEFAULT;
 
     /**
      * This is true if the Bottom attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean bottomESet = false;
 
@@ -127,8 +118,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getRight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double RIGHT_EDEFAULT = 0.0;
 
@@ -137,16 +127,14 @@ public class InsetsImpl extends EObjectImpl implements Insets
      * end-user-doc -->
      * 
      * @see #getRight()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double right = RIGHT_EDEFAULT;
 
     /**
      * This is true if the Right attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean rightESet = false;
 

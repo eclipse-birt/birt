@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -135,11 +136,6 @@ public final class StackedSeriesLookup
      */
     public final AxisSubUnit getUnit(Series se, int iUnitIndex)
     {
-        // CAN'T GET UNITS FOR NULL OR SERIES THAT AREN'T STACKED
-        /*
-         * if (se != null && !se.canBeStacked() || !se.isStacked()) { return null; }
-         */
-
         // LOOKUP STACKED GROUP FOR SERIES
         StackGroup sg = (StackGroup) htSeriesToStackGroup.get(se);
         if (sg == null)
@@ -163,10 +159,33 @@ public final class StackedSeriesLookup
     }
 
     /**
+     *  
+     */
+    public final void resetSubUnits()
+    {
+        Enumeration e = htSeriesToStackGroup.elements();
+        StackGroup sg;
+        AxisSubUnit asu;
+
+        while (e.hasMoreElements())
+        {
+            sg = (StackGroup) e.nextElement();
+            if (sg.alUnitPositions != null)
+            {
+                for (int i = 0; i < sg.alUnitPositions.size(); i++)
+                {
+                    asu = (AxisSubUnit) sg.alUnitPositions.get(i);
+                    asu.reset();
+                }
+            }
+        }
+    }
+
+    /**
      * 
      * @param cwa
-     * @return
-     * @throws UndefinedValueException
+     * @return @throws
+     *         UndefinedValueException
      * @throws UnexpectedInputException
      */
     static final StackedSeriesLookup create(ChartWithAxes cwa) throws UndefinedValueException, UnexpectedInputException

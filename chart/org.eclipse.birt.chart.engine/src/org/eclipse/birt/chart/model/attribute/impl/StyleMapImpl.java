@@ -40,8 +40,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * --> <!-- end-user-doc -->
      * 
      * @see #getComponentName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final StyledComponent COMPONENT_NAME_EDEFAULT = StyledComponent.CHART_TITLE_LITERAL;
 
@@ -50,16 +49,14 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * --> <!-- end-user-doc -->
      * 
      * @see #getComponentName()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected StyledComponent componentName = COMPONENT_NAME_EDEFAULT;
 
     /**
      * This is true if the Component Name attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean componentNameESet = false;
 
@@ -68,8 +65,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String STYLE_EDEFAULT = null;
 
@@ -78,8 +74,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
      * end-user-doc -->
      * 
      * @see #getStyle()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String style = STYLE_EDEFAULT;
 

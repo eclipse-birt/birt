@@ -29,8 +29,7 @@ package org.eclipse.birt.chart.model.attribute;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSeriesValue()
- * @model
- * @generated
+ * @model @generated
  */
 public interface SeriesValue extends ActionValue
 {

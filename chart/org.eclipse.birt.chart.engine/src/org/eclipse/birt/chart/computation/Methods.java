@@ -163,8 +163,7 @@ public class Methods implements IConstants
      * @param sc
      * @param oValue
      * 
-     * @return
-     * 
+     * @return 
      * @throws NullValueException
      * @throws DataFormatException
      */
@@ -657,8 +656,7 @@ public class Methods implements IConstants
      * @param oaData
      * @param iIndex
      * 
-     * @return
-     * 
+     * @return 
      * @throws DataFormatException
      */
     public final Object getValue(Object oaData, int iIndex) throws DataFormatException
@@ -681,4 +679,5 @@ public class Methods implements IConstants
         }
         throw new DataFormatException("Unexpected internal dataset structure");
     }
+
 }

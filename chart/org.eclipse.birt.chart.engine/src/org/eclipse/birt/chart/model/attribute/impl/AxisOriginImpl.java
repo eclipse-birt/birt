@@ -41,8 +41,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
      * end-user-doc -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final IntersectionType TYPE_EDEFAULT = IntersectionType.MIN_LITERAL;
 
@@ -51,16 +50,14 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
      * -->
      * 
      * @see #getType()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected IntersectionType type = TYPE_EDEFAULT;
 
     /**
      * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean typeESet = false;
 
@@ -69,8 +66,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final Object VALUE_EDEFAULT = null;
 
@@ -79,8 +75,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
      * end-user-doc -->
      * 
      * @see #getValue()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected Object value = VALUE_EDEFAULT;
 

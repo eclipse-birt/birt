@@ -39,8 +39,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine()
- * @model
- * @generated
+ * @model @generated
  */
 public interface MarkerLine extends EObject
 {

@@ -30,8 +30,7 @@ package org.eclipse.birt.chart.model.layout;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Plot extends Block
 {

@@ -45,8 +45,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String PREFIX_EDEFAULT = null;
 
@@ -55,8 +54,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getPrefix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String prefix = PREFIX_EDEFAULT;
 
@@ -65,8 +63,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final String SUFFIX_EDEFAULT = null;
 
@@ -75,8 +72,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getSuffix()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected String suffix = SUFFIX_EDEFAULT;
 
@@ -85,8 +81,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
@@ -95,16 +90,14 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * end-user-doc -->
      * 
      * @see #getMultiplier()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected double multiplier = MULTIPLIER_EDEFAULT;
 
     /**
      * This is true if the Multiplier attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean multiplierESet = false;
 
@@ -113,8 +106,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * --> <!-- end-user-doc -->
      * 
      * @see #getFractionDigits()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected static final int FRACTION_DIGITS_EDEFAULT = 0;
 
@@ -123,16 +115,14 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements Nu
      * --> <!-- end-user-doc -->
      * 
      * @see #getFractionDigits()
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected int fractionDigits = FRACTION_DIGITS_EDEFAULT;
 
     /**
      * This is true if the Fraction Digits attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     protected boolean fractionDigitsESet = false;
 

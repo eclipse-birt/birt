@@ -36,8 +36,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes()
- * @model
- * @generated
+ * @model @generated
  */
 public interface ChartWithAxes extends Chart
 {

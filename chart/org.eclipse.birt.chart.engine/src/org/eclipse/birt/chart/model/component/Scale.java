@@ -37,8 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Scale extends EObject
 {

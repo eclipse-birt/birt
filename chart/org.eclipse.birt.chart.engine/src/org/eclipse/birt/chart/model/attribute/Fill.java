@@ -30,8 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFill()
- * @model
- * @generated
+ * @model @generated
  */
 public interface Fill extends EObject
 {

@@ -30,8 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * 
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet()
- * @model
- * @generated
+ * @model @generated
  */
 public interface DataSet extends EObject
 {

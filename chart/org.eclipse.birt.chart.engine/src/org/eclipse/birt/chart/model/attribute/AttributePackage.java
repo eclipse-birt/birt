@@ -81,8 +81,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Action Value</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int ACTION_VALUE_FEATURE_COUNT = 0;
 
@@ -100,16 +99,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS_ORIGIN__TYPE = 0;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS_ORIGIN__VALUE = 1;
 
@@ -117,8 +114,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Axis Origin</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int AXIS_ORIGIN_FEATURE_COUNT = 2;
 
@@ -135,32 +131,28 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Left</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BOUNDS__LEFT = 0;
 
     /**
      * The feature id for the '<em><b>Top</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BOUNDS__TOP = 1;
 
     /**
      * The feature id for the '<em><b>Width</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BOUNDS__WIDTH = 2;
 
     /**
      * The feature id for the '<em><b>Height</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BOUNDS__HEIGHT = 3;
 
@@ -168,8 +160,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Bounds</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int BOUNDS_FEATURE_COUNT = 4;
 
@@ -186,8 +177,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FILL__TYPE = 0;
 
@@ -195,8 +185,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Fill</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FILL_FEATURE_COUNT = 1;
 
@@ -214,8 +203,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION__TYPE = FILL__TYPE;
 
@@ -223,32 +211,28 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Transparency</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION__TRANSPARENCY = FILL_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Red</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION__RED = FILL_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Green</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION__GREEN = FILL_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Blue</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION__BLUE = FILL_FEATURE_COUNT + 3;
 
@@ -256,8 +240,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Color Definition</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int COLOR_DEFINITION_FEATURE_COUNT = FILL_FEATURE_COUNT + 4;
 
@@ -276,32 +259,28 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Components</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT__COMPONENTS = 0;
 
     /**
      * The feature id for the '<em><b>Prefix</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT__PREFIX = 1;
 
     /**
      * The feature id for the '<em><b>Suffix</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT__SUFFIX = 2;
 
     /**
      * The feature id for the '<em><b>Separator</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT__SEPARATOR = 3;
 
@@ -309,8 +288,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Data Point</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT_FEATURE_COUNT = 4;
 
@@ -328,8 +306,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT_COMPONENT__TYPE = 0;
 
@@ -337,8 +314,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Format Specifier</b></em>' containment reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT_COMPONENT__FORMAT_SPECIFIER = 1;
 
@@ -346,8 +322,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Data Point Component</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATA_POINT_COMPONENT_FEATURE_COUNT = 2;
 
@@ -377,8 +352,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Format Specifier</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FORMAT_SPECIFIER_FEATURE_COUNT = 0;
 
@@ -396,16 +370,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_FORMAT_SPECIFIER__TYPE = FORMAT_SPECIFIER_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Detail</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_FORMAT_SPECIFIER__DETAIL = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
 
@@ -413,8 +385,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Date Format Specifier</em>' class. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int DATE_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 2;
 
@@ -432,16 +403,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int EXTENDED_PROPERTY__NAME = 0;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int EXTENDED_PROPERTY__VALUE = 1;
 
@@ -449,40 +418,35 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Extended Property</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int EXTENDED_PROPERTY_FEATURE_COUNT = 2;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__NAME = 0;
 
     /**
      * The feature id for the '<em><b>Size</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__SIZE = 1;
 
     /**
      * The feature id for the '<em><b>Bold</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__BOLD = 2;
 
     /**
      * The feature id for the '<em><b>Italic</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__ITALIC = 3;
 
@@ -490,24 +454,21 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Strikethrough</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__STRIKETHROUGH = 4;
 
     /**
      * The feature id for the '<em><b>Underline</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__UNDERLINE = 5;
 
     /**
      * The feature id for the '<em><b>Word Wrap</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__WORD_WRAP = 6;
 
@@ -515,16 +476,14 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Alignment</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__ALIGNMENT = 7;
 
     /**
      * The feature id for the '<em><b>Rotation</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION__ROTATION = 8;
 
@@ -532,8 +491,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Font Definition</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int FONT_DEFINITION_FEATURE_COUNT = 9;
 
@@ -550,8 +508,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__TYPE = FILL__TYPE;
 
@@ -559,8 +516,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Start Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__START_COLOR = FILL_FEATURE_COUNT + 0;
 
@@ -568,24 +524,21 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>End Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__END_COLOR = FILL_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Direction</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__DIRECTION = FILL_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Cyclic</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__CYCLIC = FILL_FEATURE_COUNT + 3;
 
@@ -593,8 +546,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Transparency</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT__TRANSPARENCY = FILL_FEATURE_COUNT + 4;
 
@@ -602,8 +554,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Gradient</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int GRADIENT_FEATURE_COUNT = FILL_FEATURE_COUNT + 5;
 
@@ -620,16 +571,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int IMAGE__TYPE = FILL__TYPE;
 
     /**
      * The feature id for the '<em><b>URL</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int IMAGE__URL = FILL_FEATURE_COUNT + 0;
 
@@ -637,8 +586,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Image</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int IMAGE_FEATURE_COUNT = FILL_FEATURE_COUNT + 1;
 
@@ -655,32 +603,28 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Top</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int INSETS__TOP = 0;
 
     /**
      * The feature id for the '<em><b>Left</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int INSETS__LEFT = 1;
 
     /**
      * The feature id for the '<em><b>Bottom</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int INSETS__BOTTOM = 2;
 
     /**
      * The feature id for the '<em><b>Right</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int INSETS__RIGHT = 3;
 
@@ -688,8 +632,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Insets</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int INSETS_FEATURE_COUNT = 4;
 
@@ -707,8 +650,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Pattern</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int JAVA_DATE_FORMAT_SPECIFIER__PATTERN = FORMAT_SPECIFIER_FEATURE_COUNT + 0;
 
@@ -716,8 +658,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Java Date Format Specifier</em>' class. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int JAVA_DATE_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
 
@@ -735,16 +676,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Pattern</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN = FORMAT_SPECIFIER_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Multiplier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
 
@@ -752,8 +691,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Java Number Format Specifier</em>' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int JAVA_NUMBER_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 2;
 
@@ -771,16 +709,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Style</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_ATTRIBUTES__STYLE = 0;
 
     /**
      * The feature id for the '<em><b>Thickness</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_ATTRIBUTES__THICKNESS = 1;
 
@@ -788,16 +724,14 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_ATTRIBUTES__COLOR = 2;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_ATTRIBUTES__VISIBLE = 3;
 
@@ -805,8 +739,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Line Attributes</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LINE_ATTRIBUTES_FEATURE_COUNT = 4;
 
@@ -823,16 +756,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>X</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LOCATION__X = 0;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LOCATION__Y = 1;
 
@@ -840,8 +771,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Location</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int LOCATION_FEATURE_COUNT = 2;
 
@@ -858,24 +788,21 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER__TYPE = 0;
 
     /**
      * The feature id for the '<em><b>Size</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER__SIZE = 1;
 
     /**
      * The feature id for the '<em><b>Visible</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER__VISIBLE = 2;
 
@@ -883,8 +810,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Marker</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int MARKER_FEATURE_COUNT = 3;
 
@@ -902,24 +828,21 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Prefix</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_FORMAT_SPECIFIER__PREFIX = FORMAT_SPECIFIER_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Suffix</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_FORMAT_SPECIFIER__SUFFIX = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Multiplier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_FORMAT_SPECIFIER__MULTIPLIER = FORMAT_SPECIFIER_FEATURE_COUNT + 2;
 
@@ -927,8 +850,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Fraction Digits</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS = FORMAT_SPECIFIER_FEATURE_COUNT + 3;
 
@@ -936,8 +858,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Number Format Specifier</em>' class. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int NUMBER_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 4;
 
@@ -954,8 +875,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PALETTE__NAME = 0;
 
@@ -963,8 +883,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Entries</b></em>' containment reference list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PALETTE__ENTRIES = 1;
 
@@ -972,8 +891,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Palette</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int PALETTE_FEATURE_COUNT = 2;
 
@@ -991,8 +909,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Script</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCRIPT_VALUE__SCRIPT = ACTION_VALUE_FEATURE_COUNT + 0;
 
@@ -1000,8 +917,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Script Value</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SCRIPT_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
 
@@ -1020,16 +936,14 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Series Class</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_HINT__SERIES_CLASS = 0;
 
     /**
      * The feature id for the '<em><b>Modifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_HINT__MODIFIER = 1;
 
@@ -1037,8 +951,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Series Hint</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_HINT_FEATURE_COUNT = 2;
 
@@ -1056,8 +969,7 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_VALUE__NAME = ACTION_VALUE_FEATURE_COUNT + 0;
 
@@ -1065,8 +977,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Series Value</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SERIES_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
 
@@ -1093,16 +1004,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Height</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SIZE__HEIGHT = 0;
 
     /**
      * The feature id for the '<em><b>Width</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SIZE__WIDTH = 1;
 
@@ -1110,8 +1019,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Size</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int SIZE_FEATURE_COUNT = 2;
 
@@ -1129,16 +1037,14 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Component Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STYLE_MAP__COMPONENT_NAME = 0;
 
     /**
      * The feature id for the '<em><b>Style</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STYLE_MAP__STYLE = 1;
 
@@ -1146,16 +1052,14 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Style Map</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int STYLE_MAP_FEATURE_COUNT = 2;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT__VALUE = 0;
 
@@ -1163,8 +1067,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Font</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT__FONT = 1;
 
@@ -1172,8 +1075,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT__COLOR = 2;
 
@@ -1181,8 +1083,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Text</em>' class. <!-- begin-user-doc --> <!-- end-user-doc
      * -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_FEATURE_COUNT = 3;
 
@@ -1201,8 +1102,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Horizontal Alignment</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_ALIGNMENT__HORIZONTAL_ALIGNMENT = 0;
 
@@ -1210,8 +1110,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Vertical Alignment</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_ALIGNMENT__VERTICAL_ALIGNMENT = 1;
 
@@ -1219,8 +1118,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Text Alignment</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TEXT_ALIGNMENT_FEATURE_COUNT = 2;
 
@@ -1238,16 +1136,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Text</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TOOLTIP_VALUE__TEXT = ACTION_VALUE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Delay</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TOOLTIP_VALUE__DELAY = ACTION_VALUE_FEATURE_COUNT + 1;
 
@@ -1255,8 +1151,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>Tooltip Value</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 2;
 
@@ -1273,16 +1168,14 @@ public interface AttributePackage extends EPackage
     /**
      * The feature id for the '<em><b>Base Url</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE__BASE_URL = ACTION_VALUE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE__TARGET = ACTION_VALUE_FEATURE_COUNT + 1;
 
@@ -1290,8 +1183,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Base Parameter Name</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE__BASE_PARAMETER_NAME = ACTION_VALUE_FEATURE_COUNT + 2;
 
@@ -1299,8 +1191,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Value Parameter Name</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE__VALUE_PARAMETER_NAME = ACTION_VALUE_FEATURE_COUNT + 3;
 
@@ -1308,8 +1199,7 @@ public interface AttributePackage extends EPackage
      * The feature id for the '<em><b>Series Parameter Name</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE__SERIES_PARAMETER_NAME = ACTION_VALUE_FEATURE_COUNT + 4;
 
@@ -1317,8 +1207,7 @@ public interface AttributePackage extends EPackage
      * The number of structural features of the the '<em>URL Value</em>' class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
-     * @generated
-     * @ordered
+     * @generated @ordered
      */
     int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 5;
 
