@@ -18,11 +18,13 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:15 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/09 02:50:05 $
  */
 public final class Utility
 {
@@ -80,6 +82,21 @@ public final class Utility
     {
         BeanInfo info = Introspector.getBeanInfo(obj.getClass());
         return info.getPropertyDescriptors();
+    }
+    
+    public static String getUniqueDataSetName(String baseName)
+    {
+        String finalName = baseName;
+        int n = 1;
+        
+        while(HandleAdapterFactory.getInstance( )
+                .getReportDesignHandleAdapter( )
+                .checkDataSetName( finalName ))
+        {
+            finalName = baseName + n++;  
+        }
+        
+        return finalName;
     }
     
 }

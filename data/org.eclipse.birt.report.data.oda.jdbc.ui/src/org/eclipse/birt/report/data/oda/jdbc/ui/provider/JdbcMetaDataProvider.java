@@ -22,7 +22,6 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinCondition;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinType;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.OperationType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
@@ -50,6 +49,10 @@ public class JdbcMetaDataProvider
 	public Connection connect( String userName, String password, String url,
 			String driverClass, String odaDriverName )
 	{
+        if(userName == null || url == null || driverClass == null)
+        {
+            return null;
+        }
 		if(!userName.equals(this.userName) ||  !url.equals(this.url) || !driverClass.equals(this.driverClass))
 		{
 			if(jdbcConnection != null)
@@ -109,17 +112,18 @@ public class JdbcMetaDataProvider
 	 */
     public String getCatalog()
     {
-    	assert jdbcConnection != null;
-    	
-    	String cataLog = null;
-    	try
-		{
-    		cataLog = jdbcConnection.getCatalog();
-		}
-    	catch( SQLException e)
-		{
-    		e.printStackTrace();
-		}
+        String cataLog = null;
+        if(jdbcConnection != null)
+        {
+            try
+            {
+                cataLog = jdbcConnection.getCatalog();
+            }
+            catch( SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
     	
     	return cataLog;
     }
