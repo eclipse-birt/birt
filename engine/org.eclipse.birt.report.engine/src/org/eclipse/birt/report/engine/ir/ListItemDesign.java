@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ListItemDesign extends ListingDesign
 {
@@ -146,7 +146,7 @@ public class ListItemDesign extends ListingDesign
 		this.header = header;
 	}
 
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitListItem( this );
 	}

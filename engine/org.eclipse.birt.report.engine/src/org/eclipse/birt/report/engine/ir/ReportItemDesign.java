@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
 /**
  * Report Item
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -40,8 +40,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 */
 	protected DimensionType height;
 
-
-	
 	/**
 	 * query used to create the data set.
 	 */
@@ -145,7 +143,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * 
 	 * @param visitor
 	 */
-	abstract public void accept( ReportItemVisitor visitor );
+	abstract public void accept( IReportItemVisitor visitor );
 
 	
 	/**

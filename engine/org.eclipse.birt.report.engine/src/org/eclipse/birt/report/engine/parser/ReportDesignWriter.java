@@ -36,7 +36,7 @@ import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.ReportItemVisitorAdapter;
+import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 class ReportDesignWriter
 {
@@ -59,7 +59,7 @@ class ReportDesignWriter
 		new ReportDumpVisitor( writer ).writeReport( report, hasStyle );
 	}
 
-	private class ReportDumpVisitor extends ReportItemVisitorAdapter
+	private class ReportDumpVisitor extends DefaultReportItemVisitorImpl
 	{
 
 		/**

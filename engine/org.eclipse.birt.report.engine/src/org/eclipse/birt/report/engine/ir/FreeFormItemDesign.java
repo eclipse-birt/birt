@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  * the content of container should be ReportItem also.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class FreeFormItemDesign extends ReportItemDesign
 {
@@ -72,7 +72,7 @@ public class FreeFormItemDesign extends ReportItemDesign
 		return (ReportItemDesign) this.items.get( index );
 	}
 
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitFreeFormItem( this );
 	}

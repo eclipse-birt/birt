@@ -33,7 +33,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: #3 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public abstract class ReportItemExecutor
 {
@@ -131,7 +131,7 @@ public abstract class ReportItemExecutor
 		if( item.getQuery() != null )
 		{
 			context.newScope( );
-			IResultSet rs = context.getDataEngine().execute(item);
+			IResultSet rs = context.getDataEngine().execute(item.getQuery());
 			if(rs != null)
 			{
 				return rs;
@@ -149,13 +149,9 @@ public abstract class ReportItemExecutor
 	 * get Localized string by the resouce key of this item 
 	 * and <code>Locale</code> object in <code>context</code> 
 	 * 
-	 *@param resourceKey
-	 *            the resource key
-	 *@param text
-	 *            the default value
-
+	 *@param resourceKey the resource key
+	 *@param text the default value
 	 *@return the localized string if it is defined in report deign, else return the default value
-	 *      
 	 */
 	protected String getLocalizedString( String resourceKey, String text )
 	{
@@ -177,8 +173,7 @@ public abstract class ReportItemExecutor
 	/**
 	 * Calculate the bookmark value which is set to <code>ReportItemContent</code> if the bookmark is not null
 	 * 
-	 * @param item
-	 *            the ReportItemContent object
+	 * @param item the ReportItemContent object
 	 */
 	/*protected void evalBookmark( ReportItemContent item )
 	{
@@ -192,6 +187,7 @@ public abstract class ReportItemExecutor
 			}
 		}
 	}*/
+	
 	protected String evalBookmark( ReportItemDesign item )
 	{
 		Expression bookmark = item.getBookmark( );

@@ -57,7 +57,7 @@ import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.ReportItemVisitorAdapter;
+import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -83,7 +83,7 @@ import org.w3c.dom.Node;
 /**
  * visit the report design and set all query and sub-query to report item
  * 
- * @version $Revision: #2 $ $Date: 2005/02/02 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ReportQueryBuilder
 {
@@ -105,7 +105,7 @@ public class ReportQueryBuilder
 	}
 
 	// TODO handle extended item report query
-	protected class QueryBuilderVisitor extends ReportItemVisitorAdapter
+	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
 
 		/**
@@ -219,10 +219,8 @@ public class ReportQueryBuilder
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitImageItem(org.eclipse.birt.report.engine.ir.ImageItemDesign)
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitImageItem(org.eclipse.birt.report.engine.ir.ImageItemDesign)
 		 */
 		public void visitImageItem( ImageItemDesign image )
 		{

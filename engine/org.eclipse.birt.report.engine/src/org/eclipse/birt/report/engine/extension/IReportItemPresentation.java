@@ -73,14 +73,14 @@ public interface IReportItemPresentation {
      * @param supportedTypes an array of supported output types that the engine 
      * can accormodate. This allows the extended item to choose the best type of output.
      * @param mimeType an out parameter that returns the MIME type of the output 
-     * @return output type
+     * @return output type, for now OUTPUT_AS_IMAGE only
      */
     public int getOutputType(String format, String mimeType);
     
     /**
      * process the extended item in presentation environment. 
      * 
-     * @return the returned value could be sifferent depending on the type of the output.
+     * @return the returned value could be different depending on the type of the output.
      * For image, returns an input stream or byte array that the engine could retrieve data from;
      * For text and html text, a Java String; For drawing, returns ??; For custom format,
      * engine does not care and passes the Object to emitter.   
@@ -97,7 +97,7 @@ public interface IReportItemPresentation {
      * @return the size of the extended item. Return null if the size does not matter or can 
      * not be determined.
      */
-    public Object getSize();
+    public Size getSize();
     
     /**
      * Performs clean up

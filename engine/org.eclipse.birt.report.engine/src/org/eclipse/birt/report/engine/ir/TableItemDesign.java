@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 
  * Tabel item.
  * 
- * @version $Revision: #2 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class TableItemDesign extends ListingDesign
 {
@@ -67,7 +67,7 @@ public class TableItemDesign extends ListingDesign
 	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitTableItem( this );
 	}

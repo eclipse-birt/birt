@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Extended Item. 
  * 
- * @version $Revision:  $ $Date:  $
+ * @version $Revision: 1.1 $ $Date: 2005/02/07 09:43:34 $
  */
 public class ExtendedItemDesign extends ReportItemDesign
 {
@@ -22,7 +22,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitExtendedItem( this );
 	}

@@ -34,7 +34,6 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -45,7 +44,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * implments IDataEngine interface, using birt's data transformation engine (DtE)
  * 
- * @version $Revision: #4 $ $Date: 2005/02/04 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -231,9 +230,8 @@ public class DteDataEngine implements IDataEngine
 	 * 
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.model.elements.ReportItemDesign)
 	 */
-	public IResultSet execute( ReportItemDesign item )
+	public IResultSet execute( IBaseQueryDefn query )
 	{
-		IBaseQueryDefn query = item.getQuery( );
 		if ( query == null )
 			return null;
 		
@@ -246,18 +244,18 @@ public class DteDataEngine implements IDataEngine
 			{
 				try
 				{
-					IQueryResults qr = getParentQR();
-					if(qr == null)
+					IQueryResults queryResults = getParentQR();
+					if(queryResults == null)
 					{
-						qr = pQuery.execute( scope );
+						queryResults = pQuery.execute( scope );
 					}
 					else
 					{
-						qr = pQuery.execute(qr, scope );
+						queryResults = pQuery.execute(queryResults, scope );
 					}
-					IResultIterator ri = qr.getResultIterator( );
+					IResultIterator ri = queryResults.getResultIterator( );
 					assert ri != null;
-					DteResultSet dRS = new DteResultSet( qr, this );
+					DteResultSet dRS = new DteResultSet( queryResults, this );
 					rsStack.addLast( dRS );
 					return dRS;
 				}
@@ -284,7 +282,6 @@ public class DteDataEngine implements IDataEngine
 				DteResultSet dRS = new DteResultSet( ri, this );
 				rsStack.addLast( dRS );
 				return dRS;
-
 			}
 			catch ( DataException e )
 			{

@@ -13,6 +13,10 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefn;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.report.engine.data.IDataEngine;
+
 /**
  * Represents the extended item generation extension, which performs tasks such as:<p>
  * <ul> 
@@ -38,7 +42,6 @@ public interface IReportItemGeneration {
 	public static String RESOLUTION	 				= "dpi"; 		// $NON-NLS-1$
 	public static String SCALING_FACTOR 			= "scale";		// $NON-NLS-1$
 	public static String MODEL_OBJ					= "model";		// $NON-NLS-1$
-	public static String SUPPORTED_FILE_FORMATS		= "format";		// $NON-NLS-1$
 	
     /**
      * Initializes the generation object before it processes the extended item. The 
@@ -53,19 +56,23 @@ public interface IReportItemGeneration {
      *  RESOLUTION		optional, but preferred. Otherwise, use implementer's default
      *  SCALING_FACTOR	optional, default is 1.0
      *  MODEL_OBJ		Required
-     *  FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
      */
     public void initialize(HashMap parameters);
     
     /**
-     * @return an IReportQuery object that the fatory can pass to DTE 
+     * @return an IReportQueryDefn object that the fatory can pass to DTE 
      */
-    public Object getReportQuery();
+    public IBaseQueryDefn nextQuery();   
     
+	/**
+	 * @param query a prepared query
+	 */
+	public void pushPreparedQuery(IBaseQueryDefn query, IPreparedQuery preparedQuery);
+	
     /**
-     * process the extended item in factory
+     * @param dataEngine a data engine instance on which the extension developer calls <code>execute</code> method  
      */
-    public void process();
+    public void process(IDataEngine dataEngine);
 
     /**
      * Get the size of the extended item. The size is a Dimension object. The width and height
@@ -77,7 +84,7 @@ public interface IReportItemGeneration {
      * @return the size of the extended item. Return null if the size does not matter or can 
      * not be determined.
      */
-    public Object getSize();
+    public Size getSize();
     
     /**
      * Serializes the extended item to report document. This function is currently not supported.

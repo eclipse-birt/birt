@@ -69,7 +69,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		HashMap parameters = new HashMap();
 		parameters.put(IReportItemGeneration.MODEL_OBJ, handle);
 		gPeer.initialize(parameters);
-		gPeer.process();
+		gPeer.process(context.getDataEngine());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		gPeer.serialize(out);
 		gPeer.finish();

@@ -43,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * such as <code>report.params</code>, <code>report.config</code>, 
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: #5 $ $Date: 2005/02/01 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -128,7 +128,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * creates new variable scope. not implemented yet.
+	 * creates new variable scope. 
 	 */
 	public void newScope( )
 	{
@@ -136,7 +136,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * exits a variable scope. not implemented yet.
+	 * exits a variable scope. 
 	 */
 	public void exitScope( )
 	{

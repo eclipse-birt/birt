@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class DataItemDesign extends ReportItemDesign
 {
@@ -68,7 +68,7 @@ public class DataItemDesign extends ReportItemDesign
 		this.value = value;
 	}
 
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitDataItem( this );
 	}

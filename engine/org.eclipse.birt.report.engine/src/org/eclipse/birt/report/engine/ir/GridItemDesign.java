@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * column define, serveral rows. and each row contains several cells(maximum to
  * column count defined in column define).
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public class GridItemDesign extends ReportItemDesign
 {
@@ -112,7 +112,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
-	public void accept( ReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitGridItem( this );
 	}

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {
@@ -102,5 +102,5 @@ abstract public class ListingDesign extends ReportItemDesign
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
-	abstract public void accept( ReportItemVisitor visitor );
+	abstract public void accept( IReportItemVisitor visitor );
 }
