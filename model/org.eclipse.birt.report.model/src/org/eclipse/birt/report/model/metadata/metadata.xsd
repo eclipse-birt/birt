@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ReportMetaData">
 		<xs:annotation>
@@ -16,31 +16,6 @@
 							<xs:element name="Choice" type="ChoiceType" maxOccurs="unbounded"/>
 						</xs:sequence>
 						<xs:attribute name="name"/>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="PropertyType" type="PropertyTypeDefnType" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Meta-data for the built-in property types.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Structure" type="StructureType" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Description of a structure within a list property.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Element" type="ElementDefnType" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Description of an BIRT report element.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Style" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Description of the standard styles. Not their contents, just their names.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:complexContent>
-							<xs:extension base="StyleDefnType"/>
-						</xs:complexContent>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Class" minOccurs="0" maxOccurs="unbounded">
@@ -60,6 +35,45 @@
 						<xs:attribute name="name" type="xs:string" use="required"/>
 						<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
 						<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Validators">
+					<xs:annotation>
+						<xs:documentation>Definition the collection of value validators and semantic validators.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ValueValidator" type="ValidatorDefnType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The validation for value validation.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SemanticValidator" type="ValidatorDefnType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The validator used for semantic validation</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Structure" type="StructureType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of a structure within a list property.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Element" type="ElementDefnType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of an BIRT report element.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Style" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of the standard styles. Not their contents, just their names.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="StyleDefnType"/>
+						</xs:complexContent>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -117,7 +131,13 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:complexContent>
-						<xs:extension base="PropertyDefnType"/>
+						<xs:extension base="PropertyDefnType">
+							<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false">
+								<xs:annotation>
+									<xs:documentation>Indicate whether the value of this property is required.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
@@ -196,6 +216,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 					<xs:documentation>The default value. Must be in xml format. For a choice, use the internal value.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The trigger definition which defines the condition to trigger a semantic validation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
@@ -240,6 +265,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 				<xs:complexType>
 					<xs:attribute name="name" type="xs:string" use="required"/>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The trigger definition which defines the condition to trigger a semantic validation.</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required">
@@ -312,5 +342,19 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
 		<xs:attribute name="returnType" type="xs:string" use="optional"/>
 		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="no"/>
+	</xs:complexType>
+	<xs:complexType name="TriggerDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of the condition which triggers semantic validation</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="preRequisite" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="targetElement" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ValidatorDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of a semantic validator</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
 	</xs:complexType>
 </xs:schema>

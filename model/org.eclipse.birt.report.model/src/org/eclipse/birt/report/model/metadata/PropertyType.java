@@ -170,10 +170,16 @@ public abstract class PropertyType
 	public static final int SCRIPT_TYPE = 20;
 
 	/**
+	 * Type code for the literal string property type.
+	 */
+
+	public static final int LITERAL_STRING_TYPE = 21;
+
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 21;
+	public static final int TYPE_COUNT = 22;
 
 	/**
 	 * Name of the String property type.
@@ -306,6 +312,12 @@ public abstract class PropertyType
 	 */
 
 	public static final String SCRIPT_TYPE_NAME = "script"; //$NON-NLS-1$
+
+	/**
+	 * Name of the literal string property type.
+	 */
+
+	public static final String LITERAL_STRING_TYPE_NAME = "literalString"; //$NON-NLS-1$
 
 	/**
 	 * Constructs a property type given its display name id.

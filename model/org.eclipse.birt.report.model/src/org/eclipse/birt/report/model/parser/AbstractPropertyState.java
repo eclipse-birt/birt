@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -27,8 +28,10 @@ import org.xml.sax.Attributes;
 /**
  * Parses the abstract property. The XML file is like:
  * 
- * <pre>                                 
- *   &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ * <pre>
+ *                                  
+ *    &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *  
  * </pre>
  * 
  * The supported tags are:
@@ -143,9 +146,6 @@ public class AbstractPropertyState extends AbstractParseState
 	void setMember( IStructure struct, String propName, String member,
 			String value )
 	{
-		if ( StringUtil.isBlank( value ) )
-			return;
-
 		// Ensure that the member is defined.
 
 		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
@@ -165,12 +165,19 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
+		String valueToSet = value;
+		if ( memberDefn.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
+			valueToSet = StringUtil.trimString( valueToSet );
+
+		if ( StringUtil.isBlank( valueToSet ) )
+			return;
+
 		// Validate the value.
 
 		try
 		{
 			Object propValue = memberDefn.validateXml( handler.getDesign( ),
-					value.trim( ) );
+					valueToSet );
 			struct.setProperty( memberDefn, propValue );
 		}
 		catch ( PropertyValueException ex )
@@ -195,9 +202,6 @@ public class AbstractPropertyState extends AbstractParseState
 	protected void setProperty( String propName, String value )
 	{
 		assert propName != null;
-
-		if ( StringUtil.isBlank( value ) )
-			return;
 
 		if ( propName.equalsIgnoreCase( DesignElement.NAME_PROP )
 				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
@@ -224,12 +228,19 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
+		String valueToSet = value;
+		if ( prop.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
+			valueToSet = StringUtil.trimString( valueToSet );
+
+		if ( StringUtil.isBlank( valueToSet ) )
+			return;
+
 		// Validate the value.
 
 		try
 		{
-			Object propValue = prop.validateXml( handler.getDesign( ), value
-					.trim( ) );
+			Object propValue = prop.validateXml( handler.getDesign( ),
+					valueToSet );
 			element.setProperty( propName, propValue );
 		}
 		catch ( PropertyValueException ex )
@@ -276,7 +287,6 @@ public class AbstractPropertyState extends AbstractParseState
 			handler.semanticError( e );
 	}
 
-
 	/**
 	 * Checks whether the error code is an error that the parser can recover.
 	 * 
@@ -299,6 +309,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return true;
 		return false;
 	}
+
 	/**
 	 * Sets the value of the attribute "name". This method is used when the
 	 * specific state is defined. When the generic state jumps to the specific

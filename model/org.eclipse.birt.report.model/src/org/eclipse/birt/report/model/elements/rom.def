@@ -2056,7 +2056,7 @@
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
-  <Element name="Data" javaClass="org.eclipse.birt.report.model.elements.DataItem" displayNameID="Element.Data" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false">
+  <Element name="Data" javaClass="org.eclipse.birt.report.model.elements.DataItem" displayNameID="Element.Data" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="data">
     <Property name="valueExpr" displayNameID="Element.Data.valueExpr" type="expression" />
     <Property name="helpText" displayNameID="Element.Data.helpText" type="string" />
     <Property name="helpTextID" displayNameID="Element.Data.helpTextID" type="resourceKey" />
@@ -2119,7 +2119,7 @@
     <StyleProperty name="wordSpacing" />
   </Element>
   <Element name="Text" javaClass="org.eclipse.birt.report.model.elements.TextItem" displayNameID="Element.Text" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="text">
-    <Property name="content" displayNameID="Element.Text.content" type="string" />
+    <Property name="content" displayNameID="Element.Text.content" type="literalString" />
     <Property name="contentID" displayNameID="Element.Text.contentID" type="resourceKey" />
     <Property name="contentType" displayNameID="Element.Text.contentType" type="choice" detailType="contentType">
       <Default>auto</Default>

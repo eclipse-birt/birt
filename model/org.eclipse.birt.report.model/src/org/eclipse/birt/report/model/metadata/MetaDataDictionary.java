@@ -209,6 +209,7 @@ public final class MetaDataDictionary
 		addPropertyType( new StructPropertyType( ) );
 		addPropertyType( new ExtendsPropertyType( ) );
 		addPropertyType( new ScriptPropertyType( ) );
+		addPropertyType( new LiteralStringPropertyType( ) );
 	}
 
 	/**
