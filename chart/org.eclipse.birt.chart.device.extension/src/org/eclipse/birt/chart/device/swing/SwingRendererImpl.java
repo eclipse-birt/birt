@@ -96,7 +96,7 @@ public class SwingRendererImpl extends DeviceAdapter
     /**
      *  
      */
-    private Graphics2D _g2d;
+    protected Graphics2D _g2d;
 
     /**
      *  
@@ -1296,11 +1296,7 @@ public class SwingRendererImpl extends DeviceAdapter
      */
     public void before() throws RenderingException
     {
-        /*
-         * final double dPointsToPixels = _xs.getDpiResolution() / 72d; final TransformationEvent trae =
-         * (TransformationEvent) getEventObject(this, TransformationEvent.class);
-         * trae.setTransform(TransformationEvent.SCALE); trae.setScale(dPointsToPixels); applyTransformation(trae);
-         */
+        // NOT YET USED
     }
 
     /*
