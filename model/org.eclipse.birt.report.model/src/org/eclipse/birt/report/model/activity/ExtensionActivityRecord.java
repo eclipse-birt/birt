@@ -137,7 +137,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	
 	protected void sendNotifcations( )
 	{
-		assert false;		
+		return;		
 	}
 
 //	/*

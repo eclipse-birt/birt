@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents a text data item. The text item allows the developer to provide
@@ -54,6 +55,32 @@ public class TextItemHandle extends ReportItemHandle
 		return getStringProperty( TextItem.CONTENT_PROP );
 	}
 
+
+    /**
+     * Returns the localized content for the text. If the localized text for the
+     * text resource key is found, it will be returned. Otherwise, the static
+     * text will be returned.
+     * 
+     * @return the localized content for the text.
+     */
+
+    public String getDisplayContent( )
+    {
+        String textKey = getStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP );;
+        if( !StringUtil.isBlank( textKey ) )
+        {
+            // find in report.
+            
+            String localizedText = getDesign( ).getMessage( textKey );
+            if( ! StringUtil.isBlank( localizedText ) )
+                return localizedText;
+        }
+        
+        // use static text.
+            
+        return getStringProperty( TextItem.CONTENT_PROP );
+    }
+    
 	/**
 	 * Sets the text for the text element.
 	 * 

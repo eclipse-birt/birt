@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.structures.Action;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents a label report item. A label shows a static piece of text
@@ -57,6 +58,33 @@ public class LabelHandle extends ReportItemHandle
 	{
 		return getStringProperty( Label.TEXT_PROP );
 	}
+
+    
+	/**
+	 * Returns the localized text for the label. If the localized text for the
+	 * text resource key is found, it will be returned. Otherwise, the static
+	 * text will be returned.
+	 * 
+	 * @return the localized text for the label
+	 */
+
+	public String getDisplayText( )
+	{
+     	String textKey = getStringProperty( Label.TEXT_ID_PROP );
+        if( !StringUtil.isBlank( textKey ) )
+        {
+            // find in report.
+            
+            String localizedText = getDesign( ).getMessage( textKey );
+            if( ! StringUtil.isBlank( localizedText ) )
+                return localizedText;
+        }
+        
+        // use static text.
+        
+        return getStringProperty( Label.TEXT_PROP );
+    }
+		
 
 	/**
 	 * Sets the text of the label. Sets the static text itself. If the label is

@@ -1298,14 +1298,10 @@
 			<Argument name="seconds" type="number" tagID="Class.DateTimeSpan.subTime.seconds"/>									
 		</Method>	
   </Class>
-  
   <Validators>
-		<Validator name="NonNegativeDimValidator" class="org.eclipse.birt.report.model.metadata.validator.NonNegativeDimValidator"/>
-		<Validator name="NonNegativeIntValidator" class="org.eclipse.birt.report.model.metadata.validator.NonNegativeIntValidator"/>
-		<Validator name="PositiveIntValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveIntValidator"/>				
-		<Validator name="PositiveFloatValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveFloatValidator"/>
+		<Validator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validator.NonNegativeValueValidator"/>
+		<Validator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveValueValidator"/>
   </Validators>
-  
   <Structure name="MapRule" displayNameID="Structure.MapRule">
     <Member name="operator" displayNameID="Structure.MapRule.operator" type="choice" detailType="mapOperator" isIntrinsic="true">
       <Default>eq</Default>
@@ -1322,16 +1318,16 @@
     <Member name="value1" displayNameID="Structure.HighlightRule.value1" type="expression" isIntrinsic="true" />
     <Member name="value2" displayNameID="Structure.HighlightRule.value2" type="expression" isIntrinsic="true" />
     <Member name="borderTopStyle" displayNameID="Structure.HighlightRule.border.top.style" type="choice" detailType="lineStyle" />
-    <Member name="borderTopWidth" displayNameID="Structure.HighlightRule.border.top.width" type="dimension" detailType="lineWidth" validator="NonNegativeDimValidator"/>
+    <Member name="borderTopWidth" displayNameID="Structure.HighlightRule.border.top.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderTopColor" displayNameID="Structure.HighlightRule.border.top.color" type="color" />
     <Member name="borderLeftStyle" displayNameID="Structure.HighlightRule.border.left.style" type="choice" detailType="lineStyle" />
-    <Member name="borderLeftWidth" displayNameID="Structure.HighlightRule.border.left.width" type="dimension" detailType="lineWidth" validator="NonNegativeDimValidator"/>
+    <Member name="borderLeftWidth" displayNameID="Structure.HighlightRule.border.left.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderLeftColor" displayNameID="Structure.HighlightRule.border.left.color" type="color" />
     <Member name="borderBottomStyle" displayNameID="Structure.HighlightRule.border.bottom.style" type="choice" detailType="lineStyle" />
-    <Member name="borderBottomWidth" displayNameID="Structure.HighlightRule.border.bottom.width" type="dimension" detailType="lineWidth" validator="NonNegativeDimValidator"/>
+    <Member name="borderBottomWidth" displayNameID="Structure.HighlightRule.border.bottom.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderBottomColor" displayNameID="Structure.HighlightRule.border.bottom.color" type="color" />
     <Member name="borderRightStyle" displayNameID="Structure.HighlightRule.border.right.style" type="choice" detailType="lineStyle" />
-    <Member name="borderRightWidth" displayNameID="Structure.HighlightRule.border.right.width" type="dimension" detailType="lineWidth" validator="NonNegativeDimValidator"/>
+    <Member name="borderRightWidth" displayNameID="Structure.HighlightRule.border.right.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderRightColor" displayNameID="Structure.HighlightRule.border.right.color" type="color" />
     <Member name="backgroundColor" displayNameID="Structure.HighlightRule.background.color" type="color" />
     <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="string" />
@@ -1339,7 +1335,7 @@
     <Member name="numberAlign" displayNameID="Structure.HighlightRule.format.number.align" type="choice" detailType="textAlign" />
     <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="string" />
     <Member name="fontFamily" displayNameID="Structure.HighlightRule.font.family" type="string" detailType="fontFamily" />
-    <Member name="fontSize" displayNameID="Structure.HighlightRule.font.size" type="dimension" detailType="fontSize" validator="NonNegativeDimValidator"/>
+    <Member name="fontSize" displayNameID="Structure.HighlightRule.font.size" type="dimension" detailType="fontSize" validator="PositiveValueValidator"/>
     <Member name="fontStyle" displayNameID="Structure.HighlightRule.font.style" type="choice" detailType="fontStyle" />
     <Member name="fontWeight" displayNameID="Structure.HighlightRule.font.weight" type="choice" detailType="fontWeight" />
     <Member name="fontVariant" displayNameID="Structure.HighlightRule.font.variant" type="choice" detailType="fontVariant" />
@@ -1488,7 +1484,7 @@
       <Default>in</Default>
       <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>
-    <Property name="refreshRate" displayNameID="Element.ReportDesign.refreshRate" type="integer" canInherit="false" validator="NonNegativeIntValidator">
+    <Property name="refreshRate" displayNameID="Element.ReportDesign.refreshRate" type="integer" canInherit="false" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
     <Property name="base" displayNameID="Element.ReportDesign.base" type="string" canInherit="false" />
@@ -1681,7 +1677,7 @@
       <Property name="fontFamily" displayNameID="Element.Style.font.family" type="string" detailType="fontFamily" isStyleProperty="true">
         <Default>serif</Default>
       </Property>
-      <Property name="fontSize" displayNameID="Element.Style.font.size" type="dimension" detailType="fontSize" isStyleProperty="true" validator="NonNegativeDimValidator">
+      <Property name="fontSize" displayNameID="Element.Style.font.size" type="dimension" detailType="fontSize" isStyleProperty="true" validator="PositiveValueValidator">
         <Default>medium</Default>
       </Property>
       <Property name="fontStyle" displayNameID="Element.Style.font.style" type="choice" detailType="fontStyle" isStyleProperty="true">
@@ -1726,7 +1722,7 @@
       <Property name="letterSpacing" displayNameID="Element.Style.letterSpacing" type="dimension" detailType="normal" isStyleProperty="true">
         <Default>normal</Default>
       </Property>
-      <Property name="lineHeight" displayNameID="Element.Style.lineHeight" type="dimension" detailType="normal" isStyleProperty="true" validator="NonNegativeDimValidator">
+      <Property name="lineHeight" displayNameID="Element.Style.lineHeight" type="dimension" detailType="normal" isStyleProperty="true" validator="NonNegativeValueValidator">
         <Default>normal</Default>
       </Property>
       <Property name="textAlign" displayNameID="Element.Style.text.align" type="choice" detailType="textAlign" isStyleProperty="true">
@@ -1776,7 +1772,7 @@
       <Property name="borderTopStyle" displayNameID="Element.Style.border.top.style" type="choice" detailType="lineStyle" isStyleProperty="true" canInherit="false">
         <Default>none</Default>
       </Property>
-      <Property name="borderTopWidth" displayNameID="Element.Style.border.top.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeDimValidator">
+      <Property name="borderTopWidth" displayNameID="Element.Style.border.top.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>medium</Default>
       </Property>
       <Property name="borderTopColor" displayNameID="Element.Style.border.top.color" type="color" isStyleProperty="true" canInherit="false">
@@ -1785,7 +1781,7 @@
       <Property name="borderLeftStyle" displayNameID="Element.Style.border.left.style" type="choice" detailType="lineStyle" isStyleProperty="true" canInherit="false">
         <Default>none</Default>
       </Property>
-      <Property name="borderLeftWidth" displayNameID="Element.Style.border.left.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeDimValidator">
+      <Property name="borderLeftWidth" displayNameID="Element.Style.border.left.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>medium</Default>
       </Property>
       <Property name="borderLeftColor" displayNameID="Element.Style.border.left.color" type="color" isStyleProperty="true" canInherit="false">
@@ -1794,7 +1790,7 @@
       <Property name="borderBottomStyle" displayNameID="Element.Style.border.bottom.style" type="choice" detailType="lineStyle" isStyleProperty="true" canInherit="false">
         <Default>none</Default>
       </Property>
-      <Property name="borderBottomWidth" displayNameID="Element.Style.border.bottom.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeDimValidator">
+      <Property name="borderBottomWidth" displayNameID="Element.Style.border.bottom.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>medium</Default>
       </Property>
       <Property name="borderBottomColor" displayNameID="Element.Style.border.bottom.color" type="color" isStyleProperty="true" canInherit="false">
@@ -1803,7 +1799,7 @@
       <Property name="borderRightStyle" displayNameID="Element.Style.border.right.style" type="choice" detailType="lineStyle" isStyleProperty="true" canInherit="false">
         <Default>none</Default>
       </Property>
-      <Property name="borderRightWidth" displayNameID="Element.Style.border.right.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeDimValidator">
+      <Property name="borderRightWidth" displayNameID="Element.Style.border.right.width" type="dimension" detailType="lineWidth" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>medium</Default>
       </Property>
       <Property name="borderRightColor" displayNameID="Element.Style.border.right.color" type="color" isStyleProperty="true" canInherit="false">
@@ -1854,8 +1850,8 @@
     <Property name="type" displayNameID="Element.MasterPage.type" type="string" detailType="pageSize">
       <Default>us-letter</Default>
     </Property>
-    <Property name="height" displayNameID="Element.MasterPage.height" type="dimension" validator="NonNegativeDimValidator"/>
-    <Property name="width" displayNameID="Element.MasterPage.width" type="dimension" validator="NonNegativeDimValidator"/>
+    <Property name="height" displayNameID="Element.MasterPage.height" type="dimension" validator="NonNegativeValueValidator"/>
+    <Property name="width" displayNameID="Element.MasterPage.width" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="orientation" displayNameID="Element.MasterPage.orientation" type="string" detailType="pageOrientation">
       <Default>auto</Default>
     </Property>
@@ -1875,7 +1871,7 @@
     </PropertyGroup>
   </Element>
   <Element name="GraphicMasterPage" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" displayNameID="Element.GraphicMasterPage" isAbstract="false" extends="MasterPage" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="true" selector="page">
-    <Property name="columns" displayNameID="Element.GraphicMasterPage.columns" type="integer" validator="PositiveIntValidator">
+    <Property name="columns" displayNameID="Element.GraphicMasterPage.columns" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
     </Property>
     <Property name="columnSpacing" displayNameID="Element.GraphicMasterPage.columnSpacing" type="dimension">
@@ -1915,8 +1911,8 @@
     <PropertyGroup displayNameID="Element.ReportItem">
       <Property name="x" displayNameID="Element.ReportItem.x" type="dimension" />
       <Property name="y" displayNameID="Element.ReportItem.y" type="dimension" />
-      <Property name="height" displayNameID="Element.ReportItem.height" type="dimension" validator="NonNegativeDimValidator"/>
-      <Property name="width" displayNameID="Element.ReportItem.width" type="dimension" validator="NonNegativeDimValidator"/>
+      <Property name="height" displayNameID="Element.ReportItem.height" type="dimension" validator="NonNegativeValueValidator"/>
+      <Property name="width" displayNameID="Element.ReportItem.width" type="dimension" validator="NonNegativeValueValidator"/>
     </PropertyGroup>
     <Property name="visibility" displayNameID="Element.ReportItem.visibility" type="structure" isList="true" detailType="Hide" />
     <Method name="onCreate" displayNameID="Element.ReportItem.onCreate" toolTipID="Element.ReportItem.onCreate.toolTip" />
@@ -2240,10 +2236,10 @@
     </Slot>
   </Element>
   <Element name="Column" javaClass="org.eclipse.birt.report.model.elements.TableColumn" displayNameID="Element.Column" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
-    <Property name="repeat" displayNameID="Element.Column.repeat" type="integer" validator="PositiveIntValidator">
+    <Property name="repeat" displayNameID="Element.Column.repeat" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
     </Property>
-    <Property name="width" displayNameID="Element.Column.width" type="dimension" validator="NonNegativeDimValidator"/>
+    <Property name="width" displayNameID="Element.Column.width" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="alignment" displayNameID="Element.Column.alignment" type="choice" detailType="columnAlign">
       <Default>left</Default>
     </Property>
@@ -2310,27 +2306,27 @@
   </Element>
   <Element name="Row" javaClass="org.eclipse.birt.report.model.elements.TableRow" displayNameID="Element.Row" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
     <Property name="visibility" displayNameID="Element.Row.visibility" type="structure" isList="true" detailType="Hide" />
-    <Property name="height" displayNameID="Element.Row.height" type="dimension" validator="NonNegativeDimValidator"/>
+    <Property name="height" displayNameID="Element.Row.height" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" />
     <Slot name="cell" displayNameID="Element.Row.slot.cell" multipleCardinality="true">
       <Type name="Cell" />
     </Slot>
   </Element>
   <Element name="Cell" javaClass="org.eclipse.birt.report.model.elements.Cell" displayNameID="Element.Cell" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
-    <Property name="column" displayNameID="Element.Cell.column" type="integer" validator="NonNegativeIntValidator">
+    <Property name="column" displayNameID="Element.Cell.column" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
-    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveIntValidator">
+    <Property name="colSpan" displayNameID="Element.Cell.colSpan" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
     </Property>
-    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveIntValidator">
+    <Property name="rowSpan" displayNameID="Element.Cell.rowSpan" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
     </Property>
     <Property name="drop" displayNameID="Element.Cell.drop" type="choice" detailType="dropType">
       <Default>none</Default>
     </Property>
-    <Property name="height" displayNameID="Element.Cell.height" type="dimension" validator="NonNegativeDimValidator"/>
-    <Property name="width" displayNameID="Element.Cell.width" type="dimension" validator="NonNegativeDimValidator"/>
+    <Property name="height" displayNameID="Element.Cell.height" type="dimension" validator="NonNegativeValueValidator"/>
+    <Property name="width" displayNameID="Element.Cell.width" type="dimension" validator="NonNegativeValueValidator"/>
     <Slot name="content" displayNameID="Element.Cell.slot.content" multipleCardinality="true">
       <Type name="Label" />
       <Type name="Data" />
@@ -2353,7 +2349,7 @@
     <Property name="size" displayNameID="Element.Image.size" type="choice" detailType="imageSize">
       <Default>size-to-image</Default>
     </Property>
-    <Property name="scale" displayNameID="Element.Image.scale" type="float" validator="PositiveFloatValidator">
+    <Property name="scale" displayNameID="Element.Image.scale" type="float" validator="PositiveValueValidator">
       <Default>1.0</Default>
     </Property>
     <Property name="source" displayNameID="Element.Image.source" type="choice" detailType="imageRefType">

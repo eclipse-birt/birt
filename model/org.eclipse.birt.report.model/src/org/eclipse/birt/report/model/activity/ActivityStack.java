@@ -315,34 +315,7 @@ public final class ActivityStack implements CommandStack
 		// The record must exist and must be in the initial state.
 
 		assert record != null;
-		assert record.getState( ) == ActivityRecord.INITIAL_STATE;
-
-		// Flush the redo stack.
-
-		destroyRecords( redoStack );
-
-		// Execute the record and push it onto the undo stack.
-
-		record.execute( );
-		record.setState( ActivityRecord.DONE_STATE );
-
-		// Add the record to the undo stack if it is a singleton, or
-		// to the current transaction if one is in effect.
-
-		if ( transStack.isEmpty( ) )
-		{
-			record.setTransNo( ++transCount );
-			undoStack.push( record );
-			trimUndoStack( );
-
-			sendNotifcations( new ActivityStackEvent( this,
-					ActivityStackEvent.DONE ) );
-		}
-		else
-		{
-			CompoundRecord trans = (CompoundRecord) transStack.lastElement( );
-			trans.append( record );
-		}
+		execute( record );
 	}
 
 	/**

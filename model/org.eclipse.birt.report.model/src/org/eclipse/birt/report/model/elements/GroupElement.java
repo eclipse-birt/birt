@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.StringUtil;
 
@@ -241,9 +242,17 @@ public abstract class GroupElement extends DesignElement
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
+
 		list.addAll( validateStructureList( design, SORT_PROP ) );
 		list.addAll( validateStructureList( design, FILTER_PROP ) );
+
+		String value = (String) getLocalProperty( design, KEY_EXPR_PROP );
+		if ( StringUtil.isBlank( value ) )
+		{
+			list.add( new PropertyValueException( this,
+					KEY_EXPR_PROP, value,
+					PropertyValueException.VALUE_REQUIRED ) );
+		}
 
 		return list;
 	}
