@@ -7,6 +7,8 @@ import java.util.Locale;
  */
 public interface IMessageLookup
 {
+    public static final char KEY_SEPARATOR = '=';
+    
     /**
      * @param sKey
      * @param lcl

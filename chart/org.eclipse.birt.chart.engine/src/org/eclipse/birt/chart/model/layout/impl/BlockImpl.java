@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -1338,12 +1339,7 @@ public class BlockImpl extends EObjectImpl implements Block
         }
     }
 
-    /**
-     * Note: Manually written
-     * 
-     * @return
-     */
-    public Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException
+    public Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException
     {
         return new SizeImpl(100, 100);
     }

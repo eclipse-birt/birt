@@ -68,6 +68,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * This class is capable of computing the content of a chart (with axes) based on preferred sizes, text rotation, fit
  * ability, scaling, etc and prepares it for rendering.
+ * 
+ * WARNING: This is an internal class and subject to change
  */
 public final class PlotWith2DAxes extends PlotContent
 {
@@ -1396,10 +1398,9 @@ public final class PlotWith2DAxes extends PlotContent
         Label laAxisTitle;
         Scale scModel;
 
-        for (int i = 0; i < iOverlayCount; i++)
+        for (int i = 0; i < iOverlayCount; i++) // ITERATE THROUGH EACH OVERLAY ORTHOGONAL AXIS
         {
-            j = iOverlayCount - i - 1; // GO BACKWARDS TO ENSURE CORRECT
-            // RENDERING ORDER
+            j = iOverlayCount - i - 1; // GO BACKWARDS TO ENSURE CORRECT RENDERING ORDER
             oaxOverlay = aax.getOverlay(j); // UPDATE A PREVIOUSLY DEFINED OVERLAY AXIS AUTO COMPUTE SCALE
             iTickStyle = oaxOverlay.getCombinedTickStyle();
             iTitleLocation = oaxOverlay.getTitlePosition();
@@ -1430,11 +1431,7 @@ public final class PlotWith2DAxes extends PlotContent
                         dEnd, true, null);
                 }
             }
-            dAxisLabelsThickness = sc.computeAxisLabelThickness(ids, oaxOverlay.getLabel(), iOrientation) /*
-                                                                                                            * REQUIRED
-                                                                                                            * TO FIT
-                                                                                                            * CLEANLY
-                                                                                                            */;
+            dAxisLabelsThickness = sc.computeAxisLabelThickness(ids, oaxOverlay.getLabel(), iOrientation);
             double dAxisTitleThickness = 0;
             sc.resetShifts();
 
@@ -1447,7 +1444,10 @@ public final class PlotWith2DAxes extends PlotContent
                 final double dAppliedYAxisPlotSpacing = dYAxisPlotSpacing;
                 if (laAxisTitle.isVisible())
                 {
+                    final String sPreviousValue = laAxisTitle.getCaption().getValue();
+                    laAxisTitle.getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
                     dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getWidth();
+                    laAxisTitle.getCaption().setValue(sPreviousValue);
                 }
 
                 // COMPUTE VALUES FOR x1, x, x2
@@ -1577,10 +1577,10 @@ public final class PlotWith2DAxes extends PlotContent
                 final double dAppliedXAxisPlotSpacing = dXAxisPlotSpacing;
                 if (laAxisTitle.isVisible())
                 {
-                    dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getHeight() /*
-                                                                                                           * REQUIRED TO
-                                                                                                           * FIT CLEANLY
-                                                                                                           */;
+                    final String sPreviousValue = laAxisTitle.getCaption().getValue();
+                    laAxisTitle.getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
+                    dAxisTitleThickness = computeBox(ids, iTitleLocation, laAxisTitle, 0, 0).getHeight();
+                    laAxisTitle.getCaption().setValue(sPreviousValue);
                 }
 
                 // COMPUTE VALUES FOR y1, y, y2
@@ -1818,11 +1818,17 @@ public final class PlotWith2DAxes extends PlotContent
         double dYAxisTitleThickness = 0;
         if (laYAxisTitle.isVisible())
         {
+            final String sPreviousValue = laYAxisTitle.getCaption().getValue();
+            laYAxisTitle.getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
             try {
                 dYAxisTitleThickness = computeBox(ids, iYTitleLocation, laYAxisTitle, 0, 0).getWidth();
             } catch (UnexpectedInputException uiex)
             {
                 throw new GenerationException(uiex);
+            }
+            finally
+            {
+                laYAxisTitle.getCaption().setValue(sPreviousValue);
             }
         }
         double dX = getLocation(scX, iv), dX1 = dX, dX2 = dX; // Y-AXIS BAND HORIZONTAL CO-ORDINATES
@@ -2249,11 +2255,17 @@ public final class PlotWith2DAxes extends PlotContent
         double dXAxisTitleThickness = 0;
         if (laXAxisTitle.isVisible())
         {
+            final String sPreviousValue = laXAxisTitle.getCaption().getValue();
+            laXAxisTitle.getCaption().setValue(rtc.externalizedMessage(sPreviousValue)); // EXTERNALIZE
             try {
                 dXAxisTitleThickness = computeBox(ids, iXTitleLocation, laXAxisTitle, 0, 0).getHeight();
             } catch (UnexpectedInputException uiex)
             {
                 throw new GenerationException(uiex);
+            }
+            finally
+            {
+                laXAxisTitle.getCaption().setValue(sPreviousValue); // RESTORE
             }
         }
 
@@ -2590,10 +2602,8 @@ public final class PlotWith2DAxes extends PlotContent
                         }
 
                         dY = getLocation(scY, iv);
-                        dY2 = dY + dDeltaY2; // RE-CALCULATE X-AXIS BAND LOWER
-                        // EDGE
-                        dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND LOWER
-                        // EDGE
+                        dY2 = dY + dDeltaY2; // RE-CALCULATE X-AXIS BAND LOWER EDGE
+                        dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND LOWER EDGE
                     }
                     while (Math.abs(dY2 - (dBlockY + dBlockHeight)) > 1 && !bForceBreak);
                 }

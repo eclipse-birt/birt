@@ -16,6 +16,7 @@ import java.util.Collection;
 import org.eclipse.birt.chart.computation.LegendBuilder;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -1156,16 +1157,12 @@ public class LegendImpl extends BlockImpl implements Legend
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.XServer,
-     *      org.eclipse.birt.chart.model.Chart)
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer, org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
      */
-    public final Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException
+    public final Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException
     {
-        // COMPUTE THE LEGEND CONTENT (TO ENSURE THAT THE PREFERRED SIZE IS
-        // OBTAINED)
+        // COMPUTE THE LEGEND CONTENT (TO ENSURE THAT THE PREFERRED SIZE IS OBTAINED)
         final LegendBuilder lb = new LegendBuilder();
         final SeriesDefinition[] seda = cm.getSeriesForLegend();
 

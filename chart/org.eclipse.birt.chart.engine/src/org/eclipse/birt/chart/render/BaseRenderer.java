@@ -439,7 +439,7 @@ public abstract class BaseRenderer
         {
             try
             {
-                sz = lg.getPreferredSize(xs, cm);
+                sz = lg.getPreferredSize(xs, cm, rtc);
             }
             catch (Exception ex )
             {
@@ -1048,8 +1048,10 @@ public abstract class BaseRenderer
         final LabelBlock lb = (LabelBlock) b;
         final TextRenderEvent tre = (TextRenderEvent) ((EventObjectCache) ipr)
             .getEventObject(lb, TextRenderEvent.class);
-        tre.updateFrom(lb, dScale);
+        
+        final String sRestoreValue = tre.updateFrom(lb, dScale, rtc); // HANDLES EXTERNALIZED TEXT
         ipr.drawText(tre);
+        lb.getLabel().getCaption().setValue(sRestoreValue);
     }
 
     /**

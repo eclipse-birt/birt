@@ -202,7 +202,7 @@ public final class Generator
         ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_LAYOUT, cmRunTime);
         try
         {
-            lm.doLayout_tmp(ids, cmRunTime, bo);
+            lm.doLayout_tmp(ids, cmRunTime, bo, rtc);
         }
         catch (OverlapException oex )
         {
@@ -361,7 +361,7 @@ public final class Generator
                 Bounds bo = ((PlotWith2DAxes) gcs.getComputations()).getPlotBounds();
                 try
                 {
-                    updateLegendInside(bo, lg, idr.getDisplayServer(), cm);
+                    updateLegendInside(bo, lg, idr.getDisplayServer(), cm, gcs.getRunTimeContext());
                 }
                 catch (GenerationException gex )
                 {
@@ -412,13 +412,13 @@ public final class Generator
      * @param cm
      * @throws GenerationException
      */
-    private static final void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm)
+    private static final void updateLegendInside(Bounds boContainer, Legend lg, IDisplayServer ids, Chart cm, RunTimeContext rtc)
         throws GenerationException
     {
         final double dScale = ids.getDpiResolution() / 72d;
 
         double dX, dY;
-        final Size sz = lg.getPreferredSize(ids, cm);
+        final Size sz = lg.getPreferredSize(ids, cm, rtc);
         boContainer = boContainer.scaledInstance(1d / dScale);
 
         // USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK

@@ -15,6 +15,7 @@ import java.util.Enumeration;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -620,9 +621,6 @@ public interface Block extends EObject
     EList getTriggers();
 
     /**
-     * 
-     * Note: Manually written
-     * 
      * @param bRecursive
      * @return
      */
@@ -631,68 +629,54 @@ public interface Block extends EObject
     /**
      * Computes and returns the size of the title block based on the text content and its attributes
      * 
-     * Note: Manually written
-     * 
      * @param xs
      *            The Xserver used in computing the scaling factor (pixels => points)
      * @param cm
      *            The chart model instance (if needed)
+     * @param rtc
      * 
      * @return The preferred size of the title block 'in points'
+     * 
+     * @throws GenerationException
      */
-    Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException;
+    Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException;
 
     /**
-     * 
-     * Note: Manually written
-     * 
-     * @return
+     * @return 'true' if this block type is 'a custom defined block'
      */
     boolean isCustom();
 
     /**
-     * 
-     * Note: Manually written
-     * 
-     * @return
+     * @return 'true' if this block type is 'the plot block'
      */
     boolean isPlot();
 
     /**
      * 
-     * Note: Manually written
-     * 
-     * @return
+     * @return 'true' if this block type is 'the legend block'
      */
     boolean isLegend();
 
     /**
      * 
-     * Note: Manually written
-     * 
-     * @return
+     * @return 'true' if this block type is 'a text block'
      */
     boolean isText();
 
     /**
-     * 
-     * Note: Manually written
-     * 
-     * @return
+     * @return  'true' if this block type is 'the title block'
      */
     boolean isTitle();
 
     /**
-     * 
-     * Note: Manually written
+     * Adds a block into the children hierarchy
      * 
      * @param bl
      */
     void add(Block bl);
 
     /**
-     * 
-     * Note: Manually written
+     * Removes a block from the children hierarchy
      * 
      * @param bl
      */

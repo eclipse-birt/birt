@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
@@ -1284,6 +1285,7 @@ public abstract class AxesRenderer extends BaseRenderer
     public final void renderEachAxis(IPrimitiveRenderer ipr, Plot pl, OneAxis ax, int iWhatToDraw)
         throws RenderingException
     {
+        final RunTimeContext rtc = getRunTimeContext();
         final Axis axModel = ax.getModelAxis();
         final PlotWith2DAxes pwa = (PlotWith2DAxes) getComputations();
         final Insets insCA = pwa.getAxes().getInsets();
@@ -1795,6 +1797,8 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
+                final String sRestoreValue = la.getCaption().getValue();
+                la.getCaption().setValue(rtc.externalizedMessage(sRestoreValue));
                 BoundingBox bb = null;
                 try
                 {
@@ -1812,6 +1816,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 tre.setBlockAlignment(null);
                 tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
                 ipr.drawText(tre);
+                la.getCaption().setValue(sRestoreValue);
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
             }
             la = ax.getLabel();
@@ -2278,6 +2283,8 @@ public abstract class AxesRenderer extends BaseRenderer
             if (la.isVisible())
             {
                 ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_AXIS_TITLE, axModel, la);
+                final String sRestoreValue = la.getCaption().getValue();
+                la.getCaption().setValue(rtc.externalizedMessage(sRestoreValue)); // EXTERNALIZE
                 BoundingBox bb = null;
                 try
                 {
@@ -2295,6 +2302,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 tre.setBlockAlignment(null);
                 tre.setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
                 ipr.drawText(tre);
+                la.getCaption().setValue(sRestoreValue); // RESTORE
                 ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_AXIS_TITLE, axModel, la);
             }
             la = ax.getLabel(); // RESTORE BACK TO AXIS LABEL

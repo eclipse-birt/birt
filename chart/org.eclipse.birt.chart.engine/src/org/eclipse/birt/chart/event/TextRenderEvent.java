@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -230,12 +231,15 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
      * 
      * @param bl
      */
-    public final void updateFrom(LabelBlock lb, double dScale)
+    public final String updateFrom(LabelBlock lb, double dScale, RunTimeContext rtc)
     {
+        final String sPreviousValue = lb.getLabel().getCaption().getValue();
+        lb.getLabel().getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
         setLabel(lb.getLabel());
         setBlockBounds(lb.getBounds().scaledInstance(dScale));
         setBlockAlignment(null);
         setAction(TextRenderEvent.RENDER_TEXT_IN_BLOCK);
+        return sPreviousValue;
     }
 
     /*

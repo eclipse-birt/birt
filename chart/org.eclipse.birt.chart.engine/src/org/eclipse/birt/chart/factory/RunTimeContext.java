@@ -117,7 +117,14 @@ public final class RunTimeContext
     {
         if (iml == null)
         {
-            return "[ERR]" + sChartKey;
+            final int iKeySeparator = sChartKey.indexOf(IMessageLookup.KEY_SEPARATOR);
+            if (iKeySeparator != -1)
+            {
+                // VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
+                return sChartKey.substring(iKeySeparator + 1);
+            }
+            // FOR [BACKWARD COMPATIBILITY] OR [VALUES NOT CONTAINING A KEY]
+            return sChartKey;
         }
         return iml.getMessageValue(sChartKey, lcl);
     }

@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -404,15 +405,15 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
         setLabel(LabelImpl.create());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.XServer,
-     *      org.eclipse.birt.chart.model.Chart)
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer, org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
      */
-    public final Size getPreferredSize(IDisplayServer xs, Chart cm) throws GenerationException
+    public final Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException
     {
         BoundingBox bb = null;
+        final String sPreviousValue = getLabel().getCaption().getValue();
+        getLabel().getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
+        
         try
         {
             bb = Methods.computeBox(xs, IConstants.TOP, getLabel(), 0, 0);
@@ -420,6 +421,10 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
         catch (UnexpectedInputException uiex )
         {
             throw new GenerationException(uiex);
+        }
+        finally
+        {
+            getLabel().getCaption().setValue(sPreviousValue);
         }
 
         final Size sz = SizeImpl.create(bb.getWidth(), bb.getHeight());
