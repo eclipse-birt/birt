@@ -70,10 +70,9 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  *  
  */
-public class TableEditPart extends ReportElementEditPart
-		implements
-			LayerConstants,
-			ITableAdapterHelper
+public class TableEditPart extends ReportElementEditPart implements
+		LayerConstants,
+		ITableAdapterHelper
 {
 
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
@@ -222,7 +221,8 @@ public class TableEditPart extends ReportElementEditPart
 			case NotificationEvent.CONTENT_EVENT :
 			{
 				markDirty( true );
-				if ( focus instanceof TableHandle )
+				if ( focus instanceof TableHandle
+						|| focus instanceof TableGroupHandle )
 				{
 					addListenerToChildren( );
 				}
@@ -472,6 +472,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Resets size of column.
+	 * 
 	 * @param start
 	 * @param end
 	 * @param value
@@ -487,7 +488,6 @@ public class TableEditPart extends ReportElementEditPart
 				.getColumnHandleAdapter( endColumn );
 		int startWidth = 0;
 		int endWidth = 0;
-
 
 		startWidth = TableUtil.caleVisualWidth( this, startColumn );
 		endWidth = TableUtil.caleVisualWidth( this, endColumn );
@@ -618,6 +618,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Get mini height of row.
+	 * 
 	 * @param rowNumber
 	 * @return the minimum height of row.
 	 */
@@ -629,6 +630,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Get mini width of column.
+	 * 
 	 * @param columnNumber
 	 * @return the minimum height of column.
 	 */
@@ -750,6 +752,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Set selected row and column area.
+	 * 
 	 * @param selectRowAndColumnRect
 	 */
 	public void setSelectRowAndColumnRect( Rectangle selectRowAndColumnRect )
@@ -759,6 +762,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Gets data set, which is biding on table.
+	 * 
 	 * @return
 	 */
 	public Object getDataSet( )
@@ -768,6 +772,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Get the cell on give postion.
+	 * 
 	 * @param rowNumber
 	 * @param columnNumber
 	 * @return
@@ -791,6 +796,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Delete specified row.
+	 * 
 	 * @param numbers
 	 */
 	public void deleteRow( int[] numbers )
@@ -807,6 +813,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Delete specified column
+	 * 
 	 * @param numbers
 	 */
 	public void deleteColumn( int[] numbers )
@@ -833,6 +840,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Inserts row at give position.
+	 * 
 	 * @param rowNumber
 	 * @param parentRowNumber
 	 */
@@ -873,6 +881,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Inserts column on give position.
+	 * 
 	 * @param rowNumber
 	 * @param parentRowNumber
 	 */
@@ -933,9 +942,11 @@ public class TableEditPart extends ReportElementEditPart
 		}
 
 		int rowSpan = maxRow.getRowNumber( )
-				- minRow.getRowNumber( ) + maxRow.getRowSpan( );
+				- minRow.getRowNumber( )
+				+ maxRow.getRowSpan( );
 		int colSpan = maxColumn.getColumnNumber( )
-				- maxRow.getColumnNumber( ) + maxColumn.getColSpan( );
+				- maxRow.getColumnNumber( )
+				+ maxColumn.getColSpan( );
 
 		getTableAdapter( ).transStar( MERGE_TRANS_LABEL );
 		cellPart.setRowSpan( rowSpan );
@@ -979,7 +990,9 @@ public class TableEditPart extends ReportElementEditPart
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getPreferredSize()
 	 */
 	public Dimension getPreferredSize( )
@@ -1065,6 +1078,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Split merged cells
+	 * 
 	 * @param part
 	 */
 	public void splitCell( TableCellEditPart part )
@@ -1111,11 +1125,11 @@ public class TableEditPart extends ReportElementEditPart
 	}
 
 	/**
-	 *  Inserts group in table.
+	 * Inserts group in table.
 	 */
 	public TableGroupHandle insertGroup( )
 	{
-	    TableGroupHandle groupHandle = null;
+		TableGroupHandle groupHandle = null;
 		try
 		{
 			groupHandle = getTableAdapter( ).insertGroup( );
@@ -1133,6 +1147,7 @@ public class TableEditPart extends ReportElementEditPart
 
 	/**
 	 * Removes gourp in table
+	 * 
 	 * @param group
 	 */
 	public void removeGroup( Object group )
@@ -1175,34 +1190,35 @@ public class TableEditPart extends ReportElementEditPart
 			( (DesignElementHandle) it.next( ) ).addListener( this );
 		}
 	}
-	
-	
-	
-	public void showTargetFeedback(Request request)
+
+	public void showTargetFeedback( Request request )
 	{
-	    if ( this.getSelected() == 0 && request.getType() == RequestConstants.REQ_SELECTION )
-	    {
-		    this.getViewer().setCursor( ReportPlugin.getDefault().getCellCursor() );
-	    }
-	    super.showTargetFeedback( request );
+		if ( this.getSelected( ) == 0
+				&& request.getType( ) == RequestConstants.REQ_SELECTION )
+		{
+			this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+					.getCellCursor( ) );
+		}
+		super.showTargetFeedback( request );
 	}
-	
-	public void eraseTargetFeedback( Request request)
+
+	public void eraseTargetFeedback( Request request )
 	{
-	    this.getViewer().setCursor( null );
-	    super.eraseTargetFeedback( request );
+		this.getViewer( ).setCursor( null );
+		super.eraseTargetFeedback( request );
 	}
-	
-	protected void addChildVisual(EditPart part, int index)
+
+	protected void addChildVisual( EditPart part, int index )
 	{
-	    // make sure we don't keep a select cell cursor after new contents
-	    // are added
-	    this.getViewer().setCursor( null );
-	    super.addChildVisual(part, index);
+		// make sure we don't keep a select cell cursor after new contents
+		// are added
+		this.getViewer( ).setCursor( null );
+		super.addChildVisual( part, index );
 	}
+
 	/**
 	 * The class use for select row in table.
-	 * 
+	 *  
 	 */
 	public static class DummyColumnEditPart extends DummyEditpart
 	{
@@ -1213,17 +1229,19 @@ public class TableEditPart extends ReportElementEditPart
 		public DummyColumnEditPart( Object model )
 		{
 			super( model );
-			createEditPolicies();
+			createEditPolicies( );
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
 		 */
 		protected void createEditPolicies( )
 		{
-			
-			ReportComponentEditPolicy policy = new ReportComponentEditPolicy()
-			{
+
+			ReportComponentEditPolicy policy = new ReportComponentEditPolicy( ) {
+
 				protected org.eclipse.gef.commands.Command createDeleteCommand(
 						GroupRequest deleteRequest )
 				{
@@ -1234,10 +1252,10 @@ public class TableEditPart extends ReportElementEditPart
 			installEditPolicy( EditPolicy.COMPONENT_ROLE, policy );
 		}
 	}
-	
+
 	/**
 	 * The class use for select row in table.
-	 * 
+	 *  
 	 */
 	public static class DummyRowEditPart extends DummyEditpart
 	{
@@ -1248,16 +1266,18 @@ public class TableEditPart extends ReportElementEditPart
 		public DummyRowEditPart( Object model )
 		{
 			super( model );
-			createEditPolicies();
+			createEditPolicies( );
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart#createEditPolicies()
 		 */
 		protected void createEditPolicies( )
 		{
-			ReportComponentEditPolicy policy = new ReportComponentEditPolicy()
-			{
+			ReportComponentEditPolicy policy = new ReportComponentEditPolicy( ) {
+
 				protected org.eclipse.gef.commands.Command createDeleteCommand(
 						GroupRequest deleteRequest )
 				{
