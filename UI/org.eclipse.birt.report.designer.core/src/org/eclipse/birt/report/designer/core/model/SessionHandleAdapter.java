@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Adapter class to adpat model handle. This adapter provides convinience
- * methods to GUI requirment SessionHandleAdapter responds to model
+ * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
  *  
  */
@@ -52,7 +52,7 @@ public class SessionHandleAdapter
 	private ReportDesignHandleAdapter designHandleAdapter;
 
 	/**
-	 * Gets sigleton instance method
+	 * Gets singleton instance method
 	 * 
 	 * @return return SessionHandleAdapter instance
 	 */
@@ -83,7 +83,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * Inintilize a report design file
+	 * Initialize a report design file
 	 * 
 	 * @param fileName
 	 *            design file name
@@ -111,7 +111,8 @@ public class SessionHandleAdapter
 
 	/**
 	 * Create report design instance
-	 * @return created report design instance 
+	 * 
+	 * @return created report design instance
 	 */
 	public ReportDesignHandle creatReportDesign( )
 	{
@@ -119,31 +120,42 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * Gets the report design instance for opening design file 
+	 * Gets the report design instance for opening design file
+	 * 
 	 * @return wrapped report design
 	 */
 
 	public ReportDesign getReportDesign( )
 	{
-		return designHandleAdapter.getReportDesignHandle( ).getDesign( );
+		if ( designHandleAdapter != null )
+		{
+			return designHandleAdapter.getReportDesignHandle( ).getDesign( );
+		}
+		return null;
 	}
 
 	/**
-	 * @return wrapped report dsign handle.
+	 * @return wrapped report design handle.
 	 */
 	public ReportDesignHandle getReportDesignHandle( )
 	{
-		return designHandleAdapter.getReportDesignHandle( );
+		if ( designHandleAdapter != null )
+		{
+			return designHandleAdapter.getReportDesignHandle( );
+		}
+		return null;
+
 	}
 
 	/**
 	 * Sets report design.
+	 * 
 	 * @param obj
 	 */
 	public void setReportDesignHandle( ReportDesignHandle handle )
 	{
 
-			designHandleAdapter.setReportDesignHandle( handle);
+		designHandleAdapter.setReportDesignHandle( handle );
 	}
 
 	/**
@@ -158,8 +170,10 @@ public class SessionHandleAdapter
 
 		return null;
 	}
-	
-	/**Gets the first MasterPageHandle
+
+	/**
+	 * Gets the first MasterPageHandle
+	 * 
 	 * @return
 	 */
 	public MasterPageHandle getMasterPageHandle( )
@@ -168,5 +182,5 @@ public class SessionHandleAdapter
 		Iterator iter = slotHandle.iterator( );
 		return (MasterPageHandle) iter.next( );
 	}
-	
+
 }
