@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -79,7 +79,7 @@ public class MemberRecord extends SimpleRecord
 		structure = memberRef.getStructure( null, element );
 		oldValue = memberRef.getValue( null, element );
 
-		label = ThreadResources.getMessage(
+		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
 				new String[]{memberRef.getPropDefn( ).getDisplayName( )} );
 

@@ -11,16 +11,20 @@
 
 package org.eclipse.birt.report.model.i18n;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Provides access to a resource bundle associated with this thread. The
- * application calls <code>setThreadLocale</code> to set the locale for the
- * thread, then calls the <code>getMessage</code> methods.
+ * Represents the set of resource bundle with the specific base name of resource
+ * bundle. This set of resource bundle is associated with the current thread.
+ * The locale is kept in one static thread-local variable,
+ * {@link java.lang.ThreadLocal}. When getting message, the actual localized
+ * message is from the resource bundle for the kept locale. The application
+ * calls <code>setLocale(Locale)</code> to set the locale for the current
+ * thread, before calling the <code>getMessage()</code> methods.
  * 
  * @see ResourceHandle
  */
@@ -29,16 +33,59 @@ public class ThreadResources
 {
 
 	/**
-	 * List of resource bundles keyed by the locale.
+	 * List of resource bundles keyed by the locale, which is cached for the
+	 * whole application.
 	 */
 
-	private static Map resourceMap = new HashMap( );
+	private Map resourceMap = new HashMap( );
 
 	/**
-	 * List of resource bundles keyed by the current user-thread.
+	 * Thread-local variable for the current thread.
 	 */
 
-	private static ThreadLocal resources = new ThreadLocal( );
+	private static ThreadLocal threadLocal = new ThreadLocal( );
+
+	/**
+	 * The class loader for loading resource bundle.
+	 */
+
+	private ClassLoader classLoader;
+
+	/**
+	 * The base name of resource bundle.
+	 */
+
+	private String baseName;
+
+	/**
+	 * Constructs the thread resources with the given class loader and base
+	 * name. The <code>theClass</code> provides the class loader for loading
+	 * resource bundle, and the <code>baseName</code> is the full qualified
+	 * class name for resource bundle. If the message file is located in
+	 * "org.eclipse.birt.report.model.message.properties", the base name is
+	 * "org.eclipse.birt.report.model.message".
+	 * 
+	 * @param classLoader
+	 *            the class loader for loading the given resource bundle
+	 * @param baseName
+	 *            the base name of resource bundle, the full qualified class
+	 *            name
+	 * @throws MissingResourceException
+	 *             if no resource bundle for the specified base name can be
+	 *             found.
+	 */
+
+	public ThreadResources( ClassLoader classLoader, String baseName )
+	{
+		assert classLoader != null;
+		assert baseName != null;
+
+		this.classLoader = classLoader;
+		this.baseName = baseName;
+
+		ResourceBundle resourceBundle = ResourceBundle.getBundle( baseName,
+				getLocale( ), classLoader );
+	}
 
 	/**
 	 * Sets the locale of current user-thread. This method should be called
@@ -52,65 +99,61 @@ public class ThreadResources
 	public static void setLocale( Locale locale )
 	{
 		if ( locale == null )
-			resources.set( Locale.getDefault( ) );
+			threadLocal.set( Locale.getDefault( ) );
 		else
-			resources.set( locale );
+			threadLocal.set( locale );
 	}
 
 	/**
 	 * Gets the locale of current user-thread.
 	 * 
-	 * @return Locale of the current thread.
+	 * @return the locale of the current thread.
 	 */
 
 	public static Locale getLocale( )
 	{
-		return (Locale) resources.get( );
+		Locale locale = (Locale) threadLocal.get( );
+		if ( locale == null )
+			locale = Locale.getDefault( );
+		return locale;
 	}
 
 	/**
-	 * Gets a message given the message key. An assertion will be raised if the
-	 * message key does not exist in the resource bundle. The locale must have
-	 * previously been set for this thread.
+	 * Gets the localized message with the resource key.
 	 * 
 	 * @param key
-	 *            the message key
-	 * @return the localized message for that key and the locale set in the
-	 *         constructor. Returns the key itself if the message was not found.
-	 * @see ResourceBundle#getString( String )
-	 * @see ResourceHandle#getMessage( String )
+	 *            the resource key
+	 * @return the localized message for that key. Returns the key itself if the
+	 *         message was not found.
 	 */
 
-	public static String getMessage( String key )
+	public String getMessage( String key )
 	{
 		ResourceHandle resourceHandle = getResourceHandle( );
-		assert resourceHandle != null;
+		if ( resourceHandle != null )
+			return resourceHandle.getMessage( key );
 
-		return resourceHandle.getMessage( key );
+		return key;
 	}
 
 	/**
-	 * Gets a message that has placeholders. An assertion will be raised if the
-	 * message key does not exist in the resource bundle. The locale must have
-	 * previously been set for this thread.
+	 * Gets the localized message with the resource key and arguments.
 	 * 
 	 * @param key
-	 *            the message key
+	 *            the resource key
 	 * @param arguments
-	 *            the set of arguments to be plugged into the message
+	 *            the set of arguments to place the place-holder of message
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
-	 * @see ResourceBundle#getString( String )
-	 * @see MessageFormat#format( String, Object[] )
-	 * @see ResourceHandle#getMessage( String, Object[] )
 	 */
 
-	public static String getMessage( String key, Object[] arguments )
+	public String getMessage( String key, Object[] arguments )
 	{
 		ResourceHandle resourceHandle = getResourceHandle( );
-		assert resourceHandle != null;
+		if ( resourceHandle != null )
+			return resourceHandle.getMessage( key, arguments );
 
-		return resourceHandle.getMessage( key, arguments );
+		return key;
 	}
 
 	/**
@@ -120,23 +163,17 @@ public class ThreadResources
 	 * @return the resource handle with the locale of this thread
 	 */
 
-	private static ResourceHandle getResourceHandle( )
+	private ResourceHandle getResourceHandle( )
 	{
-		Locale locale = (Locale) resources.get( );
-		assert locale != null;
+		Locale locale = getLocale( );
 
 		ResourceHandle resourceHandle = (ResourceHandle) resourceMap
 				.get( locale );
 		if ( resourceHandle != null )
 			return resourceHandle;
 
-		String className = ThreadResources.class.getName( );
-		String bundleName = className.substring( 0,
-				className.lastIndexOf( '.' ) + 1 )
-				+ ResourceHandle.BUNDLE_NAME;
-		ResourceBundle resourceBundle = ResourceBundle.getBundle( bundleName,
-				locale );
-		assert resourceBundle != null : "ResourceBundle : " + bundleName + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+		ResourceBundle resourceBundle = ResourceBundle.getBundle( baseName,
+				locale, classLoader );
 
 		resourceHandle = new ResourceHandle( resourceBundle );
 

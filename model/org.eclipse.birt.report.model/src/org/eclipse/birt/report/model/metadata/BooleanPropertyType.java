@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.StringUtil;
 
@@ -104,22 +105,21 @@ public class BooleanPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return null;
-		
-        if ( value instanceof String )
+
+		if ( value instanceof String )
 			return validateInputString( design, defn, (String) value );
-        if ( value instanceof Boolean )
+		if ( value instanceof Boolean )
 			return value;
-        
-		if ( value instanceof Integer 
-             || value instanceof Double
-			 || value instanceof Float 
-             || value instanceof BigDecimal )
+
+		if ( value instanceof Integer || value instanceof Double
+				|| value instanceof Float || value instanceof BigDecimal )
 			return ( (Number) value ).intValue( ) == 0
 					? Boolean.FALSE
 					: Boolean.TRUE;
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				getTypeCode( ) );
 	}
 
 	/**
@@ -150,7 +150,8 @@ public class BooleanPropertyType extends PropertyType
 			return Boolean.FALSE;
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				getTypeCode( ) );
 	}
 
 	/*
@@ -214,7 +215,7 @@ public class BooleanPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return null;
-        
+
 		return ( (Boolean) value ).booleanValue( ) ? TRUE : FALSE;
 	}
 
@@ -240,7 +241,7 @@ public class BooleanPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return false;
-        
+
 		return ( (Boolean) value ).booleanValue( );
 	}
 
@@ -270,28 +271,29 @@ public class BooleanPropertyType extends PropertyType
 			return null;
 
 		// 1. Internal boolean name.
-        
+
 		if ( value.equalsIgnoreCase( TRUE ) )
 			return Boolean.TRUE;
 		else if ( value.equalsIgnoreCase( FALSE ) )
 			return Boolean.FALSE;
 
-		// 2. A localized Boolean name. Convert the localized 
-        // Boolean name into Boolean instance.
-        
-		if ( value.equalsIgnoreCase( ThreadResources
+		// 2. A localized Boolean name. Convert the localized
+		// Boolean name into Boolean instance.
+
+		if ( value.equalsIgnoreCase( ModelMessages
 				.getMessage( BOOLEAN_TRUE_RESOURCE_KEY ) ) )
 		{
 			return Boolean.TRUE;
 		}
-		else if ( value.equalsIgnoreCase( ThreadResources
+		else if ( value.equalsIgnoreCase( ModelMessages
 				.getMessage( BOOLEAN_FALSE_RESOURCE_KEY ) ) )
 		{
 			return Boolean.FALSE;
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, BOOLEAN_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				BOOLEAN_TYPE );
 	}
 
 	/**
@@ -309,13 +311,13 @@ public class BooleanPropertyType extends PropertyType
 			return null;
 
 		// return a localized name for True or False.
-        
+
 		if ( ( (Boolean) value ).booleanValue( ) )
 		{
-			return ThreadResources.getMessage( BOOLEAN_TRUE_RESOURCE_KEY );
+			return ModelMessages.getMessage( BOOLEAN_TRUE_RESOURCE_KEY );
 		}
 
-		return ThreadResources.getMessage( BOOLEAN_FALSE_RESOURCE_KEY );
+		return ModelMessages.getMessage( BOOLEAN_FALSE_RESOURCE_KEY );
 
 	}
 

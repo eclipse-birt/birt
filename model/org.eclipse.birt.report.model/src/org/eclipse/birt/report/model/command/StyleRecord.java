@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -17,11 +17,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Records a change to the style of an element.
- * 
+ *  
  */
 
 public class StyleRecord extends SimpleRecord
@@ -61,7 +61,7 @@ public class StyleRecord extends SimpleRecord
 		newStyle = style;
 		oldStyle = element.getStyle( );
 
-		label = ThreadResources.getMessage( MessageConstants.SET_STYLE_MESSAGE );
+		label = ModelMessages.getMessage( MessageConstants.SET_STYLE_MESSAGE );
 	}
 
 	/*

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Describes the choices for a property. The internal name of a choice property
@@ -90,7 +90,7 @@ public class Choice implements Cloneable
 
 	public String getDisplayName( )
 	{
-		return ThreadResources.getMessage( displayNameKey );
+		return ModelMessages.getMessage( displayNameKey );
 	}
 
 	/**
@@ -140,8 +140,8 @@ public class Choice implements Cloneable
 	}
 
 	/**
-	 * Returns the value of the choice. The returned value equals to the internal
-	 * name of the system choice.
+	 * Returns the value of the choice. The returned value equals to the
+	 * internal name of the system choice.
 	 * 
 	 * @return the value of the choice
 	 */

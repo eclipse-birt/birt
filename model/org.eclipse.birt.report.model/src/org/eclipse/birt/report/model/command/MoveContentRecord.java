@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -15,11 +15,11 @@ import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Moves a content element within its container.
- * 
+ *  
  */
 
 public class MoveContentRecord extends SimpleRecord
@@ -84,7 +84,7 @@ public class MoveContentRecord extends SimpleRecord
 
 		oldPosn = container.getSlot( slot ).findPosn( content );
 
-		label = ThreadResources
+		label = ModelMessages
 				.getMessage( MessageConstants.MOVE_CONTENT_MESSAGE );
 
 	}

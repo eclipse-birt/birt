@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.validators.StructureListValidator;
@@ -567,7 +567,7 @@ public abstract class PropertyDefn
 	public String getDisplayName( )
 	{
 		assert displayNameID != null;
-		return ThreadResources.getMessage( this.displayNameID );
+		return ModelMessages.getMessage( this.displayNameID );
 	}
 
 	/**

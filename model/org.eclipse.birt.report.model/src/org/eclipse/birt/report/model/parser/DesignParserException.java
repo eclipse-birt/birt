@@ -1,27 +1,27 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * This class describes a parse error. Many errors are reported using the same
  * exceptions used for API operations.
- * 
+ *  
  */
 
-public class DesignParserException  extends BirtException
+public class DesignParserException extends BirtException
 {
 
 	/**
@@ -29,7 +29,7 @@ public class DesignParserException  extends BirtException
 	 */
 
 	protected String fileName = null;
-	
+
 	/**
 	 * A custom color did not have a correct RGB value.
 	 */
@@ -106,55 +106,55 @@ public class DesignParserException  extends BirtException
 	/**
 	 * The property name or member name is required.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_NAME_REQUIRED = MessageConstants.DESIGN_PARSER_EXCEPTION_NAME_REQUIRED;
-	
+
 	/**
 	 * The property is not a structure list.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE;
 
 	/**
 	 * The property is not a expression.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_WRONG_EXPRESSION_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXPRESSION_TYPE;
-	
+
 	/**
 	 * The property is not an XML.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_WRONG_XML_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_XML_TYPE;
-	
+
 	/**
 	 * The property is not an extended property.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE;
-	
+
 	/**
-	 * Both query text and script exist. 
+	 * Both query text and script exist.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_QUERY_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT;
 
 	/**
 	 * The structure name is invalid.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_STRUCTURE_NAME;
-	
+
 	/**
 	 * The property syntax is invalid.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_PROPERTY_SYNTAX;
-	
+
 	/**
 	 * The property is not defined.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_UNDEFINED_PROPERTY = MessageConstants.DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY;
 
 	/**
@@ -164,7 +164,6 @@ public class DesignParserException  extends BirtException
 
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ENCODING = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING;
 
-	
 	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
@@ -225,16 +224,18 @@ public class DesignParserException  extends BirtException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	
+
 	public String getLocalizedMessage( )
 	{
-		return ThreadResources.getMessage( sResourceKey );
+		return ModelMessages.getMessage( sResourceKey );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
-	
+
 	public String getMessage( )
 	{
 		return getLocalizedMessage( );

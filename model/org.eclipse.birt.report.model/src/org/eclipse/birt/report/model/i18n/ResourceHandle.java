@@ -16,18 +16,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Represents a set of resources for a given package and locale. This class will
- * associate with a user session. Each user session has a single locale. This
- * class assumes that the resources are in the same location as the class
- * itself, and are named "Messages.properties", "Messages_xx.properties", etc.
- * <p>
- * Once stable, the application will not access a message that does not exist.
- * To help get the system stable, this class raises an assertion if the message
- * key refers to a missing exception. The class then returns the message key
- * itself as the message.
- * <p>
- * This class primarily works with messages. It can be extended to work with
- * other resources as the need arises.
+ * Represents one resource bundle for specific locale. This class is just the
+ * convenient wrapper for <code>ResourceBundle</code>.
  * 
  * @see ThreadResources
  */
@@ -36,71 +26,63 @@ public class ResourceHandle
 {
 
 	/**
-	 * The actual resource bundle. The implementation assumes that Java will use
-	 * a PropertyResourceBundle to access our files.
+	 * The actual resource bundle.
 	 */
 
 	protected ResourceBundle resourceBundle;
 
 	/**
-	 * Name of the Model resource bundle.
-	 */
-
-	final static String BUNDLE_NAME = "Messages"; //$NON-NLS-1$
-
-	/**
-	 * Constructor.
+	 * Constructs the resource handle with a specific resource bundle, which is
+	 * associated with locale.
 	 * 
 	 * @param resourceBundle
-	 *            the resource bundle 
+	 *            the resource bundle
 	 */
 
 	public ResourceHandle( ResourceBundle resourceBundle )
 	{
 		this.resourceBundle = resourceBundle;
 	}
-	
 
 	/**
-	 * Gets the message given the message key. An assertion will be raised if the
-	 * message key does not exist in the resource bundle.
+	 * Gets the localized message given the message key.
 	 * 
 	 * @param key
-	 *            the message key
-	 * @return the localized message for that key and the locale set in the
-	 *         constructor. Returns the key itself if the message was not found.
+	 *            the resource key
+	 * @return the localized message for that key. If the resource key is not
+	 *         found in in this resource bundle, the key is returned.
+	 * @throws IllegalArgumentException
+	 *             if the key is <code>null</code>.
 	 * @see ResourceBundle#getString( String )
 	 */
 
 	public String getMessage( String key )
 	{
 		if ( key == null )
-			return null;
+			throw new IllegalArgumentException(
+					"The resource key shouldn't be null." ); //$NON-NLS-1$
+
 		try
 		{
 			return resourceBundle.getString( key );
 		}
 		catch ( MissingResourceException e )
 		{
-			// It is a programming error to refer to a missing
-			// message.
-			assert false : key + " not found in resource bundle"; //$NON-NLS-1$
 			return key;
 		}
 	}
 
 	/**
-	 * Gets the message that has placeholders. An assertion will be raised if the
-	 * message key does not exist in the resource bundle.
+	 * Gets the localized message with arguments.
 	 * 
 	 * @param key
-	 *            the message key
+	 *            the resource key
 	 * @param arguments
-	 *            the set of arguments to be plugged into the message
-	 * @return the localized message for that key and the locale set in the
-	 *         constructor. Returns the key itself if the message was not found.
-	 * @see ResourceBundle#getString( String )
-	 * @see MessageFormat#format( String, Object[] )
+	 *            the set of arguments to place the place-holder in the message
+	 * @return the localized message for that key.If the resource key is not
+	 *         found in in this resource bundle, the key is returned.
+	 * @throws IllegalArgumentException
+	 *             if the key is <code>null</code>.
 	 */
 
 	public String getMessage( String key, Object[] arguments )

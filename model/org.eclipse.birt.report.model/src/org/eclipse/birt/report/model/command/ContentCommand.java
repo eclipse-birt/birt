@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -150,11 +150,11 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Ensure that the content can be put into the container.
 
-		ElementDefn metaData = (ElementDefn)element.getDefn( );
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( !metaData.isContainer( ) )
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		SlotDefn slotInfo = (SlotDefn)metaData.getSlot( slotID );
+		SlotDefn slotInfo = (SlotDefn) metaData.getSlot( slotID );
 		if ( slotInfo == null )
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
@@ -178,7 +178,10 @@ public class ContentCommand extends AbstractElementCommand
 		}
 
 		if ( !element.canContain( design, slotID, content ) )
-			throw new ContentException( element, slotID, content,
+			throw new ContentException(
+					element,
+					slotID,
+					content,
 					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 		// Ensure we can add the name.
@@ -421,8 +424,8 @@ public class ContentCommand extends AbstractElementCommand
 	/**
 	 * Clears references of elements that are referred by the to-be-deleted
 	 * element, except for extends and style element references. Unlike the
-	 * method {@link #adjustReferenceClients(ReferenceableElement)}, this method
-	 * removes references from those elements that are referred.
+	 * method {@link #adjustReferenceClients(ReferenceableElement)}, this
+	 * method removes references from those elements that are referred.
 	 * 
 	 * @param element
 	 *            the element to be deleted
@@ -605,7 +608,7 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
-		SlotDefn slotInfo = (SlotDefn)to.getDefn( ).getSlot( toSlotID );
+		SlotDefn slotInfo = (SlotDefn) to.getDefn( ).getSlot( toSlotID );
 		if ( !slotInfo.canContain( content ) )
 			throw new ContentException( to, toSlotID,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
@@ -614,12 +617,15 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 
 		if ( !to.canContain( design, toSlotID, content ) )
-			throw new ContentException( to, toSlotID, content,
+			throw new ContentException(
+					to,
+					toSlotID,
+					content,
 					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ThreadResources
+		String label = ModelMessages
 				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label );
 
@@ -722,7 +728,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Skip the step if the slotID has only single content.
 
-		SlotDefn slotInfo = (SlotDefn)element.getDefn( ).getSlot( slotID );
+		SlotDefn slotInfo = (SlotDefn) element.getDefn( ).getSlot( slotID );
 		if ( !slotInfo.isMultipleCardinality( ) )
 			return;
 

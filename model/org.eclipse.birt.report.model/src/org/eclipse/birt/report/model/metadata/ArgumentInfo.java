@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the definition of argument. The argument definition includes the
@@ -25,7 +25,7 @@ public class ArgumentInfo
 	 * Argument name for optional argument. The optional argument is used for
 	 * the method with variable argument. For example, concat( str1, ... ). The
 	 * argument is just an indication that it's optional, and takes information
-	 * from the previous one. Its display name is "...".  
+	 * from the previous one. Its display name is "...".
 	 */
 
 	public static String OPTIONAL_ARGUMENT_NAME = "optionalArgument"; //$NON-NLS-1$
@@ -70,7 +70,7 @@ public class ArgumentInfo
 	public String getDisplayName( )
 	{
 		if ( displayNameKey != null )
-			return ThreadResources.getMessage( this.displayNameKey );
+			return ModelMessages.getMessage( this.displayNameKey );
 
 		return ""; //$NON-NLS-1$
 	}

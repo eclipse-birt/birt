@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Signals that a fatal error occurred when opening a design file. It includes
@@ -213,11 +213,11 @@ public class DesignFileException extends BirtException
 
 		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND )
 		{
-			return ThreadResources.getMessage( sResourceKey,
+			return ModelMessages.getMessage( sResourceKey,
 					new String[]{fileName} );
 		}
 
-		return ThreadResources.getMessage( sResourceKey );
+		return ModelMessages.getMessage( sResourceKey );
 
 	}
 	

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -16,14 +16,14 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * ActivityRecord to add or remove a user-defined property. As with any command,
  * the caller must have verified that the operation is legal. This one command
  * handles both the add and remove operations, since they are inverse
  * operations.
- * 
+ *  
  */
 
 public class UserPropertyRecord extends SimpleRecord
@@ -67,11 +67,11 @@ public class UserPropertyRecord extends SimpleRecord
 		addOp = add;
 
 		if ( addOp )
-			label = ThreadResources.getMessage(
+			label = ModelMessages.getMessage(
 					MessageConstants.ADD_PROPERTY_MESSAGE, new String[]{prop
 							.getDisplayName( )} );
 		else
-			label = ThreadResources.getMessage(
+			label = ModelMessages.getMessage(
 					MessageConstants.DROP_PROPERTY_MESSAGE, new String[]{prop
 							.getDisplayName( )} );
 	}

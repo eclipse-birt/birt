@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -380,7 +380,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ThreadResources
+		String label = ModelMessages
 				.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
@@ -429,7 +429,7 @@ public class PropertyCommand extends AbstractElementCommand
 		element.checkStructureList( design, ref.getPropDefn( ), list, item );
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( ThreadResources
+		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
 
 		list = getOrMakePropertyList( ref );
@@ -488,7 +488,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startTrans( ThreadResources
+		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.INSERT_ITEM_MESSAGE ) );
 
 		list = getOrMakePropertyList( ref );
@@ -610,7 +610,7 @@ public class PropertyCommand extends AbstractElementCommand
 	{
 		ActivityStack stack = design.getActivityStack( );
 
-		String label = ThreadResources
+		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
@@ -672,7 +672,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = design.getActivityStack( );
 
-		stack.startTrans( ThreadResources
+		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 		list = getOrMakePropertyList( ref );
 
@@ -767,7 +767,7 @@ public class PropertyCommand extends AbstractElementCommand
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		ActivityStack stack = getActivityStack( );
-		String label = ThreadResources
+		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
 
 		stack.startTrans( label );

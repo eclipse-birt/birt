@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -203,7 +203,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		String label = ThreadResources.getMessage(
+		String label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_DEFINITION_MESSAGE,
 				new String[]{oldPropDefn.getDisplayName( )} );
 		stack.startTrans( label );

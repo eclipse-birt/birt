@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Records the move of a structure within a property list or member list.
@@ -46,12 +46,12 @@ public class MoveListItemRecord extends SimpleRecord
 
 	protected List list = null;
 
-    /**
-     * The old position of the item.
-     */
-    
-    protected int oldPosn = 0;
-    
+	/**
+	 * The old position of the item.
+	 */
+
+	protected int oldPosn = 0;
+
 	/**
 	 * The new position of the item.
 	 */
@@ -73,8 +73,8 @@ public class MoveListItemRecord extends SimpleRecord
 	 *            the new position of the item
 	 */
 
-	public MoveListItemRecord( DesignElement obj, MemberRef ref,
-			List theList, int from, int to )
+	public MoveListItemRecord( DesignElement obj, MemberRef ref, List theList,
+			int from, int to )
 	{
 		assert obj != null;
 		assert ref != null;
@@ -90,10 +90,10 @@ public class MoveListItemRecord extends SimpleRecord
 		itemRef = ref;
 		list = theList;
 
-        oldPosn = from;
+		oldPosn = from;
 		newPosn = to;
 
-		label = ThreadResources.getMessage( MessageConstants.MOVE_ITEM_MESSAGE );
+		label = ModelMessages.getMessage( MessageConstants.MOVE_ITEM_MESSAGE );
 
 	}
 
@@ -106,8 +106,8 @@ public class MoveListItemRecord extends SimpleRecord
 	protected void perform( boolean undo )
 	{
 		int from = undo ? newPosn : oldPosn;
-		int to = undo ?  oldPosn: newPosn;
-        
+		int to = undo ? oldPosn : newPosn;
+
 		Object value = list.remove( from );
 		list.add( to, value );
 	}

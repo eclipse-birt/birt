@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Base class for attributes common to elements and structures. This base class
@@ -101,7 +101,7 @@ public class ObjectDefn implements IObjectDefn
 	public String getDisplayName( )
 	{
 		assert displayNameKey != null;
-		return ThreadResources.getMessage( this.displayNameKey );
+		return ModelMessages.getMessage( this.displayNameKey );
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class ObjectDefn implements IObjectDefn
 
 	/**
 	 * Returns an iterator over the property definitions. The
-	 * <code>PropertyDefn</code>s in the iterator are not sorted.
+	 * <code>PropertyDefn</code> s in the iterator are not sorted.
 	 * 
 	 * @return an iterator over the property definitions.
 	 */

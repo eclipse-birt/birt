@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -156,10 +156,10 @@ public class ContentRecord extends SimpleRecord
 		}
 
 		if ( add )
-			label = ThreadResources
+			label = ModelMessages
 					.getMessage( MessageConstants.ADD_ELEMENT_MESSAGE );
 		else
-			label = ThreadResources
+			label = ModelMessages
 					.getMessage( MessageConstants.DROP_ELEMENT_MESSAGE );
 
 	}

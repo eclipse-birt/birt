@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Meta-data information for a property. Includes the type, possible choices,
@@ -75,7 +75,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 		if ( groupNameKey == null )
 			return null;
 
-		return ThreadResources.getMessage( groupNameKey );
+		return ModelMessages.getMessage( groupNameKey );
 	}
 
 	/**

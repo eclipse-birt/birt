@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
 
@@ -108,7 +108,7 @@ public class PropertyRecord extends SimpleRecord
 		newValue = value;
 		oldValue = propertyOwner.getLocalProperty( null, propDefn );
 
-		label = ThreadResources.getMessage(
+		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
 						.getDisplayName( )} );
 	}
@@ -167,6 +167,7 @@ public class PropertyRecord extends SimpleRecord
 	 */
 	public List getValidators( )
 	{
-		return ValidationExecutor.getValidationNodes( element, propDefn.getTriggerDefnSet(), false );
+		return ValidationExecutor.getValidationNodes( element, propDefn
+				.getTriggerDefnSet( ), false );
 	}
 }

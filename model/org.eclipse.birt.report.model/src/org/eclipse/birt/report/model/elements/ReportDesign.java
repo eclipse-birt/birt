@@ -36,8 +36,8 @@ import org.eclipse.birt.report.model.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataConstants;
@@ -1039,10 +1039,10 @@ public class ReportDesign extends RootElement
 			// appended, such
 			// as "NewLabel1", etc.
 
-			name = ThreadResources
+			name = ModelMessages
 					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
 
-			name += ThreadResources.getMessage( "New." //$NON-NLS-1$
+			name += ModelMessages.getMessage( "New." //$NON-NLS-1$
 					+ element.getDefn( ).getName( ) );
 			name = name.trim( );
 		}

@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider;
 
 /**
@@ -35,8 +35,8 @@ import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProv
  * <li><strong>Content Types </strong>-- The element type(s) that can appear in
  * the slot.</li>
  * </ul>
- * <li><strong>Content Types </strong>-- The element type(s) that can appear
- * in the slot.</li>
+ * <li><strong>Content Types </strong>-- The element type(s) that can appear in
+ * the slot.</li>
  * <p>
  * As with all meta-data objects, the set methods must be called only while
  * building the meta-data, before building the meta-data.
@@ -131,7 +131,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	public String getDisplayName( )
 	{
 		assert displayNameID != null;
-		return ThreadResources.getMessage( this.displayNameID );
+		return ModelMessages.getMessage( this.displayNameID );
 	}
 
 	/**

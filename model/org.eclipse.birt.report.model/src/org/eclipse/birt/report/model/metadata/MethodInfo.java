@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the method information for both class and element. The class
@@ -89,7 +89,7 @@ public class MethodInfo extends LocalizableInfo
 		if ( arguments == null )
 			return Collections.EMPTY_LIST.iterator( );
 
-		return  arguments.iterator( );
+		return arguments.iterator( );
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class MethodInfo extends LocalizableInfo
 	public String getToolTip( )
 	{
 		assert toolTipKey != null;
-		return ThreadResources.getMessage( toolTipKey );
+		return ModelMessages.getMessage( toolTipKey );
 
 	}
 

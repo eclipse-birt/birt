@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the abstract definition which can be localized. This definition
@@ -118,7 +118,7 @@ public abstract class LocalizableInfo
 	public String getDisplayName( )
 	{
 		if ( displayNameKey != null )
-			return ThreadResources.getMessage( displayNameKey );
+			return ModelMessages.getMessage( displayNameKey );
 
 		return ""; //$NON-NLS-1$
 	}
@@ -133,7 +133,7 @@ public abstract class LocalizableInfo
 	public String getToolTip( )
 	{
 		if ( toolTipKey != null )
-			return ThreadResources.getMessage( toolTipKey );
+			return ModelMessages.getMessage( toolTipKey );
 		
 		return ""; //$NON-NLS-1$
 	}

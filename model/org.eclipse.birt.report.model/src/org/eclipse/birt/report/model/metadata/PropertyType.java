@@ -1,20 +1,20 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
@@ -27,10 +27,9 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * the property, such as the actual list of choices.
  * <p>
  * The conversion and validation methods require a handle to the report design.
- * The design provides
- * additional information for those conversions that require it. For example,
- * dimensions require knowledge of the default units for the design. Colors
- * require access to the custom colors defined on the design.
+ * The design provides additional information for those conversions that require
+ * it. For example, dimensions require knowledge of the default units for the
+ * design. Colors require access to the custom colors defined on the design.
  */
 
 public abstract class PropertyType
@@ -101,7 +100,6 @@ public abstract class PropertyType
 	 */
 
 	public static final int RESOURCE_KEY_TYPE = 9;
-
 
 	/**
 	 * Type code for the URI property type.
@@ -343,7 +341,7 @@ public abstract class PropertyType
 	public String getDisplayName( )
 	{
 		assert displayNameKey != null;
-		return ThreadResources.getMessage( displayNameKey );
+		return ModelMessages.getMessage( displayNameKey );
 
 	}
 

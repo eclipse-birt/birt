@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -19,11 +19,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Replaces one structure in the structure list property.
- * 
+ *  
  */
 
 public class PropertyReplaceRecord extends SimpleRecord
@@ -32,19 +32,19 @@ public class PropertyReplaceRecord extends SimpleRecord
 	/**
 	 * The element which contains the property list.
 	 */
-	
+
 	protected DesignElement element = null;
 
 	/**
 	 * Reference to the property list.
 	 */
-	
+
 	protected MemberRef listRef = null;
 
 	/**
 	 * The old item to be replaced
 	 */
-	
+
 	IStructure oldItem = null;
 
 	/**
@@ -79,30 +79,29 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * @param newItem
 	 *            the new item that will replace the old one.
 	 */
-    
+
 	public PropertyReplaceRecord( DesignElement obj, MemberRef ref,
 			List theList, int posn, IStructure newItem )
 	{
-        assert obj != null;
-        assert ref != null;
-        assert theList != null;
-        assert ref.isListRef();
-        assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
-        .getPropDefn( );
+		assert obj != null;
+		assert ref != null;
+		assert theList != null;
+		assert ref.isListRef( );
+		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
+				.getPropDefn( );
 
-        
 		this.element = obj;
 		this.listRef = ref;
 		this.list = theList;
-		
-        this.position = posn;
-            
-        this.oldItem = (IStructure)list.get( posn );
-		this.newItem = newItem;
-		
-        assert oldItem != null && newItem != null;
 
-		label = ThreadResources
+		this.position = posn;
+
+		this.oldItem = (IStructure) list.get( posn );
+		this.newItem = newItem;
+
+		assert oldItem != null && newItem != null;
+
+		label = ModelMessages
 				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE );
 	}
 

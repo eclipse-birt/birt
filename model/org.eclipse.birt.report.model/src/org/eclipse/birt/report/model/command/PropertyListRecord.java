@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Records adding or removing an item from a property list.
@@ -72,8 +72,8 @@ public class PropertyListRecord extends SimpleRecord
 	 *            the item to add
 	 */
 
-	public PropertyListRecord( DesignElement obj, MemberRef ref,
-			List theList, IStructure struct )
+	public PropertyListRecord( DesignElement obj, MemberRef ref, List theList,
+			IStructure struct )
 	{
 		assert obj != null;
 		assert ref != null;
@@ -103,8 +103,7 @@ public class PropertyListRecord extends SimpleRecord
 	 *            the property list itself
 	 */
 
-	public PropertyListRecord( DesignElement obj, MemberRef ref,
-			List theList )
+	public PropertyListRecord( DesignElement obj, MemberRef ref, List theList )
 	{
 		assert obj != null;
 		assert ref != null;
@@ -112,17 +111,17 @@ public class PropertyListRecord extends SimpleRecord
 
 		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
 				.getPropDefn( );
-        
-        assert ref.getIndex( ) >= 0 && ref.getIndex( ) < theList.size( );
-        
+
+		assert ref.getIndex( ) >= 0 && ref.getIndex( ) < theList.size( );
+
 		this.element = obj;
 		this.listRef = ref;
 		this.list = theList;
 		this.isAdd = false;
-		
+
 		this.value = (IStructure) list.get( listRef.getIndex( ) );
 
-		label = ThreadResources.getMessage(
+		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{listRef
 						.getPropDefn( ).getDisplayName( )} );
 
