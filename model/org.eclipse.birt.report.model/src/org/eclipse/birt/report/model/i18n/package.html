@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Provides the necessary translation classes for report internationalization.<h2>Package Specification</h2>
+
+The i18n package defines the message files and&nbsp; which are used to do the 
+localized translation.
+<p>
+The key classes in this package include:
+<ul>
+<li>{@link org.eclipse.birt.report.model.i18n.ThreadResources} Provides access 
+to a resource bundle associated with this thread. The&nbsp;&nbsp; application 
+calls setThreadLocale to set the locale for the<br>
+&nbsp;thread, then calls the getMessage methods.<br>
+¡¡</li>
+
+<li>{@link org.eclipse.birt.report.model.i18n.ResourceHandle} Represents a set 
+of resources for a given package and locale. This class will<br>
+&nbsp;associate with a user session. Each user session has a single locale. This 
+class assumes that the resources are in the same location as the class itself, 
+and are named &quot;Messages.properties&quot;, &quot;Messages_xx.properties&quot;, etc. Once stable, 
+the application will not access a message that does not exist.To help get the 
+system stable, this class raises an assertion if the message key refers to a 
+missing exception. The class then returns the message key itself as the message.<br>
+¡¡</li>
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>
