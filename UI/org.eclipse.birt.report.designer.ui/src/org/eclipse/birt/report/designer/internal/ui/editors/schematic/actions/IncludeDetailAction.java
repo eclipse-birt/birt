@@ -13,25 +13,28 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action of whether or not including details of table
+ * Action to including or not the details of a table.
  */
 public class IncludeDetailAction extends InsertRowAction
 {
 
+	/** action text */
 	private static final String ACTION_MSG_INCLUDE_DETAIL = Messages.getString( "IncludeDetailAction.actionMsg.includeDetail" ); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction"; //$NON-NLS-1$
 
 	/**
-	 * Constructs new instance.
+	 * Constructs a new action instance.
 	 * 
 	 * @param part
-	 *            current work bench part
+	 *            The current work bench part
 	 */
 	public IncludeDetailAction( IWorkbenchPart part )
 	{
@@ -65,6 +68,21 @@ public class IncludeDetailAction extends InsertRowAction
 					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
 			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.DETAIL ) );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction#getTableEditPart()
+	 */
+	protected TableEditPart getTableEditPart( )
+	{
+		TableEditPart part = super.getTableEditPart( );
+		if ( part instanceof GridEditPart )
+		{
+			return null;
+		}
+		return part;
 	}
 
 	/**

@@ -23,21 +23,27 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * insert row action
- * 
+ * Insert row action,insert a row into a table or a grid.
  *  
  */
 public class InsertRowAction extends SelectionAction
 {
 
+	/**
+	 * display label of action
+	 */
 	private static final String ACTION_MSG_INSERT = Messages.getString( "InsertRowAction.actionMsg.insert" ); //$NON-NLS-1$
 
+	/**
+	 * action id
+	 */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction"; //$NON-NLS-1$
 
 	/**
-	 * Constructor
+	 * Constructs a insert row action.
 	 * 
 	 * @param part
+	 *            work bench part.
 	 */
 	public InsertRowAction( IWorkbenchPart part )
 	{
@@ -56,6 +62,9 @@ public class InsertRowAction extends SelectionAction
 		return getRowObject( ) != null;
 	}
 
+	/**
+	 * Runs the action.
+	 */
 	public void run( )
 	{
 		TableEditPart part = getTableEditPart( );
@@ -65,6 +74,11 @@ public class InsertRowAction extends SelectionAction
 		}
 	}
 
+	/**
+	 * Gets the selected table edit part.
+	 * 
+	 * @return The selected table edit part.
+	 */
 	protected TableEditPart getTableEditPart( )
 	{
 		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
@@ -88,6 +102,12 @@ public class InsertRowAction extends SelectionAction
 		return part;
 	}
 
+	/**
+	 * Gets the selected row object.
+	 * 
+	 * @return The selected row object.
+	 *  
+	 */
 	public Object getRowObject( )
 	{
 		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
@@ -104,11 +124,15 @@ public class InsertRowAction extends SelectionAction
 		return null;
 	}
 
+	/**
+	 * Gets the row number of the selected row object.
+	 * 
+	 * @return The row number.
+	 */
 	public int getRowNumber( )
 	{
 		return HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( getRowObject( ) )
 				.getRowNumber( );
 	}
-
 }

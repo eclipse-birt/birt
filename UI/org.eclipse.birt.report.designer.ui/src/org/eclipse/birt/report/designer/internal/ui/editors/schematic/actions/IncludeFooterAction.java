@@ -13,25 +13,28 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action of whether or not including footer of table
+ * Action include or not the footer of a table.
  */
 public class IncludeFooterAction extends InsertRowAction
 {
 
+	/** action text */
 	private static final String ACTION_MSG_INCLUDE_FOOTER = Messages.getString( "IncludeFooterAction.actionMsg.includeFooter" ); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction"; //$NON-NLS-1$
 
 	/**
-	 * Constructs new instance.
+	 * Constructs a new action instance.
 	 * 
 	 * @param part
-	 *            current work bench part
+	 *            The current work bench part
 	 */
 	public IncludeFooterAction( IWorkbenchPart part )
 	{
@@ -67,8 +70,23 @@ public class IncludeFooterAction extends InsertRowAction
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction#getTableEditPart()
+	 */
+	protected TableEditPart getTableEditPart( )
+	{
+		TableEditPart part = super.getTableEditPart( );
+		if ( part instanceof GridEditPart )
+		{
+			return null;
+		}
+		return part;
+	}
+
 	/**
-	 * Runs action.
+	 * Runs this action.
 	 */
 	public void run( )
 	{

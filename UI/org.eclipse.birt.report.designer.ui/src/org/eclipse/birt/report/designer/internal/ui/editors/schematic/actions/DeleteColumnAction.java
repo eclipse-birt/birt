@@ -19,26 +19,28 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action of deleting a column
+ * Action to delete a column of a table or a grid.
  *  
  */
 public class DeleteColumnAction extends SelectionAction
 {
 
+	/** action text */
 	private static final String ACTION_MSG_DELETE = Messages.getString( "DeleteColumnAction.actionMsg.delete" ); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "DeleteGroupAction.DeleteColumnAction"; //$NON-NLS-1$
 
 	/**
-	 * Constructs new instance.
+	 * Constructs a new instance of this acion.
 	 * 
 	 * @param part
-	 *            current work bench part
+	 *            The current work bench part
 	 */
 	public DeleteColumnAction( IWorkbenchPart part )
 	{
@@ -58,7 +60,7 @@ public class DeleteColumnAction extends SelectionAction
 	}
 
 	/**
-	 * Runs action.
+	 * Runs this action.
 	 *  
 	 */
 	public void run( )
@@ -66,16 +68,19 @@ public class DeleteColumnAction extends SelectionAction
 		TableEditPart part = getTableEditPart( );
 		if ( part != null )
 		{
+			EditPartViewer viewer = part.getViewer( );
 			part.deleteColumn( new int[]{
 				getRowNumber( )
 			} );
+			// set selection to the table(grid) part after deleting
+			viewer.select( part );
 		}
 	}
 
 	/**
-	 * Gets table edit part.
+	 * Gets table(grid) edit part.
 	 * 
-	 * @return the table edit part
+	 * @return The table(grid) edit part
 	 */
 	private TableEditPart getTableEditPart( )
 	{
@@ -103,7 +108,7 @@ public class DeleteColumnAction extends SelectionAction
 	/**
 	 * Gets the current selected column object.
 	 * 
-	 * @return the current column object
+	 * @return The current column object
 	 */
 	public Object getColumnObject( )
 	{
@@ -122,9 +127,9 @@ public class DeleteColumnAction extends SelectionAction
 	}
 
 	/**
-	 * Gets row number.
+	 * Gets column number of the selected column object.
 	 * 
-	 * @return the row number
+	 * @return the column number
 	 */
 	public int getRowNumber( )
 	{

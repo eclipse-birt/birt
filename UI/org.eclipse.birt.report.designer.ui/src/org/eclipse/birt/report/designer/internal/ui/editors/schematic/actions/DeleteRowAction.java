@@ -19,26 +19,28 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action of deleting a row
+ * Action delete a row of a table or a grid.
  *  
  */
 public class DeleteRowAction extends SelectionAction
 {
 
+	/** action text */
 	private static final String ACTION_MSG_DELETE = Messages.getString( "DeleteRowAction.actionMsg.delete" ); //$NON-NLS-1$
 
 	/** action ID for registry */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction"; //$NON-NLS-1$
 
 	/**
-	 * Constructs new instance.
+	 * Constructs a new instance of this action.
 	 * 
 	 * @param part
-	 *            current work bench part
+	 *            The current work bench part
 	 */
 	public DeleteRowAction( IWorkbenchPart part )
 	{
@@ -58,7 +60,7 @@ public class DeleteRowAction extends SelectionAction
 	}
 
 	/**
-	 * Runs action.
+	 * Runs this action.
 	 *  
 	 */
 	public void run( )
@@ -66,9 +68,12 @@ public class DeleteRowAction extends SelectionAction
 		TableEditPart part = getTableEditPart( );
 		if ( part != null )
 		{
+			EditPartViewer viewer = part.getViewer( );
 			part.deleteRow( new int[]{
 				getRowNumber( )
 			} );
+			// set selection to the table(grid) part after deleting
+			viewer.select( part );
 		}
 	}
 
@@ -104,7 +109,7 @@ public class DeleteRowAction extends SelectionAction
 	/**
 	 * Gets the current selected row object.
 	 * 
-	 * @return the current row object
+	 * @return The current selected row object.
 	 */
 	public Object getRowObject( )
 	{
@@ -127,7 +132,7 @@ public class DeleteRowAction extends SelectionAction
 	/**
 	 * Gets row number.
 	 * 
-	 * @return the row number
+	 * @return The row number of the selected row object.
 	 */
 	public int getRowNumber( )
 	{
