@@ -149,33 +149,6 @@
    </extension>
    
    <!-- Popup menu -->
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.iard"
-            id="com.actuate.istudio.ui.publishmenucontribution">
-         <menu
-               label="%designer.preview.previewtoolbarmenuaction.label"
-               id="org.eclipse.birt.report.designer.ui.previewmenu">
-            <separator name="group1"/>
-         </menu>
-         <action
-               enablesFor="1"
-               label="%designer.preview.previewinpdfaction.label"
-               icon="icons/preview_pdf.gif"
-               class="org.eclipse.birt.report.designer.ui.actions.PreviewPopUpMenuAction"
-               menubarPath="org.eclipse.birt.report.designer.ui.previewmenu/group1"
-               id="org.eclipse.birt.report.designer.ui.actions.PreviewInPDFPopupMenuAction"/>
-         <action
-               enablesFor="1"
-               label="%designer.preview.previewaction.label"
-               icon="icons/preview.gif"
-               class="org.eclipse.birt.report.designer.ui.actions.PreviewPopUpMenuAction"
-               menubarPath="org.eclipse.birt.report.designer.ui.previewmenu/group1"
-               id="org.eclipse.birt.report.designer.ui.actions.PreviewPopupMenuAction"/>
-      </objectContribution>
-   </extension>
 
    <!-- Preference pages -->
    <extension
