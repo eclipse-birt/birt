@@ -18,17 +18,10 @@ import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.extension.IReportItemFactory;
 
 /**
- * @author Actuate Corporation
  *  
  */
-public class ChartReportItemFactoryImpl implements IReportItemFactory
+public class ChartReportItemFactoryImpl implements IReportItemFactory, IMessages
 {
-    /**
-     * Messages for I18N
-     */
-
-    private static final String CHART_EXTENSION = "Element.Chart";
-
     /**
      *  
      */
@@ -38,7 +31,7 @@ public class ChartReportItemFactoryImpl implements IReportItemFactory
     }
 
     /**
-     * To be removed soon
+     * This is unused and should be removed from the interface
      */
     public Object getIcon()
     {
@@ -62,14 +55,34 @@ public class ChartReportItemFactoryImpl implements IReportItemFactory
      */
     public IMessages getMessages()
     {
-        return new IMessages()
-        {
-            public String getMessage(String key, Locale locale)
-            {
-                System.out.println("Request for resource key=" + key);
-                return key + "_value";
-            }
-        };
+        return this;
     }
 
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String, java.util.Locale)
+     */
+    public String getMessage(String key, Locale locale)
+    {
+        //DefaultLoggerImpl.instance().log(ILogger.ERROR, "Request for resource key=" + key);
+        //return key + "_value";
+        
+        // TEMP LOOKUP ALGORITHM - TO BE CHANGED TO LOOKUP A RESOURCEBUNDLE
+        final StringBuffer sb = new StringBuffer(key);
+        final int iFirstDot = sb.indexOf(".");
+        if (iFirstDot == -1) return key + "_value"; 
+        sb.delete(0, iFirstDot + 1);
+        int i = 0, iDot;
+        char c = sb.charAt(0);
+        sb.setCharAt(0, Character.toUpperCase(c));
+        do {
+            iDot = sb.indexOf(".", i);
+            if (iDot >= 0 && iDot < sb.length() - 1)
+            {
+                sb.setCharAt(iDot, ' ');
+                i = iDot + 1;
+            }
+        } while (i < sb.length() && iDot != -1);
+        return sb.toString();
+    }
 }
