@@ -12,7 +12,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolic
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
-import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.FlowMoveChildCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
@@ -198,18 +197,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	{
 		if ( REQ_RESIZE_CHILDREN.equals( request.getType( ) ) )
 			return getResizeChildrenCommand( (ChangeBoundsRequest) request );
-		else if ( REQ_DELETE.equals( request.getType( ) ) )
-			return getDeleteCommand( request );
 		return super.getCommand( request );
-	}
-
-	/**
-	 * @param request
-	 *  
-	 */
-	protected Command getDeleteCommand( Request request )
-	{
-		return new DeleteCommand( getHost( ).getModel( ) );
 	}
 
 	protected Command getResizeChildrenCommand( ChangeBoundsRequest request )
