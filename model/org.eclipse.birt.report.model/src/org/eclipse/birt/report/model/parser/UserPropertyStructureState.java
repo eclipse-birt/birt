@@ -155,7 +155,7 @@ public class UserPropertyStructureState extends StructureState
 
 			if ( !UserPropertyDefn.CHOICES_MEMBER.equalsIgnoreCase( name ) )
 			{
-				handler.semanticError( new DesignParserException(
+				handler.semanticWarning( new DesignParserException(
 						DesignParserException.UNDEFINED_PROPERTY ) );
 				valid = false;
 				return;
