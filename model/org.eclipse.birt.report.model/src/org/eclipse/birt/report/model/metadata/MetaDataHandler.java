@@ -1,0 +1,1419 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.metadata;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.eclipse.birt.report.model.util.XMLParserHandler;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
+/**
+ * SAX handler for reading the XML meta data definition file.
+ *  
+ */
+
+class MetaDataHandler extends XMLParserHandler
+{
+
+	MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
+
+	private static final String ROOT_TAG = "ReportMetaData"; //$NON-NLS-1$ 
+	private static final String STYLE_TAG = "Style"; //$NON-NLS-1$
+	private static final String ELEMENT_TAG = "Element"; //$NON-NLS-1$ 
+	private static final String PROPERTY_TAG = "Property"; //$NON-NLS-1$ 
+	private static final String STYLE_PROPERTY_TAG = "StyleProperty"; //$NON-NLS-1$ 
+	private static final String SLOT_TAG = "Slot"; //$NON-NLS-1$ 
+	private static final String TYPE_TAG = "Type"; //$NON-NLS-1$
+	private static final String DEFAULT_TAG = "Default"; //$NON-NLS-1$
+	private static final String CHOICE_TAG = "Choice"; //$NON-NLS-1$
+	private static final String PROPERTY_GROUP_TAG = "PropertyGroup"; //$NON-NLS-1$
+	private static final String CHOICE_TYPE_TAG = "ChoiceType"; //$NON-NLS-1$
+	private static final String STRUCTURE_TAG = "Structure"; //$NON-NLS-1$
+	private static final String ALLOWED_TAG = "Allowed"; //$NON-NLS-1$
+	private static final String MEMBER_TAG = "Member"; //$NON-NLS-1$
+	private static final String VALIDATOR_TAG = "validator"; //$NON-NLS-1$
+	private static final String VALIDATORS_TAG = "Validators"; //$NON-NLS-1$
+	private static final String METHOD_TAG = "Method"; //$NON-NLS-1$
+	private static final String ARGUMENT_TAG = "Argument"; //$NON-NLS-1$
+	private static final String CLASS_TAG = "Class"; //$NON-NLS-1$
+	private static final String CONSTRUCTOR_TAG = "Constructor"; //$NON-NLS-1$
+
+	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
+	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$ 
+	private static final String EXTENDS_ATTRIB = "extends"; //$NON-NLS-1$ 
+	private static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$ 
+	private static final String HAS_STYLE_ATTRIB = "hasStyle"; //$NON-NLS-1$ 
+	private static final String SELECTOR_ATTRIB = "selector"; //$NON-NLS-1$ 
+	private static final String ALLOWS_USER_PROPERTIES_ATTRIB = "allowsUserProperties"; //$NON-NLS-1$ 
+	private static final String CAN_EXTEND_ATTRIB = "canExtend"; //$NON-NLS-1$ 
+	private static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$ 
+	private static final String CAN_INHERIT_ATTRIBUTE = "canInherit"; //$NON-NLS-1$ 
+	private static final String IS_INTRINSIC_ATTRIB = "isIntrinsic"; //$NON-NLS-1$ 
+	private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$ 
+	private static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
+	private static final String NAME_SPACE_ATTRIB = "nameSpace"; //$NON-NLS-1$
+	private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
+	private static final String IS_ABSTRACT_ATTRIB = "isAbstract"; //$NON-NLS-1$
+	private static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
+	private static final String JAVA_CLASS_ATTRIB = "javaClass"; //$NON-NLS-1$
+	private static final String TOOL_TIP_ID_ATTRIB = "toolTipID"; //$NON-NLS-1$
+	private static final String RETURN_TYPE_ATTRIB = "returnType"; //$NON-NLS-1$
+	private static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$
+	private static final String DATA_TYPE_ATTRIB = "dataType"; //$NON-NLS-1$
+	private static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
+	private static final String VALIDATOR_ATTRIB = "validator"; //$NON-NLS-1$
+	private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
+	private static final String NATIVE_ATTRIB = "native"; //$NON-NLS-1$
+
+	private String groupNameID;
+
+	// Cached state. Can be done here because nothing in this grammar is
+	// recursive.
+
+	protected ElementDefn elementDefn = null;
+	protected SlotDefn slotDefn = null;
+	protected SystemPropertyDefn propDefn = null;
+	protected StructureDefn struct = null;
+	protected MethodInfo methodInfo = null;
+	protected ClassInfo classInfo = null;
+	protected ArrayList choices = new ArrayList( );
+
+	/**
+	 * Constructor.
+	 */
+
+	MetaDataHandler( )
+	{
+	}
+
+	public AbstractParseState createStartState( )
+	{
+		return new StartState( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.xml.sax.ContentHandler#endDocument()
+	 */
+
+	public void endDocument( ) throws SAXException
+	{
+		// 
+		if ( !errors.isEmpty( ) )
+		{
+			throw new XMLParserException( errors );
+		}
+
+		try
+		{
+			dictionary.build( );
+		}
+		catch ( MetaDataException e )
+		{
+			semanticError( new MetaDataReaderException( e,
+					MetaDataReaderException.BUILD_FAILED ) );
+			throw new XMLParserException( errors );
+		}
+
+		super.endDocument( );
+	}
+
+	/**
+	 * Convert the array list of choices to an array.
+	 * 
+	 * @return an array of the choices.
+	 */
+
+	private Choice[] getChoiceArray( )
+	{
+		Choice[] choiceArray = new Choice[choices.size( )];
+		for ( int i = 0; i < choices.size( ); i++ )
+			choiceArray[i] = (Choice) choices.get( i );
+		return choiceArray;
+	}
+
+	class StartState extends InnerParseState
+	{
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( ROOT_TAG ) )
+				return new RootState( );
+			return super.startElement( tagName );
+		}
+	}
+
+	class RootState extends InnerParseState
+	{
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( CHOICE_TYPE_TAG.equalsIgnoreCase( tagName ) )
+				return new ChoiceTypeState( );
+			if ( STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+				return new StructDefnState( );
+			if ( ELEMENT_TAG.equalsIgnoreCase( tagName ) )
+				return new ElementDefnState( );
+			if ( STYLE_TAG.equalsIgnoreCase( tagName ) )
+				return new StyleState( );
+			if ( CLASS_TAG.equalsIgnoreCase( tagName ) )
+				return new ClassState( );
+			if ( VALIDATORS_TAG.equalsIgnoreCase( tagName ) )
+				return new ValidatorsState( );
+			return super.startElement( tagName );
+		}
+	}
+
+	class ChoiceTypeState extends InnerParseState
+	{
+
+		ChoiceSet choiceSet = null;
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			choices.clear( );
+			String name = attrs.getValue( NAME_ATTRIB );
+			if ( StringUtil.isBlank( name ) )
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+			else
+			{
+				choiceSet = new ChoiceSet( name );
+				try
+				{
+					dictionary.addChoiceSet( choiceSet );
+				}
+				catch ( MetaDataException e )
+				{
+					choiceSet = null;
+					semanticError( e );
+				}
+			}
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( CHOICE_TAG ) )
+				return new ChoiceState( );
+			return super.startElement( tagName );
+		}
+
+		public void end( ) throws SAXException
+		{
+			if ( !choices.isEmpty( ) && choiceSet != null )
+				choiceSet.setChoices( getChoiceArray( ) );
+		}
+	}
+
+	class StyleState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+			}
+			else if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+			}
+			else
+			{
+				PredefinedStyle style = new PredefinedStyle( );
+				style.setName( name );
+				style.setDisplayNameKey( displayNameID );
+				try
+				{
+					dictionary.addPredefinedStyle( style );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataReaderException( e,
+							MetaDataReaderException.BUILD_FAILED ) );
+				}
+			}
+		}
+	}
+
+	class StructDefnState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+			}
+			if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+			}
+			else
+			{
+				struct = new StructureDefn( name );
+				struct.setDisplayNameKey( attrs
+						.getValue( DISPLAY_NAME_ID_ATTRIB ) );
+				try
+				{
+					dictionary.addStructure( struct );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataReaderException( e,
+							MetaDataReaderException.BUILD_FAILED ) );
+				}
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+
+		public void end( ) throws SAXException
+		{
+			super.end( );
+			struct = null;
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( MEMBER_TAG ) )
+				return new MemberState( );
+			return super.startElement( tagName );
+		}
+	}
+
+	class MemberState extends InnerParseState
+	{
+
+		StructPropertyDefn memberDefn = null;
+
+		public void parseAttrs( Attributes attrs )
+		{
+			String name = getAttrib( attrs, NAME_ATTRIB );
+			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
+			String type = getAttrib( attrs, TYPE_ATTRIB );
+			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
+
+			boolean ok = ( struct != null );
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+			if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+			if ( StringUtil.isBlank( type ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.TYPE_REQUIRED ) );
+				ok = false;
+			}
+			if ( !ok )
+				return;
+			PropertyType typeDefn = dictionary.getPropertyType( type );
+
+			if ( typeDefn == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.INVALID_TYPE ) );
+				return;
+			}
+
+			if ( !ok )
+				return;
+			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
+			ChoiceSet choiceSet = null;
+			StructureDefn structDefn = null;
+			switch ( typeDefn.getTypeCode( ) )
+			{
+
+				case PropertyType.DIMENSION_TYPE :
+				case PropertyType.DATE_TIME_TYPE :
+				case PropertyType.STRING_TYPE :
+				case PropertyType.FLOAT_TYPE :
+				case PropertyType.INTEGER_TYPE :
+				case PropertyType.NUMBER_TYPE :
+
+					if ( detailName != null )
+					{
+						choiceSet = validateChoiceSet( detailName );
+						if ( choiceSet == null )
+							return;
+					}
+
+					break;
+
+				case PropertyType.CHOICE_TYPE :
+
+					if ( detailName == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.CHOICE_TYPE_REQUIRED ) );
+						return;
+					}
+
+					choiceSet = validateChoiceSet( detailName );
+					if ( choiceSet == null )
+						return;
+
+					break;
+
+				case PropertyType.COLOR_TYPE :
+
+					choiceSet = validateChoiceSet( ColorPropertyType.COLORS_CHOICE_SET );
+					if ( choiceSet == null )
+						return;
+
+					break;
+
+				case PropertyType.STRUCT_TYPE :
+					if ( detailName == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.STRUCT_TYPE_REQUIRED ) );
+						return;
+					}
+					structDefn = dictionary.getStructure( detailName );
+					if ( structDefn == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.INVALID_STRUCT_TYPE ) );
+						return;
+					}
+					break;
+
+			}
+
+			memberDefn = new StructPropertyDefn( );
+
+			memberDefn.setName( name );
+			memberDefn.setType( typeDefn );
+			memberDefn.setDisplayNameID( displayNameID );
+
+			if ( !StringUtil.isBlank( validator ) )
+			{
+				memberDefn.setValidator( validator );
+			}
+
+			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				memberDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
+						true ) );
+
+			if ( choiceSet != null )
+				memberDefn.setDetails( choiceSet );
+			else if ( structDefn != null )
+				memberDefn.setDetails( structDefn );
+
+			memberDefn.setIntrinsic( getBooleanAttrib( attrs,
+					IS_INTRINSIC_ATTRIB, false ) );
+			try
+			{
+				struct.addProperty( memberDefn );
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( e );
+			}
+
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( DEFAULT_TAG ) )
+				return new DefaultValueState( memberDefn );
+
+			return super.startElement( tagName );
+		}
+	}
+
+	class ElementDefnState extends InnerParseState
+	{
+
+		private static final String NO_NS_NAME = "none"; //$NON-NLS-1$
+		private static final String MASTER_PAGE_NS_NAME = "masterPage"; //$NON-NLS-1$
+		private static final String PARAMETER_NS_NAME = "parameter"; //$NON-NLS-1$
+		private static final String ELEMENT_NS_NAME = "element"; //$NON-NLS-1$
+		private static final String DATA_SOURCE_NS_NAME = "dataSource"; //$NON-NLS-1$
+		private static final String DATA_SET_NS_NAME = "dataSet"; //$NON-NLS-1$
+		private static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
+
+		public void parseAttrs( Attributes attrs )
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+
+			boolean ok = true;
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+			if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( !ok )
+				return;
+
+			elementDefn = new ElementDefn( );
+			elementDefn.setName( name );
+			elementDefn.setAbstract( getBooleanAttrib( attrs,
+					IS_ABSTRACT_ATTRIB, false ) );
+			elementDefn.setDisplayNameKey( displayNameID );
+			elementDefn.setExtends( attrs.getValue( EXTENDS_ATTRIB ) );
+			elementDefn.setHasStyle( getBooleanAttrib( attrs, HAS_STYLE_ATTRIB,
+					false ) );
+			elementDefn.setSelector( attrs.getValue( SELECTOR_ATTRIB ) );
+			elementDefn.setAllowsUserProperties( getBooleanAttrib( attrs,
+					ALLOWS_USER_PROPERTIES_ATTRIB, true ) );
+			elementDefn.setJavaClass( attrs.getValue( JAVA_CLASS_ATTRIB ) );
+			elementDefn.setCanExtend( getBooleanAttrib( attrs,
+					CAN_EXTEND_ATTRIB, true ) );
+			String nameRequired = attrs.getValue( IS_NAME_REQUIRED_ATTRIB );
+			if ( nameRequired != null )
+			{
+				boolean flag = parseBoolean( nameRequired, false );
+				elementDefn.setNameOption( flag
+						? MetaDataConstants.REQUIRED_NAME
+						: MetaDataConstants.OPTIONAL_NAME );
+			}
+
+			String ns = attrs.getValue( NAME_SPACE_ATTRIB );
+			if ( ns == null || ns.trim( ).length( ) == 0 )
+			{
+				// Inherit default name space
+			}
+			else if ( ns.equalsIgnoreCase( STYLE_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.STYLE_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( DATA_SET_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.DATA_SET_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.DATA_SOURCE_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( ELEMENT_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.ELEMENT_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( PARAMETER_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.PARAMETER_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( MASTER_PAGE_NS_NAME ) )
+				elementDefn.setNameSpaceID( RootElement.PAGE_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( NO_NS_NAME ) )
+				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
+			else
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.INVALID_NAME_SPACE ) );
+
+			try
+			{
+				dictionary.addElementDefn( elementDefn );
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataReaderException( e,
+						MetaDataReaderException.BUILD_FAILED ) );
+			}
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( PROPERTY_TAG ) )
+				return new PropertyState( );
+			if ( tagName.equalsIgnoreCase( PROPERTY_GROUP_TAG ) )
+				return new PropertyGroupState( );
+			if ( tagName.equalsIgnoreCase( STYLE_PROPERTY_TAG ) )
+				return new StylePropertyState( );
+			if ( tagName.equalsIgnoreCase( SLOT_TAG ) )
+				return new SlotState( );
+			if ( tagName.equalsIgnoreCase( METHOD_TAG ) )
+				return new MethodState( true, false );
+
+			return super.startElement( tagName );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+		public void end( ) throws SAXException
+		{
+			super.end( );
+			elementDefn = null;
+		}
+	}
+
+	class PropertyGroupState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs )
+		{
+			groupNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			if ( StringUtil.isBlank( groupNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.GROUP_NAME_ID_REQUIRED ) );
+			}
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( PROPERTY_TAG ) )
+				return new PropertyState( );
+			return super.startElement( tagName );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+
+		public void end( ) throws SAXException
+		{
+			groupNameID = null;
+		}
+	}
+
+	class PropertyState extends InnerParseState
+	{
+
+		private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
+
+		public void parseAttrs( Attributes attrs )
+		{
+			choices.clear( );
+			propDefn = null;
+			String name = getAttrib( attrs, NAME_ATTRIB );
+			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
+			String type = getAttrib( attrs, TYPE_ATTRIB );
+			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
+
+			boolean ok = ( elementDefn != null );
+			if ( name == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( displayNameID == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+			if ( type == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.TYPE_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( !ok )
+				return;
+
+			// Look up the choice set name, if any.
+
+			PropertyType typeDefn = dictionary.getPropertyType( type );
+			if ( typeDefn == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.INVALID_TYPE ) );
+				return;
+			}
+
+			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
+			ChoiceSet choiceSet = null;
+			StructureDefn struct = null;
+			switch ( typeDefn.getTypeCode( ) )
+			{
+				case PropertyType.DIMENSION_TYPE :
+				case PropertyType.DATE_TIME_TYPE :
+				case PropertyType.STRING_TYPE :
+				case PropertyType.FLOAT_TYPE :
+				case PropertyType.INTEGER_TYPE :
+				case PropertyType.NUMBER_TYPE :
+
+					if ( detailName != null )
+					{
+						choiceSet = validateChoiceSet( detailName );
+						if ( choiceSet == null )
+							return;
+					}
+
+					break;
+
+				case PropertyType.CHOICE_TYPE :
+
+					if ( detailName == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.CHOICE_TYPE_REQUIRED ) );
+						return;
+					}
+					choiceSet = validateChoiceSet( detailName );
+					if ( choiceSet == null )
+						return;
+
+					break;
+
+				case PropertyType.COLOR_TYPE :
+
+					choiceSet = validateChoiceSet( ColorPropertyType.COLORS_CHOICE_SET );
+					if ( choiceSet == null )
+						return;
+
+					break;
+
+				case PropertyType.STRUCT_TYPE :
+					if ( detailName == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.STRUCT_TYPE_REQUIRED ) );
+						return;
+					}
+					struct = dictionary.getStructure( detailName );
+					if ( struct == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.INVALID_STRUCT_TYPE ) );
+						return;
+					}
+					break;
+
+				case PropertyType.ELEMENT_REF_TYPE :
+					if ( detailName == null )
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.ELEMENT_REF_TYPE_REQUIRED ) );
+						return;
+					}
+					if ( detailName.equals( THIS_KEYWORD ) )
+						detailName = elementDefn.getName( );
+					break;
+
+				default :
+					// Ignore the detail name for other types.
+
+					detailName = null;
+			}
+
+			propDefn = new SystemPropertyDefn( );
+
+			propDefn.setName( name );
+			propDefn.setDisplayNameID( displayNameID );
+			propDefn.setType( typeDefn );
+			propDefn.setGroupNameKey( groupNameID );
+			propDefn.setCanInherit( getBooleanAttrib( attrs,
+					CAN_INHERIT_ATTRIBUTE, true ) );
+			propDefn.setIntrinsic( getBooleanAttrib( attrs,
+					IS_INTRINSIC_ATTRIB, false ) );
+			propDefn.setStyleProperty( getBooleanAttrib( attrs,
+					IS_STYLE_PROPERTY_ATTRIB, false ) );
+
+			if ( !StringUtil.isBlank( validator ) )
+			{
+				propDefn.setValidator( validator );
+			}
+
+			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
+						true ) );
+
+			if ( choiceSet != null )
+				propDefn.setDetails( choiceSet );
+			else if ( struct != null )
+				propDefn.setDetails( struct );
+			else if ( detailName != null )
+				propDefn.setDetails( detailName );
+			try
+			{
+				elementDefn.addProperty( propDefn );
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataReaderException( e,
+						MetaDataReaderException.BUILD_FAILED ) );
+			}
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( DEFAULT_TAG ) )
+				return new DefaultValueState( propDefn );
+			else if ( tagName.equalsIgnoreCase( ALLOWED_TAG ) )
+				return new AllowedState( );
+			else
+				return super.startElement( tagName );
+		}
+
+		public void end( ) throws SAXException
+		{
+			propDefn = null;
+		}
+	}
+
+	class AllowedState extends InnerParseState
+	{
+
+		public void end( ) throws SAXException
+		{
+			if ( propDefn == null )
+				return;
+
+			int type = propDefn.getTypeCode( );
+
+			if ( type != PropertyType.DIMENSION_TYPE
+					&& type != PropertyType.CHOICE_TYPE )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.RESTRICTION_NOT_ALLOWED ) );
+
+				return;
+			}
+
+			ChoiceSet allowedChoices = new ChoiceSet( );
+			ArrayList allowedList = new ArrayList( );
+
+			String choicesStr = StringUtil.trimString( text.toString( ) );
+
+			// blank string.
+
+			if ( choicesStr == null )
+				return;
+
+			String[] nameArray = choicesStr.split( "," ); //$NON-NLS-1$
+
+			if ( type == PropertyType.DIMENSION_TYPE )
+			{
+				// units restriction on a dimension property.
+
+				ChoiceSet units = dictionary
+						.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
+				assert units != null;
+
+				for ( int i = 0; i < nameArray.length; i++ )
+				{
+					Choice unit = units.findChoice( nameArray[i].trim( ) );
+
+					if ( unit != null )
+					{
+						allowedList.add( unit );
+					}
+					else
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.INVALID_RESTRICTION ) );
+
+						return;
+					}
+				}
+			}
+			else
+			{
+				// choices type restriction.
+
+				ChoiceSet choices = propDefn.getChoices( );
+				assert choices != null;
+
+				for ( int i = 0; i < nameArray.length; i++ )
+				{
+					Choice choice = choices.findChoice( nameArray[i].trim( ) );
+
+					if ( choice != null )
+					{
+						allowedList.add( choice );
+					}
+					else
+					{
+						semanticError( new MetaDataReaderException(
+								MetaDataReaderException.INVALID_RESTRICTION ) );
+
+						return;
+					}
+				}
+
+			}
+
+			allowedChoices.setChoices( (Choice[]) allowedList
+					.toArray( new Choice[0] ) );
+
+			propDefn.setAllowedChoices( allowedChoices );
+		}
+	}
+
+	class ValidatorsState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( VALIDATOR_TAG.equalsIgnoreCase( tagName ) )
+				return new ValidatorState( );
+
+			return super.startElement( tagName );
+		}
+	}
+
+	class ValidatorState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 */
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = getAttrib( attrs, NAME_ATTRIB );
+			String className = getAttrib( attrs, CLASS_ATTRIB );
+
+			if ( StringUtil.isBlank( name ) )
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+			if ( StringUtil.isBlank( className ) )
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.CLASS_NAME_REQUIRED ) );
+
+			try
+			{
+				Class c = Class.forName( className );
+				PropertyValidator validator = (PropertyValidator) c
+						.newInstance( );
+				validator.setName( name );
+
+				try
+				{
+					dictionary.addValidator( validator );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataReaderException( e,
+							MetaDataReaderException.BUILD_FAILED ) );
+				}
+
+			}
+			catch ( Exception e )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.INVALID_META_VALIDATOR ) );
+			}
+		}
+	}
+
+	class DefaultValueState extends InnerParseState
+	{
+
+		/**
+		 * Reference to a member or a property.
+		 */
+
+		PropertyDefn propertyDefn = null;
+
+		DefaultValueState( PropertyDefn propDefn )
+		{
+			this.propertyDefn = propDefn;
+		}
+
+		public void end( ) throws SAXException
+		{
+			if ( this.propertyDefn == null )
+				return;
+			try
+			{
+				Object value = propertyDefn
+						.validateXml( null, text.toString( ) );
+				propertyDefn.setDefault( value );
+			}
+			catch ( PropertyValueException e )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.INVALID_DEFAULT ) );
+			}
+		}
+	}
+
+	class ChoiceState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			String xmlName = attrs.getValue( NAME_ATTRIB );
+			if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+			}
+			else if ( StringUtil.isBlank( xmlName ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.XML_NAME_REQUIRED ) );
+			}
+			else
+			{
+				Choice choice = new Choice( xmlName, displayNameID );
+
+				boolean found = false;
+				Iterator iter = choices.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Choice tmpChoice = (Choice) iter.next( );
+					if ( tmpChoice.getName( ).equalsIgnoreCase(
+							choice.getName( ) ) )
+					{
+						found = true;
+						break;
+					}
+				}
+				if ( found )
+					semanticError( new MetaDataReaderException(
+							MetaDataException.DUPLICATE_CHOICE_NAME ) );
+				else
+					choices.add( choice );
+			}
+		}
+	}
+
+	class StylePropertyState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+
+			boolean ok = ( elementDefn != null );
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( ok )
+				elementDefn.addStyleProperty( name );
+
+		}
+	}
+
+	class SlotState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			String multipleCardinality = attrs
+					.getValue( MULTIPLE_CARDINALITY_ATTRIB );
+
+			boolean ok = ( elementDefn != null );
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+			else if ( StringUtil.isBlank( displayNameID ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+			else if ( StringUtil.isBlank( multipleCardinality ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.MULTIPLE_CARDINALITY_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( !ok )
+				return;
+
+			slotDefn = new SlotDefn( );
+			slotDefn.setName( name );
+			slotDefn.setDisplayNameID( displayNameID );
+			slotDefn.setMultipleCardinality( parseBoolean( multipleCardinality,
+					true ) );
+			slotDefn.setSelector( attrs.getValue( SELECTOR_ATTRIB ) );
+			elementDefn.addSlot( slotDefn );
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( TYPE_TAG ) )
+				return new SlotTypeState( );
+			return super.startElement( tagName );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+		public void end( ) throws SAXException
+		{
+			super.end( );
+			slotDefn = null;
+		}
+
+	}
+
+	class SlotTypeState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			boolean ok = ( slotDefn != null );
+			String name = attrs.getValue( NAME_ATTRIB );
+			if ( StringUtil.isBlank( name ) )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( ok )
+				slotDefn.addType( name );
+		}
+	}
+
+	class MethodState extends InnerParseState
+	{
+
+		private boolean constructor;
+		private boolean elementMethod;
+
+		MethodState( boolean elementMethod, boolean constructor )
+		{
+			// Element method cannot be constructor.
+
+			assert !elementMethod || !constructor;
+
+			this.constructor = constructor;
+			this.elementMethod = elementMethod;
+		}
+
+		public void parseAttrs( Attributes attrs )
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			String toolTipID = attrs.getValue( TOOL_TIP_ID_ATTRIB );
+			String returnType = attrs.getValue( RETURN_TYPE_ATTRIB );
+			boolean isStatic = getBooleanAttrib( attrs, IS_STATIC_ATTRIB, false );
+
+			boolean ok = true;
+			if ( name == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+			if ( displayNameID == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( !ok )
+				return;
+
+			methodInfo = new MethodInfo( constructor );
+			methodInfo.setName( name );
+			methodInfo.setDisplayNameKey( displayNameID );
+			methodInfo.setReturnType( returnType );
+			methodInfo.setToolTipKey( toolTipID );
+			methodInfo.setStatic( isStatic );
+
+			try
+			{
+				if ( elementMethod )
+				{
+					assert elementDefn != null;
+
+					PropertyType typeDefn = dictionary
+							.getPropertyType( PropertyType.SCRIPT_TYPE );
+
+					propDefn = new SystemPropertyDefn( );
+					propDefn.setName( name );
+					propDefn.setDisplayNameID( displayNameID );
+					propDefn.setType( typeDefn );
+					propDefn.setGroupNameKey( null );
+					propDefn.setCanInherit( true );
+					propDefn.setIntrinsic( false );
+					propDefn.setStyleProperty( false );
+					propDefn.setDetails( methodInfo );
+					try
+					{
+						elementDefn.addProperty( propDefn );
+					}
+					catch ( MetaDataException e )
+					{
+						semanticError( new MetaDataReaderException( e,
+								MetaDataReaderException.BUILD_FAILED ) );
+					}
+				}
+				else if ( constructor )
+				{
+					assert classInfo != null;
+
+					classInfo.addConstructor( methodInfo );
+				}
+				else
+				{
+					assert classInfo != null;
+
+					classInfo.addMethod( methodInfo );
+				}
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataReaderException( e,
+						MetaDataReaderException.BUILD_FAILED ) );
+			}
+
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( ARGUMENT_TAG ) )
+				return new ArgumentState( );
+			return super.startElement( tagName );
+		}
+
+		public void end( ) throws SAXException
+		{
+			methodInfo = null;
+			propDefn = null;
+		}
+
+		class ArgumentState extends InnerParseState
+		{
+
+			public void parseAttrs( Attributes attrs )
+			{
+				String name = attrs.getValue( NAME_ATTRIB );
+				String tagID = attrs.getValue( TAG_ID_ATTRIB );
+				String type = attrs.getValue( TYPE_ATTRIB );
+
+				if ( name == null )
+					return;
+
+				ArgumentInfo argument = new ArgumentInfo( );
+				argument.setName( name );
+				argument.setType( type );
+				argument.setDisplayNameKey( tagID );
+
+				try
+				{
+					methodInfo.addArgument( argument );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataReaderException( e,
+							MetaDataReaderException.BUILD_FAILED ) );
+				}
+			}
+		}
+	}
+
+	class ClassState extends InnerParseState
+	{
+
+		public void parseAttrs( Attributes attrs )
+		{
+			String name = attrs.getValue( NAME_ATTRIB );
+			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			String toolTipID = attrs.getValue( TOOL_TIP_ID_ATTRIB );
+			String isNative = attrs.getValue( NATIVE_ATTRIB );
+
+			boolean ok = true;
+			if ( name == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.NAME_REQUIRED ) );
+				ok = false;
+			}
+			if ( displayNameID == null )
+			{
+				semanticError( new MetaDataReaderException(
+						MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( !ok )
+				return;
+
+			classInfo = new ClassInfo( );
+			classInfo.setName( name );
+			classInfo.setDisplayNameKey( displayNameID );
+			classInfo.setToolTipKey( toolTipID );
+
+			if ( Boolean.TRUE.toString( ).equalsIgnoreCase( isNative ) )
+				classInfo.setNative( true );
+			else if ( Boolean.FALSE.toString( ).equalsIgnoreCase( isNative ) )
+				classInfo.setNative( false );
+
+			try
+			{
+				dictionary.addClass( classInfo );
+			}
+			catch ( MetaDataException e )
+			{
+				semanticError( new MetaDataReaderException( e,
+						MetaDataReaderException.BUILD_FAILED ) );
+			}
+		}
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( CONSTRUCTOR_TAG ) )
+				return new MethodState( false, true );
+			if ( tagName.equalsIgnoreCase( MEMBER_TAG ) )
+				return new MemberState( );
+			if ( tagName.equalsIgnoreCase( METHOD_TAG ) )
+				return new MethodState( false, false );
+
+			return super.startElement( tagName );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+		 */
+		public void end( ) throws SAXException
+		{
+			super.end( );
+			classInfo = null;
+		}
+
+		private class MemberState extends InnerParseState
+		{
+
+			public void parseAttrs( Attributes attrs )
+			{
+				String name = attrs.getValue( NAME_ATTRIB );
+				String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+				String toolTipID = attrs.getValue( TOOL_TIP_ID_ATTRIB );
+				String dataType = attrs.getValue( DATA_TYPE_ATTRIB );
+
+				boolean ok = true;
+				if ( name == null )
+				{
+					semanticError( new MetaDataReaderException(
+							MetaDataReaderException.NAME_REQUIRED ) );
+					ok = false;
+				}
+				if ( displayNameID == null )
+				{
+					semanticError( new MetaDataReaderException(
+							MetaDataReaderException.DISPLAY_NAME_ID_REQUIRED ) );
+					ok = false;
+				}
+				if ( dataType == null )
+				{
+					semanticError( new MetaDataReaderException(
+							MetaDataReaderException.DATA_TYPE_REQUIRED ) );
+					ok = false;
+				}
+
+				if ( !ok )
+					return;
+
+				MemberInfo memberDefn = new MemberInfo( );
+				memberDefn.setName( name );
+				memberDefn.setDisplayNameKey( displayNameID );
+				memberDefn.setToolTipKey( toolTipID );
+				memberDefn.setDataType( dataType );
+
+				try
+				{
+					classInfo.addMemberDefn( memberDefn );
+				}
+				catch ( MetaDataException e )
+				{
+					semanticError( new MetaDataReaderException( e,
+							MetaDataReaderException.BUILD_FAILED ) );
+				}
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#semanticError(org.eclipse.birt.report.model.util.XMLParserException)
+	 */
+	public void semanticError( XMLParserException e )
+	{
+		e.setLineNumber( locator.getLineNumber( ) );
+		MetaLogManager.log( e.getMessage( ), e );
+		errors.add( e );
+	}
+
+	/**
+	 * 
+	 * Checks if dictionary contains a specified ChoiceSet with the name
+	 * <code>choiceSetName</code>.
+	 * 
+	 * @param choiceSetName
+	 *            the name of ChoiceSet to be checked.
+	 * @return the validated choiceSet. If not found, return null.
+	 */
+
+	private ChoiceSet validateChoiceSet( String choiceSetName )
+	{
+		ChoiceSet choiceSet = dictionary.getChoiceSet( choiceSetName );
+		if ( choiceSet == null )
+		{
+			semanticError( new MetaDataReaderException(
+					MetaDataReaderException.INVALID_CHOICE_TYPE ) );
+			return null;
+		}
+
+		return choiceSet;
+	}
+}

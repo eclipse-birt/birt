@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com)  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ReportMetaData">
+		<xs:annotation>
+			<xs:documentation>Element meta-data for BIRT</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ChoiceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Definitions of the application-defined choice types.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Choice" type="ChoiceType" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="name"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PropertyType" type="PropertyTypeDefnType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Meta-data for the built-in property types.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Structure" type="StructureType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of a structure within a list property.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Element" type="ElementDefnType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of an BIRT report element.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Style" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Description of the standard styles. Not their contents, just their names.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="StyleDefnType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Class" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Constructor" type="MethodType" minOccurs="0"/>
+							<xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="dataType" type="xs:string" use="required"/>
+									<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
+									<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Method" type="MethodType" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="required"/>
+						<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
+						<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="PropertyType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Supported property types</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="number"/>
+			<xs:enumeration value="integer"/>
+			<xs:enumeration value="dimension"/>
+			<xs:enumeration value="color"/>
+			<xs:enumeration value="choice"/>
+			<xs:enumeration value="boolean"/>
+			<xs:enumeration value="expression"/>
+			<xs:enumeration value="html"/>
+			<xs:enumeration value="messageId"/>
+			<xs:enumeration value="style"/>
+			<xs:enumeration value="dataSet"/>
+			<xs:enumeration value="page"/>
+			<xs:enumeration value="points"/>
+			<xs:enumeration value="uri"/>
+			<xs:enumeration value="dateTime"/>
+			<xs:enumeration value="xml"/>
+			<xs:enumeration value="name"/>
+			<xs:enumeration value="extends"/>
+			<xs:enumeration value="dataSource"/>
+			<xs:enumeration value="float"/>
+			<xs:enumeration value="element"/>
+			<xs:enumeration value="column"/>
+			<xs:enumeration value="variant"/>
+			<xs:enumeration value="structList"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PropertyTypeDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of a property data type.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" type="PropertyType" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="choiceType" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ElementDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of an BIRT report element.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes a property defined on this element.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="PropertyDefnType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PropertyGroup" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes a group of properties.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Describes a property defined on this group.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="PropertyDefnType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+					<xs:attribute name="prefix" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StyleProperty" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Lists style properties that apply to this element. Applies only if the element has a style.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Slot" type="SlotDefnType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>If the element is a container, describes the "slots" that can hold other items.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Method" type="MethodType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes a method on the element that the user can define.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The internal element name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isAbstract" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="extends" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>When one element extends from another, it inherits all properties defined by the parent element.
+            
+The 'extends' attribute is optional, in this case, it means this report element has no parent.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="hasStyle" type="xs:boolean" use="optional" default="no">
+			<xs:annotation>
+				<xs:documentation>Identifies whether this element has a style. Define this only on the most base element that includes a style. It is unnecessary to repeat this on elements that extend an element with a style: in such a case the derived element is automatically defined to also have a style. (That is, if a parent element has a style, a derived element cannot take the style away again.)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="defaultStyle" type="xs:string" use="optional"/>
+		<xs:attribute name="allowsUserProperties" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="canExtend" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="nameSpace" type="NameSpaceType" use="optional"/>
+		<xs:attribute name="isNameRequired" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="PropertyDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of an BIRT element property.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Default" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The default value. Must be in xml format. For a choice, use the internal value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="PropertyType" use="required"/>
+		<xs:attribute name="canInherit" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="isIntrinsic" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Some properties are represented by members variables in the implementation. If so, the property is intrinsic, and the member name must be listed here.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isStyleProperty" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Valid only when defining the style element. Indicates that the property defines the style and should be propagated to any element that has a style. A property not marked as a style property is one that defines the style itself (such as the name) and does not propagate to an element.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="detailType" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="StyleDefnType">
+		<xs:attribute name="reference" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The name used in internal documentation. This is a reference for the author of the meta-data file, it is not used in BIRT.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="extends" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The internal name of the style that this style extends.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SlotDefnType">
+		<xs:annotation>
+			<xs:documentation>Definition of a container slot.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The name of an element type that can appear in the slot.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Internal name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="displayNameID" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Message ID for the user-visible name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="multipleCardinality" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>True if the slot allows multiple elements, false if it allows only one element.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="defaultStyle" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="NameSpaceType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="parameter"/>
+			<xs:enumeration value="dataSet"/>
+			<xs:enumeration value="dataSource"/>
+			<xs:enumeration value="masterPage"/>
+			<xs:enumeration value="style"/>
+			<xs:enumeration value="element"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ChoiceType">
+		<xs:attribute name="internalValue" type="xs:long" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="StructureType">
+		<xs:sequence>
+			<xs:element name="Member" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+					<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+					<xs:attribute name="type" type="PropertyType" use="required"/>
+					<xs:attribute name="choiceType" type="xs:string" use="optional"/>
+					<xs:attribute name="isIntrinsic" type="xs:boolean" use="optional" default="false">
+						<xs:annotation>
+							<xs:documentation>Some properties are represented by members variables in the implementation. If so, the property is intrinsic, and the member name must be listed here.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="MethodType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Argument">
+				<xs:annotation>
+					<xs:documentation>Defines one argument to the method.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+					<xs:attribute name="type" type="xs:string" use="optional"/>
+					<xs:attribute name="tagID" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
+		<xs:attribute name="returnType" type="xs:string" use="optional"/>
+		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="no"/>
+	</xs:complexType>
+</xs:schema>

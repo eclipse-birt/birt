@@ -1,0 +1,108 @@
+/*******************************************************************************
+* Copyright (c) 2004 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation  - initial API and implementation
+*******************************************************************************/ 
+
+package org.eclipse.birt.report.model.api;
+
+import java.util.Iterator;
+
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+
+/**
+ * An iterator over the children of an element. A child is an element that
+ * extends another specified element. Each call to <code>getNext( )</code>
+ * returns a handle of type {@link DesignElementHandle}.
+ * <p>
+ * This iterator returns only direct descendents, but not indirect descendents
+ * (indirect descendents are elements derived from elements that derive from
+ * this element.)
+ */
+
+class DerivedElementIterator implements Iterator
+{
+
+	/**
+	 * The cached iterator.
+	 */
+
+	protected Iterator iter;
+
+	/**
+	 * Report design.
+	 */
+
+	protected ReportDesign design;
+
+	/**
+	 * Constructs a iterator with the given design and the design element
+	 * handle.
+	 * 
+	 * @param design
+	 *            report design
+	 * @param elementHandle
+	 *            handle to the element over which to iterate its derived
+	 *            elements
+	 */
+
+	public DerivedElementIterator( ReportDesign design,
+			DesignElementHandle elementHandle )
+	{
+		assert design != null;
+		assert elementHandle != null;
+
+		this.design = design;
+
+		iter = elementHandle.getElement( ).getDerived( ).iterator( );
+	}
+
+	/** 
+	 * Inherited method that is disabled in this iterator; the caller
+	 * cannot remove descendents using this class.
+	 * 
+	 * @see java.util.Iterator#remove()
+	 */
+
+	public void remove( )
+	{
+		// This iterator can not be used to remove anything.
+
+		assert false;
+	}
+
+	/**
+	 * Returns true if there is another descendent to retrieve.
+	 * 
+	 * @return true if there is another descendent to retrieve, false otherwise
+	 * @see java.util.Iterator#hasNext()
+	 */
+
+	public boolean hasNext( )
+	{
+		return iter.hasNext( );
+	}
+
+	/**
+	 * Returns a handle of a derived element.
+	 * 
+	 * @return the handle of a derived element
+	 * 
+	 * @see java.util.Iterator#next()
+	 * @see DesignElementHandle
+	 */
+
+	public Object next( )
+	{
+		DesignElement derived = (DesignElement) iter.next( );
+
+		return derived.getHandle( design );
+	}
+
+}

@@ -1,0 +1,182 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.core;
+
+import java.util.HashMap;
+import java.util.Iterator;
+
+/**
+ * A name space organizes a set of named elements. The name space allows quick
+ * lookup of elements by name, and ensures that each element has a unique name.
+ * Operations include insert, delete and lookup. The clients of this class
+ * provide the context in which the name space is used, and enforce uniqueness
+ * rules.
+ * <p>
+ * Names are case sensitive.
+ * <p>
+ * A name space is meant to be used in conjunction with a command. Most of the
+ * operations here represent inconsistent states in the model that can obtain only
+ * in while a command is executing. For example, to insert an element in the
+ * name space, the element's name must have already been set. This precondition
+ * represents an inconsistent model state: an element has a name but does not
+ * appear in the proper name space. Similarly, all error checking must be done
+ * before calling these methods as part of checking the preconditions for a
+ * command. Once a command starts, it must not fail because the model does not
+ * provide means to roll back a partially complete command.
+ */
+
+public final class NameSpace implements Cloneable
+{
+
+	/**
+	 * The actual name space.
+	 */
+
+	private HashMap names = new HashMap( );
+
+	/**
+	 * Constructor
+	 */
+
+	public NameSpace( )
+	{
+	}
+
+	/**
+	 * Inserts an element into the name space. The caller must have validated
+	 * that the name is unique.
+	 * 
+	 * @param element
+	 *            The element to insert.
+	 */
+
+	public void insert( DesignElement element )
+	{
+		assert element.getName( ) != null;
+		assert names.get( element.getName( ) ) == null;
+		names.put( element.getName( ), element );
+	}
+
+	/**
+	 * Removes an element from the name space. The caller must have validated
+	 * that the element is in the name space.
+	 * 
+	 * @param element
+	 *            The element to be removed from the namespace
+	 */
+
+	public void remove( DesignElement element )
+	{
+		assert element.getName( ) != null;
+		assert names.get( element.getName( ) ) == element;
+		names.remove( element.getName( ) );
+	}
+
+	/**
+	 * Renames an element in the name space. Rename is done in the context of a
+	 * command: it represents a temporary period in which the model is
+	 * inconsistent. The element name has already changed, we are now updating
+	 * the name space. The caller must have validated that the rename is valid,
+	 * and that the new name is unique. This form also handles the case in which
+	 * an element with an optional name either obtains or drops its name.
+	 * 
+	 * @param element
+	 *            The renamed element.
+	 * @param oldName
+	 *            The previous name in the name space.
+	 */
+
+	public void rename( DesignElement element, String oldName )
+	{
+		if ( oldName != null )
+		{
+			assert names.get( oldName ) == element;
+			names.remove( oldName );
+		}
+		String newName = element.getName( );
+		if ( newName != null )
+		{
+			assert names.get( newName ) == null;
+			names.put( newName, element );
+		}
+	}
+
+	/**
+	 * Checks if the name appears within the name space.
+	 * 
+	 * @param name
+	 *            The name of the searched
+	 * @return Returns true if the name is in the namespace, else returns false
+	 */
+
+	public boolean contains( String name )
+	{
+		return names.containsKey( name );
+	}
+
+	/**
+	 * Gets the named element from name space.
+	 * 
+	 * @param name
+	 *            The name of the report element
+	 * @return Returns the report element.
+	 */
+
+	public DesignElement getElement( String name )
+	{
+		return (DesignElement) names.get( name );
+	}
+
+	/**
+	 * Obtains an iterator over the items in the name space. The items are
+	 * unsorted.
+	 * 
+	 * @return An iterator over the elements.
+	 */
+
+	public Iterator iterator( )
+	{
+		return names.values( ).iterator( );
+	}
+
+	/**
+	 * Returns the number of items in the name space.
+	 * 
+	 * @return The element count.
+	 */
+
+	public int getCount( )
+	{
+		return names.size( );
+	}
+
+	/**
+	 * Makes a clone of this namespace.
+	 * 
+	 * @return Object the cloned namespace.
+	 * 
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	public Object clone( ) throws CloneNotSupportedException
+	{
+		NameSpace ns = (NameSpace) super.clone( );
+		ns.names = new HashMap( );
+		Iterator it = names.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			Object key = it.next( );
+			ns.names.put( key, names.get( key ) );
+		}
+		return ns;
+	}
+}

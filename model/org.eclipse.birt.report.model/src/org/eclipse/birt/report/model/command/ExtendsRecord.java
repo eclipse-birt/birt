@@ -1,0 +1,113 @@
+/*******************************************************************************
+* Copyright (c) 2004 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation  - initial API and implementation
+*******************************************************************************/ 
+
+package org.eclipse.birt.report.model.command;
+
+import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.activity.SimpleRecord;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+
+/**
+ * Sets the extends attribute of an element.
+ *
+ */
+
+public class ExtendsRecord extends SimpleRecord
+{
+	/**
+	 * The element to modify.
+	 */
+	
+	private DesignElement element = null;
+	
+	/**
+	 * The new parent element. Can be null.
+	 */
+	
+	private DesignElement newParent = null;
+	
+	/**
+	 * The old parent element. Can be null.
+	 */
+	
+	private DesignElement oldParent = null;
+	
+	/**
+	 * The old parent element name, if the name was unresolved.
+	 */
+	
+	private String oldName = null;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param obj the element to modify.
+	 * @param parent the new parent element.
+	 */
+	
+	public ExtendsRecord( DesignElement obj, DesignElement parent )
+	{
+		element = obj;
+		newParent = parent;
+		oldParent = obj.getExtendsElement( );
+		if ( oldParent == null )
+			oldName = obj.getExtendsName( );
+		
+		assert element != null;
+		assert parent == null  ||
+				parent.getDefn( ) == element.getDefn( );
+		assert parent == null  ||  ! parent.isKindOf( element );
+		
+	    label = ThreadResources.getMessage( MessageConstants.SET_EXTENDS_MESSAGE );
+
+	}
+	
+	/**
+	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
+	 */
+
+	protected void perform( boolean undo )
+	{
+		if ( undo )
+		{
+			if ( oldName != null )
+				element.setExtendsName( oldName );
+			else
+				element.setExtendsElement( oldParent );
+		}
+		else
+		{
+			element.setExtendsElement( newParent );
+		}
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 */
+
+	public DesignElement getTarget( )
+	{
+		return element;
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 */
+
+	public NotificationEvent getEvent( )
+	{
+		return new ExtendsEvent( element );
+	}
+
+}

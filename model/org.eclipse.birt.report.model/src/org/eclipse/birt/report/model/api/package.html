@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Tool-writer's interface for the BIRT design model
+(also known as the "Design Engine.")
+<p>
+This interface is <em>not</em> meant to be used by customer code
+"plugged into" the designer. The customer interface (to be defined)
+will be much more abstract and will not provide a way to access the
+model objects themselves. This interface is designed as a convenience
+for BIRT components that are aware of the model, but need a simple way
+to perform common operations.
+
+<h2>Package Specification</h2>
+
+The BIRT design model (Design Engine) performs a wide
+range of low-level tasks:
+<p>
+<ul>
+<li>Read and write design files.</li>
+<li>Maintain the command history for undo/redo.</li>
+<li>Provide a rich semantic representation of the report design.</li>
+<li>Provide <em>meta-data</em> about the Report Object Model.</li>
+<li>Perform property value validation.</li>
+<li>Notify the application when the model changes.</li>
+</ul>
+<p>
+This API package isolates the GUI and Factory code from the details of the
+implemention by providing a series of <em>handle</em> classes. Clients of
+this API do not generally work the the actual model
+objects. Instead, clients work with API handles that provide higher-level
+services. For example, the handles provide "getter" and "setter" methods
+for each property of each report element. The model, however, stores
+properties as name/value pairs using an abstract representation.
+<p>
+The API encapsulates the complexity of the undo/redo system. While
+the "getter" methods are generally just light wrappers on top of the model; but
+the "setter" methods invoke the complex machinery needed to make changes
+in a way that is undoable and that notifies intersted listeners.
+For this reason, the application <strong>must</strong>
+make all changes via this API. Making changes directly to model objects will
+put the model into a state inconsistent with the undo/redo stack.
+<p>
+While the tool writer will often use this API, the tool writer is free to
+reach down into the lower layers when required for specialized tasks. For
+example, the property sheet will likely work directly with meta-data classes
+to obtain information about properties such as their type, available choices,
+and so on. While the application can query lower-level packages, all updates
+must be done though this API as explained above.
+
+<h2>Using the API</h2>
+
+The application uses the API as follows:
+<p>
+<ul>
+<li>Start by using the {@link org.eclipse.birt.report.model.api.DesignEngine}
+class to create a new design sesion. Specify the user's locale, or use
+the default locale. Then, use the design session to create or open
+an existing design from a file.</li>
+<li>When the application creates or opens a design, it receives an
+{@link org.eclipse.birt.report.model.api.ReportDesignHandle}
+instance.
+This handle represents the overall report design. The application can have
+any number of report designs open concurrently. Use methods on this handle
+to save the design to a file, and to access the command stack for undo and
+redo.</li>
+<li>Use other methods on the report design handle to navigate to the various
+parts of the report. The design provides a number of <em>slots</em> that contain
+elements. For example, the Data Source slot contains the design's data
+sources, the Body slot contains the sections, and so on.</li>
+<li>Each report element has its own handle type. The application can perform
+many generic tasks using the base {@link org.eclipse.birt.report.model.api.DesignElementHandle}
+class. Cast
+the handle to a specific subclass to work with the operations unique to that
+report element.</li>
+<li>The application creates elements using a two-step process. First,
+the application uses the {@link org.eclipse.birt.report.model.api.ElementFactory}
+class to create the new
+element. Then, the application adds the element to the design
+by inserting them into a slot of another element.</li>
+<li>A series of <em>properties</em> give the state of each element. Properties
+are defined using the <code>org.eclipse.birt.report.model.metadata</code> meta-data
+package. The application can get and set properties generically using the
+property names. Or, the application can use the specific getter/setter
+methods on the various specialized handles.</li>
+<li>The application can also work with a variety of property handle classes to
+perform specialized tasks, to work with multiple items at one time, and so on.</li>
+</ul>
+
+<h2>Higher-Level Operations</h2>
+
+In addition to the detailed operations above, many handles provide
+additional higher-level operations. For example, operations exist to
+add a group to a listing, to change grouping order, and so on.
+<p>
+<strong><em>Note:</strong> Most high-level operations are not yet defined in the
+current version of the API.</em>
+
+<h2>Usage Notes</h2>
+
+You should be aware of a number of special features of the API.
+
+<h3>Working with Handles</h3>
+
+There is a one-to-one correspondence between design elements and handles.
+Every design element can have 0 or 1 associated handle. The handle is created
+when first needed.
+Handles are immuatable: once created, they cannot point to a different element.
+
+<h3>Working with Properties</h3>
+
+Properties are a core part of the model. The API provides four distinct
+ways to work with properties. Choose the one that works best for the
+code you are writing.
+<p>
+<dl>
+<dt>Specific getter/setter.</dt>
+<dd>The various element handles provide
+get and set methods for most properties. To avoid cluttering the
+interface with accessors for seldom-used properties, the API does not
+include accessors for every property. The set of properties exposed
+with specific methods will evolve based on the needs of tool writers.
+<dd>
+
+<dt>Type-specific getter/setter.</dt>
+<dd>If no specific getter/setter
+exists, or the application wishes to work with properties generically, then
+the application can use the type-specific methods such
+as <code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#getIntProperty}</code>,
+<code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#getStringProperty}</code>,
+etc. to get the property. Use
+<code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#setIntProperty}</code>,
+<code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#setStringProperty}</code>,
+etc. to set the property. In each
+case, you specify the property name. See the element classes in the
+<code>org.eclipse.birt.report.model.elements</code>
+package for the set of properties
+available on each element.
+</dd>
+
+<dt>As generic objects.</dt>
+<dd>
+Properties are stored as objects internally.
+Some application code, such as a property sheet, may find it convenient to
+work with properties generically. Use the
+<code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#getProperty}</code>
+and <code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#setProperty}</code>
+method to do so.
+</dd>
+
+<dt>Using property iterators and handles.</dt>
+<dd>
+Finally, the API provides
+a set of iterators for traversing the set of properties for an element,
+and handles for working with each individual property. These classes are
+ideal for creating a generic property sheet driven by the set of
+properties defined for an element.
+</dd>
+</dl>
+<p>
+Many propeties are simple scalar values. However, quite a few have internal structure.
+For example, the highlight property provides a list of highlight rule structures.
+Dimension properties provide a CSS-format dimension such as "10in" or "20%".
+Specialized handles help parse such properties. Handles also exist for colors,
+fonts and others.
+
+<h3>Property Inheritance</h3>
+
+The vast majority of properties can be inherited. Such properties can
+be in one of two states: set or unset. A set property is one for which
+a given element has a value. An unset property is one for which an element
+does not explicitly have a value; instead the element inherits the value
+from its style or the element it extends. If the value is not set in
+either of these places, then the property assumes the default value for
+that property.
+<p>
+Property inheritance in BIRT is much like that in JavaScript. Both use
+prototype-based inheritance. As in JavaScript, BIRT enforces an asymmetry
+between getting and setting properties. Most getters will search for the property
+up the inheritance hierarchy as explained in the ROM specs. The setter changes
+the value only on the target element. Specializd getter methods exist that get
+only the <em>local</em> property value without doing a search.
+<p>
+BIRT also provides a set of properties called style properties. These properties
+support both JavaScript-like inheritance and CSS-like cascading. See the ROM spec
+for details.
+<p>
+The <code>null</code> value represents an unset property. It is thus important to
+understand the difference between, say, and empty string (the property
+is set and its value is "") and a <code>null</code> value (the property is unset.)
+Setting a property to a <code>null</code> value unsets the property for
+that element.
+
+<h3>Property Types</h3>
+
+BIRT supports a number of basic property types: String, Integer,
+Float (represented as a double) and Number (represented as a BigDecimal.)
+In adddition, BIRT uses a wide range of specialized types such as
+dimensions (discussed above), expressions, HTML, XML and so on. In general,
+BIRT will automatically convert any property to any of the basic types
+if the conversion is meaningful. For example, a choice property can be
+obtained as an integer (internal choice code) or string (choice name.)
+<p>
+Some properties are <em>intrinsic</em> -- they are stored as member variables
+in the implementation. Many such properties can be set or retrived in two
+ways: using the generic property mechanism, or specific get/set methods.
+For example, one can get the name using the NAME_PROP property name, or
+using the getName( ) method. The primary intrinsic properties are name,
+extends and style.
+
+<h3>Internal and Display Property Values</h3>
+
+When working with the string value of a property, the application must take
+care to differentiate between several forms:
+<p>
+<dl>
+<dt>Internal value</dt>
+<dd>This is the value used within the application and in the XML design file. It is
+independent of the user's locale. It is often in a form convenient for scripting
+such as "if-empty".</dd>
+
+<dt>Localized display value</dt>
+<dd>This is a string translated to the user's own language. The value is
+locale-dependent; it will appear differently in English, Chinese or German. As
+a result, it is meaningful only in the current design session; it is translated
+into the internal value for persistent storage.</dd>
+</dl>
+The applicaiton must be sure to call the correct method to get the value as either
+a display string or as an internal value. Similarly, distinct methods exist to
+set the internal value vs. the display value. In general, call
+{@link org.eclipse.birt.report.model.api.DesignElementHandle#getLocalizedProperty}
+to get a localized property value
+and {@link org.eclipse.birt.report.model.api.DesignElementHandle#setLocalizedProperty} to set a localized property
+value. The API will perform any required translation. These calls work for all
+properties except lists.
+<p>
+Call {@link org.eclipse.birt.report.model.api.DesignElementHandle#getStringProperty}
+to get the internal value of a string property, and
+{@link org.eclipse.birt.report.model.api.DesignElementHandle#setStringProperty}
+to set the internal value of a string property.
+
+<h3>User-Defined Properties</h3>
+
+The model supports user-defined properties. These are properties defined
+on an element by the user. Once defined, such properties work identically
+to system-defined properties. The above property rules, methods and
+classes for properties automatically include any user-defined properties.
+For example, the property iterator includes user-defined properties.
+
+<h3>Dimensions</h3>
+
+Dimensions give measurements within the report such
+as the size of a page, the (x,y) position of a report item, and so on.
+BIRT stores dimension properties using the CSS system: as a numeric measure and
+a string unit. The units can be absolute ("in", "cm") or relative ("em", "%").
+As a result, the model cannot give the absolute size or position of a report
+element. Instead, the application must provide a <em>CSS User Agent</em> (UA)
+to compute the layout based on the dimension properties and element content.
+For example, a table may choose to be as wide as the page, to have three
+columns, and to allocate space in the ratio: 20%, 30% and 50%. Further the
+rows of the table may contain text, images, charts and other content. The UA
+is responsible for computing the layout based on the dimension properties,
+available fonts, actual image sizes and so on.
+<p>
+These calculations are done differently in the Designer UI than in the Presentation
+Engine. The Presentation Engine may leverage the end user's browser to do the
+layout (by passing the information in HTML), or may implement its own UA. The
+Designer UI will emulate a browser UA within the constraints of Eclipse.
+<p>
+The application must have a deep understanding of the CSS specification and
+the BIRT Report Object Model (ROM) to correctly interpret dimensions. (This may
+seem overly complex, but the alternative -- fixed sizes and positions -- leads
+to a report model that is easier to implement, but harder to use.)
+
+<h3>Property Handles</h3>
+
+Tools that work with properties may wish to use the various property handle
+classes.
+<p>
+<strong>Property iterators</strong> provide access to the set of properties
+defined on an element. The property sheet, for example, can use the
+iterator to learn about the complete set of properties.
+<p>
+<strong>Property handles</strong> provide an interface for working with a specific
+property.
+<p>
+Properties are defined in one of two ways. <em>System</em> properties are defined
+by the Report Object Model and are fixed from one design to the next.
+<em>User-defined</em> properties are created by the report developer (as explained
+above) and are stored as part of the report design.
+<p>
+System properties can be simple or structured. A simple property is a simple
+name/value pair such a name or a dimension. Structured properties represent
+a list of objects such as the mapping rules for a style. Property handles
+are required to work with structured properties. While the applicaiton
+can work directly with the structures to query existing information, the
+application must use the property handles to make changes.
+
+<h2>Element Containment, Slots and Slot Handles</h2>
+
+Many elements act as <em>containers</em>: they can hold other elements
+called <em>content</em>. For example,
+the report design has slots for data sources, data sets, styles, sections
+and more. Container have a slot for their contents. And so on.
+<p>
+The model uses <em>slots</em> to represent the containment relationship.
+When you call a method to work with the contents, the API returns a
+{@link org.eclipse.birt.report.model.api.SlotHandle}.
+Slot handles provide many operations imcluding adding, removing, moving and
+enumerating content.
+
+<h2>Styles</h2>
+
+Styles define the visual characteristics of report items. BIRT defines
+a set of standard styles that the report can customize. The report can
+add custom styles. Further, each element can override style properites
+for that one component.
+<p>
+Therefore, the same set of style properties appear on a wide array of
+elements. The application can work with style properties generically
+using any handle that represents either a style or an element with
+a style. If the application wants to work with specific getter/setter
+methods for style properties, it should obtain a <code>
+{@link org.eclipse.birt.report.model.api.StyleHandle}</code>.
+<p>
+There are two ways to obtain a style handle from an element. The first is
+to call <code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#getStyle}</code>.
+This method returns a
+<code>{@link org.eclipse.birt.report.model.api.SharedStyleHandle}</code> to the shared style
+(if any) that the element references. The other method is
+<code>{@link org.eclipse.birt.report.model.api.DesignElementHandle#getPrivateStyle}</code>, which returns a
+{@link org.eclipse.birt.report.model.api.StyleHandle} to work with
+the style properties of that specific element. The two style handles
+provide the same set of getter and setter methods.
+
+<h2>Related Documentation</h2>
+
+The application developer should be familiar with the BIRT Report Object
+Model. See the following:
+<p>
+<ul>
+<li>The BIRT design XML schema.</li>
+<li>The BIRT Report Object Model specifications.</li>
+<li>The {@link org.eclipse.birt.report.model.core.DesignElement DesignElement}
+class for details on the services that the model offers.</li>
+<li>The {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary
+MetaDataDictionary} class for information about element, type, property,
+structure and member definitions.</li>
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

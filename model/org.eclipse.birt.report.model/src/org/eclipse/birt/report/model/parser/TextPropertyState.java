@@ -1,0 +1,117 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.parser;
+
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IStructure;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
+
+/**
+ * Constructs the state to parse resource key property.
+ */
+
+public class TextPropertyState extends AbstractPropertyState
+{
+	PropertyDefn propDefn = null;
+	PropertyDefn keyPropDefn = null;
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
+	 *      theHandler, DesignElement element, )
+	 */
+
+	TextPropertyState( DesignParserHandler theHandler, DesignElement element )
+	{
+		super( theHandler, element );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
+	 *      theHandler, DesignElement element, String propName, IStructure
+	 *      struct)
+	 */
+
+	TextPropertyState( DesignParserHandler theHandler, DesignElement element,
+			IStructure struct )
+	{
+		super( theHandler, element );
+
+		this.struct = struct;
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 */
+	
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
+		if ( StringUtil.isBlank( name ) )
+		{
+			handler.semanticError( new DesignParserException(
+					DesignParserException.NAME_REQUIRED ) );
+			valid = false;
+			return;
+		}
+
+		String keyName = name + DesignElement.ID_SUFFIX;
+
+		if ( struct != null )
+		{
+			propDefn = struct.getDefn( ).getMember( name );
+			keyPropDefn = struct.getDefn( ).getMember( keyName );
+		}
+		else
+		{
+			propDefn = element.getPropertyDefn( name );
+			keyPropDefn = element.getPropertyDefn( keyName );
+		}
+		if ( propDefn == null || keyPropDefn == null )
+		{
+			handler.semanticError( new DesignParserException(
+					DesignParserException.UNDEFINED_PROPERTY ) );
+			valid = false;
+			return;
+		}
+
+		String keyValue = attrs.getValue( DesignSchemaConstants.KEY_ATTRIB );
+		if ( keyValue == null )
+			return;
+
+		if ( struct != null )
+			setMember( struct, propDefn.getName( ), keyName, keyValue );
+		else
+			setProperty( keyName, keyValue );
+	}
+
+	public void end( )
+	{
+		String value = text.toString( );
+		if ( StringUtil.isBlank( value ) )
+			return;
+
+		if ( struct != null )
+			setMember( struct, propDefn.getName( ), name, value );
+		else
+			setProperty( name, value );
+	}
+
+}

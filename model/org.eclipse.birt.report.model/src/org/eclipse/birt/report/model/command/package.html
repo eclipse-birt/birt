@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Provides commands that modify the state of the Design Engine.
+
+
+<h2>Package Specification</h2>
+
+The application modifies a report design using a set of <em>commands</em>.
+Each command does the following:
+<p>
+<ol>
+<li>Checks the arguments of the call.</ul>
+<li>Validates that the requested change is valid.</ul>
+<li>Creates an <em>activity record</em> to perform the change in a way
+that can be undone.</li>
+</ol>
+<p>
+Most commands have four parts:
+<p>
+<ul>
+<li>The command class itself.</li>
+<li>An exception thrown if an error occurs. Many exceptions provide
+detailed error codes to clearly identify what went wrong.</li>
+<li>The activity record class that records the change in a way that
+can be undone and redone.</li>
+<li>A notification event sent to the UI each time the operation is
+done, undone or redone.</li>
+</ul>
+
+<h2>Related Documentation</h2>
+
+The application generally uses the API handle classes to work with a
+design. These handle classes use the commands defined here to modify
+the design.
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

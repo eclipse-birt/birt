@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Internal representation of the BIRT report elements and items.
+
+
+<h2>Package Specification</h2>
+
+This package contains the implementation of each element defined in the
+Report Object Model (ROM). Each element is represented by a subclass of
+<code>DesignElement</code>. Most properties are represented generically
+as items on a property list. Most element classes need implement only
+a few methods.
+<p>
+The process for adding a new element to the system is the following:
+<p>
+<ol>
+<li>Define the element in the report design XML schema file.</li>
+<li>Add property entries in rom.def for each property defined in
+the element.</li>
+<li>Define the display name key of the element and all the properties in
+the message file in the <code>org.eclipse.birt.report.model.i18n</code> package.</li>
+<li>If the element has a style, then list in rom.def the style properties that
+should be visible on the element.</li>
+<li>Define the implementation of the element in the rom.def file</li>
+<li>If the element has choice properties, and those choices have not yet
+been defined, add them to rom.def.</li>
+<li>If the element has a property that consists of a list of objects,
+define the objects as structures in rom.def.</li>
+<li>Create the element class in this package as subclass of
+<code>DesignElement</code>, <code>ReportItem</code> or some other
+element base class.</li>
+<li>Define a default constructor and one that takes the name..</li>
+<li>Add a member variable to represent slots, if any.</li>
+<li>Implement <code>getElementName</code> to return the name of the element
+as defined in the meta-data dictionary.</li>
+<li>Implement the <code>apply</code> method and the corresponding
+<code>visitMumble</code> method in the <code>ElementVisitor</code>
+class.</li>
+<li>Implement the <code>getHandle</code> method to create a handle to the
+element.</li>
+<li>Define the handle class in the <code>org.eclipse.birt.report.model.api</code>
+package.</li>
+<li>Review the properties of the element. Decide which to implement as 
+methods on the handle class. Implement that set.</li>
+<li>Implement parser support for the element in the
+<code>org.eclipse.birt.report.model.parser</code> package.</li>
+<li>Implement design writer support for the element in the
+<code>org.eclipse.birt.report.model.writer</code> package.</li>
+<li>Create unit tests and test all aspect of the element: parser,
+properties, slots, handle, etc.</li>
+</ol>
+<p>
+The best way to proceed is to look at an example. Good examples are
+{@link org.eclipse.birt.report.model.elements.DataItem},
+{@link org.eclipse.birt.report.model.elements.DataSet}, and
+{@link org.eclipse.birt.report.model.elements.ListItem}.
+
+<h2>Related Documentation</h2>
+
+The reader should be familiar with the BIRT Reporting Object Model (ROM) as
+defined in the following documents. The comments in classes here don't
+explain the ROM itself; only how the classes here implement the ROM.
+The reference documents explain, for example, what a List element does,
+what a List Group is, and so on. This is essential background information
+for working with this package.
+<p>
+<ul>
+<li>BIRT design file schema.</li>
+<li>BIRT Report Elements specification.</li>
+<li>BIRT Design File Schema specification.</li>
+<li>The Reporting Object Model definition file,
+<a href="rom.def">rom.def</a>, contains the meta-data definitions of
+the report elements. Use this to determine property names, types
+and characteristics. It also defines the choices for choice properties,
+the set of elements, the inheritance relationships between elements,
+and so on.</li>
+</ul>
+<p>
+<!-- Put @see and @since tags down here. -->
+
+@see org.eclipse.birt.report.model.core.DesignElement
+@see org.eclipse.birt.report.model.elements.ReportItem
+
+</body>
+</html>

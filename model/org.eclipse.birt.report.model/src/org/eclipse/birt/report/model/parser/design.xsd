@@ -1,0 +1,1476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com)  -->
+<xs:schema targetNamespace="http://www.actuate.com/Schema/BIRTSchema1" xmlns="http://www.actuate.com/Schema/BIRTSchema1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="report">
+		<xs:annotation>
+			<xs:documentation>A BIRT report design.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ModuleType">
+					<xs:sequence>
+						<xs:element name="body">
+							<xs:annotation>
+								<xs:documentation>Report content. Content is implied to fill the width of the page.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice maxOccurs="unbounded">
+									<xs:element name="chart" type="ChartItemType"/>
+									<xs:element name="data" type="DataItemType"/>
+									<xs:element name="extended-item" type="ExtendedItemType"/>
+									<xs:element name="free-form" type="FreeFormItemType"/>
+									<xs:element name="grid" type="GridItemType"/>
+									<xs:element name="image" type="ImageItemType"/>
+									<xs:element name="include" type="IncludeItemType"/>
+									<xs:element name="label" type="LabelItemType"/>
+									<xs:element name="list" type="ListItemType"/>
+									<xs:element name="matrix" type="MatrixItemType"/>
+									<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+									<xs:element name="table" type="TableItemType"/>
+									<xs:element name="text" type="TextItemType"/>
+									<xs:element name="toc">
+										<xs:annotation>
+											<xs:documentation>Section that displays the report table of contents.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="scratch-pad" type="ComponentsType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Temporary storage for report items removed from the report design. The Factory ignores these items.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="library" type="ModuleType">
+		<xs:annotation>
+			<xs:documentation>Root tag for a library file.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BrowserControlType">
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CellType">
+		<xs:annotation>
+			<xs:documentation>A cell in a table or grid</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:sequence>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>If more than one content item appears, then they are stacked vertically within the cell.</xs:documentation>
+						</xs:annotation>
+						<xs:element name="browser-control" type="BrowserControlType"/>
+						<xs:element name="data" type="DataItemType"/>
+						<xs:element name="chart" type="ChartItemType"/>
+						<xs:element name="extended-item" type="ExtendedItemType"/>
+						<xs:element name="free-form" type="FreeFormItemType"/>
+						<xs:element name="grid" type="GridItemType"/>
+						<xs:element name="image" type="ImageItemType"/>
+						<xs:element name="include" type="IncludeItemType"/>
+						<xs:element name="label" type="LabelItemType"/>
+						<xs:element name="line" type="LineItemType"/>
+						<xs:element name="list" type="ListItemType"/>
+						<xs:element name="matrix" type="MatrixItemType"/>
+						<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+						<xs:element name="table" type="TableItemType"/>
+						<xs:element name="text" type="TextItemType"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ChartItemType">
+		<xs:annotation>
+			<xs:documentation>Business chart</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ColumnType">
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:attribute name="repeat" type="xs:int" use="optional" default="1"/>
+				<xs:attribute name="width" type="DimensionType" use="optional"/>
+				<xs:attribute name="decimal-offset" type="DimensionType" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ComponentsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="browser-control" type="BrowserControlType"/>
+			<xs:element name="chart" type="ChartItemType"/>
+			<xs:element name="free-form" type="FreeFormItemType"/>
+			<xs:element name="data" type="DataItemType"/>
+			<xs:element name="extended-item" type="ExtendedItemType"/>
+			<xs:element name="grid" type="GridItemType"/>
+			<xs:element name="image" type="ImageItemType"/>
+			<xs:element name="include" type="IncludeItemType"/>
+			<xs:element name="label" type="LabelItemType"/>
+			<xs:element name="line" type="LineItemType"/>
+			<xs:element name="list" type="ListItemType"/>
+			<xs:element name="matrix" type="MatrixItemType"/>
+			<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+			<xs:element name="rectangle" type="ReportItemType"/>
+			<xs:element name="table" type="TableItemType"/>
+			<xs:element name="text" type="TextItemType"/>
+			<xs:element name="toc">
+				<xs:annotation>
+					<xs:documentation>Section that displays the report table of contents.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="CustomType">
+		<xs:annotation>
+			<xs:documentation>Custom XML</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:any/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataItemType">
+		<xs:annotation>
+			<xs:documentation>A data item that displays a query, computed or other data value.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DataSetType">
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DataSetSlotType">
+		<xs:choice>
+			<xs:element name="extended-data-set" type="ExtendedDataSetType">
+				<xs:annotation>
+					<xs:documentation>ODA extended data set</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="script-data-set" type="ScriptDataSetType">
+				<xs:annotation>
+					<xs:documentation>Custom data set defined though scripts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="DataSourceType">
+		<xs:annotation>
+			<xs:documentation>A connection to an external data source.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DataSourcesType">
+		<xs:annotation>
+			<xs:documentation>Note that only the Jdbc Connection is defined, and that is preliminary. This section is to be completed by the Data Engine team.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="extended-data-source" type="ExtendedDataSourceType">
+				<xs:annotation>
+					<xs:documentation>ODA extended data source.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="script-data-source" type="ScriptDataSourceType">
+				<xs:annotation>
+					<xs:documentation>Custom data source defined though scripts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="DynamicListType">
+		<xs:attribute name="data-set-name" type="xs:string" use="required"/>
+		<xs:attribute name="value-column" type="xs:string" use="optional"/>
+		<xs:attribute name="label-column" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ExpressionType">
+		<xs:annotation>
+			<xs:documentation>Represents an BIRT expression</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendedItemType">
+		<xs:annotation>
+			<xs:documentation>User-defined report item</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType">
+				<xs:attribute name="plug-in" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Name of a Java class that provides a design-time UI for building the item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FilterParamType">
+		<xs:annotation>
+			<xs:documentation>Represents a query-by-example (QBE) condition.  Formerly known as an ad-hoc parameter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ParameterType">
+				<xs:attribute name="type" type="ParameterDataType" use="optional" default="string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FreeFormItemType">
+		<xs:annotation>
+			<xs:documentation>Free-form layout container</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType">
+				<xs:sequence>
+					<xs:element name="report-items">
+						<xs:complexType>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:element name="browser-control" type="BrowserControlType"/>
+								<xs:element name="chart" type="ChartItemType"/>
+								<xs:element name="data" type="DataItemType"/>
+								<xs:element name="extended-item" type="ExtendedItemType"/>
+								<xs:element name="free-form" type="FreeFormItemType"/>
+								<xs:element name="grid" type="GridItemType"/>
+								<xs:element name="image" type="ImageItemType"/>
+								<xs:element name="include" type="IncludeItemType"/>
+								<xs:element name="label" type="LabelItemType"/>
+								<xs:element name="line" type="LineItemType"/>
+								<xs:element name="list" type="ListItemType"/>
+								<xs:element name="matrix" type="MatrixItemType"/>
+								<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+								<xs:element name="table" type="TableItemType"/>
+								<xs:element name="text" type="TextItemType"/>
+								<xs:element name="rectangle" type="ReportItemType"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GridItemType">
+		<xs:annotation>
+			<xs:documentation>Tabular static layout</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType">
+				<xs:sequence>
+					<xs:element name="row" type="RowType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GroupType">
+		<xs:annotation>
+			<xs:documentation>Common definition of groups within a list or a table.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+				<xs:attribute name="interval" type="GroupingIntervalType" use="optional" default="none"/>
+				<xs:attribute name="interval-range" type="xs:float" use="optional" default="1"/>
+				<xs:attribute name="sort-direction" type="SortDirectionType" use="optional" default="asc">
+					<xs:annotation>
+						<xs:documentation>Sort direction applies only to the default sort. Ignored if a custom group sort is provided. Default sort is based on the group key expression.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ImageItemType">
+		<xs:annotation>
+			<xs:documentation>An image item.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IncludeItemType">
+		<xs:annotation>
+			<xs:documentation>Includes another design into this one</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType">
+				<xs:attribute name="report-name" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LabelItemType">
+		<xs:annotation>
+			<xs:documentation>A label item that displays static text.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LineItemType">
+		<xs:annotation>
+			<xs:documentation>A horizontal or vertical line item.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ListBandType">
+		<xs:annotation>
+			<xs:documentation>A section within a list. Each section can contain any number of sections.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="chart" type="ChartItemType"/>
+			<xs:element name="data" type="DataItemType"/>
+			<xs:element name="extended-item" type="ExtendedItemType"/>
+			<xs:element name="free-form" type="FreeFormItemType"/>
+			<xs:element name="grid" type="GridItemType"/>
+			<xs:element name="image" type="ImageItemType"/>
+			<xs:element name="include" type="IncludeItemType"/>
+			<xs:element name="label" type="LabelItemType"/>
+			<xs:element name="list" type="ListItemType"/>
+			<xs:element name="matrix" type="MatrixItemType"/>
+			<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+			<xs:element name="table" type="TableItemType"/>
+			<xs:element name="text" type="TextItemType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ListGroupType">
+		<xs:annotation>
+			<xs:documentation>Grouping level within a free-form list</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="GroupType">
+				<xs:sequence>
+					<xs:element name="header" type="ListBandType" minOccurs="0"/>
+					<xs:element name="footer" type="ListBandType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ListItemType">
+		<xs:annotation>
+			<xs:documentation>A free-form data-driven listing</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ListingType">
+				<xs:sequence>
+					<xs:element name="header" type="ListBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Header printed before the first row of data.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="group" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Grouping levels for the list.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="ListGroupType"/>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="detail" type="ListBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Band displayed for each query row.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="footer" type="ListBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Footer section printed after all rows.  Zones can conditionally print if no rows were available.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ListParamType">
+		<xs:complexContent>
+			<xs:extension base="ParameterType">
+				<xs:attribute name="type" type="ParameterDataType" use="optional" default="string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MasterPageType">
+		<xs:annotation>
+			<xs:documentation>Predefined page styles</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ResourcesType">
+		<xs:annotation>
+			<xs:documentation>Local list of externalized messages</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="resource" type="ResourceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A single externalized message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MatrixItemType">
+		<xs:annotation>
+			<xs:documentation>Cross-tab (matrix) layout</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MultiLineDataItemType">
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PageBandType">
+		<xs:choice>
+			<xs:element name="free-form" type="FreeFormItemType"/>
+			<xs:element name="grid" type="GridItemType"/>
+			<xs:element name="text" type="TextItemType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PageContentType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="chart" type="ChartItemType"/>
+			<xs:element name="browser-control" type="BrowserControlType"/>
+			<xs:element name="data" type="DataItemType"/>
+			<xs:element name="extended-item" type="ExtendedItemType"/>
+			<xs:element name="free-form" type="FreeFormItemType"/>
+			<xs:element name="grid" type="GridItemType"/>
+			<xs:element name="image" type="ImageItemType"/>
+			<xs:element name="label" type="LabelItemType"/>
+			<xs:element name="line" type="LineItemType"/>
+			<xs:element name="rectangle" type="ReportItemType"/>
+			<xs:element name="text" type="TextItemType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PageSequenceType">
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PageSetupType">
+		<xs:annotation>
+			<xs:documentation>Holds pages and page sequences</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="graphic-master-page">
+					<xs:annotation>
+						<xs:documentation>Description of the master page with margins, marginalia, header, footer, watermark, etc.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="MasterPageType">
+								<xs:sequence>
+									<xs:element name="contents" type="PageContentType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="simple-master-page">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="MasterPageType">
+								<xs:sequence>
+									<xs:element name="page-header" type="PageBandType" minOccurs="0"/>
+									<xs:element name="page-footer" type="PageBandType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParameterGroupType">
+		<xs:annotation>
+			<xs:documentation>Grouping of parameters</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="parameters">
+						<xs:complexType>
+							<xs:choice maxOccurs="unbounded">
+								<xs:element name="scalar-parameter" type="ScalarParamType"/>
+								<xs:element name="filter-parameter" type="FilterParamType"/>
+								<xs:element name="list-parameter" type="ListParamType"/>
+								<xs:element name="table-parameter" type="TableParamType"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParameterType">
+		<xs:annotation>
+			<xs:documentation>The base type for all parameters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParametersType">
+		<xs:annotation>
+			<xs:documentation>Collection of parameters or parameter groups</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="parameter-group" type="ParameterGroupType">
+				<xs:annotation>
+					<xs:documentation>Logical grouping of parameters.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="scalar-parameter" type="ScalarParamType"/>
+			<xs:element name="filter-parameter" type="FilterParamType"/>
+			<xs:element name="list-parameter" type="ListParamType"/>
+			<xs:element name="table-parameter" type="TableParamType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ReportElementType">
+		<xs:annotation>
+			<xs:documentation>Base type for named report elements.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:attribute name="name" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>An optional name for the component used when retrieving the component in code.  Names must be unique within the design.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="extends" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Name of a library component that this component extends.  The library component must exist, and must be of the same type as this component.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportItemType">
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RowType">
+		<xs:annotation>
+			<xs:documentation>One row in a table or grid.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:sequence>
+					<xs:element name="cell" type="CellType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ScalarParamType">
+		<xs:annotation>
+			<xs:documentation>A parameter that holds a single, simple data value.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ParameterType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Script">
+		<xs:annotation>
+			<xs:documentation>A JavaScript script.  Cannot contain aggregates.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StyleType">
+		<xs:annotation>
+			<xs:documentation>Attributes for a style</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StylesType">
+		<xs:annotation>
+			<xs:documentation>List of shared styles</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="style">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="StyleType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TableBandType">
+		<xs:annotation>
+			<xs:documentation>One band in a table (header, footer, etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="RowType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TableGroupType">
+		<xs:annotation>
+			<xs:documentation>A grouping level within a table</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="GroupType">
+				<xs:sequence>
+					<xs:element name="header" type="TableBandType" minOccurs="0"/>
+					<xs:element name="footer" type="TableBandType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TableItemType">
+		<xs:annotation>
+			<xs:documentation>A data-driven table: lists rows in tabular format</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ListingType">
+				<xs:sequence>
+					<xs:element name="header" type="TableBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Header rows printed at the top of each page, and optionally at the top of each page if repeat-header is true.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="group" type="TableGroupType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Group level for the table.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="detail" type="TableBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Rows displayed for each query row.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="footer" type="TableBandType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Footer rows printed after all rows.  Rows can conditionally print if no rows were available.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TableParamType">
+		<xs:complexContent>
+			<xs:extension base="ParameterType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TextItemType">
+		<xs:annotation>
+			<xs:documentation>A formatted, multi-line text item.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ValueType">
+		<xs:annotation>
+			<xs:documentation>An element that defines a constant value.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any>
+				<xs:annotation>
+					<xs:documentation>Allows for XML or Html inside the value.</xs:documentation>
+				</xs:annotation>
+			</xs:any>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ListingType">
+		<xs:complexContent>
+			<xs:extension base="ReportItemType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="AltSequenceStartType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Alt sequence page types.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="left"/>
+			<xs:enumeration value="right"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AnalysisType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Column attributes for e.Analysis</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="auto"/>
+			<xs:enumeration value="dimension"/>
+			<xs:enumeration value="measure"/>
+			<xs:enumeration value="detail"/>
+			<xs:enumeration value="none"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CellAlignment" final="restriction">
+		<xs:annotation>
+			<xs:documentation>How items are aligned with a tab stop.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="left"/>
+			<xs:enumeration value="center"/>
+			<xs:enumeration value="right"/>
+			<xs:enumeration value="decimal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ColorType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Color name or RGB value as defined in Html.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="ColumnDataType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="any"/>
+			<xs:enumeration value="integer"/>
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="date-time"/>
+			<xs:enumeration value="decimal"/>
+			<xs:enumeration value="float"/>
+			<xs:enumeration value="structure"/>
+			<xs:enumeration value="table"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ConjunctionType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>The two types of condition parameter conjunctions: And and Or.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="and"/>
+			<xs:enumeration value="or"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ControlType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>The type of UI control to use for a parameter.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="text-box"/>
+			<xs:enumeration value="list-box"/>
+			<xs:enumeration value="radio-button"/>
+			<xs:enumeration value="check-box"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DimensionType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>A physical dimension represented as a float with option units.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="DistinctType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Options for suppressing duplicate values</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="all">
+				<xs:annotation>
+					<xs:documentation>Show all values, including repeating values.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="repeat">
+				<xs:annotation>
+					<xs:documentation>Hide values that are the same as the previous row.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="repeatOnPage">
+				<xs:annotation>
+					<xs:documentation>Hide values the same as the previous row, except always show the first row on each new page.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DrilldownType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Drilldown options for groups and subreports.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="expanded"/>
+			<xs:enumeration value="hidden"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DropType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Drop option for table rows. Controls how columns in one row overlap subsequent rows.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="detail"/>
+			<xs:enumeration value="all"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExportType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Query column export options.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none">
+				<xs:annotation>
+					<xs:documentation>The column cannot be exported.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="if-realized">
+				<xs:annotation>
+					<xs:documentation>The column can be exported if the report design causes the column to be realized (written tot he report document file.)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="always">
+				<xs:annotation>
+					<xs:documentation>The column should always be realized in the report document even if it is not referenced in the design.  The user can export the column.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FilterOperatorType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Operators supported for simple highlight and filter rules.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="le"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="ge"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="between"/>
+			<xs:enumeration value="not-between"/>
+			<xs:enumeration value="null"/>
+			<xs:enumeration value="not-null"/>
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+			<xs:enumeration value="like"/>
+			<xs:enumeration value="top-n"/>
+			<xs:enumeration value="bottom-n"/>
+			<xs:enumeration value="top-percent"/>
+			<xs:enumeration value="bottom-percent"/>
+			<xs:enumeration value="any"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GroupingIntervalType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Type of grouping</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="prefix"/>
+			<xs:enumeration value="year"/>
+			<xs:enumeration value="quarter"/>
+			<xs:enumeration value="month"/>
+			<xs:enumeration value="week"/>
+			<xs:enumeration value="day"/>
+			<xs:enumeration value="hour"/>
+			<xs:enumeration value="minute"/>
+			<xs:enumeration value="second"/>
+			<xs:enumeration value="interval"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HighlightOperatorType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Operators supported for simple highlight and filter rules.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="le"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="ge"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="between"/>
+			<xs:enumeration value="not-between"/>
+			<xs:enumeration value="null"/>
+			<xs:enumeration value="not-null"/>
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+			<xs:enumeration value="like"/>
+			<xs:enumeration value="any"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ImageSizeType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>How to size an image within an image item.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="size-to-image"/>
+			<xs:enumeration value="scale-to-item"/>
+			<xs:enumeration value="clip">
+				<xs:annotation>
+					<xs:documentation>Clip the image to fit the available space. The bottom and/or right edges are clipped.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ImageType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>MIME types for images</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="image/jpeg"/>
+			<xs:enumeration value="image/bmp"/>
+			<xs:enumeration value="image/gif"/>
+			<xs:enumeration value="image/png"/>
+			<xs:enumeration value="image/x-png"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="JoinHintType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Hints for joins done within BIRT.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="merge"/>
+			<xs:enumeration value="leftLookup"/>
+			<xs:enumeration value="rightLookup"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="JoinOperatorType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Supported join operators.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="le"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="ge"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="JoinType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Type of join between two tables.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="inner"/>
+			<xs:enumeration value="leftOuter"/>
+			<xs:enumeration value="rightOuter"/>
+			<xs:enumeration value="fullOuter"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LineOrientationType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Line item orientation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="horizontal"/>
+			<xs:enumeration value="vertical"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LineType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Attributes for a line segment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="solid"/>
+			<xs:enumeration value="dotted"/>
+			<xs:enumeration value="dashed"/>
+			<xs:enumeration value="double"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OutputType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Output type names for hiding report items.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="all"/>
+			<xs:enumeration value="viewer"/>
+			<xs:enumeration value="email"/>
+			<xs:enumeration value="print"/>
+			<xs:enumeration value="pdf"/>
+			<xs:enumeration value="rtf"/>
+			<xs:enumeration value="excel"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PageBreakAfterType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Options for page break after.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="if-last"/>
+			<xs:enumeration value="always"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PageBreakBeforeType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Options for page break before.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="if-first"/>
+			<xs:enumeration value="always"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PageOrientationType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Portrait or landscape</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="auto"/>
+			<xs:enumeration value="portrait"/>
+			<xs:enumeration value="landscape"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PageType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Known, predefined page sizes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="us-letter">
+				<xs:annotation>
+					<xs:documentation>US letter sized paper: 8.5" x 11"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="us-legal">
+				<xs:annotation>
+					<xs:documentation>US legal size paper: 8.5" x 14"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="a4"/>
+			<xs:enumeration value="custom">
+				<xs:annotation>
+					<xs:documentation>No pagination, for reports to be displayed as a single web page.  Best for small reports.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParamConditionOpType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>The unary and binary operators for condition parameters.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="le"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="ge"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="like"/>
+			<xs:enumeration value="not-like"/>
+			<xs:enumeration value="null"/>
+			<xs:enumeration value="not-null"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParameterAlignmentType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="auto"/>
+			<xs:enumeration value="left"/>
+			<xs:enumeration value="center"/>
+			<xs:enumeration value="right"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParameterDataType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Valid parameter types</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="number"/>
+			<xs:enumeration value="decimal"/>
+			<xs:enumeration value="dateTime"/>
+			<xs:enumeration value="boolean"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PropertyMaskType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Property mask actions.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="change">
+				<xs:annotation>
+					<xs:documentation>Allow the user to see the property and modify it.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="lock">
+				<xs:annotation>
+					<xs:documentation>Allow the user to see the property, but don't allow changes.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="hide">
+				<xs:annotation>
+					<xs:documentation>Hide the property. Hiding it effectively prevents the use from changing it.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PropertyType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Valid types for extended properties.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="string">
+				<xs:annotation>
+					<xs:documentation>A simple non-externalized string.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="integer">
+				<xs:annotation>
+					<xs:documentation>A non-negative integer value in the range 0 .. 2^32-1.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="number">
+				<xs:annotation>
+					<xs:documentation>An arbitrary precision number, such as a currency amount.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="float">
+				<xs:annotation>
+					<xs:documentation>Value is a floating-point number.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="date-time">
+				<xs:annotation>
+					<xs:documentation>Value is a date/time value.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="expression">
+				<xs:annotation>
+					<xs:documentation>Value is an BIRT expression.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="enum">
+				<xs:annotation>
+					<xs:documentation>Value is one of a provided list of choices.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="boolean">
+				<xs:annotation>
+					<xs:documentation>Simple true/false value.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="text">
+				<xs:annotation>
+					<xs:documentation>Value is the name of an external message ID. Used to create translated strings.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="dimension">
+				<xs:annotation>
+					<xs:documentation>Value is a physical dimension using BIRT's format of a floating point with optional unit suffix. Default units are set by the report design.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="color">
+				<xs:annotation>
+					<xs:documentation>RGB color value or one of the valid color names recognized by BIRT.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Html"/>
+			<xs:enumeration value="uri"/>
+			<xs:enumeration value="xml"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SearchOperatorType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Report search operator</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="le"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="ge"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="like"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SearchType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Column searching options.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="any">
+				<xs:annotation>
+					<xs:documentation>Column can always be searched.  May require a result set scan if not indexed.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="indexed">
+				<xs:annotation>
+					<xs:documentation>Column can only be searched as part of an index search.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="none">
+				<xs:annotation>
+					<xs:documentation>Column cannot be searched.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ShowWhenType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="has-hows">
+				<xs:annotation>
+					<xs:documentation>Show this zone when the list has at least one row.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="no-rows">
+				<xs:annotation>
+					<xs:documentation>Show this zone only when the list has no rows (is empty).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="always">
+				<xs:annotation>
+					<xs:documentation>Always show this zone whether the list is empty or not.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SortDirectionType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Sort direction: asc(ending) or desc(ending).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="asc"/>
+			<xs:enumeration value="desc"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TextContentType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Type of a text element. Use when encoding is not obvious from text itself.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="auto"/>
+			<xs:enumeration value="plain"/>
+			<xs:enumeration value="Html"/>
+			<xs:enumeration value="rtf"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UnitType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Units for measurements</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="in"/>
+			<xs:enumeration value="cm"/>
+			<xs:enumeration value="pt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ExtendedDataSourceType">
+		<xs:complexContent>
+			<xs:extension base="DataSourceType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ScriptDataSourceType">
+		<xs:complexContent>
+			<xs:extension base="DataSourceType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendedDataSetType">
+		<xs:complexContent>
+			<xs:extension base="DataSetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ScriptDataSetType">
+		<xs:complexContent>
+			<xs:extension base="DataSetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MethodType">
+		<xs:simpleContent>
+			<xs:extension base="Script">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ResourceType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="translation">
+				<xs:annotation>
+					<xs:documentation>A translation of a message into a language.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any/>
+					</xs:sequence>
+					<xs:attribute name="locale" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>The language for this translation.  If blank, then this is the default translation if no specific language tag exists.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="resource-key" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The message ID used elsewhere in the report.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EmbeddedImageType">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="ImageType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="DesignElement">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of property name/value pairs.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="property" type="PropertyValueType">
+					<xs:annotation>
+						<xs:documentation>The value of an scalar property. Property metadata defines the meaning of the property value.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="expression" type="ExpressionPropertyType"/>
+				<xs:element name="xml-property" type="XmlPropertyType"/>
+				<xs:element name="ex-property" type="ExtendedPropertyType"/>
+				<xs:element name="list-property" type="ListPropertyType"/>
+				<xs:element name="structure" type="StructureType"/>
+				<xs:element name="method">
+					<xs:annotation>
+						<xs:documentation>A method associated with this element.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="name" type="xs:string" use="required"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ModuleType">
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:sequence>
+					<xs:element name="include-library" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Includes a library into the design. The name of the file to include appears within the element.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType/>
+					</xs:element>
+					<xs:element name="include-script" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References JavaScript modules defined in external files.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:attribute name="file-name" type="xs:string" use="required"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="parameters" type="ParametersType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List of parameters defined in this report.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="data-sources" type="DataSourcesType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List of connections required for the report</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="data-sets" type="DataSetSlotType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List of queries, stored procedures, etc. used by the report.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="styles" type="StylesType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List of reusable styles defined in this report.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="page-setup" type="PageSetupType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Master pages and page sequences.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="components" type="ComponentsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reusable report items. Report items in the body section can extend only components defined here.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="author" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Optional name of the person who created or owns this report design.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="creation-date" type="xs:dateTime" use="optional"/>
+				<xs:attribute name="modification-date" type="xs:dateTime" use="optional">
+					<xs:annotation>
+						<xs:documentation>Indicates the last update to this file.  Updated automatically by BIRT.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="created-by" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Name of the tool that created the design.  Useful for troubleshooting.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="units" type="UnitType" use="optional" default="in"/>
+				<xs:attribute name="base" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TextType">
+		<xs:annotation>
+			<xs:documentation>Externalizable static text.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="resource-key" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PropertyValueType">
+		<xs:complexContent>
+			<xs:extension base="ValueType">
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ListPropertyType">
+		<xs:sequence/>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="XmlPropertyType">
+		<xs:sequence>
+			<xs:any>
+				<xs:annotation>
+					<xs:documentation>Allows for XML or Html inside the value.</xs:documentation>
+				</xs:annotation>
+			</xs:any>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ExtendedPropertyType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="value" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExpressionPropertyType">
+		<xs:complexContent>
+			<xs:extension base="ValueType">
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StructureType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="property" type="PropertyValueType">
+				<xs:annotation>
+					<xs:documentation>The value of an scalar property. Property metadata defines the meaning of the property value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expression" type="ExpressionPropertyType"/>
+			<xs:element name="xml-property" type="XmlPropertyType"/>
+			<xs:element name="ex-property" type="ExtendedPropertyType"/>
+			<xs:element name="list-property" type="ListPropertyType"/>
+			<xs:element name="structure" type="StructureType"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

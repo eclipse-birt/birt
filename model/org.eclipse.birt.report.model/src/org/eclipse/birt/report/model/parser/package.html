@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Provides a SAX-based XML parser for the BIRT design file.
+
+
+<h2>Package Specification</h2>
+
+This package provides a SAX-based parser. SAX is an incremental parser, meaning
+that it does not build up a parse tree as DOM does, but rather calls application
+events for the start and end of an element, to parse attributes, and so on. The
+parser here builds on the XML parser framework in the util package. That framework
+adds to the "SAX handler" to provide two key concepts. First, it provides the ability
+to declare a "state class" for each element. Second, it provides a stack and other
+mechanism to automatically manage these states.
+<p>
+When parsing the design file, some XML elements represent report elements, other
+"seconary" XML elements
+simply provide additional information about a report element. For example, the
+Container tag introduces a report element, but the Font tag simply groups font
+properties together for convenience.
+<p>
+The design file parser provides a state class for each XML element. However, to
+prevent a clutter of a large number of Java files, the parser uses a combination
+of regular and inner classes to organize the state classes. In general, any state
+class that represents a report element appears as a normal Java class. Any
+state classes for secondary elements appear as inner classes within the report
+element state class.
+<p>
+Two patterns appear frequently enough that they justify special handling. The first
+is an element that contains text such as an expression. The <code>TextState</code>
+class handles this case. The second is localizable text. Such text has a message
+ID along with the static text. The <code>ExternalTextState</code> handles
+this case.
+
+<h2>Related Documentation</h2>
+
+See the BIRT design file XML schema for the syntax of the file.
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

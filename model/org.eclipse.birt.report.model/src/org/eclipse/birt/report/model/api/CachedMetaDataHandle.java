@@ -1,0 +1,75 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.api;
+
+import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
+
+/**
+ * Structure handle to deal with cached data set metadata informations. The
+ * information includes output column information when it gets from databases,
+ * input/output parameter definitions.
+ */
+
+public class CachedMetaDataHandle extends StructureHandle
+{
+
+	/**
+	 * Constructors a handle given an element handle that defines the property
+	 * and a member reference to the metadata property.
+	 * 
+	 * @param element
+	 *            an element handle that defines the property
+	 * @param ref
+	 *            a member reference to the data-set meta-data property.
+	 */
+
+	public CachedMetaDataHandle( DesignElementHandle element, MemberRef ref )
+	{
+		super( element, ref );
+	}
+
+    /**
+     * Get a handle to deal with the cached input parameter list member
+     * 
+     * @return a handle to deal with the cached input parameter list member.
+     */
+    
+    public MemberHandle getInputParameters()
+    {
+    	return getMember( CachedMetaData.INPUT_PARAMETERS_MEMBER );
+    }
+    
+
+    /**
+     * Get a handle to deal with the cached output parameter list member
+     * 
+     * @return a handle to deal with the cached output parameter list member.
+     */
+    
+    public MemberHandle getOutputParameters()
+    {
+    	return getMember( CachedMetaData.OUTPUT_PARAMETERS_MEMBER );
+    }
+    
+
+    /**
+     * Get a handle to deal with the cached resuklt set list member
+     * 
+     * @return a handle to deal with the cached result set list member.
+     */
+    
+    public MemberHandle getResultSet()
+    {
+    	return getMember( CachedMetaData.RESULT_SET_MEMBER );
+    }
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Represents the fundamental data structures of the Design Engine.
+
+<h2>Package Specification</h2>
+
+The core package represents the key data structures of the design engine. Other
+packages build on these classes to offer the elements, properties, structures,
+slots and other concepts defined in the Report Object Model.
+<p>
+The key classes in this package include:
+<p><ul>
+<li>{@link org.eclipse.birt.report.model.core.DesignElement} is the base class for all report
+elements. See the extensive documentation in this class for information about
+the services common to all report elements.</li>
+
+<li>{@link org.eclipse.birt.report.model.core.IStructure} and
+{@link org.eclipse.birt.report.model.core.IPropertySet}
+provide generic access to class members and element properties
+respectively.</li>
+
+<li>{@link org.eclipse.birt.report.model.core.ContainerSlot},
+{@link org.eclipse.birt.report.model.core.SingleElementSlot},
+and {@link org.eclipse.birt.report.model.core.MultiElementSlot} implement the
+slot-based containment relationships between elements.</li>
+
+<li>{@link org.eclipse.birt.report.model.core.NameSpace} implements an element name
+space.</li>
+
+<li>{@link org.eclipse.birt.report.model.core.StyleElement} and
+{@link org.eclipse.birt.report.model.core.StyledElement} implement the style system.</li>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

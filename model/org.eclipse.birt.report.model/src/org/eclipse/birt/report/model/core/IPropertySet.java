@@ -1,0 +1,62 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.core;
+
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ObjectDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+
+/**
+ * Interface that provides a common generic getter/setter mechanism common to
+ * elements & structures.
+ *  
+ */
+
+public interface IPropertySet extends Cloneable
+{
+
+	/**
+	 * Gets the value of a property. An assertion occurs if the member name is
+	 * not valid.
+	 * 
+	 * @param design
+	 *            the report design
+	 * 
+	 * @param prop
+	 *            definition of the property to get
+	 * @return value of the item as an object, or null if the item is not set or
+	 *         is not found.
+	 */
+
+	Object getProperty( ReportDesign design, PropertyDefn prop );
+
+	/**
+	 * Sets the value of a property. An assertion occurs if the member name is
+	 * not valid.
+	 * 
+	 * @param prop
+	 *            definition the property to set
+	 * @param value
+	 *            the value to set
+	 */
+
+	void setProperty( PropertyDefn prop, Object value );
+
+	/**
+	 * Returns the definition of this object. The object definition provides
+	 * access to the list of properties.
+	 * 
+	 * @return the object definition
+	 */
+
+	ObjectDefn getObjectDefn( );
+}

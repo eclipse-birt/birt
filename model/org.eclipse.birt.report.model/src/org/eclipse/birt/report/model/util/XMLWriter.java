@@ -1,0 +1,466 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.util;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Stack;
+
+/**
+ * General-purpose utility to write an XML file. Provides methods for writing
+ * tags, attributes and text. Maintains state for elements and generates the
+ * proper closing tags when needed. Provides the ability to "conditionally"
+ * start a tag: the tag will be written only if it actually contains attribute
+ * or contents.
+ *  
+ */
+
+public class XMLWriter
+{
+
+	/**
+	 * The default output encoding is UTF-8.
+	 */
+
+	private final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
+
+
+	/**
+	 * The output stream.
+	 */
+
+	private PrintStream out = null;
+
+	/**
+	 * The stack of open tags.
+	 */
+
+	protected Stack elementStack = new Stack( );
+
+	/**
+	 * Flag to indicate if a tag is currently "active": the &ltTag portion has
+	 * been written, but not the closing &gt.
+	 */
+
+	private boolean elementActive = false;
+
+	/**
+	 * Counts the number of attribute seen so far for a tag. Used to control the
+	 * number of attributes that appear on one print line.
+	 */
+
+	private int attrCount = 0;
+
+	/**
+	 * Stack of conditional attributes to be started only if they contain
+	 * something.
+	 */
+
+	private Stack pendingElementStack = new Stack( );
+
+	/**
+	 * Constructor
+	 * 
+	 * @param outputFile
+	 *            the file to write
+	 * @throws java.io.IOException
+	 *             if write error occurs
+	 */
+
+	public XMLWriter( File outputFile ) throws java.io.IOException
+	{
+		FileOutputStream stream = new FileOutputStream( outputFile );
+		out = new PrintStream( stream, false, OUTPUT_ENCODING );
+		init( );
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param os
+	 *            the output stream to which the design file is written.
+	 * @throws IOException
+	 *             if write error occurs
+	 */
+
+	public XMLWriter( OutputStream os ) throws IOException
+	{
+		out = new PrintStream( os, false, OUTPUT_ENCODING );
+		init( );
+	}
+
+	/**
+	 * Write the header line for the XML file.
+	 */
+
+	private void init( )
+	{
+		out.println( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
+				+ OUTPUT_ENCODING + "\"?>" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Close the write at the completion of the file.
+	 */
+
+	public void close( )
+	{
+		assert elementStack.size( ) == 0;
+		out.close( );
+		out = null;
+	}
+
+	/**
+	 * Starts an XML element.
+	 * 
+	 * @param tagName
+	 *            the name of the element
+	 */
+
+	public void startElement( String tagName )
+	{
+		flushPendingElements( );
+		closeTag( );
+		emitStartTag( tagName );
+	}
+
+	/**
+	 * Implementation method to write a &ltTag start tag.
+	 * 
+	 * @param tagName
+	 *            the tag to write
+	 */
+
+	protected void emitStartTag( String tagName )
+	{
+		elementStack.push( tagName );
+		elementActive = true;
+		out.print( "<" ); //$NON-NLS-1$ 
+		out.print( tagName );
+		attrCount = 0;
+	}
+
+	/**
+	 * Implementation method to prepare for writing an attribute.
+	 */
+
+	private void checkAttribute( )
+	{
+		// Write any conditional elements waiting for content. If we get
+		// here, we're about to write an attribute, so the elements do
+		// have content.
+
+		flushPendingElements( );
+
+		// Write only three attributes on each print line.
+
+		if ( attrCount++ == 3 )
+		{
+			out.print( '\n' );
+			attrCount = 0;
+		}
+	}
+
+	/**
+	 * Private method to write any conditional elements that are not yet
+	 * started.
+	 */
+
+	private void flushPendingElements( )
+	{
+		while ( !pendingElementStack.isEmpty( ) )
+		{
+			closeTag( );
+			emitStartTag( (String) pendingElementStack.remove( 0 ) );
+		}
+	}
+
+	/**
+	 * Write a string attribute. The string is assumed to be valid for an
+	 * attribute. That is, it cannot contain newlines, etc.
+	 * 
+	 * @param attrName
+	 *            the name of the attribute
+	 * @param value
+	 *            the attribute value
+	 */
+
+	public void attribute( String attrName, String value )
+	{
+		if ( value == null )
+			return;
+		checkAttribute( );
+		assert elementActive;
+		out.print( " " ); //$NON-NLS-1$ 
+		out.print( attrName );
+		out.print( "=\"" ); //$NON-NLS-1$ 
+
+		// Scan the string character-by-character to look for non-ASCII
+		// characters that must be hex encoded.
+
+		int len = value.length( );
+		for ( int i = 0; i < len; i++ )
+		{
+			char c = value.charAt( i );
+
+			if ( c == '&' )
+				out.print( "&amp;" ); //$NON-NLS-1$ 
+			else if ( c == '<' )
+				out.print( "&lt;" ); //$NON-NLS-1$ 
+			else if ( c == '"' )
+				out.print( "&quot;" ); //$NON-NLS-1$
+			else if ( c < 0x20 ) //$NON-NLS-1$ 
+			{
+				out.print( "&#x" ); //$NON-NLS-1$ 
+				out.print( Integer.toHexString( c ) );
+				out.print( ';' ); //$NON-NLS-1$ 
+			}
+			else
+				out.print( c );
+		}
+		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Write a attribute with an integer value.
+	 * 
+	 * @param attrName
+	 *            the name of the attribute
+	 * @param value
+	 *            the integer value
+	 */
+
+	public void attribute( String attrName, int value )
+	{
+		assert elementActive;
+		checkAttribute( );
+		out.print( " " ); //$NON-NLS-1$ 
+		out.print( attrName );
+		out.print( "=\"" ); //$NON-NLS-1$ 
+		out.print( value );
+		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Write an attribute with a floating-point (double) value.
+	 * 
+	 * @param attrName
+	 *            the name of the attribute
+	 * @param value
+	 *            double-precision floating point value
+	 */
+
+	public void attribute( String attrName, double value )
+	{
+		assert elementActive;
+		checkAttribute( );
+		out.print( " " ); //$NON-NLS-1$ 
+		out.print( attrName );
+		out.print( "=\"" ); //$NON-NLS-1$ 
+		out.print( value );
+		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Write an attribute with a boolean value.
+	 * 
+	 * @param attrName
+	 *            name of the attribute
+	 * @param value
+	 *            Boolean value
+	 */
+
+	public void attribute( String attrName, boolean value )
+	{
+		assert elementActive;
+		checkAttribute( );
+		out.print( " " ); //$NON-NLS-1$ 
+		out.print( attrName );
+		out.print( "=\"" ); //$NON-NLS-1$ 
+		out.print( value ? "true" //$NON-NLS-1$ 
+				: "false" ); //$NON-NLS-1$ 
+		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Indicates the end of the current element. Writes the appropriate end tag.
+	 */
+
+	public void endElement( )
+	{
+		// Check if we never actually wrote the tag because it had
+		// no content.
+
+		if ( !pendingElementStack.isEmpty( ) )
+		{
+			pendingElementStack.pop( );
+			return;
+		}
+
+		// Close a tag for which the start tag was written.
+
+		assert elementStack.size( ) > 0;
+		String tagName = (String) elementStack.pop( );
+		if ( elementActive )
+		{
+			out.println( "/>" ); //$NON-NLS-1$ 
+		}
+		else
+		{
+			out.print( "</" ); //$NON-NLS-1$ 
+			out.print( tagName );
+			out.println( ">" ); //$NON-NLS-1$ 
+		}
+		elementActive = false;
+	}
+
+	/**
+	 * Write text into the current element.
+	 * 
+	 * @param text
+	 *            the text to write
+	 */
+
+	public void text( String text )
+	{
+		closeTextTag( );
+		if ( text == null )
+			return;
+
+		// Write the text character-by-character to encode special characters.
+
+		int len = text.length( );
+		for ( int i = 0; i < len; i++ )
+		{
+			char c = text.charAt( i );
+			if ( c == '&' )
+				out.print( "&amp;" ); //$NON-NLS-1$ 
+			else if ( c == '<' )
+				out.print( "&lt;" ); //$NON-NLS-1$ 
+			else
+				out.print( c );
+		}
+	}
+
+	/**
+	 * Write text into the current element. The text has the CDATA feature.
+	 * 
+	 * @param text
+	 *            the text to write
+	 */
+
+	public void textCDATA( String text )
+	{
+		closeTextTag( );
+		if ( text == null )
+			return;
+
+		// Write the text character-by-character to encode special characters.
+		out.print( "<![CDATA[" ); //$NON-NLS-1$		
+		out.print( text );
+		out.print( "]]>" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Writes a literal string. No translation is done on the string.
+	 * 
+	 * @param text
+	 *            the literal string
+	 */
+
+	public void literal( String text )
+	{
+		out.print( text );
+	}
+
+	/**
+	 * Implementaion method to close the tag for an element.
+	 */
+
+	private void closeTag( )
+	{
+		if ( !elementActive )
+			return;
+		elementActive = false;
+		out.println( ">" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Implementation method to close the tag for an element that is to contain
+	 * text.
+	 */
+
+	protected void closeTextTag( )
+	{
+		if ( !elementActive )
+			return;
+		elementActive = false;
+		out.print( ">" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Write text enclosed in the given element.
+	 * 
+	 * @param tag
+	 *            the element tag that encloses the text
+	 * @param text
+	 *            the text to write
+	 */
+
+	public void taggedText( String tag, String text )
+	{
+		if ( text == null )
+			return;
+		startElement( tag );
+		text( text );
+		endElement( );
+	}
+
+	/**
+	 * Conditionally starts an element. The element will appear in the file only
+	 * if it, or one of its children, has content. The element will not appear
+	 * if neither it, nor any of its children, have either an attribute or text.
+	 * Use <code>endElement</code> to close the conditional element.
+	 * 
+	 * @param element
+	 *            element name
+	 */
+
+	public void conditionalStartElement( String element )
+	{
+		pendingElementStack.push( element );
+	}
+
+	/**
+	 * Writes an attribute using an HTML RGB value: #RRGGBB.
+	 * 
+	 * @param attrName
+	 *            attribute name
+	 * @param rgb
+	 *            RGB value
+	 */
+
+	public void rgbAttribute( String attrName, int rgb )
+	{
+		assert elementActive;
+		checkAttribute( );
+		out.print( " " ); //$NON-NLS-1$ 
+		out.print( attrName );
+		out.print( "=\"" ); //$NON-NLS-1$ 
+		out.print( StringUtil.toRgbText( rgb ) );
+		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+}

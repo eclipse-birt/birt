@@ -1,0 +1,299 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.elements;
+
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.util.URIUtil;
+
+/**
+ * This class represents an image item. Reports often display images in various
+ * formats: corporate logos, product images, icons, and so on. Popular image
+ * formats are JPEG for photographs, and GIF, PNG and SVG for computer-generated
+ * graphics such as logos.
+ * <p>
+ * The image item provides an image in one of a number of formats. The image can
+ * come from a number of sources. The image item can be sized to the image (in
+ * which case the height and width attributes are ignored), or the image can be
+ * sized or clipped to fit the item. Images are always scaled proportionately.
+ * <p>
+ * The image item is similar to the Image report element in RDL, the image
+ * control in AFC and the picture item in Crystal. Key features include:
+ * <li>Store the image as part of the report design, obtain the image at run
+ * time, or reference the image at view time.</li>
+ * <li>Allow the image to come from a BLOB field in the query.</li>
+ * <li>Associate a hyperlink with the image.</li>
+ * <li>Support line images. This is an image that is repeated to form a line.
+ * For example, a slice of an image can repeat to form a custom border along the
+ * top or side of a report. Allow repetition across or down.</li>
+ * <li>The image element should provide a number of options for handling images
+ * that are larger or smaller than the size of the element itself.</li>
+ * <li>Clip the image to fit the element. Provide options of clipping all four
+ * edges so the image remains centered in the element, or clipping the bottom
+ * and left edges.</li>
+ * <li>Expand or shrink the element to fit the image size. This is the default,
+ * and works well for reports that use the power-assist form of layout (see
+ * below.)</li>
+ * <li>Adjust the element size to fit the image.</li>
+ * <p>
+ *  
+ */
+
+public class ImageItem extends ReportItem
+{
+
+	/**
+	 * Name of the embedded image name property, which identifies the image if
+	 * its type is embedded image.
+	 */
+
+	public static final String IMAGE_NAME_PROP = "imageName"; //$NON-NLS-1$
+
+	/**
+	 * Name of the optional text property, which is used to display in place of
+	 * the image in a web browser
+	 */
+
+	public static final String ALT_TEXT_PROP = "altText"; //$NON-NLS-1$
+
+	/**
+	 * Name of the optional text resource key property.
+	 */
+
+	public static final String ALT_TEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
+
+	/**
+	 * Name of the size property, which defines how to manage the relationship
+	 * between image and item size.
+	 */
+
+	public static final String SIZE_PROP = "size"; //$NON-NLS-1$
+
+	/**
+	 * Name of the scale property.
+	 */
+
+	public static final String SCALE_PROP = "scale"; //$NON-NLS-1$
+
+	/**
+	 * Name of the uri property, which identifies the image if its type it file
+	 * or URL.
+	 */
+	public static final String URI_PROP = "uri"; //$NON-NLS-1$
+
+	/**
+	 * Name of the image reference type property
+	 */
+
+	public static final String SOURCE_PROP = "source"; //$NON-NLS-1$
+
+	/**
+	 * Name of the value expression property, which returns the image contents.
+	 */
+
+	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
+
+	/**
+	 * Name of the type expression property.
+	 */
+
+	public static final String TYPE_EXPR_PROP = "typeExpr"; //$NON-NLS-1$
+
+	/**
+	 * Name of the action property, which defines what action can be performed
+	 * when clicking this image.
+	 */
+	
+	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
+
+	/**
+	 * Name of the help text property
+	 */
+
+	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
+
+	/**
+	 * Name of the help text id property
+	 */
+
+	public static final String HELP_TEXT_ID_PROP = "helpTextID"; //$NON-NLS-1$
+
+	/**
+	 * Default constructor
+	 */
+
+	public ImageItem( )
+	{
+	}
+
+	/**
+	 * Constructs the image item with an optional name.
+	 * 
+	 * @param theName
+	 *            the name of this image item, which is optional.
+	 */
+
+	public ImageItem( String theName )
+	{
+		super( theName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 */
+
+	public void apply( ElementVisitor visitor )
+	{
+		visitor.visitImage( this );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
+	 */
+
+	public String getElementName( )
+	{
+		return ReportDesignConstants.IMAGE_ITEM;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 */
+
+	public DesignElementHandle getHandle( ReportDesign design )
+	{
+		return handle( design );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @return an API handle for this element
+	 */
+
+	public ImageHandle handle( ReportDesign design )
+	{
+		if ( handle == null )
+		{
+			handle = new ImageHandle( design, this );
+		}
+		return (ImageHandle) handle;
+	}
+
+	/**
+	 * Returns the image scale.
+	 * 
+	 * @param design
+	 *            the report design instance
+	 * @return the image scale value, which should be between 0 and 1.0.
+	 */
+
+	public double getImageScale( ReportDesign design )
+	{
+		return getFloatProperty( design, SCALE_PROP );
+	}
+
+	/**
+	 * Returns the alternate text of the image.
+	 * 
+	 * @param design
+	 *            the report design instance
+	 * @return the alternate text
+	 */
+
+	public String getAltText( ReportDesign design )
+	{
+		return getStringProperty( design, ALT_TEXT_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 */
+
+	public List validate( ReportDesign design )
+	{
+		List list = super.validate( design );
+
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
+				.equalsIgnoreCase( getStringProperty( design, SOURCE_PROP ) ) )
+		{
+			String uri = getStringProperty( design, URI_PROP );
+			String filePath = URIUtil.getLocalPath( uri );
+
+			if ( ( filePath != null ) && !design.isFileExist( filePath ) )
+			{
+				setValid( false );
+				list.add( new SemanticError( this, new String[]{filePath},
+						SemanticError.IMAGE_FILE_NOT_EXIST,
+						SemanticError.WARNING ) );
+			}
+		}
+
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      int)
+	 */
+
+	public String getDisplayLabel( ReportDesign design, int level )
+	{
+		String displayLabel = super.getDisplayLabel( design, level );
+		if ( level == DesignElement.FULL_LABEL )
+		{
+			displayLabel += "("; //$NON-NLS-1$
+
+			String sourceType = getStringProperty( design, SOURCE_PROP );
+
+			if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
+					.equalsIgnoreCase( sourceType )
+					|| DesignChoiceConstants.IMAGE_REF_TYPE_URL
+							.equalsIgnoreCase( sourceType ) )
+			{
+				displayLabel += limitStringLength( getStringProperty( design,
+						URI_PROP ) );
+			}
+			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
+					.equalsIgnoreCase( sourceType ) )
+			{
+				displayLabel += limitStringLength( getStringProperty( design,
+						IMAGE_NAME_PROP ) );
+			}
+			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
+					.equalsIgnoreCase( sourceType ) )
+			{
+				displayLabel += limitStringLength( getStringProperty( design,
+						VALUE_EXPR_PROP ) );
+			}
+
+			displayLabel += ")"; //$NON-NLS-1$		
+		}
+		return displayLabel;
+	}
+}
+

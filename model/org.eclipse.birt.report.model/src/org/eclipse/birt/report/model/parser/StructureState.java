@@ -1,0 +1,361 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.parser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IStructure;
+import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.structures.Action;
+import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.elements.structures.Hide;
+import org.eclipse.birt.report.model.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.elements.structures.InputParameter;
+import org.eclipse.birt.report.model.elements.structures.MapRule;
+import org.eclipse.birt.report.model.elements.structures.OutputParameter;
+import org.eclipse.birt.report.model.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.elements.structures.PropertyMask;
+import org.eclipse.birt.report.model.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.elements.structures.SearchKey;
+import org.eclipse.birt.report.model.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.elements.structures.SortKey;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
+/**
+ * Parses one structure. The structure can be either a top level structure on an
+ * element or a structure in a list.
+ *  
+ */
+
+public class StructureState extends AbstractPropertyState
+{
+
+	/**
+	 * The list property value if this state is used to parse one structure in
+	 * list.
+	 */
+
+	ArrayList list = null;
+
+	/**
+	 * The definition of the list property which this structure is in.
+	 */
+
+	PropertyDefn propDefn = null;
+
+	/**
+	 * The dictionary for structure class and name mapping.
+	 */
+
+	private static Map structDict = null;
+
+	/**
+	 * Constructs the state of the structure which is one property.
+	 * 
+	 * @param theHandler
+	 *            the design parser handler
+	 * @param element
+	 *            the element holding this structure to parse
+	 */
+
+	StructureState( DesignParserHandler theHandler, DesignElement element )
+	{
+		super( theHandler, element );
+	}
+
+	/**
+	 * Constructs the state of the structure which is in one structure list.
+	 * 
+	 * @param theHandler
+	 *            the design parser handler
+	 * @param element
+	 *            the element holding this structure
+	 * @param propDefn
+	 *            the definition of the property which holds this structure
+	 * @param theList
+	 *            the structure list
+	 */
+
+	StructureState( DesignParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn, ArrayList theList )
+	{
+		super( theHandler, element );
+
+		assert propDefn != null;
+		assert theList != null;
+
+		this.propDefn = propDefn;
+		this.list = theList;
+	}
+
+	protected void setName( String name )
+	{
+		super.setName( name );
+		propDefn = element.getPropertyDefn( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		if ( name == null )
+			name = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
+
+		if ( list == null )
+		{
+			if ( StringUtil.isBlank( name ) )
+			{
+				handler.semanticError( new DesignParserException(
+						DesignParserException.NAME_REQUIRED ) );
+				valid = false;
+				return;
+			}
+
+			propDefn = element.getPropertyDefn( name );
+			if ( propDefn == null )
+			{
+				handler.semanticError( new DesignParserException(
+						DesignParserException.INVALID_STRUCTURE_NAME ) );
+				valid = false;
+				return;
+			}
+		}
+
+		if ( struct == null )
+		{
+			assert propDefn != null;
+
+			// If the structure has its specific state, the structure will be
+			// created by the specific state.
+
+			struct = createStructure( propDefn.getStructDefn( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 */
+
+	public AbstractParseState startElement( String tagName )
+	{
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+			return new PropertyState( handler, element, propDefn, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+			return new ExpressionState( handler, element, propDefn, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
+			return new XmlPropertyState( handler, element, propDefn, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_LIST_TAG ) )
+			return new PropertyListState( handler, element, propDefn, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+			return new PropertyListState( handler, element, propDefn, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+			return new TextPropertyState( handler, element, struct );
+
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
+			return new TextPropertyState( handler, element, struct );
+
+		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		if ( struct != null )
+		{
+			if ( list != null )
+			{
+				// structure in a list property.
+
+				list.add( struct );
+			}
+			else
+			{
+				// structure property.
+
+				element.setProperty( name, struct );
+			}
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
+	 */
+
+	public AbstractParseState jumpTo( )
+	{
+		if ( !valid )
+			return new AnyElementState( getHandler( ) );
+
+		if ( Label.ACTION_PROP.equalsIgnoreCase( name )
+				|| ImageItem.ACTION_PROP.equalsIgnoreCase( name )
+				|| DataItem.ACTION_PROP.equalsIgnoreCase( name ) )
+		{
+			ActionStructureState state = new ActionStructureState( handler,
+					element );
+			state.setName( name );
+			return state;
+		}
+
+		/*
+		 * if ( DataSet.CACHED_METADATA_PROP.equalsIgnoreCase( name ) ) {
+		 * CachedMetaDataStructureState state = new
+		 * CachedMetaDataStructureState( handler, element ); state.setName( name );
+		 * 
+		 * return state; }
+		 */
+		return super.jumpTo( );
+	}
+
+	/**
+	 * Creates structure instance given the structure name.
+	 * 
+	 * @param structDefn
+	 *            the definition of the structure to create
+	 * @return the structure instance created.
+	 */
+
+	IStructure createStructure( StructureDefn structDefn )
+	{
+		assert structDefn != null;
+
+		if ( structDict == null )
+			populateStructDict( );
+
+		IStructure struct = null;
+
+		try
+		{
+			Class c = (Class) structDict.get( structDefn.getName( )
+					.toLowerCase( ) );
+			assert c != null;
+
+			struct = (IStructure) c.newInstance( );
+		}
+		catch ( InstantiationException e )
+		{
+			assert false;
+		}
+		catch ( IllegalAccessException e )
+		{
+			assert false;
+		}
+
+		return struct;
+	}
+
+	/**
+	 * Populates the dictionary for the structure class and name mapping.
+	 *  
+	 */
+
+	private static void populateStructDict( )
+	{
+		assert structDict == null;
+
+		structDict = new HashMap( );
+
+		structDict.put( Action.ACTION_STRUCT.toLowerCase( ), Action.class );
+
+		structDict.put( ColumnHint.COLUMN_HINT_STRUCT.toLowerCase( ),
+				ColumnHint.class );
+
+		structDict.put( ComputedColumn.COMPUTED_COLUMN_STRUCT.toLowerCase( ),
+				ComputedColumn.class );
+
+		structDict.put( ConfigVariable.CONFIG_VAR_STRUCT.toLowerCase( ),
+				ConfigVariable.class );
+
+		structDict.put( CustomColor.CUSTOM_COLOR_STRUCT.toLowerCase( ),
+				CustomColor.class );
+
+		structDict.put( FilterCondition.FILTER_COND_STRUCT.toLowerCase( ),
+				FilterCondition.class );
+
+		structDict.put( Hide.STRUCTURE_NAME.toLowerCase( ), Hide.class );
+
+		structDict.put( HighlightRule.STRUCTURE_NAME.toLowerCase( ),
+				HighlightRule.class );
+
+		structDict.put( IncludeLibrary.INCLUDE_LIBRARY_STRUCT.toLowerCase( ),
+				IncludeLibrary.class );
+
+		structDict.put( IncludeScript.INCLUDE_SCRIPT_STRUCT.toLowerCase( ),
+				IncludeScript.class );
+
+		structDict.put( InputParameter.STRUCT_NAME.toLowerCase( ),
+				InputParameter.class );
+
+		structDict.put( MapRule.STRUCTURE_NAME.toLowerCase( ), MapRule.class );
+
+		structDict.put( OutputParameter.STRUCT_NAME.toLowerCase( ),
+				OutputParameter.class );
+
+		structDict.put( ParamBinding.PARAM_BINDING_STRUCT.toLowerCase( ),
+				ParamBinding.class );
+
+		structDict.put( PropertyMask.STRUCTURE_NAME.toLowerCase( ),
+				PropertyMask.class );
+
+		structDict.put(
+				ResultSetColumn.RESULT_SET_COLUMN_STRUCT.toLowerCase( ),
+				ResultSetColumn.class );
+
+		structDict.put( SearchKey.DRILLTHROUGH_SEARCHKEY_STRUCT.toLowerCase( ),
+				SearchKey.class );
+
+		structDict.put( SelectionChoice.STRUCTURE_NAME.toLowerCase( ),
+				SelectionChoice.class );
+
+		structDict.put( SortKey.SORT_STRUCT.toLowerCase( ), SortKey.class );
+
+		structDict.put( CachedMetaData.CACHED_METADATA_STRUCT.toLowerCase( ),
+				CachedMetaData.class );
+	}
+}

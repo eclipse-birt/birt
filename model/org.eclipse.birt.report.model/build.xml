@@ -1,0 +1,209 @@
+<!--
+ * Usage:
+ * ant	[clean
+ *		|build 	-Declipse.home="<eclipse home>"
+ *		|utest 	-Declipse.home="<eclipse home>"
+ *		|src_javadoc -Declipse.home="<eclipse home>"
+ *		|gen_jar] 
+ *				
+ * 
+ * "clean" - clean all directory created
+ * "build" - compile source code
+ * "utest" - unit test
+ * "src_javadoc" - javadoc for source
+ * "gen_jar" - generate jar file
+ * 
+ * Default target is "build".
+ * 
+ * Notes:
+ * 1. This file now requires Ant 1.6
+-->
+<project name="org.eclipse.birt.report.model" basedir="." default="build">
+
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="bin" />
+
+	<property name="test.src.dir" value="test" />
+	<property name="test.build.dir" value="build" />
+
+	<property name="javadoc.dir" value="docs/api" />
+	<property name="test.javadoc.dir" value="docs/testapi" />
+
+	<property name="coverage.dir" value="coverage" />
+	<property name="coverage.log.dir" value="coverage/logs" />
+	<property name="coverage.report.dir" value="coverage/report" />
+	<property name="coverage.class.dir" value="coverage/classes" />
+	
+	<property name="lib.dir" value="lib" />
+	
+	<!-- Class Path -->
+	<path id="class.path">
+		<pathelement path="${build.dir}" />
+		<fileset dir="${eclipse.home}/plugins/">
+			<include name="org.eclipse.core.runtime*/runtime.jar"/>
+			<include name="org.eclipse.osgi*/osgi.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Task Definition of Code Coverage -->
+	<taskdef resource="ant-grobocoverage.properties">
+		<classpath refid="class.path" />
+	</taskdef>
+
+	<!-- Build Java Source Files -->
+	<target name="build">
+		<!-- Compile Java Source Files -->
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" 
+			destdir="${build.dir}" 
+			optimize="true" 
+			source="1.4" 
+			target="1.4"
+			debug="true" 
+			encoding="gb2312" 
+			failonerror="true">
+			<exclude name="**/test/*.java" />
+			<classpath refid="class.path" />
+		</javac>
+
+		<!-- Compile Unit Test Source Files -->
+		<mkdir dir="${test.build.dir}" />
+		<javac srcdir="${test.src.dir}" 
+			destdir="${test.build.dir}" 
+			optimize="true" 
+			source="1.4" 
+			target="1.4"
+			debug="true" 
+			encoding="gb2312" 
+			failonerror="true">
+			<classpath refid="class.path" />
+		</javac>
+		
+		<!-- Copy sample.xml, which contains metadata information -->
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.def"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${test.build.dir}">
+			<fileset dir="${test.src.dir}">
+				<include name="**/input/*.*"/>
+				<include name="**/golden/*.*"/>
+				<include name="**/*.properties" />	
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Run All Unit Tests -->
+	<target name="utest" depends="build">
+		<junit printsummary="on" fork="true" haltonfailure="false" failureproperty="tests.failed" showoutput="true">
+		    <jvmarg value="-ea"/>
+			<classpath>
+				<pathelement location="${coverage.class.dir}" />
+				<pathelement path="${test.build.dir}" />
+				<path refid="class.path"/>
+			</classpath>
+			<formatter type="xml" usefile="true" />
+
+			<batchtest todir="${test.build.dir}">
+				<formatter type="brief" usefile="true" />
+				<fileset dir="${test.build.dir}">
+					<include name="**/*Test.*" />				
+					<exclude name="**/ExtensionTest.*" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<fail unless="continuewhenfail" if="tests.failed">
+	        ***********************************************************
+	        ****  One or more tests failed!  Check the output ...  ****
+	        ***********************************************************
+		</fail>
+	</target>
+
+	<!-- Clean the build environment -->
+	<target name="clean">
+		<delete dir="${test.build.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="docs"/>
+		<delete dir="${coverage.dir}" />
+	</target>
+
+	<!-- JUnit Test Report -->
+	<target name="coverage" depends="clean">
+		<!-- Build -->
+		<antcall target="build"/>
+		
+		<!-- Post compile for code coverage -->
+		<mkdir dir="${coverage.class.dir}"/>
+        <mkdir dir="${coverage.log.dir}"/>
+        <grobo-instrument logdir="${coverage.log.dir}" logger="fast"
+                          destdir="${coverage.class.dir}">
+            <fileset dir="${build.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+            
+            <measure type="linecount"/>
+            <measure type="function"/>
+            <measure type="branch"/>
+            <measure type="call-pair"/>
+        </grobo-instrument>
+		
+		<!-- Unit Test -->
+		<antcall target="utest"/>
+		
+		<!-- Generate Code Coverage Report -->		
+		<mkdir dir="${coverage.report.dir}" />
+		<grobo-report logdir="${coverage.log.dir}">
+			<simple destdir="${coverage.dir}" removeempty="true" />
+			<source destdir="${coverage.report.dir}" removeempty="true" srcdir="${src.dir}" title="Summary Coverage Report of Design Engine" />
+		</grobo-report>
+	</target>
+
+	<!-- Generate the JavaDoc -->
+	<target name="javadoc" depends="src_javadoc,test_javadoc" />
+	<target name="src_javadoc" depends="build">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc destdir="${javadoc.dir}" 
+				 author="true" 
+				 version="true" 
+				 use="true" 
+				 access="private" 
+				 windowtitle="Birt Model API" 
+				 source="1.4"
+				 packagenames="org.eclipse.birt.report.model.*">
+			<packageset dir="${src.dir}" defaultexcludes="yes" />
+			<classpath refid="class.path" />
+		</javadoc>
+	</target>
+	<target name="test_javadoc" depends="build">
+		<mkdir dir="${test.javadoc.dir}" />
+		<javadoc destdir="${test.javadoc.dir}" 
+				 author="true" 
+				 version="true" 
+			 	 use="true" 
+			  	 access="private" 
+				 windowtitle="Birt Model Unit Test API"
+				 source="1.4">
+			<packageset dir="${test.src.dir}" defaultexcludes="yes" />
+			<classpath refid="class.path" />
+			<classpath>
+				<pathelement path="${test.build.dir}" />
+			</classpath>
+		</javadoc>
+	</target>
+	
+	<!-- Run All the Tasks -->
+    <target name="all" depends="coverage,javadoc"/>
+	
+	<!-- Generate the jar file -->
+	<target name="gen_jar" depends="build">
+		<delete file="model.jar"/>
+		<jar destfile="model.jar" basedir="${build.dir}"/>
+	</target>
+</project>
