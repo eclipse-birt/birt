@@ -75,6 +75,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		// TODO Add other parameters, i.e., bounds, dpi and scaling factor
 		itemGeneration.initialize(parameters);
 		
+		itemGeneration.pushPreparedQuery(item.getQuery(), null);
+		
 		// Get the dirty work done
 		itemGeneration.process(context.getDataEngine());
 		
