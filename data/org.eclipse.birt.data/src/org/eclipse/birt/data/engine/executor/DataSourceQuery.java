@@ -289,6 +289,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         addColumnHints( odaStatement );
         odaStatement.setColumnsProjection( this.projectedFields );
 
+    	addParameterHints();
+    	
         // If ODA can provide result metadata, get it now
         try
         {
@@ -339,6 +341,24 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	}
 	}
    
+	/** Adds input and output parameter hints to odaStatement */
+	private void addParameterHints() throws DataException
+	{
+		if ( inputParamHints != null )
+		{
+			Iterator list = inputParamHints.iterator( );
+			while ( list.hasNext( ) )
+			{
+				InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
+				InputParameterHint parameterHint = new InputParameterHint(
+						paramDef.getName( ) );
+				parameterHint.setPosition( paramDef.getPosition( ) );
+				parameterHint.setIsOptional( paramDef.isOptional( ) );
+				odaStatement.addInputParameterHint( parameterHint );
+			}
+		}
+	}
+	
     public IResultClass getResultClass() 
     {
         // Note the return value can be null if resultMetadata was 
@@ -393,21 +413,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     {
     	assert odaStatement != null;
 
-		Iterator list;
-		if ( inputParamHints != null )
-		{
-			list = inputParamHints.iterator( );
-			while ( list.hasNext( ) )
-			{
-				InputParameterDefinition paramDef = (InputParameterDefinition) list.next( );
-				InputParameterHint parameterHint = new InputParameterHint(
-						paramDef.getName( ) );
-				parameterHint.setPosition( paramDef.getPosition( ) );
-				parameterHint.setIsOptional( paramDef.isOptional( ) );
-				odaStatement.addInputParameterHint( parameterHint );
-			}
-		}
-		list = inputParams.iterator( );
+    	// set input parameter bindings
+		Iterator list = inputParams.iterator( );
 		while ( list.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) list.next( );
