@@ -137,9 +137,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		PasteAction pasteAction = new PasteAction( object );
-		if ( pasteAction.isEnabled( ) )
-			menu.add( pasteAction );
+		menu.add( new PasteAction( object ) );
 
 		menu.add( new Separator( ) );
 
