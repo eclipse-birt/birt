@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/03/18 06:17:16 $
+ * @version $Revision: 1.15 $ $Date: 2005/03/18 07:57:09 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -147,9 +147,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		this.services = services;
 		IRepository repository = services.getRepository( );
 		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
-		isEmbeddable = IViewHTMLOptions.HTML_TYPE_REPORTLETNOCSS
-				.equalsIgnoreCase( services
-						.getOption( IViewHTMLOptions.HTML_TYPE ) );
+		isEmbeddable = IViewHTMLOptions.HTML_NOCSS
+				.equalsIgnoreCase( services.getOption( IViewHTMLOptions.HTML_TYPE ) );
 
 		writer = new HTMLWriter( );
 
