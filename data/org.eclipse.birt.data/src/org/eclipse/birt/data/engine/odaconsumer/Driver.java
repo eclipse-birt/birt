@@ -51,6 +51,11 @@ class Driver
 	private URLClassLoader m_classLoader;
 	private Hashtable m_DSTypeMappings;
 	
+	// specifically for when there is only one dataset type specified 
+	// in the odaconfig.xml file and the caller didn't specify a 
+	// dataset type
+	private Hashtable m_defaultDSTypeMapping;
+	
 	Driver( String driverName )
 	{
 		m_driverName = driverName;
@@ -183,14 +188,35 @@ class Driver
 	// in this driver
 	int getTypeMapping( String dataSetType, int nativeType ) throws DataException
 	{
-		Hashtable typeMappingForDS = 
-			(Hashtable) getDSTypeMappings().get( dataSetType );
-		if( typeMappingForDS == null )
+		Hashtable typeMappingForDS = null;
+		
+		// handle null, which means the caller didn't specify the data set 
+		// type.  Empty string is ok, since an empty string can be used as 
+		// a data set type in odaconfig.xml.
+		if( dataSetType == null )
 		{
-			DataSetType dataSet = findDataSet( dataSetType );
-			typeMappingForDS = cacheTypeMappings( dataSet );
-			getDSTypeMappings().put( dataSetType, typeMappingForDS );
+			if( m_defaultDSTypeMapping != null )
+				typeMappingForDS = m_defaultDSTypeMapping;
+			else
+			{
+				DataSetType dataSet = findDefaultDataSetType();
+				typeMappingForDS = cacheTypeMappings( dataSet );
+				m_defaultDSTypeMapping = typeMappingForDS;
+			}
 		}
+		else
+		{
+			typeMappingForDS = 
+				(Hashtable) getDSTypeMappings().get( dataSetType );
+			if( typeMappingForDS == null )
+			{
+				DataSetType dataSet = findDataSet( dataSetType );
+				typeMappingForDS = cacheTypeMappings( dataSet );
+				getDSTypeMappings().put( dataSetType, typeMappingForDS );
+			}
+		}
+		
+		assert( typeMappingForDS != null );
 		
 		Integer theNativeType = new Integer( nativeType );
 		Integer i = (Integer) typeMappingForDS.get( theNativeType );
@@ -263,6 +289,16 @@ class Driver
 
 		throw new DataException( ResourceConstants.UNSUPPORTED_DATA_SET_TYPE,
 			                     new Object[] { dataSetType, m_driverName } );
+	}
+	
+	private DataSetType findDefaultDataSetType() throws DataException
+	{
+		DataSetTypes dataSets = getDriverConfig().getDataSetTypes();
+		if( dataSets.getDataSetTypeCount() == 1 )
+			return dataSets.getDataSetType( 0 );
+		
+		throw new DataException( ResourceConstants.CANNOT_DETERMINE_DEFAULT_DATA_SET_TYPE,
+								 new Object[] { m_driverName } );
 	}
 
 	private Hashtable getDSTypeMappings()

@@ -109,6 +109,7 @@ public class ResourceConstants
 	public final static String CANNOT_GENERATE_URL = "odaconsumer.CannotGenerateUrls";
 	public final static String UNSUPPORTED_NATIVE_TYPE = "odaconsumer.UnsupportedNativeType";
 	public final static String UNSUPPORTED_DATA_SET_TYPE = "odaconsumer.UnsupportedDataSetType";
+	public final static String CANNOT_DETERMINE_DEFAULT_DATA_SET_TYPE = "odaconsumer.CannotDetermineDefaultDataSetType";
 	public final static String PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ParameterNameCannotBeEmptyOrNull";
 	public final static String PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ParameterPositionIsOneBased";
 	public final static String CANNOT_GET_PARAMETER_TYPE_NAME = "odaconsumer.CannotGetParameterTypeName";
