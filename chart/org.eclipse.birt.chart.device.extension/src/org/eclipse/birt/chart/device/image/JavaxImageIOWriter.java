@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.chart.device.image;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,6 +32,7 @@ import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 /**
  *
@@ -44,6 +49,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
      */
     private Object oOutputIdentifier = null;
  
+    /**
+     * 
+     */
+    private Bounds bo = null;
+    
     /**
      * 
      * @return
@@ -137,7 +147,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         super.setProperty(sProperty, oValue);
         if (sProperty.equals(IDeviceRenderer.EXPECTED_BOUNDS))
         {
-            final Bounds bo = (Bounds) oValue;
+            bo = (Bounds) oValue;
             img = new BufferedImage((int) bo.getWidth(), (int) bo.getHeight(), getImageType());
             super.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, img.getGraphics());
         }
@@ -154,5 +164,65 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
     public void warningOccurred(ImageWriter source, int imageIndex, String warning)
     {
         DefaultLoggerImpl.instance().log(ILogger.WARNING, warning);
-    }    
+    }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.Exception)
+     */
+    public void presentException(Exception cexp)
+    {
+        if (bo == null)
+        {
+            bo = BoundsImpl.create(0, 0, 400, 300);
+        }
+        String sWrappedException = cexp.getClass().getName();
+        while (cexp.getCause() != null)
+        {
+            cexp = (Exception) cexp.getCause();
+        }
+        String sException = cexp.getClass().getName();
+        if (sWrappedException.equals(sException))
+        {
+            sWrappedException = null;
+        }
+        String sMessage = cexp.getMessage();
+        StackTraceElement[] stea = cexp.getStackTrace();
+        Dimension d = new Dimension((int) bo.getWidth(), (int) bo.getHeight());
+        
+        Font fo = new Font("Monospaced", Font.BOLD, 14);
+        _g2d.setFont(fo);
+        FontMetrics fm = _g2d.getFontMetrics();
+        _g2d.setColor(Color.WHITE);
+        _g2d.fillRect(20, 20, d.width - 40, d.height - 40);
+        _g2d.setColor(Color.BLACK);
+        _g2d.drawRect(20, 20, d.width - 40, d.height - 40);
+        _g2d.setClip(20, 20, d.width - 40, d.height - 40);
+        int x = 25, y = 20 + fm.getHeight();
+        _g2d.drawString("Exception:", x, y);
+        x += fm.stringWidth("Exception:") + 5;
+        _g2d.setColor(Color.RED);
+        _g2d.drawString(sException, x, y); x = 25; y += fm.getHeight();
+        if (sWrappedException != null)
+        {
+	        _g2d.setColor(Color.BLACK);
+	        _g2d.drawString("Wrapped In:", x, y);
+	        x += fm.stringWidth("Wrapped In:") + 5;
+	        _g2d.setColor(Color.RED);
+	        _g2d.drawString(sWrappedException, x, y); x = 25; y += fm.getHeight();
+        }
+        _g2d.setColor(Color.BLACK); y += 10;
+        _g2d.drawString("Message:", x, y);
+        x += fm.stringWidth("Message:") + 5;
+        _g2d.setColor(Color.BLUE);
+        _g2d.drawString(sMessage, x, y); x = 25; y += fm.getHeight();
+        _g2d.setColor(Color.BLACK); y += 10;
+        _g2d.drawString("Trace:", x, y); x = 40; y += fm.getHeight();
+        _g2d.setColor(Color.GREEN.darker());
+        for (int i = 0; i < stea.length; i++)
+        {
+            _g2d.drawString(stea[i].getClassName() + ":" + stea[i].getMethodName() + "(...):" + stea[i].getLineNumber(), x, y); x = 40; y += fm.getHeight();
+        }
+        
+    }
 }
