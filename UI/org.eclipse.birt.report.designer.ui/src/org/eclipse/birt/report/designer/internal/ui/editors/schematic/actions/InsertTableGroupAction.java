@@ -13,9 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -49,15 +47,14 @@ public class InsertTableGroupAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction#calculateEnabled()
 	 */
-	public boolean calculateEnabled( )
+	protected boolean calculateEnabled( )
 	{
 		TableEditPart part = getTableEditPart( );
 		if ( part == null )
 		{
 			return false;
 		}
-		return !DEUtil.getDataSetList( (DesignElementHandle) part.getModel( ) )
-				.isEmpty( );
+		return true;
 	}
 
 	/**

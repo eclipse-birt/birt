@@ -14,9 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -54,8 +52,7 @@ public class InsertListGroupAction extends ContextSelectionAction
 		{
 			return false;
 		}
-		return !DEUtil.getDataSetList( (DesignElementHandle) part.getModel( ) )
-				.isEmpty( );
+		return true;
 	}
 
 	/*

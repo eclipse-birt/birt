@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.ui.dialogs.DataBindingDialog;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.SemanticException;
@@ -345,14 +346,23 @@ public class UIUtil
 
 		if ( groupHandle != null && slotHandle != null )
 		{
-			GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
-			dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
-			dialog.setInput( groupHandle );
-			if ( dialog.open( ) == Window.OK )
-			{
-				slotHandle.add( groupHandle, position );
-				return true;
+			if ( DEUtil.getDataSetList( parent ).isEmpty( ) )
+			{//Pop up data binding dialog when no data binding
+				new DataBindingDialog( getDefaultShell( ), parent ).open( );
 			}
+			if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
+			{//If data set can be found or a blank group will be inserted.
+				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
+				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
+				dialog.setInput( groupHandle );
+				if ( dialog.open( ) == Window.CANCEL )
+				{//Cancel the action
+					return false;
+				}
+			}
+			slotHandle.add( groupHandle, position );
+			return true;
+
 		}
 		return false;
 	}
