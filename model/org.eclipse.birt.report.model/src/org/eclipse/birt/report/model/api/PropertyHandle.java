@@ -192,12 +192,12 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return designHandle.getDataSets( ).getContents( );
 
-		else if ( elementDefn.getName( ).equals(
-				ReportDesignConstants.DATA_SOURCE_ELEMENT ) )
+		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
+				.getName( ) ) )
 			return designHandle.getDataSources( ).getContents( );
 
-		else if ( elementDefn.getName( ).equals(
-				ReportDesignConstants.STYLE_ELEMENT ) )
+		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
+				.getName( ) ) )
 			return designHandle.getStyles( ).getContents( );
 
 		return list;
