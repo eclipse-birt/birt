@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Display;
  * A handy class for font style preview.
  */
 
-class PreviewLabel extends Canvas
+public class PreviewLabel extends Canvas
 {
 
 	protected static final int WEIGHT_NORMAL = 400;
