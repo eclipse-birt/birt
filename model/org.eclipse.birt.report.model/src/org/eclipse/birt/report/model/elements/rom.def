@@ -300,7 +300,9 @@
     <Choice name="auto" displayNameID="Choices.ContentType.auto" />
     <Choice name="plain" displayNameID="Choices.ContentType.plain" />
     <Choice name="html" displayNameID="Choices.ContentType.html" />
+	 <!-- BIRT doesn't support the following content type
     <Choice name="rtf" displayNameID="Choices.ContentType.rtf" />
+	-->
   </ChoiceType>
   <ChoiceType name="formatType">
     <Choice name="all" displayNameID="Choices.formatType.all" />
