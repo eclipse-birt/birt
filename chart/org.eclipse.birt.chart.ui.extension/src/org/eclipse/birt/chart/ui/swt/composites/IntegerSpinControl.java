@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -27,38 +25,37 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class IntegerSpinControl extends Composite implements SelectionListener, ModifyListener
+public class IntegerSpinControl extends Composite implements SelectionListener, Listener
 {
 
-    private int iSize = 16;
+    private transient int iSize = 16;
 
-    private int iMinValue = 0;
+    private transient int iMinValue = 0;
 
-    private int iMaxValue = 100;
+    private transient int iMaxValue = 100;
 
-    private int iCurrentValue = 0;
+    private transient int iCurrentValue = 0;
 
-    private int iIncrement = 1;
+    private transient int iIncrement = 1;
 
-    private Composite cmpContentOuter = null;
+    private transient Composite cmpContentOuter = null;
 
-    private Composite cmpContentInner = null;
+    private transient Composite cmpContentInner = null;
 
-    private Composite cmpBtnContainer = null;
+    private transient Composite cmpBtnContainer = null;
 
-    Button btnIncrement = null;
+    private transient Button btnIncrement = null;
 
-    Button btnDecrement = null;
+    private transient Button btnDecrement = null;
 
-    Text txtValue = null;
+    private transient TextEditorComposite txtValue = null;
 
-    Vector vListeners = null;
+    private transient Vector vListeners = null;
 
     public static final int VALUE_CHANGED_EVENT = 1;
 
@@ -119,14 +116,14 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         gd = new GridData(GridData.FILL_HORIZONTAL);
         cmpContentInner.setLayoutData(gd);
 
-        txtValue = new Text(cmpContentInner, SWT.BORDER);
+        txtValue = new TextEditorComposite(cmpContentInner, SWT.BORDER);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.grabExcessHorizontalSpace = true;
         gd.verticalAlignment = GridData.BEGINNING;
-        gd.heightHint = iSize;
+        gd.heightHint = iSize + 8;
         txtValue.setLayoutData(gd);
         txtValue.setText(String.valueOf(iCurrentValue));
-        txtValue.addModifyListener(this);
+        txtValue.addListener(this);
 
         cmpBtnContainer = new Composite(cmpContentInner, SWT.NONE);
         gd = new GridData();
@@ -251,9 +248,9 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
      */
-    public void modifyText(ModifyEvent e)
+    public void handleEvent(Event event)
     {
         try
         {

@@ -15,8 +15,6 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -26,13 +24,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class InsetsComposite extends Composite implements ModifyListener
+public class InsetsComposite extends Composite implements Listener
 {
 
     private transient String sUnits = "points";
@@ -45,13 +42,13 @@ public class InsetsComposite extends Composite implements ModifyListener
 
     private transient Composite cmpContent = null;
 
-    private transient Text txtTop = null;
+    private transient TextEditorComposite txtTop = null;
 
-    private transient Text txtLeft = null;
+    private transient TextEditorComposite txtLeft = null;
 
-    private transient Text txtBottom = null;
+    private transient TextEditorComposite txtBottom = null;
 
-    private transient Text txtRight = null;
+    private transient TextEditorComposite txtRight = null;
 
     private transient Vector vListeners = null;
 
@@ -104,13 +101,13 @@ public class InsetsComposite extends Composite implements ModifyListener
         lblTop.setLayoutData(gdLTop);
         lblTop.setText("Top:");
 
-        txtTop = new Text(grpInsets, SWT.BORDER);
+        txtTop = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTTop = new GridData(GridData.FILL_BOTH);
         gdTTop.heightHint = 20;
         gdTTop.widthHint = 45;
         txtTop.setLayoutData(gdTTop);
         txtTop.setText(Double.toString(insets.getTop()));
-        txtTop.addModifyListener(this);
+        txtTop.addListener(this);
 
         Label lblLeft = new Label(grpInsets, SWT.NONE);
         GridData gdLLeft = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -118,13 +115,13 @@ public class InsetsComposite extends Composite implements ModifyListener
         lblLeft.setLayoutData(gdLLeft);
         lblLeft.setText("Left:");
 
-        txtLeft = new Text(grpInsets, SWT.BORDER);
+        txtLeft = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTLeft = new GridData(GridData.FILL_BOTH);
         gdTLeft.heightHint = 20;
         gdTLeft.widthHint = 45;
         txtLeft.setLayoutData(gdTLeft);
         txtLeft.setText(Double.toString(insets.getLeft()));
-        txtLeft.addModifyListener(this);
+        txtLeft.addListener(this);
 
         Label lblBottom = new Label(grpInsets, SWT.NONE);
         GridData gdLBottom = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -132,13 +129,13 @@ public class InsetsComposite extends Composite implements ModifyListener
         lblBottom.setLayoutData(gdLBottom);
         lblBottom.setText("Bottom:");
 
-        txtBottom = new Text(grpInsets, SWT.BORDER);
+        txtBottom = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTBottom = new GridData(GridData.FILL_BOTH);
         gdTBottom.heightHint = 20;
         gdTBottom.widthHint = 45;
         txtBottom.setLayoutData(gdTBottom);
         txtBottom.setText(Double.toString(insets.getBottom()));
-        txtBottom.addModifyListener(this);
+        txtBottom.addListener(this);
 
         Label lblRight = new Label(grpInsets, SWT.NONE);
         GridData gdLRight = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -146,13 +143,13 @@ public class InsetsComposite extends Composite implements ModifyListener
         lblRight.setLayoutData(gdLRight);
         lblRight.setText("Right:");
 
-        txtRight = new Text(grpInsets, SWT.BORDER);
+        txtRight = new TextEditorComposite(grpInsets, SWT.BORDER);
         GridData gdTRight = new GridData(GridData.FILL_BOTH);
         gdTRight.heightHint = 20;
         gdTRight.widthHint = 45;
         txtRight.setLayoutData(gdTRight);
         txtRight.setText(Double.toString(insets.getRight()));
-        txtRight.addModifyListener(this);
+        txtRight.addListener(this);
     }
 
     public void setInsets(Insets insets)
@@ -195,12 +192,11 @@ public class InsetsComposite extends Composite implements ModifyListener
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+     * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
      */
-    public void modifyText(ModifyEvent e)
+    public void handleEvent(Event event)
     {
-        // Update the insets
-        if (e.getSource().equals(txtTop))
+        if (event.widget.equals(txtTop))
         {
             try
             {
@@ -211,7 +207,7 @@ public class InsetsComposite extends Composite implements ModifyListener
                 txtTop.setText(String.valueOf(insets.getTop()));
             }
         }
-        else if (e.getSource().equals(txtLeft))
+        else if (event.widget.equals(txtLeft))
         {
             try
             {
@@ -222,7 +218,7 @@ public class InsetsComposite extends Composite implements ModifyListener
                 txtLeft.setText(String.valueOf(insets.getLeft()));
             }
         }
-        else if (e.getSource().equals(txtBottom))
+        else if (event.widget.equals(txtBottom))
         {
             try
             {
@@ -233,7 +229,7 @@ public class InsetsComposite extends Composite implements ModifyListener
                 txtBottom.setText(String.valueOf(insets.getBottom()));
             }
         }
-        else if (e.getSource().equals(txtRight))
+        else if (event.widget.equals(txtRight))
         {
             try
             {
