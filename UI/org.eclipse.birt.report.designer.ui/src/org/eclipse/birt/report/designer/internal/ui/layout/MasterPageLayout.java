@@ -14,7 +14,6 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -25,6 +24,12 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class MasterPageLayout extends XYLayout
 {
 
+	/**
+	 * Minimum height for header/footer. TODO:50 is the default value, migrate
+	 * it to preference later.
+	 */
+	public final static int MINIMUM_HEIGHT = 50;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -33,54 +38,52 @@ public class MasterPageLayout extends XYLayout
 	public void layout( IFigure parent )
 	{
 		List children = parent.getChildren( );
-		IFigure child;
 		Rectangle clientArea = parent.getClientArea( );
-		int x = clientArea.x;
 		int y = clientArea.y;
-		int width = clientArea.width;
 		int height = clientArea.height;
+		int width = clientArea.width;
 
-		Point offset = getOrigin( parent );
 		IFigure figure;
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			figure = (IFigure) children.get( i );
-			figure.getBounds( ).width = clientArea.width;
+
 			Rectangle bounds = (Rectangle) getConstraint( figure );
 			if ( bounds == null )
 			{
 				continue;
 			}
-			bounds = bounds.getTranslated( offset );
+
+			// this is to ensue the child layout can get the correct parent
+			// client area width.
+			// TODO: change/use the client layoutManager's
+			// calculatePrefersize(widthHint, heightHint).
+			figure.getBounds( ).width = width;
+
 			Dimension preferredSize = figure.getPreferredSize( );
 			bounds = bounds.getCopy( );
-			if ( bounds.width < preferredSize.width )
+
+			if ( bounds.height <= 0 )
 			{
-				bounds.width = preferredSize.width;
+				bounds.height = Math.max( preferredSize.height, MINIMUM_HEIGHT );
 			}
-			if ( bounds.height < preferredSize.height || bounds.height < 50 )
+			else if ( bounds.height < MINIMUM_HEIGHT )
 			{
-				//TODO:50 is the default height, migrate it to preference later.
-				bounds.height = Math.max( preferredSize.height, 50 );
+				bounds.height = MINIMUM_HEIGHT;
 			}
-			//adapt the figure's location to make sure it's inside the client
-			// area
-			if ( bounds.y + bounds.height > height + y )
+
+			// adapt the figure's location to make sure it's inside the client
+			// area.
+			if (bounds.height > height)
+			{
+				bounds.height = height;
+			}
+			
+			if ( bounds.y + bounds.height > height + y || bounds.y < y)
 			{
 				bounds.y = height + y - bounds.height;
 			}
-			if ( bounds.x + bounds.width > width + x )
-			{
-				bounds.x = width + x - bounds.width;
-			}
-			if ( bounds.x < x )
-			{
-				bounds.x = x;
-			}
-			if ( bounds.y < y )
-			{
-				bounds.y = y;
-			}
+
 			figure.setBounds( bounds );
 
 		}

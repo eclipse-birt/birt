@@ -17,9 +17,14 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.AreaFigure;
+import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -128,18 +133,41 @@ public class AreaEditPart extends ReportElementEditPart
 		Rectangle region = parent.getClientArea( );
 		Rectangle rect = new Rectangle( );
 
-		//Define the default height value of header and footer
-		rect.height = 50;
+		rect.height = -1;
 		rect.width = region.width;
+
+		//Define the default height value of header and footer
+		MasterPageHandle mphandle = ( (MasterPageHandle) ( (MasterPageEditPart) getParent( ) ).getModel( ) );
+		
+		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
+		{
+			if (mphandle.getPropertyHandle( MasterPage.HEADER_HEIGHT_PROP ).isSet())
+			{
+				DimensionHandle handle = mphandle.getHeaderHeight( );
+				
+				rect.height = (int) DEUtil.convertoToPixel( handle );
+			}
+		}
+		else
+		{
+			if (mphandle.getPropertyHandle( MasterPage.FOOTER_HEIGHT_PROP ).isSet())
+			{
+				DimensionHandle handle = mphandle.getFooterHeight( );
+				
+				rect.height = (int) DEUtil.convertoToPixel( handle );
+			}
+		}
 
 		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
 		{
-			rect.setLocation( 0, 0 );
+			rect.setLocation( region.getTopLeft( ).x, region.getTopLeft( ).y );
 		}
 		else
 		{
 			rect.setLocation( region.getBottomLeft( ).x,
-					region.getBottomLeft( ).y - rect.height );
+					region.getBottomLeft( ).y
+							- ( ( rect.height < 0 ) ? MasterPageLayout.MINIMUM_HEIGHT
+									: rect.height ) );
 		}
 
 		return rect;
