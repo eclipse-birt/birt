@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.event;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -29,7 +28,7 @@ public final class InteractionEvent extends PrimitiveRenderEvent
     /**
      *  
      */
-    private Location[] _loaPolygon = null;
+    private PrimitiveRenderEvent _pre = null;
 
     /**
      *  
@@ -46,20 +45,20 @@ public final class InteractionEvent extends PrimitiveRenderEvent
 
     /**
      * 
-     * @param loaPolygon
+     * @param pre
      */
-    public final void setPolygonHotSpot(Location[] loaPolygon)
+    public final void setHotSpot(PrimitiveRenderEvent pre)
     {
-        _loaPolygon = loaPolygon;
+        _pre = pre;
     }
 
     /**
      * 
      * @return
      */
-    public final Location[] getPolygonHotSpot()
+    public final PrimitiveRenderEvent getHotSpot()
     {
-        return _loaPolygon;
+        return _pre;
     }
 
     /**

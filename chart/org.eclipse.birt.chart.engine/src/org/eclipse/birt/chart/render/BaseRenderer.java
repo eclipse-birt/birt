@@ -909,7 +909,9 @@ public abstract class BaseRenderer
                     iev.addTrigger(tg);
                 }
             }
-            iev.setPolygonHotSpot(loaHotspot);
+            final PolygonRenderEvent pre = (PolygonRenderEvent) ((EventObjectCache) ipr).getEventObject(lg, PolygonRenderEvent.class);
+            pre.setPoints(loaHotspot);
+            iev.setHotSpot(pre);
             ipr.enableInteraction(iev);
         }
     }
@@ -1538,27 +1540,18 @@ public abstract class BaseRenderer
         return dX;
     }
 
-    protected void processTrigger(Trigger tg, Legend lg)
-    {
-
-    }
-
     /**
      * 
      * @param tg
      * @param dph
      */
-    protected void processTrigger(Trigger tg, DataPointHints dph)
+    public void processTrigger(Trigger tg, DataPointHints dph)
     {
-        if (tg.getAction().getType() == ActionType.SHOW_TOOLTIP_LITERAL) // BUILD
-        // THE
-        // VALUE
+        if (tg.getAction().getType() == ActionType.SHOW_TOOLTIP_LITERAL) // BUILD THE VALUE
         {
             ((TooltipValue) tg.getAction().getValue()).setText(dph.getDisplayValue());
         }
-        else if (tg.getAction().getType() == ActionType.URL_REDIRECT_LITERAL) // BUILD
-        // A
-        // URI
+        else if (tg.getAction().getType() == ActionType.URL_REDIRECT_LITERAL) // BUILD A URI
         {
             final URLValue uv = (URLValue) tg.getAction().getValue();
             final String sBaseURL = uv.getBaseUrl();

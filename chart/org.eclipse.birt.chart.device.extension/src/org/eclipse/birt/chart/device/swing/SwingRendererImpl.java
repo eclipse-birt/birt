@@ -869,24 +869,68 @@ public class SwingRendererImpl extends DeviceAdapter
 
         final Trigger[] tga = iev.getTriggers();
         if (tga == null)
+        {
             return;
+        }
 
-        final Location[] loa = iev.getPolygonHotSpot();
+        // CREATE AND SETUP THE SHAPES FOR INTERACTION
         TriggerCondition tc;
         Action ac;
         ArrayList al;
-
-        for (int i = 0; i < tga.length; i++)
+        final PrimitiveRenderEvent pre = iev.getHotSpot();
+        if (pre instanceof PolygonRenderEvent)
         {
-            tc = tga[i].getCondition();
-            al = (ArrayList) _lhmAllTriggers.get(tc);
-            if (al == null)
+            final Location[] loa = ((PolygonRenderEvent) pre).getPoints();
+            
+            for (int i = 0; i < tga.length; i++)
             {
-                al = new ArrayList(4); // UNDER NORMAL CONDITIONS
-                _lhmAllTriggers.put(tc, al);
+                tc = tga[i].getCondition();
+                al = (ArrayList) _lhmAllTriggers.get(tc);
+                if (al == null)
+                {
+                    al = new ArrayList(4); // UNDER NORMAL CONDITIONS
+                    _lhmAllTriggers.put(tc, al);
+                }
+                al.add(new ShapedAction(iev.getSource(), loa, tga[i].getAction()));
             }
-            al.add(new ShapedAction(iev.getSource(), loa, tga[i].getAction()));
         }
+        else if (pre instanceof OvalRenderEvent)
+        {
+            final Bounds boEllipse = ((OvalRenderEvent) pre).getBounds();
+            
+            for (int i = 0; i < tga.length; i++)
+            {
+                tc = tga[i].getCondition();
+                al = (ArrayList) _lhmAllTriggers.get(tc);
+                if (al == null)
+                {
+                    al = new ArrayList(4); // UNDER NORMAL CONDITIONS
+                    _lhmAllTriggers.put(tc, al);
+                }
+                al.add(new ShapedAction(iev.getSource(), boEllipse, tga[i].getAction()));
+            }
+        }
+        else if (pre instanceof ArcRenderEvent)
+        {
+            final ArcRenderEvent are = (ArcRenderEvent) pre;
+            final Bounds boEllipse = are.getEllipseBounds();
+            double dStart = are.getStartAngle();
+            double dExtent = are.getAngleExtent();
+            int iArcType = toSwingArcType(are.getStyle());
+            
+            for (int i = 0; i < tga.length; i++)
+            {
+                tc = tga[i].getCondition();
+                al = (ArrayList) _lhmAllTriggers.get(tc);
+                if (al == null)
+                {
+                    al = new ArrayList(4); // UNDER NORMAL CONDITIONS
+                    _lhmAllTriggers.put(tc, al);
+                }
+                al.add(new ShapedAction(iev.getSource(), boEllipse, dStart, dExtent, iArcType, tga[i].getAction()));
+            }
+        }
+
 
     }
 

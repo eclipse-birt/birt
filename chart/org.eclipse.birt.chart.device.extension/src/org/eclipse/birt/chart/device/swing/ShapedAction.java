@@ -13,23 +13,32 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Polygon;
 import java.awt.Shape;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
 
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.data.Action;
 
 /**
- * This class ...
- * 
- * @author Actuate Corporation
+ * This class provides a shape definition and an associated action that is invoked
+ * when interaction occurs with a chart rendered on a SWING device. 
  */
-
 final class ShapedAction
 {
-
+    /**
+     * 
+     */
     private final Object _oSource;
 
+    /**
+     * 
+     */
     private final Shape _sh;
 
+    /**
+     * 
+     */
     private final Action _ac;
 
     /**
@@ -46,6 +55,41 @@ final class ShapedAction
         _ac = ac;
     }
 
+    /**
+     * This constructor supports shape definition via an ellipse
+     * 
+     * @param oSource
+     * @param boEllipse
+     * @param ac
+     */
+    ShapedAction(Object oSource, Bounds boEllipse, Action ac)
+    {
+        _oSource = oSource;
+        _sh = new Ellipse2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(), boEllipse.getHeight());
+        _ac = ac;
+    }
+
+    /**
+     * This constructor supports shape definition via an elliptical arc
+     * 
+     * @param oSource
+     * @param boEllipse
+     * @param dStart
+     * @param dExtent
+     * @param iArcType
+     * @param ac
+     */
+    ShapedAction(Object oSource, Bounds boEllipse, double dStart, double dExtent, int iArcType, Action ac)
+    {
+        _oSource = oSource;
+        _sh = new Arc2D.Double(
+            boEllipse.getLeft(), boEllipse.getTop(), 
+            boEllipse.getWidth(), boEllipse.getHeight(),
+            dStart, dExtent, iArcType
+        );
+        _ac = ac;
+    }
+    
     /**
      * 
      * @return
