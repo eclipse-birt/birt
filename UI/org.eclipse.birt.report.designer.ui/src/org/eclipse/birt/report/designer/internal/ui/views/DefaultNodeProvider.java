@@ -473,5 +473,13 @@ public class DefaultNodeProvider implements INodeProvider
 		handle.drop( );
 		return true;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#hasChildren(java.lang.Object)
+	 */
+	public boolean hasChildren( Object object )
+	{
+		return getChildren( object ).length > 0;
+	}
 }
 
