@@ -216,7 +216,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					}
 					else if ( firstSelectedElement instanceof TableHandle )
 					{
-						createShowMenu( menuManager );
 					}
 					else if ( firstSelectedElement instanceof GridHandle )
 					{
@@ -240,10 +239,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 						getAction( MergeAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( SplitAction.ID ) );
-				if ( isSelectedGroup( ) )
-				{
-					createShowMenu( menuManager );
-				}
 			}
 			else if ( firstSelectedElement instanceof ColumnHandle )
 			{
