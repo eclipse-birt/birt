@@ -24,9 +24,22 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public class DisplayAdapter implements IDisplayServer
 {
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDisplayServer#debug()
+     */
     public void debug()
     {
-        
+        // DO NOTHING
+    }
+    
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDisplayServer#logCreation(java.lang.Object)
+     */
+    public void logCreation(Object oMisc)
+    {
+        // DO NOTHING
     }
     
     /*
@@ -36,7 +49,6 @@ public class DisplayAdapter implements IDisplayServer
      */
     public Object createFont(FontDefinition fd)
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

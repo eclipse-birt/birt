@@ -24,7 +24,16 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public interface IDisplayServer
 {
+    /**
+     * Debug all resource leaks
+     */
     void debug();
+    
+    /**
+     * Log creation of a resource for which leaks are to be tracked
+     * @param o
+     */
+    void logCreation(Object o);
     
     /**
      * 
