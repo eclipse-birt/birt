@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
 import org.eclipse.birt.report.engine.api.IViewHTMLOptions;
+import org.eclipse.birt.report.engine.api.IViewOptions;
 import org.eclipse.birt.report.engine.content.IReport;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
@@ -41,7 +42,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/03/18 07:57:09 $
+ * @version $Revision: 1.16 $ $Date: 2005/03/18 18:43:01 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -52,12 +53,17 @@ public class HTMLReportEmitter implements IReportEmitter
 
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 
+	protected String targetFile = null;
 	/**
 	 * The <code>Report</code> object.
 	 */
 	protected IReport report;
 
+	/**
+	 * Specifies if the HTML output is embeddable.
+	 */
 	protected boolean isEmbeddable;
+
 	/**
 	 * The
 	 * <code>HTMLWriter<code> object that Emitters use to output HTML content.
@@ -147,8 +153,15 @@ public class HTMLReportEmitter implements IReportEmitter
 		this.services = services;
 		IRepository repository = services.getRepository( );
 		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
-		isEmbeddable = IViewHTMLOptions.HTML_NOCSS
-				.equalsIgnoreCase( services.getOption( IViewHTMLOptions.HTML_TYPE ) );
+
+		targetFile = services.getOption( IViewOptions.TARGET_FILENAME );
+		if ( targetFile == null )
+		{
+			targetFile = REPORT_FILE;
+		}
+
+		isEmbeddable = IViewHTMLOptions.HTML_NOCSS.equalsIgnoreCase( services
+				.getOption( IViewHTMLOptions.HTML_TYPE ) );
 
 		writer = new HTMLWriter( );
 
@@ -270,7 +283,7 @@ public class HTMLReportEmitter implements IReportEmitter
 
 		this.report = report;
 
-		OutputStream out = this.resourceManager.openOutputStream( REPORT_FILE );
+		OutputStream out = this.resourceManager.openOutputStream( targetFile );
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
 		if ( isEmbeddable )
@@ -294,6 +307,9 @@ public class HTMLReportEmitter implements IReportEmitter
 		// output general styles
 		writer.style(
 				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		//MOZILLA/IE use middle as the default vertical align, but ROM defines the 
+		//baseline instead. CSS uses baseline also. 
+		writer.style( "td", "vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/15 07:22:32 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/17 07:56:38 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -38,7 +38,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.8 $ $Date: 2005/03/15 07:22:32 $
+	 * @version $Revision: 1.9 $ $Date: 2005/03/17 07:56:38 $
 	 */
 	private class PersistData
 	{
@@ -469,15 +469,21 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 				writer.attribute( HTMLTags.ATTR_ROWSPAN, cellObj.getRowSpan( ) );
 			}
 
+			IStyle mergedStyle = cellObj.getMergedStyle( );
 			// 'col' align
-			if ( cellObj.getMergedStyle( ) == null
-					|| cellObj.getMergedStyle( ).getTextAlign( ) == null )
+			if ( mergedStyle == null
+					|| mergedStyle.getTextAlign( ) == null )
 			{
 				writer.attribute( HTMLTags.ATTR_ALIGN, currentData
 						.getCurColAlign( ) );
 			}
 
 			StringBuffer styleBuffer = new StringBuffer( );
+			if ( isEmbedded && ( mergedStyle == null || mergedStyle.getVerticalAlign( ) == null ) )
+			{
+				styleBuffer.append("vertical-align: baseline;"); //$NON-NLS-1$
+			}
+			
 			handleStyle( cellObj, styleBuffer );
 		}
 		else
@@ -595,5 +601,4 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
 		}
 	}
-
 }
