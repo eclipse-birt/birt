@@ -47,7 +47,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * <pre>
  * 
  * DesignElementHandle elementHandle = element.handle( );DimensionHandle dimensionHandle = elementHandle.getDimensionProperty( Style.FONT_SIZE_PROP );
-
+ * 
+ *   
  *  
  * </pre>
  * 
@@ -157,8 +158,8 @@ public class DimensionHandle extends ComplexValueHandle
 	 * the dimension value is "2.3cm", then the unit is "cm".
 	 * 
 	 * @return the units portion of the dimension. Return
-	 *         <code>DimensionValue.DEFAULT_UNIT</code> if there is not unit
-	 *         specified or if the dimension is a predefined constant.
+	 *         <code>DimensionValue.DEFAULT_UNIT</code> if the dimension is a
+	 *         predefined constant.
 	 */
 
 	public String getUnits( )
@@ -181,6 +182,7 @@ public class DimensionHandle extends ComplexValueHandle
 	 * 
 	 * @param value
 	 *            the new value in application units.
+	 * @deprecated
 	 */
 
 	public void setAbsolute( double value )
@@ -209,7 +211,7 @@ public class DimensionHandle extends ComplexValueHandle
 	 * <li>if the unit of this property is not either of
 	 * <code>DesignChoiceConstants.UNITS_EM</code>,
 	 * <code>DesignChoiceConstants.UNITS_EX</code> and
-	 * <code>DesignChoiceConstants.UNITS_PERCENTAGE</code> 
+	 * <code>DesignChoiceConstants.UNITS_PERCENTAGE</code>
 	 * </ul>
 	 * <p>
 	 * CSS 2.1 specification has the following statements:

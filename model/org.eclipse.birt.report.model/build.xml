@@ -141,6 +141,77 @@
 			</classpath>
 		</javadoc>
 	</target>
+	<target name="publish_javadoc" depends="build">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" access="protected" windowtitle="Birt Model API" source="1.4">
+			<fileset dir="${src.dir}">
+				<include name="**/activity/ActivityStack.java" />
+				<include name="**/activity/ActivityStackEvent.java" />
+				<include name="**/activity/ActivityStackListener.java" />
+				<include name="**/activity/NotificationEvent.java" />
+				<include name="**/activity/SemanticException.java" />
+				<include name="**/api/*.java" />
+				<include name="**/command/ContentEvent.java" />
+				<include name="**/command/ContentException.java" />
+				<include name="**/command/CustomMsgEvent.java" />
+				<include name="**/command/CustomMsgException.java" />
+				<include name="**/command/ElementDeletedEvent.java" />
+				<include name="**/command/ExtendsEvent.java" />
+				<include name="**/command/ExtendsException.java" />
+				<include name="**/command/ExtensionPropertyDefinitionEvent.java" />
+				<include name="**/command/NameEvent.java" />
+				<include name="**/command/NameException.java" />
+				<include name="**/command/NameSpaceEvent.java" />
+				<include name="**/command/PropertyEvent.java" />
+				<include name="**/command/PropertyNameException.java" />
+				<include name="**/command/StyleEvent.java" />
+				<include name="**/command/StyleException.java" />
+				<include name="**/command/UserPropertyEvent.java" />
+				<include name="**/command/UserPropertyException.java" />	
+				<include name="**/core/Listener.java" />
+				<include name="**/core/UserPropertyDefn.java" />
+				<include name="**/elements/structures/*.java" />				
+				<include name="**/elements/DesignChoiceConstants.java" />
+				<include name="**/elements/ReportDesignConstants.java" />
+				<include name="**/extension/*.java" />
+				<include name="**/metadata/ArgumentInfo.java" />
+				<include name="**/metadata/ArgumentInfoList.java" />
+				<include name="**/metadata/Choice.java" />
+				<include name="**/metadata/ChoiceSet.java" />
+				<include name="**/metadata/ClassInfo.java" />
+				<include name="**/metadata/DimensionValue.java" />
+				<include name="**/metadata/IElementDefn.java" />
+				<include name="**/metadata/IElementPropertyDefn.java" />
+				<include name="**/metadata/IMetaLogger.java" />
+				<include name="**/metadata/IObjectDefn.java" />
+				<include name="**/metadata/IPropertyDefn.java" />
+				<include name="**/metadata/ISlotDefn.java" />
+				<include name="**/metadata/IStructureDefn.java" />
+				<include name="**/metadata/LocalizableInfo.java" />
+				<include name="**/metadata/MemberInfo.java" />
+				<include name="**/metadata/MetaDataConstants.java" />
+				<include name="**/metadata/MetaDataDictionary.java" />
+				<include name="**/metadata/MetaDataException.java" />
+				<include name="**/metadata/MetaDataParserException.java" />
+				<include name="**/metadata/MetaDataReaderException.java" />
+				<include name="**/metadata/MethodInfo.java" />
+				<include name="**/metadata/PropertyType.java" />
+				<include name="**/metadata/PropertyValueException.java" />				
+				<include name="**/metadata/UserChoice.java" />
+				<include name="**/script/ModelWrapFactory.java" />
+				<include name="**/util/ColorUtil.java" />
+				<include name="**/util/DimensionUtil.java" />
+				<include name="**/util/Point.java" />
+				<include name="**/util/Rectangle.java" />
+				<include name="**/util/StringUtil.java" />
+				<include name="**/util/UnicodeUtil.java" />
+				<include name="**/util/URIUtil.java" />
+				<include name="**/validators/*.java" />
+				<include name="**/validators/core/ValidationEvent.java" />
+			</fileset>
+			<classpath refid="class.path" />
+		</javadoc>
+	</target>
 
 	<!-- Generate the jar file -->
 	<target name="gen_jar" depends="build">

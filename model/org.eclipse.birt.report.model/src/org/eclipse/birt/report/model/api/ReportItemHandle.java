@@ -131,6 +131,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated
 	 */
 
 	public void setX( double dimension ) throws SemanticException
@@ -163,6 +164,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated
 	 */
 
 	public void setY( double dimension ) throws SemanticException
@@ -195,6 +197,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated
 	 */
 
 	public void setHeight( double dimension ) throws SemanticException
@@ -227,6 +230,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated
 	 */
 
 	public void setWidth( double dimension ) throws SemanticException

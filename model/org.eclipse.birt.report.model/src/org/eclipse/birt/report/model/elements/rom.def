@@ -1769,7 +1769,7 @@
         <Default>left</Default>
       </Property>
       <Property name="textIndent" displayNameID="Element.Style.text.indent" type="dimension" isStyleProperty="true">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="textTransform" displayNameID="Element.Style.text.transform" type="choice" detailType="transform" isStyleProperty="true">
         <Default>none</Default>
@@ -1846,28 +1846,28 @@
         <Default>black</Default>
       </Property>
       <Property name="marginTop" displayNameID="Element.Style.margin.top" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="marginBottom" displayNameID="Element.Style.margin.bottom" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="marginLeft" displayNameID="Element.Style.margin.left" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="marginRight" displayNameID="Element.Style.margin.right" type="dimension" detailType="margin" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="paddingTop" displayNameID="Element.Style.padding.top" type="dimension" isStyleProperty="true" canInherit="false">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="paddingLeft" displayNameID="Element.Style.padding.left" type="dimension" isStyleProperty="true" canInherit="false">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="paddingBottom" displayNameID="Element.Style.padding.bottom" type="dimension" isStyleProperty="true" canInherit="false">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
       <Property name="paddingRight" displayNameID="Element.Style.padding.right" type="dimension" isStyleProperty="true" canInherit="false">
-        <Default>0</Default>
+        <Default>0in</Default>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">

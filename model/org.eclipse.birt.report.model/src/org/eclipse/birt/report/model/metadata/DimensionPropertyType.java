@@ -11,9 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.math.BigDecimal;
-
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.StringUtil;
 
@@ -26,7 +25,8 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * 
  * <dt><strong>Optional units </strong></dt>
  * <dd>The units of the dimension expressed using one of the unit specifiers
- * defined in {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants }:
+ * defined in
+ * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants }:
  * <ul>
  * <li>in (inches)</li>
  * <li>mm (millimeters)</li>
@@ -112,16 +112,19 @@ public class DimensionPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return null;
+
 		if ( value instanceof String )
-			return DimensionValue.parseInput( (String) value );
+		{
+			DimensionValue dim = DimensionValue.parseInput( (String) value );
+			if ( !StringUtil.isBlank( dim.getUnits( ) ) )
+				return dim;
+		}
 		if ( value instanceof DimensionValue )
-			return value;
-		if ( value instanceof Integer )
-			return fromDouble( design, ( (Integer) value ).intValue( ) );
-		if ( value instanceof Double )
-			return fromDouble( design, ( (Double) value ).doubleValue( ) );
-		if ( value instanceof BigDecimal )
-			return fromDouble( design, ( (BigDecimal) value ).doubleValue( ) );
+		{
+			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
+				return value;
+		}
+		
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.DIMENSION_TYPE );
@@ -179,33 +182,6 @@ public class DimensionPropertyType extends PropertyType
 	}
 
 	/**
-	 * Creates a <code>DimensionValue</code> given its measure. The unit is
-	 * assumed to be in session unit.
-	 * 
-	 * @param design
-	 *            the report design.
-	 * @param value
-	 *            the double value of the measure.
-	 * @return an <code>DimensionValue</code> Object in session unit.
-	 *  
-	 */
-
-	private DimensionValue fromDouble( ReportDesign design, double value )
-	{
-		String units = DimensionValue.DEFAULT_UNIT;
-		if ( design != null )
-		{
-			String defaultUnits = design.getUnits( );
-			String sessionUnits = design.getSession( ).getUnits( );
-
-			if ( !defaultUnits.equalsIgnoreCase( sessionUnits ) )
-				units = sessionUnits;
-		}
-
-		return new DimensionValue( value, units );
-	}
-
-	/**
 	 * Converts the value into a locale-dependent string. The measure part of
 	 * the <code>DimensionValue</code> will be formatted in the current
 	 * locale, e.g: 12,000,000.123 for US locale while in German the value it
@@ -244,7 +220,12 @@ public class DimensionPropertyType extends PropertyType
 			throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( unit ) )
-			return;
+		{
+			if ( Style.FONT_SIZE_PROP.equalsIgnoreCase( defn.getName( ) ) )
+				return;
+			throw new PropertyValueException( null, defn, value,
+					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
+		}
 
 		ChoiceSet units = defn.getAllowedChoices( );
 
@@ -252,7 +233,7 @@ public class DimensionPropertyType extends PropertyType
 		if ( !units.contains( unit ) )
 		{
 			// unit not allowed.
-            
+
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED );
 		}

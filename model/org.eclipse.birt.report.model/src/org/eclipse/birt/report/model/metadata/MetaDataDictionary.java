@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
  * Global, shared dictionary of design meta data. Meta-data describes each
  * design element and its properties. The information is shared because all
  * designs share the same BIRT-provided set of design elements. See the
- * {@link ElementDefn}class for more detailed information.
+ * {@link IElementDefn}class for more detailed information.
  * 
  * <h2>Meta-data Information</h2>
  * The application must first populate the elements from a meta-data XML file
@@ -44,7 +44,7 @@ import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
  * <dt><strong>Element Definitions </strong></dt>
  * <dd>Describes the BIRT-defined elements. The element definition includes the
  * list of properties defined on that type, and optional properties "inherited"
- * from the style. See the {@link ElementDefn}class.</dd>
+ * from the style. See the {@link IElementDefn}class.</dd>
  * 
  * <dt><strong>Standard Styles </strong></dt>
  * <dd>BIRT defines a set of standard styles. The set of styles goes along with

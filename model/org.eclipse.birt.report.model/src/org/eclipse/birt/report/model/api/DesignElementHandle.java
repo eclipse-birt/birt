@@ -1463,32 +1463,4 @@ public abstract class DesignElementHandle
 		return getElement( ).canContain( getDesign( ), slotId,
 				content.getElement( ) );
 	}
-
-	/**
-	 * Gets the effective dimension value of the input value. The input value
-	 * may have a default units, which is defined by the report design or the
-	 * session handle. The returned dimension value is the calculated value,
-	 * which is the measure/units pair.
-	 * 
-	 * @param value
-	 *            the original dimension value
-	 * @return the dimension value with the same measure with the original
-	 *         dimension and with a calculated units
-	 */
-	
-	public DimensionValue getEffectiveDimensionValue( DimensionValue value )
-	{
-		if ( value == null )
-			return null;
-		String units = value.getUnits( );
-		if ( !StringUtil.isBlank( units ) )
-			return value;
-		units = design.getUnits( );
-		if ( StringUtil.isBlank( units ) )
-			return new DimensionValue( value.getMeasure( ), units );
-		units = design.getSession( ).getUnits( );
-
-		return new DimensionValue( value.getMeasure( ), units );
-	}
-
 }
