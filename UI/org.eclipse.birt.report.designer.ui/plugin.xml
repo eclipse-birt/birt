@@ -121,6 +121,32 @@
                menubarPath="file/preview"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewAction"/>
       </actionSet>
+      <actionSet
+            label="UndoRedo"
+            visible="true"
+            id="org.eclipse.birt.actionSet.stack">
+         <action
+               enablesFor="*"
+               toolbarPath="stackGroup"
+               label="%designer.action.redo.label"
+               accelerator="Ctrl+Y"
+               class="org.eclipse.birt.report.designer.ui.actions.StackWindowAction$RedoWindowAction"
+               icon="icons/redo_edit.gif"
+               tooltip="%designer.action.redo.label"
+               style="push"
+               id="org.eclipse.birt.report.designer.ui.actions.StackWindowAction$RedoWindowAction"/>
+         <action
+               enablesFor="*"
+               toolbarPath="stackGroup"
+               label="%designer.action.undo.label"
+               accelerator="Ctrl+Z"
+               icon="icons/undo_edit.gif"
+               class="org.eclipse.birt.report.designer.ui.actions.StackWindowAction$UndoWindowAction"
+               tooltip="%designer.action.undo.label"
+               style="push"
+               id="org.eclipse.birt.report.designer.ui.actions.StackWindowAction$UndoWindowAction">
+         </action>
+      </actionSet>
       <actionSet label="" visible="false" id="org.eclipse.ui.externaltools.ExternalToolsSet">
       </actionSet>
    </extension>
