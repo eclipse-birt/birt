@@ -62,6 +62,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 	private static final Insets DEFAULT_MARGIN = new Insets( 3, 3, 3, 3 );
 
+	private boolean showMargin = true;
+
 	/**
 	 * constructor
 	 * 
@@ -81,8 +83,6 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	protected IFigure createFigure( )
 	{
 		Figure figure = new ReportElementFigure( ) {
-
-			private boolean showMargin = true;
 
 			{
 				getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
@@ -309,6 +309,14 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
+		if ( !showMargin )
+		{
+			Insets mg = getMasterPageInsets( masterPageHandle );
+
+			bounds.width -= mg.getWidth( );
+			bounds.height -= mg.getHeight( );
+		}
+
 		( (ReportDesignLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 		getFigure( ).setBounds( bounds );
 
@@ -346,7 +354,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 			( (ReportDesignHandleAdapter) getModelAdapter( ) ).getMasterPage( )
 					.addListener( this );
 		}
-		getFigure().setFocusTraversable(false);
+		getFigure( ).setFocusTraversable( false );
 	}
 
 	/*
