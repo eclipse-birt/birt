@@ -1,2 +1,4 @@
 bin
 log
+DTETest
+*.log
