@@ -411,6 +411,11 @@ public abstract class BaseRenderer
      */
     public void renderLegend(IPrimitiveRenderer ipr, Legend lg, Map htRenderers) throws RenderingException
     {
+    	if (!lg.isVisible()) // CHECK VISIBILITY
+    	{
+    		return;
+    	}
+    	
         renderBlock(ipr, lg);
         final IDisplayServer xs = getDevice().getDisplayServer();
         final double dScale = xs.getDpiResolution() / 72d;
@@ -1029,6 +1034,10 @@ public abstract class BaseRenderer
      */
     public void renderLabel(IPrimitiveRenderer ipr, Block b) throws RenderingException
     {
+    	if (!b.isVisible()) // CHECK VISIBILITY
+    	{
+    		return;
+    	}
         renderBlock(ipr, b);
         final double dScale = getDevice().getDisplayServer().getDpiResolution() / 72d;
         final LabelBlock lb = (LabelBlock) b;
