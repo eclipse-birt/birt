@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.util;
 
-import org.eclipse.birt.chart.datafeed.DataSetProcessor;
+import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.PluginException;
@@ -120,7 +120,7 @@ public final class PluginSettings
      * 
      * @throws PluginException
      */
-    public final DataSetProcessor getDataSetProcessor(Class cSeries) throws PluginException
+    public final IDataSetProcessor getDataSetProcessor(Class cSeries) throws PluginException
     {
         final String sFQClassName = cSeries.getName();
         if (inEclipseEnv())
@@ -131,7 +131,7 @@ public final class PluginSettings
             {
                 DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
                     "(ECLIPSE-ENV) Creating dsp " + oDSP.getClass().getName());
-                return (DataSetProcessor) oDSP;
+                return (IDataSetProcessor) oDSP;
             }
             DefaultLoggerImpl.instance()
                 .log(ILogger.FATAL, "(ECLIPSE-ENV) Could not find dsp impl for " + sFQClassName);
@@ -144,7 +144,7 @@ public final class PluginSettings
                 {
                     DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
                         "(STANDALONE-ENV) Creating dsp " + saDataSetProcessors[i]);
-                    return (DataSetProcessor) newInstance(saDataSetProcessors[i]);
+                    return (IDataSetProcessor) newInstance(saDataSetProcessors[i]);
                 }
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
