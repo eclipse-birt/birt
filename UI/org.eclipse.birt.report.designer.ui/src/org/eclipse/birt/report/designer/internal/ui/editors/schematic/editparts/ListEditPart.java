@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -31,10 +32,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.command.ContentException;
-import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.command.PropertyEvent;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;
@@ -51,6 +49,7 @@ public class ListEditPart extends ReportElementEditPart
 {
 
 	private static final String GUIDEHANDLE_TEXT = Messages.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+
 	/**
 	 * Constructor.
 	 * 
@@ -61,16 +60,19 @@ public class ListEditPart extends ReportElementEditPart
 		super( obj );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
-		TableGuideHandle handle = new TableGuideHandle(this);
+		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
 		return handle;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -162,6 +164,7 @@ public class ListEditPart extends ReportElementEditPart
 		super.activate( );
 		addListBandEditPart( );
 	}
+
 	/**
 	 * layouts the figure
 	 */
@@ -248,26 +251,14 @@ public class ListEditPart extends ReportElementEditPart
 	/**
 	 * Insert group in list element
 	 */
-	public ListGroupHandle insertGroup( )
+	public boolean insertGroup( )
 	{
-		ListGroupHandle groupHandle = null;
-		try
-		{
-			groupHandle = getListHandleAdapt( ).insertGroup( );
-		}
-		catch ( ContentException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		catch ( NameException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return groupHandle;
+		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ) );
 	}
 
 	/**
 	 * Remove group
+	 * 
 	 * @param group
 	 */
 	public void removeGroup( Object group )
@@ -298,6 +289,7 @@ public class ListEditPart extends ReportElementEditPart
 
 	/**
 	 * Check if inlucde header/footer
+	 * 
 	 * @param bool
 	 * @param id
 	 */
@@ -306,7 +298,7 @@ public class ListEditPart extends ReportElementEditPart
 		Object model = getListHandleAdapt( ).getChild( id );
 		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
 				.get( model );
-		if(part == null)
+		if ( part == null )
 		{
 			return;
 		}
@@ -315,6 +307,7 @@ public class ListEditPart extends ReportElementEditPart
 
 	/**
 	 * Check if inlucde header/footer
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -323,45 +316,47 @@ public class ListEditPart extends ReportElementEditPart
 		Object model = getListHandleAdapt( ).getChild( id );
 		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
 				.get( model );
-		if(part == null)
+		if ( part == null )
 		{
 			return false;
 		}
 		return part.isRenderVisile( );
 	}
-	
-	
-	public void showTargetFeedback(Request request)
+
+	public void showTargetFeedback( Request request )
 	{
-	    if ( this.getSelected() == 0 &&
-	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
-	    {
-	    	if (isFigureLeft(request))
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getLeftCellCursor() );
-	    	}
-	    	else
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getRightCellCursor() );
-	    	}
-	    }
-	    super.showTargetFeedback( request );
-	}
-	
-	public void eraseTargetFeedback( Request request)
-	{
-		if (isActive())
+		if ( this.getSelected( ) == 0
+				&& isActive( )
+				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
-			this.getViewer().setCursor( null );
+			if ( isFigureLeft( request ) )
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getLeftCellCursor( ) );
+			}
+			else
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getRightCellCursor( ) );
+			}
 		}
-	    super.eraseTargetFeedback( request );
+		super.showTargetFeedback( request );
 	}
-	
-	protected void addChildVisual(EditPart part, int index)
+
+	public void eraseTargetFeedback( Request request )
 	{
-	    // make sure we don't keep a select cell cursor after new contents
-	    // are added
-	    this.getViewer().setCursor( null );
-	    super.addChildVisual(part, index);
+		if ( isActive( ) )
+		{
+			this.getViewer( ).setCursor( null );
+		}
+		super.eraseTargetFeedback( request );
+	}
+
+	protected void addChildVisual( EditPart part, int index )
+	{
+		// make sure we don't keep a select cell cursor after new contents
+		// are added
+		this.getViewer( ).setCursor( null );
+		super.addChildVisual( part, index );
 	}
 }

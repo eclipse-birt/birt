@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.Ta
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableGridLayer;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -82,7 +83,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
 
 	private static final String MERGE_TRANS_LABEL = Messages.getString( "TableEditPart.Label.Merge" ); //$NON-NLS-1$
-	
+
 	private static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	protected FreeformLayeredPane innerLayers;
@@ -101,16 +102,19 @@ public class TableEditPart extends ReportElementEditPart implements
 		super( obj );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
-		TableGuideHandle handle = new TableGuideHandle(this);
+		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
 		return handle;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -122,8 +126,8 @@ public class TableEditPart extends ReportElementEditPart implements
 		addListenerToChildren( );
 	}
 
-	/*s
-	 * (non-Javadoc)
+	/*
+	 * s (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.EditPart#deactivate()
 	 */
@@ -219,7 +223,7 @@ public class TableEditPart extends ReportElementEditPart implements
 			( (RowHandle) list.get( i ) ).removeListener( this );
 		}
 	}
-	
+
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( !isActive( ) )
@@ -1137,22 +1141,9 @@ public class TableEditPart extends ReportElementEditPart implements
 	/**
 	 * Inserts group in table.
 	 */
-	public TableGroupHandle insertGroup( )
+	public boolean insertGroup( )
 	{
-		TableGroupHandle groupHandle = null;
-		try
-		{
-			groupHandle = getTableAdapter( ).insertGroup( );
-		}
-		catch ( ContentException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		catch ( NameException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return groupHandle;
+		return UIUtil.createGroup( getTableAdapter( ).getHandle( ) );
 	}
 
 	/**
@@ -1201,31 +1192,34 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 	}
 
-	public void showTargetFeedback(Request request)
+	public void showTargetFeedback( Request request )
 	{
-	    if ( this.getSelected() == 0 &&
-	    		isActive() && request.getType() == RequestConstants.REQ_SELECTION )
-	    {
-	    	
-	    	if (isFigureLeft(request))
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getLeftCellCursor() );
-	    	}
-	    	else
-	    	{
-	    		this.getViewer().setCursor( ReportPlugin.getDefault().getRightCellCursor() );
-	    	}
-	    }
-	    super.showTargetFeedback( request );
-	}
-	
-	public void eraseTargetFeedback( Request request)
-	{
-		if (isActive())
+		if ( this.getSelected( ) == 0
+				&& isActive( )
+				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
-			this.getViewer().setCursor( null );
+
+			if ( isFigureLeft( request ) )
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getLeftCellCursor( ) );
+			}
+			else
+			{
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getRightCellCursor( ) );
+			}
 		}
-	    super.eraseTargetFeedback( request );
+		super.showTargetFeedback( request );
+	}
+
+	public void eraseTargetFeedback( Request request )
+	{
+		if ( isActive( ) )
+		{
+			this.getViewer( ).setCursor( null );
+		}
+		super.eraseTargetFeedback( request );
 	}
 
 	protected void addChildVisual( EditPart part, int index )

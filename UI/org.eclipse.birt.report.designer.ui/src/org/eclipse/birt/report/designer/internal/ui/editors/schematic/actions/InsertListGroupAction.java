@@ -17,18 +17,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * add comment here
@@ -87,13 +83,7 @@ public class InsertListGroupAction extends SelectionAction
 		stack.startTrans( STACK_MSG_INSERT_GROUP );
 
 		ListEditPart part = (ListEditPart) getListEditParts( ).get( 0 );
-		ListGroupHandle handle = part.insertGroup( );
-		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ) );
-		dialog.setInput( handle );
-		dialog.setDataSetList( DEUtil.getDataSetList( handle ) );
-		if ( dialog.open( ) == Window.OK )
+		if ( part.insertGroup( ) )
 		{
 			stack.commit( );
 		}
@@ -119,7 +109,7 @@ public class InsertListGroupAction extends SelectionAction
 			{
 				if ( !( listParts.contains( obj ) ) )
 				{
-					listParts.add( (ListEditPart) obj );
+					listParts.add( obj );
 				}
 			}
 			else if ( obj instanceof ListBandEditPart )

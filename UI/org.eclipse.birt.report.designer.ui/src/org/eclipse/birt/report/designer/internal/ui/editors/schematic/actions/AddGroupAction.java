@@ -14,21 +14,15 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Add group action
@@ -73,34 +67,18 @@ public class AddGroupAction extends SelectionAction
 	{
 		CommandStack stack = getActiveCommandStack( );
 		stack.startTrans( STACK_MSG_ADD_GROUP );
-
-		GroupHandle groupHandle = null;
+		boolean retValue = false;
 		if ( getTableEditPart( ) != null )
 		{
-			groupHandle = getTableEditPart( ).insertGroup( );
+			retValue = getTableEditPart( ).insertGroup( );
 		}
 		else
 		{
-			groupHandle = getListEditPart( ).insertGroup( );
+			retValue = getListEditPart( ).insertGroup( );
 		}
-
-		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ) );
-		dialog.setDataSetList( DEUtil.getDataSetList( groupHandle ) );
-		dialog.setInput( groupHandle );
-
-		if ( dialog.open( ) == Window.OK )
+		if ( retValue )
 		{
-			try
-			{
-				stack.commit( );
-			}
-			catch ( Exception e )
-			{
-				stack.rollbackAll( );
-				ExceptionHandler.handle( e );
-			}
+			stack.commit( );
 		}
 		else
 		{

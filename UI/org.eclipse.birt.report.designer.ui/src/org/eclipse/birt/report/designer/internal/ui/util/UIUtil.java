@@ -11,7 +11,18 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -123,4 +134,56 @@ public class UIUtil
 		return PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
 	}
 
+	/**
+	 * Creates a new group under the given parent
+	 * 
+	 * @param parent
+	 *            The parent of the new group, it should be a table or a list
+	 *            and should not be null.
+	 * @return Returns true if the group created successfully, false if
+	 *         the creation is cancelled or some error occurred.
+	 */
+	public static boolean createGroup( DesignElementHandle parent )
+	{
+		Assert.isNotNull( parent );
+		ElementFactory factory = parent.getElementFactory( );
+		GroupHandle groupHandle = null;
+		SlotHandle slotHandle = null;
+		try
+		{
+
+			if ( parent instanceof TableHandle )
+			{
+				groupHandle = factory.newTableGroup( );
+				slotHandle = ( (TableHandle) parent ).getGroups( );
+				int columnCount = ( (TableHandle) parent ).getColumnCount( );
+				groupHandle.getHeader( )
+						.add( factory.newTableRow( columnCount ) );
+				groupHandle.getFooter( )
+						.add( factory.newTableRow( columnCount ) );
+			}
+			else if ( parent instanceof ListHandle )
+			{
+				groupHandle = factory.newListGroup( );
+				slotHandle = ( (ListHandle) parent ).getGroups( );
+			}
+			if ( groupHandle != null )
+			{
+				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
+				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
+				dialog.setInput( groupHandle );
+				if ( dialog.open( ) == Window.OK )
+				{
+					slotHandle.add( groupHandle );
+					return true;
+				}
+			}
+			return false;
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			return false;
+		}
+	}
 }
