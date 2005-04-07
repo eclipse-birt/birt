@@ -15,15 +15,15 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.OdaException;
 
@@ -131,7 +131,7 @@ public class ResultSet
 				colValue = getString( driverPosition );
 			else if( dataType == BigDecimal.class )
 				colValue = getBigDecimal( driverPosition );
-			else if( dataType == Date.class )
+			else if( dataType == java.util.Date.class )
 				colValue = getDate( driverPosition );
 			else if( dataType == Time.class )
 				colValue = getTime( driverPosition );
@@ -221,7 +221,7 @@ public class ResultSet
 		}
 	}
 	
-	private Date getDate( int driverPosition ) throws DataException
+	private java.util.Date getDate( int driverPosition ) throws DataException
 	{
 		try
 		{

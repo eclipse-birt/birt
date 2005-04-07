@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 

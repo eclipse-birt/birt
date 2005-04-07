@@ -15,7 +15,7 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;

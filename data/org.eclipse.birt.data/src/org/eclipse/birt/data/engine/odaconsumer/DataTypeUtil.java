@@ -15,7 +15,7 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -40,7 +40,7 @@ public final class DataTypeUtil
 	 * Double -> java.lang.Double<br>
 	 * Character -> java.lang.String<br>
 	 * Decimal -> java.math.BigDecimal<br>
-	 * Date -> java.sql.Date<br>
+	 * Date -> java.util.Date<br>
 	 * Time -> java.sql.Time<br>
 	 * Timestamp -> java.sql.Timestamp<br></i>
 	 * @param odaDataType	the ODA data type.
@@ -105,7 +105,7 @@ public final class DataTypeUtil
 	 * java.lang.Double -> Double<br>
 	 * java.lang.String -> Character<br>
 	 * java.math.BigDecimal -> Decimal<br>
-	 * java.sql.Date -> Date<br>
+	 * java.util.Date -> Date<br>
 	 * java.sql.Time -> Time<br>
 	 * java.sql.Timestamp -> Timestamp<br></i><br>
 	 * All other Java classes are mapped to the ODA character type.

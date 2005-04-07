@@ -1260,7 +1260,7 @@ public class PreparedStatement
 		return doGetBigDecimal( paramName );
 	}
 
-	private Date getDate( String paramName ) throws DataException
+	private java.util.Date getDate( String paramName ) throws DataException
 	{
 		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
@@ -1443,7 +1443,7 @@ public class PreparedStatement
 		}
 	}
 	
-	private Date doGetDate( int paramIndex ) throws DataException
+	private java.util.Date doGetDate( int paramIndex ) throws DataException
 	{
 		try
 		{
@@ -1461,7 +1461,7 @@ public class PreparedStatement
 		}
 	}
 	
-	private Date doGetDate( String paramName ) throws DataException
+	private java.util.Date doGetDate( String paramName ) throws DataException
 	{
 		try
 		{
@@ -1818,10 +1818,13 @@ public class PreparedStatement
 				return;
 			}
 			
-			if( paramValue instanceof Date )
+			if( paramValue instanceof java.util.Date )
 			{
-				Date date = (Date) paramValue;
-				setDate( paramName, paramIndex, date );
+				// need to convert the java.util.Date to the java.sql.Date supported 
+				// by ODA
+				java.util.Date date = (java.util.Date) paramValue;
+				Date sqlDate = new Date( date.getTime() );
+				setDate( paramName, paramIndex, sqlDate );
 				return;
 			}
 	
@@ -1891,7 +1894,7 @@ public class PreparedStatement
 			( parameterType == Types.DOUBLE && paramValueClass == Double.class ) ||
 			( parameterType == Types.CHAR && paramValueClass == String.class ) ||
 			( parameterType == Types.DECIMAL && paramValueClass == BigDecimal.class ) ||
-			( parameterType == Types.DATE && paramValueClass == Date.class ) ||
+			( parameterType == Types.DATE && paramValueClass == java.util.Date.class ) ||
 			( parameterType == Types.TIME && paramValueClass == Time.class ) ||
 			( parameterType == Types.TIMESTAMP && paramValueClass == Timestamp.class ) )
 		{
@@ -1938,7 +1941,7 @@ public class PreparedStatement
 			return;
 		}
 		
-		if( paramValueClass == Date.class )
+		if( paramValueClass == java.util.Date.class )
 		{
 			retrySetDateParamValue( paramName, paramIndex, paramValue, 
 			                        parameterType );
@@ -2204,14 +2207,17 @@ public class PreparedStatement
 		{
 			case Types.CHAR:
 			{
-				String s = ( (Date) paramValue ).toString();
+				// need to convert the java.util.Date to a java.sql.Date, 
+				// so that we can get the ISO format date string
+				Date sqlDate = new Date( ( (java.util.Date) paramValue ).getTime() );
+				String s = sqlDate.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
 			
 			case Types.TIMESTAMP:
 			{
-				long time = ( (Date) paramValue ).getTime();
+				long time = ( (java.util.Date) paramValue ).getTime();
 				Timestamp ts = new Timestamp( time );
 				setTimestamp( paramName, paramIndex, ts );
 				return;
