@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Created on 03/15/2005
+ *  Build script for project org.eclipse.birt.report.data.oda.jdbc
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Compile source code and generate jar for this project.
+ *          The compile dependency on other projects should be defined explicitly.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
+ *              so it needn't depend on Jar explicitly
+ * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "JavaDoc" - generate java documents
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *
+ * Default target is "Jar".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ * 
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *    1. 03/15/2005: initial version
+ *
+-->
+
+<project name="ODA-JDBC Bridge" default="Jar" basedir=".">
+	<description>BIRT ODA-JDBC Bridge Driver</description>
+	<!-- set global properties for this build -->
+	<!-- Public properties, used by public targets, top level build script
+		     will pass on the value at runtime. Properties will have there default
+		     value.
+
+		     eclipse.home
+		     utest.report.dir
+		     javadoc.dir
+		     plugin.version 
+	-->
+	
+	<!-- ===== Default value for public properties ============= -->
+	<property name="utest.report.dir" location="utestreports" />
+	<property name="javadoc.dir" location="docs/api" />
+	<property name="plugin.version" value="0.0.1" />
+	<property name="export.dir" location="export" />
+	<property name="eclipse.home" location="." />
+	
+	<property name="dir.utest" value="utest" />
+ 	<property name="dir.src" value="src" />
+ 	<property name="dir.test" value="test" />
+ 	<property name="dir.bin" value="bin" />
+ 	<property name="dir.lib" value="lib" />
+
+	<property name="module.name" value="org.eclipse.birt.report.data.oda.jdbc"/>
+	<property name="dte.dir" location="../org.eclipse.birt.data" />
+
+	<property name="user" value="Actuate" />
+	<property name="password" value="Actuate" />
+	<property name="host" value="localhost" />
+	<property name="database" value="DTETest" />
+
+	<path id="class.path">
+		<pathelement path="${dir.bin}" />
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${dte.dir}/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${dte.dir}">
+			<include name="dte.jar"/>
+		</fileset>
+		<!-- depends on eclispe runtime plugin -->
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+		</fileset>
+		<!--pathelement path="${dte.dir}/${oda_jar}"/-->
+	</path>
+	
+
+	<!-- Compile source code and generate jar for this project.
+		 Input parameters:
+		 	eclipse.home
+
+	-->
+	<target name="Jar" depends="compileSource">
+		<jar destfile="oda-jdbc.jar">
+			<fileset dir="${dir.bin}">
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+			<zipfileset src="${dte.dir}/oda.jar" excludes="**/*.MF"/>
+		</jar>
+	</target>
+	
+	<!-- Export the project, for instance, jar files are copied to a designated folder
+		 the dependency on Jar should implement in top level script by call sequence	
+		 Parameters:
+		 		- ${export.dir} target directory to put the plugin binaries
+		 		- ${plugin.version} the version of plugin exported
+	 -->
+	<target name="Export">
+	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
+	        <fileset dir="." includes="*.jar,plugin.xml,${dir.lib}/**,odaconfig.xml"/>
+	    </copy>
+	</target>
+
+	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
+	<!-- Run Unit test.
+			 Parameters:
+			 		- ${utest.report.dir} target directory to put the unit test report
+	-->	
+	<target name="UnitTest" depends="compileTest" description="run all the unit tests">
+
+		<!-- run all tests in ${dir.utest} directory -->
+		<delete dir="${dir.utest}" />
+		<mkdir dir="${dir.utest}" />
+
+		<!-- Create the log directory -->
+		<delete dir="${utest.report.dir}" />
+		<mkdir dir="${utest.report.dir}" />
+
+		<!-- run junit for each testcase -->
+		<junit fork="yes" dir="${dir.utest}" taskname="ODA-JDBC Tests">
+			<jvmarg value="-ea" />
+			<sysproperty key="user" value="${user}" />
+			<sysproperty key="password" value="${password}" />
+			<sysproperty key="host" value="${host}" />
+			<sysproperty key="database" value="${database}" />
+			<classpath refid="class.path" />
+			<formatter type="xml" />
+			
+			<batchtest todir="${utest.report.dir}">
+				<fileset dir="${dir.test}">
+					<include name="**/*Test.java" />
+					<exclude name="**/AllTests.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<!-- delete the ${dir.utest} dir /-->
+		<delete dir="${dir.utest}" />
+	</target>
+	
+	<!-- Clean all objects created by this script -->
+	<target name="Clean" description="clean up">
+		<!-- Delete the ${dir.bin} and ${dir.utest} directory trees -->
+		<delete dir="${dir.bin}" />
+		<delete dir="${dir.utest}" />
+		<delete>
+			<fileset dir="." includes="*junit*" />
+		</delete>
+		<!-- Delete the target jar file -->
+		<delete file="oda-jdbc.jar" />
+	</target>
+	
+	
+	<!-- Generate the JavaDoc.
+		 Parameters:
+		 		- ${javadoc.dir} target directory to put the java document
+	 -->
+	
+	<target name="Javadoc">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc destdir="${javadoc.dir}" 
+				 author="true" 
+				 version="true" 
+				 use="true" 
+				 windowtitle="Birt oda-jdbc API" 
+				 source="1.4"
+				 packagenames="${module.name}.*">
+				<packageset dir="${dir.src}" defaultexcludes="yes" />
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+				<classpath refid="class.path" />
+		</javadoc>
+	</target>
+	
+	<target name="buildDependency">
+		<echo message="start call Jar task in ${dte.dir}"/>
+		<ant dir="${dte.dir}" antfile="BuildData.xml" target="Jar" inheritAll="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>				
+		<echo message="end call Jar task in ${dte.dir}"/>
+	</target>
+	
+	<target name="compileSource" depends="buildDependency" description="compile the source ">
+		<mkdir dir="${dir.bin}" />
+
+		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
+		<javac srcdir="${dir.src}" 
+			   destdir="${dir.bin}" 
+			   encoding="utf-8" 
+			   source="1.4" 
+			   debug="true">
+			
+			<classpath refid="class.path" />
+			<exclude name="util/**/*" />
+		</javac>
+	</target>
+
+	
+	<!-- Compile Oda Test Files 
+			 javac.failonerror should be true.
+	-->
+	<target name="compileTest" description="compile the test ">
+		<mkdir dir="${dir.bin}" />
+		
+		<!-- Compile the java code from ${dir.test} into ${dir.bin} -->
+		<javac srcdir="${dir.test}" 
+			   destdir="${dir.bin}" 
+			   encoding="utf-8" 
+			   source="1.4" 
+			   debug="true"
+			   failonerror="true" >
+			   
+			<classpath refid="class.path"/>
+		</javac>
+	</target>
+</project>
+
