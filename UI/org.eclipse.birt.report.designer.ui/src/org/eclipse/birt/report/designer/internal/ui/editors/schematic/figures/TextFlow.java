@@ -152,7 +152,18 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		 * Calculates the actual drawing line width according to the Font size.
 		 */
 		int lineWidth = this.getFont( ).getFontData( )[0].getHeight( )
-				/ LINE_FACTOR + 1;
+				/ LINE_FACTOR
+				+ 1;
+
+		/**
+		 * Get the total fragments height first
+		 */
+		int totalHeight = 0;
+
+		for ( int i = 0; i < fragments.size( ); i++ )
+		{
+			totalHeight += ( (TextFragmentBox) fragments.get( i ) ).getHeight( );
+		}
 
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
@@ -192,7 +203,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			 * horizontal alignment style.
 			 */
 			int left = calculateLeft( this.getSize( ).width, frag.getWidth( ) );
-			int top = calculateTop( this.getSize( ).height, frag.getHeight( ) );
+			int top = calculateTop( this.getSize( ).height, totalHeight );
 
 			int realX = frag.x + left + xoff;
 			int realY = frag.y + top + yoff;
@@ -222,10 +233,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				 */
 				if ( textUnderline.equals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE ) )
 				{
-					g.drawLine( realX,
-							frag.y + frag.getHeight( ) - 1 + yoff,
-							realX + frag.getWidth( ),
-							frag.y + frag.getHeight( ) - 1 + yoff );
+					g.drawLine( realX, realY + frag.getHeight( ) - 1, realX
+							+ frag.getWidth( ), realY + frag.getHeight( ) - 1 );
 				}
 
 				/**
@@ -233,14 +242,11 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				 */
 				if ( textLineThrough.equals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH ) )
 				{
-					g.drawLine( realX,
-							frag.y
-									+ yoff + ( frag.getHeight( ) - lineWidth )
-									/ 2,
-							realX + frag.getWidth( ),
-							frag.y
-									+ yoff + ( frag.getHeight( ) - lineWidth )
-									/ 2 );
+					g.drawLine( realX, realY
+							+ ( frag.getHeight( ) - lineWidth )
+							/ 2, realX + frag.getWidth( ), realY
+							+ ( frag.getHeight( ) - lineWidth )
+							/ 2 );
 				}
 
 				/**
@@ -248,8 +254,10 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				 */
 				if ( textOverline.equals( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE ) )
 				{
-					g.drawLine( realX, frag.y + 1 + yoff, realX
-							+ frag.getWidth( ), frag.y + 1 + yoff );
+					g.drawLine( realX,
+							realY + 1,
+							realX + frag.getWidth( ),
+							realY + 1 );
 				}
 
 			}
@@ -286,7 +294,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		if ( textAlign.equals( DesignChoiceConstants.TEXT_ALIGN_LEFT )
 				|| textAlign.equals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY ) )
 		{
-			rlt = 1;
+			rlt = 0;
 		}
 		else if ( textAlign.equals( DesignChoiceConstants.TEXT_ALIGN_CENTER ) )
 		{
@@ -314,9 +322,10 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 	{
 		int rlt = 0;
 
-		if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_TOP ) )
+		if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_TOP )
+				|| verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_BASELINE ) )
 		{
-			rlt = 1;
+			rlt = 0;
 		}
 		else if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE ) )
 		{
