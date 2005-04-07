@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ReportMetaData">
 		<xs:annotation>
@@ -21,20 +21,14 @@
 				<xs:element name="Class" minOccurs="0" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Constructor" type="MethodType" minOccurs="0"/>
-							<xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:attribute name="name" type="xs:string" use="required"/>
-									<xs:attribute name="dataType" type="xs:string" use="required"/>
-									<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
-									<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
-								</xs:complexType>
-							</xs:element>
+							<xs:element name="Constructor" type="MethodType" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Member" type="MemberType" minOccurs="0" maxOccurs="unbounded"/>
 							<xs:element name="Method" type="MethodType" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 						<xs:attribute name="name" type="xs:string" use="required"/>
 						<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
 						<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
+						<xs:attribute name="native" type="xs:boolean" use="optional" default="false"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Validators">
@@ -109,7 +103,10 @@
 			<xs:enumeration value="element"/>
 			<xs:enumeration value="column"/>
 			<xs:enumeration value="variant"/>
-			<xs:enumeration value="structList"/>
+			<xs:enumeration value="structure"/>
+			<xs:enumeration value="resourceKey"/>
+			<xs:enumeration value="format"/>
+			<xs:enumeration value="literalString"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="PropertyTypeDefnType">
@@ -124,20 +121,14 @@
 		<xs:annotation>
 			<xs:documentation>Definition of an BIRT report element.</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
+		<xs:choice maxOccurs="unbounded">
 			<xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Describes a property defined on this element.</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:complexContent>
-						<xs:extension base="PropertyDefnType">
-							<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false">
-								<xs:annotation>
-									<xs:documentation>Indicate whether the value of this property is required.</xs:documentation>
-								</xs:annotation>
-							</xs:attribute>
-						</xs:extension>
+						<xs:extension base="PropertyDefnType"/>
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
@@ -170,17 +161,22 @@
 					<xs:attribute name="name" type="xs:string" use="required"/>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="Method" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes a method on the element that the user can define.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="MethodType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="Slot" type="SlotDefnType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>If the element is a container, describes the "slots" that can hold other items.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Method" type="MethodType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Describes a method on the element that the user can define.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="required">
 			<xs:annotation>
 				<xs:documentation>The internal element name.</xs:documentation>
@@ -195,16 +191,17 @@
 The 'extends' attribute is optional, in this case, it means this report element has no parent.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="hasStyle" type="xs:boolean" use="optional" default="no">
+		<xs:attribute name="hasStyle" type="xs:boolean" use="optional" default="false">
 			<xs:annotation>
 				<xs:documentation>Identifies whether this element has a style. Define this only on the most base element that includes a style. It is unnecessary to repeat this on elements that extend an element with a style: in such a case the derived element is automatically defined to also have a style. (That is, if a parent element has a style, a derived element cannot take the style away again.)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="defaultStyle" type="xs:string" use="optional"/>
+		<xs:attribute name="selector" type="xs:string" use="optional"/>
 		<xs:attribute name="allowsUserProperties" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="canExtend" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="nameSpace" type="NameSpaceType" use="optional"/>
 		<xs:attribute name="isNameRequired" type="xs:boolean" use="optional"/>
+		<xs:attribute name="javaClass" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="PropertyDefnType">
 		<xs:annotation>
@@ -219,6 +216,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The trigger definition which defines the condition to trigger a semantic validation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Allowed" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The restriction on the possible choice that a proper value can choose.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -237,7 +239,10 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="detailType" type="xs:string" use="optional"/>
-		<xs:attribute name="isVisible" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="propertyVisibility" type="xs:string" use="optional"/>
+		<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="isList" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="validator" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="StyleDefnType">
 		<xs:attribute name="reference" type="xs:string" use="optional">
@@ -266,10 +271,15 @@ The 'extends' attribute is optional, in this case, it means this report element 
 					<xs:attribute name="name" type="xs:string" use="required"/>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Trigger" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The trigger definition which defines the condition to trigger a semantic validation.</xs:documentation>
 				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="TriggerDefnType"/>
+					</xs:complexContent>
+				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required">
@@ -288,6 +298,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="defaultStyle" type="xs:string" use="optional"/>
+		<xs:attribute name="selector" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:simpleType name="NameSpaceType" final="restriction">
 		<xs:restriction base="xs:string">
@@ -301,7 +312,6 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="ChoiceType">
-		<xs:attribute name="internalValue" type="xs:long" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
@@ -309,6 +319,9 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:sequence>
 			<xs:element name="Member" maxOccurs="unbounded">
 				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Default" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
 					<xs:attribute name="name" type="xs:string" use="required"/>
 					<xs:attribute name="displayNameID" type="xs:string" use="required"/>
 					<xs:attribute name="type" type="PropertyType" use="required"/>
@@ -318,6 +331,9 @@ The 'extends' attribute is optional, in this case, it means this report element 
 							<xs:documentation>Some properties are represented by members variables in the implementation. If so, the property is intrinsic, and the member name must be listed here.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
+					<xs:attribute name="detailType" type="xs:string" use="optional"/>
+					<xs:attribute name="validator" type="xs:string" use="optional"/>
+					<xs:attribute name="isList" type="xs:boolean" use="optional" default="false"/>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
@@ -341,7 +357,8 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
 		<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
 		<xs:attribute name="returnType" type="xs:string" use="optional"/>
-		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="no"/>
+		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
 	<xs:complexType name="TriggerDefnType">
 		<xs:annotation>
@@ -349,6 +366,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		</xs:annotation>
 		<xs:attribute name="preRequisite" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="targetElement" type="xs:string" use="optional"/>
+		<xs:attribute name="validator" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="ValidatorDefnType">
 		<xs:annotation>
@@ -356,5 +374,15 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		</xs:annotation>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="class" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="MemberType">
+		<xs:annotation>
+			<xs:documentation>Definition of a BIRT member for a java script class.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="toolTipID" type="xs:string" use="required"/>
+		<xs:attribute name="dataType" type="xs:string" use="required"/>
+		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
 </xs:schema>
