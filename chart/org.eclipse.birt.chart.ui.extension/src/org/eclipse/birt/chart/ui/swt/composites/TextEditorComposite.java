@@ -44,6 +44,8 @@ public class TextEditorComposite extends Composite implements ModifyListener, Fo
     private transient Vector vListeners = null;
 
     public static final int TEXT_MODIFIED = 0;
+    
+    private transient boolean bEnabled = true;
 
     public TextEditorComposite(Composite parent, int iStyle)
     {
@@ -65,6 +67,17 @@ public class TextEditorComposite extends Composite implements ModifyListener, Fo
         txtValue = new Text(this, iStyle);
         txtValue.addModifyListener(this);
         txtValue.addFocusListener(this);
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        this.txtValue.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public void setText(String sText)

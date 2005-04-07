@@ -129,6 +129,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         populateLists();
         shell.setText(Messages.getString("FontDefinitionDialog.Title.FontDescriptor")); //$NON-NLS-1$
         shell.setSize(450, 480);
+        shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();

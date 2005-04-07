@@ -90,6 +90,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         shell.setLayout(new FillLayout());
         placeComponents(shell);
         shell.pack();
+        shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
         shell.open();
         Display display = parent.getDisplay();

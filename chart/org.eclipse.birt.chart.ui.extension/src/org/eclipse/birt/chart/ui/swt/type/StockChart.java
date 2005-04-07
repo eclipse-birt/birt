@@ -118,15 +118,16 @@ public class StockChart extends DefaultChartTypeImpl
     public Collection getChartSubtypes(String sDimension, Orientation orientation)
     {
         Vector vSubTypes = new Vector();
-        // Do not respond to requests for unknown orientations
-        if (!orientation.equals(Orientation.VERTICAL_LITERAL))
-        {
-            return vSubTypes;
-        }
         if (sDimension.equals("2D") || sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) //$NON-NLS-1$
         {
-            img2D = UIHelper.getImage("images/stockchartimage.gif"); //$NON-NLS-1$
-
+            if (orientation.equals(Orientation.VERTICAL_LITERAL))
+            {
+                img2D = UIHelper.getImage("images/stockchartimage.gif"); //$NON-NLS-1$
+            }
+            else
+            {
+                img2D = UIHelper.getImage("images/horizontalstockchartimage.gif"); //$NON-NLS-1$
+            }
             vSubTypes.add(new DefaultChartSubTypeImpl("Standard Stock Chart", img2D, sStandardDescription)); //$NON-NLS-1$
         }
         return vSubTypes;
@@ -175,8 +176,6 @@ public class StockChart extends DefaultChartTypeImpl
         valueSeries.getLabel().setVisible(true);
         sdY.getSeries().add(valueSeries);
         ((Axis) ((Axis) newChart.getAxes().get(0)).getAssociatedAxes().get(0)).getSeriesDefinitions().add(sdY);
-
-        newChart.setOrientation(Orientation.VERTICAL_LITERAL);
 
         addSampleData(newChart);
         return newChart;

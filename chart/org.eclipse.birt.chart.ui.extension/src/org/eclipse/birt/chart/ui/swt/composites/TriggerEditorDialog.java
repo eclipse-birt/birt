@@ -60,6 +60,7 @@ public class TriggerEditorDialog implements SelectionListener
         placeComponents();
         shell.setText(Messages.getString("TriggerEditorDialog.Title.TriggerEditor") + sTitle); //$NON-NLS-1$
         shell.pack();
+        shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();

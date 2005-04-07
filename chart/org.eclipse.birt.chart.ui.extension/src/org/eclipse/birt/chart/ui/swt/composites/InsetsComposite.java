@@ -41,6 +41,14 @@ public class InsetsComposite extends Composite implements Listener
     private transient Insets insets = null;
 
     private transient Group grpInsets = null;
+    
+    private transient Label lblTop = null;
+
+    private transient Label lblLeft = null;
+
+    private transient Label lblBottom = null;
+
+    private transient Label lblRight = null;
 
     private transient TextEditorComposite txtTop = null;
 
@@ -53,6 +61,8 @@ public class InsetsComposite extends Composite implements Listener
     private transient Vector vListeners = null;
 
     private transient IUIServiceProvider serviceprovider = null;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -99,7 +109,7 @@ public class InsetsComposite extends Composite implements Listener
         grpInsets.setLayout(glGroup);
         grpInsets.setText(Messages.getString("InsetsComposite.Lbl.Insets") + sUnits + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        Label lblTop = new Label(grpInsets, SWT.NONE);
+        lblTop = new Label(grpInsets, SWT.NONE);
         GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLTop.heightHint = 20;
         lblTop.setLayoutData(gdLTop);
@@ -115,7 +125,7 @@ public class InsetsComposite extends Composite implements Listener
         txtTop.setText(new Double(dblCurrent).toString());
         txtTop.addListener(this);
 
-        Label lblLeft = new Label(grpInsets, SWT.NONE);
+        lblLeft = new Label(grpInsets, SWT.NONE);
         GridData gdLLeft = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLLeft.heightHint = 20;
         lblLeft.setLayoutData(gdLLeft);
@@ -131,7 +141,7 @@ public class InsetsComposite extends Composite implements Listener
         txtLeft.setText(new Double(dblCurrent).toString());
         txtLeft.addListener(this);
 
-        Label lblBottom = new Label(grpInsets, SWT.NONE);
+        lblBottom = new Label(grpInsets, SWT.NONE);
         GridData gdLBottom = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLBottom.heightHint = 20;
         lblBottom.setLayoutData(gdLBottom);
@@ -147,7 +157,7 @@ public class InsetsComposite extends Composite implements Listener
         txtBottom.setText(new Double(dblCurrent).toString());
         txtBottom.addListener(this);
 
-        Label lblRight = new Label(grpInsets, SWT.NONE);
+        lblRight = new Label(grpInsets, SWT.NONE);
         GridData gdLRight = new GridData(GridData.VERTICAL_ALIGN_CENTER);
         gdLRight.heightHint = 20;
         lblRight.setLayoutData(gdLRight);
@@ -162,6 +172,25 @@ public class InsetsComposite extends Composite implements Listener
         dblCurrent = serviceprovider.getConvertedValue(dblPoints, "Points", sUnits); //$NON-NLS-1$
         txtRight.setText(new Double(dblCurrent).toString());
         txtRight.addListener(this);
+    }
+    
+    public void setEnabled(boolean bState)
+    {
+        lblTop.setEnabled(bState);
+        txtTop.setEnabled(bState);
+        lblLeft.setEnabled(bState);
+        txtLeft.setEnabled(bState);
+        lblBottom.setEnabled(bState);
+        txtBottom.setEnabled(bState);
+        lblRight.setEnabled(bState);
+        txtRight.setEnabled(bState);
+        grpInsets.setEnabled(bState);
+        bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return bEnabled;
     }
 
     public void setInsets(Insets insets, String sUnits)

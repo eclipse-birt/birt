@@ -106,6 +106,8 @@ public class FillChooserComposite extends Composite implements SelectionListener
     public static final int FILL_CHANGED_EVENT = 1;
 
     public static final int MOUSE_CLICKED_EVENT = 2;
+    
+    private transient boolean bEnabled = true;
 
     private transient int iSize = 20;
 
@@ -223,6 +225,10 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
+        if(!bEnabled)
+        {
+            return;
+        }
         int iShellHeight = 256;
         int iShellWidth = 160;
         // Reduce the height based on which buttons are to be shown.
@@ -234,7 +240,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getShell(), SWT.NONE);
+        Shell shell = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);
@@ -376,6 +382,17 @@ public class FillChooserComposite extends Composite implements SelectionListener
             return ColorDefinitionImpl.TRANSPARENT();
         }
         return this.fCurrent;
+    }
+    
+    public void setEnabled(boolean bState)
+    {
+        btnDown.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public Point getPreferredSize()
@@ -543,6 +560,10 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     public void mouseDown(MouseEvent e)
     {
+        if(!bEnabled)
+        {
+            return;
+        }
         fireHandleEvent(MOUSE_CLICKED_EVENT);
         if (e.getSource().equals(cnvSelection))
         {

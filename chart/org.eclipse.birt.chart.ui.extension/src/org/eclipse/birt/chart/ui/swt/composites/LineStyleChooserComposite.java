@@ -60,6 +60,8 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
     public static final int STYLE_CHANGED_EVENT = 1;
 
     private transient int iSize = 20;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -137,12 +139,27 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
         btnDown.addSelectionListener(this);
     }
 
+    public void setEnabled(boolean bState)
+    {
+        btnDown.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
+    }
+
     /**
      *  
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        Shell shell = new Shell(this.getShell(), SWT.NONE);
+        if(!bEnabled)
+        {
+            return;
+        }
+        Shell shell = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
         shell.setLayout(new FillLayout());
         shell.setSize(cnvSelection.getSize().x, 150);
         shell.setLocation(iXLoc, iYLoc);
@@ -243,6 +260,10 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
      */
     public void mouseDown(MouseEvent e)
     {
+        if(!bEnabled)
+        {
+            return;
+        }
         if (e.getSource() instanceof LineCanvas)
         {
             if (e.getSource().equals(cnvSelection))

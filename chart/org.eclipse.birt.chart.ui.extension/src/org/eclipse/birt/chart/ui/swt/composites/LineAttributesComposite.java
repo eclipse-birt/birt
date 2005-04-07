@@ -38,6 +38,12 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 {
 
     private transient Composite cmpContent = null;
+    
+    private transient Label lblStyle = null;
+
+    private transient Label lblWidth = null;
+
+    private transient Label lblColor = null;
 
     private transient LineStyleChooserComposite cmbStyle = null;
 
@@ -64,6 +70,8 @@ public class LineAttributesComposite extends Composite implements SelectionListe
     public static final int COLOR_CHANGED_EVENT = 3;
 
     public static final int VISIBILITY_CHANGED_EVENT = 4;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -116,6 +124,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         cmpContent = new Composite(this, SWT.NONE);
         cmpContent.setLayout(glContent);
 
+        boolean bEnableUI = bEnabled;
         if (bEnableVisibility)
         {
             cbVisible = new Button(cmpContent, SWT.CHECK);
@@ -125,14 +134,19 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             cbVisible.setText(Messages.getString("LineAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.setSelection(laCurrent.isVisible());
             cbVisible.addSelectionListener(this);
+            if(bEnabled)
+            {
+                bEnableUI = cbVisible.getSelection();
+            }
         }
 
         if (bEnableStyles)
         {
-            Label lblStyle = new Label(cmpContent, SWT.NONE);
+            lblStyle = new Label(cmpContent, SWT.NONE);
             GridData gdLStyle = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblStyle.setLayoutData(gdLStyle);
             lblStyle.setText(Messages.getString("LineAttributesComposite.Lbl.Style")); //$NON-NLS-1$
+            lblStyle.setEnabled(bEnableUI);
 
             cmbStyle = new LineStyleChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY,
                 getSWTLineStyle(laCurrent.getStyle()));
@@ -140,14 +154,16 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             gdCBStyle.horizontalSpan = 5;
             cmbStyle.setLayoutData(gdCBStyle);
             cmbStyle.addListener(this);
+            cmbStyle.setEnabled(bEnableUI);
         }
 
         if (bEnableWidths)
         {
-            Label lblWidth = new Label(cmpContent, SWT.NONE);
+            lblWidth = new Label(cmpContent, SWT.NONE);
             GridData gdLWidth = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
             lblWidth.setLayoutData(gdLWidth);
             lblWidth.setText(Messages.getString("LineAttributesComposite.Lbl.Width")); //$NON-NLS-1$
+            lblWidth.setEnabled(bEnableUI);
 
             cmbWidth = new LineWidthChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, laCurrent
                 .getThickness());
@@ -155,12 +171,14 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             gdCBWidth.horizontalSpan = 5;
             cmbWidth.setLayoutData(gdCBWidth);
             cmbWidth.addListener(this);
+            cmbWidth.setEnabled(bEnableUI);
         }
 
-        Label lblColor = new Label(cmpContent, SWT.NONE);
+        lblColor = new Label(cmpContent, SWT.NONE);
         GridData gdLColor = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
         lblColor.setLayoutData(gdLColor);
         lblColor.setText(Messages.getString("LineAttributesComposite.Lbl.Color")); //$NON-NLS-1$
+        lblColor.setEnabled(bEnableUI);
 
         cmbColor = new FillChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY, this.laCurrent.getColor(),
             false, false);
@@ -168,6 +186,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         gdCBColor.horizontalSpan = 5;
         cmbColor.setLayoutData(gdCBColor);
         cmbColor.addListener(this);
+        cmbColor.setEnabled(bEnableUI);
     }
 
     public Point getPreferredSize()
@@ -186,6 +205,34 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             ptSize.y += 30;
         }
         return ptSize;
+    }
+    
+    public void setEnabled(boolean bState)
+    {
+        boolean bEnableUI = true;
+        if(this.bEnableVisibility)
+        {
+            cbVisible.setEnabled(bState);
+            bEnableUI = cbVisible.getSelection();
+        }
+        if(this.bEnableStyles)
+        {
+            lblStyle.setEnabled(bState & bEnableUI);
+            cmbStyle.setEnabled(bState & bEnableUI);
+        }
+        if(this.bEnableWidths)
+        {
+            lblWidth.setEnabled(bState & bEnableUI);
+            cmbWidth.setEnabled(bState & bEnableUI);
+        }
+        lblColor.setEnabled(bState & bEnableUI);
+        cmbColor.setEnabled(bState & bEnableUI);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public void addListener(Listener listener)
@@ -254,6 +301,14 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             // Notify Listeners that a change has occurred in the value
             fireValueChangedEvent(LineAttributesComposite.VISIBILITY_CHANGED_EVENT, new Boolean(cbVisible
                 .getSelection()));
+            // Enable/Disable UI Elements
+            boolean bEnableUI = cbVisible.getSelection();
+            lblStyle.setEnabled(bEnableUI);
+            cmbStyle.setEnabled(bEnableUI);
+            lblWidth.setEnabled(bEnableUI);
+            cmbWidth.setEnabled(bEnableUI);
+            lblColor.setEnabled(bEnableUI);
+            cmbColor.setEnabled(bEnableUI);
         }
     }
 

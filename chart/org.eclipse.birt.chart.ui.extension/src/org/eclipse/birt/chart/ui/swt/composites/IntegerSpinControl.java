@@ -58,6 +58,8 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
     private transient Vector vListeners = null;
 
     public static final int VALUE_CHANGED_EVENT = 1;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -163,9 +165,19 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         this.iMinValue = iMin;
     }
 
+    public int getMinimum()
+    {
+        return this.iMinValue;
+    }
+
     public void setMaximum(int iMax)
     {
         this.iMaxValue = iMax;
+    }
+
+    public int getMaximum()
+    {
+        return this.iMaxValue;
     }
 
     public void setIncrement(int iIncrement)
@@ -182,6 +194,19 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
     public int getValue()
     {
         return this.iCurrentValue;
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        this.btnIncrement.setEnabled(bState);
+        this.btnDecrement.setEnabled(bState);
+        this.txtValue.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public void addListener(Listener listener)

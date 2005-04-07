@@ -50,6 +50,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
     private transient Button cbVisible = null;
 
+    private transient Label lblPosition = null;
+
+    private transient Label lblFill = null;
+
+    private transient Label lblShadow = null;
+
+    private transient Label lblFont = null;
+
     private transient Combo cmbPosition = null;
 
     private transient FontDefinitionComposite fdcFont = null;
@@ -109,6 +117,8 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private transient boolean bVisibilityEnabled = true;
 
     private transient IUIServiceProvider serviceprovider = null;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -178,6 +188,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         cmpGeneral.setLayoutData(gdCMPGeneral);
         cmpGeneral.setLayout(glGeneral);
 
+        boolean bEnableUI = bEnabled;
         if (bVisibilityEnabled)
         {
             cbVisible = new Button(cmpGeneral, SWT.CHECK);
@@ -187,25 +198,32 @@ public class LabelAttributesComposite extends Composite implements SelectionList
             cbVisible.setSelection(this.lblCurrent.isVisible());
             cbVisible.setText(Messages.getString("LabelAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.addSelectionListener(this);
+            if(bEnabled)
+            {
+                bEnableUI = cbVisible.getSelection();
+            }
         }
 
         if (bPositionEnabled)
         {
-            Label lblPosition = new Label(cmpGeneral, SWT.NONE);
+            lblPosition = new Label(cmpGeneral, SWT.NONE);
             GridData gdLBLPosition = new GridData();
             lblPosition.setLayoutData(gdLBLPosition);
             lblPosition.setText(Messages.getString("LabelAttributesComposite.Lbl.Position")); //$NON-NLS-1$
+            lblPosition.setEnabled(bEnableUI);
 
             cmbPosition = new Combo(cmpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY);
             GridData gdCMBPosition = new GridData(GridData.FILL_BOTH);
             cmbPosition.setLayoutData(gdCMBPosition);
             cmbPosition.addSelectionListener(this);
+            cmbPosition.setEnabled(bEnableUI);
         }
 
-        Label lblFont = new Label(cmpGeneral, SWT.NONE);
+        lblFont = new Label(cmpGeneral, SWT.NONE);
         GridData gdLFont = new GridData();
         lblFont.setLayoutData(gdLFont);
         lblFont.setText(Messages.getString("LabelAttributesComposite.Lbl.Font")); //$NON-NLS-1$
+        lblFont.setEnabled(bEnableUI);
 
         fdcFont = new FontDefinitionComposite(cmpGeneral, SWT.NONE, this.fdCurrent, this.cdFont);
         GridData gdFDCFont = new GridData(GridData.FILL_BOTH);
@@ -214,27 +232,32 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         gdFDCFont.grabExcessVerticalSpace = false;
         fdcFont.setLayoutData(gdFDCFont);
         fdcFont.addListener(this);
+        fdcFont.setEnabled(bEnableUI);
 
-        Label lblFill = new Label(cmpGeneral, SWT.NONE);
+        lblFill = new Label(cmpGeneral, SWT.NONE);
         GridData gdLFill = new GridData();
         lblFill.setLayoutData(gdLFill);
         lblFill.setText(Messages.getString("LabelAttributesComposite.Lbl.Background")); //$NON-NLS-1$
+        lblFill.setEnabled(bEnableUI);
 
         fccBackground = new FillChooserComposite(cmpGeneral, SWT.NONE, fBackground, true, true);
         GridData gdFCCBackground = new GridData(GridData.FILL_BOTH);
         gdFCCBackground.heightHint = fccBackground.getPreferredSize().y;
         fccBackground.setLayoutData(gdFCCBackground);
         fccBackground.addListener(this);
+        fccBackground.setEnabled(bEnableUI);
 
-        Label lblShadow = new Label(cmpGeneral, SWT.NONE);
+        lblShadow = new Label(cmpGeneral, SWT.NONE);
         GridData gdLBLShadow = new GridData();
         lblShadow.setLayoutData(gdLBLShadow);
         lblShadow.setText(Messages.getString("LabelAttributesComposite.Lbl.Shadow")); //$NON-NLS-1$
+        lblShadow.setEnabled(bEnableUI);
 
         fccShadow = new FillChooserComposite(cmpGeneral, SWT.NONE, cdShadow, false, false);
         GridData gdFCCShadow = new GridData(GridData.FILL_BOTH);
         fccShadow.setLayoutData(gdFCCShadow);
         fccShadow.addListener(this);
+        fccShadow.setEnabled(bEnableUI);
 
         grpOutline = new Group(grpAttributes, SWT.NONE);
         GridData gdGOutline = new GridData(GridData.FILL_HORIZONTAL);
@@ -242,9 +265,11 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         grpOutline.setLayoutData(gdGOutline);
         grpOutline.setText(Messages.getString("LabelAttributesComposite.Lbl.Outline")); //$NON-NLS-1$
         grpOutline.setLayout(flOutline);
+        grpOutline.setEnabled(bEnableUI);
 
         liacOutline = new LineAttributesComposite(grpOutline, SWT.NONE, laCurrent, true, true, true);
         liacOutline.addListener(this);
+        liacOutline.setEnabled(bEnableUI);
 
         icInsets = new InsetsComposite(grpAttributes, SWT.NONE, insets, sUnits, serviceprovider);
         GridData gdICInsets = new GridData(GridData.FILL_HORIZONTAL);
@@ -252,8 +277,40 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         gdICInsets.grabExcessVerticalSpace = false;
         icInsets.addListener(this);
         icInsets.setLayoutData(gdICInsets);
+        icInsets.setEnabled(bEnableUI);
 
         populateLists();
+    }
+    
+    public void setEnabled(boolean bState)
+    {
+        boolean bEnableUI = true;
+        if(this.bVisibilityEnabled)
+        {
+            cbVisible.setEnabled(bState);
+            bEnableUI = cbVisible.getSelection();
+        }
+        if(this.bPositionEnabled)
+        {
+            lblPosition.setEnabled(bState & bEnableUI);
+            cmbPosition.setEnabled(bState & bEnableUI);
+        }
+        lblFont.setEnabled(bState & bEnableUI);
+        fdcFont.setEnabled(bState & bEnableUI);
+        lblFill.setEnabled(bState & bEnableUI);
+        fccBackground.setEnabled(bState & bEnableUI);
+        lblShadow.setEnabled(bState & bEnableUI);
+        fccShadow.setEnabled(bState & bEnableUI);
+        icInsets.setEnabled(bState & bEnableUI);
+        liacOutline.setEnabled(bState & bEnableUI);
+        grpAttributes.setEnabled(bState & bEnableUI);
+        grpOutline.setEnabled(bState & bEnableUI);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     private void populateLists()
@@ -336,6 +393,20 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         {
             eLabel.data = new Boolean(cbVisible.getSelection());
             eLabel.type = VISIBILITY_CHANGED_EVENT;
+
+            boolean bEnableUI = cbVisible.getSelection();
+            grpOutline.setEnabled(bEnableUI);
+            cbVisible.setEnabled(bEnableUI);
+            lblPosition.setEnabled(bEnableUI);
+            lblFill.setEnabled(bEnableUI);
+            lblShadow.setEnabled(bEnableUI);
+            lblFont.setEnabled(bEnableUI);
+            cmbPosition.setEnabled(bEnableUI);
+            fdcFont.setEnabled(bEnableUI);
+            fccBackground.setEnabled(bEnableUI);
+            fccShadow.setEnabled(bEnableUI);
+            icInsets.setEnabled(bEnableUI);
+            liacOutline.setEnabled(bEnableUI);
         }
         fireEvent(eLabel);
     }

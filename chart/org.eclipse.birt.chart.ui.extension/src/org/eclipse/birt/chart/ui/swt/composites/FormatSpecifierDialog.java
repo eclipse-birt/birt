@@ -60,6 +60,7 @@ public class FormatSpecifierDialog implements SelectionListener
         placeComponents();
         shell.setText(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier") + sTitle); //$NON-NLS-1$
         shell.pack();
+        shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();

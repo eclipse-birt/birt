@@ -89,6 +89,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         placeComponents();
         shell.setText(Messages.getString("GradientEditorDialog.Lbl.GradientEditor")); //$NON-NLS-1$
         shell.setSize(400, 320);
+        shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
         shell.layout();
         shell.open();

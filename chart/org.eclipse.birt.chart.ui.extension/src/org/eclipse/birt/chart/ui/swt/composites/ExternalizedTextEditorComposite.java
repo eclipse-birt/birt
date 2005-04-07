@@ -57,6 +57,8 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private transient List keys = null;
 
     private transient IUIServiceProvider serviceprovider = null;
+    
+    private transient boolean bEnabled = true;
 
     public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint, List keys,
         IUIServiceProvider serviceprovider, String sText)
@@ -119,6 +121,18 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         btnDown.setText(" ... "); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        this.txtSelection.setEnabled(bState);
+        this.btnDown.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public void setText(String str)

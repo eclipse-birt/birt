@@ -53,6 +53,8 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
     public static final int COLOR_DATA = 1;
 
     private transient int iSize = 20;
+    
+    private transient boolean bEnabled = true;
 
     /**
      * @param parent
@@ -111,6 +113,17 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         btnEllipsis.setLayoutData(gdBEllipsis);
         btnEllipsis.setText("..."); //$NON-NLS-1$
         btnEllipsis.addSelectionListener(this);
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        this.btnEllipsis.setEnabled(bState);
+        this.bEnabled = bState;
+    }
+    
+    public boolean isEnabled()
+    {
+        return this.bEnabled;
     }
 
     public FontDefinition getFontDefinition()
