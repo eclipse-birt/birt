@@ -55,7 +55,6 @@ public class PreparedStatement
 	private ArrayList m_sortSpecs;
 	
 	private int m_supportsNamedResults;
-	private int m_supportsInputParameters;
 	private int m_supportsOutputParameters;
 	private int m_supportsNamedParameters;
 	
@@ -93,7 +92,6 @@ public class PreparedStatement
 		m_query = query;
 		
 		m_supportsNamedResults = UNKNOWN;
-		m_supportsInputParameters = UNKNOWN;
 		m_supportsOutputParameters = UNKNOWN;
 		m_supportsNamedParameters = UNKNOWN;
 	}
@@ -890,19 +888,7 @@ public class PreparedStatement
 		m_supportsNamedResults = b ? TRUE : FALSE;
 		return b;
 	}
-	
-	private boolean supportsInputParameters() throws DataException
-	{
-		if( m_supportsInputParameters != UNKNOWN )
-			return ( m_supportsInputParameters == TRUE );
-		
-		// else it's unknown
-		boolean b = 
-			m_connection.getMetaData( m_dataSetType ).supportsInParameters();
-		m_supportsInputParameters = b ? TRUE : FALSE;
-		return b;
-	}
-	
+
 	private boolean supportsOutputParameter() throws DataException
 	{
 		if( m_supportsOutputParameters != UNKNOWN )
@@ -1132,7 +1118,6 @@ public class PreparedStatement
 		throws DataException
 	{
 		checkOutputParameterSupport( );
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		
 		Object paramValue = null;
 		int nativeType = ( paramName == null ) ? getParameterType( paramIndex ) :
@@ -1223,7 +1208,6 @@ public class PreparedStatement
 
 	private double getDouble( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );
@@ -1236,7 +1220,6 @@ public class PreparedStatement
 	
 	private String getString( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );
@@ -1249,7 +1232,6 @@ public class PreparedStatement
 	
 	private BigDecimal getBigDecimal( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );
@@ -1262,7 +1244,6 @@ public class PreparedStatement
 
 	private java.util.Date getDate( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );
@@ -1275,7 +1256,6 @@ public class PreparedStatement
 	
 	private Time getTime( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );
@@ -1288,7 +1268,6 @@ public class PreparedStatement
 	
 	private Timestamp getTimestamp( String paramName ) throws DataException
 	{
-		ICallStatement callStatement = (ICallStatement) m_statement;
 		if( ! supportsNamedParameter() )
 		{
 			int paramIndex = getIndexFromParamHints( paramName );

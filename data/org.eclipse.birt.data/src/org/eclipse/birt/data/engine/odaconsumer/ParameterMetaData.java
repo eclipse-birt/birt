@@ -44,8 +44,6 @@ public class ParameterMetaData
 		int position = paramHint.getPosition();
 		m_position = ( position > 0 ) ? position : -1;
 		
-		Class paramHintType = paramHint.getDataType();
-		
 		m_dataType = 
 			DataTypeUtil.toOdaType( paramHint.getDataType() );
 		
