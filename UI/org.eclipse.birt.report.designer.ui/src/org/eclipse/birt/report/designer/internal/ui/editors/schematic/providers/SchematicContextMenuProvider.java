@@ -189,13 +189,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			if ( action != null )
-			{
-				action.setEnabled( action.isEnabled( ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-						action );
-			}
+//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+//			if ( action != null )
+//			{
+//				action.setEnabled( action.isEnabled( ) );
+//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+//						action );
+//			}
 
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
@@ -217,13 +217,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			if ( action != null )
-			{
-				action.setEnabled( action.isEnabled( ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-						action );
-			}
+//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+//			if ( action != null )
+//			{
+//				action.setEnabled( action.isEnabled( ) );
+//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+//						action );
+//			}
 
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
@@ -237,7 +237,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1
 					&& ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof LabelEditPart )
 			{
-				action = getAction( GEFActionConstants.DIRECT_EDIT );
+				IAction action = getAction( GEFActionConstants.DIRECT_EDIT );
 				action.setAccelerator( SWT.F2 );
 				action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
@@ -305,13 +305,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			if ( action != null )
-			{
-				action.setEnabled( action.isEnabled( ) );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-						action );
-			}
+//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
+//			if ( action != null )
+//			{
+//				action.setEnabled( action.isEnabled( ) );
+//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
+//						action );
+//			}
 
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
