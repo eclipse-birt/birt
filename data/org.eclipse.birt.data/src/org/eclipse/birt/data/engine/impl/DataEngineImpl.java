@@ -13,7 +13,6 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,8 +29,6 @@ import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.JSDataSources;
-import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
-import org.eclipse.birt.data.oda.util.driverconfig.DriverSetup;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
@@ -50,8 +47,6 @@ public class DataEngineImpl extends DataEngine
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
 	private HashMap					dataSetDesigns = new HashMap();
 	
-	static private boolean			odaInitialized = false;
-	
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 	
@@ -62,11 +57,8 @@ public class DataEngineImpl extends DataEngine
 	 * 					runtime components within a report sesssion. If this
 	 *          parameter is null, a new standard top level scope will be created
 	 *          and used.
-	 * @param   homeDir Home directory of data engine; if not null, there must be a
-	 *      subdirectory named "drivers" which contains all available ODA drivers. If null,
-	 *      the data engine must be 
 	 */
-	public DataEngineImpl( Scriptable sharedScope, File homeDir )
+	public DataEngineImpl( Scriptable sharedScope )
 	{
 		this.sharedScope = sharedScope;
 		if ( this.sharedScope == null )
@@ -77,32 +69,8 @@ public class DataEngineImpl extends DataEngine
 		    Context.exit();
 		}
 		compiler = new ExpressionCompiler( );
-		
-		// ODA ConfigManager is static and should only be initialized once
-		if ( ! odaInitialized )
-		{
-			initOda( homeDir );
-			odaInitialized = true;
-		}
 	}
 	
-	// Initialize the ODA configuration 
-	private static void initOda( File homeDir )
-	{
-		if ( homeDir == null )
-		{
-			// We are running in an Eclipse environment; find ODA drivers as plugins
-			DriverSetup.setUp();
-		}
-		else
-		{
-			// Running in a server deloyment; find drivers under "drivers" direction
-			// in home direction
-			// TODO : this init mechanism is deprecated
-			File driversHome = new File( homeDir, "drivers"); 
-			ConfigManager.getInstance().setDriversHomeDir( driversHome );
-		}
-	}
 	
 	/**
 	 * Creates a new top-level scope using given prototype

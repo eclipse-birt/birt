@@ -40,15 +40,21 @@ abstract public class DataEngine
      * home directory setting. 
      * @param sharedScope a Javascript scope to be used as the "shared" scope to evaluate
      *    Javascript expressions by the data engine. 
-     * @param homeDir The data engine's home directory. The home directory is where the
-     *    data engine will look for its configuration resources.
      * 
+     */
+    public static DataEngine newDataEngine( Scriptable sharedScope )
+    {
+        return new DataEngineImpl( sharedScope );
+    }
+	
+    /**
+     * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer used.
      */
     public static DataEngine newDataEngine( Scriptable sharedScope, File homeDir )
     {
-        return new DataEngineImpl( sharedScope, homeDir );
+        return newDataEngine( sharedScope );
     }
-	
+    
 	/**
 	 * Provides the definition of a data source to Data Engine. A data source must be
 	 * defined using this method prior to preparing any report query that uses such data source.
