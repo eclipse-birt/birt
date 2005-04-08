@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure;
@@ -74,7 +75,8 @@ public class ListBandEditPart extends ReportElementEditPart
 	 */
 	protected void createEditPolicies( )
 	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE, null );
+		installEditPolicy( EditPolicy.COMPONENT_ROLE,
+				new ReportComponentEditPolicy( ) );
 		installEditPolicy( EditPolicy.LAYOUT_ROLE,
 				new ReportFlowLayoutEditPolicy( ) );
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
