@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:36 $
  */
 public class HTMLProcessor
 {
@@ -41,10 +41,14 @@ public class HTMLProcessor
 	private CssParser cssParser;
 
 	/** the possible values for property SIZE of HTML element FONT */
-	private static String[] FONT_SIZE = new String[]{"xx-small", "x-small", //$NON-NLS-1$ //$NON-NLS-2$
-			"small", "medium",  //$NON-NLS-1$ //$NON-NLS-2$
-			"large", "x-large",  //$NON-NLS-1$//$NON-NLS-2$
-			"xx-large", "xxx-large"};  //$NON-NLS-1$//$NON-NLS-2$
+	private static String[] FONT_SIZE = new String[]{"7.5pt", "8.5pt", //$NON-NLS-1$ //$NON-NLS-2$
+			"10pt", "12pt",  //$NON-NLS-1$ //$NON-NLS-2$
+			"14.4pt", "19pt",  //$NON-NLS-1$//$NON-NLS-2$
+			"23pt", "36pt"};  //$NON-NLS-1$//$NON-NLS-2$
+//	private static String[] FONT_SIZE = new String[]{"xx-small", "x-small", //$NON-NLS-1$ //$NON-NLS-2$
+//			"small", "medium",  //$NON-NLS-1$ //$NON-NLS-2$
+//			"large", "x-large",  //$NON-NLS-1$//$NON-NLS-2$
+//			"xx-large", "xxx-large"};  //$NON-NLS-1$//$NON-NLS-2$
 
 	/**
 	 * Constructor
