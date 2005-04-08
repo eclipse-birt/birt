@@ -142,7 +142,7 @@
 			 Parameters:
 			 		- ${utest.report.dir} target directory to put the unit test report
 	-->
-	<target name="UnitTest" depends="compileTest" description="run all the unit tests">
+	<target name="UnitTest" depends="compileTest, testDependency" description="run all the unit tests">
 		
 		<!-- run all tests in current directory -->
 		<!-- Create the log directory -->
@@ -311,6 +311,7 @@
 					<include name="**/*Test.java" />
 					<exclude name="**/AllTests.java"  />
 					<exclude name="**/IntegrationTest.java" />
+					<exclude name="**/Integration2Test.java" />
 					<exclude name="**/odaconsumer/*.java" />
 					<exclude name="**/InputParamTest.java" />
 					<exclude name="**/NestedQueryTest.java" />
@@ -321,7 +322,9 @@
 			</batchtest>
 		</junit>
 		
+		<echo>Warning: Some test cases are excluded because they use some features which are not supported by flatfile driver</echo>
 		<echo>Warning: IntegrationTest is skipped</echo>
+		<echo>Warning: Integration2Test is skipped</echo>
 		<echo>Warning: InputParamTest is skipped</echo>
 		<echo>Warning: NestedQueryTest is skipped</echo>
 		<echo>Warning: ResultMD1Test is skipped</echo>
@@ -349,6 +352,15 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${core.dir}"/>
+	</target>
+	
+	<target name="testDependency">
+		<echo message="start call Jar task in ${oda.jdbc.dir}"/>		
+		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/drivers/${oda_jdbc_jar}" file="${oda.jdbc.dir}/${oda_jdbc_jar}"/>			
 	</target>
 </project>
 
