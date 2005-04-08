@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -46,7 +48,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/02 07:40:52 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/11 07:53:12 $
  */
 public class ContentFactory
 {
@@ -54,16 +56,16 @@ public class ContentFactory
 	/**
 	 * Creates the Action Content
 	 * 
-	 * @param actionStr
-	 *            the action string
+	 * @param hyperlink
+	 *            the hyper link string
 	 * @param target
 	 *            the target frame
 	 * @return the action content instance
 	 */
-	public static IHyperlinkAction createActionContent( String actionStr,
+	public static IHyperlinkAction createActionContent( String hyperlink,
 			String target )
 	{
-		return new ActionContent( actionStr, target );
+		return new ActionContent( hyperlink, target );
 	}
 
 	/**
@@ -76,6 +78,26 @@ public class ContentFactory
 	public static IHyperlinkAction createActionContent( String bookmark )
 	{
 		return new ActionContent( bookmark );
+	}
+
+	/**
+	 * Creates the Action Content
+	 * 
+	 * @param bookmark
+	 *            the bookmark string
+	 * @param reportName
+	 *            the report name navigated
+	 * @param parameterBindings
+	 *            the parameters of the report navigated
+	 * @param searchCriteria
+	 *            the search criteria
+	 */
+	public static IHyperlinkAction createActionContent( String bookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target )
+	{
+		return new ActionContent( bookmark, reportName, parameterBindings,
+				searchCriteria, target );
 	}
 
 	/**

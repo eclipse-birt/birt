@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
@@ -90,7 +92,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.17 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.18 $ $Date: 2005/03/18 19:37:07 $
  */
 public class ReportQueryBuilder
 {
@@ -662,7 +664,24 @@ public class ReportQueryBuilder
 						addExpression( action.getBookmark( ) );
 						break;
 					case ActionDesign.ACTION_DRILLTHROUGH :
-						assert false;
+						DrillThroughActionDesign drillThrough = action
+								.getDrillThrough( );
+						if ( drillThrough != null )
+						{
+							addExpression( drillThrough.getBookmark( ) );
+							if ( drillThrough.getParameters( ) != null )
+							{
+								Iterator ite = drillThrough.getParameters( )
+										.entrySet( ).iterator( );
+								while ( ite.hasNext( ) )
+								{
+									Map.Entry entry = (Map.Entry) ite.next( );
+									assert entry.getValue( ) instanceof Expression;
+									addExpression( (Expression) entry
+											.getValue( ) );
+								}
+							}
+						}
 						break;
 					case ActionDesign.ACTION_HYPERLINK :
 						addExpression( action.getHyperlink( ) );

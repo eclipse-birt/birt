@@ -15,7 +15,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -24,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -133,20 +132,21 @@ public class ListItemExecutor extends ListingElementExecutor
 	{
 		if ( band != null && band.getContentCount( ) > 0 )
 		{
-			IContainerEmitter containerEmitter = emitter.getContainerEmitter( );
-			if ( containerEmitter != null )
+//			IContainerEmitter containerEmitter = emitter.getContainerEmitter( );
+//			if ( containerEmitter != null )
+//			{
+			//				containerEmitter.start( ContentFactory.createContainerContent( )
+			// );
+			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				containerEmitter.start( ContentFactory.createContainerContent( ) );
-				for ( int i = 0; i < band.getContentCount( ); i++ )
+				ReportItemDesign item = band.getContent( i );
+				if ( item != null )
 				{
-					ReportItemDesign item = band.getContent( i );
-					if ( item != null )
-					{
-						item.accept( this.visitor );
-					}
+					item.accept( this.visitor );
 				}
-				containerEmitter.end( );
 			}
+//				containerEmitter.end( );
+//			}
 		}
 
 	}

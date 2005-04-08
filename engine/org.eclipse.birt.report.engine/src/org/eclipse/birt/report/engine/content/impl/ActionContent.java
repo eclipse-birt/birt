@@ -35,7 +35,7 @@ public class ActionContent implements IHyperlinkAction
 	/**
 	 * action string. See base interface
 	 */
-	protected String actionString;
+	protected String hyperlink;
 
 	/**
 	 * report name
@@ -58,22 +58,22 @@ public class ActionContent implements IHyperlinkAction
 	protected String target = null;
 
 	/**
-	 * Constructor for hyperline action type
+	 * Constructor for hyperlink action type
 	 * 
 	 * @param actionString
 	 *            the action string
 	 * @param target
 	 *            the target window
 	 */
-	public ActionContent( String actionString, String target )
+	public ActionContent( String hyperlink, String target )
 	{
 		this.type = IHyperlinkAction.ACTION_HYPERLINK;
-		this.actionString = actionString;
+		this.hyperlink = hyperlink;
 		this.target = target;
 	}
 
 	/**
-	 * Constrictor for bookmark action type
+	 * Constructor for bookmark action type
 	 * 
 	 * @param bookmark
 	 *            the bookmark value.
@@ -81,21 +81,32 @@ public class ActionContent implements IHyperlinkAction
 	public ActionContent( String bookmark )
 	{
 		this.type = IHyperlinkAction.ACTION_BOOKMARK;
-		this.actionString = bookmark;
 		this.bookmark = bookmark;
 	}
 
-	public ActionContent( String actionString, String bookmark,
-			String reportName, Map parameterBindings, Map searchCriteria,
-			String target )
+	/**
+	 * Constructor for drill-through action type
+	 * 
+	 * @param bookmark
+	 *            the bookmark string
+	 * @param reportName
+	 *            the report name navigated
+	 * @param parameterBindings
+	 *            the parameters of the report navigated
+	 * @param searchCriteria
+	 *            the search criteria
+	 * @param target
+	 *            the target window
+	 */
+	public ActionContent( String bookmark, String reportName,
+			Map parameterBindings, Map searchCriteria, String target )
 	{
-		this.actionString = actionString;
 		this.bookmark = bookmark;
 		this.reportName = reportName;
 		this.parameterBindings = parameterBindings;
 		this.searchCriteria = searchCriteria;
-		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
 		this.target = target;
+		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
 	}
 
 	/*
@@ -121,20 +132,11 @@ public class ActionContent implements IHyperlinkAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getActionString()
-	 */
-	public String getActionString( )
-	{
-		return actionString;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getReportName()
 	 */
 	public String getReportName( )
 	{
+		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		return reportName;
 	}
 
@@ -145,6 +147,7 @@ public class ActionContent implements IHyperlinkAction
 	 */
 	public Map getParameterBindings( )
 	{
+		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		return parameterBindings;
 	}
 
@@ -155,6 +158,7 @@ public class ActionContent implements IHyperlinkAction
 	 */
 	public Map getSearchCriteria( )
 	{
+		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		return searchCriteria;
 	}
 
@@ -168,57 +172,13 @@ public class ActionContent implements IHyperlinkAction
 		return target;
 	}
 
-	/**
-	 * @param actionString
-	 *            The actionString to set.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IHyperlinkAction#getHyperlink()
 	 */
-	public void setActionString( String actionString )
+	public String getHyperlink( )
 	{
-		this.actionString = actionString;
-	}
-
-	/**
-	 * @param bookmark
-	 *            The bookmark to set.
-	 */
-	public void setBookmark( String bookmark )
-	{
-		this.bookmark = bookmark;
-	}
-
-	/**
-	 * @param parameterBindings
-	 *            The parameterBindings to set.
-	 */
-	public void setParameterBindings( Map parameterBindings )
-	{
-		this.parameterBindings = parameterBindings;
-	}
-
-	/**
-	 * @param reportName
-	 *            The reportName to set.
-	 */
-	public void setReportName( String reportName )
-	{
-		this.reportName = reportName;
-	}
-
-	/**
-	 * @param searchCriteria
-	 *            The searchCriteria to set.
-	 */
-	public void setSearchCriteria( Map searchCriteria )
-	{
-		this.searchCriteria = searchCriteria;
-	}
-
-	/**
-	 * @param type
-	 *            The type to set.
-	 */
-	public void setType( int type )
-	{
-		this.type = type;
+		return hyperlink;
 	}
 }

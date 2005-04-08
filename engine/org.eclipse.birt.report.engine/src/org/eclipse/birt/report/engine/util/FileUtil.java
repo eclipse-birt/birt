@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:37 $
  */
 public class FileUtil
 {
@@ -291,7 +291,15 @@ public class FileUtil
 	 */
 	public static boolean isRelativePath( String fileName )
 	{
-		return fileName != null && fileName.indexOf( ':' ) <= 0;
+		return fileName != null && !( new File( fileName ).isAbsolute( ) );
+		/*
+		 * new File(); if ( File.separatorChar == '\\' ) { // Win32 return
+		 * fileName != null && fileName.indexOf( ':' ) <= 0;
+		 *  } else if ( File.separatorChar == '/' ) { // Unix return fileName !=
+		 * null && !fileName.startsWith( "/" ); }
+		 * 
+		 * return false;
+		 */
 	}
 
 	/**

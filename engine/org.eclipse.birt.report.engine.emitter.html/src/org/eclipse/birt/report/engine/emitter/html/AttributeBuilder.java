@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.util.FileUtil;
@@ -22,7 +21,7 @@ import org.eclipse.birt.report.model.metadata.DimensionValue;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/15 07:22:32 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/17 07:56:38 $
  */
 public class AttributeBuilder
 {
@@ -175,8 +174,7 @@ public class AttributeBuilder
 				{
 					image = "file:" + image; //$NON-NLS-1$
 				}
-				image = emitter.getHyperlinkBuilder( ).createHyperlink(
-						IHyperlinkProcessor.HYPERLINK_IMAGE, image );
+				image = emitter.getHyperlinkBuilder( ).createImgURL( image );
 			}
 			addURLValue( content, image );
 		}

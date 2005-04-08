@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +23,7 @@ import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
@@ -35,7 +39,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.10 $ $Date: 2005/03/18 19:40:27 $
  */
 public abstract class ReportItemExecutor
 {
@@ -51,7 +55,7 @@ public abstract class ReportItemExecutor
 	protected ExecutionContext context;
 
 	/**
-	 * the exectutor visitor
+	 * the executor visitor
 	 */
 	protected ReportExecutorVisitor visitor;
 
@@ -60,7 +64,7 @@ public abstract class ReportItemExecutor
 	 * executor visitor
 	 * 
 	 * @param context
-	 *            the excutor context
+	 *            the executor context
 	 * @param visitor
 	 *            the report executor visitor
 	 */
@@ -214,67 +218,58 @@ public abstract class ReportItemExecutor
 
 		if ( action != null )
 		{
-			try
+
+			switch ( action.getActionType( ) )
 			{
-				switch ( action.getActionType( ) )
-				{
-					case ActionDesign.ACTION_HYPERLINK :
-						assert action.getHyperlink( ) != null;
-						Object value = context
-								.evaluate( action.getHyperlink( ) );
-						if ( value != null )
-						{
-							IHyperlinkAction obj = ContentFactory
-									.createActionContent( value.toString( ),
-											action.getTargetWindow( ) );
-							itemContent.setHyperlinkAction( obj );
-						}
-						break;
-					case ActionDesign.ACTION_BOOKMARK :
-						assert action.getBookmark( ) != null;
-						value = context.evaluate( action.getBookmark( ) );
-						if ( value != null )
-						{
-							IHyperlinkAction obj = ContentFactory
-									.createActionContent( value.toString( ) );
-							itemContent.setHyperlinkAction( obj );
-						}
-						break;
-					case ActionDesign.ACTION_DRILLTHROUGH :
-						// not supported for now
-						break;
-					default :
-				}
+				case ActionDesign.ACTION_HYPERLINK :
+					assert action.getHyperlink( ) != null;
+					Object value = context.evaluate( action.getHyperlink( ) );
+					if ( value != null )
+					{
+						IHyperlinkAction obj = ContentFactory
+								.createActionContent( value.toString( ), action
+										.getTargetWindow( ) );
+						itemContent.setHyperlinkAction( obj );
+					}
+					break;
+				case ActionDesign.ACTION_BOOKMARK :
+					assert action.getBookmark( ) != null;
+					value = context.evaluate( action.getBookmark( ) );
+					if ( value != null )
+					{
+						IHyperlinkAction obj = ContentFactory
+								.createActionContent( value.toString( ) );
+						itemContent.setHyperlinkAction( obj );
+					}
+					break;
+				case ActionDesign.ACTION_DRILLTHROUGH :
+					assert action.getDrillThrough( ) != null;
+					DrillThroughActionDesign drill = action.getDrillThrough( );
+					value = context.evaluate( drill.getBookmark( ) );
+					String bookmark = null;
+					if ( value != null && value instanceof String )
+					{
+						bookmark =  value.toString();
+					}	
+					Iterator paramsDesignIte = drill.getParameters( )
+							.entrySet( ).iterator( );
+					Map paramsVal = new HashMap( );
+					while ( paramsDesignIte.hasNext( ) )
+					{
+						Map.Entry entry = (Map.Entry) paramsDesignIte.next( );
+						paramsVal.put( entry.getKey( ), context
+								.evaluate( (Expression) entry.getValue( ) ) );
+					}
+					//XXX Do not support Search criteria
+					IHyperlinkAction obj = ContentFactory.createActionContent(
+							bookmark, drill.getReportName( ), paramsVal, null,
+							action.getTargetWindow( ) );
+					itemContent.setHyperlinkAction( obj );
+					break;
+				default :
+					assert false;
 			}
-			catch ( Exception e )
-			{
-				itemContent.setHyperlinkAction( null );
-				logger.log(Level.SEVERE,"Failed to process Action String" ); //$NON-NLS-1$
-			}
+
 		}
 	}
-
-	/**
-	 * check if <code>row</code> is visible, default is visible
-	 * <ul>
-	 * <li>if hide-expression is legal boolean value, return the boolean value
-	 * <li>if hide-expression is null or illegal, return true
-	 * </ul>
-	 * 
-	 * @param row
-	 *            the row object
-	 * @return the boolean value
-	 */
-	//	protected boolean isRowVisible( RowDesign row )
-	//	{
-	//		if ( row.getHideExpr( ) != null )
-	//		{
-	//			Object visible = context.evaluate( row.getHideExpr( ).getExpr( ) );
-	//			if ( ( visible != null ) && ( visible instanceof Boolean ) )
-	//			{
-	//				return ( (Boolean) visible ).booleanValue( );
-	//			}
-	//		}
-	//		return true;
-	//	}
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -89,6 +90,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -133,7 +135,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/03/22 07:20:51 $
+ * @version $Revision: 1.17 $ $Date: 2005/04/01 02:22:59 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1157,11 +1159,36 @@ class EngineIRVisitor extends DesignVisitor
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
 		{
-			String reportName = handle.getDrillThroughReportName( );
-			String bookmark = handle.getDrillThroughBookmarkLink( );
-			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign(
-					reportName, bookmark );
+			action.setTargetWindow( handle.getTargetWindow( ) );
+
+			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
+
+			drillThrough.setReportName( handle.getDrillThroughReportName( ) );
+			drillThrough.setBookmark( new Expression( handle
+					.getDrillThroughBookmarkLink( ) ) );
+			Map params = new HashMap( );
+			Iterator paramIte = handle.paramBindingsIterator( );
+			while ( paramIte.hasNext( ) )
+			{
+				ParamBindingHandle member = (ParamBindingHandle) paramIte
+						.next( );
+				params.put( member.getParamName( ), new Expression( member
+						.getExpression( ) ) );
+			}
+			drillThrough.setParameters( params );
+			//XXX Search criteria is not supported yet.
+			//			Map search = new HashMap( );
+			//			Iterator searchIte = handle.searchIterator( );
+			//			while ( searchIte.hasNext( ) )
+			//			{
+			//				SearchKeyHandle member = (SearchKeyHandle) paramIte.next( );
+			//				params
+			//						.put( member., member
+			//								.getValue( ) );
+			//			}
+			//			drillThrough.setSearch( search );
+			
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_NONE.equals( linkType ) )
 		{

@@ -55,7 +55,7 @@ public interface IHyperlinkAction
 	 * @return the action string that is calculated using the engine's default
 	 *         algorithm. valid for all three action types.
 	 */
-	public String getActionString( );
+	public String getHyperlink( );
 
 	/**
 	 * @return the report name if action type is drillthrough, null otherwise

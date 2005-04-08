@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/04/04 05:41:27 $
+ * @version $Revision: 1.20 $ $Date: 2005/04/04 09:29:15 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -169,7 +169,8 @@ public class HTMLReportEmitter implements IReportEmitter
 
 		if ( services.getEngineMode( ) == IEmitterServices.ENGINE_EMBEDDED_MODE )
 			hyperlinkProcessor = new EmbeddedHyperlinkProcessor( services
-					.getBaseURL( ) );
+					.getServletURL( ), services.getReportName( ), services
+					.getLocale( ) );
 		else if ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE )
 			hyperlinkProcessor = new DefaultHyperlinkProcessor( );
 
