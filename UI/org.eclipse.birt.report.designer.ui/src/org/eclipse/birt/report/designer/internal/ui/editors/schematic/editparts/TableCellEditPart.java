@@ -245,14 +245,14 @@ public class TableCellEditPart extends ReportElementEditPart
 		if ( getModelChildren( ).size( ) == 0 )
 		{
 			TableHandleAdapter tha = ( (TableEditPart) getParent( ) ).getTableAdapter( );
+			//
+			//			int col = ( tha.getColumnCount( ) + 1 ) / 2;
+			//			if ( col < 1 )
+			//			{
+			//				col = 1;
+			//			}
 
-			int col = ( tha.getColumnCount( ) + 1 ) / 2;
-			if ( col < 1 )
-			{
-				col = 1;
-			}
-
-			if ( col == getColumnNumber( ) )
+			if ( 1 == getColumnNumber( ) )
 			{
 				RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
 						.getRowHandleAdapter( tha.getRow( getRowNumber( ) ) );
