@@ -269,7 +269,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
         odaStatement = dataSource.getConnection().prepareStatement( queryText, queryType );
-        
+        // Add parameter hints. This step must be done before odaStatement.setColumnsProjection()
+        // for some jdbc driver need to carry out a query execution before the metadata can be achieved
+        // and only when the Parameters are successfully set the query execution can succeed.
+        addParameterHints();
         // Ordering is important for the following operations. Column hints should be defined
         // after custom fields are declared (since hints may be given to those custom fields).
         // Column projection comes last because it needs hints and custom column information
@@ -277,7 +280,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         addColumnHints( odaStatement );
         odaStatement.setColumnsProjection( this.projectedFields );
 
-    	addParameterHints();
+    	
     	
         // If ODA can provide result metadata, get it now
         try
@@ -351,7 +354,16 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			parameterHint.setDefaultInputValue( paramDef.getDefaultInputValue() );
 			parameterHint.setIsNullable( paramDef.isNullable() );
 			odaStatement.addParameterHint( parameterHint );
+			
+			//If the parameter is input parameter then add it to input value list.
+			if(parameterHint.isInputMode())
+			{
+				if(parameterHint.getDefaultInputValue() == null)
+					throw new DataException(ResourceConstants.DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL);
+				this.setInputParamValue(parameterHint.getName(),parameterHint.getDefaultInputValue());
+			}
 		}
+		this.setInputParameterBinding();
 	}
 	
     public IResultClass getResultClass() 
@@ -413,19 +425,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     {
     	assert odaStatement != null;
 
-    	// set input parameter bindings
-		Iterator list = getInputParamValues().iterator( );
-		while ( list.hasNext( ) )
-		{
-			ParameterBinding paramBind = (ParameterBinding) list.next( );
-			if ( paramBind.getPosition( ) != -1 )
-				odaStatement.setParameterValue( paramBind.getPosition( ),
-						paramBind.getValue() );
-			else
-				odaStatement.setParameterValue( paramBind.getName( ),
-						paramBind.getValue() );
-		}
-		
+    	this.setInputParameterBinding();
 		// Execute the prepared statement
 		if ( ! odaStatement.execute() )
 			throw new DataException(ResourceConstants.NO_RESULT_SET);
@@ -460,6 +460,21 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         }
         
         // TODO: close all CachedResultSets created by us
+    }
+    // set input parameter bindings
+    private void setInputParameterBinding() throws DataException{
+		//		 set input parameter bindings
+		Iterator inputParamValueslist = getInputParamValues().iterator( );
+		while ( inputParamValueslist.hasNext( ) )
+		{
+			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
+			if ( paramBind.getPosition( ) != -1 )
+				odaStatement.setParameterValue( paramBind.getPosition( ),
+						paramBind.getValue() );
+			else
+				odaStatement.setParameterValue( paramBind.getName( ),
+						paramBind.getValue() );
+		}
     }
 
 }
