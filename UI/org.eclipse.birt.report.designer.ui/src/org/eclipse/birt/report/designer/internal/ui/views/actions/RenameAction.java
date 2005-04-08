@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInlineTool;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -70,13 +71,16 @@ public class RenameAction extends AbstractViewerAction
 	public boolean isEnabled( )
 	{
 		if ( getSelectedObjects( ).size( ) != 1 )
-		{//multiple selection or no
-			// selection
+		{//multiple selection or no selection
 			return false;
 		}
 		Object obj = super.getSelectedObjects( ).getFirstElement( );
 		if ( obj instanceof ReportElementHandle )
 		{
+			if ( obj instanceof GroupHandle )
+			{
+				return true;
+			}
 			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME;
 		}
 		//No report element selected
