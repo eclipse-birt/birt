@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/24 01:08:00 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/06 03:41:08 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -184,6 +184,7 @@ public class SelectValueDialog extends BaseDialog
 	{
 		try
 		{
+            this.okButton.setEnabled(false);
 			//Execute the query and populate this list
 			BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
 					.getPreparedQuery( getDataSetHandle( ), true, false)
@@ -213,6 +214,11 @@ public class SelectValueDialog extends BaseDialog
 
 				results.close( );
 			}
+            if(selectValueList.getItemCount() > 0)
+            {
+                selectValueList.select(0);
+                this.okButton.setEnabled(true);
+            }
 		}
 		catch ( Exception e )
 		{

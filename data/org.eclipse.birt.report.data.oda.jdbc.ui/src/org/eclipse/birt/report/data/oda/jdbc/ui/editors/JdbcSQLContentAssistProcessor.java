@@ -40,7 +40,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/28 00:48:06 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/09 00:44:01 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -331,10 +331,14 @@ public class JdbcSQLContentAssistProcessor implements
 		//Check the character at the current position
 		char ch = viewer.getDocument( ).getChar( offset );
 		int startOffset = offset;
-		if ( ch == '\'' || ch == '"' )//$NON-NLS-1$
+		if ( isClosingQuoteChar(ch) )//$NON-NLS-1$
 		{
 			startOffset--;
 			char quoteChar = ch;
+            if(quoteChar != '\'' || quoteChar != '"')
+            {
+                quoteChar = getOpeningQuoteChar();
+            }
 			//if the current character is a quote then we have to look till
 			//the previous quote
 			for ( ; startOffset > viewer.getTopIndexStartOffset( ); startOffset-- )
@@ -364,27 +368,104 @@ public class JdbcSQLContentAssistProcessor implements
 
 	private String stripQuotes( String string )
 	{
-		if ( string.length( ) > 0 )
-		{
-			if ( ( string.charAt( 0 ) == '\'' || string.charAt( 0 ) == '"' )
-					&& //$NON-NLS-1$
-					( string.charAt( string.length( ) - 1 ) == '\'' || string.charAt( string.length( ) - 1 ) == '"' )//$NON-NLS-1$
-			)
-			{
-				return string.substring( 1, string.length( ) - 1 );
-			}
-
-		}
+        if ( string.length( ) > 0 )
+        {
+            if(isOpeningQuoteChar(string.charAt( 0 )) && isClosingQuoteChar(string.charAt( string.length( ) - 1 )))
+            {
+                return string.substring( 1, string.length( ) - 1 );
+            }
+        }
 		return string;
 	}
 
 	private String addQuotes( String string )
 	{
-		if ( string.indexOf( ' ' ) != -1 )
-		{
-			return "\"" + string + "\"";//$NON-NLS-1$
-		}
+        try
+        {
+            if ( string.indexOf( ' ' ) != -1 )
+            {
+                if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+                {
+                    return "[" + string + "]";//$NON-NLS-1$
+                }
+                return "\"" + string + "\"";//$NON-NLS-1$
+            }
+        }
+        catch(Exception ex)
+        {
+        }
 
 		return string;
 	}
+    
+    private boolean isOpeningQuoteChar(char ch)
+    {
+        try
+        {
+            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+            {
+                return (ch == '[');
+            }
+            return (ch == '\'' || ch == '"');
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        
+        return false;
+    }
+
+    private boolean isClosingQuoteChar(char ch)
+    {
+        try
+        {
+            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+            {
+                return (ch == ']');
+            }
+            return (ch == '\'' || ch == '"');
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        
+        return false;
+    }
+    
+    private char getOpeningQuoteChar()
+    {
+        try
+        {
+            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+            {
+                return '[';
+            }
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        
+        return '"';
+    }
+    
+    private char getClosingQuoteChar()
+    {
+        try
+        {
+            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+            {
+                return ']';
+            }
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        
+        return '"';
+    }
+    
 }

@@ -27,7 +27,6 @@
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.compare"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.report.engine"/>
       <import plugin="org.eclipse.birt.report.designer.core"/>
@@ -35,6 +34,8 @@
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
       <import plugin="org.eclipse.help.base"/>
+      <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.birt.data"/>
    </requires>
    
    <!-- Extension points -->

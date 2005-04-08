@@ -99,7 +99,7 @@ public class JdbcToolKit
 			}
             JdbcDriverConfigUtil driverConfigUtil = null;
 
-			ArrayList driverFiles = null;
+			File[] driverFiles = null;
 			try
 			{
 				driverConfigUtil = new JdbcDriverConfigUtil( driverName );
@@ -110,91 +110,90 @@ public class JdbcToolKit
 				ExceptionHandler.handle( e );
 			}
 
-			Iterator iterator = driverFiles.iterator( );
-
 			Class aClass = null;
 
 			jdbcDriverLocations = new ArrayList( );
+            
+            if(driverFiles != null)
+            {
+                URL[] urlList = new URL[driverFiles.length];
 
-			URL[] urlList = new URL[driverFiles.size( )];
+                // Create a URL Array for the class loader to use
+                for ( int i = 0; i < driverFiles.length; i++ )
+                {
+                    try
+                    {
+                        urlList[i] = new URL( "file:///" //$NON-NLS-1$
+                                + driverFiles[i].getAbsolutePath( ) );
+                        jdbcDriverLocations.add( driverFiles[i].getAbsolutePath( ) );
+                    }
+                    catch ( MalformedURLException e )
+                    {
+                        ExceptionHandler.handle( e );
+                    }
 
-			// Create a URL Array for the class loader to use
-			for ( int i = 0; i < driverFiles.size( ); i++ )
-			{
-				File driverFile = (File) driverFiles.get( i );
+                }
 
-				try
-				{
-					urlList[i] = new URL( "file:///" //$NON-NLS-1$
-							+ driverFile.getAbsolutePath( ) );
-					jdbcDriverLocations.add( driverFile.getAbsolutePath( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					ExceptionHandler.handle( e );
-				}
+                URLClassLoader urlClassLoader = new URLClassLoader( urlList,
+                        ClassLoader.getSystemClassLoader( ) );
+                for ( int i = 0; i < driverFiles.length; i++ )
+                {
 
-			}
+                    if ( driverFiles[i].getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
+                    {
+                        try
+                        {
+                            String[] resourceNames = getJarFileEntries( driverFiles[i] );
+                            for ( int j = 0; j < resourceNames.length; j++ )
+                            {
+                                String resourceName = resourceNames[j];
+                                if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
+                                {
+                                    try
+                                    {
+                                        resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
+                                                "." ) ).substring( 0, //$NON-NLS-1$
+                                                resourceName.length( ) - 6 );
+                                        aClass = urlClassLoader.loadClass( resourceName );
+                                    }
+                                    catch ( Throwable e )
+                                    {
 
-			URLClassLoader urlClassLoader = new URLClassLoader( urlList,
-					ClassLoader.getSystemClassLoader( ) );
-			while ( iterator.hasNext( ) )
-			{
-				File driverFile = (File) iterator.next( );
+                                    }
 
-				if ( driverFile.getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
-				{
-					try
-					{
-						String[] resourceNames = getJarFileEntries( driverFile );
-						for ( int j = 0; j < resourceNames.length; j++ )
-						{
-							String resourceName = resourceNames[j];
-							if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
-							{
-								try
-								{
-									resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
-											"." ) ).substring( 0, //$NON-NLS-1$
-											resourceName.length( ) - 6 );
-									aClass = urlClassLoader.loadClass( resourceName );
-								}
-								catch ( Throwable e )
-								{
+                                    if ( aClass != null )
+                                    {
+                                        if ( implementsSQLDriver( aClass ) )
+                                        {
 
-								}
+                                            // Do not add it, if it is a Abstract
+                                            // class
+                                            int modifier = aClass.getModifiers( );
+                                            boolean isAbstract = Modifier.isAbstract( modifier );
 
-								if ( aClass != null )
-								{
-									if ( implementsSQLDriver( aClass ) )
-									{
-
-										// Do not add it, if it is a Abstract
-										// class
-										int modifier = aClass.getModifiers( );
-										boolean isAbstract = Modifier.isAbstract( modifier );
-
-										if ( !isAbstract )
-										{
-                                            JDBCDriverInformation info = JDBCDriverInformation.getInstance(aClass, classPathURLs);
-                                            if(driverConfigUtil != null)
+                                            if ( !isAbstract )
                                             {
-                                                info.setUrlFormat(driverConfigUtil.getURLFormat(info.getDriverClassName()));
+                                                JDBCDriverInformation info = JDBCDriverInformation.getInstance(aClass, classPathURLs);
+                                                if(driverConfigUtil != null)
+                                                {
+                                                    info.setUrlFormat(driverConfigUtil.getURLFormat(info.getDriverClassName()));
+                                                }
+                                                jdbcDrivers.add( info );
                                             }
-											jdbcDrivers.add( info );
-										}
-									}
-								}
-							}
-						}
-					}
-					catch ( Throwable e )
-					{
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch ( Throwable e )
+                        {
 
-					}
+                        }
 
-				}
-			}
+                    }
+                }
+            }
+
 		}
 		return jdbcDrivers;
 	}
