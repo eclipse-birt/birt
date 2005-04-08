@@ -84,9 +84,8 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
 
  	/**
 	 * Adds a public connection property, in the form of a (Name, value) string pair.
-	 * For a named property that is mapped to more than one values, 
-	 * make multiple calls using the same property name will add additional value
-	 * to a Set for the same property. 
+	 * Each data source property name must be unique within the data source, 
+	 * and has a single value. 
 	 */
 	public void addPublicProperty( String name, String value ) throws DataException
 	{
@@ -95,9 +94,8 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
    
  	/**
 	 * Adds a private connection property, in the form of a (Name, value) string pair.
-	 * For a named property that is mapped to more than one values, 
-	 * make multiple calls using the same property name will add additional value
-	 * to a Set for the same property. 
+	 * Each data source property name must be unique within the data source, 
+	 * and has a single value. 
 	 */
     public void addPrivateProperty( String name, String value ) throws DataException
     {
@@ -105,9 +103,9 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
     }
 
     /**
-     * Add given value to the set of values for named property
-     * in the given properties map.
-    */
+     * Adds given value to the named property in the given 
+     * properties map.  Each named property must be unique.
+     */
     protected void addProperty( Map properties, String name, String value ) throws DataException
     {
         if ( properties.containsKey( name ) )
