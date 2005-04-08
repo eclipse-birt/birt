@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.parser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -135,7 +137,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/04/01 02:22:59 $
+ * @version $Revision: 1.18 $ $Date: 2005/04/08 05:21:07 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -485,8 +487,6 @@ class EngineIRVisitor extends DesignVisitor
 			selectionChoice.setValue( selection.getValue( ) );
 			values.add( selectionChoice );
 		}
-		paramList.setValues( values );
-		scalarParameter.setParameterSeclectionList( paramList );
 		String valueType = handle.getDataType( );
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
 		{
@@ -512,6 +512,17 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			scalarParameter.setValueType( IParameterDefn.TYPE_ANY );
 		}
+		paramList.setAllowNewValues(!handle.isMustMatch());
+		paramList.setIsOrder(handle.isFixedOrder());
+		if(!handle.isFixedOrder())
+		{
+		    Collections.sort(values,(Comparator) new SelectionChoiceCompartor(paramList.getType()));
+		}
+		paramList.setValues( values );
+		
+		
+		scalarParameter.setParameterSeclectionList( paramList );
+		
 		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 		currentElement = scalarParameter;
 	}
@@ -1760,5 +1771,66 @@ class EngineIRVisitor extends DesignVisitor
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 			return null;
 		}
+	}
+	
+	
+	protected class SelectionChoiceCompartor implements Comparator
+	{
+	    protected int type;
+	    
+	    public SelectionChoiceCompartor(int type)
+	    {
+	        this.type = type;
+	    }
+
+        /* (non-Javadoc)
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(Object o1, Object o2)
+        {
+            if((o1 instanceof SelectionChoice)&&(o2 instanceof SelectionChoice))
+            {
+                try
+                {
+                    Object value1 = getValue((SelectionChoice)o1);
+                    Object value2 = getValue((SelectionChoice)o2);
+                    return ((Comparable)value1).compareTo(value2);
+                }
+                catch(BirtException ex)
+                {
+                    logger.log(Level.SEVERE, ex.getMessage());
+                }
+            }
+            return -1;
+        }
+        
+        private Object getValue(SelectionChoice choice) throws BirtException
+        {
+            switch(this.type)
+            {
+            	case IParameterDefn.TYPE_BOOLEAN:
+            	{
+            	    return DataTypeUtil.toBoolean(choice.getValue());
+            	}
+            	case IParameterDefn.TYPE_DATE_TIME:
+            	{
+            	    return DataTypeUtil.toDate(choice.getValue());
+            	}
+            	case IParameterDefn.TYPE_DECIMAL:
+            	{
+            	    return DataTypeUtil.toBigDecimal(choice.getValue());
+            	}
+            	case IParameterDefn.TYPE_FLOAT:
+            	{
+            	    return DataTypeUtil.toDouble(choice.getValue());
+            	}
+            	default:
+            	{
+            	    return choice.getValue();
+            	}
+            	
+            }
+        }
+	    
 	}
 }
