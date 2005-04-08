@@ -12,17 +12,26 @@ package org.eclipse.birt.report.designer.internal.ui.layout;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalEditPart;
 
 /**
  * This layout manager lays out the components inside the master page area.
  * 
  *  
  */
-public class MasterPageLayout extends XYLayout
+public class MasterPageLayout extends AbstractPageFlowLayout
 {
+
+	/**
+	 * @param owner
+	 */
+	public MasterPageLayout( GraphicalEditPart owner )
+	{
+		super( owner );
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Minimum height for header/footer. TODO:50 is the default value, migrate
@@ -37,8 +46,17 @@ public class MasterPageLayout extends XYLayout
 	 */
 	public void layout( IFigure parent )
 	{
+
+		Rectangle parentBounds = getInitSize( );
+		Result result = getReportBounds( parentBounds );
+
+		parentBounds = result.reportSize;
+
+		parent.setBounds( parentBounds );
 		List children = parent.getChildren( );
+
 		Rectangle clientArea = parent.getClientArea( );
+		int x = clientArea.x;
 		int y = clientArea.y;
 		int height = clientArea.height;
 		int width = clientArea.width;
@@ -54,11 +72,13 @@ public class MasterPageLayout extends XYLayout
 				continue;
 			}
 
+			bounds = convertRectangle( bounds, clientArea );
+
 			// this is to ensue the child layout can get the correct parent
 			// client area width.
 			// TODO: change/use the client layoutManager's
 			// calculatePrefersize(widthHint, heightHint).
-			figure.getBounds( ).width = width;
+			figure.getBounds( ).width = bounds.width;
 
 			Dimension preferredSize = figure.getPreferredSize( );
 			bounds = bounds.getCopy( );
@@ -74,12 +94,12 @@ public class MasterPageLayout extends XYLayout
 
 			// adapt the figure's location to make sure it's inside the client
 			// area.
-			if (bounds.height > height)
+			if ( bounds.height > height )
 			{
 				bounds.height = height;
 			}
-			
-			if ( bounds.y + bounds.height > height + y || bounds.y < y)
+
+			if ( bounds.y + bounds.height > height + y || bounds.y < y )
 			{
 				bounds.y = height + y - bounds.height;
 			}
@@ -87,5 +107,34 @@ public class MasterPageLayout extends XYLayout
 			figure.setBounds( bounds );
 
 		}
+
+		Rectangle rect = new Rectangle( 0, 0, parentBounds.x
+				+ parentBounds.width + result.rightSpace, parentBounds.y
+				+ parentBounds.height + result.bottomSpace );
+		setViewProperty( rect, parentBounds );
 	}
+
+	private Rectangle convertRectangle( Rectangle bounds, Rectangle clientArea )
+	{
+		Rectangle b = bounds.getCopy( );
+		
+		b.width = clientArea.width;
+
+		if ( b.x == 0 )
+		{
+			b.x = clientArea.getTopLeft( ).x;
+			b.y = clientArea.getTopLeft( ).y;
+		}
+		else
+		{
+			b.x = clientArea.getBottomLeft( ).x;
+			b.y = clientArea.getBottomLeft( ).y
+					- ( ( b.height < 0 )
+							? MasterPageLayout.MINIMUM_HEIGHT
+							: b.height );
+		}
+		return b;
+
+	}
+
 }

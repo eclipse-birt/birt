@@ -11,16 +11,20 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.ImageUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.internal.ui.rulers.RulerFigure;
 import org.eclipse.gef.internal.ui.rulers.RulerLayout;
 import org.eclipse.gef.rulers.RulerProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
@@ -31,6 +35,9 @@ import org.eclipse.swt.widgets.Display;
 public class EditorRulerFigure extends RulerFigure
 {
 
+	
+	private  Rectangle leftSpace = new Rectangle();
+	
 	/**
 	 * Conversion factor from inches to cm.
 	 */
@@ -221,6 +228,7 @@ public class EditorRulerFigure extends RulerFigure
 		Rectangle clippedBounds = clip;
 		clippedBounds.x = figClientArea.x;
 		clippedBounds.width = figClientArea.width - BORDER_WIDTH;
+		
 
 		// Paint the background
 		if ( isOpaque( ) )
@@ -354,6 +362,8 @@ public class EditorRulerFigure extends RulerFigure
 				mediumMarkerDivNum = 1;
 		}
 
+		Rectangle leftRect = transposer.t(getScaleLeftSpace());
+		int leftMargin = leftRect.y;
 		/*
 		 * dotsPerDivision = number of pixels between each mark = number of
 		 * pixels in a division
@@ -365,7 +375,7 @@ public class EditorRulerFigure extends RulerFigure
 		 * painting. It should be the last major mark (one for which a number is
 		 * displayed) that is before the top of the clip rectangle.
 		 */
-		int startMark = (int) ( clippedBounds.y / ( dotsPerUnit * unitsPerMajorMark ) )
+		int startMark = (int) ( (clippedBounds.y - leftMargin) / ( dotsPerUnit * unitsPerMajorMark ) )
 				* divsPerMajorMark;
 		if ( clippedBounds.y < 0 )
 		{
@@ -377,12 +387,16 @@ public class EditorRulerFigure extends RulerFigure
 		// endMark is the first non-visible mark (doesn't have to be a major
 		// mark) that is
 		// beyond the end of the clip region
-		int endMark = (int) ( ( ( clippedBounds.y + clippedBounds.height ) / dotsPerDivision ) ) + 1;
+		int endMark = (int) ( ( ( clippedBounds.y + clippedBounds.height  - leftMargin) / dotsPerDivision ) ) + 1;
 		int leading = FigureUtilities.getFontMetrics( getFont( ) ).getLeading( );
 		Rectangle forbiddenZone = new Rectangle( );
 		for ( int div = startMark; div <= endMark; div++ )
 		{
 			// y is the vertical position of the mark
+			if (leftRect.bottom() <= clippedBounds.bottom())
+			{
+				//continue;
+			}
 			int y = (int) ( div * dotsPerDivision );
 			if ( div % divsPerMajorMark == 0 )
 			{
@@ -403,7 +417,7 @@ public class EditorRulerFigure extends RulerFigure
 					{
 						numSize.width--;
 					}
-					Point textLocation = new Point( y - ( numSize.width / 2 ),
+					Point textLocation = new Point( y - ( numSize.width / 2 ) +  leftMargin,
 							clippedBounds.x + textMargin - leading );
 					forbiddenZone.setLocation( textLocation );
 					forbiddenZone.setSize( numSize );
@@ -414,7 +428,7 @@ public class EditorRulerFigure extends RulerFigure
 					// the exact position of the major mark
 					//					graphics.drawLine(y, clippedBounds.x, y, clippedBounds.x
 					// + clippedBounds.width);
-					graphics.drawText( num, textLocation );
+					graphics.drawText( num, textLocation  );
 				}
 				else
 				{
@@ -423,7 +437,8 @@ public class EditorRulerFigure extends RulerFigure
 							getBackgroundColor( ) );
 					Point textLocation = new Point( clippedBounds.x
 							+ textMargin, y
-							- ( numImage.getBounds( ).height / 2 ) );
+							- ( numImage.getBounds( ).height / 2 )+  leftMargin );
+					
 					forbiddenZone.setLocation( textLocation );
 					forbiddenZone.setSize( numImage.getBounds( ).width,
 							numImage.getBounds( ).height );
@@ -442,10 +457,10 @@ public class EditorRulerFigure extends RulerFigure
 				// this is a medium mark, so its length should be longer than
 				// the small marks
 				Point start = transposer.t( new Point( ( clippedBounds
-						.getRight( ).x - mediumMarkWidth ) / 2, y ) );
+						.getRight( ).x  - mediumMarkWidth ) / 2, y+leftMargin ) );
 				Point end = transposer.t( new Point( ( ( clippedBounds
-						.getRight( ).x - mediumMarkWidth ) / 2 )
-						+ mediumMarkWidth, y ) );
+						.getRight( ).x  - mediumMarkWidth ) / 2 )
+						+ mediumMarkWidth, y+leftMargin ) );
 				if ( !forbiddenZone.contains( start ) )
 				{
 					graphics.drawLine( start, end );
@@ -455,10 +470,10 @@ public class EditorRulerFigure extends RulerFigure
 			{
 				// small mark
 				Point start = transposer.t( new Point( ( clippedBounds
-						.getRight( ).x - smallMarkWidth ) / 2, y ) );
+						.getRight( ).x - smallMarkWidth ) / 2, y+leftMargin ) );
 				Point end = transposer.t( new Point( ( ( clippedBounds
 						.getRight( ).x - smallMarkWidth ) / 2 )
-						+ smallMarkWidth, y ) );
+						+ smallMarkWidth, y+leftMargin ) );
 				if ( !forbiddenZone.contains( start ) )
 				{
 					graphics.drawLine( start, end );
@@ -471,6 +486,62 @@ public class EditorRulerFigure extends RulerFigure
 		graphics.drawLine( transposer.t( clippedBounds.getTopRight( )
 				.translate( -1, -1 ) ), transposer.t( clippedBounds
 				.getBottomRight( ).translate( -1, -1 ) ) );
+		Color c = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
+		graphics.setBackgroundColor( ReportColorConstants.greyFillColor );
+		graphics.setBackgroundColor(c);
+		Rectangle rect = new Rectangle(0, 0,  clippedBounds.height, leftMargin - 2);
+		rect = transposer.t(rect);
+		graphics.fillRectangle(rect);
+		
+		
+		graphics.fillRectangle(getEndRect(graphics.getClip( Rectangle.SINGLETON )));
+	}
+	
+	private boolean checkPosition(Point p)
+	{
+		Rectangle leftRect = getScaleLeftSpace();
+		if (isHorizontal())
+		{
+			return p.x <= leftRect.right();
+		}
+		else
+		{
+			return p.y <= leftRect.bottom();
+		}
+	}
+	
+	private Rectangle getEndRect(Rectangle clip)
+	{
+		Rectangle rect = getScaleLeftSpace();
+		
+		Rectangle retValue = new Rectangle();
+		if (rect.equals(new Rectangle()))
+		{
+			return retValue;
+		}
+		if (isHorizontal())
+		{
+			retValue.height = clip.height;
+			retValue.y = clip.y;
+			if (clip.right() > rect.right())
+			{
+				retValue.x = rect.right();
+				retValue.width = clip.right() - rect.right();
+				
+			}
+		}
+		else
+		{
+			retValue.width = clip.width;
+			retValue.x = clip.x;
+			if (clip.bottom() > rect.bottom())
+			{
+				retValue.y = rect.bottom();
+				retValue.height = clip.bottom() - rect.bottom();
+				
+			}
+		}
+		return retValue;
 	}
 
 	public void setDrawFocus( boolean drawFocus )
@@ -594,34 +665,39 @@ public class EditorRulerFigure extends RulerFigure
 		}
 	}
 	
-//	private int getPerMajorMark(int unit)
-//	{
-//		double zoom = zoomManager.getZoom();
-//		if (unit == EditorRulerProvider.UNIT_INCHES)
+	/**
+	 * @param leftSpace The leftSpace to set.
+	 */
+	public void setLeftSpace( Rectangle leftSpace )
+	{
+		this.leftSpace = leftSpace;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Rectangle getLeftSpace()
+	{
+		return leftSpace;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Rectangle getScaleLeftSpace()
+	{
+		PrecisionRectangle rect = new PrecisionRectangle(getLeftSpace());
+		rect.performScale(zoomManager.getZoom());
+//		if (rect.x < ReportDesignLayout.MINLEFTSPACE)
 //		{
-//			return 8;
+//			rect.x = ReportDesignLayout.MINLEFTSPACE;
 //		}
-//		else if (unit == EditorRulerProvider.UNIT_CENTIMETERS)
+//		if (rect.y < ReportDesignLayout.MINTOPSPACE)
 //		{
-//			if (zoom == 0.75)
-//			{
-//				return 4;
-//			}
-//			else if (zoom == 1.0 || zoom == 0.5)
-//			{
-//				return 8;
-//			}
-//			else
-//			{
-//				return 4;
-//			}
+//			rect.y = ReportDesignLayout.MINTOPSPACE;
 //		}
-//		
-//		else if (unit == EditorRulerProvider.UNIT_MM)
-//		{
-//			
-//		}
-//		
-//		return 2;
-//	}
+		return rect;
+	}
+	
+	
 }

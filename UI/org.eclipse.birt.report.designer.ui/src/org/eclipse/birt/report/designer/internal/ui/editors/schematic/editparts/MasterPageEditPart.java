@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
@@ -189,14 +190,30 @@ public class MasterPageEditPart extends ReportElementEditPart
 
 		figure.setOpaque( true );
 
-		figure.setBounds( new Rectangle( 0,
-				0,
-				getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
-				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
+		
+//		figure.setBounds( new Rectangle( 0,
+//				0,
+//				getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
+//				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
+
+		
+
+		
+		MasterPageLayout layout = new MasterPageLayout( this );
+		
+//		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
+//		Iterator iter = slotHandle.iterator( );
+		MasterPageHandle masterPageHandle = (MasterPageHandle) getModel( );
+		
+		Dimension size = getMasterPageSize( masterPageHandle );
+
+		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
+		layout.setInitSize( bounds );
+		
+		figure.setLayoutManager( layout );
 
 		figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) ) );
-
-		figure.setLayoutManager( new MasterPageLayout( ) );
+		figure.setBounds( bounds.getCopy( ) );
 
 		return figure;
 	}
@@ -211,11 +228,17 @@ public class MasterPageEditPart extends ReportElementEditPart
 		int color = getBackgroundColor( (MasterPageHandle) getModel( ) );
 		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
 
-		Dimension dim = getMasterPageSize( (MasterPageHandle) getModel( ) );
-		getFigure( ).setBounds( new Rectangle( 0,
-				0,
-				dim.width - 1,
-				dim.height - 1 ) );
+		Dimension size = getMasterPageSize( (MasterPageHandle) getModel( ) );
+//		getFigure( ).setBounds( new Rectangle( 0,
+//				0,
+//				dim.width - 1,
+//				dim.height - 1 ) );
+		
+		
+
+		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
+
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
 		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( Style.BACKGROUND_COLOR_PROP ) );

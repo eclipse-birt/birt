@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.layout;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 
 /**
  * Provides layout management for ReportDesign element. This class is extened
@@ -23,20 +22,19 @@ import org.eclipse.gef.EditPart;
  * inline and block support.
  */
 
-public class ReportDesignLayout extends ReportFlowLayout
+public class ReportDesignLayout extends AbstractPageFlowLayout
 {
 
-	private Rectangle initSize = null;
-	private EditPart owner;
-
+	
+	
 	/**
 	 * The constructor.
 	 * 
 	 * @param viewer
 	 */
-	public ReportDesignLayout( EditPart owner )
+	public ReportDesignLayout( GraphicalEditPart owner )
 	{
-		this.owner = owner;
+		super(owner);			
 	}
 
 	/*
@@ -48,29 +46,29 @@ public class ReportDesignLayout extends ReportFlowLayout
 	{
 		super.layout( parent );
 
-		Dimension prefSize = getPreferredSize( parent, initSize.width, -1 ).getCopy( );
+		Dimension prefSize = getPreferredSize( parent, getInitSize().width, -1 )
+				.getCopy( );
 
 		Rectangle bounds = parent.getBounds( ).getCopy( );
 
-		bounds.height = Math.max( prefSize.height, initSize.height );
-		bounds.width = initSize.width;
+		bounds.height = Math.max( prefSize.height, getInitSize().height );
+		bounds.width = getInitSize().width;
+
+		//bounds = new PrecisionRectangle( bounds);
+
+		//owner.getFigure().translateToAbsolute( bounds );
+
+		Result result = getReportBounds( bounds );
+
+		bounds = result.reportSize;
 
 		parent.setBounds( bounds );
+		Rectangle rect = new Rectangle( 0, 0, bounds.x + bounds.width
+				+ result.rightSpace, bounds.y + bounds.height
+				+ result.bottomSpace );
+		setViewProperty(rect, bounds);
 
-		if ( owner != null )
-		{
-			owner.getViewer( )
-					.setProperty( DeferredGraphicalViewer.LAYOUT_SIZE, bounds );
-		}
+		//parent.getParent( ).setSize( rect.getSize( ) );
 	}
 
-	/**
-	 * Set the init size of bounds.
-	 * 
-	 * @param rect
-	 */
-	public void setInitSize( Rectangle rect )
-	{
-		initSize = rect.getCopy( );
-	}
 }

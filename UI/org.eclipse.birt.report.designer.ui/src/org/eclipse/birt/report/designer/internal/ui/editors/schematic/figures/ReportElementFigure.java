@@ -378,4 +378,13 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	{
 		return margin;
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Figure#fireMoved()
+	 */
+	public void fireMoved( )
+	{
+		super.fireMoved( );
+	}
 }

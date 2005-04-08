@@ -95,6 +95,15 @@ public class EditorRulerEditPart extends RulerEditPart
 		return ruler;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#handleUnitsChanged(int)
+	 */
+	public void handleUnitsChanged( int newUnit )
+	{
+		super.handleUnitsChanged( newUnit );
+		((EditorRulerFigure)getFigure()).setLeftSpace(((EditorRulerProvider)getRulerProvider( )).getLeftSpace());
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

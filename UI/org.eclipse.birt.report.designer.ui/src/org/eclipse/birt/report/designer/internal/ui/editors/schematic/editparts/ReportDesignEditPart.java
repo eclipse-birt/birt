@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
@@ -105,6 +106,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 				//does nothing , figure paint itself.
 			}
 
+			
 			public Insets getInsets( )
 			{
 				if ( showMargin )
@@ -222,6 +224,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+		
+		//MasterPageHandle masterPageHandle = SessionHandleAdapter.getInstance().getMasterPageHandle();
 		Dimension size = getMasterPageSize( masterPageHandle );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
@@ -304,6 +308,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+		
 
 		Dimension size = getMasterPageSize( masterPageHandle );
 
@@ -317,8 +322,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 			bounds.height -= mg.getHeight( );
 		}
 
-		( (ReportDesignLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
-		getFigure( ).setBounds( bounds );
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
+		//getFigure( ).setBounds( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
 		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( Style.BACKGROUND_COLOR_PROP ) );

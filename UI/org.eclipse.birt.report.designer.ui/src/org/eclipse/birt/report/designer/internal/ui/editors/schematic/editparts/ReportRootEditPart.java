@@ -10,13 +10,16 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
@@ -79,7 +82,36 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			}
 		};
 
-		layeredPane.add( new FreeformLayer( ), PRIMARY_LAYER );
+		
+		FreeformLayer layer = new FreeformLayer( )
+		{
+			
+			
+			/* (non-Javadoc)
+			 * @see org.eclipse.draw2d.FreeformLayer#getFreeformExtent()
+			 */
+			public Rectangle getFreeformExtent( )
+			{	
+				Rectangle rect = super.getFreeformExtent();
+				Rectangle retValue = rect.getCopy();
+				Object obj = getViewer().getProperty( DeferredGraphicalViewer.REPORT_SIZE );
+				if (obj instanceof Rectangle)
+				{
+					Rectangle temp = (Rectangle)obj;
+					if (temp.width - rect.right() <= ReportDesignLayout.MINRIGHTSPACE)
+					{
+						retValue.width = retValue.width + ReportDesignLayout.MINRIGHTSPACE;
+					}
+					if (temp.height - rect.bottom() <= ReportDesignLayout.MINBOTTOMSPACE)
+					{
+						retValue.height = retValue.height + ReportDesignLayout.MINBOTTOMSPACE;
+					}
+					
+				}
+				return retValue;
+			}
+		};
+		layeredPane.add( layer, PRIMARY_LAYER );
 
 		layeredPane.add( new ConnectionLayer( ), CONNECTION_LAYER );
 		return layeredPane;

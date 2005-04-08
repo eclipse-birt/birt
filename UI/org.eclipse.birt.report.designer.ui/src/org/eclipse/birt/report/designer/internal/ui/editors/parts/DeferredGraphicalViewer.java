@@ -46,6 +46,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 * The actual layout area size.
 	 */
 	public static final String LAYOUT_SIZE = "Layout Size"; //$NON-NLS-1$
+	
+	public static final String REPORT_SIZE = "Report Size"; //$NON-NLS-1$
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
 	
@@ -54,17 +56,6 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		ReportDeferredUpdateManager updateManager = new ReportDeferredUpdateManager( );
 		updateManager.setRefreshManager( refreshManager );
 		getLightweightSystem( ).setUpdateManager( updateManager );
-		//System.out.println("figure canvas == " + getFigureCanvas( ) );
-//		getFigureCanvas( ).addTraverseListener( new TraverseListener( )
-//		{
-//
-//			public void keyTraversed( TraverseEvent e )
-//			{
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//		} );
 	}
 
 	/**
@@ -212,5 +203,4 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	{
 		return eventDispatcher;
 	}
-
 }

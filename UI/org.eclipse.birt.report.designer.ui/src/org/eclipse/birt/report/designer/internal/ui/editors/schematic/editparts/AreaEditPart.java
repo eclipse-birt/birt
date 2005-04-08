@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.AreaFigure;
-import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.activity.NotificationEvent;
@@ -81,9 +80,8 @@ public class AreaEditPart extends ReportElementEditPart
 	protected List getModelChildren( )
 	{
 		List list = new ArrayList( );
-		insertIteratorToList( ( (ReportElementModel) getModel( ) ).getSlotHandle( )
-				.iterator( ),
-				list );
+		insertIteratorToList( ( (ReportElementModel) getModel( ) )
+				.getSlotHandle( ).iterator( ), list );
 		return list;
 	}
 
@@ -117,8 +115,7 @@ public class AreaEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		( (MasterPageEditPart) getParent( ) ).setLayoutConstraint( this,
-				figure,
-				getConstraint( ) );
+				figure, getConstraint( ) );
 	}
 
 	/**
@@ -137,37 +134,37 @@ public class AreaEditPart extends ReportElementEditPart
 		rect.width = region.width;
 
 		//Define the default height value of header and footer
-		MasterPageHandle mphandle = ( (MasterPageHandle) ( (MasterPageEditPart) getParent( ) ).getModel( ) );
-		
+		MasterPageHandle mphandle = ( (MasterPageHandle) ( (MasterPageEditPart) getParent( ) )
+				.getModel( ) );
+
 		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
 		{
-			if (mphandle.getPropertyHandle( MasterPage.HEADER_HEIGHT_PROP ).isSet())
+			if ( mphandle.getPropertyHandle( MasterPage.HEADER_HEIGHT_PROP )
+					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
-				
+
 				rect.height = (int) DEUtil.convertoToPixel( handle );
 			}
 		}
 		else
 		{
-			if (mphandle.getPropertyHandle( MasterPage.FOOTER_HEIGHT_PROP ).isSet())
+			if ( mphandle.getPropertyHandle( MasterPage.FOOTER_HEIGHT_PROP )
+					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );
-				
+
 				rect.height = (int) DEUtil.convertoToPixel( handle );
 			}
 		}
 
 		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
 		{
-			rect.setLocation( region.getTopLeft( ).x, region.getTopLeft( ).y );
+			rect.setLocation( 0, 0 );
 		}
 		else
 		{
-			rect.setLocation( region.getBottomLeft( ).x,
-					region.getBottomLeft( ).y
-							- ( ( rect.height < 0 ) ? MasterPageLayout.MINIMUM_HEIGHT
-									: rect.height ) );
+			rect.setLocation( -1, -1 );
 		}
 
 		return rect;

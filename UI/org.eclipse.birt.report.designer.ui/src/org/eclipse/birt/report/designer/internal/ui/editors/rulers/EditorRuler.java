@@ -16,6 +16,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.rulers.RulerProvider;
 
 /**
@@ -25,6 +26,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 public class EditorRuler
 {
 
+	private  Rectangle leftSpace = new Rectangle();
 	public static final String PROPERTY_CHILDREN = "children changed"; //$NON-NLS-1$
 	public static final String PROPERTY_UNIT = "units changed"; //$NON-NLS-1$
 	public static final String PROPERTY_LEFTMARGIN = "left margin"; //$NON-NLS-1$
@@ -286,5 +288,26 @@ public class EditorRuler
 				left.setPosition( newMargin );
 			}
 		}
+	}
+	
+	/**
+	 * @param leftSpace The leftSpace to set.
+	 */
+	public void setLeftSpace( Rectangle space )
+	{
+		if (! leftSpace .equals( space) )
+		{
+			Rectangle oldSpace = leftSpace;
+			leftSpace = space;
+			listeners.firePropertyChange( PROPERTY_UNIT, oldSpace, space );
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public Rectangle getLeftSpace()
+	{
+		return leftSpace;
 	}
 }

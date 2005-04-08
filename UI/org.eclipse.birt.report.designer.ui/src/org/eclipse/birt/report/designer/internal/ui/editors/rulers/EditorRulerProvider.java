@@ -167,15 +167,19 @@ public class EditorRulerProvider extends RulerProvider
 		String propertyName = guide.getPropertyName( );
 		if ( MasterPage.RIGHT_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = getLayoutSize( ).width - ( guide.getPosition( ) + pDelta );
+			pDelta = getLayoutSize( ).right() - ( guide.getPosition( ) + pDelta );
 		}
 		else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = getLayoutSize( ).height - ( guide.getPosition( ) + pDelta );
+			pDelta = getLayoutSize( ).bottom() - ( guide.getPosition( ) + pDelta );
+		}
+		else if ( MasterPage.LEFT_MARGIN_PROP.equals( propertyName ))
+		{
+			pDelta = guide.getPosition( ) + pDelta - getLeftSpace().x;
 		}
 		else
 		{
-			pDelta = guide.getPosition( ) + pDelta;
+			pDelta = guide.getPosition( ) + pDelta - getLeftSpace().y;
 		}
 
 		return new MoveGuideCommand( pDelta,
@@ -249,5 +253,20 @@ public class EditorRulerProvider extends RulerProvider
 		}
 		return result;
 	}
-
+	
+	/**
+	 * @param leftSpace The leftSpace to set.
+	 */
+	public void setLeftSpace( Rectangle space )
+	{
+		ruler.setLeftSpace(space);
+	}
+	
+	/**
+	 * @return
+	 */
+	public Rectangle getLeftSpace()
+	{
+		return ruler.getLeftSpace();
+	}
 }
