@@ -54,6 +54,13 @@ public class DEUtilTest extends BaseTestCase
 				ReportDesign.BODY_SLOT );
 		assertTrue( result.containsAll( expected ) );
 	}
+	
+	public void testEscape()
+	{
+		String testString = "abcd\\c\"";
+		assertEquals("abcd\\\\c\\\"",DEUtil.escape(testString));
+		
+	}
 
 	//	public void testFindPos( ) throws SemanticException
 	//	{
