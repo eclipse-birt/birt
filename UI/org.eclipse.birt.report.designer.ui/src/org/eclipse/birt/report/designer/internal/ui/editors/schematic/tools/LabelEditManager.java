@@ -16,14 +16,18 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -66,7 +70,8 @@ public class LabelEditManager extends DirectEditManager
 		Text text = (Text) getCellEditor( ).getControl( );
 
 		LabelFigure labelFigure = (LabelFigure) getEditPart( ).getFigure( );
-		String initialLabelText = ( (LabelHandle) ( getEditPart( ).getModel( ) ) ).getText( );
+		String initialLabelText = ( (LabelHandle) ( getEditPart( ).getModel( ) ) )
+				.getText( );
 		if ( initialLabelText == null )
 		{
 			initialLabelText = ""; //$NON-NLS-1$
@@ -95,7 +100,18 @@ public class LabelEditManager extends DirectEditManager
 	 */
 	protected CellEditor createCellEditorOn( Composite composite )
 	{
-		return new TextCellEditor( composite, SWT.SINGLE );
-	}
 
+		TextCellEditor editor = new TextCellEditor( composite, SWT.SINGLE );
+		final Control c = editor.getControl( );
+		c.addMouseTrackListener( new MouseTrackAdapter( )
+		{
+
+			public void mouseEnter( MouseEvent e )
+			{
+				c.setCursor( SharedCursors.IBEAM );
+			}
+
+		} );
+		return editor;
+	}
 }

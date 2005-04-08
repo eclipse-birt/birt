@@ -1132,6 +1132,10 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public boolean canMerge( )
 	{
+		if (isDelete())
+		{
+			return false;
+		}
 		List list = TableUtil.getSelectionCells( this );
 		int size = list.size( );
 		List temp = new ArrayList( );
