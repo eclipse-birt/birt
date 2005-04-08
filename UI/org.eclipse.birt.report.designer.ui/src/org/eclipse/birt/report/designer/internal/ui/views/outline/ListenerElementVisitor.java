@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.core.Listener;
 
 /**
@@ -33,25 +32,16 @@ public class ListenerElementVisitor extends DesignVisitor
 	private boolean install = true;
 
 	/**
-	 * the design
-	 */
-
-	private ReportDesignHandle designHandle = null;
-
-	/**
 	 * constructor. Sets the listener and design
 	 * 
-	 * @param lis
+	 * @param listener
 	 *            the listener value to be set
-	 * @param designHandle
-	 *            the handle of the report design
 	 */
 
-	public ListenerElementVisitor( Listener lis, ReportDesignHandle designHandle )
+	public ListenerElementVisitor( Listener listener )
 	{
-		super( designHandle );
-		this.listener = lis;
-		this.designHandle = designHandle;
+		super( );
+		this.listener = listener;
 	}
 
 	public void addListener( DesignElementHandle handle )
@@ -65,7 +55,7 @@ public class ListenerElementVisitor extends DesignVisitor
 		install = false;
 		apply( handle );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -93,7 +83,6 @@ public class ListenerElementVisitor extends DesignVisitor
 
 	public void dispose( )
 	{
-		removeListener( designHandle );
 		listener = null;
 	}
 }
