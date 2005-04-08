@@ -17,8 +17,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Hashtable;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.oda.IConnectionFactory;
-import org.eclipse.birt.data.oda.util.driverconfig.Connection;
-import org.eclipse.birt.data.oda.util.driverconfig.OpenDataAccessConfig;
+import org.eclipse.birt.data.oda.util.driverconfig.ConnectionType;
+import org.eclipse.birt.data.oda.util.driverconfig.OdaDriverConfiguration;
 
 /**
  * <code>DriverManager</code> manages a set of data source drivers.  Calling 
@@ -66,15 +66,16 @@ class DriverManager
 	 * Returns the connection class name to use as an argument for 
 	 * <code>IConnectionFactory.getConnection</code>.
 	 * @param driverName	the name of the driver.
-	 * @return	the connection class name for <code>IConnectionFactory.getConnection</code>.
+	 * @return	the connection class name for <code>IConnectionFactory.getConnection</code>, 
+	 * 			or null if no connection type or class name was specified.
 	 */
 	String getConnectionClassName( String driverName ) 
 		throws DataException
 	{
 		Driver driver = getDriver( driverName );
-		OpenDataAccessConfig config = driver.getDriverConfig();
-		Connection connectionConfig = config.getConnection();
-		return connectionConfig.getName();
+		OdaDriverConfiguration config = driver.getDriverConfig();
+		ConnectionType connectionType = config.getConnectionType();
+		return ( connectionType == null ) ? null : connectionType.getClassName();
 	}
 	
 	/**

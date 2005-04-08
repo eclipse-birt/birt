@@ -105,7 +105,7 @@ public class ResourceConstants
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
 	public final static String COLUMN_ALIAS_CANNOT_BE_EMPTY = "odaconsumer.ColumnAliasCannotBeEmpty";
-	public final static String CANNOT_PROCESS_ODA_CONFIG_FILE = "odaconsumer.CannotProcessOdaConfigFile";
+	public final static String CANNOT_PROCESS_DRIVER_CONFIG = "odaconsumer.CannotProcessDriverConfig";
 	public final static String INIT_ENTRY_CANNOT_BE_FOUND = "odaconsumer.OdaInitEntryNotFound";
 	public final static String ODA_DRIVER_ON_UNSUPPORTED_PLATFORM = "odaconsumer.OdaDriverOnUnsupportedPlatform";
 	public final static String CANNOT_GENERATE_URL = "odaconsumer.CannotGenerateUrls";
