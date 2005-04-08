@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.series;
 
+import org.eclipse.birt.chart.exception.ValidationException;
+import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -50,8 +52,15 @@ public class StockSeriesAttributeComposite extends Composite implements Listener
         super(parent, style);
         if (!(series instanceof StockSeries))
         {
-            throw new RuntimeException("ERROR! Series of type " + series.getClass().getName() //$NON-NLS-1$
-                + Messages.getString("StockSeriesAttributeComposite.Exception.IllegalArgument")); //$NON-NLS-1$
+            try
+            {
+                throw new ValidationException("StockSeriesAttributeComposite.Exception.IllegalArgument", new Object[] {series.getClass().getName()}, Messages.getResourceBundle()); //$NON-NLS-1$
+            }
+            catch (ValidationException e )
+            {
+                DefaultLoggerImpl.instance().log(e);
+                e.printStackTrace();
+            }
         }
         this.series = (StockSeries) series;
         init();

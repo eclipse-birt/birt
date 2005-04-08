@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -331,7 +332,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 srTransparency.setEnabled(false);
             }
         }
-        lblTransparency.setText(Messages.getString("FillChooserComposite.Lbl.Opacity") + String.valueOf(srTransparency.getSelection()));
+        lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")).format(new Object[] {new Integer(srTransparency.getSelection())}));
         srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
         srTransparency.addSelectionListener(this);
 
@@ -517,7 +518,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         else if (oSource.equals(srTransparency))
         {
             iTransparency = srTransparency.getSelection();
-            lblTransparency.setText(Messages.getString("FillChooserComposite.Lbl.Opacity") + String.valueOf(iTransparency));
+            lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")).format(new Object[] {new Integer(iTransparency)}));
             srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
             bTransparencyChanged = true;
         }

@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -284,7 +285,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         if (cbExternalize.getSelection())
         {
-            return Messages.getString("ExternalizedTextEditorDialog.Lbl.Value1") + getKeyComponent(sResult) + Messages.getString("ExternalizedTextEditorDialog.Lbl.Value2"); //$NON-NLS-1$ //$NON-NLS-2$
+            return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] {getKeyComponent(sResult)}); //$NON-NLS-1$
         }
         return getValueComponent(sResult);
     }

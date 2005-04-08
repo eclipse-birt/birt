@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.text.MessageFormat;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -107,7 +108,7 @@ public class InsetsComposite extends Composite implements Listener
 
         grpInsets = new Group(this, SWT.NONE);
         grpInsets.setLayout(glGroup);
-        grpInsets.setText(Messages.getString("InsetsComposite.Lbl.Insets") + sUnits + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+        grpInsets.setText(new MessageFormat(Messages.getString("InsetsComposite.Lbl.Insets")).format(new Object[] {sUnits})); //$NON-NLS-1$
 
         lblTop = new Label(grpInsets, SWT.NONE);
         GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);

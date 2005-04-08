@@ -27,6 +27,11 @@ public class Messages
     {
     }
 
+    public static ResourceBundle getResourceBundle()
+    {
+        return RESOURCE_BUNDLE;
+    }
+
     public static String getString(String key)
     {
         // TODO Auto-generated method stub

@@ -26,6 +26,11 @@ public class Messages
     private Messages()
     {
     }
+    
+    public static ResourceBundle getResourceBundle()
+    {
+        return RESOURCE_BUNDLE;
+    }
 
     public static String getString(String key)
     {

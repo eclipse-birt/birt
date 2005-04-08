@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -58,7 +59,7 @@ public class TriggerEditorDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText(Messages.getString("TriggerEditorDialog.Title.TriggerEditor") + sTitle); //$NON-NLS-1$
+        shell.setText(new MessageFormat(Messages.getString("TriggerEditorDialog.Title.TriggerEditor")).format(new Object[] {sTitle})); //$NON-NLS-1$
         shell.pack();
         shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);

@@ -396,7 +396,6 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
             boolean bEnableUI = cbVisible.getSelection();
             grpOutline.setEnabled(bEnableUI);
-            cbVisible.setEnabled(bEnableUI);
             lblPosition.setEnabled(bEnableUI);
             lblFill.setEnabled(bEnableUI);
             lblShadow.setEnabled(bEnableUI);

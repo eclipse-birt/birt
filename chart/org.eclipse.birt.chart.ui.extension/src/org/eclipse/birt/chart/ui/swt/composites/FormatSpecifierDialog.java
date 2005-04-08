@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.text.MessageFormat;
+
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -58,7 +60,7 @@ public class FormatSpecifierDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier") + sTitle); //$NON-NLS-1$
+        shell.setText(new MessageFormat(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier")).format(new Object[] {sTitle}));   //$NON-NLS-1$
         shell.pack();
         shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
