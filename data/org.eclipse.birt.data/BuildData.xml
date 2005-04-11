@@ -87,15 +87,15 @@
 		<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 		</fileset>
+		<fileset dir="${oda.dir}">
+			<include name="oda.jar"/>
+		</fileset>
 	</path>
 	
 	<path id="class.path.test">
 		<path refid="class.path" />
 		<fileset dir="${core.dir}">
 			<include name="lib/*.jar"/>
-		</fileset>
-		<fileset dir="${oda.dir}">
-			<include name="oda.jar"/>
 		</fileset>
 	</path>
 	
