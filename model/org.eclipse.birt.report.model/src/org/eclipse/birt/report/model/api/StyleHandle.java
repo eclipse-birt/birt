@@ -67,7 +67,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns a background attachment as a string. The return value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li>BACKGROUND_ATTACHMENT_SCROLL
 	 * <li>BACKGROUND_ATTACHMENT_FIXED
@@ -84,7 +83,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the background attachment. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li>BACKGROUND_ATTACHMENT_SCROLL
 	 * <li>BACKGROUND_ATTACHMENT_FIXED
@@ -138,7 +136,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the pattern of the repeat for a background image. The return
 	 * value is defined in <code>DesignChoiceConstants</code> and can be one
 	 * of:
-	 * 
 	 * <ul>
 	 * <li>BACKGROUND_REPEAT_REPEAT
 	 * <li>BACKGROUND_REPEAT_REPEAT_X
@@ -157,7 +154,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the repeat pattern for a background image. The input value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li>BACKGROUND_REPEAT_REPEAT
 	 * <li>BACKGROUND_REPEAT_REPEAT_X
@@ -179,7 +175,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the style of the bottom line of the border. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -203,7 +198,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the style of the bottom line of the border. The input value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -230,7 +224,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the style of the left line of the border. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -254,7 +247,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the style of the left line of the border. The input value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -281,7 +273,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the style of the right line of the border. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -305,7 +296,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the style of the right line of the border. The input value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -332,7 +322,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the style of the top line of the border. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -356,7 +345,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the style of the top line of the border. The input value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -385,7 +373,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * than the design size.
 	 * 
 	 * @return <code>true</code> if can shrink, otherwise <code>false</code>
-	 * 
 	 * @see #setCanShrink(boolean)
 	 */
 
@@ -424,9 +411,9 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * @return the value of the string-format
 	 */
 
-	public String getStringFormat( )
+	public FormatHandle getStringFormat( )
 	{
-		return getStringProperty( Style.STRING_FORMAT_PROP );
+		return getFormatProperty( Style.STRING_FORMAT_PROP );
 	}
 
 	/**
@@ -435,19 +422,18 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new string-format value
+	 * @deprecated
 	 */
 
 	public void setStringFormat( String value )
 	{
 		try
 		{
-			setStringProperty( Style.STRING_FORMAT_PROP, value );
+			getStringFormat( ).setStringValue( value );
 		}
 		catch ( SemanticException e )
 		{
 			// set a string, should not fail.
-
-			assert false;
 		}
 	}
 
@@ -458,9 +444,9 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * @return the value of the number-format
 	 */
 
-	public String getNumberFormat( )
+	public FormatHandle getNumberFormat( )
 	{
-		return getStringProperty( Style.NUMBER_FORMAT_PROP );
+		return getFormatProperty( Style.NUMBER_FORMAT_PROP );
 	}
 
 	/**
@@ -469,19 +455,18 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new number-format value
+	 * @deprecated
 	 */
 
 	public void setNumberFormat( String value )
 	{
 		try
 		{
-			setStringProperty( Style.NUMBER_FORMAT_PROP, value );
+			getNumberFormat( ).setStringValue( value );
 		}
 		catch ( SemanticException e )
 		{
 			// set a string, should not fail.
-
-			assert false;
 		}
 	}
 
@@ -492,9 +477,9 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * @return the value of the date-time-format
 	 */
 
-	public String getDateTimeFormat( )
+	public FormatHandle getDateTimeFormat( )
 	{
-		return getStringProperty( Style.DATE_TIME_FORMAT_PROP );
+		return getFormatProperty( Style.DATE_TIME_FORMAT_PROP );
 	}
 
 	/**
@@ -503,19 +488,18 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new date-time-format value
+	 * @deprecated
 	 */
 
 	public void setDateTimeFormat( String value )
 	{
 		try
 		{
-			setStringProperty( Style.DATE_TIME_FORMAT_PROP, value );
+			getDateTimeFormat( ).setStringValue( value );
 		}
 		catch ( SemanticException e )
 		{
 			// set a string, should not fail.
-
-			assert false;
 		}
 	}
 
@@ -523,7 +507,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the value that specifies if a top-level element should be a block
 	 * or in-line element. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>DISPLAY_NONE</code>
 	 * <li><code>DISPLAY_INLINE</code>
@@ -542,7 +525,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Sets the value that specifies if a top-level element should be a block or
 	 * in-line element. The input value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>DISPLAY_NONE</code>
 	 * <li><code>DISPLAY_INLINE</code>
@@ -564,7 +546,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the name of the master page on which to start this section.
 	 * 
 	 * @return the master page name
-	 * 
 	 * @see #setMasterPage(String)
 	 */
 
@@ -579,10 +560,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * page, and the master page is the one defined here. The subsequent pages
 	 * are those defined by the report¡¯s page sequence.
 	 * 
-	 * 
 	 * @param value
 	 *            the new master page name
-	 * 
 	 * @see #getMasterPage()
 	 */
 
@@ -603,13 +582,11 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the value of orphans. The return value is either an integer as as
 	 * string or one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>ORPHANS_INHERIT</code>
 	 * </ul>
 	 * 
 	 * @return the orphans property
-	 * 
 	 * @see #setOrphans(String)
 	 */
 
@@ -623,7 +600,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * multi-line paragraph appears on its own at the bottom of a page due to a
 	 * page break. The input value is either an integer as as string or one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>ORPHANS_INHERIT</code>
 	 * </ul>
@@ -632,7 +608,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the new orphans property
 	 * @throws SemanticException
 	 *             if the value is not an integer or one of the above constants.
-	 * 
 	 * @see #getOrphans()
 	 */
 
@@ -645,7 +620,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the page break after property for block-level elements. The
 	 * return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGE_BREAK_AUTO</code>
 	 * <li><code>PAGE_BREAK_ALWAYS</code>
@@ -654,7 +628,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * <li><code>PAGE_BREAK_RIGHT</code>
 	 * <li><code>PAGE_BREAK_INHERIT</code>
 	 * </ul>
-	 * 
 	 * 
 	 * @return the page break after property
 	 */
@@ -667,7 +640,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the page break after property for block-level elements. The input
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGE_BREAK_AUTO</code>
 	 * <li><code>PAGE_BREAK_ALWAYS</code>
@@ -692,7 +664,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the page break before property for block-level elements. The
 	 * return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGE_BREAK_AUTO</code>
 	 * <li><code>PAGE_BREAK_ALWAYS</code>
@@ -713,7 +684,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the page break before property for block-level elements. The return
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGE_BREAK_AUTO</code>
 	 * <li><code>PAGE_BREAK_ALWAYS</code>
@@ -738,7 +708,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the page break inside property for block-level elements. The
 	 * return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGEBREAK_INSIDE_AVOID</code>
 	 * <li><code>PAGEBREAK_INSIDE_AUTO</code>
@@ -756,7 +725,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the page break inside property for block-level elements. The input
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>PAGEBREAK_INSIDE_AVOID</code>
 	 * <li><code>PAGEBREAK_INSIDE_AUTO</code>
@@ -781,7 +749,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @return <code>true</code> if show-if-blank, otherwise
 	 *         <code>false</code>
-	 * 
 	 * @see #setShowIfBlank(boolean)
 	 */
 
@@ -797,7 +764,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * @param value
 	 *            <code>true</code> if show the frame. <code>false</code>
 	 *            not.
-	 * 
 	 * @see #showIfBlank()
 	 */
 
@@ -819,7 +785,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns one 'text-decoration' property to set underline styles. The
 	 * return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
@@ -836,12 +801,10 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets one 'text-decoration' property to set underline styles. The input
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 * 
 	 * 
 	 * @param value
 	 *            the new text underline
@@ -857,7 +820,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns one 'text-decoration' property to set overline styles. The return
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
@@ -874,7 +836,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets one 'text-decoration' property to set overline styles. The input
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
@@ -895,7 +856,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns one 'text-decoration' property to set line-through styles. The
 	 * return value is one of constants defined in
 	 * <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
@@ -912,7 +872,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets one 'text-decoration' property to set line-through styles. The input
 	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
@@ -932,7 +891,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the text align for block-level elements. The return value is one
 	 * of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_ALIGN_LEFT</code>
 	 * <li><code>TEXT_ALIGN_CENTER</code>
@@ -951,7 +909,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the text align for block-level elements. The input value is one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TEXT_ALIGN_LEFT</code>
 	 * <li><code>TEXT_ALIGN_CENTER</code>
@@ -973,7 +930,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the value to transform the text. The return value is one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TRANSFORM_CAPITALIZE</code>
 	 * <li><code>TRANSFORM_UPPERCASE</code>
@@ -992,7 +948,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the value used to transform the text. The input value is one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>TRANSFORM_CAPITALIZE</code>
 	 * <li><code>TRANSFORM_UPPERCASE</code>
@@ -1015,7 +970,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the value of the vertical align property for inline elements. The
 	 * return value is defined in <code>DesignChoiceConstants</code> and can
 	 * be one of:
-	 * 
 	 * <ul>
 	 * <li>VERTICAL_ALIGN_BASELINE
 	 * <li>VERTICAL_ALIGN_SUB
@@ -1039,7 +993,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Sets the value of the vertical align property for inline elements. The
 	 * input value is defined in <code>DesignChoiceConstants</code> and can be
 	 * one of:
-	 * 
 	 * <ul>
 	 * <li>VERTICAL_ALIGN_BASELINE
 	 * <li>VERTICAL_ALIGN_SUB
@@ -1065,7 +1018,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the white space for block elements. The return value is defined
 	 * in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>WHITE_SPACE_NORMAL</code>
 	 * <li><code>WHITE_SPACE_PRE</code>
@@ -1083,7 +1035,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the white space property for block elements. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
-	 * 
 	 * <ul>
 	 * <li><code>WHITE_SPACE_NORMAL</code>
 	 * <li><code>WHITE_SPACE_PRE</code>
@@ -1104,13 +1055,11 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the value of widows. The return value is either an integer as as
 	 * string or one of constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>WIDOWS_INHERIT</code>
 	 * </ul>
 	 * 
 	 * @return the widows property
-	 * 
 	 * @see #setWidows(String)
 	 */
 
@@ -1124,17 +1073,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * multi-line paragraph appears on its own at the top of a page due to a
 	 * page break. The input value is either an integer as as string or one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>WIDOWS_INHERIT</code>
 	 * </ul>
 	 * 
 	 * @param value
 	 *            the new windows property
-	 * 
 	 * @throws SemanticException
 	 *             if the value is not an integer or one of the above constants.
-	 * 
 	 * @see #getWidows()
 	 */
 
@@ -1200,7 +1146,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the value of new highlight test expression
-	 * 
 	 * @throws SemanticException
 	 *             if the expression is invalid.
 	 */
@@ -1300,7 +1245,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the x position for the background.
 	 * Besides the dimension value, the dimension handle may return one of
 	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>SECTION_ALIGN_LEFT</code>
 	 * <li><code>SECTION_ALIGN_CENTER</code>
@@ -1319,7 +1263,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the y position for the background.
 	 * Besides the dimension value, the dimension handle may return one of
 	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>BACKGROUND_POSITION_TOP</code>
 	 * <li><code>BACKGROUND_POSITION_CENTER</code>
@@ -1338,7 +1281,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the spacing between individual
 	 * letters. Besides the dimension value, the dimension handle may return one
 	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
@@ -1355,7 +1297,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the height of a line. Implies
 	 * spacing between lines. Besides the dimension value, the dimension handle
 	 * may return one of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
@@ -1383,7 +1324,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the spacing between two words.
 	 * Besides the dimension value, the dimension handle may return one of
 	 * constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
@@ -1400,7 +1340,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the width of the top side of the
 	 * border. Besides the dimension value, the dimension handle may return one
 	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_WIDTH_THIN</code>
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
@@ -1419,7 +1358,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the width of the left side of the
 	 * border. Besides the dimension value, the dimension handle may return one
 	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_WIDTH_THIN</code>
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
@@ -1438,7 +1376,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the width of the right side of the
 	 * border. Besides the dimension value, the dimension handle may return one
 	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_WIDTH_THIN</code>
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
@@ -1457,7 +1394,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a dimension handle to deal with the width of the bottom side of the
 	 * border. Besides the dimension value, the dimension handle may return one
 	 * of constants defined in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>LINE_WIDTH_THIN</code>
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
@@ -1476,7 +1412,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a handle to deal with the margin of the top side. Besides the
 	 * dimension value, the dimension handle may return one of constants defined
 	 * in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
@@ -1493,7 +1428,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a handle to deal with the margin of the right side. Besides the
 	 * dimension value, the dimension handle may return one of constants defined
 	 * in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
@@ -1510,7 +1444,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a handle to deal with the margin of the left side. Besides the
 	 * dimension value, the dimension handle may return one of constants defined
 	 * in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
@@ -1527,7 +1460,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Gets a handle to deal with the margin of the bottom side. Besides the
 	 * dimension value, the dimension handle may return one of constants defined
 	 * in <code>DesignChoiceConstatns</code>:
-	 * 
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
@@ -1599,7 +1531,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the font handle to deal with the font family.
 	 * 
 	 * @return a FontHandle for the font family.
-	 * 
 	 * @see FontHandle
 	 */
 
@@ -1611,7 +1542,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the weight of the font. The return value is one of constants
 	 * defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_WEIGHT_NORMAL</code>
 	 * <li><code>FONT_WEIGHT_BOLD</code>
@@ -1639,7 +1569,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the weight of the font. The input value is one of constants defined
 	 * in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_WEIGHT_NORMAL</code>
 	 * <li><code>FONT_WEIGHT_BOLD</code>
@@ -1670,7 +1599,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the variant of the font. The return value is one of constants
 	 * defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
@@ -1687,7 +1615,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the variant of the font. The input value is one of constants defined
 	 * in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
@@ -1707,7 +1634,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Returns the style of the font. The return value is one of constants
 	 * defined in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_STYLE_NORMAL</code>
 	 * <li><code>FONT_STYLE_ITALIC</code>
@@ -1725,7 +1651,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	/**
 	 * Sets the style of the font. The input value is one of constants defined
 	 * in <code>DesignChoiceConstants</code>:
-	 * 
 	 * <ul>
 	 * <li><code>FONT_STYLE_NORMAL</code>
 	 * <li><code>FONT_STYLE_ITALIC</code>

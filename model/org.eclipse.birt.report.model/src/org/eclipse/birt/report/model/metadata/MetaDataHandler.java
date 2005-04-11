@@ -371,6 +371,7 @@ class MetaDataHandler extends XMLParserHandler
 			{
 
 				case PropertyType.DIMENSION_TYPE :
+				case PropertyType.FORMAT_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :
@@ -635,7 +636,8 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
-			String visibleInPropertySheet = getAttrib( attrs, PROPERTY_VISIBILITY_ATTRIB );
+			String visibleInPropertySheet = getAttrib( attrs,
+					PROPERTY_VISIBILITY_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -677,6 +679,7 @@ class MetaDataHandler extends XMLParserHandler
 			switch ( typeDefn.getTypeCode( ) )
 			{
 				case PropertyType.DIMENSION_TYPE :
+				case PropertyType.FORMAT_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :

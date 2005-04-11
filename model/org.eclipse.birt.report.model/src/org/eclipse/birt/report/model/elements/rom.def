@@ -368,6 +368,7 @@
 	<Choice name="Long Time" displayNameID="Choices.dateTimeFormat.longTime" />
     <Choice name="Medium Time" displayNameID="Choices.dateTimeFormat.mediumTime" />
     <Choice name="Short Time" displayNameID="Choices.dateTimeFormat.shortTime" />			
+	<Choice name="Custom" displayNameID="Choices.dateTimeFormat.custom" />    
   </ChoiceType>
   <ChoiceType name="numberFormat">
 	<Choice name="General Number" displayNameID="Choices.numberFormat.generalNumber" />
@@ -376,10 +377,17 @@
     <Choice name="Percent" displayNameID="Choices.numberFormat.percent" />
 	<Choice name="Scientific" displayNameID="Choices.numberFormat.scientific" />
     <Choice name="Standard" displayNameID="Choices.numberFormat.standard" />
+	<Choice name="Custom" displayNameID="Choices.numberFormat.custom" />    
   </ChoiceType>
   <ChoiceType name="stringFormat">
+	<Choice name="Unformatted" displayNameID="Choices.stringFormat.unformatted" />
 	<Choice name=">" displayNameID="Choices.stringFormat.upper" />
     <Choice name="&lt;" displayNameID="Choices.stringFormat.lower" />
+	<Choice name="Zip Code" displayNameID="Choices.stringFormat.zipCode" />   	 
+	<Choice name="Zip Code + 4" displayNameID="Choices.stringFormat.zipCode+4" />  	
+	<Choice name="Phone Number" displayNameID="Choices.stringFormat.phoneNumber" />  		
+	<Choice name="Social Security Number" displayNameID="Choices.stringFormat.socialSecurityNumber" />  			
+	<Choice name="Custom" displayNameID="Choices.stringFormat.custom" />   		
   </ChoiceType> 
   <Class name="String" displayNameID="Class.String" toolTipID="Class.String.toolTip" native="true">
     <Constructor name="String" displayNameID="Class.String.String" toolTipID="Class.String.String.toolTip" returnType="String">
@@ -1360,10 +1368,10 @@
     <Member name="borderRightWidth" displayNameID="Structure.HighlightRule.border.right.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderRightColor" displayNameID="Structure.HighlightRule.border.right.color" type="color" />
     <Member name="backgroundColor" displayNameID="Structure.HighlightRule.background.color" type="color" />
-    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="string" />
-    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="string" />
+    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="format" detailType="dateTimeFormat"/>
+    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="format" detailType="numberFormat"/>
     <Member name="numberAlign" displayNameID="Structure.HighlightRule.format.number.align" type="choice" detailType="textAlign" />
-    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="string" />
+    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="format" detailType="stringFormat"/>
     <Member name="fontFamily" displayNameID="Structure.HighlightRule.font.family" type="string" detailType="fontFamily" />
     <Member name="fontSize" displayNameID="Structure.HighlightRule.font.size" type="dimension" detailType="fontSize" validator="PositiveValueValidator"/>
     <Member name="fontStyle" displayNameID="Structure.HighlightRule.font.style" type="choice" detailType="fontStyle" />
@@ -1558,7 +1566,7 @@
     </Slot>
     <Slot name="pageSetup" displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="true">
       <Type name="MasterPage" />
-		<Trigger validator="MasterPageRequiredValidator"/>
+	  <Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
     <Slot name="components" displayNameID="Element.ReportDesign.slot.components" multipleCardinality="true">
       <Type name="FreeForm" />
@@ -1626,12 +1634,12 @@
     <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" valueRequired="true" />
   </Element>
   <Element name="DataSet" displayNameID="Element.DataSet" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSet" isNameRequired="true">
-    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" valueRequired="true" />
     <Method name="beforeOpen" displayNameID="Element.DataSet.beforeOpen" toolTipID="Element.DataSet.beforeOpen.toolTip" />
     <Method name="beforeClose" displayNameID="Element.DataSet.beforeClose" toolTipID="Element.DataSet.beforeClose.toolTip" />
     <Method name="onFetch" displayNameID="Element.DataSet.onFetch" toolTipID="Element.DataSet.onFetch.toolTip" />
     <Method name="afterOpen" displayNameID="Element.DataSet.afterOpen" toolTipID="Element.DataSet.afterOpen.toolTip" />
     <Method name="afterClose" displayNameID="Element.DataSet.afterClose" toolTipID="Element.DataSet.afterClose.toolTip" />
+    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" valueRequired="true" />    
     <Property name="parameters" type="structure" isList="true" detailType="DataSetParam" displayNameID="Element.DataSet.parameters" />
     <Property name="paramBindings" type="structure" isList="true" detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" />
     <Property name="resultSet" type="structure" isList="true" detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" >
@@ -1871,12 +1879,12 @@
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
-      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="string" detailType="dateTimeFormat" isStyleProperty="true" />
-      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="string" detailType="numberFormat" isStyleProperty="true" />
+      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="format" detailType="dateTimeFormat" isStyleProperty="true" />
+      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="format" detailType="numberFormat" isStyleProperty="true" />
       <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true">
         <Default>left</Default>
       </Property>
-      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="string" detailType="stringFormat" isStyleProperty="true" />
+      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="format" detailType="stringFormat" isStyleProperty="true" />
     </PropertyGroup>
     <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" propertyVisibility="hide">
       <Default>true</Default>
