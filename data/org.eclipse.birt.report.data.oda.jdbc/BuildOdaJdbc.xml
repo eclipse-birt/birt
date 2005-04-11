@@ -79,7 +79,7 @@
  	<property name="dir.lib" value="lib" />
 
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.jdbc"/>
-	<property name="dte.dir" location="../org.eclipse.birt.data" />
+	<property name="oda.dir" location="../org.eclipse.birt.data.oda" />
 
 	<property name="user" value="Actuate" />
 	<property name="password" value="Actuate" />
@@ -91,7 +91,7 @@
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="${dte.dir}">
+		<fileset dir="${oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>
 	</path>
@@ -112,7 +112,7 @@
 				<include name="**/*.properties" />
 				<exclude name="**/*Test.class" />
 			</fileset>
-			<zipfileset src="${dte.dir}/oda.jar" excludes="**/*.MF"/>
+			<zipfileset src="${oda.dir}/oda.jar" excludes="**/*.MF"/>
 		</jar>
 	</target>
 	
@@ -199,11 +199,11 @@
 	</target>
 	
 	<target name="buildDependency">
-		<echo message="start call Jar task in ${dte.dir}"/>
-		<ant dir="${dte.dir}" antfile="BuildData.xml" target="Jar" inheritAll="false">
+		<echo message="start call Jar task in ${oda.dir}"/>
+		<ant dir="${oda.dir}" antfile="BuildOda.xml" target="Jar" inheritAll="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>				
-		<echo message="end call Jar task in ${dte.dir}"/>
+		<echo message="end call Jar task in ${oda.dir}"/>
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
