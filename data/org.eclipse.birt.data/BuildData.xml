@@ -350,7 +350,7 @@
 		<echo message="end call Jar task in ${core.dir}"/>
 		
 		<echo message="start call Jar task in ${oda.dir}"/>
-		<ant dir="${oda.dir}" target="jar" inheritAll="false">
+		<ant dir="${oda.dir}" antfile ="BuildOda.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
 			<property name="eclipse.version" value="${eclipse.version}" />
 		</ant>
