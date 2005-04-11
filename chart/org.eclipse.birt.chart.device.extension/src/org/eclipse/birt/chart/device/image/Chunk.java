@@ -37,7 +37,7 @@ class Chunk
     {
         this.type = type;
         if (type == null || type.length() != 4)
-            throw new IllegalArgumentException("Invalid PNG chunk type: " + type);
+            throw new IllegalArgumentException("Invalid PNG chunk type: {0}" + type); // i18n_CONCATENATIONS_REMOVED
         this.data = new ByteArrayOutputStream();
     }
 

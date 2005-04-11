@@ -23,18 +23,16 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
-import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.TextAdapter;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * This class provides metrics for a label containing either one or multiple lines of text.
- * 
- * @author Actuate Corporation
+ * Provides metrics for a label containing either one or multiple lines
+ * of text.
  */
-public final class SwingTextMetrics implements ITextMetrics
+public final class SwingTextMetrics extends TextAdapter
 {
-
     private int iLineCount = 0;
 
     private Object oText = null;

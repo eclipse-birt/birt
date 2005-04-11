@@ -23,7 +23,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
      */
     protected final String getFormat()
     {
-        return "gif";
+        return "gif"; //$NON-NLS-1$
     }
     
     /*
@@ -32,7 +32,7 @@ public final class GifRendererImpl extends JavaxImageIOWriter
      */
     public final String getMimeType()
     {
-        return "image/gif";
+        return "image/gif"; //$NON-NLS-1$
     }
     
     /* (non-Javadoc)

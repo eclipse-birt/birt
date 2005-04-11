@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.device.DeviceAdapter;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -72,10 +73,11 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.resource.ResourceManager;
 import org.eclipse.birt.chart.util.PluginSettings;
 
 /**
- * This class provides a reference implementation of a SWING device renderer. It translates chart primitives into
+ * Provides a reference implementation of a SWING device renderer. It translates chart primitives into
  * standard J2SDK AWT/SWING rendering primitives.
  */
 public class SwingRendererImpl extends DeviceAdapter
@@ -124,7 +126,7 @@ public class SwingRendererImpl extends DeviceAdapter
         final PluginSettings ps = PluginSettings.instance();
         try
         {
-            _ids = ps.getDisplayServer("ds.SWING");
+            _ids = ps.getDisplayServer("ds.SWING"); //$NON-NLS-1$
         }
         catch (PluginException pex )
         {
@@ -163,7 +165,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 }
             }
 
-            _eh = new SwingEventHandler(_lhmAllTriggers, _iun);
+            _eh = new SwingEventHandler(_lhmAllTriggers, _iun, getLocale());
             jc.addMouseListener(_eh);
             jc.addMouseMotionListener(_eh);
         }
@@ -174,7 +176,14 @@ public class SwingRendererImpl extends DeviceAdapter
             _g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             _g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
             _frc = new FontRenderContext(new AffineTransform(), true, false);
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Using graphics context " + _g2d);
+            DefaultLoggerImpl.instance().log(
+                ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.using.graphics.context", //$NON-NLS-1$
+                    new Object[] { _g2d },
+                    getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
     }
 
@@ -305,21 +314,25 @@ public class SwingRendererImpl extends DeviceAdapter
             final Gradient g = (Gradient) flBackground;
             final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
             final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
-            boolean bCyclic = g.isCyclic();
+            //boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
             //int iAlpha = g.getTransparency();
 
-            if (bCyclic)
+            /*if (bCyclic)
             {
-                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
-                // gradients are not supported in the "+getClass()+" renderer");
-            }
+            }*/
 
             if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
             {
-                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
-                    + "; supported range is [90 >= 0 >= -90]");
+                throw new RenderingException(
+                    "exception.gradient.angle",//$NON-NLS-1$
+                    new Object[] { new Double(dAngleInDegrees) },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED 
             }
 
             Point2D.Double p2dStart, p2dEnd;
@@ -481,7 +494,7 @@ public class SwingRendererImpl extends DeviceAdapter
             final Gradient g = (Gradient) flBackground;
             final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
             final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
-            final boolean bRadial = g.isCyclic();
+            //final boolean bRadial = g.isCyclic();
             final double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
             //final int iAlpha = g.getTransparency();
@@ -491,16 +504,20 @@ public class SwingRendererImpl extends DeviceAdapter
             final double dMinY = BaseRenderer.getY(loa, IConstants.MIN);
             final double dMaxY = BaseRenderer.getY(loa, IConstants.MAX);
 
-            if (bRadial)
+            /*if (bRadial)
             {
-                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
-                // gradients are not supported in the "+getClass()+" renderer");
-            }
+            }*/
 
             if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
             {
-                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
-                    + "; supported range is [90 >= 0 >= -90]");
+                throw new RenderingException(
+                    "exception.gradient.angle",//$NON-NLS-1$
+                    new Object[] { new Double(dAngleInDegrees) },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED 
             }
 
             Point2D.Double p2dStart, p2dEnd;
@@ -581,7 +598,7 @@ public class SwingRendererImpl extends DeviceAdapter
                 Bounds bo = pre.getBounds();
                 _g2d.setColor(Color.red);
                 _g2d.setFont(new Font("Arial", Font.BOLD, 14));
-                _g2d.drawString("" + pre.iObjIndex, (int) (bo.getLeft() + bo.getWidth() / 2), (int) (bo.getTop() + bo
+                _g2d.drawString("{0}" + pre.iObjIndex, (int) (bo.getLeft() + bo.getWidth() / 2), (int) (bo.getTop() + bo // i18n_CONCATENATIONS_REMOVED
                     .getHeight() / 2));
             }
             catch (Exception ex )
@@ -670,22 +687,26 @@ public class SwingRendererImpl extends DeviceAdapter
             final Gradient g = (Gradient) flBackground;
             final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
             final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
-            boolean bCyclic = g.isCyclic();
+            //boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
             //int iAlpha = g.getTransparency();
             Bounds bo = are.getBounds();
 
-            if (bCyclic)
+            /*if (bCyclic)
             {
-                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
-                // gradients are not supported in "+getClass());
-            }
+            }*/
 
             if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
             {
-                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
-                    + "; supported range is [90 >= 0 >= -90]");
+                throw new RenderingException(
+                    "exception.gradient.angle",//$NON-NLS-1$
+                    new Object[] { new Double(dAngleInDegrees) },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
 
             Point2D.Double p2dStart, p2dEnd;
@@ -871,22 +892,26 @@ public class SwingRendererImpl extends DeviceAdapter
             final Gradient g = (Gradient) flBackground;
             final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
             final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
-            boolean bCyclic = g.isCyclic();
+            //boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
             //int iAlpha = g.getTransparency();
             Bounds bo = are.getBounds();
 
-            if (bCyclic)
+            /*if (bCyclic)
             {
-                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
-                // gradients are not supported in "+getClass());
-            }
+            }*/
 
             if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
             {
-                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
-                    + "; supported range is [90 >= 0 >= -90]");
+                throw new RenderingException(
+                    "exception.gradient.angle",//$NON-NLS-1$
+                    new Object[] { new Double(dAngleInDegrees) },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
 
             Point2D.Double p2dStart, p2dEnd;
@@ -939,7 +964,12 @@ public class SwingRendererImpl extends DeviceAdapter
         {
             case TextRenderEvent.UNDEFINED:
                 throw new RenderingException(
-                    "Unspecified text rendering action; TextRenderEvent.setAction(...) was not correctly called");
+                    "exception.missing.text.render.action", //$NON-NLS-1$
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); 
 
             case TextRenderEvent.RENDER_SHADOW_AT_LOCATION:
                 tr.renderShadowAtLocation(this, tre.getTextPosition(), tre.getLocation(), tre.getLabel());
@@ -965,7 +995,7 @@ public class SwingRendererImpl extends DeviceAdapter
         if (_iun == null)
         {
             DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                "Cannot enable interaction if a component is not associated with the SwingRendererImpl");
+                Messages.getString("exception.missing.component.interaction", getLocale())); //$NON-NLS-1$
             return;
         }
 
@@ -1164,21 +1194,25 @@ public class SwingRendererImpl extends DeviceAdapter
             final Gradient g = (Gradient) flBackground;
             final ColorDefinition cdStart = (ColorDefinition) g.getStartColor();
             final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor();
-            boolean bCyclic = g.isCyclic();
+            //boolean bCyclic = g.isCyclic();
             double dAngleInDegrees = g.getDirection();
             final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
             //int iAlpha = g.getTransparency();
 
-            if (bCyclic)
+            /*if (bCyclic)
             {
-                //DefaultLoggerImpl.instance().log(ILogger.WARNING, "Radial
-                // gradients are not supported in the "+getClass()+" renderer");
-            }
+            }*/
 
             if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
             {
-                throw new RenderingException("Cannot render a gradient at angle=" + dAngleInDegrees
-                    + "; supported range is [90 >= 0 >= -90]");
+                throw new RenderingException(
+                    "exception.gradient.angle",//$NON-NLS-1$
+                    new Object[] { new Double(dAngleInDegrees) },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
 
             Point2D.Double p2dStart, p2dEnd;
@@ -1302,6 +1336,7 @@ public class SwingRendererImpl extends DeviceAdapter
      */
     public void after() throws RenderingException
     {
+        // FLUSH ALL IMAGES USED IN RENDERING THE CHART CONTENT
     	((SwingDisplayServer) _ids).getImageCache().flush();
     }
 }

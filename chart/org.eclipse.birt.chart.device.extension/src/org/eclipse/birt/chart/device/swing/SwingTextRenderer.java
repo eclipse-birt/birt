@@ -41,9 +41,10 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
- * This class provides convenience methods for rendering rotated text with configurable attributes on a SWING graphics
+ * Provides convenience methods for rendering rotated text with configurable attributes on a SWING graphics
  * context.
  */
 final class SwingTextRenderer implements IConstants
@@ -100,7 +101,13 @@ final class SwingTextRenderer implements IConstants
         final ColorDefinition cdShadow = la.getShadowColor();
         if (cdShadow == null)
         {
-            throw new RenderingException("Cannot render shadow with an undefined color");
+            throw new RenderingException(
+                "exception.undefined.shadow.color", //$NON-NLS-1$
+                ResourceManager.getBundle(
+                    ResourceManager.DEVICE_EXTENSION, 
+                    _sxs.getLocale()
+                )
+            ); 
         }
 
         final Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) idr).getGraphicsContext();
@@ -142,7 +149,13 @@ final class SwingTextRenderer implements IConstants
         final ColorDefinition cdText = la.getCaption().getColor();
         if (cdText == null)
         {
-            throw new RenderingException("Cannot render text with an undefined color");
+            throw new RenderingException(
+                "exception.undefined.text.color", //$NON-NLS-1$
+                ResourceManager.getBundle(
+                    ResourceManager.DEVICE_EXTENSION, 
+                    _sxs.getLocale()
+                )
+            ); 
         }
 
         final Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) ipr).getGraphicsContext();
@@ -185,7 +198,13 @@ final class SwingTextRenderer implements IConstants
         ColorDefinition cdText = t.getColor();
         if (cdText == null)
         {
-            throw new RenderingException("Cannot render text with an undefined color");
+            throw new RenderingException(
+                "exception.undefined.text.color", //$NON-NLS-1$
+                ResourceManager.getBundle(
+                    ResourceManager.DEVICE_EXTENSION, 
+                    _sxs.getLocale()
+                )
+            ); 
         }
         IDisplayServer xs = idr.getDisplayServer();
         Graphics2D g2d = (Graphics2D) ((IDeviceRenderer) idr).getGraphicsContext();

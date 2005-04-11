@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.device.DisplayAdapter;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.ImageLoadingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
@@ -83,9 +84,14 @@ public class SwingDisplayServer extends DisplayAdapter
         _g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         dScale = getDpiResolution() / 72d;
         _g2d.scale(dScale, dScale);
-        il.log(ILogger.INFORMATION, "SWING Display Server: " + System.getProperty("java.vendor") + " v"
-            + System.getProperty("java.version"));
-        _simc = new SwingImageCache();
+        il.log(ILogger.INFORMATION, 
+            Messages.getString(
+                "info.display.server", //$NON-NLS-1$ 
+                new Object[] { System.getProperty("java.vendor"), System.getProperty("java.version") }, //$NON-NLS-1$ //$NON-NLS-2$
+                getLocale()
+            ) 
+        ); 
+        _simc = new SwingImageCache(this);
     }
 
     /*

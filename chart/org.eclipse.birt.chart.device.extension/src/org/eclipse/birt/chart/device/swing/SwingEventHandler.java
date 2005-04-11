@@ -23,10 +23,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 import javax.swing.JComponent;
 
 import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.OutOfSyncException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
@@ -39,15 +41,15 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.resource.ResourceManager;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * This class provides a reference implementation into handling events generated on a SWING JComponent with a rendered
- * chart.
+ * Provides a reference implementation into handling events generated on a
+ * SWING JComponent with a rendered chart.
  */
 public final class SwingEventHandler implements MouseListener, MouseMotionListener
 {
-
     /**
      *  
      */
@@ -78,12 +80,18 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
     private final IUpdateNotifier iun;
 
     /**
+     * 
+     */
+    private final Locale lcl;
+    
+    /**
      *  
      */
-    SwingEventHandler(LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc)
+    SwingEventHandler(LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc, Locale _lcl)
     {
         lhmAllTriggers = _lhmAllTriggers;
         iun = _jc;
+        lcl = _lcl;
     }
 
     /**
@@ -128,12 +136,12 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
                 {
                     case ActionType.URL_REDIRECT:
                         final URLValue uv = (URLValue) ac.getValue();
-                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Redirect to URL: " + uv.getBaseUrl());
+                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("info.redirect.url", lcl) + uv.getBaseUrl()); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
                         break;
 
                     case ActionType.TOGGLE_VISIBILITY:
                         final Series seRT = (Series) sa.getSource();
-                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Toggle visibility: " + seRT);
+                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("info.toggle.visibility", lcl) + seRT); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
                         Series seDT = null;
                         try
                         {
@@ -203,7 +211,11 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 
         if (!bFound)
         {
-            throw new OutOfSyncException("Unable to locate design-time series for run-time series: " + seRT);
+            throw new OutOfSyncException(
+                "info.cannot.find.series", //$NON-NLS-1$
+                new Object[] { seRT },
+                ResourceManager.getBundle(ResourceManager.DEVICE_EXTENSION, lcl)
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         // MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL

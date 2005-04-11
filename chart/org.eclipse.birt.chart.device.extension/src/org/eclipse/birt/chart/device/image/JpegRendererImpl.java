@@ -23,7 +23,7 @@ public final class JpegRendererImpl extends JavaxImageIOWriter
      */
     protected final String getFormat()
     {
-        return "jpeg";
+        return "jpeg"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

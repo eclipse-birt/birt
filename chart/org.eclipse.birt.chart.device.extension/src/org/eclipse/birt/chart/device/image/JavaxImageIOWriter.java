@@ -8,7 +8,6 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
-
 package org.eclipse.birt.chart.device.image;
 
 import java.awt.Color;
@@ -27,12 +26,14 @@ import javax.imageio.event.IIOWriteWarningListener;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
  *
@@ -102,7 +103,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         {
             if (_bo == null) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING BEGINS
             {
-                throw new RenderingException("The bounds of the image must be specified before rendering begins");
+                throw new RenderingException(
+                    "exception.no.bounds", //$NON-NLS-1$
+                    ResourceManager.getBundle(ResourceManager.DEVICE_EXTENSION, getLocale())
+                ); 
             }
             
             // CREATE THE IMAGE INSTANCE
@@ -136,16 +140,30 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
     	    s = getMimeType();
     	    if (s == null)
     	    {
-                throw new RenderingException("Unable to find any registered image writers for mime type [" + getMimeType() + "] and format [" + getFormat() + "] for " + getClass().getName());
+                throw new RenderingException(
+                    "exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
+                    new Object[] { getMimeType(), getFormat(), getClass().getName() },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED 
     	    }
             it = ImageIO.getImageWritersByMIMEType(s);
             if (!it.hasNext())
             {
-                throw new RenderingException("Unable to find any registered image writers for mime type [" + getMimeType() + "]");
+                throw new RenderingException(
+                    "exception.no.imagewriter.mimetype", //$NON-NLS-1$
+                    new Object[] { getMimeType() },
+                    ResourceManager.getBundle(
+                        ResourceManager.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
     	}
         final ImageWriter iw = (ImageWriter) it.next();
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Using "+getFormat()+" image writer " + iw.getClass().getName());
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("info.using.imagewriter", getLocale()) + getFormat()+ iw.getClass().getName()); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
         
         // WRITE TO SPECIFIC FILE FORMAT
         final Object o = (_oOutputIdentifier instanceof String) ? new File((String) _oOutputIdentifier) : _oOutputIdentifier;
@@ -229,7 +247,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         StackTraceElement[] stea = cexp.getStackTrace();
         Dimension d = new Dimension((int) _bo.getWidth(), (int) _bo.getHeight());
         
-        Font fo = new Font("Monospaced", Font.BOLD, 14);
+        Font fo = new Font("Monospaced", Font.BOLD, 14); //$NON-NLS-1$
         _g2d.setFont(fo);
         FontMetrics fm = _g2d.getFontMetrics();
         _g2d.setColor(Color.WHITE);
@@ -238,29 +256,35 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
         _g2d.drawRect(20, 20, d.width - 40, d.height - 40);
         _g2d.setClip(20, 20, d.width - 40, d.height - 40);
         int x = 25, y = 20 + fm.getHeight();
-        _g2d.drawString("Exception:", x, y);
-        x += fm.stringWidth("Exception:") + 5;
+        _g2d.drawString(Messages.getString("exception.caption", getLocale()), x, y); //$NON-NLS-1$
+        x += fm.stringWidth(Messages.getString("exception.caption", getLocale())) + 5; // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
         _g2d.setColor(Color.RED);
         _g2d.drawString(sException, x, y); x = 25; y += fm.getHeight();
         if (sWrappedException != null)
         {
 	        _g2d.setColor(Color.BLACK);
-	        _g2d.drawString("Wrapped In:", x, y);
-	        x += fm.stringWidth("Wrapped In:") + 5;
+	        _g2d.drawString(Messages.getString("wrapped.caption", getLocale()), x, y); //$NON-NLS-1$
+	        x += fm.stringWidth(Messages.getString("wrapped.caption", getLocale())) + 5; // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
 	        _g2d.setColor(Color.RED);
 	        _g2d.drawString(sWrappedException, x, y); x = 25; y += fm.getHeight();
         }
         _g2d.setColor(Color.BLACK); y += 10;
-        _g2d.drawString("Message:", x, y);
-        x += fm.stringWidth("Message:") + 5;
+        _g2d.drawString(Messages.getString("message.caption", getLocale()), x, y); //$NON-NLS-1$
+        x += fm.stringWidth(Messages.getString("message.caption", getLocale())) + 5; // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
         _g2d.setColor(Color.BLUE);
         _g2d.drawString(sMessage, x, y); x = 25; y += fm.getHeight();
         _g2d.setColor(Color.BLACK); y += 10;
-        _g2d.drawString("Trace:", x, y); x = 40; y += fm.getHeight();
+        _g2d.drawString(Messages.getString("trace.caption", getLocale()), x, y); x = 40; y += fm.getHeight(); //$NON-NLS-1$
         _g2d.setColor(Color.GREEN.darker());
         for (int i = 0; i < stea.length; i++)
         {
-            _g2d.drawString(stea[i].getClassName() + ":" + stea[i].getMethodName() + "(...):" + stea[i].getLineNumber(), x, y); x = 40; y += fm.getHeight();
+            _g2d.drawString(
+                Messages.getString(
+                    "trace.detail",//$NON-NLS-1$
+                    new Object[] { stea[i].getClassName(), stea[i].getMethodName(), String.valueOf(stea[i].getLineNumber()) },
+                    getLocale()
+                ), x, y
+            ); x = 40; y += fm.getHeight(); // i18n_CONCATENATIONS_REMOVED
         }
         
     }

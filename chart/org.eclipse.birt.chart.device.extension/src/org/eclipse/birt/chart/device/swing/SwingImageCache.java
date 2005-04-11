@@ -19,9 +19,12 @@ import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 
+import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.ImageLoadingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
  *
@@ -39,10 +42,16 @@ public final class SwingImageCache
     private final Hashtable htCache;
     
     /**
+     * 
+     */
+    private final IDisplayServer idsSWING;
+    
+    /**
      *
      */
-    SwingImageCache()
+    SwingImageCache(IDisplayServer idsSWING)
 	{
+        this.idsSWING = idsSWING;
     	htCache = new Hashtable();
 	}
     
@@ -57,11 +66,25 @@ public final class SwingImageCache
     	Image img = (Image) htCache.get(url);
     	if (img != null)
     	{
-    		DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Using cached SWING image from " + url);
+    		DefaultLoggerImpl.instance().log(
+                ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.using.swing.cached.image",//$NON-NLS-1$
+                    new Object[] { url },
+                    idsSWING.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
     	}
     	else
     	{
-	        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Loading SWING image from " + url);
+	        DefaultLoggerImpl.instance().log(
+                ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.loading.swing.image",//$NON-NLS-1$
+                    new Object[] { url },
+                    idsSWING.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
 	        img = (new ImageIcon(url)).getImage();
 	        try
 	        {
@@ -79,11 +102,18 @@ public final class SwingImageCache
 	                    sb.append(oa[i]);
 	                    if (i < oa.length - 1)
 	                    {
-	                        sb.append(", ");
+	                        sb.append(", "); //$NON-NLS-1$
 	                    }
 	                }
 	                sb.append(']');
-	                throw new ImageLoadingException("MediaTracker returned an error in " + sb.toString());
+	                throw new ImageLoadingException(
+                        "exception.media.tracker", //$NON-NLS-1$
+                        new Object[] { sb.toString() },
+                        ResourceManager.getBundle(
+                            ResourceManager.DEVICE_EXTENSION, 
+                            idsSWING.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
 	            }
 	        }
 	        catch (InterruptedException ex )
@@ -113,7 +143,14 @@ public final class SwingImageCache
     		img.flush();
     	}
     	htCache.clear();
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Flushed "+n+" cached SWING image(s)");
+        DefaultLoggerImpl.instance().log(
+            ILogger.INFORMATION, 
+            Messages.getString(
+                "info.flushed.swing.images",//$NON-NLS-1$
+                new Object[] { new Integer(n) },
+                idsSWING.getLocale()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
     
     /**

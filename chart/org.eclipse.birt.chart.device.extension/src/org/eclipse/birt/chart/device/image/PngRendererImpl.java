@@ -24,7 +24,7 @@ public final class PngRendererImpl extends JavaxImageIOWriter
      */
     public final String getFormat()
     {
-        return "png";
+        return "png"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

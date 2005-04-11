@@ -12,7 +12,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
      */
     public final String getFormat()
     {
-        return "bmp";
+        return "bmp"; //$NON-NLS-1$
     }
     
     /*
@@ -21,7 +21,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
      */
     public final String getMimeType()
     {
-        return "image/bmp";
+        return "image/bmp"; //$NON-NLS-1$
     }
     
     /* (non-Javadoc)
