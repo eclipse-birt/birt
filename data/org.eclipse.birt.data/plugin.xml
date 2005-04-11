@@ -8,26 +8,13 @@
    <runtime>
       <library name="lib/js.jar">
          <export name="*"/>
-      </library>
-      <library name="lib/castor-0.9.5.4-xml.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/xercesImpl.jar">
-         <export name="*"/>
-      </library>
-      <library name="lib/xml-apis.jar">
-         <export name="*"/>
-      </library>
       <library name="dte.jar">
          <export name="*"/>
       </library>
    </runtime>
    <requires>
-      <import plugin="org.junit" optional="true"/>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data.oda"/>      
+      <import plugin="org.eclipse.birt.data.oda"/>
    </requires>
-   <extension-point id="oda" name="BIRT Open Data Access" schema="schema/oda.exsd"/>
 
 </plugin>
