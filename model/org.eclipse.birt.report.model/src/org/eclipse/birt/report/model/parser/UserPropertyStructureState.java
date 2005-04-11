@@ -157,7 +157,7 @@ public class UserPropertyStructureState extends StructureState
 				RecoverableError
 						.dealUndefinedProperty(
 								handler,
-								new DesignParserException(
+								new DesignParserException( null, name,
 										DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 				valid = false;
 				return;

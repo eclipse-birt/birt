@@ -67,6 +67,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	 * @return the effective width of the page. Return value is a
 	 *         DimensionValue, the measure of it is the width measure of the
 	 *         page, unit is that set on the session.
+	 * @deprecated
 	 */
 
 	public DimensionValue getEffectiveWidth( )
@@ -81,6 +82,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	 * @return the effective height of the page. Return value is a
 	 *         DimensionValue, the measure of it is the height measure of the
 	 *         page, unit is that set on the session.
+	 * @deprecated
 	 */
 
 	public DimensionValue getEffectiveHeight( )

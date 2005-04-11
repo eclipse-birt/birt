@@ -22,10 +22,12 @@ import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.Choice;
+import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Abstract base class that represents a handle for the value to either a
@@ -453,5 +455,25 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		return getDefn( ).getTypeCode( ) == PropertyType.STRUCT_TYPE
 				&& getDefn( ).isList( );
+	}
+
+	/**
+	 * Gets the default unit of the property.
+	 * 
+	 * @return the default unit if the property is dimension type, otherwise
+	 *         empty string
+	 */
+
+	public String getDefaultUnit( )
+	{
+		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		{
+			PropertyDefn defn = (PropertyDefn) getDefn( );
+			String unit = defn.getDefaultUnit( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
+			return getDesign( ).getSession( ).getUnits( );
+		}
+		return DimensionValue.DEFAULT_UNIT;
 	}
 }

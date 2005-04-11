@@ -57,6 +57,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CONSTRUCTOR_TAG = "Constructor"; //$NON-NLS-1$
 	private static final String SEMANTIC_VALIDATOR_TAG = "SemanticValidator"; //$NON-NLS-1$
 	private static final String TRIGGER_TAG = "Trigger"; //$NON-NLS-1$
+	private static final String DEFAULT_UNIT_TAG = "DefaultUnit"; //$NON-NLS-1$
 
 	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$ 
@@ -803,6 +804,8 @@ class MetaDataHandler extends XMLParserHandler
 				return new AllowedState( );
 			else if ( tagName.equalsIgnoreCase( TRIGGER_TAG ) )
 				return new TriggerState( );
+			else if ( tagName.equalsIgnoreCase( DEFAULT_UNIT_TAG ) )
+				return new DefaultUnitState( );
 			else
 				return super.startElement( tagName );
 		}
@@ -810,6 +813,27 @@ class MetaDataHandler extends XMLParserHandler
 		public void end( ) throws SAXException
 		{
 			propDefn = null;
+		}
+	}
+
+	class DefaultUnitState extends InnerParseState
+	{
+
+		public void end( ) throws SAXException
+		{
+			if ( propDefn == null )
+				return;
+
+			int type = propDefn.getTypeCode( );
+
+			if ( type != PropertyType.DIMENSION_TYPE )
+			{
+				semanticError( new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED ) );
+
+				return;
+			}
+			propDefn.setDefaultUnit( text.toString( ) );
 		}
 	}
 

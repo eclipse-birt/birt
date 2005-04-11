@@ -194,6 +194,12 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED = "VALIDATOR_NAME_REQUIRED"; //$NON-NLS-1$
 
 	/**
+	 * The default unit can only be set on the dimension property type.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED = "DEFAULT_UNIT_NOT_ALLOWED"; //$NON-NLS-1$
+
+	/**
 	 * Constructs an exception given the file name and error code.
 	 * 
 	 * @param name

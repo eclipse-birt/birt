@@ -86,12 +86,22 @@ public class TextPropertyState extends AbstractPropertyState
 			propDefn = element.getPropertyDefn( name );
 			keyPropDefn = element.getPropertyDefn( keyName );
 		}
-		if ( propDefn == null || keyPropDefn == null )
+		if ( propDefn == null )
 		{
 			RecoverableError
 					.dealUndefinedProperty(
 							handler,
-							new DesignParserException(
+							new DesignParserException( null, name,
+									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			valid = false;
+			return;
+		}
+		if ( keyPropDefn == null )
+		{
+			RecoverableError
+					.dealUndefinedProperty(
+							handler,
+							new DesignParserException( null, keyName,
 									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;

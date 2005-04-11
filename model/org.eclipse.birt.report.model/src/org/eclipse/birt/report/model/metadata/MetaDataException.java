@@ -370,6 +370,12 @@ public class MetaDataException extends BirtException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE = "INVALID_PROPERTY_TYPE"; //$NON-NLS-1$
+	
+	/**
+	 * The default unit set on the dimension type is not valid.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_INVALID_UNIT = "INVALID_UNIT"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an exception given parameters and its error code.

@@ -292,6 +292,7 @@ public class ReportDesign extends RootElement
 
 	/**
 	 * The default units for the design.
+	 * @deprecated
 	 */
 
 	protected String units = DesignChoiceConstants.UNITS_IN;
@@ -871,11 +872,12 @@ public class ReportDesign extends RootElement
 	 * Gets the default units for the design.
 	 * 
 	 * @return the default units used in the design
+	 * @deprecated
 	 */
 
 	public String getUnits( )
 	{
-		return units;
+		return null;
 	}
 
 	/**

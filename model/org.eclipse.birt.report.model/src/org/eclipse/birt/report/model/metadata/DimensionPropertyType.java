@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.math.BigDecimal;
+
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.birt.report.model.util.StringUtil;
@@ -110,7 +112,7 @@ public class DimensionPropertyType extends PropertyType
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
-			return null;		
+			return null;
 
 		if ( value instanceof String )
 		{
@@ -119,16 +121,69 @@ public class DimensionPropertyType extends PropertyType
 				return null;
 			if ( !StringUtil.isBlank( dim.getUnits( ) ) )
 				return dim;
+			return new DimensionValue( dim.getMeasure( ), getDefaultUnit(
+					design, defn ) );
 		}
 		if ( value instanceof DimensionValue )
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
 				return value;
+			return new DimensionValue(
+					( (DimensionValue) value ).getMeasure( ), getDefaultUnit(
+							design, defn ) );
 		}
-		
+		if ( value instanceof Integer )
+			return fromDouble( design, defn, ( (Integer) value ).intValue( ) );
+		if ( value instanceof Double )
+			return fromDouble( design, defn, ( (Double) value ).doubleValue( ) );
+		if ( value instanceof BigDecimal )
+			return fromDouble( design, defn, ( (BigDecimal) value )
+					.doubleValue( ) );
+
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.DIMENSION_TYPE );
+	}
+
+	/**
+	 * Gets the default unit of the property. If the property defines a default
+	 * unit , then return it, otherwise return the application unit defined on
+	 * session.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param defn
+	 *            the property definition
+	 * @return the default unit
+	 */
+
+	private String getDefaultUnit( ReportDesign design, PropertyDefn defn )
+	{
+		String unit = defn.getDefaultUnit( );
+		if ( !StringUtil.isBlank( unit ) )
+			return unit;
+		assert design != null;
+		return design.getSession( ).getUnits( );
+	}
+
+	/**
+	 * Creates a <code>DimensionValue</code> given its measure. The unit is
+	 * assumed to be in session unit.
+	 * 
+	 * @param design
+	 *            the report design.
+	 * @param defn
+	 *            the definition of the property
+	 * @param value
+	 *            the double value of the measure.
+	 * @return an <code>DimensionValue</code> Object in session unit.
+	 *  
+	 */
+
+	private DimensionValue fromDouble( ReportDesign design, PropertyDefn defn,
+			double value )
+	{
+		return new DimensionValue( value, getDefaultUnit( design, defn ) );
 	}
 
 	/**
@@ -148,7 +203,7 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parse( value );
 
 		if ( dim != null )
-			validateUnits( defn, dim );
+			validateUnits( design, defn, dim, true );
 
 		return dim;
 
@@ -177,7 +232,7 @@ public class DimensionPropertyType extends PropertyType
 		DimensionValue dim = DimensionValue.parseInput( value );
 
 		if ( dim != null )
-			validateUnits( defn, dim );
+			validateUnits( design, defn, dim, false );
 
 		return dim;
 	}
@@ -215,20 +270,26 @@ public class DimensionPropertyType extends PropertyType
 	 *  
 	 */
 
-	private void validateUnits( PropertyDefn defn, DimensionValue value )
+	private void validateUnits( ReportDesign design, PropertyDefn defn,
+			DimensionValue value, boolean isUnitRequired )
 			throws PropertyValueException
 	{
 		assert value != null;
-		if ( StringUtil.isBlank( value.getUnits() ) )
+		String unit = value.getUnits( );
+		if ( isUnitRequired && StringUtil.isBlank( unit ) )
 		{
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
+		}
+		if ( StringUtil.isBlank( value.getUnits( ) ) )
+		{
+			unit = getDefaultUnit( design, defn );
 		}
 
 		ChoiceSet units = defn.getAllowedChoices( );
 
 		assert units != null;
-		if ( !units.contains( value.getUnits() ) )
+		if ( !units.contains( unit ) )
 		{
 			// unit not allowed.
 
@@ -291,7 +352,7 @@ public class DimensionPropertyType extends PropertyType
 		if ( dim == null )
 			return 0.0;
 
-		return DimensionUtil.convertTo( dim, design.getUnits( ),
+		return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
 				design.getSession( ).getUnits( ) ).getMeasure( );
 	}
 }

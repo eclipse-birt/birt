@@ -85,6 +85,14 @@ public abstract class PropertyDefn
 	protected boolean isExtended = false;
 
 	/**
+	 * Default unit of the dimension property. Some properties have special
+	 * default unit, sucha as font-size, margin and so on. Other properties
+	 * share the default unit set on the report design.
+	 */
+
+	protected String defaultUnit = DimensionValue.DEFAULT_UNIT; //$NON-NLS-1$
+
+	/**
 	 * Optional detailed information for the property type. The type of this
 	 * object depends on the property type:
 	 * 
@@ -331,6 +339,23 @@ public abstract class PropertyDefn
 		}
 
 		getTriggerDefnSet( ).build( );
+
+		// default unit check
+		if ( type.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		{
+			String defaultUnit = getDefaultUnit( );
+			if ( !StringUtil.isBlank( defaultUnit ) )
+			{
+
+				ChoiceSet units = getAllowedChoices( );
+				Choice choice = units.findChoice( defaultUnit );
+				if ( choice == null )
+				{
+					throw new MetaDataException( new String[]{ getName( ), defaultUnit},
+							MetaDataException.DESIGN_EXCEPTION_INVALID_UNIT );
+				}
+			}
+		}
 
 	}
 
@@ -1030,5 +1055,35 @@ public abstract class PropertyDefn
 	void setValueRequired( boolean valueRequired )
 	{
 		this.valueRequired = valueRequired;
+	}
+
+	/**
+	 * Gets the default unit if the property is dimension type. The default unit
+	 * of dimension property type can not be null or empty string, it must be an
+	 * effective unit string.
+	 * 
+	 * @return the default unit if the property is dimension type, otherwise
+	 *         empty string
+	 */
+
+	public String getDefaultUnit( )
+	{
+		if ( type.getTypeCode( ) != PropertyType.DIMENSION_TYPE )
+			return DimensionValue.DEFAULT_UNIT; //$NON-NLS-1$
+
+		return defaultUnit;
+	}
+
+	/**
+	 * Sets the default unit of the dimension property.
+	 * 
+	 * @param defaultUnit
+	 *            the default unit to set
+	 */
+
+	void setDefaultUnit( String defaultUnit )
+	{
+		assert type.getTypeCode( ) == PropertyType.DIMENSION_TYPE;
+		this.defaultUnit = defaultUnit;
 	}
 }

@@ -503,6 +503,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * 
 	 * @return the default units for the design.
 	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @deprecated
 	 */
 
 	public String getDefaultUnits( )
@@ -530,6 +531,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *             if the input unit is not one of allowed.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @deprecated
 	 */
 
 	public void setDefaultUnits( String units ) throws SemanticException

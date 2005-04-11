@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Simplifies working with dimension properties. A dimension property consists
@@ -177,12 +179,12 @@ public class DimensionHandle extends ComplexValueHandle
 	}
 
 	/**
-	 * Sets the value of a dimension in application units. Use this to set a
-	 * value through direct manipulation, such as drag & drop.
+	 * Sets the value of a dimension in default units. The default unit may
+	 * be defined by the property in BIRT or the application unit defined in
+	 * the design session. 
 	 * 
 	 * @param value
 	 *            the new value in application units.
-	 * @deprecated
 	 */
 
 	public void setAbsolute( double value )
@@ -280,5 +282,24 @@ public class DimensionHandle extends ComplexValueHandle
 			fontSizeValue = element.getDefaultValue( design, fontSizeDefn );
 
 		return fontSizeValue;
+	}
+	
+	/**
+	 * Gets the default unit of the property.
+	 * 
+	 * @return the default unit 
+	 */
+
+	public String getDefaultUnit( )
+	{
+		ElementPropertyDefn defn = (ElementPropertyDefn)getPropertyDefn( );
+		if ( defn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		{
+			String unit = defn.getDefaultUnit( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
+			return getDesign( ).getSession( ).getUnits( );
+		}
+		return DimensionValue.DEFAULT_UNIT;
 	}
 }

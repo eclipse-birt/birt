@@ -124,14 +124,14 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the item's x position to a value in application units. Use this to
-	 * set a value though direct manipulation, such as drag & drop.
+	 * Sets the item's x position to a value in default units. The default unit
+	 * may be defined by the property in BIRT or the application unit defined in
+	 * the design session.
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @deprecated
 	 */
 
 	public void setX( double dimension ) throws SemanticException
@@ -157,14 +157,14 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the item's y position to a value in application units. Use this to
-	 * set a value though direct manipulation, such as drag & drop.
+	 * Sets the item's y position to a value in default units. The default unit
+	 * may be defined by the property in BIRT or the application unit defined in
+	 * the design session.
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @deprecated
 	 */
 
 	public void setY( double dimension ) throws SemanticException
@@ -190,14 +190,14 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the item's height to a value in application units. Use this to set a
-	 * value though direct manipulation, such as drag & drop.
+	 * Sets the item's height to a value in default units. The default unit may
+	 * be defined by the property in BIRT or the application unit defined in the
+	 * design session.
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @deprecated
 	 */
 
 	public void setHeight( double dimension ) throws SemanticException
@@ -223,14 +223,14 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the item's width to a value in application units. Use this to set a
-	 * value though direct manipulation, such as drag & drop.
+	 * Sets the item's width to a value in default units. The default unit may
+	 * be defined by the property in BIRT or the application unit defined in the
+	 * design session.
 	 * 
 	 * @param dimension
 	 *            the new value in application units.
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @deprecated
 	 */
 
 	public void setWidth( double dimension ) throws SemanticException
@@ -364,7 +364,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * in the list.
 	 * 
 	 * @return the iterator for parameter binding structure list defined on this
-	 *         data set. 
+	 *         data set.
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.structures.ParamBinding
 	 */

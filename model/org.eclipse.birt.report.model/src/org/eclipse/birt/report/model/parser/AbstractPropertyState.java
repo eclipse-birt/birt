@@ -161,7 +161,7 @@ public class AbstractPropertyState extends AbstractParseState
 			RecoverableError
 					.dealUndefinedProperty(
 							handler,
-							new DesignParserException(
+							new DesignParserException( null, member,
 									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 
 			valid = false;
@@ -225,7 +225,7 @@ public class AbstractPropertyState extends AbstractParseState
 			RecoverableError
 					.dealUndefinedProperty(
 							handler,
-							new DesignParserException(
+							new DesignParserException( null, propName,
 									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;

@@ -31,6 +31,12 @@ public class DesignParserException extends BirtException
 	protected String fileName = null;
 
 	/**
+	 * The property name of the undefined property.
+	 */
+
+	protected String propName = null;
+
+	/**
 	 * A custom color did not have a correct RGB value.
 	 */
 
@@ -208,6 +214,25 @@ public class DesignParserException extends BirtException
 	}
 
 	/**
+	 * Constructs the design parser exception with the file name, the property
+	 * name and the error code.
+	 * 
+	 * @param name
+	 *            the input file name
+	 * @param propName
+	 *            the property name
+	 * @param errCode
+	 *            the error condition
+	 */
+
+	public DesignParserException( String name, String propName, String errCode )
+	{
+		super( errCode, null );
+		fileName = name;
+		this.propName = propName;
+	}
+
+	/**
 	 * Sets the input file name.
 	 * 
 	 * @param name
@@ -227,6 +252,9 @@ public class DesignParserException extends BirtException
 
 	public String getLocalizedMessage( )
 	{
+		if ( sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY )
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{propName} );
 		return ModelMessages.getMessage( sResourceKey );
 	}
 

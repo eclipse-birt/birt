@@ -227,9 +227,9 @@ public abstract class MasterPage extends StyledElement
 		// Convert to application units.
 		try
 		{
-			size.y = DimensionUtil.convertTo( height, design.getUnits( ),
+			size.y = DimensionUtil.convertTo( height, design.getSession( ).getUnits( ),
 					design.getSession( ).getUnits( ) ).getMeasure( );
-			size.x = DimensionUtil.convertTo( width, design.getUnits( ),
+			size.x = DimensionUtil.convertTo( width, design.getSession( ).getUnits( ),
 					design.getSession( ).getUnits( ) ).getMeasure( );
 
 		}
