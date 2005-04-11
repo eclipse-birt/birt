@@ -45,7 +45,7 @@ public class ContextSelectionAction extends SelectionAction
 	 */
 	public ContextSelectionAction( IWorkbenchPart part, int style )
 	{
-		super( part, style );
+		super( part );
 	}
 
 	/**

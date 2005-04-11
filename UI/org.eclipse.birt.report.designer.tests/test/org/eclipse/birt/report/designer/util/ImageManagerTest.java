@@ -13,13 +13,11 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.tests.TestsPlugin;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.designer.testutil.PlatformUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
@@ -40,9 +38,10 @@ public class ImageManagerTest extends BaseTestCase
 	//Doesn't exist
 	private static final String TEST_ERROR_FILE = "icon/error.jpg"; //$NON-NLS-1$ //not exists
 
-	private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
+	//private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
+	
 	//Invalid url
-	private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
+	//private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
 
 	static
 	{

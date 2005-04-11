@@ -25,12 +25,13 @@ public class MasterPageLayout extends AbstractPageFlowLayout
 {
 
 	/**
+	 * The consturctor.
+	 * 
 	 * @param owner
 	 */
 	public MasterPageLayout( GraphicalEditPart owner )
 	{
 		super( owner );
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -56,10 +57,8 @@ public class MasterPageLayout extends AbstractPageFlowLayout
 		List children = parent.getChildren( );
 
 		Rectangle clientArea = parent.getClientArea( );
-		int x = clientArea.x;
 		int y = clientArea.y;
 		int height = clientArea.height;
-		int width = clientArea.width;
 
 		IFigure figure;
 		for ( int i = 0; i < children.size( ); i++ )
@@ -109,15 +108,17 @@ public class MasterPageLayout extends AbstractPageFlowLayout
 		}
 
 		Rectangle rect = new Rectangle( 0, 0, parentBounds.x
-				+ parentBounds.width + result.rightSpace, parentBounds.y
-				+ parentBounds.height + result.bottomSpace );
+				+ parentBounds.width
+				+ result.rightSpace, parentBounds.y
+				+ parentBounds.height
+				+ result.bottomSpace );
 		setViewProperty( rect, parentBounds );
 	}
 
 	private Rectangle convertRectangle( Rectangle bounds, Rectangle clientArea )
 	{
 		Rectangle b = bounds.getCopy( );
-		
+
 		b.width = clientArea.width;
 
 		if ( b.x == 0 )
@@ -129,8 +130,7 @@ public class MasterPageLayout extends AbstractPageFlowLayout
 		{
 			b.x = clientArea.getBottomLeft( ).x;
 			b.y = clientArea.getBottomLeft( ).y
-					- ( ( b.height < 0 )
-							? MasterPageLayout.MINIMUM_HEIGHT
+					- ( ( b.height < 0 ) ? MasterPageLayout.MINIMUM_HEIGHT
 							: b.height );
 		}
 		return b;

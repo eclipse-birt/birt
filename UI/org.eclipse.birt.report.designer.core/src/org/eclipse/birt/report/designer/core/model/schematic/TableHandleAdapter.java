@@ -271,8 +271,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		number = groups.getCount( );
 
-		for ( ListIterator itor = groups.getContents( )
-				.listIterator( number ); itor.hasPrevious( ); )
+		for ( ListIterator itor = groups.getContents( ).listIterator( number ); itor.hasPrevious( ); )
 		{
 			TableGroupHandle tableGroup = (TableGroupHandle) itor.previous( );
 			insertRowInfo( tableGroup.getFooter( ),
@@ -887,15 +886,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		int copyRowSize = copyChildren.size( );
 		for ( int i = 0; i < copyRowSize; i++ )
 		{
-//			RowHandle row = (RowHandle) getRow( i + 1 );
-//			row.getSlot( TableRow.CONTENT_SLOT )
-//					.add( (CellHandle) ( copyChildren.get( i ) ),
-//							realColumnNumber - 1 );
+			//			RowHandle row = (RowHandle) getRow( i + 1 );
+			//			row.getSlot( TableRow.CONTENT_SLOT )
+			//					.add( (CellHandle) ( copyChildren.get( i ) ),
+			//							realColumnNumber - 1 );
 			RowHandle row = (RowHandle) getRow( i + 1 );
-			int number = getReallyRowNumber(row, realColumnNumber);
+			int number = getReallyRowNumber( row, realColumnNumber );
 			row.getSlot( TableRow.CONTENT_SLOT )
-					.add( (CellHandle) ( copyChildren.get( i ) ),
-							number - 1 );
+					.add( (CellHandle) ( copyChildren.get( i ) ), number - 1 );
 
 		}
 		SlotHandle parentHandle = column.getContainerSlotHandle( );
@@ -936,22 +934,23 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		transEnd( );
 	}
-	
-	private int getReallyRowNumber(RowHandle rowHandle, int number)
+
+	private int getReallyRowNumber( RowHandle rowHandle, int number )
 	{
-		TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( rowHandle);
-		int rowNumber = HandleAdapterFactory.getInstance( ).getRowHandleAdapter(rowHandle).getRowNumber();
+		TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( rowHandle );
+		int rowNumber = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( rowHandle )
+				.getRowNumber( );
 		List rowList = rowInfo.getAllChildren( );
 
 		int retValue = number;
-		int size = rowList.size();
-		List hasAdjust = new ArrayList();
-		for (int i=0; i<number-1; i++)
+		List hasAdjust = new ArrayList( );
+		for ( int i = 0; i < number - 1; i++ )
 		{
 			Object fillCell = rowList.get( i );
 			CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
-			.getCellHandleAdapter( fillCell );
-			if (hasAdjust.contains(fillCell))
+					.getCellHandleAdapter( fillCell );
+			if ( hasAdjust.contains( fillCell ) )
 			{
 				retValue = retValue - 1;
 				continue;
@@ -960,7 +959,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			{
 				retValue = retValue - 1;
 			}
-			hasAdjust.add(fillCell);
+			hasAdjust.add( fillCell );
 		}
 		return retValue;
 

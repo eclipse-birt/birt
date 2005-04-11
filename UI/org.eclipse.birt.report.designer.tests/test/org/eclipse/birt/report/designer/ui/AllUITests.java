@@ -13,7 +13,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtilTest;
-import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtilTest;
 
 public class AllUITests
 {

@@ -148,7 +148,7 @@ public class EditorRulerComposite extends Composite
 					else if ( MasterPage.TYPE_PROP.equals( event.getPropertyName( ) ) )
 					{
 						layout( true );
-						resetAllGuide();
+						resetAllGuide( );
 					}
 					else if ( MasterPage.WIDTH_PROP.equals( event.getPropertyName( ) ) )
 					{
@@ -307,23 +307,24 @@ public class EditorRulerComposite extends Composite
 		if ( !editor.getLocation( ).equals( editorLocation ) )
 			editor.setLocation( editorLocation );
 
-//		int vBarWidth = 0, hBarHeight = 0;
-//		Rectangle trim = editor.computeTrim( 0, 0, 0, 0 );
-//		/*
-//		 * Fix for Bug# 67554 Motif leaves a few pixels of space around the
-//		 * Canvas which can cause the rulers to mis-aligned.
-//		 */
-//		if ( editor.getVerticalBar( ).getVisible( ) )
-//			vBarWidth = trim.width
-//					+ ( "motif".equals( SWT.getPlatform( ) ) ? trim.x * 2 : 0 ); //$NON-NLS-1$
-//		if ( editor.getHorizontalBar( ).getVisible( ) )
-//			hBarHeight = trim.height
-//					+ ( "motif".equals( SWT.getPlatform( ) ) ? trim.y * 2 : 0 ); //$NON-NLS-1$
+		//		int vBarWidth = 0, hBarHeight = 0;
+		//		Rectangle trim = editor.computeTrim( 0, 0, 0, 0 );
+		//		/*
+		//		 * Fix for Bug# 67554 Motif leaves a few pixels of space around the
+		//		 * Canvas which can cause the rulers to mis-aligned.
+		//		 */
+		//		if ( editor.getVerticalBar( ).getVisible( ) )
+		//			vBarWidth = trim.width
+		//					+ ( "motif".equals( SWT.getPlatform( ) ) ? trim.x * 2 : 0 );
+		// //$NON-NLS-1$
+		//		if ( editor.getHorizontalBar( ).getVisible( ) )
+		//			hBarHeight = trim.height
+		//					+ ( "motif".equals( SWT.getPlatform( ) ) ? trim.y * 2 : 0 );
+		// //$NON-NLS-1$
 
 		//Dimension dim = getMasterPageSize( getMasterPageHandle( ) );
-		//modify by gao 
-		
-		
+		//modify by gao
+
 		PrecisionRectangle dim = new PrecisionRectangle( getLayoutSize( ) );
 		dim.performScale( getZoom( ) );
 		if ( left != null )
@@ -331,28 +332,27 @@ public class EditorRulerComposite extends Composite
 			Rectangle leftBounds = new Rectangle( 0,
 					topHeight - 1,
 					leftWidth,
-					dim.height + dim.y);
+					dim.height + dim.y );
 			if ( !left.getControl( ).getBounds( ).equals( leftBounds ) )
 				left.getControl( ).setBounds( leftBounds );
 		}
 		if ( top != null )
 		{
-			Rectangle topBounds = new Rectangle( leftWidth - 1,
-					0,
-					dim.width + dim.x,
-					topHeight );
+			Rectangle topBounds = new Rectangle( leftWidth - 1, 0, dim.width
+					+ dim.x, topHeight );
 			if ( !top.getControl( ).getBounds( ).equals( topBounds ) )
 				top.getControl( ).setBounds( topBounds );
 		}
 	}
 
-	
-	private org.eclipse.draw2d.geometry.Rectangle getScaleValue(org.eclipse.draw2d.geometry.Rectangle value)
+	protected org.eclipse.draw2d.geometry.Rectangle getScaleValue(
+			org.eclipse.draw2d.geometry.Rectangle value )
 	{
-		PrecisionRectangle dim = new PrecisionRectangle(value );
+		PrecisionRectangle dim = new PrecisionRectangle( value );
 		dim.performScale( getZoom( ) );
 		return dim;
 	}
+
 	/**
 	 * Sets the ruler unit.
 	 * 
@@ -393,7 +393,8 @@ public class EditorRulerComposite extends Composite
 				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					( (EditorRuler) obj ).setLeftMargin( getLayoutSize( ).x + getLeftMargin( ) );
+					( (EditorRuler) obj ).setLeftMargin( getLayoutSize( ).x
+							+ getLeftMargin( ) );
 				}
 				break;
 			}
@@ -402,7 +403,7 @@ public class EditorRulerComposite extends Composite
 				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).right()
+					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).right( )
 							- getRightMargin( ) );
 				}
 				break;
@@ -412,7 +413,8 @@ public class EditorRulerComposite extends Composite
 				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					( (EditorRuler) obj ).setLeftMargin( getLayoutSize( ).y + getTopMargin( ) );
+					( (EditorRuler) obj ).setLeftMargin( getLayoutSize( ).y
+							+ getTopMargin( ) );
 				}
 				break;
 			}
@@ -421,7 +423,7 @@ public class EditorRulerComposite extends Composite
 				Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ) ).getRuler( );
 				if ( obj instanceof EditorRuler )
 				{
-					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).bottom()
+					( (EditorRuler) obj ).setRightMargin( getLayoutSize( ).bottom( )
 							- getBottomMargin( ) );
 				}
 				break;
@@ -583,8 +585,8 @@ public class EditorRulerComposite extends Composite
 
 				}
 				else if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( property ) )
-				{	
-					processProvider();
+				{
+					processProvider( );
 				}
 				else if ( RulerProvider.PROPERTY_HORIZONTAL_RULER.equals( property ) )
 				{
@@ -609,30 +611,28 @@ public class EditorRulerComposite extends Composite
 		setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
 				PositionConstants.WEST );
 
-		resetAllGuide();
-		
+		resetAllGuide( );
+
 		setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
 		getReportDesignHandle( ).addListener( designListener );
 		getMasterPageHandle( ).addListener( designListener );
 	}
 
-	
-	private void processProvider()
+	private void processProvider( )
 	{
 		org.eclipse.draw2d.geometry.Rectangle rect = (org.eclipse.draw2d.geometry.Rectangle) diagramViewer.getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
-		if (rect == null)
+		if ( rect == null )
 		{
 			return;
 		}
 		Object obj = ( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER ) );
-		
+
 		if ( obj instanceof EditorRulerProvider )
 		{
-			
-			
-			( (EditorRulerProvider) obj ).setLayoutSize( rect.getCopy() );
-			
-			( (EditorRulerProvider) obj ).setLeftSpace( rect.getCopy());
+
+			( (EditorRulerProvider) obj ).setLayoutSize( rect.getCopy( ) );
+
+			( (EditorRulerProvider) obj ).setLeftSpace( rect.getCopy( ) );
 			//layout( true );
 
 			//setMargin( TOP_RIGHT );
@@ -643,23 +643,24 @@ public class EditorRulerComposite extends Composite
 
 		if ( obj instanceof EditorRulerProvider )
 		{
-			( (EditorRulerProvider) obj ).setLayoutSize( rect.getCopy() );
-			( (EditorRulerProvider) obj ).setLeftSpace( rect.getCopy());
+			( (EditorRulerProvider) obj ).setLayoutSize( rect.getCopy( ) );
+			( (EditorRulerProvider) obj ).setLeftSpace( rect.getCopy( ) );
 			//layout( true );
 			//setMargin( LEFT_BOTTOM );
 			//resetAllGuide();
 		}
 		layout( true );
-		resetAllGuide();
+		resetAllGuide( );
 	}
-	private void resetAllGuide()
+
+	private void resetAllGuide( )
 	{
 		setMargin( TOP_LEFT );
 		setMargin( TOP_RIGHT );
 		setMargin( LEFT_TOP );
 		setMargin( LEFT_BOTTOM );
 	}
-	
+
 	private void setRuler( RulerProvider provider, int orientation )
 	{
 		Object ruler = null;
@@ -720,7 +721,7 @@ public class EditorRulerComposite extends Composite
 
 		if ( obj instanceof org.eclipse.draw2d.geometry.Rectangle )
 		{
-			return ((org.eclipse.draw2d.geometry.Rectangle) obj).getCopy();
+			return ( (org.eclipse.draw2d.geometry.Rectangle) obj ).getCopy( );
 		}
 
 		Dimension dim = getMasterPageSize( getMasterPageHandle( ) );

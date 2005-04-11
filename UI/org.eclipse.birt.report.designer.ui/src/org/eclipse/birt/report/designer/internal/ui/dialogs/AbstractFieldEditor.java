@@ -64,7 +64,14 @@ public abstract class AbstractFieldEditor extends FieldEditor
 		}
 		if ( isDirty( ) )
 		{
-			getPreferenceStore( ).setValue( getPreferenceName( ), propValue );
+			if ( propValue.length( ) > 0 )
+			{
+				getPreferenceStore( ).setValue( getPreferenceName( ), propValue );
+			}
+			else
+			{
+				getPreferenceStore( ).setValue( getPreferenceName( ), null );
+			}
 
 		}
 	}

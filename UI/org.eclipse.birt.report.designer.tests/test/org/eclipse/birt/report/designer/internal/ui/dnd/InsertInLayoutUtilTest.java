@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -62,10 +61,10 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 		return FILE_NAME;
 	}
 
-	private ElementFactory getElementFactory( )
-	{
-		return getReportDesignHandle( ).getElementFactory( );
-	}
+	//	private ElementFactory getElementFactory( )
+	//	{
+	//		return getReportDesignHandle( ).getElementFactory( );
+	//	}
 
 	private DataSetHandle getDataSet1( )
 	{
@@ -120,7 +119,6 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 		Object targetParent = null;
 		String keyExp = null;
 
-		
 		//Test GroupKeySetRule
 		//Test table group
 		target = getCell( 2, 1 );
@@ -152,7 +150,6 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 		assertTrue( "test table data set",
 				getTableHandle( ).getDataSet( ) == getDataSet1( ) );
 
-		
 		//Test list group
 		target = new ListBandProxy( getListGroup( ).getSlot( ListGroup.HEADER_SLOT ) );
 		targetParent = getListHandle( );
