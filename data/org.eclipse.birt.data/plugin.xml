@@ -8,6 +8,7 @@
    <runtime>
       <library name="lib/js.jar">
          <export name="*"/>
+      </library>
       <library name="dte.jar">
          <export name="*"/>
       </library>
