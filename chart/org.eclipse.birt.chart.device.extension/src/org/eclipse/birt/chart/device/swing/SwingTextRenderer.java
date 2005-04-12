@@ -18,6 +18,7 @@ import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -41,7 +43,6 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
  * Provides convenience methods for rendering rotated text with configurable attributes on a SWING graphics
@@ -103,8 +104,8 @@ final class SwingTextRenderer implements IConstants
         {
             throw new RenderingException(
                 "exception.undefined.shadow.color", //$NON-NLS-1$
-                ResourceManager.getBundle(
-                    ResourceManager.DEVICE_EXTENSION, 
+                ResourceBundle.getBundle(
+                    Messages.DEVICE_EXTENSION, 
                     _sxs.getLocale()
                 )
             ); 
@@ -151,8 +152,8 @@ final class SwingTextRenderer implements IConstants
         {
             throw new RenderingException(
                 "exception.undefined.text.color", //$NON-NLS-1$
-                ResourceManager.getBundle(
-                    ResourceManager.DEVICE_EXTENSION, 
+                ResourceBundle.getBundle(
+                    Messages.DEVICE_EXTENSION, 
                     _sxs.getLocale()
                 )
             ); 
@@ -200,8 +201,8 @@ final class SwingTextRenderer implements IConstants
         {
             throw new RenderingException(
                 "exception.undefined.text.color", //$NON-NLS-1$
-                ResourceManager.getBundle(
-                    ResourceManager.DEVICE_EXTENSION, 
+                ResourceBundle.getBundle(
+                    Messages.DEVICE_EXTENSION, 
                     _sxs.getLocale()
                 )
             ); 

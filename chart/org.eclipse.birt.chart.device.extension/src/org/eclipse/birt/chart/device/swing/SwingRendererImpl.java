@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 
@@ -73,7 +74,6 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
-import org.eclipse.birt.chart.resource.ResourceManager;
 import org.eclipse.birt.chart.util.PluginSettings;
 
 /**
@@ -328,8 +328,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 throw new RenderingException(
                     "exception.gradient.angle",//$NON-NLS-1$
                     new Object[] { new Double(dAngleInDegrees) },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED 
@@ -513,8 +513,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 throw new RenderingException(
                     "exception.gradient.angle",//$NON-NLS-1$
                     new Object[] { new Double(dAngleInDegrees) },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED 
@@ -702,8 +702,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 throw new RenderingException(
                     "exception.gradient.angle",//$NON-NLS-1$
                     new Object[] { new Double(dAngleInDegrees) },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED
@@ -907,8 +907,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 throw new RenderingException(
                     "exception.gradient.angle",//$NON-NLS-1$
                     new Object[] { new Double(dAngleInDegrees) },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED
@@ -965,8 +965,8 @@ public class SwingRendererImpl extends DeviceAdapter
             case TextRenderEvent.UNDEFINED:
                 throw new RenderingException(
                     "exception.missing.text.render.action", //$NON-NLS-1$
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); 
@@ -1208,8 +1208,8 @@ public class SwingRendererImpl extends DeviceAdapter
                 throw new RenderingException(
                     "exception.gradient.angle",//$NON-NLS-1$
                     new Object[] { new Double(dAngleInDegrees) },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED

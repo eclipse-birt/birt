@@ -16,6 +16,7 @@ import java.awt.MediaTracker;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
@@ -24,7 +25,6 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.ImageLoadingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
  *
@@ -109,8 +109,8 @@ public final class SwingImageCache
 	                throw new ImageLoadingException(
                         "exception.media.tracker", //$NON-NLS-1$
                         new Object[] { sb.toString() },
-                        ResourceManager.getBundle(
-                            ResourceManager.DEVICE_EXTENSION, 
+                        ResourceBundle.getBundle(
+                            Messages.DEVICE_EXTENSION, 
                             idsSWING.getLocale()
                         )
                     ); // i18n_CONCATENATIONS_REMOVED 

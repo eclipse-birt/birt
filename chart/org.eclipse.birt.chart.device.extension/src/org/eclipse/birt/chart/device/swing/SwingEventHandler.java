@@ -24,6 +24,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 
@@ -41,7 +42,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.resource.ResourceManager;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -214,7 +214,9 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
             throw new OutOfSyncException(
                 "info.cannot.find.series", //$NON-NLS-1$
                 new Object[] { seRT },
-                ResourceManager.getBundle(ResourceManager.DEVICE_EXTENSION, lcl)
+                ResourceBundle.getBundle(
+                    Messages.DEVICE_EXTENSION, 
+                    lcl)
             ); // i18n_CONCATENATIONS_REMOVED 
         }
 

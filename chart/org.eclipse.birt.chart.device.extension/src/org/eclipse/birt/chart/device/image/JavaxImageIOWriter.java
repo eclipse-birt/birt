@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -33,7 +34,6 @@ import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.resource.ResourceManager;
 
 /**
  *
@@ -105,7 +105,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
             {
                 throw new RenderingException(
                     "exception.no.bounds", //$NON-NLS-1$
-                    ResourceManager.getBundle(ResourceManager.DEVICE_EXTENSION, getLocale())
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
+                        getLocale()
+                    )
                 ); 
             }
             
@@ -143,8 +146,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
                 throw new RenderingException(
                     "exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
                     new Object[] { getMimeType(), getFormat(), getClass().getName() },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED 
@@ -155,8 +158,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements II
                 throw new RenderingException(
                     "exception.no.imagewriter.mimetype", //$NON-NLS-1$
                     new Object[] { getMimeType() },
-                    ResourceManager.getBundle(
-                        ResourceManager.DEVICE_EXTENSION, 
+                    ResourceBundle.getBundle(
+                        Messages.DEVICE_EXTENSION, 
                         getLocale()
                     )
                 ); // i18n_CONCATENATIONS_REMOVED
