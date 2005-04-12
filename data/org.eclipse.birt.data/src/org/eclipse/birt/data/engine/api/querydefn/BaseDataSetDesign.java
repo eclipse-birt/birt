@@ -17,13 +17,10 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
-import org.eclipse.birt.data.engine.api.IInputParameterDefinition;
-import org.eclipse.birt.data.engine.api.IOutputParameterDefinition;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -154,74 +151,6 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	{
 	    if ( param != null )
 	        getParameters().add( param );
-	}
-	
-    /**
-     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParameters() 
-     * @return the input parameter definitions. 
-     * 			An empty list if none is defined.
-     * @deprecated use getParameters()
-     */
-	public List getInputParameters( )
-	{
-	    List params = getParameters();
-	    if ( params.isEmpty() )
-	        return params;
-	    
-	    // iterate through the parameters list, and return only
-	    // those that are of input mode
-        List inputParams = new ArrayList();
-		Iterator paramItr = params.iterator( );
-		while ( paramItr.hasNext() )
-		{
-		    IParameterDefinition paramDefn = (IParameterDefinition) paramItr.next();
-		    if ( paramDefn.isInputMode() )
-		        inputParams.add( paramDefn );
-		}
-		return inputParams;
-	}
-	
-	/**
-	 * Adds an input paramter definition to the data set.
-     * @deprecated use addParameter()
-	 */
-	public void addInputParameter( IInputParameterDefinition param )
-	{
-	    addParameter( param );
-	}
-	
-    /**
-     * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getOutputParameters() 
-     * @return the output parameter definitions. 
-     * 			An empty list if none is defined.
-     * @deprecated use getParameters()
-     */
-	public List getOutputParameters( )
-	{
-	    List params = getParameters();
-	    if ( params.isEmpty() )
-	        return params;
-	    
-	    // iterate through the parameters list, and return only
-	    // those that are of output mode
-        List outputParams = new ArrayList();
-		Iterator paramItr = params.iterator( );
-		while ( paramItr.hasNext() )
-		{
-		    IParameterDefinition paramDefn = (IParameterDefinition) paramItr.next();
-		    if ( paramDefn.isOutputMode() )
-		        outputParams.add( paramDefn );
-		}
-		return outputParams;
-	}
-	
-	/**
-	 * Adds an output paramter definition to the list.
-     * @deprecated use addParameter()
-	 */
-	public void addOutputParameter( IOutputParameterDefinition param )
-	{
-	    addParameter( param );
 	}
 		
     /**

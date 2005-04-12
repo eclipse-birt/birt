@@ -62,24 +62,6 @@ public interface IBaseDataSetDesign
     public abstract List getParameters();
 
     /**
-     * Returns the input parameter definitions as a list
-     * of {@link org.eclipse.birt.data.engine.api.IInputParameterDefinition} objects. 
-     * @return the input parameter definitions. 
-     * 			An empty list if none is defined.
-     * @deprecated use getParameters()
-     */
-    public abstract List getInputParameters();
-
-    /**
-     * Returns the output parameter definitions as a list
-     * of {@link org.eclipse.birt.data.engine.api.IOutputParameterDefinition} objects.
-     * @return the output parameter definitions. 
-     * 			An empty list if none is defined.
-     * @deprecated use getParameters()
-     */
-    public abstract List getOutputParameters();
-
-    /**
      * Returns the primary result set hints as a list of 
      * {@link org.eclipse.birt.data.engine.api.IColumnDefinition}
      * objects. 

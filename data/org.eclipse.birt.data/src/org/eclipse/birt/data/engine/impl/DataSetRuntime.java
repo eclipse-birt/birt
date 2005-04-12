@@ -161,22 +161,6 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
     {
         return m_design.getParameters();
     }
-	
-    /**
-     * @deprecated use getParameters()
-     */
-    public List getInputParameters()
-    {
-        return getParameters();
-    }
-	
-    /**
-     * @deprecated use getParameters()
-     */
-    public List getOutputParameters()
-    {
-        return getParameters();
-    }
    
 	public List getResultSetHints()
 	{
