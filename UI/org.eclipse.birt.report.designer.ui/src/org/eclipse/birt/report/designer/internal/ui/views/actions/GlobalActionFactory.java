@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelectionProvider;

@@ -13,7 +13,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.TextEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.Dialog;
 

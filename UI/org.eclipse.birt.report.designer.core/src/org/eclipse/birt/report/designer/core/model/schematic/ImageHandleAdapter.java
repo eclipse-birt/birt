@@ -15,13 +15,12 @@ import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.internal.ExceptionHandler;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -109,20 +108,13 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		return new Dimension( Math.max( px, 0 ), Math.max( py, 0 ) );
 	}
 
-	public void setSize( Dimension size )
+	public void setSize( Dimension size ) throws SemanticException
 	{
 		String w = size.width + DesignChoiceConstants.UNITS_PX;
 		String h = size.height + DesignChoiceConstants.UNITS_PX;
 
-		try
-		{
-			getImageHandle( ).setWidth( w );
-			getImageHandle( ).setHeight( h );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.getInstance( ).handleException( e );
-		}
+		getImageHandle( ).setWidth( w );
+		getImageHandle( ).setHeight( h );
 	}
 
 }

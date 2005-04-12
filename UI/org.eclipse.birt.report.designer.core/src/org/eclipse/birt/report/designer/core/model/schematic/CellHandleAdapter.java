@@ -15,12 +15,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -124,16 +124,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 		return new Point( 1, 1 );
 	}
 
-	/**
-	 * Cell sets location do nothing
-	 * 
-	 * @param location
-	 * @throws SemanticException
-	 */
-	public void setLocation( Point location ) throws SemanticException
-	{
-
-	}
 
 	/**
 	 * Gets the size.
@@ -143,18 +133,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	public Dimension getSize( )
 	{
 		return new Dimension( 60, 40 );
-	}
-
-	/**
-	 * Sets the size
-	 * 
-	 * @param size
-	 *            The new size to be set.
-	 * @throws SemanticException
-	 */
-	public void setSize( Dimension size ) throws SemanticException
-	{
-
 	}
 
 	/**
@@ -169,22 +147,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 				getLocation( ).y,
 				getSize( ).width,
 				getSize( ).height );
-	}
-
-	/**
-	 * Sets bounds.
-	 * 
-	 * @param bounds
-	 *            The bounds
-	 * @throws SemanticException
-	 *             The semantic exception
-	 */
-
-	public void setBounds( Rectangle bounds ) throws SemanticException
-	{
-		setSize( bounds.getSize( ) );
-		setLocation( new Point( bounds.getLocation( ).x,
-				bounds.getLocation( ).y ) );
 	}
 
 	private CellHandle getCellHandle( )

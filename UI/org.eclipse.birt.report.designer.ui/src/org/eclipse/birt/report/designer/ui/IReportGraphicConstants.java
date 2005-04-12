@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui;
 
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**

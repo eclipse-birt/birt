@@ -18,12 +18,12 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.command.PropertyEvent;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.draw2d.AbstractBorder;
@@ -114,7 +114,7 @@ public class EditorRulerComposite extends Composite
 		}
 	};
 
-	private org.eclipse.birt.report.model.core.Listener designListener = new org.eclipse.birt.report.model.core.Listener( ) {
+	private org.eclipse.birt.report.model.api.core.Listener designListener = new org.eclipse.birt.report.model.api.core.Listener( ) {
 
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

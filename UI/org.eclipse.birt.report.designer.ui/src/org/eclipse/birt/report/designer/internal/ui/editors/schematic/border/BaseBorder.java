@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.SWT;

@@ -16,12 +16,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.command.ContentException;
-import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 
 /**
  * Adapter class to extend TableHandleAdapter. Deals with the table group in the

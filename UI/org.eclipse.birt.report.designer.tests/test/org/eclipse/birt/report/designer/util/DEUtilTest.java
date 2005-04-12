@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Class of test for DEUtil
@@ -41,7 +42,7 @@ public class DEUtilTest extends BaseTestCase
 	public void testGetElementSupportListDesignElementHandleint( )
 	{
 		ArrayList expected = new ArrayList( );
-		MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
+		IMetaDataDictionary dictionary = DesignEngine.getMetaDataDictionary( );
 		expected.add( dictionary.getElement( ReportDesignConstants.LABEL_ITEM ) );
 		expected.add( dictionary.getElement( ReportDesignConstants.DATA_ITEM ) );
 		expected.add( dictionary.getElement( ReportDesignConstants.TABLE_ITEM ) );

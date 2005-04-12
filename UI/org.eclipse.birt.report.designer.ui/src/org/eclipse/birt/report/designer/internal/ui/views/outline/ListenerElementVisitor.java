@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
-import org.eclipse.birt.report.model.core.Listener;
+import org.eclipse.birt.report.model.api.core.Listener;
 
 /**
  * Applies visitor to the report element and the children element

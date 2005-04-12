@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Global undo action for views

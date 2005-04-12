@@ -26,9 +26,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;

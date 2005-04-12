@@ -18,22 +18,22 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
-import org.eclipse.birt.report.model.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Filter data processor
@@ -45,7 +45,7 @@ public class FilterModelProvider
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER
 	 */
-	private ChoiceSet choiceSet;
+	private IChoiceSet choiceSet;
 
 	/**
 	 * Constant, represents empty String array.
@@ -67,8 +67,7 @@ public class FilterModelProvider
 		String[] columnNames = new String[keys.length];
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-			IStructureDefn structure = metaData.getStructure( FilterCondition.FILTER_COND_STRUCT );
+			IStructureDefn structure = DesignEngine.getMetaDataDictionary().getStructure( FilterCondition.FILTER_COND_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}
 		return columnNames;
@@ -122,7 +121,7 @@ public class FilterModelProvider
 
 		if ( key.equals( FilterCondition.OPERATOR_MEMBER ) )
 		{
-			Choice choice = choiceSet.findChoice( value );
+			IChoice choice = choiceSet.findChoice( value );
 			if ( choice != null )
 			{
 				return choice.getDisplayName( );
@@ -174,7 +173,7 @@ public class FilterModelProvider
 		StructureHandle handle = (StructureHandle) element;
 		if ( key.equals( FilterCondition.OPERATOR_MEMBER ) )
 		{
-			Choice choice = choiceSet.findChoiceByDisplayName( newValue );
+			IChoice choice = choiceSet.findChoiceByDisplayName( newValue );
 			if ( choice == null )
 				saveValue = null;
 			else

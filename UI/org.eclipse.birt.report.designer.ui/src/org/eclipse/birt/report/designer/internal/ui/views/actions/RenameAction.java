@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.RenameInlineTool;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 

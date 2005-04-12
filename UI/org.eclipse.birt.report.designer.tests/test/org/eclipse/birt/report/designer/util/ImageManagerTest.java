@@ -18,7 +18,7 @@ import java.util.Arrays;
 import org.eclipse.birt.report.designer.tests.TestsPlugin;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.designer.testutil.PlatformUtil;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;

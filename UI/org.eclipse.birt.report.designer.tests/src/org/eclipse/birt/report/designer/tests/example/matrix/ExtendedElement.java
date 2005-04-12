@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.IElementCommand;
-import org.eclipse.birt.report.model.extension.IReportItemFactory;
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
+import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**

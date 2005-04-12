@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -39,25 +40,24 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextItem;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.IElementDefn;
-import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ISlotDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.birt.report.model.util.DimensionUtil;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -89,8 +89,8 @@ public class DEUtil
 	/**
 	 * A default quick button height which if different in win32 from other OS.
 	 */
-	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( ).equals(
-			Platform.OS_WIN32 ) ? 20 : 22;
+	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
+			.equals( Platform.OS_WIN32 ) ? 20 : 22;
 
 	private static HashMap propertiesMap = new HashMap( );
 
@@ -99,18 +99,17 @@ public class DEUtil
 	static
 	{
 		propertiesMap.put( Label.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
-		propertiesMap
-				.put( TextItem.CONTENT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
+		propertiesMap.put( TextItem.CONTENT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
 
 		//do not support following element in release 1
-		notSupportList.add( MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.LINE_ITEM ) );
-		notSupportList.add( MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.TEXT_DATA_ITEM ) );
-		notSupportList.add( MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.LINE_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.TEXT_DATA_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
 	}
 
@@ -225,8 +224,8 @@ public class DEUtil
 		{
 			obj = ( (Class) obj ).getName( );
 		}
-		return obj.toString( ).substring(
-				obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
+		return obj.toString( )
+				.substring( obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -240,8 +239,7 @@ public class DEUtil
 		{
 			DesignElementHandle handle = (DesignElementHandle) obj;
 			String elementName = handle.getDefn( ).getDisplayName( );
-			String displayName = handle
-					.getDisplayLabel( DesignElement.USER_LABEL );
+			String displayName = handle.getDisplayLabel( DesignElement.USER_LABEL );
 			if ( !StringUtil.isBlank( displayName ) )
 			{
 				return elementName + " - " + displayName; //$NON-NLS-1$
@@ -322,8 +320,7 @@ public class DEUtil
 		assert parent instanceof DesignElementHandle;
 		assert child instanceof DesignElementHandle;
 
-		int slotID = ( (DesignElementHandle) parent )
-				.findContentSlot( (DesignElementHandle) child );
+		int slotID = ( (DesignElementHandle) parent ).findContentSlot( (DesignElementHandle) child );
 
 		return slotID;
 	}
@@ -368,8 +365,7 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			SlotHandle slotHandle = parent.getSlot( DEUtil
-					.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
 			if ( slotHandle != null )
 			{
 				return slotHandle.getCount( );
@@ -474,14 +470,15 @@ public class DEUtil
 		//added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
-			units = ( SessionHandleAdapter.getInstance( ).getReportDesign( )
-					.handle( ) ).getDefaultUnits( );
-			px = DimensionUtil.convertTo( measure, units,
+			units = ( SessionHandleAdapter.getInstance( ).getReportDesign( ).handle( ) ).getDefaultUnits( );
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		else
 		{
-			px = DimensionUtil.convertTo( measure, units,
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 
@@ -654,7 +651,8 @@ public class DEUtil
 			return null;
 		}
 
-		return new RGB( ( rgbValue >> 16 ) & 0xff, ( rgbValue >> 8 ) & 0xff,
+		return new RGB( ( rgbValue >> 16 ) & 0xff,
+				( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
 	}
 
@@ -673,7 +671,8 @@ public class DEUtil
 			return -1;
 		}
 
-		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
+		return ( ( rgb.red & 0xff ) << 16 )
+				| ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
 
@@ -691,15 +690,13 @@ public class DEUtil
 		{
 			if ( handle instanceof ReportItemHandle )
 			{
-				DesignElementHandle dataSet = ( (ReportItemHandle) handle )
-						.getDataSet( );
+				DesignElementHandle dataSet = ( (ReportItemHandle) handle ).getDataSet( );
 				if ( dataSet != null && !dataSetList.contains( dataSet ) )
 				{
 					dataSetList.add( dataSet );
 				}
 			}
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
-					.iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -720,7 +717,7 @@ public class DEUtil
 	public static IElementPropertyDefn getPropertyDefn( String elementName,
 			String propertyName )
 	{
-		IElementDefn elementDefn = MetaDataDictionary.getInstance( )
+		IElementDefn elementDefn = DesignEngine.getMetaDataDictionary()
 				.getElement( elementName );
 		if ( elementDefn != null )
 		{
@@ -838,8 +835,7 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment( );
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 
 		return ge.getAvailableFontFamilyNames( );
 	}
@@ -893,14 +889,16 @@ public class DEUtil
 			Object[] array = (Object[]) transferData;
 			if ( array.length == 1 )
 			{
-				return handleValidateTargetCanContain( targetObj, array[0],
+				return handleValidateTargetCanContain( targetObj,
+						array[0],
 						validateContainer );
 			}
 			int canContainAll = CONTAIN_NO;
 			for ( int i = 0; i < array.length; i++ )
 			{
 				int canContain = handleValidateTargetCanContain( targetObj,
-						array[i], validateContainer );
+						array[i],
+						validateContainer );
 				if ( i == 0 )
 				{
 					canContainAll = canContain;
@@ -918,23 +916,27 @@ public class DEUtil
 			if ( transferData instanceof DesignElementHandle )
 			{
 				return handleValidateTargetCanContainByContainer( targetObj,
-						(DesignElementHandle) transferData, validateContainer,
+						(DesignElementHandle) transferData,
+						validateContainer,
 						transferData );
 			}
 			else if ( transferData instanceof DesignElement )
 			{
-				DesignElementHandle childHandle = ( (DesignElement) transferData )
-						.getHandle( SessionHandleAdapter.getInstance( )
-								.getReportDesign( ) );
+				DesignElementHandle childHandle = ( (DesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
+						.getReportDesign( ) );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandle, validateContainer, transferData );
+						childHandle,
+						validateContainer,
+						transferData );
 			}
 			else if ( transferData instanceof SlotHandle )
 			{
 				SlotHandle slot = (SlotHandle) transferData;
 				Object[] childHandles = slot.getContents( ).toArray( );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandles, validateContainer, transferData );
+						childHandles,
+						validateContainer,
+						transferData );
 			}
 			else
 			{
@@ -949,32 +951,30 @@ public class DEUtil
 	{
 		if ( targetObj instanceof DesignElementHandle )
 		{
-			return handleValidateTargetCanContainElementHandle(
-					(DesignElementHandle) targetObj, childHandle,
-					validateContainer, transferData );
+			return handleValidateTargetCanContainElementHandle( (DesignElementHandle) targetObj,
+					childHandle,
+					validateContainer,
+					transferData );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
 			ReportElementModel targetModel = (ReportElementModel) targetObj;
-			return targetModel.getElementHandle( ).canContain(
-					targetModel.getSlotId( ), childHandle )
-					? CONTAIN_THIS
+			return targetModel.getElementHandle( )
+					.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
-			return targetHandle.getElementHandle( ).canContain(
-					targetHandle.getSlotID( ), childHandle )
-					? CONTAIN_THIS
+			return targetHandle.getElementHandle( )
+					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
 			ListBandProxy targetHandle = (ListBandProxy) targetObj;
-			return targetHandle.getElemtHandle( ).canContain(
-					targetHandle.getSlotId( ), childHandle )
-					? CONTAIN_THIS
+			return targetHandle.getElemtHandle( )
+					.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else
@@ -996,7 +996,8 @@ public class DEUtil
 			if ( !( childHandles[i] instanceof DesignElementHandle )
 					|| handleValidateTargetCanContainByContainer( targetObj,
 							(DesignElementHandle) childHandles[i],
-							validateContainer, transferData ) == CONTAIN_NO )
+							validateContainer,
+							transferData ) == CONTAIN_NO )
 			{
 				return CONTAIN_NO;
 			}
@@ -1025,8 +1026,10 @@ public class DEUtil
 			{
 				return CONTAIN_NO;
 			}
-			if ( !targetHandle.getContainer( ).getDefn( ).getSlot(
-					targetHandle.getContainerSlotHandle( ).getSlotID( ) )
+			if ( !targetHandle.getContainer( )
+					.getDefn( )
+					.getSlot( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ) )
 					.isMultipleCardinality( ) )
 			{
 				//If only can contain single
@@ -1037,9 +1040,10 @@ public class DEUtil
 				//If class type is same
 				return CONTAIN_PARENT;
 			}
-			return targetHandle.getContainer( ).canContain(
-					targetHandle.getContainerSlotHandle( ).getSlotID( ),
-					childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+			return targetHandle.getContainer( )
+					.canContain( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ),
+							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
 		}
 		return CONTAIN_NO;
 	}
@@ -1059,8 +1063,8 @@ public class DEUtil
 	{
 		if ( targetObj instanceof StructuredSelection )
 		{
-			return handleValidateTargetCanContainMore(
-					( (StructuredSelection) targetObj ).toArray( ), length );
+			return handleValidateTargetCanContainMore( ( (StructuredSelection) targetObj ).toArray( ),
+					length );
 		}
 		else if ( targetObj instanceof Object[] )
 		{
@@ -1076,14 +1080,16 @@ public class DEUtil
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
-			return handleValidateTargetCanContainMore( new ReportElementModel(
-					(SlotHandle) targetObj ), length );
+			return handleValidateTargetCanContainMore( new ReportElementModel( (SlotHandle) targetObj ),
+					length );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
 			ReportElementModel model = (ReportElementModel) targetObj;
 			int slotId = model.getSlotId( );
-			return model.getElementHandle( ).getDefn( ).getSlot( slotId )
+			return model.getElementHandle( )
+					.getDefn( )
+					.getSlot( slotId )
 					.isMultipleCardinality( )
 					|| model.getElementHandle( ).getSlot( slotId ).getCount( ) < 1
 					&& length <= 1;
@@ -1114,8 +1120,7 @@ public class DEUtil
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
-			targetHandle = ( (ReportElementModel) targetObj )
-					.getElementHandle( );
+			targetHandle = ( (ReportElementModel) targetObj ).getElementHandle( );
 			slotId = ( (ReportElementModel) targetObj ).getSlotId( );
 		}
 		else if ( targetObj instanceof SlotHandle )
@@ -1151,12 +1156,15 @@ public class DEUtil
 
 	/**
 	 * Escapte \ and " following standard of Javascript
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String escape( String str )
 	{
-		String[][] chars = {{"\\\\", "\""}, {"\\\\\\\\", "\\\\\""}}; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
+		String[][] chars = {
+				{
+						"\\\\", "\""}, {"\\\\\\\\", "\\\\\""}}; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
 		String result = str;
 		for ( int i = 0; i < chars[0].length; i++ )
 		{

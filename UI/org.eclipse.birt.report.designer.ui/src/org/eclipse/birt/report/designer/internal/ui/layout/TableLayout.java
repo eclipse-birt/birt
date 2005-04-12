@@ -29,7 +29,7 @@ import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;

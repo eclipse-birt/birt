@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.tests.example.matrix;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.report.model.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IMessages;
 
 /**
  * Provides the localized messages.

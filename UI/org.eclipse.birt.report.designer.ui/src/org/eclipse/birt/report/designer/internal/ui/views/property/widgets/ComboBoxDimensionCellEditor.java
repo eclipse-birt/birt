@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;

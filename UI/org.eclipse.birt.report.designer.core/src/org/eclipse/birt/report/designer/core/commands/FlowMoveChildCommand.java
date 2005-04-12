@@ -18,7 +18,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.command.ContentException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.gef.commands.Command;
 

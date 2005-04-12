@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.swt.layout.GridData;
 
 /**
@@ -123,12 +123,12 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 	private String[][] getChoiceArray( String propName )
 	{
-		ChoiceSet ci = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+		IChoiceSet ci = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 				propName );
 
 		if ( ci != null )
 		{
-			Choice[] cs = ci.getChoices( );
+			IChoice[] cs = ci.getChoices( );
 
 			String[][] rt = new String[cs.length][2];
 

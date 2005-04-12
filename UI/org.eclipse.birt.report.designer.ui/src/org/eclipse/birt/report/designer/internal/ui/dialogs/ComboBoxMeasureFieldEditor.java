@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -336,17 +336,12 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 			{
 				return getBoxValueForName( getComboBoxControl( parent ).getText( ) );
 			}
-			else
-			{
-				return getComboBoxControl( parent ).getText( )
-						+ getMeasureValueForName( getMeasureControl( parent ).getText( ) );
-			}
-		}
-		else
-		{
-			return getTextControl( parent ).getText( )
+			return getComboBoxControl( parent ).getText( )
 					+ getMeasureValueForName( getMeasureControl( parent ).getText( ) );
+
 		}
+		return getTextControl( parent ).getText( )
+				+ getMeasureValueForName( getMeasureControl( parent ).getText( ) );
 	}
 
 	/**
@@ -383,10 +378,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		{
 			return getComboBoxControl( parent );
 		}
-		else
-		{
-			return getTextControl( parent );
-		}
+		return getTextControl( parent );
 	}
 
 	/**
@@ -459,7 +451,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 					if ( fmeasure != null )
 					{
-						if ( cusType &&  !( fmeasure.isEnabled( ) ) )
+						if ( cusType && !( fmeasure.isEnabled( ) ) )
 						{
 							//default unit is point.
 							fmeasure.select( 3 );

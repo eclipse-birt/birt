@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * This class collects commonly-used choice constants. These constants define

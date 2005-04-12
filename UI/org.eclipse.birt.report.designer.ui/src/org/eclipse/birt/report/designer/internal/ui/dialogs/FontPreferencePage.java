@@ -16,13 +16,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.DimensionUtil;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -399,7 +399,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	 */
 	private String[][] getChoiceArray( String key )
 	{
-		Choice[] choices = MetaDataDictionary.getInstance( )
+		IChoice[] choices = DesignEngine.getMetaDataDictionary()
 				.getChoiceSet( key )
 				.getChoices( );
 

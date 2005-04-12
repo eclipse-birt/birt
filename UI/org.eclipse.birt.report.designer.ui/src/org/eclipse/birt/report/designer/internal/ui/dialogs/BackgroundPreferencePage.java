@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.swt.layout.GridData;
 
 /**
@@ -145,7 +145,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 	}
 
 	/**
-	 * Gets choice array of the given choise set.
+	 * Gets choice array of the given choice set.
 	 * 
 	 * @param set
 	 *            The given choice set.
@@ -153,7 +153,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 	 *         (labels) and underlying values, will be arranged as: { {name1,
 	 *         value1}, {name2, value2}, ...}
 	 */
-	private String[][] getChoiceArray( ChoiceSet set )
+	private String[][] getChoiceArray( IChoiceSet set )
 	{
 
 		String[][] names = null;
@@ -161,7 +161,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 		{
 			return names;
 		}
-		Choice[] choices = set.getChoices( );
+		IChoice[] choices = set.getChoices( );
 
 		if ( choices.length > 0 )
 		{

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
 public class ExtensionPropertyDefn implements IPropertyDefinition

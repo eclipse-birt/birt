@@ -12,9 +12,9 @@
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.jface.window.Window;
 
 

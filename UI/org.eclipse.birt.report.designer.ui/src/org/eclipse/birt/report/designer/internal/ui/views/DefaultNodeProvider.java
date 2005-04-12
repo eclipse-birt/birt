@@ -41,8 +41,8 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -328,7 +328,7 @@ public class DefaultNodeProvider implements INodeProvider
 			List supportList = DEUtil.getElementSupportList( slotHandle );
 			if ( supportList.size( ) == 1 )
 			{
-				type = ( (ElementDefn) supportList.get( 0 ) ).getName( );
+				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
 			}
 			else
 			{

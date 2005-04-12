@@ -24,16 +24,12 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
-//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
-//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
-//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
-//import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertListGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;

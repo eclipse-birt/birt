@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.command.StyleException;
+import org.eclipse.birt.report.model.api.command.StyleException;
 
 /**
  * Applies style to selected elements.

@@ -9,8 +9,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;

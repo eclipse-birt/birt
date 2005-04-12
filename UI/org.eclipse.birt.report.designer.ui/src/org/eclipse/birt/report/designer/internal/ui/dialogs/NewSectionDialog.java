@@ -16,9 +16,9 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -130,7 +130,7 @@ public class NewSectionDialog extends SelectionDialog
 		list.setFont( new Font( Display.getCurrent( ), "Dialog", 8, SWT.NORMAL ) );//$NON-NLS-1$
 		for ( Iterator itor = contents.iterator( ); itor.hasNext( ); )
 		{
-			ElementDefn defn = (ElementDefn) itor.next( );
+			IElementDefn defn = (IElementDefn) itor.next( );
 			list.add( defn.getDisplayName( ) );
 		}
 	}
@@ -143,7 +143,7 @@ public class NewSectionDialog extends SelectionDialog
 	{
 		ArrayList arrayList = new ArrayList( );
 
-		arrayList.add( ( (ElementDefn) contents.get( list.getSelectionIndex( ) ) ).getName( ) );
+		arrayList.add( ( (IElementDefn) contents.get( list.getSelectionIndex( ) ) ).getName( ) );
 		setResult( arrayList );
 		super.okPressed( );
 	}
@@ -159,7 +159,7 @@ public class NewSectionDialog extends SelectionDialog
 		this.contents = cons;
 		
 		//Temporarily disabled
-		contents.remove( MetaDataDictionary.getInstance( )
+		contents.remove( DesignEngine.getMetaDataDictionary()
 				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 }

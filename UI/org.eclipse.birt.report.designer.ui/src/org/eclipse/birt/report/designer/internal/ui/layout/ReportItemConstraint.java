@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.layout;
 
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**

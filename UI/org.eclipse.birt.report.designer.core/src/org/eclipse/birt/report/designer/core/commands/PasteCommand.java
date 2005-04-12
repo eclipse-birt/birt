@@ -14,12 +14,13 @@ package org.eclipse.birt.report.designer.core.commands;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.command.ContentException;
-import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.gef.commands.Command;
 
@@ -38,7 +39,7 @@ public class PasteCommand extends Command
 
 	private DesignElementHandle afterHandle;
 
-	private DesignElement cloneElement;
+	private IDesignElement cloneElement;
 
 	/** True: cut; False: copy */
 	private boolean isCut = false;
@@ -225,7 +226,8 @@ public class PasteCommand extends Command
 					slotID );
 		}
 		else if ( position > -1
-				&& isCut && sourceHandle.getContainer( ) == container )
+				&& isCut
+				&& sourceHandle.getContainer( ) == container )
 		{
 			int oldPosition = DEUtil.findInsertPosition( container,
 					sourceHandle,
@@ -247,14 +249,15 @@ public class PasteCommand extends Command
 		}
 	}
 
-	private DesignElementHandle copyNewHandle( DesignElement element,
+	private DesignElementHandle copyNewHandle( IDesignElement element,
 			ReportDesignHandle currentDesignHandle )
 			throws CloneNotSupportedException
 	{
-		DesignElement newElement = isCloned ? element
-				: (DesignElement) element.clone( );
-		currentDesignHandle.rename( newElement );
-		return newElement.getHandle( currentDesignHandle.getDesign( ) );
+		IDesignElement newElement = isCloned ? element
+				:  (IDesignElement) element.clone( );
+		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getDesign( ) );
+		currentDesignHandle.rename( handle );
+		return handle;
 	}
 
 	/**

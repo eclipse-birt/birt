@@ -230,10 +230,6 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 		{
 			return getValueForName( fCombo.getText( ) );
 		}
-		else
-		{
-			return getPreferenceStore( ).getString( getPreferenceName( ) );
-		}
-
+		return getPreferenceStore( ).getString( getPreferenceName( ) );
 	}
 }

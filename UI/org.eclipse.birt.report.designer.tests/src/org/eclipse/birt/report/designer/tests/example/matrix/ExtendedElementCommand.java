@@ -9,7 +9,7 @@
 
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
-import org.eclipse.birt.report.model.extension.IElementCommand;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 public class ExtendedElementCommand implements IElementCommand
 {

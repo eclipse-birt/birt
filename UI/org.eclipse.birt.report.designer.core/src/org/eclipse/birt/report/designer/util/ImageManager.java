@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -22,8 +23,8 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.util.URIUtil;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
@@ -122,10 +123,26 @@ public class ImageManager
 		{
 			return image;
 		}
-		image = new Image( null, url.openStream( ) );
+		InputStream in = null;
+		try
+		{
+			in = url.openStream( );
+			image = new Image( null, in );
+		}
+		catch ( IOException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				in.close( );
+			}
+		}
 		if ( image != null )
 		{
-			getImageRegistry( ).put( key, image );			
+			getImageRegistry( ).put( key, image );
 		}
 		return image;
 	}

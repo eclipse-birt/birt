@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 import org.eclipse.gef.commands.Command;
 

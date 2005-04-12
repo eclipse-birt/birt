@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -378,10 +378,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		{
 			return DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE;
 		}
-		else
-		{
-			return DesignChoiceConstants.TEXT_UNDERLINE_NONE;
-		}
+		return DesignChoiceConstants.TEXT_UNDERLINE_NONE;
 	}
 
 	/**
@@ -395,10 +392,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		{
 			return DesignChoiceConstants.TEXT_OVERLINE_OVERLINE;
 		}
-		else
-		{
-			return DesignChoiceConstants.TEXT_OVERLINE_NONE;
-		}
+		return DesignChoiceConstants.TEXT_OVERLINE_NONE;
 	}
 
 	/**
@@ -412,10 +406,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		{
 			return DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH;
 		}
-		else
-		{
-			return DesignChoiceConstants.TEXT_LINE_THROUGH_NONE;
-		}
+		return DesignChoiceConstants.TEXT_LINE_THROUGH_NONE;
 	}
 
 	/*

@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.activity.ActivityStackEvent;
-import org.eclipse.birt.report.model.activity.ActivityStackListener;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
+import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.jface.action.Action;
 

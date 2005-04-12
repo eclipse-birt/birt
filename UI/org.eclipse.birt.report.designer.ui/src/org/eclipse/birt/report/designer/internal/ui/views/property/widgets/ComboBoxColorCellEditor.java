@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;

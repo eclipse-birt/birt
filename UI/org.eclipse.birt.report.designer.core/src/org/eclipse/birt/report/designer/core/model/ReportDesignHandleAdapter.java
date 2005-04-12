@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 
@@ -50,16 +49,6 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 			IModelAdapterHelper mark )
 	{
 		super( handle, mark );
-	}
-
-	/**
-	 * Return wrapped designHandle
-	 * 
-	 * @return Returns the reportDesignHandle.
-	 */
-	public ReportDesignHandle getReportDesignHandle( )
-	{
-		return ( (ReportDesign) getElement( ) ).handle( );
 	}
 
 	/**

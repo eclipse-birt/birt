@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 

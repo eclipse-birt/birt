@@ -18,21 +18,21 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.structures.SortKey;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
-import org.eclipse.birt.report.model.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Sort data processor
@@ -43,13 +43,13 @@ public class SortingModelProvider
 	/**
 	 * The list of allowed SortKey.DIRECTION_MEMBER
 	 */
-	private ChoiceSet choiceSet;
+	private IChoiceSet choiceSet;
 
 	/**
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-	
+
 	private DataSetItemModel[] models;
 
 	/**
@@ -65,8 +65,8 @@ public class SortingModelProvider
 		String[] columnNames = new String[keys.length];
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-			IStructureDefn structure = metaData.getStructure( SortKey.SORT_STRUCT );
+			IStructureDefn structure = DesignEngine.getMetaDataDictionary( )
+					.getStructure( SortKey.SORT_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}
 		return columnNames;
@@ -115,7 +115,7 @@ public class SortingModelProvider
 			value = "";//$NON-NLS-1$
 		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
 		{
-			Choice choice = choiceSet.findChoice( value );
+			IChoice choice = choiceSet.findChoice( value );
 			if ( choice != null )
 				return choice.getDisplayName( );
 		}
@@ -136,38 +136,39 @@ public class SortingModelProvider
 	 *            Property key
 	 * @param newValue
 	 *            new value
-	 * @return @throws
-	 *         SemanticException
+	 * @return
+	 * @throws SemanticException
 	 * @throws NameException
 	 */
 	public boolean setStringValue( Object item, Object element, String key,
 			String newValue ) throws SemanticException
 	{
-		if(key.equals( SortKey.KEY_MEMBER ))
+		if ( key.equals( SortKey.KEY_MEMBER ) )
 		{
-			String value = DEUtil.getExpression(getResultSetColumn(newValue));
-			if(value != null)
-				newValue = value; 
+			String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
+			if ( value != null )
+				newValue = value;
 		}
-//		if ( !( element instanceof StructureHandle ) )
-//		{
-//			SortKey sortkey = StructureFactory.createSortKey( );
-//			if ( key.equals( SortKey.KEY_MEMBER ) )
-//			{
-//				sortkey.setKey( newValue );
-//			}
-//
-//			DesignElementHandle handle = (DesignElementHandle) item;
-//			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.SORT_PROP );
-//			propertyHandle.addItem( sortkey );
-//			element = sortkey.getHandle( propertyHandle );
-//		}
+		//		if ( !( element instanceof StructureHandle ) )
+		//		{
+		//			SortKey sortkey = StructureFactory.createSortKey( );
+		//			if ( key.equals( SortKey.KEY_MEMBER ) )
+		//			{
+		//				sortkey.setKey( newValue );
+		//			}
+		//
+		//			DesignElementHandle handle = (DesignElementHandle) item;
+		//			PropertyHandle propertyHandle = handle.getPropertyHandle(
+		// ListingElement.SORT_PROP );
+		//			propertyHandle.addItem( sortkey );
+		//			element = sortkey.getHandle( propertyHandle );
+		//		}
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
 		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
 		{
-			Choice choice = choiceSet.findChoiceByDisplayName( newValue );
+			IChoice choice = choiceSet.findChoiceByDisplayName( newValue );
 			if ( choice == null )
 				saveValue = null;
 			else
@@ -211,24 +212,27 @@ public class SortingModelProvider
 		DataSetHandle dataSet = (DataSetHandle) handle.getDataSet( );
 		if ( dataSet == null )
 			return EMPTY;
-		models = DataSetManager.getCurrentInstance().getColumns(dataSet,false);
-		if(models == null)
+		models = DataSetManager.getCurrentInstance( ).getColumns( dataSet,
+				false );
+		if ( models == null )
 			return EMPTY;
 		String[] values = new String[models.length];
-		for(int i=0; i<models.length; i++)
+		for ( int i = 0; i < models.length; i++ )
 		{
-			values[i] = models[i].getDisplayName();
+			values[i] = models[i].getDisplayName( );
 		}
 		return values;
 	}
-	
-	private Object getResultSetColumn(String name)
+
+	private Object getResultSetColumn( String name )
 	{
-		if(models == null)return null;
-		for(int i=0; i<models.length; i++)
+		if ( models == null )
+			return null;
+		for ( int i = 0; i < models.length; i++ )
 		{
 			DataSetItemModel model = models[i];
-			if(model.getDisplayName().equals(name))return model;
+			if ( model.getDisplayName( ).equals( name ) )
+				return model;
 		}
 		return null;
 	}
@@ -274,7 +278,7 @@ public class SortingModelProvider
 			propertyHandle.removeItem( pos );
 		return true;
 	}
-	
+
 	/**
 	 * Inserts one item into the given position.
 	 * 
@@ -292,8 +296,7 @@ public class SortingModelProvider
 			SortKey sortkey = StructureFactory.createSortKey( );
 			sortkey.setKey( "Key" );//$NON-NLS-1$
 			DesignElementHandle handle = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = handle
-					.getPropertyHandle( ListingElement.SORT_PROP );
+			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.SORT_PROP );
 			propertyHandle.addItem( sortkey );
 		}
 		return true;

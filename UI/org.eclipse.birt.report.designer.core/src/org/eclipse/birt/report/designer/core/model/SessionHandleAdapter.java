@@ -15,18 +15,18 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
- * Adapter class to adpat model handle. This adapter provides convinience
+ * Adapter class to adpat model handle. This adapter provides convenience
  * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
  *  
@@ -75,7 +75,7 @@ public class SessionHandleAdapter
 		if ( sessionHandle == null )
 		{
 			sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
-			MetaDataDictionary metadata = MetaDataDictionary.getInstance( );
+			IMetaDataDictionary metadata = DesignEngine.getMetaDataDictionary();
 			metadata.enableElementID( );
 		}
 		sessionHandle.activate( );

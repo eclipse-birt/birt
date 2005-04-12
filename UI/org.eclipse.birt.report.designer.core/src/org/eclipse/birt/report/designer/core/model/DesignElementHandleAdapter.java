@@ -20,12 +20,10 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -91,21 +89,11 @@ public abstract class DesignElementHandleAdapter
 	}
 
 	/**
-	 * Gets the report element,which is presented by this adapter.
+	 * Gets the handle of the report design
 	 * 
-	 * @return
+	 * @return Returns the handle of the report design
 	 */
-	public DesignElement getElement( )
-	{
-		return elementHandle.getElement( );
-	}
-
-	protected ReportDesign getReportDesign( )
-	{
-		return elementHandle.getDesign( );
-	}
-
-	protected ReportDesignHandle getReportDesignHandle( )
+	public ReportDesignHandle getReportDesignHandle( )
 	{
 		return elementHandle.getDesignHandle( );
 	}
@@ -165,7 +153,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public void transStar( String name )
 	{
-		CommandStack stack = getReportDesign( ).handle( ).getCommandStack( );
+		CommandStack stack = getReportDesignHandle( ).getCommandStack( );
 		//start trans
 		stack.startTrans( name );
 	}
@@ -175,7 +163,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public void transEnd( )
 	{
-		CommandStack stack = getReportDesign( ).handle( ).getCommandStack( );
+		CommandStack stack = getReportDesignHandle( ).getCommandStack( );
 		stack.commit( );
 	}
 

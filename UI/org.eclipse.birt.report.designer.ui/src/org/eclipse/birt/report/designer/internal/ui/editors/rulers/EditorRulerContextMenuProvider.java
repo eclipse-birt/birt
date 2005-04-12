@@ -16,10 +16,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.actions.ChangeRulerUnitAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
@@ -45,7 +45,7 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 	public void buildContextMenu( IMenuManager menu )
 	{
 		GEFActionConstants.addStandardActionGroups( menu );
-		ChoiceSet choiceSet = null;
+		IChoiceSet choiceSet = null;
 
 		choiceSet = ChoiceSetFactory.getElementChoiceSet(
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT,
@@ -61,7 +61,7 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 		int len = choiceSet.getChoices().length;
 		for (int i=0; i<len; i++)
 		{
-			Choice ch = choiceSet.getChoices()[i];
+			IChoice ch = choiceSet.getChoices()[i];
 			ChangeRulerUnitAction action = new ChangeRulerUnitAction(ch.getName(), ch.getDisplayName());
 			menu.appendToGroup( GEFActionConstants.GROUP_ADD,
 					action );

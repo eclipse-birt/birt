@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.command;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.activity.ActivityStackListener;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;

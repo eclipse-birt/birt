@@ -10,15 +10,15 @@
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/24 04:48:32 $
+ * @version $Revision$ $Date$
  */
 
 public abstract class DefaultExtendedDataSetWizard extends

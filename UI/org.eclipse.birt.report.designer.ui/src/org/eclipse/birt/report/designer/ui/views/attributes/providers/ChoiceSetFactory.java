@@ -16,22 +16,22 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.elements.structures.SortKey;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
-import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
@@ -53,7 +53,7 @@ public class ChoiceSetFactory
 	 * @deprecated Use getDEChoiceSet( String property ,String elementName)
 	 *             instead
 	 */
-	public static ChoiceSet getDEChoiceSet( String property )
+	public static IChoiceSet getDEChoiceSet( String property )
 	{
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
 		if ( AttributeConstant.BACKGROUND_COLOR.equals( property ) )
@@ -124,7 +124,7 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
 		}
-		return MetaDataDictionary.getInstance( ).getChoiceSet( unitKey );
+		return DesignEngine.getMetaDataDictionary( ).getChoiceSet( unitKey );
 
 	}
 
@@ -137,11 +137,10 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static ChoiceSet getElementChoiceSet( String elementName,
+	public static IChoiceSet getElementChoiceSet( String elementName,
 			String property )
-	{
-		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		IElementPropertyDefn propertyDefn = metaData.getElement( elementName )
+	{		
+		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary().getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE
 				&& propertyDefn.getChoices( ) != null )
@@ -161,11 +160,11 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static ChoiceSet getDimensionChoiceSet( String elementName,
+	public static IChoiceSet getDimensionChoiceSet( String elementName,
 			String property )
 	{
-		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		IElementPropertyDefn propertyDefn = metaData.getElement( elementName )
+		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+				.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
 		{
@@ -175,7 +174,7 @@ public class ChoiceSetFactory
 	}
 
 	/**
-	 * Gets the collection that given struct property value can selected from
+	 * Gets the collection that given structure property value can selected from
 	 * them.
 	 * 
 	 * @param elementName
@@ -184,11 +183,11 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static ChoiceSet getStructChoiceSet( String structName,
+	public static IChoiceSet getStructChoiceSet( String structName,
 			String property )
 	{
-		MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-		IPropertyDefn propertyDefn = metaData.getStructure( structName )
+		IPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+				.getStructure( structName )
 				.findProperty( property );
 		return propertyDefn.getChoices( );
 	}
@@ -200,12 +199,12 @@ public class ChoiceSetFactory
 	 *            The ChoiceSet instance.
 	 * @return A String array contains displayNames.
 	 */
-	public static String[] getDisplayNamefromChoiceSet( ChoiceSet choiceSet )
+	public static String[] getDisplayNamefromChoiceSet( IChoiceSet choiceSet )
 	{
 		String[] displayNames = new String[0];
 		if ( choiceSet == null )
 			return displayNames;
-		Choice[] choices = choiceSet.getChoices( );
+		IChoice[] choices = choiceSet.getChoices( );
 		if ( choices == null )
 			return displayNames;
 
@@ -229,7 +228,7 @@ public class ChoiceSetFactory
 	public static String[] getPropertyDisplayNames( String elementName,
 			String property )
 	{
-		ChoiceSet choiceSet = getElementChoiceSet( elementName, property );
+		IChoiceSet choiceSet = getElementChoiceSet( elementName, property );
 		return getDisplayNamefromChoiceSet( choiceSet );
 	}
 
@@ -248,7 +247,7 @@ public class ChoiceSetFactory
 	public static String getPropDisplayName( String elementName,
 			String property, String value )
 	{
-		ChoiceSet set = getElementChoiceSet( elementName, property );
+		IChoiceSet set = getElementChoiceSet( elementName, property );
 		return getDisplayNameFromChoiceSet( value, set );
 	}
 
@@ -267,7 +266,7 @@ public class ChoiceSetFactory
 	public static String getPropValue( String elementName, String property,
 			String displayName )
 	{
-		ChoiceSet set = getElementChoiceSet( elementName, property );
+		IChoiceSet set = getElementChoiceSet( elementName, property );
 		return getValueFromChoiceSet( displayName, set );
 	}
 
@@ -282,14 +281,14 @@ public class ChoiceSetFactory
 	 * @return The display name of the given value
 	 */
 	public static String getDisplayNameFromChoiceSet( String value,
-			ChoiceSet set )
+			IChoiceSet set )
 	{
 		String name = value;
 		if ( set == null )
 		{
 			return name;
 		}
-		Choice[] choices = set.getChoices( );
+		IChoice[] choices = set.getChoices( );
 		if ( choices == null )
 		{
 			return name;
@@ -298,7 +297,7 @@ public class ChoiceSetFactory
 		{
 			if ( choices[i].getName( ).equals( value ) )
 			{
-				return (String) choices[i].getDisplayName( );
+				return choices[i].getDisplayName( );
 			}
 		}
 		return name;
@@ -315,14 +314,14 @@ public class ChoiceSetFactory
 	 * @return The value of the given UI display name.
 	 */
 	public static String getValueFromChoiceSet( String displayName,
-			ChoiceSet set )
+			IChoiceSet set )
 	{
 		String value = displayName;
 		if ( set == null )
 		{
 			return value;
 		}
-		Choice[] choices = set.getChoices( );
+		IChoice[] choices = set.getChoices( );
 		if ( choices == null )
 		{
 			return value;
@@ -331,7 +330,7 @@ public class ChoiceSetFactory
 		{
 			if ( choices[i].getDisplayName( ).equals( displayName ) )
 			{
-				return (String) choices[i].getName( );
+				return choices[i].getName( );
 			}
 		}
 		return value;
@@ -438,17 +437,17 @@ public class ChoiceSetFactory
 	private static Object[] getUnitChoiceSet( String unitKey )
 	{
 		ArrayList list = new ArrayList( );
-		ChoiceSet choiceSet = MetaDataDictionary.getInstance( )
+		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
 				.getChoiceSet( unitKey );
 		if ( choiceSet != null )
 		{
-			Choice[] choices = choiceSet.getChoices( );
+			IChoice[] choices = choiceSet.getChoices( );
 			for ( int i = 0; i < choices.length; i++ )
 			{
 				list.add( choices[i] );
 			}
 		}
-		return (Choice[]) list.toArray( new Choice[0] );
+		return list.toArray( new IChoice[0] );
 	}
 
 	/**

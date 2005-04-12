@@ -31,9 +31,9 @@ import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
@@ -97,7 +97,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 
 		List lst = getSupportList( slotHandle );
 
-		return lst.contains( MetaDataDictionary.getInstance( )
+		return lst.contains( DesignEngine.getMetaDataDictionary( )
 				.getElement( insertType ) )
 				&& DEUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
 	}

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;

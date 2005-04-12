@@ -22,14 +22,14 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.metadata.ClassInfo;
-import org.eclipse.birt.report.model.metadata.LocalizableInfo;
-import org.eclipse.birt.report.model.metadata.MemberInfo;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
+import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -594,11 +594,11 @@ public class ExpressionTreeSupport
 
 	private void createObjects( TreeItem topItem, String objectType )
 	{
-		for ( Iterator itor = MetaDataDictionary.getInstance( )
+		for ( Iterator itor = DesignEngine.getMetaDataDictionary( )
 				.getClasses( )
 				.iterator( ); itor.hasNext( ); )
 		{
-			ClassInfo classInfo = (ClassInfo) itor.next( );
+			IClassInfo classInfo = (IClassInfo) itor.next( );
 			if ( classInfo.isNative( )
 					&& OBJECTS_TYPE_BIRT.equals( objectType )
 					|| !classInfo.isNative( )
@@ -610,7 +610,7 @@ public class ExpressionTreeSupport
 					classInfo.getDisplayName( ) );
 			for ( Iterator iterator = classInfo.getMethods( ).iterator( ); iterator.hasNext( ); )
 			{
-				MethodInfo methodInfo = (MethodInfo) iterator.next( );
+				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
 				if ( methodInfo.isStatic( ) )
 				{
 					createSubTreeItem( subItem,
@@ -632,7 +632,7 @@ public class ExpressionTreeSupport
 			}
 			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
 			{
-				MemberInfo memberInfo = (MemberInfo) iterator.next( );
+				IMemberInfo memberInfo = (IMemberInfo) iterator.next( );
 				createSubTreeItem( subItem,
 						memberInfo.getDisplayName( ),
 						IMAGE_EXPRESSION,
@@ -648,7 +648,7 @@ public class ExpressionTreeSupport
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
 	}
 
-	private String getTextData( String className, LocalizableInfo info )
+	private String getTextData( String className, ILocalizableInfo info )
 	{
 		StringBuffer textData = new StringBuffer( );
 		if ( !isGlobal( className ) )
@@ -656,7 +656,7 @@ public class ExpressionTreeSupport
 			textData.append( className + "." );//$NON-NLS-1$
 		}
 		textData.append( info.getName( ) );
-		if ( info instanceof MethodInfo )
+		if ( info instanceof IMethodInfo )
 		{
 			textData.append( "()" );//$NON-NLS-1$
 		}

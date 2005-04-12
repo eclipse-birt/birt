@@ -26,8 +26,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -41,7 +41,7 @@ public class GuiExtensionManager
 {
 
 	public static final String PALETTE_DESIGNER = "pallet_designer";
-	public static final String PALETTE_MASTERPAGE = "pallet_masterpage";	
+	public static final String PALETTE_MASTERPAGE = "pallet_masterpage";
 
 	public static final String DESIGNER_FACTORY = "designer_factory"; //$NON-NLS-1$
 	public static final String ATTRIBUTE = "attribute"; //$NON-NLS-1$
@@ -94,7 +94,7 @@ public class GuiExtensionManager
 			{
 				return retValue;
 			}
-			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI();
+			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI( );
 			if ( edit == null )
 			{
 				return retValue;
@@ -214,7 +214,7 @@ public class GuiExtensionManager
 					continue;
 				}
 			}
-			String displayName = MetaDataDictionary.getInstance( )
+			String displayName = DesignEngine.getMetaDataDictionary( )
 					.getExtension( point.getExtensionName( ) )
 					.getDisplayName( );
 			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,

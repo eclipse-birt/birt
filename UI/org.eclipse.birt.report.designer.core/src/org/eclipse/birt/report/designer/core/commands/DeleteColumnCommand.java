@@ -13,11 +13,11 @@ package org.eclipse.birt.report.designer.core.commands;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.Assert;
 
@@ -50,20 +50,19 @@ public class DeleteColumnCommand extends Command
 
 	public void execute( )
 	{
-		try
+		if ( getTableParent() != null )
 		{
-			if ( getTableParent() != null )
+			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance().getTableHandleAdapter( getTableParent( ));
+			
+			int columnNumber = HandleAdapterFactory.getInstance().getColumnHandleAdapter(handle).getColumnNumber();
+			
+			try
 			{
-				TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance().getTableHandleAdapter( getTableParent( ));
-				
-				int columnNumber = HandleAdapterFactory.getInstance().getColumnHandleAdapter(handle).getColumnNumber();
-				
 				tableHandle.deleteColumn(new int[]{columnNumber});
 			}
-		}
-		catch ( SemanticException e )
-		{
-			e.printStackTrace( );
+			catch ( SemanticException e )
+			{
+			}
 		}
 	}
 	

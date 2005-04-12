@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ListGroup;
 
 /**
@@ -37,8 +37,7 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 	{
 
 		public static DataItemHandle performInsertDataSetColumn(
-				DataSetItemModel model, Object target, Object targetParent )
-				throws SemanticException
+				DataSetItemModel model, Object target, Object targetParent ) throws SemanticException
 		{
 			return InsertInLayoutUtil.performInsertDataSetColumn( model,
 					target,
@@ -108,7 +107,7 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 		assertTrue( "test list group", getListGroup( ) != null );
 	}
 
-	public void testPerformInsertDataSetColumn( )
+	public void testPerformInsertDataSetColumn( ) throws SemanticException
 	{
 		DataSetManager.setCurrentInstance( DataSetManager.newInstance( ) );
 
@@ -127,22 +126,15 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 				getTableGroup( ).getKeyExpr( ) == null );
 		assertTrue( "test table data set",
 				getTableHandle( ).getDataSet( ) == null );
-		try
+		for ( int i = 0; i < columnModels.length; i++ )
 		{
-			for ( int i = 0; i < columnModels.length; i++ )
+			if ( i == 0 )
 			{
-				if ( i == 0 )
-				{
-					keyExp = columnModels[i].getDataSetColumnName( );
-				}
-				LayoutExtendsUtil.performInsertDataSetColumn( columnModels[i],
-						target,
-						targetParent );
+				keyExp = columnModels[i].getDataSetColumnName( );
 			}
-		}
-		catch ( SemanticException e )
-		{
-			e.printStackTrace( );
+			LayoutExtendsUtil.performInsertDataSetColumn( columnModels[i],
+					target,
+					targetParent );
 		}
 
 		assertTrue( "test table group key expression",
@@ -157,22 +149,15 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 				getListGroup( ).getKeyExpr( ) == null );
 		assertTrue( "test list data set",
 				getListHandle( ).getDataSet( ) == null );
-		try
+		for ( int i = 0; i < columnModels.length; i++ )
 		{
-			for ( int i = 0; i < columnModels.length; i++ )
+			if ( i == 0 )
 			{
-				if ( i == 0 )
-				{
-					keyExp = columnModels[i].getDataSetColumnName( );
-				}
-				LayoutExtendsUtil.performInsertDataSetColumn( columnModels[i],
-						target,
-						targetParent );
+				keyExp = columnModels[i].getDataSetColumnName( );
 			}
-		}
-		catch ( SemanticException e )
-		{
-			e.printStackTrace( );
+			LayoutExtendsUtil.performInsertDataSetColumn( columnModels[i],
+					target,
+					targetParent );
 		}
 
 		assertTrue( "test list group key expression",

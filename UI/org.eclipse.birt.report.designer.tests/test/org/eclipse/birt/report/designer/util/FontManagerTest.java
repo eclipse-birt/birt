@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.util;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.swt.graphics.Font;
 
 /**

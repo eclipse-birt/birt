@@ -12,9 +12,9 @@
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.extension.IMessages;
-import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
