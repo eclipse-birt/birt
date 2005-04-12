@@ -108,12 +108,12 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.xml.sax.Attributes;
 
@@ -137,7 +137,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/04/08 05:21:07 $
+ * @version $Revision: 1.19 $ $Date: 2005/04/08 07:41:31 $
  */
 class EngineIRVisitor extends DesignVisitor
 {

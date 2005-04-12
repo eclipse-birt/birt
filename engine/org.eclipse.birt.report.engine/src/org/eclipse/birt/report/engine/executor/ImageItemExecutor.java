@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 /**
  * <code>ImageItemExecutor</code> is a concrete subclass of
@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {

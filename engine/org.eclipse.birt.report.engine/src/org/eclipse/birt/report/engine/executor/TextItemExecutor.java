@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.10 $ $Date: 2005/03/15 03:29:36 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {

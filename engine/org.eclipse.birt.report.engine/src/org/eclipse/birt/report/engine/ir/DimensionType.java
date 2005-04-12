@@ -14,13 +14,13 @@ package org.eclipse.birt.report.engine.ir;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.DimensionUtil;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/07 03:33:25 $
  */
 public class DimensionType
 {
