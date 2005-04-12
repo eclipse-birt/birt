@@ -257,7 +257,7 @@ public class DesignSession
 	 * 
 	 * @return the application units as a string
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 */
 
 	public String getUnits( )
@@ -283,7 +283,7 @@ public class DesignSession
 	 * @throws PropertyValueException
 	 *             if the unit are not one of the above.
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 *  
 	 */
 

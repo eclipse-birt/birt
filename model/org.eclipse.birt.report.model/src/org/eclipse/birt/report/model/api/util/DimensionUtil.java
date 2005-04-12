@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.model.api.util;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
 
 /**
  * Utility class to do conversions between units.

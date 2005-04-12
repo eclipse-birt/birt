@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -25,7 +26,6 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 

@@ -206,7 +206,7 @@ public class SessionHandle
 	 * @throws PropertyValueException
 	 *             if <code>units</code> is not one of the above
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 */
 
 	public void setApplicationUnits( String units )

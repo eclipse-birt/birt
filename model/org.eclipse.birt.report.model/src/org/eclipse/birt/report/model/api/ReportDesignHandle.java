@@ -502,7 +502,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * used for dimensions that don't explicitly specify units.
 	 * 
 	 * @return the default units for the design.
-	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 * @deprecated
 	 */
 
@@ -530,7 +530,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             if the input unit is not one of allowed.
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.DimensionValue
+	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
 	 * @deprecated
 	 */
 
