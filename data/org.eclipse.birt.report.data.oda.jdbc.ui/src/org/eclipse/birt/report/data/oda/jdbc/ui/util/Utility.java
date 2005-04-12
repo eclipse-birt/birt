@@ -14,20 +14,13 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.Column;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.Query;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
-import org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSetWizard;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
-import org.eclipse.birt.report.model.command.UserPropertyException;
-import org.eclipse.birt.report.model.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StringPropertyType;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.ScrollBar;
@@ -39,7 +32,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/15 19:31:47 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/30 00:11:22 $
  */
 public class Utility
 {

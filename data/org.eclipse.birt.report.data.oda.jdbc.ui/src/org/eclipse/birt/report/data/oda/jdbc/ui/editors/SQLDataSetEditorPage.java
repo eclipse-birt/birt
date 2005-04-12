@@ -20,9 +20,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
-import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.Menu;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/24 04:48:35 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
