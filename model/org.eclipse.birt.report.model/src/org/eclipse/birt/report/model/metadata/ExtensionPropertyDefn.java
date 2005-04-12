@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the definition of extension property.

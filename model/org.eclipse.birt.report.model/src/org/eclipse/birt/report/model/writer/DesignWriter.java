@@ -21,15 +21,28 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -43,7 +56,6 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
@@ -60,28 +72,16 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.elements.structures.Action;
-import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
-import org.eclipse.birt.report.model.elements.structures.CustomColor;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.elements.structures.IncludeLibrary;
-import org.eclipse.birt.report.model.elements.structures.IncludeScript;
-import org.eclipse.birt.report.model.elements.structures.MapRule;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
-import org.eclipse.birt.report.model.metadata.UserChoice;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Writes the design to an XML design file that follows the BIRT design schema.
@@ -1208,7 +1208,7 @@ public class DesignWriter extends ElementVisitor
 			resourceKey( propDefn, UserPropertyDefn.DISPLAY_NAME_ID_MEMBER,
 					UserPropertyDefn.DISPLAY_NAME_MEMBER );
 
-			ChoiceSet choiceSet = propDefn.getChoices( );
+			IChoiceSet choiceSet = propDefn.getChoices( );
 
 			if ( choiceSet != null && choiceSet.getChoices( ) != null
 					&& choiceSet.getChoices( ).length > 0 )
@@ -1217,7 +1217,7 @@ public class DesignWriter extends ElementVisitor
 				writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
 						UserPropertyDefn.CHOICES_MEMBER );
 
-				Choice[] choices = choiceSet.getChoices( );
+				IChoice[] choices = choiceSet.getChoices( );
 
 				for ( int i = 0; i < choices.length; i++ )
 				{

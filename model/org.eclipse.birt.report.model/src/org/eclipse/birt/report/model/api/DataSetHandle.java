@@ -16,11 +16,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
 
 /**
  * Abstract handle for data set elements. A data set is a named object that
@@ -180,7 +180,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * represents input parameter object.
 	 * 
 	 * @return iterator over input parameter definitions.
-	 * @see org.eclipse.birt.report.model.elements.structures.InputParameter
+	 * @see org.eclipse.birt.report.model.api.elements.structures.InputParameter
 	 * 
 	 * @deprecated by the method {@link #parametersIterator()}
 	 */
@@ -212,7 +212,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * represents output parameter object.
 	 * 
 	 * @return iterator over output parameter definitions.
-	 * @see org.eclipse.birt.report.model.elements.structures.OutputParameter
+	 * @see org.eclipse.birt.report.model.api.elements.structures.OutputParameter
 	 * 
 	 * @deprecated by the method {@link #parametersIterator()}
 	 */
@@ -244,7 +244,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * represents parameter objects.
 	 * 
 	 * @return iterator over output parameter definitions.
-	 * @see org.eclipse.birt.report.model.elements.structures.DataSetParameter
+	 * @see org.eclipse.birt.report.model.api.elements.structures.DataSetParameter
 	 */
 
 	public Iterator parametersIterator( )
@@ -261,7 +261,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return iterator over parameter binding.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ParamBinding
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
 	 */
 
 	public Iterator paramBindingsIterator( )
@@ -278,7 +278,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return iterator over result set columns.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ResultSetColumn
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
 	 */
 
 	public Iterator resultSetIterator( )
@@ -294,7 +294,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * computed column object.
 	 * 
 	 * @return iterator over computed columns.
-	 * @see org.eclipse.birt.report.model.elements.structures.ComputedColumn
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ComputedColumn
 	 */
 
 	public Iterator computedColumnsIterator( )
@@ -310,7 +310,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return iterator over column hints.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ColumnHint
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ColumnHint
 	 */
 
 	public Iterator columnHintsIterator( )
@@ -328,7 +328,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return iterator over filters.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.FilterCondition
+	 * @see org.eclipse.birt.report.model.api.elements.structures.FilterCondition
 	 */
 
 	public Iterator filtersIterator( )

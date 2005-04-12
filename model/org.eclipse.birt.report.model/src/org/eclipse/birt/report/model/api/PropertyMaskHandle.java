@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.PropertyMask;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 
 /**
  * Represents the handle of property mask structure. The property mask defines

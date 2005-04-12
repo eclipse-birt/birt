@@ -13,11 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.xml.sax.SAXException;
 
 /**

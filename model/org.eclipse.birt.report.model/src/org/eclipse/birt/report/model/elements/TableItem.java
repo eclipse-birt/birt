@@ -16,14 +16,15 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
+import org.eclipse.birt.report.model.api.validators.TableDroppingValidator;
+import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IElementDefn;
-import org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator;
-import org.eclipse.birt.report.model.validators.InconsistentColumnsValidator;
-import org.eclipse.birt.report.model.validators.TableDroppingValidator;
 
 /**
  * This class represents a table in design.A table is a list that is structured

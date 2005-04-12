@@ -13,15 +13,17 @@ package org.eclipse.birt.report.model.command;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.extension.IReportItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
  * Changes the value of a property. The caller must have previously validated

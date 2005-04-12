@@ -15,13 +15,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
+import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
-import org.eclipse.birt.report.model.validators.UnsupportedElementValidator;
-import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
+import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
  * Describes a report element. This class represents "meta-data" about an

@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Internal data structure to store a bunch of user-defined messages. The

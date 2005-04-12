@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -102,7 +102,7 @@ public class RowHandle extends ReportElementHandle
 	 * 
 	 * @return the iterator for visibility rules defined on this row. 
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.Hide
+	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
 	 */
 
 	public Iterator visibilityRulesIterator( )

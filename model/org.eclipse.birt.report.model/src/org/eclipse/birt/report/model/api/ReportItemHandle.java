@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -291,7 +291,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * @return the iterator for visibility rules defined on this report item.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.Hide
+	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
 	 */
 
 	public Iterator visibilityRulesIterator( )
@@ -366,7 +366,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return the iterator for parameter binding structure list defined on this
 	 *         data set.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ParamBinding
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
 	 */
 
 	public Iterator paramBindingsIterator( )

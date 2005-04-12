@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
+import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
+import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
-import org.eclipse.birt.report.model.validators.DataSetResultSetValidator;
-import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
-import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
 
 /**
  * This class represents a data set: a query, stored procedure, or other source

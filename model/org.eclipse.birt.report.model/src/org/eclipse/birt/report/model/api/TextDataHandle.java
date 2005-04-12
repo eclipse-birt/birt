@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 
 /**
  * Represents a multi-line data item element. The multi-line data item displays

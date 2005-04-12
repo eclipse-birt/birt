@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RectangleHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
  * The Rectangle element describes a simple rectangle. The user can set the line

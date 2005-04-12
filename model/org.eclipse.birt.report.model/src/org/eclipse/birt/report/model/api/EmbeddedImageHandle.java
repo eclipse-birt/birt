@@ -13,9 +13,9 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.UnsupportedEncodingException;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 
 /**
  * Represents the handle of an embedded image. The class gives the name and type
@@ -116,7 +116,7 @@ public class EmbeddedImageHandle extends StructureHandle
 
 	/**
 	 * Returns the image type. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>
@@ -136,7 +136,7 @@ public class EmbeddedImageHandle extends StructureHandle
 
 	/**
 	 * Sets the image type. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>

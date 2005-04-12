@@ -20,19 +20,19 @@ import java.util.Locale;
 import org.eclipse.birt.report.model.api.DefaultFileLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IFileLocator;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.parser.DesignReader;
-import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents a design session for a user of the application based on the Design
@@ -320,7 +320,7 @@ public class DesignSession
 	 * @throws PropertyValueException
 	 *             if the input format is not supported by DesignSession
 	 * 
-	 * @see org.eclipse.birt.report.model.util.ColorUtil
+	 * @see org.eclipse.birt.report.model.api.util.ColorUtil
 	 *  
 	 */
 
@@ -353,7 +353,7 @@ public class DesignSession
 	 * 
 	 * @return the color display preference of the application as an integer.
 	 * 
-	 * @see org.eclipse.birt.report.model.util.ColorUtil
+	 * @see org.eclipse.birt.report.model.api.util.ColorUtil
 	 *  
 	 */
 

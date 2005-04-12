@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -236,7 +236,7 @@ public class OdaDataSetHandle extends DataSetHandle
 	 * @return the iterator over public driver property list defined on this
 	 *         data set.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ExtendedProperty
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
 	 */
 
 	public Iterator publicDriverPropertiesIterator( )
@@ -254,7 +254,7 @@ public class OdaDataSetHandle extends DataSetHandle
 	 * @return the iterator over private driver property list defined on this
 	 *         data set.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.ExtendedProperty
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
 	 */
 
 	public Iterator privateDriverPropertiesIterator( )

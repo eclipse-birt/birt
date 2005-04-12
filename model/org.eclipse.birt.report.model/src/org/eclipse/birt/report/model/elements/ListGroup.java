@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
  * This class represents a grouping level within a list. See the parent class,

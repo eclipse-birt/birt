@@ -14,16 +14,16 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.structures.CustomColor;
-import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.util.ColorUtil;
 
 /**
  * Handle to work with a color property. Works with element properties and
@@ -182,7 +182,7 @@ public class ColorHandle extends ComplexValueHandle
 	{
 		ArrayList retList = new ArrayList( );
 
-		Choice[] colors = type.getChoices( ).getChoices( );
+		IChoice[] colors = type.getChoices( ).getChoices( );
 		for ( int i = 0; i < colors.length; i++ )
 		{
 			retList.add( colors[i].getDisplayName( ) );

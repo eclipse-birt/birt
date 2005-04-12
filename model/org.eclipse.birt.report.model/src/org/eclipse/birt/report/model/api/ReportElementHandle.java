@@ -14,13 +14,13 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyNameException;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.command.PropertyNameException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
@@ -117,7 +117,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * 
 	 * @return the property mask, or null if the mask is not set.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getPropertyMask( String propName )
@@ -151,7 +151,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * @param maskValue
 	 *            the mask value
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 * 
 	 * @throws SemanticException
 	 *             if the maskValue is not one of the above.

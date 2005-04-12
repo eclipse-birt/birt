@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -80,7 +80,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @return the type for the parameter
 	 * 
 	 * @see #setDataType(String)
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getDataType( )
@@ -107,7 +107,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @throws SemanticException
 	 *             if the input type is not one of above choices.
 	 * @see #getDataType()
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public void setDataType( String type ) throws SemanticException
@@ -272,7 +272,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @return the control type for the UI to display the parameter
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getControlType( )
@@ -298,7 +298,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @throws SemanticException
 	 *             if the input type is not one of above choices.
 	 * @see #getDataType()
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public void setControlType( String controlType ) throws SemanticException
@@ -319,7 +319,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @return the alignment for the UI to display the parameter
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getAlignment( )
@@ -343,7 +343,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @throws SemanticException
 	 *             if the input type is not one of above choices.
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public void setAlignment( String align ) throws SemanticException
@@ -419,7 +419,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @return the iterator for selection list defined on this scalar parameter.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.structures.SelectionChoice
+	 * @see org.eclipse.birt.report.model.api.elements.structures.SelectionChoice
 	 */
 
 	public Iterator choiceIterator( )
@@ -592,7 +592,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @return the type for the parameter
 	 * 
 	 * @see #setType(String)
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 * 
 	 * @deprecated Replaced by the method {@link #getDataType()}
 	 */
@@ -621,7 +621,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @throws SemanticException
 	 *             if the input type is not one of above choices.
 	 * @see #getType()
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 * 
 	 * @deprecated Replaced by the method {@link #setDataType(String)}
 	 */

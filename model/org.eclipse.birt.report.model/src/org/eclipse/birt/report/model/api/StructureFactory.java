@@ -11,29 +11,29 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.Action;
-import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
-import org.eclipse.birt.report.model.elements.structures.ColumnHint;
-import org.eclipse.birt.report.model.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.elements.structures.CustomColor;
-import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.elements.structures.Hide;
-import org.eclipse.birt.report.model.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.elements.structures.IncludeLibrary;
-import org.eclipse.birt.report.model.elements.structures.IncludeScript;
-import org.eclipse.birt.report.model.elements.structures.InputParameter;
-import org.eclipse.birt.report.model.elements.structures.MapRule;
-import org.eclipse.birt.report.model.elements.structures.OutputParameter;
-import org.eclipse.birt.report.model.elements.structures.ParamBinding;
-import org.eclipse.birt.report.model.elements.structures.PropertyMask;
-import org.eclipse.birt.report.model.elements.structures.ResultSetColumn;
-import org.eclipse.birt.report.model.elements.structures.SearchKey;
-import org.eclipse.birt.report.model.elements.structures.SelectionChoice;
-import org.eclipse.birt.report.model.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.Hide;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.InputParameter;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.OutputParameter;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
+import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 /**
  * Provides the factory method to create empty structures.

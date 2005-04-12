@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.core.AbstractElementValidator;
-import org.eclipse.birt.report.model.validators.core.AbstractPropertyValidator;
-import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.validators.AbstractElementValidator;
+import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
+import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
  * Represents the definition of the validation which is applied to property or

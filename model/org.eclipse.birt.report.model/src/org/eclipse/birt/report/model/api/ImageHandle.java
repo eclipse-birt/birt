@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.structures.Action;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.URIUtil;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.util.URIUtil;
  * 
  * 
  * @see org.eclipse.birt.report.model.elements.ImageItem
- * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+ * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
 public class ImageHandle extends ReportItemHandle

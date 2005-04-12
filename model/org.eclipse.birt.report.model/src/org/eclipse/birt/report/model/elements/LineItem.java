@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LineHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
  * This class represents a line item. Uses lines to add graphical interest to a

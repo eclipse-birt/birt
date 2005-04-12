@@ -18,6 +18,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Stack;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+
 
 /**
  * General-purpose utility to write an XML file. Provides methods for writing

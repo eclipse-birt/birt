@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
+import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
  * Represents the collection of semantic validation triggers. Each one is the

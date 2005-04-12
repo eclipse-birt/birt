@@ -18,9 +18,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
+import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
  * Global, shared dictionary of design meta data. Meta-data describes each
@@ -79,7 +85,7 @@ import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
  * </ul>
  */
 
-public final class MetaDataDictionary
+public final class MetaDataDictionary implements IMetaDataDictionary
 {
 
 	/**
@@ -528,7 +534,7 @@ public final class MetaDataDictionary
 	 * @return the choice set, or null if the choice set was not found
 	 */
 
-	public ChoiceSet getChoiceSet( String choiceSetName )
+	public IChoiceSet getChoiceSet( String choiceSetName )
 	{
 		return (ChoiceSet) choiceSets.get( choiceSetName );
 	}
@@ -623,7 +629,7 @@ public final class MetaDataDictionary
 	 * @return the class definition if found.
 	 */
 
-	public ClassInfo getClass( String name )
+	public IClassInfo getClass( String name )
 	{
 		return (ClassInfo) classes.get( name );
 	}

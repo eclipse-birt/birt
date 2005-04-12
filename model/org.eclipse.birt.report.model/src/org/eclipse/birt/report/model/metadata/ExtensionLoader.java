@@ -20,10 +20,11 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.extension.IMessages;
-import org.eclipse.birt.report.model.extension.IReportItemFactory;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Loads the extended element from plug-ins.

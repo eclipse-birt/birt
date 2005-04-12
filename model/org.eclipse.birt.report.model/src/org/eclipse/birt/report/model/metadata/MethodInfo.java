@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * constructor,
  */
 
-public class MethodInfo extends LocalizableInfo
+public class MethodInfo extends LocalizableInfo implements IMethodInfo
 {
 
 	/**

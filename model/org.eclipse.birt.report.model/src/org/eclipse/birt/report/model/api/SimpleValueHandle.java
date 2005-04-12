@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Abstract base class that represents a handle for the value to either a
@@ -436,7 +436,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * @see org.eclipse.birt.report.model.metadata.Choice
 	 */
 
-	public Choice[] getChoices( )
+	public IChoice[] getChoices( )
 	{
 		IPropertyDefn propDefn = getDefn( );
 

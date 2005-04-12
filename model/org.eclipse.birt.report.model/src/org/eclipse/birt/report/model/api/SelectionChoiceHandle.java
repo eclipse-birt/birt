@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 
 /**
  * Represents the handle of selection choice. The selection choice is the value

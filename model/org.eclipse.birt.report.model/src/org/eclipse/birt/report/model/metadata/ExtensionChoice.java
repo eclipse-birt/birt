@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.extension.IChoiceDefinition;
-import org.eclipse.birt.report.model.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the choices defined by the extension element. There are two kinds

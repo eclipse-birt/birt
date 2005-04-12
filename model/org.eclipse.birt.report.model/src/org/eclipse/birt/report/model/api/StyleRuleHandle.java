@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 
 /**
  * Represents the handle of style rule. This abstract class provides the common
@@ -40,7 +40,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	/**
 	 * Returns the operator. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
@@ -69,7 +69,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	/**
 	 * Sets the operator. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ

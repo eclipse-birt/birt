@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata.validators;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Validates that a dimension value should be positive( larger than zero ).

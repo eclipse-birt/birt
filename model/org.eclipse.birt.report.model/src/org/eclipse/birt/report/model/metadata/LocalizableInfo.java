@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -18,7 +19,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * includes name, display name ID and tool tip ID.
  */
 
-public abstract class LocalizableInfo
+public abstract class LocalizableInfo implements ILocalizableInfo
 {
 
 	/**

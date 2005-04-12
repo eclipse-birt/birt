@@ -11,18 +11,18 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.command.ContentException;
-import org.eclipse.birt.report.model.command.ExtendsException;
-import org.eclipse.birt.report.model.command.NameException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.xml.sax.Attributes;
 
 /**

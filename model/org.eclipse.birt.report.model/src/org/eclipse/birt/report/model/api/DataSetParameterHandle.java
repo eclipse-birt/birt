@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the

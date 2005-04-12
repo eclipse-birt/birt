@@ -14,13 +14,14 @@ package org.eclipse.birt.report.model.api;
 import java.io.InputStream;
 import java.util.Locale;
 
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ExtensionLoader;
-import org.eclipse.birt.report.model.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
-import org.eclipse.birt.report.model.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
 
 /**
@@ -157,6 +158,46 @@ public final class DesignEngine
 		}
 
 		return new SessionHandle( locale );
+	}
+	
+	/**
+	 * Gets the meta-data dictionary of the design engine.
+	 * @return the meta-data dictionary of the design engine
+	 */
+	
+	public static IMetaDataDictionary getMetaDataDictionary( )
+	{
+		// meta-data ready.
+
+		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+			return MetaDataDictionary.getInstance( );
+
+		// Initialize the meta-data if this is the first request to get
+		// a new handle.
+
+		synchronized ( DesignEngine.class )
+		{
+			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
+				return MetaDataDictionary.getInstance( );
+
+			MetaDataDictionary.reset( );
+			try
+			{
+				initialize( ReportDesign.class
+						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
+			}
+			catch ( MetaDataReaderException e )
+			{
+				// we provide logger, so do not assert.
+			}
+			finally
+			{
+				MetaLogManager.shutDown( );
+			}
+
+		}
+
+		return MetaDataDictionary.getInstance( );
 	}
 
 	/**

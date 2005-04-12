@@ -192,7 +192,7 @@ public class CompoundRecord extends ActivityRecord
 	 * @see ActivityStack#execute(ActivityRecord)
 	 */
 
-	protected void append( ActivityRecord record )
+	public void append( ActivityRecord record )
 	{
 		assert record != null;
 		assert record.getState( ) == ActivityRecord.DONE_STATE;
@@ -219,7 +219,7 @@ public class CompoundRecord extends ActivityRecord
 	 * @see ActivityRecord#sendNotifcations( boolean transactionStarted )
 	 */
 
-	protected void sendNotifcations( boolean transactionStarted )
+	public void sendNotifcations( boolean transactionStarted )
 	{
 		// Ignore this operation. Notifications were sent when doing
 		// the operations on the contained records.

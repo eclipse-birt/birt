@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.CustomColor;
-import org.eclipse.birt.report.model.util.ColorUtil;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 
 /**
  * Represents the handle of custom color. The developer can define a set of

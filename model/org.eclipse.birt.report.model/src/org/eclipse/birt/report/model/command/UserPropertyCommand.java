@@ -14,21 +14,22 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
-import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.metadata.UserChoice;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Creates, modifies and deletes user-defined property, which is also known as
@@ -338,7 +339,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		if ( prop.getTypeCode( ) == PropertyType.CHOICE_TYPE )
 		{
-			ChoiceSet choices = prop.getChoices( );
+			IChoiceSet choices = prop.getChoices( );
 			if ( choices == null || choices.getChoices( ).length == 0 )
 				throw new UserPropertyException( element, name,
 						UserPropertyException.DESIGN_EXCEPTION_MISSING_CHOICES );
@@ -350,8 +351,8 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		if ( prop.hasChoices( ) )
 		{
-			ChoiceSet choiceSet = prop.getChoices( );
-			Choice[] choices = choiceSet.getChoices( );
+			IChoiceSet choiceSet = prop.getChoices( );
+			IChoice[] choices = choiceSet.getChoices( );
 			for ( int i = 0; i < choices.length; i++ )
 			{
 				UserChoice choice = (UserChoice) choices[i];

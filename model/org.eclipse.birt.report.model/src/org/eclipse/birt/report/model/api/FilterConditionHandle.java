@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -86,7 +86,7 @@ public class FilterConditionHandle extends StructureHandle
 
 	/**
 	 * Returns the operator of this filter condition. The possible values are
-	 * defined in {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants},
+	 * defined in {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
@@ -119,7 +119,7 @@ public class FilterConditionHandle extends StructureHandle
 
 	/**
 	 * Sets the operator of this filter condition. The allowed values are
-	 * defined in {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants},
+	 * defined in {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>

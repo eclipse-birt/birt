@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the extended definition based on our report item extension point.
@@ -328,7 +330,7 @@ public class ExtensionElementDefn extends ElementDefn
 		// 10 members on the PropertyDefn
 
 		newDefn.setDefault( defn.getDefault( ) );
-		newDefn.setAllowedChoices( defn.getAllowedChoices( ) );
+		newDefn.setAllowedChoices( (ChoiceSet)defn.getAllowedChoices( ) );
 		newDefn.setDisplayNameID( defn.getDisplayNameID( ) );
 		newDefn.setIntrinsic( defn.isIntrinsic( ) );
 		newDefn.setExtended( defn.isExtended( ) );

@@ -15,9 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 
 /**
  * Represents an extended data source.

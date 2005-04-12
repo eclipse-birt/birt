@@ -13,8 +13,10 @@ package org.eclipse.birt.report.model.command;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.RootElement;
@@ -23,7 +25,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
-import org.eclipse.birt.report.model.validators.core.ValidationExecutor;
+import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
  * Records adding a content into a container, or removing content from a
@@ -238,7 +240,7 @@ public class ContentRecord extends SimpleRecord
 	 * deleted, and we must tell the content that it has been deleted.
 	 */
 
-	protected void sendNotifcations( boolean transactionStarted )
+	public void sendNotifcations( boolean transactionStarted )
 	{
 		// Send the content changed event to the container.
 

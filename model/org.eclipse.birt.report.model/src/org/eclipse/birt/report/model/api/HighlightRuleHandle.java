@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.structures.HighlightRule;
 
 /**
  * Represents a highlight rule in the highlight property of a style. A highlight
@@ -24,8 +24,8 @@ import org.eclipse.birt.report.model.elements.structures.HighlightRule;
  * @see ColorHandle
  * @see DimensionHandle
  * @see FontHandle
- * @see org.eclipse.birt.report.model.elements.structures.HighlightRule
- * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+ * @see org.eclipse.birt.report.model.api.elements.structures.HighlightRule
+ * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
 public class HighlightRuleHandle extends StyleRuleHandle

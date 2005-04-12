@@ -14,9 +14,9 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Iterates over the structures within a property or member defined as a list of

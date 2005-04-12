@@ -13,11 +13,11 @@ package org.eclipse.birt.report.model.core;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.validators.StyleReferenceValidator;
 
 /**
  * Base class for all report elements with a style. Implements operations that

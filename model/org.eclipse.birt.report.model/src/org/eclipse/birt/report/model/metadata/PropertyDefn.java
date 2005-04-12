@@ -13,15 +13,22 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
+import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.ElementReferenceValidator;
-import org.eclipse.birt.report.model.validators.StructureListValidator;
-import org.eclipse.birt.report.model.validators.ValueRequiredValidator;
-import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider;
+import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
 /**
  * Base class for both element property and structure member definitions.
@@ -347,8 +354,8 @@ public abstract class PropertyDefn
 			if ( !StringUtil.isBlank( defaultUnit ) )
 			{
 
-				ChoiceSet units = getAllowedChoices( );
-				Choice choice = units.findChoice( defaultUnit );
+				IChoiceSet units = getAllowedChoices( );
+				IChoice choice = units.findChoice( defaultUnit );
 				if ( choice == null )
 				{
 					throw new MetaDataException( new String[]{ getName( ), defaultUnit},
@@ -454,8 +461,8 @@ public abstract class PropertyDefn
 		if ( value == null || hasChoices( ) == false )
 			return null;
 
-		ChoiceSet choiceSet = getChoices( );
-		Choice choice = choiceSet.findChoice( value.toString( ) );
+		IChoiceSet choiceSet = getChoices( );
+		IChoice choice = choiceSet.findChoice( value.toString( ) );
 
 		if ( choice != null )
 			return choice.getName( );
@@ -482,8 +489,8 @@ public abstract class PropertyDefn
 		if ( displayName == null || hasChoices( ) == false )
 			return null;
 
-		ChoiceSet choiceSet = getChoices( );
-		Choice choice = choiceSet.findChoiceByDisplayName( displayName );
+		IChoiceSet choiceSet = getChoices( );
+		IChoice choice = choiceSet.findChoiceByDisplayName( displayName );
 
 		if ( choice != null )
 			return choice.getName( );
@@ -613,7 +620,7 @@ public abstract class PropertyDefn
 	 * @return the list of choices
 	 */
 
-	public ChoiceSet getChoices( )
+	public IChoiceSet getChoices( )
 	{
 		if ( details instanceof ChoiceSet )
 			return (ChoiceSet) details;
@@ -934,7 +941,7 @@ public abstract class PropertyDefn
 	 * @return Returns the allowed choices of this property.
 	 */
 
-	public ChoiceSet getAllowedChoices( )
+	public IChoiceSet getAllowedChoices( )
 	{
 		if ( allowedChoices != null )
 			return allowedChoices;

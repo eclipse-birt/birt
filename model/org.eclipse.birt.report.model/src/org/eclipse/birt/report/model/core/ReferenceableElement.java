@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 

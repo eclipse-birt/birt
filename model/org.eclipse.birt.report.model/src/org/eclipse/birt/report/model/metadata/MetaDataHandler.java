@@ -15,14 +15,18 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
-import org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator;
+import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -872,13 +876,13 @@ class MetaDataHandler extends XMLParserHandler
 			{
 				// units restriction on a dimension property.
 
-				ChoiceSet units = dictionary
+				IChoiceSet units = dictionary
 						.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
 				assert units != null;
 
 				for ( int i = 0; i < nameArray.length; i++ )
 				{
-					Choice unit = units.findChoice( nameArray[i].trim( ) );
+					IChoice unit = units.findChoice( nameArray[i].trim( ) );
 
 					if ( unit != null )
 					{
@@ -897,12 +901,12 @@ class MetaDataHandler extends XMLParserHandler
 			{
 				// choices type restriction.
 
-				ChoiceSet choices = propDefn.getChoices( );
+				IChoiceSet choices = propDefn.getChoices( );
 				assert choices != null;
 
 				for ( int i = 0; i < nameArray.length; i++ )
 				{
-					Choice choice = choices.findChoice( nameArray[i].trim( ) );
+					IChoice choice = choices.findChoice( nameArray[i].trim( ) );
 
 					if ( choice != null )
 					{
@@ -1260,9 +1264,9 @@ class MetaDataHandler extends XMLParserHandler
 			if ( classInfo != null )
 			{
 				if ( isConstructor )
-					methodInfo = classInfo.getConstructor( );
+					methodInfo = (MethodInfo)classInfo.getConstructor( );
 				else
-					methodInfo = classInfo.findMethod( name );
+					methodInfo = (MethodInfo)classInfo.findMethod( name );
 			}
 
 			if ( methodInfo == null )
@@ -1711,7 +1715,7 @@ class MetaDataHandler extends XMLParserHandler
 
 	private ChoiceSet validateChoiceSet( String choiceSetName )
 	{
-		ChoiceSet choiceSet = dictionary.getChoiceSet( choiceSetName );
+		IChoiceSet choiceSet = dictionary.getChoiceSet( choiceSetName );
 		if ( choiceSet == null )
 		{
 			semanticError( new MetaDataParserException(
@@ -1719,6 +1723,6 @@ class MetaDataHandler extends XMLParserHandler
 			return null;
 		}
 
-		return choiceSet;
+		return (ChoiceSet)choiceSet;
 	}
 }

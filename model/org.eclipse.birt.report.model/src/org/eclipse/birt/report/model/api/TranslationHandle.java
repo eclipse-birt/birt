@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
-import org.eclipse.birt.report.model.command.CustomMsgException;
 import org.eclipse.birt.report.model.elements.Translation;
 
 /**

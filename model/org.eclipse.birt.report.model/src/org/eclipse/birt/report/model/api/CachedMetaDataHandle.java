@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.structures.CachedMetaData;
 
 /**
  * Structure handle to deal with cached data set metadata informations. The

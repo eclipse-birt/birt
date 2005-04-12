@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.activity;
 
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -61,7 +62,7 @@ public abstract class AbstractElementRecord extends ActivityRecord
 	 *            whether this record is executed in transaction.
 	 */
 
-	protected void sendNotifcations( boolean transactionStarted )
+	public void sendNotifcations( boolean transactionStarted )
 	{
 		// Get the target element. There should be one unless this is a
 		// "null command" that does nothing.

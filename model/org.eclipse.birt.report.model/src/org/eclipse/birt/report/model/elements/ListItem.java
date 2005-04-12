@@ -15,7 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
 
 /**
  * This class represents a List element. List is a free-form layout driven by

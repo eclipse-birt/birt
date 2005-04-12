@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Type for a property defined by a list of choices. The actual list of choices
@@ -90,16 +93,16 @@ public class ChoicePropertyType extends PropertyType
 		// if the property doesn't define the restrictions, the whole choice set
 		// will be returned.
 
-		ChoiceSet allowedChoices = defn.getAllowedChoices( );
+		IChoiceSet allowedChoices = defn.getAllowedChoices( );
 		assert allowedChoices != null;
 
 		// Internal name of a choice.
 
-		Choice choice = allowedChoices.findChoice( value );
+		IChoice choice = allowedChoices.findChoice( value );
 		if ( choice != null )
 			return choice.getName( );
 
-		ChoiceSet propChoices = defn.getChoices( );
+		IChoiceSet propChoices = defn.getChoices( );
 		if ( propChoices.contains( value ) )
 		{
 			// The is in the whole choice set, but not in the allowed list.
@@ -147,13 +150,13 @@ public class ChoicePropertyType extends PropertyType
 
 	public String toString( ReportDesign design, PropertyDefn defn, Object value )
 	{
-		ChoiceSet propChoices = defn.getChoices( );
+		IChoiceSet propChoices = defn.getChoices( );
 		assert propChoices != null;
 
 		if ( value == null )
 			return null;
 
-		Choice choice = propChoices.findChoice( (String) value );
+		IChoice choice = propChoices.findChoice( (String) value );
 		if ( choice != null )
 			return choice.getName( );
 
@@ -188,10 +191,10 @@ public class ChoicePropertyType extends PropertyType
 		if ( name == null )
 			return null;
 
-		ChoiceSet propChoices = defn.getChoices( );
+		IChoiceSet propChoices = defn.getChoices( );
 		assert propChoices != null;
 
-		Choice choice = propChoices.findChoice( name.toString( ) );
+		IChoice choice = propChoices.findChoice( name.toString( ) );
 		if ( choice != null )
 		{
 			// Return localized choice name.
@@ -227,12 +230,12 @@ public class ChoicePropertyType extends PropertyType
 		// if the property doesn't define the restrictions, the whole choice set
 		// will be returned.
 
-		ChoiceSet allowedChoices = defn.getAllowedChoices( );
+		IChoiceSet allowedChoices = defn.getAllowedChoices( );
 		assert allowedChoices != null;
 
 		// 1. Internal name of a choice.
 
-		Choice choice = allowedChoices.findChoice( name );
+		IChoice choice = allowedChoices.findChoice( name );
 		if ( choice != null )
 			return choice.getName( );
 
@@ -248,7 +251,7 @@ public class ChoicePropertyType extends PropertyType
 		if ( choice != null )
 			return choice.getName( );
 
-		ChoiceSet propChoices = defn.getChoices( );
+		IChoiceSet propChoices = defn.getChoices( );
 		if ( propChoices.contains( name ) )
 		{
 			// The is in the whole choice set, but not in the allowed list.

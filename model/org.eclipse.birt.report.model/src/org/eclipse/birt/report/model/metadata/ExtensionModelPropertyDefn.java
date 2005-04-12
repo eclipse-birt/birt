@@ -15,11 +15,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.extension.IChoiceDefinition;
-import org.eclipse.birt.report.model.extension.IMessages;
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents the extension model property definition. It is used for only those
@@ -170,7 +173,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getAllowedChoices()
 	 */
 
-	public ChoiceSet getAllowedChoices( )
+	public IChoiceSet getAllowedChoices( )
 	{
 		return getChoices( );
 	}
@@ -181,7 +184,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getChoices()
 	 */
 
-	public ChoiceSet getChoices( )
+	public IChoiceSet getChoices( )
 	{
 		if ( details instanceof ChoiceSet )
 			return (ChoiceSet) details;

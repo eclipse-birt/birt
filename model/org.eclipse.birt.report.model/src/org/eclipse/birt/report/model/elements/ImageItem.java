@@ -15,8 +15,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.validators.ImageFileExistingValidator;
 
 /**
  * This class represents an image item. Reports often display images in various

@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.command.NameException;
-import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 
 /**
  * Represents the handle of Extended property. The Extended property represents

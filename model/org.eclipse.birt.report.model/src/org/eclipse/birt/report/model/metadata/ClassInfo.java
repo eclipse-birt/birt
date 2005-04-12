@@ -16,7 +16,10 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Represents the script object definition. This definition defines one
@@ -24,7 +27,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * name ID, and tool tip ID.
  */
 
-public class ClassInfo extends LocalizableInfo
+public class ClassInfo extends LocalizableInfo implements IClassInfo
 {
 
 	/**
@@ -123,7 +126,7 @@ public class ClassInfo extends LocalizableInfo
 	 * @return the definition of the method to get
 	 */
 
-	public MethodInfo getMethod( String name )
+	public IMethodInfo getMethod( String name )
 	{
 		return (MethodInfo) findInfo( methods, name );
 	}
@@ -150,7 +153,7 @@ public class ClassInfo extends LocalizableInfo
 	 * @return the member definition to get
 	 */
 
-	public MemberInfo getMember( String name )
+	public IMemberInfo getMember( String name )
 	{
 		return findMember( name );
 	}
@@ -163,7 +166,7 @@ public class ClassInfo extends LocalizableInfo
 	 * @return the member definition to find
 	 */
 
-	private MemberInfo findMember( String name )
+	private IMemberInfo findMember( String name )
 	{
 		return (MemberInfo) findInfo( members, name );
 	}
@@ -174,7 +177,7 @@ public class ClassInfo extends LocalizableInfo
 	 * @return the constructor definition
 	 */
 
-	public MethodInfo getConstructor( )
+	public IMethodInfo getConstructor( )
 	{
 		return constructor;
 	}

@@ -16,12 +16,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
+
 /**
  * Represents an optional argument list of a method.
  *  
  */
 
-public class ArgumentInfoList
+public class ArgumentInfoList implements IArgumentInfoList
 {
 
 	/**
@@ -69,7 +72,7 @@ public class ArgumentInfoList
 	 * @return the argument definition with the specified name.
 	 */
 
-	public ArgumentInfo getArgument( String argumentName )
+	public IArgumentInfo getArgument( String argumentName )
 	{
 		if ( arguments == null )
 			return null;

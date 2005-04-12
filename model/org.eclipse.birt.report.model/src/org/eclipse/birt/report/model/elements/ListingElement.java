@@ -14,12 +14,12 @@ package org.eclipse.birt.report.model.elements;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
+import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
-import org.eclipse.birt.report.model.util.StringUtil;
-import org.eclipse.birt.report.model.validators.DataSetRequiredValidator;
-import org.eclipse.birt.report.model.validators.GroupNameValidator;
 
 /**
  * This class represents the properties and slots common to the List and Table

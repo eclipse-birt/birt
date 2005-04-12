@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 
 /**
  * Represents the handle of configuration variable. A configuration variable is

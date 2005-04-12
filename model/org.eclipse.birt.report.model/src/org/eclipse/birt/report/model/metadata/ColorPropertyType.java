@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.structures.CustomColor;
-import org.eclipse.birt.report.model.util.ColorUtil;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Color property type. Color properties are stored either as an integer or a
@@ -167,11 +170,11 @@ public class ColorPropertyType extends PropertyType
 	 * @return the predefined color choice set.
 	 */
 
-	public ChoiceSet getChoices( )
+	public IChoiceSet getChoices( )
 	{
 		if ( colorChoices == null )
 		{
-			colorChoices = MetaDataDictionary.getInstance( ).getChoiceSet(
+			colorChoices = (ChoiceSet)MetaDataDictionary.getInstance( ).getChoiceSet(
 					COLORS_CHOICE_SET );
 			assert colorChoices != null;
 		}
@@ -327,7 +330,7 @@ public class ColorPropertyType extends PropertyType
 
 		// A color name.
 
-		ChoiceSet choices = getChoices( );
+		IChoiceSet choices = getChoices( );
 		assert choices != null;
 
 		if ( choices.contains( (String) value ) )
@@ -375,7 +378,7 @@ public class ColorPropertyType extends PropertyType
 
 		String colorName = (String) value;
 
-		Choice choice = getChoices( ).findChoice( colorName );
+		IChoice choice = getChoices( ).findChoice( colorName );
 		if ( choice != null )
 			return choice.getName( );
 
@@ -414,13 +417,13 @@ public class ColorPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		ChoiceSet choices = getChoices( );
+		IChoiceSet choices = getChoices( );
 
 		if ( value instanceof String )
 		{
 			if ( choices != null )
 			{
-				Choice color = null;
+				IChoice color = null;
 
 				// A color name.
 
@@ -480,10 +483,10 @@ public class ColorPropertyType extends PropertyType
 		// Assume that user input a localized color name.
 		// Convert the localized color name into internal name.
 
-		ChoiceSet choices = getChoices( );
+		IChoiceSet choices = getChoices( );
 		if ( choices != null )
 		{
-			Choice color = choices.findChoiceByDisplayName( value );
+			IChoice color = choices.findChoiceByDisplayName( value );
 			if ( color != null )
 				return color.getName( );
 		}
@@ -530,10 +533,10 @@ public class ColorPropertyType extends PropertyType
 		//    This check should be put in the first, because ColorUtil.parseColor()
 		//    will also do predefined color check but return an integer value.
 
-		ChoiceSet choices = getChoices( );
+		IChoiceSet choices = getChoices( );
 		if ( choices != null )
 		{
-			Choice choice = choices.findChoice( value );
+			IChoice choice = choices.findChoice( value );
 			if ( choice != null )
 				return choice.getName( );
 		}
@@ -593,7 +596,7 @@ public class ColorPropertyType extends PropertyType
 		{
 			// The standard CSS colors.
 
-			Choice choice = getChoices( ).findChoice( (String) value );
+			IChoice choice = getChoices( ).findChoice( (String) value );
 			if ( choice != null )
 				return choice.getName( );
 

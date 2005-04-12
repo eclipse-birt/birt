@@ -13,9 +13,9 @@ package org.eclipse.birt.report.model.core;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
-import org.eclipse.birt.report.model.command.NameEvent;
-import org.eclipse.birt.report.model.command.StyleEvent;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.NameEvent;
+import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;

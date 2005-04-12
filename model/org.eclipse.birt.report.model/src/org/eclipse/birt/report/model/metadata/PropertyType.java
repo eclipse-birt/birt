@@ -13,9 +13,12 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Base class for the meta-data for property types. Every property has a
@@ -32,7 +35,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * design. Colors require access to the custom colors defined on the design.
  */
 
-public abstract class PropertyType
+public abstract class PropertyType implements IPropertyType
 {
 
 	/**
@@ -420,7 +423,7 @@ public abstract class PropertyType
 	 * @return the set of choices, or null if no choices are available
 	 */
 
-	public ChoiceSet getChoices( )
+	public IChoiceSet getChoices( )
 	{
 		return null;
 	}

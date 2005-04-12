@@ -16,9 +16,9 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Locale;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Represents the design state -- a session for a user. In the Eclipse

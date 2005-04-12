@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Sets the style property of an element.

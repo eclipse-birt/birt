@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 
 /**
  * Simplifies working with the font family property. The font family can be for
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.ChoiceSet;
  * 
  * Values of a font family can be a list of font names, a string, a CSS
  * (pre-defined) string. The CSS values are defined in
- * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}. For example,
+ * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}. For example,
  * the font family allows values in these formats:
  * <ul>
  * <li>"serif, recursive, Times New Roman, Arial" ( a list of font names separated by commas )
@@ -117,21 +117,21 @@ public class FontHandle extends ComplexValueHandle
 	/**
 	 * Returns an array containing CSS (pre-defined) font names. Each item in
 	 * the array is a CSS constant defined in the
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}.
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}.
 	 * 
 	 * @return an array containing CSS (pre-defined) font names.
 	 */
 
-	public Choice[] getCSSFontFamilies( )
+	public IChoice[] getCSSFontFamilies( )
 	{
 
-		ChoiceSet choiceSet = propDefn.getChoices( );
+		IChoiceSet choiceSet = propDefn.getChoices( );
 		if ( choiceSet == null )
 		{
 			return null;
 		}
 
-		Choice[] choices = choiceSet.getChoices( );
+		IChoice[] choices = choiceSet.getChoices( );
 		return choices;
 	}
 	

@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
+
 /**
  * Represents the definition of class member. The class member defines the
  * member type besides name, display name ID and tool tip ID.
  */
 
-public class MemberInfo extends LocalizableInfo
+public class MemberInfo extends LocalizableInfo implements IMemberInfo
 {
 
 	/**

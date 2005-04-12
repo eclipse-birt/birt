@@ -13,11 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.elements.structures.MapRule;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 

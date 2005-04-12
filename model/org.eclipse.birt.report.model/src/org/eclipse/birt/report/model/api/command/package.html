@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Provides events when some command operations modify the state of the 
+Design Engine.
+
+
+<h2>Package Specification</h2>
+
+The application modifies a report design using a set of <em>commands</em>.
+Each command will send notification event and throw exception if an error
+occurs.
+<p>
+<ul>
+<li>An exception thrown if an error occurs. Many exceptions provide
+detailed error codes to clearly identify what went wrong.</li>
+<li>A notification event sent to the UI each time the operation is
+done, undone or redone.</li>
+</ul>
+
+<h2>Related Documentation</h2>
+
+The application generally uses the API handle classes to work with a
+design. These handle classes use the commands defined here to modify
+the design.
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

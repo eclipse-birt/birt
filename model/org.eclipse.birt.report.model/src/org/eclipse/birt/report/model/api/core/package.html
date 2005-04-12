@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Represents the fundamental data structures of the user-defined property
+and the interface of UI listener.
+
+<h2>Package Specification</h2>
+
+The core package represents the key data structures of the user-defined property.
+Other packages build on this class to add, remove, replace a user-defined property.
+UI can add listener to the design element to accept the notification event sent 
+each time the operation is done, undone or redone.
+<p>
+The key classes in this package include:
+<p><ul>
+<li>{@link org.eclipse.birt.report.model.api.core.Listener} is the interface class
+to accept the notification event sent by all report elements. See the extensive
+documentation in this class for information about the services common to all report
+elements.</li>
+
+<li>{@link org.eclipse.birt.report.model.api.core.UserPropertyDefn} provides generic
+access to a user-defined property. The class provides some getter/setters to the name,
+type, choices, and so on.</li>
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

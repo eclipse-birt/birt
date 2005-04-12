@@ -19,9 +19,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
-import org.eclipse.birt.report.model.command.CustomMsgException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -30,13 +35,8 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.StringUtil;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 
 /**
@@ -517,7 +517,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * <p>
 	 * 
 	 * For a report design, it allows the following constants that defined in
-	 * <code>{@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}</code>:
+	 * <code>{@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}</code>:
 	 * <ul>
 	 * <li><code>UNITS_IN</code></li>
 	 * <li><code>UNITS_CM</code></li>

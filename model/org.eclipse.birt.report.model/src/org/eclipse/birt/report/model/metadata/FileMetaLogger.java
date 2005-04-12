@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+
 /**
  * Default meta logger class for model's own use. Logs the exceptions into a
  * file.

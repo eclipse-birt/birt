@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TextItem;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Represents a text data item. The text item allows the developer to provide
@@ -109,7 +109,7 @@ public class TextItemHandle extends ReportItemHandle
 	 * @return the content type. if this property value is not set, return
 	 *         <code>null</code>.
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getContentType( )
@@ -133,7 +133,7 @@ public class TextItemHandle extends ReportItemHandle
 	 * 
 	 * @throws SemanticException
 	 *             if the value is not a valid choice item.
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 *  
 	 */
 

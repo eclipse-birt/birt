@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.SearchKey;
+import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 
 /**
  * Represents the handle of key used for search. The search key is the search

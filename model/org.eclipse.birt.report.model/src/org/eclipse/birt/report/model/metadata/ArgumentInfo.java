@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -18,7 +19,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * data type, internal name, and display name.
  */
 
-public class ArgumentInfo
+public class ArgumentInfo implements IArgumentInfo
 {
 
 	/**

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 /**
  * Represents the handle of sort key structure. The sort key is the sort entry
@@ -78,7 +78,7 @@ public class SortKeyHandle extends StructureHandle
 
 	/**
 	 * Returns the sort direction. The possible values are define in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
@@ -95,7 +95,7 @@ public class SortKeyHandle extends StructureHandle
 
 	/**
 	 * Sets the sort direction. The allowed values are define in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC

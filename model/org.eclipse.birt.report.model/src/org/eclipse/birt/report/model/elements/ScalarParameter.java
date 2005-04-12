@@ -15,7 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.validators.DataSetNameRequiredValidator;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator;
 
 /**
  * This class represents a scalar (single-value) parameter. Scalar parameters

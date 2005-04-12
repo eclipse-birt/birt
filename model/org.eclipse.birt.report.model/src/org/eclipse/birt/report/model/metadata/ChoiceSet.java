@@ -13,6 +13,9 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  *  
  */
 
-public class ChoiceSet implements Cloneable
+public class ChoiceSet implements Cloneable, IChoiceSet
 {
 
 	/**
@@ -137,7 +140,7 @@ public class ChoiceSet implements Cloneable
 	 * @return the array of choices
 	 */
 
-	public Choice[] getChoices( )
+	public IChoice[] getChoices( )
 	{
 		Choice[] retChoices = new Choice[choices.size( )];
 		choices.toArray( retChoices );
@@ -155,7 +158,7 @@ public class ChoiceSet implements Cloneable
 	 *  
 	 */
 
-	public Choice findChoice( String name )
+	public IChoice findChoice( String name )
 	{
 		Choice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
@@ -181,7 +184,7 @@ public class ChoiceSet implements Cloneable
 	 *         choice is not found.
 	 */
 
-	public Choice findChoiceByDisplayName( String name )
+	public IChoice findChoiceByDisplayName( String name )
 	{
 		Choice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )

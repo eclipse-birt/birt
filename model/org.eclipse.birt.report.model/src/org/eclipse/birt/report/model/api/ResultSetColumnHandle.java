@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
 /**
  * Represents the handle of one column in the result set. The result set column
@@ -73,7 +73,7 @@ public class ResultSetColumnHandle extends StructureHandle
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
@@ -96,7 +96,7 @@ public class ResultSetColumnHandle extends StructureHandle
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY

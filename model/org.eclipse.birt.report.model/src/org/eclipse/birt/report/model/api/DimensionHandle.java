@@ -11,19 +11,19 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Simplifies working with dimension properties. A dimension property consists
@@ -58,9 +58,9 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * The value of the dimension can be a standard format such as 1pt, 100% etc.
  * This kind of value represents a standard dimension, or it can be a CSS
  * (predefined) value such as XX-SMALL, X-SMALL. The CSS values are defined in
- * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}.
+ * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}.
  * 
- * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+ * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
 public class DimensionHandle extends ComplexValueHandle
@@ -110,7 +110,7 @@ public class DimensionHandle extends ComplexValueHandle
 
 	public boolean isKeyword( )
 	{
-		ChoiceSet choiceSet = propDefn.getChoices( );
+		IChoiceSet choiceSet = propDefn.getChoices( );
 		if ( choiceSet != null && choiceSet.contains( getStringValue( ) ) )
 			return true;
 
@@ -147,7 +147,7 @@ public class DimensionHandle extends ComplexValueHandle
 	 * @return an array of allowed unit suffixes. Each suffix is a string.
 	 */
 
-	public Choice[] getAllowedUnits( )
+	public IChoice[] getAllowedUnits( )
 	{
 		if ( memberRef == null )
 			return propDefn.getAllowedChoices( ).getChoices( );

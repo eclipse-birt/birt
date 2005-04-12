@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.util.DimensionUtil;
-import org.eclipse.birt.report.model.util.StringUtil;
 
 /**
  * Dimension property type. Dimension property values have two parts:
@@ -27,7 +29,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * <dt><strong>Optional units </strong></dt>
  * <dd>The units of the dimension expressed using one of the unit specifiers
  * defined in
- * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants }:
+ * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants }:
  * <ul>
  * <li>in (inches)</li>
  * <li>mm (millimeters)</li>
@@ -68,7 +70,7 @@ import org.eclipse.birt.report.model.util.StringUtil;
  * value has no unit suffix.)
  * 
  * @see DimensionValue
- * @see org.eclipse.birt.report.model.util.DimensionUtil
+ * @see org.eclipse.birt.report.model.api.util.DimensionUtil
  */
 
 public class DimensionPropertyType extends PropertyType
@@ -286,7 +288,7 @@ public class DimensionPropertyType extends PropertyType
 			unit = getDefaultUnit( design, defn );
 		}
 
-		ChoiceSet units = defn.getAllowedChoices( );
+		IChoiceSet units = defn.getAllowedChoices( );
 
 		assert units != null;
 		if ( !units.contains( unit ) )

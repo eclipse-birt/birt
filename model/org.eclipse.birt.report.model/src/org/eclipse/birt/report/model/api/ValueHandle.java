@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.IElementPropertyDefn;
 
 /**
  * Abstract base class for value-based handles.

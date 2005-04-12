@@ -13,6 +13,9 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+
 /**
  * Definition of a property structure: an object that is "managed" by the model
  * to allow generic member access and undo/redo support for updates.

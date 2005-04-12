@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.activity;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.validators.core.IValidatorProvider;
+import org.eclipse.birt.report.model.validators.IValidatorProvider;
 
 /**
  * The base activity record provides the mechanism for performing a low-level
@@ -259,7 +259,7 @@ public abstract class ActivityRecord implements IValidatorProvider
      * model resources that they may have cached.
      */
     
-    protected void destroy( )
+    public void destroy( )
 	{
 	}
 
@@ -366,7 +366,7 @@ public abstract class ActivityRecord implements IValidatorProvider
 	 *            the state to set
 	 */
 
-	protected void setState( int newState )
+	public void setState( int newState )
 	{
 		// Verify that this is a legal state transition.
 
@@ -385,7 +385,7 @@ public abstract class ActivityRecord implements IValidatorProvider
 	 *            whether this record is executed in transaction.
 	 */
 
-	protected abstract void sendNotifcations( boolean transactionStarted );
+	public abstract void sendNotifcations( boolean transactionStarted );
 
 	/**
 	 * Returns the optional UI hint to be sent with the execute notification for

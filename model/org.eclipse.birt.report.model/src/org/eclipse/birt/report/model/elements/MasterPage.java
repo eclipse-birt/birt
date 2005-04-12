@@ -13,13 +13,14 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.Point;
+import org.eclipse.birt.report.model.api.util.Rectangle;
+import org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator;
+import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.DimensionUtil;
-import org.eclipse.birt.report.model.util.Point;
-import org.eclipse.birt.report.model.util.Rectangle;
-import org.eclipse.birt.report.model.validators.MasterPageSizeValidator;
-import org.eclipse.birt.report.model.validators.MasterPageTypeValidator;
 
 /**
  * This class represents a Master Page element in the report design. This class

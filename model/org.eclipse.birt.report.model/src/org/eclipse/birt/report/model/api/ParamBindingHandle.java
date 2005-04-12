@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 
 /**
  * Represents the handle of parameter binding. The parameter binding binds data

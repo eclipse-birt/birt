@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 
 /**
  * Represents the handle of column hint. The column hint provides the hint about
@@ -111,7 +111,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the analysis option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>ANALYSIS_TYPE_AUTO
@@ -131,7 +131,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Sets the analysis option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>ANALYSIS_TYPE_AUTO
@@ -224,7 +224,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the export option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>EXPORT_TYPE_NONE
@@ -242,7 +242,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Sets the export option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>EXPORT_TYPE_NONE
@@ -356,7 +356,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the searching option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>SEARCH_TYPE_ANY
@@ -374,7 +374,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Sets the searching option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
 	 * are
 	 * <ul>
 	 * <li>SEARCH_TYPE_ANY

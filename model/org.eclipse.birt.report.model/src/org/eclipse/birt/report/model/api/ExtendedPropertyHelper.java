@@ -13,9 +13,9 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.util.StringUtil;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * The helper class for <code>OdaDataSourceHandle</code> and

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * is not.
  */
 
-public class Choice implements Cloneable
+public class Choice implements Cloneable, IChoice
 {
 
 	/**

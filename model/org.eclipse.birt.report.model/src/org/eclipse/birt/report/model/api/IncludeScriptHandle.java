@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 
 /**
  * Represents the handle of the included script. Each script in report design

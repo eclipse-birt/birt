@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 
@@ -108,7 +108,7 @@ public class BackRefRecord extends SimpleRecord
 	 * to send out the notification.
 	 */
 
-	protected void sendNotifcations( boolean transactionStarted )
+	public void sendNotifcations( boolean transactionStarted )
 	{
 	}
 }

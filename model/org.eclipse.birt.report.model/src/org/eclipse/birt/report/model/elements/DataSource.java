@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import org.eclipse.birt.report.model.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 
 /**

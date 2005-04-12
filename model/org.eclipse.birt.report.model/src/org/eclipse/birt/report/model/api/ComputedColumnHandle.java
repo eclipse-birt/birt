@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
  * Represents the handle of computed column. A computed column is a ¡°virtual¡±

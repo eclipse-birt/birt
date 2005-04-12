@@ -15,6 +15,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 

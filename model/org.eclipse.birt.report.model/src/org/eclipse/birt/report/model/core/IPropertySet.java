@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.core;
 
+import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**

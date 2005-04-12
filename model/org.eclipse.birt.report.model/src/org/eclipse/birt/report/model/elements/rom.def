@@ -1321,24 +1321,24 @@
   <Validators>
 		<ValueValidator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator"/>
 		<ValueValidator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator"/>
-		<SemanticValidator name="CellOverlappingValidator" class="org.eclipse.birt.report.model.validators.CellOverlappingValidator"/>
-		<SemanticValidator name="DataSetNameRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetNameRequiredValidator"/>
-		<SemanticValidator name="DataSetRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetRequiredValidator"/>
-		<SemanticValidator name="DataSetResultSetValidator" class="org.eclipse.birt.report.model.validators.DataSetResultSetValidator"/>
-		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.validators.ElementReferenceValidator"/>
-		<SemanticValidator name="ExtensionValidator" class="org.eclipse.birt.report.model.validators.ExtensionValidator"/>
-		<SemanticValidator name="GroupNameValidator" class="org.eclipse.birt.report.model.validators.GroupNameValidator"/>
-		<SemanticValidator name="InconsistentColumnsValidator" class="org.eclipse.birt.report.model.validators.InconsistentColumnsValidator"/>
-		<SemanticValidator name="ImageFileExistingValidator" class="org.eclipse.birt.report.model.validators.ImageFileExistingValidator"/>
-		<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator"/>
-		<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.validators.MasterPageRequiredValidator"/>
-		<SemanticValidator name="MasterPageSizeValidator" class="org.eclipse.birt.report.model.validators.MasterPageSizeValidator"/>
-		<SemanticValidator name="MasterPageTypeValidator" class="org.eclipse.birt.report.model.validators.MasterPageTypeValidator"/>
-		<SemanticValidator name="StructureListValidator" class="org.eclipse.birt.report.model.validators.StructureListValidator"/>
-		<SemanticValidator name="TableDroppingValidator" class="org.eclipse.birt.report.model.validators.TableDroppingValidator"/>
-		<SemanticValidator name="TableHeaderContextContainmentValidator" class="org.eclipse.birt.report.model.validators.TableHeaderContextContainmentValidator"/>
-		<SemanticValidator name="UnsupportedElementValidator" class="org.eclipse.birt.report.model.validators.UnsupportedElementValidator"/>
-		<SemanticValidator name="ValueRequiredValidator" class="org.eclipse.birt.report.model.validators.ValueRequiredValidator"/>
+		<SemanticValidator name="CellOverlappingValidator" class="org.eclipse.birt.report.model.api.validators.CellOverlappingValidator"/>
+		<SemanticValidator name="DataSetNameRequiredValidator" class="org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator"/>
+		<SemanticValidator name="DataSetRequiredValidator" class="org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator"/>
+		<SemanticValidator name="DataSetResultSetValidator" class="org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator"/>
+		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.api.validators.ElementReferenceValidator"/>
+		<SemanticValidator name="ExtensionValidator" class="org.eclipse.birt.report.model.api.validators.ExtensionValidator"/>
+		<SemanticValidator name="GroupNameValidator" class="org.eclipse.birt.report.model.api.validators.GroupNameValidator"/>
+		<SemanticValidator name="InconsistentColumnsValidator" class="org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator"/>
+		<SemanticValidator name="ImageFileExistingValidator" class="org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator"/>
+		<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator"/>
+		<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator"/>
+		<SemanticValidator name="MasterPageSizeValidator" class="org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator"/>
+		<SemanticValidator name="MasterPageTypeValidator" class="org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator"/>
+		<SemanticValidator name="StructureListValidator" class="org.eclipse.birt.report.model.api.validators.StructureListValidator"/>
+		<SemanticValidator name="TableDroppingValidator" class="org.eclipse.birt.report.model.api.validators.TableDroppingValidator"/>
+		<SemanticValidator name="TableHeaderContextContainmentValidator" class="org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator"/>
+		<SemanticValidator name="UnsupportedElementValidator" class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator"/>
+		<SemanticValidator name="ValueRequiredValidator" class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator"/>
   </Validators>
   <Structure name="MapRule" displayNameID="Structure.MapRule">
     <Member name="operator" displayNameID="Structure.MapRule.operator" type="choice" detailType="mapOperator" isIntrinsic="true">

@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider;
+import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
 /**
  * Meta-data about a slot within an element. Elements can act as a

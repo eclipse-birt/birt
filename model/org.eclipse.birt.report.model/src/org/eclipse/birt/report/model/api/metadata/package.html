@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Defines the elements, properties, types, structures and slots
+in the Report Object Model.
+
+
+<h2>Package Specification</h2>
+
+The Design Engine is based on a series of definitions that provide
+"meta-data" about the various objects that make up a report design.
+The definitions include:
+
+<p><ul>
+<dt><strong>Property types</strong></dt>
+<dd>define data types for properties such as
+string, URI, expression, etc.</dd>
+
+<dt><strong>Properties</strong></dt>
+<dd>define the attributes of report elements.</dd>
+
+<dt><strong>Report elements</strong></dt>
+<dd>define objects that combine to describe
+the report.</dd>
+
+<dt><strong>Choices</strong></dt>
+<dd>available to properties such as colors,
+text alignment and other attributes with a fixed set of values.</dd>
+
+<dt><strong>Slots</strong></dt>
+<dd>define how elements contain other elements.</dd>
+
+<dt><strong>Standard styles</strong></dt>
+<dd>defined by the product itself.</dd>
+</ul><p>
+
+The definition information resides in the meta-data dictionary. There is
+one instance of the dictionary shared by all designs. The meta-data is
+invariant across designs.
+
+<h2>Related Documentation</h2>
+
+@see org.eclipse.birt.report.model.api.metadata.IElementDefn
+@see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

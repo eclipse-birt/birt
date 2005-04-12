@@ -19,39 +19,39 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.command.PropertyNameException;
+import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ContentCommand;
-import org.eclipse.birt.report.model.command.ContentException;
 import org.eclipse.birt.report.model.command.ExtendsCommand;
-import org.eclipse.birt.report.model.command.ExtendsException;
 import org.eclipse.birt.report.model.command.NameCommand;
-import org.eclipse.birt.report.model.command.NameException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.command.PropertyNameException;
 import org.eclipse.birt.report.model.command.StyleCommand;
-import org.eclipse.birt.report.model.command.StyleException;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
-import org.eclipse.birt.report.model.command.UserPropertyException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
-import org.eclipse.birt.report.model.core.Listener;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.FormatPropertyType;
-import org.eclipse.birt.report.model.metadata.IElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyValueException;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -1173,7 +1173,7 @@ public abstract class DesignElementHandle
 	 *         <code>null</code>, if this property has no choice.
 	 */
 
-	public Choice[] getChoices( String propName )
+	public IChoice[] getChoices( String propName )
 	{
 		PropertyHandle propertyHandle = getPropertyHandle( propName );
 		if ( propertyHandle == null )

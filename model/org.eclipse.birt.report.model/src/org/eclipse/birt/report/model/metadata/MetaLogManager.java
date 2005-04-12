@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+
 /**
  * Meta-data logger manager class. The class holds a list of
  * <code>IMetaLogger</code> that is interested in the error message during the

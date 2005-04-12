@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 
 /**
  * Represents the handle of map rule. The Map rule represents a style mapping

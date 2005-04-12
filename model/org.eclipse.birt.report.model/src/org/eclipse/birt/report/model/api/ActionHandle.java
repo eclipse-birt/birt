@@ -14,12 +14,12 @@ package org.eclipse.birt.report.model.api;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.structures.Action;
-import org.eclipse.birt.report.model.elements.structures.ParamBinding;
-import org.eclipse.birt.report.model.elements.structures.SearchKey;
 
 /**
  * Represents an "action" (hyperlink) attached to an element. Obtain an instance
@@ -44,7 +44,7 @@ import org.eclipse.birt.report.model.elements.structures.SearchKey;
  * @see ImageHandle#getActionHandle()
  * @see LabelHandle#getActionHandle()
  * 
- * @see org.eclipse.birt.report.model.elements.structures.Action
+ * @see org.eclipse.birt.report.model.api.elements.structures.Action
  */
 
 public class ActionHandle extends StructureHandle
@@ -108,7 +108,7 @@ public class ActionHandle extends StructureHandle
 	 * 
 	 * @return the string value of the link type
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getLinkType( )
@@ -410,7 +410,7 @@ public class ActionHandle extends StructureHandle
 	 * 
 	 * @return the string value of the drillthrough type
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
 	public String getDrillThroughType( )

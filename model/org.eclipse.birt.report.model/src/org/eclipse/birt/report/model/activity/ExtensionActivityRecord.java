@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.activity;
 
-import org.eclipse.birt.report.model.extension.IElementCommand;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 /**
  * The activity record provides the mechanism for performing a low-level change
@@ -83,7 +83,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#destroy()
 	 */
 
-	protected void destroy( )
+	public void destroy( )
 	{
 		super.destroy( );
 	}
@@ -139,7 +139,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 *      boolean transactionStarted )
 	 */
 
-	protected void sendNotifcations( boolean transactionStarted )
+	public void sendNotifcations( boolean transactionStarted )
 	{
 		return;
 	}

@@ -15,10 +15,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator;
+import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
-import org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator;
-import org.eclipse.birt.report.model.validators.MasterPageTypeValidator;
 
 /**
  * This class represents a Graphic Master Page element in the report design. A

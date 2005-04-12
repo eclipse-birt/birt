@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**

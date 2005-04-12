@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.activity.SemanticException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * access layer. Another common use of mapping is to convert a null value into a
  * display value, such as ¡°No Data.¡±
  * 
- * @see org.eclipse.birt.report.model.elements.DesignChoiceConstants
+ * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
 public abstract class StyleHandle extends ReportElementHandle

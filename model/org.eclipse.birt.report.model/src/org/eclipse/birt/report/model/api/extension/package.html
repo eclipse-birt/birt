@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Defines the fundamental interfaces for those extensions from the 
+reportitem extension point.
+
+<h2>Package Specification</h2>
+
+The extension package defines the key interfaces of those extension implementation
+from the reportitem extension point. All the implementation of reportitem extension
+point build on these interfaces to offer the extension definition, extension properties,
+extension choice, extension element, extension command and extension exception
+and other concepts defined in the reportitem extension point schema.
+<p>
+The key interfaces in this package include:
+<p><ul>
+<li>{@link org.eclipse.birt.report.model.api.extension.IReportItemFactory} provides methods to
+access the meta data of an extended type of report element and create new instance of
+the element{@link org.eclipse.birt.report.model.api.extension.IReportItem}. See the extensive
+documentation in this interface for information about the services common to all
+extension definition.</li>
+
+<li>{@link org.eclipse.birt.report.model.api.extension.IReportItem} Provides methods to
+access/modify properties, these methods are to be implemented if the report item
+stores its properties in its own model.</li>
+
+<li>{@link org.eclipse.birt.report.model.api.extension.IPropertyDefinition} and
+{@link org.eclipse.birt.report.model.api.extension.IChoiceDefinition}
+provide generic access to extension properties or extension structure members, and
+choices for extension properties or members respectively.</li>
+
+<li>{@link org.eclipse.birt.report.model.api.extension.IElementCommand},
+{@link org.eclipse.birt.report.model.api.extension.ExtendedElementException}integrate
+with the models command stack, the extension plug-in needs to implement the
+IElementCommand interface</li>
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>
