@@ -12,28 +12,28 @@
 package org.eclipse.birt.core.format;
 
 import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $ 
+ * @version $Revision: 1.3 $ $Date: 2005/03/30 07:38:21 $
  * 
- * Defines a string formatting class. Notice that unlike numeric or Date formatting, 
- * locale is irrelevant in string formatting
+ * Defines a string formatting class. Notice that unlike numeric or Date
+ * formatting, locale is irrelevant in string formatting
  *  
  */
 public class StringFormatter
 {
+
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Log logger = LogFactory.getLog( StringFormatter.class );
-	
+	static protected Logger logger = Logger.getLogger( StringFormatter.class
+			.getName( ) );
+
 	//	original format string
 	protected String formatPattern;
-    //	Locale
+	//	Locale
 	private Locale locale;
 
 	// uppercase or lowercase;
@@ -61,7 +61,7 @@ public class StringFormatter
 	}
 
 	/**
-	 * constructor with no formatting string 
+	 * constructor with no formatting string
 	 */
 	public StringFormatter( Locale locale )
 	{
@@ -70,9 +70,10 @@ public class StringFormatter
 	}
 
 	/**
-	 * constructor with a format string argument 
-	 
-	 * @param format the format string
+	 * constructor with a format string argument
+	 * 
+	 * @param format
+	 *            the format string
 	 */
 	public StringFormatter( String format, Locale locale )
 	{
@@ -82,7 +83,8 @@ public class StringFormatter
 	}
 
 	/**
-	 * @param format the format pattern
+	 * @param format
+	 *            the format pattern
 	 */
 	public void applyPattern( String format )
 	{
@@ -124,6 +126,7 @@ public class StringFormatter
 	{
 		return this.formatPattern;
 	}
+
 	/**
 	 * 
 	 * getLoacle() method, return the locale value.
@@ -145,8 +148,10 @@ public class StringFormatter
 	}
 
 	/**
-	 * @param val string to be handled
-	 * @param option to upper case or to lower case
+	 * @param val
+	 *            string to be handled
+	 * @param option
+	 *            to upper case or to lower case
 	 * @return
 	 */
 	private String handleCase( String val, char option )
@@ -162,9 +167,13 @@ public class StringFormatter
 
 	/**
 	 * 
-	 * returns the formated string for the string parameter. //
-	 * '@' - character or space // '&' - character or empty // ' <' - tolower //
-	 * '>' - toupper // '!' - left to right
+	 * returns the formated string for the string parameter. 
+     *  <li>'@' - character or space 
+     *  <li>'&' - character or empty 
+     *  <li> '&lt;' - tolower 
+     ** <li> '>' - toupper 
+	 *  <li>'!' - left to right
+     * @param str format string
 	 *  
 	 */
 	public String format( String str )
@@ -181,16 +190,18 @@ public class StringFormatter
 
 		//length of the format string;
 		int len2 = 0;
-	
+
 		char fc = ' ';
 
 		String sc = null;
 
-		if (!dir )
+		if ( !dir )
 		{
 			if ( len > col )
 			{
-				ret.append( handleCase( orig.substring( 0, len - col ), chcase ) );
+				ret
+						.append( handleCase( orig.substring( 0, len - col ),
+								chcase ) );
 				pos = len - col;
 				len = col;
 

@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.core.script;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.JavaScriptException;
@@ -22,7 +23,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/16 20:16:40 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/15 03:07:31 $
  */
 public class ScriptContext
 {
@@ -30,20 +31,21 @@ public class ScriptContext
 	/**
 	 * for logging
 	 */
-	protected static Log logger = LogFactory.getLog( ScriptContext.class );
+	protected static Logger logger = Logger.getLogger( ScriptContext.class
+			.getName( ) );
 
 	/**
 	 * the JavaScript Context
 	 */
 	protected Context context;
-	
+
 	/**
 	 * The JavaScript scope used for script execution
 	 */
 	protected Scriptable scope;
-	
+
 	/**
-	 * for BIRT globel varible "params" 
+	 * for BIRT globel varible "params"
 	 */
 	protected NativeObject params;
 
@@ -56,10 +58,10 @@ public class ScriptContext
 		{
 			this.context = Context.enter( );
 			this.scope = this.context.initStandardObjects( );
-			
-			//set the wrapper factory 
-			context.setWrapFactory(new BIRTWrapFactory());
-			
+
+			//set the wrapper factory
+			context.setWrapFactory( new BIRTWrapFactory( ) );
+
 			//register BIRT defined static objects into script context
 			NativeFinance.init( context, scope, true );
 			NativeDateTimeSpan.init( context, scope, true );
@@ -69,13 +71,18 @@ public class ScriptContext
 			Context.exit( );
 			this.scope = null;
 			this.context = null;
-			logger.error( ex );
+			if ( logger.isLoggable( Level.WARNING ) )
+			{
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+			}
 		}
 	}
 
 	/**
-	 * @param name the name of a property
-	 * @param value the value of a property
+	 * @param name
+	 *            the name of a property
+	 * @param value
+	 *            the value of a property
 	 */
 	public void registerBean( String name, Object value )
 	{
@@ -96,45 +103,56 @@ public class ScriptContext
 		}
 	}
 
-    /**
-     * creates a new scripting scope
-     */
-    public void newScope( )
-    {
-        Scriptable newScope;
-		try {
+	/**
+	 * creates a new scripting scope
+	 */
+	public void newScope( )
+	{
+		Scriptable newScope;
+		try
+		{
 			newScope = context.newObject( scope );
-			newScope.setParentScope(scope);
+			newScope.setParentScope( scope );
 			scope = newScope;
-		} catch (EvaluatorException e) {
-			logger.error( e );
-		} catch (JavaScriptException e) {
-			logger.error( e );
 		}
-    }
+		catch ( EvaluatorException e )
+		{
+			if ( logger.isLoggable( Level.WARNING ) )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
+		catch ( JavaScriptException e )
+		{
+			if ( logger.isLoggable( Level.WARNING ) )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
+	}
 
 	/**
 	 * exits from the current scripting scope
 	 */
-	public void exitScope()
+	public void exitScope( )
 	{
-		Scriptable parentScope = scope.getParentScope();
-		if (parentScope != null)
+		Scriptable parentScope = scope.getParentScope( );
+		if ( parentScope != null )
 			scope = parentScope;
 	}
-	
+
 	/**
 	 * @return the current scope
 	 */
-	public Scriptable getCurrentScope()
+	public Scriptable getCurrentScope( )
 	{
 		return scope;
 	}
-	
+
 	/**
 	 * checks if a property is available in the scope
 	 * 
-	 * @param name 
+	 * @param name
 	 * @return
 	 */
 	public Object lookupBean( String name )
@@ -144,10 +162,11 @@ public class ScriptContext
 	}
 
 	/**
-	 * evaluates a script 
+	 * evaluates a script
 	 * 
-	 * @param source script to be evaluated
-	 * @return the evaluated value 
+	 * @param source
+	 *            script to be evaluated
+	 * @return the evaluated value
 	 */
 	public Object eval( String source )
 	{
@@ -155,20 +174,23 @@ public class ScriptContext
 	}
 
 	/**
-	 * evaluates a script 
+	 * evaluates a script
 	 */
 	public Object eval( String source, String name, int lineNo )
 	{
 		assert ( this.context != null );
 		try
 		{
-			Object value = context.evaluateString( scope, source, name,
-					lineNo, null );
+			Object value = context.evaluateString( scope, source, name, lineNo,
+					null );
 			return jsToJava( value );
 		}
 		catch ( Exception ex )
 		{
-			logger.error( source, ex );
+			if (logger.isLoggable(Level.WARNING))
+			{
+				logger.log(Level.WARNING, ex.getMessage(), ex);
+			}
 			return null;
 		}
 	}
@@ -176,25 +198,26 @@ public class ScriptContext
 	/**
 	 * converts a JS object to a Java object
 	 * 
-	 * @param jsValue javascript object
+	 * @param jsValue
+	 *            javascript object
 	 * @return Java object
 	 */
 	public Object jsToJava( Object jsValue )
 	{
 		if ( jsValue instanceof Scriptable )
 		{
-			String className = ((Scriptable) jsValue) .getClassName( );
-			if ("Date".equals(className))
+			String className = ( (Scriptable) jsValue ).getClassName( );
+			if ( "Date".equals( className ) )
 			{
 				return Context.toType( jsValue, java.util.Date.class );
 			}
-			else if ("Boolean".equals(className))
+			else if ( "Boolean".equals( className ) )
 			{
-				return Boolean.valueOf(Context.toString( jsValue));
+				return Boolean.valueOf( Context.toString( jsValue ) );
 			}
-			else if ("String".equals(className))
+			else if ( "String".equals( className ) )
 			{
-				return Context.toString(jsValue);
+				return Context.toString( jsValue );
 			}
 		}
 		return Context.toType( jsValue, Object.class );

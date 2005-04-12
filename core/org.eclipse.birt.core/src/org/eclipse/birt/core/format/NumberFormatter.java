@@ -16,13 +16,12 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/30 07:38:21 $ 
+ * @version $Revision: 1.4 $ $Date: 2005/04/05 07:53:48 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -35,10 +34,11 @@ public class NumberFormatter
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Log logger = LogFactory.getLog( NumberFormatter.class );
-	
+	static protected Logger logger = Logger.getLogger( NumberFormatter.class
+			.getName( ) );
+
 	/**
-	 * the format pattern 
+	 * the format pattern
 	 */
 	protected String formatPattern;
 
@@ -48,8 +48,8 @@ public class NumberFormatter
 	protected Locale locale = Locale.getDefault( );
 
 	/**
-	 * a java.text.NumberFormat format object. We want to use the createNumberFormat() 
-	 * and format() methods
+	 * a java.text.NumberFormat format object. We want to use the
+	 * createNumberFormat() and format() methods
 	 */
 	protected NumberFormat numberFormat;
 
@@ -69,7 +69,8 @@ public class NumberFormatter
 	/**
 	 * constructor with a format string as parameter
 	 * 
-	 * @param format format string
+	 * @param format
+	 *            format string
 	 */
 	public NumberFormatter( String format )
 	{
@@ -77,7 +78,8 @@ public class NumberFormatter
 	}
 
 	/**
-	 * @param locale the locale used for numer format
+	 * @param locale
+	 *            the locale used for numer format
 	 */
 	public NumberFormatter( Locale locale )
 	{
@@ -88,8 +90,10 @@ public class NumberFormatter
 	/**
 	 * constructor that takes a format pattern and a locale
 	 * 
-	 * @param pattern numeric format pattern
-	 * @param locale locale used to format the number
+	 * @param pattern
+	 *            numeric format pattern
+	 * @param locale
+	 *            locale used to format the number
 	 */
 	public NumberFormatter( String pattern, Locale locale )
 	{
@@ -108,7 +112,8 @@ public class NumberFormatter
 	/**
 	 * initializes numeric format pattern
 	 * 
-	 * @param patternStr ths string used for formatting numeric data
+	 * @param patternStr
+	 *            ths string used for formatting numeric data
 	 */
 	public void applyPattern( String patternStr )
 	{
@@ -116,7 +121,7 @@ public class NumberFormatter
 		{
 			this.formatPattern = patternStr;
 			hexFlag = false;
-			
+
 			// null format String
 			if ( this.formatPattern == null )
 			{
@@ -124,25 +129,26 @@ public class NumberFormatter
 				numberFormat.setGroupingUsed( false );
 				return;
 			}
-			
-			// Single character format string			
+
+			// Single character format string
 			if ( patternStr.length( ) == 1 )
 			{
 				handleSingleCharFormatString( patternStr.charAt( 0 ) );
 				return;
 			}
-			
+
 			// Named formats and arbitrary format string
 			handleNamedFormats( patternStr );
 		}
 		catch ( Exception illeagueE )
 		{
-			logger.error( "The pattern is illeague:" + illeagueE ); //$NON-NLS-1$
+			logger.log( Level.WARNING, illeagueE.getMessage( ), illeagueE );
 		}
 	}
 
 	/**
-	 * @param num the number to be formatted
+	 * @param num
+	 *            the number to be formatted
 	 * @return the formatted string
 	 */
 	public String format( double num )
@@ -153,31 +159,32 @@ public class NumberFormatter
 			{
 				return "NaN"; //$NON-NLS-1$
 			}
-			
+
 			if ( hexFlag == true )
 			{
 				return Integer.toHexString( new Long( new Double( num )
 						.longValue( ) ).intValue( ) );
 			}
-			
+
 			return numberFormat.format( num );
 
 		}
 		catch ( Exception e )
 		{
-			logger.error( "Format failed:" + e ); //$NON-NLS-1$
+			logger.log( Level.WARNING, e.getMessage( ), e ); //$NON-NLS-1$
 			return null;
 		}
 	}
-	
+
 	/**
 	 * format(BigDecimal) method, return the format string for the BigDecimal
-	 * parameter. 
+	 * parameter.
 	 */
 	/**
 	 * formats a BigDecimal value into a string
 	 * 
-	 * @param big decimal value
+	 * @param big
+	 *            decimal value
 	 * @return formatted string
 	 */
 	public String format( BigDecimal bigDecimal )
@@ -188,7 +195,8 @@ public class NumberFormatter
 	/**
 	 * formats a long integer
 	 * 
-	 * @param num the number to be formatted
+	 * @param num
+	 *            the number to be formatted
 	 * @return the formatted string
 	 */
 	public String format( long num )
@@ -212,8 +220,7 @@ public class NumberFormatter
 				return;
 			case 'C' :
 			case 'c' :
-				numberFormat = NumberFormat
-						.getCurrencyInstance( locale );
+				numberFormat = NumberFormat.getCurrencyInstance( locale );
 				return;
 			case 'F' :
 			case 'f' :
@@ -241,9 +248,9 @@ public class NumberFormatter
 				return;
 			default :
 			{
-			    char data[] = new char[1];	
-			    data[0] = c;
-			    String str = new String(data);
+				char data[] = new char[1];
+				data[0] = c;
+				String str = new String( data );
 
 				numberFormat = new DecimalFormat( str,
 						new DecimalFormatSymbols( locale ) );
@@ -251,7 +258,7 @@ public class NumberFormatter
 			}
 		}
 	}
-	
+
 	private void handleNamedFormats( String patternStr )
 	{
 		if ( patternStr.equals( "General Number" ) ) //$NON-NLS-1$
@@ -265,7 +272,7 @@ public class NumberFormatter
 			numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
-		
+
 		}
 		if ( patternStr.equals( "Percent" ) ) //$NON-NLS-1$
 		{
@@ -278,16 +285,16 @@ public class NumberFormatter
 			numberFormat = new DecimalFormat( "0.00E00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
-		
+
 		}
 		if ( patternStr.equals( "Standard" ) ) //$NON-NLS-1$
 		{
 			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
 					new DecimalFormatSymbols( locale ) );
 			return;
-		
+
 		}
-		numberFormat = new DecimalFormat( patternStr,
-				new DecimalFormatSymbols( locale ) );
+		numberFormat = new DecimalFormat( patternStr, new DecimalFormatSymbols(
+				locale ) );
 	}
 }

@@ -15,19 +15,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DateFormatter.
  * 
- * Design for Class DateFormatter.This version is for open source, so we only apply
- * the function which Java has provided. Beside these basic function, in this
- * version, we also provide some new API for further implementation in the
+ * Design for Class DateFormatter.This version is for open source, so we only
+ * apply the function which Java has provided. Beside these basic function, in
+ * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: #1 $ $Date: 2005/01/25 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
  */
 public class DateFormatter
 {
@@ -51,7 +50,8 @@ public class DateFormatter
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Log logger = LogFactory.getLog( DateFormatter.class );
+	static protected Logger logger = Logger.getLogger( DateFormatter.class
+			.getName( ) );
 
 	/**
 	 * constuctor method with no paremeter
@@ -264,7 +264,7 @@ public class DateFormatter
 
 		catch ( Exception e )
 		{
-			logger.error( "The pattern is illeague:" + formatString );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
 
@@ -280,9 +280,7 @@ public class DateFormatter
 		}
 		catch ( Exception e )
 		{
-			logger
-					.error( "This kind of date can't be formatted by this pattern"
-							+ e );
+			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
 	}
