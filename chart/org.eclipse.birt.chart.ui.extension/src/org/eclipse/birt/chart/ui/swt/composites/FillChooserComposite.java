@@ -107,7 +107,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
     public static final int FILL_CHANGED_EVENT = 1;
 
     public static final int MOUSE_CLICKED_EVENT = 2;
-    
+
     private transient boolean bEnabled = true;
 
     private transient int iSize = 20;
@@ -226,7 +226,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        if(!bEnabled)
+        if (!bEnabled)
         {
             return;
         }
@@ -332,7 +332,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 srTransparency.setEnabled(false);
             }
         }
-        lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")).format(new Object[] {new Integer(srTransparency.getSelection())}));
+        lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity"))
+            .format(new Object[]
+            {
+                new Integer(srTransparency.getSelection())
+            }));
         srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
         srTransparency.addSelectionListener(this);
 
@@ -384,13 +388,13 @@ public class FillChooserComposite extends Composite implements SelectionListener
         }
         return this.fCurrent;
     }
-    
+
     public void setEnabled(boolean bState)
     {
         btnDown.setEnabled(bState);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;
@@ -467,6 +471,10 @@ public class FillChooserComposite extends Composite implements SelectionListener
             {
                 Image imgFill = AttributeFactory.eINSTANCE.createImage();
                 imgFill.setURL(sImgPath);
+                if (fCurrent != null)
+                {
+                    imgFill.eAdapters().addAll(fCurrent.eAdapters());
+                }
                 this.setFill(imgFill);
                 fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
@@ -489,6 +497,10 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition();
                 cdNew.set(rgb.red, rgb.green, rgb.blue);
                 cdNew.setTransparency((bTransparencyChanged) ? this.iTransparency : iTrans);
+                if (fCurrent != null)
+                {
+                    cdNew.eAdapters().addAll(fCurrent.eAdapters());
+                }
                 this.setFill(cdNew);
                 fireHandleEvent(FillChooserComposite.FILL_CHANGED_EVENT);
             }
@@ -508,6 +520,10 @@ public class FillChooserComposite extends Composite implements SelectionListener
             if (ged.getGradient() != null)
             {
                 Fill fTmp = ged.getGradient();
+                if (fCurrent != null)
+                {
+                    fTmp.eAdapters().addAll(fCurrent.eAdapters());
+                }
                 if (fCurrent == null || !(fCurrent.equals(fTmp)))
                 {
                     this.setFill(fTmp);
@@ -518,7 +534,11 @@ public class FillChooserComposite extends Composite implements SelectionListener
         else if (oSource.equals(srTransparency))
         {
             iTransparency = srTransparency.getSelection();
-            lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")).format(new Object[] {new Integer(iTransparency)}));
+            lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity"))
+                .format(new Object[]
+                {
+                    new Integer(iTransparency)
+                }));
             srTransparency.setToolTipText(String.valueOf(srTransparency.getSelection()));
             bTransparencyChanged = true;
         }
@@ -561,7 +581,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
      */
     public void mouseDown(MouseEvent e)
     {
-        if(!bEnabled)
+        if (!bEnabled)
         {
             return;
         }

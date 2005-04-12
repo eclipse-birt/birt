@@ -38,7 +38,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
 {
 
     private transient Composite cmpContent = null;
-    
+
     private transient Label lblStyle = null;
 
     private transient Label lblWidth = null;
@@ -70,7 +70,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
     public static final int COLOR_CHANGED_EVENT = 3;
 
     public static final int VISIBILITY_CHANGED_EVENT = 4;
-    
+
     private transient boolean bEnabled = true;
 
     /**
@@ -134,7 +134,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             cbVisible.setText(Messages.getString("LineAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.setSelection(laCurrent.isVisible());
             cbVisible.addSelectionListener(this);
-            if(bEnabled)
+            if (bEnabled)
             {
                 bEnableUI = cbVisible.getSelection();
             }
@@ -206,21 +206,21 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         }
         return ptSize;
     }
-    
+
     public void setEnabled(boolean bState)
     {
         boolean bEnableUI = true;
-        if(this.bEnableVisibility)
+        if (this.bEnableVisibility)
         {
             cbVisible.setEnabled(bState);
             bEnableUI = cbVisible.getSelection();
         }
-        if(this.bEnableStyles)
+        if (this.bEnableStyles)
         {
             lblStyle.setEnabled(bState & bEnableUI);
             cmbStyle.setEnabled(bState & bEnableUI);
         }
-        if(this.bEnableWidths)
+        if (this.bEnableWidths)
         {
             lblWidth.setEnabled(bState & bEnableUI);
             cmbWidth.setEnabled(bState & bEnableUI);
@@ -229,7 +229,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         cmbColor.setEnabled(bState & bEnableUI);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;
@@ -303,10 +303,16 @@ public class LineAttributesComposite extends Composite implements SelectionListe
                 .getSelection()));
             // Enable/Disable UI Elements
             boolean bEnableUI = cbVisible.getSelection();
-            lblStyle.setEnabled(bEnableUI);
-            cmbStyle.setEnabled(bEnableUI);
-            lblWidth.setEnabled(bEnableUI);
-            cmbWidth.setEnabled(bEnableUI);
+            if (bEnableStyles)
+            {
+                lblStyle.setEnabled(bEnableUI);
+                cmbStyle.setEnabled(bEnableUI);
+            }
+            if (bEnableWidths)
+            {
+                lblWidth.setEnabled(bEnableUI);
+                cmbWidth.setEnabled(bEnableUI);
+            }
             lblColor.setEnabled(bEnableUI);
             cmbColor.setEnabled(bEnableUI);
         }

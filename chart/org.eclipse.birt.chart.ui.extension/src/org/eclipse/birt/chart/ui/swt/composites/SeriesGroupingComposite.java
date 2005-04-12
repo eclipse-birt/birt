@@ -38,13 +38,19 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
     private transient Button btnEnabled = null;
 
+    private transient Label lblType = null;
+
     private transient Combo cmbType = null;
 
     private transient Label lblUnit = null;
 
     private transient Combo cmbUnit = null;
 
+    private transient Label lblInterval = null;
+
     private transient IntegerSpinControl iscInterval = null;
+
+    private transient Label lblAggregate = null;
 
     private transient Combo cmbAggregate = null;
 
@@ -95,31 +101,30 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         btnEnabled.addSelectionListener(this);
         btnEnabled.setSelection(getGrouping().isEnabled());
 
-        Label lblType = new Label(grpContent, SWT.NONE);
+        boolean bEnableUI = btnEnabled.getSelection();
+        lblType = new Label(grpContent, SWT.NONE);
         GridData gdLBLType = new GridData();
         lblType.setLayoutData(gdLBLType);
         lblType.setText(Messages.getString("SeriesGroupingComposite.Lbl.Type")); //$NON-NLS-1$
-        lblType.setEnabled(bTypeEnabled);
+        lblType.setEnabled(bEnableUI & bTypeEnabled);
 
         cmbType = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBType = new GridData(GridData.FILL_HORIZONTAL);
         cmbType.setLayoutData(gdCMBType);
         cmbType.addSelectionListener(this);
-        cmbType.setEnabled(bTypeEnabled);
+        cmbType.setEnabled(bEnableUI & bTypeEnabled);
 
         lblUnit = new Label(grpContent, SWT.NONE);
         GridData gdLBLUnit = new GridData();
         lblUnit.setLayoutData(gdLBLUnit);
         lblUnit.setText(Messages.getString("SeriesGroupingComposite.Lbl.Unit")); //$NON-NLS-1$
-        lblUnit.setEnabled(false);
 
         cmbUnit = new Combo(grpContent, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBUnit = new GridData(GridData.FILL_HORIZONTAL);
         cmbUnit.setLayoutData(gdCMBUnit);
         cmbUnit.addSelectionListener(this);
-        cmbUnit.setEnabled(false);
 
-        Label lblInterval = new Label(grpContent, SWT.NONE);
+        lblInterval = new Label(grpContent, SWT.NONE);
         GridData gdLBLInterval = new GridData();
         lblInterval.setLayoutData(gdLBLInterval);
         lblInterval.setText(Messages.getString("SeriesGroupingComposite.Lbl.Interval")); //$NON-NLS-1$
@@ -155,7 +160,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         cmpAggregate.setLayoutData(gdCMPAggregate);
         cmpAggregate.setLayout(glAggregate);
 
-        Label lblAggregate = new Label(cmpAggregate, SWT.NONE);
+        lblAggregate = new Label(cmpAggregate, SWT.NONE);
         GridData gdLBLAggregate = new GridData();
         lblAggregate.setLayoutData(gdLBLAggregate);
         lblAggregate.setText(Messages.getString("SeriesGroupingComposite.Lbl.AggregateExpression")); //$NON-NLS-1$
@@ -172,6 +177,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
     {
         SeriesGrouping grouping = getGrouping();
 
+        boolean bEnableUI = btnEnabled.getSelection();
         // Populate grouping type combo
         cmbType.add("Text"); //$NON-NLS-1$
         cmbType.add("Number"); //$NON-NLS-1$
@@ -184,6 +190,11 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         {
             cmbType.select(0);
         }
+        this.lblType.setEnabled(bEnableUI);
+        this.cmbType.setEnabled(bEnableUI);
+
+        this.lblInterval.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
+        this.iscInterval.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
 
         // Populate grouping unit combo (applicable only if type is Date/Time
         cmbUnit.add("Seconds"); //$NON-NLS-1$
@@ -203,6 +214,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         {
             cmbUnit.select(0);
         }
+        lblUnit.setEnabled(bEnableUI & cmbType.getText().equals("Date/Time"));
+        cmbUnit.setEnabled(bEnableUI & cmbType.getText().equals("Date/Time"));
 
         // Populate grouping aggregate expression combo
         cmbAggregate.add("Sum"); //$NON-NLS-1$
@@ -212,6 +225,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             cmbAggregate.setText(grouping.getAggregateExpression());
         }
         cmbAggregate.select(0);
+        lblAggregate.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
+        cmbAggregate.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
     }
 
     private SeriesGrouping getGrouping()
@@ -235,17 +250,18 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         Object oSource = e.getSource();
         if (oSource.equals(cmbType))
         {
-            if (cmbType.getText().equals("Date/Time")) //$NON-NLS-1$
-            {
-                lblUnit.setEnabled(true);
-                cmbUnit.setEnabled(true);
-            }
-            else
-            {
-                lblUnit.setEnabled(false);
-                cmbUnit.setEnabled(false);
-            }
             getGrouping().setGroupType(cmbType.getText());
+
+            boolean bEnableUI = btnEnabled.getSelection();
+            boolean bText = cmbType.getText().equals("Text");
+            boolean bDate = cmbType.getText().equals("Date/Time");
+
+            lblUnit.setEnabled(bEnableUI & bDate);
+            cmbUnit.setEnabled(bEnableUI & bDate);
+            lblInterval.setEnabled(bEnableUI & !bText);
+            iscInterval.setEnabled(bEnableUI & !bText);
+            lblAggregate.setEnabled(bEnableUI & !bText);
+            cmbAggregate.setEnabled(bEnableUI & !bText);
         }
         else if (oSource.equals(cmbUnit))
         {
@@ -258,6 +274,20 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         else if (oSource.equals(btnEnabled))
         {
             getGrouping().setEnabled(btnEnabled.getSelection());
+            boolean bEnableUI = btnEnabled.getSelection();
+
+            lblType.setEnabled(bEnableUI);
+            cmbType.setEnabled(bEnableUI);
+
+            boolean bText = cmbType.getText().equals("Text");
+            boolean bDate = cmbType.getText().equals("Date/Time");
+
+            lblUnit.setEnabled(bEnableUI & bDate);
+            cmbUnit.setEnabled(bEnableUI & bDate);
+            lblInterval.setEnabled(bEnableUI & !bText);
+            iscInterval.setEnabled(bEnableUI & !bText);
+            lblAggregate.setEnabled(bEnableUI & !bText);
+            cmbAggregate.setEnabled(bEnableUI & !bText);
         }
     }
 

@@ -106,8 +106,7 @@ public class ScatterChart extends DefaultChartTypeImpl
      */
     public IHelpContent getHelp()
     {
-        return new HelpContentImpl(
-            "Scatter Chart", //$NON-NLS-1$
+        return new HelpContentImpl("Scatter Chart", //$NON-NLS-1$
             Messages.getString("ScatterChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
@@ -434,15 +433,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         {
             BaseSampleData bsd = (BaseSampleData) bsdList.get(i);
             bsd.setDataSetRepresentation(getConvertedSampleDataRepresentation(bsd.getDataSetRepresentation(), false)); // Special
-            // handling
-            // for
-            // stock
-            // series
-            // only
-            // needed
-            // for
-            // orthogonal
-            // values
+            // handling for stock series only needed for orthogonal values
             vNewBaseSampleData.add(bsd);
         }
         currentSampleData.getBaseSampleData().clear();
@@ -472,6 +463,10 @@ public class ScatterChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
+            if (sElement.startsWith("'"))
+            {
+                sElement = sElement.substring(1, sElement.length() - 1);
+            }
             if (bStockSeries)
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
