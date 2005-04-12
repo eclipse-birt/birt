@@ -39,7 +39,6 @@
 		<pathelement path="${core.dir}\core.jar" />
 		<pathelement path="${core.dir}\lib\junit.jar" />
 		<pathelement path="${core.dir}\lib\js.jar" />
-		<pathelement path="${core.dir}\lib\commons-logging.jar" />
 	</path>
 
 	<!-- Prepare to start the build. All dependent projects should
