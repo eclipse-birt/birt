@@ -110,10 +110,7 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
 import org.xml.sax.Attributes;
 
@@ -137,7 +134,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/04/08 07:41:31 $
+ * @version $Revision: 1.20 $ $Date: 2005/04/12 05:26:21 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -585,7 +582,7 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( grid, handle );
 
 		// Handle Columns
-		SlotHandle columnSlot = handle.getSlot( GridItem.COLUMN_SLOT );
+		SlotHandle columnSlot = handle.getColumns();
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
 			apply( columnSlot.get( i ) );
@@ -601,7 +598,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Handle Rows
-		SlotHandle rowSlot = handle.getSlot( GridItem.ROW_SLOT );
+		SlotHandle rowSlot = handle.getRows();
 		for ( int i = 0; i < rowSlot.getCount( ); i++ )
 		{
 			apply( rowSlot.get( i ) );
@@ -759,7 +756,7 @@ class EngineIRVisitor extends DesignVisitor
 		row.setVisibility( visibility );
 
 		// Cells in a row
-		SlotHandle cellSlot = handle.getSlot( TableRow.CONTENT_SLOT );
+		SlotHandle cellSlot = handle.getCells();
 		for ( int i = 0; i < cellSlot.getCount( ); i++ )
 		{
 			apply( cellSlot.get( i ) );
@@ -776,7 +773,7 @@ class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( cell, handle );
 
 		// Cell contents
-		SlotHandle contentSlot = handle.getSlot( Cell.CONTENT_SLOT );
+		SlotHandle contentSlot = handle.getContent();
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
 		{
 			apply( contentSlot.get( i ) );
