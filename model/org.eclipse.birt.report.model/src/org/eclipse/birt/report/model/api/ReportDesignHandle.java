@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -35,7 +36,6 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 
@@ -1508,32 +1508,32 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
-	 * @param element
-	 *            the element whose name is need to check.
+	 * @param elementHandle
+	 *            the element handle whose name is need to check.
 	 */
 
-	public void rename( DesignElement element )
+	public void rename( DesignElementHandle elementHandle )
 	{
-		if ( element == null )
+		if ( elementHandle == null )
 			return;
 
-		ElementDefn defn = (ElementDefn) element.getDefn( );
+		IElementDefn defn = elementHandle.getElement( ).getDefn( );
 
 		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
-			design.makeUniqueName( element );
+			design.makeUniqueName( elementHandle.getElement( ) );
 		else
-			element.setName( null );
+			elementHandle.getElement( ).setName( null );
 
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
-			ContainerSlot slot = element.getSlot( i );
+			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
 
 			if ( slot != null )
 			{
 				for ( int pos = 0; pos < slot.getCount( ); pos++ )
 				{
 					DesignElement innerElement = slot.getContent( pos );
-					rename( innerElement );
+					rename( innerElement.getHandle( design ) );
 				}
 			}
 		}

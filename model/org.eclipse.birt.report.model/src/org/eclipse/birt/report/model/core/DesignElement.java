@@ -3159,7 +3159,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 	 * When inserting the cloned element into the design tree, user needs to
 	 * care about the element name confliction; that is, the client needs to
 	 * call the method
-	 * <code>{@link ReportDesignHandle#rename( DesignElement )}</code> to
+	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code> to
 	 * change the element names.
 	 * 
 	 * @return Object the cloned design element.
