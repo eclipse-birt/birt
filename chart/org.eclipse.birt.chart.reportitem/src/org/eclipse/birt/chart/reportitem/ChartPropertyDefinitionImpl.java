@@ -12,53 +12,53 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.extension.PropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.PropertyDefinition;
 
 /**
- * 
+ *  
  */
 public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 {
     /**
-     * 
+     *  
      */
     private String sGroupNameID = null;
 
     /**
-     * 
+     *  
      */
     private String sName = null;
 
     /**
-     * 
+     *  
      */
     private String sDisplayNameID = null;
 
     /**
-     * 
+     *  
      */
     private boolean bList = false;
 
     /**
-     * 
+     *  
      */
     private int iType = -1;
 
     /**
-     * 
+     *  
      */
     private List liChoices = null;
 
     /**
-     * 
+     *  
      */
     private List liMembers = null;
-    
+
     /**
-     * 
+     *  
      */
     private Object oDefaultValue = null;
-    
+
     /**
      * 
      * @param sGroupNameID
@@ -70,8 +70,8 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
      * @param liMembers
      * @param oDefaultValue
      */
-    ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID,
-        boolean bList, int iType, List liChoices, List liMembers, Object oDefaultValue)
+    ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList, int iType,
+        List liChoices, List liMembers, Object oDefaultValue)
     {
         this.sGroupNameID = sGroupNameID;
         this.sName = sName;
@@ -82,9 +82,10 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         this.liMembers = liMembers;
         this.oDefaultValue = oDefaultValue;
     }
-    
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
      */
     public String getGroupNameID()
@@ -92,7 +93,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return sGroupNameID;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
      */
     public String getName()
@@ -100,7 +103,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return sName;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
      */
     public String getDisplayNameID()
@@ -108,7 +113,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return sDisplayNameID;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
      */
     public int getType()
@@ -116,7 +123,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return iType;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#isList()
      */
     public boolean isList()
@@ -124,7 +133,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return bList;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
      */
     public List getChoices()
@@ -132,7 +143,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return liChoices;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
      */
     public List getMembers()
@@ -140,7 +153,9 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         return liMembers;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
      */
     public Object getDefaultValue()

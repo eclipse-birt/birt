@@ -13,9 +13,9 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.extension.IMessages;
-import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.ReportItemFactory;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.ReportItemFactory;
 
 /**
  *  
@@ -51,30 +51,34 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements IMe
     }
 
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String, java.util.Locale)
      */
     public String getMessage(String key, Locale locale)
     {
         //DefaultLoggerImpl.instance().log(ILogger.ERROR, "Request for resource key=" + key);
         //return key + "_value";
-        
+
         // TEMP LOOKUP ALGORITHM - TO BE CHANGED TO LOOKUP A RESOURCEBUNDLE
         final StringBuffer sb = new StringBuffer(key);
         final int iFirstDot = sb.indexOf(".");
-        if (iFirstDot == -1) return key + "_value"; 
+        if (iFirstDot == -1)
+            return key + "_value";
         sb.delete(0, iFirstDot + 1);
         int i = 0, iDot;
         char c = sb.charAt(0);
         sb.setCharAt(0, Character.toUpperCase(c));
-        do {
+        do
+        {
             iDot = sb.indexOf(".", i);
             if (iDot >= 0 && iDot < sb.length() - 1)
             {
                 sb.setCharAt(iDot, ' ');
                 i = iDot + 1;
             }
-        } while (i < sb.length() && iDot != -1);
+        }
+        while (i < sb.length() && iDot != -1);
         return sb.toString();
     }
 }

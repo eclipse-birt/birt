@@ -10,7 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
-import org.eclipse.birt.report.model.extension.ElementCommand;
+import org.eclipse.birt.report.model.api.extension.ElementCommand;
 
 /**
  * @author Actuate Corporation

@@ -26,11 +26,11 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
-import org.eclipse.birt.report.model.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.extension.IChoiceDefinition;
-import org.eclipse.birt.report.model.extension.IPropertyDefinition;
-import org.eclipse.birt.report.model.extension.IReportItem;
-import org.eclipse.birt.report.model.extension.ReportItem;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class ChartReportItemImpl extends ReportItem
 {
     private Chart cm = null;
-    
+
     private Object oDesignerRepresentation = null;
 
     private static final List liLegendPositions = new LinkedList();
@@ -49,7 +49,7 @@ public final class ChartReportItemImpl extends ReportItem
     private static final List liLegendAnchors = new LinkedList();
 
     private static final List liChartDimensions = new LinkedList();
-    
+
     static
     {
         // SUPPRESS EVERYTHING EXCEPT FOR ERRORS
@@ -96,7 +96,7 @@ public final class ChartReportItemImpl extends ReportItem
     };
 
     /**
-     * 
+     *  
      */
     public ChartReportItemImpl()
     {
@@ -127,7 +127,7 @@ public final class ChartReportItemImpl extends ReportItem
     {
         this.oDesignerRepresentation = oDesignerRepresentation;
     }
-    
+
     /**
      * 
      * @return
@@ -136,7 +136,7 @@ public final class ChartReportItemImpl extends ReportItem
     {
         return oDesignerRepresentation;
     }
-    
+
     /*
      * (non-Javadoc)
      * 

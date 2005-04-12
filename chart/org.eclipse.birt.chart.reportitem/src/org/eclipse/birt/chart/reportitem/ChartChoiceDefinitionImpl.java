@@ -10,28 +10,28 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
-import org.eclipse.birt.report.model.extension.ChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.ChoiceDefinition;
 
 /**
- * 
+ *  
  */
 public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
 {
     /**
-     * 
+     *  
      */
     private final String sDisplayNameID;
-    
+
     /**
-     * 
+     *  
      */
     private final String sName;
-    
+
     /**
-     * 
+     *  
      */
     private final Object oValue;
-    
+
     /**
      * 
      * @param sDisplayNameID
@@ -44,8 +44,10 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
         this.sName = sName;
         this.oValue = oValue;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getDisplayNameID()
      */
     public String getDisplayNameID()
@@ -54,7 +56,9 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
         return sDisplayNameID;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getName()
      */
     public String getName()
@@ -63,7 +67,9 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
         return sName;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getValue()
      */
     public Object getValue()
