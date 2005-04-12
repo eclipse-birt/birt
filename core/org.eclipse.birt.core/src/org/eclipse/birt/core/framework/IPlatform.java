@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.core.framework;
 
+import java.io.IOException;
+import java.net.URL;
+
 
 /**
  * Defines the Platform interface that allows BIRT to be run in Eclipse and 
  * server environments 
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/25 02:33:10 $
  */
 public interface IPlatform
 {
@@ -25,4 +28,5 @@ public interface IPlatform
 	 */
 	IExtensionRegistry getExtensionRegistry();
 	IBundle getBundle(String symblicName);
+	URL asLocalURL(URL url) throws IOException;
 }

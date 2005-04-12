@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.core.framework.eclipse;
 
+import java.io.IOException;
+import java.net.URL;
+
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
@@ -23,7 +26,7 @@ import org.osgi.framework.Bundle;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/03/25 02:33:15 $
  */
 public class EclipsePlatform implements IPlatform
 {
@@ -44,6 +47,11 @@ public class EclipsePlatform implements IPlatform
 			return new EclipseBundle(bundle);
 		}
 		return null;
+	}
+	
+	public URL asLocalURL(URL url)  throws IOException
+	{
+		return Platform.asLocalURL(url);
 	}
 	
 	static IConfigurationElement wrap(org.eclipse.core.runtime.IConfigurationElement object)

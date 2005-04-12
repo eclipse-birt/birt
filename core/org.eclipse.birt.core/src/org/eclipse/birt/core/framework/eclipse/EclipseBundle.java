@@ -6,13 +6,15 @@
  */
 package org.eclipse.birt.core.framework.eclipse;
 
+import java.net.URL;
+
 import org.eclipse.birt.core.framework.IBundle;
 import org.osgi.framework.Bundle;
 
 
 /**
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2005/03/25 02:33:15 $
  */
 public class EclipseBundle implements IBundle
 {
@@ -28,6 +30,11 @@ public class EclipseBundle implements IBundle
 	public Class loadClass( String name ) throws ClassNotFoundException
 	{
 		return bundle.loadClass(name);
+	}
+	
+	public URL getEntry (String name)
+	{
+		return bundle.getEntry(name);
 	}
 
 }

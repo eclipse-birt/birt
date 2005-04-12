@@ -6,12 +6,15 @@
  */
 package org.eclipse.birt.core.framework;
 
+import java.net.URL;
+
 
 /**
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2005/03/25 02:33:15 $
  */
 public interface IBundle
 {
 	 Class loadClass(String name) throws ClassNotFoundException;
+	 URL getEntry(String name);
 }
