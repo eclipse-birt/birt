@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.engine.i18n.Messages;
 
 /**
@@ -123,9 +125,9 @@ public interface IConstants
 
     public static final String ONE_SPACE = " "; //$NON-NLS-1$
 
-    public static final String UNDEFINED_STRING = Messages.getString("constant.undefined.string", null); //$NON-NLS-1$
+    public static final String UNDEFINED_STRING = Messages.getString("constant.undefined.string", Locale.getDefault()); //$NON-NLS-1$
 
-    public static final String NULL_STRING = Messages.getString("constant.null.string", null); //$NON-NLS-1$
+    public static final String NULL_STRING = Messages.getString("constant.null.string", Locale.getDefault()); //$NON-NLS-1$
 
     public final int SOME_NULL = -2;
 
