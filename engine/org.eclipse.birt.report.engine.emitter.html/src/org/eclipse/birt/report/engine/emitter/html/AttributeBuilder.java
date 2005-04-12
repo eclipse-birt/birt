@@ -14,14 +14,14 @@ package org.eclipse.birt.report.engine.emitter.html;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.Choice;
-import org.eclipse.birt.report.model.metadata.DimensionValue;
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/17 07:56:38 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/08 05:20:28 $
  */
 public class AttributeBuilder
 {
