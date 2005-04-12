@@ -50,7 +50,7 @@ public class Connection implements IConnection
 	/** Driver classes that we have registered with JDBC DriverManager */
 	private static  HashSet registeredDrivers = new HashSet();
 		
-	private static  DriverClassLoader driverClassLoader = DriverClassLoader.getInstance(); 
+	private static  DriverClassLoader driverClassLoader = null; 
 
 	/*
 	 * (non-Javadoc)
@@ -290,7 +290,10 @@ public class Connection implements IConnection
 			}
 			catch ( ClassNotFoundException e )
 			{
-				driverClass = loadWrappedDriver( className );
+				driverClass = loadDriver( className );
+				// if driver class cannot be found
+				if(driverClass == null)
+					throw new OdaException(e.getLocalizedMessage());
 			}
 		
 		// Register the driver with JDBC driver manager; normally this is done by
@@ -300,7 +303,6 @@ public class Connection implements IConnection
 		
 			try
 			{
-				assert(driverClass!=null);
 				Driver driver = (Driver) driverClass.newInstance( );
 				
 				DriverManager.registerDriver( new WrappedDriver( driver ) );
@@ -362,11 +364,14 @@ public class Connection implements IConnection
 	 * @throws DriverException
 	 * @throws OdaException
 	 */
-	private static Class loadWrappedDriver(String className)throws DriverException, OdaException
+	private static Class loadDriver(String className)throws DriverException, OdaException
 	{
 		try
 		{
-			assert(driverClassLoader!=null);
+			if(driverClassLoader == null)
+				driverClassLoader = DriverClassLoader.getInstance();
+			if(driverClassLoader == null)
+				return null;
 			return driverClassLoader.loadClass(className);
 		}
 		catch ( ClassNotFoundException e )
@@ -448,36 +453,40 @@ class DriverClassLoader extends URLClassLoader{
 
 	private final static String DRIVER_NAME = "jdbc";
 	private final static String DRIVER_DIRECTORY = "drivers";
-	private static String driverDirectory = null;
+	private static String driverHomeDir = null;
 	
 	//The list of file names which are used to construct the URL search list of URLClassLoader
-	private static String[] fileNameList = null;
+	private static List fileNameList = new ArrayList();
 	private static DriverClassLoader instance = null;
 	
-	/**
-	 * @param urls
-	 * @throws OdaException
-	 */
 	private DriverClassLoader(URL[] url){
 		super(url);
-		try {
-			driverDirectory = getDriverDirectory();
-			refreshURL();
-		} catch (OdaException e) {
-			e.printStackTrace();
-		}
-
 	}
 	
-	public static DriverClassLoader getInstance()
+	/**
+	 * @return the instance of DriverClassLoader. If there are no drivers in driver directory 
+	 * 		   then return null
+	 * @throws OdaException
+	 */
+	public static DriverClassLoader getInstance() throws OdaException
 	{
+		//if instance == null, try to construct a new DriverClassLoader
 		if( instance == null)
-			try {
-				//return a classloader using Constructor with "dummy" URL
-				return new DriverClassLoader(new URL[]{new URL("file",null,-1,"dummy")});
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
+		{
+			//setup driver home
+			driverHomeDir = getDriverHomeDir();
+			String[] filenames = getNewJARFiles();
+			if(!isEmptyArray(filenames))
+			{
+				URL[] urls = new URL[filenames.length];
+				
+				for(int i = 0; i < urls.length; i++)
+					urls[i] = constructURL(filenames[i]);
+				
+				instance = new DriverClassLoader(urls);
+				updateFileList( filenames );
 			}
+		}
 		return instance;
 	}
 	
@@ -485,55 +494,63 @@ class DriverClassLoader extends URLClassLoader{
 	 * Refresh the URL list of DriverClassLoader
 	 * @return if the refreshURL is different than the former one then return true otherwise
 	 * 			return false
-	 * @throws OdaException
 	 */
-	public boolean refreshURL() throws OdaException
+	public boolean refreshURL()
 	{
-		String[] newJARFileList = getNewJARFileList( );
-		if(newJARFileList == null||newJARFileList.length == 0)
+		String[] newJARFiles = getNewJARFiles( );
+		if(isEmptyArray(newJARFiles))
 			return false;
-		for(int i = 0; i < newJARFileList.length; i++)
+		for(int i = 0; i < newJARFiles.length; i++)
 		{
-			try {
-				addURL(new URL("file",null,-1,new File(driverDirectory,newJARFileList[i]).getAbsolutePath()));
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
+			addURL(constructURL(newJARFiles[i]));
 		}
-		updateFileList( newJARFileList );
+		updateFileList( newJARFiles );
 		return true;
 	}
 	
+	private static boolean isEmptyArray(Object[] objects)
+	{
+		if(objects == null||objects.length == 0)
+			return true;
+		return false;
+	}
 	/**
-	 * Return list of "jar" file names freshly added (other than ones exist in fileNameList under given directory
+	 * Construct a URL using given file name.
+	 * @param filename the name of file the constructed URL linked to 
+	 * @return URL constructed based on the given file name
+	 */
+	private static URL constructURL(String filename)
+	{
+		URL url = null;
+		try {
+			url = new URL("file", null, -1, new File(driverHomeDir, filename)
+					.getAbsolutePath());
+		} catch (MalformedURLException e) {
+			//should not arrive here
+			assert (false);
+		}
+		return url;
+	}
+	/**
+	 * Return array of "jar" file names freshly added (other than ones exist in fileNameList under given directory
 	 * @param absoluteDriverDir
 	 * @return
 	 */
-	private static String[] getNewJARFileList()
+	private static String[] getNewJARFiles()
 	{
-		return new File(driverDirectory).list( new LoadedDriverFileFilter(fileNameList) );
+		return new File(driverHomeDir).list( new LoadedDriverFileFilter(fileNameList) );
 	}
 	
 	/**
 	 * Update the fileNameList member of DriverClassLoader.
-	 * @param freshlyAddedFileList
+	 * @param freshlyAddedFiles
 	 */
-	private void updateFileList(String[] freshlyAddedFileList)
+	private static void updateFileList(String[] freshlyAddedFiles)
 	{
-		if(freshlyAddedFileList == null|| freshlyAddedFileList.length == 0)
+		if(isEmptyArray(freshlyAddedFiles))
 			return;
-		if(fileNameList == null||fileNameList.length == 0)
-			fileNameList = freshlyAddedFileList;
-		String[] newFileList = new String[fileNameList.length + freshlyAddedFileList.length];
-		for(int i = 0; i < fileNameList.length; i ++)
-		{
-			newFileList[i] = fileNameList[i];
-		}
-		for(int i = 0; i < freshlyAddedFileList.length; i++)
-		{
-			newFileList[i+fileNameList.length] = freshlyAddedFileList[i];
-		}
-		fileNameList = newFileList;
+		for(int i = 0; i < freshlyAddedFiles.length; i++)
+				fileNameList.add(freshlyAddedFiles[i]);
 	}
 	
 	
@@ -544,61 +561,61 @@ class DriverClassLoader extends URLClassLoader{
 	 * @return absolute path of "driver" directory
 	 * @throws OdaException
 	 */
-	private static  String getDriverDirectory() throws OdaException{
-		ConfigManager configMgr = ConfigManager.getInstance( );
-		String location = null;
+	private static String getDriverHomeDir() throws OdaException {
+		ConfigManager configMgr = ConfigManager.getInstance();
+		String dirverHomeDir = null;
 		try {
-			location = new File(configMgr.getDriverConfig(DRIVER_NAME)
+			dirverHomeDir = new File(configMgr.getDriverConfig(DRIVER_NAME)
 					.getDriverLocation().getFile(), DRIVER_DIRECTORY)
 					.getAbsolutePath();
-		}catch (IOException e) {
-			
+		} catch (IOException e) {
+
+		} catch (NullPointerException e) {
+			//if cannot find driver directory in plugin path, try to find it in
+			// current path
+			dirverHomeDir = new File(DRIVER_DIRECTORY).getAbsolutePath();
 		}
-		catch(NullPointerException e)
-		{
-			//if cannot find driver directory in plugin path, try to find it in current path 
-		    location = new File(DRIVER_DIRECTORY).getAbsolutePath();	
-		}
-		return location;	
+		return dirverHomeDir;
 	}
 }
 
 /**
- * The filter class which is used to filter out the jar files that are existing in given file name list.
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * The filter class which is used to filter out the jar files that are existing
+ * in given file name list.
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
  */
 class LoadedDriverFileFilter implements FilenameFilter
 {
-	private String[] existFileList = null;
-	private List freshlyLoadedFile = new ArrayList();
-	LoadedDriverFileFilter( String[] fileList )
+	private List loadedFiles = null;
+	LoadedDriverFileFilter( List loadedFileList )
 	{
-		existFileList = fileList;
+		loadedFiles = loadedFileList;
 	}
 	
 	public boolean accept(File dir,String name)
 	{
 		if(name.toLowerCase().endsWith(".jar")&&!isLoaded(name))
-		{
-			freshlyLoadedFile.add(name);
 			return true;
-		}
 		return false;
 	}
 	
 	private boolean isLoaded(String name)
 	{
-		if(existFileList!=null)
+		if(loadedFiles!=null)
 		{
-			for(int i = 0; i < existFileList.length; i++)
+			for(int i = 0; i < loadedFiles.size(); i++)
 			{
-				if(existFileList[i].equalsIgnoreCase(name))
+				//Compare two names omitting suffix ".jar"
+				assert (loadedFiles.get(i).toString().length() > 4);
+				assert (name.length() > 4);
+				if (loadedFiles.get(i).toString()
+						.substring(0, loadedFiles.get(i).toString().length() - 4).equals(
+								name.substring(0, name.length() - 4)))
 					return true;
 			}
 		}
-		
 		return false;
 	}
 }
