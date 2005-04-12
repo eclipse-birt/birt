@@ -62,7 +62,7 @@ public class UIUtil
 	 */
 	public static boolean isReportEditorActivated( )
 	{
-		return getActiveEditor( ) != null;
+		return getActiveReportEditor( ) != null;
 	}
 
 	/**
@@ -72,9 +72,9 @@ public class UIUtil
 	 * @return Returns the current active report editor, or null if no report
 	 *         editor is active.
 	 */
-	public static ReportEditor getActiveEditor( )
+	public static ReportEditor getActiveReportEditor( )
 	{
-		return getActiveEditor( true );
+		return getActiveReportEditor( true );
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class UIUtil
 	 * @return Returns the current active report editor, or null if no report
 	 *         editor is active.
 	 */
-	public static ReportEditor getActiveEditor( boolean activePageOnly )
+	public static ReportEditor getActiveReportEditor( boolean activePageOnly )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -140,6 +140,57 @@ public class UIUtil
 
 		return null;
 
+	}
+
+	/**
+	 * Returns the current active editor part in current active page or current
+	 * active workbench.
+	 * 
+	 * @param activePageOnly
+	 *            If this is true, only search the current active page, or will
+	 *            search all pages in current workbench, returns the first
+	 *            active editor part or null if not found.
+	 * @return Returns the current active editor part, or null if no editor part
+	 *         is active.
+	 */
+	public static IEditorPart getActiveEditor( boolean activePageOnly )
+	{
+		IWorkbenchWindow window = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+
+		if ( window != null )
+		{
+			if ( activePageOnly )
+			{
+				IWorkbenchPage pg = window.getActivePage( );
+
+				if ( pg != null )
+				{
+					return pg.getActiveEditor( );
+				}
+			}
+			else
+			{
+				IWorkbenchPage[] pgs = window.getPages( );
+
+				for ( int i = 0; i < pgs.length; i++ )
+				{
+					IWorkbenchPage pg = pgs[i];
+
+					if ( pg != null )
+					{
+						IEditorPart editor = pg.getActiveEditor( );
+
+						if ( editor != null )
+						{
+							return editor;
+						}
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
