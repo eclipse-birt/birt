@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.metadata.DimensionValue;
+import org.eclipse.birt.report.model.util.ColorUtil;
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.SWT;
@@ -181,6 +182,126 @@ public abstract class BaseBorder extends AbstractBorder
 		}
 
 		return retValue.intValue( );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderStyle( )
+	{
+		return getBorderStyle( leftStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderStyle( )
+	{
+		return getBorderStyle( rightStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderStyle( )
+	{
+		return getBorderStyle( topStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderStyle( )
+	{
+		return getBorderStyle( bottomStyle );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderWidth( )
+	{
+		return getBorderWidth( leftWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderWidth( )
+	{
+		return getBorderWidth( rightWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderWidth( )
+	{
+		return getBorderWidth( topWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderWidth( )
+	{
+		return getBorderWidth( bottomWidth );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getLeftBorderColor( )
+	{
+		return ColorUtil.parseColor( leftColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getRightBorderColor( )
+	{
+		return ColorUtil.parseColor( rightColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getTopBorderColor( )
+	{
+		return ColorUtil.parseColor( topColor );
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 * 
+	 * @return
+	 */
+	public int getBottomBorderColor( )
+	{
+		return ColorUtil.parseColor( bottomColor );
 	}
 
 }

@@ -27,7 +27,6 @@ public class TableBorderHelper
 
 	private TableEditPart owner;
 
-	private int[] maxHeights, maxWidths;
 	private int[][] heights, widths;
 
 	/**
@@ -48,63 +47,12 @@ public class TableBorderHelper
 	}
 
 	/**
-	 * Returns the maximum horizontal cell border height, index ranges from [0] -
-	 * [table.rowCount], [0] means the toppest border which maybe collapsed by
-	 * the table top border, [table.rowCount] means the bottomest border which
-	 * maybe collapsed by the table bottom border.
-	 * 
-	 * @param rowNumber
-	 * @return
-	 */
-	public int getHorizontalBorderHeight( int rowNumber )
-	{
-		if ( maxWidths == null )
-		{
-			initialize( );
-		}
-
-		if ( rowNumber >= 0 && rowNumber <= owner.getRowCount( ) )
-		{
-			return maxHeights[rowNumber];
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Returns the maximum vertical cell border width, index ranges from [0] -
-	 * [table.columnCount], [0] means the leftest border which maybe collapsed
-	 * by the table left border, [table.columnCount] means the rightest border
-	 * which maybe collapsed by the table right border.
-	 * 
-	 * @param colNumber
-	 * @return
-	 */
-	public int getVerticalBorderWidth( int colNumber )
-	{
-		if ( maxHeights == null )
-		{
-			initialize( );
-		}
-
-		if ( colNumber >= 0 && colNumber <= owner.getColumnCount( ) )
-		{
-			return maxWidths[colNumber];
-		}
-
-		return 0;
-	}
-
-	/**
 	 * Initialize the helper.
 	 */
 	private void initialize( )
 	{
 		int rowCount = owner.getRowCount( );
 		int colCount = owner.getColumnCount( );
-
-		maxHeights = new int[rowCount + 1];
-		maxWidths = new int[colCount + 1];
 
 		heights = new int[colCount][rowCount + 1];
 		widths = new int[rowCount][colCount + 1];
@@ -132,6 +80,22 @@ public class TableBorderHelper
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j + 1][3] = -1;
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j + 1][4] = -1;
 			}
+		}
+
+		// use table border data to initialize.
+		TableBorder tableBorder = (TableBorder) owner.getFigure( ).getBorder( );
+		Insets tableBorderInsets = tableBorder.getTrueBorderInsets( );
+
+		for ( int i = 0; i < colCount; i++ )
+		{
+			heights[i][0] = tableBorderInsets.top;
+			heights[i][rowCount] = tableBorderInsets.bottom;
+		}
+
+		for ( int i = 0; i < rowCount; i++ )
+		{
+			widths[i][0] = tableBorderInsets.left;
+			widths[i][colCount] = tableBorderInsets.right;
 		}
 
 		// initialize all other border data.
@@ -162,12 +126,6 @@ public class TableBorderHelper
 			int rightStyle = border.getRightBorderStyle( );
 			int rightWidth = border.getRightBorderWidth( );
 			int rightColor = border.getRightBorderColor( );
-
-			maxHeights[rowIndex - 1] = Math.max( maxHeights[rowIndex - 1],
-					ins.top );
-			maxHeights[rowIndex + rowSpan - 1] = Math.max( maxHeights[rowIndex
-					+ rowSpan
-					- 1], ins.bottom );
 
 			for ( int i = 0; i < colSpan; i++ )
 			{
@@ -206,12 +164,6 @@ public class TableBorderHelper
 						ins.bottom );
 			}
 
-			maxWidths[colIndex - 1] = Math.max( maxWidths[colIndex - 1],
-					ins.left );
-			maxWidths[colIndex + colSpan - 1] = Math.max( maxWidths[colIndex
-					+ colSpan
-					- 1], ins.right );
-
 			for ( int i = 0; i < rowSpan; i++ )
 			{
 				// update border data using collision arbiter.
@@ -248,7 +200,71 @@ public class TableBorderHelper
 						+ i][colIndex + colSpan - 1],
 						ins.right );
 			}
+		}
 
+		//if table border has set, use it.
+		int tableTopStyle = tableBorder.getTopBorderStyle( );
+		int tableTopWidth = tableBorder.getTopBorderWidth( );
+		if ( tableTopStyle != 0 && tableTopWidth > 0 )
+		{
+			int tableTopColor = tableBorder.getTopBorderColor( );
+
+			for ( int i = 0; i < colCount; i++ )
+			{
+				borderData[i][0] = tableTopStyle;
+				borderData[i][1] = tableTopWidth;
+				borderData[i][2] = tableTopColor;
+				borderData[i][3] = -2;
+				borderData[i][4] = -2;
+			}
+		}
+
+		int tableBottomStyle = tableBorder.getBottomBorderStyle( );
+		int tableBottomWidth = tableBorder.getBottomBorderWidth( );
+		if ( tableBottomStyle != 0 && tableBottomWidth > 0 )
+		{
+			int tableBottomColor = tableBorder.getBottomBorderColor( );
+
+			for ( int i = 0; i < colCount; i++ )
+			{
+				borderData[2 * colCount * rowCount + rowCount + i][0] = tableBottomStyle;
+				borderData[2 * colCount * rowCount + rowCount + i][1] = tableBottomWidth;
+				borderData[2 * colCount * rowCount + rowCount + i][2] = tableBottomColor;
+				borderData[2 * colCount * rowCount + rowCount + i][3] = -2;
+				borderData[2 * colCount * rowCount + rowCount + i][4] = -2;
+			}
+		}
+
+		int tableLeftStyle = tableBorder.getLeftBorderStyle( );
+		int tableLeftWidth = tableBorder.getLeftBorderWidth( );
+		if ( tableLeftStyle != 0 && tableLeftWidth > 0 )
+		{
+			int tableLeftColor = tableBorder.getLeftBorderColor( );
+
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				borderData[( 2 * colCount + 1 ) * i + colCount][0] = tableLeftStyle;
+				borderData[( 2 * colCount + 1 ) * i + colCount][1] = tableLeftWidth;
+				borderData[( 2 * colCount + 1 ) * i + colCount][2] = tableLeftColor;
+				borderData[( 2 * colCount + 1 ) * i + colCount][3] = -2;
+				borderData[( 2 * colCount + 1 ) * i + colCount][4] = -2;
+			}
+		}
+
+		int tableRightStyle = tableBorder.getRightBorderStyle( );
+		int tableRightWidth = tableBorder.getRightBorderWidth( );
+		if ( tableRightStyle != 0 && tableRightWidth > 0 )
+		{
+			int tableRightColor = tableBorder.getRightBorderColor( );
+
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				borderData[( 2 * colCount + 1 ) * i + 2 * colCount][0] = tableRightStyle;
+				borderData[( 2 * colCount + 1 ) * i + 2 * colCount][1] = tableRightWidth;
+				borderData[( 2 * colCount + 1 ) * i + 2 * colCount][2] = tableRightColor;
+				borderData[( 2 * colCount + 1 ) * i + 2 * colCount][3] = -2;
+				borderData[( 2 * colCount + 1 ) * i + 2 * colCount][4] = -2;
+			}
 		}
 
 	}
@@ -258,7 +274,7 @@ public class TableBorderHelper
 	 */
 	public void updateCellBorderInsets( )
 	{
-		if ( maxHeights == null || maxWidths == null )
+		if ( heights == null || widths == null )
 		{
 			initialize( );
 		}
@@ -283,20 +299,36 @@ public class TableBorderHelper
 			// job is handled by Table border.
 			if ( rowIndex == 1 && ( rowIndex + rowSpan - 1 ) == rowCount )
 			{
-				borderInsets.top = 0;
-				borderInsets.bottom = 0;
+				//borderInsets.top = 0;
+				//borderInsets.bottom = 0;
+
+				int th = 0;
+				int bh = 0;
+
+				for ( int i = 0; i < colSpan; i++ )
+				{
+					th = Math.max( th, heights[colIndex - 1 + i][rowIndex - 1] );
+					bh = Math.max( bh, heights[colIndex - 1 + i][rowIndex
+							+ rowSpan
+							- 1] );
+				}
+
+				borderInsets.top = th;
+				borderInsets.bottom = bh;
 			}
 			else if ( rowIndex == 1 )
 			{
 				// if it's the toppest cell, don't give the top insets, but set
 				// the bottom insets.
 
-				borderInsets.top = 0;
+				//borderInsets.top = 0;
 
 				int bh = 0;
+				int th = 0;
 
 				for ( int i = 0; i < colSpan; i++ )
 				{
+					th = Math.max( th, heights[colIndex - 1 + i][rowIndex - 1] );
 					bh = Math.max( bh, heights[colIndex - 1 + i][rowIndex
 							+ rowSpan
 							- 1]
@@ -305,6 +337,7 @@ public class TableBorderHelper
 							% 2 );
 				}
 
+				borderInsets.top = th;
 				borderInsets.bottom = bh;
 			}
 			else if ( ( rowIndex + rowSpan - 1 ) == rowCount )
@@ -313,16 +346,21 @@ public class TableBorderHelper
 				// set the top insets.
 
 				int th = 0;
+				int bh = 0;
 
 				for ( int i = 0; i < colSpan; i++ )
 				{
 					th = Math.max( th,
 							heights[colIndex - 1 + i][rowIndex - 1] / 2 );
+					bh = Math.max( bh, heights[colIndex - 1 + i][rowIndex
+							+ rowSpan
+							- 1] );
 				}
 
 				borderInsets.top = th;
+				borderInsets.bottom = bh;
 
-				borderInsets.bottom = 0;
+				//borderInsets.bottom = 0;
 			}
 			else
 			{
@@ -352,20 +390,37 @@ public class TableBorderHelper
 			// job is handled by Table border.
 			if ( colIndex == 1 && ( colIndex + colSpan - 1 ) == colCount )
 			{
-				borderInsets.left = 0;
-				borderInsets.right = 0;
+				//borderInsets.left = 0;
+				//borderInsets.right = 0;
+
+				int rw = 0;
+				int lw = 0;
+
+				for ( int i = 0; i < rowSpan; i++ )
+				{
+					rw = Math.max( rw, widths[rowIndex - 1 + i][colIndex
+							+ colSpan
+							- 1] );
+					lw = Math.max( lw, widths[rowIndex - 1 + i][colIndex - 1] );
+				}
+
+				borderInsets.left = lw;
+				borderInsets.right = rw;
+
 			}
 			else if ( colIndex == 1 )
 			{
 				// if it's the leftest cell, don't give the left insets, but set
 				// the right insets.
 
-				borderInsets.left = 0;
+				//borderInsets.left = 0;
 
 				int rw = 0;
+				int lw = 0;
 
 				for ( int i = 0; i < rowSpan; i++ )
 				{
+					lw = Math.max( lw, widths[rowIndex - 1 + i][colIndex - 1] );
 					rw = Math.max( rw, widths[rowIndex - 1 + i][colIndex
 							+ colSpan
 							- 1]
@@ -373,6 +428,8 @@ public class TableBorderHelper
 							+ widths[rowIndex - 1 + i][colIndex + colSpan - 1]
 							% 2 );
 				}
+
+				borderInsets.left = lw;
 				borderInsets.right = rw;
 			}
 			else if ( ( colIndex + colSpan - 1 ) == colCount )
@@ -381,15 +438,21 @@ public class TableBorderHelper
 				// set the left insets.
 
 				int lw = 0;
+				int rw = 0;
 
 				for ( int i = 0; i < rowSpan; i++ )
 				{
 					lw = Math.max( lw,
 							widths[rowIndex - 1 + i][colIndex - 1] / 2 );
+					rw = Math.max( rw, widths[rowIndex - 1 + i][colIndex
+							+ colSpan
+							- 1] );
 				}
 
 				borderInsets.left = lw;
-				borderInsets.right = 0;
+				borderInsets.right = rw;
+
+				//borderInsets.right = 0;
 			}
 			else
 			{
@@ -410,6 +473,7 @@ public class TableBorderHelper
 					lw = Math.max( lw,
 							widths[rowIndex - 1 + i][colIndex - 1] / 2 );
 				}
+
 				borderInsets.left = lw;
 				borderInsets.right = rw;
 			}

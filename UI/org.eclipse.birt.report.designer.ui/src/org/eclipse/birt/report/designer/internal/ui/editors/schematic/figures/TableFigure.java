@@ -129,6 +129,16 @@ public class TableFigure extends FreeformViewport implements
 				.getMinimumSize( wHint, hHint );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
+	 */
+	protected void paintBorder( Graphics graphics )
+	{
+		// does nothing, table border layer paint it.
+	}
+
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */

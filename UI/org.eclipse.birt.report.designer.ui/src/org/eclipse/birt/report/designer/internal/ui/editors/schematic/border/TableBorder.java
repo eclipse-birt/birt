@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 
 /**
@@ -26,6 +27,26 @@ public class TableBorder extends SectionBorder
 	private static final Insets DEFAULTINSETS = new Insets( 0, 0, 0, 0 );
 
 	Insets getDefaultPaddingInsets( )
+	{
+		return DEFAULTINSETS;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
+	 */
+	public Insets getInsets( IFigure figure )
+	{
+		return DEFAULTINSETS;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getBorderInsets()
+	 */
+	public Insets getBorderInsets( )
 	{
 		return DEFAULTINSETS;
 	}
