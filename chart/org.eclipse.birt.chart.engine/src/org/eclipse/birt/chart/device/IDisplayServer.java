@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device;
 
 import java.net.URL;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ImageLoadingException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -109,4 +110,13 @@ public interface IDisplayServer
      * @return  Text metrics associated with the specified Label instance
      */
     ITextMetrics getTextMetrics(Label la);
+    
+    /**
+     * Provides the locale to display server implementations
+     * as needed to retrieve localized resources for presentation.
+     * 
+     * @return
+     */
+    Locale getLocale();
+
 }

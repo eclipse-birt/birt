@@ -277,7 +277,7 @@ public abstract class AxesRenderer extends BaseRenderer
         {
             final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
             pw2da.getStackedSeriesLookup().resetSubUnits();
-            il.log(ILogger.INFORMATION, "Time to render everything = " + lTimer + " ms");
+            il.log(ILogger.INFORMATION, "Time to render everything = {0} ms" + lTimer ); // i18n_CONCATENATIONS_REMOVED
             htRenderers.remove(TIMER);
         }
     }
@@ -312,17 +312,16 @@ public abstract class AxesRenderer extends BaseRenderer
             }
             else if (de1 instanceof TextDataElement)
             {
-                throw new DataFormatException("Text data element comparison is unsupported");
+                throw new DataFormatException("Text data element comparison is unsupported", null);
             }
             else
             {
-                throw new DataFormatException("Unsupported data elements provided for comparison DE1=" + de1
-                    + " and DE2=" + de2);
+                throw new DataFormatException("Unsupported data elements provided for comparison DE1={0} and DE2={1}" + de1 + de2, null); // i18n_CONCATENATIONS_REMOVED
             }
         }
         else
         {
-            throw new DataFormatException("Mixed data elements provided for comparison DE1=" + de1 + " and DE2=" + de2);
+            throw new DataFormatException("Mixed data elements provided for comparison DE1={0} and DE2={1}" + de1 + de2, null); // i18n_CONCATENATIONS_REMOVED
         }
     }
 
@@ -454,7 +453,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate range start for value " + deStart + " contained in marker range " + mr);
+                        "Could not locate range start for value {0} contained in marker range {1}" + deStart + mr); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -468,7 +467,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate range end for value " + deEnd + " contained in marker range " + mr);
+                        "Could not locate range end for value {0} contained in marker range {1}" + deEnd + mr); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -550,8 +549,8 @@ public abstract class AxesRenderer extends BaseRenderer
                         dOriginalAngle = la.getCaption().getFont().getRotation();
                         try
                         {
-                            la.getCaption().getFont().setRotation(PlotWith2DAxes.getTransposedAngle(dOriginalAngle));
-                            anc = PlotWith2DAxes.transposedAnchor(or, anc);
+                            la.getCaption().getFont().setRotation(pw2da.getTransposedAngle(dOriginalAngle));
+                            anc = pw2da.transposedAnchor(or, anc);
                         }
                         catch (UnexpectedInputException uiex )
                         {
@@ -713,7 +712,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
             if (iCount <= 0)
             {
-                throw new RenderingException("Cannot split up a major unit into " + iCount + " minor unit(s).");
+                throw new RenderingException("Cannot split up a major unit into {0} minor unit(s)." + iCount , null); // i18n_CONCATENATIONS_REMOVED
             }
 
             AutoScale sc = oaxa[i].getScale();
@@ -1062,8 +1061,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 deValue = (DataElement) ml.getValue();
                 if (deValue == null)
                 {
-                    throw new RenderingException(
-                        "Unable to plot a render line for a null value as defined in marker line " + ml);
+                    throw new RenderingException("Unable to plot a render line for a null value as defined in marker line {0}" + ml, null); // i18n_CONCATENATIONS_REMOVED
                 }
 
                 // UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
@@ -1086,7 +1084,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate value " + deValue + " contained in marker line " + ml);
+                        "Could not locate value {0} contained in marker line {1}" + deValue + ml); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -1162,8 +1160,8 @@ public abstract class AxesRenderer extends BaseRenderer
                         dOriginalAngle = la.getCaption().getFont().getRotation();
                         try
                         {
-                            la.getCaption().getFont().setRotation(PlotWith2DAxes.getTransposedAngle(dOriginalAngle));
-                            anc = PlotWith2DAxes.transposedAnchor(or, anc);
+                            la.getCaption().getFont().setRotation(pw2da.getTransposedAngle(dOriginalAngle));
+                            anc = pw2da.transposedAnchor(or, anc);
                         }
                         catch (UnexpectedInputException uiex )
                         {
@@ -1345,7 +1343,7 @@ public abstract class AxesRenderer extends BaseRenderer
         LineAttributes lia = ax.getLineAttributes();
         if (!lia.isSetVisible())
         {
-            throw new RenderingException("The axis visibility is not set and the results will be ambiguous");
+            throw new RenderingException("The axis visibility is not set and the results will be ambiguous", null);
         }
         Label la = ax.getLabel();
         final boolean bRenderAxisLabels = ((iWhatToDraw & IConstants.LABELS) == IConstants.LABELS && la.isVisible());

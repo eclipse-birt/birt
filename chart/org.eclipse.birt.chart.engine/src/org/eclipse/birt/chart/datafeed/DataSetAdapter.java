@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.datafeed;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -20,6 +22,11 @@ import org.eclipse.birt.chart.model.data.DataSet;
  */
 public class DataSetAdapter extends Methods implements IDataSetProcessor
 {
+    /**
+     * An internal instance of the locale being used for processing
+     */
+    private transient Locale lcl = null;
+    
     /*
      * (non-Javadoc)
      * 
@@ -71,5 +78,24 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
     {
         // NO-OP IMPL
         return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getLocale()
+     */
+    public Locale getLocale()
+    {
+        return (lcl == null) ? Locale.getDefault() : lcl;
+    }
+    
+    /**
+     * A convenience method provided to associate a locale with
+     * a display server
+     * 
+     * @param lcl   The locale to be set
+     */
+    public final void setLocale(Locale lcl)
+    {
+        this.lcl = lcl;
     }
 }

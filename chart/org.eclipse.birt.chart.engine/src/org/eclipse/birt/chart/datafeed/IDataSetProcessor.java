@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.datafeed;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.model.data.DataSet;
 
@@ -79,4 +81,12 @@ public interface IDataSetProcessor
      * @throws DataSetException
      */
     public Object getMaximum(DataSet ds) throws DataSetException;
+    
+    /**
+     * Provides the locale to device renderer implementations
+     * as needed to retrieve localized resources for presentation.
+     * 
+     * @return  The locale to be used
+     */
+   public Locale getLocale();
 }

@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -87,7 +89,13 @@ public final class DataPointHints
     {
         if (_dp == null)
         {
-            throw new UndefinedValueException("The DataPoint value associated with the series definition is undefined");
+            throw new UndefinedValueException(
+                "exception.undefined.data.point", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    _rtc.getLocale()
+                )
+            ); 
         }
         dp = _dp;
         oBaseValue = _oBaseValue;
@@ -192,7 +200,12 @@ public final class DataPointHints
         catch (Exception ex )
         {
             DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "Failed to parse value " + oBaseValue + " with format specifier " + fs);
+                Messages.getString(
+                    "exception.parse.value.format.specifier", //$NON-NLS-1$
+                    new Object[] { oBaseValue, fs },
+                    rtc.getLocale()
+                )
+            ); 
         }
         return IConstants.NULL_STRING;
     }
@@ -214,7 +227,12 @@ public final class DataPointHints
         catch (Exception ex )
         {
             DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "Failed to parse value " + oOrthogonalValue + " with format specifier " + fs);
+                Messages.getString(
+                    "exception.parse.value.format.specifier", //$NON-NLS-1$
+                    new Object[] { oOrthogonalValue, fs },
+                    rtc.getLocale()
+                )
+            );
         }
         return IConstants.NULL_STRING;
     }
@@ -236,7 +254,12 @@ public final class DataPointHints
         catch (Exception ex )
         {
             DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "Failed to parse value " + oSeriesValue + " with format specifier " + fs);
+                Messages.getString(
+                    "exception.parse.value.format.specifier", //$NON-NLS-1$
+                    new Object[] { oSeriesValue, fs },
+                    rtc.getLocale()
+                )
+            );
         }
         return IConstants.NULL_STRING;
     }
@@ -327,6 +350,10 @@ public final class DataPointHints
      */
     public final String toString()
     {
-        return super.toString() + ":" + getDisplayValue();
+        return Messages.getString(
+            "info.datapoint.to.string", //$NON-NLS-1$
+            new Object[] { super.toString() + getDisplayValue() },
+            rtc.getLocale() 
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
 }

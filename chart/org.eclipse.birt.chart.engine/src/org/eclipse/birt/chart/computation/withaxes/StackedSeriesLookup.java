@@ -14,10 +14,13 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -25,12 +28,11 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * This class implements a double lookup data structure for stacked series. It also maintains simulates min/max value
- * for each unit needed to build the scale.
+ * Implements a double lookup data structure for stacked series. It also maintains
+ * a min/max value for each unit needed to build the scale.
  */
 public final class StackedSeriesLookup
 {
-
     /**
      *  
      */
@@ -45,14 +47,20 @@ public final class StackedSeriesLookup
      *  
      */
     private int iCachedUnitCount = 0;
+    
+    /**
+     * 
+     */
+    private final RunTimeContext rtc;
 
     /**
      *  
      */
-    StackedSeriesLookup()
+    StackedSeriesLookup(RunTimeContext rtc)
     {
         htAxisToStackGroups = new Hashtable();
         htSeriesToStackGroup = new Hashtable();
+        this.rtc = rtc;
     }
 
     /**
@@ -188,14 +196,14 @@ public final class StackedSeriesLookup
      * @throws UndefinedValueException
      * @throws UnexpectedInputException
      */
-    static final StackedSeriesLookup create(ChartWithAxes cwa) throws UndefinedValueException, UnexpectedInputException
+    static final StackedSeriesLookup create(ChartWithAxes cwa, RunTimeContext rtc) throws UndefinedValueException, UnexpectedInputException
     {
         if (cwa == null) // NPE CHECK
         {
             return null;
         }
 
-        final StackedSeriesLookup ssl = new StackedSeriesLookup();
+        final StackedSeriesLookup ssl = new StackedSeriesLookup(rtc);
         final Axis axBase = cwa.getBaseAxes()[0];
         final Axis[] axaOrthogonal = cwa.getOrthogonalAxes(axBase, true);
 
@@ -240,15 +248,27 @@ public final class StackedSeriesLookup
                         }
                         else if (ssl.iCachedUnitCount != iDataSetCount)
                         {
-                            throw new UnexpectedInputException("Mismatch (" + ssl.iCachedUnitCount + "!="
-                                + iDataSetCount + ") in dataset count found in stacked runtime series");
+                            throw new UnexpectedInputException(
+                                "exception.runtime.dataset.count.mismatch", //$NON-NLS-1$
+                                new Object[] { new Integer(ssl.iCachedUnitCount), new Integer(iDataSetCount)},
+                                ResourceBundle.getBundle(
+                                    Messages.ENGINE, 
+                                    rtc.getLocale()
+                                )
+                            ); // i18n_CONCATENATIONS_REMOVED 
                         }
                         if (se.canBeStacked())
                         {
                             if (!se.isSetStacked())
                             {
-                                throw new UndefinedValueException("The stacked property for stackable series " + se
-                                    + " has not been explicitly set.");
+                                throw new UndefinedValueException(
+                                    "exception.unset.series.stacked.property", //$NON-NLS-1$
+                                    new Object[] { se },
+                                    ResourceBundle.getBundle(
+                                        Messages.ENGINE, 
+                                        rtc.getLocale()
+                                    )
+                                ); // i18n_CONCATENATIONS_REMOVED 
                             }
                             if (se.canShareAxisUnit())
                             {
@@ -256,11 +276,16 @@ public final class StackedSeriesLookup
                                 {
                                     if (k > 0 && !bStackedSet)
                                     {
-                                        throw new UnexpectedInputException("Series definition " + sd
-                                            + " contains a mix of stacked and unstacked series.");
+                                        throw new UnexpectedInputException(
+                                            "exception.stacked.unstacked.mix.series", //$NON-NLS-1$ 
+                                            new Object[] { sd },
+                                            ResourceBundle.getBundle(
+                                                Messages.ENGINE, 
+                                                rtc.getLocale()
+                                            )
+                                        ); // i18n_CONCATENATIONS_REMOVED 
                                     }
-                                    if (k == 0) // ONE GROUP FOR ALL STACKED
-                                    // SERIES
+                                    if (k == 0) // ONE GROUP FOR ALL STACKED SERIES
                                     {
                                         sg = new StackGroup(iSharedUnitIndex++);
                                         alSGCopies.add(sg);
@@ -268,27 +293,26 @@ public final class StackedSeriesLookup
                                     }
                                     bStackedSet = true;
                                     ssl.htSeriesToStackGroup.put(se, sg);
-                                    sg.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sg.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                                 else
                                 {
                                     if (k > 0 && bStackedSet)
                                     {
-                                        throw new UnexpectedInputException("Series definition " + sd
-                                            + " contains a mix of stacked and unstacked series.");
+                                        throw new UnexpectedInputException(
+                                            "exception.stacked.unstacked.mix.series", //$NON-NLS-1$ 
+                                            new Object[] { sd },
+                                            ResourceBundle.getBundle(
+                                                Messages.ENGINE, 
+                                                rtc.getLocale()
+                                            )
+                                        ); // i18n_CONCATENATIONS_REMOVED 
                                     }
-                                    sg = new StackGroup(iSharedUnitIndex++); // NEW
-                                    // GROUP
-                                    // FOR
-                                    // EACH
-                                    // UNSTACKED
-                                    // SERIES
+                                    sg = new StackGroup(iSharedUnitIndex++); // NEW GROUP FOR EACH UNSTACKED SERIES
                                     alSGCopies.add(sg);
                                     iSharedUnitCount++;
                                     ssl.htSeriesToStackGroup.put(se, sg);
-                                    sg.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sg.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                             }
                             else
@@ -297,38 +321,41 @@ public final class StackedSeriesLookup
                                 {
                                     if (k > 0 && !bStackedSet)
                                     {
-                                        throw new UnexpectedInputException("Series definition " + sd
-                                            + " contains a mix of stacked and unstacked series.");
+                                        throw new UnexpectedInputException(
+                                            "exception.stacked.unstacked.mix.series", //$NON-NLS-1$ 
+                                            new Object[] { sd },
+                                            ResourceBundle.getBundle(
+                                                Messages.ENGINE, 
+                                                rtc.getLocale()
+                                            )
+                                        ); // i18n_CONCATENATIONS_REMOVED 
                                     }
-                                    if (k == 0) // ONE GROUP FOR ALL STACKED
-                                    // SERIES
+                                    if (k == 0) // ONE GROUP FOR ALL STACKED SERIES
                                     {
-                                        sg = new StackGroup(-1); // UNSET
-                                        // BECAUSE
-                                        // DOESNT
-                                        // SHARE AXIS
-                                        // UNITS
+                                        sg = new StackGroup(-1); // UNSET BECAUSE DOESNT SHARE AXIS UNITS
                                         alSGCopies.add(sg);
                                     }
                                     bStackedSet = true;
                                     ssl.htSeriesToStackGroup.put(se, sg);
-                                    sg.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sg.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                                 else
                                 {
                                     if (k > 0 && bStackedSet)
                                     {
-                                        throw new UnexpectedInputException("Series definition " + sd
-                                            + " contains a mix of stacked and unstacked series.");
+                                        throw new UnexpectedInputException(
+                                            "exception.stacked.unstacked.mix.series", //$NON-NLS-1$ 
+                                            new Object[] { sd },
+                                            ResourceBundle.getBundle(
+                                                Messages.ENGINE, 
+                                                rtc.getLocale()
+                                            )
+                                        ); // i18n_CONCATENATIONS_REMOVED 
                                     }
-                                    sg = new StackGroup(-1); // NEW GROUP FOR
-                                    // EACH UNSTACKED
-                                    // SERIES
+                                    sg = new StackGroup(-1); // NEW GROUP FOR EACH UNSTACKED SERIES
                                     alSGCopies.add(sg);
                                     ssl.htSeriesToStackGroup.put(se, sg);
-                                    sg.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sg.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                             }
                         }
@@ -336,9 +363,7 @@ public final class StackedSeriesLookup
                         // e.g. each custom series in its own stack (not stacked
                         // but
                         {
-                            sg = new StackGroup(-1); // ONE PER UNSTACKED
-                            // SERIES (SHARED INDEX
-                            // IS UNSET)
+                            sg = new StackGroup(-1); // ONE PER UNSTACKED SERIES (SHARED INDEX IS UNSET)
                             alSGCopies.add(sg);
                             ssl.htSeriesToStackGroup.put(se, sg);
                             sg.addSeries(se); // REQUIRE REVERSE LOOKUP
@@ -348,9 +373,7 @@ public final class StackedSeriesLookup
                 else
                 // ONE OR LESS SERIES USE THE SINGLE STACK GROUP
                 {
-                    for (int k = 0; k < iSeriesCount; k++) // EACH SERIES
-                    // (iSeriesCount
-                    // SHOULD BE ONE)
+                    for (int k = 0; k < iSeriesCount; k++) // EACH SERIES (iSeriesCount SHOULD BE ONE)
                     {
                         se = (Series) alSeries.get(k);
                         dsi = new DataSetIterator(se.getDataSet());
@@ -361,8 +384,14 @@ public final class StackedSeriesLookup
                         }
                         else if (ssl.iCachedUnitCount != iDataSetCount)
                         {
-                            throw new UnexpectedInputException("Mismatch (" + ssl.iCachedUnitCount + "!="
-                                + iDataSetCount + ") in dataset count found in stacked runtime series");
+                            throw new UnexpectedInputException(
+                                "exception.runtime.dataset.count.mismatch", //$NON-NLS-1$
+                                new Object[] { new Integer(ssl.iCachedUnitCount), new Integer(iDataSetCount)},
+                                ResourceBundle.getBundle(
+                                    Messages.ENGINE, 
+                                    rtc.getLocale()
+                                )
+                            ); // i18n_CONCATENATIONS_REMOVED 
                         }
                         if (se.canBeStacked())
                         {
@@ -377,32 +406,21 @@ public final class StackedSeriesLookup
                                         iSharedUnitCount++;
                                     }
                                     ssl.htSeriesToStackGroup.put(se, sgSingle);
-                                    sgSingle.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sgSingle.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                                 else
                                 {
-                                    sg = new StackGroup(iSharedUnitIndex++); // ONE
-                                    // PER
-                                    // UNSTACKED
-                                    // SERIES
-                                    // (SHARED
-                                    // INDEX
-                                    // IS
-                                    // SET)
+                                    sg = new StackGroup(iSharedUnitIndex++); // ONE PER UNSTACKED SERIES (SHARED INDEX IS SET)
                                     iSharedUnitCount++;
                                     alSGCopies.add(sg);
                                     ssl.htSeriesToStackGroup.put(se, sg);
-                                    sg.addSeries(se); // REQUIRE REVERSE
-                                    // LOOKUP
+                                    sg.addSeries(se); // REQUIRE REVERSE LOOKUP
                                 }
                             }
                             else
                             // e.g. each line series in its own stack
                             {
-                                sg = new StackGroup(-1); // ONE PER UNSTACKED
-                                // SERIES (SHARED
-                                // INDEX IS UNSET)
+                                sg = new StackGroup(-1); // ONE PER UNSTACKED SERIES (SHARED INDEX IS UNSET)
                                 alSGCopies.add(sg);
                                 ssl.htSeriesToStackGroup.put(se, sg);
                                 sg.addSeries(se); // REQUIRE REVERSE LOOKUP
@@ -412,9 +430,7 @@ public final class StackedSeriesLookup
                         // e.g. each custom series in its own stack (not stacked
                         // but
                         {
-                            sg = new StackGroup(-1); // ONE PER UNSTACKED
-                            // SERIES (SHARED INDEX
-                            // IS UNSET)
+                            sg = new StackGroup(-1); // ONE PER UNSTACKED SERIES (SHARED INDEX IS UNSET)
                             alSGCopies.add(sg);
                             ssl.htSeriesToStackGroup.put(se, sg);
                             sg.addSeries(se); // REQUIRE REVERSE LOOKUP
@@ -440,6 +456,9 @@ public final class StackedSeriesLookup
         return ssl;
     }
 
+    /**
+     * @return
+     */
     public final int getUnitCount()
     {
         return iCachedUnitCount;

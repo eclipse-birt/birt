@@ -14,7 +14,11 @@ package org.eclipse.birt.chart.computation;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
@@ -213,8 +217,14 @@ public final class DataSetIterator implements Iterator
 
         if (iContentType == IConstants.UNDEFINED)
         {
-            throw new UnexpectedInputException("Unable to process dataset content specified as " + oContent
-                + " for type " + iDataType);
+            throw new UnexpectedInputException(
+                "exception.process.content.type", //$NON-NLS-1$
+                new Object[] { oContent, new Integer(iDataType) },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    Locale.getDefault() // LOCALE?
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         if (co != null)
@@ -306,8 +316,14 @@ public final class DataSetIterator implements Iterator
 
         if (iContentType == IConstants.UNDEFINED)
         {
-            throw new UnexpectedInputException("Unable to process dataset content specified as " + oContent
-                + " for dataset " + ds);
+            throw new UnexpectedInputException(
+                "exception.process.content.dataset", //$NON-NLS-1$
+                new Object[] { oContent, ds },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    Locale.getDefault() // LOCALE?
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         if (co != null)
@@ -431,7 +447,15 @@ public final class DataSetIterator implements Iterator
     {
         if (iCursor >= iRowCount)
         {
-            throw new RuntimeException("Out of bounds");
+            throw new RuntimeException(
+                new ChartException(
+                    "exception.out.of.bounds", //$NON-NLS-1$
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        Locale.getDefault() // LOCALE?
+                    )
+                )
+            ); 
         }
 
         if (it != null)

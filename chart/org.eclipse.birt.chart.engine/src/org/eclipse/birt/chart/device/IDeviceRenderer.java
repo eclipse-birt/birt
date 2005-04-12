@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.exception.RenderingException;
 
 /**
@@ -29,24 +31,24 @@ public interface IDeviceRenderer extends IPrimitiveRenderer, IStructureDefinitio
     /**
      * A property name that identifies a device-specific file identifier
      */
-    public static final String FILE_IDENTIFIER = "device.file.identifier";
+    public static final String FILE_IDENTIFIER = "device.file.identifier"; //$NON-NLS-1$
 
     /**
      * A property name that identifies a device-specific graphics context
      */
-    public static final String GRAPHICS_CONTEXT = "device.output.context";
+    public static final String GRAPHICS_CONTEXT = "device.output.context"; //$NON-NLS-1$
 
     /**
      * A property name that identifies a device-specific visual component (e.g. used for event detection)
      */
-    public static final String UPDATE_NOTIFIER = "device.component";
+    public static final String UPDATE_NOTIFIER = "device.component"; //$NON-NLS-1$
 
     /**
      * A property name that identifies the expected bounds of the chart being generated. This notification is sent out
      * to provide the renderer with a hint about the location and size of the output being generated typically used with
      * an Image file output. This is internally set by the 'Generator'.
      */
-    public static final String EXPECTED_BOUNDS = "device.bounds";
+    public static final String EXPECTED_BOUNDS = "device.bounds"; //$NON-NLS-1$
 
     /**
      * A property name that identifies an instance of a cached java.awt.Image that may
@@ -56,7 +58,7 @@ public interface IDeviceRenderer extends IPrimitiveRenderer, IStructureDefinitio
      * externally uses the correct size in pixels equivalent to the expected bounds
      * specified in points.  
      */
-    public static final String CACHED_IMAGE = "cached.image";
+    public static final String CACHED_IMAGE = "cached.image"; //$NON-NLS-1$
     
     
     /**
@@ -64,7 +66,7 @@ public interface IDeviceRenderer extends IPrimitiveRenderer, IStructureDefinitio
      * device should be compressed ('true') or written out as is uncompressed ('false').
      * Device renderers should interpret a missing undefined value as uncompressed.
      */
-    public static final String COMPRESSED_OUTPUT = "output.compressed";
+    public static final String COMPRESSED_OUTPUT = "output.compressed"; //$NON-NLS-1$
     
     /**
      * Device-specific write-only properties that may be set for each device renderer
@@ -117,4 +119,12 @@ public interface IDeviceRenderer extends IPrimitiveRenderer, IStructureDefinitio
      * @param ex    The exception to be presented
      */
     void presentException(Exception ex);
+    
+    /**
+     * Provides the locale to device renderer implementations
+     * as needed to retrieve localized resources for presentation.
+     * 
+     * @return  The locale to be used
+     */
+    Locale getLocale();
 }

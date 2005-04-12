@@ -15,7 +15,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -34,7 +36,7 @@ public final class ValueFormatter
     /**
      *  
      */
-    private static final String sNegativeZero = "-0.";
+    private static final String sNegativeZero = "-0."; //$NON-NLS-1$
 
     /**
      * 
@@ -109,24 +111,24 @@ public final class ValueFormatter
         else if (NumberFormatSpecifier.class.isInstance(fs))
         {
             final NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
-            final double dValue = asPrimitiveDouble(oValue);
+            final double dValue = asPrimitiveDouble(oValue, lcl);
             return correctNumber(nfs.format(dValue, lcl), dValue);
         }
         else if (JavaNumberFormatSpecifier.class.isInstance(fs))
         {
             final JavaNumberFormatSpecifier nfs = (JavaNumberFormatSpecifier) fs;
-            final double dValue = asPrimitiveDouble(oValue);
+            final double dValue = asPrimitiveDouble(oValue, lcl);
             return correctNumber(nfs.format(dValue, lcl), dValue);
         }
         else if (DateFormatSpecifier.class.isInstance(fs))
         {
             final DateFormatSpecifier dfs = (DateFormatSpecifier) fs;
-            return dfs.format(asCalendar(oValue), lcl);
+            return dfs.format(asCalendar(oValue, lcl), lcl);
         }
         else if (JavaDateFormatSpecifier.class.isInstance(fs))
         {
             final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
-            return jdfs.format(asCalendar(oValue), lcl);
+            return jdfs.format(asCalendar(oValue, lcl), lcl);
         }
         else
         {
@@ -148,7 +150,7 @@ public final class ValueFormatter
      * @return
      * @throws DataFormatException
      */
-    private static final double asPrimitiveDouble(Object o) throws DataFormatException
+    private static final double asPrimitiveDouble(Object o, Locale lcl) throws DataFormatException
     {
         if (o instanceof Double)
         {
@@ -158,7 +160,11 @@ public final class ValueFormatter
         {
             return ((NumberDataElement) o).getValue();
         }
-        throw new DataFormatException("Unable to convert value " + o + " to a double value");
+        throw new DataFormatException(
+            "exception.convert.double", //$NON-NLS-1$
+            new Object[] { o },
+            ResourceBundle.getBundle(Messages.ENGINE, lcl)
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
 
     /**
@@ -167,7 +173,7 @@ public final class ValueFormatter
      * @return
      * @throws DataFormatException
      */
-    private static final Calendar asCalendar(Object o) throws DataFormatException
+    private static final Calendar asCalendar(Object o, Locale lcl) throws DataFormatException
     {
         if (o instanceof Calendar)
         {
@@ -177,7 +183,11 @@ public final class ValueFormatter
         {
             return ((DateTimeDataElement) o).getValueAsCalendar();
         }
-        throw new DataFormatException("Unable to convert value " + o + " to a calendar value");
+        throw new DataFormatException(
+            "exception.convert.calendar", //$NON-NLS-1$
+            new Object[] { o },
+            ResourceBundle.getBundle(Messages.ENGINE, lcl)
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**

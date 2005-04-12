@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -24,6 +25,8 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
@@ -38,9 +41,8 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * This class encapsulates the auto scaling algorithms used by the rendering and chart computation framework.
- * 
- * @author Actuate Corporation
+ * Encapsulates the auto scaling algorithms used by the rendering and chart
+ * computation framework.
  */
 public final class AutoScale extends Methods implements Cloneable
 {
@@ -108,7 +110,7 @@ public final class AutoScale extends Methods implements Cloneable
     /**
      * A default numeric pattern for integer number representation of axis labels
      */
-    private static final String sNumericPattern = "0";
+    private static final String sNumericPattern = "0"; //$NON-NLS-1$
 
     /**
      * Quick static lookup for linear scaling
@@ -479,7 +481,16 @@ public final class AutoScale extends Methods implements Cloneable
                     }
                     if (i == n)
                     {
-                        throw new RuntimeException("Could not zoomOut for step=" + dStep);
+                        throw new RuntimeException(
+                            new ChartException(
+                                "exception.step.zoom.out", //$NON-NLS-1$
+                                new Object[] { new Double(dStep) },
+                                ResourceBundle.getBundle(
+                                    Messages.ENGINE, 
+                                    rtc.getLocale()
+                                )
+                            )
+                        ); // i18n_CONCATENATIONS_REMOVED 
                     }
                     oStep = new Double(dStep);
                 }
@@ -594,7 +605,7 @@ public final class AutoScale extends Methods implements Cloneable
     {
         if (oMinimum == null || oStep == null)
         {
-            return "0.00";
+            return "0.00"; //$NON-NLS-1$
         }
         final double dMinValue = asDouble(oMinimum).doubleValue();
         final double dStep = asDouble(oStep).doubleValue();
@@ -716,7 +727,15 @@ public final class AutoScale extends Methods implements Cloneable
     {
         if (da != null && da.length == 1)
         {
-            throw new RuntimeException("Error in tick computations");
+            throw new RuntimeException(
+                new ChartException(
+                    "exception.tick.computations", //$NON-NLS-1$ 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            );
         }
         daTickCoordinates = da;
     }
@@ -838,7 +857,17 @@ public final class AutoScale extends Methods implements Cloneable
     public final double getUnitSize()
     {
         if (daTickCoordinates == null)
-            throw new RuntimeException("Cannot compute unit size because tick cordinates are undefined");
+        {
+            throw new RuntimeException(
+                new ChartException(
+                    "exception.unit.size.failure", //$NON-NLS-1$ 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); 
+        }
         return Math.abs(daTickCoordinates[1] - daTickCoordinates[0]);
     }
 
@@ -1395,7 +1424,14 @@ public final class AutoScale extends Methods implements Cloneable
                 }*/
                 else
                 {
-                    throw new GenerationException("Invalid minimum scale value " + oMinimum + " specified for axis type " + ax.getModelAxis().getType());
+                    throw new GenerationException(
+                        "exception.invalid.minimum.scale.value", //$NON-NLS-1$
+                        new Object[] { oMinimum, ax.getModelAxis().getType().getName() },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                 }
                 sc.bMinimumFixed = true;
             }
@@ -1413,7 +1449,14 @@ public final class AutoScale extends Methods implements Cloneable
                 }*/
                 else
                 {
-                    throw new GenerationException("Invalid maximum scale value " + oMaximum + " specified for axis type " + ax.getModelAxis().getType());
+                    throw new GenerationException(
+                        "exception.invalid.maximum.scale.value", //$NON-NLS-1$
+                        new Object[] { oMaximum, ax.getModelAxis().getType().getName() },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        ) 
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
                 sc.bMaximumFixed = true;
             }
@@ -1427,7 +1470,14 @@ public final class AutoScale extends Methods implements Cloneable
                 // VALIDATE OVERRIDDEN STEP
                 if (((Double) sc.oStep).doubleValue() <= 0)
                 {
-                    throw new GenerationException("Invalid 'step(" + oStep + ") <= 0' specified for axis scale");
+                    throw new GenerationException(
+                        "exception.invalid.step.value", //$NON-NLS-1$
+                        new Object[] { oStep },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
             }
 
@@ -1436,7 +1486,14 @@ public final class AutoScale extends Methods implements Cloneable
             {
                 if (((Double) sc.oMinimum).doubleValue() > ((Double) sc.oMaximum).doubleValue())
                 {
-                    throw new GenerationException("Invalid entries 'min("+oMinimum+") > max("+oMaximum+")' specified for axis scale");
+                    throw new GenerationException(
+                        "exception.min.largerthan.max", //$NON-NLS-1$ 
+                        new Object[] { oMinimum, oMaximum },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
             }
             
@@ -1647,7 +1704,14 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 else
                 {
-                    throw new GenerationException("Invalid minimum scale value " + oMinimum + " specified for axis type " + ax.getModelAxis().getType());
+                    throw new GenerationException(
+                        "exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
+                        new Object[] { oMinimum + ax.getModelAxis().getType().getName() },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                 }
                 sc.bMinimumFixed = true;
             }
@@ -1661,7 +1725,14 @@ public final class AutoScale extends Methods implements Cloneable
                 }
                 else
                 {
-                    throw new GenerationException("Invalid maximum scale value " + oMaximum + " specified for axis type " + ax.getModelAxis().getType());
+                    throw new GenerationException(
+                        "exception.invalid.maximum.scale.value", //$NON-NLS-1$
+                        new Object[] { oMaximum + ax.getModelAxis().getType().getName() },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
                 sc.bMaximumFixed = true;
             }
@@ -1675,7 +1746,7 @@ public final class AutoScale extends Methods implements Cloneable
                 // VALIDATE OVERRIDDEN STEP
                 if (((Double) sc.oStep).doubleValue() <= 0)
                 {
-                    throw new GenerationException("Invalid 'step(" + oStep + ") <= 0' specified for axis scale");
+                    throw new GenerationException("Invalid 'step({0}) <= 0' specified for axis scale" + oStep ); // i18n_CONCATENATIONS_REMOVED
                 }
             }*/
 
@@ -1684,7 +1755,14 @@ public final class AutoScale extends Methods implements Cloneable
             {
                 if (((CDateTime) sc.oMinimum).after(((CDateTime) sc.oMaximum)))
                 {
-                    throw new GenerationException("Invalid entries 'min("+oMinimum+") > max("+oMaximum+")' specified for axis scale");
+                    throw new GenerationException(
+                        "exception.min.largerthan.max", //$NON-NLS-1$
+                        new Object[] { oMinimum, oMaximum },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
             }
             
@@ -1786,7 +1864,13 @@ public final class AutoScale extends Methods implements Cloneable
         }
         else
         {
-            throw new GenerationException("Unable to determine axis type needed to compute ticks");
+            throw new GenerationException(
+                "exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            );
         }
 
         final double dTickGap = dLength / (nTicks - 1) * iDirection;
@@ -2152,7 +2236,14 @@ public final class AutoScale extends Methods implements Cloneable
     {
         if (!la.isSetVisible())
         {
-            throw new GenerationException("Label " + la + " does not have its visibility set");
+            throw new GenerationException(
+                "exception.unset.label.visibility", //$NON-NLS-1$
+                new Object[] { la },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         if (!la.isVisible())

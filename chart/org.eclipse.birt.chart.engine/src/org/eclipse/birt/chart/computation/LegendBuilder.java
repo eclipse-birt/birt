@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -82,12 +84,22 @@ public final class LegendBuilder
         if (!lg.isSetOrientation())
         {
             throw new GenerationException(
-                "The legend's orientation was not explicitly set to either horizontal or vertical");
+                "exception.legend.orientation.horzvert", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    xs.getLocale()
+                )
+            ); 
         }
         if (!lg.isSetDirection())
         {
             throw new GenerationException(
-                "The legend's direction was not explicitly set to either top-bottom or left-right");
+                "exception.legend.direction.tblr", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    xs.getLocale()
+                )
+            ); 
         }
 
         // INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
@@ -101,7 +113,7 @@ public final class LegendBuilder
         LineAttributes lia = ca.getOutline();
         double dSeparatorThickness = lia.getThickness();
         double dWidth = 0, dHeight = 0;
-        la.getCaption().setValue("X");
+        la.getCaption().setValue("X"); //$NON-NLS-1$
         final ITextMetrics itm = xs.getTextMetrics(la);
         double dItemHeight = itm.getFullHeight();
         Series se;
@@ -120,41 +132,22 @@ public final class LegendBuilder
                 SeriesDefinition sdBase = null;
                 if (cm instanceof ChartWithAxes)
                 {
-                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR
-                    // NOW
+                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR NOW
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
                         return SizeImpl.create(0, 0);
-                        //throw new GenerationException("The primary base axis
-                        // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                 }
                 else if (cm instanceof ChartWithoutAxes)
                 {
                     if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
                     {
                         return SizeImpl.create(0, 0);
-                        //throw new GenerationException("The primary base axis
-                        // does not contain any series definitions");
                     }
-                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
+                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                 }
-                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO
-                // ASSUME
-                // THAT 1
-                // BASE
-                // RUNTIME
-                // SERIES
-                // EXISTS
+                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
 
                 DataSetIterator dsiBase = null;
                 try
@@ -175,8 +168,7 @@ public final class LegendBuilder
                 }
                 dWidth += insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + insCA.getRight();
             }
-            else if (d.getValue() == Direction.TOP_BOTTOM) // (VERTICAL =>
-            // TB)
+            else if (d.getValue() == Direction.TOP_BOTTOM) // (VERTICAL => TB)
             {
                 dSeparatorThickness += dVerticalSpacing;
                 for (int j = 0; j < seda.length; j++)
@@ -203,12 +195,10 @@ public final class LegendBuilder
                     }
                 }
 
-                // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX
-                // ITEM WIDTH + RIGHT INSETS
+                // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX ITEM WIDTH + RIGHT INSETS
                 dWidth = insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + dMaxW + insCA.getRight();
             }
-            else if (d.getValue() == Direction.LEFT_RIGHT) // (VERTICAL =>
-            // LR)
+            else if (d.getValue() == Direction.LEFT_RIGHT) // (VERTICAL => LR)
             {
                 double dMaxH = 0;
                 dSeparatorThickness += dHorizontalSpacing;
@@ -243,7 +233,14 @@ public final class LegendBuilder
             }
             else
             {
-                throw new GenerationException("Invalid argument specified for legend rendering direction = " + d);
+                throw new GenerationException(
+                    "exception.illegal.rendering.direction", //$NON-NLS-1$
+                    new Object[] { d.getName() },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        xs.getLocale()
+                    )    
+                ); // i18n_CONCATENATIONS_REMOVED 
             }
         }
         else if (o.getValue() == Orientation.HORIZONTAL)
@@ -257,7 +254,13 @@ public final class LegendBuilder
                     // NOW
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
-                        throw new GenerationException("The primary base axis does not contain any series definitions");
+                        throw new GenerationException(
+                            "exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
+                            ResourceBundle.getBundle(
+                                Messages.ENGINE, 
+                                xs.getLocale()
+                            )
+                        ); //$NON-NLS-1$
                     }
                     sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME
                     // THAT 1 BASE
@@ -269,7 +272,13 @@ public final class LegendBuilder
                 {
                     if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
                     {
-                        throw new GenerationException("The primary base axis does not contain any series definitions");
+                        throw new GenerationException(
+                            "exception.base.axis.no.series.definitions", //$NON-NLS-1$
+                            ResourceBundle.getBundle(
+                                Messages.ENGINE, 
+                                xs.getLocale()
+                            )
+                        ); 
                     }
                     sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME
                     // THAT 1 BASE
@@ -371,12 +380,26 @@ public final class LegendBuilder
             }
             else
             {
-                throw new GenerationException("Invalid argument specified for legend rendering direction = " + d);
+                throw new GenerationException(
+                    "exception.illegal.rendering.direction", //$NON-NLS-1$
+                    new Object[] { d },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        xs.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
         else
         {
-            throw new GenerationException("Invalid argument specified for legend rendering orientation = " + o);
+            throw new GenerationException(
+                "exception.illegal.rendering.orientation", //$NON-NLS-1$
+                new Object[] { o },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    xs.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
 
         itm.dispose(); // DISPOSE RESOURCE AFTER USE

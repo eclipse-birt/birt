@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -19,7 +21,6 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public interface ITextMetrics
 {
-
     /**
      * Permits reuse of the text metrics instance for a new label with new attributes.
      * 
@@ -28,33 +29,45 @@ public interface ITextMetrics
     void reuse(Label la);
 
     /**
+     * Returns the height of a single line of text using the font defined in the contained label
+     * 
      * @return The height of a single line of text using the font defined in the contained label
      */
     double getHeight();
 
     /**
+     * Returns the descent of a single line of text using the font defined in the contained label 
+     * 
      * @return The descent of a single line of text using the font defined in the contained label
      */
     double getDescent();
 
     /**
+     * Returns the full height of all lines of text using the font defined in the contained label 
+     * 
      * @return The full height of all lines of text using the font defined in the contained label
      */
     double getFullHeight();
 
     /**
+     * Returns the max width of the widest line of text using the font defined in the contained label 
+     * 
      * @return The max width of the widest line of text using the font defined in the contained label
      */
     double getFullWidth();
 
     /**
+     * Returns the number of lines of text associated with the label to be rendered
+     * 
      * @return The number of lines of text associated with the label to be rendered
      */
     int getLineCount();
 
     /**
-     * @param iIndex
-     *            The line to be retrieved from multi-line text
+     * The text associated with a line index for multi-line text
+     * 
+     * @param iIndex The line to be retrieved from multi-line text
+     * 
      * @return A line of text (subset)
      */
     String getLine(int iIndex);
@@ -63,4 +76,12 @@ public interface ITextMetrics
      * Perform a cleanup when this object is not required anymore
      */
     void dispose();
+    
+    
+    /**
+     * Returns the locale associated with the text metrics implementer
+     * 
+     * @return  The locale
+     */
+    Locale getLocale();
 }

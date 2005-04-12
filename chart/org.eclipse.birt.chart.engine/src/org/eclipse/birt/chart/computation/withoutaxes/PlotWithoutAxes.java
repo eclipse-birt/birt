@@ -11,10 +11,12 @@
 package org.eclipse.birt.chart.computation.withoutaxes;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.NotFoundException;
 import org.eclipse.birt.chart.exception.NullValueException;
@@ -185,21 +187,39 @@ public final class PlotWithoutAxes
         final EList elCategories = cwoa.getSeriesDefinitions();
         if (elCategories.size() != 1)
         {
-            throw new DataFormatException("Charts without axes may contain a single series definition only");
+            throw new DataFormatException(
+                "exception.cwoa.single.series.definition", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); 
         }
         final SeriesDefinition sd = (SeriesDefinition) elCategories.get(0);
         final ArrayList al = sd.getRunTimeSeries();
         if (al.size() != 1)
         {
-            throw new DataFormatException("Charts without axes may contain a single runtime series only");
+            throw new DataFormatException(
+                "exception.cwoa.single.runtime.series", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); 
         }
         final Series seBase = (Series) al.get(0);
         final DataSetIterator dsiBaseValues = new DataSetIterator(seBase.getDataSet());
         final DataSetIterator dsiOrthogonalValues = new DataSetIterator(seOrthogonal.getDataSet());
         if (dsiBaseValues.size() != dsiOrthogonalValues.size())
         {
-            throw new OutOfSyncException("Input data is out-of-sync; base contains " + dsiBaseValues.size()
-                + " values; orthogonal contains " + dsiOrthogonalValues.size() + " values.");
+            throw new OutOfSyncException(
+                "exception.data.outofsync", //$NON-NLS-1$
+                new Object[] { new Integer(dsiBaseValues.size()), new Integer(dsiOrthogonalValues.size()) },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                ) 
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         final int iCount = dsiOrthogonalValues.size();
@@ -238,6 +258,14 @@ public final class PlotWithoutAxes
                 null, -1, rtc);
         }
 
-        return new SeriesRenderingHints(dpha);
+        return new SeriesRenderingHints(this, dpha);
+    }
+    
+    /**
+     * @return
+     */
+    final RunTimeContext getRunTimeContext()
+    {
+        return rtc;
     }
 }

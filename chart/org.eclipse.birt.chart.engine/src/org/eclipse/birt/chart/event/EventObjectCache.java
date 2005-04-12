@@ -105,7 +105,7 @@ public class EventObjectCache
         }
         if (!lia.isSetVisible())
         {
-            throw new RenderingException("Visibility of line attributes in " + oSource + " was not explicitly set");
+            throw new RenderingException("Visibility of line attributes in {0} was not explicitly set" + oSource , null); // i18n_CONCATENATIONS_REMOVED
         }
 
         if (!lia.isVisible())

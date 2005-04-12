@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -64,6 +66,23 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
         return null;
     }
 
+    
+    /**
+     * A convenience method the provides the locale as needed to
+     * fetch localized resources.
+     * 
+     * @return  The locale instance
+     */
+    public final Locale getLocale()
+    {
+        final IDisplayServer ids = getDisplayServer();
+        if (ids == null)
+        {
+            return Locale.getDefault();
+        }
+        return ids.getLocale(); // ALREADY BEING CHECKED FOR NULL
+    }
+    
     /* (non-Javadoc)
      * @see org.eclipse.birt.chart.device.IDeviceRenderer#needsStructureDefinition()
      */
@@ -71,7 +90,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
     {
         // THE NO-OP IMPLEMENTATION INDICATES THAT STRUCTURE DEFINITION
         // NOTIFICATIONS ARE NOT REQUIRED
-        return false;
+        return true;
     }
     
     /*
@@ -260,6 +279,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
     public void changeStructure(StructureChangeEvent scev)
     {
         // DO NOTHING IN NO-OP IMPL
+        System.out.println("[STRUCT]: scev={0}" + scev.getEventName(false)); // i18n_CONCATENATIONS_REMOVED
     }
     
     /*

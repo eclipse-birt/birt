@@ -553,9 +553,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         }
         else
         {
-            throw new IllegalArgumentException(
-                chart.getClass().getName()
-                    + " is an invalid argument for BarSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+            throw new IllegalArgumentException(chart.getClass().getName() + " is an invalid argument for BarSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
         }
 
         // Update the sampledata in the model

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -20,6 +21,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.PlotContent;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.DataSetException;
 import org.eclipse.birt.chart.exception.GenerationException;
@@ -132,7 +134,7 @@ public final class PlotWith2DAxes extends PlotContent
         cwa = _cwa;
         ids = _ids;
         rtc = _rtc;
-        ssl = new StackedSeriesLookup();
+        ssl = new StackedSeriesLookup(_rtc);
         dPointToPixel = ids.getDpiResolution() / 72d;
         try
         {
@@ -291,7 +293,7 @@ public final class PlotWith2DAxes extends PlotContent
      * 
      * @return
      */
-    public static final Anchor transposedAnchor(Orientation or, Anchor an) throws UnexpectedInputException
+    public final Anchor transposedAnchor(Orientation or, Anchor an) throws UnexpectedInputException
     {
         if (an == null)
         {
@@ -343,7 +345,11 @@ public final class PlotWith2DAxes extends PlotContent
                     return Anchor.SOUTH_WEST_LITERAL;
             }
         }
-        throw new UnexpectedInputException("Cannot transpose anchor " + an + " for axis orientation " + or);
+        throw new UnexpectedInputException(
+            "exception.anchor.transpose", //$NON-NLS-1$ 
+            new Object[] { an, or },
+            ResourceBundle.getBundle(Messages.ENGINE, rtc.getLocale())
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -353,7 +359,7 @@ public final class PlotWith2DAxes extends PlotContent
      * @return 
      * @throws UnexpectedInputException
      */
-    public static final double getTransposedAngle(double dOriginalAngle) throws UnexpectedInputException
+    public final double getTransposedAngle(double dOriginalAngle) throws UnexpectedInputException
     {
         if (dOriginalAngle >= 0 && dOriginalAngle <= 90)
         {
@@ -363,8 +369,14 @@ public final class PlotWith2DAxes extends PlotContent
         {
             return (dOriginalAngle + 90);
         }
-        throw new UnexpectedInputException("Cannot transpose [angle=" + dOriginalAngle
-            + "] beyond range (90 >= 0 >= -90)");
+        throw new UnexpectedInputException(
+            "exception.angle.range.transpose", //$NON-NLS-1$
+            new Object[] { new Double(dOriginalAngle) },
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                rtc.getLocale()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
 
     /**
@@ -389,8 +401,13 @@ public final class PlotWith2DAxes extends PlotContent
         {
             return (dOriginalAngle + 90);
         }
-        throw new UnexpectedInputException("Cannot transpose [angle=" + dOriginalAngle
-            + "] beyond range (90 >= 0 >= -90)");
+        throw new UnexpectedInputException(
+            "exception.angle.range.transpose", //$NON-NLS-1$ 
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                rtc.getLocale()
+            ) 
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -438,8 +455,14 @@ public final class PlotWith2DAxes extends PlotContent
                     return iOriginalPosition;
             }
         }
-        throw new UnexpectedInputException("Didn't expect a combination of axis=" + iBaseOrOrthogonal
-            + " and labelposition=" + iOriginalPosition);
+        throw new UnexpectedInputException(
+            "exception.combination.axis.label.position", //$NON-NLS-1$
+            new Object[] { new Integer(iBaseOrOrthogonal), new Integer(iOriginalPosition) },
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                rtc.getLocale()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
 
     /**
@@ -477,12 +500,19 @@ public final class PlotWith2DAxes extends PlotContent
                     return IConstants.TICK_ABOVE;
             }
         }
-        throw new UnexpectedInputException("Didn't expect a combination of axis=" + iBaseOrOrthogonal
-            + " and tickstyle=" + iOriginalStyle);
+        throw new UnexpectedInputException(
+            "exception.combination.axis.tick.style", //$NON-NLS-1$
+            new Object[] { new Integer(iBaseOrOrthogonal), new Integer(iOriginalStyle) },
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                rtc.getLocale()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED 
     }
 
     /**
-     * This method validates several crucial properties for an axis associated with a Chart
+     * This method validates several crucial properties for an axis associated
+     * with a Chart
      *  
      * @param	ax	The axis to validate
      * @throws ValidationException
@@ -491,39 +521,102 @@ public final class PlotWith2DAxes extends PlotContent
     {
         if (!ax.isSetType()) // AXIS TYPE UNDEFINED
         {
-            throw new ValidationException(new UndefinedValueException("The data type is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.data.type", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         if (!ax.getLabel().isSetVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The label visibility is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.label.visibility", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         if (!ax.getTitle().isSetVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The title visibility is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.title.visibility", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         if (!ax.isSetLabelPosition() && ax.getLabel().isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The label position is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.label.position", //$NON-NLS-1$ 
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         if (!ax.isSetTitlePosition() && ax.getTitle().isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The title position is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.title.position", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         LineAttributes liaTicks = ax.getMajorGrid().getTickAttributes();
         if (!ax.getMajorGrid().isSetTickStyle() && liaTicks.isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The major grid tick style is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.major.tick.style", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         liaTicks = ax.getMinorGrid().getTickAttributes();
         if (!ax.getMinorGrid().isSetTickStyle() && liaTicks.isVisible())
         {
-            throw new ValidationException(new UndefinedValueException("The minor grid tick style is undefined for axis " + ax));
+            throw new ValidationException(
+                new UndefinedValueException(
+                    "exception.undefined.axis.minor.tick.style", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         
         final int iOrientation = ax.getOrientation().getValue();
@@ -535,27 +628,55 @@ public final class PlotWith2DAxes extends PlotContent
                 iPosition = ax.getLabelPosition().getValue();
 	            if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
 	            {
-	                throw new ValidationException("Illegal label position value " + ax.getLabelPosition() + " specified for vertical axis " + ax);
-	            }
+	                throw new ValidationException(
+                        "exception.illegal.vaxis.label.position", //$NON-NLS-1$
+                        new Object[] { ax.getLabelPosition().getName(), ax },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
+                }  
             }
             if (ax.getTitle().isVisible()) // LABEL POSITION (IF VISIBLE)
             {
 	            iPosition = ax.getTitlePosition().getValue();
 	            if (iPosition != Position.LEFT && iPosition != Position.RIGHT)
 	            {
-	                throw new ValidationException("Illegal title position value " + ax.getLabelPosition() + " specified for vertical axis " + ax);
+	                throw new ValidationException(
+                        "exception.illegal.vaxis.title.position", //$NON-NLS-1$
+                        new Object[] { ax.getLabelPosition().getName(), ax },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
 	            }   
             }
             
             int iTickStyle = ax.getMajorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.LEFT && iTickStyle != TickStyle.RIGHT)
             {
-                throw new ValidationException("Illegal major tick style specified as " + ax.getMajorGrid().getTickStyle() + " for vertical axis " + ax);
+                throw new ValidationException(
+                    "exception.illegal.vaxis.major.tick.style", //$NON-NLS-1$
+                    new Object[] { ax.getMajorGrid().getTickStyle().getName(), ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
             iTickStyle = ax.getMinorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.LEFT && iTickStyle != TickStyle.RIGHT)
             {
-                throw new ValidationException("Illegal minor tick style specified as " + ax.getMinorGrid().getTickStyle() + " for vertical axis " + ax);
+                throw new ValidationException(
+                    "exception.illegal.vaxis.minor.tick.style", //$NON-NLS-1$
+                    new Object[] { ax.getMinorGrid().getTickStyle().getName(), ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
         else if (iOrientation == Orientation.HORIZONTAL)
@@ -566,7 +687,14 @@ public final class PlotWith2DAxes extends PlotContent
                 iPosition = ax.getLabelPosition().getValue();
 	            if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
 	            {
-	                throw new ValidationException("Illegal label position value " + ax.getLabelPosition() + " specified for horizontal axis " + ax);
+	                throw new ValidationException(
+                        "exception.illegal.haxis.label.position", //$NON-NLS-1$
+                        new Object[] { ax.getLabelPosition().getName(), ax },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
 	            }
             }
             if (ax.getTitle().isVisible()) // LABEL POSITION (IF VISIBLE)
@@ -574,19 +702,40 @@ public final class PlotWith2DAxes extends PlotContent
 	            iPosition = ax.getTitlePosition().getValue();
 	            if (iPosition != Position.ABOVE && iPosition != Position.BELOW)
 	            {
-	                throw new ValidationException("Illegal title position value " + ax.getLabelPosition() + " specified for horizontal axis " + ax);
+	                throw new ValidationException(
+                        "exception.illegal.haxis.title.position", //$NON-NLS-1$ 
+                        new Object[] { ax.getTitlePosition().getName(), ax },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
 	            }   
             }
             
             int iTickStyle = ax.getMajorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.ABOVE && iTickStyle != TickStyle.BELOW)
             {
-                throw new ValidationException("Illegal major tick style specified as " + ax.getMajorGrid().getTickStyle() + " for horizontal axis " + ax);
+                throw new ValidationException(
+                    "exception.illegal.haxis.major.tick.style", //$NON-NLS-1$
+                    new Object[] { ax.getMajorGrid().getTickStyle().getName(), ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
             iTickStyle = ax.getMinorGrid().getTickStyle().getValue();
             if (iTickStyle != TickStyle.ACROSS && iTickStyle != TickStyle.ABOVE && iTickStyle != TickStyle.BELOW)
             {
-                throw new ValidationException("Illegal minor tick style specified as " + ax.getMinorGrid().getTickStyle() + " for horizontal axis " + ax);
+                throw new ValidationException(
+                    "exception.illegal.haxis.minor.tick.style", //$NON-NLS-1$
+                    new Object[] { ax.getMinorGrid().getTickStyle().getName(), ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
     }
@@ -740,7 +889,7 @@ public final class PlotWith2DAxes extends PlotContent
 
         // BUILD STACKED STRUCTURE (FOR STACKED SERIES) ASSOCIATED WITH EACH
         // ORTHOGONAL AXIS
-        ssl = StackedSeriesLookup.create(cwa);
+        ssl = StackedSeriesLookup.create(cwa, rtc);
     }
 
     /**
@@ -780,7 +929,7 @@ public final class PlotWith2DAxes extends PlotContent
             {
                 return new DataSetIterator(new String[]
                 {
-                    "Category1", "Category2", "Category3"
+                    "Category1", "Category2", "Category3" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 });
             }
         }
@@ -838,8 +987,14 @@ public final class PlotWith2DAxes extends PlotContent
                 }
                 else
                 {
-                    throw new UnexpectedInputException("A series " + sea[i]
-                        + " that may not be stacked is set to stacked");
+                    throw new UnexpectedInputException(
+                        "exception.unstackable.is.stacked", //$NON-NLS-1$
+                        new Object[] { sea[i] },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                 }
             }
 
@@ -926,7 +1081,14 @@ public final class PlotWith2DAxes extends PlotContent
         {
             if (ax.getType().getValue() == AxisType.DATE_TIME)
             {
-                throw new UnexpectedInputException("Cannot define stacked series on a date-time axis " + ax);
+                throw new UnexpectedInputException(
+                    "exception.stacked.datetime.axis.series", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
             Object oValue;
             int iSeriesPerGroup;
@@ -939,9 +1101,21 @@ public final class PlotWith2DAxes extends PlotContent
 
             if (alSeriesGroupsPerAxis == null)
             {
-                throw new DataSetException("Stacked series incorrectly setup for axis " + ax);
+                throw new DataSetException(
+                    "exception.internal.stack.series.setup", //$NON-NLS-1$
+                    new Object[] { ax },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Processing stacked info for axis " + ax);
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.processing.stacked.info", //$NON-NLS-1$
+                    new Object[] { ax }, 
+                    rtc.getLocale())
+            ); // i18n_CONCATENATIONS_REMOVED 
             int iSeriesIndex, iDataSetCount = ssl.getUnitCount();
 
             for (int k = 0; k < iDataSetCount; k++) // PER UNIT
@@ -964,15 +1138,15 @@ public final class PlotWith2DAxes extends PlotContent
                             if ((dsi[iSeriesIndex].getDataType() & IConstants.NUMERICAL) != IConstants.NUMERICAL)
                             {
                                 throw new DataSetException(
-                                    "Unable to compute a percent/stacked axis containing non-numerical data");
+                                    "exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
+                                    ResourceBundle.getBundle(
+                                        Messages.ENGINE, 
+                                        rtc.getLocale()
+                                    )
+                                );
                             }
                         }
-                        iDataSetCount = dsi[iSeriesIndex].size(); // ALL SERIES
-                        // MUST HAVE
-                        // THE SAME
-                        // DATASET
-                        // ELEMENT
-                        // COUNT
+                        iDataSetCount = dsi[iSeriesIndex].size(); // ALL SERIES MUST HAVE THE SAME DATASET ELEMENT COUNT
 
                         dGroupMin = 0;
                         dGroupMax = 0;
@@ -994,7 +1168,12 @@ public final class PlotWith2DAxes extends PlotContent
                                     if ((dsi[iSeriesIndex].getDataType() & IConstants.NUMERICAL) != IConstants.NUMERICAL)
                                     {
                                         throw new DataSetException(
-                                            "Unable to compute a percent/stacked axis containing non-numerical data");
+                                            "exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
+                                            ResourceBundle.getBundle(
+                                                Messages.ENGINE, 
+                                                rtc.getLocale()
+                                            )
+                                        ); 
                                     }
                                 }
                             }
@@ -1031,12 +1210,7 @@ public final class PlotWith2DAxes extends PlotContent
                             dPercentMin = Math.min((dGroupMin / dAbsTotal) * 100d, dPercentMin);
                         }
                     }
-
                 }
-                //DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Min
-                // for unit " + k + " is " + dAxisMin);
-                //DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Max
-                // for unit " + k + " is " + dAxisMax);
             }
             if (ax.isPercent()) // HANDLE PERCENT
             {
@@ -1205,7 +1379,13 @@ public final class PlotWith2DAxes extends PlotContent
         }
         else
         {
-            throw new DataFormatException("The orthogonal axis may only have a numerical or datetime format");
+            throw new DataFormatException(
+                "exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); 
         }
 
         dStart = (aax.areAxesSwapped()) ? dX : dY + dH;
@@ -2688,7 +2868,14 @@ public final class PlotWith2DAxes extends PlotContent
         OneAxis oaxOrthogonal = findOrthogonalAxis(seOrthogonal);
         if (oaxOrthogonal == null)
         {
-            throw new NotFoundException("Axis definition for series " + seOrthogonal + " could not be found");
+            throw new NotFoundException(
+                "exception.axis.series.link.broken", //$NON-NLS-1$
+                new Object[] { seOrthogonal },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         final OneAxis oaxBase = aax.getPrimaryBase();
         final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis().getSeriesDefinitions().get(0);
@@ -2732,8 +2919,14 @@ public final class PlotWith2DAxes extends PlotContent
         final int iOrthogonalCount = dsiDataOrthogonal.size();
         if (iBaseCount != iOrthogonalCount)
         {
-            throw new OutOfSyncException("Base axis contains " + iBaseCount + " items; orthogonal axis contains "
-                + iOrthogonalCount + " items.");
+            throw new OutOfSyncException(
+                "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+                new Object[] { new Integer(iBaseCount), new Integer(iOrthogonalCount) },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         final DataPointHints[] dpa = new DataPointHints[iBaseCount];
@@ -2881,5 +3074,13 @@ public final class PlotWith2DAxes extends PlotContent
     public final StackedSeriesLookup getStackedSeriesLookup()
     {
         return ssl;
+    }
+    
+    /**
+     * @return
+     */
+    public final RunTimeContext getRunTimeContext()
+    {
+        return rtc;
     }
 }

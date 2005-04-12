@@ -497,9 +497,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         }
         else
         {
-            throw new IllegalArgumentException(
-                chart.getClass().getName()
-                    + " is an invalid argument for StockSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+            throw new IllegalArgumentException(chart.getClass().getName() + " is an invalid argument for StockSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
         }
 
         // Update the sampledata in the model

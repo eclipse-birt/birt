@@ -118,7 +118,7 @@ public final class WrappedInstruction implements Comparable
      */
     public String toString()
     {
-        return super.toString() + ": model=" + isModel() + "; bounds=" + getBounds();
+        return "{0}: model={1}; bounds={2}" + super.toString() + isModel() + getBounds(); // i18n_CONCATENATIONS_REMOVED
     }
 
     public final Bounds getBounds()

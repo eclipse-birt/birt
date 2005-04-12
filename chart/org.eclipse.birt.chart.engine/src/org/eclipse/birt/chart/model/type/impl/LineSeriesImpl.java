@@ -680,9 +680,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
         }
         else
         {
-            throw new IllegalArgumentException(
-                chart.getClass().getName()
-                    + " is an invalid argument for LineSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+            throw new IllegalArgumentException(chart.getClass().getName() + " is an invalid argument for LineSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
         }
 
         // Update the sampledata in the model

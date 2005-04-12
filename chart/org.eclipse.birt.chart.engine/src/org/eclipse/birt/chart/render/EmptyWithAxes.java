@@ -28,9 +28,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 
 /**
- * This class ...
  * 
- * @author Actuate Corporation
  */
 public final class EmptyWithAxes extends AxesRenderer
 {
@@ -45,7 +43,7 @@ public final class EmptyWithAxes extends AxesRenderer
     {
         // NOTE: This method is not used by the Empty renderer
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-            getClass().getName() + ": renderSeries() [" + (iSeriesIndex + 1) + "/" + iSeriesCount + "]");
+            "{0}: renderSeries() [{1}/{2}]" + getClass().getName() + (iSeriesIndex + 1) + iSeriesCount ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /*

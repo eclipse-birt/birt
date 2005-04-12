@@ -52,7 +52,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public Bounds getBounds() throws UnsupportedFeatureException
     {
-        throw new UnsupportedFeatureException("Bounds may not be computed for event " + this);
+        throw new UnsupportedFeatureException("Bounds may not be computed for event {0}" + this); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public PrimitiveRenderEvent copy() throws UnsupportedFeatureException
     {
-        throw new UnsupportedFeatureException("A copy may not be created for event " + this);
+        throw new UnsupportedFeatureException("A copy may not be created for event {0}" + this); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -178,7 +178,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
         }
         else
         {
-            throw new RuntimeException("Object " + o + " may not participate in a 'pre' comparison");
+            throw new RuntimeException("Object {0} may not participate in a 'pre' comparison" + o ); // i18n_CONCATENATIONS_REMOVED
         }
         /*
          * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ? IConstants.MORE : IConstants.LESS; }
@@ -205,7 +205,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public void draw(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
     {
-        throw new UnsupportedFeatureException("Cannot draw " + this + " internally via the event");
+        throw new UnsupportedFeatureException("Cannot draw {0} internally via the event" + this ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -216,7 +216,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public void fill(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
     {
-        throw new UnsupportedFeatureException("Cannot fill " + this + " internally via the event");
+        throw new UnsupportedFeatureException("Cannot fill {0} internally via the event" + this ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**

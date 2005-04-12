@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
+
 /**
  * This class ...
  * 
@@ -117,13 +119,13 @@ public interface IConstants
 
     public final int NON_PRIMITIVE_ARRAY = 3;
 
-    public static final String EMPTY_STRING = "";
+    public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
-    public static final String ONE_SPACE = " ";
+    public static final String ONE_SPACE = " "; //$NON-NLS-1$
 
-    public static final String UNDEFINED_STRING = "<undefined>";
+    public static final String UNDEFINED_STRING = Messages.getString("constant.undefined.string", null); //$NON-NLS-1$
 
-    public static final String NULL_STRING = "null";
+    public static final String NULL_STRING = Messages.getString("constant.null.string", null); //$NON-NLS-1$
 
     public final int SOME_NULL = -2;
 

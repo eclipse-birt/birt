@@ -178,7 +178,7 @@ public final class Generator
 
         if (oComputations == null)
         {
-            throw new GenerationException("Unable to compute chart defined by model [" + cmRunTime + "]");
+            throw new GenerationException("Unable to compute chart defined by model [{0}]" + cmRunTime ); // i18n_CONCATENATIONS_REMOVED
         }
 
         // OBTAIN THE RENDERERS
@@ -278,8 +278,7 @@ public final class Generator
                 throw new GenerationException(ex);
             }
         }
-        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = " + (System.currentTimeMillis() - lTimer)
-            + " ms");
+        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
         final GeneratedChartState gcs = new GeneratedChartState(ids, cmRunTime, lhmRenderers, rtc, oComputations);
         if (sh != null)
         {
@@ -322,8 +321,7 @@ public final class Generator
             {
                 throw new GenerationException(ex);
             }
-            il.log(ILogger.INFORMATION, "Time to compute plot (with axes) = " + (System.currentTimeMillis() - lTimer)
-                + " ms");
+            il.log(ILogger.INFORMATION, "Time to compute plot (with axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
         }
         else if (iChartType == WITHOUT_AXES)
         {
@@ -336,8 +334,7 @@ public final class Generator
             {
                 throw new GenerationException(ex);
             }
-            il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = "
-                + (System.currentTimeMillis() - lTimer) + " ms");
+            il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
         }
         ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_COMPUTATIONS, gcs);
     }

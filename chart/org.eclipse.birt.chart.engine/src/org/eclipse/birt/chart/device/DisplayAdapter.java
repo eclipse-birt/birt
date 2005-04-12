@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device;
 
 import java.net.URL;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ImageLoadingException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -25,6 +26,11 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public abstract class DisplayAdapter implements IDisplayServer
 {
+    /**
+     * An internal instance of the locale being used for processing
+     */
+    private transient Locale lcl = null;
+    
     /*
      *  (non-Javadoc)
      * @see org.eclipse.birt.chart.device.IDisplayServer#debug()
@@ -50,6 +56,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public Object createFont(FontDefinition fd)
     {
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
@@ -60,7 +67,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public Object getColor(ColorDefinition cd)
     {
-        // TODO Auto-generated method stub
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
@@ -71,6 +78,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public int getDpiResolution()
     {
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return 96;
     }
 
@@ -81,7 +89,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public Object loadImage(URL url) throws ImageLoadingException
     {
-        // TODO Auto-generated method stub
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
@@ -92,7 +100,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public Size getSize(Object oImage)
     {
-        // TODO Auto-generated method stub
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
@@ -103,7 +111,7 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public Object getObserver()
     {
-        // TODO Auto-generated method stub
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
@@ -114,8 +122,26 @@ public abstract class DisplayAdapter implements IDisplayServer
      */
     public ITextMetrics getTextMetrics(Label la)
     {
-        // TODO Auto-generated method stub
+        // NO-OP ADAPTER DEFAULT IMPLEMENTATION
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IDisplayServer#getLocale()
+     */
+    public final Locale getLocale()
+    {
+        return (lcl == null) ? Locale.getDefault() : lcl;
+    }
+    
+    /**
+     * A convenience method provided to associate a locale with
+     * a display server
+     * 
+     * @param lcl   The locale to be set
+     */
+    public final void setLocale(Locale lcl)
+    {
+        this.lcl = lcl;
+    }
 }

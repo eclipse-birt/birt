@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.render;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -27,6 +28,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
@@ -97,7 +99,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public abstract class BaseRenderer
 {
 
-    protected static final String TIMER = "T";
+    protected static final String TIMER = "T"; //$NON-NLS-1$
 
     /**
      *  
@@ -409,7 +411,13 @@ public abstract class BaseRenderer
             {
                 throw new RenderingException(ex);
             }
-            il.log(ILogger.INFORMATION, "Time to render everything = " + lTimer + " ms");
+            il.log(ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.elapsed.render.time", //$NON-NLS-1$
+                    new Object[] { new Long(lTimer) },
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
             htRenderers.remove(TIMER);
         }
     }
@@ -543,7 +551,7 @@ public abstract class BaseRenderer
         final Direction d = lg.getDirection();
         final Label la = LabelImpl.create();
         la.setCaption((Text) EcoreUtil.copy(lg.getText()));
-        la.getCaption().setValue("X");
+        la.getCaption().setValue("X"); //$NON-NLS-1$
         final ITextMetrics itm = xs.getTextMetrics(la);
 
         double dItemHeight = itm.getFullHeight();
@@ -573,9 +581,7 @@ public abstract class BaseRenderer
                     final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0];
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
-                        return; // NOTHING TO RENDER
-                        //throw new RenderingException("The primary base axis
-                        // does not contain any series definitions");
+                        return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES DEFINITIONS)
                     }
                     // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                     sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0);
@@ -584,9 +590,7 @@ public abstract class BaseRenderer
                 {
                     if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
                     {
-                        return; // NOTHING TO RENDER
-                        //throw new RenderingException("The primary base axis
-                        // does not contain any series definitions");
+                        return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES DEFINITIONS)
                     }
                     // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                     sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0);
@@ -693,7 +697,14 @@ public abstract class BaseRenderer
             }
             else
             {
-                throw new RenderingException("Invalid argument specified for legend rendering direction = " + d);
+                throw new RenderingException(
+                    "exception.illegal.legend.direction", //$NON-NLS-1$
+                    new Object[] { d.getName() },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED 
             }
         }
         else if (o.getValue() == Orientation.HORIZONTAL)
@@ -706,9 +717,7 @@ public abstract class BaseRenderer
                     final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR NOW
                     if (axPrimaryBase.getSeriesDefinitions().isEmpty())
                     {
-                        return; // NOTHING TO RENDER
-                        //throw new RenderingException("The primary base axis
-                        // does not contain any series definitions");
+                        return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES DEFINITIONS)
                     }
                     // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                     sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0);
@@ -717,9 +726,7 @@ public abstract class BaseRenderer
                 {
                     if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
                     {
-                        return; // NOTHING TO RENDER
-                        //throw new RenderingException("The primary base axis
-                        // does not contain any series definitions");
+                        return; // NOTHING TO RENDER (BASE AXIS HAS NO SERIES DEFINITIONS)
                     }
                     // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
                     sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); 
@@ -831,12 +838,26 @@ public abstract class BaseRenderer
             }
             else
             {
-                throw new RenderingException("Invalid argument specified for legend rendering direction = " + d);
+                throw new RenderingException(
+                    "exception.illegal.legend.direction", //$NON-NLS-1$
+                    new Object[] { d.getName() },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED 
             }
         }
         else
         {
-            throw new RenderingException("Invalid argument specified for legend rendering orientation = " + o);
+            throw new RenderingException(
+                "exception.illegal.legend.orientation", //$NON-NLS-1$ 
+                new Object[] { o.getName() },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         itm.dispose(); // DISPOSE RESOURCES AFTER USE
     }
@@ -1002,7 +1023,13 @@ public abstract class BaseRenderer
 
             if (!ca.getOutline().isSetVisible())
             {
-                throw new RenderingException("Client area outline visibility was not specified");
+                throw new RenderingException(
+                    "exception.client.area.outline.visibility", //$NON-NLS-1$ 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                ); 
             }
             if (ca.getOutline().isVisible())
             {
@@ -1211,11 +1238,16 @@ public abstract class BaseRenderer
             {
                 sdBase = (SeriesDefinition) elBase.get(i);
                 alRuntimeSeries = sdBase.getRunTimeSeries();
-                if (alRuntimeSeries.size() != 1) // CHECK FOR A SINGLE BASE
-                // SERIES ONLY
+                if (alRuntimeSeries.size() != 1) // CHECK FOR A SINGLE BASE SERIES ONLY
                 {
-                    throw new PluginException("Base runtime series count (here " + alRuntimeSeries.size()
-                        + ") for a chart without axes must 1");
+                    throw new PluginException(
+                        "exception.illegal.base.runtime.series.count", //$NON-NLS-1$
+                        new Object[] { new Integer(alRuntimeSeries.size()) },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
                 }
                 se = (Series) alRuntimeSeries.get(0);
                 brna[iSI] = (se.getClass() == SeriesImpl.class) ? new EmptyWithoutAxes() : ps
@@ -1348,8 +1380,8 @@ public abstract class BaseRenderer
             {
                 fDarker = ((ColorDefinition) fDarker).darker();
                 /*
-                 * ColorDefinition cdD = (ColorDefinition) fDarker; System.out.println("darker Creating color " +
-                 * cdD.getRed() + ", " + cdD.getGreen() + ", " + cdD.getBlue());
+                 * ColorDefinition cdD = (ColorDefinition) fDarker; System.out.println("darker Creating color {0}" +  + // i18n_CONCATENATIONS_REMOVED
+                 *"{0}, {1}, {2}" +  cdD.getRed() + cdD.getGreen() + cdD.getBlue()); // i18n_CONCATENATIONS_REMOVED
                  */
             }
             fBrighter = f;

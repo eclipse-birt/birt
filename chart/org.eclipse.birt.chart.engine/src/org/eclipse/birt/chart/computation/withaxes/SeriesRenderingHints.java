@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.NullValueException;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
@@ -211,7 +214,14 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
     {
         if (!se.isSetLabelPosition())
         {
-            throw new UndefinedValueException("The data label position is undefined for series " + se);
+            throw new UndefinedValueException(
+                "exception.undefined.data.label.position", //$NON-NLS-1$
+                new Object[] { se },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    pwa.getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
 
         final int iTransposed = pwa.transposeLabelPosition(IConstants.ORTHOGONAL, Methods.getLabelPosition(se

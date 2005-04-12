@@ -14,11 +14,13 @@ package org.eclipse.birt.chart.computation;
 //import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.exception.NullValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
@@ -182,7 +184,14 @@ public class Methods implements IConstants
     {
         if (oValue == null)
         {
-            throw new NullValueException("Cannot locate co-ordinate for null value on scale " + sc);
+            throw new NullValueException(
+                "exception.scale.null.location", //$NON-NLS-1$
+                new Object[] { sc },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    sc.getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         if (oValue instanceof Double)
         {
@@ -201,7 +210,7 @@ public class Methods implements IConstants
             return getDateLocation(sc, ((DateTimeDataElement) oValue).getValueAsCDateTime());
         }
         /*DefaultLoggerImpl.instance().log(ILogger.WARNING,
-            "Unexpected data type " + oValue.getClass().getName() + "[value=" + oValue + "] specified");*/
+            "Unexpected data type {0}[value={1}] specified" + oValue.getClass().getName() + oValue );*/ // i18n_CONCATENATIONS_REMOVED
         return sc.getStart(); // RETURNS THE START EDGE OF THE SCALE
     }
 
@@ -234,7 +243,14 @@ public class Methods implements IConstants
             }
             if (dValue < 0)
             {
-                throw new UnexpectedInputException("Zero or negative values may not be located on a logarithmic scale");
+                throw new UnexpectedInputException(
+                    "exception.zero.negative.logarithmic.scale", //$NON-NLS-1$
+                    new Object[] { sc },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        sc.getRunTimeContext().getLocale()
+                    )
+                ); 
             }
             double dMinimumLog = Math.log(asDouble(sc.getMinimum()).doubleValue()) / LOG_10;
             double dStepLog = Math.log(asDouble(sc.getStep()).doubleValue()) / LOG_10;
@@ -527,7 +543,13 @@ public class Methods implements IConstants
         if (dAngleInDegrees < -90 || dAngleInDegrees > 90)
         {
             throw new UnexpectedInputException(
-                "The rotation angle (-90 <= ANGLE <= 90) was incorrectly specified for label " + la);
+                "exception.illegal.rotation.angle.label", //$NON-NLS-1$
+                new Object[] { la },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    xs.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         final double dAngleInRadians = ((-dAngleInDegrees * Math.PI) / 180.0);
         final double dSineTheta = Math.abs(Math.sin(dAngleInRadians));
@@ -675,34 +697,4 @@ public class Methods implements IConstants
         }
         return iLabelPosition;
     }
-
-    /**
-     * 
-     * @param oaData
-     * @param iIndex
-     * 
-     * @return
-     * @throws DataFormatException
-     */
-    public final Object getValue(Object oaData, int iIndex) throws DataFormatException
-    {
-        if (oaData instanceof double[])
-        {
-            return new Double(((double[]) oaData)[iIndex]);
-        }
-        else if (oaData instanceof CDateTime[])
-        {
-            return ((CDateTime[]) oaData)[iIndex];
-        }
-        else if (oaData instanceof String[])
-        {
-            return ((String[]) oaData)[iIndex];
-        }
-        else if (oaData instanceof Object[])
-        {
-            return ((Object[]) oaData)[iIndex];
-        }
-        throw new DataFormatException("Unexpected internal dataset structure");
-    }
-
 }

@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.computation.withoutaxes;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
@@ -21,11 +24,23 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
  */
 public class SeriesRenderingHints implements ISeriesRenderingHints
 {
-
+    /**
+     * 
+     */
     private final DataPointHints[] dpha;
+    
+    /**
+     * 
+     */
+    private final PlotWithoutAxes pwoa;
 
-    SeriesRenderingHints(DataPointHints[] dpha)
+    /**
+     * @param pwoa
+     * @param dpha
+     */
+    SeriesRenderingHints(PlotWithoutAxes pwoa, DataPointHints[] dpha)
     {
+        this.pwoa = pwoa;
         this.dpha = dpha;
     }
 
@@ -64,8 +79,14 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
             }
             else
             {
-                throw new DataFormatException("Unexpected non-numerical data type " + o
-                    + " found in data set; cannot convert to numeric value.");
+                throw new DataFormatException(
+                    "exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
+                    new Object[] { o },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        pwoa.getRunTimeContext().getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
         return doa;
@@ -96,8 +117,14 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
             }
             else
             {
-                throw new DataFormatException("Unexpected non-numerical data type " + o
-                    + " found in data set; cannot convert to numeric value.");
+                throw new DataFormatException(
+                    "exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
+                    new Object[] { o },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        pwoa.getRunTimeContext().getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
         final double[] doaTrimmed = new double[j];

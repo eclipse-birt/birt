@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device;
 
+import java.util.Locale;
+
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -19,7 +21,8 @@ import org.eclipse.birt.chart.model.component.Label;
  */
 public class TextAdapter implements ITextMetrics
 {
-
+    private transient Locale lcl = null;
+    
     /*
      * (non-Javadoc)
      * 
@@ -108,4 +111,19 @@ public class TextAdapter implements ITextMetrics
 
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
+     */
+    public final Locale getLocale()
+    {
+        return (lcl == null) ? Locale.getDefault() : lcl;
+    }
+
+    /**
+     * @param lcl
+     */
+    public final void setLocale(Locale lcl)
+    {
+        this.lcl = lcl;
+    }
 }

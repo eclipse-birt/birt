@@ -36,7 +36,7 @@ import org.eclipse.birt.core.framework.Platform;
  * 
  * If the BIRT extension paradigm is not to be used and the default
  * classloader is requested for loading extensions, ensure that the
- * STANDALONE 'JVM system variable' is defined with a dont-care value.
+ * BIRT_HOME 'JVM system variable' is undefined.
  */
 public final class PluginSettings
 {
@@ -159,10 +159,7 @@ public final class PluginSettings
         if (ps == null)
         {
             ps = new PluginSettings();
-            if (System.getProperty("STANDALONE") != null)
-            {
-                ps.bStandalone = true;
-            }
+            //ps.bStandalone = (System.getProperty("BIRT_HOME") == null);
         }
         return ps;
     }
@@ -187,11 +184,11 @@ public final class PluginSettings
             if (oDSP != null)
             {
                 DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                    "(ECLIPSE-ENV) Creating dsp " + oDSP.getClass().getName());
+                    "(ECLIPSE-ENV) Creating dsp {0}" + oDSP.getClass().getName()); // i18n_CONCATENATIONS_REMOVED
                 return (IDataSetProcessor) oDSP;
             }
             DefaultLoggerImpl.instance()
-                .log(ILogger.FATAL, "(ECLIPSE-ENV) Could not find dsp impl for " + sFQClassName);
+                .log(ILogger.FATAL, "(ECLIPSE-ENV) Could not find dsp impl for {0}" + sFQClassName); // i18n_CONCATENATIONS_REMOVED
         }
         else
         {
@@ -200,12 +197,12 @@ public final class PluginSettings
                 if (sFQClassName.equals(saSeries[i]))
                 {
                     DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                        "(STANDALONE-ENV) Creating dsp " + saDataSetProcessors[i]);
+                        "(STANDALONE-ENV) Creating dsp {0}" + saDataSetProcessors[i]); // i18n_CONCATENATIONS_REMOVED
                     return (IDataSetProcessor) newInstance(saDataSetProcessors[i]);
                 }
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
-                "(STANDALONE-ENV) Could not find dsp impl for " + sFQClassName);
+                "(STANDALONE-ENV) Could not find dsp impl for {0}" + sFQClassName); // i18n_CONCATENATIONS_REMOVED
         }
         return null;
     }
@@ -230,11 +227,11 @@ public final class PluginSettings
             if (oSeriesRenderer != null)
             {
                 DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                    "(ECLIPSE-ENV) Creating series renderer " + oSeriesRenderer.getClass().getName());
+                    "(ECLIPSE-ENV) Creating series renderer {0}" + oSeriesRenderer.getClass().getName()); // i18n_CONCATENATIONS_REMOVED
                 return (BaseRenderer) oSeriesRenderer;
             }
             DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "(ECLIPSE-ENV) Could not find series renderer impl for " + sFQClassName);
+                "(ECLIPSE-ENV) Could not find series renderer impl for {0}" + sFQClassName); // i18n_CONCATENATIONS_REMOVED
         }
         else
         {
@@ -247,12 +244,12 @@ public final class PluginSettings
                         break;
                     }
                     DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                        "(STANDALONE-ENV) Creating series renderer " + saRenderers[i]);
+                        "(STANDALONE-ENV) Creating series renderer {0}" + saRenderers[i]); // i18n_CONCATENATIONS_REMOVED
                     return (BaseRenderer) newInstance(saRenderers[i]);
                 }
             }
             DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "(STANDALONE-ENV) Could not find series renderer impl for " + sFQClassName);
+                "(STANDALONE-ENV) Could not find series renderer impl for {0}" + sFQClassName); // i18n_CONCATENATIONS_REMOVED
         }
         return null;
     }
@@ -278,11 +275,11 @@ public final class PluginSettings
             if (oDeviceRenderer != null)
             {
                 DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                    "(ECLIPSE-ENV) Creating device " + sName + " as " + oDeviceRenderer.getClass().getName());
+                    "(ECLIPSE-ENV) Creating device {0} as {1}" + sName + oDeviceRenderer.getClass().getName()); // i18n_CONCATENATIONS_REMOVED
                 return (IDeviceRenderer) oDeviceRenderer;
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
-                "(ECLIPSE-ENV) Could not find device renderer impl for " + sName);
+                "(ECLIPSE-ENV) Could not find device renderer impl for {0}" + sName); // i18n_CONCATENATIONS_REMOVED
         }
         else
         {
@@ -291,12 +288,12 @@ public final class PluginSettings
                 if (saDevices[i][0].equalsIgnoreCase(sName))
                 {
                     DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                        "(STANDALONE-ENV) Creating device " + sName + " as " + saDevices[i][1]);
+                        "(STANDALONE-ENV) Creating device {0} as {1}" + sName + saDevices[i][1]); // i18n_CONCATENATIONS_REMOVED
                     return (IDeviceRenderer) newInstance(saDevices[i][1]);
                 }
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
-                "(STANDALONE-ENV) Could not find device renderer impl for " + sName);
+                "(STANDALONE-ENV) Could not find device renderer impl for {0}" + sName); // i18n_CONCATENATIONS_REMOVED
         }
         return null;
     }
@@ -321,11 +318,11 @@ public final class PluginSettings
             if (oDisplayServer != null)
             {
                 DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                    "(ECLIPSE-ENV) Creating display server " + sName + " as " + oDisplayServer.getClass().getName());
+                    "(ECLIPSE-ENV) Creating display server {0} as {1}" + sName + oDisplayServer.getClass().getName()); // i18n_CONCATENATIONS_REMOVED
                 return (IDisplayServer) oDisplayServer;
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
-                "(ECLIPSE-ENV) Could not find display server impl for " + sName);
+                "(ECLIPSE-ENV) Could not find display server impl for {0}" + sName); // i18n_CONCATENATIONS_REMOVED
         }
         else
         {
@@ -334,12 +331,12 @@ public final class PluginSettings
                 if (saDisplayServers[i][0].equalsIgnoreCase(sName))
                 {
                     DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                        "(STANDALONE-ENV) Creating display server " + sName + " as " + saDisplayServers[i][1]);
+                        "(STANDALONE-ENV) Creating display server {0} as {1}" + sName + saDisplayServers[i][1]); // i18n_CONCATENATIONS_REMOVED
                     return (IDisplayServer) newInstance(saDisplayServers[i][1]);
                 }
             }
             DefaultLoggerImpl.instance().log(ILogger.FATAL,
-                "(STANDALONE-ENV) Could not find display server impl for " + sName);
+                "(STANDALONE-ENV) Could not find display server impl for {0}" + sName); // i18n_CONCATENATIONS_REMOVED
         }
         return null;
     }
@@ -396,8 +393,7 @@ public final class PluginSettings
         final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
         if (iep == null)
         {
-            throw new PluginException("Unable to locate any entries for lookup=" + sLookupName + "; element=("
-                + sXsdElementName + ":" + sXsdElementValue + ") in any plugin.xml file in all of the available plugins");
+            throw new PluginException("Unable to locate any entries for lookup={0}; element=({1}:{2}) in any plugin.xml file in all of the available plugins"  + sLookupName +  sXsdElementName + sXsdElementValue, null ); // i18n_CONCATENATIONS_REMOVED
         }
         final IExtension[] iea = iep.getExtensions();
         IConfigurationElement[] icea;
@@ -439,8 +435,7 @@ public final class PluginSettings
         final IExtensionPoint iep = ier.getExtensionPoint(PLUGIN, sXsdListName);
         if (iep == null)
         {
-            throw new PluginException("Unable to locate any entries for lookup=" + sLookupName + "; element=("
-                + sXsdElementName + ":" + sXsdElementValue + ") in any plugin.xml file in all of the available plugins");
+            throw new PluginException("Unable to locate any entries for lookup={0}; element=({0}:{1}) in any plugin.xml file in all of the available plugins" + sLookupName + sXsdElementName + sXsdElementValue, null); // i18n_CONCATENATIONS_REMOVED
         }
         final IExtension[] iea = iep.getExtensions();
         IConfigurationElement[] icea;
