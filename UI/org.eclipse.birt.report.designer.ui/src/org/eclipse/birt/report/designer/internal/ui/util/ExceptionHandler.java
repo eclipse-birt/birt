@@ -43,6 +43,8 @@ public class ExceptionHandler
 
 	private static final String TITLE_FILE_NOT_FOUND = Messages.getString( "ExceptionHandler.Title.FileNotFound" ); //$NON-NLS-1$
 
+	private static final String MSG_FILE_NOT_FOUND_PREFIX = Messages.getString( "ExceptionHandler.Title.FileNotFound" ); //$NON-NLS-1$
+
 	private static final String TITLE_UNKNOWN_HOST = Messages.getString( "ExceptionHandler.Title.UnknownHost" ); //$NON-NLS-1$
 
 	private static final String TITLE_PART_INIT_ERROR = Messages.getString( "ExceptionHandler.Title.PartInitError" ); //$NON-NLS-1$
@@ -55,9 +57,9 @@ public class ExceptionHandler
 
 	private static final String MSG_OCURR = Messages.getString( "ExceptionHandler.Meesage.Occur" ); //$NON-NLS-1$
 
-	private static final String LABEL_ERROR_MESSAGE = Messages.getString("ExceptionHandler.Label.ErrorMessage"); //$NON-NLS-1$
+	private static final String LABEL_ERROR_MESSAGE = Messages.getString( "ExceptionHandler.Label.ErrorMessage" ); //$NON-NLS-1$
 
-	private static final String LABEL_ERROR_CODE = Messages.getString("ExceptionHandler.Label.ErrorCode"); //$NON-NLS-1$
+	private static final String LABEL_ERROR_CODE = Messages.getString( "ExceptionHandler.Label.ErrorCode" ); //$NON-NLS-1$
 
 	private static List ExpectedExceptionList;
 
@@ -91,6 +93,7 @@ public class ExceptionHandler
 		else if ( e instanceof FileNotFoundException )
 		{
 			title = TITLE_FILE_NOT_FOUND;
+			message = MSG_FILE_NOT_FOUND_PREFIX + ":" + e.getLocalizedMessage( ); //$NON-NLS-1$
 		}
 		else if ( e instanceof PartInitException )
 		{
@@ -162,7 +165,7 @@ public class ExceptionHandler
 		Throwable exception = null;
 		String reason = null;
 		String[] detail = null;
-		if ( !needNotLog( e ) && isNeedLog)
+		if ( !needNotLog( e ) && isNeedLog )
 		{
 			exception = e;
 		}
@@ -176,16 +179,12 @@ public class ExceptionHandler
 			BirtException birtException = (BirtException) e;
 			detail = new String[]{
 					LABEL_ERROR_CODE + ":" + birtException.getErrorCode( ), //$NON-NLS-1$
-					LABEL_ERROR_MESSAGE
-							+ ":" //$NON-NLS-1$
+					LABEL_ERROR_MESSAGE + ":" //$NON-NLS-1$
 							+ birtException.getLocalizedMessage( ),
 			};
-			reason = e.getClass( ).getName( )
-					+ " " //$NON-NLS-1$
-					+ MSG_OCURR
-					+ "\n" //$NON-NLS-1$
-					+ LABEL_ERROR_CODE
-					+ ":" //$NON-NLS-1$
+			reason = e.getClass( ).getName( ) + " " //$NON-NLS-1$
+					+ MSG_OCURR + "\n" //$NON-NLS-1$
+					+ LABEL_ERROR_CODE + ":" //$NON-NLS-1$
 					+ birtException.getErrorCode( );
 		}
 		else
@@ -282,9 +281,9 @@ public class ExceptionHandler
 	{
 		openMessageBox( title, errorMessage, SWT.ICON_ERROR );
 	}
-	
-	public static void setNeedLog(boolean isNeedLog)
+
+	public static void setNeedLog( boolean isNeedLog )
 	{
-		ExceptionHandler.isNeedLog = isNeedLog; 
+		ExceptionHandler.isNeedLog = isNeedLog;
 	}
 }

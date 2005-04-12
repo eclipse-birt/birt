@@ -11,19 +11,14 @@
 
 package org.eclipse.birt.report.designer.core.model.schematic;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.activity.SemanticException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.internal.ExceptionHandler;
@@ -56,26 +51,15 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( imageSource ) )
 		{
-			EmbeddedImage embeddedImage = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.findImage( getImageHandle( ).getImageName( ) );
-			if ( embeddedImage != null )
-			{
-				return ImageManager.getImage( embeddedImage );
-			}
+			return ImageManager.getInstance( )
+					.getImage( getImageHandle( ).getDesignHandle( ),
+							getImageHandle( ).getImageName( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
-			String url = getImageHandle( ).getURI( );
-			try
-			{
-				return ImageManager.getImage( new URL( url ) );
-			}
-			catch ( MalformedURLException e )
-			{
-				return null;
-			}
+			return ImageManager.getInstance( )
+					.getImage( getImageHandle( ).getURI( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{

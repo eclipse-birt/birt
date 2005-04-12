@@ -13,14 +13,18 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.structures.EmbeddedImage;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.birt.report.model.util.URIUtil;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -32,52 +36,41 @@ public class ImageManager
 
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
 
-	/**
-	 * Gets the image by the given file path
-	 * 
-	 * @param filePath
-	 *            the path of the image file
-	 * 
-	 * @return Returns the image,or null if the path is invalid or the file
-	 *         format is unsupported.
-	 */
-	public static Image getImage( String filePath )
+	private static final ImageManager instance = new ImageManager( );
+
+	private ImageManager( )
 	{
-		try
-		{
-			File file = new File( filePath );
-			if ( !file.exists( ) )
-			{
-				return null;
-			}
-			return getImage( file.toURL( ) );
-		}
-		catch ( MalformedURLException e )
-		{
-			return null;
-		}
 	}
 
 	/**
-	 * Gets the image by the given URL
+	 * Gets the instance of the image manager
 	 * 
-	 * @param url
+	 * @return Returns the instanceof the image manager
+	 */
+	public static ImageManager getInstance( )
+	{
+		return instance;
+	}
+
+	/**
+	 * Gets the image by the given URI
+	 * 
+	 * @param uri
 	 *            the url of the image file
 	 * 
 	 * @return Returns the image,or null if the url is invalid or the file
 	 *         format is unsupported.
 	 */
-	public static Image getImage( URL url )
+	public Image getImage( String uri )
 	{
-		String key = url.toString( );
-		Image image = JFaceResources.getImage( key );
-		if ( image == null )
+		Image image;
+		try
 		{
-			image = ImageDescriptor.createFromURL( url ).createImage( false );
-			if ( image != null )
-			{
-				JFaceResources.getImageRegistry( ).put( key, image );
-			}
+			image = loadImage( uri );
+		}
+		catch ( Exception e )
+		{
+			return null;
 		}
 		return image;
 	}
@@ -90,22 +83,81 @@ public class ImageManager
 	 * 
 	 * @return Returns the image,or null if the embedded image doesn't exist.
 	 */
-	public static Image getImage( EmbeddedImage embeddedImage )
+	public Image getImage( ReportDesignHandle handle, String name )
 	{
-		String fileName = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getFileName( );
-		String key = embeddedImage.getName( ) + EMBEDDED_SUFFIX + fileName;
-		Image image = JFaceResources.getImage( key );
-		if ( image == null )
+		EmbeddedImage embeddedImage = handle.findImage( name );
+		String key = embeddedImage.getName( ) + EMBEDDED_SUFFIX + name;
+		Image image = getImageRegistry( ).get( key );
+		if ( image != null )
 		{
-			InputStream is = new ByteArrayInputStream( embeddedImage.getData( ) );
-			image = new Image( null, is );
-			if ( image != null )
-			{
-				JFaceResources.getImageRegistry( ).put( key, image );
-			}
+			return image;
+		}
+		image = new Image( null,
+				new ByteArrayInputStream( embeddedImage.getData( ) ) );
+		if ( image != null )
+		{
+			getImageRegistry( ).put( key, image );
 		}
 		return image;
 	}
+
+	/**
+	 * Loads the image into the image registry by the given URI
+	 * 
+	 * @param uri
+	 *            the URI of the image to load
+	 * @return Returns the image if it loaded correctly
+	 * @throws IOException
+	 */
+	public Image loadImage( String uri ) throws IOException
+	{
+		URL url = generateURL( uri );
+		if ( url == null )
+		{
+			throw new FileNotFoundException( uri );
+		}
+		String key = url.toString( );
+		Image image = getImageRegistry( ).get( key );
+		if ( image != null )
+		{
+			return image;
+		}
+		image = new Image( null, url.openStream( ) );
+		if ( image != null )
+		{
+			getImageRegistry( ).put( key, image );			
+		}
+		return image;
+	}
+
+	private ImageRegistry getImageRegistry( )
+	{
+		return CorePlugin.getDefault( ).getImageRegistry( );
+	}
+
+	private URL generateURL( String uri ) throws MalformedURLException
+	{
+		String path = URIUtil.getLocalPath( uri );
+		if ( path != null )
+		{
+			String fullPath = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.getFileLocator( )
+					.findFile( SessionHandleAdapter.getInstance( )
+							.getReportDesign( ),
+							path );
+			if ( fullPath == null )
+			{
+				return null;
+			}
+			File file = new File( fullPath );
+			if ( file.exists( ) )
+			{
+				return file.toURL( );
+			}
+			return null;
+		}
+		return URI.create( uri ).toURL( );
+	}
+
 }

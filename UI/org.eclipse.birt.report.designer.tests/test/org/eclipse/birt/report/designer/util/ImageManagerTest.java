@@ -38,10 +38,10 @@ public class ImageManagerTest extends BaseTestCase
 	//Doesn't exist
 	private static final String TEST_ERROR_FILE = "icon/error.jpg"; //$NON-NLS-1$ //not exists
 
-	//private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
-	
+	private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
+
 	//Invalid url
-	//private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
+	private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
 
 	static
 	{
@@ -64,7 +64,8 @@ public class ImageManagerTest extends BaseTestCase
 
 	public void testGetImageByPath( ) throws Exception
 	{
-		Image image = ImageManager.getImage( iconPath + TEST_FILE );
+		Image image = ImageManager.getInstance( ).getImage( iconPath
+				+ TEST_FILE );
 		assertNotNull( image );
 		if ( PlatformUtil.isWindows( ) )
 		{//platform related issue
@@ -79,30 +80,28 @@ public class ImageManagerTest extends BaseTestCase
 
 	public void testGetImageByWrongPath( ) throws Exception
 	{
-		assertNull( ImageManager.getImage( TEST_ERROR_FILE ) );
+		assertNull( ImageManager.getInstance( ).getImage( TEST_ERROR_FILE ) );
 	}
 
-	//	/*
-	//	 * Class under test for Image getImage(URL)
-	//	 */
-	//	public void testGetImageByURL( ) throws Exception
-	//	{
-	//		Image image = ImageManager.getImage( new URL( TEST_URL ) );
-	//		assertNotNull( image );
-	//		assertTrue( Arrays.equals( image.getImageData( ).data, localData.data )
-	// );
-	//		assertEquals( image, ImageManager.getImage( new URL( TEST_URL ) ) );
-	//		assertNull( ImageManager.getImage( new URL( TEST_ERROR_URL ) ) );
-	//	}
-	//
-	//	/*
-	//	 * Class under test for Image getImage(URL)
-	//	 */
-	//
-	//	public void testGetImageByWrongURL( ) throws Exception
-	//	{
-	//		assertNull( ImageManager.getImage( new URL( TEST_ERROR_URL ) ) );
-	//	}
+	/*
+	 * Class under test for Image getImage(URL)
+	 */
+	public void testGetImageByURL( ) throws Exception
+	{
+		Image image = ImageManager.getInstance( ).getImage( TEST_URL );
+		assertNotNull( image );
+		assertTrue( Arrays.equals( image.getImageData( ).data, localData.data ) );
+		assertEquals( image, ImageManager.getInstance( ).getImage( TEST_URL ) );
+	}
+
+	/*
+	 * Class under test for Image getImage(URL)
+	 */
+
+	public void testGetImageByWrongURL( ) throws Exception
+	{
+		assertNull( ImageManager.getInstance( ).getImage( TEST_ERROR_URL ) );
+	}
 
 	/*
 	 * Class under test for Image getImage(EmbeddedImage)
@@ -115,14 +114,35 @@ public class ImageManagerTest extends BaseTestCase
 		is.read( data );
 		embeddedImage.setData( data );
 		getReportDesign( ).handle( ).addImage( embeddedImage );
-		Image image = ImageManager.getImage( embeddedImage );
+		Image image = ImageManager.getInstance( )
+				.getImage( getReportDesignHandle( ), embeddedImage.getName( ) );
 		assertNotNull( image );
 		if ( PlatformUtil.isWindows( ) )
 		{//platform related issue
 			assertTrue( Arrays.equals( image.getImageData( ).data,
 					localData.data ) );
 		}
-		assertEquals( image, ImageManager.getImage( embeddedImage ) );
+		assertEquals( image, ImageManager.getInstance( )
+				.getImage( getReportDesignHandle( ), embeddedImage.getName( ) ) );
 	}
 
+	public void testLoadImage( ) throws IOException
+	{
+		Image image = ImageManager.getInstance( ).loadImage( iconPath
+				+ TEST_FILE );
+		assertNotNull( image );
+		assertEquals( image, ImageManager.getInstance( ).loadImage( iconPath
+				+ TEST_FILE ) );
+		assertEquals( image, ImageManager.getInstance( ).getImage( iconPath
+				+ TEST_FILE ) );
+		try
+		{
+			ImageManager.getInstance( ).loadImage( TEST_ERROR_FILE );
+		}
+		catch ( Exception e )
+		{
+			return;
+		}
+		fail( );
+	}
 }

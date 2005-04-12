@@ -539,7 +539,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			Image image = null;
 			try
 			{
-				image = ImageManager.getImage( backGroundImage );
+				image = ImageManager.getInstance( ).getImage( backGroundImage );
 			}
 			catch ( SWTException e )
 			{
@@ -575,8 +575,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0].getMeasure( );
 				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1].getMeasure( );
 				Rectangle area = getFigure( ).getClientArea( );
-				org.eclipse.swt.graphics.Rectangle imageArea = ImageManager.getImage( backGroundImage )
-						.getBounds( );
+				org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
 				int x = ( area.width - imageArea.width ) * percentX / 100;
 				int y = ( area.height - imageArea.height ) * percentY / 100;
 
@@ -784,15 +783,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		//getFigure().translateToAbsolute(p);
 		getFigure( ).translateToRelative( p );
 		Point center = getFigure( ).getBounds( ).getCenter( );
-		if ( center.x >= p.x )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
+		return center.x >= p.x;
 	}
 
 	/*
