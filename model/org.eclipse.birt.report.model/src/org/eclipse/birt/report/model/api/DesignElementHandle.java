@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -1282,7 +1283,7 @@ public abstract class DesignElementHandle
 	 * @return the copy of the design element
 	 */
 
-	public DesignElement copy( )
+	public IDesignElement copy( )
 	{
 		try
 		{

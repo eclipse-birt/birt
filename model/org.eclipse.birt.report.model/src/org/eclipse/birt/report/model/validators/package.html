@@ -19,17 +19,17 @@ contains:
 When user changes property or adds element into one slot of one element. It's 
 possible to trigger some semantic validation on this element. The validation 
 rule is defined as individual validator, which is the subclass of 
-{@link org.eclipse.birt.report.model.validators.core.AbstractSemanticValidator}.
+{@link org.eclipse.birt.report.model.validators.AbstractSemanticValidator}.
 The validation is performed only when the trigger condition is satisfied.
-The class implementing {@link org.eclipse.birt.report.model.validators.core.ISemanticTriggerDefnSetProvider} 
+The class implementing {@link org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider} 
 provides the trigger condition. And the class
-implementing {@link org.eclipse.birt.report.model.validators.core.IValidatorProvider}
+implementing {@link org.eclipse.birt.report.model.validators.IValidatorProvider}
 provides the validator list which is collected and computed via the trigger condition. 
-And the validation will be organized as {@link org.eclipse.birt.report.model.validators.core.ValidationNode} 
-list. The executor, {@link org.eclipse.birt.report.model.validators.core.ValidationExecutor}, 
-performs all validation and send {@link org.eclipse.birt.report.model.validators.core.ValidationEvent} 
+And the validation will be organized as {@link org.eclipse.birt.report.model.validators.ValidationNode} 
+list. The executor, {@link org.eclipse.birt.report.model.validators.ValidationExecutor}, 
+performs all validation and send {@link org.eclipse.birt.report.model.api.validators.ValidationEvent} 
 to the listener. The listener interface is defined in
-{@link org.eclipse.birt.report.model.core.Listener}.
+{@link org.eclipse.birt.report.model.api.core.Listener}.
 </p>
 
 <!-- Put @see and @since tags down here. -->

@@ -107,7 +107,7 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * For the most part, system and user properties are defined in the same way as
  * implemented by the {@link ElementPropertyDefn}class. The few differences are
  * represented by the {@link SystemPropertyDefn}and
- * {@link org.eclipse.birt.report.model.core.UserPropertyDefn}classes.
+ * {@link org.eclipse.birt.report.model.api.core.UserPropertyDefn}classes.
  * 
  * <h3>Element Inheritance</h3>
  * 

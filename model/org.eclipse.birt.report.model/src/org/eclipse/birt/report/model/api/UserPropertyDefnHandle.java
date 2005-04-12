@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Represents a top-level user-defined property of an element.
  * 
- * @see org.eclipse.birt.report.model.core.UserPropertyDefn
+ * @see org.eclipse.birt.report.model.api.core.UserPropertyDefn
  */
 
 public class UserPropertyDefnHandle extends PropertyHandle

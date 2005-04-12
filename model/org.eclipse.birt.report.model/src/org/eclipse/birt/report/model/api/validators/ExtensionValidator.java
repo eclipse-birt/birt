@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  * <h3>Rule</h3>
  * The rule is defined by
- * {@link org.eclipse.birt.report.model.extension.IReportItem#validate()}.
+ * {@link org.eclipse.birt.report.model.api.extension.IReportItem#validate()}.
  * 
  * <h3>Applicability</h3>
  * This validator is only applied to <code>TableItem</code>.

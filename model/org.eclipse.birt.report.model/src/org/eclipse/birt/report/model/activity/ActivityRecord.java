@@ -18,8 +18,9 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
 
 /**
  * The base activity record provides the mechanism for performing a low-level
- * change to the model. See the {@link ActivityStack ActivityRecord Stack}class
- * for additional background information including a description of the
+ * change to the model. See the
+ * {@link org.eclipse.birt.report.model.api.activity.ActivityStack ActivityRecord Stack}
+ * class for additional background information including a description of the
  * <em>initial</em> and <em>final</em> states for a record.
  * <p>
  * The activity stack (often called a "command stack") records changes made to
@@ -155,14 +156,14 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * <h3>Error Management</h3>
  * 
  * Note that none of the record methods throw an exception. As described in the
- * {@link ActivityStack command stack}, records must be designed so that they
- * do not fail. The application (generally the command layer) is responsible for
- * ensuring that the requested operation is valid. This rule exists to keep the
- * record mechanism simple. If a record could fail, and was part of a composite
- * record (transaction), then the transaction would have to be rolled back to
- * undo any partially completed changes. Doing so is possible, but complex. It
- * is better to perform all the checks up front, then perform the records needed
- * to make the changes.
+ * {@link org.eclipse.birt.report.model.api.activity.ActivityStack command stack},
+ * records must be designed so that they do not fail. The application (generally
+ * the command layer) is responsible for ensuring that the requested operation
+ * is valid. This rule exists to keep the record mechanism simple. If a record
+ * could fail, and was part of a composite record (transaction), then the
+ * transaction would have to be rolled back to undo any partially completed
+ * changes. Doing so is possible, but complex. It is better to perform all the
+ * checks up front, then perform the records needed to make the changes.
  * <p>
  * Another way of saying this is that records are low-level operations that
  * simply perform physical updates. They are "dumb" in that they do not
@@ -245,21 +246,21 @@ public abstract class ActivityRecord implements IValidatorProvider
 
 	private int transNo = 0;
 
-    /**
-    * Default constructor.
-    */
-	
-    public ActivityRecord( )
-    {
-    }
-    
-    /**
-     * Destroys the record. Called when the record is discarded from the
-     * record stack. Derived records override this operation to release
-     * model resources that they may have cached.
-     */
-    
-    public void destroy( )
+	/**
+	 * Default constructor.
+	 */
+
+	public ActivityRecord( )
+	{
+	}
+
+	/**
+	 * Destroys the record. Called when the record is discarded from the record
+	 * stack. Derived records override this operation to release model resources
+	 * that they may have cached.
+	 */
+
+	public void destroy( )
 	{
 	}
 
@@ -435,10 +436,12 @@ public abstract class ActivityRecord implements IValidatorProvider
 		return transNo;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.validators.core.IValidatorProvider#getValidators()
 	 */
-	
+
 	public List getValidators( )
 	{
 		return Collections.EMPTY_LIST;

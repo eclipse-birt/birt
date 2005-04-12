@@ -26,7 +26,8 @@ import java.util.List;
  * equivalent.
  * <p>
  * The application normally creates a compound record using the
- * {@link ActivityStack#startTrans( String )}method.
+ * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#startTrans( String )}
+ * method.
  * 
  * A compound record has a label. The system provides a default label. The
  * application can customize the label by passing the label to the
@@ -70,7 +71,7 @@ public class CompoundRecord extends ActivityRecord
 	 * the compound record must be in the Done state.
 	 * 
 	 * @see ActivityRecord#execute()
-	 * @see ActivityStack#execute(ActivityRecord)
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord)
 	 */
 
 	public void execute( )
@@ -84,7 +85,7 @@ public class CompoundRecord extends ActivityRecord
 	 * executed.
 	 * 
 	 * @see ActivityRecord#undo()
-	 * @see ActivityStack#undo()
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#undo()
 	 */
 
 	public void undo( )
@@ -105,7 +106,7 @@ public class CompoundRecord extends ActivityRecord
 	 * in the order they were originally executed.
 	 * 
 	 * @see ActivityRecord#redo()
-	 * @see ActivityStack#redo()
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#redo()
 	 */
 
 	public void redo( )
@@ -185,11 +186,11 @@ public class CompoundRecord extends ActivityRecord
 	 * Appends a record to the compound record. The record must have been
 	 * executed already. The application should not call this method directly.
 	 * Instead, the record should be executed via the usual call to
-	 * {@link ActivityStack#execute(ActivityRecord) ActivityStack.execute( )}.
+	 * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord) ActivityStack.execute( )}.
 	 * 
 	 * @param record
 	 *            the record to be added.
-	 * @see ActivityStack#execute(ActivityRecord)
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord)
 	 */
 
 	public void append( ActivityRecord record )

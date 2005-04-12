@@ -60,7 +60,7 @@ public class PrivateStyleHandle extends StyleHandle
 	 * This method is not defined for private styles. It will raise an assertion
 	 * if called.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#addUserPropertyDefn(org.eclipse.birt.report.model.core.UserPropertyDefn)
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#addUserPropertyDefn(org.eclipse.birt.report.model.api.core.UserPropertyDefn)
 	 */
 
 	public void addUserPropertyDefn( UserPropertyDefn prop )
