@@ -12,9 +12,12 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.EventObject;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -52,7 +55,14 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public Bounds getBounds() throws UnsupportedFeatureException
     {
-        throw new UnsupportedFeatureException("Bounds may not be computed for event {0}" + this); // i18n_CONCATENATIONS_REMOVED
+        throw new UnsupportedFeatureException(
+            "exception.unsupported.bounds", //$NON-NLS-1$ 
+            new Object[] { this }, 
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                Locale.getDefault()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -63,7 +73,14 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public PrimitiveRenderEvent copy() throws UnsupportedFeatureException
     {
-        throw new UnsupportedFeatureException("A copy may not be created for event {0}" + this); // i18n_CONCATENATIONS_REMOVED
+        throw new UnsupportedFeatureException(
+            "exception.unsupported.copy", //$NON-NLS-1$ 
+            new Object[] { this }, 
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                Locale.getDefault()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -178,7 +195,16 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
         }
         else
         {
-            throw new RuntimeException("Object {0} may not participate in a 'pre' comparison" + o ); // i18n_CONCATENATIONS_REMOVED
+            throw new RuntimeException(
+                    new UnsupportedFeatureException(
+                    "exception.unsupported.comparison", //$NON-NLS-1$ 
+                    new Object[] { o }, 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        Locale.getDefault()
+                    )
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
         /*
          * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ? IConstants.MORE : IConstants.LESS; }
@@ -205,7 +231,14 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public void draw(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
     {
-        throw new UnsupportedFeatureException("Cannot draw {0} internally via the event" + this ); // i18n_CONCATENATIONS_REMOVED
+        throw new UnsupportedFeatureException(
+            "exception.unsupported.internal.draw", //$NON-NLS-1$ 
+            new Object[] { this }, 
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                Locale.getDefault()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**
@@ -216,7 +249,14 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
      */
     public void fill(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
     {
-        throw new UnsupportedFeatureException("Cannot fill {0} internally via the event" + this ); // i18n_CONCATENATIONS_REMOVED
+        throw new UnsupportedFeatureException(
+            "exception.unsupported.internal.fill", //$NON-NLS-1$ 
+            new Object[] { this }, 
+            ResourceBundle.getBundle(
+                Messages.ENGINE, 
+                Locale.getDefault()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /**

@@ -279,7 +279,6 @@ public abstract class DeviceAdapter extends EventObjectCache implements IDeviceR
     public void changeStructure(StructureChangeEvent scev)
     {
         // DO NOTHING IN NO-OP IMPL
-        System.out.println("[STRUCT]: scev={0}" + scev.getEventName(false)); // i18n_CONCATENATIONS_REMOVED
     }
     
     /*

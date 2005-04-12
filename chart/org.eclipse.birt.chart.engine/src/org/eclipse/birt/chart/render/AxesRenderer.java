@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -33,6 +34,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.device.ITextMetrics;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.LineRenderEvent;
@@ -277,7 +279,13 @@ public abstract class AxesRenderer extends BaseRenderer
         {
             final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations();
             pw2da.getStackedSeriesLookup().resetSubUnits();
-            il.log(ILogger.INFORMATION, "Time to render everything = {0} ms" + lTimer ); // i18n_CONCATENATIONS_REMOVED
+            il.log(ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.elapsed.time.render", //$NON-NLS-1$
+                    new Object[] { new Long(lTimer) },
+                    getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
             htRenderers.remove(TIMER);
         }
     }
@@ -289,7 +297,7 @@ public abstract class AxesRenderer extends BaseRenderer
      * @return
      * @throws DataFormatException
      */
-    private static final int compare(DataElement de1, DataElement de2) throws DataFormatException
+    private final int compare(DataElement de1, DataElement de2) throws DataFormatException
     {
         if (de1 == null && de2 == null)
             return IConstants.EQUAL;
@@ -312,16 +320,36 @@ public abstract class AxesRenderer extends BaseRenderer
             }
             else if (de1 instanceof TextDataElement)
             {
-                throw new DataFormatException("Text data element comparison is unsupported", null);
+                throw new DataFormatException(
+                    "exception.unsupported.compare.text", //$NON-NLS-1$ 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        getRunTimeContext().getLocale()
+                    )
+                ); 
             }
             else
             {
-                throw new DataFormatException("Unsupported data elements provided for comparison DE1={0} and DE2={1}" + de1 + de2, null); // i18n_CONCATENATIONS_REMOVED
+                throw new DataFormatException(
+                    "exception.unsupported.compare.unknown.objects", //$NON-NLS-1$
+                    new Object[] { de1, de2 },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        getRunTimeContext().getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
         }
         else
         {
-            throw new DataFormatException("Mixed data elements provided for comparison DE1={0} and DE2={1}" + de1 + de2, null); // i18n_CONCATENATIONS_REMOVED
+            throw new DataFormatException(
+                "exception.unsupported.compare.different.objects", //$NON-NLS-1$
+                new Object[] { de1, de2 },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
     }
 
@@ -453,7 +481,12 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate range start for value {0} contained in marker range {1}" + deStart + mr); // i18n_CONCATENATIONS_REMOVED
+                        Messages.getString(
+                            "exception.cannot.locate.start.marker.range", //$NON-NLS-1$
+                            new Object[] { deStart, mr },
+                            getRunTimeContext().getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -467,7 +500,12 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate range end for value {0} contained in marker range {1}" + deEnd + mr); // i18n_CONCATENATIONS_REMOVED
+                        Messages.getString(
+                            "exception.cannot.locate.end.marker.range", //$NON-NLS-1$
+                            new Object[] { deEnd, mr },
+                            getRunTimeContext().getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -528,11 +566,26 @@ public abstract class AxesRenderer extends BaseRenderer
                     try
                     {
                         sb.delete(0, sb.length());
-                        sb.append('[');
+                        sb.append(
+                            Messages.getString(
+                                "prefix.marker.range.caption", //$NON-NLS-1$ 
+                                getRunTimeContext().getLocale()
+                            )
+                        );
                         sb.append(ValueFormatter.format(deStart, mr.getFormatSpecifier(), oaxa[i].getRunTimeContext().getLocale(), null));
-                        sb.append(" to ");
+                        sb.append(
+                            Messages.getString(
+                                "separator.marker.range.caption", //$NON-NLS-1$ 
+                                getRunTimeContext().getLocale()
+                            )
+                        );
                         sb.append(ValueFormatter.format(deEnd, mr.getFormatSpecifier(), oaxa[i].getRunTimeContext().getLocale(), null));
-                        sb.append(']');
+                        sb.append(
+                            Messages.getString(
+                                "suffix.marker.range.caption", //$NON-NLS-1$ 
+                                getRunTimeContext().getLocale()
+                            )
+                        );
                         la.getCaption().setValue(sb.toString());
                     }
                     catch (DataFormatException dfex )
@@ -712,7 +765,14 @@ public abstract class AxesRenderer extends BaseRenderer
 
             if (iCount <= 0)
             {
-                throw new RenderingException("Cannot split up a major unit into {0} minor unit(s)." + iCount , null); // i18n_CONCATENATIONS_REMOVED
+                throw new RenderingException(
+                    "exception.cannot.split.major", //$NON-NLS-1$
+                    new Object[] { new Integer(iCount) },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        getRunTimeContext().getLocale()
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
             }
 
             AutoScale sc = oaxa[i].getScale();
@@ -1061,7 +1121,14 @@ public abstract class AxesRenderer extends BaseRenderer
                 deValue = (DataElement) ml.getValue();
                 if (deValue == null)
                 {
-                    throw new RenderingException("Unable to plot a render line for a null value as defined in marker line {0}" + ml, null); // i18n_CONCATENATIONS_REMOVED
+                    throw new RenderingException(
+                        "exception.marker.line.null.value", //$NON-NLS-1$
+                        new Object[] { ml },
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            getRunTimeContext().getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                 }
 
                 // UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
@@ -1084,7 +1151,12 @@ public abstract class AxesRenderer extends BaseRenderer
                 catch (Exception ex )
                 {
                     DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                        "Could not locate value {0} contained in marker line {1}" + deValue + ml); // i18n_CONCATENATIONS_REMOVED
+                        Messages.getString(
+                            "exception.cannot.locate.value.marker.line", //$NON-NLS-1$
+                            new Object[] { deValue, ml },
+                            getRunTimeContext().getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED
                     continue; // TRY NEXT MARKER RANGE
                 }
 
@@ -1343,7 +1415,13 @@ public abstract class AxesRenderer extends BaseRenderer
         LineAttributes lia = ax.getLineAttributes();
         if (!lia.isSetVisible())
         {
-            throw new RenderingException("The axis visibility is not set and the results will be ambiguous", null);
+            throw new RenderingException(
+                "exception.unset.axis.visibility", //$NON-NLS-1$
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    getRunTimeContext().getLocale()
+                )
+            );
         }
         Label la = ax.getLabel();
         final boolean bRenderAxisLabels = ((iWhatToDraw & IConstants.LABELS) == IConstants.LABELS && la.isVisible());

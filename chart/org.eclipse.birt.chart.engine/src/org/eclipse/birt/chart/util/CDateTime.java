@@ -65,7 +65,7 @@ public class CDateTime extends GregorianCalendar
     /**
      * 
      */
-    private static final SimpleDateFormat _sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+    private static final SimpleDateFormat _sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"); //$NON-NLS-1$
 
     /**
      *  A zero-arg default constructor
@@ -323,27 +323,27 @@ public class CDateTime extends GregorianCalendar
     {
         if (iUnit == Calendar.YEAR)
         {
-            return "yyyy";
+            return "yyyy"; //$NON-NLS-1$
         }
         else if (iUnit == Calendar.MONTH)
         {
-            return "MMM yyyy";
+            return "MMM yyyy"; //$NON-NLS-1$
         }
         else if (iUnit == Calendar.DATE)
         {
-            return "MM-dd-yyyy";
+            return "MM-dd-yyyy"; //$NON-NLS-1$
         }
         else if (iUnit == Calendar.HOUR_OF_DAY)
         {
-            return "MM-dd-yy\nHH:mm";
+            return "MM-dd-yy\nHH:mm"; //$NON-NLS-1$
         }
         else if (iUnit == Calendar.MINUTE)
         {
-            return "HH:mm:ss";
+            return "HH:mm:ss"; //$NON-NLS-1$
         }
         else if (iUnit == Calendar.SECOND)
         {
-            return "HH:mm:ss";
+            return "HH:mm:ss"; //$NON-NLS-1$
         }
         return null;
     }

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.factory;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
@@ -21,6 +22,7 @@ import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.OverlapException;
 import org.eclipse.birt.chart.exception.RenderingException;
@@ -120,24 +122,43 @@ public final class Generator
     {
         if (ids == null || cmDesignTime == null || bo == null)
         {
-            throw new GenerationException("Illegal 'null' value passed as an argument to build a chart");
+            throw new GenerationException(
+                "exception.illegal.null.value", //$NON-NLS-1$ 
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    Locale.getDefault() // LOCALE?
+                )
+            );
         }
+        
+        // CREATE A CONTEXT IF NEEDED
         if (rtc == null)
         {
             rtc = new RunTimeContext();
         }
 
-        if (cmDesignTime.getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL)
-        {
-            throw new GenerationException(new UnsupportedFeatureException("3D charts are not yet supported"));
-        }
-
+        // UPDATE THE CONTEXT WITH A LOCALE IF IT IS UNDEFINED
         final Chart cmRunTime = (Chart) EcoreUtil.copy(cmDesignTime);
         if (rtc.getLocale() == null)
         {
             rtc.setLocale(Locale.getDefault());
         }
 
+        // 3D CHARTS ARE NOT YET SUPPORTED
+        if (cmDesignTime.getDimension() == ChartDimension.THREE_DIMENSIONAL_LITERAL)
+        {
+            throw new GenerationException(
+                new UnsupportedFeatureException(
+                    "exception.no3d.support", //$NON-NLS-1$ 
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    )
+                )
+            ); 
+        }
+
+        // INITIALIZE THE SCRIPT HANDLER
         final String sScriptContent = cmRunTime.getScript();
         ScriptHandler sh = rtc.getScriptHandler();
         if (sh == null && sScriptContent != null) // NOT PREVIOUSLY DEFINED BY REPORTITEM ADAPTER
@@ -178,7 +199,14 @@ public final class Generator
 
         if (oComputations == null)
         {
-            throw new GenerationException("Unable to compute chart defined by model [{0}]" + cmRunTime ); // i18n_CONCATENATIONS_REMOVED
+            throw new GenerationException(
+                "exception.unsupported.chart.model", //$NON-NLS-1$
+                new Object[] { cmRunTime },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
 
         // OBTAIN THE RENDERERS
@@ -278,7 +306,14 @@ public final class Generator
                 throw new GenerationException(ex);
             }
         }
-        il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
+        il.log(ILogger.INFORMATION, 
+            Messages.getString(
+                "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
+                new Object[] { new Long(System.currentTimeMillis() - lTimer) },
+                rtc.getLocale()
+            ) 
+        ); // i18n_CONCATENATIONS_REMOVED
+        
         final GeneratedChartState gcs = new GeneratedChartState(ids, cmRunTime, lhmRenderers, rtc, oComputations);
         if (sh != null)
         {
@@ -321,7 +356,13 @@ public final class Generator
             {
                 throw new GenerationException(ex);
             }
-            il.log(ILogger.INFORMATION, "Time to compute plot (with axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
+            il.log(ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
+                    new Object[] { new Long(System.currentTimeMillis() - lTimer) },
+                    gcs.getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED 
         }
         else if (iChartType == WITHOUT_AXES)
         {
@@ -334,7 +375,13 @@ public final class Generator
             {
                 throw new GenerationException(ex);
             }
-            il.log(ILogger.INFORMATION, "Time to compute plot (without axes) = {0} ms" + (System.currentTimeMillis() - lTimer) ); // i18n_CONCATENATIONS_REMOVED
+            il.log(ILogger.INFORMATION, 
+                Messages.getString(
+                    "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
+                    new Object[] { new Long(System.currentTimeMillis() - lTimer) },
+                    gcs.getRunTimeContext().getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
         ScriptHandler.callFunction(gcs.getRunTimeContext().getScriptHandler(), ScriptHandler.AFTER_COMPUTATIONS, gcs);
     }

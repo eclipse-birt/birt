@@ -36,12 +36,12 @@ public final class StructureChangeEvent extends PrimitiveRenderEvent
     /**
      * 
      */
-    private static final String BEFORE_PREFIX = "before";
+    private static final String BEFORE_PREFIX = "before"; //$NON-NLS-1$
     
     /**
      * 
      */
-    private static final String AFTER_PREFIX = "after";
+    private static final String AFTER_PREFIX = "after"; //$NON-NLS-1$
     
     
     /**

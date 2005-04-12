@@ -14,8 +14,11 @@ package org.eclipse.birt.chart.event;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
@@ -105,7 +108,14 @@ public class EventObjectCache
         }
         if (!lia.isSetVisible())
         {
-            throw new RenderingException("Visibility of line attributes in {0} was not explicitly set" + oSource , null); // i18n_CONCATENATIONS_REMOVED
+            throw new RenderingException(
+                "exception.unset.line.visibility", //$NON-NLS-1$ 
+                new Object[] { oSource }, 
+                ResourceBundle.getBundle(
+                    Messages.ENGINE, 
+                    Locale.getDefault()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
         }
 
         if (!lia.isVisible())

@@ -405,9 +405,7 @@ public abstract class BaseRenderer
             {
                 dc.flush(); // FLUSH DEFERRED CACHE
             }
-            catch (UnsupportedFeatureException ex ) // NOTE: RENDERING
-            // EXCEPTION ALREADY BEING
-            // THROWN
+            catch (UnsupportedFeatureException ex ) // NOTE: RENDERING EXCEPTION ALREADY BEING THROWN
             {
                 throw new RenderingException(ex);
             }
@@ -910,6 +908,7 @@ public abstract class BaseRenderer
      * @param se
      * @param fPaletteEntry
      * @param lirh
+     * 
      * @throws RenderingException
      */
     protected final void renderLegendItem(IPrimitiveRenderer ipr, Legend lg, Label la, double dX, double dY, double dW,

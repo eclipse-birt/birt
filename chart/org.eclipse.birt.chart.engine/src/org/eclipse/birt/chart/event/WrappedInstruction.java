@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -90,9 +92,8 @@ public final class WrappedInstruction implements Comparable
         }
         catch (Exception ex )
         {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-        throw new RuntimeException("error");
     }
 
     /**
@@ -118,7 +119,11 @@ public final class WrappedInstruction implements Comparable
      */
     public String toString()
     {
-        return "{0}: model={1}; bounds={2}" + super.toString() + isModel() + getBounds(); // i18n_CONCATENATIONS_REMOVED
+        return Messages.getString(
+            "wrapped.instruction.to.string", //$NON-NLS-1$ 
+            new Object[] { super.toString(), new Boolean(isModel()), getBounds() }, 
+            Locale.getDefault()
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     public final Bounds getBounds()

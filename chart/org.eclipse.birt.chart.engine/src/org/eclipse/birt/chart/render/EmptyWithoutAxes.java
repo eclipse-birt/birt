@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.render;
 
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -41,9 +42,14 @@ public final class EmptyWithoutAxes extends BaseRenderer
      */
     public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws RenderingException
     {
-        // NOTE: This method is not used by the Empty renderer
+        // NOTE: NO-OP IMPL
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-            "{0}: renderSeries() [{1}/{2}]" + getClass().getName() + (iSeriesIndex + 1) + iSeriesCount ); // i18n_CONCATENATIONS_REMOVED
+            Messages.getString(
+                "info.render.series", //$NON-NLS-1$
+                new Object[] { getClass().getName(), new Integer(iSeriesIndex + 1), new Integer(iSeriesCount) }, 
+                getRunTimeContext().getLocale()
+            )
+        ); // i18n_CONCATENATIONS_REMOVED
     }
 
     /*

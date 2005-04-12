@@ -22,44 +22,8 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public class ChartException extends BirtException
 {
-    protected static String PREFIX = "CEX";
-    
     /**
-     * NOTE: This constructor is a temporary placeholder and will be removed
      * 
-     * @deprecated
-     */
-    public ChartException()
-    {
-        super("Undefined message", null);
-    }
-    
-    /**
-     * NOTE: This constructor is a temporary placeholder and will be removed
-     * @param message
-     * @param cause
-     * 
-     * @deprecated
-     */
-    public ChartException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }    
-    
-    /**
-     * NOTE: This constructor is a temporary placeholder and will be removed
-     * @param message
-     * 
-     * @deprecated
-     */
-    public ChartException(String message)
-    {
-        super(message, null);
-        logThis();
-    }
-
-    /**
-     * NOTE: This constructor is a temporary placeholder and will be removed
      * @param cause
      */
     public ChartException(Throwable cause)
@@ -68,8 +32,6 @@ public class ChartException extends BirtException
         logThis();
     }
 
-    // COMING SOON: CONSTRUCTORS FOR LOCALIZED ERROR MESSAGES
-    
     /**
      * 
      * @param sResourceKey
