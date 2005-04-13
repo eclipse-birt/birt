@@ -20,8 +20,11 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -99,13 +102,39 @@ public class SessionHandleAdapter
 		{
 			ReportDesignHandle handle = getSessionHandle( ).openDesign( fileName,
 					input );
+			
+			postInit(handle);
 
 			designHandleAdapter = new ReportDesignHandleAdapter( handle );
-
 		}
 		catch ( DesignFileException e )
 		{
 			throw e;
+		}
+	}
+
+	/**
+	 * @param handle
+	 */
+	private void postInit( ReportDesignHandle handle )
+	{
+		SimpleMasterPageHandle masterPage = null;
+		if ( handle.getMasterPages( ).getCount( ) == 0 )
+		{
+			masterPage = handle.getElementFactory( )
+					.newSimpleMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
+			try
+			{
+				handle.getMasterPages( ).add( masterPage );
+			}
+			catch ( ContentException e )
+			{
+				new DesignFileException(handle.getFileName(),e);
+			}
+			catch ( NameException e )
+			{
+				new DesignFileException(handle.getFileName(),e);
+			}
 		}
 	}
 
