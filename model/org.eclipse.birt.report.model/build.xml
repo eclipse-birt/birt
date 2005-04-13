@@ -85,9 +85,15 @@
 		</javac>
 	</target>
 
+	<!-- Unzip the testing plug-in -->
+	<target name="unzipTestingPlugin">
+		<unzip src="org.eclipse.birt.report.model.tests.zip"
+		       dest="${eclipse.home}/plugins/org.eclipse.birt.report.model.tests">
+		</unzip>
+	</target>
 
 	<!-- Run All Unit Tests -->
-	<target name="utest" depends="compileTest">
+	<target name="utest" depends="compileTest, unzipTestingPlugin">
 		<junit printsummary="on" fork="true" haltonfailure="false" failureproperty="tests.failed" showoutput="true">
 			<jvmarg value="-DBIRT_HOME=${BIRT_HOME}" />
 			<jvmarg value="-ea" />
@@ -101,7 +107,6 @@
 				<formatter type="brief" usefile="true" />
 				<fileset dir="${test.build.dir}">
 					<include name="**/*Test.*" />
-					<exclude name="**/ExtensionTest.*" />
 				</fileset>
 			</batchtest>
 		</junit>
