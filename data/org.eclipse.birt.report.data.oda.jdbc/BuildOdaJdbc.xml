@@ -77,6 +77,7 @@
  	<property name="dir.test" value="test" />
  	<property name="dir.bin" value="bin" />
  	<property name="dir.lib" value="lib" />
+ 	<property name="dir.drivers" value="drivers" />
 
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.jdbc"/>
 	<property name="oda.dir" location="../org.eclipse.birt.data.oda" />
@@ -124,7 +125,7 @@
 	 -->
 	<target name="Export">
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="*.jar,plugin.xml,${dir.lib}/**,odaconfig.xml"/>
+	        <fileset dir="." includes="*.jar,plugin.xml,${dir.lib}/**,${dir.drivers}/**"/>
 	    </copy>
 	</target>
 
