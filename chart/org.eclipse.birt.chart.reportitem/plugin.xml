@@ -47,8 +47,8 @@
    <extension
          id="chart"
          name="A sample chart"
-         point="org.eclipse.birt.report.model.reportitem">
-      <element
+         point="org.eclipse.birt.report.model.reportItemModel">
+      <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
             isNameRequired="true"
             displayNameID="Element.Chart"
@@ -57,7 +57,7 @@
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
-      </element>
+      </reportItem>
    </extension>
    <extension
          point="org.eclipse.birt.report.engine.reportitemGeneration">
