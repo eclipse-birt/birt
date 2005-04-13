@@ -83,7 +83,6 @@
 	<property name="module.name" value="org.eclipse.birt.chart.engine"/>
 		
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
-	<property name="shared.dir" location="../org.eclipse.birt.chart.shared"/>
 	
 	<!-- set eclipse related properties -->
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
@@ -104,7 +103,6 @@
 		</fileset>
 		
 		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${shared.dir}/shared.jar"/>
 	</path>
 
 	
@@ -205,13 +203,77 @@
 
 	<!-- Build the dependent projects -->
 	<target name="buildDependency">
-		<echo message="start call Jar task in ${shared.dir}"/>
-		<ant dir="${shared.dir}" antfile="BuildChartShared.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>
-		<echo message="end call Jar task in ${shared.dir}"/>
 	</target>
 	
+	<target name="javadoc_init" description="initialization">
+		<condition property="eclipse.version" value="${def.eclipse.version}">
+			<equals arg1="${eclipse.version}" arg2="$${eclipse.version}"/>
+		</condition>
+		<condition property="emf.version" value="${def.emf.version}">
+			<equals arg1="${emf.version}" arg2="$${emf.version}"/>
+		</condition>
+		<condition property="destination.dir" value="${def.destination.dir}">
+			<equals arg1="${destination.dir}" arg2="$${destination.dir}"/>
+		</condition>
+		<mkdir dir="${destination.dir}"/>
+	</target>
+
+	<target name="javadoc" depends="javadoc_init">
+		<delete>
+			<fileset dir="${destination.dir}"/>
+		</delete>
+		<javadoc access="public" author="true" overview="overview.html" destdir="${destination.dir}" doctitle="BIRT Chart v1.0 API Specification" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		packagenames="
+					org.eclipse.birt.chart.model,
+					org.eclipse.birt.chart.model.data,
+					org.eclipse.birt.chart.model.type,
+					org.eclipse.birt.chart.model.layout,
+					org.eclipse.birt.chart.model.attribute,
+					org.eclipse.birt.chart.model.component,
+					org.eclipse.birt.chart.model.impl,
+					org.eclipse.birt.chart.model.data.impl,
+					org.eclipse.birt.chart.model.type.impl,
+					org.eclipse.birt.chart.model.layout.impl,
+					org.eclipse.birt.chart.model.attribute.impl,
+					org.eclipse.birt.chart.model.component.impl,
+					org.eclipse.birt.chart.event,
+					org.eclipse.birt.chart.device,
+					org.eclipse.birt.chart.datafeed,
+					org.eclipse.birt.chart.exception,
+					org.eclipse.birt.chart.log
+					"
+		sourcefiles="
+					./src/org/eclipse/birt/chart/render/BaseRenderer.java,
+					./src/org/eclipse/birt/chart/render/AxesRenderer.java,
+					./src/org/eclipse/birt/chart/render/ISeriesRenderingHints.java,
+					./src/org/eclipse/birt/chart/factory/Generator.java,
+					./src/org/eclipse/birt/chart/factory/GeneratedChartState.java,
+					./src/org/eclipse/birt/chart/factory/IMessageLookup.java,
+					./src/org/eclipse/birt/chart/factory/RunTimeContext.java,
+					./src/org/eclipse/birt/chart/util/CDateTime.java,
+					./src/org/eclipse/birt/chart/util/PluginSettings.java
+					"
+		sourcepath="./src" splitindex="true" use="true" failonerror="true" version="true">
+				<classpath>
+					<pathelement path="${bin}"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/defaultAdaptor.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/eclipseAdaptor.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/osgi.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/resolver.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/core.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/console.jar"/>
+					<pathelement path="${eclipse.home}/plugins/org.eclipse.core.runtime_${eclipse.version}/runtime.jar"/>
+					<pathelement path="${eclipse.home}/plugins/${emf.ecore.dir}_${emf.version}/runtime/ecore.jar"/>
+					<pathelement path="${eclipse.home}/plugins/${emf.common.dir}_${emf.version}/runtime/common.jar"/>
+					<pathelement path="${eclipse.home}/plugins/${emf.ecore.xmi.dir}_${emf.version}/runtime/ecore.xmi.jar"/>
+					<fileset dir="${core.dir}/lib">
+							<include name="**/*.jar"/>
+					</fileset>
+					<pathelement path="${core.dir}/bin"/>
+				</classpath>
+		</javadoc>
+	</target>
+
 	<target name="build" depends="Jar" description="package engine and model file" />
 
 </project>

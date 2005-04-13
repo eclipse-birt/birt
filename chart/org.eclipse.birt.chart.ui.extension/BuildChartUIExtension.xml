@@ -77,7 +77,6 @@
 	<property name="module.name" value="org.eclipse.birt.chart.ui.extension"/>
 	
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
-	<property name="shared.dir" location="../org.eclipse.birt.chart.shared"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
 
@@ -104,7 +103,6 @@
 	
 		<fileset file="${core.dir}/lib/*.jar" />
 		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${shared.dir}/shared.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
 		

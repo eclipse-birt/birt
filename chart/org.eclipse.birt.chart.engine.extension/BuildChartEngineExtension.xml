@@ -77,7 +77,6 @@
 	<property name="module.name" value="org.eclipse.birt.chart.engine.extension"/>
 		
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
-	<property name="chart.shared.dir" location="../org.eclipse.birt.chart.shared"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	
 
@@ -98,7 +97,6 @@
 			<include name="**/*.jar"/>
 		</fileset>
 		<pathelement path="${core.dir}/core.jar"/>
-		<pathelement path="${chart.shared.dir}/shared.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 	</path>
 	

@@ -20,7 +20,6 @@
       <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.birt.chart.shared"/>
       <import plugin="org.eclipse.birt.core"/>
    </requires>
    

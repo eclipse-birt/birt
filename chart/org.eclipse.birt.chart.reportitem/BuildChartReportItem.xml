@@ -77,7 +77,6 @@
 	<property name="designer.core.dir" location="../org.eclipse.birt.report.designer.core"/>
 	<property name="designer.ui.dir" location="../org.eclipse.birt.report.designer.ui"/>
 	<property name="data.dir" location="../org.eclipse.birt.data"/>
-	<property name="shared.dir" location="../org.eclipse.birt.chart.shared"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
 	
@@ -130,7 +129,6 @@
 				<include name="**/*.jar"/>
 		</fileset>
 		<pathelement path="${data.dir}/dte.jar"/>
-		<pathelement path="${shared.dir}/shared.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
 	</path>
@@ -157,7 +155,6 @@
 		<pathelement path="${engine.dir}/engine.jar"/>
 		<pathelement path="${designer.core.dir}/core.jar"/>
 		<pathelement path="${data.dir}/dte.jar"/>
-		<pathelement path="${shared.dir}/shared.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
 	</path>
