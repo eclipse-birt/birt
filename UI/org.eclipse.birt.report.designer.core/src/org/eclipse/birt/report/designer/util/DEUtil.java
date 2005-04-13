@@ -127,13 +127,24 @@ public class DEUtil
 			int slotId )
 	{
 		List list = new ArrayList( );
-		ISlotDefn slotDefn = parent.getElement( ).getDefn( ).getSlot( slotId );
+		ISlotDefn slotDefn = parent.getDefn( ).getSlot( slotId );
 		if ( slotDefn != null )
 		{
 			list.addAll( slotDefn.getContentElements( ) );
 			list.removeAll( notSupportList );
 		}
-		return list;
+
+		//Append to validate the type according to the context
+		List availableList = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			if ( parent.canContain( slotId,
+					( (IElementDefn) list.get( i ) ).getName( ) ) )
+			{
+				availableList.add( list.get( i ) );
+			}
+		}
+		return availableList;
 	}
 
 	/**
@@ -672,8 +683,7 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 )
-				| ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -717,7 +727,7 @@ public class DEUtil
 	public static IElementPropertyDefn getPropertyDefn( String elementName,
 			String propertyName )
 	{
-		IElementDefn elementDefn = DesignEngine.getMetaDataDictionary()
+		IElementDefn elementDefn = DesignEngine.getMetaDataDictionary( )
 				.getElement( elementName );
 		if ( elementDefn != null )
 		{
@@ -960,22 +970,22 @@ public class DEUtil
 		{
 			ReportElementModel targetModel = (ReportElementModel) targetObj;
 			return targetModel.getElementHandle( )
-					.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
-					: CONTAIN_NO;
+					.canContain( targetModel.getSlotId( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
 			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
-					: CONTAIN_NO;
+					.canContain( targetHandle.getSlotID( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
 			ListBandProxy targetHandle = (ListBandProxy) targetObj;
 			return targetHandle.getElemtHandle( )
-					.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
-					: CONTAIN_NO;
+					.canContain( targetHandle.getSlotId( ), childHandle )
+					? CONTAIN_THIS : CONTAIN_NO;
 		}
 		else
 		{
@@ -1061,6 +1071,10 @@ public class DEUtil
 	public static boolean handleValidateTargetCanContainMore( Object targetObj,
 			int length )
 	{
+		if ( targetObj == null || length < 0 )
+		{
+			return false;
+		}
 		if ( targetObj instanceof StructuredSelection )
 		{
 			return handleValidateTargetCanContainMore( ( (StructuredSelection) targetObj ).toArray( ),
@@ -1080,21 +1094,24 @@ public class DEUtil
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
-			return handleValidateTargetCanContainMore( new ReportElementModel( (SlotHandle) targetObj ),
+			SlotHandle slot = (SlotHandle) targetObj;
+			return slot.getElementHandle( )
+					.getDefn( )
+					.getSlot( slot.getSlotID( ) )
+					.isMultipleCardinality( )
+					|| slot.getCount( ) < 1 && length <= 1;
+		}
+		else if ( targetObj instanceof ListBandProxy )
+		{
+			return handleValidateTargetCanContainMore( ( (ListBandProxy) targetObj ).getSlotHandle( ),
 					length );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
-			ReportElementModel model = (ReportElementModel) targetObj;
-			int slotId = model.getSlotId( );
-			return model.getElementHandle( )
-					.getDefn( )
-					.getSlot( slotId )
-					.isMultipleCardinality( )
-					|| model.getElementHandle( ).getSlot( slotId ).getCount( ) < 1
-					&& length <= 1;
+			return handleValidateTargetCanContainMore( ( (ReportElementModel) targetObj ).getSlotHandle( ),
+					length );
 		}
-		return true;
+		return targetObj instanceof DesignElementHandle;
 	}
 
 	/**

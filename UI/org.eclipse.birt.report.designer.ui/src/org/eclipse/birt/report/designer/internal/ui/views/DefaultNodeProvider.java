@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
@@ -135,13 +136,13 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new PasteAction( object ) );
 
 		menu.add( new Separator( ) );
-
-		Action pageAction = new CodePageAction( object );
-		if ( pageAction.isEnabled( ) )
-			menu.add( pageAction );
+		
+		Action action = new CodePageAction( object );
+		if ( action.isEnabled( ) )
+			menu.add( action );
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
-				+ "-end" ) );//$NON-NLS-1$
+				+ "-end" ) );//$NON-NLS-1$		
 	}
 
 	/**
@@ -366,44 +367,24 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		else
 		{
-			if ( model instanceof DesignElementHandle )
+			int pos = DNDUtil.calculateNextPosition( model,
+					DNDUtil.handleValidateTargetCanContain( model,
+							elementHandle,
+							true ) );
+			if ( pos > 0 && position == InsertAction.ABOVE )
 			{
-				DesignElementHandle handle = (DesignElementHandle) model;
-				int pos = slotHandle.findPosn( handle.getElement( ) );
-				if ( position == InsertAction.ABOVE )
-				{
-					if ( pos > 0 )
-					{
-						pos--;
-					}
-					else
-					{
-						pos = 0;
-					}
-				}
-				else if ( position == InsertAction.BELOW )
-				{
-					if ( pos < slotHandle.getCount( ) )
-					{
-						pos++;
-					}
-					else
-					{
-						pos = -1;
-					}
-				}
-				if ( pos == -1 )
-				{
-					slotHandle.add( elementHandle );
-				}
-				else
-				{
-					slotHandle.add( elementHandle, pos );
-				}
+				pos--;
+			}
 
+			if ( pos == -1 )
+			{
+				slotHandle.add( elementHandle );
+			}
+			else
+			{
+				slotHandle.add( elementHandle, pos );
 			}
 		}
-
 		return true;
 	}
 

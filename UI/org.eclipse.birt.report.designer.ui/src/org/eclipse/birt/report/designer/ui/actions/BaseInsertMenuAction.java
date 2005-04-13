@@ -12,16 +12,12 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
@@ -31,15 +27,13 @@ import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -76,11 +70,6 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 		this.insertType = type;
 	}
 
-	private List getSupportList( SlotHandle handle )
-	{
-		return DEUtil.getElementSupportList( handle );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -88,68 +77,42 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		slotHandle = getDefaultSlotHandle( );
-
-		if ( slotHandle == null )
-		{
-			return false;
-		}
-
-		List lst = getSupportList( slotHandle );
-
-		return lst.contains( DesignEngine.getMetaDataDictionary( )
-				.getElement( insertType ) )
+		slotHandle = getDefaultSlotHandle( insertType );
+		return DEUtil.handleValidateTargetCanContainType( slotHandle,
+				insertType )
 				&& DEUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
 	}
 
 	/**
 	 * Returns the container slotHandle.
-	 * 
-	 * @return
+	 *  
 	 */
-	private SlotHandle getDefaultSlotHandle( )
+	private SlotHandle getDefaultSlotHandle( String insertType )
 	{
-		ISelection sels = getSelection( );
-
-		if ( sels instanceof StructuredSelection )
+		IStructuredSelection models = DNDUtil.editPart2Model( getSelection( ) );
+		if ( models.isEmpty( ) )
 		{
-			StructuredSelection ssels = ( (StructuredSelection) sels );
+			return null;
+		}
+		model = models.getFirstElement( );
+		if ( model instanceof SlotHandle )
+		{
+			return (SlotHandle) model;
+		}
+		else if ( model instanceof DesignElementHandle )
+		{
+			DesignElementHandle handle = (DesignElementHandle) model;
 
-			if ( ssels.size( ) > 0 )
+			if ( handle.getDefn( ).isContainer( ) )
 			{
-				Object obj = ssels.getFirstElement( );
-
-				if ( obj instanceof ReportElementEditPart )
+				int slotId = DEUtil.getDefaultSlotID( handle );
+				if ( handle.canContain( slotId, insertType ) )
 				{
-					ReportElementEditPart part = (ReportElementEditPart) obj;
-
-					if ( part instanceof ListBandEditPart )
-					{
-						ListBandProxy proxy = (ListBandProxy) part.getModel( );
-
-						model = proxy;
-
-						return proxy.getSlotHandle( );
-					}
-					model = part.getModel( );
-
-					if ( model instanceof ReportElementModel )
-					{
-						return ( (ReportElementModel) model ).getSlotHandle( );
-					}
-					DesignElementHandle handle = (DesignElementHandle) model;
-
-					int slotId = DEUtil.getDefaultSlotID( handle );
-					if ( slotId != -1 )
-					{
-						return handle.getSlot( slotId );
-					}
-
-					return handle.getContainerSlotHandle( );
+					return handle.getSlot( slotId );
 				}
 			}
+			return handle.getContainerSlotHandle( );
 		}
-
 		return null;
 	}
 
@@ -162,11 +125,12 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE, insertType );
 
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
-				InsertAction.CURRENT );
+				InsertAction.BELOW );
 
 		request.setExtendedData( extendsData );
 
-		ProviderFactory.createProvider( model ).performRequest( model, request );
+		ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
+				.performRequest( model, request );
 
 		return request;
 	}
