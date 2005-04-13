@@ -16,6 +16,8 @@ package org.eclipse.birt.report.engine.adapter;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -55,10 +57,12 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 
 /**
@@ -125,26 +129,33 @@ public class ModelDteApiAdapter
         }
         dteSource.setDriverName( driverName );
 
-        // public driver properties
-        Iterator elmtIter = source.publicDriverPropertiesIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ExtendedPropertyHandle modelProp = (ExtendedPropertyHandle) elmtIter.next();
+        // static ROM properties defined by the ODA driver extension
+        // of the odaDriverModel extension point
+        Map staticProps = getExtensionProperties( source, 
+			                	source.getExtensionName(), 
+			                	source.getExtensionPropertyDefinitionList() );
+	    if ( staticProps != null && ! staticProps.isEmpty() )
+	    {	    
+	        Iterator propNamesItr = staticProps.keySet().iterator();
+	        while ( propNamesItr.hasNext() )
+	        {
+	            Object propName = propNamesItr.next();
+	            assert ( propName != null && propName instanceof String );
+	        
+	            String propValue = (String) staticProps.get( propName );	        
                 try
-                {
-                    dteSource.addPublicProperty( modelProp.getName(), modelProp.getValue() );
+                {	
+                    dteSource.addPublicProperty( (String) propName, propValue );
                 }
                 catch ( DataException e )
                 {
                     throw new EngineException( e.getMessage() );
                 }
-            }
-        }
+	        }
+	    }
 
-        // private driver properties
-        elmtIter = source.privateDriverPropertiesIterator();
+        // private driver properties / private runtime data
+        Iterator elmtIter = source.privateDriverPropertiesIterator();
         if ( elmtIter != null )
         {
             while ( elmtIter.hasNext() )
@@ -205,19 +216,25 @@ public class ModelDteApiAdapter
         // result set name
         dteDataSet.setPrimaryResultSetName( modelDataSet.getResultSetName() );
         
-        // public driver properties
-        Iterator elmtIter = modelDataSet.publicDriverPropertiesIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ExtendedPropertyHandle modelProp = (ExtendedPropertyHandle) elmtIter.next();
-                dteDataSet.addPublicProperty( modelProp.getName(), modelProp.getValue() );
-            }
-        }
+        // static ROM properties defined by the ODA driver extension
+        // of the odaDriverModel extension point
+        Map staticProps = getExtensionProperties( modelDataSet, 
+				                modelDataSet.getExtensionName(), 
+				                modelDataSet.getExtensionPropertyDefinitionList() );
+	    if ( staticProps != null && ! staticProps.isEmpty() )
+	    {	    
+	        Iterator propNamesItr = staticProps.keySet().iterator();
+	        while ( propNamesItr.hasNext() )
+	        {
+	            Object propName = propNamesItr.next();
+	            assert ( propName != null && propName instanceof String );	        
+	            String propValue = (String) staticProps.get( propName );	        
+                dteDataSet.addPublicProperty( (String) propName, propValue );
+	        }
+	    }
 
-        // private driver properties
-        elmtIter = modelDataSet.privateDriverPropertiesIterator();
+        // private driver properties / private runtime data
+        Iterator elmtIter = modelDataSet.privateDriverPropertiesIterator();
         if ( elmtIter != null )
         {
             while ( elmtIter.hasNext() )
@@ -257,6 +274,8 @@ public class ModelDteApiAdapter
         dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose() );
 
         // dataset parameters definition
+        HashMap paramBindingCandidates = new HashMap();
+        
         Iterator elmtIter = modelDataSet.parametersIterator();
         if ( elmtIter != null )
         {
@@ -264,10 +283,15 @@ public class ModelDteApiAdapter
             {
             	DataSetParameterHandle modelParam = (DataSetParameterHandle ) elmtIter.next();
 				dteDataSet.addParameter( newParam( modelParam ) );
+
+				// collect input parameter default values as
+				// potential parameter binding if no explicit ones are
+				// defined for a parameter
 				if ( modelParam.isInput( ) )
 				{
-					dteDataSet.addInputParamBinding( newInputParamBinding( modelParam.getName( ),
-							modelParam.getDefaultValue( ) ) );
+				    String defaultValueExpr = modelParam.getDefaultValue( );
+				    if ( defaultValueExpr != null )
+				        paramBindingCandidates.put( modelParam.getName(), defaultValueExpr );
 				}
             }
         }
@@ -279,7 +303,22 @@ public class ModelDteApiAdapter
             while ( elmtIter.hasNext() )
             {
                 ParamBindingHandle modelParamBinding = (ParamBindingHandle) elmtIter.next();
-                dteDataSet.addInputParamBinding( newInputParamBinding( modelParamBinding ) );
+                // replace default value of the same parameter, if defined
+		        paramBindingCandidates.put( modelParamBinding.getParamName(), modelParamBinding.getExpression() );
+            }
+        }
+        
+        // assign merged parameter bindings to the data set
+        if ( paramBindingCandidates.size() > 0 )
+        {
+            elmtIter = paramBindingCandidates.keySet().iterator();
+            while ( elmtIter.hasNext() )
+            {
+                Object paramName = elmtIter.next();
+                assert( paramName != null && paramName instanceof String );
+                String expression = (String) paramBindingCandidates.get( paramName );
+				dteDataSet.addInputParamBinding( 
+				        newInputParamBinding( (String) paramName, expression ) );
             }
         }
         
@@ -366,15 +405,15 @@ public class ModelDteApiAdapter
      */
     IInputParameterBinding newInputParamBinding( ParamBindingHandle modelInputParamBndg )
     {
-        if ( modelInputParamBndg.getExpression( ) == null )
-			return null; // no expression is bound
 		// model provides binding by name only
 		return newInputParamBinding( modelInputParamBndg.getParamName( ),
-				modelInputParamBndg.getExpression( ) );
+									 modelInputParamBndg.getExpression( ) );
     }
     
     private IInputParameterBinding newInputParamBinding( String paramName, String paramValue )
     {
+        if ( paramValue == null )
+			return null; // no expression is bound
     	ScriptExpression paramValueExpr = new ScriptExpression( paramValue );
 		return new InputParameterBinding( paramName, paramValueExpr );
     }
@@ -561,5 +600,60 @@ public class ModelDteApiAdapter
 		
 		assert false;	// unknown filter operator
 		return IConditionalExpression.OP_NONE;
+    }
+
+    /* Gets the data handle's static ROM extension properties 
+     * name and value pairs in String values and returns them in a Map
+     */
+    private Map getExtensionProperties( ReportElementHandle dataHandle, 
+            		String extensionName, List driverPropList )
+    {
+        if ( driverPropList == null || driverPropList.isEmpty() )
+            return null;		// nothing to add
+
+		Map properties = new HashMap();
+        Iterator elmtIter =  driverPropList.iterator();
+		while ( elmtIter.hasNext() )
+		{
+		    IPropertyDefn modelExtProp = (IPropertyDefn) elmtIter.next();
+		
+		    // first strips extension name prefix and separator from 
+		    // property's fully qualified name
+		    String propName = stripPropNamePrefix( modelExtProp.getName(),
+		        					extensionName );
+		    assert( propName != null && propName.length() > 0 );
+		
+		    // use fully qualified name to get property value
+		    Object propValueObj = dataHandle.getProperty( modelExtProp.getName() );                
+		    String propValue = ( propValueObj == null ) ?
+		        					null : propValueObj.toString();
+		    properties.put( propName, propValue );
+		}
+		return properties;
+    }
+    
+    /* Strips the given prefix and separator characters
+     * and returns the remaining string.
+     */
+    private String stripPropNamePrefix( String fromString, String prefix )
+    {
+        if ( fromString == null || fromString.length() == 0 )
+            return fromString;	// nothing to strip from
+        
+        if ( prefix == null || prefix.length() == 0 )
+            return fromString;	// nothing to strip
+        
+        if ( ! fromString.startsWith( prefix ) )
+            return fromString;	// already stripped
+        
+        // verify that given fromString has characters beyond
+        // the prefix separator
+        String separator = "::";
+        int prefixLen = prefix.length();
+        int prefixSeprLen = prefixLen + separator.length();
+        assert( fromString.length() > prefixSeprLen &&
+                separator.equals( fromString.substring( prefixLen, prefixSeprLen ) ));
+        
+        return fromString.substring( prefixSeprLen );
     }
 }
