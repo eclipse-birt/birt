@@ -65,7 +65,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				.getDataSetElement( design );
 		if ( dataSet == null )
 			return null;
-
+		
 		assert dataSet instanceof DataSet;
 
 		return (DataSetHandle) dataSet.getHandle( design );
@@ -76,6 +76,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * @param handle
 	 *            the handle of the data set
+	 * 
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */
@@ -293,7 +294,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * with a <code>Hide</code> in the list.
 	 * 
 	 * @return the iterator for visibility rules defined on this report item.
-	 * @see org.eclipse.birt.report.model.elements.structures.Hide
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
 	 */
 
 	public Iterator visibilityRulesIterator( )
@@ -367,8 +369,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * @return the iterator for parameter binding structure list defined on this
 	 *         data set.
-	 *
-	 * @see org.eclipse.birt.report.model.elements.structures.ParamBinding
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
 	 */
 
 	public Iterator paramBindingsIterator( )

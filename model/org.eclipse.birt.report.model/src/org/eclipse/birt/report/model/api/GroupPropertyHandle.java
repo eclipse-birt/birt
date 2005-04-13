@@ -11,14 +11,20 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * A handle for working with a top-level property of a collection of elements.
@@ -208,14 +214,53 @@ public class GroupPropertyHandle
 	}
 
 	/**
+	 * returns the element reference value list if the property is element
+	 * referenceable type.
+	 * 
+	 * @return list of the reference element value.
+	 */
+
+	public List getReferenceableElementList( )
+	{
+		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+			return Collections.EMPTY_LIST;
+
+		List list = new ArrayList( );
+
+		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
+		assert elementDefn != null;
+
+		ReportDesign design = handle.getDesign( );
+		ReportDesignHandle designHandle = ( (ReportDesignHandle) design
+				.getHandle( design ) );
+
+		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
+				.getName( ) ) )
+			return designHandle.getDataSets( ).getContents( );
+
+		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
+				.getName( ) ) )
+			return designHandle.getDataSources( ).getContents( );
+
+		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
+				.getName( ) ) )
+			return designHandle.getStyles( ).getContents( );
+
+		return list;
+
+	}
+
+	/**
 	 * Compares the specified Object with this <code>GroupPropertyHandle</code>
 	 * for equality. Returns <code>true</code> in the following cases:
 	 * <ul>
 	 * <li><code>target</code> is a <code>PropertyHandle</code>. The
 	 * element of <code>target</code> is in the
-	 * <code>GroupElementHandle</code> and two property definitions are same.</li>
+	 * <code>GroupElementHandle</code> and two property definitions are same.
+	 * </li>
 	 * <li><code>target</code> is a <code>GroupPropertyHandle</code>.
-	 * <code>GroupElementHandle</code> and the the property definition are same.</li>
+	 * <code>GroupElementHandle</code> and the the property definition are
+	 * same.</li>
 	 * </ul>
 	 * 
 	 * @param target

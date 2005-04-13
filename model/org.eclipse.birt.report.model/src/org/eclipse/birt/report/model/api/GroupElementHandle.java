@@ -422,6 +422,7 @@ public class GroupElementHandle
 		return elements.contains( element );
 	}
 
+	
 	/**
 	 * An iterator over the properties defined for elements that in the group
 	 * element.
