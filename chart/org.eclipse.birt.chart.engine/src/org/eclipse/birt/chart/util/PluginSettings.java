@@ -164,7 +164,7 @@ public final class PluginSettings
         if (ps == null)
         {
             ps = new PluginSettings();
-            ps.bStandalone = System.getProperty("BIRT_HOME") == null; //$NON-NLS-1$
+            ps.bStandalone = System.getProperty("STANDALONE") != null; //$NON-NLS-1$
         }
         return ps;
     }
