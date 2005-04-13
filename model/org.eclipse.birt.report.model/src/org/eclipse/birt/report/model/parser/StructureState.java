@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
-import org.eclipse.birt.report.model.api.elements.structures.OutputParameter;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -326,9 +325,6 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( IncludeScript.INCLUDE_SCRIPT_STRUCT.toLowerCase( ),
 				IncludeScript.class );
-
-		structDict.put( OutputParameter.STRUCT_NAME.toLowerCase( ),
-				DataSetParameter.class );
 
 		structDict.put( DataSetParameter.STRUCT_NAME.toLowerCase( ),
 				DataSetParameter.class );
