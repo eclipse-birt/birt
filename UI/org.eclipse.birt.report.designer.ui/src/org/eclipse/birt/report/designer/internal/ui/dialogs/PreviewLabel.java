@@ -111,6 +111,26 @@ public class PreviewLabel extends Canvas
 	}
 
 	/**
+	 * Restores all state to default;
+	 */
+	public void restoreDefaultState( )
+	{
+		isUnderline = false;
+		isLinethrough = false;
+		isOverline = false;
+		fontFamily = "Times New Roman"; //$NON-NLS-1$
+		fontSize = 9;
+		fontWeight = WEIGHT_NORMAL;
+		isBold = false;
+		isItalic = false;
+		
+		if ( updateOnTheFly )
+		{
+			updateView( );
+		}
+	}
+
+	/**
 	 * Sets if update the view whenever the font style has been changed.
 	 * 
 	 * @param onthefly

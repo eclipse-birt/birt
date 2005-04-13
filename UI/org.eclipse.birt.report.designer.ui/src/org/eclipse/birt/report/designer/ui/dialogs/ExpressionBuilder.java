@@ -33,7 +33,6 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
@@ -287,7 +286,6 @@ public class ExpressionBuilder extends BaseDialog
 		IDocument document = documentProvider.getDocument( editorInput );
 		expressionViewer.setDocument( document );
 		text.setFont( JFaceResources.getTextFont( ) );
-		text.invokeAction( ST.TEXT_END );
 
 		//create actions for context menu and short cut keys
 		ResourceBundle bundle = ResourceBundle.getBundle( "org.eclipse.ui.texteditor.EditorMessages" );//$NON-NLS-1$
