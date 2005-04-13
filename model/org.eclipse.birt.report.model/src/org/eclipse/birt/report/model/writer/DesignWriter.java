@@ -908,6 +908,7 @@ public class DesignWriter extends ElementVisitor
 		super.visitScalarParameter( obj );
 
 		property( obj, ScalarParameter.DATA_TYPE_PROP );
+		property( obj, ScalarParameter.DISPLAY_PROMPT_PROP );
 		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );
 		property( obj, ScalarParameter.ALLOW_BLANK_PROP );
 		property( obj, ScalarParameter.ALLOW_NULL_PROP );

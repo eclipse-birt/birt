@@ -630,4 +630,27 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		setDataType( type );
 	}
+
+	/**
+	 * Set the value for the display prompt context.
+	 * 
+	 * @param promptValue
+	 *            The display prompt context.
+	 * 
+	 * @throws SemanticException
+	 */
+	public void setDisplayPrompt( String promptValue ) throws SemanticException
+	{
+		setStringProperty( ScalarParameter.DISPLAY_PROMPT_PROP, promptValue );
+	}
+
+	/**
+	 * get the display prompt context.
+	 * 
+	 * @return the display prompt.
+	 */
+	public String getDisplayPrompt( )
+	{
+		return getStringProperty( ScalarParameter.DISPLAY_PROMPT_PROP );
+	}
 }

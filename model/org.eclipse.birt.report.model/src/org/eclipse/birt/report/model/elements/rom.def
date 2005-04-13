@@ -1673,6 +1673,7 @@
     <Property name="hidden" displayNameID="Element.Parameter.hidden" type="boolean" />
   </Element>
   <Element name="ScalarParameter" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" displayNameID="Element.ScalarParameter" isAbstract="false" extends="Parameter" isNameRequired="true">
+    <Property name="displayPrompt" displayNameID="Element.ScalarParameter.displayPrompt" type="string"/>
     <Property name="dataType" displayNameID="Element.ScalarParameter.dataType" type="choice" detailType="paramType">
       <Default>string</Default>
     </Property>

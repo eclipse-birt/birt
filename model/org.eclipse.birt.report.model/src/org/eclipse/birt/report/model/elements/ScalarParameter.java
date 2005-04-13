@@ -114,7 +114,12 @@ public class ScalarParameter extends Parameter
 	 */
 
 	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$ 
+	
+	/**
+	 * Name of the display prompt property.
+	 */
 
+	public static final String DISPLAY_PROMPT_PROP = "displayPrompt"; //$NON-NLS-1$ 
 	/**
 	 * The default constructor.
 	 */
