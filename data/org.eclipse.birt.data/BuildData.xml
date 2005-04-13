@@ -265,8 +265,6 @@
 		<!-- run junit for each testcase -->
 		<junit dir="." fork="yes" taskname="Data Engine Tests">
 			<jvmarg value="-ea" />
-			<sysproperty key="BIRT_HOME" value="${BIRT_HOME}" />
-			
 			<sysproperty key="DTETest.url" value="${url}" />
 			<sysproperty key="DTETest.user" value="${user}" />
 			<sysproperty key="DTETEst.password" value="${password}" />
@@ -363,7 +361,8 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
-		<copy overwrite="true" tofile="${test.src}/drivers/${oda.jdbc.jar}" file="${oda.jdbc.dir}/${oda.jdbc.jar}"/>			
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/${oda.jdbc.jar}" file="${oda.jdbc.dir}/${oda.jdbc.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.xml" file="${oda.jdbc.dir}/plugin.xml"/>
 	</target>
 </project>
 
