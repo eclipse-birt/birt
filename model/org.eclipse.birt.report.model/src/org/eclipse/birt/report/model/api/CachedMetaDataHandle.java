@@ -39,32 +39,6 @@ public class CachedMetaDataHandle extends StructureHandle
 	}
 
 	/**
-	 * Get a handle to deal with the cached input parameter list member.
-	 * 
-	 * @return a handle to deal with the cached input parameter list member.
-	 * 
-	 * @deprecated by the method {@link #getParameters()}
-	 */
-
-	public MemberHandle getInputParameters( )
-	{
-		return getMember( CachedMetaData.PARAMETERS_MEMBER );
-	}
-
-	/**
-	 * Get a handle to deal with the cached output parameter list member.
-	 * 
-	 * @return a handle to deal with the cached output parameter list member.
-	 * 
-	 * @deprecated by the method {@link #getParameters()}
-	 */
-
-	public MemberHandle getOutputParameters( )
-	{
-		return getMember( CachedMetaData.PARAMETERS_MEMBER );
-	}
-
-	/**
 	 * Get a handle to deal with the cached parameter list member.
 	 * 
 	 * @return a handle to deal with the cached parameter list member.

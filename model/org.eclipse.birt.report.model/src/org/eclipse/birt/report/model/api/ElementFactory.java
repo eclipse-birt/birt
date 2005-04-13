@@ -575,22 +575,6 @@ public class ElementFactory
 	 * @param name
 	 *            the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
-	 * 
-	 * @deprecated by the method {@link #newTextData(String)}
-	 */
-
-	public TextDataHandle newMultiLineData( String name )
-	{
-		TextDataItem element = new TextDataItem( name );
-		return element.handle( design );
-	}
-
-	/**
-	 * Creates a new multi line data item.
-	 * 
-	 * @param name
-	 *            the optional multi line data name. Can be <code>null</code>.
-	 * @return a handle to multi line data item
 	 */
 
 	public TextDataHandle newTextData( String name )

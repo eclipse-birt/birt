@@ -42,22 +42,6 @@ public class CachedMetaData extends PropertyStructure
 	public static final String PARAMETERS_MEMBER = "parameters"; //$NON-NLS-1$
 
 	/**
-	 * Member name of the cached input parameters.
-	 * 
-	 * @deprecated by {@link #PARAMETERS_MEMBER}
-	 */
-
-	public final static String INPUT_PARAMETERS_MEMBER = "inputParameters"; //$NON-NLS-1$
-
-	/**
-	 * Member name of the cached output parameters.
-	 * 
-	 * @deprecated by {@link #PARAMETERS_MEMBER}
-	 */
-
-	public final static String OUTPUT_PARAMETERS_MEMBER = "outputParameters"; //$NON-NLS-1$
-
-	/**
 	 * Member name of the cached result set(output columns).
 	 */
 
@@ -96,72 +80,6 @@ public class CachedMetaData extends PropertyStructure
 	public String getStructName( )
 	{
 		return CACHED_METADATA_STRUCT;
-	}
-
-	/**
-	 * Sets the values of obsolete input parameter and output parameter
-	 * properties.
-	 * 
-	 * @param memberName
-	 *            the member name. Must be <code>INPUT_PARAMETERS_MEMBER</code>
-	 *            or <code>OUTPUT_PARAMETERS_MEMBER</code>
-	 * @param value
-	 *            the property value
-	 * 
-	 * @deprecated 
-	 */
-
-	public void setObsoleteProperty( String memberName, Object value )
-	{
-		assert ( INPUT_PARAMETERS_MEMBER.equals( memberName ) || OUTPUT_PARAMETERS_MEMBER
-				.equals( memberName ) );
-
-		Object obj = super.getProperty( null, PARAMETERS_MEMBER );
-
-		if ( value instanceof List )
-		{
-			// set isInput and isOutput flag here.
-
-			for ( Iterator iter = ( (List) value ).iterator( ); iter.hasNext( ); )
-			{
-				DataSetParameter param = (DataSetParameter) iter.next( );
-				if ( INPUT_PARAMETERS_MEMBER.equals( memberName ) )
-					param.setIsInput( true );
-				else
-					param.setIsOutput( true );
-			}
-
-			if ( obj == null )
-				super.setProperty( PARAMETERS_MEMBER, value );
-			else
-			{
-				List list = (List) obj;
-				list.addAll( (List) value );
-			}
-		}
-		else if ( value == null )
-		{
-			if ( obj == null )
-				super.setProperty( PARAMETERS_MEMBER, value );
-			else
-			{
-				List list = (List) obj;
-				List removedParams = new ArrayList( );
-
-				for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
-				{
-					DataSetParameter param = (DataSetParameter) iter.next( );
-					if ( INPUT_PARAMETERS_MEMBER.equals( memberName )
-							&& param.isInput( ) )
-						removedParams.add( param );
-					if ( OUTPUT_PARAMETERS_MEMBER.equals( memberName )
-							&& param.isOutput( ) )
-						removedParams.add( param );
-				}
-
-				list.removeAll( removedParams );
-			}
-		}
 	}
 
 }

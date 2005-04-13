@@ -1527,7 +1527,7 @@
       <Default>in</Default>
       <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>
-    <Property name="refreshRate" displayNameID="Element.ReportDesign.refreshRate" type="integer" canInherit="false" validator="NonNegativeValueValidator">
+    <Property name="refreshRate" displayNameID="Element.ReportDesign.refreshRate" type="integer" canInherit="false" propertyVisibility="hide" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
     <Property name="base" displayNameID="Element.ReportDesign.base" type="string" canInherit="false" />
@@ -1545,10 +1545,10 @@
     <Method name="initialize" displayNameID="Element.ReportDesign.initialize" toolTipID="Element.ReportDesign.initialize.toolTip" />
     <Method name="beforeFactory" displayNameID="Element.ReportDesign.beforeFactory" toolTipID="Element.ReportDesign.beforeFactory.toolTip" />
     <Method name="afterFactory" displayNameID="Element.ReportDesign.afterFactory" toolTipID="Element.ReportDesign.afterFactory.toolTip" />
-    <Method name="beforeOpenDoc" displayNameID="Element.ReportDesign.beforeOpenDoc" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip" />
-    <Method name="afterOpenDoc" displayNameID="Element.ReportDesign.afterOpenDoc" toolTipID="Element.ReportDesign.afterOpenDoc.toolTip" />
-    <Method name="beforeCloseDoc" displayNameID="Element.ReportDesign.beforeCloseDoc" toolTipID="Element.ReportDesign.beforeCloseDoc.toolTip" />
-    <Method name="afterCloseDoc" displayNameID="Element.ReportDesign.afterCloseDoc" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip" />
+    <Method name="beforeOpenDoc" displayNameID="Element.ReportDesign.beforeOpenDoc" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip" propertyVisibility="hide"/>
+    <Method name="afterOpenDoc" displayNameID="Element.ReportDesign.afterOpenDoc" toolTipID="Element.ReportDesign.afterOpenDoc.toolTip" propertyVisibility="hide" />
+    <Method name="beforeCloseDoc" displayNameID="Element.ReportDesign.beforeCloseDoc" toolTipID="Element.ReportDesign.beforeCloseDoc.toolTip" propertyVisibility="hide"/>
+    <Method name="afterCloseDoc" displayNameID="Element.ReportDesign.afterCloseDoc" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip" propertyVisibility="hide"/>
     <Method name="beforeRender" displayNameID="Element.ReportDesign.beforeRender" toolTipID="Element.ReportDesign.beforeRender.toolTip" />
     <Method name="afterRender" displayNameID="Element.ReportDesign.afterRender" toolTipID="Element.ReportDesign.afterRender.toolTip" />
     <Slot name="styles" displayNameID="Element.ReportDesign.slot.styles" multipleCardinality="true">

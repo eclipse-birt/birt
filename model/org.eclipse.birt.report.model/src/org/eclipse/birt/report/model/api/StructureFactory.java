@@ -25,9 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Hide;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
-import org.eclipse.birt.report.model.api.elements.structures.InputParameter;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
-import org.eclipse.birt.report.model.api.elements.structures.OutputParameter;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -106,36 +104,6 @@ public class StructureFactory
 	public static DataSetParameter createDataSetParameter( )
 	{
 		return new DataSetParameter( );
-	}
-
-	/**
-	 * Creates an empty output parameter structure.
-	 * 
-	 * @return an empty output parameter structure
-	 * 
-	 * @deprecated by the method {@link #createDataSetParameter()}
-	 */
-
-	public static OutputParameter createOutputParameter( )
-	{
-		OutputParameter param = new OutputParameter( );
-		param.setIsOutput( true );
-		return param;
-	}
-
-	/**
-	 * Creates an empty input parameter structure.
-	 * 
-	 * @return an empty input parameter structure
-	 * 
-	 * @deprecated by the method {@link #createDataSetParameter()}
-	 */
-
-	public static InputParameter createInputParameter( )
-	{
-		InputParameter param = new InputParameter( );
-		param.setIsInput( true );
-		return param;
 	}
 
 	/**

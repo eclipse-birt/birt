@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
@@ -172,70 +169,6 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public void setDataSource( String name ) throws SemanticException
 	{
 		setStringProperty( DataSet.DATA_SOURCE_PROP, name );
-	}
-
-	/**
-	 * Returns an iterator over the list of input parameters. The iterator
-	 * returns instances of <code>DataSetParameterHandle</code> that
-	 * represents input parameter object.
-	 * 
-	 * @return iterator over input parameter definitions.
-	 * @see org.eclipse.birt.report.model.api.elements.structures.InputParameter
-	 * 
-	 * @deprecated by the method {@link #parametersIterator()}
-	 */
-
-	public Iterator inputParametersIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
-		assert propHandle != null;
-
-		List list = propHandle.getListValue( );
-		if ( list == null )
-			return Collections.EMPTY_LIST.iterator( );
-
-		List retList = new ArrayList( );
-		for ( Iterator iter = propHandle.iterator( ); iter.hasNext( ); )
-		{
-			DataSetParameterHandle paramHandle = (DataSetParameterHandle) iter
-					.next( );
-			if ( paramHandle.isInput( ) )
-				retList.add( paramHandle );
-		}
-
-		return retList.iterator( );
-	}
-
-	/**
-	 * Returns an iterator over the list of output parameter definitions. The
-	 * iterator returns instances of <code>OutputParameterHandle</code> that
-	 * represents output parameter object.
-	 * 
-	 * @return iterator over output parameter definitions.
-	 * @see org.eclipse.birt.report.model.api.elements.structures.OutputParameter
-	 * 
-	 * @deprecated by the method {@link #parametersIterator()}
-	 */
-
-	public Iterator outputParametersIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( DataSet.PARAMETERS_PROP );
-		assert propHandle != null;
-
-		List list = propHandle.getListValue( );
-		if ( list == null )
-			return Collections.EMPTY_LIST.iterator( );
-
-		List retList = new ArrayList( );
-		for ( Iterator iter = propHandle.iterator( ); iter.hasNext( ); )
-		{
-			DataSetParameterHandle paramHandle = (DataSetParameterHandle) iter
-					.next( );
-			if ( paramHandle.isOutput( ) )
-				retList.add( paramHandle );
-		}
-
-		return retList.iterator( );
 	}
 
 	/**

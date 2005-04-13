@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
@@ -84,22 +81,6 @@ public abstract class DataSet extends ReferenceableElement
 	 */
 
 	public static final String PARAMETERS_PROP = "parameters"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the input data set parameters definitions.
-	 * 
-	 * @deprecated by {@link #PARAMETERS_PROP}
-	 */
-
-	public static final String INPUT_PARAMETERS_PROP = "inputParameters"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the output data set parameters definitions.
-	 * 
-	 * @deprecated by {@link #PARAMETERS_PROP}
-	 */
-
-	public static final String OUTPUT_PARAMETERS_PROP = "outputParameters"; //$NON-NLS-1$
 
 	/**
 	 * The property name of the data set parameter binding elements that bind
@@ -200,76 +181,5 @@ public abstract class DataSet extends ReferenceableElement
 	protected void adjustDeliveryPath( NotificationEvent ev )
 	{
 		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
-	}
-
-	/*
-	 * This method will be removed after M14.
-	 * 
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setProperty(java.lang.String,
-	 *      java.lang.Object)
-	 */
-
-	public void setProperty( String propName, Object value )
-	{
-		// Do a tricky translation here.
-
-		if ( !INPUT_PARAMETERS_PROP.equals( propName )
-				&& !OUTPUT_PARAMETERS_PROP.equals( propName ) )
-
-		{
-			super.setProperty( propName, value );
-			return;
-		}
-
-		
-		Object obj = super.getLocalProperty( null, PARAMETERS_PROP );
-
-		if ( value instanceof List )
-		{
-			// set isInput and isOutput flag here.
-
-			for ( Iterator iter = ( (List) value ).iterator( ); iter.hasNext( ); )
-			{
-				DataSetParameter param = (DataSetParameter) iter.next( );
-				if ( INPUT_PARAMETERS_PROP.equals( propName ) )
-					param.setIsInput( true );
-				else
-					param.setIsOutput( true );
-			}
-
-			if ( obj == null )
-				super.setProperty( PARAMETERS_PROP, value );
-			else
-			{
-				List list = (List) obj;
-				list.addAll( (List) value );
-			}
-		}
-		else if ( value == null )
-		{
-			if ( obj == null )
-				super.setProperty( PARAMETERS_PROP, value );
-			else
-			{
-				List list = (List) obj;
-				List removedParams = new ArrayList( );
-
-				for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
-				{
-					DataSetParameter param = (DataSetParameter) iter.next( );
-					if ( INPUT_PARAMETERS_PROP.equals( propName )
-							&& param.isInput( ) )
-						removedParams.add( param );
-					if ( OUTPUT_PARAMETERS_PROP.equals( propName )
-							&& param.isOutput( ) )
-						removedParams.add( param );
-				}
-
-				list.removeAll( removedParams );
-			}
-		}
-		else
-			assert false;
 	}
 }
