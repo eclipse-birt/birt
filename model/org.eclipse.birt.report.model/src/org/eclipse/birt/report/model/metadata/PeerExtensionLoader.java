@@ -37,14 +37,16 @@ public class PeerExtensionLoader extends ExtensionLoader
 	private static final String ELEMENT_TAG = "reportItem"; //$NON-NLS-1$
 
 	/**
+	 * Constructs the extension loader for peer extension.
 	 */
+	
 	public PeerExtensionLoader( )
 	{
 		super( EXTENSION_POINT );
 	}
 
 	/**
-	 * Load one extension which can be
+	 * Load one extension.
 	 * 
 	 * @param extension
 	 *            one extension which extends the model extension point.
