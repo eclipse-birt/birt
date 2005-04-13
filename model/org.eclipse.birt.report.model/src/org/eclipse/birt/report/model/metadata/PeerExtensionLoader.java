@@ -22,8 +22,9 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
- * TODO: Document required
+ * Represents the extension loader for peer extension.
  */
+
 public class PeerExtensionLoader extends ExtensionLoader
 {
 
