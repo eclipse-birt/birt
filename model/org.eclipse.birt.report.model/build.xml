@@ -95,7 +95,7 @@
 	<!-- Run All Unit Tests -->
 	<target name="utest" depends="compileTest, unzipTestingPlugin">
 		<junit printsummary="on" fork="true" haltonfailure="false" failureproperty="tests.failed" showoutput="true">
-			<jvmarg value="-DBIRT_HOME=${BIRT_HOME}" />
+			<jvmarg value="-DBIRT_HOME=${eclipse.home}" />
 			<jvmarg value="-ea" />
 			<classpath>
 				<pathelement path="${test.build.dir}" />
