@@ -65,4 +65,5 @@ public class SystemPropertyDefn extends ElementPropertyDefn
 	{
 		return SYSTEM_PROPERTY;
 	}
+
 }

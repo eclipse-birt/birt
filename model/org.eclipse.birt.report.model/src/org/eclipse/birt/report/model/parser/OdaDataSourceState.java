@@ -17,15 +17,15 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the oda data source element.
- *  
+ * 
  */
 
 public class OdaDataSourceState extends DataSourceState
 {
 
 	/**
-	 * Constructs the oda data source state with the design parser handler,
-	 * the container element and the container slot of the oda data source.
+	 * Constructs the oda data source state with the design parser handler, the
+	 * container element and the container slot of the oda data source.
 	 * 
 	 * @param handler
 	 *            the design file parser handler
@@ -45,6 +45,8 @@ public class OdaDataSourceState extends DataSourceState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
+		parseExtensionName( attrs );
+
 		initElement( attrs, true );
 	}
 }

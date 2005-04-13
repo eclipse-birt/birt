@@ -11,13 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -26,19 +19,13 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
+import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -63,18 +50,11 @@ import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
  * to HTML, PDF or other formats.
  * </ul>
  * 
- *  
+ * 
  */
 
-public class ExtendedItem extends ReportItem
+public class ExtendedItem extends ReportItem implements IExtendableElement
 {
-
-	/**
-	 * Name of the property that identifies the name of the extension. BIRT uses
-	 * the property to find extension definition in our meta-data dictionary.
-	 */
-
-	public static final String EXTENSION_PROP = "extensionName"; //$NON-NLS-1$
 
 	/**
 	 * Extended item can support extension. It has a unique name to identify the
@@ -84,35 +64,14 @@ public class ExtendedItem extends ReportItem
 	 * The name does not occur in a name space.
 	 */
 
-	protected String extName = null;
+	protected String extensionName = null;
 
 	/**
-	 * Cached property values for those defined by extension if there is no
-	 * instance of the peer element. When we created the instance of peer, clear
-	 * all contents in the map and store them in the peer itself.
+	 * The extensibility provider which provides the functionality of this
+	 * extendable element.
 	 */
 
-	HashMap extValues = new HashMap( );
-
-	/**
-	 * Peer element for the extension. It is created when the application
-	 * invokes UI for the item.
-	 */
-
-	IReportItem extElement = null;
-
-	/**
-	 * The extension definition of the item has.
-	 */
-
-	ExtensionElementDefn cachedExtDefn = null;
-
-	// /**
-	// * The style masks list of the extension defined. The object in it is the
-	// * property name of those BIRT standard properties made invisible.
-	// */
-	//
-	// ArrayList styleMasks = null;
+	PeerExtensibilityProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -204,26 +163,10 @@ public class ExtendedItem extends ReportItem
 		if ( !prop.isExtended( ) )
 			return super.getLocalProperty( design, prop );
 
-		if ( isExtensionXMLType( prop.getName( ) ) )
-		{
-			if ( extElement != null )
-			{
-				ByteArrayOutputStream stream = extElement.serialize( prop
-						.getName( ) );
-				if ( stream == null )
-					return null;
-				return stream.toString( );
-			}
+		if ( provider != null )
+			return provider.getExtensionProperty( prop.getName( ) );
 
-			return extValues.get( prop.getName( ) );
-		}
-		if ( isExtensionModelProperty( prop.getName( ) ) )
-		{
-			if ( extElement != null )
-				return extElement.getProperty( prop.getName( ) );
-			return extValues.get( prop.getName( ) );
-		}
-		return extValues.get( prop.getName( ) );
+		return null;
 	}
 
 	/**
@@ -243,38 +186,8 @@ public class ExtendedItem extends ReportItem
 
 		if ( !prop.isExtended( ) )
 			super.setProperty( prop, value );
-		else if ( isExtensionXMLType( prop.getName( ) ) )
-		{
-			if ( extElement != null )
-			{
-				try
-				{
-					if ( value != null )
-						extElement.deserialize( prop.getName( ),
-								new ByteArrayInputStream( value.toString( )
-										.getBytes( ) ) );
-					else
-						extElement.deserialize( prop.getName( ),
-								new ByteArrayInputStream( null ) );
-				}
-				catch ( ExtendedElementException e )
-				{
-					assert false;
-				}
-			}
-		}
-		if ( isExtensionModelProperty( prop.getName( ) ) )
-		{
-			if ( extElement != null )
-				extElement.setProperty( prop.getName( ), value );
-		}
-		else
-		{
-			if ( value != null )
-				extValues.put( prop.getName( ), value );
-			else
-				extValues.remove( prop.getName( ) );
-		}
+		else if ( provider != null )
+			provider.setExtensionProperty( prop, value );
 	}
 
 	/**
@@ -288,56 +201,20 @@ public class ExtendedItem extends ReportItem
 	{
 		assert propName != null;
 
-		ElementPropertyDefn defn = super.getPropertyDefn( propName );
-
-		ExtensionElementDefn extDefn = getExtDefn( );
-
-		// if the extended item has the extension, then check the
-		// style masks first
-
-		if ( defn != null )
+		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
+		if ( propDefn != null && provider != null )
 		{
-			if ( isMasked( defn.getName( ) ) )
-				return null;
+			ElementPropertyDefn overridenProp = provider.getOverriddenPropertyDefn( propDefn.getName() );
+			if ( overridenProp != null )
+				propDefn = overridenProp;
 
-			if ( extDefn != null )
-			{
-				// if there is a cached system property definition, use it.
-
-				SystemPropertyDefn cachedDefn = extDefn
-						.getCachedSystemProperty( propName );
-				if ( cachedDefn != null )
-					return cachedDefn;
-			}
-
-			return defn;
+			return propDefn;
 		}
 
-		// check whether the property is defined by extension
+		if ( provider != null )
+			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
 
-		if ( extDefn == null )
-			return null;
-
-		ElementPropertyDefn prop = (ElementPropertyDefn)extDefn.getProperty( propName );
-		if ( prop != null )
-			return prop;
-
-		if ( getExtendedElement( ) == null )
-			return null;
-
-		IPropertyDefinition[] extProps = getExtensionModel( );
-		if ( extProps != null )
-		{
-			for ( int i = 0; i < extProps.length; i++ )
-			{
-				IPropertyDefinition extProp = extProps[i];
-				if ( propName.equalsIgnoreCase( extProp.getName( ) ) )
-					return new ExtensionModelPropertyDefn( extProp,
-							getExtDefn( ).getElementFactory( ).getMessages( ) );
-			}
-		}
-
-		return null;
+		return propDefn;
 	}
 
 	/**
@@ -352,69 +229,10 @@ public class ExtendedItem extends ReportItem
 
 	public List getPropertyDefns( )
 	{
-		List props = super.getPropertyDefns( );
-		assert props != null;
+		if ( provider != null )
+			return provider.getPropertyDefns( );
 
-		ExtensionElementDefn extDefn = getExtDefn( );
-
-		// if no extension definition exists, just return the definition on
-		// extended item.
-
-		if ( extDefn == null )
-			return props;
-
-		List temp = new ArrayList( );
-		for ( int i = 0; i < props.size( ); i++ )
-		{
-			ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
-			if ( !isMasked( prop.getName( ) ) )
-			{
-				// if extension redefined the property visibility, uses it.
-
-				SystemPropertyDefn cachedDefn = extDefn
-						.getCachedSystemProperty( prop.getName( ) );
-
-				if ( cachedDefn != null )
-					temp.add( cachedDefn );
-				else
-					temp.add( prop );
-			}
-		}
-
-		props = temp;
-		if ( extDefn.getProperties( ) != null )
-		{
-			props.addAll( extDefn.getProperties( ) );
-		}
-
-		// if we support dynamic property list, there
-		// will be those properties of IElement
-
-		IPropertyDefinition[] dynamicProps = getExtensionModel( );
-		if ( dynamicProps == null )
-			return props;
-		for ( int i = 0; i < dynamicProps.length; i++ )
-		{
-			IPropertyDefinition extProp = dynamicProps[i];
-			props.add( new ExtensionModelPropertyDefn( extProp, getExtDefn( )
-					.getElementFactory( ).getMessages( ) ) );
-		}
-
-		return props;
-	}
-
-	/**
-	 * Gets all the extension dynamic properties.
-	 * 
-	 * @return the extension dynamic properties, null if extended element is
-	 *         null
-	 */
-
-	private IPropertyDefinition[] getExtensionModel( )
-	{
-		if ( extElement == null )
-			return null;
-		return extElement.getPropertyDefinitions( );
+		return super.getPropertyDefns( );
 	}
 
 	/**
@@ -427,56 +245,10 @@ public class ExtendedItem extends ReportItem
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		if ( extName == null )
-			return null;
+		if ( provider != null )
+			return provider.getExtDefn( );
 
-		if ( cachedExtDefn != null )
-			return cachedExtDefn;
-
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		cachedExtDefn = (ExtensionElementDefn)dd.getExtension( extName );
-
-		return cachedExtDefn;
-	}
-
-	/**
-	 * Gets the list of style masks for BIRT style properties.
-	 * 
-	 * @return the list of the style masks
-	 */
-
-	protected List getStyleMasks( )
-	{
-		// if ( !isExtended( ) )
-		// return null;
-		// IROMExtension peer = getExtDefn( );
-		// assert peer != null;
-		//
-		// if ( styleMasks != null )
-		// return styleMasks;
-		// if ( peer != null )
-		// styleMasks = peer.getStyleMasks( );
-		//
-		// return styleMasks;
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
-	 * Checks whether the property has the mask defined by the peer extension
-	 * given the property name.
-	 * 
-	 * @param propName
-	 *            the property name to check
-	 * @return true if the style masks defined by peer extension of the item is
-	 *         found, otherwise false
-	 */
-
-	protected boolean isMasked( String propName )
-	{
-		List masks = getStyleMasks( );
-		if ( masks == null )
-			return false;
-		return masks.contains( propName );
+		return null;
 	}
 
 	/**
@@ -498,77 +270,12 @@ public class ExtendedItem extends ReportItem
 	public void initializeReportItem( ReportDesign design )
 			throws ExtendedElementException
 	{
-		ExtensionElementDefn extDefn = getExtDefn( );
-		if ( extDefn == null )
+		if ( provider != null )
+			provider.initializeReportItem( design );
+		else
 			throw new ExtendedElementException(
-					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
-
-		if ( extElement != null )
-			return;
-
-		IReportItemFactory elementFactory = extDefn.getElementFactory( );
-		assert elementFactory != null;
-
-		IReportItem reportItem = elementFactory
-				.newReportItem( design.handle( ) );
-
-		// if the item caches the property values of extension, transfer them
-		// and then clear the cached values
-
-		List names = new ArrayList( );
-
-		Collection values = extValues.keySet( );
-		if ( values != null )
-		{
-			Iterator iter = values.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				String propName = (String) iter.next( );
-				ElementPropertyDefn prop = getPropertyDefn( propName );
-				assert prop != null;
-
-				Object value = extValues.get( propName );
-				assert value != null;
-
-				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE )
-				{
-					reportItem.deserialize( prop.getName( ),
-							new ByteArrayInputStream( value.toString( )
-									.getBytes( ) ) );
-					names.add( propName );
-				}
-			}
-		}
-
-		extElement = reportItem;
-
-		for ( int i = 0; i < names.size( ); i++ )
-		{
-			extValues.remove( names.get( i ) );
-		}
-	}
-
-	/**
-	 * Sets the extension name of the item.
-	 * 
-	 * @param extName
-	 *            the extension name to set
-	 */
-
-	public void setExtension( String extName )
-	{
-		this.extName = extName;
-	}
-
-	/**
-	 * Gets the extension name of the item.
-	 * 
-	 * @return the extension name of the item
-	 */
-
-	public String getExtension( )
-	{
-		return this.extName;
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
+			
 	}
 
 	/*
@@ -579,8 +286,8 @@ public class ExtendedItem extends ReportItem
 
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( EXTENSION_PROP.equals( propName ) )
-			return extName;
+		if ( EXTENSION_NAME_PROP.equals( propName ) )
+			return extensionName;
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -593,10 +300,15 @@ public class ExtendedItem extends ReportItem
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( EXTENSION_PROP.equals( propName ) )
-			extName = (String) value;
+		if ( EXTENSION_NAME_PROP.equals( propName ) )
+		{
+			extensionName = (String) value;
+			provider = new PeerExtensibilityProvider( this, extensionName );
+		}
 		else
+		{
 			super.setIntrinsicProperty( propName, value );
+		}
 	}
 
 	/*
@@ -608,38 +320,6 @@ public class ExtendedItem extends ReportItem
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-
-		// Note: the following errors are treated as syntax error.
-
-		// if ( StringUtil.isBlank( extName ) )
-		// {
-		// list.add( new SemanticError( this,
-		// SemanticError.MISSING_EXTENSION ) );
-		// }
-		// else
-		// {
-		// MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		// ExtensionElementDefn extDefn = dd.getExtension( extName );
-		// if ( extDefn == null )
-		// {
-		// list.add( new SemanticError( this, new String[]{ extName },
-		// SemanticError.EXTENSION_NOT_FOUND ) );
-		// }
-		// else
-		// {
-		// if ( extElement != null )
-		// {
-		// try
-		// {
-		// extElement.validate( );
-		// }
-		// catch ( ExtendedElementException e )
-		// {
-		// list.add( e );
-		// }
-		// }
-		// }
-		// }
 
 		list
 				.addAll( ExtensionValidator.getInstance( ).validate( design,
@@ -656,7 +336,10 @@ public class ExtendedItem extends ReportItem
 
 	public IReportItem getExtendedElement( )
 	{
-		return extElement;
+		if ( provider != null )
+			return provider.getExtensionElement( );
+
+		return null;
 	}
 
 	/*
@@ -668,13 +351,8 @@ public class ExtendedItem extends ReportItem
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
 		super.checkExtends( parent );
-		String parentExt = (String) parent.getProperty( null,
-				ExtendedItem.EXTENSION_PROP );
-
-		assert extName != null;
-		if ( !extName.equalsIgnoreCase( parentExt ) )
-			throw new ExtendsException( this, parent,
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+		if ( provider != null )
+			provider.checkExtends( parent );
 	}
 
 	/*
@@ -685,52 +363,14 @@ public class ExtendedItem extends ReportItem
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
-		ExtendedItem element = (ExtendedItem) super.clone( );
-		element.cachedExtDefn = null;
-		element.extElement = null;
-		element.extValues = null;
+		ExtendedItem clonedElement = (ExtendedItem) super.clone( );
 
-		// clear the cached extension definition
+		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
+				clonedElement.extensionName );
 
-		// if the extended element is not null, just copy it
+		clonedElement.provider.copyFrom( provider );
 
-		if ( extElement != null )
-		{
-			element.extElement = extElement.copy( );
-		}
-
-		// extension Properties
-
-		Iterator it = extValues.keySet( ).iterator( );
-		element.extValues = new HashMap( );
-		while ( it.hasNext( ) )
-		{
-			String key = (String) it.next( );
-			PropertyDefn propDefn = getPropertyDefn( key );
-
-			if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
-			{
-				if ( propDefn.isList( ) )
-				{
-					element.extValues
-							.put( key, cloneStructList( (ArrayList) extValues
-									.get( key ) ) );
-				}
-				else
-				{
-					element.extValues.put( key, ( (Structure) extValues
-							.get( key ) ).copy( ) );
-				}
-			}
-			else if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
-			{
-				// Primitive or immutable values
-
-				element.extValues.put( key, extValues.get( key ) );
-			}
-		}
-
-		return element;
+		return clonedElement;
 	}
 
 	/**
@@ -745,21 +385,9 @@ public class ExtendedItem extends ReportItem
 
 	public boolean isExtensionModelProperty( String propName )
 	{
-		if ( extElement != null )
-		{
-			IPropertyDefinition[] extProps = extElement
-					.getPropertyDefinitions( );
-			if ( extProps != null )
-			{
-				for ( int i = 0; i < extProps.length; i++ )
-				{
-					IPropertyDefinition extProp = extProps[i];
-					assert extProp != null;
-					if ( propName.equals( extProp.getName( ) ) )
-						return true;
-				}
-			}
-		}
+		if ( provider != null )
+			return provider.isExtensionModelProperty( propName );
+
 		return false;
 	}
 
@@ -773,15 +401,12 @@ public class ExtendedItem extends ReportItem
 	 *         extended element, otherwise false
 	 */
 
-	public boolean isExtensionXMLType( String propName )
+	public boolean isExtensionXMLProperty( String propName )
 	{
-		ExtensionElementDefn extDefn = getExtDefn( );
-		if ( extDefn == null )
-			return false;
+		if ( provider != null )
+			return provider.isExtensionXMLProperty( propName );
 
-		PropertyDefn prop = (ElementPropertyDefn)extDefn.getProperty( propName );
-		if ( prop != null && PropertyType.XML_TYPE == prop.getTypeCode( ) )
-			return true;
 		return false;
 	}
+
 }

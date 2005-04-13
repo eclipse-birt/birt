@@ -14,8 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
@@ -25,7 +23,8 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -38,6 +37,7 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 
 /**

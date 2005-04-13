@@ -12,11 +12,14 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
  * Represents an extended data set.
@@ -230,21 +233,14 @@ public class OdaDataSetHandle extends DataSetHandle
 	}
 
 	/**
-	 * Returns the iterator for the public driver property list. The item over
-	 * the iterator is the instance of <code>ExtendedPropertyHandle</code>.
+	 * Returns the extension name defined by the extended item.
 	 * 
-	 * @return the iterator over public driver property list defined on this
-	 *         data set.
-	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
+	 * @return the extension name as a string
 	 */
 
-	public Iterator publicDriverPropertiesIterator( )
+	public String getExtensionName( )
 	{
-		PropertyHandle propertyHandle = getPropertyHandle( OdaDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
-		assert propertyHandle != null;
-
-		return propertyHandle.iterator( );
+		return getStringProperty( OdaDataSet.EXTENSION_NAME_PROP );
 	}
 
 	/**
@@ -338,5 +334,33 @@ public class OdaDataSetHandle extends DataSetHandle
 	{
 		ExtendedPropertyHelper.setExtendedProperty( this,
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
+	}
+
+	/**
+	 * Returns the element definition of the element this handle represents.
+	 * 
+	 * @return the element definition of the element this handle represents.
+	 */
+
+	public IElementDefn getDefn( )
+	{
+		ElementDefn extDefn = ( (OdaDataSet) getElement( ) ).getExtDefn( );
+		if ( extDefn != null )
+			return extDefn;
+
+		return super.getDefn( );
+	}
+
+	/**
+	 * Returns the list of extension property definition. All these properties
+	 * are just those defined in extension plugin.
+	 * 
+	 * @return the list of extension property definition.
+	 */
+
+	public List getExtensionPropertyDefinitionList( )
+	{
+		return ( (OdaDataSet) getElement( ) ).getExtDefn( )
+				.getLocalProperties( );
 	}
 }

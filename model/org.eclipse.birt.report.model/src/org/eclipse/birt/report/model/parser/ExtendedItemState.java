@@ -76,7 +76,6 @@ public class ExtendedItemState extends ReportItemState
 
 		if ( StringUtil.isBlank( extension ) )
 		{
-
 			RecoverableError.dealMissingInvalidExtension( handler,
 					new SemanticError( element,
 							SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
@@ -101,10 +100,10 @@ public class ExtendedItemState extends ReportItemState
 
 		// here is for the deprecate property name "extension"
 		if ( oldDesign )
-			setProperty( ExtendedItem.EXTENSION_PROP, attrs,
+			setProperty( ExtendedItem.EXTENSION_NAME_PROP, attrs,
 					DesignSchemaConstants.EXTENSION_ATTRIB );
 		else
-			setProperty( ExtendedItem.EXTENSION_PROP, attrs,
+			setProperty( ExtendedItem.EXTENSION_NAME_PROP, attrs,
 					DesignSchemaConstants.EXTENSION_NAME_ATTRIB );
 
 		initElement( attrs );

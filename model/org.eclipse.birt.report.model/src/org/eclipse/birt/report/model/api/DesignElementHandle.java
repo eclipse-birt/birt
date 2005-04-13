@@ -266,6 +266,7 @@ public abstract class DesignElementHandle
 	 * @return a corresponding DimensionHandle to deal with the dimension
 	 *         property. Return <code>null</code> if the property is unset or
 	 *         if the element does not define the property.
+	 * 
 	 * @see DimensionHandle
 	 */
 
@@ -292,6 +293,7 @@ public abstract class DesignElementHandle
 	 * @return a corresponding ColorHandle to with with the color property.
 	 *         Return <code>null</code> if the property is unset or if the
 	 *         element does not define this property.
+	 * 
 	 * @see ColorHandle
 	 */
 
@@ -311,6 +313,7 @@ public abstract class DesignElementHandle
 	 * <code>null</code>.
 	 * 
 	 * @return a corresponding FontHandle or <code>null</code>.
+	 * 
 	 * @see FontHandle
 	 */
 
@@ -541,6 +544,7 @@ public abstract class DesignElementHandle
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -564,6 +568,7 @@ public abstract class DesignElementHandle
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -716,6 +721,7 @@ public abstract class DesignElementHandle
 	 * @return a handle to the shared style used by this element. Returns null
 	 *         if the style is not set, or if the element does not support a
 	 *         style.
+	 * 
 	 * @see #setStyle(SharedStyleHandle)
 	 * @see #setStyleElement(StyleElement)
 	 * @see #setStyleName(String)
@@ -738,6 +744,7 @@ public abstract class DesignElementHandle
 	 * @throws StyleException
 	 *             If the name is not valid, or if this element does not support
 	 *             a style.
+	 * 
 	 * @see #getStyle()
 	 */
 
@@ -1304,6 +1311,7 @@ public abstract class DesignElementHandle
 	 * <li><code>DesignElement.NAME_PROP</code>
 	 * <li><code>DesignElement.EXTENDS_PROP</code>
 	 * </ul>
+	 * 
 	 * The <code>targetHandle</code> should be in the same report as this
 	 * element. And this method should be called in one transaction.
 	 * 
@@ -1437,6 +1445,7 @@ public abstract class DesignElementHandle
 	 *            the name of the element type, like "Table", "List", etc.
 	 * @return <code>true</code> if the slot can contain the an element with
 	 *         <code>type</code> type, otherwise <code>false</code>.
+	 * 
 	 * @see #canContain(int, DesignElementHandle)
 	 */
 
@@ -1459,9 +1468,11 @@ public abstract class DesignElementHandle
 	 *            the slot id
 	 * @param content
 	 *            the design element handle to check
+	 * 
 	 * @return <code>true</code> if the slot with the given
 	 *         <code>slotId</code> can contain the <code>content</code>,
 	 *         otherwise <code>false</code>.
+	 * 
 	 * @see #canContain(int, String)
 	 */
 

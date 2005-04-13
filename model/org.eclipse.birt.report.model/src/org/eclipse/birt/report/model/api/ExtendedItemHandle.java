@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -60,41 +60,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public String getExtensionName( )
 	{
-		return getStringProperty( ExtendedItem.EXTENSION_PROP );
-	}
-
-	/**
-	 * Sets the value of a property of the extended item. The value can be any
-	 * of the supported types: String, Double, Integer, BigDecimal or one of the
-	 * specialized property types. The type of object allowed depends on the
-	 * type of the property. If the property is neither a BIRT system-defined
-	 * property nor user-defined property, but an extension property from the
-	 * extended element this handle has, call the {@link #loadExtendedElement()}
-	 * once to initialize the extended element.
-	 * 
-	 * @throws NullPointerException
-	 *             if not initialize the extended element by calling the
-	 *             {@link #loadExtendedElement()}once before calling this
-	 *             method to set an extension property
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
-	 *      java.lang.Object)
-	 */
-
-	public void setProperty( String propName, Object value )
-			throws SemanticException
-	{
-		if ( ExtendedItem.EXTENSION_PROP.equals( propName ) )
-		{
-			throw new PropertyValueException(
-					getElement( ),
-					ExtendedItem.EXTENSION_PROP,
-					value,
-					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN );
-		}
-
-		super.setProperty( propName, value );
-
+		return getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
 	}
 
 	/*
@@ -109,7 +75,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 		if ( extDefn != null )
 			return extDefn;
 
-		return getElement( ).getDefn( );
+		return super.getDefn( );
 	}
 
 	/**
@@ -150,6 +116,18 @@ public class ExtendedItemHandle extends ReportItemHandle
 		}
 
 		return reportItem;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.IExtendableElementHandle#getExtensionPropertyDefinitionList()
+	 */
+	
+	public List getExtensionPropertyDefinitionList( )
+	{
+		return ( (ExtendedItem) getElement( ) ).getExtDefn( )
+				.getLocalProperties( );
 	}
 
 }

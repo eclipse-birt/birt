@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -107,6 +108,15 @@ public class PropertyCommand extends AbstractElementCommand
 	public void setProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
+		if ( IExtendableElement.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+		{
+			throw new PropertyValueException(
+					element,
+					IExtendableElement.EXTENSION_NAME_PROP,
+					value,
+					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN );
+		}
+
 		String mask = element.getPropertyMask( design, prop.getName( ) );
 		if ( DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK
 				.equalsIgnoreCase( mask ) )
@@ -160,7 +170,7 @@ public class PropertyCommand extends AbstractElementCommand
 			ExtendedItem extendedItem = ( (ExtendedItem) element );
 
 			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
-					|| extendedItem.isExtensionXMLType( prop.getName( ) ) )
+					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 				//				if ( extElement == null )
@@ -321,7 +331,7 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			doSetProperty( prop, value );
 		}
-		else if ( ExtendedItem.EXTENSION_PROP.equals( propName ) )
+		else if ( IExtendableElement.EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			doSetProperty( prop, value );
 		}

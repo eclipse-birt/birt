@@ -12,11 +12,15 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
  * Represents a extended data source.
@@ -45,6 +49,17 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	}
 
 	/**
+	 * Returns the extension name defined by the extended item.
+	 * 
+	 * @return the extension name as a string
+	 */
+
+	public String getExtensionName( )
+	{
+		return getStringProperty( OdaDataSource.EXTENSION_NAME_PROP );
+	}
+
+	/**
 	 * Sets the driver name.
 	 * 
 	 * @param driverName
@@ -70,24 +85,6 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	}
 
 	/**
-	 * Returns the iterator for the public driver property list. The item over
-	 * the iterator is the instance of <code>ExtendedPropertyHandle</code>.
-	 * 
-	 * @return the iterator over public driver property list defined on this
-	 *         data source.
-	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
-	 */
-
-	public Iterator publicDriverPropertiesIterator( )
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
-		assert propertyHandle != null;
-
-		return propertyHandle.iterator( );
-	}
-
-	/**
 	 * Returns the iterator for the private driver property list. The item over
 	 * the iterator is the instance of <code>ExtendedPropertyHandle</code>.
 	 * 
@@ -103,43 +100,6 @@ public class OdaDataSourceHandle extends DataSourceHandle
 		assert propertyHandle != null;
 
 		return propertyHandle.iterator( );
-	}
-
-	/**
-	 * Returns a public driver property value with the given property name.
-	 * 
-	 * @param name
-	 *            the name of a public driver property
-	 * 
-	 * @return a public driver property value
-	 */
-
-	public String getPublicDriverProperty( String name )
-	{
-		return ExtendedPropertyHelper.getExtendedProperty( this,
-				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP, name );
-	}
-
-	/**
-	 * Sets a public driver property value with the given name and value. If the
-	 * property does not exist, it will be added into the property list. If the
-	 * property already exists, the value will be overwritten.
-	 * 
-	 * @param name
-	 *            the name of a public driver property
-	 * @param value
-	 *            the value of a public driver property
-	 * 
-	 * @throws SemanticException
-	 *             if <code>name</code> is <code>null</code> or an empty
-	 *             string after trimming.
-	 */
-
-	public void setPublicDriverProperty( String name, String value )
-			throws SemanticException
-	{
-		ExtendedPropertyHelper.setExtendedProperty( this,
-				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP, name, value );
 	}
 
 	/**
@@ -177,5 +137,33 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	{
 		ExtendedPropertyHelper.setExtendedProperty( this,
 				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
+	}
+
+	/**
+	 * Returns the element definition of the element this handle represents.
+	 * 
+	 * @return the element definition of the element this handle represents.
+	 */
+
+	public IElementDefn getDefn( )
+	{
+		ElementDefn extDefn = ( (IExtendableElement) getElement( ) ).getExtDefn( );
+		if ( extDefn != null )
+			return extDefn;
+
+		return super.getDefn( );
+	}
+
+	/**
+	 * Returns the list of extension property definition. All these properties
+	 * are just those defined in extension plugin.
+	 * 
+	 * @return the list of extension property definition.
+	 */
+
+	public List getExtensionPropertyDefinitionList( )
+	{
+		return ( (OdaDataSource) getElement( ) ).getExtDefn( )
+				.getLocalProperties( );
 	}
 }

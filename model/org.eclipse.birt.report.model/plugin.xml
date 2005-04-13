@@ -17,5 +17,6 @@
    <requires>
       <import plugin="org.eclipse.birt.core"/>
    </requires>
-   <extension-point id="reportitem" name="reportitem" schema="schema/element.exsd"/>   
+   <extension-point id="reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
+   <extension-point id="odaDriverModel" name="odaDriverModel" schema="schema/odaDriver.exsd"/>
 </plugin>

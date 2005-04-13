@@ -199,7 +199,7 @@ public class ObjectDefn implements IObjectDefn
 	 * step.
 	 */
 
-	protected void buildDefn( )
+	protected void buildDefn( ) throws MetaDataException
 	{
 	}
 }

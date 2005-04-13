@@ -14,20 +14,24 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.xml.sax.Attributes;
 
 /**
  * Base class for all report element parse states.
- *  
+ * 
  */
 
 public abstract class ReportElementState extends DesignParseState
@@ -241,7 +245,7 @@ public abstract class ReportElementState extends DesignParseState
 	/**
 	 * Resolves the reference of the extend. There is an assumption that the
 	 * parent element always exists before his derived ones.
-	 *  
+	 * 
 	 */
 
 	private void resolveExtendsElement( )
@@ -270,4 +274,48 @@ public abstract class ReportElementState extends DesignParseState
 		}
 	}
 
+	/**
+	 * Parse the attribute of "extensionName" for extendable element.
+	 * 
+	 * @param attrs
+	 *            the SAX attributes object
+	 */
+
+	protected void parseExtensionName( Attributes attrs )
+	{
+		DesignElement element = getElement( );
+
+		assert element instanceof IExtendableElement;
+
+		String extensionName = getAttrib( attrs,
+				DesignSchemaConstants.EXTENSION_NAME_ATTRIB );
+
+		if ( StringUtil.isBlank( extensionName ) )
+		{
+			RecoverableError.dealMissingInvalidExtension( handler,
+					new SemanticError( element,
+							SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
+		}
+		else
+		{
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+					.getExtension( extensionName );
+			if ( extDefn == null )
+			{
+
+				RecoverableError
+						.dealMissingInvalidExtension(
+								handler,
+								new SemanticError(
+										element,
+										new String[]{extensionName},
+										SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
+			}
+		}
+
+		// here is for the deprecate property name "extension"
+
+		setProperty( OdaDataSet.EXTENSION_NAME_PROP, extensionName );
+	}
 }

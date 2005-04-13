@@ -597,7 +597,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * 
 	 * @throws MetaDataException
 	 *             if any build process failed.
-	 *  
+	 * 
 	 */
 
 	protected void build( ) throws MetaDataException
@@ -607,6 +607,30 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		buildDefn( );
 
+		// Cache data for properties defined here. Note, done here so
+		// we don't repeat the work for any style properties copied below.
+
+		buildProperties( );
+
+		buildStyleProperties();
+		
+		// check if the javaClass is valid for concrete element type
+
+		if ( !isAbstract( ) )
+			checkJavaClass( );
+
+		buildSlots( );
+
+		buildTriggerDefnSet( );
+
+		isBuilt = true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
+	 */
+	protected void buildDefn( )  throws MetaDataException
+	{
 		// Handle parent-specific tasks.
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -642,27 +666,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			prop.setDetails( MetaDataConstants.STYLE_NAME );
 			prop.setIntrinsic( true );
 			addProperty( prop );
-		}
-
-		// Cache data for properties defined here. Note, done here so
-		// we don't repeat the work for any style properties copied below.
-
-		buildProperties( );
-
-		// If this item has a style, copy the relevant style properties onto
-		// this element if it's leaf element.
-
-		if ( hasStyle && !isContainer( ) )
-			addStyleProperties( );
-		else
-		{
-			// The meta-data file should not define style property names
-			// for a class without a style.
-
-			if ( !hasStyle && stylePropertyNames != null || hasStyle
-					&& isContainer( ) && stylePropertyNames != null )
-				throw new MetaDataException( new String[]{this.name},
-						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
 		}
 
 		// This element cannot forbid user-defined properties if
@@ -707,20 +710,28 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// elements.
 
 		if ( nameOption == MetaDataConstants.NO_NAME || isAbstract( ) )
-			allowExtend = false;
-
-		buildSlots( );
-
-		// check if the javaClass is valid for concrete element type
-
-		if ( !isAbstract( ) )
-			newInstance( );
-
-		buildTriggerDefnSet( );
-
-		isBuilt = true;
+			allowExtend = false;		
 	}
+	
+	protected void buildStyleProperties() throws MetaDataException
+	{
+		// If this item has a style, copy the relevant style properties onto
+		// this element if it's leaf element.
 
+		if ( hasStyle && !isContainer( ) )
+			addStyleProperties( );
+		else
+		{
+			// The meta-data file should not define style property names
+			// for a class without a style.
+
+			if ( !hasStyle && stylePropertyNames != null || hasStyle
+					&& isContainer( ) && stylePropertyNames != null )
+				throw new MetaDataException( new String[]{this.name},
+						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
+		}
+	}
+	
 	/**
 	 * Builds the trigger definition set. This method cached all validators
 	 * defined in property definition and slot definition. The cached validators
@@ -806,13 +817,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	}
 
 	/**
-	 * Creates an instance of the Java class that implements this element.
+	 * Check whether the java class specify a correct class which is defined for
+	 * this element definition.
 	 * 
 	 * @throws MetaDataException
 	 *             if there is loading error or instantiating error.
 	 */
 
-	private void newInstance( ) throws MetaDataException
+	private void checkJavaClass( ) throws MetaDataException
 	{
 		if ( StringUtil.isBlank( javaClass ) )
 		{
@@ -825,11 +837,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			Class c = Class.forName( javaClass );
 
 			if ( !( c.newInstance( ) instanceof DesignElement ) )
-
 				throw new MetaDataException(
 						new String[]{javaClass},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS );
-
 		}
 		catch ( ClassNotFoundException e )
 		{
@@ -842,7 +852,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			// can not initalize the java class instance, either javaclass is
 			// not a valid DesignElement or the class
-			// itself does not privide a default constructor.
+			// itself does not provide a default constructor.
 
 			throw new MetaDataException(
 					new String[]{name, javaClass},
@@ -852,7 +862,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			// ignore
 		}
-
 	}
 
 	/**

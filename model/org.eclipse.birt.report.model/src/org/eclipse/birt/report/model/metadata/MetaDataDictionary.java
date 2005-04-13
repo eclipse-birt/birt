@@ -33,10 +33,12 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * design element and its properties. The information is shared because all
  * designs share the same BIRT-provided set of design elements. See the
  * {@link IElementDefn}class for more detailed information.
+ * 
  * <h2>Meta-data Information</h2>
  * The application must first populate the elements from a meta-data XML file
  * using a parser defined in <code>MetaDataReader</code>. The meta-data
  * defined here includes:
+ * 
  * <p>
  * <dl>
  * <dt><strong>Property Types </strong></dt>
@@ -44,20 +46,24 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * variety of property types that include the basics such as strings and
  * numbers, as well as specialized types such as dimensions, points and colors.
  * See the {@link PropertyType PropertyType}class.</dd>
+ * 
  * <dt><strong>Element Definitions </strong></dt>
  * <dd>Describes the BIRT-defined elements. The element definition includes the
  * list of properties defined on that type, and optional properties "inherited"
  * from the style. See the {@link IElementDefn}class.</dd>
+ * 
  * <dt><strong>Standard Styles </strong></dt>
  * <dd>BIRT defines a set of standard styles. The set of styles goes along with
  * the set of elements. For example, a list header has a standard style as does
  * a list footer.</dd>
+ * 
  * <dt><strong>Class Definitions </strong></dt>
  * <dd>Describes the object types that are defined by JavaScript and BIRT. The
  * class definition includes constructor, members and methods. See the
  * {@link ClassInfo ClassDefn}class.</dd>
  * </dl>
  * <p>
+ * 
  * <h2>Enabling Object IDs</h2>
  * The model may be used in the web environment in which it is necessary to
  * identify elements using a unique ID separate from their object pointer. The
@@ -65,7 +71,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * object ID counter, as well as an id-to-element map. Because the map is
  * costly, it is enabled only if ID support is enabled in the data dictionary
  * object.
+ * 
  * <h2>Lifecycle</h2>
+ * 
  * Meta-data is built-up in a three-step process.
  * <p>
  * <ul>
@@ -378,6 +386,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * 
 	 * @param xmlName
 	 *            XML name for the property type
+	 * 
 	 * @return property type definition
 	 */
 
@@ -419,6 +428,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 *            the element type to add
 	 * @throws MetaDataException
 	 *             if exception occurs when adding the element definition.
+	 * 
 	 */
 
 	void addElementDefn( ElementDefn type ) throws MetaDataException

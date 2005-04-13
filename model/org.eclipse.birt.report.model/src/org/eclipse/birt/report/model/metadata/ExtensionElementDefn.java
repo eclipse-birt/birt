@@ -11,39 +11,30 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
+
 
 /**
- * Represents the extended definition based on our report item extension point.
+ * Represents the extension element definition based on Model extension point.
  * This class only used for those extension definition from third-party, not the
- * BIRT-defined standard elements. The extension definition must include an
- * instance of
- * {@link org.eclipse.birt.report.model.api.extension.IReportItemFactory}. The
- * included IElmentFactory gives the information about the internal, model
- * properties of that extension, how to instantiate
- * {@link org.eclipse.birt.report.model.api.extension.IReportItem}and other
- * information.
+ * Model-defined standard elements.
+ * 
+ * <h3>Property Visibility</h3>
+ * All extension element definition support property visibility, which defines
+ * to something like read-only, or hide. This is used to help UI display the
+ * property value or the entire property. When extension element defines the
+ * visibility for a Model-defined property, the property definition will be
+ * copied and overridden in this extension element definition.
  */
 
-public class ExtensionElementDefn extends ElementDefn
+public abstract class ExtensionElementDefn extends ElementDefn
 {
-
-	/**
-	 * The element factory of the extended element.
-	 */
-
-	protected IReportItemFactory elementFactory = null;
 
 	/**
 	 * The list contains the information that how the property sheet shows an
@@ -53,197 +44,11 @@ public class ExtensionElementDefn extends ElementDefn
 	protected Map propVisibilites = null;
 
 	/**
-	 * The list contains the cached system properties.
+	 * The list contains the overridden system properties. Each one is the instance
+	 * of <code>IPropertyDefn</code> whose visibility is modified.
 	 */
 
-	protected Map cachedSystemProps = null;
-
-	/**
-	 * Constructs the extended element with the internal and element factory.
-	 * 
-	 * @param name
-	 *            the name of the extended element definition
-	 * @param elementFactory
-	 *            the element factory of the extended element
-	 */
-
-	public ExtensionElementDefn( String name, IReportItemFactory elementFactory )
-	{
-		assert name != null;
-		assert elementFactory != null;
-		this.name = name;
-		this.elementFactory = elementFactory;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
-	 */
-
-	protected void build( ) throws MetaDataException
-	{
-		if ( isBuilt )
-			return;
-
-		if ( extendsFrom == null )
-			extendsFrom = ReportDesignConstants.REPORT_ITEM;
-
-		buildDefn( );
-
-		// Handle parent-specific tasks.
-
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-
-		if ( extendsFrom != null )
-		{
-			parent = (ElementDefn) dd.getElement( extendsFrom );
-			if ( parent == null )
-				throw new MetaDataException(
-						new String[]{extendsFrom, name},
-						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
-			parent.build( );
-
-			// Cascade the setting of whether this element has a style.
-			// That is, once an element has a style, all derived elements
-			// have that style whether the meta data file explicitly indicated
-			// this or not.
-
-			if ( parent.hasStyle( ) )
-				hasStyle = true;
-		}
-
-		// If this element has added a style, then add the intrinsic
-		// style property.
-
-		if ( ( parent == null || !parent.hasStyle( ) ) && hasStyle )
-		{
-			SystemPropertyDefn prop = new SystemPropertyDefn( );
-			prop.setName( StyledElement.STYLE_PROP );
-			prop.setType( dd.getPropertyType( PropertyType.ELEMENT_REF_TYPE ) );
-
-			prop.setDisplayNameID( "Element.ReportElement.style" ); //$NON-NLS-1$
-			prop.setDetails( MetaDataConstants.STYLE_NAME );
-			prop.setIntrinsic( true );
-			addProperty( prop );
-		}
-
-		// Cache data for properties defined here. Note, done here so
-		// we don't repeat the work for any style properties copied below.
-
-		buildProperties( );
-
-		// TODO: If this item has a style, copy the relevant style properties
-		// onto
-		// this element if it's leaf element.
-
-		// This element cannot forbid user-defined properties if
-		// its parent supports them.
-
-		if ( parent != null && parent.allowsUserProperties( ) )
-			supportsUserProperties = true;
-
-		// If this element is abstract and has a parent, then the parent
-		// must also be abstract.
-
-		if ( isAbstract( ) && parent != null && !parent.isAbstract( ) )
-			throw new MetaDataException( new String[]{name, parent.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT );
-
-		// Cascade the name space ID.
-
-		if ( parent != null )
-		{
-			nameSpaceID = parent.getNameSpaceID( );
-		}
-
-		// Validate that the name and name space options are consistent.
-
-		if ( !isAbstract( ) )
-		{
-			if ( nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-				nameOption = MetaDataConstants.NO_NAME;
-			if ( nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameOption == MetaDataConstants.NO_NAME )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
-		}
-
-		// The user can't extend abstract elements (only the design schema
-		// itself can extend abstract definitions. The user also cannot extend
-		// items without a name because there is no way to reference such
-		// elements.
-
-		if ( nameOption == MetaDataConstants.NO_NAME || isAbstract( ) )
-			allowExtend = false;
-
-		buildSlots( );
-
-		createCachedSystemProperties( );
-
-		// TODO: check if the javaClass is valid for concrete element type
-
-		isBuilt = true;
-	}
-
-	/*
-	 * Returns the properties only defined in extension element.
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#getProperties()
-	 */
-
-	public List getProperties( )
-	{
-		return getLocalProperties( );
-	}
-
-	/*
-	 * Returns the property only defined in extension element.
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#getProperty(java.lang.String)
-	 */
-
-	public IElementPropertyDefn getProperty( String propName )
-	{
-		assert propName != null;
-		SystemPropertyDefn prop = (SystemPropertyDefn) this.properties
-				.get( propName );
-		if ( prop != null )
-			return prop;
-		return null;
-	}
-
-	/**
-	 * Gets the element factory of the extended element.
-	 * 
-	 * @return the element factory of the extended element
-	 */
-
-	public IReportItemFactory getElementFactory( )
-	{
-		return this.elementFactory;
-	}
-
-	/*
-	 * Returns the localized display name, if non-empty string can be found with
-	 * resource key and <code> IMessages </code> . Otherwise, return name of
-	 * this element definition.
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#getDisplayName()
-	 */
-
-	public String getDisplayName( )
-	{
-		if ( displayNameKey != null && elementFactory.getMessages( ) != null )
-		{
-			String displayName = elementFactory.getMessages( ).getMessage(
-					displayNameKey, ThreadResources.getLocale( ) );
-			if ( !StringUtil.isBlank( displayName ) )
-				return displayName;
-		}
-
-		return getName( );
-	}
+	protected Map overriddenSystemProps = null;
 
 	/**
 	 * Adds an invisible property to the list.
@@ -262,17 +67,39 @@ public class ExtensionElementDefn extends ElementDefn
 		propVisibilites.put( propName, propVisibility );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
+	 */
+	protected void build( ) throws MetaDataException
+	{
+		if ( isBuilt )
+			return;
+
+		buildDefn( );
+
+		// Cache data for properties defined here. Note, done here so
+		// we don't repeat the work for any style properties copied below.
+
+		buildProperties( );
+
+		buildStyleProperties( );
+
+		buildOverriddenSystemProperties( );
+
+		isBuilt = true;
+	}
+
 	/**
-	 * Creates the cached system properties for <code>PropertyInvisible</code>
+	 * Creates the overridden system properties for <code>PropertyInvisible</code>
 	 * tags.
 	 */
 
-	private void createCachedSystemProperties( )
+	protected void buildOverriddenSystemProperties( )
 	{
 		if ( propVisibilites == null )
 			return;
-
-		// DO NOT override buildProperties(). It is only for semantic check.
 
 		for ( Iterator iter = propVisibilites.keySet( ).iterator( ); iter
 				.hasNext( ); )
@@ -284,18 +111,18 @@ public class ExtensionElementDefn extends ElementDefn
 			if ( sysDefn != null
 					&& ( sysDefn.isVisible( ) || !sysDefn.isReadOnly( ) ) )
 			{
-				if ( cachedSystemProps == null )
-					cachedSystemProps = new HashMap( );
+				if ( overriddenSystemProps == null )
+					overriddenSystemProps = new HashMap( );
 
 				SystemPropertyDefn defn = createPropertyDefn( sysDefn );
 				defn.setVisibility( (String) propVisibilites.get( propName ) );
-				cachedSystemProps.put( propName, defn );
+				overriddenSystemProps.put( propName, defn );
 			}
 		}
 	}
 
 	/**
-	 * Returns a cached system property definition.
+	 * Returns a overridden system property definition.
 	 * 
 	 * @param propName
 	 *            the property name
@@ -303,12 +130,64 @@ public class ExtensionElementDefn extends ElementDefn
 	 *         <code>propName</code>.
 	 */
 
-	public SystemPropertyDefn getCachedSystemProperty( String propName )
+	public SystemPropertyDefn getOverriddenSystemProperty( String propName )
 	{
-		if ( cachedSystemProps == null )
+		if ( overriddenSystemProps == null )
 			return null;
 
-		return (SystemPropertyDefn) cachedSystemProps.get( propName );
+		return (SystemPropertyDefn) overriddenSystemProps.get( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.IElementDefn#getProperties()
+	 */
+
+	public List getProperties( )
+	{
+		List props = super.getProperties( );
+
+		// Update the definition of the property whose visibility is modified.
+
+		List newProps = new ArrayList( );
+		for ( int i = 0; i < props.size( ); i++ )
+		{
+			ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
+			if ( !isMasked( prop.getName( ) ) )
+			{
+				// if extension redefined the property visibility, uses it.
+
+				SystemPropertyDefn overriddenDefn = getOverriddenSystemProperty( prop
+						.getName( ) );
+
+				if ( overriddenDefn != null )
+					newProps.add( overriddenDefn );
+				else
+					newProps.add( prop );
+			}
+		}
+
+		return newProps;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.IElementDefn#getProperty(java.lang.String)
+	 */
+
+	public IElementPropertyDefn getProperty( String propName )
+	{
+		IElementPropertyDefn propDefn = super.getProperty( propName );
+		if ( propDefn != null )
+		{
+			SystemPropertyDefn overriddenPropDefn = getOverriddenSystemProperty( propName );
+			if ( overriddenPropDefn != null )
+				propDefn = overriddenPropDefn;
+		}
+
+		return propDefn;
 	}
 
 	/**
@@ -352,4 +231,22 @@ public class ExtensionElementDefn extends ElementDefn
 
 		return newDefn;
 	}
+
+	/**
+	 * Checks whether the property has the mask defined by the peer extension
+	 * given the property name.
+	 * 
+	 * @param propName
+	 *            the property name to check
+	 * @return true if the style masks defined by peer extension of the item is
+	 *         found, otherwise false
+	 */
+
+	public boolean isMasked( String propName )
+	{
+		// TODO: the mask for style property is not supported now.
+
+		return false;
+	}
+
 }

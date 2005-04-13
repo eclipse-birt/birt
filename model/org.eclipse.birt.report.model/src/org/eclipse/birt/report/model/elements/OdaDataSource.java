@@ -15,14 +15,21 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.extension.AddOnExtensibilityProvider;
+import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
 /**
  * Represents an extended data source.
  */
 
-public class OdaDataSource extends DataSource
+public class OdaDataSource extends DataSource implements IExtendableElement
 {
 
 	/**
@@ -32,16 +39,27 @@ public class OdaDataSource extends DataSource
 	public static final String DRIVER_NAME_PROP = "driverName"; //$NON-NLS-1$
 
 	/**
-	 * The property name of public driver properties.
-	 */
-
-	public static final String PUBLIC_DRIVER_PROPERTIES_PROP = "publicDriverProperties"; //$NON-NLS-1$
-
-	/**
 	 * The property name of private driver properties.
 	 */
 
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
+
+	/**
+	 * ODA data source can support extension. It has a unique name to identify
+	 * the extension. Using this name, BIRT can get the extension definition.
+	 * The name is an internal name for an implementation of extension.
+	 * <p>
+	 * The name does not occur in a name space.
+	 */
+
+	protected String extensionName = null;
+
+	/**
+	 * The extensibility provider which provides the functionality of this
+	 * extendable element.
+	 */
+
+	private ExtensibilityProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -114,6 +132,105 @@ public class OdaDataSource extends DataSource
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.extension.IExtendable#getExtDefn()
+	 */
+
+	public ExtensionElementDefn getExtDefn( )
+	{
+		if ( provider != null )
+			return provider.getExtDefn( );
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
+	 */
+	
+	public List getPropertyDefns( )
+	{
+		if ( provider != null )
+			return provider.getPropertyDefns( );
+
+		return super.getPropertyDefns( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java.lang.String)
+	 */
+
+	public ElementPropertyDefn getPropertyDefn( String propName )
+	{
+		assert propName != null;
+
+		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
+		if ( propDefn != null && provider != null )
+		{
+			ElementPropertyDefn overridenProp = provider.getOverriddenPropertyDefn( propDefn.getName() );
+			if ( overridenProp != null )
+				propDefn = overridenProp;
+
+			return propDefn;
+		}
+
+		if ( provider != null )
+			return (ElementPropertyDefn)provider.getPropertyDefn( propName );
+
+		return propDefn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 */
+
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( EXTENSION_NAME_PROP.equals( propName ) )
+			return extensionName;
+		return super.getIntrinsicProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( EXTENSION_NAME_PROP.equals( propName ) )
+		{
+			extensionName = (String) value;
+			provider = new AddOnExtensibilityProvider( this, extensionName );
+		}
+		else
+		{
+			super.setIntrinsicProperty( propName, value );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	
+	public void checkExtends( DesignElement parent ) throws ExtendsException
+	{
+		super.checkExtends( parent );
+
+		if ( provider != null )
+			provider.checkExtends( parent );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
@@ -125,10 +242,9 @@ public class OdaDataSource extends DataSource
 				this, DRIVER_NAME_PROP ) );
 
 		list.addAll( validateStructureList( design,
-				PUBLIC_DRIVER_PROPERTIES_PROP ) );
-		list.addAll( validateStructureList( design,
 				PRIVATE_DRIVER_PROPERTIES_PROP ) );
 
 		return list;
 	}
+
 }

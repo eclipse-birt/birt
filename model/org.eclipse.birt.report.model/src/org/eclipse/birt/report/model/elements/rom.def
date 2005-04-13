@@ -1618,28 +1618,29 @@
     <Property name="extends" displayNameID="Element.ReportElement.extends" type="extends" isIntrinsic="true" propertyVisibility="hide" />
     <Property name="propertyMask" displayNameID="Element.ReportElement.propertyMask" type="structure" isList="true" detailType="PropertyMask"/>
   </Element>
-  <Element name="DataSource" displayNameID="Element.DataSource" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSource" isNameRequired="true">
+  <Element name="DataSource" displayNameID="Element.DataSource" isAbstract="true" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="dataSource" isNameRequired="true">
     <Method name="beforeOpen" displayNameID="Element.DataSource.beforeOpen" toolTipID="Element.DataSource.beforeOpen.toolTip" />
     <Method name="beforeClose" displayNameID="Element.DataSource.beforeClose" toolTipID="Element.DataSource.beforeClose.toolTip" />
     <Method name="afterOpen" displayNameID="Element.DataSource.afterOpen" toolTipID="Element.DataSource.afterOpen.toolTip" />
     <Method name="afterClose" displayNameID="Element.DataSource.afterClose" toolTipID="Element.DataSource.afterClose.toolTip" />
   </Element>
-  <Element name="OdaDataSource" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" displayNameID="Element.OdaDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
+  <Element name="OdaDataSource" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" displayNameID="Element.OdaDataSource" isAbstract="false" extends="DataSource" canExtend="false" isNameRequired="true">
+    <Property name="extensionName" displayNameID="Element.OdaDataSource.extensionName" type="string" isIntrinsic="true" propertyVisibility="hide"/>
     <Property name="driverName" type="string" displayNameID="Element.OdaDataSource.driverName" valueRequired="true" />
     <Property name="publicDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.publicDriverProperties" />
     <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" propertyVisibility="hide"/>
   </Element>
-  <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" allowsUserProperties="false" canExtend="false" isNameRequired="true">
+  <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" valueRequired="true" />
     <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" valueRequired="true" />
   </Element>
   <Element name="DataSet" displayNameID="Element.DataSet" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSet" isNameRequired="true">
+    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" valueRequired="true" />
     <Method name="beforeOpen" displayNameID="Element.DataSet.beforeOpen" toolTipID="Element.DataSet.beforeOpen.toolTip" />
     <Method name="beforeClose" displayNameID="Element.DataSet.beforeClose" toolTipID="Element.DataSet.beforeClose.toolTip" />
     <Method name="onFetch" displayNameID="Element.DataSet.onFetch" toolTipID="Element.DataSet.onFetch.toolTip" />
     <Method name="afterOpen" displayNameID="Element.DataSet.afterOpen" toolTipID="Element.DataSet.afterOpen.toolTip" />
     <Method name="afterClose" displayNameID="Element.DataSet.afterClose" toolTipID="Element.DataSet.afterClose.toolTip" />
-    <Property name="dataSource" type="element" displayNameID="Element.DataSet.dataSource" detailType="DataSource" valueRequired="true" />    
     <Property name="parameters" type="structure" isList="true" detailType="DataSetParam" displayNameID="Element.DataSet.parameters" />
     <Property name="paramBindings" type="structure" isList="true" detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" />
     <Property name="resultSet" type="structure" isList="true" detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" >
@@ -1650,13 +1651,14 @@
     <Property name="filter" type="structure" isList="true" detailType="FilterCond" displayNameID="Element.DataSet.filter" />
 	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" propertyVisibility="hide" />
   </Element>
-  <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
+  <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSet.open" toolTipID="Element.ScriptDataSet.open.toolTip" />
     <Method name="describe" displayNameID="Element.ScriptDataSet.describe" toolTipID="Element.ScriptDataSet.describe.toolTip" returnType="Column" />
     <Method name="fetch" displayNameID="Element.ScriptDataSet.fetch" toolTipID="Element.ScriptDataSet.fetch.toolTip" returnType="DataRow" valueRequired="true" />
     <Method name="close" displayNameID="Element.ScriptDataSet.close" toolTipID="Element.ScriptDataSet.close.toolTip" />
   </Element>
-  <Element name="OdaDataSet" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" displayNameID="Element.OdaDataSet" isAbstract="false" extends="DataSet" allowsUserProperties="false" canExtend="false" isNameRequired="true">
+  <Element name="OdaDataSet" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" displayNameID="Element.OdaDataSet" isAbstract="false" extends="DataSet" canExtend="false" isNameRequired="true">
+    <Property name="extensionName" displayNameID="Element.OdaDataSet.extensionName" type="string" isIntrinsic="true" propertyVisibility="hide"/>
     <Property name="queryText" type="string" displayNameID="Element.OdaDataSet.queryText" />
     <Property name="type" type="string" displayNameID="Element.OdaDataSet.type" />
     <Property name="resultSetName" type="string" displayNameID="Element.OdaDataSet.resultSetName" propertyVisibility="hide" />
@@ -2620,8 +2622,8 @@
     <StyleProperty name="wordSpacing" />
   </Element>
   <Element name="ExtendedItem" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" displayNameID="Element.ExtendedItem" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="extended-item">
-    <Property name="extension" displayNameID="Element.ExtendedItem.extension" type="string" isIntrinsic="true"/>
-    <Property name="extensionName" displayNameID="Element.ExtendedItem.extensionName" type="string" isIntrinsic="true"/>
+    <Property name="extension" displayNameID="Element.ExtendedItem.extension" type="string" isIntrinsic="true" propertyVisibility="hide"/>
+    <Property name="extensionName" displayNameID="Element.ExtendedItem.extensionName" type="string" isIntrinsic="true" propertyVisibility="hide"/>
   </Element>
   <Style name="report" displayNameID="Style.Report" reference="Overall default" />
   <Style name="list" displayNameID="Style.List" reference="List. Applies to all slots within the list" />

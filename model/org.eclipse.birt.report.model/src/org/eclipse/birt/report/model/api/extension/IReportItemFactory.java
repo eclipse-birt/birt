@@ -16,8 +16,10 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * Represents the peer extension itself. Provides metadata about the extension.
  * It has two parts: the extension (<code>IReportItemFactory</code>) and an
- * instance of the extension (<code>IReportItem</code>). This class
- * defines the meta-data that is the same across all instances.
+ * instance of the extension (<code>IReportItem</code>). This class defines
+ * the meta-data that is the same across all instances. The default constructor
+ * must be provided because extension loader will instantiate the class with
+ * default constructor.
  */
 
 public interface IReportItemFactory
@@ -31,7 +33,7 @@ public interface IReportItemFactory
 	 * @return true if inheritance is supported, false if not
 	 */
 
-	//boolean canInherit( );
+	// boolean canInherit( );
 	/**
 	 * Creates a new instance of the extended element given a handle to the BIRT
 	 * report element that represents the extended element.
@@ -52,7 +54,7 @@ public interface IReportItemFactory
 	 * @return true if the element support styles, false otherwise
 	 */
 
-	//boolean hasStyle( );
+	// boolean hasStyle( );
 	/**
 	 * Returns the set of style properties that this element supports. The
 	 * filter is optional. If null, BIRT assumes that the element supports all
@@ -62,21 +64,21 @@ public interface IReportItemFactory
 	 * @return the list of style properties that this element supports
 	 */
 
-	//Collection getStyleFilter( );
+	// Collection getStyleFilter( );
 	/**
 	 * Extended element can define additional style properties that are added to
 	 * all style elements. For example, a stoplight dashboard item may define a
 	 * new property for the shades of red, yellow and green to be used in the
 	 * stoplight. The list is optional. If the list is null, no new style
 	 * properties are defined. The names in the list must be unique. Use the
-	 * IPropertyDefinition interface to define the properties. Should return null if
-	 * the element does not support styles.
+	 * IPropertyDefinition interface to define the properties. Should return
+	 * null if the element does not support styles.
 	 * 
-	 * @return a collection of custom style properties defined as IPropertyDefinition
-	 *         objects
+	 * @return a collection of custom style properties defined as
+	 *         IPropertyDefinition objects
 	 */
 
-	//Collection getStyleProperties( );
+	// Collection getStyleProperties( );
 	/**
 	 * Element Extension that support styles can define a custom selector for
 	 * this element. The Factory will automatically apply the BIRT style cascade
@@ -85,7 +87,7 @@ public interface IReportItemFactory
 	 * @return the internal name of the default style for this element
 	 */
 
-	//String styleSelector( );
+	// String styleSelector( );
 	/**
 	 * Returns the <code>IMessages</code>, which can get localized message
 	 * for the given resource key and locale.
@@ -94,5 +96,5 @@ public interface IReportItemFactory
 	 */
 
 	IMessages getMessages( );
-	
+
 }

@@ -602,7 +602,7 @@ public class ElementFactory
 		if ( extDefn == null )
 			return null;
 		ExtendedItem element = new ExtendedItem( name );
-		element.setExtension( extensionName );
+		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
 		ExtendedItemHandle handle = element.handle( design );
 		try
 		{

@@ -24,6 +24,20 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 
 	private IMessages messages = null;
 
+	private String groupName = null;
+
+	/**
+	 * Sets the group name of this property definition.
+	 * 
+	 * @param groupName
+	 *            the group name to set
+	 */
+
+	public void setGroupName( String groupName )
+	{
+		this.groupName = groupName;
+	}
+
 	/**
 	 * Constructs the property definition with <code>IMessages</code> for
 	 * extension property.
@@ -45,13 +59,16 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
 	 */
+
 	public String getGroupName( )
 	{
-		if ( groupNameKey != null && messages != null )
-			return messages.getMessage( groupNameKey, ThreadResources
-					.getLocale( ) );
-
-		return null;
+		if ( groupNameKey != null )
+		{
+			if ( messages != null )
+				return messages.getMessage( groupNameKey, ThreadResources
+						.getLocale( ) );
+		}
+		return groupName;
 	}
 
 	/*

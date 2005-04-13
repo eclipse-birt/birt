@@ -368,22 +368,55 @@ public class DesignWriter extends ElementVisitor
 	public void visitOdaDataSource( OdaDataSource obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SOURCE_TAG );
+		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
+				OdaDataSource.EXTENSION_NAME_PROP );
 
 		super.visitOdaDataSource( obj );
 
 		property( obj, OdaDataSource.DRIVER_NAME_PROP );
 
 		List properties = (List) obj.getLocalProperty( design,
-				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP );
+				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 
-		properties = (List) obj.getLocalProperty( design,
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
-		writeExtendedProperties( properties,
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+		writeOdaExtensionProperties( obj, OdaDataSource.EXTENSION_NAME_PROP );
 
 		writer.endElement( );
+	}
+
+	private void writeOdaExtensionProperties( DesignElement obj,
+			String extensionNameProp )
+	{
+		ExtensionElementDefn extDefn = null;
+		if ( obj instanceof OdaDataSource )
+			extDefn = ( (OdaDataSource) obj ).getExtDefn( );
+		else if ( obj instanceof OdaDataSet )
+			extDefn = ( (OdaDataSet) obj ).getExtDefn( );
+
+		if ( extDefn == null )
+			return;
+
+		List list = extDefn.getLocalProperties( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			PropertyDefn prop = (PropertyDefn) list.get( i );
+			if ( OdaDataSource.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+				continue;
+
+			Object value = obj.getLocalProperty( design, prop.getName( ) );
+			if ( value != null )
+			{
+				if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
+					writeEntry( getTagByPropertyType( prop ), prop.getName( ),
+							prop.getXmlValue( design, value ), false );
+				else
+				{
+					writeEntry( getTagByPropertyType( prop ), prop.getName( ),
+							prop.getXmlValue( design, value ), true );
+				}
+			}
+		}
 	}
 
 	/**
@@ -512,17 +545,22 @@ public class DesignWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-				ExtendedItem.EXTENSION_PROP );
+				ExtendedItem.EXTENSION_NAME_PROP );
+		
 		super.visitExtendedItem( obj );
+		
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
 		{
 			// TODO: write the style properties
 
-			List list = extDefn.getProperties( );
+			List list = extDefn.getLocalProperties( );
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				PropertyDefn prop = (PropertyDefn) list.get( i );
+				if ( ExtendedItem.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+					continue;
+
 				Object value = obj.getLocalProperty( design, prop.getName( ) );
 				if ( value != null )
 				{
@@ -2197,6 +2235,8 @@ public class DesignWriter extends ElementVisitor
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );
+		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
+				OdaDataSet.EXTENSION_NAME_PROP );
 
 		super.visitOdaDataSet( obj );
 
@@ -2217,15 +2257,12 @@ public class DesignWriter extends ElementVisitor
 		propertyCDATA( obj, OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
 
 		List properties = (List) obj.getLocalProperty( design,
-				OdaDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
-		writeExtendedProperties( properties,
-				OdaDataSet.PUBLIC_DRIVER_PROPERTIES_PROP );
-
-		properties = (List) obj.getLocalProperty( design,
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 
+		writeOdaExtensionProperties( obj, OdaDataSet.EXTENSION_NAME_PROP );
+		
 		writer.endElement( );
 	}
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -23,7 +22,6 @@ import org.eclipse.birt.report.model.api.validators.TableDroppingValidator;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**

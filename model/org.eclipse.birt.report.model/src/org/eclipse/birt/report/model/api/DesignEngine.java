@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ExtensionLoader;
+import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
@@ -49,11 +49,12 @@ public final class DesignEngine
 	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
 
 	/**
-	 * Initializes the meta-data system. The application must call this method
-	 * once (and only once) before opening or creating a design. It is the
-	 * application's responsibility because the application will choose the
-	 * location to store the definition file, and that location may differ for
-	 * different applications.
+	 * Initializes the meta-data system and loads all extensions which
+	 * implements the extension pointers the model defines. The application must
+	 * call this method once (and only once) before opening or creating a
+	 * design. It is the application's responsibility because the application
+	 * will choose the location to store the definition file, and that location
+	 * may differ for different applications.
 	 * 
 	 * @param defnFileName
 	 *            name and location of the "rom.def" file that provides the
@@ -69,7 +70,7 @@ public final class DesignEngine
 		{
 			MetaDataReader.read( defnFileName );
 
-			ExtensionLoader.init( );
+			ExtensionManager.initialize( );
 
 			MetaLogManager.shutDown( );
 		}
@@ -82,11 +83,12 @@ public final class DesignEngine
 	}
 
 	/**
-	 * Initializes the meta-data system. The application must call this method
-	 * once (and only once) before opening or creating a design. It is the
-	 * application's responsibility because the application will choose the
-	 * location to store the definition file, and that location may differ for
-	 * different applications.
+	 * Initializes the meta-data system and loads all extensions which
+	 * implements the extension pointers the model defines. The application must
+	 * call this method once (and only once) before opening or creating a
+	 * design. It is the application's responsibility because the application
+	 * will choose the location to store the definition file, and that location
+	 * may differ for different applications.
 	 * 
 	 * @param is
 	 *            stream for reading the "rom.def" file that provides the
@@ -102,7 +104,7 @@ public final class DesignEngine
 		{
 			MetaDataReader.read( is );
 
-			ExtensionLoader.init( );
+			ExtensionManager.initialize( );
 
 			MetaLogManager.shutDown( );
 		}

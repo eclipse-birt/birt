@@ -19,7 +19,7 @@ import org.xml.sax.Attributes;
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
  * structure of a data set will be defined by a different team later.
- *  
+ * 
  */
 
 public class OdaDataSetState extends DataSetState
@@ -35,6 +35,8 @@ public class OdaDataSetState extends DataSetState
 	public OdaDataSetState( DesignParserHandler handler )
 	{
 		super( handler );
+
+		element = new OdaDataSet( );
 	}
 
 	/*
@@ -56,7 +58,8 @@ public class OdaDataSetState extends DataSetState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		element = new OdaDataSet( );
-		super.parseAttrs( attrs );
+		parseExtensionName( attrs );
+
+		initElement( attrs, true );
 	}
 }

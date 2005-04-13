@@ -39,10 +39,7 @@ public class ExtendedPropertyState extends StructureState
 		// till now, there is structure ODAProperty can be written as
 		// ex-property.
 
-		if ( OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
-				.equalsIgnoreCase( propDefn.getName( ) ) )
-			struct = new ExtendedProperty( );
-		else if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
+		if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
 				.equalsIgnoreCase( propDefn.getName( ) ) )
 			struct = new ExtendedProperty( );
 		else

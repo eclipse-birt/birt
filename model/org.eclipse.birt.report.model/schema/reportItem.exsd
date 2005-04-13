@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.model">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.model" id="reportItemModel" name="reportItemModel"/>
+      </appInfo>
+      <documentation>
+         This extension point is used to register an a new report element extension with the model and get information about the element
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="reportItem"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="reportItem">
+      <annotation>
+         <documentation>
+            Element definition
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="propertyGroup" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="styleProperty" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="method" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="propertyVisibility" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="extensionName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Internal unique name of the element
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="hasStyle" type="boolean">
+            <annotation>
+               <documentation>
+                  Flag to indicate if the element supports style.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultStyle" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isNameRequired" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the java class, that implements the IROMExtension interface.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  Resource key for display name
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="styleProperty">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="property">
+      <complexType>
+         <sequence>
+            <element ref="choice" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="string">
+                  </enumeration>
+                  <enumeration value="number">
+                  </enumeration>
+                  <enumeration value="integer">
+                  </enumeration>
+                  <enumeration value="dimension">
+                  </enumeration>
+                  <enumeration value="color">
+                  </enumeration>
+                  <enumeration value="choice">
+                  </enumeration>
+                  <enumeration value="boolean">
+                  </enumeration>
+                  <enumeration value="expression">
+                  </enumeration>
+                  <enumeration value="html">
+                  </enumeration>
+                  <enumeration value="messageId">
+                  </enumeration>
+                  <enumeration value="style">
+                  </enumeration>
+                  <enumeration value="dataSet">
+                  </enumeration>
+                  <enumeration value="page">
+                  </enumeration>
+                  <enumeration value="points">
+                  </enumeration>
+                  <enumeration value="uri">
+                  </enumeration>
+                  <enumeration value="dateTime">
+                  </enumeration>
+                  <enumeration value="xml">
+                  </enumeration>
+                  <enumeration value="name">
+                  </enumeration>
+                  <enumeration value="extends">
+                  </enumeration>
+                  <enumeration value="dataSource">
+                  </enumeration>
+                  <enumeration value="float">
+                  </enumeration>
+                  <enumeration value="element">
+                  </enumeration>
+                  <enumeration value="column">
+                  </enumeration>
+                  <enumeration value="variant">
+                  </enumeration>
+                  <enumeration value="structList">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="canInherit" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isStyleProperty" type="string" use="default" value="false">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="detailType" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultValue" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="propertyVisibility" type="string">
+            <annotation>
+               <documentation>
+                  Two options are: hide, readonly.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="propertyGroup">
+      <complexType>
+         <sequence>
+            <element ref="property" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="method">
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="argument"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="toolTipID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="returnType" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isStatic" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="argument">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="tagID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="choice">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="propertyVisibility">
+      <annotation>
+         <documentation>
+            To set the visible level of this property when it is shown in the property sheet.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="propertyVisibility" type="string">
+            <annotation>
+               <documentation>
+                  Two options are: hide, readonly.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;reportItem 
+	class=&quot;org.eclipse.birt.report.model.tests.matrix.ReportItemFactoryImpl&quot; 
+	isNameRequired=&quot;true&quot; 
+	extensionName=&quot;TestingMatrix&quot;
+	displayNameID=&quot;Element.TestingMatrix&quot;&gt;
+	&lt;property 
+		defaultValue=&quot;default test&amp;amp;&amp;quot;&amp;lt;&quot; 
+		type=&quot;string&quot; 
+		displayNameID=&quot;Element.TestingMatrix.test1&quot; 
+		name=&quot;test1&quot;/&gt;
+	&lt;property type=&quot;integer&quot; 
+		displayNameID=&quot;Element.TestingMatrix.test2&quot; 
+		canInherit=&quot;false&quot; 
+		name=&quot;test2&quot;/&gt;
+	&lt;property
+    	displayNameID=&quot;Element.TestingMatrix.test3&quot;
+	    name=&quot;test3&quot;
+    	propertyVisibility=&quot;hide&quot;
+    	type=&quot;xml&quot;/&gt;
+	&lt;property type=&quot;choice&quot; 
+		displayNameID=&quot;Element.TestingMatrix.test5&quot; 
+		canInherit=&quot;false&quot; 
+		name=&quot;test5&quot;&gt;
+		&lt;choice value=&quot;one&quot; 
+			displayNameID=&quot;Choices.test5.choice1&quot; 
+			name=&quot;choice1&quot;/&gt;
+		&lt;choice value=&quot;two&quot; 
+			displayNameID=&quot;Choices.test5.choice2&quot; 
+			name=&quot;choice2&quot;/&gt;
+		&lt;choice value=&quot;three&quot; 
+			displayNameID=&quot;Choices.test5.choice3&quot; 
+			name=&quot;choice3&quot;/&gt;
+	&lt;/property&gt;
+	&lt;propertyGroup name=&quot;group1&quot; 
+		displayNameID=&quot;Element.TestingMatrix.group1&quot;&gt;
+		&lt;property type=&quot;string&quot;
+			displayNameID=&quot;Element.TestingMatrix.test6&quot;
+			name=&quot;test6&quot;/&gt;
+		&lt;property type=&quot;integer&quot;
+			displayNameID=&quot;Element.TestingMatrix.test7&quot;
+			name=&quot;test7&quot;/&gt;
+	&lt;/propertyGroup&gt;
+    &lt;propertyVisibility name=&quot;bookmark&quot; propertyVisibility=&quot;hide&quot;/&gt;
+ 	&lt;propertyVisibility name=&quot;InvalidProperty&quot; propertyVisibility=&quot;hide&quot;/&gt;
+	&lt;propertyVisibility	name=&quot;dataSet&quot; propertyVisibility=&quot;readonly&quot;/&gt;
+&lt;/reportItem&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         /*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+      </documentation>
+   </annotation>
+
+</schema>
