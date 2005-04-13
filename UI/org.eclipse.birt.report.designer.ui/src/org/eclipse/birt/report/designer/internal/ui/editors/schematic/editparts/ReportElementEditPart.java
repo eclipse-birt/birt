@@ -56,7 +56,6 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
@@ -76,8 +75,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private static final int DELAY_TIME = 1600;
 	private DesignElementHandleAdapter peer;
-	private AbstractHandle guideHandle = null;
-	private boolean canDeleteGuide = true;
+	private AbstractGuideHandle guideHandle = null;
+	//private  static boolean canDeleteGuide = true;
 
 	/**
 	 * Constructor
@@ -100,29 +99,64 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		EditPart part = getParent( );
 		if ( part instanceof ReportElementEditPart )
 		{
-			return ( (ReportElementEditPart) part ).createGuideHandle( );
+			return ( (ReportElementEditPart) part ).getGuideHandle( );
 		}
 		return null;
+	}
+	
+	protected AbstractGuideHandle getGuideHandle()
+	{
+		if (guideHandle == null)
+		{
+			guideHandle = createGuideHandle();
+		}
+		return guideHandle;
 	}
 
 	/**
 	 * Adds the guide handle to the handle layer.
 	 *  
 	 */
-	public void addGuideFeedBack( )
+	public  void addGuideFeedBack( )
 	{
-		canDeleteGuide = false;
 		if ( guideHandle == null )
 		{
 			guideHandle = createGuideHandle( );
 		}
-		if ( guideHandle != null && guideHandle.getParent( ) == null )
+
+		if ( guideHandle != null && guideHandle != findHandle() )
 		{
 			clearGuideHandle( );
 			getHandleLayer( ).add( guideHandle );
 		}
+		else if (guideHandle != null && guideHandle == findHandle())
+		{
+			guideHandle.setCanDeleteGuide(false);
+		}
+		else if(guideHandle != null)
+		{
+			guideHandle.setCanDeleteGuide(true);
+		}
 	}
 
+	private AbstractGuideHandle findHandle()
+	{
+		IFigure layer = getHandleLayer( );
+		List list = layer.getChildren( );
+		List temp = new ArrayList( );
+		int size = list.size( );
+
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof AbstractGuideHandle )
+			{
+				return (AbstractGuideHandle)obj;
+			}
+		}
+
+		return null;
+	}
 	private void clearGuideHandle( )
 	{
 		IFigure layer = getHandleLayer( );
@@ -150,7 +184,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	/**
 	 * Removes the guide handle.
 	 */
-	public void removeGuideFeedBack( )
+	protected  void removeGuideFeedBack( )
 	{
 		if ( guideHandle != null
 				&& guideHandle.getParent( ) == getHandleLayer( ) )
@@ -165,12 +199,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public void delayRemoveGuideFeedBack( )
 	{
-		canDeleteGuide = true;
+		if (guideHandle != null)
+		{
+			guideHandle.setCanDeleteGuide(true);
+		}
 		Display.getCurrent( ).timerExec( DELAY_TIME, new Runnable( ) {
 
 			public void run( )
 			{
-				if ( canDeleteGuide )
+				if (guideHandle != null && guideHandle.isCanDeleteGuide() )
 				{
 					removeGuideFeedBack( );
 				}
@@ -221,6 +258,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 			public void mouseMoved( MouseEvent me )
 			{
+				addGuideFeedBack( );
 			}
 
 		} );

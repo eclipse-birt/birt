@@ -29,7 +29,7 @@ public abstract class AbstractGuideHandle extends AbstractHandle
 {
 
 	private boolean isInGuideHandle = false;
-	
+	private  boolean canDeleteGuide = true;
 
 	public AbstractGuideHandle( GraphicalEditPart owner, Locator loc )
 	{
@@ -96,5 +96,19 @@ public abstract class AbstractGuideHandle extends AbstractHandle
 	{
 		// TODO Auto-generated method stub
 		return super.findFigureAt( x, y, search );
+	}
+	/**
+	 * @return Returns the canDeleteGuide.
+	 */
+	public boolean isCanDeleteGuide( )
+	{
+		return canDeleteGuide;
+	}
+	/**
+	 * @param canDeleteGuide The canDeleteGuide to set.
+	 */
+	public void setCanDeleteGuide( boolean canDeleteGuide )
+	{
+		this.canDeleteGuide = canDeleteGuide;
 	}
 }
