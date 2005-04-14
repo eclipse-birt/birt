@@ -656,6 +656,7 @@ public class ElementFactory
 	 * @param name
 	 *            the required oda data source name.
 	 * @return a handle to oda data source
+	 * @deprecated
 	 */
 
 	public OdaDataSourceHandle newOdaDataSource( String name )
@@ -666,18 +667,72 @@ public class ElementFactory
 	}
 
 	/**
+	 * Creates a new oda data source. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.The
+	 * extension name is for the element to find the extension definition.
+	 * 
+	 * @param name
+	 *            the required oda data source name.
+	 * @return a handle to oda data source
+	 * 
+	 */
+
+	public OdaDataSourceHandle newOdaDataSource( String name,
+			String extensionName )
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( extensionName );
+		if ( extDefn == null )
+			return null;
+
+		OdaDataSource element = new OdaDataSource( name );
+		design.makeUniqueName( element );
+		element.setProperty( OdaDataSource.EXTENSION_NAME_PROP, extensionName );
+
+		return element.handle( design );
+	}
+
+	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
 	 *            the required oda data set name.
 	 * @return a handle to oda data set
+	 * @deprecated
 	 */
 
 	public OdaDataSetHandle newOdaDataSet( String name )
 	{
 		OdaDataSet element = new OdaDataSet( name );
 		design.makeUniqueName( element );
+		return element.handle( design );
+	}
+
+	/**
+	 * Creates a new oda data set. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it. The
+	 * extension name is for the element to find the extension definition.
+	 * 
+	 * @param name
+	 *            the required oda data set name.
+	 * @return a handle to oda data set
+	 * 
+	 */
+
+	public OdaDataSetHandle newOdaDataSet( String name, String extensionName )
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( extensionName );
+		if ( extDefn == null )
+			return null;
+
+		OdaDataSet element = new OdaDataSet( name );
+		design.makeUniqueName( element );
+		element.setProperty( OdaDataSource.EXTENSION_NAME_PROP, extensionName );
+
 		return element.handle( design );
 	}
 }

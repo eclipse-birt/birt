@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -123,11 +124,16 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.IExtendableElementHandle#getExtensionPropertyDefinitionList()
 	 */
-	
+
 	public List getExtensionPropertyDefinitionList( )
 	{
-		return ( (ExtendedItem) getElement( ) ).getExtDefn( )
-				.getLocalProperties( );
+		if ( ( (ExtendedItem) getElement( ) ).getExtDefn( ) != null )
+
+			return ( (ExtendedItem) getElement( ) ).getExtDefn( )
+					.getLocalProperties( );
+
+		return Collections.EMPTY_LIST;
+
 	}
 
 }

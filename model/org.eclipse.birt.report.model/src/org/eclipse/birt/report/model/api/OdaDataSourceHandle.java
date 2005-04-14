@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -147,7 +148,8 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public IElementDefn getDefn( )
 	{
-		ElementDefn extDefn = ( (IExtendableElement) getElement( ) ).getExtDefn( );
+		ElementDefn extDefn = ( (IExtendableElement) getElement( ) )
+				.getExtDefn( );
 		if ( extDefn != null )
 			return extDefn;
 
@@ -163,7 +165,12 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public List getExtensionPropertyDefinitionList( )
 	{
-		return ( (OdaDataSource) getElement( ) ).getExtDefn( )
-				.getLocalProperties( );
+		if ( ( (OdaDataSource) getElement( ) ).getExtDefn( ) != null )
+
+			return ( (OdaDataSource) getElement( ) ).getExtDefn( )
+					.getLocalProperties( );
+
+		return Collections.EMPTY_LIST;
+	
 	}
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -360,7 +361,11 @@ public class OdaDataSetHandle extends DataSetHandle
 
 	public List getExtensionPropertyDefinitionList( )
 	{
-		return ( (OdaDataSet) getElement( ) ).getExtDefn( )
-				.getLocalProperties( );
+		if ( ( (OdaDataSet) getElement( ) ).getExtDefn( ) != null )
+			
+			return ( (OdaDataSet) getElement( ) ).getExtDefn( )
+					.getLocalProperties( );
+		
+		return Collections.EMPTY_LIST;
 	}
 }
