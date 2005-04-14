@@ -52,8 +52,6 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		super( viewer );
 		this.actionRegistry = actionRegistry;
 
-		put( SWT.DEL, SWT.DEL, NO_MASK, ActionFactory.DELETE.getId( ) );
-
 		put( KeyStroke.getPressed( SWT.F2, 0 ),
 				actionRegistry.getAction( GEFActionConstants.DIRECT_EDIT) );
 		tableDelgate = new TableCellKeyDelegate( viewer );

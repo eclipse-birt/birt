@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -250,6 +251,10 @@ public class TableEditPart extends ReportElementEditPart implements
 				refreshChildren( );
 				refreshVisuals( );
 
+				if ( ((ContentEvent)ev).getAction() == ContentEvent.REMOVE )
+				{
+				    this.getViewer().select(this);
+				}
 				break;
 			}
 			case NotificationEvent.PROPERTY_EVENT :
