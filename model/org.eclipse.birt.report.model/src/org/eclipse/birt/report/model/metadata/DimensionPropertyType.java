@@ -279,7 +279,8 @@ public class DimensionPropertyType extends PropertyType
 	{
 		assert value != null;
 		String unit = value.getUnits( );
-		if ( isUnitRequired && StringUtil.isBlank( unit ) )
+		double measure = value.getMeasure( );
+		if ( Double.compare( 0.0, measure ) != 0 && isUnitRequired && StringUtil.isBlank( unit ) )
 		{
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
