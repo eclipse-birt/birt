@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.model.api.FormatHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -169,6 +170,30 @@ public class StylePreferenceStore implements IPreferenceStore
 	public float getFloat( String name )
 	{
 		return (float) ( (StyleHandle) model ).getFloatProperty( name );
+	}
+
+	/**
+	 *  
+	 */
+	public FormatHandle getStringFormat( )
+	{
+		return ( (StyleHandle) model ).getStringFormat( );
+	}
+
+	/**
+	 *  
+	 */
+	public FormatHandle getDateTimeFormat( )
+	{
+		return ( (StyleHandle) model ).getDateTimeFormat( );
+	}
+
+	/**
+	 *  
+	 */
+	public FormatHandle getNumberFormat( )
+	{
+		return ( (StyleHandle) model ).getNumberFormat( );
 	}
 
 	/*

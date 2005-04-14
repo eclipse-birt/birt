@@ -1190,4 +1190,31 @@ public class DEUtil
 		return result;
 	}
 
+	/**
+	 * Gets decimal string given the number of zeros.
+	 */
+	public static String getDecmalStr( int decPlaces )
+	{
+		String defaultDecs = "0000000000"; //$NON-NLS-1$
+		String decStr = ""; //$NON-NLS-1$
+		if ( decPlaces > 0 && decPlaces < 10 )
+		{
+			decStr = defaultDecs.substring( 0, decPlaces );
+		}
+		else if ( decPlaces >= 10 )
+		{
+			if ( decPlaces > 100 )
+			{
+				decPlaces = 100;
+			}
+			int divide = decPlaces / 10;
+			int remainder = decPlaces % 10;
+			for ( int i = 0; i < divide; i++ )
+			{
+				decStr = decStr + defaultDecs;
+			}
+			decStr = decStr + defaultDecs.substring( 0, remainder );
+		}
+		return decStr;
+	}
 }
