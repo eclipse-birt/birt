@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -42,7 +43,7 @@ import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
  * <p>
  * As with all meta-data objects, the set methods must be called only while
  * building the meta-data, before building the meta-data.
- *  
+ * 
  */
 
 public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
@@ -190,7 +191,28 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	public List getContentElements( )
 	{
-		return contentElements;
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		IElementDefn extendItem = dd
+				.getElement( ReportDesignConstants.EXTENDED_ITEM );
+
+		ArrayList contentsWithExtensions = new ArrayList( );
+		contentsWithExtensions.addAll( contentElements );
+
+		if ( contentElements.contains( extendItem ) )
+		{
+			contentsWithExtensions.remove( extendItem );
+
+			for ( int i = 0; i < dd.getExtensions( ).size( ); i++ )
+			{
+				ExtensionElementDefn extension = (ExtensionElementDefn) dd
+						.getExtensions( ).get( i );
+				if ( PeerExtensionLoader.EXTENSION_POINT
+						.equals( extension.extensionPoint ) )
+					contentsWithExtensions.add( extension );
+			}
+		}
+		return contentsWithExtensions;
+
 	}
 
 	/**

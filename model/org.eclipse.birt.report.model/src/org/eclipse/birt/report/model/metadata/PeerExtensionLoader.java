@@ -189,7 +189,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				throw new ExtensionException( new String[]{className},
 						ExtensionException.FAILED_TO_CREATE_INSTANCE );
 			}
-
+			elementDefn.extensionPoint = EXTENSION_POINT;
 			MetaDataDictionary.getInstance( ).addExtension( elementDefn );
 		}
 

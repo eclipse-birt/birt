@@ -49,6 +49,11 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	 */
 
 	protected Map overriddenSystemProps = null;
+	
+	/**
+	 * the extension point that this extension definition extended from.
+	 */
+	String extensionPoint = null;
 
 	/**
 	 * Adds an invisible property to the list.
