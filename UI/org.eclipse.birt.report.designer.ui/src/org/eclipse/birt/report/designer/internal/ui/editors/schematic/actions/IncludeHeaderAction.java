@@ -40,7 +40,7 @@ public class IncludeHeaderAction extends InsertRowAction
 	{
 		super( part );
 		setId( ID );
-		setChecked( true );
+		//		setChecked( true );
 		setText( ACTION_MSG_INCLUDE_HEADER );
 	}
 
@@ -51,7 +51,22 @@ public class IncludeHeaderAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return true;
+		if ( getTableEditPart( ) != null )
+		{
+			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
+			return adapt != null
+					&& !adapt.hasSlotHandleRow( TableHandleAdapter.HEADER );
+		}
+		return false;
+	}
+
+	/**
+	 * Runs this action.
+	 */
+	public void run( )
+	{
+		getTableEditPart( ).includeSlotHandle( true, TableHandleAdapter.HEADER );
 	}
 
 	/*
@@ -59,17 +74,17 @@ public class IncludeHeaderAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
-	public void update( )
-	{
-		super.update( );
-		if ( getTableEditPart( ) != null )
-		{
-			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
-			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.HEADER ) );
-		}
-	}
-
+	//	public void update( )
+	//	{
+	//		super.update( );
+	//		if ( getTableEditPart( ) != null )
+	//		{
+	//			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+	//					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
+	//			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.HEADER ) );
+	//		}
+	//	}
+	//
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -85,12 +100,4 @@ public class IncludeHeaderAction extends InsertRowAction
 		return part;
 	}
 
-	/**
-	 * Runs this action.
-	 */
-	public void run( )
-	{
-		getTableEditPart( ).includeSlotHandle( isChecked( ),
-				TableHandleAdapter.HEADER );
-	}
 }

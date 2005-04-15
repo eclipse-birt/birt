@@ -45,7 +45,16 @@ public class InsertRowBelowAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getRowHandles( ).size( ) == 1;
+		if ( getRowHandles( ).size( ) == 1 )
+		{
+			return true;
+			//			String type = HandleAdapterFactory.getInstance( )
+			//					.getRowHandleAdapter( getRowHandles( ).get( 0 ) )
+			//					.getType( );
+			//			return type != null
+			//					&& type.equals( TableHandleAdapter.TABLE_DETAIL );
+		}
+		return false;
 	}
 
 	/**
