@@ -165,7 +165,8 @@ public class DimensionPropertyType extends PropertyType
 		String unit = defn.getDefaultUnit( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		assert design != null;
+		if ( design == null )
+			return DimensionValue.DEFAULT_UNIT;
 		return design.getSession( ).getUnits( );
 	}
 
@@ -263,11 +264,13 @@ public class DimensionPropertyType extends PropertyType
 	/**
 	 * Validates the unit of the dimension value, checks to see if it is in the
 	 * allowed units set.
-	 * 
+	 * @param design
+	 * 		the report design 
 	 * @param defn
 	 *            property definition.
 	 * @param value
 	 *            the dimension value of the dimension.
+	 * @param isUnitRequired
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
 	 *  
@@ -280,7 +283,7 @@ public class DimensionPropertyType extends PropertyType
 		assert value != null;
 		String unit = value.getUnits( );
 		double measure = value.getMeasure( );
-		if ( Double.compare( 0.0, measure ) != 0 && isUnitRequired && StringUtil.isBlank( unit ) )
+		if ( Double.compare( 0, measure ) != 0 && isUnitRequired && StringUtil.isBlank( unit ) )
 		{
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
@@ -293,7 +296,7 @@ public class DimensionPropertyType extends PropertyType
 		IChoiceSet units = defn.getAllowedChoices( );
 
 		assert units != null;
-		if ( !units.contains( unit ) )
+		if ( !StringUtil.isBlank( unit ) && !units.contains( unit ) )
 		{
 			// unit not allowed.
 
