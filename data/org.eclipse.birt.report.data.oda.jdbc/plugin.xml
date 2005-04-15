@@ -25,7 +25,8 @@
             odaVersion="2.0"
             driverName="jdbc"
             connectionFactoryClass="org.eclipse.birt.report.data.oda.jdbc.JDBCConnectionFactory"
-            setThreadContextClassLoader="false">
+            setThreadContextClassLoader="false"
+            displayName="JDBC Data Source">
          <providerInfo
                providerOrg="Eclipse.org"
                applicationName="BIRT JDBC-ODA Bridge Driver"
