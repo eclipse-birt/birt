@@ -439,24 +439,31 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 
 	private boolean isModified( )
 	{
-		boolean isDirty = false;
+		String c = getCategory( );
+		String p = getPatternStr( );
+		if ( oldCategory == null )
+		{
+			if ( c != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldCategory.equals( c ) )
+		{
+			return true;
+		}
 		if ( oldPattern == null )
 		{
-			isDirty = getPatternStr( ) != null;
+			if ( p != null )
+			{
+				return true;
+			}
 		}
-		else if ( oldCategory == null )
+		else if ( !oldPattern.equals( p ) )
 		{
-			isDirty = getCategory( ) != null;
+			return true;
 		}
-		else if ( !oldPattern.equals( getPatternStr( ) ) )
-		{
-			isDirty = true;
-		}
-		else if ( !oldCategory.equals( getCategory( ) ) )
-		{
-			isDirty = true;
-		}
-		return isDirty;
+		return false;
 	}
 
 	private void refreshCurrencySetting( FormatCurrencyNumPattern pattern )
