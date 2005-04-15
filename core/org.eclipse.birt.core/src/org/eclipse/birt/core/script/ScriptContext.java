@@ -19,11 +19,12 @@ import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/15 03:07:31 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/12 03:16:23 $
  */
 public class ScriptContext
 {
@@ -63,8 +64,8 @@ public class ScriptContext
 			context.setWrapFactory( new BIRTWrapFactory( ) );
 
 			//register BIRT defined static objects into script context
-			NativeFinance.init( context, scope, true );
-			NativeDateTimeSpan.init( context, scope, true );
+			ScriptableObject.defineClass(scope, NativeFinance.class);
+			ScriptableObject.defineClass(scope, NativeDateTimeSpan.class);
 		}
 		catch ( Exception ex )
 		{
