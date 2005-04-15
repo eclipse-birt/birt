@@ -143,7 +143,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		IFigure layer = getHandleLayer( );
 		List list = layer.getChildren( );
-		List temp = new ArrayList( );
 		int size = list.size( );
 
 		for ( int i = 0; i < size; i++ )
