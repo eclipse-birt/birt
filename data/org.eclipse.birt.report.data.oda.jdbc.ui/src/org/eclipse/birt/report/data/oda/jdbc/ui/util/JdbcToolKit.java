@@ -19,9 +19,11 @@ import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 /**
@@ -35,15 +37,15 @@ public class JdbcToolKit
 
 	// class path used for obtaining a connection using a jdbc driver
 	private static ArrayList jdbcDriverLocations = null;
-    
-    private static Class driverClass = Driver.class;
+
+	private static Class driverClass = Driver.class;
 
 	private static boolean implementsSQLDriver( Class aClass )
 	{
-        if(driverClass.isAssignableFrom(aClass))
-        {
-            return true;
-        }
+		if ( driverClass.isAssignableFrom( aClass ) )
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -74,6 +76,15 @@ public class JdbcToolKit
 		return (String[]) jarEntries.toArray( new String[jarEntries.size( )] );
 	}
 
+	/**
+	 * Resets cached jdbc driver list to null, force reget the infomation when
+	 * required next time.
+	 */
+	public static void resetJdbcDriverNames( )
+	{
+		jdbcDrivers = null;
+	}
+
 	/*
 	 * Returns a List jdbc Drivers. The Drivers are searched from predefined
 	 * directories in the DTE plug-in. Currently it is assumed that the jdbc
@@ -85,19 +96,20 @@ public class JdbcToolKit
 		if ( jdbcDrivers == null )
 		{
 			jdbcDrivers = new ArrayList( );
-            URL[] classPathURLs = getJdbcDriverClassPathURLS(driverName);
+			URL[] classPathURLs = getJdbcDriverClassPathURLS( driverName );
 			try
 			{
-                JDBCDriverInformation info = JDBCDriverInformation.getInstance("sun.jdbc.odbc.JdbcOdbcDriver", classPathURLs);
+				JDBCDriverInformation info = JDBCDriverInformation.getInstance( "sun.jdbc.odbc.JdbcOdbcDriver",
+						classPathURLs );
 				// Adding the odbc-jdbc driver
-                info.setUrlFormat("jdbc:odbc:<data source name>");
+				info.setUrlFormat( "jdbc:odbc:<data source name>" );
 				jdbcDrivers.add( info ); //$NON-NLS-1$
 			}
 			catch ( Exception e )
 			{
 
 			}
-            JdbcDriverConfigUtil driverConfigUtil = null;
+			JdbcDriverConfigUtil driverConfigUtil = null;
 
 			File[] driverFiles = null;
 			try
@@ -113,120 +125,140 @@ public class JdbcToolKit
 			Class aClass = null;
 
 			jdbcDriverLocations = new ArrayList( );
-            
-            if(driverFiles != null)
-            {
-                URL[] urlList = new URL[driverFiles.length];
 
-                // Create a URL Array for the class loader to use
-                for ( int i = 0; i < driverFiles.length; i++ )
-                {
-                    try
-                    {
-                        urlList[i] = new URL( "file:///" //$NON-NLS-1$
-                                + driverFiles[i].getAbsolutePath( ) );
-                        jdbcDriverLocations.add( driverFiles[i].getAbsolutePath( ) );
-                    }
-                    catch ( MalformedURLException e )
-                    {
-                        ExceptionHandler.handle( e );
-                    }
+			if ( driverFiles != null )
+			{
+				URL[] urlList = new URL[driverFiles.length];
 
-                }
+				// Create a URL Array for the class loader to use
+				for ( int i = 0; i < driverFiles.length; i++ )
+				{
+					try
+					{
+						urlList[i] = new URL( "file:///" //$NON-NLS-1$
+								+ driverFiles[i].getAbsolutePath( ) );
+						jdbcDriverLocations.add( driverFiles[i].getAbsolutePath( ) );
+					}
+					catch ( MalformedURLException e )
+					{
+						ExceptionHandler.handle( e );
+					}
 
-                URLClassLoader urlClassLoader = new URLClassLoader( urlList,
-                        ClassLoader.getSystemClassLoader( ) );
-                for ( int i = 0; i < driverFiles.length; i++ )
-                {
+				}
 
-                    if ( driverFiles[i].getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
-                    {
-                        try
-                        {
-                            String[] resourceNames = getJarFileEntries( driverFiles[i] );
-                            for ( int j = 0; j < resourceNames.length; j++ )
-                            {
-                                String resourceName = resourceNames[j];
-                                if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
-                                {
-                                    try
-                                    {
-                                        resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
-                                                "." ) ).substring( 0, //$NON-NLS-1$
-                                                resourceName.length( ) - 6 );
-                                        aClass = urlClassLoader.loadClass( resourceName );
-                                    }
-                                    catch ( Throwable e )
-                                    {
+				URLClassLoader urlClassLoader = new URLClassLoader( urlList,
+						ClassLoader.getSystemClassLoader( ) );
+				for ( int i = 0; i < driverFiles.length; i++ )
+				{
 
-                                    }
+					if ( driverFiles[i].getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
+					{
+						try
+						{
+							String[] resourceNames = getJarFileEntries( driverFiles[i] );
+							for ( int j = 0; j < resourceNames.length; j++ )
+							{
+								String resourceName = resourceNames[j];
+								if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
+								{
+									try
+									{
+										resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
+												"." ) ).substring( 0, //$NON-NLS-1$
+												resourceName.length( ) - 6 );
+										aClass = urlClassLoader.loadClass( resourceName );
+									}
+									catch ( Throwable e )
+									{
 
-                                    if ( aClass != null )
-                                    {
-                                        if ( implementsSQLDriver( aClass ) )
-                                        {
+									}
 
-                                            // Do not add it, if it is a Abstract
-                                            // class
-                                            int modifier = aClass.getModifiers( );
-                                            boolean isAbstract = Modifier.isAbstract( modifier );
+									if ( aClass != null )
+									{
+										if ( implementsSQLDriver( aClass ) )
+										{
 
-                                            if ( !isAbstract )
-                                            {
-                                                JDBCDriverInformation info = JDBCDriverInformation.getInstance(aClass, classPathURLs);
-                                                if(driverConfigUtil != null)
-                                                {
-                                                    info.setUrlFormat(driverConfigUtil.getURLFormat(info.getDriverClassName()));
-                                                }
-                                                jdbcDrivers.add( info );
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch ( Throwable e )
-                        {
+											// Do not add it, if it is a
+											// Abstract
+											// class
+											int modifier = aClass.getModifiers( );
+											boolean isAbstract = Modifier.isAbstract( modifier );
 
-                        }
+											if ( !isAbstract )
+											{
+												JDBCDriverInformation info = JDBCDriverInformation.getInstance( aClass,
+														classPathURLs );
+												if ( driverConfigUtil != null )
+												{
+													info.setUrlFormat( driverConfigUtil.getURLFormat( info.getDriverClassName( ) ) );
+												}
+												jdbcDrivers.add( info );
+											}
+										}
+									}
+								}
+							}
+						}
+						catch ( Throwable e )
+						{
 
-                    }
-                }
-            }
+						}
+
+					}
+				}
+			}
+
+			//read user setting from the preference store and update.
+			Map userMap = JdbcDriverManagerDialog.getPreferenceDriverInfo( );
+
+			for ( Iterator itr = jdbcDrivers.iterator( ); itr.hasNext( ); )
+			{
+				JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
+
+				if ( userMap.containsKey( info.toString( ) ) )
+				{
+					String[] vals = (String[]) userMap.get( info.toString( ) );
+
+					if ( vals[1] != null && vals[1].length( ) > 0 )
+					{
+						info.setUrlFormat( vals[1] );
+					}
+				}
+			}
 
 		}
 		return jdbcDrivers;
 	}
-    
-    public static URL[] getJdbcDriverClassPathURLS(String driverName)
-    {
-        if ( jdbcDriverLocations == null )
-        {
-            getJdbcDriverNames( driverName );
-        }
-        
-        try
-        {
-            if(jdbcDriverLocations != null)
-            {
-                URL[] urls = new URL[jdbcDriverLocations.size()];
-                int n = 0;
-                Iterator iter = jdbcDriverLocations.iterator();
-                while(iter.hasNext())
-                {
-                        urls[n++] = new URL( "file:///" + DriverLoader.escapeCharacters( (String)iter.next() ) ); //$NON-NLS-1$
-                }
-                return urls;
-            }
-        }
-        catch (MalformedURLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        return new URL[]{};
-    }
+
+	public static URL[] getJdbcDriverClassPathURLS( String driverName )
+	{
+		if ( jdbcDriverLocations == null )
+		{
+			getJdbcDriverNames( driverName );
+		}
+
+		try
+		{
+			if ( jdbcDriverLocations != null )
+			{
+				URL[] urls = new URL[jdbcDriverLocations.size( )];
+				int n = 0;
+				Iterator iter = jdbcDriverLocations.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					urls[n++] = new URL( "file:///" + DriverLoader.escapeCharacters( (String) iter.next( ) ) ); //$NON-NLS-1$
+				}
+				return urls;
+			}
+		}
+		catch ( MalformedURLException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+		return new URL[]{};
+	}
 
 	public static String getJdbcDriverClassPath( String driverName )
 	{
@@ -244,7 +276,8 @@ public class JdbcToolKit
 			while ( itor.hasNext( ) )
 			{
 				driverLocation = driverLocation
-						+ (String) ( itor.next( ) ) + ";"; //$NON-NLS-1$
+						+ (String) ( itor.next( ) )
+						+ ";"; //$NON-NLS-1$
 			}
 		}
 

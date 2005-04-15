@@ -112,7 +112,7 @@ public class TableLayoutHelper
 		{
 			for ( int i = 0; i < size; i++ )
 			{
-				hintWidth[i] = minWidth[i];
+				hintWidth[i] = Math.max( minWidth[i], hintWidth[i] );
 			}
 
 			return hintWidth;

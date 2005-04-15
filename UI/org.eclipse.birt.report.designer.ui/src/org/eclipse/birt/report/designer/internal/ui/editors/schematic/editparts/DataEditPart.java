@@ -29,9 +29,11 @@ public class DataEditPart extends LabelEditPart
 {
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
+	private static final String FIGURE_EXPRESSION_TEXT = Messages.getString( "DataEditPart.Figure.Expression" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor
+	 * 
 	 * @param model
 	 */
 	public DataEditPart( Object model )
@@ -80,6 +82,10 @@ public class DataEditPart extends LabelEditPart
 		if ( text == null || text.length( ) == 0 )
 		{
 			text = FIGURE_DEFAULT_TEXT;
+		}
+		else
+		{
+			text = FIGURE_EXPRESSION_TEXT;
 		}
 		return text;
 	}

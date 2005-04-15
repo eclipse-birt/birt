@@ -55,6 +55,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 
 	/**
 	 * Set predefined column widths.
+	 * 
 	 * @param widthValues
 	 */
 	public void setDefinedColWidth( String[] widthValues )
@@ -74,6 +75,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 
 	/**
 	 * Set width of table.
+	 * 
 	 * @param width
 	 */
 	public void setTableWidth( float width )
@@ -109,7 +111,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 		{
 			for ( int i = 0; i < tableWidthValues.length; i++ )
 			{
-				tableWidthValues[i] = colMinSize;
+				tableWidthValues[i] = Math.max( colMinSize, tableWidthValues[i] );
 			}
 
 			return;
@@ -142,14 +144,14 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 		{
 			amt = amt + tableWidthValues[i];
 		}
-		
+
 		//amt < table mini with
 		//make every column be minisize
-		if(tableWidth <= colNum * colMinSize)
+		if ( tableWidth <= colNum * colMinSize )
 		{
 			for ( int i = 0; i < tableWidthValues.length; i++ )
 			{
-					tableWidthValues[i] = colMinSize;
+				tableWidthValues[i] = Math.max( colMinSize, tableWidthValues[i] );
 			}
 		}
 		else
@@ -165,9 +167,9 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 						tableWidthValues[i] = colMinSize;
 					}
 				}
-	
+
 				amt = 0;
-	
+
 				for ( int i = 0; i < tableWidthValues.length; i++ )
 				{
 					amt = amt + tableWidthValues[i];
@@ -340,7 +342,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 		return null;
 	}
 
-	/** 
+	/**
 	 * @see org.eclipse.birt.report.designer.util.ITableLayoutCalculator#getIntRowHeight()
 	 */
 	public float[] getIntRowHeight( )

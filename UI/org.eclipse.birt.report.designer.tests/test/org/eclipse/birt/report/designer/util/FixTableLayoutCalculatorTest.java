@@ -300,5 +300,49 @@ public class FixTableLayoutCalculatorTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
+
+	public void testCalWidthCase16( )
+	{
+		String[] width = new String[3];
+		width[0] = "20";
+		width[1] = "30";
+		width[2] = "11.9098";
+
+		calculator.setTableWidth( 0 );
+		calculator.setDefinedColWidth( width );
+		calculator.setColMinSize( 15 );
+		try
+		{
+			doCheck( 10, 10 );
+		}
+		catch ( NumberFormatException e )
+		{
+			fail( "catch the exception" );
+
+			e.printStackTrace( );
+		}
+	}
+	
+	public void testCalWidthCase17( )
+	{
+		String[] width = new String[3];
+		width[0] = "20";
+		width[1] = "30";
+		width[2] = "40";
+
+		calculator.setTableWidth( 0 );
+		calculator.setDefinedColWidth( width );
+		calculator.setColMinSize( 15 );
+		try
+		{
+			doCheck( 10, 10 );
+		}
+		catch ( NumberFormatException e )
+		{
+			fail( "catch the exception" );
+
+			e.printStackTrace( );
+		}
+	}
 	
 }
