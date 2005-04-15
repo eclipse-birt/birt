@@ -14,7 +14,10 @@ package org.eclipse.birt.report.designer.core.model;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.WeakHashMap;
 
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -37,12 +40,14 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 
 public class SessionHandleAdapter
 {
+	//add field support mediator
+	private Map mediatorMap = new WeakHashMap();
+	
 
 	/**
 	 * constructor
-	 *  
+	 * Mark it to private to avoid new opeartion.
 	 */
-
 	private SessionHandleAdapter( )
 	{
 
@@ -211,5 +216,28 @@ public class SessionHandleAdapter
 		Iterator iter = slotHandle.iterator( );
 		return (MasterPageHandle) iter.next( );
 	}
-
+	
+	/**
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	public ReportMediator getMediator(ReportDesignHandle handle)
+	{
+		ReportMediator mediator = (ReportMediator)mediatorMap.get(handle);
+		if (mediator == null)
+		{
+			mediator = new ReportMediator();
+			mediatorMap.put(handle, mediator);
+		}
+		return mediator;
+	}
+	
+	/**
+	 * @return
+	 */
+	public ReportMediator getMediator()
+	{
+		return getMediator(getReportDesignHandle());
+	}
 }
