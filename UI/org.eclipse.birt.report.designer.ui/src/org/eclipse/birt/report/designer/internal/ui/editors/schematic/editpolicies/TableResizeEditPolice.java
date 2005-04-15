@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
@@ -25,7 +26,7 @@ import org.eclipse.gef.Request;
  * This is the resize policy to provide support for Table resize
  *  
  */
-public class TableResizeEditPolice extends ReportElementResizePolicy
+public class TableResizeEditPolice extends ReportElementResizePolicy implements ISelectionHandlesEditPolicy
 {
 
 	/*
@@ -70,6 +71,11 @@ public class TableResizeEditPolice extends ReportElementResizePolicy
 		handles = null;
 	}
 
+	// Return the handles currently shown in the handle layer
+	public List getHandles()
+	{
+	    return handles;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

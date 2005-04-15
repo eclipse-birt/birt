@@ -12,22 +12,32 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.ReportDeferredUpdateManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableResizeEditPolice;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Locator;
+import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Handle;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.ui.parts.DomainEventDispatcher;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -202,5 +212,64 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	protected DomainEventDispatcher getEventDispatcher( )
 	{
 		return eventDispatcher;
+	}
+	
+	// We override reveal to show the Handles of the selected EditPart when scrolling
+	public void reveal(EditPart part)
+	{
+	   
+		Viewport port = getFigureCanvas().getViewport();
+		IFigure target = ((GraphicalEditPart)part).getFigure();
+
+		Rectangle exposeRegion = target.getBounds().getCopy();
+		
+		// Get the primary editpolicy
+		EditPolicy policy = part.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+		
+		// If the policy let us access the handles, proceed, otherwise
+		// default to original behaviour
+		if ( ! (policy instanceof ISelectionHandlesEditPolicy ))
+		{ 
+		    super.reveal(part);
+		    return;
+		}
+
+		// First translate exposeRegion to the root level
+		target = target.getParent();
+		while (target != null && target != port) {
+			target.translateToParent(exposeRegion);
+			target = target.getParent();
+		}
+		
+		//	Merge selection handles if any to the exposeRegion
+		List handles = ((TableResizeEditPolice)policy).getHandles();
+		for (Iterator iter = handles.iterator();iter.hasNext();)
+		{
+		    AbstractHandle handle = (AbstractHandle)iter.next();
+		    
+		    Locator locator = handle.getLocator();
+		    locator.relocate( handle );
+		    exposeRegion.union(handle.getBounds().getCopy());
+		}
+		
+		exposeRegion.getExpanded(5, 5);
+		
+		Dimension viewportSize = port.getClientArea().getSize();
+
+		Point topLeft = exposeRegion.getTopLeft();
+		Point bottomRight = exposeRegion.getBottomRight().translate(viewportSize.getNegated());
+		Point finalLocation = new Point();
+		if (viewportSize.width < exposeRegion.width)
+			finalLocation.x = Math.min(bottomRight.x, Math.max(topLeft.x, port.getViewLocation().x));
+		else
+			finalLocation.x = Math.min(topLeft.x, Math.max(bottomRight.x, port.getViewLocation().x));
+
+		if (viewportSize.height < exposeRegion.height)
+			finalLocation.y = Math.min(bottomRight.y, Math.max(topLeft.y, port.getViewLocation().y));
+		else
+			finalLocation.y = Math.min(topLeft.y, Math.max(bottomRight.y, port.getViewLocation().y));
+
+		
+		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);	
 	}
 }
