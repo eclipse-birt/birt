@@ -503,7 +503,6 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * 
 	 * @return the default units for the design.
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
-	 * @deprecated
 	 */
 
 	public String getDefaultUnits( )
@@ -531,7 +530,6 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *             if the input unit is not one of allowed.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
-	 * @deprecated
 	 */
 
 	public void setDefaultUnits( String units ) throws SemanticException
@@ -1041,7 +1039,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		int pos = findImagePos( name );
 		if ( pos < 0 )
 			throw new PropertyValueException( getElement( ),
-					(ElementPropertyDefn) propHandle.getPropertyDefn( ), name,
+					propHandle.getPropertyDefn( ), name,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( pos );

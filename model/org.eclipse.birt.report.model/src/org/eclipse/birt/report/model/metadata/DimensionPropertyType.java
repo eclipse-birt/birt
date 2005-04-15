@@ -167,6 +167,9 @@ public class DimensionPropertyType extends PropertyType
 			return unit;
 		if ( design == null )
 			return DimensionValue.DEFAULT_UNIT;
+		unit = design.getUnits( );
+		if ( !StringUtil.isBlank( unit ) )
+			return unit;
 		return design.getSession( ).getUnits( );
 	}
 

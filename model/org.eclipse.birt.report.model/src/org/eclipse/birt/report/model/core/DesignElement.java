@@ -1038,8 +1038,11 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 		if ( prop.isIntrinsic( ) )
 		{
 			// This is an intrinsic system-defined property.
-
-			return getIntrinsicProperty( prop.getName( ) );
+			
+			Object value = getIntrinsicProperty( prop.getName( ) );
+			if ( value != null )
+				return value;
+			return prop.getDefault( );
 		}
 
 		// Repeat the search up the inheritance or style

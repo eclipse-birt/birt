@@ -472,6 +472,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
+			unit = getDesign( ).getUnits( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
 			return getDesign( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;

@@ -298,6 +298,9 @@ public class DimensionHandle extends ComplexValueHandle
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
+			unit = getDesign( ).getUnits( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
 			return getDesign( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;

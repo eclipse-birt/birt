@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -294,10 +293,9 @@ public class ReportDesign extends RootElement
 
 	/**
 	 * The default units for the design.
-	 * @deprecated
 	 */
 
-	protected String units = DesignChoiceConstants.UNITS_IN;
+	protected String units = null;
 
 	/**
 	 * Accumulates errors and warnings during a batch operation.
@@ -851,7 +849,9 @@ public class ReportDesign extends RootElement
 	protected Object getIntrinsicProperty( String propName )
 	{
 		if ( propName.equals( UNITS_PROP ) )
+		{
 			return units;
+		}
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -874,12 +874,13 @@ public class ReportDesign extends RootElement
 	 * Gets the default units for the design.
 	 * 
 	 * @return the default units used in the design
-	 * @deprecated
 	 */
 
 	public String getUnits( )
 	{
-		return null;
+		if ( !StringUtil.isBlank( units ) )
+			return units;
+		return (String)getPropertyDefn( ReportDesign.UNITS_PROP ).getDefault( );
 	}
 
 	/**

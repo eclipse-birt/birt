@@ -1523,6 +1523,9 @@
     <Property name="author" displayNameID="Element.ReportDesign.author" type="string" canInherit="false" />
     <Property name="helpGuide" displayNameID="Element.ReportDesign.helpGuide" type="uri" canInherit="false" />
     <Property name="createdBy" displayNameID="Element.ReportDesign.createdBy" type="string" canInherit="false" />
+    <Property name="units" displayNameID="Element.ReportDesign.units" type="choice" detailType="units" canInherit="false" isIntrinsic="true">
+      <Allowed>in,cm,mm,pt,pc</Allowed>
+    </Property>
     <Property name="refreshRate" displayNameID="Element.ReportDesign.refreshRate" type="integer" canInherit="false" propertyVisibility="hide" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
