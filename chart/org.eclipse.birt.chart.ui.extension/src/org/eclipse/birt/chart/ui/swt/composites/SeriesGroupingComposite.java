@@ -193,8 +193,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         this.lblType.setEnabled(bEnableUI);
         this.cmbType.setEnabled(bEnableUI);
 
-        this.lblInterval.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
-        this.iscInterval.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
+        this.lblInterval.setEnabled(bEnableUI);
+        this.iscInterval.setEnabled(bEnableUI);
 
         // Populate grouping unit combo (applicable only if type is Date/Time
         cmbUnit.add("Seconds"); //$NON-NLS-1$
@@ -225,8 +225,8 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             cmbAggregate.setText(grouping.getAggregateExpression());
         }
         cmbAggregate.select(0);
-        lblAggregate.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
-        cmbAggregate.setEnabled(bEnableUI & !cmbType.getText().equals("Text"));
+        lblAggregate.setEnabled(bEnableUI);
+        cmbAggregate.setEnabled(bEnableUI);
     }
 
     private SeriesGrouping getGrouping()
@@ -253,15 +253,14 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             getGrouping().setGroupType(cmbType.getText());
 
             boolean bEnableUI = btnEnabled.getSelection();
-            boolean bText = cmbType.getText().equals("Text");
             boolean bDate = cmbType.getText().equals("Date/Time");
 
             lblUnit.setEnabled(bEnableUI & bDate);
             cmbUnit.setEnabled(bEnableUI & bDate);
-            lblInterval.setEnabled(bEnableUI & !bText);
-            iscInterval.setEnabled(bEnableUI & !bText);
-            lblAggregate.setEnabled(bEnableUI & !bText);
-            cmbAggregate.setEnabled(bEnableUI & !bText);
+            lblInterval.setEnabled(bEnableUI);
+            iscInterval.setEnabled(bEnableUI);
+            lblAggregate.setEnabled(bEnableUI);
+            cmbAggregate.setEnabled(bEnableUI);
         }
         else if (oSource.equals(cmbUnit))
         {
@@ -279,15 +278,14 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             lblType.setEnabled(bEnableUI);
             cmbType.setEnabled(bEnableUI);
 
-            boolean bText = cmbType.getText().equals("Text");
             boolean bDate = cmbType.getText().equals("Date/Time");
 
             lblUnit.setEnabled(bEnableUI & bDate);
             cmbUnit.setEnabled(bEnableUI & bDate);
-            lblInterval.setEnabled(bEnableUI & !bText);
-            iscInterval.setEnabled(bEnableUI & !bText);
-            lblAggregate.setEnabled(bEnableUI & !bText);
-            cmbAggregate.setEnabled(bEnableUI & !bText);
+            lblInterval.setEnabled(bEnableUI);
+            iscInterval.setEnabled(bEnableUI);
+            lblAggregate.setEnabled(bEnableUI);
+            cmbAggregate.setEnabled(bEnableUI);
         }
     }
 
