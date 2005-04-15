@@ -86,8 +86,13 @@ public class ImageManager
 	 */
 	public Image getImage( ReportDesignHandle handle, String name )
 	{
+		String key = name + EMBEDDED_SUFFIX + name;
 		EmbeddedImage embeddedImage = handle.findImage( name );
-		String key = embeddedImage.getName( ) + EMBEDDED_SUFFIX + name;
+		if ( embeddedImage == null )
+		{
+			getImageRegistry( ).remove( key );
+			return null;
+		}
 		Image image = getImageRegistry( ).get( key );
 		if ( image != null )
 		{
