@@ -81,7 +81,9 @@
 	<property name="data.dir" value="../org.eclipse.birt.data" />
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
 	<property name="designer.core.dir" value="../org.eclipse.birt.report.designer.core" />	
-	<property name="designer.ui.dir" value="../org.eclipse.birt.report.designer.ui" />		
+	<property name="designer.ui.dir" value="../org.eclipse.birt.report.designer.ui" />	
+	<property name="oda.jdbc.dir" value="../org.eclipse.birt.report.data.oda.jdbc" />		
+	<property name="oda.jdbc.jar" value="oda-jdbc.jar" />		
 	<property name="jar.name" value="jdbc.jar"/>
 
 	<property name="arch" value="x86" />	
@@ -141,6 +143,9 @@
 		</fileset>
 		<fileset dir="${designer.ui.dir}/lib">
 			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${oda.jdbc.dir}">
+			<include name="${oda.jdbc.jar}" />
 		</fileset>
 	</path>
 		
@@ -234,6 +239,9 @@
 	</target>
 	
 	<target name="buildDependents">
+		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}"/>
+		</ant>
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}"/>
 		</ant>
