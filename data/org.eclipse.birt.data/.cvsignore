@@ -4,5 +4,5 @@ DTETest
 *.log
 doc
 dte.jar
-oda.jar
-
+junit*
+utestreports
