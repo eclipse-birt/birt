@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.report.data.oda.jdbc" id="driverinfo" name="JDBC Driver Information Extension"/>
       </appInfo>
       <documentation>
-         An extension to supply additional information about a JDBC driver available to the JDBC-ODA Bridge. The information provided for a JDBC driver by this extension include: Driver class name (which uniquely identifies the driver in the BIRT environment), a display-friendly driver name, a URL template to help report desinger compose a data source connection URL, and a list of JAR files that make up the driver.
+         An extension to supply additional information about a JDBC driver available to the JDBC-ODA Bridge. The information provided for a JDBC driver by this extension include: Driver class name (which uniquely identifies the driver in the BIRT environment), a display-friendly driver name and a URL template to help report desinger compose a data source connection URL.
       </documentation>
    </annotation>
 
@@ -47,7 +47,6 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="driverBinary" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string">
             <annotation>
@@ -70,23 +69,6 @@
             <annotation>
                <documentation>
                   A template string to help the user compose a proper URL accepted by the JDBD driver. For example: &quot;jdbc:odbc:&lt;odbc-data-source-name&gt;[;&lt;attribute-name&gt;=&lt;attribute-value&gt;]*&quot;
-               </documentation>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="driverBinary">
-      <annotation>
-         <documentation>
-            A binary file (e.g., a JAR library) required by the JDBC driver. Note that this entry is informational only. All the JAR libraries required by the JDBC driver must also be added to the plug-in manifest&apos;s runtime section in order for them to be loaded at runtime.
-         </documentation>
-      </annotation>
-      <complexType>
-         <attribute name="file" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Name of the binary file.
                </documentation>
             </annotation>
          </attribute>
@@ -116,7 +98,6 @@
             driverClass=&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;
             urlTemplate=&quot;jdbc:derby:[subsubprotocol:][databasename][;attributes]&quot;
             name=&quot;Apache Derby Embedded Driver&quot;&gt;
-         &lt;driverBinary file=&quot;derby.jar&quot;/&gt;
       &lt;/jdbcDriver&gt;
    &lt;/extension&gt;
       </documentation>
