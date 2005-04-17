@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Build script for project org.eclipse.birt.report.data.oda.sampledb
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Compile source code and generate jars for this project.
+ *          The compile dependency on other projects should be defined explicitly.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
+ * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *
+ * Default target is "Jar".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ * 
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *    1. 04/15/2005: initial version
+ *
+-->
+
+<project name="Sample Database" default="Jar" basedir=".">
+	<description>BIRT Sample Database Plugin</description>
+	<!-- set global properties for this build -->
+	<!-- Public properties, used by public targets, top level build script
+		     will pass on the value at runtime. Properties will have there default
+		     value.
+
+		     eclipse.home
+		     utest.report.dir
+		     javadoc.dir
+		     plugin.version 
+	-->
+	<property file="build.properties" /> 
+	<property file="../birt-build.properties" /> 
+	
+	<!-- ===== Default value for public properties ============= -->
+	<property name="module.name" value="org.eclipse.birt.report.data.oda.sampledb"/>
+
+	<path id="class.path">
+		<pathelement path="${dir.bin}" />
+		<fileset dir="${dir.lib}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${birt.core.dir}">
+			<include name="${birt.core.jar}"/>
+		</fileset>
+		<fileset dir="${oda.dir}">
+			<include name="${oda.jar}"/>
+		</fileset>
+		<fileset dir="${oda.jdbc.dir}">
+			<include name="${oda.jdbc.jar}"/>
+		</fileset>
+		<fileset dir="${oda.jdbc.ui.dir}">
+			<include name="${oda.jdbc.ui.jar}"/>
+		</fileset>
+		<fileset dir="${designer.ui.dir}">
+			<include name="${designer.ui.jar}"/>
+		</fileset>
+		<fileset dir="${model.dir}">
+			<include name="${model.jar}"/>
+		</fileset>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.jface*/jface.jar" /> 
+		</fileset>
+	</path>
+	
+
+	<!-- Compile source code and generate jar for this project.
+		 Input parameters:
+		 	eclipse.home
+
+	-->
+	<target name="Jar" depends="compileSource">
+		<jar destfile="${plugin.jar}">
+			<fileset dir="${dir.bin}">
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<!-- Export the project, for instance, jar files are copied to a designated folder
+		 the dependency on Jar should implement in top level script by call sequence	
+		 Parameters:
+		 		- ${export.dir} target directory to put the plugin binaries
+		 		- ${plugin.version} the version of plugin exported
+	 -->
+	<target name="Export">
+	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
+	        <fileset dir="." 
+	        	includes="*.jar,plugin.xml,plugin.properties,${db.dir}/${db.name}/**"/>
+	    </copy>
+	</target>
+
+	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
+	<!-- Run Unit test.
+			 Parameters:
+			 		- ${utest.report.dir} target directory to put the unit test report
+	-->	
+	<target name="UnitTest" description="run all the unit tests" />
+	
+	<!-- Clean all objects created by this script -->
+	<target name="Clean" description="clean up">
+		<!-- Delete the ${dir.bin} and ${dir.utest} directory trees -->
+		<delete dir="${dir.bin}" />
+		<delete dir="${dir.utest}" />
+		<delete>
+			<fileset dir="." includes="*junit*" />
+		</delete>
+		<!-- Delete the target jar file -->
+		<delete file="${plugin.jar}" />
+	</target>
+	
+	<target name="Javadoc" />
+	
+	<target name="buildDependency">
+		<echo message="start call Jar task in ${oda.dir}"/>
+		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritAll="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>				
+		<ant dir="${model.dir}" antfile="BuildModel.xml" target="Jar" inheritAll="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
+		  <property name="eclipse.home" value="${eclipse.home}" /> 
+		</ant> 
+		<ant dir="${oda.jdbc.ui.dir}" antfile="BuildOdaUI.xml" target="Jar" inheritAll="false">
+		  <property name="eclipse.home" value="${eclipse.home}" /> 
+		</ant> 
+	</target>
+	
+	<target name="compileSource" depends="buildDependency" description="compile the source ">
+		<mkdir dir="${dir.bin}" />
+
+		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
+		<javac srcdir="${dir.src}" 
+			   destdir="${dir.bin}" 
+			   encoding="utf-8" 
+			   source="1.4" 
+			   debug="true">
+			<classpath refid="class.path" />
+		</javac>
+	</target>
+
+</project>
+

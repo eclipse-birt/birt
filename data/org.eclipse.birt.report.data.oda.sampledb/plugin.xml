@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.data.oda.sampledb"
+   name="BIRT Sample Database"
+   version="1.0.0"
+   provider-name="Eclipse.org">
+
+   <runtime>
+      <library name="sampledb.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui"/>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.core"/>
+   </requires>
+   <extension
+         point="org.eclipse.birt.data.oda.odaDriverRuntime">
+      <odaDriverRuntime
+            odaVersion="2.0"
+            driverName="sampledb"
+            connectionFactoryClass="org.eclipse.birt.report.data.oda.sampledb.SampleDBConnectionFactory"
+            setThreadContextClassLoader="false">
+         <providerInfo
+               providerOrg="Eclipse.org"
+               applicationName="BIRT SampleDB Driver"
+               providerURL="http://www.eclipse.org"
+               copyrightNotice="Copyright (c) 2004-2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html"
+               version="1.0"/>
+         <dataSetType name="JdbcSelectDataSet">
+            <dataTypeMapping
+                  nativeDataType="BIT"
+                  nativeDataTypeCode="-7"
+                  odaScalarDataType="Integer"/>
+            <dataTypeMapping
+                  nativeDataType="TINYINT"
+                  nativeDataTypeCode="-6"
+                  odaScalarDataType="Integer"/>
+            <dataTypeMapping
+                  nativeDataType="SMALLINT"
+                  nativeDataTypeCode="5"
+                  odaScalarDataType="Integer"/>
+            <dataTypeMapping
+                  nativeDataType="INTEGER"
+                  nativeDataTypeCode="4"
+                  odaScalarDataType="Integer"/>
+            <dataTypeMapping
+                  nativeDataType="BIGINT"
+                  nativeDataTypeCode="-5"
+                  odaScalarDataType="Decimal"/>
+            <dataTypeMapping
+                  nativeDataType="FLOAT"
+                  nativeDataTypeCode="6"
+                  odaScalarDataType="Double"/>
+            <dataTypeMapping
+                  nativeDataType="REAL"
+                  nativeDataTypeCode="7"
+                  odaScalarDataType="Double"/>
+            <dataTypeMapping
+                  nativeDataType="DOUBLE"
+                  nativeDataTypeCode="8"
+                  odaScalarDataType="Double"/>
+            <dataTypeMapping
+                  nativeDataType="NUMERIC"
+                  nativeDataTypeCode="2"
+                  odaScalarDataType="Decimal"/>
+            <dataTypeMapping
+                  nativeDataType="DECIMAL"
+                  nativeDataTypeCode="3"
+                  odaScalarDataType="Decimal"/>
+            <dataTypeMapping
+                  nativeDataType="CHAR"
+                  nativeDataTypeCode="1"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="VARCHAR"
+                  nativeDataTypeCode="12"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="LONGVARCHAR"
+                  nativeDataTypeCode="-1"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="DATE"
+                  nativeDataTypeCode="91"
+                  odaScalarDataType="Date"/>
+            <dataTypeMapping
+                  nativeDataType="TIME"
+                  nativeDataTypeCode="92"
+                  odaScalarDataType="Time"/>
+            <dataTypeMapping
+                  nativeDataType="TIMESTAMP"
+                  nativeDataTypeCode="93"
+                  odaScalarDataType="Timestamp"/>
+            <dataTypeMapping
+                  nativeDataType="BINARY"
+                  nativeDataTypeCode="-2"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="VARBINARY"
+                  nativeDataTypeCode="-3"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="LONGVARBINARY"
+                  nativeDataTypeCode="-4"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="BOOLEAN"
+                  nativeDataTypeCode="16"
+                  odaScalarDataType="Integer"/>
+          </dataSetType>
+      </odaDriverRuntime>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.designer.ui.odadatasource">
+      <odaDataSourceUI
+            name="sampledb"
+            displayName="%datasource.name">
+         <odaDataSetUI
+               name="JdbcSelectDataSet"
+               displayName="%dataset.jdbcselect">
+            <newDataSetWizard class="org.eclipse.birt.report.data.oda.sampledb.SampleDataSetWizard"/>
+            <dataSetEditorPage
+                  class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
+                  path="/"
+                  displayName="%dataset.editor.page.query"
+                  name="org.eclipse.birt.report.data.oda.sampledb.data-set-editor-page"/>
+         </odaDataSetUI>
+      </odaDataSourceUI>
+    </extension>
+
+</plugin>
