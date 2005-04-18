@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -281,7 +280,8 @@ public abstract class ReportElementState extends DesignParseState
 	 *            the SAX attributes object
 	 */
 
-	protected void parseExtensionName( Attributes attrs )
+	protected void parseExtensionName( Attributes attrs,
+			boolean extensionNameRequired )
 	{
 		DesignElement element = getElement( );
 
@@ -292,9 +292,15 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( StringUtil.isBlank( extensionName ) )
 		{
-			RecoverableError.dealMissingInvalidExtension( handler,
-					new SemanticError( element,
-							SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
+			if ( extensionNameRequired )
+				RecoverableError
+						.dealMissingInvalidExtension(
+								handler,
+								new SemanticError(
+										element,
+										SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
+			else
+				return;
 		}
 		else
 		{
@@ -316,6 +322,6 @@ public abstract class ReportElementState extends DesignParseState
 
 		// here is for the deprecate property name "extension"
 
-		setProperty( OdaDataSet.EXTENSION_NAME_PROP, extensionName );
+		setProperty( DesignSchemaConstants.EXTENSION_NAME_ATTRIB, extensionName );
 	}
 }

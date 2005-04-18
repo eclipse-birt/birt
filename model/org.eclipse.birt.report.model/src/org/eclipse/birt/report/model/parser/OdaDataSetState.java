@@ -58,7 +58,7 @@ public class OdaDataSetState extends DataSetState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		parseExtensionName( attrs );
+		parseExtensionName( attrs, false );
 
 		initElement( attrs, true );
 	}
