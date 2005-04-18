@@ -224,7 +224,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
-			checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
 			checkRequiredAttribute( TYPE_ATTRIB, type );
 
 			PropertyType propType = MetaDataDictionary.getInstance( )

@@ -230,8 +230,7 @@ public abstract class ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
-			checkRequiredAttribute( DISPLAY_NAME_ID_ATTRIB, displayNameID );
-
+		
 			choice.setName( name );
 			choice.setValue( value );
 			choice.setDisplayNameKey( displayNameID );
