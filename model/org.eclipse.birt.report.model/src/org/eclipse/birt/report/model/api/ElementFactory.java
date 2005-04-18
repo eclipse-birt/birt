@@ -669,7 +669,12 @@ public class ElementFactory
 	/**
 	 * Creates a new oda data source. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.The
-	 * extension name is for the element to find the extension definition.
+	 * extension name is for the element to find the extension definition.If the
+	 * extension name is not given, the oda data source will be created as a ROM
+	 * element.If the extension name is given, the check will be done for the
+	 * name. Null will be returned if the extension name is not found in the
+	 * metadata dictionary.
+	 * 
 	 * 
 	 * @param name
 	 *            the required oda data source name.
@@ -680,12 +685,14 @@ public class ElementFactory
 	public OdaDataSourceHandle newOdaDataSource( String name,
 			String extensionName )
 	{
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( extensionName );
-		if ( extDefn == null )
-			return null;
-
+		if ( extensionName != null )
+		{
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+					.getExtension( extensionName );
+			if ( extDefn == null )
+				return null;
+		}
 		OdaDataSource element = new OdaDataSource( name );
 		design.makeUniqueName( element );
 		element.setProperty( OdaDataSource.EXTENSION_NAME_PROP, extensionName );
@@ -713,7 +720,12 @@ public class ElementFactory
 	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it. The
-	 * extension name is for the element to find the extension definition.
+	 * extension name is for the element to find the extension definition. If
+	 * the extension name is not given, the oda data set will be created as a
+	 * ROM element.If the extension name is given, the check will be done for
+	 * the name. Null will be returned if the extension name is not found in the
+	 * metadata dictionary.
+	 * 
 	 * 
 	 * @param name
 	 *            the required oda data set name.
@@ -723,12 +735,14 @@ public class ElementFactory
 
 	public OdaDataSetHandle newOdaDataSet( String name, String extensionName )
 	{
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( extensionName );
-		if ( extDefn == null )
-			return null;
-
+		if ( extensionName != null )
+		{
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+					.getExtension( extensionName );
+			if ( extDefn == null )
+				return null;
+		}
 		OdaDataSet element = new OdaDataSet( name );
 		design.makeUniqueName( element );
 		element.setProperty( OdaDataSource.EXTENSION_NAME_PROP, extensionName );
