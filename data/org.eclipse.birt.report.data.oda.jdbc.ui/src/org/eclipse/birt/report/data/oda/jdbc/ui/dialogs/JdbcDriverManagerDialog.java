@@ -407,7 +407,7 @@ public class JdbcDriverManagerDialog extends Dialog
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			//ignore.
 		}
 		catch ( ClassNotFoundException e )
 		{
@@ -445,7 +445,7 @@ public class JdbcDriverManagerDialog extends Dialog
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			//ignore.
 		}
 		catch ( ClassNotFoundException e )
 		{
