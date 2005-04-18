@@ -17,6 +17,7 @@
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.birt.report.model"/>
    </requires>
    
    <extension-point id="driverinfo" name="JDBC Driver Information Extension" 
@@ -139,5 +140,41 @@
             driverClass="com.ibm.db2.jcc.DB2Driver"
             urlTemplate="jdbc:derby:net://&lt;server&gt;[:&lt;port&gt;]/&lt;databaseName&gt;[;&lt;attr&gt;=&lt;value&gt; ]*"
             name="Apache Derby Network (IBM DB2 Universal Driver)"/>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.model.odaDriverModel">
+	  <odaDataSource
+            messageFile="messages"
+            extensionName="jdbc">
+         <propertyGroup
+               displayNameID="Element.jdbc.connectionProperties"
+               name="connectionProperties">
+            <property
+                  type="string"
+                  displayNameID="Element.jdbc.driverclass"
+                  canInherit="true"
+                  name="ODA:driver-class"/>
+            <property
+                  type="string"
+                  displayNameID="Element.jdbc.url"
+                  canInherit="true"
+                  name="ODA:url"/>
+            <property
+                  type="string"
+                  displayNameID="Element.jdbc.datasource"
+                  canInherit="true"
+                  name="ODA:data-source"/>
+            <property
+                  type="string"
+                  displayNameID="Element.jdbc.username"
+                  canInherit="true"
+                  name="ODA:user"/>
+            <property
+                  type="string"
+                  displayNameID="Element.jdbc.password"
+                  canInherit="true"
+                  name="ODA:password"/>
+         </propertyGroup>
+      </odaDataSource>
    </extension>
 </plugin>
