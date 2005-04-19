@@ -144,7 +144,7 @@
    <extension
          point="org.eclipse.birt.report.model.odaDriverModel">
 	  <odaDataSource
-            messageFile="messages"
+            messageFile="org.eclipse.birt.report.data.oda.jdbc.messages"
             extensionName="jdbc">
          <propertyGroup
                displayNameID="Element.jdbc.connectionProperties"
