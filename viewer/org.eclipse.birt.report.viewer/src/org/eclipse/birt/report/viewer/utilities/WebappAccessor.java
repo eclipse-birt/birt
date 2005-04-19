@@ -164,7 +164,7 @@ public class WebappAccessor
 		{
 			String webappLocation = Platform.asLocalURL( Platform.resolve( webappURL ) )
 					.getFile( );
-			webappLocation += "birt-viewer/"; //$NON-NLS-1$
+			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
 		}
 		catch ( IOException ioe )
