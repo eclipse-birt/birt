@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
+import org.eclipse.birt.chart.exception.ValidationException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -96,7 +97,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * the various chart components. Series type extensions could subclass this
  * class if they plan on rendering everything for themselves in the plot area.
  */
-public abstract class BaseRenderer
+public abstract class BaseRenderer implements ISeriesRenderer
 {
 
     protected static final String TIMER = "T"; //$NON-NLS-1$
@@ -292,15 +293,6 @@ public abstract class BaseRenderer
     }
 
     /**
-     * 
-     * @param bo
-     * @param p
-     * @param isrh
-     * @throws GenerationException
-     */
-    public abstract void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws GenerationException;
-
-    /**
      * Renders all blocks using the appropriate block z-order and the containment hierarchy.
      * 
      * @param bo
@@ -419,19 +411,6 @@ public abstract class BaseRenderer
             htRenderers.remove(TIMER);
         }
     }
-
-    /**
-     * Each of the individual series renderers will have to implement their own graphic element rendering routines
-     * w.r.t. the plot background and axes that are drawn at different Z-indices.
-     * 
-     * This is rendered with Z-order=1
-     * 
-     * @param ipr
-     * @param p
-     * @param isrh
-     */
-    public abstract void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh)
-        throws RenderingException;
 
     /**
      * Renders the legend block based on the legend rendering rules.
@@ -1282,18 +1261,6 @@ public abstract class BaseRenderer
         return brna;
     }
 
-    /**
-     * The graphic element for a legend entry should be rendered by the series type implementer
-     * 
-     * @param ipr
-     * @param lg
-     * @param bo
-     * 
-     * @throws RenderingException
-     */
-    public abstract void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
-        throws RenderingException;
-
     /*
      * (non-Javadoc)
      * 
@@ -1702,5 +1669,23 @@ public abstract class BaseRenderer
         tre.setLabel(laDataPoint);
         tre.setAction(iTextRenderType);
         dc.addLabel(tre);
+    }
+    
+    /**
+     * @param isrh
+     */
+    protected void validateDataSetCount(ISeriesRenderingHints isrh) throws ValidationException
+    {
+        if ((isrh.getDataSetStructure() & ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC) == ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC)
+        {
+            throw new ValidationException(
+                "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+                new Object[] { new Integer(isrh.getBaseDataSet().size()), new Integer(isrh.getOrthogonalDataSet().size()) },
+                ResourceBundle.getBundle(
+                    Messages.ENGINE,
+                    rtc.getLocale()
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
+        }
     }
 }
