@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.emf.common.notify.Notification;
@@ -488,4 +489,22 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
         return result.toString();
     }
 
+    /**
+     * A convenience method provided to create a series grouping instance and initialize its member variables
+     * 
+     * NOTE: Manually written
+     * 
+     * @return
+     */
+    public static final SeriesGrouping create()
+    {
+        final SeriesGrouping sg = DataFactory.eINSTANCE.createSeriesGrouping();
+        sg.setAggregateExpression("Sum");
+        sg.setGroupingInterval(2);
+        sg.setEnabled(false);
+        sg.setGroupType("Text");
+        return sg;
+    }
+
+    
 } //SeriesGroupingImpl

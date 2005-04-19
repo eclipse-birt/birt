@@ -662,6 +662,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements SeriesDefinitio
         final SeriesDefinition sd = DataFactory.eINSTANCE.createSeriesDefinition();
         sd.setQuery(QueryImpl.create(IConstants.EMPTY_STRING));
         sd.setSeriesPalette(PaletteImpl.create(ColorDefinitionImpl.GREY()));
+        sd.setGrouping(SeriesGroupingImpl.create());
         return sd;
     }
 
