@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/30 00:11:22 $
+ * @version $Revision: 1.8 $ $Date: 2005/04/12 06:08:39 $
  */
 public class Utility
 {
@@ -289,6 +289,4 @@ public class Utility
 		}
 		return false;
 	}
-	
-
 }

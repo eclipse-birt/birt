@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Utility;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -50,14 +51,20 @@ public abstract class DefaultExtendedDataSetWizard extends
 	 */
 	public DataSetHandle createDataSet( ReportDesignHandle handle )
 	{
+        String modelExtension = null;
+        String dataSetType = getConfigurationElement( ).getAttribute( "name" ); //$NON-NLS-1$
+        if(Utility.doesDataSetModelExtensionExist(dataSetType))
+        {
+            modelExtension = dataSetType; 
+        }
 		OdaDataSetHandle dataSetHandle = handle.getDataSets( )
 				.getElementHandle( )
 				.getElementFactory( )
 				.newOdaDataSet( "New " //$NON-NLS-1$
-						+ getConfigurationElement( ).getAttribute( "displayName" ) ); //$NON-NLS-1$
+						+ getConfigurationElement( ).getAttribute( "displayName" ), modelExtension ); //$NON-NLS-1$
 		try
 		{
-			dataSetHandle.setType( getConfigurationElement( ).getAttribute( "name" ) ); //$NON-NLS-1$
+			dataSetHandle.setType( dataSetType );
 		}
 		catch ( SemanticException e )
 		{

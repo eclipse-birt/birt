@@ -27,6 +27,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinCondition;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -116,10 +117,10 @@ public class JdbcMetaDataProvider
 		
 		OdaDataSourceHandle handle = (OdaDataSourceHandle) dataSourceHandle;
 	
-		String userName = handle.getPrivateDriverProperty("ODA:user");//$NON-NLS-1$
-		String passWord = handle.getPrivateDriverProperty( "ODA:password" );//$NON-NLS-1$
-		String url = handle.getPrivateDriverProperty( "ODA:url" );//$NON-NLS-1$
-		String driver = handle.getPrivateDriverProperty( "ODA:driver-class" );//$NON-NLS-1$
+		String userName = (String)handle.getProperty(Constants.ODAUser);
+		String passWord = (String)handle.getProperty(Constants.ODAPassword);
+		String url = (String)handle.getProperty(Constants.ODAURL);
+		String driver = (String)handle.getProperty(Constants.ODADriverClass);
 		
 		jdbcConnection = connect( userName,
 				passWord,

@@ -97,7 +97,7 @@ This has to be the same as the model and runtime ODA extension name for the same
 This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSourceConnectionWizard"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -201,7 +201,7 @@ This has to be the same as the model and runtime ODA Data Set extension name for
                      This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSetWizard"/>
                </appInfo>
             </annotation>
          </attribute>

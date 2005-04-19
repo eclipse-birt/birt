@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaData;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaDataManager;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
@@ -40,7 +41,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/09 00:44:01 $
+ * @version $Revision: 1.6 $ $Date: 2005/04/08 23:16:34 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -61,10 +62,10 @@ public class JdbcSQLContentAssistProcessor implements
 		handle = (OdaDataSetHandle) ds;
 		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
 		metaData = ConnectionMetaDataManager.getInstance( )
-				.getMetaData( dataSourceHandle.getPrivateDriverProperty( "ODA:driver-class" ),//$NON-NLS-1$
-						dataSourceHandle.getPrivateDriverProperty( "ODA:url" ),//$NON-NLS-1$
-						dataSourceHandle.getPrivateDriverProperty( "ODA:user" ),//$NON-NLS-1$
-						dataSourceHandle.getPrivateDriverProperty( "ODA:password" ), //$NON-NLS-1$
+				.getMetaData( (String)dataSourceHandle.getProperty(Constants.ODADriverClass),
+                        (String)dataSourceHandle.getProperty(Constants.ODAURL),
+                        (String)dataSourceHandle.getProperty(Constants.ODAUser),
+                        (String)dataSourceHandle.getProperty(Constants.ODAPassword), //$NON-NLS-1$
 						JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getDriverName( ) ),
 						null );
 	}

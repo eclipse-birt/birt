@@ -19,12 +19,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/10 22:48:41 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/17 20:39:18 $
  */
 public final class Utility
 {
@@ -113,4 +115,41 @@ public final class Utility
         
         return finalName;
     }
+    
+    public static boolean doesDataSourceModelExtensionExist(String extensionName)
+    {
+        IConfigurationElement[] elements = Platform.getExtensionRegistry( )
+        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" );
+        if(elements != null)
+        {
+            for(int n = 0; n < elements.length; n++)
+            {
+                if(elements[n].getName().equals("odaDataSource") && extensionName.equals(elements[n].getAttribute("extensionName")))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    public static boolean doesDataSetModelExtensionExist(String extensionName)
+    {
+        IConfigurationElement[] elements = Platform.getExtensionRegistry( )
+        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" );
+        if(elements != null)
+        {
+            for(int n = 0; n < elements.length; n++)
+            {
+                if(elements[n].getName().equals("odaDataSet") && extensionName.equals(elements[n].getAttribute("extensionName")))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
 }
