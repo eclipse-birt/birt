@@ -27,7 +27,8 @@ import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * An immutable class with convenience methods provided to retrieve data from the dataset
+ * An immutable class with convenience methods provided to retrieve data
+ * from the dataset
  */
 public final class DataSetIterator implements Iterator
 {
@@ -334,7 +335,18 @@ public final class DataSetIterator implements Iterator
         iRowCount = getRowCountInternal();
     }
 
-    public final int getRowCountInternal()
+    /**
+     * @return
+     */
+    public final boolean isEmpty()
+    {
+        return iRowCount <= 0;
+    }
+    
+    /**
+     * @return
+     */
+    private final int getRowCountInternal()
     {
         if (iContentType == IConstants.COLLECTION)
         {
@@ -377,11 +389,17 @@ public final class DataSetIterator implements Iterator
         return -1; // <<<=== SHOULD NEVER REACH HERE
     }
 
+    /**
+     * @return
+     */
     public final double nextPrimitiveDouble()
     {
         return da[iCursor++];
     }
 
+    /**
+     * @return
+     */
     public final Double nextDouble()
     {
         if (it != null)
@@ -392,6 +410,9 @@ public final class DataSetIterator implements Iterator
         return dda[iCursor++];
     }
 
+    /**
+     * @return
+     */
     public final Calendar nextDateTime()
     {
         if (it != null)
@@ -402,6 +423,9 @@ public final class DataSetIterator implements Iterator
         return ca[iCursor++];
     }
 
+    /**
+     * @return
+     */
     public final String nextText()
     {
         if (it != null)
@@ -412,11 +436,17 @@ public final class DataSetIterator implements Iterator
         return sa[iCursor++];
     }
 
+    /**
+     * @return
+     */
     public final Object nextObject()
     {
         return oa[iCursor++];
     }
 
+    /**
+     * @return
+     */
     public final Calendar nextPrimitiveDateTime()
     {
         cReused.setTimeInMillis(la[iCursor++]);
@@ -519,7 +549,6 @@ public final class DataSetIterator implements Iterator
     }
 
     /**
-     * 
      *  
      */
     public final void reset()
@@ -620,6 +649,9 @@ public final class DataSetIterator implements Iterator
         iRowCount = ca.length;
     }
 
+    /**
+     * @return
+     */
     public final int getDataType()
     {
         return iDataType;
