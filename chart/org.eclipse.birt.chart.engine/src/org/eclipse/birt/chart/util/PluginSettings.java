@@ -15,6 +15,7 @@ package org.eclipse.birt.chart.util;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -136,6 +137,19 @@ public final class PluginSettings
         }
     };
 
+    /**
+     * All available aggregate functions used in orthogonal value aggregation
+     */
+    private static final String[][] saAggregateFunctions = 
+    {
+        {
+            "Sum", "org.eclipse.birt.chart.aggregate.Sum"
+        },
+        {
+            "Average", "org.eclipse.birt.chart.aggregate.Average"
+        }
+    };
+    
     /**
      * A singleton instance created lazily when requested for
      */
@@ -428,6 +442,69 @@ public final class PluginSettings
     }
 
     /**
+     * Retrieves the first instance of a device renderer registered as
+     * an extension for a given name 
+     * 
+     * @param   sName   The name of the aggregate function.
+     * 
+     * @return  An newly initialized instance of the requested aggregate function.
+     * 
+     * @throws PluginException
+     */
+    public final IAggregateFunction getAggregateFunction(String sName) throws PluginException
+    {
+        if (inEclipseEnv())
+        {
+            final Object oAggregateFunction = getPluginXmlObject("aggregatefunctions", "aggregateFunction", "name", "function", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                sName);
+            if (oAggregateFunction != null)
+            {
+                DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                    Messages.getString(
+                        "info.eclenv.creating.function", //$NON-NLS-1$
+                        new Object[] { sName, oAggregateFunction.getClass().getName() },
+                        Locale.getDefault() // LOCALE?
+                    )
+                ); // i18n_CONCATENATIONS_REMOVED
+                return (IAggregateFunction) oAggregateFunction;
+            }
+            DefaultLoggerImpl.instance().log(ILogger.FATAL,
+                Messages.getString(
+                    "error.eclenv.cannot.find.function", //$NON-NLS-1$
+                    new Object[] { sName },
+                    Locale.getDefault() // LOCALE?
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
+        }
+        else
+        {
+            for (int i = 0; i < saAggregateFunctions.length; i++)
+            {
+                if (saAggregateFunctions[i][0].equalsIgnoreCase(sName))
+                {
+                    DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                        Messages.getString(
+                            "info.stdenv.creating.function", //$NON-NLS-1$
+                            new Object[] { sName, saAggregateFunctions[i][1] },
+                            Locale.getDefault() // LOCALE?
+                        ) 
+                    ); // i18n_CONCATENATIONS_REMOVED
+                    return (IAggregateFunction) newInstance(saAggregateFunctions[i][1]);
+                }
+            }
+            DefaultLoggerImpl.instance().log(ILogger.FATAL,
+                Messages.getString(
+                    "error.stdenv.cannot.find.function", //$NON-NLS-1$
+                    new Object[] { sName },
+                    Locale.getDefault() // LOCALE?
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
+        }
+        return null;
+    }
+
+    
+    /**
      * Returns a list of all series registered via extension point implementations (or simulated)
      *  
      * @return A list of series registered via extension point implementations (or simulated)
@@ -437,6 +514,21 @@ public final class PluginSettings
         return saSeries;
     }
 
+    /**
+     * Returns a list of all aggregate functions registered via extension point implementations (or simulated)
+     * 
+     * @return A list of all aggregate functions registered via extension point implementations (or simulated)
+     */
+    public final String[] getRegisteredAggregateFunctions()
+    {
+        final String[] saFunctions = new String[saAggregateFunctions.length];
+        for (int i = 0; i < saFunctions.length; i++)
+        {
+            saFunctions[i] = saAggregateFunctions[i][0];
+        }
+        return saFunctions;
+    }
+    
     /**
      * Attempts to internally create an instance of a given class using reflection
      * using the default constructor.
