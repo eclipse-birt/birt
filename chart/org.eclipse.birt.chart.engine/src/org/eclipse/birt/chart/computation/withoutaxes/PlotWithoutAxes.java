@@ -24,6 +24,8 @@ import org.eclipse.birt.chart.exception.OutOfSyncException;
 import org.eclipse.birt.chart.exception.UndefinedValueException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
@@ -210,55 +212,59 @@ public final class PlotWithoutAxes
         final Series seBase = (Series) al.get(0);
         final DataSetIterator dsiBaseValues = new DataSetIterator(seBase.getDataSet());
         final DataSetIterator dsiOrthogonalValues = new DataSetIterator(seOrthogonal.getDataSet());
-        if (dsiBaseValues.size() != dsiOrthogonalValues.size())
+        DataPointHints[] dpha = null;
+        
+        if (dsiBaseValues.size() != dsiOrthogonalValues.size()) // DO NOT COMPUTE DATA POINT HINTS FOR OUT-OF-SYNC DATA
         {
-            throw new OutOfSyncException(
-                "exception.data.outofsync", //$NON-NLS-1$
-                new Object[] { new Integer(dsiBaseValues.size()), new Integer(dsiOrthogonalValues.size()) },
-                ResourceBundle.getBundle(
-                    Messages.ENGINE, 
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                Messages.getString(
+                    "exception.data.outofsync", //$NON-NLS-1$
+                    new Object[] { new Integer(dsiBaseValues.size()), new Integer(dsiOrthogonalValues.size()) },
                     rtc.getLocale()
-                ) 
-            ); // i18n_CONCATENATIONS_REMOVED 
+                )
+            ); // i18n_CONCATENATIONS_REMOVED
+        }
+        else
+        {
+
+            final int iCount = dsiOrthogonalValues.size();
+            dpha = new DataPointHints[iCount];
+            
+            // OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
+            final DataPoint dp = seOrthogonal.getDataPoint();
+            final EList el = dp.getComponents();
+            DataPointComponent dpc;
+            DataPointComponentType dpct;
+            FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+            for (int i = 0; i < el.size(); i++)
+            {
+                dpc = (DataPointComponent) el.get(i);
+                dpct = dpc.getType();
+                if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
+                {
+                    fsBase = dpc.getFormatSpecifier();
+                }
+                else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
+                {
+                    fsOrthogonal = dpc.getFormatSpecifier();
+                }
+                else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
+                {
+                    fsSeries = dpc.getFormatSpecifier();
+                }
+            }
+            
+            for (int i = 0; i < iCount; i++)
+            {
+                dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), 
+                    seOrthogonal.getSeriesIdentifier(), 
+                    seOrthogonal.getDataPoint(), 
+                    fsBase, fsOrthogonal, fsSeries,
+                    null, -1, rtc);
+            }
         }
 
-        final int iCount = dsiOrthogonalValues.size();
-        final DataPointHints[] dpha = new DataPointHints[iCount];
-        
-        // OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
-        final DataPoint dp = seOrthogonal.getDataPoint();
-        final EList el = dp.getComponents();
-        DataPointComponent dpc;
-        DataPointComponentType dpct;
-        FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
-        for (int i = 0; i < el.size(); i++)
-        {
-            dpc = (DataPointComponent) el.get(i);
-            dpct = dpc.getType();
-            if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
-            {
-                fsBase = dpc.getFormatSpecifier();
-            }
-            else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
-            {
-                fsOrthogonal = dpc.getFormatSpecifier();
-            }
-            else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
-            {
-                fsSeries = dpc.getFormatSpecifier();
-            }
-        }
-        
-        for (int i = 0; i < iCount; i++)
-        {
-            dpha[i] = new DataPointHints(dsiBaseValues.next(), dsiOrthogonalValues.next(), 
-                seOrthogonal.getSeriesIdentifier(), 
-                seOrthogonal.getDataPoint(), 
-                fsBase, fsOrthogonal, fsSeries,
-                null, -1, rtc);
-        }
-
-        return new SeriesRenderingHints(this, dpha);
+        return new SeriesRenderingHints(this, dpha, dsiBaseValues, dsiOrthogonalValues);
     }
     
     /**

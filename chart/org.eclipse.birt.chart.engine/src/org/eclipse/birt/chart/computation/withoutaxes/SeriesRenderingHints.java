@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation.withoutaxes;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.DataFormatException;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -27,6 +28,21 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
     /**
      * 
      */
+    private int iDataSetStructure = UNDEFINED; 
+    
+    /**
+     * 
+     */
+    private final DataSetIterator dsiBase;
+    
+    /**
+     * 
+     */
+    private final DataSetIterator dsiOrthogonal;
+    
+    /**
+     * 
+     */
     private final DataPointHints[] dpha;
     
     /**
@@ -37,11 +53,34 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
     /**
      * @param pwoa
      * @param dpha
+     * @param dsiBase
+     * @param dsiOrthogonal
      */
-    SeriesRenderingHints(PlotWithoutAxes pwoa, DataPointHints[] dpha)
+    SeriesRenderingHints(PlotWithoutAxes pwoa, DataPointHints[] dpha, DataSetIterator dsiBase, DataSetIterator dsiOrthogonal)
     {
         this.pwoa = pwoa;
         this.dpha = dpha;
+        this.dsiBase = dsiBase;
+        this.dsiOrthogonal = dsiOrthogonal;
+        
+        
+        // DEFINE THE DATA SET STRUCTURES
+        if (dsiBase.size() != dsiOrthogonal.size())
+        {
+            iDataSetStructure |= BASE_ORTHOGONAL_OUT_OF_SYNC;
+        }
+        else
+        {
+            iDataSetStructure = BASE_ORTHOGONAL_IN_SYNC;
+        }
+        if (dsiBase.isEmpty())
+        {
+            iDataSetStructure |= BASE_EMPTY;
+        }
+        if (dsiOrthogonal.isEmpty())
+        {
+            iDataSetStructure |= ORTHOGONAL_EMPTY;
+        }
     }
 
     /**
@@ -130,5 +169,30 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
         final double[] doaTrimmed = new double[j];
         System.arraycopy(doa, 0, doaTrimmed, 0, j);
         return doaTrimmed;
+    }
+    
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
+     */
+    public int getDataSetStructure()
+    {
+        return iDataSetStructure;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
+     */
+    public DataSetIterator getBaseDataSet()
+    {
+        return dsiBase;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
+     */
+    public DataSetIterator getOrthogonalDataSet()
+    {
+        return dsiOrthogonal;
     }
 }

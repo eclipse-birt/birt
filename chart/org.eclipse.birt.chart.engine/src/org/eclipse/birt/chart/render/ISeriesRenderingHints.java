@@ -11,11 +11,50 @@
 
 package org.eclipse.birt.chart.render;
 
+import org.eclipse.birt.chart.computation.DataSetIterator;
+
 /**
- * This class ...
  * 
- * @author Actuate Corporation
  */
 public interface ISeriesRenderingHints
 {
+    /**
+     * 
+     */
+    public static final int UNDEFINED = 0;
+    
+    /**
+     * 
+     */
+    public static final int BASE_ORTHOGONAL_IN_SYNC = 1;
+    
+    /**
+     * 
+     */
+    public static final int BASE_ORTHOGONAL_OUT_OF_SYNC = 2;
+    
+    /**
+     * 
+     */
+    public static final int BASE_EMPTY = 4;
+    
+    /**
+     * 
+     */
+    public static final int ORTHOGONAL_EMPTY = 8;
+    
+    /**
+     * @return
+     */
+    public int getDataSetStructure();
+    
+    /**
+     * @return
+     */
+    public DataSetIterator getBaseDataSet();
+    
+    /**
+     * @return
+     */
+    public DataSetIterator getOrthogonalDataSet();
 }

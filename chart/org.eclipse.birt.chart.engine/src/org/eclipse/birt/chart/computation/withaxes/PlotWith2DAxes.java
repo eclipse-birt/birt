@@ -2917,145 +2917,147 @@ public final class PlotWith2DAxes extends PlotContent
 
         final int iBaseCount = dsiDataBase.size();
         final int iOrthogonalCount = dsiDataOrthogonal.size();
-        if (iBaseCount != iOrthogonalCount)
+        DataPointHints[] dpa = null;
+        
+        if (iBaseCount != iOrthogonalCount) // DO NOT COMPUTE DATA POINT HINTS FOR OUT-OF-SYNC DATA
         {
-            throw new OutOfSyncException(
-                "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
-                new Object[] { new Integer(iBaseCount), new Integer(iOrthogonalCount) },
-                ResourceBundle.getBundle(
-                    Messages.ENGINE, 
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                Messages.getString(
+                    "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+                    new Object[] { new Integer(iBaseCount), new Integer(iOrthogonalCount) },
                     rtc.getLocale()
                 )
-            ); // i18n_CONCATENATIONS_REMOVED 
+            ); // i18n_CONCATENATIONS_REMOVED
         }
-
-        final DataPointHints[] dpa = new DataPointHints[iBaseCount];
-        final boolean bScatter = (oaxBase.getScale().getType() != IConstants.TEXT && !oaxBase.isCategoryScale());
-        
-        // OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
-        final DataPoint dp = seOrthogonal.getDataPoint();
-        final EList el = dp.getComponents();
-        DataPointComponent dpc;
-        DataPointComponentType dpct;
-        FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
-        for (int i = 0; i < el.size(); i++)
+        else
         {
-            dpc = (DataPointComponent) el.get(i);
-            dpct = dpc.getType();
-            if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
+            dpa = new DataPointHints[iBaseCount];
+            final boolean bScatter = (oaxBase.getScale().getType() != IConstants.TEXT && !oaxBase.isCategoryScale());
+            
+            // OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
+            final DataPoint dp = seOrthogonal.getDataPoint();
+            final EList el = dp.getComponents();
+            DataPointComponent dpc;
+            DataPointComponentType dpct;
+            FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+            for (int i = 0; i < el.size(); i++)
             {
-                fsBase = dpc.getFormatSpecifier();
-                if (fsBase == null) // BACKUP
+                dpc = (DataPointComponent) el.get(i);
+                dpct = dpc.getType();
+                if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
                 {
-                    fsBase = sdBase.getFormatSpecifier();
+                    fsBase = dpc.getFormatSpecifier();
+                    if (fsBase == null) // BACKUP
+                    {
+                        fsBase = sdBase.getFormatSpecifier();
+                    }
+                }
+                else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
+                {
+                    fsOrthogonal = dpc.getFormatSpecifier();
+                    if (fsOrthogonal == null) // BACKUP
+                    {
+                        fsOrthogonal = sdOrthogonal.getFormatSpecifier();
+                    }
+                }
+                else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
+                {
+                    fsSeries = dpc.getFormatSpecifier();
                 }
             }
-            else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
+            
+            dsiDataBase.reset();
+            dsiDataOrthogonal.reset();
+            for (int i = 0; i < iBaseCount; i++)
             {
-                fsOrthogonal = dpc.getFormatSpecifier();
-                if (fsOrthogonal == null) // BACKUP
+                oDataBase = dsiDataBase.next();
+                oDataOrthogonal = dsiDataOrthogonal.next();
+    
+                if (!bScatter)
                 {
-                    fsOrthogonal = sdOrthogonal.getFormatSpecifier();
-                }
-            }
-            else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
-            {
-                fsSeries = dpc.getFormatSpecifier();
-            }
-        }
-        
-        dsiDataBase.reset();
-        dsiDataOrthogonal.reset();
-        for (int i = 0; i < iBaseCount; i++)
-        {
-            oDataBase = dsiDataBase.next();
-            oDataOrthogonal = dsiDataOrthogonal.next();
-
-            if (!bScatter)
-            {
-                if (aax.areAxesSwapped())
-                {
-                    dY = daTickCoordinates[0] - dUnitSize * i;
-                    try
+                    if (aax.areAxesSwapped())
                     {
-                        dX = getLocation(scOrthogonal, oDataOrthogonal);
+                        dY = daTickCoordinates[0] - dUnitSize * i;
+                        try
+                        {
+                            dX = getLocation(scOrthogonal, oDataOrthogonal);
+                        }
+                        catch (NullValueException nvex )
+                        {
+                            dX = dOrthogonalZero;
+                        }
+                        catch (DataFormatException dfex )
+                        {
+                            dX = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
+                        }
                     }
-                    catch (NullValueException nvex )
+                    else
                     {
-                        dX = dOrthogonalZero;
-                    }
-                    catch (DataFormatException dfex )
-                    {
-                        dX = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
+                        dX = daTickCoordinates[0] + dUnitSize * i;
+                        try
+                        {
+                            dY = getLocation(scOrthogonal, oDataOrthogonal);
+                        }
+                        catch (NullValueException nvex )
+                        {
+                            dY = dOrthogonalZero;
+                        }
+                        catch (DataFormatException dfex )
+                        {
+                            dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
+                        }
                     }
                 }
                 else
+                // SCATTER CHARTS (BASE AXIS != CATEGORY AXIS)
                 {
-                    dX = daTickCoordinates[0] + dUnitSize * i;
+                    try
+                    {
+                        dX = getLocation(scBase, oDataBase);
+                    }
+                    catch (NullValueException nvex )
+                    {
+                        dX = dBaseZero;
+                    }
+                    catch (DataFormatException dfex )
+                    {
+                        dX = dBaseZero; // FOR CUSTOM DATA ELEMENTS
+                    }
+    
                     try
                     {
                         dY = getLocation(scOrthogonal, oDataOrthogonal);
                     }
                     catch (NullValueException nvex )
                     {
-                        dY = dOrthogonalZero;
+                        dY = dOrthogonalZero; // MAP TO ZERO
                     }
                     catch (DataFormatException dfex )
                     {
                         dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
                     }
+    
+                    if (aax.areAxesSwapped())
+                    {
+                        final double dTemp = dX;
+                        dX = dY;
+                        dY = dTemp;
+                    }
                 }
+                lo = LocationImpl.create(dX, dY);
+                dLength = (i < iTickCount - 1) ? daTickCoordinates[i + 1] - daTickCoordinates[i] : 0;
+    
+                dpa[i] = new DataPointHints(
+                    oDataBase, oDataOrthogonal, 
+                    seOrthogonal.getSeriesIdentifier(), 
+                    seOrthogonal.getDataPoint(),
+                    fsBase, fsOrthogonal, fsSeries,
+                    lo, dLength, rtc
+                );
             }
-            else
-            // SCATTER CHARTS (BASE AXIS != CATEGORY AXIS)
-            {
-                try
-                {
-                    dX = getLocation(scBase, oDataBase);
-                }
-                catch (NullValueException nvex )
-                {
-                    dX = dBaseZero;
-                }
-                catch (DataFormatException dfex )
-                {
-                    dX = dBaseZero; // FOR CUSTOM DATA ELEMENTS
-                }
-
-                try
-                {
-                    dY = getLocation(scOrthogonal, oDataOrthogonal);
-                }
-                catch (NullValueException nvex )
-                {
-                    dY = dOrthogonalZero; // MAP TO ZERO
-                }
-                catch (DataFormatException dfex )
-                {
-                    dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
-                }
-
-                if (aax.areAxesSwapped())
-                {
-                    final double dTemp = dX;
-                    dX = dY;
-                    dY = dTemp;
-                }
-            }
-            lo = LocationImpl.create(dX, dY);
-            dLength = (i < iTickCount - 1) ? daTickCoordinates[i + 1] - daTickCoordinates[i] : 0;
-
-            dpa[i] = new DataPointHints(
-                oDataBase, oDataOrthogonal, 
-                seOrthogonal.getSeriesIdentifier(), 
-                seOrthogonal.getDataPoint(),
-                fsBase, fsOrthogonal, fsSeries,
-                lo, dLength, rtc
-            );
         }
-
         return new SeriesRenderingHints(this, oaxBase.getAxisCoordinate(), scOrthogonal.getStart(), dOrthogonalZero,
-            dSeriesThickness, daTickCoordinates, dpa, scBase, scOrthogonal, ssl);
+            dSeriesThickness, daTickCoordinates, dpa, scBase, scOrthogonal, ssl, dsiDataBase, dsiDataOrthogonal);
     }
 
     /**

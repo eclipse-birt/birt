@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -33,7 +34,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public final class SeriesRenderingHints implements ISeriesRenderingHints
 {
-
+    /**
+     * 
+     */
+    private int iDataSetStructure = UNDEFINED; 
+    
     /**
      *  
      */
@@ -91,6 +96,16 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
     
     /**
      * 
+     */
+    private final DataSetIterator dsiBase;
+    
+    /**
+     * 
+     */
+    private final DataSetIterator dsiOrthogonal;
+    
+    /**
+     * 
      * @param _dAxisLocation
      * @param _dZeroLocation
      * @param _daTickCoordinates
@@ -98,7 +113,8 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
      */
     public SeriesRenderingHints(PlotWith2DAxes _pwa, double _dAxisLocation, double _dPlotBaseLocation,
         double _dZeroLocation, double _dSeriesThickness, double[] _daTickCoordinates, DataPointHints[] _dpa,
-        AutoScale _scBase, AutoScale _scOrthogonal, StackedSeriesLookup _ssl)
+        AutoScale _scBase, AutoScale _scOrthogonal, StackedSeriesLookup _ssl,
+        DataSetIterator _dsiBase, DataSetIterator _dsiOrthogonal)
     {
         pwa = _pwa;
         dAxisLocation = _dAxisLocation;
@@ -110,6 +126,26 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
         scBase = _scBase;
         scOrthogonal = _scOrthogonal;
         ssl = _ssl;
+        dsiBase = _dsiBase;
+        dsiOrthogonal = _dsiOrthogonal;
+        
+        // DEFINE THE DATA SET STRUCTURES
+        if (dsiBase.size() != dsiOrthogonal.size())
+        {
+            iDataSetStructure |= BASE_ORTHOGONAL_OUT_OF_SYNC;
+        }
+        else
+        {
+            iDataSetStructure = BASE_ORTHOGONAL_IN_SYNC;
+        }
+        if (dsiBase.isEmpty())
+        {
+            iDataSetStructure |= BASE_EMPTY;
+        }
+        if (dsiOrthogonal.isEmpty())
+        {
+            iDataSetStructure |= ORTHOGONAL_EMPTY;
+        }
     }
 
     /**
@@ -278,5 +314,29 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
             boClientArea.adjust(pwa.getPlotInsets());
         }
         return boClientArea;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
+     */
+    public int getDataSetStructure()
+    {
+        return iDataSetStructure;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
+     */
+    public DataSetIterator getBaseDataSet()
+    {
+        return dsiBase;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
+     */
+    public DataSetIterator getOrthogonalDataSet()
+    {
+        return dsiOrthogonal;
     }
 }
