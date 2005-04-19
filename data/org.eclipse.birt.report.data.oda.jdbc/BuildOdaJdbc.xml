@@ -209,7 +209,12 @@
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
 		<mkdir dir="${dir.bin}" />
-
+		
+		<copy todir="${dir.bin}">
+			<fileset dir="${dir.src}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
 		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
 		<javac srcdir="${dir.src}" 
 			   destdir="${dir.bin}" 
