@@ -144,7 +144,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public ByteArrayOutputStream serialize(String propName)
     {
-        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
+        if (propName != null && propName.equalsIgnoreCase("Chart::xmlRepresentation"))
         {
             try
             {
@@ -167,7 +167,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException
     {
-        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
+        if (propName != null && propName.equalsIgnoreCase("Chart::xmlRepresentation"))
         {
             try
             {
