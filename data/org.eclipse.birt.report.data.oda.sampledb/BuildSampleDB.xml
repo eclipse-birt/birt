@@ -68,9 +68,6 @@
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
-		<fileset dir="${dir.lib}">
-			<include name="*.jar"/>
-		</fileset>
 		<fileset dir="${birt.core.dir}">
 			<include name="${birt.core.jar}"/>
 		</fileset>
@@ -88,9 +85,6 @@
 		</fileset>
 		<fileset dir="${model.dir}">
 			<include name="${model.jar}"/>
-		</fileset>
-		<fileset dir="${eclipse.home}/plugins">
-			<include name="org.eclipse.jface*/jface.jar" /> 
 		</fileset>
 	</path>
 	
@@ -148,19 +142,30 @@
 	<target name="Javadoc" />
 	
 	<target name="buildDependency">
-		<echo message="start call Jar task in ${oda.dir}"/>
+		<echo message="start call Jar task in ${oda.jdbc.dir}"/>
 		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritAll="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>				
+		</ant>
+		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
+
+		<echo message="start call Jar task in ${model.dir}"/>
 		<ant dir="${model.dir}" antfile="BuildModel.xml" target="Jar" inheritAll="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>
+		</ant>		
+		<echo message="end call Jar task in ${model.dir}"/>
+				
+		<echo message="start call Jar task in ${designer.ui.dir}"/>
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
 		  <property name="eclipse.home" value="${eclipse.home}" /> 
-		</ant> 
+		</ant> 		
+		<echo message="end call Jar task in ${designer.ui.dir}"/>
+		
+		<echo message="start call Jar task in ${oda.jdbc.ui.dir}"/>
 		<ant dir="${oda.jdbc.ui.dir}" antfile="BuildOdaUI.xml" target="Jar" inheritAll="false">
 		  <property name="eclipse.home" value="${eclipse.home}" /> 
-		</ant> 
+		</ant>
+		<echo message="end call Jar task in ${oda.jdbc.ui.dir}"/>
+
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">
