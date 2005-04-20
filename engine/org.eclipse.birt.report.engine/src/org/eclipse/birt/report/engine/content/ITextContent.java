@@ -14,13 +14,12 @@ package org.eclipse.birt.report.engine.content;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.ir.ActionDesign;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
  * Provides the interfaces for the Text Content
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.4 $ $Date: 2005/03/15 03:29:37 $
  */
 public interface ITextContent extends IReportItemContent
 {
@@ -63,10 +62,6 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public IImageItemContent getImageContent( Node node );
 
-
-	public Document getExpressionVal( Node expr );
-
-
 	/**
 	 * @return Returns the helpText.
 	 */
@@ -77,17 +72,50 @@ public interface ITextContent extends IReportItemContent
 	 */
 	public boolean isSingleLine( );
 
-
-
 	/**
 	 * @return the action design
 	 */
 	public ActionDesign getAction( );
 
 	/**
-	 * @return Returns the domTree.
+	 * Walks on every node
+	 * 
+	 * @param visitor
+	 *            the ITextNodeVistor instance
 	 */
-	public Node getDomTree( );
+	public void accessDOMTree( ITextNodeVisitor visitor );
 
+	/**
+	 * Defines the interfaces of ITextNodeVisitor
+	 */
+	public interface ITextNodeVisitor
+	{
 
+		/**
+		 * Starts the node
+		 * 
+		 * @param node
+		 *            the Node instance
+		 */
+		void onNodeStart( Node node );
+
+		/**
+		 * Outputs the text of the node
+		 * 
+		 * @param text
+		 *            the text of the node
+		 * @param needEscape
+		 *            the flag indicating weather or not escaping the content
+		 */
+		void onText( String text, boolean needEscape );
+
+		/**
+		 * Ends the node
+		 * 
+		 * @param node
+		 *            the Node instance
+		 */
+		void onNodeEnd( Node node );
+	}
 }
+
