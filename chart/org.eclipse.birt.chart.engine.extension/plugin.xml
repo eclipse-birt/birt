@@ -58,4 +58,13 @@
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.chart.engine.aggregatefunctions">
+      <aggregateFunction
+            function="org.eclipse.birt.chart.aggregate.Sum"
+            name="Sum"/>
+      <aggregateFunction
+            function="org.eclipse.birt.chart.aggregate.Average"
+            name="Average"/>
+   </extension>
 </plugin>
