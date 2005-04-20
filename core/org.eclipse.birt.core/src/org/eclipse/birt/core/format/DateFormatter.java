@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.format;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/04/12 03:16:23 $
  */
 public class DateFormatter
 {
@@ -283,5 +284,20 @@ public class DateFormatter
 			logger.log( Level.WARNING, e.getMessage( ), e );
 			return null;
 		}
+	}
+
+	/**
+	 * Parses the input string into a formatted date type.
+	 * 
+	 * @param date
+	 *            the input string to parse
+	 * @return the formatted date
+	 * @throws ParseException
+	 *             if the beginning of the specified string cannot be parsed.
+	 */
+	
+	public Date parse( String date ) throws ParseException
+	{
+		return dateFormat.parse( date );
 	}
 }

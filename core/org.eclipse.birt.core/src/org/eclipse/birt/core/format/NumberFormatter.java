@@ -15,13 +15,15 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/04/05 07:53:48 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/12 03:16:23 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -296,5 +298,20 @@ public class NumberFormatter
 		}
 		numberFormat = new DecimalFormat( patternStr, new DecimalFormatSymbols(
 				locale ) );
+	}
+	
+	/**
+	 * Parses the input string into a formatted date type.
+	 * 
+	 * @param number
+	 *            the input string to parse
+	 * @return the formatted date
+	 * @throws ParseException
+	 *             if the beginning of the specified string cannot be parsed.
+	 */
+	
+	public Number parse( String number ) throws ParseException
+	{
+		return numberFormat.parse( number );
 	}
 }
