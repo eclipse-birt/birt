@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
@@ -105,8 +106,7 @@ public class StockChart extends DefaultChartTypeImpl
      */
     public IHelpContent getHelp()
     {
-        return new HelpContentImpl(
-            "Stock Chart", //$NON-NLS-1$
+        return new HelpContentImpl("Stock Chart", //$NON-NLS-1$
             Messages.getString("StockChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
@@ -385,11 +385,11 @@ public class StockChart extends DefaultChartTypeImpl
             if (series.getDataDefinition().size() != 4)
             {
                 // For High value
-                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                stockseries.getDataDefinition().add(EcoreUtil.copy((Query) series.getDataDefinition().get(0)));
                 // For Low value
-                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                stockseries.getDataDefinition().add(EcoreUtil.copy((Query) series.getDataDefinition().get(0)));
                 // For Open value
-                stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
+                stockseries.getDataDefinition().add(EcoreUtil.copy((Query) series.getDataDefinition().get(0)));
                 // For Close value
                 stockseries.getDataDefinition().add(series.getDataDefinition().get(0));
             }

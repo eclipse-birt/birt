@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -218,13 +219,16 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         cmbUnit.setEnabled(bEnableUI & cmbType.getText().equals("Date/Time"));
 
         // Populate grouping aggregate expression combo
-        cmbAggregate.add("Sum"); //$NON-NLS-1$
-        cmbAggregate.add("Average"); //$NON-NLS-1$
+
+        cmbAggregate.setItems(PluginSettings.instance().getRegisteredAggregateFunctions());
         if (grouping.getAggregateExpression() != null)
         {
             cmbAggregate.setText(grouping.getAggregateExpression());
         }
-        cmbAggregate.select(0);
+        else
+        {
+            cmbAggregate.select(0);
+        }
         lblAggregate.setEnabled(bEnableUI);
         cmbAggregate.setEnabled(bEnableUI);
     }

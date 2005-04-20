@@ -1315,10 +1315,7 @@ public class ChartImpl extends EObjectImpl implements Chart
         {
             return (SeriesDefinition) ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).getSeriesDefinitions().get(0);
         }
-        else
-        {
-            return (SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(0);
-        }
+        return (SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(0);
     }
 
     /**
@@ -1347,20 +1344,17 @@ public class ChartImpl extends EObjectImpl implements Chart
             }
             return vTmp;
         }
-        else
+        Object[] oSD = null;
+        for (int iC = 0; iC < ((ChartWithoutAxes) chart).getSeriesDefinitions().size(); iC++)
         {
-            Object[] oSD = null;
-            for (int iC = 0; iC < ((ChartWithoutAxes) chart).getSeriesDefinitions().size(); iC++)
+            oSD = ((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(iC))
+                .getSeriesDefinitions().toArray();
+            for (int iA = 0; iA < oSD.length; iA++)
             {
-                oSD = ((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(iC))
-                    .getSeriesDefinitions().toArray();
-                for (int iA = 0; iA < oSD.length; iA++)
-                {
-                    vTmp.add(oSD[iA]);
-                }
+                vTmp.add(oSD[iA]);
             }
-            return vTmp;
         }
+        return vTmp;
     }
 
 } //ChartImpl
