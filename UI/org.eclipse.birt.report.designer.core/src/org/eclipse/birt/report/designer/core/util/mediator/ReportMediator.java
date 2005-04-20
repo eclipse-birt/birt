@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 public class ReportMediator
 {
 
+	private boolean isDispatching = false;
 	private List listeners = new ArrayList( );
 	private List stack = new ArrayList( );
 	private int stackPointer = 0;
@@ -56,6 +57,9 @@ public class ReportMediator
 	 */
 	public void notifyRequest( ReportRequest request )
 	{
+		if ( isDispatching )
+			return;
+		isDispatching = true;
 		if (isInterestRequest(request))
 		{
 			currentState.copyFrom(convertRequestToState(request));
@@ -66,6 +70,7 @@ public class ReportMediator
 			IColleague colleague = (IColleague) listeners.get( i );
 			colleague.performRequest( request );
 		}
+		isDispatching = false;
 	}
 
 	private boolean isInterestRequest(ReportRequest request)
@@ -92,9 +97,19 @@ public class ReportMediator
 	{
 		stackPointer--;
 		restoreState( (ReportMediatorState) stack.get( stackPointer ) );
+		if (stackPointer == 0)
+		{
+			stack.clear();
+		}
 	}
 
-	
+	/**Gets the current state
+	 * @return
+	 */
+	public IMediatorState getCurrentState()
+	{
+		return currentState;
+	}
 	/**
 	 * Push state of colleague, which send the notification, into stack.
 	 */
@@ -125,7 +140,7 @@ public class ReportMediator
 	{
 		ReportMediatorState retValue = new ReportMediatorState();
 		retValue.setSource(request.getSource());
-		retValue.setSelectiobObject(request.getSelectionObject());
+		retValue.setSelectiobObject(request.getSelectionModelList());
 		return retValue;
 	}
 	
@@ -161,10 +176,10 @@ public class ReportMediator
 	
 
 	/** Contains the state variables of this SWTGraphics object * */
-	protected static class ReportMediatorState implements Cloneable
+	protected static class ReportMediatorState implements Cloneable, IMediatorState
 	{
 
-		private List SelectiobObject = new ArrayList( );
+		private List selectiobObject = new ArrayList( );
 		private Object source;
 
 		/** @see Object#clone() * */
@@ -190,9 +205,9 @@ public class ReportMediator
 		/**
 		 * @return Returns the selectiobObject.
 		 */
-		protected List getSelectionObject( )
+		public List getSelectionObject( )
 		{
-			return SelectiobObject;
+			return selectiobObject;
 		}
 
 		/**
@@ -201,13 +216,13 @@ public class ReportMediator
 		 */
 		protected void setSelectiobObject( List selectiobObject )
 		{
-			SelectiobObject = selectiobObject;
+			this.selectiobObject = selectiobObject;
 		}
 
 		/**
 		 * @return Returns the source.
 		 */
-		protected Object getSource( )
+		public Object getSource( )
 		{
 			return source;
 		}

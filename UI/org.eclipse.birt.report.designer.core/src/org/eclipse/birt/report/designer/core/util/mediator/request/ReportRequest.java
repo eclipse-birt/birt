@@ -32,7 +32,7 @@ public class ReportRequest extends Request
 	/**
 	 * Open masterpage request. <code>OPENMATERPAGE</code>
 	 */
-	public static final String OPEN_MATERPAGE = "open masterPage";
+	public static final String OPEN_EDITOR = "open editor";
 	
 	/**
 	 * Create element request. <code>CREATE_ELEMENT</code>
@@ -41,6 +41,9 @@ public class ReportRequest extends Request
 	
 	private Object source;
 	
+	private IRequestConvert convert;
+	
+	
 	private List selectionObject = new ArrayList();
 	
 	/**
@@ -48,16 +51,29 @@ public class ReportRequest extends Request
 	 */
 	public ReportRequest( )
 	{
-		this(null);
+		this(null, SELECTION);
 	}
+	
+	public ReportRequest(String type )
+	{
+		this(null, type);
+	}
+	
+	
 	/**
 	 * Create a report request with give source object.
 	 * @param source
 	 */
 	public ReportRequest( Object source )
 	{
-		super( );
-		this.source = source;
+		this(source, SELECTION);
+	}
+	
+	public ReportRequest(Object source, String type)
+	{
+		super();
+		setSource(source);
+		setType(type);
 	}
 	
 	/**
@@ -88,6 +104,18 @@ public class ReportRequest extends Request
 	}
 	
 	/**
+	 * Get the selection objcect of request source.
+	 * @return Returns the selectionObject.
+	 */
+	public List getSelectionModelList( )
+	{
+		if (getRequestConvert() != null)
+		{
+			return getRequestConvert().convertSelectionToModelLisr(getSelectionObject());
+		}
+		return getSelectionObject();
+	}
+	/**
 	 * Set the selection object of reqeust source
 	 * @param selectionObject The selectionObject to set.
 	 */
@@ -96,4 +124,21 @@ public class ReportRequest extends Request
 		assert selectionObject != null;
 		this.selectionObject = selectionObject;
 	}
+	
+	
+	/**
+	 * @return Returns the convert.
+	 */
+	public IRequestConvert getRequestConvert( )
+	{
+		return convert;
+	}
+	/**
+	 * @param convert The convert to set.
+	 */
+	public void setRequestConvert( IRequestConvert convert )
+	{
+		this.convert = convert;
+	}
+	
 }
