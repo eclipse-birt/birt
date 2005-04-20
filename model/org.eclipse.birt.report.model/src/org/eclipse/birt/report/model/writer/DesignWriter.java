@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
@@ -77,6 +78,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -408,13 +410,11 @@ public class DesignWriter extends ElementVisitor
 			if ( value != null )
 			{
 				if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
-					writeEntry( getTagByPropertyType( prop ), prop.getName( ),
-							prop.getXmlValue( design, value ), false );
+					writeProperty( obj, getTagByPropertyType( prop ), prop
+							.getName( ), false );
 				else
-				{
-					writeEntry( getTagByPropertyType( prop ), prop.getName( ),
-							prop.getXmlValue( design, value ), true );
-				}
+					writeProperty( obj, getTagByPropertyType( prop ), prop
+							.getName( ), true );
 			}
 		}
 	}
@@ -546,9 +546,9 @@ public class DesignWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_NAME_PROP );
-		
+
 		super.visitExtendedItem( obj );
-		
+
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
 		{
@@ -565,15 +565,11 @@ public class DesignWriter extends ElementVisitor
 				if ( value != null )
 				{
 					if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
-						writeEntry( getTagByPropertyType( prop ), prop
-								.getName( ), prop.getXmlValue( design, value ),
-								false );
+						writeProperty( obj, getTagByPropertyType( prop ), prop
+								.getName( ), false );
 					else
-					{
-						writeEntry( getTagByPropertyType( prop ), prop
-								.getName( ), prop.getXmlValue( design, value ),
-								true );
-					}
+						writeProperty( obj, getTagByPropertyType( prop ), prop
+								.getName( ), true );
 				}
 			}
 		}
@@ -685,7 +681,7 @@ public class DesignWriter extends ElementVisitor
 		// There is no columns tag for this slot. All columns are written under
 		// table tag.
 
-		writeContents( obj, TableItem.COLUMN_SLOT, null );
+		writeColumns( obj, TableItem.COLUMN_SLOT );
 
 		writeContents( obj, TableItem.HEADER_SLOT,
 				DesignSchemaConstants.HEADER_TAG );
@@ -731,6 +727,9 @@ public class DesignWriter extends ElementVisitor
 
 	public void visitColumn( TableColumn obj )
 	{
+		// If there is no property defined for column, nothing should be
+		// written.
+
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
 
 		super.visitColumn( obj );
@@ -804,7 +803,7 @@ public class DesignWriter extends ElementVisitor
 
 		super.visitGrid( obj );
 
-		writeContents( obj, GridItem.COLUMN_SLOT, null );
+		writeColumns( obj, GridItem.COLUMN_SLOT );
 		writeContents( obj, GridItem.ROW_SLOT, null );
 
 		writer.endElement( );
@@ -1547,6 +1546,13 @@ public class DesignWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
+		if ( propDefn.isEncrypted( ) )
+		{
+			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
+					.getEncryptionHelper( );
+			xml = helper.encrypt( xml );
+		}
+
 		if ( tag == null )
 			tag = getTagByPropertyType( propDefn );
 
@@ -1588,6 +1594,13 @@ public class DesignWriter extends ElementVisitor
 		String xml = propDefn.getXmlValue( design, value );
 		if ( xml == null )
 			return;
+
+		if ( propDefn.isEncrypted( ) )
+		{
+			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
+					.getEncryptionHelper( );
+			xml = helper.encrypt( xml );
+		}
 
 		if ( tag == null )
 			tag = getTagByPropertyType( propDefn );
@@ -1968,11 +1981,13 @@ public class DesignWriter extends ElementVisitor
 		}
 
 		writer.endElement( );
-	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
-		 */
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
+	 */
 
 	public void visitDesignElement( DesignElement obj )
 	{
@@ -2263,7 +2278,61 @@ public class DesignWriter extends ElementVisitor
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 
 		writeOdaExtensionProperties( obj, OdaDataSet.EXTENSION_NAME_PROP );
-		
+
 		writer.endElement( );
+	}
+
+	/**
+	 * Writes the columns slot of <code>GridItem</code> and
+	 * <code>TableItem</code>.
+	 * 
+	 * @param obj
+	 *            the grid item or table item
+	 * @param slot
+	 *            the columns slot
+	 */
+
+	private void writeColumns( DesignElement obj, int slot )
+	{
+		assert obj instanceof GridItem || obj instanceof TableItem;
+		assert slot == GridItem.COLUMN_SLOT || slot == TableItem.COLUMN_SLOT;
+
+		List list = obj.getSlot( slot ).getContents( );
+		if ( list.isEmpty( ) )
+			return;
+
+		// If there is no column with any value, columns will not be written.
+
+		boolean needWrite = false;
+
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) && !needWrite )
+		{
+			DesignElement column = (DesignElement) iter.next( );
+			List propDefns = column.getPropertyDefns( );
+
+			Iterator iterDefn = propDefns.iterator( );
+			while ( iterDefn.hasNext( ) && !needWrite )
+			{
+				PropertyDefn propDefn = (PropertyDefn) iterDefn.next( );
+				if ( column.getLocalProperty( design, propDefn.getName( ) ) != null )
+				{
+					needWrite = true;
+				}
+			}
+		}
+
+		if ( needWrite )
+		{
+			// Iterate over the contents using this visitor to write each one.
+			// Note that this may result in a recursive call back into this
+			// method as we do a depth-first traversal of the design tree.
+
+			iter = list.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				( (DesignElement) iter.next( ) ).apply( this );
+			}
+		}
 	}
 }

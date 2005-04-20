@@ -19,22 +19,34 @@ public class ExtensionException extends MetaDataException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	
+	private static final long serialVersionUID = 3977016262414907448L;
+
+	/**
 	 * Error code indicating the extension point is not found.
 	 */
 
-	public static final String EXTENSION_POINT_NOT_FOUND = "EXTENSION_POINT_NOT_FOUND"; //$NON-NLS-1$
+	public static final String DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND = "EXTENSION_POINT_NOT_FOUND"; //$NON-NLS-1$
 
 	/**
 	 * Error code indicating the instance can not be created.
 	 */
 
-	public static final String FAILED_TO_CREATE_INSTANCE = "FAILED_TO_CREATE_INSTANCE"; //$NON-NLS-1$
+	public static final String DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE = "FAILED_TO_CREATE_INSTANCE"; //$NON-NLS-1$
 
 	/**
 	 * Error code indicating the value is required.
 	 */
 
-	public static final String VALUE_REQUIRED = "VALUE_REQUIRED"; //$NON-NLS-1$
+	public static final String DESIGN_EXCEPTION_VALUE_REQUIRED = "VALUE_REQUIRED"; //$NON-NLS-1$
+
+	/**
+	 * Error code indicating the encryption extension already exists.
+	 */
+
+	public static final String DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS = "ENCYRPTION_EXTENSION_EXISTS"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an extension exception with error code.

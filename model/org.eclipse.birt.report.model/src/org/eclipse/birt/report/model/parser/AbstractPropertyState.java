@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -161,7 +163,9 @@ public class AbstractPropertyState extends AbstractParseState
 			RecoverableError
 					.dealUndefinedProperty(
 							handler,
-							new DesignParserException( null, member,
+							new DesignParserException(
+									null,
+									member,
 									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 
 			valid = false;
@@ -174,6 +178,13 @@ public class AbstractPropertyState extends AbstractParseState
 
 		if ( StringUtil.isBlank( valueToSet ) )
 			return;
+
+		if ( memberDefn.isEncrypted( ) )
+		{
+			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
+					.getEncryptionHelper( );
+			valueToSet = helper.decrypt( valueToSet );
+		}
 
 		// Validate the value.
 
@@ -225,7 +236,9 @@ public class AbstractPropertyState extends AbstractParseState
 			RecoverableError
 					.dealUndefinedProperty(
 							handler,
-							new DesignParserException( null, propName,
+							new DesignParserException(
+									null,
+									propName,
 									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
 			valid = false;
 			return;
@@ -237,6 +250,13 @@ public class AbstractPropertyState extends AbstractParseState
 
 		if ( StringUtil.isBlank( valueToSet ) )
 			return;
+
+		if ( prop.isEncrypted( ) )
+		{
+			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
+					.getEncryptionHelper( );
+			valueToSet = helper.decrypt( valueToSet );
+		}
 
 		// Validate the value.
 

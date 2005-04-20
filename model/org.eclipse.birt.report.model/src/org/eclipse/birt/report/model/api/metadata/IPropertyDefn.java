@@ -13,14 +13,14 @@ package org.eclipse.birt.report.model.api.metadata;
 
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
-
 /**
- * Base Interface for both element property, extension model property and structure
- * member definitions.
+ * Base Interface for both element property, extension model property and
+ * structure member definitions.
  */
 
 public interface IPropertyDefn
 {
+
 	/**
 	 * Indicates whether this property is a list. It is useful only when the
 	 * property type is a structure type.
@@ -53,7 +53,7 @@ public interface IPropertyDefn
 	 */
 
 	public String getDisplayName( );
-	
+
 	/**
 	 * Returns the message id for the display name.
 	 * 
@@ -116,4 +116,12 @@ public interface IPropertyDefn
 	 */
 
 	public IChoiceSet getAllowedChoices( );
+
+	/**
+	 * Returns whether this property should be encrypted.
+	 * 
+	 * @return <code>true</code> if this property should be encrypted.
+	 */
+
+	public boolean isEncrypted( );
 }

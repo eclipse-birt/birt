@@ -92,32 +92,32 @@ public abstract class ExtensionLoader
 		if ( pluginRegistry == null )
 		{
 			throw new ExtensionException( new String[]{extensionPointer},
-					ExtensionException.EXTENSION_POINT_NOT_FOUND );
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
 		}
 
 		IExtensionPoint extensionPoint = pluginRegistry
 				.getExtensionPoint( extensionPointer );
 		if ( extensionPoint == null )
 			throw new ExtensionException( new String[]{extensionPointer},
-					ExtensionException.EXTENSION_POINT_NOT_FOUND );
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
 
 		IExtension[] extensions = extensionPoint.getExtensions( );
 		if ( extensions != null )
 		{
 			for ( int i = 0; i < extensions.length; i++ )
 			{
-				try
-				{
+//				try
+//				{
 					loadExtension( extensions[i] );
-				}
-				catch ( ExtensionException e )
-				{
-					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-				}
-				catch ( MetaDataException e )
-				{
-					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-				}
+//				}
+//				catch ( ExtensionException e )
+//				{
+//					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+//				}
+//				catch ( MetaDataException e )
+//				{
+//					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+//				}
 			}
 		}
 	}
@@ -206,7 +206,7 @@ public abstract class ExtensionLoader
 		{
 			if ( StringUtil.isBlank( value ) )
 				throw new ExtensionException( new String[]{name},
-						ExtensionException.VALUE_REQUIRED );
+						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED );
 		}
 
 		/**

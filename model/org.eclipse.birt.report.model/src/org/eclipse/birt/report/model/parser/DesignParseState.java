@@ -24,7 +24,7 @@ import org.xml.sax.Attributes;
 
 /**
  * Base class for report element parse states.
- *  
+ * 
  */
 
 public abstract class DesignParseState extends AbstractParseState
@@ -68,27 +68,8 @@ public abstract class DesignParseState extends AbstractParseState
 	public abstract DesignElement getElement( );
 
 	/**
-	 * Sets the value of a property based on an XML attribute. Performs semantic
-	 * checks required for the property. The property is assumed to be on the
-	 * element that this state is building.
-	 * 
-	 * @param propName
-	 *            property name
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the XML attribute name for the property
-	 */
-
-	protected void setProperty( String propName, Attributes attrs,
-			String attrName )
-	{
-		setProperty( propName, getAttrib( attrs, attrName ) );
-	}
-
-	/**
 	 * Sets the value of a property with a string parsed from the XML file.
-	 * Performs any required semantic checks.
+	 * Performs any required semantic checks. 
 	 * 
 	 * @param propName
 	 *            property name
@@ -126,55 +107,6 @@ public abstract class DesignParseState extends AbstractParseState
 		element.setProperty( propName, propValue );
 	}
 
-	/**
-	 * Sets the member of a structure.
-	 * 
-	 * @param struct
-	 *            the structure that contains the member to set
-	 * @param propName
-	 *            the property in which the structure appears
-	 * @param member
-	 *            the structure member name
-	 * @param value
-	 *            the value parsed from the XML file
-	 */
-
-	void setMember( IStructure struct, String propName, String member,
-			String value )
-	{
-		if ( StringUtil.isBlank( value ) )
-			return;
-
-		// Ensure that the member is defined.
-
-		StructureDefn structDefn = (StructureDefn)struct.getDefn( );
-		assert structDefn != null;
-		if ( structDefn == null )
-			return;
-
-		StructPropertyDefn memberDefn = (StructPropertyDefn)structDefn.getMember( member );
-		assert memberDefn != null;
-		if ( memberDefn == null )
-			return;
-
-		// Validate the value.
-
-		Object propValue = null;
-		try
-		{
-			propValue = memberDefn.validateXml( handler.getDesign( ), value
-					.trim( ) );
-		}
-		catch ( PropertyValueException ex )
-		{
-			ex.setElement( getElement( ) );
-			ex.setPropertyName( propName + "." + member ); //$NON-NLS-1$
-			handler.semanticError( ex );
-			return;
-		}
-		struct.setProperty( memberDefn, propValue );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -192,13 +124,13 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
 			return new XmlPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-			return new StructureState( handler, getElement() );
+			return new StructureState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-			return new PropertyState( handler, getElement() );
+			return new PropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
-			return new TextPropertyState( handler, getElement() );
+			return new TextPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
-			return new TextPropertyState( handler, getElement() );
+			return new TextPropertyState( handler, getElement( ) );
 
 		return super.startElement( tagName );
 	}

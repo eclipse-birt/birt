@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -183,6 +184,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 
 	private Map semanticValidators = new HashMap( );
+
+	/**
+	 * The default encryption helper.
+	 */
+
+	private IEncryptionHelper encryptionHelper = SimpleEncryptionHelper.getInstance();
 
 	/**
 	 * Singleton class, constructor is private.
@@ -797,5 +804,28 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	public AbstractSemanticValidator getSemanticValidator( String name )
 	{
 		return (AbstractSemanticValidator) semanticValidators.get( name );
+	}
+
+	/**
+	 * Returns the encryption helper.
+	 * 
+	 * @return the encryption helper which is registered on metadata dictionary.
+	 */
+
+	public IEncryptionHelper getEncryptionHelper( )
+	{
+		return encryptionHelper;
+	}
+
+	/**
+	 * Sets the encryption helper.
+	 * 
+	 * @param encryptionHelper
+	 *            the encryption helper to set
+	 */
+
+	void setEncryptionHelper( IEncryptionHelper encryptionHelper )
+	{
+		this.encryptionHelper = encryptionHelper;
 	}
 }

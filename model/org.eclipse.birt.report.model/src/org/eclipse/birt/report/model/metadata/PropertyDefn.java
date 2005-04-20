@@ -155,7 +155,7 @@ public abstract class PropertyDefn
 	/**
 	 * Indicates if this whether this property is a list. This property is
 	 * useful only when the property type is a structure type.
-	 *  
+	 * 
 	 */
 
 	protected boolean isList = false;
@@ -177,6 +177,12 @@ public abstract class PropertyDefn
 	 */
 
 	private boolean valueRequired = false;
+
+	/*
+     * Whether the value of this property should be protected.
+     */
+     
+	private boolean isEncrypted = false;
 
 	/**
 	 * Constructs a Property Definition.
@@ -1094,5 +1100,28 @@ public abstract class PropertyDefn
 	{
 		assert type.getTypeCode( ) == PropertyType.DIMENSION_TYPE;
 		this.defaultUnit = defaultUnit;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncrypted()
+	 */
+
+	public boolean isEncrypted( )
+	{
+		return isEncrypted;
+	}
+
+	/**
+	 * Sets this property encrypted or not.
+	 * 
+	 * @param isEncrypted
+	 *            flag indicating whether this property is encrypted.
+	 */
+
+	void setIsEncrypted( boolean isEncrypted )
+	{
+		this.isEncrypted = isEncrypted;
 	}
 }

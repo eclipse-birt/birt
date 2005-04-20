@@ -86,6 +86,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 		private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
+		private static final String IS_ENCRYPTED_ATTRIB = "isEncrypted"; //$NON-NLS-1$
 
 		PeerExtensionElementLoader( IExtension extension )
 		{
@@ -187,7 +188,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			catch ( FrameworkException e )
 			{
 				throw new ExtensionException( new String[]{className},
-						ExtensionException.FAILED_TO_CREATE_INSTANCE );
+						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE );
 			}
 			elementDefn.extensionPoint = EXTENSION_POINT;
 			MetaDataDictionary.getInstance( ).addExtension( elementDefn );
@@ -222,6 +223,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
 			String visibility = propTag
 					.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
+			String isEncrypted = propTag.getAttribute( IS_ENCRYPTED_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
 			checkRequiredAttribute( TYPE_ATTRIB, type );
@@ -258,6 +260,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 			else if ( propType.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 				extPropDefn
 						.setVisibility( ElementPropertyDefn.HIDDEN_IN_PROPERTY_SHEET );
+
+			if ( !StringUtil.isBlank( isEncrypted ) )
+				extPropDefn.setIsEncrypted( Boolean.valueOf( isEncrypted )
+						.booleanValue( ) );
 
 			List choiceList = new ArrayList( );
 
