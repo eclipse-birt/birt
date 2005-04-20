@@ -35,7 +35,7 @@ public final class ColumnHelper
 	 * @return the index of a column.
 	 */
 
-	protected static TableColumn findColumn( ReportDesign design,
+	public static TableColumn findColumn( ReportDesign design,
 			ContainerSlot columnSlot, int columnNum )
 	{
 		assert columnNum > 0;

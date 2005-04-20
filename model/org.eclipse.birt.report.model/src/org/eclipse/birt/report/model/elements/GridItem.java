@@ -296,7 +296,7 @@ public class GridItem extends ReportItem
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
-		int columnNum = findCellColumn( design, target );
+		int columnNum = getCellPositionInColumn( design, target );
 
 		assert columnNum > 0;
 		TableColumn column = ColumnHelper.findColumn( design,
@@ -317,10 +317,10 @@ public class GridItem extends ReportItem
 	 * @param target
 	 *            the cell to find
 	 * 
-	 * @return the column number
+	 * @return the column position
 	 */
 
-	private int findCellColumn( ReportDesign design, Cell target )
+	public int getCellPositionInColumn( ReportDesign design, Cell target )
 	{
 		int pos = target.getColumn( design );
 		if ( pos > 0 )

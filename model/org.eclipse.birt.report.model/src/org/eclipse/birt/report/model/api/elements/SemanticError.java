@@ -180,6 +180,24 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_PROPERTY_COPY_FORBIDDEN;
 
 	/**
+	 * Error code indicating to copy one column is forbidden.
+	 */
+
+	public static final String DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_COLUMN_COPY_FORBIDDEN;
+
+	/**
+	 * Error code indicating to paste one column is forbidden.
+	 */
+
+	public static final String DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_COLUMN_PASTE_FORBIDDEN;
+
+	/**
+	 * Error code indicating to paste one column is forbidden.
+	 */
+
+	public static final String DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT = MessageConstants.SEMANTIC_ERROR_COLUMN_PASTE_DIFFERENT_LAYOUT;
+
+	/**
 	 * The constant for the semantic error.
 	 */
 
