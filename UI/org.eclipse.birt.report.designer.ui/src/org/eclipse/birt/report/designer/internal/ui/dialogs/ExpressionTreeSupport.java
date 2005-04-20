@@ -26,6 +26,8 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
@@ -614,7 +616,7 @@ public class ExpressionTreeSupport
 				if ( methodInfo.isStatic( ) )
 				{
 					createSubTreeItem( subItem,
-							methodInfo.getDisplayName( ),
+							getMethodDisplayName( classInfo.getName( ), methodInfo ),
 							IMAGE_FUNCTION,
 							getTextData( classInfo.getName( ), methodInfo ),
 							methodInfo.getToolTip( ),
@@ -623,7 +625,7 @@ public class ExpressionTreeSupport
 				else
 				{
 					createSubTreeItem( subItem,
-							methodInfo.getDisplayName( ),
+							getMethodDisplayName( classInfo.getName( ), methodInfo ),
 							null,
 							getTextData( classInfo.getName( ), methodInfo ),
 							methodInfo.getToolTip( ),
@@ -647,6 +649,31 @@ public class ExpressionTreeSupport
 	{
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
 	}
+	
+	private String getMethodDisplayName( String className, IMethodInfo info )
+	{
+		StringBuffer textData = new StringBuffer( );
+		textData.append( info.getDisplayName() );
+		textData.append( "(");//$NON-NLS-1$
+
+		for(Iterator it = info.argumentListIterator();it.hasNext();)
+		{
+			IArgumentInfoList arguments = (IArgumentInfoList)it.next();
+			boolean firstTime = true;
+			for(Iterator iterator = arguments.argumentsIterator();iterator.hasNext();)
+			{
+				IArgumentInfo argument = (IArgumentInfo) iterator.next();
+				if(!firstTime)
+				{
+					textData.append(",");//$NON-NLS-1$
+				}
+				firstTime = false;
+				textData.append(argument.getDisplayName());
+			}
+		}
+		textData.append(")");//$NON-NLS-1$
+		return textData.toString( );
+	}	
 
 	private String getTextData( String className, ILocalizableInfo info )
 	{

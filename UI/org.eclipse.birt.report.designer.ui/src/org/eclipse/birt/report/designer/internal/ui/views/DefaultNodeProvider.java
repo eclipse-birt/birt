@@ -74,6 +74,8 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String DATASETS = Messages.getString( "DefaultNodeProvider.Tree.DataSets" ); //$NON-NLS-1$
 
 	public static final String STYLES = Messages.getString( "DefaultNodeProvider.Tree.Styles" ); //$NON-NLS-1$
+	
+	public static final String IMAGES = Messages.getString( "DefaultNodeProvider.Tree.Images" ); //$NON-NLS-1$
 
 	public static final String PARAMETERS = Messages.getString( "DefaultNodeProvider.Tree.Parameters" ); //$NON-NLS-1$
 
@@ -122,7 +124,7 @@ public class DefaultNodeProvider implements INodeProvider
 			menu.add( renameAction );
 		}
 		// Delete action
-		DeleteAction deleteAction = deleteAction = new DeleteAction( object );
+		DeleteAction deleteAction = new DeleteAction( object );
 		if ( deleteAction.isEnabled( ) )
 		{//if can delete,add to menu
 			menu.add( deleteAction );
