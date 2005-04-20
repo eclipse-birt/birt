@@ -37,6 +37,7 @@ class CandidateQuery extends BaseQuery implements ICandidateQuery
 	public void setCandidates( IResultIterator resultObjsIterator,
 			int groupingLevel ) throws DataException
 	{
+		assert resultObjsIterator != null;
 		this.resultObjsIterator = resultObjsIterator;
 		this.groupingLevel = groupingLevel;
 		
@@ -50,6 +51,8 @@ class CandidateQuery extends BaseQuery implements ICandidateQuery
 	{
 		assert customDataSet != null;
 		this.customDataSet = customDataSet;
+		
+		resultMetadata = customDataSet.getResultClass();
 	}
 
 	/* (non-Javadoc)

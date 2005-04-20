@@ -60,20 +60,30 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	class ScriptDSQueryExecutor extends DSQueryExecutor
 	{
 		private ResultClass resultClass;
+		private CustomDataSet customDataSet;
 		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
+		 */
 		protected IDataSource createOdiDataSource( )
 		{
 			// An empty odi data source is used for script data set
 			return DataSourceFactory.getFactory().newDataSource( null );
 		}
 	
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
+		 */
 		protected IQuery createOdiQuery()  throws DataException
 		{
 			assert odiDataSource != null;
 			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery( );
 			return candidateQuery;
 		}
-	
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
+		 */
 		protected void populateOdiQuery( ) throws DataException
 		{
 			super.populateOdiQuery( );
@@ -101,19 +111,30 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			}
 			resultClass = new ResultClass( columnsList );
 		}
-	
-		protected IResultIterator executeOdiQuery( IQueryResults outerResults )
-				throws DataException
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#prepareOdiQuery()
+		 */
+		protected void prepareOdiQuery(  ) throws DataException
 		{
-			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
-			assert candidateQuery != null;
+			assert odiQuery != null;
 			assert resultClass != null;
 			assert dataSet instanceof ScriptDataSetRuntime;
 			
-			CustomDataSet customDataSet = new CustomDataSet( );
-			
-			customDataSet.open();
+			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
+			customDataSet = new CustomDataSet( );
 			candidateQuery.setCandidates( customDataSet );
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery(org.eclipse.birt.data.engine.api.IQueryResults)
+		 */
+		protected IResultIterator executeOdiQuery( IQueryResults outerResults )
+				throws DataException
+		{	
+			// prepareOdiQuery must be called before			
+			customDataSet.open();
+			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
 			return candidateQuery.execute( );
 		}
 	
