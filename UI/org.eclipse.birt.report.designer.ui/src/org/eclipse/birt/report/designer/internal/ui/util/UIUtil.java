@@ -419,11 +419,14 @@ public class UIUtil
 				}
 				else if ( parent instanceof TableHandle )
 				{
-					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
-							.get( 0 ) );
-					CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
-							.get( 0 );
-					cellHandle.getContent( ).add( dataItemHandle );
+					if ( groupHandle.getHeader( ).getCount( ) != 0 )
+					{
+						RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
+								.get( 0 ) );
+						CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
+								.get( 0 );
+						cellHandle.getContent( ).add( dataItemHandle );
+					}
 				}
 			}
 			return true;
