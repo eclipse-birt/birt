@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -38,6 +40,8 @@ public class ImageManager
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
 
 	private static final ImageManager instance = new ImageManager( );
+	
+	private List invalidUrlList = new ArrayList();
 
 	private ImageManager( )
 	{
@@ -52,6 +56,8 @@ public class ImageManager
 	{
 		return instance;
 	}
+	
+	
 
 	/**
 	 * Gets the image by the given URI
@@ -62,20 +68,51 @@ public class ImageManager
 	 * @return Returns the image,or null if the url is invalid or the file
 	 *         format is unsupported.
 	 */
-	public Image getImage( String uri )
+	public Image getImage( String uri,  boolean refresh )
 	{
 		Image image;
+		URL url = null;
+		
 		try
 		{
-			image = loadImage( uri );
+			url = generateURL( uri );
+			if ( url == null )
+			{
+				return null;
+			}
+			if (!refresh && invalidUrlList.contains(url.toString()))
+			{
+				return null;
+			}
+			image = loadImage( url );
+			if (image == null)
+			{
+				if (!invalidUrlList.contains(url.toString()))
+				{
+					invalidUrlList.add(url.toString());
+				}
+			}
+			else
+			{
+				invalidUrlList.remove(url.toString());
+			}
 		}
 		catch ( Exception e )
 		{
+			if (url != null && !invalidUrlList.contains(url.toString()))
+			{
+				invalidUrlList.add(url.toString());
+			}
 			return null;
 		}
 		return image;
 	}
+	
 
+	public Image getImage( String uri )
+	{
+		return getImage(uri, false);
+	}
 	/**
 	 * Gets the embedded image
 	 * 
@@ -122,6 +159,11 @@ public class ImageManager
 		{
 			throw new FileNotFoundException( uri );
 		}
+		return loadImage(url);
+	}
+
+	private Image  loadImage( URL url ) throws IOException
+	{
 		String key = url.toString( );
 		Image image = getImageRegistry( ).get( key );
 		if ( image != null )
@@ -151,7 +193,6 @@ public class ImageManager
 		}
 		return image;
 	}
-
 	private ImageRegistry getImageRegistry( )
 	{
 		return CorePlugin.getDefault( ).getImageRegistry( );
