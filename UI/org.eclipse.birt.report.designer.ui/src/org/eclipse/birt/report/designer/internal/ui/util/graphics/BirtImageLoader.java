@@ -33,8 +33,9 @@ public class BirtImageLoader
 	 * 
 	 * @param fileName
 	 * @return byte array data of image file.
+	 * @throws IOException
 	 */
-	public byte[] load( String fileName )
+	public byte[] load( String fileName ) throws IOException
 	{
 		FileInputStream file = null;
 		try
@@ -43,8 +44,7 @@ public class BirtImageLoader
 		}
 		catch ( FileNotFoundException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			throw e;
 		}
 
 		byte data[] = null;
@@ -57,8 +57,7 @@ public class BirtImageLoader
 			}
 			catch ( IOException e1 )
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace( );
+				throw e1;
 			}
 		}
 		return data;
@@ -74,9 +73,10 @@ public class BirtImageLoader
 	 *            file name of image
 	 * @return
 	 * @throws SemanticException
+	 * @throws IOException
 	 */
 	public EmbeddedImage save( ReportDesignHandle handle, String fileName )
-			throws SemanticException
+			throws SemanticException, IOException
 	{
 		EmbeddedImage embeddedImage = StructureFactory.createEmbeddedImage( );
 		embeddedImage.setName( fileName );
