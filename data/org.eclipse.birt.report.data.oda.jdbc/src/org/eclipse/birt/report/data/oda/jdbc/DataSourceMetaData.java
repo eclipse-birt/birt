@@ -19,7 +19,7 @@ import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.OdaException;
 
 /**
- * DataSourceMetaData implements the ODA interface IDataSourceMetaData.
+ * DataSourceMetaData implements the ODA interface IDataSetMetaData.
  * 
  */
 public class DataSourceMetaData implements IDataSetMetaData
@@ -48,18 +48,17 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getConnection()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getConnection()
 	 */
 	public IConnection getConnection( ) throws OdaException
 	{
-
 		return conn;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getDataSourceObjects(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceObjects(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public IResultSet getDataSourceObjects( String catalog, String schema,
@@ -71,50 +70,75 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getDataSourceMajorVersion()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceMajorVersion()
 	 */
 	public int getDataSourceMajorVersion( ) throws OdaException
 	{
-
-		return ConnectionMetaData.DRIVER_MAJOR_VERSION;
+	    try
+	    {
+	        return dbMetadata.getDatabaseMajorVersion();
+	    }
+		catch ( SQLException e )
+		{
+			throw new JDBCException( e );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getDataSourceMinorVersion()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceMinorVersion()
 	 */
 	public int getDataSourceMinorVersion( ) throws OdaException
 	{
-
-		return ConnectionMetaData.DRIVER_MINOR_VERSION;
+	    try
+	    {
+	        return dbMetadata.getDatabaseMajorVersion();
+	    }
+		catch ( SQLException e )
+		{
+			throw new JDBCException( e );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getDataSourceProductName()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceProductName()
 	 */
 	public String getDataSourceProductName( ) throws OdaException
 	{
-
-		return ConnectionMetaData.DRIVER_NAME;
+	    try
+	    {
+	        return dbMetadata.getDatabaseProductName();
+	    }
+		catch ( SQLException e )
+		{
+			throw new JDBCException( e );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getDataSourceProductVersion()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceProductVersion()
 	 */
 	public String getDataSourceProductVersion( ) throws OdaException
 	{
-		return ConnectionMetaData.DRIVER_VERSION;
+	    try
+	    {
+	        return dbMetadata.getDatabaseProductVersion();
+	    }
+		catch ( SQLException e )
+		{
+			throw new JDBCException( e );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getSQLStateType()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getSQLStateType()
 	 */
 	public int getSQLStateType( ) throws OdaException
 	{
@@ -143,77 +167,70 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsMultipleOpenResults()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsMultipleOpenResults()
 	 */
 	public boolean supportsMultipleOpenResults( ) throws OdaException
 	{
-
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsMultipleResultSets()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsMultipleResultSets()
 	 */
 	public boolean supportsMultipleResultSets( ) throws OdaException
 	{
-
-		return true;
+	    return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsNamedResultSets()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsNamedResultSets()
 	 */
 	public boolean supportsNamedResultSets( ) throws OdaException
 	{
-
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsNamedParameters()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsNamedParameters()
 	 */
 	public boolean supportsNamedParameters( ) throws OdaException
 	{
-
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsInParameters()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsInParameters()
 	 */
 	public boolean supportsInParameters( ) throws OdaException
 	{
-
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#supportsOutParameters()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsOutParameters()
 	 */
 	public boolean supportsOutParameters( ) throws OdaException
 	{
-
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSourceMetaData#getSortMode()
+	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getSortMode()
 	 */
 	public int getSortMode( )
 	{
-
 		return sortModeNone;
 	}
 

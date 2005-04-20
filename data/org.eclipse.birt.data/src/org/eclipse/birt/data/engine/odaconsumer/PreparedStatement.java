@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.oda.ICallStatement;
+import org.eclipse.birt.data.oda.IAdvancedStatement;
 import org.eclipse.birt.data.oda.IParameterMetaData;
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
@@ -65,6 +65,8 @@ public class PreparedStatement
 	private ProjectedColumns m_projectedColumns;
 	private IResultClass m_currentResultClass;
 	private ResultSet m_currentResultSet;
+	private IResultSet m_driverResultSet;
+	
 	// projected columns for the un-named result set needs to be updated 
 	// next time it's needed
 	private boolean m_updateProjectedColumns;
@@ -360,7 +362,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getMetaDataOf( resultSetName );
+			return getAdvancedStatement().getMetaDataOf( resultSetName );
 		}
 		catch( OdaException ex )
 		{
@@ -393,7 +395,13 @@ public class PreparedStatement
 		
 		try
 		{
-			return m_statement.execute( );
+		    if ( isAdvancedStatement() )
+		        return getAdvancedStatement().execute();
+		    
+		    // simple statement; hold onto its returned result set
+		    // for subsequent call to getResultSet()
+		    m_driverResultSet = m_statement.executeQuery( );
+		    return true;
 		}
 		catch( OdaException ex )
 		{
@@ -409,6 +417,7 @@ public class PreparedStatement
 	// applies to named and un-named result sets
 	private void resetCurrentResultSets()
 	{
+	    m_driverResultSet = null;
 		m_currentResultSet = null;
 		
 		if( m_namedCurrentResultSets != null )
@@ -426,7 +435,13 @@ public class PreparedStatement
 		
 		try
 		{
-			resultSet = m_statement.getResultSet( );
+			if ( isAdvancedStatement() )
+			    resultSet = getAdvancedStatement().getResultSet();
+			else
+			{
+			    resultSet = m_driverResultSet;
+			    m_driverResultSet = null;
+			}	        		
 		}
 		catch( OdaException ex )
 		{
@@ -467,7 +482,7 @@ public class PreparedStatement
 		try
 		{
 			resultset = 
-				( (ICallStatement) m_statement ).getResultSet( resultSetName );
+			    getAdvancedStatement().getResultSet( resultSetName );
 		}
 		catch( OdaException ex )
 		{
@@ -506,7 +521,7 @@ public class PreparedStatement
 		
 		try
 		{
-			return ( (ICallStatement) m_statement ).findOutParameter( paramName );
+			return getAdvancedStatement().findOutParameter( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -872,9 +887,15 @@ public class PreparedStatement
 		return m_statement;
 	}
 	
-	private boolean isCallStatement( )
+	private IAdvancedStatement getAdvancedStatement()
 	{
-		return ( m_statement instanceof ICallStatement );
+	    assert ( isAdvancedStatement() );
+	    return (IAdvancedStatement) m_statement;
+	}
+	
+	private boolean isAdvancedStatement( )
+	{
+		return ( m_statement instanceof IAdvancedStatement );
 	}
 	
 	private boolean supportsNamedResults() throws DataException
@@ -918,7 +939,7 @@ public class PreparedStatement
 	{
 		// this can only support named result sets if the underlying object is at 
 		// least an ICallStatement
-		if( ! isCallStatement( ) || ! supportsNamedResults() )
+		if( ! isAdvancedStatement( ) || ! supportsNamedResults() )
 			throw new DataException( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED, 
 									 new UnsupportedOperationException() );
 	}
@@ -1109,7 +1130,7 @@ public class PreparedStatement
 	{
 		// this can only support output parameter if the underlying object is at 
 		// least an ICallStatement
-		if( ! isCallStatement( ) || ! supportsOutputParameter() ) 
+		if( ! isAdvancedStatement( ) || ! supportsOutputParameter() ) 
 			throw new DataException( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED, 
 									 new UnsupportedOperationException() );
 	}
@@ -1282,7 +1303,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getInt( paramIndex );
+			return getAdvancedStatement().getInt( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1300,7 +1321,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getInt( paramName );
+			return getAdvancedStatement().getInt( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1318,7 +1339,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getDouble( paramIndex );
+			return getAdvancedStatement().getDouble( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1336,7 +1357,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getDouble( paramName );
+			return getAdvancedStatement().getDouble( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1354,7 +1375,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getString( paramIndex );
+			return getAdvancedStatement().getString( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1372,7 +1393,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getString( paramName );
+			return getAdvancedStatement().getString( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1390,7 +1411,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getBigDecimal( paramIndex );
+			return getAdvancedStatement().getBigDecimal( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1408,7 +1429,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getBigDecimal( paramName );
+			return getAdvancedStatement().getBigDecimal( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1426,7 +1447,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getDate( paramIndex );
+			return getAdvancedStatement().getDate( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1444,7 +1465,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getDate( paramName );
+			return getAdvancedStatement().getDate( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1462,7 +1483,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getTime( paramIndex );
+			return getAdvancedStatement().getTime( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1480,7 +1501,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getTime( paramName );
+			return getAdvancedStatement().getTime( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1498,7 +1519,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getTimestamp( paramIndex );
+			return getAdvancedStatement().getTimestamp( paramIndex );
 		}
 		catch( OdaException ex )
 		{
@@ -1516,7 +1537,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).getTimestamp( paramName );
+			return getAdvancedStatement().getTimestamp( paramName );
 		}
 		catch( OdaException ex )
 		{
@@ -1534,7 +1555,7 @@ public class PreparedStatement
 	{
 		try
 		{
-			return ( (ICallStatement) m_statement ).wasNull();
+			return getAdvancedStatement().wasNull();
 		}
 		catch( OdaException ex )
 		{

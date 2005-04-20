@@ -88,7 +88,6 @@ public class Statement implements IStatement
 			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
 					DriverException.ERROR_NO_CONNECTION );
 		}
-
 	}
 
 	/*
@@ -113,7 +112,6 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
 	}
 
 	/*
@@ -135,7 +133,6 @@ public class Statement implements IStatement
 		/* not supported */
 		throw new UnsupportedOperationException(
 				"setPropertyInfo is not supported." );
-
 	}
 
 	/*
@@ -157,7 +154,6 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
 	}
 
 	/*
@@ -169,7 +165,7 @@ public class Statement implements IStatement
 				+ max + " )" );
 		if ( max != maxrows && max >= 0 )
 		{
-			maxrows = (int) max;
+			maxrows = max;
 			maxRowsUpToDate = false;
 		}
 	}
@@ -212,20 +208,11 @@ public class Statement implements IStatement
 		{
 			// If Jdbc driver throw an SQLexception or return null, when we get
 			// MetaData from ResultSet
-			execute( );
-			IResultSet mdRs = this.getResultSet( );
-			pstmtResultMetaData = mdRs.getMetaData( );
+			IResultSet mdRs = executeQuery( );
+			if ( mdRs != null )
+			    pstmtResultMetaData = mdRs.getMetaData( );
 		}
 		return pstmtResultMetaData;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getMetaData(java.lang.String)
-	 */
-	public IResultSetMetaData getMetaData( String command ) throws OdaException
-	{
-		this.prepare( command );
-		return this.getMetaData( );
 	}
 
 	/*
@@ -250,25 +237,13 @@ public class Statement implements IStatement
 		{
 			throw new JDBCException( e );
 		}
-
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#executeQuery(java.lang.String)
+	 * TODO: used by junit tests only;
+	 * to be removed after update of tests
 	 */
-	public IResultSet executeQuery( String command ) throws OdaException
-	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL,
-				"Statement.executeQuery( \"" + command + "\" )" );
-		/* use the parepare and executeQuery instead */
-		this.prepare( command );
-		return this.executeQuery( );
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#execute()
-	 */
-	public boolean execute( ) throws OdaException
+	boolean execute( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.execute( )" );
 		assertNotNull( preStat );
@@ -287,58 +262,6 @@ public class Statement implements IStatement
 			throw new JDBCException( e );
 		}
 
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#execute(java.lang.String)
-	 */
-	public boolean execute( String command ) throws OdaException
-	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.execute( \""
-				+ command + "\" )" );
-		/* use the parepare and execute instead */
-		this.prepare( command );
-		return this.execute( );
-
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getResultSet()
-	 */
-	public IResultSet getResultSet( ) throws OdaException
-	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"Statement.getResultSet( )" );
-		assertNotNull( preStat );
-		try
-		{
-			/* redirect the call to JDBC preparedStatement.getResultSet() */
-			return new ResultSet( this.preStat.getResultSet( ) );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( e );
-		}
-
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getMoreResults()
-	 */
-	public boolean getMoreResults( ) throws OdaException
-	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"Statement.getMoreResults( )" );
-		assertNotNull( preStat );
-		try
-		{
-			/* redirect the call to JDBC preparedStatement.getMoreResults() */
-			return this.preStat.getMoreResults( );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( e );
-		}
 	}
 
 	/*
@@ -384,7 +307,6 @@ public class Statement implements IStatement
 		/* not supported */
 		throw new UnsupportedOperationException(
 				"No named Parameter supported." );
-
 	}
 
 	/*
@@ -420,7 +342,6 @@ public class Statement implements IStatement
 		/* not supported */
 		throw new UnsupportedOperationException(
 				"No named Parameter supported." );
-
 	}
 
 	/*
@@ -486,7 +407,6 @@ public class Statement implements IStatement
 		{
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
-
 	}
 
 	/*
@@ -521,7 +441,6 @@ public class Statement implements IStatement
 		{
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
-
 	}
 
 	/*
@@ -533,7 +452,6 @@ public class Statement implements IStatement
 		/* not supported */
 		throw new UnsupportedOperationException(
 				"No named Parameter supported." );
-
 	}
 
 	/*
@@ -557,7 +475,6 @@ public class Statement implements IStatement
 		{
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
-
 	}
 
 	/*
@@ -570,7 +487,6 @@ public class Statement implements IStatement
 		/* not supported */
 		throw new UnsupportedOperationException(
 				"No named Parameter supported." );
-
 	}
 
 	/*
@@ -599,7 +515,6 @@ public class Statement implements IStatement
 		{
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
-
 	}
 
 	/*
