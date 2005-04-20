@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -268,7 +270,9 @@ public class JDBCDriverManager
 					ConfigManager.getInstance().getDriverConfig( DRIVER_NAME );
 				if ( driverConfig != null )
 				{
-					driverHomeDir = new File( driverConfig.getDriverLocation().getFile(), 
+				    URL url = driverConfig.getDriverLocation();
+				    URI uri = new URI(url.toString());
+					driverHomeDir = new File( uri.getPath(), 
 							DRIVER_DIRECTORY );
 				}
 			}
@@ -279,7 +283,9 @@ public class JDBCDriverManager
 			catch ( IOException e) 
 			{
 				// TODO: log exception
-			}
+			} catch (URISyntaxException e) {
+                // TODO log exception
+            }
 				
 			if ( driverHomeDir == null )
 			{
