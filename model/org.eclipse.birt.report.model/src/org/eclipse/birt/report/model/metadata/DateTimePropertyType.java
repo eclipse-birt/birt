@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -77,7 +78,8 @@ public class DateTimePropertyType extends PropertyType
 		}
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, DATE_TIME_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				DATE_TIME_TYPE );
 	}
 
 	/**
@@ -102,7 +104,8 @@ public class DateTimePropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					getTypeCode( ) );
 		}
 
 	}
@@ -160,12 +163,31 @@ public class DateTimePropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
+		return validateInputString( value, ThreadResources.getLocale( ) );
+	}
+
+	/**
+	 * Validates the locale-dependent value for the date time type, validate the
+	 * <code>value</code> in the locale-dependent way and convert the
+	 * <code>value</code> into a Date object.
+	 * 
+	 * @param value
+	 *            the value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return object of type Date or null if <code>value</code> is null.
+	 * @throws PropertyValueException
+	 */
+
+	public Object validateInputString( String value, Locale locale )
+			throws PropertyValueException
+	{
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
 		// Parse the input in locale-dependent way.
 		DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
-				ThreadResources.getLocale( ) );
+				locale );
 		try
 		{
 			return formatter.parse( value );
@@ -173,9 +195,9 @@ public class DateTimePropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, DATE_TIME_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DATE_TIME_TYPE );
 		}
-
 	}
 
 	/**

@@ -562,6 +562,8 @@ public class MemberRef
 	public Object getValue( ReportDesign design, DesignElement element )
 	{
 		Structure struct = getStructure( design, element );
+		if ( struct == null )
+			return null;
 		if ( propDefn.isList( ) )
 		{
 			// property

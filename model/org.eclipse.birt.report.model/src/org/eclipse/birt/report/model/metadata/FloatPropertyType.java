@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -117,7 +119,8 @@ public class FloatPropertyType extends PropertyType
 			return validateInputString( design, defn, (String) value );
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, FLOAT_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				FLOAT_TYPE );
 	}
 
 	/**
@@ -216,12 +219,31 @@ public class FloatPropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
+		return validateInputString( value, ThreadResources.getLocale( ) );
+	}
+
+	/**
+	 * Validates the locale-dependent value for the float type, validate the
+	 * <code>value</code> in the locale-dependent way and convert the
+	 * <code>value</code> into a Double object.
+	 * 
+	 * @param value
+	 *            the value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return object of type Double or null if <code>value</code> is null.
+	 * @throws PropertyValueException
+	 */
+
+	public Object validateInputString( String value, Locale locale )
+			throws PropertyValueException
+	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
 			return null;
 
 		NumberFormat localeFormatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ) );
+				.getNumberInstance( locale );
 		Number number = null;
 		try
 		{
@@ -232,7 +254,8 @@ public class FloatPropertyType extends PropertyType
 		catch ( ParseException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					NUMBER_TYPE );
 		}
 
 		return new Double( number.doubleValue( ) );
@@ -260,7 +283,8 @@ public class FloatPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, FLOAT_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					FLOAT_TYPE );
 		}
 	}
 }

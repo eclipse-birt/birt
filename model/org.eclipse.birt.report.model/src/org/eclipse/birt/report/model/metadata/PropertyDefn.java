@@ -359,6 +359,7 @@ public abstract class PropertyDefn
 				IChoice choice = units.findChoice( defaultUnit );
 				if ( choice == null )
 				{
+					setDefaultUnit( DimensionValue.DEFAULT_UNIT );
 					throw new MetaDataException( new String[]{ getName( ), defaultUnit},
 							MetaDataException.DESIGN_EXCEPTION_INVALID_UNIT );
 				}

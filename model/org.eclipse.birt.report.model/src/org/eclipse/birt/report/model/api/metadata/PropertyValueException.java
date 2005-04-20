@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.metadata;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -24,7 +25,8 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * Indicates an invalid property value.
  */
 
-public class PropertyValueException extends SemanticException {
+public class PropertyValueException extends SemanticException
+{
 
 	/**
 	 * The invalid value.
@@ -123,6 +125,11 @@ public class PropertyValueException extends SemanticException {
 
 	public static final String DESIGN_EXCEPTION_UNIT_NOT_ALLOWED = MessageConstants.PROPERTY_VALUE_EXCEPTION_UNIT_NOT_ALLOWED;
 
+	/**
+	 * Error code constant indicating unit is not set for the dimension
+	 * property.
+	 */
+
 	public static final String DESIGN_EXCEPTION_UNIT_REQUIRED = MessageConstants.PROPERTY_VALUE_EXCEPTION_UNIT_REQUIRED;
 
 	/**
@@ -151,11 +158,12 @@ public class PropertyValueException extends SemanticException {
 	 *            the parameter data type
 	 */
 
-	public PropertyValueException(Object value, String errCode, int type) {
-		super(null, errCode);
+	public PropertyValueException( Object value, String errCode, int type )
+	{
+		super( null, errCode );
 		this.invalidValue = value;
-		this.propertyTypeName = MetaDataDictionary.getInstance()
-				.getPropertyType(type).getName();
+		this.propertyTypeName = MetaDataDictionary.getInstance( )
+				.getPropertyType( type ).getName( );
 	}
 
 	/**
@@ -173,15 +181,16 @@ public class PropertyValueException extends SemanticException {
 	 *            description of the problem
 	 */
 
-	public PropertyValueException(DesignElement obj, String propName,
-			Object value, String errCode) {
-		super(obj, errCode);
+	public PropertyValueException( DesignElement obj, String propName,
+			Object value, String errCode )
+	{
+		super( obj, errCode );
 		this.propertyName = propName;
 		this.invalidValue = value;
 
-		PropertyDefn propDefn = element.getPropertyDefn(propertyName);
+		PropertyDefn propDefn = element.getPropertyDefn( propertyName );
 		assert propDefn != null;
-		this.propertyTypeName = propDefn.getType().getName();
+		this.propertyTypeName = propDefn.getType( ).getName( );
 
 	}
 
@@ -200,14 +209,31 @@ public class PropertyValueException extends SemanticException {
 	 *            error code.
 	 */
 
-	public PropertyValueException(DesignElement obj, IPropertyDefn propDefn,
-			Object value, String errCode) {
-		super(obj, errCode);
+	public PropertyValueException( DesignElement obj, IPropertyDefn propDefn,
+			Object value, String errCode )
+	{
+		super( obj, errCode );
 		assert propDefn != null;
 
 		this.invalidValue = value;
-		this.propertyName = propDefn.getName();
-		this.propertyTypeName = ((PropertyDefn) propDefn).getType().getName();
+		this.propertyName = propDefn.getName( );
+		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
+				.getName( );
+	}
+	
+	/**
+	 * Constructs an exception given an invalid value, error code.
+	 * 
+	 * @param value
+	 *            The invalid value.
+	 * @param errCode
+	 *            description of the problem
+	 */
+
+	public PropertyValueException( Object value, String errCode )
+	{
+		super( null, errCode );
+		this.invalidValue = value;
 	}
 
 	/**
@@ -217,7 +243,8 @@ public class PropertyValueException extends SemanticException {
 	 *            The element on which the property was being set.
 	 */
 
-	public void setElement(DesignElement obj) {
+	public void setElement( DesignElement obj )
+	{
 		element = obj;
 	}
 
@@ -228,7 +255,8 @@ public class PropertyValueException extends SemanticException {
 	 *            The name of the property being set.
 	 */
 
-	public void setPropertyName(String propName) {
+	public void setPropertyName( String propName )
+	{
 		propertyName = propName;
 	}
 
@@ -238,7 +266,8 @@ public class PropertyValueException extends SemanticException {
 	 * @return the invalid value
 	 */
 
-	public Object getInvalidValue() {
+	public Object getInvalidValue( )
+	{
 		return invalidValue;
 	}
 
@@ -248,7 +277,8 @@ public class PropertyValueException extends SemanticException {
 	 * @return the property name, or null if not known
 	 */
 
-	public String getPropertyName() {
+	public String getPropertyName( )
+	{
 		return propertyName;
 	}
 
@@ -258,50 +288,70 @@ public class PropertyValueException extends SemanticException {
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage() {
+	public String getLocalizedMessage( )
+	{
 		String value = ""; //$NON-NLS-1$
 
-		if (invalidValue != null)
-			value = invalidValue.toString(); //$NON-NLS-1$
+		if ( invalidValue != null )
+			value = invalidValue.toString( ); //$NON-NLS-1$
 
-		if (sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE) {
-			return ModelMessages.getMessage(sResourceKey, new String[] { value,
-					this.propertyTypeName });
+		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{value,
+					this.propertyTypeName} );
 		}
-		if (sResourceKey == DESIGN_EXCEPTION_NEGATIVE_VALUE
-				|| sResourceKey == DESIGN_EXCEPTION_NON_POSITIVE_VALUE) {
-			return ModelMessages.getMessage(sResourceKey, new String[] { value,
-					this.propertyName });
-		} else if (sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_FOUND
+		if ( sResourceKey == DESIGN_EXCEPTION_NEGATIVE_VALUE
+				|| sResourceKey == DESIGN_EXCEPTION_NON_POSITIVE_VALUE )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{value,
+					this.propertyName} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_VALUE_EXISTS
 				|| sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
-				|| sResourceKey == DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE) {
-			return ModelMessages.getMessage(sResourceKey,
-					new String[] { value });
-		} else if (sResourceKey == DESIGN_EXCEPTION_VALUE_REQUIRED
+				|| sResourceKey == DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{value} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_VALUE_REQUIRED
 				|| sResourceKey == DESIGN_EXCEPTION_VALUE_LOCKED
 				|| sResourceKey == DESIGN_EXCEPTION_NOT_LIST_TYPE
-				|| sResourceKey == DESIGN_EXCEPTION_ITEM_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_UNIT_REQUIRED) {
-			return ModelMessages.getMessage(sResourceKey,
-					new String[] { propertyName });
-		} else if (sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE) {
-			PropertyDefn propDefn = element.getPropertyDefn(propertyName);
+				|| sResourceKey == DESIGN_EXCEPTION_ITEM_NOT_FOUND )
+		{
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{propertyName} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_UNIT_REQUIRED )
+		{
+			String name = element.getName( );
+			if ( StringUtil.isBlank( name ) )
+				return ModelMessages.getMessage( sResourceKey, new String[]{
+						propertyName, element.getElementName( )} );
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					propertyName, element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE )
+		{
+			PropertyDefn propDefn = element.getPropertyDefn( propertyName );
 
 			assert propDefn != null;
-			assert propDefn.getTypeCode() == PropertyType.STRUCT_TYPE;
+			assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
 			assert invalidValue instanceof IStructure;
 
-			return ModelMessages.getMessage(sResourceKey, new String[] {
-					((IStructure) invalidValue).getStructName(),
-					propDefn.getStructDefn().getName() });
-		} else if (sResourceKey == DESIGN_EXCEPTION_UNIT_NOT_ALLOWED) {
-			return ModelMessages.getMessage(sResourceKey, new String[] { value,
-					propertyName });
-		} else if (sResourceKey == DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN) {
-			return ModelMessages.getMessage(sResourceKey, new String[] {
-					propertyName, element.getName() });
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					( (IStructure) invalidValue ).getStructName( ),
+					propDefn.getStructDefn( ).getName( )} );
 		}
-		return ModelMessages.getMessage(sResourceKey);
+		else if ( sResourceKey == DESIGN_EXCEPTION_UNIT_NOT_ALLOWED )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{value,
+					propertyName} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					propertyName, element.getName( )} );
+		}
+		return ModelMessages.getMessage( sResourceKey );
 	}
 }
