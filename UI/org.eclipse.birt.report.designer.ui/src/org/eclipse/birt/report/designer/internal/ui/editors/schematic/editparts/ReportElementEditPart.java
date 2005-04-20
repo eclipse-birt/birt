@@ -128,6 +128,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		{
 			clearGuideHandle( );
 			getHandleLayer( ).add( guideHandle );
+			guideHandle.invalidate();
+			guideHandle.setCanDeleteGuide(true);
 		}
 		else if (guideHandle != null && guideHandle == findHandle())
 		{

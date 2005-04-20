@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportSelectionSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
@@ -28,6 +31,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
@@ -73,6 +78,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -89,11 +95,11 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.6 $ $Date: 2005/03/16 07:52:47 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/17 06:56:36 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
-			EditorSelectionProvider
+			EditorSelectionProvider, IColleague
 {
 
 	private PaletteViewerProvider provider;
@@ -362,7 +368,12 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	public void dispose( )
 	{
 
+
+		//remove the mediator listener
+		SessionHandleAdapter.getInstance( ).getMediator( ).removeColleague(this);
+		
 		// remove selection listener
+		
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
@@ -482,6 +493,9 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		initializeGraphicalViewer( );
 		//addAction ( new ToggleRulerVisibilityAction(
 		// this.getGraphicalViewer() ));
+		
+		//suport the mediator
+		SessionHandleAdapter.getInstance().getMediator().addColleague(this);
 	}
 
 	/**
@@ -672,4 +686,67 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		updateActions( stackActionIDs );
 
 	}
+	
+
+	//add supoet the report media, may be use a helpler
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 */
+	public void performRequest(ReportRequest request)
+	{
+		if (ReportRequest.SELECTION.equals(request.getType()))
+		{
+			handleSelectionChange(request);
+		}
+		else if (ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+		{
+			handleCreateElement(request);
+		}
+	}
+
+	/**
+	 * @param request
+	 */
+	protected void handleCreateElement( ReportRequest request )
+	{
+		final GraphicalViewer viewer = getGraphicalViewer();
+		if (!viewer.getControl().isVisible())
+		{
+			return;
+		}
+		
+		final List list = request.getSelectionModelList();
+		if (list.size() != 1)
+		{
+			return;
+		}
+		Object part = viewer.getEditPartRegistry().get(list.get(0));
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				
+				Object part = viewer.getEditPartRegistry().get(list.get(0));
+				if (part instanceof EditPart)
+				{			
+					Request directEditRequest = new Request(RequestConstants.REQ_OPEN);
+					if (((EditPart)part).understandsRequest(directEditRequest))
+					{
+						( (EditPart) part ).performRequest(directEditRequest);
+					}
+				}
+			}
+		});
+				
+		
+	}
+
+	/**
+	 * @param request
+	 */
+	protected void handleSelectionChange( ReportRequest request )
+	{
+		
+	}	
+	
 }

@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -162,7 +166,20 @@ public class InsertAction extends AbstractElementAction
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
 				position );
 		request.setExtendedData( extendsData );
-		return ProviderFactory.createProvider( getSelection( ) )
+		boolean bool =  ProviderFactory.createProvider( getSelection( ) )
 				.performRequest( getSelection( ), request );
+		if (bool)
+		{	
+			List list = new ArrayList();
+
+			list.add(request.getExtendedData( ).get( IRequestConstants.REQUEST_KEY_RESULT ));
+			ReportRequest r = new ReportRequest();
+			r.setType(ReportRequest.CREATE_ELEMENT);
+			
+			r.setSelectionObject(list);
+			SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
+			
+		}
+		return bool;
 	}
 }

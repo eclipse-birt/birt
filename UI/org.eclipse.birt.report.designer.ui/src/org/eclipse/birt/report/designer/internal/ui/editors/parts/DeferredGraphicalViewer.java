@@ -15,8 +15,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.ReportDeferredUpdateManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableResizeEditPolice;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -271,5 +276,71 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 		
 		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);	
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#fireSelectionChanged()
+	 */
+	protected void fireSelectionChanged( )
+	{	
+		ReportRequest request = new ReportRequest();
+		List list = new ArrayList();
+		if(getSelection() instanceof IStructuredSelection)
+		{
+			list = ((IStructuredSelection)getSelection()).toList();
+		}
+		request.setSelectionObject(list);
+		request.setType(ReportRequest.SELECTION);
+		
+		request.setRequestConvert(new EditorReportRequestConvert());
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
+		SessionHandleAdapter.getInstance().getMediator().pushState();
+		super.fireSelectionChanged( );
+		SessionHandleAdapter.getInstance().getMediator().popState();
+	}
+	
+	
+	protected class EditorReportRequestConvert implements IRequestConvert
+	{
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#convertSelectionToModelLisr(java.util.List)
+		 */
+		public List convertSelectionToModelLisr( List list )
+		{
+			List retValue = new ArrayList();
+			int size = list.size();
+			boolean isDummy = false;
+			for (int i=0; i<size; i++)
+			{
+				Object object = list.get(i);
+				if (! (object instanceof EditPart))
+				{
+					continue;
+				}
+				EditPart part = (EditPart)object;
+				if (part instanceof DummyEditpart)
+				{
+					retValue.add(part.getModel());
+					isDummy = true;
+				}
+				else if (isDummy)
+				{
+					break;
+				}
+				else if (part.getModel() instanceof ListBandProxy)
+				{
+					retValue.add(((ListBandProxy)part.getModel()).getSlotHandle());
+				}
+				else
+				{
+					retValue.add(part.getModel());
+				}
+			}
+			
+			return retValue;
+		}
+		
 	}
 }
