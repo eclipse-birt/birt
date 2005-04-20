@@ -16,6 +16,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -26,8 +28,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.core.resources.IProject;
@@ -40,6 +40,7 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -257,7 +258,14 @@ public class UIUtil
 	 */
 	public static Shell getDefaultShell( )
 	{
-		return PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
+		try
+		{
+			return PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
+		}
+		catch ( Exception e )
+		{
+			return new Shell( );
+		}
 	}
 
 	/**
@@ -272,10 +280,9 @@ public class UIUtil
 	public static boolean createGroup( DesignElementHandle parent )
 	{
 		Assert.isNotNull( parent );
-		ElementFactory factory = parent.getElementFactory( );
 		try
 		{
-			return addGroup( factory, parent, -1 );
+			return addGroup( parent, -1 );
 		}
 		catch ( SemanticException e )
 		{
@@ -287,7 +294,6 @@ public class UIUtil
 	public static boolean createTableGroup( RowHandle row )
 	{
 		Assert.isNotNull( row );
-		ElementFactory factory = row.getElementFactory( );
 		try
 		{
 			TableHandle table = null;
@@ -320,7 +326,7 @@ public class UIUtil
 				return false;
 			}
 
-			return addGroup( factory, table, position );
+			return addGroup( table, position );
 		}
 		catch ( SemanticException e )
 		{
@@ -332,7 +338,6 @@ public class UIUtil
 	public static boolean createListGroup( ListBandProxy listBand )
 	{
 		Assert.isNotNull( listBand );
-		ElementFactory factory = listBand.getElemtHandle( ).getElementFactory( );
 		try
 		{
 			ListHandle list = null;
@@ -365,7 +370,7 @@ public class UIUtil
 				return false;
 			}
 
-			return addGroup( factory, list, position );
+			return addGroup( list, position );
 		}
 		catch ( SemanticException e )
 		{
@@ -374,12 +379,12 @@ public class UIUtil
 		}
 	}
 
-	private static boolean addGroup( ElementFactory factory,
-			DesignElementHandle parent, int position ) throws ContentException,
-			NameException
+	private static boolean addGroup( DesignElementHandle parent, int position )
+			throws SemanticException
 	{
 		GroupHandle groupHandle = null;
 		SlotHandle slotHandle = null;
+		ElementFactory factory = parent.getElementFactory( );
 		if ( parent instanceof TableHandle )
 		{
 			groupHandle = factory.newTableGroup( );
@@ -396,6 +401,7 @@ public class UIUtil
 
 		if ( groupHandle != null && slotHandle != null )
 		{
+			slotHandle.add( groupHandle, position );
 			if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
 			{//If data set can be found or a blank group will be inserted.
 				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
@@ -405,8 +411,21 @@ public class UIUtil
 				{//Cancel the action
 					return false;
 				}
+				DataItemHandle dataItemHandle = factory.newDataItem( null );
+				dataItemHandle.setValueExpr( groupHandle.getKeyExpr( ) );
+				if ( parent instanceof ListHandle )
+				{
+					groupHandle.getHeader( ).add( dataItemHandle );
+				}
+				else if ( parent instanceof TableHandle )
+				{
+					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
+							.get( 0 ) );
+					CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
+							.get( 0 );
+					cellHandle.getContent( ).add( dataItemHandle );
+				}
 			}
-			slotHandle.add( groupHandle, position );
 			return true;
 		}
 		return false;
@@ -443,5 +462,39 @@ public class UIUtil
 		if ( !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 			return null;
 		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
+	}
+
+	/**
+	 * Creates a new grid layout without margins by default
+	 * 
+	 * @return Returns the layout created
+	 */
+	public static GridLayout createGridLayoutWithoutMargin( )
+	{
+		GridLayout layout = new GridLayout( );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		return layout;
+	}
+
+	/**
+	 * Creates a new grid layout without margins with given the number of
+	 * columns, and whether or not the columns should be forced to have the same
+	 * width
+	 * 
+	 * @param numColumns
+	 *            the number of columns in the grid
+	 * @param makeColumnsEqualWidth
+	 *            whether or not the columns will have equal width
+	 * 
+	 * @return Returns the layout created
+	 */
+	public static GridLayout createGridLayoutWithoutMargin( int numsColumn,
+			boolean makeColumnsEqualWidth )
+	{
+		GridLayout layout = new GridLayout( numsColumn, makeColumnsEqualWidth );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		return layout;
 	}
 }
