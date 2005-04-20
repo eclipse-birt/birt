@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
+import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -442,7 +443,16 @@ abstract class PreparedQuery
 		
 		public IResultMetaData getResultMetaData( ) throws DataException
 		{
-			return new ResultMetaData(((IPreparedDSQuery)odiQuery).getResultClass());
+			assert odiQuery instanceof IPreparedDSQuery
+					|| odiQuery instanceof ICandidateQuery;
+			if ( odiQuery instanceof IPreparedDSQuery )
+			{
+				return new ResultMetaData( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
+			}
+			else
+			{
+				return new ResultMetaData( ( (ICandidateQuery) odiQuery ).getResultClass( ) );
+			}
 		}
 		
 		public void execute() throws DataException
