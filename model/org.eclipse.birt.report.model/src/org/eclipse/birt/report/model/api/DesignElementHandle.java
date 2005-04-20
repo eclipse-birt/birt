@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -1416,23 +1415,12 @@ public abstract class DesignElementHandle
 
 	public List semanticCheck( )
 	{
-		List list = new ArrayList( );
-
 		// Validate this element.
 
-		List errList = getElement( ).validate( design );
+		List exceptionList = getElement( ).validate( design );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		// Translate SemanticException to ErrorDetail.
-
-		Iterator iter = errList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			SemanticException e = (SemanticException) iter.next( );
-
-			list.add( new ErrorDetail( e ) );
-		}
-
-		return list;
+		return errorDetailList;
 	}
 
 	/**
@@ -1497,18 +1485,13 @@ public abstract class DesignElementHandle
 
 	public List getValidationErrors( )
 	{
-		List errorList = getElement( ).getErrors( );
-		if ( errorList == null )
+		List exceptionList = getElement( ).getErrors( );
+		if ( exceptionList == null )
 			return Collections.EMPTY_LIST;
 
-		List errorDetailList = new ArrayList();
-		
-		Iterator iter = errorList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			errorDetailList.add( new ErrorDetail( (Exception) iter.next( ) ) );
-		}
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		return errorDetailList;
+		return ErrorDetail.getSemanticErrors( errorDetailList,
+				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
 	}
 }

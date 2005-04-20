@@ -50,6 +50,13 @@ public class ExtensionChoice extends Choice
 	String value = null;
 
 	/**
+	 * The default display name, which is used when the localized string is not
+	 * found with I18N feature.
+	 */
+
+	String defaultDisplayName = null;
+
+	/**
 	 * Constructs an empty choice.
 	 * 
 	 * @param messages
@@ -100,9 +107,13 @@ public class ExtensionChoice extends Choice
 		{
 			String displayName = messages.getMessage( resourceKey,
 					ThreadResources.getLocale( ) );
-			if ( ! StringUtil.isBlank( displayName ) )
+			if ( !StringUtil.isBlank( displayName ) )
 				return displayName;
 		}
+
+		if ( defaultDisplayName != null )
+			return defaultDisplayName;
+
 		return choiceName;
 	}
 
@@ -180,5 +191,17 @@ public class ExtensionChoice extends Choice
 	public void setValue( String value )
 	{
 		this.value = value;
+	}
+
+	/**
+	 * Sets the default display name.
+	 * 
+	 * @param defaultDisplayName
+	 *            the default display name to set
+	 */
+
+	public void setDefaultDisplayName( String defaultDisplayName )
+	{
+		this.defaultDisplayName = defaultDisplayName;
 	}
 }

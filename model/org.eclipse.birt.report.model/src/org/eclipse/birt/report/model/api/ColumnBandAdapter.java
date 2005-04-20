@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -228,17 +227,11 @@ abstract class ColumnBandAdapter
 		if ( content == null )
 			return Collections.EMPTY_LIST;
 
-		List errors = content.getElement( ).validateWithContents( getDesign( ) );
-		Iterator iter = errors.iterator( );
+		List exceptionList = content.getElement( ).validateWithContents(
+				getDesign( ) );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		ArrayList detailList = new ArrayList( );
-		while ( iter.hasNext( ) )
-		{
-			ErrorDetail error = new ErrorDetail( (Exception) iter.next( ) );
-			detailList.add( error );
-		}
-
-		return detailList;
+		return errorDetailList;
 	}
 
 	/**
@@ -385,6 +378,8 @@ abstract class ColumnBandAdapter
 	 *            the column to be replaced
 	 * @param columnNumber
 	 *            the column number
+	 * @throws SemanticException
+	 *             if error is encountered when adding or dropping elements.
 	 */
 
 	private void replaceColumn( TableColumn source, ColumnHandle target,

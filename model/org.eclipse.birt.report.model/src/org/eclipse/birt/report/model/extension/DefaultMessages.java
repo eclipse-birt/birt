@@ -12,19 +12,25 @@
 package org.eclipse.birt.report.model.extension;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IResourceBundleProvider;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
  * Represents the default implementation for <code>IMessages</code>. This
- * implementation takes the instance of <code>ThreadResources</code>.
+ * implementation takes the instance of <code>ThreadResources</code> or
+ * <code>IResourceBundleProvider</code>.
  */
 
 public class DefaultMessages implements IMessages
 {
 
 	private ThreadResources resources;
+
+	private IResourceBundleProvider provider;
 
 	/**
 	 * Constructor with thread resources, which specified by the class loader
@@ -39,16 +45,51 @@ public class DefaultMessages implements IMessages
 		this.resources = resources;
 	}
 
+	/**
+	 * Constructor with the resource bundle provider, which provides the
+	 * resource bundle with the given locale.
+	 * 
+	 * @param provider
+	 *            the resource bundle provider
+	 */
+
+	public DefaultMessages( IResourceBundleProvider provider )
+	{
+		this.provider = provider;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String,
 	 *      java.util.Locale)
 	 */
-	
+
 	public String getMessage( String key, Locale locale )
 	{
-		return resources.getMessage( key );
-	}
+		if ( provider != null )
+		{
+			ResourceBundle resourceBundle = provider.getResourceBundle( locale );
+			if ( resourceBundle != null )
+				try
+				{
+					String message = resourceBundle.getString( key );
+					if ( message != null )
+						return message;
+				}
+				catch ( MissingResourceException e )
+				{
+					// Do nothing.
+				}
+		}
 
+		if ( resources != null )
+		{
+			String message = resources.getMessage( key );
+			if ( message != null )
+				return message;
+		}
+
+		return null;
+	}
 }

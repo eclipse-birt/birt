@@ -232,6 +232,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="defaultDisplayName" type="string">
+            <annotation>
+               <documentation>
+                  The default display name, which is used if no localized display name is found with I18N.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -251,6 +258,13 @@
             <annotation>
                <documentation>
                   
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultDisplayName" type="string">
+            <annotation>
+               <documentation>
+                  The default display name, which is used if no localized display name is found with I18N.
                </documentation>
             </annotation>
          </attribute>
@@ -346,6 +360,13 @@
             <annotation>
                <documentation>
                   
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultDisplayName" type="string">
+            <annotation>
+               <documentation>
+                  The default display name, which is used if no localized display name is found with I18N.
                </documentation>
             </annotation>
          </attribute>

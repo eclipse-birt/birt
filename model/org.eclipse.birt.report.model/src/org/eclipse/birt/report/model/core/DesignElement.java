@@ -2345,7 +2345,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 
 	public List validate( ReportDesign design )
 	{
-		List list = new ArrayList( );
+		errors = new ArrayList( );
 
 		// Check whether this element is unsupported element.
 
@@ -2355,7 +2355,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 		{
 			if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
 			{
-				list.add( new SemanticError( this,
+				errors.add( new SemanticError( this,
 						SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
 						SemanticError.WARNING ) );
 			}
@@ -2372,11 +2372,11 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 			while ( masks.hasNext( ) )
 			{
 				PropertyMask mask = (PropertyMask) masks.next( );
-				list.addAll( mask.validate( design, this ) );
+				errors.addAll( mask.validate( design, this ) );
 			}
 		}
 
-		return list;
+		return errors;
 	}
 
 	/**

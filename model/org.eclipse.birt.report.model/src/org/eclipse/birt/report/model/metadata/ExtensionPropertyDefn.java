@@ -27,6 +27,20 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	private String groupName = null;
 
 	/**
+	 * The default display name, which is used when the localized string is not
+	 * found with I18N feature.
+	 */
+
+	private String defaultDisplayName = null;
+
+	/**
+	 * The default display name for property group, which is used when the
+	 * localized string is not found with I18N feature.
+	 */
+
+	private String groupDefauleDisplayName = null;
+
+	/**
 	 * Sets the group name of this property definition.
 	 * 
 	 * @param groupName
@@ -65,9 +79,17 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 		if ( groupNameKey != null )
 		{
 			if ( messages != null )
-				return messages.getMessage( groupNameKey, ThreadResources
-						.getLocale( ) );
+			{
+				String displayName = messages.getMessage( groupNameKey,
+						ThreadResources.getLocale( ) );
+				if ( !StringUtil.isBlank( displayName ) )
+					return displayName;
+			}
 		}
+
+		if ( groupDefauleDisplayName != null )
+			return groupDefauleDisplayName;
+
 		return groupName;
 	}
 
@@ -88,6 +110,34 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 				return displayName;
 		}
 
+		if ( defaultDisplayName != null )
+			return defaultDisplayName;
+
 		return getName( );
 	}
+
+	/**
+	 * Sets the default display name.
+	 * 
+	 * @param defaultDisplayName
+	 *            the default display name to set
+	 */
+
+	public void setDefaultDisplayName( String defaultDisplayName )
+	{
+		this.defaultDisplayName = defaultDisplayName;
+	}
+
+	/**
+	 * Sets the default display name for property group
+	 * 
+	 * @param groupDefauleDisplayName
+	 *            the default display name for property group to set
+	 */
+
+	public void setGroupDefauleDisplayName( String groupDefauleDisplayName )
+	{
+		this.groupDefauleDisplayName = groupDefauleDisplayName;
+	}
+
 }

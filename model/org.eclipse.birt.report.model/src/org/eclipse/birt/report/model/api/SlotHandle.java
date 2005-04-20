@@ -195,17 +195,10 @@ public class SlotHandle extends ElementDetailHandle
 
 	private List checkPostPasteErrors( DesignElement content )
 	{
-		List errors = content.validateWithContents( getDesign( ) );
-		Iterator iter = errors.iterator( );
+		List exceptionList = content.validateWithContents( getDesign( ) );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		ArrayList detailList = new ArrayList( );
-		while ( iter.hasNext( ) )
-		{
-			ErrorDetail error = new ErrorDetail( (Exception) iter.next( ) );
-			detailList.add( error );
-		}
-
-		return detailList;
+		return errorDetailList; 
 	}
 
 	/**

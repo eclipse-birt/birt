@@ -91,14 +91,16 @@ public abstract class ExtensionLoader
 		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 		if ( pluginRegistry == null )
 		{
-			throw new ExtensionException( new String[]{extensionPointer},
+			throw new ExtensionException(
+					new String[]{extensionPointer},
 					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
 		}
 
 		IExtensionPoint extensionPoint = pluginRegistry
 				.getExtensionPoint( extensionPointer );
 		if ( extensionPoint == null )
-			throw new ExtensionException( new String[]{extensionPointer},
+			throw new ExtensionException(
+					new String[]{extensionPointer},
 					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
 
 		IExtension[] extensions = extensionPoint.getExtensions( );
@@ -106,18 +108,7 @@ public abstract class ExtensionLoader
 		{
 			for ( int i = 0; i < extensions.length; i++ )
 			{
-//				try
-//				{
-					loadExtension( extensions[i] );
-//				}
-//				catch ( ExtensionException e )
-//				{
-//					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-//				}
-//				catch ( MetaDataException e )
-//				{
-//					MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-//				}
+				loadExtension( extensions[i] );
 			}
 		}
 	}
@@ -140,11 +131,12 @@ public abstract class ExtensionLoader
 		static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
 		static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
 		static final String CAN_INHERIT_ATTRIB = "canInherit"; //$NON-NLS-1$
-
 		static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
 		static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
 		static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
 		static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
+		static final String DEFAULT_DISPLAY_NAME_ATTRIB = "defaultDisplayName"; //$NON-NLS-1$
+		static final String IS_ENCRYPTED_ATTRIB = "isEncrypted"; //$NON-NLS-1$
 
 		IExtension extension;
 
@@ -228,12 +220,15 @@ public abstract class ExtensionLoader
 			String value = choiceTag.getAttribute( VALUE_ATTRIB );
 			String displayNameID = choiceTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+			String defaultDisplayName = choiceTag
+					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
-		
+
 			choice.setName( name );
 			choice.setValue( value );
 			choice.setDisplayNameKey( displayNameID );
+			choice.setDefaultDisplayName( defaultDisplayName );
 		}
 
 		/**
@@ -281,6 +276,8 @@ public abstract class ExtensionLoader
 			String displayNameID = propGroupTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String groupName = propGroupTag.getAttribute( NAME_ATTRIB );
+			String defaultDisplayName = propGroupTag
+					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, groupName );
 
@@ -293,6 +290,7 @@ public abstract class ExtensionLoader
 							elementTag, elements[i], elementDefn );
 					extPropDefn.setGroupName( groupName );
 					extPropDefn.setGroupNameKey( displayNameID );
+					extPropDefn.setGroupDefauleDisplayName( defaultDisplayName );
 					elementDefn.addProperty( extPropDefn );
 				}
 			}

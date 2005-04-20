@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -132,15 +131,9 @@ public class DesignParserHandler extends XMLParserHandler
 
 		if ( getErrors( ) != null )
 		{
-			Iterator iter = getErrors( ).iterator( );
-			ArrayList detailList = new ArrayList( );
-
-			while ( iter.hasNext( ) )
-			{
-				ErrorDetail error = new ErrorDetail( (Exception) iter.next( ) );
-				detailList.add( error );
-			}
-			design.getAllErrors( ).addAll( detailList );
+			List errorDetailList = ErrorDetail.convertExceptionList( getErrors( ) );
+			
+			design.getAllErrors( ).addAll( errorDetailList );
 		}
 	}
 

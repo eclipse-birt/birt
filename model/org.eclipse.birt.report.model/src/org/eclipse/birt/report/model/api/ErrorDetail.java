@@ -542,7 +542,7 @@ public final class ErrorDetail
 		Iterator iterError = exceptionList.iterator( );
 		while ( iterError.hasNext( ) )
 		{
-			SemanticException e = (SemanticException) iterError.next( );
+			Exception e = (Exception) iterError.next( );
 
 			ErrorDetail errorDetail = new ErrorDetail( e );
 			errorDetailList.add( errorDetail );
@@ -550,4 +550,36 @@ public final class ErrorDetail
 
 		return errorDetailList;
 	}
+
+	/**
+	 * Returns a list containing the semantic errors with the given error type.
+	 * 
+	 * @param errors
+	 *            the list of the error details
+	 * @param errorType
+	 *            the semantic error type. The possible value is:
+	 *            <ul>
+	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
+	 *            <li><code>DesignFileException.SEMANTIC_WARNING</code>
+	 *            <li><code>DesignFileException.SYNTAX_ERROR</code>
+	 *            </ul>
+	 * @return a list containing specified semantic errors. Each element in the
+	 *         list is <code>ErrorDetail</code>.
+	 */
+
+	public static List getSemanticErrors( List errors, String errorType )
+	{
+		ArrayList retList = new ArrayList( );
+
+		for ( int i = 0; i < errors.size( ); i++ )
+		{
+			ErrorDetail errorDetail = (ErrorDetail) errors.get( i );
+			if ( errorType.equalsIgnoreCase( errorDetail.getType( ) ) )
+			{
+				retList.add( errorDetail );
+			}
+		}
+		return retList;
+	}
+
 }

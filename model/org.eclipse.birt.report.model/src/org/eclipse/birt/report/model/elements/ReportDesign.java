@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -54,7 +53,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- *  
+ * 
  */
 
 public class ReportDesign extends RootElement
@@ -1101,9 +1100,10 @@ public class ReportDesign extends RootElement
 
 	public List getErrorList( )
 	{
-		List list = getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
-		list
-				.addAll( getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
+		List list = ErrorDetail.getSemanticErrors( allErrors,
+				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
+		list.addAll( ErrorDetail.getSemanticErrors( allErrors,
+				DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) );
 		return list;
 	}
 
@@ -1118,7 +1118,8 @@ public class ReportDesign extends RootElement
 
 	public List getWarningList( )
 	{
-		return getSemanticErrors( DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING );
+		return ErrorDetail.getSemanticErrors( allErrors,
+				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING );
 	}
 
 	/**
@@ -1134,20 +1135,8 @@ public class ReportDesign extends RootElement
 
 	public final void semanticCheck( ReportDesign design )
 	{
-		if ( allErrors == null )
-			allErrors = new ArrayList( );
-		else
-			allErrors.clear( );
-
-		List errorList = validateWithContents( design );
-		if ( errorList != null )
-		{
-			Iterator iter = errorList.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				allErrors.add( new ErrorDetail( (Exception) iter.next( ) ) );
-			}
-		}
+		List exceptionList = validateWithContents( design );
+		allErrors = ErrorDetail.convertExceptionList( exceptionList );
 	}
 
 	/*
@@ -1227,37 +1216,6 @@ public class ReportDesign extends RootElement
 	public ArrayList getIncludeLibraries( )
 	{
 		return (ArrayList) getLocalProperty( this, INCLUDE_LIBRARIES );
-	}
-
-	/**
-	 * Returns a list containing specified semantic errors.
-	 * 
-	 * @param errorType
-	 *            the semantic error type. The possible value is:
-	 *            <ul>
-	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
-	 *            <li><code>DesignFileException.SEMANTIC_WARNING</code>
-	 *            <li><code>DesignFileException.SYNTAX_ERROR</code>
-	 *            </ul>
-	 * @return a list containing specified semantic errors. Each element in the
-	 *         list is <code>ErrorDetail</code>.
-	 * 
-	 * @see ErrorDetail
-	 */
-
-	public List getSemanticErrors( String errorType )
-	{
-		ArrayList retList = new ArrayList( );
-
-		for ( int i = 0; i < allErrors.size( ); i++ )
-		{
-			ErrorDetail errorDetail = (ErrorDetail) allErrors.get( i );
-			if ( errorType.equalsIgnoreCase( errorDetail.getType( ) ) )
-			{
-				retList.add( errorDetail );
-			}
-		}
-		return retList;
 	}
 
 	/**

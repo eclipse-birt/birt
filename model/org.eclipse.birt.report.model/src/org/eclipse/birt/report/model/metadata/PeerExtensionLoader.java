@@ -86,7 +86,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 		private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
-		private static final String IS_ENCRYPTED_ATTRIB = "isEncrypted"; //$NON-NLS-1$
 
 		PeerExtensionElementLoader( IExtension extension )
 		{
@@ -224,6 +223,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String visibility = propTag
 					.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
 			String isEncrypted = propTag.getAttribute( IS_ENCRYPTED_ATTRIB );
+			String defaultDisplayName = propTag.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
 			checkRequiredAttribute( TYPE_ATTRIB, type );
@@ -240,12 +240,13 @@ public class PeerExtensionLoader extends ExtensionLoader
 							.getReportItemFactory( ).getMessages( ) );
 
 			extPropDefn.setExtended( true );
-			extPropDefn.setName( elementDefn.getName( ) + "::" + name ); //$NON-NLS-1$
+			extPropDefn.setName( name ); //$NON-NLS-1$
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setDefault( defaultValue );
 			extPropDefn.setType( propType );
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
+			extPropDefn.setDefaultDisplayName( defaultDisplayName );
 
 			if ( !StringUtil.isBlank( isStyleProperty ) )
 				extPropDefn.setStyleProperty( Boolean.valueOf( isStyleProperty )

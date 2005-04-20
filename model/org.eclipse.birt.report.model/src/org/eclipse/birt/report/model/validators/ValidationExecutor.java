@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.model.validators;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -69,7 +66,7 @@ public class ValidationExecutor
 
 	public List perform( DesignElement targetElement, List nodes )
 	{
-		List allErrors = new ArrayList( );
+		List exceptionList = new ArrayList( );
 
 		Iterator iter = reorganize( nodes ).iterator( );
 		while ( iter.hasNext( ) )
@@ -78,7 +75,7 @@ public class ValidationExecutor
 
 			List errors = node.perform( design, false );
 			if ( targetElement == node.getElement( ) )
-				allErrors.addAll( errors );
+				exceptionList.addAll( errors );
 
 			// If error is found in one pre-requisite validator, the following
 			// validation is not performed. This is because some of the
@@ -90,17 +87,14 @@ public class ValidationExecutor
 				break;
 		}
 
-		List errorDetailList = ErrorDetail.convertExceptionList( allErrors );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		if ( !MetaDataDictionary.getInstance( ).useValidationTrigger( ) )
-		{
-			ValidationEvent event = new ValidationEvent( targetElement, null,
-					errorDetailList );
+		ValidationEvent event = new ValidationEvent( targetElement, null,
+				errorDetailList );
 
-			targetElement.broadcast( event );
-		}
+		targetElement.broadcast( event );
 
-		return allErrors;
+		return exceptionList;
 	}
 
 	/**
@@ -137,25 +131,6 @@ public class ValidationExecutor
 			if ( node.getTriggerDefn( ).isPreRequisite( ) && !errors.isEmpty( ) )
 				break;
 		}
-
-//		Iterator iterElement = elementErrorMap.keySet( ).iterator( );
-//		while ( iterElement.hasNext( ) )
-//		{
-//			DesignElement toValidate = (DesignElement) iterElement.next( );
-//
-//			List errors = (List) elementErrorMap.get( toValidate );
-//			allErrors.addAll( errors );
-//
-//			List errorDetailList = ErrorDetail.convertExceptionList( errors );
-//
-//			if ( !MetaDataDictionary.getInstance( ).useValidationTrigger( ) )
-//			{
-//				ValidationEvent event = new ValidationEvent( toValidate, null,
-//						errorDetailList );
-//
-//				toValidate.broadcast( event );
-//			}
-//		}
 
 		return allErrors;
 	}
