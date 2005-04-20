@@ -11,43 +11,135 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.HashMap;
-
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Base Class for TableOption Dialog
+ * Dialog to choose the table/grid row/column number when create a table/grid.
  *  
  */
-public class TableOptionDialog extends Dialog
+public class TableOptionDialog extends BaseDialog
 {
 
-	private Text textEditor;
+	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
+	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES = Messages.getString( "TableOptionDialog.message.RememberTable" ); //$NON-NLS-1$
+	private static final String MSG_NUMBER_OF_ROWS = Messages.getString( "TableOptionDialog.text.Row" ); //$NON-NLS-1$
+	private static final String MSG_NUMBER_OF_COLUMNS = Messages.getString( "TableOptionDialog.text.Column" ); //$NON-NLS-1$
+	private static final String MSG_GRID_SIZE = Messages.getString( "TableOptionDialog.text.GridSize" ); //$NON-NLS-1$
+	private static final String MSG_TABLE_SIZE = Messages.getString( "TableOptionDialog.text.TableSize" ); //$NON-NLS-1$
+	private static final String MSG_INSERT_GRID = Messages.getString( "TableOptionDialog.title.InsertGrid" ); //$NON-NLS-1$
+	private static final String MSG_INSERT_TABLE = Messages.getString( "TableOptionDialog.title.InsertTable" ); //$NON-NLS-1$
 
-	private Text lineEditor;
+	private static final int DEFAULT_ROW_COUNT = 3;
+	private static final int DEFAULT_COLUMN_COUNT = 3;
 
-	private Text columnEditor;
+	/**
+	 * Comment for <code>DEFAULT_TABLE_ROW_COUNT_KEY</code>
+	 */
+	public static final String DEFAULT_TABLE_ROW_COUNT_KEY = "Default table row count"; //$NON-NLS-1$
+	/**
+	 * Comment for <code>DEFAULT_TABLE_COLUMN_COUNT_KEY</code>
+	 */
+	public static final String DEFAULT_TABLE_COLUMN_COUNT_KEY = "Default table column count"; //$NON-NLS-1$
 
-	private HashMap map = new HashMap( );
+	/**
+	 * Comment for <code>DEFAULT_GRID_ROW_COUNT_KEY</code>
+	 */
+	public static final String DEFAULT_GRID_ROW_COUNT_KEY = "Default grid row count"; //$NON-NLS-1$
+	/**
+	 * Comment for <code>DEFAULT_GRID_COLUMN_COUNT_KEY</code>
+	 */
+	public static final String DEFAULT_GRID_COLUMN_COUNT_KEY = "Default grid column count"; //$NON-NLS-1$
+
+	private SimpleSpinner rowEditor;
+
+	private SimpleSpinner columnEditor;
+
+	private Button chkbox;
+
+	private int rowCount, columnCount;
+
+	private boolean insertTable = true;
 
 	/**
 	 * The constructor.
 	 * 
 	 * @param parentShell
 	 */
-	public TableOptionDialog( Shell parentShell )
+	public TableOptionDialog( Shell parentShell, boolean insertTable )
 	{
-		super( parentShell );
+		super( parentShell, insertTable ? MSG_INSERT_TABLE : MSG_INSERT_GRID );
+
+		this.insertTable = insertTable;
+	}
+
+	private void loadPreference( )
+	{
+		if ( insertTable )
+		{
+			columnCount = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getInt( DEFAULT_TABLE_COLUMN_COUNT_KEY );
+			rowCount = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getInt( DEFAULT_TABLE_ROW_COUNT_KEY );
+		}
+		else
+		{
+			columnCount = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getInt( DEFAULT_GRID_COLUMN_COUNT_KEY );
+			rowCount = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getInt( DEFAULT_GRID_ROW_COUNT_KEY );
+		}
+
+		if ( columnCount <= 0 )
+		{
+			columnCount = DEFAULT_COLUMN_COUNT;
+		}
+		if ( rowCount <= 0 )
+		{
+			rowCount = DEFAULT_ROW_COUNT;
+		}
+
+	}
+
+	private void savePreference( )
+	{
+		if ( insertTable )
+		{
+			ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.setValue( DEFAULT_TABLE_COLUMN_COUNT_KEY, columnCount );
+			ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.setValue( DEFAULT_TABLE_ROW_COUNT_KEY, rowCount );
+		}
+		else
+		{
+			ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.setValue( DEFAULT_GRID_COLUMN_COUNT_KEY, columnCount );
+			ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.setValue( DEFAULT_GRID_ROW_COUNT_KEY, rowCount );
+		}
+
 	}
 
 	/*
@@ -55,36 +147,48 @@ public class TableOptionDialog extends Dialog
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
+
 	protected Control createDialogArea( Composite parent )
 	{
+		loadPreference( );
+
 		Composite composite = (Composite) super.createDialogArea( parent );
 		( (GridLayout) composite.getLayout( ) ).numColumns = 2;
 
-		new Label( composite, SWT.LEFT ).setText( "Text:" );
-		textEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
-		textEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( composite, SWT.NONE ).setText( insertTable ? MSG_TABLE_SIZE
+				: MSG_GRID_SIZE );
+		Label sp = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
+		sp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( composite, SWT.CENTER ).setText( "Row:" );
-		lineEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
-		lineEditor.setLayoutData( new GridData( ) );
-		lineEditor.addVerifyListener( new VerifyListener( ) {
+		Composite innerPane = new Composite( composite, SWT.NONE );
+		GridData gdata = new GridData( GridData.FILL_BOTH );
+		gdata.horizontalSpan = 2;
+		innerPane.setLayoutData( gdata );
+		GridLayout glayout = new GridLayout( 2, false );
+		glayout.marginWidth = 10;
+		innerPane.setLayout( glayout );
 
-			public void verifyText( VerifyEvent e )
-			{
-				e.doit = ( "0123456789".indexOf( e.text ) >= 0 );
-			}
-		} );
+		new Label( innerPane, SWT.NONE ).setText( MSG_NUMBER_OF_COLUMNS );
+		columnEditor = new SimpleSpinner( innerPane, 0 );
+		columnEditor.setText( String.valueOf( columnCount ) );
+		columnEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( composite, SWT.RIGHT ).setText( "Column:" );
-		columnEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
-		columnEditor.setLayoutData( new GridData( ) );
-		columnEditor.addVerifyListener( new VerifyListener( ) {
+		new Label( innerPane, SWT.NONE ).setText( MSG_NUMBER_OF_ROWS );
+		rowEditor = new SimpleSpinner( innerPane, 0 );
+		rowEditor.setText( String.valueOf( rowCount ) );
+		rowEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-			public void verifyText( VerifyEvent e )
-			{
-				e.doit = ( "0123456789".indexOf( e.text ) >= 0 );
-			}
-		} );
+		Label lb = new Label( composite, SWT.NONE );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
+		lb.setLayoutData( gdata );
+
+		chkbox = new Button( composite, SWT.CHECK );
+		chkbox.setText( insertTable ? MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES
+				: MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
+		chkbox.setLayoutData( gdata );
 
 		return composite;
 	}
@@ -96,44 +200,212 @@ public class TableOptionDialog extends Dialog
 	 */
 	protected void okPressed( )
 	{
-		String tableName = textEditor.getText( );
-		Integer rowCount;
 		try
 		{
-			rowCount = Integer.valueOf( lineEditor.getText( ) );
+			rowCount = Integer.parseInt( rowEditor.getText( ) );
 		}
 		catch ( NumberFormatException e )
 		{
-			rowCount = new Integer( -1 );
+			rowCount = DEFAULT_ROW_COUNT;
 		}
-		Integer columnCount;
+
 		try
 		{
-			columnCount = Integer.valueOf( columnEditor.getText( ) );
+			columnCount = Integer.parseInt( columnEditor.getText( ) );
 		}
 		catch ( NumberFormatException e )
 		{
-			columnCount = new Integer( -1 );
+			columnCount = DEFAULT_COLUMN_COUNT;
 		}
-		map.put( "TableName", tableName );
-		map.put( "RowCount", rowCount );
-		map.put( "ColumnCount", columnCount );
+
+		if ( columnCount <= 0 )
+		{
+			columnCount = DEFAULT_COLUMN_COUNT;
+		}
+		if ( rowCount <= 0 )
+		{
+			rowCount = DEFAULT_ROW_COUNT;
+		}
+
+		setResult( new int[]{
+				rowCount, columnCount
+		} );
+
+		if ( chkbox.getSelection( ) )
+		{
+			savePreference( );
+		}
+
 		super.okPressed( );
 	}
 
 	/**
-	 * Returns the property map.
-	 * 
-	 * @return property map
+	 * SimpleSpinner
 	 */
-	public HashMap getPropertyMap( )
+	static class SimpleSpinner extends Composite
 	{
-		if ( map.size( ) == 0 )
+
+		private static final int BUTTON_WIDTH = 16;
+
+		private Text text;
+		private Button up;
+		private Button down;
+
+		/**
+		 * The constructor.
+		 * 
+		 * @param parent
+		 * @param style
+		 */
+		public SimpleSpinner( Composite parent, int style )
 		{
-			map.put( "TableName", "" );
-			map.put( "RowCount", new Integer( -1 ) );
-			map.put( "ColumnCount", new Integer( -1 ) );
+			super( parent, style );
+
+			text = new Text( this, SWT.BORDER | SWT.SINGLE );
+			text.addVerifyListener( new VerifyListener( ) {
+
+				public void verifyText( VerifyEvent e )
+				{
+					try
+					{
+						Integer.parseInt( e.text );
+						e.doit = true;
+					}
+					catch ( Exception _ )
+					{
+						e.doit = false;
+					}
+				}
+			} );
+
+			up = new Button( this, style | SWT.ARROW | SWT.UP );
+			down = new Button( this, style | SWT.ARROW | SWT.DOWN );
+
+			up.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event e )
+				{
+					up( );
+				}
+			} );
+
+			down.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event e )
+				{
+					down( );
+				}
+			} );
+
+			addListener( SWT.Resize, new Listener( ) {
+
+				public void handleEvent( Event e )
+				{
+					resize( );
+				}
+			} );
+
+			addListener( SWT.FocusIn, new Listener( ) {
+
+				public void handleEvent( Event e )
+				{
+					focusIn( );
+				}
+			} );
+
 		}
-		return map;
+
+		void setText( String val )
+		{
+			if ( text != null )
+			{
+				text.setText( val );
+			}
+		}
+
+		String getText( )
+		{
+			if ( text != null )
+			{
+				return text.getText( );
+			}
+
+			return null;
+		}
+
+		void up( )
+		{
+			if ( text != null )
+			{
+				try
+				{
+					int v = Integer.parseInt( text.getText( ) );
+					text.setText( String.valueOf( v + 1 ) );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+		}
+
+		/**
+		 * Processes down action
+		 */
+		void down( )
+		{
+			if ( text != null )
+			{
+				try
+				{
+					int v = Integer.parseInt( text.getText( ) );
+					if ( v < 2 )
+					{
+						v = 2;
+					}
+					text.setText( String.valueOf( v - 1 ) );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+		}
+
+		void focusIn( )
+		{
+			if ( text != null )
+			{
+				text.setFocus( );
+				text.selectAll( );
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.widgets.Control#computeSize(int, int, boolean)
+		 */
+		public Point computeSize( int wHint, int hHint, boolean changed )
+		{
+			return new Point( 80, 20 );
+		}
+
+		void resize( )
+		{
+			Point pt = computeSize( -1, -1 );
+
+			setSize( pt );
+
+			int textWidth = pt.x - BUTTON_WIDTH;
+			text.setBounds( 0, 0, textWidth, pt.y );
+
+			int buttonHeight = pt.y / 2;
+			up.setBounds( textWidth, 0, BUTTON_WIDTH, buttonHeight );
+			down.setBounds( textWidth,
+					pt.y - buttonHeight,
+					BUTTON_WIDTH,
+					buttonHeight );
+		}
+
 	}
+
 }

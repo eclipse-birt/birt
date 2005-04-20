@@ -44,6 +44,8 @@ public class ChoiceSetFactory
 
 	public static final String CHOICE_NONE = "None"; //$NON-NLS-1$
 
+	public static final String CHOICE_AUTO = "Auto"; //$NON-NLS-1$
+	
 	/**
 	 * Gets the collection that given property value can selected from them.
 	 * 

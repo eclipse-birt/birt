@@ -20,8 +20,10 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -50,6 +52,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
@@ -94,7 +97,7 @@ public class DefaultNodeProvider implements INodeProvider
 	 * Creates the context menu
 	 * 
 	 * @param sourceViewer
-	 *            TODO
+	 *            the source viewer
 	 * @param object
 	 *            the object
 	 * @param menu
@@ -136,7 +139,7 @@ public class DefaultNodeProvider implements INodeProvider
 		menu.add( new PasteAction( object ) );
 
 		menu.add( new Separator( ) );
-		
+
 		Action action = new CodePageAction( object );
 		if ( action.isEnabled( ) )
 			menu.add( action );
@@ -297,21 +300,37 @@ public class DefaultNodeProvider implements INodeProvider
 				.getElementFactory( );
 		if ( ReportDesignConstants.TABLE_ITEM.equals( type ) )
 		{
-			TableHandle table = factory.newTableItem( null, 3 );
-			InsertInLayoutUtil.setInitWidth( table );
-			return table;
+			TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
+					true );
+			if ( dlg.open( ) == Window.OK && dlg.getResult( ) instanceof int[] )
+			{
+				int[] data = (int[]) dlg.getResult( );
+				TableHandle table = factory.newTableItem( null,
+						data[1],
+						1,
+						data[0],
+						1 );
+				InsertInLayoutUtil.setInitWidth( table );
+				return table;
+			}
+			return null;
 		}
 		else if ( ReportDesignConstants.GRID_ITEM.equals( type ) )
 		{
-			GridHandle grid = factory.newGridItem( null, 3, 3 );
-			InsertInLayoutUtil.setInitWidth( grid );
-			return grid;
+			TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
+					false );
+			if ( dlg.open( ) == Window.OK && dlg.getResult( ) instanceof int[] )
+			{
+				int[] data = (int[]) dlg.getResult( );
+				GridHandle grid = factory.newGridItem( null, data[1], data[0] );
+				InsertInLayoutUtil.setInitWidth( grid );
+				return grid;
+			}
+			return null;
 		}
 		else if ( ReportDesignConstants.IMAGE_ITEM.equals( type ) )
 		{
-			ImageBuilderDialog dialog = new ImageBuilderDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ) );
+			ImageBuilderDialog dialog = new ImageBuilderDialog( UIUtil.getDefaultShell( ) );
 			if ( dialog.open( ) == Dialog.OK )
 			{
 				return (DesignElementHandle) dialog.getResult( );

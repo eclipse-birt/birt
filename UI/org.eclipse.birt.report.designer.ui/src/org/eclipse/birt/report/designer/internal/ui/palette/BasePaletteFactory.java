@@ -18,9 +18,11 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -107,13 +109,20 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				TableHandle table = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getElementFactory( )
-						.newTableItem( null, 3 );
-				InsertInLayoutUtil.setInitWidth( table );
-				setModel( table );
-				return super.preHandleMouseUp( );
+				TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
+						true );
+				if ( dlg.open( ) == Window.OK
+						&& dlg.getResult( ) instanceof int[] )
+				{
+					int[] data = (int[]) dlg.getResult( );
+					TableHandle table = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.getElementFactory( )
+							.newTableItem( null, data[1], 1, data[0], 1 );
+					InsertInLayoutUtil.setInitWidth( table );
+					setModel( table );
+					return super.preHandleMouseUp( );
+				}
 			}
 			return false;
 		}
@@ -125,7 +134,6 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseDown( )
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 	}
@@ -466,7 +474,18 @@ public class BasePaletteFactory
 			}
 			else if ( IReportElementConstants.REPORT_ELEMENT_GRID.equals( type ) )
 			{
-				grid = factory.newGridItem( null, 3, 3 );
+				TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
+						false );
+				if ( dlg.open( ) == Window.OK
+						&& dlg.getResult( ) instanceof int[] )
+				{
+					int[] data = (int[]) dlg.getResult( );
+					grid = factory.newGridItem( null, data[1], data[0] );
+				}
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
@@ -534,9 +553,8 @@ public class BasePaletteFactory
 	/**
 	 * Provides element building support for data set column.
 	 */
-	public static class DataSetColumnToolExtends
-			extends
-				AbstractToolHandleExtends
+	public static class DataSetColumnToolExtends extends
+			AbstractToolHandleExtends
 	{
 
 		/*
