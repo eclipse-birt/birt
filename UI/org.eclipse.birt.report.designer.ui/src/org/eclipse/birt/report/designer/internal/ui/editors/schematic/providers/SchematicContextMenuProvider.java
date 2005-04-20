@@ -85,8 +85,8 @@ import org.eclipse.ui.actions.ActionFactory;
 public class SchematicContextMenuProvider extends ContextMenuProvider
 {
 
-	private static final String INSERT_ROW_MENU_ITEM_TEXT = Messages.getString("SchematicContextMenuProvider.Menu.insertRow"); //$NON-NLS-1$
-	
+	private static final String INSERT_ROW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertRow" ); //$NON-NLS-1$
+
 	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
 
 	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
@@ -95,7 +95,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String INSERT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
 
-	private static final String SHOW_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Show" ); //$NON-NLS-1$
+	//	private static final String SHOW_MENU_ITEM_TEXT = Messages.getString(
+	// "SchematicContextMenuProvider.Menu.Show" ); //$NON-NLS-1$
 
 	private static final String ELEMENT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
 
@@ -276,7 +277,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( firstSelectedElement instanceof ColumnHandle )
 			{
-				if ( getColumnHandles( ).size( ) == 1 )
+				if ( getColumnHandles( ).size( ) != 0 )
 				{
 					MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
 					subMenu.add( getAction( InsertColumnRightAction.ID ) );
@@ -372,29 +373,26 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 	}
 
-	/**
-	 * @param menuManager
-	 */
-	private void createShowMenu( IMenuManager menuManager )
-	{
-		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
-
-		//		if ( isSelectedGroup( ) )
-		//		{
-		//			subMenu.add( new
-		// IncludeTableGroupAction.IncludeTableGroupHeaderAction(
-		// getFirstElement( ) ) );
-		//			subMenu.add( new
-		// IncludeTableGroupAction.IncludeTableGroupFooterAction(
-		// getFirstElement( ) ) );
-		//		}
-		//		else
-		//		{
-		subMenu.add( getAction( IncludeHeaderAction.ID ) );
-		subMenu.add( getAction( IncludeFooterAction.ID ) );
-		//		}
-		menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT, subMenu );
-	}
+	//	private void createShowMenu( IMenuManager menuManager )
+	//	{
+	//		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
+	//
+	//		// if ( isSelectedGroup( ) )
+	//		// {
+	//		// subMenu.add( new
+	//		// IncludeTableGroupAction.IncludeTableGroupHeaderAction(
+	//		// getFirstElement( ) ) );
+	//		// subMenu.add( new
+	//		// IncludeTableGroupAction.IncludeTableGroupFooterAction(
+	//		// getFirstElement( ) ) );
+	//		// }
+	//		// else
+	//		// {
+	//		subMenu.add( getAction( IncludeHeaderAction.ID ) );
+	//		subMenu.add( getAction( IncludeFooterAction.ID ) );
+	//		// }
+	//		menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT, subMenu );
+	//	}
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu

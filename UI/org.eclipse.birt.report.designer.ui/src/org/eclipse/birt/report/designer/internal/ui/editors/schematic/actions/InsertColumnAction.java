@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -19,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/23 03:30:24 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -49,7 +48,7 @@ public class InsertColumnAction extends ContextSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getColumnHandles( ).size( ) == 1;
+		return !getColumnHandles( ).isEmpty( );
 	}
 
 	/**
@@ -60,19 +59,8 @@ public class InsertColumnAction extends ContextSelectionAction
 	{
 		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
 		{
-			getTableEditPart( ).insertColumn( getColumnNumber( ) );
+			getTableEditPart( ).insertColumn( getColumnNumber( getColumnHandles( ).get( 0 ) ) );
 		}
 	}
 
-	/**
-	 * Gets selected column number.
-	 * 
-	 * @return the number of selected column
-	 */
-	public int getColumnNumber( )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( getColumnHandles( ).get( 0 ) )
-				.getColumnNumber( );
-	}
 }

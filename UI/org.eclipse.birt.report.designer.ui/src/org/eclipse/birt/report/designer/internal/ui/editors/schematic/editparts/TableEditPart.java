@@ -251,9 +251,9 @@ public class TableEditPart extends ReportElementEditPart implements
 				refreshChildren( );
 				refreshVisuals( );
 
-				if ( ((ContentEvent)ev).getAction() == ContentEvent.REMOVE )
+				if ( ( (ContentEvent) ev ).getAction( ) == ContentEvent.REMOVE )
 				{
-				    this.getViewer().select(this);
+					this.getViewer( ).select( this );
 				}
 				break;
 			}
@@ -910,18 +910,53 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Inserts row at give position.
+	 * Inserts a single row at give position.
 	 * 
-	 * @param rowNumber
-	 * @param parentRowNumber
+	 * @param relativePos
+	 *            The relative position to insert the new row.
+	 * @param originRowNumber
+	 *            The row number of the original row.
 	 */
-	public void insertRow( final int rowNumber, final int parentRowNumber )
+	public void insertRow( final int relativePos, final int originRowNumber )
 	{
 		final RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getRow( parentRowNumber ) );
+				.getRowHandleAdapter( getRow( originRowNumber ) );
 		try
 		{
-			getTableAdapter( ).insertRow( rowNumber, parentRowNumber );
+			getTableAdapter( ).insertRow( relativePos, originRowNumber );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				//reLayout();
+				selectRow( new int[]{
+					adapter.getRowNumber( )
+				} );
+			}
+		} );
+	}
+
+	/**
+	 * Inserts multi rows at give position.
+	 * 
+	 * @param rowCount
+	 *            The count of rows to be inserted.
+	 * @param originRowNumber
+	 *            The row number of the original row.
+	 */
+	public void insertRows( final int rowCount, final int originRowNumber )
+	{
+		final RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( getRow( originRowNumber ) );
+		try
+		{
+			getTableAdapter( ).insertRows( rowCount, originRowNumber );
 		}
 		catch ( SemanticException e )
 		{
@@ -951,18 +986,53 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Inserts column on give position.
+	 * Inserts a single column at give position.
 	 * 
-	 * @param rowNumber
-	 * @param parentRowNumber
+	 * @param relativePos
+	 *            The relative position to insert the new column.
+	 * @param originColNumber
+	 *            The column number of the original column.
 	 */
-	public void insertColumn( final int rowNumber, final int parentRowNumber )
+	public void insertColumn( final int relativePos, final int originColNumber )
 	{
 		final ColumnHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( getColumn( parentRowNumber ) );
+				.getColumnHandleAdapter( getColumn( originColNumber ) );
 		try
 		{
-			getTableAdapter( ).insertColumn( rowNumber, parentRowNumber );
+			getTableAdapter( ).insertColumn( relativePos, originColNumber );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				//reLayout();
+				selectColumn( new int[]{
+					adapter.getColumnNumber( )
+				} );
+			}
+		} );
+	}
+
+	/**
+	 * Inserts multi columns at give position.
+	 * 
+	 * @param colCount
+	 *            The count of columns to be inserted.
+	 * @param originColNumber
+	 *            The column number of the original column.
+	 */
+	public void insertColumns( final int colCount, final int originColNumber )
+	{
+		final ColumnHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( getColumn( originColNumber ) );
+		try
+		{
+			getTableAdapter( ).insertColumns( colCount, originColNumber );
 		}
 		catch ( SemanticException e )
 		{
@@ -994,7 +1064,7 @@ public class TableEditPart extends ReportElementEditPart implements
 		int size = selections.size( );
 		TableCellEditPart[] parts = new TableCellEditPart[size];
 		selections.toArray( parts );
-		
+
 		TableCellEditPart[] caleNumber = getMinAndMaxNumber( parts );
 		TableCellEditPart minRow = caleNumber[0];
 
@@ -1137,7 +1207,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public boolean canMerge( )
 	{
-		if (isDelete())
+		if ( isDelete( ) )
 		{
 			return false;
 		}

@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Insert row action,insert a row into a table or a grid.
+ * Insert row action,insert a row or multi rows into a table or a grid.
  *  
  */
 public class InsertRowAction extends ContextSelectionAction
@@ -62,19 +61,8 @@ public class InsertRowAction extends ContextSelectionAction
 	{
 		if ( getTableEditPart( ) != null && getRowHandles( ).size( ) != 0 )
 		{
-			getTableEditPart( ).insertRow( getRowNumber( ) );
+			getTableEditPart( ).insertRow( getRowNumber( getRowHandles( ).get( 0 ) ) );
 		}
 	}
 
-	/**
-	 * Gets the row number of the selected row object.
-	 * 
-	 * @return The row number.
-	 */
-	public int getRowNumber( )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getRowHandles( ).get( 0 ) )
-				.getRowNumber( );
-	}
 }

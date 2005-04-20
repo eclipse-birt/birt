@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
@@ -192,10 +193,7 @@ public class ContextSelectionAction extends SelectionAction
 		{
 			return groups.get( 0 );
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -251,6 +249,66 @@ public class ContextSelectionAction extends SelectionAction
 			}
 		}
 		return rowHandles;
+	}
+
+	/**
+	 * Gets row numbers of selected rows.
+	 */
+	protected int[] getRowNumbers( )
+	{
+		List rowHandles = getRowHandles( );
+		if ( rowHandles.isEmpty( ) )
+		{
+			return new int[0];
+		}
+		int[] rowNumbers = new int[rowHandles.size( )];
+		for ( int i = 0; i < rowHandles.size( ); i++ )
+		{
+			rowNumbers[i] = getRowNumber( rowHandles.get( i ) );
+		}
+		return rowNumbers;
+	}
+
+	/**
+	 * Gets row number given the row handle.
+	 * 
+	 * @return The row number of the selected row object.
+	 */
+	public int getRowNumber( Object rowHandle )
+	{
+		return HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( rowHandle )
+				.getRowNumber( );
+	}
+
+	/**
+	 * Gets column numbers of selected columns.
+	 */
+	public int[] getColumnNumbers( )
+	{
+		List columnHandles = getColumnHandles( );
+		if ( columnHandles.isEmpty( ) )
+		{
+			return new int[0];
+		}
+		int[] colNumbers = new int[columnHandles.size( )];
+		for ( int i = 0; i < columnHandles.size( ); i++ )
+		{
+			colNumbers[i] = getColumnNumber( columnHandles.get( i ) );
+		}
+		return colNumbers;
+	}
+
+	/**
+	 * Gets column number given the column handle.
+	 * 
+	 * @return the column number
+	 */
+	public int getColumnNumber( Object columnHandle )
+	{
+		return HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( columnHandle )
+				.getColumnNumber( );
 	}
 
 	/**

@@ -38,6 +38,20 @@ public class InsertColumnLeftAction extends InsertColumnAction
 		setText( ACTION_MSG_COLUMN_TO_THE_LEFT );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
+	protected boolean calculateEnabled( )
+	{
+		if ( getColumnHandles( ).size( ) > 1 )
+		{
+			return false;
+		}
+		return super.calculateEnabled( );
+	}
+
 	/**
 	 * Runs action.
 	 *  
@@ -47,7 +61,14 @@ public class InsertColumnLeftAction extends InsertColumnAction
 		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
 		{
 			// inserts a column to the left.
-			getTableEditPart( ).insertColumn( -1, getColumnNumber( ) );
+			getTableEditPart( ).insertColumn( -1,
+					getColumnNumber( getColumnHandles( ).get( 0 ) ) );
+		}
+		else if ( getColumnHandles( ).size( ) > 1 )
+		{
+			int colCount = getColumnHandles( ).size( );
+			int colNum = getColumnNumbers( )[0];
+			getTableEditPart( ).insertColumns( colCount, colNum );
 		}
 	}
 }

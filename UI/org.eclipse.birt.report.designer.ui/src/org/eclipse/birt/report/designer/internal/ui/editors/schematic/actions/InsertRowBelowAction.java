@@ -45,16 +45,7 @@ public class InsertRowBelowAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		if ( getRowHandles( ).size( ) == 1 )
-		{
-			return true;
-			//			String type = HandleAdapterFactory.getInstance( )
-			//					.getRowHandleAdapter( getRowHandles( ).get( 0 ) )
-			//					.getType( );
-			//			return type != null
-			//					&& type.equals( TableHandleAdapter.TABLE_DETAIL );
-		}
-		return false;
+		return super.calculateEnabled( );
 	}
 
 	/**
@@ -66,7 +57,14 @@ public class InsertRowBelowAction extends InsertRowAction
 		if ( getTableEditPart( ) != null && getRowHandles( ).size( ) == 1 )
 		{
 			// insert row below the current selected row.
-			getTableEditPart( ).insertRow( 1, getRowNumber( ) );
+			getTableEditPart( ).insertRow( 1,
+					getRowNumber( getRowHandles( ).get( 0 ) ) );
+		}
+		else if ( getRowHandles( ).size( ) > 1 )
+		{
+			int rowCount = getRowHandles( ).size( );
+			int rowNum = getRowNumbers( )[rowCount - 1];
+			getTableEditPart( ).insertRows( rowCount, rowNum );
 		}
 	}
 }

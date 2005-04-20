@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.EditPartViewer;
@@ -23,7 +20,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Action delete a row of a table or a grid.
+ * Action delete a row or multi rows of a table or a grid.
  *  
  */
 public class DeleteRowAction extends ContextSelectionAction
@@ -76,36 +73,6 @@ public class DeleteRowAction extends ContextSelectionAction
 			part.deleteRow( getRowNumbers( ) );
 			viewer.select( part );
 		}
-	}
-
-	/**
-	 * Gets row numbers of selected rows.
-	 */
-	private int[] getRowNumbers( )
-	{
-		List rowHandles = getRowHandles( );
-		if ( rowHandles.isEmpty( ) )
-		{
-			return new int[0];
-		}
-		int[] rowNumbers = new int[rowHandles.size( )];
-		for ( int i = 0; i < rowHandles.size( ); i++ )
-		{
-			rowNumbers[i] = getRowNumber( rowHandles.get( i ) );
-		}
-		return rowNumbers;
-	}
-
-	/**
-	 * Gets row number.
-	 * 
-	 * @return The row number of the selected row object.
-	 */
-	public int getRowNumber( Object rowHandle )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( rowHandle )
-				.getRowNumber( );
 	}
 
 }
