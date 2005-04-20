@@ -12,14 +12,11 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
  * Boolean property type. Boolean properties are stored as
@@ -33,13 +30,13 @@ public class BooleanPropertyType extends PropertyType
 	 * XML value for the true value.
 	 */
 
-	private static final String TRUE = "true"; //$NON-NLS-1$
+	public static final String TRUE = "true"; //$NON-NLS-1$
 
 	/**
 	 * XML value for the false value.
 	 */
 
-	private static final String FALSE = "false"; //$NON-NLS-1$
+	public static final String FALSE = "false"; //$NON-NLS-1$
 
 	/**
 	 * resourceKey for "True" that is defined in message files.
@@ -270,25 +267,6 @@ public class BooleanPropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateInputString( value, ThreadResources.getLocale( ) );
-	}
-
-	/**
-	 * Validates the locale-dependent value for the float type, validate the
-	 * <code>value</code> in the locale-dependent way and convert the
-	 * <code>value</code> into a Double object.
-	 * 
-	 * @param value
-	 *            the value to validate
-	 * @param locale
-	 *            the locale information
-	 * @return object of type Double or null if <code>value</code> is null.
-	 * @throws PropertyValueException
-	 */
-
-	public Object validateInputString( String value, Locale locale )
-			throws PropertyValueException
-	{
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
@@ -302,13 +280,13 @@ public class BooleanPropertyType extends PropertyType
 		// 2. A localized Boolean name. Convert the localized
 		// Boolean name into Boolean instance.
 
-		if ( value.equalsIgnoreCase( getMessage( locale,
-				BOOLEAN_TRUE_RESOURCE_KEY ) ) )
+		if ( value.equalsIgnoreCase( ModelMessages
+				.getMessage( BOOLEAN_TRUE_RESOURCE_KEY ) ) )
 		{
 			return Boolean.TRUE;
 		}
-		else if ( value.equalsIgnoreCase( getMessage( locale,
-				BOOLEAN_FALSE_RESOURCE_KEY ) ) )
+		else if ( value.equalsIgnoreCase( ModelMessages
+				.getMessage( BOOLEAN_FALSE_RESOURCE_KEY ) ) )
 		{
 			return Boolean.FALSE;
 		}
@@ -316,25 +294,6 @@ public class BooleanPropertyType extends PropertyType
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				BOOLEAN_TYPE );
-	}
-
-	/**
-	 * Gets the message with the given locale and key.
-	 * @param locale
-	 *  the locale information
-	 * @param key
-	 *  the message key
-	 * @return the message if found, otherwise the message key
-	 */
-	
-	private String getMessage( Locale locale, String key )
-	{
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(
-				ModelMessages.class.getPackage( ).getName( ) + ".Messages", //$NON-NLS-1$
-				locale, ModelMessages.class.getClassLoader( ) );
-		if ( resourceBundle != null )
-			return resourceBundle.getString( key );
-		return key;
 	}
 
 	/**

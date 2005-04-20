@@ -26,12 +26,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
-import org.eclipse.birt.report.model.metadata.DateTimePropertyType;
-import org.eclipse.birt.report.model.metadata.FloatPropertyType;
-import org.eclipse.birt.report.model.metadata.NumberPropertyType;
-import org.eclipse.birt.report.model.metadata.StringPropertyType;
 
 /**
  * Validates the parameter value with the given data type and format pattern
@@ -82,25 +77,15 @@ public class ParameterValidationUtil
 		if ( value == null )
 			return null;
 
-		try
-		{
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType ) )
-		{
-			DateTimePropertyType type = new DateTimePropertyType( );
-			return type.validateInputString( value, locale );
-		}
+			return doVidateDateTime( value, locale );
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType )
+				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType ) )
 		{
-			FloatPropertyType type = new FloatPropertyType( );
-			return type.validateInputString( value, locale );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType ) )
-		{
-			NumberPropertyType type = new NumberPropertyType( );
-			return type.validateInputString( value, locale );
+			return doValidateNumber( dataType, value, locale );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType ) )
@@ -110,20 +95,90 @@ public class ParameterValidationUtil
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 				.equalsIgnoreCase( dataType ) )
 		{
-			StringPropertyType type = new StringPropertyType( );
-			return type.validateInputString( null, null, value );
+			return value;
 		}
 		else
 		{
 			assert false;
 			return null;
 		}
-		}
-		catch( PropertyValueException e )
-		{
-			throw new ValidationValueException( value, e.getErrorCode( ), dataType );
-		}
 
+	}
+
+	/**
+	 * Validates the input value at the given locale. The format is: short date
+	 * and medium time.
+	 * 
+	 * @param value
+	 *            the value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return the date value if validation is successful
+	 * @throws ValidationValueException
+	 *             if the value is invalid
+	 */
+
+	static final Date doVidateDateTime( String value, Locale locale )
+			throws ValidationValueException
+	{
+
+		DateFormat formatter = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT, DateFormat.MEDIUM, locale );
+		try
+		{
+			return formatter.parse( value );
+		}
+		catch ( ParseException e )
+		{
+			throw new ValidationValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+	}
+
+	/**
+	 * Validates the input value at the given locale. The format is: general
+	 * number.
+	 * 
+	 * @param dataType
+	 *            the data type
+	 * @param value
+	 *            the value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return the double value if validation is successful
+	 * @throws ValidationValueException
+	 *             if the value is invalid
+	 */
+
+	static final Double doValidateNumber( String dataType, String value,
+			Locale locale ) throws ValidationValueException
+	{
+		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
+				.equalsIgnoreCase( dataType )
+				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType );
+		value = StringUtil.trimString( value );
+		if ( value == null )
+			return null;
+
+		NumberFormat localeFormatter = NumberFormat.getNumberInstance( locale );
+		Number number = null;
+		try
+		{
+			// Parse in locale-dependent way.
+			// Use the decimal separator from the locale.
+			number = localeFormatter.parse( value );
+		}
+		catch ( ParseException e )
+		{
+			throw new ValidationValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					dataType );
+		}
+		if ( number != null )
+			return new Double( number.doubleValue( ) );
+		return null;
 	}
 
 	/**
@@ -192,7 +247,7 @@ public class ParameterValidationUtil
 	 *         data type and format choice string
 	 * @throws ValidationValueException
 	 *             if the input value is not valid with the given data type and
-	 *             format choice string
+	 *             format string
 	 */
 
 	static public Object validate( String dataType, String format,
@@ -205,48 +260,41 @@ public class ParameterValidationUtil
 			return validate( dataType, value, locale );
 		try
 		{
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType ) )
-			return doValidateDateTime( format, value, locale );
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType ) )
-			return new Double( ( (Number) doValidateNumber( dataType, format,
-					value, locale ) ).doubleValue( ) );
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType ) )
-			return new BigDecimal( ( (Number) doValidateNumber( dataType,
-					format, value, locale ) ).doubleValue( ) );
-		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
-				.equalsIgnoreCase( dataType ) )
-		{
-			return doValidateBoolean( value, locale );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType ) )
-		{
-			if ( StringUtil.isBlank( value ) )
-				return value;
-			else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE
-					.equalsIgnoreCase( format ) )
-				return value.toLowerCase( locale );
-			else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE
-					.equalsIgnoreCase( format ) )
-				return value.toUpperCase( locale );
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+					.equalsIgnoreCase( dataType ) )
+				return doValidateDateTimeByPattern( format, value, locale );
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
+					.equalsIgnoreCase( dataType )
+					|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+							.equalsIgnoreCase( dataType ) )
+				return doValidateNumberByPattern( dataType, format, value,
+						locale );
+			else if ( DesignChoiceConstants.PARAM_TYPE_STRING
+					.equalsIgnoreCase( dataType ) )
+			{
+				if ( StringUtil.isBlank( value ) )
+					return value;
+				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE
+						.equalsIgnoreCase( format ) )
+					return value.toLowerCase( locale );
+				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE
+						.equalsIgnoreCase( format ) )
+					return value.toUpperCase( locale );
+				else
+				{
+					assert false;
+					return value;
+				}
+			}
 			else
 			{
 				assert false;
-				return value;
+				return null;
 			}
 		}
-		else
+		catch ( ValidationValueException e )
 		{
-			assert false;
-			return null;
-		}
-		}
-		catch( PropertyValueException e )
-		{
-			throw new ValidationValueException( value, e.getErrorCode( ), dataType );
+			return validate( dataType, value, locale );
 		}
 	}
 
@@ -262,36 +310,77 @@ public class ParameterValidationUtil
 	 * @throws ValidationValueException
 	 */
 
-	static private Object doValidateBoolean( String value, Locale locale )
+	static private Boolean doValidateBoolean( String value, Locale locale )
 			throws ValidationValueException
 	{
-		BooleanPropertyType type = new BooleanPropertyType( );
-		try
+		if ( StringUtil.isBlank( value ) )
+			return null;
+
+		// 1. Internal boolean name.
+
+		if ( value.equalsIgnoreCase( BooleanPropertyType.TRUE ) )
+			return Boolean.TRUE;
+		else if ( value.equalsIgnoreCase( BooleanPropertyType.FALSE ) )
+			return Boolean.FALSE;
+
+		// 2. A localized Boolean name. Convert the localized
+		// Boolean name into Boolean instance.
+
+		if ( value.equalsIgnoreCase( getMessage( locale,
+				BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY ) ) )
 		{
-		return type.validateInputString( value, locale );
+			return Boolean.TRUE;
 		}
-		catch( PropertyValueException e )
+		else if ( value.equalsIgnoreCase( getMessage( locale,
+				BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY ) ) )
 		{
-			throw new ValidationValueException( value, e.getErrorCode( ), DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
+			return Boolean.FALSE;
 		}
+
+		throw new ValidationValueException( value,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
 	}
 
 	/**
-	 * Validates the input date time string with the given format choice string.
-	 * The format string can be one of the following:
+	 * Gets the message with the given locale and key.
 	 * 
-	 * <ul>
-	 * </ul>
+	 * @param locale
+	 *            the locale information
+	 * @param key
+	 *            the message key
+	 * @return the message if found, otherwise the message key
+	 */
+
+	static private String getMessage( Locale locale, String key )
+	{
+		ResourceBundle resourceBundle = ResourceBundle.getBundle(
+				ModelMessages.class.getPackage( ).getName( ) + ".Messages", //$NON-NLS-1$
+				locale, ModelMessages.class.getClassLoader( ) );
+		if ( resourceBundle != null )
+			return resourceBundle.getString( key );
+		return key;
+	}
+
+	/**
+	 * Validates the input date time string with the given format. The format
+	 * can be pre-defined choices or the pattern string.
 	 * 
 	 * @param format
+	 *            the format to validate
 	 * @param value
+	 *            the value to validate
 	 * @param locale
-	 * @return 
+	 *            the locale information
+	 * @return the date value if validation is successful
 	 * @throws ValidationValueException
+	 *             if the value to validate is invalid
 	 */
-	static private Object doValidateDateTime( String format, String value,
-			Locale locale ) throws ValidationValueException
+
+	static private Date doValidateDateTimeByPattern( String format,
+			String value, Locale locale ) throws ValidationValueException
 	{
+		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
@@ -310,39 +399,53 @@ public class ParameterValidationUtil
 	}
 
 	/**
-	 * Validates the input date time string with the given format choice string.
+	 * Validates the input date time string with the given format.
 	 * 
 	 * @param dataType
-	 * 
+	 *            the data type of the value
 	 * @param format
+	 *            the format pattern
 	 * @param value
+	 *            the value to validate
 	 * @param locale
-	 * @return 
+	 *            the locale information
+	 * @return the double value if the validation is successful
 	 * @throws ValidationValueException
+	 *             if the value to validate is invalid
 	 */
 
-	static private Object doValidateNumber( String dataType, String format,
-			String value, Locale locale ) throws ValidationValueException
+	static private Double doValidateNumberByPattern( String dataType,
+			String format, String value, Locale locale )
+			throws ValidationValueException
 	{
+		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
+		.equalsIgnoreCase( dataType )
+		|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+				.equalsIgnoreCase( dataType );
+		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
 			return null;
 		NumberFormatter formatter = new NumberFormatter( locale );
 		formatter.applyPattern( format );
-
+		Number number = null;
 		try
 		{
-			return formatter.parse( value );
+			number = formatter.parse( value );
 		}
 		catch ( ParseException e )
 		{
 			throw new ValidationValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, dataType );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					dataType );
 		}
+		if ( number != null )
+			return new Double( number.doubleValue( ) );
+		return null;
 	}
 
 	/**
 	 * Gets the display string for the value with the given data type, format,
-	 * locale. The value must be the valid value type. That is:
+	 * locale. The value must be the valid data type. That is:
 	 * 
 	 * <ul>
 	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
@@ -350,7 +453,7 @@ public class ParameterValidationUtil
 	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
 	 * be <code>java.lang.Double</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.math.BigDecimal</code>.</li>
+	 * be <code>java.lang.Double</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
 	 * be <code>java.lang.Boolean</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
@@ -358,11 +461,16 @@ public class ParameterValidationUtil
 	 * </ul>
 	 * 
 	 * @param dataType
+	 *  		the data type of the input value
 	 * @param format
+	 *  		the format pattern to validate
 	 * @param value
+	 *  		the input value to validate
 	 * @param locale
-	 * @return
+	 *  		the locale information
+	 * @return the formatted string
 	 */
+
 	static public String getDisplayValue( String dataType, String format,
 			Object value, Locale locale )
 	{
@@ -399,10 +507,12 @@ public class ParameterValidationUtil
 		{
 			if ( ( (Boolean) value ).booleanValue( ) )
 			{
-				return getMessage( locale, BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
+				return getMessage( locale,
+						BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
 			}
 
-			return getMessage( locale, BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
+			return getMessage( locale,
+					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 				.equalsIgnoreCase( dataType ) )
@@ -419,14 +529,28 @@ public class ParameterValidationUtil
 
 	}
 
+	/**
+	 * Gets the display string for the value with the given data type and the
+	 * locale. The value must be the valid data type.
+	 * 
+	 * @param dataType
+	 *            the data type of the input value
+	 * @param value
+	 *            the input value to validate
+	 * @param locale
+	 *            the locale information
+	 * @return the formatted string
+	 *  
+	 */
+
 	static private String getDisplayValue( String dataType, Object value,
 			Locale locale )
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType ) )
 		{
-			DateFormat formatter = DateFormat.getDateInstance(
-					DateFormat.SHORT, ThreadResources.getLocale( ) );
+			DateFormat formatter = DateFormat.getDateTimeInstance(
+					DateFormat.SHORT, DateFormat.MEDIUM, locale );
 			return formatter.format( (Date) value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
@@ -446,10 +570,12 @@ public class ParameterValidationUtil
 		{
 			if ( ( (Boolean) value ).booleanValue( ) )
 			{
-				return getMessage( locale, BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
+				return getMessage( locale,
+						BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
 			}
 
-			return getMessage( locale, BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
+			return getMessage( locale,
+					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 				.equalsIgnoreCase( dataType ) )
@@ -461,24 +587,5 @@ public class ParameterValidationUtil
 			assert false;
 			return null;
 		}
-	}
-	
-	/**
-	 * Gets the message with the given locale and key.
-	 * @param locale
-	 *  the locale information
-	 * @param key
-	 *  the message key
-	 * @return the message if found, otherwise the message key
-	 */
-	
-	static private String getMessage( Locale locale, String key )
-	{
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(
-				ModelMessages.class.getPackage( ).getName( ) + ".Messages", //$NON-NLS-1$
-				locale, ModelMessages.class.getClassLoader( ) );
-		if ( resourceBundle != null )
-			return resourceBundle.getString( key );
-		return key;
 	}
 }
