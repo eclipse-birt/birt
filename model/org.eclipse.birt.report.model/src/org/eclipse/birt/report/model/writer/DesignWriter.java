@@ -2297,6 +2297,17 @@ public class DesignWriter extends ElementVisitor
 		assert obj instanceof GridItem || obj instanceof TableItem;
 		assert slot == GridItem.COLUMN_SLOT || slot == TableItem.COLUMN_SLOT;
 
+		// TODO: UI requires the column to keep the table layout information, so 
+		// the unnecessary columns can not be remove this moment. The related 
+		// SCR is SRC#74095.
+		
+		boolean revert = true;
+		if ( revert )
+		{
+			writeContents( obj, slot, null );
+			return;
+		}
+
 		List list = obj.getSlot( slot ).getContents( );
 		if ( list.isEmpty( ) )
 			return;
