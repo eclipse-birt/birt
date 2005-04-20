@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -25,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
 public class PasteAction extends AbstractViewAction
 {
 
-	private static final String TEXT = Messages.getString( "PasteAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString( "PasteAction.text" ); //$NON-NLS-1$
 
 	/**
 	 * Create a new paste action with given selection and default text
@@ -36,7 +36,7 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public PasteAction( Object selectedObject )
 	{
-		this( selectedObject, TEXT );
+		this( selectedObject, DEFAULT_TEXT );
 	}
 
 	/**
@@ -64,9 +64,7 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		Object transferData = TemplateTransfer.getInstance( ).getTemplate( );
-		Object targetObj = getSelection( );
-		DNDUtil.copyHandles( transferData, targetObj );
+		DNDUtil.copyHandles( getClipBoardContents( ), getSelection( ) );
 	}
 
 	/*
@@ -77,10 +75,14 @@ public class PasteAction extends AbstractViewAction
 	public boolean isEnabled( )
 	{
 		return DNDUtil.handleValidateTargetCanContain( getSelection( ),
-				TemplateTransfer.getInstance( ).getTemplate( ) )
+				getClipBoardContents( ) )
 				&& DNDUtil.handleValidateTargetCanContainMore( getSelection( ),
-						DNDUtil.getObjectLength( TemplateTransfer.getInstance( )
-								.getTemplate( ) ) );
+						DNDUtil.getObjectLength( getClipBoardContents( ) ) );
+	}
+
+	protected Object getClipBoardContents( )
+	{
+		return Clipboard.getDefault( ).getContents( );
 	}
 
 	public Object getSelection( )

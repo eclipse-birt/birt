@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 public class CopyAction extends AbstractViewAction
 {
 
-	private static final String TEXT = Messages.getString( "CopyAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString( "CopyAction.text" ); //$NON-NLS-1$
 
 	/**
 	 * Create a new copy action with given selection and default text
@@ -35,7 +35,7 @@ public class CopyAction extends AbstractViewAction
 	 */
 	public CopyAction( Object selectedObject )
 	{
-		this( selectedObject, TEXT );
+		this( selectedObject, DEFAULT_TEXT );
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CopyAction extends AbstractViewAction
 	public void run( )
 	{
 		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
-		TemplateTransfer.getInstance( ).setTemplate( cloneElements );
+		Clipboard.getDefault( ).setContents( cloneElements );
 	}
 
 	/*

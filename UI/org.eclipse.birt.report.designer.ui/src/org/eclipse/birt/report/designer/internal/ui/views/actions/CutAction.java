@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -81,7 +81,7 @@ public class CutAction extends AbstractViewAction
 		action.run( );
 		if ( action.hasExecuted( ) )
 		{
-			TemplateTransfer.getInstance( ).setTemplate( cloneElements );
+			Clipboard.getDefault( ).setContents( cloneElements );
 		}
 	}
 
