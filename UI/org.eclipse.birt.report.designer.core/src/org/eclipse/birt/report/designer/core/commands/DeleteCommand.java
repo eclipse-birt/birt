@@ -14,10 +14,12 @@ package org.eclipse.birt.report.designer.core.commands;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -90,12 +92,35 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof ReportElementModel )
 		{
-			dropSourceSlotHandle( ( (ReportElementModel) source ).getSlotHandle( ) );
+			dropSourceSlotHandle( ( (ReportElementModel) source )
+					.getSlotHandle( ) );
 		}
 		else if ( source instanceof ListBandProxy )
 		{
 			dropSourceSlotHandle( ( (ListBandProxy) source ).getSlotHandle( ) );
 		}
+		else if ( source instanceof EmbeddedImageHandle )
+		{
+			dropEmbeddedImageHandle( (EmbeddedImageHandle) ( source ) );
+		}
+
+	}
+
+	/**
+	 * @param object
+	 */
+	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
+	{
+		try
+		{
+			SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+					.dropImage( embeddedImage.getName( ) );
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
+		}
+
 	}
 
 	protected void dropSourceElementHandle( DesignElementHandle handle )
@@ -174,8 +199,13 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			return slot.getElementHandle( ) instanceof ListHandle;
 		}
+		else if( source instanceof EmbeddedImageHandle)
+		{
+			return true;
+		}
 		return source instanceof ReportElementHandle
 				&& !( source instanceof MasterPageHandle );
+				
 
 	}
 }

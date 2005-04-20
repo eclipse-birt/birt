@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -205,6 +206,19 @@ public class SessionHandleAdapter
 		return null;
 	}
 
+	/**
+	 * @return Command stack of current session.
+	 */
+	public CommandStack getCommandStack( )
+	{
+		if ( getReportDesign( ) != null )
+		{
+			return getReportDesignHandle( ).getCommandStack( );
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Gets the first MasterPageHandle
 	 * 
