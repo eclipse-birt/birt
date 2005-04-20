@@ -103,10 +103,6 @@ public class ReportDomainEventDispatcher extends DomainEventDispatcher
 				getViewer().reveal((EditPart)obj);
 			}
 		}
-		else
-		{
-			getViewer( ).setSelection( new StructuredSelection( ) );
-		}
 	}
 	
 	private boolean isFocusEligible(IFigure fig) {
