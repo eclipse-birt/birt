@@ -111,6 +111,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.LINE_HEIGHT_PROP ) ),
 				getFieldEditorParent( ) );
+		lineHeight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.LINE_HEIGHT_PROP )
+				.getDefaultUnit( ) );
 
 		charSpacing = new ComboBoxMeasureFieldEditor( Style.LETTER_SPACING_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.LETTER_SPACING_PROP )
@@ -121,6 +123,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.LETTER_SPACING_PROP ) ),
 				getFieldEditorParent( ) );
+		charSpacing.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.LETTER_SPACING_PROP )
+				.getDefaultUnit( ) );
 
 		wordSpacing = new ComboBoxMeasureFieldEditor( Style.WORD_SPACING_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.WORD_SPACING_PROP )
@@ -131,6 +135,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.WORD_SPACING_PROP ) ),
 				getFieldEditorParent( ) );
+		wordSpacing.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.WORD_SPACING_PROP )
+				.getDefaultUnit( ) );
 
 		verticalAlign = new ComboBoxFieldEditor( Style.VERTICAL_ALIGN_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.VERTICAL_ALIGN_PROP )
@@ -155,6 +161,8 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.TEXT_INDENT_PROP ) ),
 				getFieldEditorParent( ) );
+		textIndent.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_INDENT_PROP )
+				.getDefaultUnit( ) );
 
 		textTrans = new ComboBoxFieldEditor( Style.TEXT_TRANSFORM_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_TRANSFORM_PROP )

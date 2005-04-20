@@ -143,6 +143,8 @@ public class FontPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_SIZE ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_UNITS ),
 				getFieldEditorParent( ) );
+		size.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
+				.getDefaultUnit( ) );
 
 		style = new ComboBoxFieldEditor( Style.FONT_STYLE_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_STYLE_PROP )
@@ -399,7 +401,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	 */
 	private String[][] getChoiceArray( String key )
 	{
-		IChoice[] choices = DesignEngine.getMetaDataDictionary()
+		IChoice[] choices = DesignEngine.getMetaDataDictionary( )
 				.getChoiceSet( key )
 				.getChoices( );
 

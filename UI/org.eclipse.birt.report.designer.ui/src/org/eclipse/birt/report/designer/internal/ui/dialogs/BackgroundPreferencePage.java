@@ -125,6 +125,8 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.BACKGROUND_POSITION_X_PROP ) ),
 				getFieldEditorParent( ) );
+		horizonPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_X_PROP )
+				.getDefaultUnit( ) );
 
 		verticalPos = new ComboBoxMeasureFieldEditor( Style.BACKGROUND_POSITION_Y_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_Y_PROP )
@@ -135,6 +137,8 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
 						Style.BACKGROUND_POSITION_Y_PROP ) ),
 				getFieldEditorParent( ) );
+		verticalPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_Y_PROP )
+				.getDefaultUnit( ) );
 
 		addField( color );
 		addField( bgImage );

@@ -178,10 +178,7 @@ public class ColorFieldEditor extends AbstractFieldEditor
 		{
 			return null;
 		}
-		else
-		{
-			return ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getRGB( ) ),
-					ColorUtil.HTML_FORMAT );
-		}
+		return ColorUtil.format( DEUtil.getRGBInt( getColorSelector( ).getRGB( ) ),
+				ColorUtil.HTML_FORMAT );
 	}
 }

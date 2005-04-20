@@ -330,9 +330,10 @@ public class StringFieldEditor extends AbstractFieldEditor
 	public String getStringValue( )
 	{
 		if ( textField != null )
+		{
 			return textField.getText( );
-		else
-			return getPreferenceStore( ).getString( getPreferenceName( ) );
+		}
+		return getPreferenceStore( ).getString( getPreferenceName( ) );
 	}
 
 	/**

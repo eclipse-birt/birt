@@ -80,7 +80,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		}
 		else
 		{
-			fText.setText( "" );
+			fText.setText( "" ); //$NON-NLS-1$
 		}
 		setOldValue( getStringValue( ) );
 	}
@@ -99,7 +99,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		}
 		else
 		{
-			fText.setText( "" );
+			fText.setText( "" ); //$NON-NLS-1$
 		}
 		setOldValue( getStringValue( ) );
 	}
@@ -217,10 +217,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		{
 			return fText.getText( );
 		}
-		else
-		{
-			return getPreferenceStore( ).getString( getPreferenceName( ) );
-		}
+		return getPreferenceStore( ).getString( getPreferenceName( ) );
 	}
 
 }

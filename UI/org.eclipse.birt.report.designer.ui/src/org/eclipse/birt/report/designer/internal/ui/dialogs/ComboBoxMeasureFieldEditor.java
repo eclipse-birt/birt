@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -292,7 +294,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		// "inch".
 		if ( value == null )
 		{
-			fmeasure.setText( "" );
+			fmeasure.setText( "" ); //$NON-NLS-1$
 			return;
 		}
 
@@ -308,7 +310,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		// for illegal value of the measure(unit), set it default also.
 		if ( fMeasureNamesAndValues.length > 0 )
 		{
-			fmeasure.setText( "" );
+			fmeasure.setText( "" ); //$NON-NLS-1$
 		}
 	}
 
@@ -402,10 +404,24 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 				public void modifyText( ModifyEvent e )
 				{
-					if ( StringUtil.isBlank( fText.getText( ) ) )
+					String text = fText.getText( );
+					if ( !DEUtil.isValidNumber( text ) )
 					{
 						fmeasure.deselectAll( );
 						fmeasure.setEnabled( false );
+					}
+					else if ( !fmeasure.isEnabled( ) )
+					{
+						String unit = getDefaultUnit( );
+						if ( !StringUtil.isBlank( unit ) )
+						{
+							unit = DesignEngine.getMetaDataDictionary( )
+									.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+									.findChoice( unit )
+									.getDisplayName( );
+						}
+						fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
+						fmeasure.setEnabled( true );
 					}
 					valueChanged( VALUE );
 				}
@@ -449,20 +465,28 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 				{
 					boolean cusType = !InComboNamesList( fCombo.getText( ) );
 
-					if ( fmeasure != null )
+					if ( cusType )
 					{
-						if ( cusType && !( fmeasure.isEnabled( ) ) )
+						if ( !DEUtil.isValidNumber( fCombo.getText( ) ) )
 						{
-							//default unit is point.
-							fmeasure.select( 3 );
+							fmeasure.deselectAll( );
+							fmeasure.setEnabled( false );
 						}
-						fmeasure.setEnabled( cusType );
+						else if ( !( fmeasure.isEnabled( ) ) )
+						{
+							String unit = getDefaultUnit( );
+							if ( !StringUtil.isBlank( unit ) )
+							{
+								unit = DesignEngine.getMetaDataDictionary( )
+										.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+										.findChoice( unit )
+										.getDisplayName( );
+							}
+							fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
+							fmeasure.setEnabled( true );
+						}
 					}
-					if ( !cusType )
-					{
-						fmeasure.deselectAll( );
-					}
-					if ( StringUtil.isBlank( fCombo.getText( ) ) )
+					else
 					{
 						fmeasure.deselectAll( );
 						fmeasure.setEnabled( false );

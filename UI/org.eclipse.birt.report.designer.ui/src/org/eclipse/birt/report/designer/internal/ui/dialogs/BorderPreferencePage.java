@@ -183,6 +183,8 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( Style.BORDER_TOP_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_TOP_WIDTH_PROP ),
 				gpWidth );
+		widthTop.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_TOP_WIDTH_PROP )
+				.getDefaultUnit( ) );
 
 		widthRight = new ComboBoxMeasureFieldEditor( Style.BORDER_RIGHT_WIDTH_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
@@ -191,6 +193,8 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( Style.BORDER_RIGHT_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_RIGHT_WIDTH_PROP ),
 				gpWidth );
+		widthRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_RIGHT_WIDTH_PROP )
+				.getDefaultUnit( ) );
 
 		widthBottom = new ComboBoxMeasureFieldEditor( Style.BORDER_BOTTOM_WIDTH_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
@@ -199,6 +203,8 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( Style.BORDER_BOTTOM_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_BOTTOM_WIDTH_PROP ),
 				gpWidth );
+		widthBottom.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_BOTTOM_WIDTH_PROP )
+				.getDefaultUnit( ) );
 
 		widthLeft = new ComboBoxMeasureFieldEditor( Style.BORDER_LEFT_WIDTH_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
@@ -207,6 +213,8 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				getChoiceArray( Style.BORDER_LEFT_WIDTH_PROP ),
 				getMeasureChoiceArray( Style.BORDER_LEFT_WIDTH_PROP ),
 				gpWidth );
+		widthLeft.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BORDER_LEFT_WIDTH_PROP )
+				.getDefaultUnit( ) );
 
 		addField( styleTop );
 		addField( styleRight );

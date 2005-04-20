@@ -23,9 +23,11 @@ public abstract class AbstractFieldEditor extends FieldEditor
 
 	private boolean isDirty = false;
 
-	private String oldValue = "";
+	private String oldValue = ""; //$NON-NLS-1$
 
-	private String propValue = "";
+	private String propValue = ""; //$NON-NLS-1$
+
+	private String defaultUnit = ""; //$NON-NLS-1$
 
 	/**
 	 * Creates a new abstract field editor.
@@ -48,6 +50,23 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	public AbstractFieldEditor( String name, String labelText, Composite parent )
 	{
 		super( name, labelText, parent );
+	}
+
+	/**
+	 * @param defaultUnit
+	 *            The defaultUnit to set.
+	 */
+	public void setDefaultUnit( String defaultUnit )
+	{
+		this.defaultUnit = defaultUnit;
+	}
+
+	/**
+	 * @return Returns the defaultUnit.
+	 */
+	public String getDefaultUnit( )
+	{
+		return defaultUnit;
 	}
 
 	/*
@@ -106,7 +125,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	{
 		if ( oldValue == null )
 		{
-			oldValue = "";
+			oldValue = ""; //$NON-NLS-1$
 		}
 		this.oldValue = oldValue;
 		this.propValue = oldValue;
@@ -123,7 +142,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	{
 		if ( newValue == null )
 		{
-			newValue = "";
+			newValue = ""; //$NON-NLS-1$
 		}
 		this.propValue = newValue;
 	}
