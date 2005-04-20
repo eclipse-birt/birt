@@ -97,17 +97,17 @@ public final class DesignReader
 			// Invalid xml error is found
 
 			throw new DesignFileException( fileName, handler.getDesign( )
-					.getErrors( ), e );
+					.getAllErrors( ), e );
 		}
 		catch ( ParserConfigurationException e )
 		{
 			throw new DesignFileException( fileName, handler.getDesign( )
-					.getErrors( ), e );
+					.getAllErrors( ), e );
 		}
 		catch ( IOException e )
 		{
 			throw new DesignFileException( fileName, handler.getDesign( )
-					.getErrors( ), e );
+					.getAllErrors( ), e );
 		}
 
 		design.setValid( true );

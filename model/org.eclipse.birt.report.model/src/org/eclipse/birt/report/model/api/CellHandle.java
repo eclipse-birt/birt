@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * @see RowHandle#getCells()
  */
 
-public class CellHandle extends ReportElementHandle
+public class CellHandle extends ReportElementHandle 
 {
 
 	/**

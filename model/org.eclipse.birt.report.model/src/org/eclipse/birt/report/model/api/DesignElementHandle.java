@@ -1484,4 +1484,28 @@ public abstract class DesignElementHandle
 		return getElement( ).canContain( getDesign( ), slotId,
 				content.getElement( ) );
 	}
+
+	/**
+	 * Returns the validation error list, each of which is the instance of
+	 * <code>ErrorDetail</code>.
+	 * 
+	 * @return the validation error list.
+	 */
+
+	public List getValidationErrors( )
+	{
+		List errorList = getElement( ).getErrors( );
+		if ( errorList == null )
+			return Collections.EMPTY_LIST;
+
+		List errorDetailList = new ArrayList();
+		
+		Iterator iter = errorList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			errorDetailList.add( new ErrorDetail( (Exception) iter.next( ) ) );
+		}
+
+		return errorDetailList;
+	}
 }

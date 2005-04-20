@@ -186,6 +186,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private Map semanticValidators = new HashMap( );
 
 	/**
+	 * Whether to use validation trigger. This feature will perform
+	 * validation once one property or slot is changed.
+	 */
+
+	private boolean useValidationTrigger = false;
+
+	/**
 	 * The default encryption helper.
 	 */
 
@@ -435,7 +442,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 *            the element type to add
 	 * @throws MetaDataException
 	 *             if exception occurs when adding the element definition.
-	 * 
+	 *  
 	 */
 
 	void addElementDefn( ElementDefn type ) throws MetaDataException
@@ -804,6 +811,29 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	public AbstractSemanticValidator getSemanticValidator( String name )
 	{
 		return (AbstractSemanticValidator) semanticValidators.get( name );
+	}
+
+	/**
+	 * Returns whether to use validation trigger feature.
+	 * 
+	 * @return whether to use validation trigger feature 
+	 */
+
+	public boolean useValidationTrigger( )
+	{
+		return useValidationTrigger;
+	}
+
+	/**
+	 * Enables the validation trigger feature.
+	 * 
+	 * @param useValidationTrigger
+	 *            the flag to set
+	 */
+	
+	public void setUseValidationTrigger( boolean useValidationTrigger )
+	{
+		this.useValidationTrigger = useValidationTrigger;
 	}
 
 	/**

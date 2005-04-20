@@ -301,7 +301,7 @@ public class ReportDesign extends RootElement
 	 * Accumulates errors and warnings during a batch operation.
 	 */
 
-	private List errors = new ArrayList( );
+	private List allErrors = new ArrayList( );
 
 	/**
 	 * Internal table to store a bunch of user-defined messages. One message can
@@ -368,7 +368,7 @@ public class ReportDesign extends RootElement
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		ReportDesign design = (ReportDesign) super.clone( );
-		design.errors = new ArrayList( );
+		design.allErrors = new ArrayList( );
 		design.initSlots( );
 		for ( int i = 0; i < slots.length; i++ )
 		{
@@ -880,7 +880,7 @@ public class ReportDesign extends RootElement
 	{
 		if ( !StringUtil.isBlank( units ) )
 			return units;
-		return (String)getPropertyDefn( ReportDesign.UNITS_PROP ).getDefault( );
+		return (String) getPropertyDefn( ReportDesign.UNITS_PROP ).getDefault( );
 	}
 
 	/**
@@ -1073,9 +1073,9 @@ public class ReportDesign extends RootElement
 
 	public void semanticError( SemanticException ex )
 	{
-		if ( errors == null )
-			errors = new ArrayList( );
-		errors.add( ex );
+		if ( allErrors == null )
+			allErrors = new ArrayList( );
+		allErrors.add( ex );
 	}
 
 	/**
@@ -1085,13 +1085,13 @@ public class ReportDesign extends RootElement
 	 * @return the list of errors or warning
 	 */
 
-	public List getErrors( )
+	public List getAllErrors( )
 	{
-		return errors;
+		return allErrors;
 	}
 
 	/**
-	 * Returns a list containing errors during parsing the design file.
+	 * Returns a list containing all errors during parsing the design file.
 	 * 
 	 * @return a list containing parsing errors. Each element in the list is
 	 *         <code>ErrorDetail</code>.
@@ -1134,27 +1134,19 @@ public class ReportDesign extends RootElement
 
 	public final void semanticCheck( ReportDesign design )
 	{
-		if ( errors != null )
-			errors.clear( );
+		if ( allErrors == null )
+			allErrors = new ArrayList( );
+		else
+			allErrors.clear( );
 
 		List errorList = validateWithContents( design );
-
-		Iterator iter = errorList.iterator( );
-		while ( iter.hasNext( ) )
-			design.semanticError( (SemanticException) iter.next( ) );
-
-		if ( errors != null )
+		if ( errorList != null )
 		{
-			iter = errors.iterator( );
-			ArrayList detailList = new ArrayList( );
-
+			Iterator iter = errorList.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				ErrorDetail error = new ErrorDetail( (Exception) iter.next( ) );
-				detailList.add( error );
+				allErrors.add( new ErrorDetail( (Exception) iter.next( ) ) );
 			}
-			errors.clear( );
-			errors.addAll( detailList );
 		}
 	}
 
@@ -1257,9 +1249,9 @@ public class ReportDesign extends RootElement
 	{
 		ArrayList retList = new ArrayList( );
 
-		for ( int i = 0; i < errors.size( ); i++ )
+		for ( int i = 0; i < allErrors.size( ); i++ )
 		{
-			ErrorDetail errorDetail = (ErrorDetail) errors.get( i );
+			ErrorDetail errorDetail = (ErrorDetail) allErrors.get( i );
 			if ( errorType.equalsIgnoreCase( errorDetail.getType( ) ) )
 			{
 				retList.add( errorDetail );

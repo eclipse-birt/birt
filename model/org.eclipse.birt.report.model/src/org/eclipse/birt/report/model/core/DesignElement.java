@@ -386,8 +386,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.api.activity.ActivityStack}class
- * triggers the notifications as it processes commands.</li>
+ * <li>The {@link org.eclipse.birt.report.model.api.activity.ActivityStack}
+ * class triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
  * <li>The sendEvent( ) method in turn calls
@@ -681,6 +681,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 	 */
 
 	protected DesignElementHandle handle = null;
+
+	/**
+	 * The validation error list, each of which is the instance of
+	 * <code>SemanticException</code>.
+	 */
+
+	protected List errors;
 
 	/**
 	 * Default constructor.
@@ -1038,7 +1045,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 		if ( prop.isIntrinsic( ) )
 		{
 			// This is an intrinsic system-defined property.
-			
+
 			Object value = getIntrinsicProperty( prop.getName( ) );
 			if ( value != null )
 				return value;
@@ -2303,15 +2310,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 
 	public final List validateWithContents( ReportDesign design )
 	{
-		//		List list = validate( design );
-
 		ElementDefn elementDefn = (ElementDefn) getDefn( );
 		List validatorList = ValidationExecutor.getValidationNodes( this,
 				elementDefn.getTriggerDefnSet( ), true );
 
 		ValidationExecutor executor = design.getValidationExecutor( );
-		List list = executor.perform( validatorList, true );
+		errors = executor.perform( this, validatorList );
 
+		List list = new ArrayList( errors );
 		int count = getDefn( ).getSlotCount( );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -3162,8 +3168,8 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 	 * When inserting the cloned element into the design tree, user needs to
 	 * care about the element name confliction; that is, the client needs to
 	 * call the method
-	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code> to
-	 * change the element names.
+	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
+	 * to change the element names.
 	 * 
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
@@ -3267,4 +3273,18 @@ public abstract class DesignElement implements IDesignElement, IPropertySet
 		return returnList;
 	}
 
+	/**
+	 * Returns the validation error list, each of which is the instance of
+	 * <code>SemanticExcpetion</code>.
+	 * 
+	 * @return the validation error list.
+	 */
+
+	public List getErrors( )
+	{
+		if ( errors == null )
+			return new ArrayList( );
+
+		return errors;
+	}
 }

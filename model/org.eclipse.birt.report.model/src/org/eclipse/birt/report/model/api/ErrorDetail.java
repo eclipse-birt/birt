@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.model.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -522,5 +525,29 @@ public final class ErrorDetail
 	public String getValidationID( )
 	{
 		return validationID;
+	}
+
+	/**
+	 * Converts the exception list to the error detail list.
+	 * 
+	 * @param exceptionList
+	 *            list of <code>SemanticException</code>.
+	 * @return the error detail list of <code>ErrorDetail</code>
+	 */
+
+	public static List convertExceptionList( List exceptionList )
+	{
+		List errorDetailList = new ArrayList( );
+
+		Iterator iterError = exceptionList.iterator( );
+		while ( iterError.hasNext( ) )
+		{
+			SemanticException e = (SemanticException) iterError.next( );
+
+			ErrorDetail errorDetail = new ErrorDetail( e );
+			errorDetailList.add( errorDetail );
+		}
+
+		return errorDetailList;
 	}
 }

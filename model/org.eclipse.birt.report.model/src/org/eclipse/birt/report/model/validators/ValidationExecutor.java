@@ -12,10 +12,15 @@
 package org.eclipse.birt.report.model.validators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -51,6 +56,55 @@ public class ValidationExecutor
 
 	/**
 	 * Performs all validation in the given validation node list. Each of the
+	 * list is the instance of <code>ValidationNode</code>. This method is
+	 * used for element's semantic check.
+	 * 
+	 * @param targetElement
+	 *            the target element on which the validation is performed.
+	 * @param nodes
+	 *            list of validation nodes
+	 * @return error list. Each one is the instance of
+	 *         <code>SemanticException</code>.
+	 */
+
+	public List perform( DesignElement targetElement, List nodes )
+	{
+		List allErrors = new ArrayList( );
+
+		Iterator iter = reorganize( nodes ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ValidationNode node = (ValidationNode) iter.next( );
+
+			List errors = node.perform( design, false );
+			if ( targetElement == node.getElement( ) )
+				allErrors.addAll( errors );
+
+			// If error is found in one pre-requisite validator, the following
+			// validation is not performed. This is because some of the
+			// following validators will depend on this pre-requisite validator.
+			// Currently, the pre-requisite validator is not allowed to depend
+			// on other validator.
+
+			if ( node.getTriggerDefn( ).isPreRequisite( ) && !errors.isEmpty( ) )
+				break;
+		}
+
+		List errorDetailList = ErrorDetail.convertExceptionList( allErrors );
+
+		if ( !MetaDataDictionary.getInstance( ).useValidationTrigger( ) )
+		{
+			ValidationEvent event = new ValidationEvent( targetElement, null,
+					errorDetailList );
+
+			targetElement.broadcast( event );
+		}
+
+		return allErrors;
+	}
+
+	/**
+	 * Performs all validation in the given validation node list. Each of the
 	 * list is the instance of <code>ValidationNode</code>.
 	 * 
 	 * @param nodes
@@ -65,14 +119,13 @@ public class ValidationExecutor
 	{
 		List allErrors = new ArrayList( );
 
-		List reorganizedNodes = reorganize( nodes );
-
-		Iterator iter = reorganizedNodes.iterator( );
+		Iterator iter = reorganize( nodes ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ValidationNode node = (ValidationNode) iter.next( );
 
 			List errors = node.perform( design, sendEvent );
+
 			allErrors.addAll( errors );
 
 			// If error is found in one pre-requisite validator, the following
@@ -84,6 +137,25 @@ public class ValidationExecutor
 			if ( node.getTriggerDefn( ).isPreRequisite( ) && !errors.isEmpty( ) )
 				break;
 		}
+
+//		Iterator iterElement = elementErrorMap.keySet( ).iterator( );
+//		while ( iterElement.hasNext( ) )
+//		{
+//			DesignElement toValidate = (DesignElement) iterElement.next( );
+//
+//			List errors = (List) elementErrorMap.get( toValidate );
+//			allErrors.addAll( errors );
+//
+//			List errorDetailList = ErrorDetail.convertExceptionList( errors );
+//
+//			if ( !MetaDataDictionary.getInstance( ).useValidationTrigger( ) )
+//			{
+//				ValidationEvent event = new ValidationEvent( toValidate, null,
+//						errorDetailList );
+//
+//				toValidate.broadcast( event );
+//			}
+//		}
 
 		return allErrors;
 	}
