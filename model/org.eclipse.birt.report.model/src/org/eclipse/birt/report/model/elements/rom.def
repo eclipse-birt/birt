@@ -1722,7 +1722,7 @@
       <Type name="Parameter" />
     </Slot>
   </Element>
-  <Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true">
+  <Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true">
     <PropertyGroup displayNameID="Element.Style.font">
       <Property name="fontFamily" displayNameID="Element.Style.font.family" type="string" detailType="fontFamily" isStyleProperty="true">
         <Default>serif</Default>

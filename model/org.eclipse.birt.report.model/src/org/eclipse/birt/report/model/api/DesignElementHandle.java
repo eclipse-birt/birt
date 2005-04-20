@@ -544,7 +544,7 @@ public abstract class DesignElementHandle
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -568,7 +568,7 @@ public abstract class DesignElementHandle
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -1455,6 +1455,9 @@ public abstract class DesignElementHandle
 			return false;
 
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement( type );
+		if ( defn == null )
+			defn = MetaDataDictionary.getInstance( ).getExtension( type );
+
 		if ( defn == null )
 			return false;
 
