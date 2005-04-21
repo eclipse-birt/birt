@@ -336,14 +336,14 @@ public class GridItem extends ReportItem
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
 			Cell cell = (Cell) iter.next( );
-			int cellPos = target.getColumn( design );
+			int cellPos = cell.getColumn( design );
 			if ( cellPos > 0 )
 				pos = cellPos;
 
 			if ( cell == target )
 				return pos;
 
-			pos = pos + target.getColSpan( design );
+			pos = pos + cell.getColSpan( design );
 
 		}
 
