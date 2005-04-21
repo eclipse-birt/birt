@@ -99,6 +99,8 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * 
 	 * @return <code>true</code> if the property value is visible,
 	 *         <code>false</code> otherwise.
+	 * 
+	 * @deprecated by the method {@link IElementDefn#isPropertyVisible(String)}
 	 */
 
 	public boolean isVisible( );
@@ -108,6 +110,8 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * 
 	 * @return <code>true</code> if the property value is read-only,
 	 *         <code>false</code> otherwise.
+	 * 
+	 * @deprecated by the method {@link IElementDefn#isPropertyReadOnly(String)}
 	 */
 
 	public boolean isReadOnly( );

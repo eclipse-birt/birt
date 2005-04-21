@@ -262,11 +262,67 @@ public class GroupElementHandle
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			IElementPropertyDefn propDefn = (IElementPropertyDefn) list.get( i );
-			if ( propDefn.isVisible( ) )
+			if ( isPropertyVisible( propDefn.getName( ) ) )
 				visibleList.add( propDefn );
 		}
 
 		return new GroupPropertyIterator( visibleList );
+	}
+
+	/**
+	 * Checks whether a property is visible in the property sheet. The visible
+	 * property is visible in all <code>elements</code>.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @return <code>true</code> if it is visible. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	protected boolean isPropertyVisible( String propName )
+	{
+		boolean isVisible = true;
+
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			IElementDefn elementDefn = ( (DesignElementHandle) elements.get( i ) )
+					.getDefn( );
+			if ( !elementDefn.isPropertyVisible( propName ) )
+			{
+				isVisible = false;
+				break;
+			}
+		}
+
+		return isVisible;
+	}
+
+	/**
+	 * Checks whether a property is read-only in the property sheet. The visible
+	 * property is read-only in all <code>elements</code>.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @return <code>true</code> if it is read-only. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	protected boolean isPropertyReadOnly( String propName )
+	{
+		boolean isReadOnly = false;
+
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			IElementDefn elementDefn = ( (DesignElementHandle) elements.get( i ) )
+					.getDefn( );
+			if ( elementDefn.isPropertyReadOnly( propName ) )
+			{
+				isReadOnly = true;
+				break;
+			}
+		}
+
+		return isReadOnly;
 	}
 
 	/**
@@ -422,7 +478,6 @@ public class GroupElementHandle
 		return elements.contains( element );
 	}
 
-	
 	/**
 	 * An iterator over the properties defined for elements that in the group
 	 * element.

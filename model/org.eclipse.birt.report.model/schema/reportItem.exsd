@@ -218,13 +218,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="propertyVisibility" type="string">
-            <annotation>
-               <documentation>
-                  Two options are: hide, readonly.
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="isEncrypted" type="string">
             <annotation>
                <documentation>
@@ -427,9 +420,8 @@
   name=&quot;test2&quot;/&gt;
  &lt;property
      displayNameID=&quot;Element.TestingMatrix.test3&quot;
-     name=&quot;test3&quot;
-     propertyVisibility=&quot;hide&quot;
-     type=&quot;xml&quot;/&gt;
+     name=&quot;test3&quot;     
+     type=&quot;xml&quot;/&gt;     
  &lt;property type=&quot;choice&quot; 
   displayNameID=&quot;Element.TestingMatrix.test5&quot; 
   canInherit=&quot;false&quot; 
@@ -453,9 +445,10 @@
    displayNameID=&quot;Element.TestingMatrix.test7&quot;
    name=&quot;test7&quot;/&gt;
  &lt;/propertyGroup&gt;
-    &lt;propertyVisibility name=&quot;bookmark&quot; propertyVisibility=&quot;hide&quot;/&gt;
+  &lt;propertyVisibility name=&quot;bookmark&quot; propertyVisibility=&quot;hide&quot;/&gt;
   &lt;propertyVisibility name=&quot;InvalidProperty&quot; propertyVisibility=&quot;hide&quot;/&gt;
- &lt;propertyVisibility name=&quot;dataSet&quot; propertyVisibility=&quot;readonly&quot;/&gt;
+  &lt;propertyVisibility name=&quot;dataSet&quot; propertyVisibility=&quot;readonly&quot;/&gt;
+  &lt;propertyVisibility name=&quot;test3&quot; propertyVisibility=&quot;hide&quot;/&gt;  
 &lt;/reportItem&gt;
       </documentation>
    </annotation>

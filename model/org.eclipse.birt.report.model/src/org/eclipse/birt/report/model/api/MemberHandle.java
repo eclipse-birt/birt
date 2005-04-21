@@ -114,4 +114,26 @@ public class MemberHandle extends SimpleValueHandle
 		return memberRef;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isReadOnly()
+	 */
+
+	public boolean isReadOnly( )
+	{
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
+	 */
+	
+	public boolean isVisible( )
+	{
+		return true;
+	}
+
 }

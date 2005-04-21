@@ -220,8 +220,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String isStyleProperty = propTag
 					.getAttribute( IS_STYLE_PROPERTY_ATTRIB );
 			String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
-			String visibility = propTag
-					.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
 			String isEncrypted = propTag.getAttribute( IS_ENCRYPTED_ATTRIB );
 			String defaultDisplayName = propTag.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
@@ -256,15 +254,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 				extPropDefn.setCanInherit( Boolean.valueOf( canInherit )
 						.booleanValue( ) );
 
-			if ( !StringUtil.isBlank( visibility ) )
-				extPropDefn.setVisibility( visibility );
-			else if ( propType.getTypeCode( ) == PropertyType.STRUCT_TYPE )
-				extPropDefn
-						.setVisibility( ElementPropertyDefn.HIDDEN_IN_PROPERTY_SHEET );
-
 			if ( !StringUtil.isBlank( isEncrypted ) )
 				extPropDefn.setIsEncrypted( Boolean.valueOf( isEncrypted )
 						.booleanValue( ) );
+
 
 			List choiceList = new ArrayList( );
 

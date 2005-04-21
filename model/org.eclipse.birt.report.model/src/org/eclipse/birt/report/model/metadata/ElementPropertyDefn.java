@@ -25,18 +25,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 {
 
 	/**
-	 * The property is hidden in the property sheet.
-	 */
-
-	protected final static String HIDDEN_IN_PROPERTY_SHEET = "hide"; //$NON-NLS-1$
-
-	/**
-	 * The property is shown in the property sheet but readonly.
-	 */
-
-	protected final static String READONLY_IN_PROPERTY_SHEET = "readonly"; //$NON-NLS-1$
-
-	/**
 	 * The message ID for the property group name.
 	 */
 
@@ -48,13 +36,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 */
 
 	protected boolean isInheritable = true;
-
-	/**
-	 * The visibility of the property definition. Mostly useful in the GUI
-	 * property sheet.
-	 */
-
-	protected String visibility = null;
 
 	/**
 	 * Default constructor.
@@ -195,52 +176,29 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
-	 * Sets the visibility flag to indicate how to display the property in the
-	 * property sheet.
-	 * 
-	 * @param flag
-	 *            the visibility flag to set
-	 */
-
-	void setVisibility( String flag )
-	{
-		if ( !HIDDEN_IN_PROPERTY_SHEET.equals( flag )
-				&& !READONLY_IN_PROPERTY_SHEET.equals( flag ) )
-			assert false;
-
-		visibility = flag;
-	}
-
-	/**
 	 * Checks whether the property is visible to the property sheet.
 	 * 
-	 * @return <code>true</code> if the property value is visible,
-	 *         <code>false otherwise.
+	 * @return <code>true</code>.
+	 *         
+	 * @deprecated by the method {@link ElementDefn#isPropertyVisible(String)}
 	 */
 
 	public boolean isVisible( )
 	{
-		if ( getTypeCode( ) == PropertyType.STRUCT_TYPE )
-			return false;
-
-		return ( visibility == null || READONLY_IN_PROPERTY_SHEET
-				.equals( visibility ) );
-
+		return true;
 	}
 
 	/**
 	 * Checks whether the property value is read-only in the property sheet.
 	 * 
-	 * @return <code>true</code> if the property value is read-only,
-	 *         <code>false</code> otherwise.
+	 * @return <code>false</code>.
+	 * 
+	 * @deprecated by the method {@link ElementDefn#isPropertyReadOnly(String)}
 	 */
 
 	public boolean isReadOnly( )
 	{
-		if ( getTypeCode( ) == PropertyType.STRUCT_TYPE )
-			return false;
-
-		return READONLY_IN_PROPERTY_SHEET.equals( visibility );
+		return false;
 	}
 
 	/**

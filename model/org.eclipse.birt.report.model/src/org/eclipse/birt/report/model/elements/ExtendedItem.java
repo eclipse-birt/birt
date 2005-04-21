@@ -202,14 +202,8 @@ public class ExtendedItem extends ReportItem implements IExtendableElement
 		assert propName != null;
 
 		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
-		if ( propDefn != null && provider != null )
-		{
-			ElementPropertyDefn overridenProp = provider.getOverriddenPropertyDefn( propDefn.getName() );
-			if ( overridenProp != null )
-				propDefn = overridenProp;
-
+		if ( propDefn != null )
 			return propDefn;
-		}
 
 		if ( provider != null )
 			return (ElementPropertyDefn) provider.getPropertyDefn( propName );

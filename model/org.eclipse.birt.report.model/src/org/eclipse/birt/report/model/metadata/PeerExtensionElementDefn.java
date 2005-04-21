@@ -24,10 +24,10 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * This class is only used for those extension element definition from
  * third-party, not the BIRT-defined standard elements. The extension element
  * definition must include an instance of
- * {@link org.eclipse.birt.report.model.extension.IReportItemFactory}. The
+ * {@link org.eclipse.birt.report.model.api.extension.IReportItemFactory}. The
  * included IElmentFactory gives the information about the internal model
  * properties of the extension element, how to instantiate
- * {@link org.eclipse.birt.report.model.extension.IReportItem}and other
+ * {@link org.eclipse.birt.report.model.api.extension.IReportItem}and other
  * information.
  */
 

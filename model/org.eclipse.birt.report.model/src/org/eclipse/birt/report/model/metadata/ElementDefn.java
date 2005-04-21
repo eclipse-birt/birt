@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -229,6 +231,18 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 {
 
 	/**
+	 * The property is hidden in the property sheet.
+	 */
+
+	protected final static String HIDDEN_IN_PROPERTY_SHEET = "hide"; //$NON-NLS-1$
+
+	/**
+	 * The property is shown in the property sheet but readonly.
+	 */
+
+	protected final static String READONLY_IN_PROPERTY_SHEET = "readonly"; //$NON-NLS-1$
+
+	/**
 	 * Whether this definition represents an abstract element that the user
 	 * normally does not see. Abstract elements exist to organize the element
 	 * system.
@@ -325,6 +339,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 
 	private SemanticTriggerDefnSet triggerDefnSet = null;
+
+	/**
+	 * The list contains the information that how the property sheet shows an
+	 * property for an extension element.
+	 */
+
+	protected Map propVisibilites = null;
 
 	/**
 	 * Sets the Java class which implements this element.
@@ -612,8 +633,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		buildProperties( );
 
-		buildStyleProperties();
-		
+		buildStyleProperties( );
+
 		// check if the javaClass is valid for concrete element type
 
 		if ( !isAbstract( ) )
@@ -626,10 +647,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		isBuilt = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
 	 */
-	protected void buildDefn( )  throws MetaDataException
+	protected void buildDefn( ) throws MetaDataException
 	{
 		// Handle parent-specific tasks.
 
@@ -710,10 +733,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// elements.
 
 		if ( nameOption == MetaDataConstants.NO_NAME || isAbstract( ) )
-			allowExtend = false;		
+			allowExtend = false;
 	}
-	
-	protected void buildStyleProperties() throws MetaDataException
+
+	protected void buildStyleProperties( ) throws MetaDataException
 	{
 		// If this item has a style, copy the relevant style properties onto
 		// this element if it's leaf element.
@@ -731,7 +754,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
 		}
 	}
-	
+
 	/**
 	 * Builds the trigger definition set. This method cached all validators
 	 * defined in property definition and slot definition. The cached validators
@@ -1381,6 +1404,83 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			triggerDefnSet = new SemanticTriggerDefnSet( );
 
 		return triggerDefnSet;
+	}
+
+	/**
+	 * Adds an invisible property to the list.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param propVisibility
+	 *            the level that how to show the property in the property sheet.
+	 */
+
+	protected void addPropertyVisibility( String propName, String propVisibility )
+	{
+		if ( propVisibilites == null )
+			propVisibilites = new HashMap( );
+
+		propVisibilites.put( propName, propVisibility );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IElementDefn#isPropertyReadOnly(java.lang.String)
+	 */
+
+	public boolean isPropertyReadOnly( String propName )
+	{
+		IPropertyDefn propDefn = getProperty( propName );
+		if ( propDefn == null )
+			return true;
+
+		ElementDefn elementDefn = this;
+		while ( elementDefn != null )
+		{
+			if ( elementDefn.propVisibilites != null )
+			{
+				String visibility = (String) elementDefn.propVisibilites
+						.get( propDefn.getName( ) );
+				if ( visibility != null )
+					return READONLY_IN_PROPERTY_SHEET.equals( visibility );
+			}
+
+			elementDefn = elementDefn.parent;
+		}
+
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IElementDefn#isPropertyVisible(java.lang.String)
+	 */
+
+	public boolean isPropertyVisible( String propName )
+	{
+		IPropertyDefn propDefn = getProperty( propName );
+		if ( propDefn == null )
+			return false;
+
+		if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			return false;
+
+		ElementDefn elementDefn = this;
+		while ( elementDefn != null )
+		{
+			if ( elementDefn.propVisibilites != null )
+			{
+				String visibility = (String) elementDefn.propVisibilites
+						.get( propDefn.getName( ) );
+				if ( visibility != null )
+					return !HIDDEN_IN_PROPERTY_SHEET.equals( visibility );
+			}
+			elementDefn = elementDefn.parent;
+		}
+
+		return true;
 	}
 
 }

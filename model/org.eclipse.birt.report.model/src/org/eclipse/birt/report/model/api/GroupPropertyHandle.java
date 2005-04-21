@@ -287,4 +287,30 @@ public class GroupPropertyHandle
 		GroupPropertyHandle propHandle = (GroupPropertyHandle) target;
 		return ( propHandle.handle == this.handle && propHandle.propDefn == getPropertyDefn( ) );
 	}
+
+	/**
+	 * Checks whether a property is visible in the property sheet. The visible
+	 * property is visible in all <code>elements</code>.
+	 * 
+	 * @return <code>true</code> if it is visible. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isVisible( )
+	{
+		return handle.isPropertyVisible( propDefn.getName( ) );
+	}
+
+	/**
+	 * Checks whether a property is read-only in the property sheet. The
+	 * read-only property is read-only in all <code>elements</code>.
+	 * 
+	 * @return <code>true</code> if it is read-only. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isReadOnly( )
+	{
+		return handle.isPropertyReadOnly( propDefn.getName( ) );
+	}
 }

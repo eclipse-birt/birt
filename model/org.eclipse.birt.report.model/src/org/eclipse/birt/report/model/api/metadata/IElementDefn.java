@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.metadata;
 
 import java.util.List;
 
-
 /**
  * Interface for a report element definition. This interface defines some
  * methods to get "meta-data" about an element.
@@ -21,6 +20,7 @@ import java.util.List;
 
 public interface IElementDefn extends IObjectDefn
 {
+
 	/**
 	 * Indicates if this element has a style.
 	 * 
@@ -119,7 +119,7 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean allowsUserProperties( );
-	
+
 	/**
 	 * Determines if this element acts as a container.
 	 * 
@@ -173,7 +173,7 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean canContain( int slot, IElementDefn type );
-	
+
 	/**
 	 * Returns whether elements of this class can be extended.
 	 * 
@@ -181,7 +181,7 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean canExtend( );
-	
+
 	/**
 	 * Gets the name option that says how the element type handles names. One of
 	 * the following defined in {@link MetaDataConstants}:
@@ -198,4 +198,28 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public int getNameOption( );
+
+	/**
+	 * Checks whether the property is visible to the property sheet.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * 
+	 * @return <code>true</code> if the element definition has the property
+	 *         definition and it is visible, <code>false</code> otherwise.
+	 */
+
+	public boolean isPropertyVisible( String propName );
+
+	/**
+	 * Checks whether the property value is read-only in the property sheet.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * 
+	 * @return <code>true</code> if the element definition has the property
+	 *         definition and it is readonly, <code>false</code> otherwise.
+	 */
+
+	public boolean isPropertyReadOnly( String propName );
 }

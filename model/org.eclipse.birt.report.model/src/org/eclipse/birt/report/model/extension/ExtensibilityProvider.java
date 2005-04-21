@@ -17,10 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
  * Represents the extensibility provider which make design element extendable.
@@ -172,41 +170,4 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 			throw new ExtendsException( element, parent,
 					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
 	}
-
-	/**
-	 * Checks whether the Model-defined property definition is overridden. If
-	 * so, returns the overridden property definition; otherwise, return
-	 * <code>null</code>. The Model-defined property definition is overridden
-	 * only when its visibility is modified in extension definition file.
-	 * 
-	 * @param propName
-	 *            the name of the property to check
-	 * @return the overridden property definition if it's overridden, otherwise,
-	 *         return <code>null</code>.
-	 */
-
-	public ElementPropertyDefn getOverriddenPropertyDefn( String propName )
-	{
-		assert propName != null;
-
-		// if the extended item has the extension, then check the
-		// style masks first
-
-		ExtensionElementDefn extDefn = getExtDefn( );
-		if ( extDefn != null )
-		{
-			if ( extDefn.isMasked( propName ) )
-				return null;
-
-			// if there is a overridden system property definition, use it.
-
-			SystemPropertyDefn overriddenDefn = extDefn
-					.getOverriddenSystemProperty( propName );
-			if ( overriddenDefn != null )
-				return overriddenDefn;
-		}
-
-		return null;
-	}
-
 }

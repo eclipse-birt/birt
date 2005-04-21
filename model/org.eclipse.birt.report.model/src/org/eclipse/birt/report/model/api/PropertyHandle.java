@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
@@ -202,5 +203,29 @@ public class PropertyHandle extends SimpleValueHandle
 
 		return list;
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isReadOnly()
+	 */
+
+	public boolean isReadOnly( )
+	{
+		IElementDefn elementDefn = getElementHandle( ).getDefn( );
+		return elementDefn.isPropertyReadOnly( propDefn.getName( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
+	 */
+
+	public boolean isVisible( )
+	{
+		IElementDefn elementDefn = getElementHandle( ).getDefn( );
+		return elementDefn.isPropertyVisible( propDefn.getName( ) );
 	}
 }

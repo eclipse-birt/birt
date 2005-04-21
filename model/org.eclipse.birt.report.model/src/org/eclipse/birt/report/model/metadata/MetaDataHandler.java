@@ -62,6 +62,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String SEMANTIC_VALIDATOR_TAG = "SemanticValidator"; //$NON-NLS-1$
 	private static final String TRIGGER_TAG = "Trigger"; //$NON-NLS-1$
 	private static final String DEFAULT_UNIT_TAG = "DefaultUnit"; //$NON-NLS-1$
+	private static final String PROPERTY_VISIBILITY_TAG = "PropertyVisibility"; //$NON-NLS-1$
 
 	private static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	private static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$ 
@@ -580,6 +581,8 @@ class MetaDataHandler extends XMLParserHandler
 				return new ElementMethodState( elementDefn );
 			if ( tagName.equalsIgnoreCase( SEMANTIC_VALIDATOR_TAG ) )
 				return new TriggerState( );
+			if ( tagName.equalsIgnoreCase( PROPERTY_VISIBILITY_TAG ) )
+				return new PropertyVisibilityState( );
 
 			return super.startElement( tagName );
 		}
@@ -593,6 +596,29 @@ class MetaDataHandler extends XMLParserHandler
 		{
 			super.end( );
 			elementDefn = null;
+		}
+
+		/**
+		 * Parses the property visiblity.
+		 */
+		
+		private class PropertyVisibilityState extends InnerParseState
+		{
+
+			public void parseAttrs( Attributes attrs )
+			{
+				String name = attrs.getValue( NAME_ATTRIB );
+				String visible = attrs.getValue( PROPERTY_VISIBILITY_ATTRIB );
+
+				if ( StringUtil.isBlank( name ) )
+				{
+					semanticError( new MetaDataParserException(
+							MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+					return;
+				}
+
+				elementDefn.addPropertyVisibility( name, visible );
+			}
 		}
 	}
 
@@ -641,8 +667,6 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
-			String visibleInPropertySheet = getAttrib( attrs,
-					PROPERTY_VISIBILITY_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -770,9 +794,6 @@ class MetaDataHandler extends XMLParserHandler
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
 			propDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
-
-			if ( !StringUtil.isBlank( visibleInPropertySheet ) )
-				propDefn.setVisibility( visibleInPropertySheet );
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
@@ -1264,9 +1285,9 @@ class MetaDataHandler extends XMLParserHandler
 			if ( classInfo != null )
 			{
 				if ( isConstructor )
-					methodInfo = (MethodInfo)classInfo.getConstructor( );
+					methodInfo = (MethodInfo) classInfo.getConstructor( );
 				else
-					methodInfo = (MethodInfo)classInfo.findMethod( name );
+					methodInfo = classInfo.findMethod( name );
 			}
 
 			if ( methodInfo == null )
@@ -1723,6 +1744,6 @@ class MetaDataHandler extends XMLParserHandler
 			return null;
 		}
 
-		return (ChoiceSet)choiceSet;
+		return (ChoiceSet) choiceSet;
 	}
 }

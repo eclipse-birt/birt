@@ -479,4 +479,22 @@ public abstract class SimpleValueHandle extends ValueHandle
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}
+	
+	/**
+	 * Checks whether a value is visible in the property sheet. 
+	 * 
+	 * @return <code>true</code> if it is visible. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	abstract public boolean isVisible( );
+
+	/**
+	 * Checks whether a value is read-only in the property sheet.
+	 * 
+	 * @return <code>true</code> if it is read-only. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	abstract public boolean isReadOnly( );
 }
