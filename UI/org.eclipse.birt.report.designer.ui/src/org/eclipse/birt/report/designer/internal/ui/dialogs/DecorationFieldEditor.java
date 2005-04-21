@@ -43,19 +43,16 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	 */
 	private Button bUnderLine;
 
-	private boolean wasSelected1;
 	private boolean isSelected1;
 	private boolean isDirty1;
 
 	private Button bOverLine;
 
-	private boolean wasSelected2;
 	private boolean isSelected2;
 	private boolean isDirty2;
 
 	private Button bLineThrough;
 
-	private boolean wasSelected3;
 	private boolean isSelected3;
 	private boolean isDirty3;
 
@@ -183,7 +180,6 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 					}
 				}
 			} );
-
 		}
 		return bUnderLine;
 	}
@@ -216,7 +212,6 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 					}
 				}
 			} );
-
 		}
 		return bOverLine;
 	}
@@ -249,7 +244,6 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 					}
 				}
 			} );
-
 		}
 		return bLineThrough;
 	}
@@ -262,20 +256,20 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getUnderlinePropName( ) );
-			wasSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
-			bUnderLine.setSelection( wasSelected1 );
+			isSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
+			bUnderLine.setSelection( isSelected1 );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getOverLinePropName( ) );
-			wasSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
-			bOverLine.setSelection( wasSelected2 );
+			isSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
+			bOverLine.setSelection( isSelected2 );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getString( getLineThroughPropName( ) );
-			wasSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
-			bLineThrough.setSelection( wasSelected3 );
+			isSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
+			bLineThrough.setSelection( isSelected3 );
 		}
 	}
 
@@ -287,20 +281,20 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getUnderlinePropName( ) );
-			wasSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
-			bUnderLine.setSelection( wasSelected1 );
+			isSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
+			bUnderLine.setSelection( isSelected1 );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getOverLinePropName( ) );
-			wasSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
-			bOverLine.setSelection( wasSelected2 );
+			isSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
+			bOverLine.setSelection( isSelected2 );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getLineThroughPropName( ) );
-			wasSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
-			bLineThrough.setSelection( wasSelected3 );
+			isSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
+			bLineThrough.setSelection( isSelected3 );
 		}
 	}
 
@@ -309,7 +303,6 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doStore( )
 	{
-		//		checkDirty( );
 		if ( isDirty1 )
 		{
 			getPreferenceStore( ).setValue( underline_prop,
