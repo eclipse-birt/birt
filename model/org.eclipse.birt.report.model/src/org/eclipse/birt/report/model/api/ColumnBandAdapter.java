@@ -584,7 +584,7 @@ abstract class ColumnBandAdapter
 
 			int pos = insertPosition[i];
 			CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
-			cell.setColumn( columnIndex );
+//			cell.setColumn( columnIndex );
 
 			row.addElement( cell, TableRow.CONTENT_SLOT, pos - 1 );
 		}

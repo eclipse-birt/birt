@@ -20,10 +20,13 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnBandData;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -40,6 +43,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -930,6 +934,23 @@ public class DEUtil
 						(DesignElementHandle) transferData,
 						validateContainer,
 						transferData );
+			}
+			else if ( transferData instanceof ColumnBandData )
+			{
+				if (targetObj instanceof ColumnHandle)
+				{
+					int columnNumber = HandleAdapterFactory.getInstance().getColumnHandleAdapter(targetObj).getColumnNumber();
+					Object parent = ((ColumnHandle)targetObj).getContainer();
+					if (parent instanceof TableHandle)
+					{
+						return ((TableHandle)parent).canPasteColumn((ColumnBandData)transferData ,columnNumber, true)?CONTAIN_PARENT:CONTAIN_NO;		
+					}
+					else if (parent instanceof GridHandle)
+					{
+						return ((GridHandle)parent).canPasteColumn((ColumnBandData)transferData ,columnNumber, true)?CONTAIN_PARENT:CONTAIN_NO;
+					}
+				}
+				return CONTAIN_NO;
 			}
 			else if ( transferData instanceof DesignElement )
 			{
