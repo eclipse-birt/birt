@@ -144,34 +144,33 @@
    <extension
          point="org.eclipse.birt.report.model.odaDriverModel">
 	  <odaDataSource
-            messageFile="org.eclipse.birt.report.data.oda.jdbc.messages"
             extensionName="jdbc">
          <propertyGroup
-               displayNameID="Element.jdbc.connectionProperties"
+               defaultDisplayName="Connection Properties"
                name="connectionProperties">
             <property
                   type="string"
-                  displayNameID="Element.jdbc.driverclass"
+                  defaultDisplayName="JDBC Driver Class"
                   canInherit="true"
                   name="ODA:driver-class"/>
             <property
                   type="string"
-                  displayNameID="Element.jdbc.url"
+                  defaultDisplayName="JDBC Driver URL"
                   canInherit="true"
                   name="ODA:url"/>
             <property
                   type="string"
-                  displayNameID="Element.jdbc.datasource"
+                  defaultDisplayName="Data Source"
                   canInherit="true"
                   name="ODA:data-source"/>
             <property
                   type="string"
-                  displayNameID="Element.jdbc.username"
+                  defaultDisplayName="User Name"
                   canInherit="true"
                   name="ODA:user"/>
             <property
                   type="string"
-                  displayNameID="Element.jdbc.password"
+                  defaultDisplayName="Password"
                   canInherit="true"
                   name="ODA:password"/>
          </propertyGroup>
