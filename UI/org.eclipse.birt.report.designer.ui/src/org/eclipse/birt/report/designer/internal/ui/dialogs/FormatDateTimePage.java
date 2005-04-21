@@ -339,6 +339,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				}
 				else
 				{
+					// uses UI specified display names.
 					String pattern = getPatternForCategory( category );
 					fmtStr = new DateFormatter( pattern ).format( new Date( ) );
 				}
@@ -380,7 +381,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		{
 			for ( int i = 0; i < choiceArray.length; i++ )
 			{
-
 				if ( formatTypes[i].equals( displayName ) )
 				{
 					return choiceArray[i][1];

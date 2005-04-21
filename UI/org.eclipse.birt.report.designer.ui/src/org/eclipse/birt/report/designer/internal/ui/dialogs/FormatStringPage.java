@@ -78,10 +78,10 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private boolean hasLoaded = false;
 
 	/**
-	 * Constructor.
+	 * Constructs a new instance of format string page.
 	 * 
 	 * @param parent
-	 *            The container
+	 *            The parent container of the page.
 	 * @param style
 	 *            style of the page
 	 * @param sourceType
@@ -395,7 +395,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	/**
 	 * Determines the format string is modified or not from the page.
 	 * 
-	 * @return true if the format string is modified.
+	 * @return Returns true if the format string is modified.
 	 */
 	public boolean isFormatStrModified( )
 	{
@@ -515,7 +515,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 			if ( fmtStr == null || fmtStr == "" ) //$NON-NLS-1$
 			{
 				fmtStr = Messages.getString( "FormatStringPreferencePage.previewLabel.invalidFormatCode" ); //$NON-NLS-1$
-				//				pattern = "";
 			}
 			cPreviewLabel.setText( fmtStr );
 			setPatternStr( pattern );

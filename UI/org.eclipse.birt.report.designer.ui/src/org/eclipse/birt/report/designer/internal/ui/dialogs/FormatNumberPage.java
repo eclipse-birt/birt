@@ -899,7 +899,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private GridData createGridData4Group( )
 	{
-		GridData data = null;
+		GridData data = new GridData( );
 		if ( sourceType == SOURCE_TYPE_STYLE )
 		{
 			data = new GridData( );
