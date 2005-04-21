@@ -59,7 +59,7 @@ public class InsertGroupActionFactory
 	 *            selected editparts
 	 * @return actions array
 	 */
-	public static final Action[] getInsertGroupActions( List selection )
+	public static Action[] getInsertGroupActions( List selection )
 	{
 		initInstances( selection );
 		return instances;
@@ -96,6 +96,7 @@ abstract class InsertPositionGroupAction extends Action
 	public void setSelection( List selection )
 	{
 		this.selection = selection;
+		this.currentModel = null;
 	}
 
 	/*
