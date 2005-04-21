@@ -101,7 +101,7 @@ public class LabelEditManager extends DirectEditManager
 	protected CellEditor createCellEditorOn( Composite composite )
 	{
 
-		TextCellEditor editor = new TextCellEditor( composite, SWT.SINGLE );
+		TextCellEditor editor = new TextCellEditor( composite, SWT.MULTI | SWT.WRAP );
 		final Control c = editor.getControl( );
 		c.addMouseTrackListener( new MouseTrackAdapter( )
 		{
