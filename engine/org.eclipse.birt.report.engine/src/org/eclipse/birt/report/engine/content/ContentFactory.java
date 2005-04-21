@@ -16,13 +16,13 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
-import org.eclipse.birt.report.engine.content.impl.ColumnsContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.content.impl.ExtendedItemContent;
 import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
 import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
 import org.eclipse.birt.report.engine.content.impl.PageSequenceContent;
 import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -48,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.6 $ $Date: 2005/04/08 05:21:07 $
  */
 public class ContentFactory
 {
@@ -105,11 +106,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the Cell Design
+	 * @param parent the parent content object
 	 * @return the Cell Content instance
 	 */
-	public static ICellContent createCellContent( CellDesign design )
+	public static ICellContent createCellContent( CellDesign design, IReportElementContent parent )
 	{
-		return new CellContent( design );
+		return new CellContent( design, parent );
 	}
 
 	/**
@@ -117,21 +119,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the column design
+	 * @param parent the parent content object
 	 * @return the column content instance
 	 */
-	public static IColumnContent createColumnContent( ColumnDesign design )
+	public static IColumnContent createColumnContent( ColumnDesign design, IReportElementContent parent )
 	{
-		return new ColumnContent( design );
-	}
-
-	/**
-	 * Creates the columns content
-	 * 
-	 * @return the columns content instance
-	 */
-	public static IColumnsContent createColumnsContent( )
-	{
-		return new ColumnsContent( );
+		return new ColumnContent( design, parent );
 	}
 
 	/**
@@ -149,12 +142,13 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the report item design
+	 * @param parent the parent content object
 	 * @return the container content instance
 	 */
 	public static IContainerContent createContainerContent(
-			ReportItemDesign design )
+			ReportItemDesign design, IReportElementContent parent )
 	{
-		return new ContainerContent( design );
+		return new ContainerContent( design, parent );
 	}
 
 	/**
@@ -163,9 +157,9 @@ public class ContentFactory
 	 * @return the instance
 	 */
 	public static IExtendedItemContent createExtendedItemContent(
-			ExtendedItemDesign design )
+			ExtendedItemDesign design, IReportElementContent parent )
 	{
-		return new ExtendedItemContent( design );
+		return new ExtendedItemContent( design, parent );
 	}
 
 	/**
@@ -173,11 +167,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the image design, or extened item design
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static IImageItemContent createImageContent( ReportItemDesign design )
+	public static IImageItemContent createImageContent( ReportItemDesign design, IReportElementContent parent )
 	{
-		return new ImageItemContent( design );
+		return new ImageItemContent( design, parent );
 	}
 
 	/**
@@ -226,11 +221,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the RowDesign
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static IRowContent createRowContent( RowDesign design )
+	public static IRowContent createRowContent( RowDesign design, IReportElementContent parent )
 	{
-		return new RowContent( design );
+		return new RowContent( design, parent );
 	}
 
 	/**
@@ -250,11 +246,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the table design
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static ITableContent createTableContent( TableItemDesign design )
+	public static ITableContent createTableContent( TableItemDesign design, IReportElementContent parent )
 	{
-		return new TableContent( design );
+		return new TableContent( design, parent );
 	}
 
 	/**
@@ -262,11 +259,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the grid design
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static ITableContent createTableContent( GridItemDesign design )
+	public static ITableContent createTableContent( GridItemDesign design, IReportElementContent parent )
 	{
-		return new TableContent( design );
+		return new TableContent( design, parent );
 	}
 
 	/**
@@ -274,12 +272,13 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the TextItemDesign
+	 * @param parent the parent content object
 	 * 
 	 * @return the instance
 	 */
-	public static ITextContent createTextContent( TextItemDesign design )
+	public static ITextContent createTextContent( TextItemDesign design, IReportElementContent parent )
 	{
-		return new TextItemContent( design );
+		return new TextItemContent( design, parent );
 	}
 
 	/**
@@ -287,11 +286,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the DataItemDesign
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static ITextContent createTextContent( DataItemDesign design )
+	public static ITextContent createTextContent( DataItemDesign design, IReportElementContent parent )
 	{
-		return new TextItemContent( design );
+		return new TextItemContent( design, parent );
 	}
 
 	/**
@@ -299,11 +299,12 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the LabelItemDesign
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static ITextContent createTextContent( LabelItemDesign design )
+	public static ITextContent createTextContent( LabelItemDesign design, IReportElementContent parent )
 	{
-		return new TextItemContent( design );
+		return new TextItemContent( design, parent );
 	}
 
 	/**
@@ -311,10 +312,22 @@ public class ContentFactory
 	 * 
 	 * @param design
 	 *            the MultiLineItemDesign
+	 * @param parent the parent content object
 	 * @return the instance
 	 */
-	public static ITextContent createTextContent( MultiLineItemDesign design )
+	public static ITextContent createTextContent( MultiLineItemDesign design, IReportElementContent parent )
 	{
-		return new TextItemContent( design );
+		return new TextItemContent( design,  parent );
+	}
+	
+	/**
+	 * Creates the Report content object
+	 * @param design the Report
+	 * @param parent the parent content object
+	 * @return the instance
+	 */
+	public static IReportContent createReportContent( Report design, IReportElementContent parent )
+	{
+		return new ReportContent( design, parent );
 	}
 }

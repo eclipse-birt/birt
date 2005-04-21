@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/15 03:29:36 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -47,14 +47,13 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
+		LabelItemDesign labelItem = ( LabelItemDesign ) item;
 		TextItemContent textObj =(TextItemContent) ContentFactory
-				.createTextContent( (LabelItemDesign) item );
+				.createTextContent( labelItem, context.getContentObject( ) );
 		textObj
-				.setHelpText( getLocalizedString( ( (LabelItemDesign) item )
-						.getHelpTextKey( ), ( (LabelItemDesign) item )
-						.getHelpText( ) ) );
-		textObj.setValue( getLocalizedString( ( (LabelItemDesign) item )
-				.getTextKey( ), ( (LabelItemDesign) item ).getText( ) ) );
+				.setHelpText(
+						getLocalizedString( labelItem.getHelpTextKey( ), labelItem.getHelpText( ) ) );
+		textObj.setValue( getLocalizedString( labelItem.getTextKey( ), labelItem.getText( ) ) );
 		setStyles( textObj, item );
 		setVisibility( item, textObj );
 		IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
@@ -63,7 +62,7 @@ public class LabelItemExecutor extends StyledItemExecutor
 			return;
 		}
 
-		processAction( textObj.getAction( ), textObj );
+		processAction( labelItem.getAction( ), textObj );
 		String bookmarkStr = evalBookmark( item );
 		if ( bookmarkStr != null )
 			textObj.setBookmarkValue( bookmarkStr );

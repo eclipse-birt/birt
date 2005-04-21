@@ -12,28 +12,20 @@
 package org.eclipse.birt.report.engine.content;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * Provides the interfaces for the Row Content
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/15 03:29:37 $
  */
 public interface IRowContent extends IStyledElementContent
 {
 
 	/**
-	 * @return Returns the Bookmark.
-	 */
-	public Expression getBookmark( );
-
-	/**
 	 * @return the Bookmark value
 	 */
 	public String getBookmarkValue( );
-
-
 
 	/**
 	 * @return Returns the height.

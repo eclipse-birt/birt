@@ -11,17 +11,11 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.ir.HighlightDesign;
-import org.eclipse.birt.report.engine.ir.MapDesign;
-
 /**
  * Provides the interfaces for the ROM style
  * 
  * 
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2005/03/17 07:57:03 $
  */
 public interface IStyle
 {
@@ -34,10 +28,6 @@ public interface IStyle
 	 * @return property value, null if the property is not set.
 	 */
 	public String getStyleProperty( String styleName );
-
-	public HighlightDesign getHighlight( );
-
-	public MapDesign getMap( );
 
 	public String getFontFamily( );
 
@@ -137,25 +127,11 @@ public interface IStyle
 
 	public String getPageBreakInside( );
 
-	public String getStringFormat( );
-
-	public String getNumberFormat( );
-
-	public String getNumberAlign( );
-
-	public String getDateTimeFormat( );
-
 	public String getMasterPage( );
 
 	public String getShowIfBlank( );
 
 	public String getCanShrink( );
-
-	public NumberFormatter getNumberFormatObject( );
-
-	public DateFormatter getDateFormatObject( );
-
-	public StringFormatter getStringFormatObject( );
 
 	public String getName( );
 

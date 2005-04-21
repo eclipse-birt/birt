@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/12 05:26:21 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -77,7 +77,7 @@ public class TextItemExecutor extends StyledItemExecutor
 		{
 			rs.next( );
 		}
-		TextItemContent textContent = (TextItemContent)ContentFactory.createTextContent( textItem );
+		TextItemContent textContent = (TextItemContent)ContentFactory.createTextContent( textItem, context.getContentObject( ) );
 
 		setStyles( textContent, item );
 		setVisibility( item, textContent );
@@ -134,6 +134,7 @@ public class TextItemExecutor extends StyledItemExecutor
 		textEmitter.start( textContent );
 		textEmitter.end( );
 		closeResultSet( rs );
+		
 	}
 
 	/**
@@ -162,7 +163,7 @@ public class TextItemExecutor extends StyledItemExecutor
 							.getBasePath( ), src );
 					ele.removeAttribute( "src" ); //$NON-NLS-1$
 					ImageItemContent imgContent = (ImageItemContent)ContentFactory
-							.createImageContent( null );
+							.createImageContent( null, content );
 					content.addImageContent( node, imgContent );
 					imgContent.setImageSource( ImageItemDesign.IMAGE_FILE );
 					imgContent.setUri( src );
@@ -279,7 +280,7 @@ public class TextItemExecutor extends StyledItemExecutor
 			{
 
 				ImageItemContent image = (ImageItemContent)ContentFactory
-						.createImageContent( null );
+						.createImageContent( null, content );
 
 				//Get the image content
 				String imageType = ( (Element) ( node ) ).getAttribute( "type" ); //$NON-NLS-1$

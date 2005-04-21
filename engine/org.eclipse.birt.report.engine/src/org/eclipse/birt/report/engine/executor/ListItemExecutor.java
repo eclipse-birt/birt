@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/08 05:21:07 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -69,7 +69,9 @@ public class ListItemExecutor extends ListingElementExecutor
 		context.execute( list.getOnStart( ) );
 
 		ContainerContent listContent = (ContainerContent)ContentFactory
-				.createContainerContent( item );
+				.createContainerContent( item, context.getContentObject( ) );
+		context.pushContentObject( listContent );
+		
 		String bookmarkStr = evalBookmark( item );
 		if ( bookmarkStr != null )
 			listContent.setBookmarkValue( bookmarkStr );
@@ -99,6 +101,7 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		emitter.getContainerEmitter( ).end( );
 		context.execute( list.getOnFinish( ) );
+		context.popContentObject( );
 		logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
 	}
 

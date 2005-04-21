@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/15 03:29:37 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -60,7 +60,8 @@ public class GridItemExecutor extends StyledItemExecutor
 		{
 			return;
 		}
-		TableContent tableObj = (TableContent)ContentFactory.createTableContent( gridItem );
+		TableContent tableObj = (TableContent)ContentFactory.createTableContent( gridItem, context.getContentObject( ) );
+
 		setStyles( tableObj, item );
 		setVisibility( item, tableObj );
 
@@ -81,7 +82,7 @@ public class GridItemExecutor extends StyledItemExecutor
 			for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 			{
 				ColumnContent colContent =(ColumnContent) ContentFactory
-						.createColumnContent( gridItem.getColumn( i ) );
+						.createColumnContent( gridItem.getColumn( i ), tableObj );
 				setStyles( colContent, gridItem.getColumn( i ) );
 				emitter.getTableEmitter( ).startColumn( colContent );
 				emitter.getTableEmitter( ).endColumn( );
@@ -96,9 +97,9 @@ public class GridItemExecutor extends StyledItemExecutor
 			//			{
 			//				break;
 			//			}
-			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row );
+			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row, tableObj );
 			setVisibility( row, rowContent );
-			setBookmarkValue( rowContent );
+			setBookmarkValue( row, rowContent );
 			setStyles( rowContent, row );
 
 			tableEmitter.startRow( rowContent );
@@ -108,7 +109,8 @@ public class GridItemExecutor extends StyledItemExecutor
 				if ( cell != null )
 				{
 					CellContent cellContent =(CellContent) ContentFactory
-							.createCellContent( cell );
+							.createCellContent( cell, rowContent );
+					context.pushContentObject( cellContent );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
 
@@ -122,6 +124,7 @@ public class GridItemExecutor extends StyledItemExecutor
 					}
 
 					tableEmitter.endCell( );
+					context.popContentObject( );
 				}
 			}
 			tableEmitter.endRow( );
@@ -143,10 +146,10 @@ public class GridItemExecutor extends StyledItemExecutor
 
 	}
 
-	private void setBookmarkValue( RowContent row )
+	private void setBookmarkValue( RowDesign design, RowContent row )
 	{
 		// bookmark
-		Expression bookmark = row.getBookmark( );
+		Expression bookmark = design.getBookmark( );
 		if ( bookmark != null )
 		{
 			Object obj = context.evaluate( bookmark );

@@ -12,16 +12,16 @@
 package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IReportContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportElementContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public class RowContent extends StyledElementContent implements IRowContent
 {
@@ -45,22 +45,14 @@ public class RowContent extends StyledElementContent implements IRowContent
 	 * @param row
 	 *            the row deign
 	 */
-	public RowContent( RowDesign row )
+	public RowContent( RowDesign row, IReportElementContent parent )
 	{
-		super( row );
+		super( row, parent );
 	}
 
 	public void accept( IReportContentVisitor visitor )
 	{
 		visitor.visitRowContent( this );
-	}
-
-	/**
-	 * @return Returns the Bookmark.
-	 */
-	public Expression getBookmark( )
-	{
-		return ( (RowDesign) designReference ).getBookmark( );
 	}
 
 	/**

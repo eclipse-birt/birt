@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IReportContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportElementContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.2 $ $Date: 2005/03/18 19:35:53 $
  */
 public class TableContent extends ReportItemContent implements ITableContent
 {
@@ -38,12 +39,10 @@ public class TableContent extends ReportItemContent implements ITableContent
 
 	public boolean getRepeatHeader( )
 	{
-		if ( type == TABLE_CONTENT )
+		if (designReference instanceof TableItemDesign)
 		{
 			return ( (TableItemDesign) designReference ).getRepeatHeader( );
 		}
-
-		assert false;
 		return false;
 	}
 
@@ -63,11 +62,10 @@ public class TableContent extends ReportItemContent implements ITableContent
 	 * @param item
 	 *            the grid design
 	 */
-	public TableContent( GridItemDesign item )
+	public TableContent( GridItemDesign item, IReportElementContent parent )
 	{
-		super( item );
+		super( item, parent );
 		this.columnCount = item.getColumnCount( );
-		type = GRID_CONTENT;
 	}
 
 	/**
@@ -76,10 +74,9 @@ public class TableContent extends ReportItemContent implements ITableContent
 	 * @param item
 	 *            the table deign
 	 */
-	public TableContent( TableItemDesign item )
+	public TableContent( TableItemDesign item, IReportElementContent parent )
 	{
-		super( item );
-		type = TABLE_CONTENT;
+		super( item, parent );
 	}
 
 	public void accept( IReportContentVisitor visitor )
@@ -103,13 +100,4 @@ public class TableContent extends ReportItemContent implements ITableContent
 	{
 		this.caption = caption;
 	}
-
-	/**
-	 * @return Returns the type.
-	 */
-	public int getType( )
-	{
-		return type;
-	}
-
 }

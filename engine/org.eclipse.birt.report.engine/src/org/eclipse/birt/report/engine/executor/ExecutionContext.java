@@ -25,6 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.content.IPageSetupContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IReportElementContent;
 import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -43,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.9 $ $Date: 2005/03/15 03:29:36 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -83,6 +85,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	// the report design
 	protected Report report;
+	
+	// the report content object
+	protected IReportContent reportContent;
 
 	// the current locale
 	protected Locale locale;
@@ -90,6 +95,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	// A DOM Parser for parsing HTML
 	protected TextParser parser;
 
+	protected Stack contentStack = new Stack( );
+	
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 * 
@@ -378,6 +385,14 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
+	 * @return Returns the report.
+	 */
+	public IReportContent getReportContent( )
+	{
+		return reportContent;
+	}
+	
+	/**
 	 * @param report
 	 *            The report to set.
 	 */
@@ -584,6 +599,34 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public Scriptable getScope( )
 	{
 		return scriptContext.getCurrentScope( );
+	}
+	
+	/**
+	 * @param obj
+	 */
+	public void pushContentObject( IReportElementContent obj )
+	{
+		contentStack.push( obj );
+	}
+
+	/**
+	 * @return
+	 */
+	public void popContentObject( )
+	{
+		contentStack.pop( );
+	}
+
+	/**
+	 * @return
+	 */
+	public IReportElementContent getContentObject( )
+	{
+		if( contentStack.empty( ) )
+		{
+			return null;
+		}
+		return ( IReportElementContent ) contentStack.peek( );
 	}
 
 	/**

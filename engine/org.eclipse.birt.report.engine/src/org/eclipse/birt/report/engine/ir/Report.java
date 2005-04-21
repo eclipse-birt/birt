@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
-import org.eclipse.birt.report.engine.content.IReport;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
@@ -30,9 +29,9 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/17 07:57:03 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/01 02:22:59 $
  */
-public class Report implements IReport
+public class Report
 {
 
 	/**

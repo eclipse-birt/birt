@@ -61,7 +61,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	{
 		assert item instanceof ExtendedItemDesign;
 		
-		IExtendedItemContent content = ContentFactory.createExtendedItemContent( (ExtendedItemDesign)item );
+		IExtendedItemContent content = ContentFactory.createExtendedItemContent( (ExtendedItemDesign)item, context.getContentObject( ) );
 		// handle common properties, such as
 		//
 		//1) style (Not supported now as we only support image extension)
@@ -178,7 +178,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			case IReportItemPresentation.OUTPUT_AS_IMAGE :
 				// the output object is a image, so create a image content
 				// object
-				ImageItemContent image = (ImageItemContent)ContentFactory.createImageContent( item );
+				ImageItemContent image = (ImageItemContent)ContentFactory.createImageContent( item, context.getContentObject() );
 				if (output instanceof InputStream)
 				{
 					image.setData(readContent((InputStream)output));

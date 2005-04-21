@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/12 05:26:21 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -90,7 +90,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 
 		// Initializes
 		ImageItemContent imageContent = (ImageItemContent)ContentFactory
-				.createImageContent( imageItem );
+				.createImageContent( imageItem, context.getContentObject( ) );
 		imageContent.setHelpText( getLocalizedString( imageItem
 				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
 		imageContent.setAltText( getLocalizedString(

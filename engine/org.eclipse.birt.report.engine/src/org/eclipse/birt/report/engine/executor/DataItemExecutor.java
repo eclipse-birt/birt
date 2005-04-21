@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**
@@ -29,7 +30,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/11 07:53:12 $
+ * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:37 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -78,7 +79,7 @@ public class DataItemExecutor extends StyledItemExecutor
 		//get the mapping value
 		value = getMapVal( value, dataItem );
 
-		TextItemContent textObj = (TextItemContent)ContentFactory.createTextContent( dataItem );
+		TextItemContent textObj = (TextItemContent)ContentFactory.createTextContent( dataItem, context.getContentObject( ) );
 		textObj.setHelpText( getLocalizedString( dataItem.getHelpTextKey( ),
 				dataItem.getHelpText( ) ) );
 		setStyles( textObj, item );
@@ -89,17 +90,19 @@ public class DataItemExecutor extends StyledItemExecutor
 
 		if ( value != null )
 		{
-			if ( value instanceof Number
-					&& textObj.getMergedStyle( ).getNumberAlign( ) != null )
+			if ( value instanceof Number)
 			{
-				// set number alignment
-				textObj.setStyleProperty( Style.TEXT_ALIGN_PROP, textObj
-						.getMergedStyle( ).getNumberAlign( ) );
+				String numberAlign = ( ( StyleDesign )textObj.getMergedStyle( ) ).getNumberAlign( );
+				if( numberAlign != null )
+				{
+					// set number alignment
+					textObj.setStyleProperty( Style.TEXT_ALIGN_PROP, numberAlign );
+				}
 			}
 		}
 
 		setVisibility( item, textObj );
-		processAction( textObj.getAction( ), textObj );
+		processAction( dataItem.getAction( ), textObj );
 		String bookmarkStr = evalBookmark( item );
 		if ( bookmarkStr != null )
 			textObj.setBookmarkValue( bookmarkStr );

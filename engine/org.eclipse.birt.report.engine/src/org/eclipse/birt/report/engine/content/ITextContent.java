@@ -13,13 +13,12 @@ package org.eclipse.birt.report.engine.content;
 
 import java.util.HashMap;
 
-import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.w3c.dom.Node;
 
 /**
  * Provides the interfaces for the Text Content
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/20 07:50:19 $
  */
 public interface ITextContent extends IReportItemContent
 {
@@ -63,19 +62,9 @@ public interface ITextContent extends IReportItemContent
 	public IImageItemContent getImageContent( Node node );
 
 	/**
-	 * @return Returns the helpText.
-	 */
-	public String getHelpText( );
-
-	/**
 	 * @return Returns the singleLine.
 	 */
 	public boolean isSingleLine( );
-
-	/**
-	 * @return the action design
-	 */
-	public ActionDesign getAction( );
 
 	/**
 	 * Walks on every node

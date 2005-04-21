@@ -13,8 +13,10 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
 import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
@@ -44,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
  */
 public class ReportExecutor
 {
@@ -75,11 +77,11 @@ public class ReportExecutor
 
 	/**
 	 * execute the report
-	 * 
-	 * @throws Exception
 	 */
-	public void execute( Report report, HashMap paramValues ) throws Exception
+	public void execute( Report report, HashMap paramValues )
 	{
+		IReportContent reportContent = ContentFactory.createReportContent( report, null );
+		context.pushContentObject( reportContent );
 		context.setReport( report );
 
 		// Exceute scripts defined in included libraries. For each library,
@@ -115,7 +117,7 @@ public class ReportExecutor
 		// Report documents are not supported for now
 		// context.execute(report.getBeforeOpenDoc());
 
-		emitter.startReport( report );
+		emitter.startReport( reportContent );
 
 		// report documents are not supported for now
 		// context.execute(report.getAfterOpenDoc());
@@ -158,8 +160,8 @@ public class ReportExecutor
 		// context.execute(report.getAfterCloseDoc());
 
 		//call afterFactory method of the report
+		context.popContentObject( );
 		context.execute( report.getAfterFactory( ) );
-
 		context.getDataEngine( ).shutdown( );
 	}
 

@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.api.IEmitterServices;
 import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
 import org.eclipse.birt.report.engine.api.IViewHTMLOptions;
 import org.eclipse.birt.report.engine.api.IViewOptions;
-import org.eclipse.birt.report.engine.content.IReport;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/04/04 09:29:15 $
+ * @version $Revision: 1.21 $ $Date: 2005/04/08 05:20:28 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -57,7 +57,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	/**
 	 * The <code>Report</code> object.
 	 */
-	protected IReport report;
+	protected IReportContent report;
 
 	/**
 	 * Specifies if the HTML output is embeddable.
@@ -278,7 +278,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.IReportEmitter#startEmitter()
 	 */
-	public void startReport( IReport report )
+	public void startReport( IReportContent report )
 	{
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 
@@ -451,7 +451,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	/**
 	 * @return the <code>Report</code> object.
 	 */
-	public IReport getReport( )
+	public IReportContent getReport( )
 	{
 		return report;
 	}
@@ -522,7 +522,6 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public String getOutputFormat( )
 	{
-		// TODO Auto-generated method stub
 		return OUTPUT_FORMAT_HTML;
 	}
 

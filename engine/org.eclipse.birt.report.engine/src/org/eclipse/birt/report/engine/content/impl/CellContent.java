@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IReportContentVisitor;
+import org.eclipse.birt.report.engine.content.IReportElementContent;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 
 /**
@@ -20,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
+ * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
  */
 public class CellContent extends StyledElementContent implements ICellContent
 {
@@ -36,10 +37,10 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 * @param item
 	 *            cell design item
 	 */
-	public CellContent( CellDesign item )
+	public CellContent( CellDesign item, IReportElementContent parent )
 	{
-		this.designReference = item;
-		this.rowSpan = ( (CellDesign) designReference ).getRowSpan( );
+		super( item, parent );
+		this.rowSpan = item.getRowSpan( );
 	}
 
 	/**

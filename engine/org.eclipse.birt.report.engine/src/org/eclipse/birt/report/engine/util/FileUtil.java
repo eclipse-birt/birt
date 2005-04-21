@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -26,7 +28,7 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/08 05:21:07 $
  */
 public class FileUtil
 {
@@ -291,15 +293,20 @@ public class FileUtil
 	 */
 	public static boolean isRelativePath( String fileName )
 	{
-		return fileName != null && !( new File( fileName ).isAbsolute( ) );
-		/*
-		 * new File(); if ( File.separatorChar == '\\' ) { // Win32 return
-		 * fileName != null && fileName.indexOf( ':' ) <= 0;
-		 *  } else if ( File.separatorChar == '/' ) { // Unix return fileName !=
-		 * null && !fileName.startsWith( "/" ); }
-		 * 
-		 * return false;
-		 */
+		if( fileName == null )
+		{
+			return false;
+		}
+		try
+		{
+			URI uri = new URI( fileName );
+			return !uri.isAbsolute( );
+		}
+		catch ( URISyntaxException e )
+		{
+			File file = new File( fileName );
+			return !file.isAbsolute( );
+		}
 	}
 
 	/**

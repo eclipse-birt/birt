@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -111,7 +111,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		logger.log( Level.FINE,"start table item" ); //$NON-NLS-1$
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
-		TableContent tableObj = (TableContent)ContentFactory.createTableContent( table );
+		TableContent tableObj = (TableContent)ContentFactory.createTableContent( table, context.getContentObject( ) );
+		context.pushContentObject( tableObj );
+		
 		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
 				.getCaption( ) ) );
 		setStyles( tableObj, item );
@@ -155,6 +157,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
 		//execute the on finish script
 		context.execute( table.getOnFinish( ) );
+		context.popContentObject( );
 	}
 
 	/**
@@ -173,7 +176,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			for ( int i = 0; i < tableItem.getColumnCount( ); i++ )
 			{
 				ColumnContent colContent = (ColumnContent)ContentFactory
-						.createColumnContent( tableItem.getColumn( i ) );
+						.createColumnContent( tableItem.getColumn( i ), context.getContentObject( ) );
 				setStyles( colContent, tableItem.getColumn( i ) );
 				tableEmitter.startColumn( colContent );
 				tableEmitter.endColumn( );
@@ -317,9 +320,9 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row );
+			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row, context.getContentObject( ) );
 			setVisibility( row, rowContent );
-			setBookmarkValue( rowContent );
+			setBookmarkValue( row, rowContent );
 			setStyles( rowContent, row );
 			tableEmitter.startRow( rowContent );
 
@@ -329,7 +332,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				if ( cell != null )
 				{
 					CellContent cellContent = (CellContent)ContentFactory
-							.createCellContent( cell );
+							.createCellContent( cell, rowContent );
+					context.pushContentObject( cellContent );
 					setStyles( cellContent, cell );
 					tableEmitter.startCell( cellContent );
 
@@ -343,6 +347,7 @@ public class TableItemExecutor extends ListingElementExecutor
 					}
 
 					tableEmitter.endCell( );
+					context.popContentObject( );
 				}
 			}
 			tableEmitter.endRow( );
@@ -370,10 +375,10 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * @param row
 	 *            the row content object
 	 */
-	private void setBookmarkValue( RowContent row )
+	private void setBookmarkValue( RowDesign design, RowContent row )
 	{
 		// bookmark
-		Expression bookmark = row.getBookmark( );
+		Expression bookmark = design.getBookmark( );
 		if ( bookmark != null )
 		{
 			Object obj = context.evaluate( bookmark );
@@ -455,9 +460,10 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			}
 			if ( isRowEnd )
 			{
-				RowContent rowContent = (RowContent)ContentFactory.createRowContent( row );
+				RowContent rowContent = (RowContent)ContentFactory.createRowContent( row, context.getContentObject( ) );
+				context.pushContentObject( rowContent );
 				setVisibility( row, rowContent );
-				setBookmarkValue( rowContent );
+				setBookmarkValue( row, rowContent );
 				setStyles( rowContent, row );
 				emitter.getTableEmitter( ).startRow( rowContent );
 				isRowEnd = false;
@@ -468,7 +474,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				if ( cell != null )
 				{
 					CellContent cellContent = (CellContent)ContentFactory
-							.createCellContent( cell );
+							.createCellContent( cell, context.getContentObject( ) );
+					context.pushContentObject( cellContent );
 					setStyles( cellContent, cell );
 					emitter.getTableEmitter( ).startCell( cellContent );
 					for ( int m = 0; m < cell.getContentCount( ); m++ )
@@ -482,9 +489,11 @@ public class TableItemExecutor extends ListingElementExecutor
 						}
 					}
 					emitter.getTableEmitter( ).endCell( );
+					context.popContentObject( );
 				}
 			}
 			emitter.getTableEmitter( ).endRow( );
+			context.popContentObject( );
 			isRowEnd = true;
 			rowID++;
 		}
@@ -513,7 +522,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			emitter = new BufferedReportEmitter( emitter );
 			emitter.initialize( null );
 			visitor.pushEmitter( emitter );
-			emitter.startReport( context.getReport( ) );
+			emitter.startReport( context.getReportContent( ) );
 		}
 		for ( int i = 0; i < band.getRowCount( ); i++ )
 		{
@@ -522,12 +531,13 @@ public class TableItemExecutor extends ListingElementExecutor
 			//			{
 			//				break;
 			//			}
-			RowContent newRow = (RowContent)ContentFactory.createRowContent( row );
+			RowContent newRow = (RowContent)ContentFactory.createRowContent( row, context.getContentObject( ) );
+			context.pushContentObject( newRow );
 
 			if ( isRowEnd )
 			{
 				setVisibility( row, newRow );
-				setBookmarkValue( newRow );
+				setBookmarkValue( row, newRow );
 				setStyles( newRow, row );
 				emitter.getTableEmitter( ).startRow( newRow );
 				isRowEnd = false;
@@ -538,7 +548,8 @@ public class TableItemExecutor extends ListingElementExecutor
 				if ( cell != null )
 				{
 					CellContent cellContent = (CellContent)ContentFactory
-							.createCellContent( cell );
+							.createCellContent( cell, newRow );
+					context.pushContentObject( cellContent );
 					setStyles( cellContent, cell );
 					if ( cell.getDrop( ) != null )
 					{
@@ -560,11 +571,13 @@ public class TableItemExecutor extends ListingElementExecutor
 					}
 
 					emitter.getTableEmitter( ).endCell( );
+					context.popContentObject( );
 				}
 			}
 			if ( show[index][i] )
 			{
 				emitter.getTableEmitter( ).endRow( );
+				context.popContentObject( );
 				isRowEnd = true;
 				rowID++;
 			}
@@ -601,7 +614,6 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				emitter.endReport( );
 				emitter = visitor.popEmitter( );
-
 			}
 		}
 
