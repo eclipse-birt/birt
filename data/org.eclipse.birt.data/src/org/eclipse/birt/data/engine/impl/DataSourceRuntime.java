@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
@@ -43,6 +45,8 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	private IDataSource				odiDataSource = null;
 	
 	private DataEngineImpl			dataEngine;
+	
+	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
 	
 	protected DataSourceRuntime( IBaseDataSourceDesign dataSource, DataEngineImpl dataEngine )
 	{

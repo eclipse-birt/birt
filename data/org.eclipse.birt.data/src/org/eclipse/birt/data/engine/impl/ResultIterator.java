@@ -17,6 +17,8 @@ package org.eclipse.birt.data.engine.impl;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -51,6 +53,7 @@ class ResultIterator implements IResultIterator
 	final private boolean 			useDetails;
 	final private int 				lowestGroupLevel;
 	private int 					savedStartingGroupLevel;	
+	protected static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
@@ -73,6 +76,10 @@ class ResultIterator implements IResultIterator
 		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
 
 		start();
+	    logger.logp( Level.FINER,
+	    		ResultIterator.class.getName( ),
+				"ResultIterator",
+				"ResultIterator starts up" );
 	}
 	
 	
@@ -102,7 +109,15 @@ class ResultIterator implements IResultIterator
 	private void checkStarted() throws DataException
 	{
 	    if ( ! started )
-	        throw new DataException( ResourceConstants.RESULT_CLOSED );
+	    {
+	    	DataException e = new DataException( ResourceConstants.RESULT_CLOSED );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"checkStarted",
+					"ResultIterator has been closed.",
+					e );
+	        throw e;
+	    }
 	}
 	
 	/**
@@ -152,6 +167,10 @@ class ResultIterator implements IResultIterator
 	    	throw e;
 		}
 	    
+	    logger.logp( Level.FINE,
+	    		ResultIterator.class.getName( ),
+				"next",
+				"Moves down to the next element" );
 	    return hasNext;
 	}
 
@@ -225,11 +244,23 @@ class ResultIterator implements IResultIterator
 	public Object getValue( IBaseExpression dataExpr )
 		throws DataException
 	{ 
+	    logger.logp( Level.FINE,
+				ResultIterator.class.getName( ),
+				"getValue",
+				"get of value IBaseExpression: " + LogUtil.toString( dataExpr) );
 	    checkStarted();
 	    
 	    // Must advance to first row before calling getValue
 	    if ( beforeFirstRow )
-	    	throw new DataException( ResourceConstants.RESULT_ENDED );
+	    {
+	    	DataException e = new DataException( ResourceConstants.RESULT_ENDED );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getValue",
+					"Cursor has no current row.",
+					e );
+	        throw e;
+	    }
 
 	    Object handle = dataExpr.getHandle();
 
@@ -253,7 +284,13 @@ class ResultIterator implements IResultIterator
 	    	return ScriptEvalUtil.evalConditionalExpr( resultExpr,ce.getOperator(), resultOp1,resultOp2);
 	    }
 	    else{
-	    	throw new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
+	    	DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getValue",
+					"Invalid expression handle.",
+					e );
+			throw e;
 	    }
 	}
 	
@@ -280,7 +317,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBoolean",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -307,7 +350,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getInteger",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;		
 		}
 	}
 	
@@ -334,7 +383,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getDouble",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -361,7 +416,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getString",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -388,7 +449,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBigDecimal",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -415,7 +482,13 @@ class ResultIterator implements IResultIterator
 		}		
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getDate",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -440,7 +513,13 @@ class ResultIterator implements IResultIterator
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBlob",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
 		}
 	}
 	
@@ -466,6 +545,10 @@ class ResultIterator implements IResultIterator
 		{
 	    	throw e;
 		}
+	    logger.logp( Level.FINER,
+	    		ResultIterator.class.getName( ),
+				"skipToEnd",
+				"skipping rows to the last row in the current group" );
 	}
 
 	/**
@@ -486,11 +569,19 @@ class ResultIterator implements IResultIterator
 	{ 
 		if ( useDetails == false )
 		{
+		    logger.logp( Level.FINE,
+		    		ResultIterator.class.getName( ),
+					"getStartingGroupLevel",
+					"return the starting group level" );
 			return savedStartingGroupLevel;
 		}
 		
 		try
 		{
+		    logger.logp( Level.FINE,
+		    		ResultIterator.class.getName( ),
+					"getStartingGroupLevel",
+					"return the starting group level" );
 			return odiResult.getStartingGroupLevel();
 		}
 	    catch ( DataException e )
@@ -517,6 +608,10 @@ class ResultIterator implements IResultIterator
 	{ 
 		try
 		{
+		    logger.logp( Level.FINE,
+		    		ResultIterator.class.getName( ),
+					"getEndingGroupLevel",
+					"return the ending group level" );
 			return odiResult.getEndingGroupLevel();
 		}
 	    catch ( DataException e )
@@ -536,6 +631,10 @@ class ResultIterator implements IResultIterator
 	    checkStarted( );
 	    
 	    QueryResults results = query.execSubquery( odiResult, subQueryName, scope );
+	    logger.logp( Level.FINE,
+	    		ResultIterator.class.getName( ),
+				"getSecondaryIterator",
+				"Returns the secondary result specified by a SubQuery" );
 	    return results.getResultIterator();
 	}
 
@@ -551,6 +650,13 @@ class ResultIterator implements IResultIterator
 		catch ( DataException e )
 		{
 			throw e;
+		}
+		finally
+		{
+		    logger.logp( Level.FINE,
+		    		ResultIterator.class.getName( ),
+					"getResultMetaData",
+					"Returns the result metadata" );
 		}
 	}
 	
@@ -581,6 +687,10 @@ class ResultIterator implements IResultIterator
 	    odiResult = null;
 	    queryResults = null;
 	    started = false;
+	    logger.logp( Level.FINE,
+	    		ResultIterator.class.getName( ),
+				"close",
+				"a ResultIterator is closed" );
 	}
 
 	/**

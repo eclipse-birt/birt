@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -25,6 +27,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
     ScriptDataSetRuntime( IScriptDataSetDesign dataSet )
     {
         super( dataSet );
+		logger.log(Level.FINER,"ScriptDataSetRuntime starts up");
     }
 
     public IScriptDataSetDesign getSubdesign()
@@ -86,5 +89,6 @@ public class ScriptDataSetRuntime extends DataSetRuntime implements IScriptDataS
 	public void close() throws DataException
 	{
 		runCloseScript();
+		logger.log(Level.FINER,"ScriptDataSetRuntime closed");
 	}
 }

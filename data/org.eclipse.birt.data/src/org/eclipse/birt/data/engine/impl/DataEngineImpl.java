@@ -1,5 +1,4 @@
-/*
- *************************************************************************
+/**************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,13 +8,15 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *  
- *************************************************************************
- */ 
+ **************************************************************************/
+
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -40,7 +41,7 @@ public class DataEngineImpl extends DataEngine
 {
 	private Scriptable 				sharedScope;
 	private ExpressionCompiler		compiler;
-	
+
 	// Map of data source name (string) to DataSourceRT, for defined data sources
 	private HashMap					dataSources = new HashMap();
 	
@@ -50,85 +51,136 @@ public class DataEngineImpl extends DataEngine
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 	
+
+	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+
 	/**
-	 * Constructor to specify the JavaScript Context and shared scope
-	 * to use by the Data Engine for all related ReportQuery processing.
-	 * @param	sharedScope	The global JavaScript scope shared by all
-	 * 					runtime components within a report sesssion. If this
-	 *          parameter is null, a new standard top level scope will be created
-	 *          and used.
+	 * Constructor to specify the JavaScript Context and shared scope to use by
+	 * the Data Engine for all related ReportQuery processing.
+	 * @param sharedScope
+	 *            The global JavaScript scope shared by all runtime components
+	 *            within a report sesssion. If this parameter is null, a new
+	 *            standard top level scope will be created and used.
 	 */
 	public DataEngineImpl( Scriptable sharedScope )
 	{
+		logger.entering( DataEngineImpl.class.getName( ),
+					"DataEngineImpl",
+					sharedScope );
 		this.sharedScope = sharedScope;
 		if ( this.sharedScope == null )
 		{
-		    // No scope provided by the caller; create our own
-		    Context cx = Context.enter();
-		    this.sharedScope = cx.initStandardObjects();
-		    Context.exit();
+			// No scope provided by the caller; create our own
+			Context cx = Context.enter( );
+			this.sharedScope = cx.initStandardObjects( );
+			Context.exit( );
 		}
+
+		logger.log(Level.INFO,"Data Engine starts up");
 		compiler = new ExpressionCompiler( );
+		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 	}
-	
-	
+
 	/**
 	 * Creates a new top-level scope using given prototype
 	 */
 	static Scriptable createSubscope( Scriptable prototype )
 	{
-		Context cx = Context.enter();
+		Context cx = Context.enter( );
 		try
 		{
-	        Scriptable scope = cx.newObject( prototype );
-	        scope.setPrototype( prototype );
-	        scope.setParentScope( null );
-	        return scope;
+			Scriptable scope = cx.newObject( prototype );
+			scope.setPrototype( prototype );
+			scope.setParentScope( null );
+			return scope;
 		}
 		catch ( JavaScriptException e )
 		{
 			// Not expected; use provided scrope instead
-			e.printStackTrace();
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"createSubscope",
+					"Failed to create sub scope",
+					e );
 			return prototype;
 		}
 		finally
 		{
-			Context.exit();
+			Context.exit( );
 		}
-		
+
 	}
-	
+
 	/**
-	 * Provides the definition of a data source to Data Engine. A data source must be
-	 * defined using this method prior to preparing any report query that uses such data source.
-	 * <br>
-	 * Data sources are uniquely identified name. If specified data source has already
-	 * been defined, its definition will be updated with the content of the provided DataSourceDesign
+	 * Provides the definition of a data source to Data Engine. A data source
+	 * must be defined using this method prior to preparing any report query
+	 * that uses such data source. <br>
+	 * Data sources are uniquely identified name. If specified data source has
+	 * already been defined, its definition will be updated with the content of
+	 * the provided DataSourceDesign
 	 */
-	public void defineDataSource( IBaseDataSourceDesign dataSource ) throws DataException
+	public void defineDataSource( IBaseDataSourceDesign dataSource )
+			throws DataException
 	{
+		logger.entering( DataEngineImpl.class.getName( ),
+				"defineDataSource",
+				dataSource == null ? null : dataSource.getName( ) );
 		if ( dataSource == null )
-			throw new NullPointerException("dataSource param cannot be null ");
+		{
+			NullPointerException e = new NullPointerException( "dataSource param cannot be null" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSource",
+					"dataSource param cannot be null",
+					e );
+			throw e;
+		}
 		if ( dataSources == null )
-			throw new IllegalStateException("DataEngine has been shutdown");
-			
-		String name = dataSource.getName();
-		if ( name == null || name.length() == 0 )
-			throw new IllegalArgumentException("Data source has no name");
+		{
+			IllegalStateException e = new IllegalStateException( "DataEngine has been shutdown" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSource",
+					"DataEngine has been shutdown",
+					e );
+			throw e;
+		}
+
+		String name = dataSource.getName( );
+		if ( name == null || name.length( ) == 0 )
+		{
+			IllegalArgumentException e=new IllegalArgumentException( "Data source has no name" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSource",
+					"Data source has no name",
+					e );
+			throw e; 
+		}
+
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.logp( Level.FINE,
+					DataEngineImpl.class.getName( ),
+					"defineDataSource",
+					"DataEngine.defineDataSource: "
+							+ LogUtil.toString( dataSource ) );
 		
-	    // See if this data source is already defined; if so update its design
-	    Object existingDefn = dataSources.get( dataSource.getName() );
-	    if ( existingDefn != null )
-	    {
-	    	(( DataSourceRuntime ) existingDefn).closeOdiDataSource();
-	        (( DataSourceRuntime ) existingDefn).setDesign( dataSource );
-	    }
-	    else
-	    {
-	        // Create a corresponding runtime for the data source and add it to the map
-	        DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource, this );
-	        dataSources.put( newDefn.getName(), newDefn );
-	    }
+		// See if this data source is already defined; if so update its design
+		Object existingDefn = dataSources.get( dataSource.getName( ) );
+		if ( existingDefn != null )
+		{
+			( (DataSourceRuntime) existingDefn ).closeOdiDataSource( );
+			( (DataSourceRuntime) existingDefn ).setDesign( dataSource );
+		}
+		else
+		{
+			// Create a corresponding runtime for the data source and add it to
+			// the map
+			DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource,
+					this );
+			dataSources.put( newDefn.getName( ), newDefn );
+		}
+		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSource" );
 	}
 
 	/**
@@ -138,44 +190,104 @@ public class DataEngineImpl extends DataEngine
 	 * Data sets are uniquely identified name. If specified data set has already
 	 * been defined, its definition will be updated with the content of the provided DataSetDesign
 	 */
-	public void defineDataSet( IBaseDataSetDesign dataSet ) throws DataException
+	public void defineDataSet( IBaseDataSetDesign dataSet )
+			throws DataException
 	{
+		logger.entering( DataEngineImpl.class.getName( ),
+				"defineDataSet",
+				dataSet == null ? null : dataSet.getName( ) );
 		if ( dataSet == null )
-			throw new NullPointerException("dataSet param cannot be null ");
+		{
+			NullPointerException e = new NullPointerException( "dataSource param cannot be null" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"dataSource param cannot be null",
+					e );
+			throw e;
+		}
 		if ( dataSources == null )
-			throw new IllegalStateException("DataEngine has been shutdown");
-		
-		String name = dataSet.getName();
-		if ( name == null || name.length() == 0 )
-			throw new IllegalArgumentException("Data Set has no name");
-		
-		// Sanity check: a data set must have a data source with the proper type, and
-		// the data source must have be defined
-		String dataSourceName = dataSet.getDataSourceName();
+		{
+			IllegalStateException e = new IllegalStateException( "DataEngine has been shutdown" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"DataEngine has been shutdown",
+					e );
+			throw e;
+		}
+		String name = dataSet.getName( );
+		if ( name == null || name.length( ) == 0 )
+		{
+			IllegalArgumentException e=new IllegalArgumentException( "Data source has no name" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"Data source has no name",
+					e );
+			throw e; 
+		}
+
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.logp( Level.FINE,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"DataEngine.defineDataSet: "
+							+ LogUtil.toString( dataSet ) );
+
+		// Sanity check: a data set must have a data source with the proper
+		// type, and the data source must have be defined
+		String dataSourceName = dataSet.getDataSourceName( );
 		DataSourceRuntime dsource = this.getDataSourceRuntime( dataSourceName );
 		if ( dsource == null )
-			throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE, dataSourceName );
-		
+		{
+			DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
+					dataSourceName );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"Data source {"	+ dataSourceName + "} is not defined",
+					e );
+			throw e;
+		}
+
 		Class dSourceClass;
 		if ( dataSet instanceof IOdaDataSetDesign )
 			dSourceClass = IOdaDataSourceDesign.class;
 		else if ( dataSet instanceof IScriptDataSetDesign )
 			dSourceClass = IScriptDataSourceDesign.class;
 		else
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
-		
-		if ( ! dSourceClass.isInstance(dsource.getDesign()) )
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
-			
+		{
+			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"Unsupported data set type: " + dataSet.getName( ),
+					e );
+			throw e;
+		}
+
+		if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
+		{
+			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"defineDataSet",
+					"Unsupported data source type: " + dsource.getName( ),
+					e );
+			throw e;
+		}
 		dataSetDesigns.put( name, dataSet );
+		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSet" );
 	}
-	
+
 	/**
-	 * Returns the runtime defn of a data source. If data source is not found, returns null.
+	 * Returns the runtime defn of a data source. If data source is not found,
+	 * returns null.
 	 */
 	DataSourceRuntime getDataSourceRuntime( String name )
 	{
-	    return ( DataSourceRuntime) dataSources.get( name );
+		return (DataSourceRuntime) dataSources.get( name );
 	}
 
 	/**
@@ -183,9 +295,9 @@ public class DataEngineImpl extends DataEngine
 	 */
 	IBaseDataSetDesign getDataSetDesign( String name )
 	{
-	    return ( IBaseDataSetDesign) dataSetDesigns.get( name );
+		return (IBaseDataSetDesign) dataSetDesigns.get( name );
 	}
-	
+
 	/**
 	 * Verifies the elements of a report query spec
 	 * and provides a hint to the query to prepare and optimize 
@@ -217,14 +329,33 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
 			throws DataException
-	{ 
+	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( DataEngineImpl.class.getName( ),
+					"prepare",
+					LogUtil.toString( querySpec ) );
 		if ( dataSources == null )
-			throw new IllegalStateException("DataEngine has been shutdown");
+		{
+			IllegalStateException e = new IllegalStateException( "DataEngine has been shutdown" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"prepare",
+					"DataEngine has been shutdown",
+					e );
+			throw e;
+		}
+
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.fine( "Start to prepare query: "
+					+ LogUtil.toString( querySpec ) );
 		PreparedDataSourceQuery result = PreparedDataSourceQuery.newInstance( this,
 				querySpec );
+		logger.fine( "Finished preparing query." );
+
+		logger.exiting( DataEngineImpl.class.getName( ), "prepare" );
 		return result;
 	}
-	
+
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given 
 	 * data source connection, and 
@@ -239,85 +370,120 @@ public class DataEngineImpl extends DataEngine
 	 * at the end of a report generation.
 	 * @param	dataSourceName	The name of a data source connection.
 	 */
-	public void closeDataSource( String dataSourceName )
-			throws DataException
+	public void closeDataSource( String dataSourceName ) throws DataException
 	{
+		logger.entering( "DataEngineImpl",
+				"closeDataSource",
+				dataSourceName );
 		if ( dataSources == null )
-			throw new IllegalStateException("DataEngine has been shutdown");
-		
-		DataSourceRuntime  ds = getDataSourceRuntime( dataSourceName );
+		{
+			IllegalStateException e = new IllegalStateException( "DataEngine has been shutdown" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"closeDataSource",
+					"DataEngine has been shutdown",
+					e );
+			throw e;
+		}
+
+		logger.logp( Level.FINE,
+				DataEngineImpl.class.getName( ),
+				"closeDataSource",
+				"Close DataSource :" + dataSourceName );
+
+		DataSourceRuntime ds = getDataSourceRuntime( dataSourceName );
 		if ( ds != null )
 		{
 			closeDataSource( ds );
 		}
+		logger.exiting( DataEngineImpl.class.getName( ), "closeDataSource" );
 	}
 
 	/** Close the specified DataSourceDefn, if it is open */
-	private static void closeDataSource( DataSourceRuntime ds ) throws DataException
+	private static void closeDataSource( DataSourceRuntime ds )
+			throws DataException
 	{
 		assert ds != null;
-		if ( ds.isOpen() )
+		if ( ds.isOpen( ) )
 		{
-			ds.beforeClose();
-			ds.closeOdiDataSource();
-			ds.afterClose();
+			ds.beforeClose( );
+			ds.closeOdiDataSource( );
+			ds.afterClose( );
 		}
 	}
-	
+
 	/**
 	 * Gets the shared Rhino scope used by this data engine
 	 */
-	public Scriptable getSharedScope()
+	public Scriptable getSharedScope( )
 	{
-	    return sharedScope; 
+		return sharedScope;
 	}
-	
+
 	/**
 	 * Gets the expression compiler used by this data engine
 	 */
-	ExpressionCompiler getExpressionCompiler()
+	ExpressionCompiler getExpressionCompiler( )
 	{
 		return compiler;
 	}
-	
-	public void shutdown()
-	{
-		if ( dataSources == null )
-			// Already shutdown
-			return;
 
-		// Close all open data sources
-		Collection col = dataSources.values();
-		Iterator it = col.iterator();
-		while (it.hasNext())
+	public void shutdown( )
+	{
+		logger.entering( "DataEngineImpl", "shutdown" );
+		if ( dataSources == null )
 		{
-			DataSourceRuntime ds = (DataSourceRuntime)it.next();
+			// Already shutdown
+			logger.fine( "The data engine has already been shutdown" );
+			return;
+		}
+		// Close all open data sources
+		Collection col = dataSources.values( );
+		Iterator it = col.iterator( );
+		while ( it.hasNext( ) )
+		{
+			DataSourceRuntime ds = (DataSourceRuntime) it.next( );
 			try
 			{
 				closeDataSource( ds );
 			}
 			catch ( DataException e )
 			{
-				// TODO: log exception here
-				e.printStackTrace();
+				if ( logger.isLoggable( Level.FINE ) )
+					logger.log( Level.FINE, "The data source ("
+							+ ds + ") fails to shut down", e );
 			}
 		}
-		
+
+		logger.logp( Level.INFO,
+				DataEngineImpl.class.getName( ),
+				"shutdown",
+				"Data engine shuts down" );
+
 		sharedScope = null;
 		dataSetDesigns = null;
 		dataSources = null;
 		compiler = null;
+		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
-	
+
 	/**
 	 * Gets the Scriptable object that implements the "report.dataSources" array
 	 */
-	// TODO: Add this method to DataEngine api 
-	public Scriptable getDataSourcesScriptObject()
+	// TODO: Add this method to DataEngine api
+	public Scriptable getDataSourcesScriptObject( )
 	{
 		if ( dataSources == null )
-			throw new IllegalStateException("DataEngine has been shutdown");
-			
+		{
+			IllegalStateException e = new IllegalStateException( "DataEngine has been shutdown" );
+			logger.logp( Level.WARNING,
+					DataEngineImpl.class.getName( ),
+					"closeDataSource",
+					"DataEngine has been shutdown",
+					e );
+			throw e;
+		}
+
 		if ( dataSourcesJSObject == null )
 		{
 			dataSourcesJSObject = new JSDataSources( this.dataSources );

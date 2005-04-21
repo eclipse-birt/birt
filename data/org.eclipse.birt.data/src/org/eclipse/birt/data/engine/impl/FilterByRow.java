@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -37,11 +39,14 @@ class FilterByRow implements IResultObjectEvent
 	protected Scriptable scope;
 	protected JSRowObject scriptObj;
 	
+	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
+	
 	FilterByRow( List filters, Scriptable scope, JSRowObject scriptObj )
 	{
 		this.filters = filters;
 		this.scope = scope;
 		this.scriptObj = scriptObj;
+		logger.log( Level.FINER, "FilterByRow starts up" );
 	}
 	
 	/*
@@ -49,6 +54,7 @@ class FilterByRow implements IResultObjectEvent
 	 */
 	public boolean process( IResultObject row ) throws DataException
 	{
+		logger.entering( FilterByRow.class.getName( ), "process" );
 		Context cx = Context.enter();
 		try
 		{
@@ -72,7 +78,13 @@ class FilterByRow implements IResultObjectEvent
 				}
 				catch ( BirtException e )
 				{
-					throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+					logger.logp( Level.FINE,
+							FilterByRow.class.getName( ),
+							"process",
+							"An error is thrown by DataTypeUtil.",
+							e1 );
+					throw e1;
 				}
 			}
 			return isAccepted;
@@ -80,6 +92,7 @@ class FilterByRow implements IResultObjectEvent
 		finally
 		{
 			Context.exit();
+			logger.exiting( FilterByRow.class.getName( ), "process" );
 		}
 	}
 

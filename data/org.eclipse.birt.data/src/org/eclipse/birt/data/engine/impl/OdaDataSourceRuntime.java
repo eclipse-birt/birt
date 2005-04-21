@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Encapulates the runtime definition of a generic extended data source.
@@ -36,7 +37,8 @@ public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataS
         publicProperties.putAll( dataSource.getPublicProperties() );
         
         driverName = dataSource.getDriverName();
-    }
+		logger.log(Level.FINER,"OdaDataSourceRuntime starts up");
+   }
 
     public IOdaDataSourceDesign getSubdesign()
 	{

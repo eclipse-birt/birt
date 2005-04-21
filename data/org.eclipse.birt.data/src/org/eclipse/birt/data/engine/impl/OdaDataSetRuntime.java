@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -40,6 +41,7 @@ public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesi
         queryText = dataSet.getQueryText();
         publicProperties = new HashMap();
         publicProperties.putAll( dataSet.getPublicProperties() );
+		logger.log( Level.FINER, "OdaDataSetRuntime starts up" );
     }
 
     public IOdaDataSetDesign getSubdesign()

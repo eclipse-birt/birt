@@ -14,6 +14,8 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Collection;
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -48,8 +50,16 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
-			throw new DataException( ResourceConstants.UNDEFINED_DATA_SET,
-					queryDefn.getDataSetName() );
+		{
+			DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SET,
+					queryDefn.getDataSetName( ) );
+			logger.logp( Level.WARNING,
+					PreparedDataSourceQuery.class.getName( ),
+					"newInstance",
+					"Data set {" + queryDefn.getDataSetName( ) + "} is not defined",
+					e );
+			throw e;
+		}
 			
 		if ( dset instanceof IScriptDataSetDesign )
 		{
@@ -61,7 +71,13 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		}
 		else
 		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			logger.logp( Level.FINE,
+					PreparedDataSourceQuery.class.getName( ),
+					"newInstance",
+					"Unsupported data source type",
+					e );
+			throw e;
 		}
 	}
 	
@@ -96,7 +112,13 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 */
     public Collection getParameterMetaData() throws DataException
 	{
-    	throw new DataException( ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED );
+		DataException e = new DataException( ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED );
+		logger.logp( Level.FINE,
+				PreparedDataSourceQuery.class.getName( ),
+				"getParameterMetaData",
+				"Cannot get parameter metadata for this type of data source.",
+				e );
+		throw e;
 	}
     
 	/**

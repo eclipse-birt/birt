@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IParameterMetaData;
@@ -25,11 +28,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class ParameterMetaData implements IParameterMetaData
 {
     org.eclipse.birt.data.engine.odi.IParameterMetaData m_odiMetaData;
+    
+	protected static Logger logger = Logger.getLogger( ParameterMetaData.class.getName( ) );
 
     ParameterMetaData( org.eclipse.birt.data.engine.odi.IParameterMetaData odiMetaData )
     {
         assert odiMetaData != null;
         m_odiMetaData = odiMetaData;
+		logger.log( Level.FINER, "ParameterMetaData starts up" );
     }
 
     /* (non-Javadoc)

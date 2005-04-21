@@ -13,6 +13,8 @@
  */ 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -47,6 +49,10 @@ class PreparedSubquery extends PreparedQuery
 		
 		this.groupLevel = groupLevel;
 		this.parentQuery = parentQuery;
+		logger.logp( Level.FINER,
+				PreparedSubquery.class.getName( ),
+				"PreparedSubquery",
+				"PreparedSubquery starts up." );
 	}
 	
 	/**
@@ -55,8 +61,22 @@ class PreparedSubquery extends PreparedQuery
 	QueryResults execute( IResultIterator parentIterator, Scriptable scope ) 
 		throws DataException
 	{
-		this.parentIterator = parentIterator;
-		return doPrepare( null,scope );
+		logger.logp( Level.FINER,
+				PreparedSubquery.class.getName( ),
+				"execute",
+				"start to execute a PreparedSubquery." );
+		try
+		{
+			this.parentIterator = parentIterator;
+			return doPrepare( null,scope );
+		}
+		finally
+		{
+			logger.logp( Level.FINER,
+					PreparedSubquery.class.getName( ),
+					"execute",
+					"finish executing a PreparedSubquery." );
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -49,8 +51,11 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	// prepared flag
 	private boolean isPrepared;
 	
+	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
+
 	ComputedColumnHelper( Scriptable scope, JSRowObject rowObject, List ccList )
 	{
+		logger.log( Level.FINER, "ComputedColumnHelper starts up" );
 		assert scope != null;
 		assert rowObject != null;
 		assert ccList != null && ccList.size( ) > 0;
@@ -65,6 +70,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 */
 	public boolean process( IResultObject resultObject ) throws DataException
 	{	
+		logger.entering( ComputedColumnHelper.class.getName( ), "process" );
 		assert resultObject != null;
 		
 		if ( isPrepared == false )
@@ -73,8 +79,11 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		// check if no computed columns are found as custom fields in the result
 		// set
 		if ( columnExprArray.length == 0 )
+		{
+			logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
 			return true; // done
-
+		}
+		
 		// bind new object to row script object
 		rowObject.setRowObject( resultObject, true );
 
@@ -99,6 +108,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		{
 			Context.exit( );
 		}
+		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
 		return true;
 	}
 

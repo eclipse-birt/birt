@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -35,7 +38,8 @@ class QueryResults implements IQueryResults
 	protected PreparedQuery				query;
 	protected ResultIterator			iterator;
 	protected PreparedQuery.Executor	queryExecutor;
-	
+	protected static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
+
 	/**
 	 * @param reportQuery The associated report query.
 	 * @param query The actual query (either report query or subquery)
@@ -57,6 +61,11 @@ class QueryResults implements IQueryResults
 	    this.reportQuery = reportQuery;
 	    this.query = query;
 	    this.queryExecutor = executor;
+
+	    logger.logp( Level.FINER,
+				QueryResults.class.getName( ),
+				"QueryResults",
+				"QueryResults starts up" );
 	}
 	
 	/**
@@ -80,11 +89,19 @@ class QueryResults implements IQueryResults
 	public IResultIterator getResultIterator()
 			throws DataException
 	{ 
+		logger.logp( Level.FINE,
+				QueryResults.class.getName( ),
+				"getResultIterator",
+				"start" );
 	    if ( iterator == null )
 	    {
 	    	queryExecutor.execute();
 	    	iterator = new ResultIterator( this, queryExecutor.odiResult, queryExecutor.scope);
 	    }
+		logger.logp( Level.FINE,
+				QueryResults.class.getName( ),
+				"getResultIterator",
+				"finished" );
 		return iterator;
 	}
 	
@@ -102,6 +119,12 @@ class QueryResults implements IQueryResults
 		{
 			throw e;
 		}
+		finally{
+			logger.logp( Level.FINE,
+					QueryResults.class.getName( ),
+					"getResultMetaData",
+					"return the result metadata" );			
+		}
 	}
 	
 	/**
@@ -115,9 +138,14 @@ class QueryResults implements IQueryResults
 	public void close()
 	{
 		if ( queryExecutor == null )
+		{
 			// already closed
+		    logger.logp( Level.FINE,
+					QueryResults.class.getName( ),
+					"close",
+					"QueryResults is closed" );
 			return;
-		
+		}
 	    if ( iterator != null )
 	    {
 	        iterator.close();
@@ -129,6 +157,10 @@ class QueryResults implements IQueryResults
 
 	    queryExecutor.close();
 	    queryExecutor = null;
+	    logger.logp( Level.FINE,
+				QueryResults.class.getName( ),
+				"close",
+				"QueryResults is closed" );
 	}
 	
 	AggregateCalculator getAggrResult() throws DataException

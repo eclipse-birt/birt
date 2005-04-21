@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -26,6 +28,7 @@ public class ScriptDataSourceRuntime extends DataSourceRuntime implements IScrip
     ScriptDataSourceRuntime( IScriptDataSourceDesign dataSource, DataEngineImpl dataEngine )
     {
         super( dataSource, dataEngine );
+		logger.log(Level.FINER,"ScriptDataSourceRuntime starts up");
     }
 
     public IScriptDataSourceDesign getSubdesign()

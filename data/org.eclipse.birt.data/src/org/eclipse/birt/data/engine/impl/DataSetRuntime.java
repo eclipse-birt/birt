@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -40,6 +41,8 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 	
 	private Scriptable		jsObject;
 	private PreparedQuery.Executor queryExecutor;
+	
+	protected static Logger logger = Logger.getLogger( DataSetRuntime.class.getName( ) );
 	
 	protected DataSetRuntime( IBaseDataSetDesign dataSet )
 	{

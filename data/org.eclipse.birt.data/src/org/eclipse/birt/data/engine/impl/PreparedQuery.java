@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -58,16 +60,23 @@ abstract class PreparedQuery
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
 	
-	
+	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
+
 	PreparedQuery( DataEngineImpl engine, IBaseQueryDefinition queryDefn )
 		throws DataException
 	{
+		logger.logp( Level.FINE,
+				PreparedQuery.class.getName( ),
+				"PreparedQuery",
+				"PreparedQuery starts up." );
 	    assert engine != null && queryDefn != null;
 		this.engine = engine;
 		this.queryDefn = queryDefn;
 		this.aggrTable = new AggregateTable(this);
 		
+		logger.fine( "Start to prepare a PreparedQuery." );
 		prepare();
+		logger.fine( "Finished preparing the PreparedQuery." );
 	}
 	
 	/** Gets the IBaseQueryDefn instance which defines this query */
@@ -133,7 +142,13 @@ abstract class PreparedQuery
 		if ( this.queryDefn == null )
 		{
 			// we are closed
-			throw new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
+			DataException e = new DataException(ResourceConstants.PREPARED_QUERY_CLOSED);
+			logger.logp( Level.WARNING,
+					PreparedQuery.class.getName( ),
+					"doPrepare",
+					"PreparedQuery instance is closed.",
+					e );
+			throw e;
 		}
 		
 		Executor executor = newExecutor();
@@ -145,7 +160,9 @@ abstract class PreparedQuery
 	    }
 		//here prepare the execution. After the preparation the result metadata is available by
 		//calling getResultClass, and the query is ready for execution.
+		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
+		logger.finer( "Finish preparing the execution." );
 	    return new QueryResults( getDataSourceQuery(), this, executor);
 	}
 	
@@ -155,19 +172,11 @@ abstract class PreparedQuery
 	{
 	    String colName = null;
 		ExpressionCompiler compiler = engine.getExpressionCompiler();
-	    try
-	    {
-	        CompiledExpression ce = compiler.compile( 
-	                			expr, null, cx);
-	        if ( ce instanceof ColumnReferenceExpression )
-	        {
-	            colName = ((ColumnReferenceExpression)ce).getColumnName();
-	        }
-	    }
-	    catch ( DataException e )
-	    {
-	        // Assume this is compilation error; fall through and leave colName unset
-	    }
+		CompiledExpression ce = compiler.compile( expr, null, cx );
+		if ( ce instanceof ColumnReferenceExpression )
+		{
+			colName = ( (ColumnReferenceExpression) ce ).getColumnName( );
+		}
 	    return colName;
 	}
 	
@@ -193,7 +202,6 @@ abstract class PreparedQuery
 	/* Prepares all expressions in the given collection */
 	private void prepareExpressions( Collection expressions, int groupLevel, 
 			boolean afterGroup, Context cx )
-		throws DataException
 	{
 	    if ( expressions == null )
 	        return;
@@ -209,7 +217,6 @@ abstract class PreparedQuery
 	// Prepares one expression 
 	private void prepareExpression( IBaseExpression expr, int groupLevel, Context cx, 
 			AggregateRegistry reg )
-		throws DataException
 	{
 	    ExpressionCompiler compiler = this.engine.getExpressionCompiler();
 	    
@@ -284,7 +291,15 @@ abstract class PreparedQuery
 
 		PreparedSubquery subquery = (PreparedSubquery) subQueryMap.get( subQueryName );
 		if ( subquery == null )
-			throw new DataException( ResourceConstants.SUBQUERY_NOT_FOUND );
+		{
+			DataException e = new DataException( ResourceConstants.SUBQUERY_NOT_FOUND );
+			logger.logp( Level.FINE,
+					PreparedQuery.class.getName( ),
+					"execSubquery",
+					"Subquery name not found",
+					e );
+			throw e;
+		}
 		
 		return subquery.execute( iterator, scope );
 	}
@@ -304,7 +319,10 @@ abstract class PreparedQuery
 		this.aggrTable = null;
 		this.engine = null;
 		this.subQueryMap = null;
-		
+		logger.logp( Level.FINER,
+				PreparedQuery.class.getName( ),
+				"close",
+				"Prepared query closed" );
 		// TODO: close all open QueryResults obtained from this PreparedQuery
 	}
 	
@@ -457,6 +475,11 @@ abstract class PreparedQuery
 		
 		public void execute() throws DataException
 		{
+			logger.logp( Level.FINER,
+					PreparedQuery.Executor.class.getName( ),
+					"execute",
+					"Start to execute" );
+
 			if(this.isExecuted)
 				return;
 			//			 Execute the query
@@ -495,6 +518,11 @@ abstract class PreparedQuery
 			}
 			
 			this.isExecuted = true;
+			
+			logger.logp( Level.FINER,
+					PreparedQuery.Executor.class.getName( ),
+					"execute",
+					"Finish executing" );
 		}
 
 		/**
@@ -503,8 +531,14 @@ abstract class PreparedQuery
 		public void close()
 		{
 			if ( odiQuery == null )
+			{
 				// already closed
+				logger.logp( Level.FINER,
+						PreparedQuery.Executor.class.getName( ),
+						"close",
+						"executor closed " );
 				return;
+			}
 			
 		    // Close the data set and associated odi query
 		    try
@@ -514,8 +548,11 @@ abstract class PreparedQuery
 			}
 		    catch (DataException e )
 			{
-		    	// TODO: log exception
-		    	e.printStackTrace();
+				logger.logp( Level.FINE,
+						PreparedQuery.Executor.class.getName( ),
+						"close",
+						e.getMessage( ),
+						e );
 			}
 		    
 		    if ( odiResult != null )
@@ -532,8 +569,11 @@ abstract class PreparedQuery
 			}
 		    catch (DataException e )
 			{
-		    	// TODO: log exception
-		    	e.printStackTrace();
+				logger.logp( Level.FINE,
+						PreparedQuery.Executor.class.getName( ),
+						"close",
+						e.getMessage( ),
+						e );
 			}
 		    
 		    dataSet = null;
@@ -545,6 +585,10 @@ abstract class PreparedQuery
 			rowObject = null;
 			rowsObject = null;
 			scope = null;
+			logger.logp( Level.FINER,
+					PreparedQuery.Executor.class.getName( ),
+					"close",
+					"executor closed " );
 		}
 		
 		/** Creates and/or opens the required data source */
@@ -672,7 +716,5 @@ abstract class PreparedQuery
 				Context.exit();
 			}
 		}
-
-		
 	}
 }

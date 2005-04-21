@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -46,6 +47,10 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			IBaseDataSetDesign dataSetDesign ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign );
+		logger.logp( Level.FINER,
+				PreparedScriptDSQuery.class.getName( ),
+				"PreparedScriptDSQuery",
+				"PreparedScriptDSQuery starts up." );
 	}
 
 	
