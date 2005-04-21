@@ -683,7 +683,8 @@ public class DEUtil
 		}
 
 		return ( ( rgb.red & 0xff ) << 16 )
-				| ( ( rgb.green & 0xff ) << 8 ) | ( rgb.blue & 0xff );
+				| ( ( rgb.green & 0xff ) << 8 )
+				| ( rgb.blue & 0xff );
 	}
 
 	/**
@@ -970,22 +971,22 @@ public class DEUtil
 		{
 			ReportElementModel targetModel = (ReportElementModel) targetObj;
 			return targetModel.getElementHandle( )
-					.canContain( targetModel.getSlotId( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
 			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getSlotID( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
 			ListBandProxy targetHandle = (ListBandProxy) targetObj;
 			return targetHandle.getElemtHandle( )
-					.canContain( targetHandle.getSlotId( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		else
 		{
@@ -1099,7 +1100,8 @@ public class DEUtil
 					.getDefn( )
 					.getSlot( slot.getSlotID( ) )
 					.isMultipleCardinality( )
-					|| slot.getCount( ) < 1 && length <= 1;
+					|| slot.getCount( ) < 1
+					&& length <= 1;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
@@ -1195,6 +1197,7 @@ public class DEUtil
 	 */
 	public static String getDecmalStr( int decPlaces )
 	{
+
 		String defaultDecs = "0000000000"; //$NON-NLS-1$
 		String decStr = ""; //$NON-NLS-1$
 		if ( decPlaces > 0 && decPlaces < 10 )
@@ -1207,13 +1210,17 @@ public class DEUtil
 			{
 				decPlaces = 100;
 			}
-			int divide = decPlaces / 10;
+			int quotient = decPlaces / 10;
 			int remainder = decPlaces % 10;
-			for ( int i = 0; i < divide; i++ )
+
+			StringBuffer s = new StringBuffer( 100 );
+			for ( int i = 0; i < quotient; i++ )
 			{
-				decStr = decStr + defaultDecs;
+				s.append( defaultDecs );
 			}
-			decStr = decStr + defaultDecs.substring( 0, remainder );
+			s.append( defaultDecs.substring( 0, remainder ) );
+
+			decStr = s.toString( );
 		}
 		return decStr;
 	}
