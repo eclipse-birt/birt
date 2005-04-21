@@ -236,8 +236,6 @@ public class JdbcDriverManagerDialog extends Dialog
 			FileChannel in = null, out1 = null, out2 = null;
 			try
 			{
-				in = new FileInputStream( source ).getChannel( );
-
 				if ( dest1 != null )
 				{
 					try
@@ -261,17 +259,35 @@ public class JdbcDriverManagerDialog extends Dialog
 					}
 				}
 
-				long size = in.size( );
-				MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
-						0,
-						size );
-
 				if ( out1 != null )
 				{
+					in = new FileInputStream( source ).getChannel( );
+					long size = in.size( );
+					MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
+							0,
+							size );
 					out1.write( buf );
 				}
+				
+				try
+				{
+					if ( in != null )
+					{
+						in.close( );
+					}
+				}
+				catch ( IOException e1 )
+				{
+					//does nothing.
+				}
+				
 				if ( out2 != null )
 				{
+					in = new FileInputStream( source ).getChannel( );
+					long size = in.size( );
+					MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
+							0,
+							size );
 					out2.write( buf );
 				}
 
