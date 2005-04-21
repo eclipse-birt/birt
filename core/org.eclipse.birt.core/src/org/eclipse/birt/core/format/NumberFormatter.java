@@ -16,14 +16,13 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/04/12 03:16:23 $
+ * @version $Revision: 1.6 $ $Date: 2005/04/20 02:42:15 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
