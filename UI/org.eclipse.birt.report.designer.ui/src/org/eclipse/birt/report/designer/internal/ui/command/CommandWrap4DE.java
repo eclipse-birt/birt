@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
-import org.eclipse.birt.report.model.activity.ActivityRecord;
+import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -20,12 +20,12 @@ import org.eclipse.gef.commands.Command;
 public class CommandWrap4DE extends Command
 {
 
-	private ActivityRecord command;
+	private IActivityRecord command;
 
 	/**
 	 * Constructor for CommandWrap4DE.
 	 */
-	public CommandWrap4DE( ActivityRecord command )
+	public CommandWrap4DE( IActivityRecord command )
 	{
 		this.command = command;
 	}
@@ -93,7 +93,7 @@ public class CommandWrap4DE extends Command
 			command.undo( );
 	}
 
-	public ActivityRecord unwrap( )
+	public IActivityRecord unwrap( )
 	{
 		return command;
 	}

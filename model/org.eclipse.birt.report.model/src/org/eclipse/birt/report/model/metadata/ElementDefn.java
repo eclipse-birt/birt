@@ -1435,19 +1435,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( propDefn == null )
 			return true;
 
-		ElementDefn elementDefn = this;
-		while ( elementDefn != null )
-		{
-			if ( elementDefn.propVisibilites != null )
-			{
-				String visibility = (String) elementDefn.propVisibilites
-						.get( propDefn.getName( ) );
-				if ( visibility != null )
-					return READONLY_IN_PROPERTY_SHEET.equals( visibility );
-			}
-
-			elementDefn = elementDefn.parent;
-		}
+		String visibility = getPropertyVisibility( propDefn.getName( ) );
+		if ( READONLY_IN_PROPERTY_SHEET.equals( visibility ) )
+			return true;
 
 		return false;
 	}
@@ -1467,20 +1457,36 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 			return false;
 
+		String visibility = getPropertyVisibility( propDefn.getName( ) );
+		if ( HIDDEN_IN_PROPERTY_SHEET.equals( visibility ) )
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Returns the visibility of a given property.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @return the visibility of the property
+	 */
+
+	private String getPropertyVisibility( String propName )
+	{
 		ElementDefn elementDefn = this;
 		while ( elementDefn != null )
 		{
 			if ( elementDefn.propVisibilites != null )
 			{
 				String visibility = (String) elementDefn.propVisibilites
-						.get( propDefn.getName( ) );
+						.get( propName );
 				if ( visibility != null )
-					return !HIDDEN_IN_PROPERTY_SHEET.equals( visibility );
+					return visibility;
 			}
 			elementDefn = elementDefn.parent;
 		}
 
-		return true;
+		return null;
 	}
-
 }

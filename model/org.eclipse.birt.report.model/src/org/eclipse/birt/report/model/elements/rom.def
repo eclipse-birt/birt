@@ -886,12 +886,6 @@
 		<Member name="container" displayNameID="Class.ElementDefn.container" toolTipID="Class.ElementDefn.container.toolTip" dataType="ElementDefn"/>			
 		<Member name="containerSlot" displayNameID="Class.ElementDefn.containerSlot" toolTipID="Class.ElementDefn.containerSlot.toolTip" dataType="String"/>											
   </Class>
-  <Class name="ElementState" displayNameID="Class.ElementState" toolTipID="Class.ElementState.toolTip">		
-		<Member name="design" displayNameID="Class.ElementState.design" toolTipID="Class.ElementState.design.toolTip" dataType="ReportDefn"/>
-		<Member name="property" displayNameID="Class.ElementState.property" toolTipID="Class.ElementState.property.toolTip" dataType="Object"/>					
-		<Member name="container" displayNameID="Class.ElementState.container" toolTipID="Class.ElementState.container.toolTip" dataType="ElementState"/>					
-		<Member name="slot" displayNameID="Class.ElementState.slot" toolTipID="Class.ElementState.slot.toolTip" dataType="SlotDefn"/>					
-  </Class>
   <Class name="Color" displayNameID="Class.Color" toolTipID="Class.Color.toolTip">		
 		<Member name="transparent" displayNameID="Class.Color.transparent" toolTipID="Class.Color.transparent.toolTip" dataType="boolean"/>
 		<Member name="rgb" displayNameID="Class.Color.rgb" toolTipID="Class.Color.rgb.toolTip" dataType="number"/>					
@@ -921,12 +915,6 @@
 		<Member name="dataSources" displayNameID="Class.Report.dataSources" toolTipID="Class.Report.dataSources.toolTip" dataType="DataSource[]"/>		
 		<Member name="config" displayNameID="Class.Report.config" toolTipID="Class.Report.config.toolTip" dataType="Object[]"/>		
   </Class>
-  <Class name="ReportDoc" displayNameID="Class.ReportDoc" toolTipID="Class.ReportDoc.toolTip">	
-		<Member name="design" displayNameID="Class.ReportDoc.design" toolTipID="Class.ReportDoc.design.toolTip" dataType="ReportDefn"/>
-		<Member name="fileName" displayNameID="Class.ReportDoc.fileName" toolTipID="Class.ReportDoc.fileName.toolTip" dataType="String"/>
-		<Member name="destination" displayNameID="Class.ReportDoc.destination" toolTipID="Class.ReportDoc.destination.toolTip" dataType="String"/>		
-		<Member name="body" displayNameID="Class.ReportDoc.body" toolTipID="Class.ReportDoc.body.toolTip" dataType="Section[]"/>		
-  </Class>	
   <Class name="ReportDefn" displayNameID="Class.ReportDefn" toolTipID="Class.ReportDefn.toolTip">	
 		<Method name="findStyle" displayNameID="Class.ReportDefn.findStyle" toolTipID="Class.ReportDefn.findStyle.toolTip" returnType="ElementDefn">
 			<Argument name="styleName" type="String" tagID="Class.ReportDefn.findStyle.styleName"/>
@@ -985,6 +973,7 @@
 		<Member name="inputParams" displayNameID="Class.DataSetSchema.inputParams" toolTipID="Class.DataSetSchema.inputParams.toolTip" dataType="DataSetInputParam[]"/>			
 		<Member name="outputParams" displayNameID="Class.DataSetSchema.outputParams" toolTipID="Class.DataSetSchema.outputParams.toolTip" dataType="DataSetOutputParam[]"/>									
   </Class>
+  <!--
   <Class name="ResultSetDefn" displayNameID="Class.ResultSetDefn" toolTipID="Class.ResultSetDefn.toolTip">	
 		<Member name="name" displayNameID="Class.ResultSetDefn.name" toolTipID="Class.ResultSetDefn.name.toolTip" dataType="String"/>
 		<Member name="columns" displayNameID="Class.ResultSetDefn.columns" toolTipID="Class.ResultSetDefn.columns.toolTip" dataType="ResultSetColumn[]"/>
@@ -1010,6 +999,23 @@
 		<Member name="DIMENSION_ATTRIBUTE" displayNameID="Class.ResultSetColumn.DIMENSION_ATTRIBUTE" toolTipID="Class.ResultSetColumn.DIMENSION_ATTRIBUTE.toolTip" dataType="String" isStatic="true"/>						
 		<Member name="MEASURE" displayNameID="Class.ResultSetColumn.MEASURE" toolTipID="Class.ResultSetColumn.MEASURE.toolTip" dataType="String" isStatic="true"/>						
   </Class>
+  <Class name="ItemState" displayNameID="Class.ItemState" toolTipID="Class.ItemState.toolTip">	
+		<Member name="row" displayNameID="Class.ItemState.row" toolTipID="Class.ItemState.row.toolTip" dataType="DataRow"/>		
+		<Member name="rows" displayNameID="Class.ItemState.rows" toolTipID="Class.ItemState.rows.toolTip" dataType="DataRow[]"/>					
+  </Class>  
+  <Class name="ElementState" displayNameID="Class.ElementState" toolTipID="Class.ElementState.toolTip">		
+		<Member name="design" displayNameID="Class.ElementState.design" toolTipID="Class.ElementState.design.toolTip" dataType="ReportDefn"/>
+		<Member name="property" displayNameID="Class.ElementState.property" toolTipID="Class.ElementState.property.toolTip" dataType="Object"/>					
+		<Member name="container" displayNameID="Class.ElementState.container" toolTipID="Class.ElementState.container.toolTip" dataType="ElementState"/>					
+		<Member name="slot" displayNameID="Class.ElementState.slot" toolTipID="Class.ElementState.slot.toolTip" dataType="SlotDefn"/>					
+  </Class>
+  <Class name="ReportDoc" displayNameID="Class.ReportDoc" toolTipID="Class.ReportDoc.toolTip">	
+		<Member name="design" displayNameID="Class.ReportDoc.design" toolTipID="Class.ReportDoc.design.toolTip" dataType="ReportDefn"/>
+		<Member name="fileName" displayNameID="Class.ReportDoc.fileName" toolTipID="Class.ReportDoc.fileName.toolTip" dataType="String"/>
+		<Member name="destination" displayNameID="Class.ReportDoc.destination" toolTipID="Class.ReportDoc.destination.toolTip" dataType="String"/>		
+		<Member name="body" displayNameID="Class.ReportDoc.body" toolTipID="Class.ReportDoc.body.toolTip" dataType="Section[]"/>		
+  </Class>	    
+  -->
   <Class name="DataSetInputParam" displayNameID="Class.DataSetInputParam" toolTipID="Class.DataSetInputParam.toolTip">	
 		<Member name="name" displayNameID="Class.DataSetInputParam.name" toolTipID="Class.DataSetInputParam.name.toolTip" dataType="String"/>
 		<Member name="displayName" displayNameID="Class.DataSetInputParam.displayName" toolTipID="Class.DataSetInputParam.displayName.toolTip" dataType="String"/>						
@@ -1025,10 +1031,6 @@
 		<Member name="nativeTypeCode" displayNameID="Class.DataSetOutputParam.nativeTypeCode" toolTipID="Class.DataSetOutputParam.nativeTypeCode.toolTip" dataType="String"/>									
 		<Member name="nativeTypeName" displayNameID="Class.DataSetOutputParam.nativeTypeName" toolTipID="Class.DataSetOutputParam.nativeTypeName.toolTip" dataType="String"/>									
 		<Member name="recordDefn" displayNameID="Class.DataSetOutputParam.recordDefn" toolTipID="Class.DataSetOutputParam.recordDefn.toolTip" dataType="String"/>									
-  </Class>
-  <Class name="ItemState" displayNameID="Class.ItemState" toolTipID="Class.ItemState.toolTip">	
-		<Member name="row" displayNameID="Class.ItemState.row" toolTipID="Class.ItemState.row.toolTip" dataType="DataRow"/>		
-		<Member name="rows" displayNameID="Class.ItemState.rows" toolTipID="Class.ItemState.rows.toolTip" dataType="DataRow[]"/>					
   </Class>
   <Class name="Total" displayNameID="Class.Total" toolTipID="Class.Total.toolTip">	
 		<Member name="OVERALL" displayNameID="Class.Total.OVERALL" toolTipID="Class.Total.OVERALL.toolTip" dataType="String" isStatic="true"/>						

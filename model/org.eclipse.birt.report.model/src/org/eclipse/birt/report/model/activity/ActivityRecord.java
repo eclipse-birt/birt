@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.activity;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.validators.IValidatorProvider;
 
 /**
@@ -182,7 +183,10 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * operation.
  */
 
-public abstract class ActivityRecord implements IValidatorProvider
+public abstract class ActivityRecord
+		implements
+			IActivityRecord,
+			IValidatorProvider
 {
 
 	// List of valid record states.
