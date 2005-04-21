@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.elements.TableColumn;
@@ -18,10 +19,9 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 /**
  * Represents the data structure to store copied objects like the column and
  * cells.
- * 
  */
 
-public class ColumnBandData
+public class ColumnBandData implements Cloneable
 {
 
 	/**
@@ -92,4 +92,47 @@ public class ColumnBandData
 		this.cells = cells;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+
+	protected Object clone( ) throws CloneNotSupportedException
+	{
+		ColumnBandData clonedData = (ColumnBandData) super.clone( );
+
+		TableColumn clonedColumn = (TableColumn) column.clone( );
+		clonedData.column = clonedColumn;
+
+		List clonedList = new ArrayList( );
+		for ( int i = 0; cells != null && i < cells.size( ); i++ )
+		{
+			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
+			clonedList.add( contextInfo.clone( ) );
+		}
+		clonedData.cells = clonedList;
+
+		return clonedData;
+	}
+
+	/**
+	 * Deeply clones the column band data.
+	 * 
+	 * @return the copy of the column band data
+	 */
+
+	public ColumnBandData copy( )
+	{
+		try
+		{
+			return (ColumnBandData) clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return null;
+	}
 }

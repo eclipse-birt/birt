@@ -221,7 +221,7 @@ public class DEUtil
 	{
 		assert slotID >= 0;
 		SlotHandle slotHandle = parent.getSlot( slotID );
-		return slotHandle.findPosn( child.getElement( ) );
+		return slotHandle.findPosn( child );
 	}
 
 	/**
@@ -1188,9 +1188,9 @@ public class DEUtil
 	 */
 	public static GroupElementHandle getMultiSelectionHandle( List modelList )
 	{
-		ReportDesign design = SessionHandleAdapter.getInstance( )
-				.getReportDesign( );
-		GroupElementHandle handle = new GroupElementHandle( design, modelList );
+		ReportDesignHandle designHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		GroupElementHandle handle = new GroupElementHandle( designHandle, modelList );
 		return handle;
 	}
 

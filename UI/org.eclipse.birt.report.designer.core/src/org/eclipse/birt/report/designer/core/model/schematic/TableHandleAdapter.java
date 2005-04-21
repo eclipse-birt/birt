@@ -781,7 +781,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		SlotHandle parentHandle = row.getContainerSlotHandle( );
 		parentHandle.add( ( copy ) );
 
-		int pos = parentHandle.findPosn( row.getElement( ) );
+		int pos = parentHandle.findPosn( row );
 		parentHandle.shift( copy, pos + shiftPos );
 
 		RowHandleAdapter copyAdapt = HandleAdapterFactory.getInstance( )
@@ -899,7 +899,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		SlotHandle parentHandle = column.getContainerSlotHandle( );
 		parentHandle.add( ( copy ) );
 
-		int pos = parentHandle.findPosn( column.getElement( ) );
+		int pos = parentHandle.findPosn( column );
 		parentHandle.shift( copy, pos + shiftPos );
 
 		List temp = new ArrayList( );

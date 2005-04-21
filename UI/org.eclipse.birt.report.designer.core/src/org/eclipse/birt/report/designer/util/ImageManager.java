@@ -207,7 +207,7 @@ public class ImageManager
 					.getSessionHandle( )
 					.getFileLocator( )
 					.findFile( SessionHandleAdapter.getInstance( )
-							.getReportDesign( ),
+							.getReportDesignHandle( ),
 							path );
 			if ( fullPath == null )
 			{

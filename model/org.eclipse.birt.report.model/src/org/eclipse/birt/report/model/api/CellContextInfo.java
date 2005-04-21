@@ -11,14 +11,14 @@ import org.eclipse.birt.report.model.elements.Cell;
  * slot.
  */
 
-class CellContextInfo
+class CellContextInfo implements Cloneable
 {
 
 	/**
 	 * The cell instance.
 	 */
 
-	final Cell cell;
+	private Cell cell;
 
 	/**
 	 * The definition name of the container of the row where the cell resides.
@@ -136,4 +136,19 @@ class CellContextInfo
 		return drop;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+
+	protected Object clone( ) throws CloneNotSupportedException
+	{
+		CellContextInfo clonedContext = (CellContextInfo) super.clone( );
+
+		Cell clonedCell = (Cell) cell.clone( );
+		clonedContext.cell = clonedCell;
+
+		return clonedContext;
+	}
 }
