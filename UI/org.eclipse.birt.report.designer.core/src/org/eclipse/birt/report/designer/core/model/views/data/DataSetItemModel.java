@@ -72,6 +72,8 @@ public class DataSetItemModel
 	private transient String displayName = null;
 
 	/**
+     * This method returns the display name and if the display name is null it returns the name
+     * 
 	 * @return Returns the displayName.
 	 */
 	public String getDisplayName( )
@@ -82,6 +84,27 @@ public class DataSetItemModel
 		}
 		return displayName;
 	}
+    
+    /** 
+     * This method just returns the display name. It doesn't do any null checks
+     * 
+     * @return the display name
+     */
+    public String getRealDisplayName()
+    {
+        return displayName;
+    }
+    
+    /**
+     * This is equivalent to setDisplayName.
+     * It is just added for conveninence in case of java bean introspection.
+     * 
+     * @param displayName
+     */
+    public void setRealDisplayName(String displayName)
+    {
+        setDisplayName(displayName);
+    }
 
 	/**
 	 * @param displayName
