@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInlineTool;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -75,6 +76,11 @@ public class RenameAction extends AbstractViewerAction
 			return false;
 		}
 		Object obj = super.getSelectedObjects( ).getFirstElement( );
+		
+		if(obj instanceof EmbeddedImageHandle)
+		{
+			return true;
+		}
 		if ( obj instanceof ReportElementHandle )
 		{
 			if ( obj instanceof GroupHandle )
