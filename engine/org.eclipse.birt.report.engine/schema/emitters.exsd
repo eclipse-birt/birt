@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.engine">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="emitters" name="Emitters that Support Report Rendering"/>
+      </appInfo>
+      <documentation>
+         This extension point allows new output formats to be supported in presentation engine.  The plugin registry uses this extension point registration to discover all supported output formats.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <documentation>
+            root element for the emitters extension
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="emitter" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified identifier of the target extension point
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  an optional identifier of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  an optional name of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="emitter">
+      <annotation>
+         <documentation>
+            an emitter that exports one or more output formats
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="reportItem" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="format" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Supported output formats in this emitter. Format strings are case-insensitive.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  a unique identifier for this emitter
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified name of a java class that implements &lt;code&gt;IReportEmitter&lt;/code&gt;
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  optional name for the emitter
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="reportItem">
+      <annotation>
+         <documentation>
+            allows a developer to define emitter for a report item. Used mainly for extended item, but can also be used for standard report items.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the name of the report item that the emitter class supports. For example, &quot;org.eclipse.birt.chart&quot; for the BIRT provided chart extended item
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the class that supports this type of report item for a specific format
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  an optional identifier of the report item emitter extension
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following is a sample usage of the emitterSet extension point:
+
+&lt;p&gt;
+&lt;pre&gt;
+
+&lt;extension 
+ point=&quot;org.eclipse.birt.report.engine.emitters&quot;
+ name = &quot;Engine Emitters&quot;&gt;
+ &lt;emitter 
+  format=&quot;HTML&quot; 
+  name=&quot;HTML emitters&quot;
+  id=&quot;org.eclipse.birt.report.engine.emitter.html&quot;
+  class=&quot;org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter&quot;&gt;
+  &lt;reportItem name=&quot;chart&quot;
+   id=&quot;org.eclipse.birt.report.engine.emitter.chart.html&quot;
+   class=&quot;org.eclipse.birt.report.engine.emitter.html.HTMLChartEmitter&quot;&gt;
+  &lt;/reportItem&gt;
+ &lt;/emitter&gt;
+ &lt;emitter 
+  format=&quot;FO&quot;
+  name=&quot;FO Emitter&quot; 
+  id=&quot;org.eclipse.birt.report.engine.emitter.fo&quot;
+  class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt;
+  &lt;reportItem name=&quot;chart&quot;
+     id=&quot;org.eclipse.birt.report.engine.emitter.chart.fo&quot;
+   Class=&quot;org.eclipse.birt.report.engine.emitter.html.FOChartEmitter&quot;/&gt;
+ &lt;/emitter&gt;
+ &lt;emitter
+  id=&quot;org.eclipse.birt.report.engine.emitter.pdf&quot;
+  name=&quot;PDF emitter&quot; class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt; 
+  &lt;reportItem name=&quot;chart&quot;
+   id=&quot;org.eclipse.birt.report.engine.emitter.chart.pdf&quot;
+   emitterClass=&quot;org.eclipse.birt.report.engine.emitter.html.FOChartEmitter&quot;/&gt;
+  &lt;/emitter&gt;
+&lt;/extension&gt;
+&lt;/pre&gt;
+&lt;p&gt;
+
+Notice that in this example, the same class is used for both PDF and FO format. BIRT currently uses FO to generate both FO and PDF output.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The value of the class attribute for the emitter element must be the fully qualified name of a class that implement  &lt;code&gt;org.eclipse.birt.engine.extension.IReportEmitter&lt;/code&gt;.&lt;p&gt;
+The value of the class attribute for the reportItem element must be a fully  qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemEmitter&lt;/code&gt;.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         &lt;code&gt;org.eclipse.birt.report.engine.emitter.html&lt;/code&gt; ---- An HTML emitter that supports report rendering to HTML format.
+&lt;code&gt;org.eclipse.birt.report.engine.emitter.fo&lt;/code&gt; ---- An emitter that supports report rendering to FO format, as well as formats (such as PDF and postscript) that can be derived from FO.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

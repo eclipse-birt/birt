@@ -2,13 +2,38 @@
 <html>
 <body bgcolor="white">
 
-Provides interfaces and classes to support engine extensions.
+This package defines 3 key interfaces ---- IReportItemQuery, IReportItemGeneration, 
+and IReportItemPresentation ---- that are used to process an extended item
+at query preparation, report generation and report rendering times. Among the
+three interfaces, only IReportItemPresentation is required, and the other two are
+optional. 
+
+The execution flow is as follows:
+<ul>
+	<li>Design engine creates a new instance of the extended item.
+	<li>At report query preparation time, generation engine detects that the element 
+is an extended item. It dynamically creates the <code>IReportItemQuery</code> object and calls 
+<code>getReportQueries()</code> to receive all the queries. 
+	<li>When report is generating, an <code>IReportItemGeneration</code> object is created
+for each instance of the extended item. 
+	<li>The onRowSets methos is called, and an array of rowsets is passed to the extension. 
+	<li>On each of the row set, the extension could retrieve data row-by-row, and does processing.
+	<li>Check if the extension has state information to be serialized. If so, call serialize method.
+	<li>Does generation time clean up. 
+	<li>At presentation time, an <code>IReportItemPresentation</code> object is created for each 
+instance of the extended item. 
+	<li>Check if the extension needs deserialization. If so, restores the generation time state.
+	<li>The onRowSets methos is called, and an array of rowsets is passed to the extension. 
+	<li>On each of the row set, the extension could retrieve data row-by-row, and does processing.
+	<li>Receives the returned results from the onRowSets method.
+	<li>Does generation time clean up. 
+</ul>
 
 <h2>Package Specification</h2>
 
 Provides interfaces and classes to support engine extensions.
 
 <!-- Put @see and @since tags down here. -->
-
+@since 1.0
 </body>
 </html>

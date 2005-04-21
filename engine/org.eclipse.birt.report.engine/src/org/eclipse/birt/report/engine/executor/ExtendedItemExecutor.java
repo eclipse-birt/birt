@@ -12,23 +12,28 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IExtendedItemContent;
 import org.eclipse.birt.report.engine.content.impl.ExtendedItemContent;
 import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.data.dte.DteResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
-import org.eclipse.birt.report.engine.extension.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
-import org.eclipse.birt.report.engine.extension.IReportItemSerializable;
+import org.eclipse.birt.report.engine.extension.IRowSet;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -39,6 +44,9 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  */
 public class ExtendedItemExecutor extends StyledItemExecutor
 {
+
+	protected static Logger logger = Logger
+			.getLogger( ExtendedItemExecutor.class.getName( ) );
 
 	/**
 	 * @param context
@@ -60,8 +68,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
 		assert item instanceof ExtendedItemDesign;
+
+		IExtendedItemContent content = ContentFactory
+				.createExtendedItemContent( (ExtendedItemDesign) item , context.getContentObject( ));
 		
-		IExtendedItemContent content = ContentFactory.createExtendedItemContent( (ExtendedItemDesign)item, context.getContentObject( ) );
 		// handle common properties, such as
 		//
 		//1) style (Not supported now as we only support image extension)
@@ -77,99 +87,92 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 
 		IReportItemGeneration itemGeneration = ExtensionManager.getInstance( )
 				.createGenerationItem( tagName );
-		if ( itemGeneration == null )
+		byte[] generationStatus = null;
+		if ( itemGeneration != null )
 		{
-			// skip this element if we can not create generation-time object
-			// Add Log
-			return;
-		}
-
-		IReportItemSerializable itemCustomizedState = null;
-		try
-		{
-			// handle the parameters passed to extension writers
-			HashMap parameters = new HashMap( );
-			parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-			parameters.put( IReportItemGeneration.GENERATION_STAGE, IReportItemGeneration.GENERATION_STAGE_EXECUTION );
-			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
-			itemGeneration.initialize( parameters );
-	
-			itemGeneration.pushPreparedQuery( item.getQuery( ), null );
-	
-			// Get the dirty work done
-			itemGeneration.process( context.getDataEngine( ) );
-	
-			// retrieve the customized state for the extended item 
-			itemCustomizedState = itemGeneration.getGenerateState();
-	
-			// call getSize
-			// Size size = getSize();
-		}
-		catch(BirtException ex)
-		{
-			return;
-		}
-		finally
-		{
-			// clean up
+			itemGeneration.setModelObject( handle );
+			IRowSet[] rowSets = executeQueries( item );
+			if ( rowSets != null )
+			{
+				try
+				{
+					itemGeneration.onRowSets( null );
+				}
+				catch ( BirtException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
+			if ( itemGeneration.needSerialization( ) )
+			{
+				try
+				{
+					ByteArrayOutputStream out = new ByteArrayOutputStream( );
+					itemGeneration.serialize( out );
+					generationStatus = out.toByteArray( );
+				}
+				catch ( BirtException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
+			closeQueries( rowSets );
 			itemGeneration.finish( );
 		}
 
 		//call the presentation peer to create the content object
 		IReportItemPresentation itemPresentation = ExtensionManager
 				.getInstance( ).createPresentationItem( tagName );
-		if ( itemPresentation == null )
+		if ( itemPresentation != null )
 		{
-			// skip this element if we can not create generation-time object
-			// Add Log
-			return;
-		}
-
-		try
-		{
-			HashMap parameters2 = new HashMap( );
-			parameters2.put( IReportItemPresentation.MODEL_OBJ, handle );
-			parameters2.put( IReportItemPresentation.SUPPORTED_FILE_FORMATS,
-					"GIF;PNG;JPG;BMP" ); //$NON-NLS-1$
-			parameters2.put(IReportItemPresentation.OUTPUT_FORMAT, emitter.getOutputFormat());
-			// TODO Add other parameters, i.e., bounds, dpi and scaling factor
-			itemPresentation.initialize( parameters2 );
-	
-			// restore the customized state for the extended item 
-			itemPresentation.restoreGenerationState(itemCustomizedState);
-	
-			// Do the dirty work
-			Object output = itemPresentation.process( );
-			
-			if (output != null)
+			itemPresentation.setModelObject( handle );
+			//itemPresentation.setResolution();
+			itemPresentation.setLocale(context.getLocale());
+			itemPresentation.setSupportedImageFormats( "GIF;PNG;JPG;BMP" );
+			itemPresentation.setOutputFormat( emitter.getOutputFormat( ) );
+			if ( generationStatus != null )
 			{
-				//output the content created by IReportItemPresentation
-				String format = emitter.getOutputFormat( );
-				String mimeType = ""; //$NON-NLS-1$
-				int type = itemPresentation.getOutputType( format, mimeType );
-				handleItemContent(item, emitter, content, type, output);
+				itemPresentation.deserialize( new ByteArrayInputStream(
+						generationStatus ) );
 			}
-		}
-		catch(BirtException ex)
-		{
-		}
-		finally
-		{
+
+			IRowSet[] rowSets = executeQueries( item );
+			if ( rowSets != null )
+			{
+				try
+				{
+					itemPresentation.onRowSets( rowSets );
+				}
+				catch ( BirtException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
+			int type = itemPresentation.getOutputType( );
+			Object output = itemPresentation.getOutputContent( );
+			handleItemContent( item, emitter, content, type, output );
+			closeQueries( rowSets );
 			itemPresentation.finish( );
 		}
 	}
-	
-	
+
 	/**
 	 * handle the content created by the IPresentation
-	 * @param item extended item design
-	 * @param emitter emitter used to output the contnet
-	 * @param content ext content
-	 * @param type output type
-	 * @param output output
+	 * 
+	 * @param item
+	 *            extended item design
+	 * @param emitter
+	 *            emitter used to output the contnet
+	 * @param content
+	 *            ext content
+	 * @param type
+	 *            output type
+	 * @param output
+	 *            output
 	 */
-	protected void handleItemContent(ReportItemDesign item, IReportEmitter emitter, IExtendedItemContent content,
-			int type, Object output)
+	protected void handleItemContent( ReportItemDesign item,
+			IReportEmitter emitter, IExtendedItemContent content, int type,
+			Object output )
 	{
 		switch ( type )
 		{
@@ -178,23 +181,25 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			case IReportItemPresentation.OUTPUT_AS_IMAGE :
 				// the output object is a image, so create a image content
 				// object
-				ImageItemContent image = (ImageItemContent)ContentFactory.createImageContent( item, context.getContentObject() );
-				if (output instanceof InputStream)
+				ImageItemContent image = (ImageItemContent) ContentFactory
+						.createImageContent( item , context.getContentObject() );
+				if ( output instanceof InputStream )
 				{
-					image.setData(readContent((InputStream)output));
+					image.setData( readContent( (InputStream) output ) );
 				}
-				else if (output instanceof byte[])
+				else if ( output instanceof byte[] )
 				{
 					image.setData( (byte[]) output );
 				}
 				else
 				{
 					assert false;
-					logger.log( Level.SEVERE,"unsupport image type:{0}", output); //$NON-NLS-1$
+					logger.log( Level.SEVERE,
+							"unsupport image type:{0}", output ); //$NON-NLS-1$
 
 				}
 				image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
-				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" );  //$NON-NLS-1$
+				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
 				if ( imageEmitter != null )
 				{
 					imageEmitter.start( image );
@@ -202,7 +207,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				}
 				break;
 			case IReportItemPresentation.OUTPUT_AS_CUSTOM :
-				((ExtendedItemContent)content).setContent( output );
+				( (ExtendedItemContent) content ).setContent( output );
 				//get the emmiter type, and give it to others type
 				IReportItemEmitter itemEmitter = emitter
 						.getEmitter( "extendedItem" ); //$NON-NLS-1$
@@ -230,32 +235,67 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	/**
 	 * read the content of input stream.
-	 * @param in input content
+	 * 
+	 * @param in
+	 *            input content
 	 * @return content in the stream.
 	 */
-	static protected byte[] readContent(InputStream in)
+	static protected byte[] readContent( InputStream in )
 	{
-		BufferedInputStream bin = in instanceof BufferedInputStream ? (BufferedInputStream)in : new BufferedInputStream(in);
-		ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+		BufferedInputStream bin = in instanceof BufferedInputStream
+				? (BufferedInputStream) in
+				: new BufferedInputStream( in );
+		ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
 		byte[] buffer = new byte[1024];
 		int readSize = 0;
 		try
 		{
-			readSize = bin.read(buffer);
-			while (readSize != -1)
+			readSize = bin.read( buffer );
+			while ( readSize != -1 )
 			{
-				out.write(buffer, 0, readSize);
-				readSize = bin.read(buffer);
+				out.write( buffer, 0, readSize );
+				readSize = bin.read( buffer );
 			}
 		}
-		catch(IOException ex)
+		catch ( IOException ex )
 		{
-		    logger.log( Level.SEVERE, ex.getMessage(), ex);
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 		}
-		return out.toByteArray();
+		return out.toByteArray( );
 	}
 
+	protected IRowSet[] executeQueries( ReportItemDesign item )
+	{
+		assert item instanceof ExtendedItemDesign;
+		ExtendedItemDesign extItem = (ExtendedItemDesign) item;
+		IRowSet[] rowSets = null;
+		IBaseQueryDefinition[] queries = extItem.getQueries( );
+		if ( queries != null )
+		{
+			rowSets = new IRowSet[queries.length];
+			for ( int i = 0; i < rowSets.length; i++ )
+			{
+				IResultSet rset = context.dataEngine.execute( queries[i] );
+				rowSets[i] = new RowSet( (DteResultSet) rset );
+			}
+		}
+		return rowSets;
+	}
+
+	protected void closeQueries( IRowSet[] rowSets )
+	{
+		if ( rowSets != null )
+		{
+			for ( int i = 0; i < rowSets.length; i++ )
+			{
+				if ( rowSets[i] != null )
+				{
+					rowSets[i].close( );
+				}
+			}
+		}
+	}
 }

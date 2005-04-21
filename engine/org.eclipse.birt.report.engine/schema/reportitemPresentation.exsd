@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.engine">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportitemPresentation" name="Extended Item Presentation-Time Support"/>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportitempresentation" name="Extended Item Presentation-Time Support"/>
       </appInfo>
       <documentation>
          This extension point specifies how the new report item should be instantiated,  processed, and rendered at presentation (rendering) time. In a server environment, the plugin registry uses this extension point registration to discover supported report item extensions.
@@ -44,7 +44,7 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the name of the extended item, i.e., &quot;chart&quot; for chart extension.
+                  the unique name of the extended item, i.e., &quot;org.eclipse.birt.chart&quot; for BIRT supplied chart extension.
                </documentation>
             </annotation>
          </attribute>
@@ -52,13 +52,6 @@
             <annotation>
                <documentation>
                   the java class that implements the &lt;code&gt;IReportItemPresentation&lt;/code&gt;
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="needDeserialization" type="boolean" use="default" value="false">
-            <annotation>
-               <documentation>
-                  whether the extended item needs serialization service in factory
                </documentation>
             </annotation>
          </attribute>
@@ -90,9 +83,9 @@
 
 &lt;p&gt;
 &lt;pre&gt;
-&lt;extension point=&quot;org.eclipse.birt.report.engine.reportitemPresentation&quot; 
+&lt;extension point=&quot;org.eclipse.birt.report.engine.reportitempresentation&quot; 
 name=&quot;chart presentation extension&quot;&gt;
-  &lt;reportItem name=&quot;chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartPresentation&quot; needDeserialization=&quot;true&quot; 
+  &lt;reportItem name=&quot;org.eclipse.birt.chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartPresentation&quot; 
   supportedFormats=&quot;FO,HTML,PDF&quot;/&gt;
  &lt;/extension&gt;
  &lt;/pre&gt;
@@ -107,12 +100,27 @@ name=&quot;chart presentation extension&quot;&gt;
       <documentation>
          The value of the class attribute must be the fully qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemPresentation&lt;/code&gt;. The interface provides the following functions:
 
-&lt;li&gt;&lt;code&gt;void initialize(HashMap parameters)&lt;/code&gt; ---- performs initialization before the plugin is asked to do rendering tasks&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;void restore(InputStream instream)&lt;/code&gt; ---- De-serializes the peer state that was serialized during generation time. This function is currently not supported.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;void render()&lt;/code&gt; ---- renders the extended item for output.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int getOutputType(String format, int[] supportedTypes, String mimeType)&lt;/code&gt; ---- Output type could be image, text, HTML text, etc. Only image is supported now.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Object getSize()&lt;/code&gt; ---- Get the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;void finish()&lt;/code&gt; ---- clean up&lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public void setModelObject(ExtendedItemHandle handle)&lt;/code&gt; ---- 
+	passes the model object to the extension provider. &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void setResolution(int dpi)&lt;/code&gt; ---- 
+passes the rendering environment resolution (dpi, i.e., dot per inch) to extension provider.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void setOutputFormat(String outputFormat)&lt;/code&gt; ---- 
+passes the output format, i.e., HTMl, PDF, etc. to extension provider.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void setSupportedImageFormats(String supportedImageFormats)&lt;/code&gt; ---- 
+passes the supported image formats in the rendering environments to the extension provider. Image formats are separated by semi-colon. For example, the argument could be JPG;PNG;BMP;SVG&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void setLocale(Locale locale)&lt;/code&gt; ---- passes the rendering locale to the extension provider.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public Object onRowSets(IRowSet[] rowSets) throws BirtException&lt;/code&gt; ---- 
+processes the extended item in report presentation environment. The data that the report item needs is passed in through the rowSets array. The return value captures the presentation time output of the report item, and differs for different rendering primitives. &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void deserialize(InputStream istream)&lt;/code&gt; ---- 
+deserializes the report item generation time state&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public int getOutputType(String mimeType)&lt;/code&gt; ---- 
+returns the output type, which could be one of the supported primitive, i.e., image, string, html segment, etc.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void Size getSize()&lt;/code&gt; ---- 
+gets the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void finish()&lt;/code&gt; ---- 
+performs cleanup jobs&lt;/li&gt;&lt;p&gt;
+&lt;/ul&gt;
       </documentation>
    </annotation>
 

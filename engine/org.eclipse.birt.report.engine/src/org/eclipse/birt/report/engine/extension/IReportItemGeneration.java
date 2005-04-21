@@ -10,88 +10,55 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.extension;
 
-import java.util.HashMap;
+import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
- * Represents the extended item generation extension, which performs tasks such as:<p>
- * <ul> 
- * <li> Prepare report query
- * <li> process the extended item 
- * </ul>
- * 
- * <p>The calling sequence in generation engine might work as follows:<p>
- * <li> Design engine creates a new instance of the extended item. This includes an object
- * of the IReportItem type.  
- * <li> Generation engine detects that the element is an extended item. It dynamically 
- * creates the IReportItemGeneration object.
- * <li> initialization method is called on the object. 
- * <li> Whan generation engine prepares report query, it repeatedly calls nextQuery to 
- * retrieve report queries for the extended item. For chart, the report query is relevant; 
- * for other extended items where a report query does not make sense, simply return null.
- * <li> Generation engine calls process() to process the report item.
- * <li> If there is a need for serialization, call getGenerationState, then call serialize on
- * the returned object.
- * <li> Call finish() for cleanup work.
+ * Represents the extended item generation extension, which processes the report item
+ * at report geenration time.
  */
-public interface IReportItemGeneration {
-	public static String ITEM_BOUNDS 				= "bounds"; 		// $NON-NLS-1$ //$NON-NLS-1$
-	public static String RESOLUTION	 				= "dpi"; 			// $NON-NLS-1$ //$NON-NLS-1$
-	public static String SCALING_FACTOR 			= "scale";			// $NON-NLS-1$ //$NON-NLS-1$
-	public static String MODEL_OBJ					= "model";			// $NON-NLS-1$ //$NON-NLS-1$
-	public static String GENERATION_STAGE			= "generationStage";		// $NON-NLS-1$ //$NON-NLS-1$
+public interface IReportItemGeneration {	
 	
-	public static String GENERATION_STAGE_PREPARATION		= "preparation";	// $NON-NLS-1$ //$NON-NLS-1$
-	public static String GENERATION_STAGE_EXECUTION			= "execution";		// $NON-NLS-1$ //$NON-NLS-1$
-	
-    /**
-     * Initializes the generation object before it processes the extended item. The 
-     * hash table parameter allows new parameters to be added without changing this 
-     * interface. If in the future more formats (i.e., extended item with formatted 
-     * text) need to be supported, more parameters can be added. 
-     * 
-     * @param parameters a collection of parameters that facilitates initialization of the
-     * factory object. To support extension type OUTPUT_AS_IMAGE, the HashMap might contain 
-     * the following parameters:
-     * 	ITEM_BOUNDS				optional
-     *  RESOLUTION				optional, but preferred. Otherwise, use implementer's default
-     *  SCALING_FACTOR			optional, default is 1.0
-     *  MODEL_OBJ				Required
-     *  GENERATION_STAGE		Required
-     */
-    public void initialize(HashMap parameters) throws BirtException;
-    
-    /**
-     * returns the next report query that the extension uses. A report query provides data 
-     * requirement specification to allow the data module in engine to prepare for data access.  
-     * 
-     * @param parent an in parameter specifying the parent query for the next query.  
-     * @return the next report query that is used for data preparation, null if no more queries
-     * @throws BirtException throwed when the extension fails to construct the next wuery 
-     */
-    public IBaseQueryDefinition nextQuery(IBaseQueryDefinition parent) throws BirtException;   
-    
 	/**
-	 * provides the extension with prepared query, from which the extension can retrieve data.  
+	 * passes a handle to the extended report item model to the extension
 	 * 
-	 * @param query the parent query
-	 * @param preparedQuery the prepared query
+	 * @param modelHandle a handle to the extended item model object 
 	 */
-	public void pushPreparedQuery(IBaseQueryDefinition query, IPreparedQuery preparedQuery);
-	
-    /**
-     * process the extended item in report generation environment. 
-     * 
-     * @param dataEngine a data engine instance on which the extension developer can retrieve 
-     * data based on a prepared query
-     */
-    public void process(IDataEngine dataEngine) throws BirtException;
+	public abstract void setModelObject(ExtendedItemHandle modelHandle);	
 
-    /**
+	/**
+	 * processes the extended item in report generation environment. 
+	 *
+	 * @param rowSets rowSets an array of row sets that is passed to the extension
+	 * @return  an object that captures the generation-time state information about the 
+     * extended item. Presentation engine guarantees that the same object is returned to the
+     * extended item instance at presentation time. To achieve such a goal, generation engine
+     * may uses serialization services provided by the IReportItemSerializable interface.  
+	 * @throws BirtException throws exception when there is a problem processing the extended item
+	 */
+	public abstract void onRowSets(IRowSet[] rowSets) throws BirtException;
+	
+	/**
+	 * returns whether the extended item needs serialization of state information at generation time
+	 * 
+	 * @return whether the extended item needs to serialize state information at generation time
+	 */
+	public abstract boolean needSerialization();
+	
+	/**
+	 * serializes the extended item generation time state. The application developer should
+	 * not assume that the output stream is a file stream. Presentation engine guarantees 
+	 * that a corresponding input stream is available for deserializing what is written by 
+	 * this function. 
+	 * 
+	 * @param ostream the output stream to write the generation time state of the extended item to
+	 * @throws BirtException when there is a problem serializing the extended  item state 
+	 */
+	public abstract void serialize(OutputStream ostream) throws BirtException;
+
+	/**
      * Get the size of the extended item. The size is a Dimension object. The width and height
      * can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size
      * such as 150% or 1.2em. Notice that an extended item can obtain its design-time size 
@@ -102,14 +69,6 @@ public interface IReportItemGeneration {
      * not be determined.
      */
     public Size getSize();
-    
-    /**
-     * Retrieves an object that captures the generation-time state information about the 
-     * extended item. Presentation engine guarantees that the same object is returned to the
-     * extended item instance at presentation time. To achive such a goal, generation engine
-     * may uses serialization services provided by the IReportItemSerializable interface.     
-     */
-    public IReportItemSerializable getGenerateState();
     
     /**
      * Performs clean up work

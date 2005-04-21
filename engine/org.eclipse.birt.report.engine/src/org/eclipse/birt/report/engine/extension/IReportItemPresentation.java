@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.extension;
 
-import java.util.HashMap;
+import java.io.InputStream;
+import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * Represents the extended item presentation time extension. 
@@ -21,23 +23,14 @@ import org.eclipse.birt.core.exception.BirtException;
  * <li> Design engine creates a new instance of the extended item. 
  * <li> Presentation engine detects that the element is an 
  * extended item. It dynamically creates an object with type IReportItemPresentation.
- * <li> The presentation engine calls initialize() to pass initialization parameters 
+ * <li> The presentation engine calls various setXXX methods to pass initialization parameters 
  * to the extension implementation. 
- * <li> If the extended item has returned a generation state object during generation time, 
- * restore is called to allow the presentation peer to restore its states.
- * <li> Negotiate with the extension to know what the output format is. 
- * <li> Render the extended item
+ * <li> deserialize method restores the generation time state
+ * <li> Render the extended item through onRowSets method, handled the returned image
  * <li> Call finish() for cleanup.
  */
 
 public interface IReportItemPresentation {
-	public static String ITEM_BOUNDS 			= "bounds"; 	 //$NON-NLS-1$
-	public static String RESOLUTION	 			= "dpi"; 		 //$NON-NLS-1$
-	public static String SCALING_FACTOR 		= "scale";		 //$NON-NLS-1$
-	public static String MODEL_OBJ				= "model";		 //$NON-NLS-1$
-	public static String SUPPORTED_FILE_FORMATS	= "formats";		 //$NON-NLS-1$
-	public static String OUTPUT_FORMAT			= "outputFormat";		//$NON-NLS-1$ 
-	
     public static int OUTPUT_NONE = 0;     
     public static int OUTPUT_AS_IMAGE = 1;	// Only this format is supported for now
     public static int OUTPUT_AS_TEXT = 2;
@@ -45,49 +38,68 @@ public interface IReportItemPresentation {
     public static int OUTPUT_AS_DRAWING = 4;
     public static int OUTPUT_AS_CUSTOM = 5;
     
-    /**
-     * Initializes the presentation peer before it is asked to perform any rendering.
-     * 
-     * @param parameters a collection of parameters that facilitate initialization of the
-     * presentation peer. To support extension type OUTPUT_AS_IMAGE, the HashMap might contain 
-     * the following parameters:
-     * 	ITEM_BOUNDS		optional
-     *  RESOLUTION		optional, but preferred. Otherwise, use implementer's default
-     *  SCALING_FACTOR	optional, default is 1.0
-     *  MODEL_OBJ		Required
-     *  SUPPORTED_FILE_FORMATS	optional, coule be a number of formats separates by semi-colon 
-     *  TARGET_OUTPUT_FORMAT	Required
-     * 
-     */
-    public void initialize(HashMap parameters) throws BirtException;
+	/**
+	 * passes a handle to the extended report item model to the extension
+	 * 
+	 * @param modelHandle a handle to the extended item model object 
+	 */
+	public abstract void setModelObject(ExtendedItemHandle modelHandle);	
+
+	/**
+	 * passes the locale used in the presentation.
+	 * @param locale locale
+	 */
+	public void setLocale(Locale locale);
+	/**
+	 * passes the dpi (dot per inch) from the rendering environment to the extension. 
+	 * Mostly used for printing. 
+	 * 
+	 * @param dpi the dpi of the rendering environment
+	 */
+	public abstract void setResolution(int dpi);
     
+	/**
+	 * sets the output format, i.e., HTML, PDF, etc. 
+	 * 
+	 * @param outputFormat the output format, i.e., html, pdf, etc.
+	 */
+	public abstract void setOutputFormat(String outputFormat);
+	
+	/**
+	 * sets the image formats that are supported for this output format. Formats are separated 
+	 * by semi-colon. For example, the argument could be JPG;PNG;BMP;SVG
+	 * 
+	 * @param supportedImageFormats the image formats that the presentation engine could support.
+	 */
+	public abstract void setSupportedImageFormats(String supportedImageFormats);
+	
     /**
-     * Passes the report generation state to the extension classes. Before calling this
-     * function, the presentation engine may have deserialized the generation state object
-     * from report document file.  
+     * deserializes generation time state information about the extended item 
      * 
-     * @param genState the genration state object that implements IReportItemSerializable
+     * @param istream the input stream to deserialize generation time state from
      */
-    public void restoreGenerationState(IReportItemSerializable genState);
+    public void deserialize(InputStream istream);
     
     /**
      * returns the output type, which could be IMAGE, TEXT, HTML TEXT, DRAWING, etc. 
+     * For now, only Image is supported.
      * 
-     * @param format the output format for the request 
      * @param mimeType an out parameter that returns the MIME type of the output 
      * @return output type, for now OUTPUT_AS_IMAGE only
      */
-    public int getOutputType(String format, String mimeType);
+    public int getOutputType();
     
-    /**
-     * process the extended item in presentation environment. 
-     * 
-     * @return the returned value could be different depending on the type of the output.
-     * For image, returns an input stream or byte array that the engine could retrieve data from;
-     * For text and html text, a Java String; For drawing, returns ??; For custom format,
-     * a generic Object that engine can pass to emitter.   
-     */
-    public Object process( ) throws BirtException;
+    public Object getOutputContent();
+    
+	/**
+	 * processes the extended item in report presentation environment. 
+	 *
+	 * @param rowSets rowSets an array of row sets that is passed to the extension
+	 * @return  the returned value could be different depending on the type of the output.
+     * For image, returns an input stream or byte array that the engine could retrieve data from
+	 * @throws BirtException throws exception when there is a problem processing the extended item
+	 */
+	public abstract Object onRowSets(IRowSet[] rowSets) throws BirtException;
 
     /**
      * Get the size of the extended item. The size is a Dimension object. The width and height

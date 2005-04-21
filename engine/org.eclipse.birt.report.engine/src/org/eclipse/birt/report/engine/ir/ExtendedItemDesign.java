@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+
 /**
  * Extended Item. 
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/07 09:43:34 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/10 23:45:35 $
  */
 public class ExtendedItemDesign extends ReportItemDesign
 {
+	IBaseQueryDefinition[] queries;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
@@ -25,5 +28,15 @@ public class ExtendedItemDesign extends ReportItemDesign
 	public void accept( IReportItemVisitor visitor )
 	{
 		visitor.visitExtendedItem( this );
+	}
+	
+	public void setQueries(IBaseQueryDefinition[] queries)
+	{
+		this.queries = queries;
+	}
+	
+	public IBaseQueryDefinition[] getQueries()
+	{
+		return this.queries;
 	}
 }

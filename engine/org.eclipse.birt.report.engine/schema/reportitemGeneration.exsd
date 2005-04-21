@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.engine">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportitemGeneration" name="Extended Item Generation-Time Support"/>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportitemgeneration" name="Extended Item Generation-Time Support"/>
       </appInfo>
       <documentation>
          This extension point specifies how the new report item should be instantiated,  processed, and persisted at report generation time. In a server environment, the plugin registry uses this extension point registration to discover supported report item extensions.
@@ -44,40 +44,16 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the name of the extended item, i.e., &quot;chart&quot; for chart extension.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="needSerialization" type="boolean" use="default" value="false">
-            <annotation>
-               <documentation>
-                  whether the extended item needs serialization service in factory
+                  the unique name of the extended item, i.e., &quot;org.eclipse.birt.chart&quot; for chart extension.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  the java class that implements the &lt;code&gt;IReportItemGeneration&lt;/code&gt;
+                  the fully qualified name of the java class that implements &lt;code&gt;IReportItemGeneration&lt;/code&gt;
                </documentation>
             </annotation>
-         </attribute>
-         <attribute name="createReportQuery" use="default" value="no">
-            <annotation>
-               <documentation>
-                  whether a report query (used for data access) needs to be created, and if so, who creates it
-               </documentation>
-            </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="no">
-                  </enumeration>
-                  <enumeration value="item">
-                  </enumeration>
-                  <enumeration value="host">
-                  </enumeration>
-               </restriction>
-            </simpleType>
          </attribute>
       </complexType>
    </element>
@@ -101,7 +77,7 @@
 &lt;p&gt;
 &lt;pre&gt;
 &lt;extension point=&quot;org.eclipse.birt.report.engine.reportitemGeneration&quot; name=&quot;chart generation extension&quot;&gt;
-  &lt;reportItem name=&quot;chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartGeneration&quot; needSerialization=true createReportQuery=&quot;item&quot;/&gt;
+  &lt;reportItem name=&quot;chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartGeneration&quot; createReportQuery=&quot;item&quot;/&gt;
  &lt;/extension&gt;
  &lt;/pre&gt;
  &lt;/p&gt;
@@ -115,12 +91,21 @@
       <documentation>
          The value of the class attribute must be the fully qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemGeneration&lt;/code&gt;. The interface provides the following functions:
 
-&lt;li&gt;&lt;code&gt;void initialize(HashMap parameters)&lt;/code&gt; ---- performs initialization before the plugin is asked to do generation tasks&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Object getReportQuery()&lt;/code&gt; ---- returns an IReportQuery object that is used by the data engine. Called only when createQuery property is set to item.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;void generate()&lt;/code&gt; ---- renders the extended item in factory.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Object getSize()&lt;/code&gt; ---- Get the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;long serialize()&lt;/code&gt; ---- Serializes the peer to report document. This function is currently not supported. Factory guarantees that the same data in the stream will be returned to the presentation engine at presentation time.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;void finish()&lt;/code&gt; ---- clean up&lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public void setModelObject(ExtendedItemHandle handle)&lt;/code&gt; ---- 
+	passes the model object to the extension provider. &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void onRowSets(IRowSet[] rowSets) throws BirtException&lt;/code&gt; ----
+processes the extended item in report generation environment. The data that the report item needs is passed in through the rowSets array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public boolean needSerialization() &lt;/code&gt; ----
+returns whether the extended item has anything to be serialized to report document.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void serialize(OutputStream ostream) throws BirtException&lt;/code&gt; ---- 
+serializes the extended item generation time state. The application developer should not assume that the output stream is a file stream. Engine only guarantees that a corresponding input stream is available for deserializing what is written by this function.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void Size getSize()&lt;/code&gt; ---- 
+gets the size of the extended item. The size is a Dimension object. The width and height can only be in absolute units (inch, mm, etc.) or pixel. It can not be a relative size such as 150% or 1.2em. An extended item can obtain its design-time size information by querying DE. This function is needed because the actual size may not be the same as the design-time size.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void finish()&lt;/code&gt; ---- 
+performs cleanup jobs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
       </documentation>
    </annotation>
 

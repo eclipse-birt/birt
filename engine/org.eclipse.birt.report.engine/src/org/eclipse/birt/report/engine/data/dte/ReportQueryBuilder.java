@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -39,8 +38,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.extension.ExtensionManager;
-import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
+import org.eclipse.birt.report.engine.extension.IReportItemQuery;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -92,7 +91,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.19 $ $Date: 2005/04/08 05:21:07 $
+ * @version $Revision: 1.20 $ $Date: 2005/04/12 05:26:21 $
  */
 public class ReportQueryBuilder
 {
@@ -304,33 +303,39 @@ public class ReportQueryBuilder
 			// set to host or item.
 			// Only do the following for "host"
 
-			IReportItemGeneration itemGeneration = ExtensionManager
-					.getInstance( ).createGenerationItem( tagName );
-			if ( itemGeneration != null )
+			IReportItemQuery itemQuery = ExtensionManager.getInstance( )
+					.createQueryItem( tagName );
+			IBaseQueryDefinition[] queries = null;
+			IBaseQueryDefinition parentQuery = getParentQuery( );
+			if ( itemQuery != null )
 			{
 				try
 				{
-					// handle the parameters passed to extension writers
-					HashMap parameters = new HashMap( );
-					parameters.put( IReportItemGeneration.MODEL_OBJ, handle );
-					parameters.put( IReportItemGeneration.GENERATION_STAGE,
-							IReportItemGeneration.GENERATION_STAGE_PREPARATION );
-					// parameters.put(IReportItemGeneration.PARENT_QUERY,
-					// getParentQuery());
-					itemGeneration.initialize( parameters );
+					itemQuery.setModelObject( handle );
 
-					IBaseQueryDefinition query = null;
-					IBaseQueryDefinition parentQuery = getParentQuery( );
-					boolean first = true;
-					while ( ( query = itemGeneration.nextQuery( parentQuery ) ) != null )
+					queries = itemQuery.getReportQueries( parentQuery );
+					
+				}
+				catch ( BirtException ex )
+				{
+					logger.log(Level.WARNING, ex.getMessage(), ex);
+				}
+				if ( queries != null )
+				{
+					item.setQueries(queries);
+					for ( int i = 0; i < queries.length; i++ )
 					{
-						this.queries.add( query );
-						item.setQuery( query );
-
-						// Add other expressions only tot he first query
-						if ( first )
+						if (queries[i] != null)
 						{
-							first = false;
+							this.queries.add( queries[i] );
+						}
+					}
+					if (queries.length > 0)
+					{
+						IBaseQueryDefinition query = queries[0];
+						if (query != null)
+						{
+							item.setQuery( query );
 							pushQuery( query );
 							pushExpressions( query.getRowExpressions( ) );
 							handleReportItemExpressions( item );
@@ -339,14 +344,6 @@ public class ReportQueryBuilder
 							popQuery( );
 						}
 					}
-				}
-				catch ( BirtException ex )
-				{
-
-				}
-				finally
-				{
-					itemGeneration.finish( );
 				}
 			}
 		}
@@ -706,7 +703,13 @@ public class ReportQueryBuilder
 			}
 			addExpression( row.getBookmark( ) );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
-				handleCell( row.getCell( i ) );
+			{
+				CellDesign cell = row.getCell(i);
+				if (cell != null)
+				{
+					handleCell( cell );
+				}
+			}
 		}
 
 		/**
@@ -714,9 +717,9 @@ public class ReportQueryBuilder
 		 */
 		protected void handleCell( CellDesign cell )
 		{
-			handleStyle( cell.getStyle( ) );
-			for ( int i = 0; i < cell.getContentCount( ); i++ )
-				cell.getContent( i ).accept( this );
+				handleStyle( cell.getStyle( ) );
+				for ( int i = 0; i < cell.getContentCount( ); i++ )
+					cell.getContent( i ).accept( this );
 		}
 
 		/**
