@@ -389,7 +389,7 @@ abstract class ColumnBandAdapter
 		assert target != null;
 
 		int colStartPos = 1;
-		int colPosInSlot = columns.findPosn( target.getElement( ) );
+		int colPosInSlot = columns.findPosn( target );
 		for ( int i = 0; i < colPosInSlot; i++ )
 		{
 			ColumnHandle col = (ColumnHandle) columns.get( i );
@@ -409,7 +409,7 @@ abstract class ColumnBandAdapter
 
 		if ( target.getRepeatCount( ) == 1 )
 		{
-			int oldPos = columns.findPosn( target.getElement( ) );
+			int oldPos = columns.findPosn( target );
 			columns.drop( target );
 			columns.add( toAdd, oldPos );
 			return;
@@ -424,7 +424,7 @@ abstract class ColumnBandAdapter
 		{
 			target.setRepeatCount( target.getRepeatCount( ) - 1 );
 
-			int pos = columns.findPosn( target.getElement( ) );
+			int pos = columns.findPosn( target );
 			if ( columnNumber != colStartPos )
 				pos++;
 
@@ -446,7 +446,7 @@ abstract class ColumnBandAdapter
 					.handle( getDesign( ) );
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
-			int pos = columns.findPosn( target.getElement( ) );
+			int pos = columns.findPosn( target );
 			columns.add( toAdd, pos + 1 );
 			columns.add( newColumn, pos + 2 );
 		}
@@ -518,7 +518,7 @@ abstract class ColumnBandAdapter
 	{
 		RowHandle row = (RowHandle) cell.getContainer( );
 		assert row != null;
-		return row.getCells( ).findPosn( cell.getElement( ) ) + 1;
+		return row.getCells( ).findPosn( cell ) + 1;
 	}
 
 	/**
@@ -584,7 +584,6 @@ abstract class ColumnBandAdapter
 
 			int pos = insertPosition[i];
 			CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
-//			cell.setColumn( columnIndex );
 
 			row.addElement( cell, TableRow.CONTENT_SLOT, pos - 1 );
 		}
@@ -741,15 +740,14 @@ abstract class ColumnBandAdapter
 		if ( rowContainer instanceof TableGroupHandle )
 		{
 			TableHandle rowGrandPa = (TableHandle) rowContainer.getContainer( );
-			groupId = rowGrandPa.getGroups( ).findPosn(
-					rowContainer.getElement( ) );
+			groupId = rowGrandPa.getGroups( ).findPosn( rowContainer );
 		}
 
 		CellContextInfo cellInfo = new CellContextInfo( cell, cell
 				.getRowSpan( getDesign( ) ), cell.getColSpan( getDesign( ) ),
 				cell.getStringProperty( getDesign( ), Cell.DROP_PROP ) );
 
-		int rowNumber = slot.findPosn( row.getElement( ) );
+		int rowNumber = slot.findPosn( row );
 		cellInfo.setContainerDefnName( rowContainer.getDefn( ).getName( ) );
 		cellInfo.setSlotId( slotId );
 		cellInfo.setGroupId( groupId );

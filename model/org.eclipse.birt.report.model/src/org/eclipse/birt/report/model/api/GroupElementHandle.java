@@ -71,7 +71,7 @@ public class GroupElementHandle
 	 * Constructs a handle to deal with a list of report elements. The contents
 	 * of the given list should be design element handles.
 	 * 
-	 * @param design
+	 * @param designHandle
 	 *            the report design
 	 * @param elements
 	 *            a list of handles of design elements. If a item is not
@@ -79,9 +79,9 @@ public class GroupElementHandle
 	 * @see DesignElementHandle
 	 */
 
-	public GroupElementHandle( ReportDesign design, List elements )
+	public GroupElementHandle( ReportDesignHandle designHandle, List elements )
 	{
-		this.design = design;
+		this.design = designHandle.getDesign();
 		assert elements != null;
 
 		this.elements = elements;

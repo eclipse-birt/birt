@@ -1494,4 +1494,5 @@ public abstract class DesignElementHandle
 		return ErrorDetail.getSemanticErrors( errorDetailList,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
 	}
+
 }

@@ -392,9 +392,9 @@ public class SlotHandle extends ElementDetailHandle
 	 *         found
 	 */
 
-	public int findPosn( DesignElement content )
+	public int findPosn( DesignElementHandle content )
 	{
-		return getSlot( ).findPosn( content );
+		return getSlot( ).findPosn( content.getElement() );
 	}
 
 	/**

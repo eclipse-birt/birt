@@ -1166,7 +1166,7 @@ public class ReportDesign extends RootElement
 
 	public boolean isFileExist( String fileName )
 	{
-		return getSession( ).getFileLocator( ).findFile( this, fileName ) != null;
+		return getSession( ).getFileLocator( ).findFile( ((ReportDesignHandle)this.getHandle(this)), fileName ) != null;
 	}
 
 	/**
