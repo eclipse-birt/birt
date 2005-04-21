@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -81,6 +83,47 @@ public class GridHandle extends ReportItemHandle
 	public int getColumnCount( )
 	{
 		return ( (GridItem) getElement( ) ).getColumnCount( design );
+	}
+
+	/**
+	 * Gets the cell at the position where the given row and column intersect.
+	 * 
+	 * @param row
+	 *            the row position indexing from 1
+	 * @param column
+	 *            the column position indexing from 1
+	 * @return the cell handle at the position if the cell exists, otherwise
+	 *         <code>null</code>
+	 */
+
+	public CellHandle getCell( int row, int column )
+	{
+		Cell cell = CellHelper.findCell( getDesign( ),
+				(GridItem) getElement( ), row, column );
+
+		if ( cell == null )
+			return null;
+		return cell.handle( getDesign( ) );
+	}
+
+	/**
+	 * Gets the content slot handle of the cell at the position where the given
+	 * row and column intersect.
+	 * 
+	 * @param row
+	 *            the row position indexing from 1
+	 * @param column
+	 *            the column position indexing from 1
+	 * @return the content slot handle of the cell at the position if the cell
+	 *         exists, otherwise <code>null</code>
+	 */
+
+	public SlotHandle getCellContent( int row, int column )
+	{
+		CellHandle cell = getCell( row, column );
+		if ( cell == null )
+			return null;
+		return cell.getContent( );
 	}
 
 	/**

@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -330,6 +332,46 @@ public abstract class SimpleValueHandle extends ValueHandle
 	}
 
 	/**
+	 * Removes all the items in the list from a list property or member. The
+	 * handle must be working on a list property or member. Each one in the list
+	 * is instance of <code>StructureHandle</code>
+	 * 
+	 * @param items
+	 *            the item list to remove
+	 * @throws PropertyValueException
+	 *             If the property or the member is not a list type, or if any
+	 *             item in the list is not found
+	 */
+
+	public void removeItems( List items ) throws PropertyValueException
+	{
+		if ( items == null )
+			return;
+		ActivityStack stack = getDesign( ).getActivityStack( );
+		List newItems = new ArrayList( );
+		for ( int i = 0; i < items.size( ); i++ )
+		{
+			newItems.add( ( (StructureHandle) items.get( i ) )
+					.getStructure( ) );
+		}
+		stack.startTrans( );
+		try
+		{
+			for ( int i = 0; i < newItems.size( ); i++ )
+			{
+				IStructure item = (IStructure) newItems.get( i );
+				removeItem( item );
+			}
+		}
+		catch ( PropertyValueException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
+	}
+
+	/**
 	 * Replaces an old structure with a new one for the this property or member.
 	 * The handle must be working on a list property or member.
 	 * 
@@ -479,9 +521,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}
-	
+
 	/**
-	 * Checks whether a value is visible in the property sheet. 
+	 * Checks whether a value is visible in the property sheet.
 	 * 
 	 * @return <code>true</code> if it is visible. Otherwise
 	 *         <code>false</code>.

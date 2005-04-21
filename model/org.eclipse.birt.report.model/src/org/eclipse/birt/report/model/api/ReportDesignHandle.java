@@ -900,7 +900,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            config variable name
 	 * @throws SemanticException
 	 *             if no config variable is found.
-	 *  
+	 * @deprecated
 	 */
 
 	public void dropConfigVariable( String name ) throws SemanticException
@@ -910,8 +910,8 @@ public class ReportDesignHandle extends DesignElementHandle
 
 		int posn = findConfigVariablePos( name );
 		if ( posn < 0 )
-			throw new PropertyValueException( getElement( ),
-					(ElementPropertyDefn) propHandle.getPropertyDefn( ), name,
+			throw new PropertyValueException( getElement( ), propHandle
+					.getPropertyDefn( ), name,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( posn );
@@ -1029,6 +1029,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            the image name
 	 * @throws SemanticException
 	 *             if the image is not found.
+	 * @deprecated
 	 */
 
 	public void dropImage( String name ) throws SemanticException
@@ -1038,11 +1039,51 @@ public class ReportDesignHandle extends DesignElementHandle
 
 		int pos = findImagePos( name );
 		if ( pos < 0 )
-			throw new PropertyValueException( getElement( ),
-					propHandle.getPropertyDefn( ), name,
+			throw new PropertyValueException( getElement( ), propHandle
+					.getPropertyDefn( ), name,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		propHandle.removeItem( pos );
+	}
+
+	/**
+	 * Drops an embedded image handle list from the design. Each one in the list
+	 * is the instance of <code>EmbeddedImageHandle</code>.
+	 * 
+	 * @param images
+	 *            the image handle list to remove
+	 * @throws SemanticException
+	 *             if any image in the list is not found.
+	 */
+
+	public void dropImage( List images ) throws SemanticException
+	{
+		if ( images == null )
+			return;
+		PropertyHandle propHandle = this
+				.getPropertyHandle( ReportDesign.IMAGES_PROP );
+//		List newImages = new ArrayList( );
+//		for ( int i = 0; i < images.size( ); i++ )
+//		{
+//			newImages.add( ( (EmbeddedImageHandle) images.get( i ) )
+//					.getStructure( ) );
+//		}
+//		getDesign( ).getActivityStack( ).startTrans( );
+//		try
+//		{
+//			for ( int i = 0; i < images.size( ); i++ )
+//			{
+//				EmbeddedImage image = (EmbeddedImage) newImages.get( i );
+//				propHandle.removeItem( image );
+//			}
+//		}
+//		catch ( PropertyValueException e )
+//		{
+//			getDesign( ).getActivityStack( ).rollback( );
+//			throw e;
+//		}
+//		getDesign( ).getActivityStack( ).commit( );
+		propHandle.removeItems( images );
 	}
 
 	/**
