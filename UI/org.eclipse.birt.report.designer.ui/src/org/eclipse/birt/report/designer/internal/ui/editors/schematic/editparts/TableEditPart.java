@@ -41,7 +41,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -1281,33 +1280,16 @@ public class TableEditPart extends ReportElementEditPart implements
 	{
 		return UIUtil.createGroup( getTableAdapter( ).getHandle( ) );
 	}
-
+	
 	/**
 	 * Inserts group in table.
 	 * 
-	 * @param part
-	 *            the current row or cell to specify the position of new group.
-	 *            Null to call <code>insertGroup( )</code>
+	 * @param position
+	 *            insert position
 	 */
-	public boolean insertGroup( Object part )
+	public boolean insertGroup( int position )
 	{
-		RowHandle row = null;
-		if ( part != null )
-		{
-			if ( part instanceof RowHandle )
-			{
-				row = (RowHandle) part;
-			}
-			else if ( part instanceof CellHandle )
-			{
-				row = (RowHandle) ( (CellHandle) part ).getContainer( );
-			}
-		}
-		if ( row != null )
-		{
-			return UIUtil.createTableGroup( row );
-		}
-		return insertGroup( );
+		return UIUtil.createGroup( getTableAdapter( ).getHandle( ), position );
 	}
 
 	/**

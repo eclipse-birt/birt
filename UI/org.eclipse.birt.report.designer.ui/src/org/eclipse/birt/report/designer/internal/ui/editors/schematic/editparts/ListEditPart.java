@@ -259,19 +259,14 @@ public class ListEditPart extends ReportElementEditPart
 	}
 	
 	/**
-	 * Inserts group in list.
+	 * Insert group in list element
 	 * 
-	 * @param part
-	 *            the current part to specify the position of new group. Null to
-	 *            call <code>insertGroup( )</code>
+	 * @param position
+	 *            insert position
 	 */
-	public boolean insertGroup( Object part )
+	public boolean insertGroup( int position )
 	{
-		if ( part != null && part instanceof ListBandProxy )
-		{
-			return UIUtil.createListGroup( (ListBandProxy) part );
-		}
-		return insertGroup( );
+		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ), position );
 	}
 
 	/**
@@ -327,7 +322,6 @@ public class ListEditPart extends ReportElementEditPart
 	 * Check if inlucde header/footer
 	 * 
 	 * @param id
-	 * @return
 	 */
 	public boolean isIncludeSlotHandle( int id )
 	{

@@ -29,10 +29,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertListGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -345,9 +344,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
 			//			createShowMenu( menuManager );
-
-			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( InsertTableGroupAction.ID ) );
+			createInsertGroupMenu( menuManager );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteTableGroupAction.ID ) );
 			if ( getTableEditParts( ).size( ) == 1 )
@@ -362,8 +359,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( !getListEditParts( ).isEmpty( ) )
 		{
-			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
-					getAction( InsertListGroupAction.ID ) );
+			createInsertGroupMenu( menuManager );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteListGroupAction.ID ) );
 			if ( getListEditParts( ).size( ) == 1 )
@@ -371,6 +367,20 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			}
 		}
+	}
+	
+	/**
+	 * @param menuManager
+	 */
+	private void createInsertGroupMenu( IMenuManager menuManager )
+	{
+		MenuManager subMenu = new MenuManager( Messages.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
+		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
+		for ( int i = 0; i < actions.length; i++ )
+		{
+			subMenu.add( actions[i] );
+		}
+		menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, subMenu );
 	}
 
 	//	private void createShowMenu( IMenuManager menuManager )

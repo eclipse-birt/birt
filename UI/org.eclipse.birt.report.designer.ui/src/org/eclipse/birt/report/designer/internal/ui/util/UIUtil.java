@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
@@ -21,15 +20,11 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -291,86 +286,23 @@ public class UIUtil
 		}
 	}
 
-	public static boolean createTableGroup( RowHandle row )
+	/**
+	 * Creates a new group in the position under the given parent
+	 * 
+	 * @param parent
+	 *            The parent of the new group, it should be a table or a list
+	 *            and should not be null.
+	 * @param position
+	 *            insert position
+	 * @return Returns true if the group created successfully, false if the
+	 *         creation is cancelled or some error occurred.
+	 */
+	public static boolean createGroup( DesignElementHandle parent, int position )
 	{
-		Assert.isNotNull( row );
+		Assert.isNotNull( parent );
 		try
 		{
-			TableHandle table = null;
-			DesignElementHandle container = row.getContainer( );
-			int slotId = row.getContainerSlotHandle( ).getSlotID( );
-			int position = -1;
-
-			if ( container instanceof TableGroupHandle )
-			{
-				table = (TableHandle) ( (TableGroupHandle) container ).getContainer( );
-				position = DEUtil.findInsertPosition( table.getGroups( )
-						.getElementHandle( ), container, table.getGroups( )
-						.getSlotID( ) );
-			}
-			else if ( container instanceof TableHandle )
-			{
-				table = (TableHandle) container;
-				if ( slotId == TableItem.DETAIL_SLOT )
-				{
-					position = -1;
-				}
-				else if ( slotId == TableItem.HEADER_SLOT
-						|| slotId == TableItem.FOOTER_SLOT )
-				{
-					position = 0;
-				}
-			}
-			else
-			{
-				return false;
-			}
-
-			return addGroup( table, position );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-			return false;
-		}
-	}
-
-	public static boolean createListGroup( ListBandProxy listBand )
-	{
-		Assert.isNotNull( listBand );
-		try
-		{
-			ListHandle list = null;
-			DesignElementHandle container = listBand.getElemtHandle( );
-			int slotId = listBand.getSlotId( );
-			int position = -1;
-
-			if ( container instanceof ListGroupHandle )
-			{
-				list = (ListHandle) ( (ListGroupHandle) container ).getContainer( );
-				position = DEUtil.findInsertPosition( list.getGroups( )
-						.getElementHandle( ), container, list.getGroups( )
-						.getSlotID( ) );
-			}
-			else if ( container instanceof ListHandle )
-			{
-				list = (ListHandle) container;
-				if ( slotId == ListItem.DETAIL_SLOT )
-				{
-					position = -1;
-				}
-				else if ( slotId == ListItem.HEADER_SLOT
-						|| slotId == ListItem.FOOTER_SLOT )
-				{
-					position = 0;
-				}
-			}
-			else
-			{
-				return false;
-			}
-
-			return addGroup( list, position );
+			return addGroup( parent, position );
 		}
 		catch ( SemanticException e )
 		{
@@ -485,7 +417,7 @@ public class UIUtil
 	 * columns, and whether or not the columns should be forced to have the same
 	 * width
 	 * 
-	 * @param numColumns
+	 * @param numsColumn
 	 *            the number of columns in the grid
 	 * @param makeColumnsEqualWidth
 	 *            whether or not the columns will have equal width
