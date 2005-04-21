@@ -127,7 +127,6 @@
          <odaDataSetUI
                name="JdbcSelectDataSet"
                displayName="%dataset.jdbcselect">
-            <newDataSetWizard class="org.eclipse.birt.report.data.oda.sampledb.SampleDataSetWizard"/>
             <dataSetEditorPage
                   class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
                   path="/"

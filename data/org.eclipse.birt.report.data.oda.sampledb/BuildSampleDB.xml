@@ -83,6 +83,7 @@
 		<fileset dir="${designer.ui.dir}">
 			<include name="${designer.ui.jar}"/>
 		</fileset>
+		<pathelement path="${designer.ui.dir}/bin" />
 		<fileset dir="${model.dir}">
 			<include name="${model.jar}"/>
 		</fileset>
@@ -156,7 +157,8 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>		
 		<echo message="end call Jar task in ${model.dir}"/>
-				
+
+<!--				
 		<echo message="start call Jar task in ${designer.ui.dir}"/>
 		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
 		  <property name="eclipse.home" value="${eclipse.home}" /> 
@@ -168,6 +170,7 @@
 		  <property name="eclipse.home" value="${eclipse.home}" /> 
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.ui.dir}"/>
+-->
 
 	</target>
 	
