@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -225,11 +226,6 @@ public class ContentRecord extends SimpleRecord
 
 			if ( root != null )
 				root.dropElementID( content );
-
-			// Clear listeners on the element. Listeners are NOT required to
-			// undo/redo.
-
-			content.clearListeners( );
 		}
 	}
 
@@ -264,25 +260,42 @@ public class ContentRecord extends SimpleRecord
 
 		container.broadcast( event );
 
-		// If the content was dropped, then send an element deleted
+        // If the content was added, then send an element added
 		// event to the content.
 
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
 		{
 			if ( isSelector( content ) )
 				content.broadcast( event, container.getRoot( ) );
-
+            
 			return;
 		}
-
-		event = new ElementDeletedEvent( content );
+		    
+        // Broadcast to the content element of the deleted event.
+		
+        event = new ElementDeletedEvent( content );
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 		content.broadcast( event, container.getRoot( ) );
+
+        // If element is dropped, clear up the listeners registered on the element. 
+	
+        if( !add && state != UNDONE_STATE || add && state == UNDONE_STATE )
+        	content.clearListeners( );
 	}
 
+    /**
+     * Indicate whether the given <code>content</code> is a CSS-selecter.
+     * 
+     * @param content a given design element
+     * @return <code>true</code> if it is a predefined style.
+     */
+    
 	private boolean isSelector( DesignElement content )
 	{
+        if( ! ( content instanceof StyleElement ) )
+            return false;
+        
 		return MetaDataDictionary.getInstance( ).getPredefinedStyle(
 				content.getName( ) ) != null;
 	}
