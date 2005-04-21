@@ -107,7 +107,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 
 	public List getPropertyDefns( )
 	{
-		List props = super.getPropertyDefns( );
+		List props = new ArrayList( );
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 
@@ -117,6 +117,8 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		if ( extDefn == null )
 			return props;
 
+		props.addAll(extDefn.getLocalProperties());
+		
 		// If the extension provides dynamic property list, add them.
 
 		IPropertyDefinition[] dynamicProps = getExtensionModelPropertyDefns( );
@@ -167,7 +169,9 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		return propDefn;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#getExtensionPropertyDefn(java.lang.String)
 	 */
 	public IPropertyDefn getExtensionPropertyDefn( String propName )
@@ -175,7 +179,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		// TODO Auto-generated method stub
 		return super.getExtensionPropertyDefn( propName );
 	}
-	
+
 	/**
 	 * Gets all the extension model properties defined by
 	 * <code>IReportItem</code>.
@@ -229,9 +233,9 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		{
 			// If this property is extension model property, the instance of
 			// IReportItem must exist.
-			
+
 			assert reportItem != null;
-			
+
 			return reportItem.getProperty( propName );
 		}
 
@@ -277,7 +281,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		{
 			// If this property is extension model property, the instance of
 			// IReportItem must exist.
-			
+
 			assert reportItem != null;
 
 			reportItem.setProperty( prop.getName( ), value );

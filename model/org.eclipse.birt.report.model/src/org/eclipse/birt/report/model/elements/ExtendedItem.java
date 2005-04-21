@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -223,10 +224,13 @@ public class ExtendedItem extends ReportItem implements IExtendableElement
 
 	public List getPropertyDefns( )
 	{
-		if ( provider != null )
-			return provider.getPropertyDefns( );
+		ElementDefn elementDefn = (ElementDefn) super.getDefn( );
+		List propDefns = elementDefn.getProperties( );
 
-		return super.getPropertyDefns( );
+		if ( provider != null )
+			propDefns.addAll( provider.getPropertyDefns( ) );
+
+		return propDefns;
 	}
 
 	/**
@@ -269,7 +273,7 @@ public class ExtendedItem extends ReportItem implements IExtendableElement
 		else
 			throw new ExtendedElementException(
 					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
-			
+
 	}
 
 	/*
