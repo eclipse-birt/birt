@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -22,7 +23,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Base class for most dialog in BIRT BaseDialog extends JFace Dialog to
@@ -79,9 +79,7 @@ public abstract class BaseDialog extends Dialog
 
 	protected BaseDialog( String title )
 	{
-		this( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
-				title,
-				true );
+		this( UIUtil.getDefaultShell( ), title, true );
 	}
 
 	/**
@@ -114,9 +112,7 @@ public abstract class BaseDialog extends Dialog
 
 	protected BaseDialog( String title, boolean needHelp )
 	{
-		this( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
-				title,
-				needHelp );
+		this( UIUtil.getDefaultShell( ), title, needHelp );
 	}
 
 	/**
