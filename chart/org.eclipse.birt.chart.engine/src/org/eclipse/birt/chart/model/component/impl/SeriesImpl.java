@@ -987,4 +987,14 @@ public class SeriesImpl extends EObjectImpl implements Series
     {
         // Do nothing
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
+     */
+    public String getDisplayName()
+    {
+        return "Simple Series";
+    }
 } //SeriesImpl

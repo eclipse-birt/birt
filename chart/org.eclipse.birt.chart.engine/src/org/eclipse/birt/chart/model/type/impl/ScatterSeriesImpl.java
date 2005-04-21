@@ -336,4 +336,13 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
         getMarker().setType(MarkerType.CROSSHAIR_LITERAL);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
+     */
+    public String getDisplayName()
+    {
+        return "Scatter Series";
+    }
 } //ScatterSeriesImpl

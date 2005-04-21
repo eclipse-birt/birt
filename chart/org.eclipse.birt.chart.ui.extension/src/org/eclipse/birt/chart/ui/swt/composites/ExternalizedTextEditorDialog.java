@@ -198,13 +198,13 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         btnAccept = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.OK")); //$NON-NLS-1$
+        btnAccept.setText(Messages.getString("Shared.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData();
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText(Messages.getString("ExternalizedTextEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
+        btnCancel.setText(Messages.getString("Shared.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
 
         populateList();
@@ -285,7 +285,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         if (cbExternalize.getSelection())
         {
-            return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] {getKeyComponent(sResult)}); //$NON-NLS-1$
+            return new MessageFormat(Messages.getString("ExternalizedTextEditorDialog.Lbl.Value")).format(new Object[] { getKeyComponent(sResult)}); //$NON-NLS-1$
         }
         return getValueComponent(sResult);
     }

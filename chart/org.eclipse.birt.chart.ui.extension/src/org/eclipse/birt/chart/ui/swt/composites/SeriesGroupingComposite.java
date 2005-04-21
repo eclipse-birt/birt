@@ -10,9 +10,10 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
@@ -100,7 +101,14 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         btnEnabled.setLayoutData(gdBTNEnabled);
         btnEnabled.setText(Messages.getString("SeriesGroupingComposite.Lbl.Enabled")); //$NON-NLS-1$
         btnEnabled.addSelectionListener(this);
-        btnEnabled.setSelection(getGrouping().isEnabled());
+        if (sd.eIsSet(DataPackage.eINSTANCE.getSeriesDefinition_Grouping()))
+        {
+            btnEnabled.setSelection(getGrouping().isEnabled());
+        }
+        else
+        {
+            btnEnabled.setSelection(false);
+        }
 
         boolean bEnableUI = btnEnabled.getSelection();
         lblType = new Label(grpContent, SWT.NONE);
@@ -130,7 +138,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         lblInterval.setLayoutData(gdLBLInterval);
         lblInterval.setText(Messages.getString("SeriesGroupingComposite.Lbl.Interval")); //$NON-NLS-1$
 
-        int iGroupInterval = 0;
+        int iGroupInterval = 2;
         if (sd.getGrouping() != null)
         {
             iGroupInterval = sd.getGrouping().getGroupingInterval();
@@ -140,6 +148,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         GridData gdISCInterval = new GridData();
         gdISCInterval.widthHint = 80;
         iscInterval.setLayoutData(gdISCInterval);
+        iscInterval.setMinimum(2);
         iscInterval.addListener(this);
 
         Label lblDummy = new Label(grpContent, SWT.NONE);
@@ -183,7 +192,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         cmbType.add("Text"); //$NON-NLS-1$
         cmbType.add("Number"); //$NON-NLS-1$
         cmbType.add("Date/Time"); //$NON-NLS-1$
-        if (grouping.getGroupType() != null)
+        if (bEnableUI && grouping.getGroupType() != null)
         {
             cmbType.setText(getGrouping().getGroupType());
         }
@@ -206,7 +215,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         cmbUnit.add("Months"); //$NON-NLS-1$
         cmbUnit.add("Quarters"); //$NON-NLS-1$
         cmbUnit.add("Years"); //$NON-NLS-1$
-        if (grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time") //$NON-NLS-1$
+        if (bEnableUI && grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time") //$NON-NLS-1$
             && grouping.getGroupingUnit() != null)
         {
             cmbUnit.setText(grouping.getGroupingUnit());
@@ -221,7 +230,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         // Populate grouping aggregate expression combo
 
         cmbAggregate.setItems(PluginSettings.instance().getRegisteredAggregateFunctions());
-        if (grouping.getAggregateExpression() != null)
+        if (bEnableUI && grouping.getAggregateExpression() != null)
         {
             cmbAggregate.setText(grouping.getAggregateExpression());
         }
@@ -235,13 +244,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
 
     private SeriesGrouping getGrouping()
     {
-        SeriesGrouping grp = sd.getGrouping();
-        if (grp == null)
-        {
-            grp = DataFactory.eINSTANCE.createSeriesGrouping();
-            sd.setGrouping(grp);
-        }
-        return grp;
+        return sd.getGrouping();
     }
 
     /*
@@ -276,7 +279,17 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         }
         else if (oSource.equals(btnEnabled))
         {
-            getGrouping().setEnabled(btnEnabled.getSelection());
+            SeriesGrouping grp = null;
+            if (!sd.eIsSet(DataPackage.eINSTANCE.getSeriesDefinition_Grouping()))
+            {
+                grp = SeriesGroupingImpl.create();
+                sd.setGrouping(grp);
+            }
+            else
+            {
+                grp = sd.getGrouping();
+            }
+            grp.setEnabled(btnEnabled.getSelection());
             boolean bEnableUI = btnEnabled.getSelection();
 
             lblType.setEnabled(bEnableUI);

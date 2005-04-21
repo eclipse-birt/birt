@@ -59,7 +59,8 @@ public class TriggerEditorDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText(new MessageFormat(Messages.getString("TriggerEditorDialog.Title.TriggerEditor")).format(new Object[] {sTitle})); //$NON-NLS-1$
+        shell
+            .setText(new MessageFormat(Messages.getString("TriggerEditorDialog.Title.TriggerEditor")).format(new Object[] { sTitle})); //$NON-NLS-1$
         shell.pack();
         shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
@@ -101,14 +102,14 @@ public class TriggerEditorDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText(Messages.getString("TriggerEditorDialog.Lbl.OK")); //$NON-NLS-1$
+        btnAccept.setText(Messages.getString("Shared.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText(Messages.getString("TriggerEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
+        btnCancel.setText(Messages.getString("Shared.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
     }
 

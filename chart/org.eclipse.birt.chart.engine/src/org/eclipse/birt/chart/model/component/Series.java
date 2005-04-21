@@ -459,12 +459,21 @@ public interface Series extends EObject
      * in particular if the series type can participate in a combination. It will be called when converting from one
      * series type to another.
      * 
-     * The iSeriesIndex value is the index of the series definition among all series definitions at the same level (base
-     * or orthogonal)
+     * The iSeriesDefinitionIndex value is the index of the series definition among all series definitions at the same
+     * level (base or orthogonal)
      * 
      * NOTE: Manually written
      */
     void translateFrom(Series sourceSeries, int iSeriesDefinitionIndex, Chart chart);
+
+    /**
+     * This method should return a user-friendly name for the series type.
+     * 
+     * NOTE: Manually written
+     * 
+     * @return display name for the series type
+     */
+    String getDisplayName();
 
     /**
      *  

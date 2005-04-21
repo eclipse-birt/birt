@@ -553,7 +553,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
         }
         else
         {
-            throw new IllegalArgumentException(chart.getClass().getName() + " is an invalid argument for BarSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+            throw new IllegalArgumentException(
+                chart.getClass().getName()
+                    + " is an invalid argument for BarSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
         }
 
         // Update the sampledata in the model
@@ -599,5 +601,15 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
             sbNewRepresentation.append(",");
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
+     */
+    public String getDisplayName()
+    {
+        return "Bar Series";
     }
 } //BarSeriesImpl

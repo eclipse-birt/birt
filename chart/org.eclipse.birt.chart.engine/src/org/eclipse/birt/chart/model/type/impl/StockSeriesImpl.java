@@ -497,7 +497,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         }
         else
         {
-            throw new IllegalArgumentException(chart.getClass().getName() + " is an invalid argument for StockSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
+            throw new IllegalArgumentException(
+                chart.getClass().getName()
+                    + " is an invalid argument for StockSeriesImpl. The chart model must be an instance of org.eclipse.birt.chart.model.ChartWithAxes.");
         }
 
         // Update the sampledata in the model
@@ -647,5 +649,15 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
         final LineAttributes lia = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 0);
         lia.setVisible(true);
         setLineAttributes(lia);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
+     */
+    public String getDisplayName()
+    {
+        return "Stock Series";
     }
 } //StockSeriesImpl

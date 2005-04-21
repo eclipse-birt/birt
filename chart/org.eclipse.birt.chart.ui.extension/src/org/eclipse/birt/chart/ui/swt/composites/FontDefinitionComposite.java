@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -53,7 +54,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
     public static final int COLOR_DATA = 1;
 
     private transient int iSize = 20;
-    
+
     private transient boolean bEnabled = true;
 
     /**
@@ -112,6 +113,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         gdBEllipsis.heightHint = iSize + 4;
         btnEllipsis.setLayoutData(gdBEllipsis);
         btnEllipsis.setText("..."); //$NON-NLS-1$
+        btnEllipsis.setToolTipText(Messages.getString("FontDefinitionComposite.Tooltip.FontDialog")); //$NON-NLS-1$
         btnEllipsis.addSelectionListener(this);
     }
 
@@ -120,7 +122,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         this.btnEllipsis.setEnabled(bState);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;

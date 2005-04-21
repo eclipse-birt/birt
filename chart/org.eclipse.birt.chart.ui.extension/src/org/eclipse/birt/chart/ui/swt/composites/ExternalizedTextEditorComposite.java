@@ -57,7 +57,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private transient List keys = null;
 
     private transient IUIServiceProvider serviceprovider = null;
-    
+
     private transient boolean bEnabled = true;
 
     public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint, List keys,
@@ -119,6 +119,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         gdBTNDown.heightHint = iSize;
         gdBTNDown.widthHint = iSize;
         btnDown.setText(" ... "); //$NON-NLS-1$
+        btnDown.setToolTipText(Messages.getString("ExternalizedTextEditorComposite.Lbl.EditText")); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);
     }
@@ -129,7 +130,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         this.btnDown.setEnabled(bState);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;

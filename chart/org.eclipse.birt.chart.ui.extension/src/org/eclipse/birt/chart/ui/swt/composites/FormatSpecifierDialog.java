@@ -50,7 +50,7 @@ public class FormatSpecifierDialog implements SelectionListener
     public FormatSpecifierDialog(Shell shellParent, FormatSpecifier formatspecifier, String sTitle)
     {
         super();
-        if(formatspecifier != null)
+        if (formatspecifier != null)
         {
             this.formatspecifier = (FormatSpecifier) EcoreUtil.copy(formatspecifier);
         }
@@ -60,7 +60,8 @@ public class FormatSpecifierDialog implements SelectionListener
         gridLayout.numColumns = 2;
         shell.setLayout(new FillLayout());
         placeComponents();
-        shell.setText(new MessageFormat(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier")).format(new Object[] {sTitle}));   //$NON-NLS-1$
+        shell
+            .setText(new MessageFormat(Messages.getString("FormatSpecifierDialog.Title.FormatSpecifier")).format(new Object[] { sTitle})); //$NON-NLS-1$
         shell.pack();
         shell.setDefaultButton(btnAccept);
         UIHelper.centerOnScreen(shell);
@@ -103,17 +104,17 @@ public class FormatSpecifierDialog implements SelectionListener
         GridData gdBTNAccept = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText(Messages.getString("FormatSpecifierDialog.Lbl.OK")); //$NON-NLS-1$
+        btnAccept.setText(Messages.getString("Shared.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText(Messages.getString("FormatSpecifierDialog.Lbl.Cancel")); //$NON-NLS-1$
+        btnCancel.setText(Messages.getString("Shared.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
     }
-    
+
     public boolean wasCancelled()
     {
         return bWasCancelled;

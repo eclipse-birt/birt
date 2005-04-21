@@ -416,13 +416,13 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         GridData gdAccept = new GridData(GridData.GRAB_HORIZONTAL);
         gdAccept.horizontalSpan = 1;
         btnAccept = new Button(cmpButtons, SWT.PUSH);
-        btnAccept.setText(Messages.getString("FontDefinitionDialog.Lbl.OK")); //$NON-NLS-1$
+        btnAccept.setText(Messages.getString("Shared.Lbl.OK")); //$NON-NLS-1$
         btnAccept.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.Accept")); //$NON-NLS-1$
 
         GridData gdCancel = new GridData(GridData.GRAB_HORIZONTAL);
         gdCancel.horizontalSpan = 1;
         btnCancel = new Button(cmpButtons, SWT.PUSH);
-        btnCancel.setText(Messages.getString("FontDefinitionDialog.Lbl.Cancel")); //$NON-NLS-1$
+        btnCancel.setText(Messages.getString("Shared.Lbl.Cancel")); //$NON-NLS-1$
 
         btnAccept.addSelectionListener(this);
         btnCancel.addSelectionListener(this);

@@ -48,6 +48,8 @@ public class GridAttributesComposite extends Composite implements SelectionListe
 
     private transient Composite cmpLines = null;
 
+    private transient Label lblStyle = null;
+
     private transient Combo cmbTickStyle = null;
 
     private transient Grid grid = null;
@@ -156,16 +158,18 @@ public class GridAttributesComposite extends Composite implements SelectionListe
         liacTicks.addListener(this);
 
         // Tick Styles
-        Label lblStyle = new Label(grpTicks, SWT.NONE);
+        lblStyle = new Label(grpTicks, SWT.NONE);
         GridData gdLBLStyle = new GridData();
         gdLBLStyle.horizontalIndent = 4;
         lblStyle.setLayoutData(gdLBLStyle);
         lblStyle.setText(Messages.getString("GridAttributesComposite.Lbl.Style")); //$NON-NLS-1$
+        lblStyle.setEnabled(grid.getTickAttributes().isVisible());
 
         cmbTickStyle = new Combo(grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY);
         GridData gdCMBTickStyle = new GridData(GridData.FILL_HORIZONTAL);
         cmbTickStyle.setLayoutData(gdCMBTickStyle);
         cmbTickStyle.addSelectionListener(this);
+        cmbTickStyle.setEnabled(grid.getTickAttributes().isVisible());
 
         populateLists();
         setDefaultSelections();
@@ -287,6 +291,8 @@ public class GridAttributesComposite extends Composite implements SelectionListe
                 eGrid.type = TICK_VISIBILITY_CHANGED_EVENT;
                 eGrid.data = event.data;
                 grid.getTickAttributes().setVisible(((Boolean) event.data).booleanValue());
+                lblStyle.setEnabled(((Boolean) event.data).booleanValue());
+                cmbTickStyle.setEnabled(((Boolean) event.data).booleanValue());
             }
         }
         else

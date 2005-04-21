@@ -928,4 +928,13 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
         setTitlePosition(Position.BELOW_LITERAL);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
+     */
+    public String getDisplayName()
+    {
+        return "Pie Series";
+    }
 } //PieSeriesImpl

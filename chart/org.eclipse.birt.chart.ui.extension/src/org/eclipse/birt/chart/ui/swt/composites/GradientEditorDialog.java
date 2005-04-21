@@ -181,14 +181,14 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         GridData gdBTNAccept = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
         gdBTNAccept.grabExcessHorizontalSpace = true;
         btnAccept.setLayoutData(gdBTNAccept);
-        btnAccept.setText(Messages.getString("GradientEditorDialog.Lbl.OK")); //$NON-NLS-1$
+        btnAccept.setText(Messages.getString("Shared.Lbl.OK")); //$NON-NLS-1$
         btnAccept.addSelectionListener(this);
 
         btnCancel = new Button(cmpButtons, SWT.PUSH);
         GridData gdBTNCancel = new GridData(GridData.HORIZONTAL_ALIGN_END);
         gdBTNCancel.grabExcessHorizontalSpace = false;
         btnCancel.setLayoutData(gdBTNCancel);
-        btnCancel.setText(Messages.getString("GradientEditorDialog.Lbl.Cancel")); //$NON-NLS-1$
+        btnCancel.setText(Messages.getString("Shared.Lbl.Cancel")); //$NON-NLS-1$
         btnCancel.addSelectionListener(this);
     }
 

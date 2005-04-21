@@ -67,7 +67,8 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         {
             try
             {
-                throw new ValidationException("PieSeriesAttributeComposite.Exception.IllegalArgument", new Object[] {series.getClass().getName()}, Messages.getResourceBundle()); //$NON-NLS-1$
+                throw new ValidationException(
+                    "PieSeriesAttributeComposite.Exception.IllegalArgument", new Object[] { series.getClass().getName()}, Messages.getResourceBundle()); //$NON-NLS-1$
             }
             catch (ValidationException e )
             {
@@ -108,7 +109,7 @@ public class PieSeriesAttributeComposite extends Composite implements Listener, 
         lblExplosion.setLayoutData(gdLBLExplosion);
         lblExplosion.setText(Messages.getString("PieSeriesAttributeComposite.Lbl.Explosion")); //$NON-NLS-1$
 
-        iscExplosion = new IntegerSpinControl(this, SWT.NONE, 0);
+        iscExplosion = new IntegerSpinControl(this, SWT.NONE, series.getExplosion());
         GridData gdISCExplosion = new GridData(GridData.FILL_HORIZONTAL);
         iscExplosion.setLayoutData(gdISCExplosion);
         iscExplosion.setMinimum(0);
