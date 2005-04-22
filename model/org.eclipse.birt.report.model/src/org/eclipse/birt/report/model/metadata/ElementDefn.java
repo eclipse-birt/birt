@@ -480,9 +480,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// Add all style properties if this element is container and can have
 		// style or the element is ExtendedItem.
 
-		if ( ( isContainer( ) && hasStyle( ) )
-				|| ReportDesignConstants.EXTENDED_ITEM
-						.equalsIgnoreCase( getName( ) ) )
+		if ( ( isContainer( ) && hasStyle( ) ) )
 		{
 			list.addAll( MetaDataDictionary.getInstance( ).getStyle( )
 					.getLocalProperties( ) );
@@ -516,9 +514,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// Get the property definition if this element is container and can have
 		// style or the element is ExtendedItem.
 
-		if ( ( isContainer( ) && hasStyle( ) )
-				|| ReportDesignConstants.EXTENDED_ITEM
-						.equalsIgnoreCase( getName( ) ) )
+		if ( ( isContainer( ) && hasStyle( ) ) )
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			SystemPropertyDefn prop = (SystemPropertyDefn) ( (ElementDefn) dd
@@ -742,7 +738,21 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// this element if it's leaf element.
 
 		if ( hasStyle && !isContainer( ) )
+
 			addStyleProperties( );
+
+		if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( getName( ) ) )
+		{
+			List styles = MetaDataDictionary.getInstance( ).getStyle( )
+					.getLocalProperties( );
+			for ( int i = 0; i < styles.size( ); i++ )
+			{
+				String propName = ( (SystemPropertyDefn) styles.get( i ) )
+						.getName( );
+				properties.put( propName, styles.get( i ) );
+			}
+		}
+
 		else
 		{
 			// The meta-data file should not define style property names

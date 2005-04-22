@@ -224,13 +224,11 @@ public class ExtendedItem extends ReportItem implements IExtendableElement
 
 	public List getPropertyDefns( )
 	{
-		ElementDefn elementDefn = (ElementDefn) super.getDefn( );
-		List propDefns = elementDefn.getProperties( );
 
 		if ( provider != null )
-			propDefns.addAll( provider.getPropertyDefns( ) );
+			return provider.getPropertyDefns( );
 
-		return propDefns;
+		return super.getPropertyDefns( );
 	}
 
 	/**

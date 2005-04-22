@@ -107,7 +107,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 
 	public List getPropertyDefns( )
 	{
-		List props = new ArrayList( );
+		List props = super.getPropertyDefns( );
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 
@@ -116,8 +116,6 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 
 		if ( extDefn == null )
 			return props;
-
-		props.addAll(extDefn.getLocalProperties());
 		
 		// If the extension provides dynamic property list, add them.
 
