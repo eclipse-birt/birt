@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/03/17 07:57:03 $
+ * @version $Revision: 1.12 $ $Date: 2005/03/23 06:01:53 $
  */
 public class XMLWriter
 {
@@ -356,10 +356,24 @@ public class XMLWriter
 	protected String getEscapedStr( String s, boolean whitespace )
 	{
 		StringBuffer result = null;
+		int spacePos = 1;
 		for ( int i = 0, max = s.length( ), delta = 0; i < max; i++ )
 		{
 			char c = s.charAt( i );
 			String replacement = null;
+			if ( whitespace && c == ' ' )
+			{
+				if ( spacePos % 2 == 1 || i == max - 1 )
+				{
+					replacement = "&#160;"; //$NON-NLS-1$
+				}
+				spacePos++;
+			}
+			else
+			{
+				spacePos = 0;
+			}
+			
 			//Filters the char not defined.
 			if ( !( c == 0x9 || c == 0xA || c == 0xD
 					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
@@ -381,12 +395,7 @@ public class XMLWriter
 			else if ( c == '>' )
 			{
 				replacement = "&gt;"; //$NON-NLS-1$
-			}
-			else if ( whitespace && c == ' ' && i + 1 < max
-					&& s.charAt( i + 1 ) == ' ' )
-			{
-				replacement = "&#160;"; //$NON-NLS-1$
-			}
+			}			
 			else if ( c >= 0x80 )
 			{
 				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
