@@ -202,6 +202,8 @@ public class ExpressionBuilder extends BaseDialog
 
 		// Expression Text Area:
 		createExpressionViewer( sashForm );
+		
+		setFocus();
 
 		// Set weight for the tree and text area.
 		sashForm.setWeights( new int[]{
@@ -214,6 +216,14 @@ public class ExpressionBuilder extends BaseDialog
 		data.horizontalAlignment = GridData.FILL;
 		bar.setLayoutData( data );
 		return topLevel;
+	}
+
+	/**
+	 * Set focus on source viewer. 
+	 */
+	private void setFocus( )
+	{
+		expressionViewer.getControl().setFocus();
 	}
 
 	/*
