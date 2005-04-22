@@ -54,17 +54,10 @@ public class InsertRowBelowAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-		if ( getTableEditPart( ) != null && getRowHandles( ).size( ) == 1 )
+		if ( getTableEditPart( ) != null && !getRowHandles( ).isEmpty( ) )
 		{
-			// insert row below the current selected row.
-			getTableEditPart( ).insertRow( 1,
-					getRowNumber( getRowHandles( ).get( 0 ) ) );
-		}
-		else if ( getRowHandles( ).size( ) > 1 )
-		{
-			int rowCount = getRowHandles( ).size( );
-			int rowNum = getRowNumbers( )[rowCount - 1];
-			getTableEditPart( ).insertRows( rowCount, rowNum );
+			// has combined two behavior into one.
+			getTableEditPart( ).insertRows( 1, getRowNumbers( ) );
 		}
 	}
 }

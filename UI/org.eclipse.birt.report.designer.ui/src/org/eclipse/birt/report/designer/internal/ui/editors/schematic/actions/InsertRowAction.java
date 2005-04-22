@@ -59,10 +59,6 @@ public class InsertRowAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-		if ( getTableEditPart( ) != null && getRowHandles( ).size( ) != 0 )
-		{
-			getTableEditPart( ).insertRow( getRowNumber( getRowHandles( ).get( 0 ) ) );
-		}
+		// nothing.
 	}
-
 }

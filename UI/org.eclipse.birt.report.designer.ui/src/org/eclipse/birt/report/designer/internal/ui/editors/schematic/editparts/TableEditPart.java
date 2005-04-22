@@ -942,36 +942,37 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Inserts multi rows at give position.
+	 * Inserts multi rows( or a single row ) at give position.
 	 * 
-	 * @param rowCount
-	 *            The count of rows to be inserted.
-	 * @param originRowNumber
-	 *            The row number of the original row.
+	 * @author Liu sanyong
+	 * 
+	 * @version 1.0 2005.4.22
+	 * 
+	 * @param relativePos
+	 *            The direction to indicate inserting rows above or below.
+	 * @param rowNumbers
+	 *            The row numbers of the origin selected rows.
 	 */
-	public void insertRows( final int rowCount, final int originRowNumber )
+	public void insertRows( final int relativePos, final int[] rowNumbers )
 	{
-		final RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getRow( originRowNumber ) );
+		int rowCount = rowNumbers.length;
 		try
 		{
-			getTableAdapter( ).insertRows( rowCount, originRowNumber );
+			if ( relativePos < 0 )
+			{ // insert above.
+				getTableAdapter( ).insertRows( -rowCount, rowNumbers[0] );
+			}
+			else
+			{// insert below.
+				getTableAdapter( ).insertRows( rowCount,
+						rowNumbers[rowCount - 1] );
+			}
 		}
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 		}
-
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-			public void run( )
-			{
-				//reLayout();
-				selectRow( new int[]{
-					adapter.getRowNumber( )
-				} );
-			}
-		} );
+		// no need to relayout.
 	}
 
 	/**
@@ -1018,36 +1019,38 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * Inserts multi columns at give position.
+	 * Inserts multi columns( or a single column ) at give position.
 	 * 
-	 * @param colCount
-	 *            The count of columns to be inserted.
-	 * @param originColNumber
-	 *            The column number of the original column.
+	 * @author Liu sanyong
+	 * 
+	 * @version 1.0 2005.4.22
+	 * 
+	 * @param relativePos
+	 *            The direction to indicate inserting rows above or below.
+	 * @param colNumbers
+	 *            The column numbers of the origin selected column(s).
 	 */
-	public void insertColumns( final int colCount, final int originColNumber )
+	public void insertColumns( final int relativePos, final int[] colNumbers )
 	{
-		final ColumnHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( getColumn( originColNumber ) );
+		int colCount = colNumbers.length;
 		try
 		{
-			getTableAdapter( ).insertColumns( colCount, originColNumber );
+			if ( relativePos < 0 )
+			{ // insert left.
+				getTableAdapter( ).insertColumns( -colCount, colNumbers[0] );
+
+			}
+			else
+			{// insert right.
+				getTableAdapter( ).insertColumns( colCount,
+						colNumbers[colCount - 1] );
+			}
 		}
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 		}
-
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-			public void run( )
-			{
-				//reLayout();
-				selectColumn( new int[]{
-					adapter.getColumnNumber( )
-				} );
-			}
-		} );
+		// no need to relayout.
 	}
 
 	/**
@@ -1280,7 +1283,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	{
 		return UIUtil.createGroup( getTableAdapter( ).getHandle( ) );
 	}
-	
+
 	/**
 	 * Inserts group in table.
 	 * 

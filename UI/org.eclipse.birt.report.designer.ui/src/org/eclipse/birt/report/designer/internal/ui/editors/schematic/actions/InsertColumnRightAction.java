@@ -54,17 +54,10 @@ public class InsertColumnRightAction extends InsertColumnAction
 	 */
 	public void run( )
 	{
-		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
+		if ( getTableEditPart( ) != null && !getColumnHandles( ).isEmpty( ) )
 		{
-			// inserts a column to the left.
-			getTableEditPart( ).insertColumn( 1,
-					getColumnNumber( getColumnHandles( ).get( 0 ) ) );
-		}
-		else if ( getColumnHandles( ).size( ) > 1 )
-		{
-			int colCount = getColumnHandles( ).size( );
-			int colNum = getColumnNumbers( )[colCount - 1];
-			getTableEditPart( ).insertColumns( colCount, colNum );
+			// has combined two behavior into one.
+			getTableEditPart( ).insertColumns( 1, getColumnNumbers( ) );
 		}
 	}
 }

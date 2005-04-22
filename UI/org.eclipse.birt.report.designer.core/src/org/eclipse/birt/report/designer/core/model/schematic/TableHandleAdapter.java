@@ -823,16 +823,16 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 * Insert multiple rows to a specific position.
+	 * Insert multiple rows(or a single row) to a specific position.
 	 * 
 	 * @param rowCount
 	 *            The row insert count. Positive number will insert after
 	 *            position, negative insert before the position
-	 * @param rowNumber
+	 * @param baseRowNumber
 	 *            The row position in the table.
 	 * @throws SemanticException
 	 */
-	public void insertRows( int rowCount, int rowNumber )
+	public void insertRows( int rowCount, int baseRowNumber )
 			throws SemanticException
 	{
 		transStar( TRANS_LABEL_INSERT_ROW );
@@ -840,8 +840,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		int sign = rowCount / absoluteCount;
 		for ( int i = 0; i < absoluteCount; i++ )
 		{
-			insertRow( sign, rowNumber );
-			rowNumber += sign;
+			insertRow( sign, baseRowNumber );
 		}
 		transEnd( );
 	}
@@ -971,11 +970,11 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 * @param columnCount
 	 *            The column insert count. Positive number will insert after
 	 *            position, negative insert before the position
-	 * @param columnNumber
+	 * @param baseColumnNumber
 	 *            The column position in the table.
 	 * @throws SemanticException
 	 */
-	public void insertColumns( int columnCount, int columnNumber )
+	public void insertColumns( int columnCount, int baseColumnNumber )
 			throws SemanticException
 	{
 		transStar( TRANS_LABEL_INSERT_COLUMN );
@@ -983,8 +982,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		int sign = columnCount / absoluteCount;
 		for ( int i = 0; i < absoluteCount; i++ )
 		{
-			insertColumn( sign, columnNumber );
-			columnNumber += sign;
+			insertColumn( sign, baseColumnNumber );
 		}
 		transEnd( );
 	}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -252,7 +253,8 @@ public class ContextSelectionAction extends SelectionAction
 	}
 
 	/**
-	 * Gets row numbers of selected rows.
+	 * Gets row numbers of selected rows. And sorts the array of ints into
+	 * ascending numerical order.
 	 */
 	protected int[] getRowNumbers( )
 	{
@@ -261,12 +263,18 @@ public class ContextSelectionAction extends SelectionAction
 		{
 			return new int[0];
 		}
-		int[] rowNumbers = new int[rowHandles.size( )];
-		for ( int i = 0; i < rowHandles.size( ); i++ )
+		int size = rowHandles.size( );
+		int[] rowNumbers = new int[size];
+
+		for ( int i = 0; i < size; i++ )
 		{
 			rowNumbers[i] = getRowNumber( rowHandles.get( i ) );
 		}
-		return rowNumbers;
+
+		// sorts array before returning.
+		int[] a = rowNumbers;
+		Arrays.sort( a );
+		return a;
 	}
 
 	/**
@@ -282,7 +290,8 @@ public class ContextSelectionAction extends SelectionAction
 	}
 
 	/**
-	 * Gets column numbers of selected columns.
+	 * Gets column numbers of selected columns.. And sorts the array of ints
+	 * into ascending numerical order.
 	 */
 	public int[] getColumnNumbers( )
 	{
@@ -291,12 +300,18 @@ public class ContextSelectionAction extends SelectionAction
 		{
 			return new int[0];
 		}
-		int[] colNumbers = new int[columnHandles.size( )];
-		for ( int i = 0; i < columnHandles.size( ); i++ )
+		int size = columnHandles.size( );
+		int[] colNumbers = new int[size];
+
+		for ( int i = 0; i < size; i++ )
 		{
 			colNumbers[i] = getColumnNumber( columnHandles.get( i ) );
 		}
-		return colNumbers;
+
+		// sorts array before returning.
+		int[] a = colNumbers;
+		Arrays.sort( a );
+		return a;
 	}
 
 	/**
