@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,8 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
 import org.eclipse.birt.data.oda.IResultSet;
@@ -29,6 +31,8 @@ public class DataSourceMetaData implements IDataSetMetaData
 	private DatabaseMetaData dbMetadata;
 	/** the IConnection object that creates this object. */
 	private IConnection conn;
+
+	private static Logger logger = Logger.getLogger( DataSourceMetaData.class.getName( ) );	
 
 	/**
 	 * Constructor
@@ -52,6 +56,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public IConnection getConnection( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getConnection",
+				"DataSourceMetaData.getConnection( )" );
 		return conn;
 	}
 
@@ -64,6 +72,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	public IResultSet getDataSourceObjects( String catalog, String schema,
 			String object, String version ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getDataSourceObjects",
+				"DataSourceMetaData.getDataSourceObjects( )" );
 		return null;
 	}
 
@@ -74,6 +86,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMajorVersion( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getDataSourceMajorVersion",
+				"DataSourceMetaData.getDataSourceMajorVersion( )" );
 	    try
 	    {
 	        return dbMetadata.getDatabaseMajorVersion();
@@ -91,6 +107,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMinorVersion( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getDataSourceMinorVersion",
+				"DataSourceMetaData.getDataSourceMinorVersion( )" );
 	    try
 	    {
 	        return dbMetadata.getDatabaseMajorVersion();
@@ -108,6 +128,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public String getDataSourceProductName( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getDataSourceProductName",
+				"DataSourceMetaData.getDataSourceProductName( )" );
 	    try
 	    {
 	        return dbMetadata.getDatabaseProductName();
@@ -125,6 +149,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public String getDataSourceProductVersion( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getDataSourceProductVersion",
+				"DataSourceMetaData.getDataSourceProductVersion( )" );
 	    try
 	    {
 	        return dbMetadata.getDatabaseProductVersion();
@@ -142,6 +170,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getSQLStateType( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getSQLStateType",
+				"DataSourceMetaData.getSQLStateType( )" );
 		if ( dbMetadata == null )
 		{
 			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
@@ -171,6 +203,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsMultipleOpenResults( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsMultipleOpenResults",
+				"DataSourceMetaData.supportsMultipleOpenResults( )" );
 		return false;
 	}
 
@@ -181,6 +217,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsMultipleResultSets( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsMultipleResultSets",
+				"DataSourceMetaData.supportsMultipleResultSets( )" );
 	    return false;
 	}
 
@@ -191,6 +231,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsNamedResultSets( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsNamedResultSets",
+				"DataSourceMetaData.supportsNamedResultSets( )" );
 		return false;
 	}
 
@@ -201,6 +245,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsNamedParameters( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsNamedParameters",
+				"DataSourceMetaData.supportsNamedParameters( )" );
 		return false;
 	}
 
@@ -211,6 +259,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsInParameters( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsInParameters",
+				"DataSourceMetaData.supportsInParameters( )" );
 		return true;
 	}
 
@@ -221,6 +273,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsOutParameters( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"supportsOutParameters",
+				"DataSourceMetaData.supportsOutParameters( )" );
 		return false;
 	}
 
@@ -231,6 +287,10 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getSortMode( )
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				DataSourceMetaData.class.getName( ),
+				"getSortMode",
+				"DataSourceMetaData.getSortMode( )" );
 		return sortModeNone;
 	}
 

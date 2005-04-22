@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
@@ -38,6 +39,8 @@ public class ResultSet implements IResultSet
 
 	/** the variable to indicate the current row number */
 	private int currentRow;
+
+	private static Logger logger = Logger.getLogger( ResultSet.class.getName( ) );	
 
 	/**
 	 * assertNotNull(Object o)
@@ -82,6 +85,10 @@ public class ResultSet implements IResultSet
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getMetaData()" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"getMetaData",
+				"ResultSet.getMetaData( )" );
 		assertNotNull( rs );
 
 		try
@@ -104,6 +111,10 @@ public class ResultSet implements IResultSet
 	public void close( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.INFO_LEVEL, "ResultSet.close()" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"close",
+				"ResultSet.close()" );		
 		assertNotNull( rs );
 		try
 		{
@@ -126,6 +137,10 @@ public class ResultSet implements IResultSet
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.setMaxRows( "
 				+ max + " )" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"setMaxRows",
+				"ResultSet.setMaxRows( " + max + " )" );
 		if ( max > 0 )
 			maxRows = max;
 		else
@@ -143,6 +158,11 @@ public class ResultSet implements IResultSet
 	public boolean next( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.next()" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"next",
+				"ResultSet.next( )" );
+
 		assertNotNull( rs );
 
 		try
@@ -168,6 +188,10 @@ public class ResultSet implements IResultSet
 	public int getRow( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getRow()" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"getRow",
+				"ResultSet.getRow( )" );
 		assertNotNull( rs );
 		return this.currentRow;
 	}
@@ -474,6 +498,10 @@ public class ResultSet implements IResultSet
 	public boolean wasNull( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.wasNull()" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"getMetaData",
+				"ResultSet.wasNull( )" );
 		assertNotNull( rs );
 
 		try
@@ -496,6 +524,10 @@ public class ResultSet implements IResultSet
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.findColumn( \""
 				+ columnName + "\" )" );
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSet.class.getName( ),
+				"findColumn",
+				"ResultSet.findColumn( \"" + columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{

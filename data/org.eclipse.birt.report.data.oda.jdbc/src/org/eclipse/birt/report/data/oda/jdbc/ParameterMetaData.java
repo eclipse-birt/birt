@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IParameterMetaData;
 import org.eclipse.birt.data.oda.OdaException;
@@ -27,6 +28,8 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/** JDBC ParameterMetaData instance */
 	private java.sql.ParameterMetaData paraMetadata;
+
+	private static Logger logger = Logger.getLogger( ParameterMetaData.class.getName( ) );	
 
 	/**
 	 * assertNotNull(Object o)
@@ -65,6 +68,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterCount( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getParameterCount",
+				"ParameterMetaData.getParameterCount( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -84,6 +91,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getParameterMode",
+				"ParameterMetaData.getParameterMode( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -109,6 +120,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getParameterType",
+				"ParameterMetaData.getParameterType( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -128,6 +143,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public String getParameterTypeName( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getParameterTypeName",
+				"ParameterMetaData.getParameterTypeName( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -150,6 +169,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getPrecision( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getPrecision",
+				"ParameterMetaData.getPrecision( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -169,6 +192,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getScale( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"getScale",
+				"ParameterMetaData.getScale( )" );
 		assertNotNull( paraMetadata );
 		try
 		{
@@ -188,6 +215,10 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ParameterMetaData.class.getName( ),
+				"isNullable",
+				"ParameterMetaData.isNullable( )" );
 		assertNotNull( paraMetadata );
 		try
 		{

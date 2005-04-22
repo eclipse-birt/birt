@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.logging.Level;
@@ -27,6 +28,8 @@ public class JDBCException extends OdaException
 
 	/** Error code for all JDBCException instances. */
 	public final static int ERROR_JDBC = 101;
+	
+	private static Logger logger = Logger.getLogger( Connection.class.getName( ) );	
 
 	/**
 	 * Constructor
@@ -41,5 +44,11 @@ public class JDBCException extends OdaException
 				.getSQLState( ), ERROR_JDBC );
 		initCause(sqlException);
 		JDBCConnectionFactory.log(Level.SEVERE_LEVEL, sqlException);		
-	}
+
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCException.class.getName( ),
+				"JDBCException",
+				sqlException.getMessage(),
+				sqlException );
+		}
 }

@@ -1,6 +1,5 @@
-/*
- *************************************************************************
- * Copyright (c) 2004-2005 Actuate Corporation.
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,9 +7,8 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
- *************************************************************************
- */ 
+ *******************************************************************************/
+
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.File;
@@ -53,7 +51,10 @@ public class JDBCDriverManager
 	
 	private JDBCDriverManager()
 	{
-		
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCConnectionFactory.class.getName( ),
+				"JDBCDriverManager",
+				"JDBCDriverManager starts up" );
 	}
 	
 	public static JDBCDriverManager getInstance()
@@ -352,18 +353,18 @@ public class JDBCDriverManager
 	}
 
 //	The classloader of a driver (jtds driver, etc.) is
-//	 ¡°java.net.FactoryURLClassLoader¡±, whose parent is
-//	 ¡°sun.misc.Launcher$AppClassLoader¡±.
+//	 ï¿½ï¿½java.net.FactoryURLClassLoaderï¿½ï¿½, whose parent is
+//	 ï¿½ï¿½sun.misc.Launcher$AppClassLoaderï¿½ï¿½.
 //	The classloader of class Connection (the caller of
 //	 DriverManager.getConnection(url, props)) is
-//	 ¡°sun.misc.Launcher$AppClassLoader¡±. As the classes loaded by a child
+//	 ï¿½ï¿½sun.misc.Launcher$AppClassLoaderï¿½ï¿½. As the classes loaded by a child
 //	 classloader are always not visible to its parent classloader,
 //	 DriverManager.getConnection(url, props), called by class Connection, actually
 //	 has no access to driver classes, which are loaded by
-//	 ¡°java.net.FactoryURLClassLoader¡±. The invoking of this method would return a
-//	 ¡°no suitable driver¡± exception.
+//	 ï¿½ï¿½java.net.FactoryURLClassLoaderï¿½ï¿½. The invoking of this method would return a
+//	 ï¿½ï¿½no suitable driverï¿½ï¿½ exception.
 //	On the other hand, if we use class WrappedDriver to wrap drivers. The DriverExt
-//	 class is loaded by ¡°sun.misc.Launcher$AppClassLoader¡±, which is same as the
+//	 class is loaded by ï¿½ï¿½sun.misc.Launcher$AppClassLoaderï¿½ï¿½, which is same as the
 //	 classloader of Connection class. So DriverExt class is visible to
 //	 DriverManager.getConnection(url, props). And the invoking of the very method
 //	 would success.

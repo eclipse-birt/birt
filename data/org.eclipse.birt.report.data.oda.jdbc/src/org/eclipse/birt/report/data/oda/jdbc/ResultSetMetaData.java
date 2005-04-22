@@ -1,13 +1,18 @@
-/*
- * Created on 2004-9-22
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IResultSetMetaData;
 import org.eclipse.birt.data.oda.OdaException;
@@ -23,6 +28,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 
 	/** the JDBC ResultSetMetaData object */
 	private java.sql.ResultSetMetaData rsMetadata;
+
+	private static Logger logger = Logger.getLogger( ResultSetMetaData.class.getName( ) );	
 
 	/**
 	 * assertNotNull(Object o)
@@ -60,6 +67,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnCount( ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnCount",
+				"ResultSetMetaData.getColumnCount( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -78,6 +89,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnName( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnName",
+				"ResultSetMetaData.getColumnName( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -96,6 +111,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnLabel( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnLabel",
+				"ResultSetMetaData.getColumnLabel( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -114,6 +133,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnType( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnType",
+				"ResultSetMetaData.getColumnType( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -132,6 +155,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnTypeName( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnTypeName",
+				"ResultSetMetaData.getColumnTypeName( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -153,6 +180,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnDisplayLength( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getColumnDisplayLength",
+				"ResultSetMetaData.getColumnDisplayLength( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -174,6 +205,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getPrecision( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getPrecision",
+				"ResultSetMetaData.getPrecision( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -192,6 +227,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getScale( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"getScale",
+				"ResultSetMetaData.getScale( )" );
 		assertNotNull( rsMetadata );
 		try
 		{
@@ -210,6 +249,10 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int isNullable( int index ) throws OdaException
 	{
+		logger.logp( java.util.logging.Level.FINE,
+				ResultSetMetaData.class.getName( ),
+				"isNullable",
+				"ResultSetMetaData.isNullable( )" );
 		assertNotNull( rsMetadata );
 		try
 		{

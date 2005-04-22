@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IParameterMetaData;
 import org.eclipse.birt.data.oda.IResultSet;
@@ -50,6 +51,8 @@ public class Statement implements IStatement
 	/** Error message for ERRMSG_SET_PARAMETER */
 	private final static String ERRMSG_SET_PARAMETER = "Error setting value for SQL parameter #";
 	
+	private static Logger logger = Logger.getLogger( Statement.class.getName( ) );	
+
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -97,11 +100,20 @@ public class Statement implements IStatement
 	{
 		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Statement.prepare( \""
 				+ command + "\" )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"prepare",
+				"Statement.prepare( \"" + command + "\" )" );
+
 		try
 		{
-			if ( command == null )
+			if ( command == null ){
+				logger.logp( java.util.logging.Level.FINE,
+						Statement.class.getName( ),
+						"prepare",
+						"Query text can not be null." );
 				throw new OdaException( "Query text can not be null." );
-				
+			}
 			/*
 			 * call the JDBC Connection.prepareStatement(String) method to get
 			 * the preparedStatement
@@ -121,8 +133,14 @@ public class Statement implements IStatement
 	public void setProperty( String name, String value ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
+		UnsupportedOperationException e = new UnsupportedOperationException(
 				"setProperty is not supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setProperty",
+				"setProperty is not supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -131,8 +149,13 @@ public class Statement implements IStatement
 	public void setPropertyInfo( Properties info ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"setPropertyInfo is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "setPropertyInfo is not supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setPropertyInfo",
+				"setPropertyInfo is not supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -141,7 +164,10 @@ public class Statement implements IStatement
 	public void close( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Statement.close( )" );
-
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"close",
+				"Statement.close( )" );
 		try
 		{
 			if ( preStat != null )
@@ -163,6 +189,10 @@ public class Statement implements IStatement
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setMaxRows( "
 				+ max + " )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setMaxRows",
+				"Statement.setMaxRows( " + max + " )" );
 		if ( max != maxrows && max >= 0 )
 		{
 			maxrows = max;
@@ -176,6 +206,10 @@ public class Statement implements IStatement
 	public int getMaxRows( )
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.getMaxRows( )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"getMaxRows",
+				"Statement.getMaxRows( )" );
 		return this.maxrows;
 
 	}
@@ -187,6 +221,10 @@ public class Statement implements IStatement
 	{
 		JDBCConnectionFactory
 				.log( Level.FINE_LEVEL, "Statement.getMetaData( )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"getMetaData",
+				"Statement.getMetaData( )" );		
 		assertNotNull( preStat );
 
 	    java.sql.ResultSetMetaData resultmd = null;
@@ -222,6 +260,10 @@ public class Statement implements IStatement
 	{
 		JDBCConnectionFactory.log( Level.INFO_LEVEL,
 				"Statement.executeQuery( )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"executeQuery",
+				"Statement.executeQuery( )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -246,6 +288,10 @@ public class Statement implements IStatement
 	boolean execute( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.execute( )" );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"execute",
+				"Statement.execute( )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -270,8 +316,13 @@ public class Statement implements IStatement
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setInt",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -305,8 +356,13 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setDouble",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -340,8 +396,13 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setBigDecimal",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -381,8 +442,13 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setString",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -416,8 +482,13 @@ public class Statement implements IStatement
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setDate",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -450,8 +521,13 @@ public class Statement implements IStatement
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setTime",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -485,8 +561,13 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setTimestamp",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -523,8 +604,13 @@ public class Statement implements IStatement
 	public int findInParameter( String parameterName ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"findInParameter",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -533,7 +619,13 @@ public class Statement implements IStatement
 	public int getParameterType( String parameterName ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException( "No named Parameter upported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"getParameterType",
+				"No named Parameter supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -585,9 +677,13 @@ public class Statement implements IStatement
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"setSortSpec is not supported." );
-
+		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setSortSpec",
+				"setSortSpec is not supported.",
+				e );
+		throw e;
 	}
 
 	/*
@@ -596,8 +692,13 @@ public class Statement implements IStatement
 	public SortSpec getSortSpec( ) throws OdaException
 	{
 		/* not supported */
-		throw new UnsupportedOperationException(
-				"getSortSpec is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"getSortSpec",
+				"getSortSpec is not supported.",
+				e );
+		throw e;	
 	}
 
 	public void clearInParameters() throws OdaException
@@ -635,6 +736,11 @@ public class Statement implements IStatement
 	{
 		OdaException odaException = new OdaException( msg );
 		odaException.initCause( e );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"rethrowRunTimeException",
+				msg,
+				odaException );
 		throw odaException;
 	}
 

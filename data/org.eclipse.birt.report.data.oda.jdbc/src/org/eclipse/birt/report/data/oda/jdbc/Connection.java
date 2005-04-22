@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IConnectionMetaData;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
@@ -32,6 +34,8 @@ public class Connection implements IConnection
 	/** The JDBC Connection instance. */
 	private java.sql.Connection jdbcConn = null;
 	
+	private static Logger logger = Logger.getLogger( Connection.class.getName( ) );	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,6 +44,10 @@ public class Connection implements IConnection
 	public void close( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Connection.close()" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"close",
+				"Connection closed." );
 		if ( jdbcConn == null )
 		{
 			return;
@@ -65,6 +73,10 @@ public class Connection implements IConnection
 	public void commit( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Connection.commit()" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"commit",
+				"Connection.commit()" );
 		assertOpened( );
 		try
 		{
@@ -86,6 +98,10 @@ public class Connection implements IConnection
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL,
 				"Connection.createStatement(" + dataSourceType + ")" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"createStatement",
+				"Connection.createStatement(" + dataSourceType + ")" );
 		// only one data source type, ignoring the argument.
 		assertOpened( );
 		return new Statement( jdbcConn );
@@ -100,6 +116,10 @@ public class Connection implements IConnection
 	{
 		JDBCConnectionFactory
 				.log( Level.FINE_LEVEL, "Connection.getMetaData()" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"getMetaData",
+				"Connection.getMetaData()" );
 		DatabaseMetaData dbMetadata = null;
 		if ( jdbcConn != null )
 		{
@@ -125,6 +145,10 @@ public class Connection implements IConnection
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Connection.getMetaData("
 				+ dataSourceType + ")" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"getMetaData",
+				"Connection.getMetaData(" + dataSourceType + ")" );
 		// Only one data source type, ignoring the argument.
 		DatabaseMetaData dbMetadata = null;
 		if ( jdbcConn != null )
@@ -158,9 +182,15 @@ public class Connection implements IConnection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
-		if ( connProperties == null )
-			throw new IllegalArgumentException("connProperties cannot be null");
-		
+		if ( connProperties == null ){
+			IllegalArgumentException e = new IllegalArgumentException("connProperties cannot be null");
+			logger.logp( java.util.logging.Level.FINE,
+					Connection.class.getName( ),
+					"open",
+					e.getMessage( ),
+					e );
+			throw e;
+		}
 		// Log connection information
 		if ( JDBCConnectionFactory.isLoggable( Level.INFO_LEVEL ) )
 		{
@@ -180,6 +210,11 @@ public class Connection implements IConnection
 				logMsg += propName + "=" + propVal + ";";
 			}
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, logMsg );
+			logger.logp( java.util.logging.Level.FINE,
+					Connection.class.getName( ),
+					"open",
+					logMsg );
+
 		}
 		
 		close( );
@@ -190,7 +225,13 @@ public class Connection implements IConnection
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use data source" );
 			
 			//TODO connect by DataSource
-			throw new UnsupportedOperationException("oda-jdbc: connect by data source");
+			UnsupportedOperationException e = new UnsupportedOperationException("oda-jdbc: connect by data source");
+			logger.logp( java.util.logging.Level.FINE,
+					Connection.class.getName( ),
+					"open",
+					e.getMessage(),
+					e );
+			throw e; 
 		}
 		else
 		{
@@ -264,6 +305,10 @@ public class Connection implements IConnection
 	public void rollback( ) throws OdaException
 	{
 		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Connection.rollback()" );
+		logger.logp( java.util.logging.Level.FINE,
+				Connection.class.getName( ),
+				"rollback",
+				"Connection.rollback()" );
 		assertOpened( );
 		try
 		{
