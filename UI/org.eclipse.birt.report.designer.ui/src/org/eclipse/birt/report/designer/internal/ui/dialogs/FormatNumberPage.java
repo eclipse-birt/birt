@@ -97,7 +97,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private boolean hasLoaded = false;
 
-	private int sourceType = 0;
+	private int sourceType = SOURCE_TYPE_STYLE;
 
 	private SelectionListener mySelectionListener = new SelectionAdapter( ) {
 
@@ -238,7 +238,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				choiceArray = new String[choices.length - 1][2];
 				for ( int i = 0, j = 0; i < choices.length; i++ )
 				{
-					if ( !choices[i].getDisplayName( )
+					if ( !choices[i].getName( )
 							.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD ) )
 					{
 						choiceArray[j][0] = choices[i].getDisplayName( );
@@ -408,7 +408,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 		else
 		{
-
+			// default.
+			typeChoicer.select( 0 );
 		}
 		int index = typeChoicer.getSelectionIndex( );
 		( (StackLayout) infoComp.getLayout( ) ).topControl = (Control) categoryPageMaps.get( choiceArray[index][1] );
@@ -483,6 +484,19 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return false;
 	}
 
+	private FormatNumberPattern getFmtPattern( )
+	{
+		String displayName = typeChoicer.getText( );
+		String category = getCategoryForDisplayName( displayName );
+		if ( categoryPatternMaps != null )
+		{
+			return (FormatNumberPattern) categoryPatternMaps.get( category );
+		}
+		//  patternMap not initialized , return a general FormatPattern for
+		// formatting. avoid null point exception. ???
+		return new FormatNumberPattern( );
+	}
+
 	/**
 	 * Updates the format Pattern String, and Preview.
 	 */
@@ -495,10 +509,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			setPatternFromControls( );
 		}
 		FormatNumberPattern fmtPattern = getFmtPattern( );
-		pattern = fmtPattern.getPattern( );
 
-		setCategory( fmtPattern.getName( ) );
-		setPatternStr( pattern );
+		setCategory( fmtPattern.getCategory( ) );
+		setPatternStr( fmtPattern.getPattern( ) );
+
+		pattern = fmtPattern.getPattern( );
 
 		double num = 123456;
 
@@ -702,19 +717,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
 			pattern.setPattern( formatCode.getText( ) );
 		}
-	}
-
-	private FormatNumberPattern getFmtPattern( )
-	{
-		String displayName = typeChoicer.getText( );
-		String category = getCategoryForDisplayName( displayName );
-		if ( categoryPatternMaps != null )
-		{
-			return (FormatNumberPattern) categoryPatternMaps.get( category );
-		}
-		//  patternMap not initialized , return a general FormatPattern for
-		// formatting. avoid null point exception. ???
-		return new FormatNumberPattern( );
 	}
 
 	/**
