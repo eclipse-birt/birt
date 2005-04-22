@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -42,10 +43,10 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 public class ChoiceSetFactory
 {
 
-	public static final String CHOICE_NONE = "None"; //$NON-NLS-1$
+	public static final String CHOICE_NONE = Messages.getString( "ChoiceSetFactory.choice.None" ); //$NON-NLS-1$
 
-	public static final String CHOICE_AUTO = "Auto"; //$NON-NLS-1$
-	
+	public static final String CHOICE_AUTO = Messages.getString( "ChoiceSetFactory.choice.Auto" ); //$NON-NLS-1$
+
 	/**
 	 * Gets the collection that given property value can selected from them.
 	 * 
@@ -141,8 +142,9 @@ public class ChoiceSetFactory
 	 */
 	public static IChoiceSet getElementChoiceSet( String elementName,
 			String property )
-	{		
-		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary().getElement( elementName )
+	{
+		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+				.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE
 				&& propertyDefn.getChoices( ) != null )
