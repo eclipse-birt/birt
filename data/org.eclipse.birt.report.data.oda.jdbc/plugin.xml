@@ -10,6 +10,9 @@
       <library name="oda-jdbc.jar">
          <export name="*"/>
       </library>
+      <library name="derby.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
