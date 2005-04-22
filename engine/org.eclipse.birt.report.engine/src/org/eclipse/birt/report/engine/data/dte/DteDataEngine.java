@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -26,9 +27,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -43,7 +42,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/18 19:37:07 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/21 12:24:27 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -143,11 +142,7 @@ public class DteDataEngine implements IDataEngine
 						.createDataSourceDesign(
 								(DataSourceHandle) dataSourceSlot.get( i ) ) );
 			}
-			catch ( EngineException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
-			}
-			catch ( DataException e )
+			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
@@ -163,14 +158,10 @@ public class DteDataEngine implements IDataEngine
 						.createDataSetDesign(
 								(DataSetHandle) dataSetSlot.get( i ) ) );
 			}
-			catch ( EngineException e )
+			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 
-			}
-			catch ( DataException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		} // End of data set handling
 
@@ -188,7 +179,7 @@ public class DteDataEngine implements IDataEngine
 				queryMap.put( query, preparedQuery );
 
 			}
-			catch ( DataException e )
+			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
@@ -229,7 +220,7 @@ public class DteDataEngine implements IDataEngine
 					rsStack.addLast( dRS );
 					return dRS;
 				}
-				catch ( DataException e )
+				catch ( BirtException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 					return null;
@@ -251,7 +242,7 @@ public class DteDataEngine implements IDataEngine
 				rsStack.addLast( dRS );
 				return dRS;
 			}
-			catch ( DataException e )
+			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;
@@ -307,7 +298,7 @@ public class DteDataEngine implements IDataEngine
 				}
 				return null;
 			}
-			catch ( DataException e )
+			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;

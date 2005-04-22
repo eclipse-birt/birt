@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -45,7 +46,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -147,7 +147,7 @@ public class ModelDteApiAdapter
                 {	
                     dteSource.addPublicProperty( (String) propName, propValue );
                 }
-                catch ( DataException e )
+                catch ( BirtException e )
                 {
                     throw new EngineException( e.getMessage() );
                 }
@@ -165,7 +165,7 @@ public class ModelDteApiAdapter
                 {
                     dteSource.addPrivateProperty( modelProp.getName(), modelProp.getValue() );
                 }
-                catch ( DataException e )
+                catch ( BirtException e )
                 {
                     throw new EngineException( e.getMessage() );
                 }
