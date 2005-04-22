@@ -24,7 +24,7 @@ import org.eclipse.jface.util.Assert;
 public class TestingMatrixUI implements IReportItemUI
 {
 
-    public static final String TEST_ELEMENT = "TestingMatrix"; //$NON-NLS-1$
+    public static final String TEST_ELEMENT = "TestingBall"; //$NON-NLS-1$
 	public static final String TEST_NAME = "Just for test"; //$NON-NLS-1$
 	public static final String[] TEST_PROPERTY = {
 			"test1", "test2",}; //$NON-NLS-1$ //$NON-NLS-2$ 

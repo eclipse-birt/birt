@@ -28,7 +28,7 @@ public class ROMExtension implements IReportItemFactory
 	 * Resource key of display name
 	 */
 
-	private static String displayNameKey = "Element.TestingMatrix"; //$NON-NLS-1$
+	private static String displayNameKey = "Element.TestingBall"; //$NON-NLS-1$
 
 	/**
 	 * Messages for I18N

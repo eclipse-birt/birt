@@ -108,49 +108,49 @@ public class ExtendedElement implements IReportItem
 		piePropertyList[0] = new ExtensionPropertyDefn( );
 		piePropertyList[0].setName( RADIUS_RPOP ); //$NON-NLS-1$
 		piePropertyList[0].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[0].setDisplayNameID( "TestingMatrix.test3.radius" ); //$NON-NLS-1$
+		piePropertyList[0].setDisplayNameID( "TestingBall.test3.radius" ); //$NON-NLS-1$
 
 		piePropertyList[1] = new ExtensionPropertyDefn( );
 		piePropertyList[1].setName( WIDTH_RPOP ); //$NON-NLS-1$
 		piePropertyList[1].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[1].setDisplayNameID( "TestingMatrix.test3.width" ); //$NON-NLS-1$
+		piePropertyList[1].setDisplayNameID( "TestingBall.test3.width" ); //$NON-NLS-1$
 
 		piePropertyList[2] = new ExtensionPropertyDefn( );
 		piePropertyList[2].setName( HEIGHT_RPOP );
 		piePropertyList[2].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[2].setDisplayNameID( "TestingMatrix.test3.height" ); //$NON-NLS-1$
+		piePropertyList[2].setDisplayNameID( "TestingBall.test3.height" ); //$NON-NLS-1$
 
 		piePropertyList[3] = new ExtensionPropertyDefn( );
 		piePropertyList[3].setName( TYPE_RPOP ); //$NON-NLS-1$
 		piePropertyList[3].setType( PropertyType.STRING_TYPE );
-		piePropertyList[3].setDisplayNameID( "TestingMatrix.test3.type" ); //$NON-NLS-1$
+		piePropertyList[3].setDisplayNameID( "TestingBall.test3.type" ); //$NON-NLS-1$
 
 		barPropertyList = new ExtensionPropertyDefn[5];
 
 		barPropertyList[0] = new ExtensionPropertyDefn( );
 		barPropertyList[0].setName( X_SCALE_RPOP ); //$NON-NLS-1$
 		barPropertyList[0].setType( PropertyType.INTEGER_TYPE );
-		barPropertyList[0].setDisplayNameID( "TestingMatrix.test3.xScale" ); //$NON-NLS-1$
+		barPropertyList[0].setDisplayNameID( "TestingBall.test3.xScale" ); //$NON-NLS-1$
 
 		barPropertyList[1] = new ExtensionPropertyDefn( );
 		barPropertyList[1].setName( Y_SCALE_RPOP ); //$NON-NLS-1$
 		barPropertyList[1].setType( PropertyType.INTEGER_TYPE );
-		barPropertyList[1].setDisplayNameID( "TestingMatrix.test3.yScale" ); //$NON-NLS-1$
+		barPropertyList[1].setDisplayNameID( "TestingBall.test3.yScale" ); //$NON-NLS-1$
 
 		barPropertyList[2] = new ExtensionPropertyDefn( );
 		barPropertyList[2].setName( TYPE_RPOP ); //$NON-NLS-1$
 		barPropertyList[2].setType( PropertyType.STRING_TYPE );
-		barPropertyList[2].setDisplayNameID( "TestingMatrix.test3.type" ); //$NON-NLS-1$
+		barPropertyList[2].setDisplayNameID( "TestingBall.test3.type" ); //$NON-NLS-1$
 
 		barPropertyList[3] = new ExtensionPropertyDefn( );
 		barPropertyList[3].setName( COMPANY_RPOP ); //$NON-NLS-1$
 		barPropertyList[3].setType( PropertyType.STRING_TYPE );
-		barPropertyList[3].setDisplayNameID( "TestingMatrix.test3.company" ); //$NON-NLS-1$
+		barPropertyList[3].setDisplayNameID( "TestingBall.test3.company" ); //$NON-NLS-1$
 
 		barPropertyList[4] = new ExtensionPropertyDefn( );
 		barPropertyList[4].setName( LINE_STYLE_PROP ); //$NON-NLS-1$
 		barPropertyList[4].setType( PropertyType.CHOICE_TYPE );
-		barPropertyList[4].setDisplayNameID( "TestingMatrix.test3.lineStyle" ); //$NON-NLS-1$
+		barPropertyList[4].setDisplayNameID( "TestingBall.test3.lineStyle" ); //$NON-NLS-1$
 
 		List choices = new ArrayList( );
 		ChoiceDefn choice = new ChoiceDefn( );
