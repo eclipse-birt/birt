@@ -388,7 +388,13 @@
 	<Choice name="Phone Number" displayNameID="Choices.stringFormat.phoneNumber" />  		
 	<Choice name="Social Security Number" displayNameID="Choices.stringFormat.socialSecurityNumber" />  			
 	<Choice name="Custom" displayNameID="Choices.stringFormat.custom" />   		
-  </ChoiceType> 
+  </ChoiceType>
+  <ChoiceType name="targetNames">
+	<Choice name="_blank" displayNameID="Choices.targetNames.blank" />   		
+	<Choice name="_self" displayNameID="Choices.targetNames.self" />   		
+	<Choice name="_parent" displayNameID="Choices.targetNames.parent" />   		
+	<Choice name="_top" displayNameID="Choices.targetNames.top" />   		
+  </ChoiceType>  
   <Class name="String" displayNameID="Class.String" toolTipID="Class.String.toolTip" native="true">
     <Constructor name="String" displayNameID="Class.String.String" toolTipID="Class.String.String.toolTip" returnType="String">
       <Argument name="object" type="Object" tagID="Class.String.String.object" />
@@ -1495,7 +1501,7 @@
     <Member name="expression" displayNameID="Structure.DrillThroughSearchKey.expression" type="expression" isIntrinsic="true" />
   </Structure>
   <Structure name="Action" displayNameID="Structure.Action">
-    <Member name="targetWindow" displayNameID="Structure.Action.targetWindow" type="string" />
+    <Member name="targetWindow" displayNameID="Structure.Action.targetWindow" type="string" detailType="targetNames" />
     <Member name="linkType" type="choice" displayNameID="Structure.Action.linkType" detailType="actionLinkType">
       <Default>none</Default>
     </Member>

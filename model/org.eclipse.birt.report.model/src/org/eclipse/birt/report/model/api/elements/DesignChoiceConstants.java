@@ -565,4 +565,13 @@ public interface DesignChoiceConstants
 	public static final String STRING_FORMAT_TYPE_ZIP_CODE_4 = "Zip Code + 4"; //$NON-NLS-1$	
 	public static final String STRING_FORMAT_TYPE_PHONE_NUMBER = "Phone Number"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER = "Social Security Number"; //$NON-NLS-1$
+    
+    
+    //targetNames
+    
+    public static final String CHOICE_TARGET_NAMES_TYPE = "targetNames";  //$NON-NLS-1$
+    public static final String TARGET_NAMES_TYPE_BLANK ="_blank";        //$NON-NLS-1$
+    public static final String TARGET_NAMES_TYPE_SELF = "_self";         //$NON-NLS-1$
+    public static final String TARGET_NAMES_TYPE_PARENT = "_parent";    //$NON-NLS-1$
+    public static final String TARGET_NAMES_TYPE_TOP = "_top";           //$NON-NLS-1$
 }
