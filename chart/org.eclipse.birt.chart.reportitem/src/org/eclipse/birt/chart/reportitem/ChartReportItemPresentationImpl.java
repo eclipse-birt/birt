@@ -13,13 +13,15 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.exception.PluginException;
 import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -29,8 +31,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.extension.DefaultReportItemPresentationImpl;
-import org.eclipse.birt.report.engine.extension.IReportItemSerializable;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.report.engine.extension.IRowSet;
+import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -38,89 +41,259 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
- *  
+ *
  */
-public final class ChartReportItemPresentationImpl extends DefaultReportItemPresentationImpl
+public final class ChartReportItemPresentationImpl extends ReportItemPresentationBase
 {
     /**
-     *  
+     * 
      */
-    private transient Chart cm = null;
-
+    private File fChartImage = null;
+    
     /**
-     *  
+     * 
      */
-    private transient ExtendedItemHandle eih = null;
-
+    private FileInputStream fis = null;
+    
     /**
-     *  
+     * 
      */
-    private transient File fChartImage = null;
-
+    private String sExtension = null;
+    
     /**
-     *  
+     * 
      */
-    private transient FileInputStream fis = null;
-
+    private Chart cm = null;
+    
     /**
-     *  
-     */
-    private final String sExtension;
-
-    /**
-     *  
+     * 
      */
     private RunTimeContext rtc = null;
-
+    
     /**
-     *  
+     * 
+     */
+    private IBaseQueryDefinition[] ibqda = null;
+    
+    /**
+     * 
      */
     public ChartReportItemPresentationImpl()
     {
-        super();
-        sExtension = "png";
+        
     }
-
-    /**
-     *  
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
      */
-    public final void initialize(HashMap hm) throws BirtException
+    public void setModelObject(ExtendedItemHandle eih)
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-            "ChartReportItemPresentationImpl: initialize(...) - start");
-        super.initialize(hm);
-        cm = getModelFromWrapper(hm.get(MODEL_OBJ));
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: initialize(...) - end");
+        IReportItem item = ((ExtendedItem) eih.getElement()).getExtendedElement();
+        if (item == null)
+        {
+            try
+            {
+                eih.loadExtendedElement();
+            }
+            catch (ExtendedElementException eeex )
+            {
+                DefaultLoggerImpl.instance().log(eeex);
+            }
+            item = ((ExtendedItem) eih.getElement()).getExtendedElement();
+            if (item == null)
+            {
+                DefaultLoggerImpl.instance()
+                    .log(ILogger.ERROR, "Unable to locate report item wrapper for chart object");
+                return;
+            }
+        }
+        cm = ((ChartReportItemImpl) item).getModel();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#restoreGenerationState(org.eclipse.birt.report.engine.extension.IReportItemSerializable)
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale(java.util.Locale)
      */
-    public void restoreGenerationState(IReportItemSerializable iris)
+    public final void setLocale(Locale lcl)
     {
-        final SerializedState ss = (SerializedState) iris;
-        rtc = (RunTimeContext) ss.deserialize(null);
+        rtc = new RunTimeContext();
+        rtc.setLocale(lcl);
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setResolution(int)
+     */
+    public void setResolution(int iDPI)
+    {
+        // UNUSED BY CHART EXTENSION
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType(java.lang.String,
-     *      java.lang.String)
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setOutputFormat(java.lang.String)
      */
-    public int getOutputType(String format, String mimeType)
+    public void setOutputFormat(String sOutputFormat)
+    {
+        if (sOutputFormat.equalsIgnoreCase("HTML"))
+        {
+            sExtension = "PNG";
+        }
+        else if (sOutputFormat.equalsIgnoreCase("PDF"))
+        {
+            sExtension = "JPEG";
+        }
+        else
+        {
+            sExtension = sOutputFormat;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setSupportedImageFormats(java.lang.String)
+     */
+    public void setSupportedImageFormats(String sSupportedFormats)
+    {
+        // UNUSED BY CHART EXTENSION
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize(java.io.InputStream)
+     */
+    public void deserialize(InputStream is)
+    {
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType()
+     */
+    public int getOutputType()
     {
         return OUTPUT_AS_IMAGE;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputContent()
+     */
+    public Object getOutputContent()
+    {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition[])
+     */
+    public void setReportQueries(IBaseQueryDefinition[] ibqda)
+    {
+        this.ibqda = ibqda;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
+     */
+    public Object onRowSets(IRowSet[] irsa) throws BirtException
+    {
+        // BIND RESULTSET TO CHART DATASETS
+        if (irsa == null || irsa.length != 1 || ibqda == null || ibqda.length != 1)
+        {
+            throw new BirtException("chart.presentation", new UnexpectedInputException("The number of rowsets provided to the chart was incorrect or 'null'", null), null);
+        }
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: onRowSets(...) - start");
+
+        try
+        {
+            final QueryHelper qh = QueryHelper.instance(rtc);
+            //final ScriptHandler sh = rtc.getScriptHandler();
+            //ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DATA_BINDING, irsa[0]);
+            final ResultSetWrapper rsw = qh.mapToChartResultSet(ibqda[0], irsa[0], cm);
+            //ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DATA_BINDING, rsw);
+
+            // POPULATE THE CHART MODEL WITH THE RESULTSET
+            qh.generateRuntimeSeries(cm, rsw);
+        }
+        catch (Exception gex )
+        {
+            DefaultLoggerImpl.instance().log(gex);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: onRowSets(...) - exception");
+            throw new BirtException("process", gex);
+        }
+
+        try {
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - building chart");
+            // SETUP A TEMP FILE FOR STREAMING
+            try
+            {
+                fChartImage = File.createTempFile("chart", "." + sExtension);
+                DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                    "Writing to " + sExtension + " file at " + fChartImage.getPath());
+            }
+            catch (IOException ioex )
+            {
+                throw new BirtException("tmp png file creation", ioex);
+            }
+    
+            // FETCH A HANDLE TO THE DEVICE RENDERER
+            IDeviceRenderer idr = null;
+            try
+            {
+                idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
+            }
+            catch (PluginException pex )
+            {
+                DefaultLoggerImpl.instance().log(pex);
+                throw new BirtException(sExtension.toUpperCase(Locale.US) + " device retrieval", pex);
+            }
+    
+            // BUILD THE CHART
+            final Bounds bo = cm.getBlock().getBounds();
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
+            final Generator gr = Generator.instance();
+            GeneratedChartState gcs = null;
+            try
+            {
+                gcs = gr.build(idr.getDisplayServer(), cm, null, bo, rtc);
+            }
+            catch (GenerationException gex )
+            {
+                DefaultLoggerImpl.instance().log(gex);
+                throw new BirtException("chart build", gex);
+            }
+    
+            // WRITE TO THE IMAGE FILE
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - rendering chart");
+            idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, fChartImage.getPath());
+            try
+            {
+                gr.render(idr, gcs);
+            }
+            catch (RenderingException rex )
+            {
+                DefaultLoggerImpl.instance().log(rex);
+                throw new BirtException("chart render", rex);
+            }
+    
+            // RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
+            try
+            {
+                fis = new FileInputStream(fChartImage.getPath());
+            }
+            catch (IOException ioex )
+            {
+                DefaultLoggerImpl.instance().log(ioex);
+                throw new BirtException("input stream creation", ioex);
+            }
+        } catch (Exception ex)
+        {
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - failed");
+            DefaultLoggerImpl.instance().log(ex);
+            return null;
+        }
+
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - end");
+        return fis;
+    }
+
+    /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize()
      */
-    public final Size getSize()
+    public Size getSize()
     {
         if (cm != null)
         {
@@ -137,88 +310,13 @@ public final class ChartReportItemPresentationImpl extends DefaultReportItemPres
         return super.getSize();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#process()
-     */
-    public final Object process() throws BirtException
-    {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - start");
-        // SETUP A TEMP FILE FOR STREAMING
-        try
-        {
-            fChartImage = File.createTempFile("chart", "." + sExtension);
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                "Writing to " + sExtension + " file at " + fChartImage.getPath());
-        }
-        catch (IOException ioex )
-        {
-            throw new BirtException("tmp png file creation", ioex);
-        }
-
-        // FETCH A HANDLE TO THE DEVICE RENDERER
-        IDeviceRenderer idr = null;
-        try
-        {
-            idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
-        }
-        catch (PluginException pex )
-        {
-            DefaultLoggerImpl.instance().log(pex);
-            throw new BirtException(sExtension.toUpperCase(Locale.US) + " device retrieval", pex);
-        }
-
-        // BUILD THE CHART
-        final Bounds bo = cm.getBlock().getBounds();
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
-        final Generator gr = Generator.instance();
-        GeneratedChartState gcs = null;
-        try
-        {
-            gcs = gr.build(idr.getDisplayServer(), cm, null, bo, rtc);
-        }
-        catch (GenerationException gex )
-        {
-            DefaultLoggerImpl.instance().log(gex);
-            throw new BirtException("chart build", gex);
-        }
-
-        // WRITE TO THE IMAGE FILE
-        idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, fChartImage.getPath());
-        try
-        {
-            gr.render(idr, gcs);
-        }
-        catch (RenderingException rex )
-        {
-            DefaultLoggerImpl.instance().log(rex);
-            throw new BirtException("chart render", rex);
-        }
-
-        // RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
-        try
-        {
-            fis = new FileInputStream(fChartImage.getPath());
-        }
-        catch (IOException ioex )
-        {
-            DefaultLoggerImpl.instance().log(ioex);
-            throw new BirtException("input stream creation", ioex);
-        }
-
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: process(...) - end");
-        return fis;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
      */
-    public final void finish()
+    public void finish()
     {
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - start");
+        
         // CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
         try
         {
@@ -243,34 +341,4 @@ public final class ChartReportItemPresentationImpl extends DefaultReportItemPres
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - end");
     }
 
-    /**
-     * 
-     * @param oReportItemImpl
-     * @return
-     */
-    private final Chart getModelFromWrapper(Object oReportItemImpl)
-    {
-        eih = (ExtendedItemHandle) oReportItemImpl;
-        IReportItem item = ((ExtendedItem) eih.getElement()).getExtendedElement();
-        if (item == null)
-        {
-            try
-            {
-                eih.loadExtendedElement();
-            }
-            catch (ExtendedElementException eeex )
-            {
-                DefaultLoggerImpl.instance().log(eeex);
-            }
-            item = ((ExtendedItem) eih.getElement()).getExtendedElement();
-            if (item == null)
-            {
-                DefaultLoggerImpl.instance()
-                    .log(ILogger.ERROR, "Unable to locate report item wrapper for chart object");
-                return null;
-            }
-        }
-        final ChartReportItemImpl crii = ((ChartReportItemImpl) item);
-        return crii.getModel();
-    }
 }
