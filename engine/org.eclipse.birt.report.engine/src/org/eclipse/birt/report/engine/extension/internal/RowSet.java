@@ -15,15 +15,17 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2005/04/21 12:24:27 $
  */
 public class RowSet implements IRowSet
 {
 	protected DteResultSet rset;
 	protected IRowMetaData metaData;
+	protected boolean closed;
 	
 	public RowSet(DteResultSet rset)
 	{
+		closed = false;
 		this.rset = rset;
 		try
 		{
@@ -69,7 +71,11 @@ public class RowSet implements IRowSet
 	
 	public void close()
 	{
-		rset.close();
+		if (closed == false)
+		{
+			closed = true;
+			rset.close();
+		}
 	}
 	
 }
