@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
@@ -124,7 +123,7 @@ class PreparedSubquery extends PreparedQuery
 					newCandidateQuery();
 		}
 		
-		protected IResultIterator executeOdiQuery(IQueryResults outerResults ) 
+		protected IResultIterator executeOdiQuery( ) 
 				throws DataException
 		{
 			assert parentIterator != null;

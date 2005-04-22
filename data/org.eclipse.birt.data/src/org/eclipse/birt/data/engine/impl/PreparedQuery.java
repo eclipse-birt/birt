@@ -406,8 +406,7 @@ abstract class PreparedQuery
 		/**
 		 * Executes the ODI query to reproduce a ODI result set
 		 */
-		abstract protected IResultIterator executeOdiQuery(
-				IQueryResults outerRts ) throws DataException;
+		abstract protected IResultIterator executeOdiQuery( ) throws DataException;
 
 		/**
 		 * Prepares the ODI query
@@ -483,7 +482,7 @@ abstract class PreparedQuery
 			if(this.isExecuted)
 				return;
 			//			 Execute the query
-			odiResult = executeOdiQuery( this.outerResults );
+			odiResult = executeOdiQuery( );
 
 			// Data set is open in executeOdiQuery; now run aferOpen script
 			if ( dataSet != null )

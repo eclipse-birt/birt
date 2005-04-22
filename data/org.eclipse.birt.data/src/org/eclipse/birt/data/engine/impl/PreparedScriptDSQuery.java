@@ -20,7 +20,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
@@ -132,9 +131,9 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		}
 		
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery(org.eclipse.birt.data.engine.api.IQueryResults)
+		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IQueryResults outerResults )
+		protected IResultIterator executeOdiQuery( )
 				throws DataException
 		{	
 			// prepareOdiQuery must be called before			
