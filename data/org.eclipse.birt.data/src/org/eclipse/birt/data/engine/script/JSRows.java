@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.script;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -52,24 +53,32 @@ public class JSRows extends ScriptableObject
 	 */
 	public JSRows( IQueryResults outerResults, JSRowObject currentRowObj ) throws DataException
 	{
-		if ( currentRowObj != null )
-			rows.add( currentRowObj );
-		if ( outerResults == null )
-			return;
-		IResultIterator resultIterator = outerResults.getResultIterator( );
-		Scriptable scope = resultIterator.getScope( );
-		JSRowObject rowobj;
-
-		Object obj = scope.get( "rows", scope );
-
-		if ( obj instanceof JSRows )
+		try
 		{
-			JSRows rowsobj = (JSRows) obj;
-			for ( int i = 0; i < rowsobj.size( ); i++ )
+			if ( currentRowObj != null )
+				rows.add( currentRowObj );
+			if ( outerResults == null )
+				return;
+			IResultIterator resultIterator = outerResults.getResultIterator( );
+			Scriptable scope = resultIterator.getScope( );
+			JSRowObject rowobj;
+	
+			Object obj = scope.get( "rows", scope );
+	
+			if ( obj instanceof JSRows )
 			{
-				rowobj = (JSRowObject) rowsobj.get( i, scope );
-				rows.add( rowobj );
+				JSRows rowsobj = (JSRows) obj;
+				for ( int i = 0; i < rowsobj.size( ); i++ )
+				{
+					rowobj = (JSRowObject) rowsobj.get( i, scope );
+					rows.add( rowobj );
+				}
 			}
+		}
+		catch (BirtException e)
+		{
+			assert e instanceof DataException;
+			throw (DataException)e;
 		}
 	}
 

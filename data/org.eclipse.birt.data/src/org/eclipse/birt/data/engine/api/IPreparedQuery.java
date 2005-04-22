@@ -13,6 +13,7 @@
  */
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public interface IPreparedQuery
      * 			are defined, or if no parameter metadata is available.
      */
     public Collection getParameterMetaData()
-    			throws DataException;
+    			throws BirtException;
     
     /**
      * Executes the prepared execution plan.  This returns
@@ -59,7 +60,7 @@ public interface IPreparedQuery
      *      at its top prototype chain. 
      */
     public IQueryResults execute( Scriptable queryScope) 
-    			throws DataException;
+    			throws BirtException;
 
     /**
      * Executes the prepared execution plan as an inner query 
@@ -71,5 +72,5 @@ public interface IPreparedQuery
      * @return The <code>IQueryResults</code> object for this report query
      */
     public IQueryResults execute( IQueryResults outerResults, Scriptable queryScope ) 
-    			throws DataException;
+    			throws BirtException;
 }

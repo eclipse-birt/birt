@@ -13,6 +13,7 @@
  */
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -45,7 +46,7 @@ public interface IQueryResults
      * 			ambiguous on which result set to reference.
      * @throws 	DataException if error occurs in Data Engine
      */
-    public IResultMetaData getResultMetaData() throws DataException;
+    public IResultMetaData getResultMetaData() throws BirtException;
 
     /** 
      * Returns the current result's iterator.  
@@ -54,7 +55,7 @@ public interface IQueryResults
      * @return	The current result's iterator.
      * @throws 	DataException if error occurs in Data Engine
      */
-    public IResultIterator getResultIterator() throws DataException;
+    public IResultIterator getResultIterator() throws BirtException;
 
     /**
      * Closes all query result set(s) associated with this object;  

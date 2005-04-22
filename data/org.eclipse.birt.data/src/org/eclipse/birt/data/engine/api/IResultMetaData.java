@@ -14,7 +14,7 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Describes the metadata of a detail row in an IResultIterator.
@@ -38,9 +38,9 @@ public interface IResultMetaData
 	 * Returns the column name at the specified index.
 	 * @param index	The projected column index.
 	 * @return		The name of the specified column.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public String getColumnName( int index ) throws DataException;
+	public String getColumnName( int index ) throws BirtException;
 
 	/**
 	 * Returns the column alias at the specified index.
@@ -49,42 +49,42 @@ public interface IResultMetaData
 	 * @param index	The projected column index.
 	 * @return			The alias of the specified column.
 	 * 					Null if none is defined.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public String getColumnAlias( int index ) throws DataException;
+	public String getColumnAlias( int index ) throws BirtException;
 	
 	/**
 	 * Returns the data type of the column at the specified index.
 	 * @param index	The projected column index.
 	 * @return		The data type of the specified column, as an integer 
      * 				defined in org.eclipse.birt.data.engine.api.DataType.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public int getColumnType( int index ) throws DataException;
+	public int getColumnType( int index ) throws BirtException;
 
 	/**
 	 * Returns the Data Engine data type name of the column at the specified index.
 	 * @param index	The projected column index.
 	 * @return		The Data Engine data type name of the specified column.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public String getColumnTypeName( int index ) throws DataException;
+	public String getColumnTypeName( int index ) throws BirtException;
 	
 	/**
 	 * Returns the data provider specific data type name of the specified column.
 	 * @return	the data type name as defined by the data provider.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public String getColumnNativeTypeName( int index ) throws DataException;
+	public String getColumnNativeTypeName( int index ) throws BirtException;
 
 	/**
 	 * Gets the label or display name of the column at
 	 * the specified index.
 	 * @param index	The projected column index.
 	 * @return		The label of the specified column.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public String getColumnLabel( int index ) throws DataException;
+	public String getColumnLabel( int index ) throws BirtException;
 	
 	/**
 	 * Indicates whether the specified projected column is defined
@@ -95,8 +95,8 @@ public interface IResultMetaData
 	 * @param index	The projected column index.
 	 * @return		true if the given column is a computed column;
 	 * 				false otherwise.
-	 * @throws DataException	if given index is invalid.
+	 * @throws BirtException	if given index is invalid.
 	 */
-	public boolean isComputedColumn( int index ) throws DataException;
+	public boolean isComputedColumn( int index ) throws BirtException;
 	
 }

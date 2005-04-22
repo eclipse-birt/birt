@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
@@ -49,7 +50,7 @@ public interface IResultIterator
      * Returns the metadata of this result set's detail row.
      * @return	The result metadata of a detail row.
      */
-    public IResultMetaData getResultMetaData() throws DataException;
+    public IResultMetaData getResultMetaData() throws BirtException;
     
     /**
      * Moves down one element from its current position of the iterator.
@@ -58,9 +59,9 @@ public interface IResultIterator
      * @return 	true if next element exists and 
      * 			has not reached the limit on the maximum number of rows 
      * 			that can be accessed. 
-     * @throws 	DataException if error occurs in Data Engine
+     * @throws 	BirtException if error occurs in Data Engine
      */
-    public boolean next() throws DataException;
+    public boolean next() throws BirtException;
 
     /**
      * Returns the value of a query result expression. 
@@ -82,9 +83,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Object getValue( IBaseExpression dataExpr ) throws DataException;
+    public Object getValue( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as a Boolean,
@@ -98,9 +99,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Boolean.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Boolean getBoolean( IBaseExpression dataExpr ) throws DataException;
+    public Boolean getBoolean( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as an Integer,
@@ -114,9 +115,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as an Integer.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Integer getInteger( IBaseExpression dataExpr ) throws DataException;
+    public Integer getInteger( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as a Double,
@@ -130,9 +131,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Double.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Double getDouble( IBaseExpression dataExpr ) throws DataException;
+    public Double getDouble( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as a String,
@@ -146,9 +147,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a String.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public String getString( IBaseExpression dataExpr ) throws DataException;
+    public String getString( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as a BigDecimal,
@@ -162,9 +163,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a BigDecimal.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public BigDecimal getBigDecimal( IBaseExpression dataExpr ) throws DataException;
+    public BigDecimal getBigDecimal( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression as a Date,
@@ -178,9 +179,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given expression as a Date.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Date getDate( IBaseExpression dataExpr ) throws DataException;
+    public Date getDate( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Returns the value of a query result expression 
@@ -192,9 +193,9 @@ public interface IResultIterator
      * 					the <code>IQueryDefinition</code> at the time of prepare.
      * @return			The value of the given Blob expression.
      * 					It could be null.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public Blob getBlob( IBaseExpression dataExpr ) throws DataException;
+    public Blob getBlob( IBaseExpression dataExpr ) throws BirtException;
 
     /**
      * Advances the iterator, skipping rows to the last row in the current group 
@@ -204,9 +205,9 @@ public interface IResultIterator
      * the current row to the first row of the next group.
      * @param groupLevel	An absolute value for group level. 
      * 						A value of 0 applies to the whole result set.
-     * @throws 			DataException if error occurs in Data Engine
+     * @throws 			BirtException if error occurs in Data Engine
      */
-    public void skipToEnd( int groupLevel ) throws DataException;
+    public void skipToEnd( int groupLevel ) throws BirtException;
 
     /**
      * Returns the 1-based index of the outermost group
@@ -222,7 +223,7 @@ public interface IResultIterator
      * 			(N+1) if the current row is not at the start of any group;
      * 			0 if the result set has no groups.
      */
-    public int getStartingGroupLevel() throws DataException;
+    public int getStartingGroupLevel() throws BirtException;
 
     /**
      * Returns the 1-based index of the outermost group
@@ -238,7 +239,7 @@ public interface IResultIterator
      * 			(N+1) if the current row is not at the end of any group;
      * 			0 if the result set has no groups.
      */
-    public int getEndingGroupLevel() throws DataException;
+    public int getEndingGroupLevel() throws BirtException;
 
     /**
      * Returns the secondary result specified by a sub query 
@@ -248,7 +249,7 @@ public interface IResultIterator
      * @param scope Javascript scope to be associated with the secondary result set
      */
     public IResultIterator getSecondaryIterator( String subQueryName, Scriptable scope ) 
-    		throws DataException;
+    		throws BirtException;
 
     /** 
      * Closes this result and any associated secondary result iterator(s),  

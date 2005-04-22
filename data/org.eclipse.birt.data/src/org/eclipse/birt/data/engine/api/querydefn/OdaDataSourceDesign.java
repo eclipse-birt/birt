@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -87,7 +88,7 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
 	 * Each data source property name must be unique within the data source, 
 	 * and has a single value. 
 	 */
-	public void addPublicProperty( String name, String value ) throws DataException
+	public void addPublicProperty( String name, String value ) throws BirtException
 	{
 	    addProperty( getPublicProperties(), name, value );
  	}
@@ -97,7 +98,7 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
 	 * Each data source property name must be unique within the data source, 
 	 * and has a single value. 
 	 */
-    public void addPrivateProperty( String name, String value ) throws DataException
+    public void addPrivateProperty( String name, String value ) throws BirtException
     {
 	    addProperty( getPrivateProperties(), name, value );
     }
@@ -106,7 +107,7 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
      * Adds given value to the named property in the given 
      * properties map.  Each named property must be unique.
      */
-    protected void addProperty( Map properties, String name, String value ) throws DataException
+    protected void addProperty( Map properties, String name, String value ) throws BirtException
     {
         if ( properties.containsKey( name ) )
             throw new DataException( ResourceConstants.DUPLICATE_PROPERTY_NAME,

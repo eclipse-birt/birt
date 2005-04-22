@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 
 import org.mozilla.javascript.Scriptable;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
@@ -63,7 +64,7 @@ abstract public class DataEngine
 	 * been defined, its definition will be updated with the content of the provided definition object.
 	 */
 	abstract public void defineDataSource( IBaseDataSourceDesign dataSource ) 
-			throws DataException;
+			throws BirtException;
 
 	/**
 	 * Provides the definition of a data set to Data Engine. A data set must be
@@ -73,7 +74,7 @@ abstract public class DataEngine
 	 * been defined, its definition will be updated with the content of the provided definition object.
 	 */
 	abstract public void defineDataSet( IBaseDataSetDesign dataSet ) 
-			throws DataException;
+			throws BirtException;
 	
 	/**
 	 * Verifies the elements of a report query spec
@@ -102,7 +103,7 @@ abstract public class DataEngine
 	 * @throws 		DataException if error occurs during the preparation of querySpec
 	 */
 	abstract public IPreparedQuery prepare( IQueryDefinition querySpec )
-			throws DataException;
+			throws BirtException;
 	
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given 
@@ -114,7 +115,7 @@ abstract public class DataEngine
 	 *          must have been previously defined.
 	 */
 	abstract public void closeDataSource( String dataSourceName )
-			throws DataException;
+			throws BirtException;
 	
 	/**
 	 * Shuts down this instance of data engine, and releases all associated resources.

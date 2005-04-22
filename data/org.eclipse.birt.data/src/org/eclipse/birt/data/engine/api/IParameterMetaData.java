@@ -14,7 +14,7 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Describes the metadata of a parameter in an <code>IPreparedQuery</code>.
@@ -65,14 +65,14 @@ public interface IParameterMetaData
      * 				defined in <code>org.eclipse.birt.core.data.DataType</code>.
 	 * @throws DataException	
 	 */
-	public int getDataType() throws DataException;
+	public int getDataType() throws BirtException;
 
 	/**
 	 * Returns the data type name of this parameter.
 	 * @return		The data type name of this parameter.
 	 * @throws DataException
 	 */
-	public String getDataTypeName() throws DataException;
+	public String getDataTypeName() throws BirtException;
 
 	/**
 	 * Returns whether this parameter is optional.
