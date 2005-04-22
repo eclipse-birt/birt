@@ -15,10 +15,8 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -28,6 +26,8 @@ import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
@@ -48,6 +48,8 @@ public class JDBCDriverManager
 	private  DriverClassLoader extraDriverLoader = null;
 	
 	private static JDBCDriverManager instance;
+	
+	private static Logger logger = Logger.getLogger( JDBCDriverManager.class.getName() );
 	
 	private JDBCDriverManager()
 	{
@@ -72,6 +74,11 @@ public class JDBCDriverManager
 	public Connection getConnection( String driverClass, String url, 
 			Properties connectionProperties ) throws SQLException, ClassNotFoundException
 	{
+		if ( url == null )
+			throw new NullPointerException("getConnection: url is null ");
+		if ( logger.isLoggable( Level.FINE ))
+			logger.fine("Request JDBC Connection: driverClass=" + 
+					(driverClass == null? "" : driverClass) + "; url=" + url);
 		loadAndRegisterDriver(driverClass);
 		return DriverManager.getConnection( url, connectionProperties );
 	}
@@ -88,6 +95,12 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password ) throws SQLException, ClassNotFoundException
 	{
+		if ( url == null )
+			throw new NullPointerException("getConnection: url is null ");
+		if ( logger.isLoggable( Level.FINE ))
+			logger.fine("Request JDBC Connection: driverClass=" + 
+					(driverClass == null? "" : driverClass) + "; url=" + url + 
+					"; user=" + ((user == null) ? "" : user));
 		loadAndRegisterDriver(driverClass);
 		return DriverManager.getConnection( url, user, password );
 	}
@@ -99,52 +112,74 @@ public class JDBCDriverManager
 			return false;
 		
 		Class driverClass = null;
-		if ( ! registeredDrivers.contains( className ) )
+		if ( registeredDrivers.contains( className ) )
+			// Driver previously loaded successfully
+			return true;
+
+		if ( logger.isLoggable( Level.INFO ))
 		{
-			try
-			{
-				driverClass = Class.forName( className );
-			}
-			catch ( ClassNotFoundException e )
-			{
-				// Driver not in plugin class path; find it in drivers directory
-				driverClass = loadExtraDriver( className );
-				
-				// if driver class still cannot be found, 
-				if( driverClass == null)
-					return false;
-			}
+			logger.info( "Loading JDBC driver class: " + className );
+		}
 		
-			// Register the driver with JDBC driver manager; normally this is done by
-			// the driver's class static intialization code when we do Class.forName().
-			// However not all drivers follow this convention. We always register
-			// the driver, and ignore error should it results in duplicate registration
+		boolean driverInClassPath = false;
+		try
+		{
+			driverClass = Class.forName( className );
+			// Driver class in class path
+			logger.info( "Loaded JDBC driver class in class path: " + className );
+			driverInClassPath = true;
+		}
+		catch ( ClassNotFoundException e )
+		{
+			if ( logger.isLoggable( Level.FINE ))
+			{
+				logger.info( "Driver class not in class path: " + className +
+						". Trying to locate driver in drivers directory");
+			}
+				
+			// Driver not in plugin class path; find it in drivers directory
+			driverClass = loadExtraDriver( className, true );
+				
+			// if driver class still cannot be found, 
+			if( driverClass == null)
+			{
+				logger.warning( "Failed to load JDBC driver class: " + className );
+				return false;
+			}
+		}
+
+		// If driver is found in the drivers directory, its class is not accessible
+		// in this class's ClassLoader. DriverManager will not allow this class to create
+		// connections using such driver. To solve the problem, we create a wrapper Driver in 
+		// our class loader, and register it with DriverManager
+		if ( ! driverInClassPath )
+		{
 			Driver driver = null;
 			try
 			{
 				driver = (Driver) driverClass.newInstance( );
 			}
-			catch (IllegalAccessException e)
+			catch ( Exception e )
 			{
-				// TODO: log error
-				return false;
-			}
-			catch (InstantiationException e )
-			{
-				// TODO: log error
+				logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e);
 				return false;
 			}
 
 			try
 			{
-				DriverManager.registerDriver( new WrappedDriver( driver ) );
+				if (logger.isLoggable(Level.FINER))
+					logger.finer("Registering with DriverManager: wrapped driver for " + className );
+				DriverManager.registerDriver( new WrappedDriver( driver, className ) );
 			}
 			catch ( SQLException e)
 			{
-				// Assume this error is caused by duplicate registration; ignore it
+				// This shouldn't happen
+				logger.log( Level.WARNING, 
+						"Failed to register wrapped driver instance.", e);
 			}
-			registeredDrivers.add( className );
 		}
+		
+		registeredDrivers.add( className );
 		return true;
 	}
 	
@@ -155,8 +190,10 @@ public class JDBCDriverManager
 	 * @throws DriverException
 	 * @throws OdaException
 	 */
-	private  Class loadExtraDriver(String className)
+	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail)
 	{
+		assert className != null;
+		
 		if( extraDriverLoader == null)
 			extraDriverLoader = new DriverClassLoader();
 		
@@ -168,21 +205,15 @@ public class JDBCDriverManager
 		{
 			//re-scan the driver directory. This re-scan is added for users would potentially 
 			//set their own jdbc drivers, which would be copied to driver directory as well
-			if( ! extraDriverLoader.refreshURLs() )
+			if(  refreshUrlsWhenFail && extraDriverLoader.refreshURLs() )
 			{
-				// no new driver found; give up
-				return null;
+				// New driver found; try loading again
+				return loadExtraDriver( className, false );
 			}
 			
-			// New driver found; try loading again
-			try 
-			{
-				return extraDriverLoader.loadClass(className);
-			} 
-			catch (ClassNotFoundException e1) 
-			{
-				return null;
-			}
+			// no new driver found; give up
+			logger.log( Level.FINER, "Driver class not found in drivers directory: " + className );
+			return null;
 		}
 	}
 	
@@ -199,6 +230,7 @@ public class JDBCDriverManager
 		public DriverClassLoader( ) 
 		{
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
+			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
 			getDriverHomeDir();
 			refreshURLs();
 		}
@@ -216,8 +248,11 @@ public class JDBCDriverManager
 			
 			for(int i = 0; i < newJARFiles.length; i++)
 			{
-				addURL(constructURL(newJARFiles[i]));
+				URL fileUrl = constructURL(newJARFiles[i]); 
+				addURL( fileUrl );
 				fileNameList.add( newJARFiles[i]);
+				logger.info("JDBCDriverManager: found JAR file " + 
+						newJARFiles[i] + ". URL=" + fileUrl );
 			}
 			return true;
 		}
@@ -236,9 +271,9 @@ public class JDBCDriverManager
 						.getAbsolutePath());
 			} catch (MalformedURLException e) 
 			{
-				// TODO: log exception
-				//should not arrive here
-				assert (false);
+				logger.log( Level.WARNING, "Failed to construct URL for " + filename, e);
+				// should not get here
+				assert(false);
 			}
 			return url;
 		}
@@ -276,16 +311,10 @@ public class JDBCDriverManager
 							DRIVER_DIRECTORY );
 				}
 			}
-			catch ( OdaException e) 
+			catch ( Exception e) 
 			{
-				// TODO: log exception
+				logger.log( Level.WARNING, "JDBCDriverManager: cannot find plugin drivers directory: ", e);
 			}
-			catch ( IOException e) 
-			{
-				// TODO: log exception
-			} catch (URISyntaxException e) {
-                // TODO log exception
-            }
 				
 			if ( driverHomeDir == null )
 			{
@@ -293,6 +322,8 @@ public class JDBCDriverManager
 				// current path
 				driverHomeDir = new File(DRIVER_DIRECTORY);
 			}
+			
+			logger.info( "JDBCDriverManager: drivers directory location: " + driverHomeDir );
 		}
 	}
 	
@@ -317,6 +348,7 @@ public class JDBCDriverManager
 			else
 				return false;
 		}
+		
 	}
 
 //	The classloader of a driver (jtds driver, etc.) is
@@ -339,21 +371,29 @@ public class JDBCDriverManager
 
 	private static class WrappedDriver implements Driver
 	{
-
 		private Driver driver;
-
-		WrappedDriver( Driver d )
+		private String driverClass;
+		
+		WrappedDriver( Driver d, String driverClass )
 		{
+			logger.entering( WrappedDriver.class.getName(), "WrappedDriver", driverClass );
 			this.driver = d;
+			this.driverClass = driverClass;
 		}
 
 		public boolean acceptsURL( String u ) throws SQLException
 		{
-			return this.driver.acceptsURL( u );
+			boolean res = this.driver.acceptsURL( u );
+			if ( logger.isLoggable( Level.FINER ))
+				logger.log( Level.FINER, "WrappedDriver(" + driverClass + 
+						").acceptsURL(" + u + ")returns: " + res);
+			return res;
 		}
 
 		public java.sql.Connection connect( String u, Properties p ) throws SQLException
 		{
+			logger.entering( WrappedDriver.class.getName() + ":" + driverClass, 
+					"connect", u );
 			return this.driver.connect( u, p );
 		}
 
