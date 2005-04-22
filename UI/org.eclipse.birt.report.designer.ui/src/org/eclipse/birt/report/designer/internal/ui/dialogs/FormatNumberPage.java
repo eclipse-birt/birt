@@ -72,6 +72,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			Messages.getString( "FormatNumberPreferencePage.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
+	public static String SYMBOL_POSITION_AFTER = Messages.getString("FormatNumberPage.symblePos.after");  //$NON-NLS-1$
+	public static String SYMBOL_POSITION_BEFORE = Messages.getString("FormatNumberPage.symblePos.before");  //$NON-NLS-1$
+
 	private Combo typeChoicer;
 
 	private Composite infoComp;
@@ -408,7 +411,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 		else
 		{
-			// default.
+			// default for illegal input category.
 			typeChoicer.select( 0 );
 		}
 		int index = typeChoicer.getSelectionIndex( );
@@ -488,13 +491,18 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		String displayName = typeChoicer.getText( );
 		String category = getCategoryForDisplayName( displayName );
+
+		FormatNumberPattern pattern = null;
 		if ( categoryPatternMaps != null )
 		{
-			return (FormatNumberPattern) categoryPatternMaps.get( category );
+			pattern = (FormatNumberPattern) categoryPatternMaps.get( category );
 		}
-		//  patternMap not initialized , return a general FormatPattern for
-		// formatting. avoid null point exception. ???
-		return new FormatNumberPattern( );
+		if ( pattern == null )
+		{// avoid null when categoryPatternMas is not initialized or the
+			// key(category) is not contained in the map.
+			pattern = new FormatNumberPattern( );
+		}
+		return pattern;
 	}
 
 	/**
@@ -505,7 +513,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		String pattern = ""; //$NON-NLS-1$
 		String fmtStr = ""; //$NON-NLS-1$
 		if ( hasLoaded )
-		{
+		{// avoid setting pattern from controls when the typechoicer is selected
+			// before loading.
 			setPatternFromControls( );
 		}
 		FormatNumberPattern fmtPattern = getFmtPattern( );
@@ -807,8 +816,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			new Label( cSetting, SWT.NONE ).setText( Messages.getString( "FormatNumberPreferencePage.symbolPosition.label" ) ); //$NON-NLS-1$
 			cSymPosChoice = new Combo( cSetting, SWT.DROP_DOWN | SWT.READ_ONLY );
 			cSymPosChoice.setItems( new String[]{
-					Messages.getString( "FormatNumberPreferencePage.symbolPosition.after" ), Messages.getString( "FormatNumberPreferencePage.symbolPosition.before" ) //$NON-NLS-1$ //$NON-NLS-2$
-					} );
+					SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+			} );
 			cSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cSymPosChoice.addSelectionListener( mySelectionListener );
 			cSymPosChoice.setEnabled( false );
@@ -966,8 +975,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			label.setText( Messages.getString( "FormatNumberPreferencePage.symbolPosition.label" ) ); //$NON-NLS-1$
 			pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
 			pSymPosChoice.setItems( new String[]{
-					Messages.getString( "FormatNumberPreferencePage.symbolPosition.after" ), Messages.getString( "FormatNumberPreferencePage.symbolPosition.before" ) //$NON-NLS-1$ //$NON-NLS-2$
-					} );
+					SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+			} );
 			pSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			pSymPosChoice.addSelectionListener( mySelectionListener );
 			pSymPosChoice.select( 0 );
