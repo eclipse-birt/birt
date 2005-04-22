@@ -333,6 +333,8 @@ public final class DataTypeUtil
 			return DataType.UNKNOWN_TYPE;
 
 		// maps odi data type to BIRT DataType
+		if ( odiDataType == DataType.AnyType.class )
+			return DataType.ANY_TYPE;
 		if ( odiDataType == Integer.class )
 			return DataType.INTEGER_TYPE;
 		if ( odiDataType == Double.class )

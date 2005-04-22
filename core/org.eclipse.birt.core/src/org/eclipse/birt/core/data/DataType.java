@@ -46,7 +46,7 @@ public abstract class DataType
 	
 	private static final Class[] classes = 
 	{ 
-			null,
+			AnyType.class,
 			Boolean.class,
 			Integer.class,
 			Double.class,
@@ -82,4 +82,13 @@ public abstract class DataType
 		}
 		return classes[typeCode];
 	}
+	
+	/**
+	 * Other type can be found in JDK, such as Integer and String, but AnyType
+	 * have to be manually created to make it correspond to "Any" name. 
+	 */
+	static class AnyType
+	{
+	};
+	
 }
