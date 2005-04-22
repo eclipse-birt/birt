@@ -127,7 +127,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		if ( itemPresentation != null )
 		{
 			itemPresentation.setModelObject( handle );
-			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
+			itemPresentation.setReportQueries(((ExtendedItemDesign)item).getQueries());
 			//itemPresentation.setResolution();
 			itemPresentation.setLocale(context.getLocale());
 			itemPresentation.setSupportedImageFormats( "GIF;PNG;JPG;BMP" );
