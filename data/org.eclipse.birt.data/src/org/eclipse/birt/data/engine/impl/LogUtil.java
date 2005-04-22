@@ -70,12 +70,13 @@ public final class LogUtil
 	}
 	
 	private static String toString_Collection(Object source){
-		String str = "";
+		StringBuffer stringBuffer= new StringBuffer(); 
 		Iterator iterator = ( (Collection) source ).iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			str += toString( iterator.next( ) )+", \r\n\t";
+			stringBuffer.append( toString( iterator.next( ) ) + ", \r\n\t" );
 		}
+		String str = stringBuffer.toString( );
 		if ( str.endsWith( "\t" ) )
 		{
 			str = str.substring( 0, str.length( ) - 5 );
@@ -88,17 +89,17 @@ public final class LogUtil
 	}
 
 	private static String toString_ConditionalExpression(Object source){
-		String str = "ConditionalExpression(";
+		StringBuffer stringBuffer= new StringBuffer("ConditionalExpression("); 
 		ConditionalExpression conditionalExpression = (ConditionalExpression)source;
-		str += "Operator : "+conditionalExpression.getOperator()+", ";
-		str += "Expression : "+toString(conditionalExpression.getExpression())+", ";
+		stringBuffer.append( "Operator : "+conditionalExpression.getOperator()+", " );
+		stringBuffer.append( "Expression : "+toString(conditionalExpression.getExpression())+", " );
 		if ( !isEmpty(conditionalExpression.getOperand1( )) )
-			str += "Operand1 : "+toString(conditionalExpression.getOperand1())+", ";
+			stringBuffer.append( "Operand1 : "+toString(conditionalExpression.getOperand1())+", " );
 		
 		if ( !isEmpty(conditionalExpression.getOperand2( )))
-			str += "Operand2 : "+toString(conditionalExpression.getOperand2())+")";
+			stringBuffer.append( "Operand2 : "+toString(conditionalExpression.getOperand2())+")" );
 		
-		return str;
+		return stringBuffer.toString( );
 	}
 	
 	private static String toString_ScriptExpression(Object source){
@@ -108,194 +109,193 @@ public final class LogUtil
 	private static String toString_InputParameterBinding( Object source )
 	{
 		InputParameterBinding inputParameterBinding =(InputParameterBinding)source;
-		String str="InputParameterBinding(";
+		StringBuffer stringBuffer = new StringBuffer( "InputParameterBinding(" );
 		if ( !isEmpty(inputParameterBinding.getName()))
-			str+= "Name : " +inputParameterBinding.getName()+", ";
+			stringBuffer.append( "Name : " +inputParameterBinding.getName()+", " );
 		
-		str+= "Position : " +inputParameterBinding.getPosition()+", ";
-		str+= "Expression : " + toString(inputParameterBinding.getExpr());
-		str+=")";
-		return str;
+		stringBuffer.append( "Position : " +inputParameterBinding.getPosition()+", " );
+		stringBuffer.append( "Expression : " + toString(inputParameterBinding.getExpr()) );
+		stringBuffer.append( ")" );
+		return stringBuffer.toString( );
 	}
 	private static String toString_SortDefinition(Object source){
 		SortDefinition sort = (SortDefinition)source;
-		String str="SortDefinition(";
+		StringBuffer stringBuffer = new StringBuffer( "SortDefinition(" );
 		if ( !isEmpty(sort.getColumn()))
-			str += "Column : " + sort.getColumn( )+", ";
+			stringBuffer.append( "Column : " + sort.getColumn( )+", " );
 		
 		if ( !isEmpty(sort.getExpression()))
-			str += "getExpression : " + sort.getExpression( )+", ";
+			stringBuffer.append( "getExpression : " + sort.getExpression( )+", " );
 		
-		str += "SortDirection : " + sort.getSortDirection( );
-		str+=")";
-		return str; 
+		stringBuffer.append( "SortDirection : " + sort.getSortDirection( ) +")");
+		return stringBuffer.toString( ); 
 	}
 	private static String toString_GroupDefinition(Object source){
 		GroupDefinition group = (GroupDefinition)source;
-		String str="GroupDefinition(";
+		StringBuffer stringBuffer = new StringBuffer( "GroupDefinition(" );
 		if ( !isEmpty( group.getName( ) ) )
-			str += "Name : " + group.getName( )+", ";
+			stringBuffer.append( "Name : " + group.getName( )+", " );
 
 		if ( !isEmpty( group.getKeyColumn( ) ) )
-			str += "KeyColumn : " + group.getKeyColumn( )+", ";
+			stringBuffer.append( "KeyColumn : " + group.getKeyColumn( )+", " );
 		
 		if ( !isEmpty( group.getKeyExpression( ) ) )
-			str += "KeyExpression : " + group.getKeyExpression( )+", ";
+			stringBuffer.append( "KeyExpression : " + group.getKeyExpression( )+", " );
 
-		str += "SortDirection : " + group.getSortDirection( )+", ";
+		stringBuffer.append( "SortDirection : " + group.getSortDirection( )+", " );
 		
 		if ( !isEmpty( group.getAfterExpressions( ) ) )
-			str += "AfterExpressions : " + toString(group.getAfterExpressions( ))+", ";
+			stringBuffer.append( "AfterExpressions : " + toString(group.getAfterExpressions( ))+", " );
 		
 		if ( !isEmpty( group.getBeforeExpressions( ) ) )
-			str += "BeforeExpressions : " + toString(group.getBeforeExpressions( ))+", ";
+			stringBuffer.append( "BeforeExpressions : " + toString(group.getBeforeExpressions( ))+", " );
 		
 		if ( !isEmpty( group.getRowExpressions( ) ) )
-			str += "RowExpressions : " + toString(group.getRowExpressions( ))+", ";
+			stringBuffer.append( "RowExpressions : " + toString(group.getRowExpressions( ))+", " );
 		
-		str += "Interval : " + group.getInterval( )+", ";
-		str += "IntervalRange : " + group.getIntervalRange( )+", ";
+		stringBuffer.append( "Interval : " + group.getInterval( )+", " );
+		stringBuffer.append( "IntervalRange : " + group.getIntervalRange( )+", " );
 		
 		if ( !isEmpty( group.getIntervalStart( ) ) )
-			str += "IntervalStart : " + group.getIntervalStart( )+", ";
+			stringBuffer.append( "IntervalStart : " + group.getIntervalStart( )+", " );
 		
 		if ( !isEmpty( group.getSubqueries( ) ) )
-			str += "Subqueries : " + toString(group.getSubqueries( ))+", ";
+			stringBuffer.append( "Subqueries : " + toString(group.getSubqueries( ))+", " );
 		
 		if ( !isEmpty( group.getSorts( ) ) )
-			str += "Sorts : " + toString(group.getSorts( ))+", ";
+			stringBuffer.append( "Sorts : " + toString(group.getSorts( ))+", " );
 		
 		if ( !isEmpty( group.getFilters( ) ) )
-			str += "Filters : " + toString(group.getFilters( ));
-		str+=")";
-		return str; 
+			stringBuffer.append( "Filters : " + toString(group.getFilters( )) );
+		stringBuffer.append(")");
+		return stringBuffer.toString(); 
 	}
 	private static String toString_QueryDefinition(Object source){
 		QueryDefinition querySpec = (QueryDefinition)source;
-		String str="QueryDefinition(";
-		str+="DataSetName : "+querySpec.getDataSetName()+"\r\n";
+		StringBuffer stringBuffer = new StringBuffer("QueryDefinition(");
+		stringBuffer.append( "DataSetName : "+querySpec.getDataSetName()+"\r\n" );
 		if ( !isEmpty( querySpec.getAfterExpressions( ) ) )
-			str += "AfterExpressions : " + LogUtil.toString( querySpec.getAfterExpressions( ) )	+ "\r\n";
+			stringBuffer.append( "AfterExpressions : " + LogUtil.toString( querySpec.getAfterExpressions( ) )	+ "\r\n" );
 		
 		if ( !isEmpty( querySpec.getBeforeExpressions( ) ) )
-			str+="BeforeExpressions : "+LogUtil.toString(querySpec.getBeforeExpressions())+"\r\n";
+			stringBuffer.append( "BeforeExpressions : "+LogUtil.toString(querySpec.getBeforeExpressions())+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getRowExpressions( ) ) )
-			str+="RowExpressions : "+LogUtil.toString(querySpec.getRowExpressions())+"\r\n";
+			stringBuffer.append( "RowExpressions : "+LogUtil.toString(querySpec.getRowExpressions())+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getParentQuery( ) ) )
-			str+="ParentQuery : "+LogUtil.toString(querySpec.getParentQuery())+"\r\n";
+			stringBuffer.append( "ParentQuery : "+LogUtil.toString(querySpec.getParentQuery())+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getSubqueries( ) ) )
-			str+="Subqueries : "+LogUtil.toString(querySpec.getSubqueries())+"\r\n";
+			stringBuffer.append( "Subqueries : "+LogUtil.toString(querySpec.getSubqueries())+"\r\n" );
 		
-		str+="MaxRows : "+querySpec.getMaxRows()+"\r\n";
+		stringBuffer.append( "MaxRows : "+querySpec.getMaxRows()+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getColumnProjection( ) ) )
-			str+="ColumnProjection : "+querySpec.getColumnProjection()+"\r\n";
+			stringBuffer.append( "ColumnProjection : "+querySpec.getColumnProjection()+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getGroups( ) ) )
-			str+="Groups : "+LogUtil.toString(querySpec.getGroups())+"\r\n";
+			stringBuffer.append( "Groups : "+LogUtil.toString(querySpec.getGroups())+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getFilters( ) ) )
-			str += "Filters : " + LogUtil.toString( querySpec.getFilters( ) ) + "\r\n";
+			stringBuffer.append( "Filters : " + LogUtil.toString( querySpec.getFilters( ) ) + "\r\n" );
 		
 		if ( !isEmpty( querySpec.getSorts( ) ) )
-			str+="Sorts : "+LogUtil.toString(querySpec.getSorts())+"\r\n";
+			stringBuffer.append( "Sorts : "+LogUtil.toString(querySpec.getSorts())+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getInputParamBindings( ) ) )
-			str+="InputParamBindings : "+LogUtil.toString(querySpec.getInputParamBindings())+")\r\n";
+			stringBuffer.append( "InputParamBindings : "+LogUtil.toString(querySpec.getInputParamBindings())+")\r\n" );
 
-		return str; 
+		return stringBuffer.toString(); 
 		
 	}
 	
 	private static String toString_OdaDataSetDesign(Object source){
 		OdaDataSetDesign dataSet = (OdaDataSetDesign)source;
-		String str="OdaDataSetDesign(";
+		StringBuffer stringBuffer= new StringBuffer("OdaDataSetDesign(");
 		//BaseDataSetDesign
 		if ( !isEmpty( dataSet.getName( ) ) )
-			str+="Name : "+dataSet.getName()+"\r\n";
+			stringBuffer.append( "Name : " + dataSet.getName( ) + "\r\n" );
 		
 		if ( !isEmpty( dataSet.getDataSourceName( ) ) )
-			str+="DataSourceName : "+dataSet.getDataSourceName()+"\r\n";
+			stringBuffer.append( "DataSourceName : "+dataSet.getDataSourceName()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getAfterCloseScript( ) ) )
-			str+="AfterCloseScript : "+dataSet.getAfterCloseScript()+"\r\n";
+			stringBuffer.append( "AfterCloseScript : "+dataSet.getAfterCloseScript()+"\r\n" );
 
 		if ( !isEmpty( dataSet.getAfterOpenScript( ) ) )
-			str+="AfterOpenScript : "+dataSet.getAfterOpenScript()+"\r\n";
+			stringBuffer.append( "AfterOpenScript : "+dataSet.getAfterOpenScript()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getBeforeCloseScript( ) ) )
-			str+="BeforeCloseScript : "+dataSet.getBeforeCloseScript()+"\r\n";
+			stringBuffer.append( "BeforeCloseScript : "+dataSet.getBeforeCloseScript()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getBeforeOpenScript( ) ) )
-			str+="BeforeOpenScript : "+dataSet.getBeforeOpenScript()+"\r\n";
+			stringBuffer.append( "BeforeOpenScript : "+dataSet.getBeforeOpenScript()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getOnFetchScript( ) ) )
-			str+="OnFetchScript : "+dataSet.getOnFetchScript()+"\r\n";
+			stringBuffer.append( "OnFetchScript : "+dataSet.getOnFetchScript()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getComputedColumns( ) ) )
-			str+="ComputedColumns : "+ toString(dataSet.getComputedColumns())+"\r\n";
+			stringBuffer.append( "ComputedColumns : "+ toString(dataSet.getComputedColumns())+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getFilters( ) ) )
-			str+="Filters : "+ toString(dataSet.getFilters())+"\r\n";
+			stringBuffer.append( "Filters : "+ toString(dataSet.getFilters())+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getParameters( ) ) )
-			str+="Parameters : "+ toString(dataSet.getParameters())+"\r\n";
+			stringBuffer.append( "Parameters : "+ toString(dataSet.getParameters())+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getInputParamBindings( ) ) )
-			str+="InputParamBindings : "+ toString(dataSet.getInputParamBindings())+"\r\n";
+			stringBuffer.append( "InputParamBindings : "+ toString(dataSet.getInputParamBindings())+"\r\n" );
 
 		if ( !isEmpty( dataSet.getResultSetHints( ) ) )
-			str+="ResultSetHints : "+ toString(dataSet.getResultSetHints())+"\r\n";
+			stringBuffer.append( "ResultSetHints : "+ toString(dataSet.getResultSetHints())+"\r\n" );
 		//OdaDataSetDesign
 		if ( !isEmpty( dataSet.getDataSetType( ) ) )
-			str+="DataSetType : "+dataSet.getDataSetType()+"\r\n";
+			stringBuffer.append( "DataSetType : "+dataSet.getDataSetType()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getPrimaryResultSetName( ) ) )
-			str+="PrimaryResultSetName : "+dataSet.getPrimaryResultSetName()+"\r\n";
+			stringBuffer.append( "PrimaryResultSetName : "+dataSet.getPrimaryResultSetName()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getQueryScript( ) ) )
-			str+="QueryScript : "+dataSet.getQueryScript()+"\r\n";
+			stringBuffer.append( "QueryScript : "+dataSet.getQueryScript()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getQueryText( ) ) )
-			str+="QueryText : "+dataSet.getQueryText()+"\r\n";
+			stringBuffer.append( "QueryText : "+dataSet.getQueryText()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getPrivateProperties( ) ) )
-			str+="PrivateProperties : "+toString(dataSet.getPrivateProperties())+"\r\n";
+			stringBuffer.append( "PrivateProperties : "+toString(dataSet.getPrivateProperties())+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getPublicProperties( ) ) )
-			str+="PublicProperties : "+toString(dataSet.getPublicProperties())+"\r\n";
+			stringBuffer.append( "PublicProperties : "+toString(dataSet.getPublicProperties())+"\r\n" );
 				
-		str+=")";
-		return str;
+		stringBuffer.append( ")" );
+		return stringBuffer.toString();
 	}
 	
 	private static String toString_OdaDataSourceDesign(Object source){
 		OdaDataSourceDesign dataSource = (OdaDataSourceDesign)source;
-		String str="OdaDataSourceDesign(";
+		StringBuffer stringBuffer= new StringBuffer("OdaDataSourceDesign(");
 		//BaseDataSourceDesign
 		if ( !isEmpty( dataSource.getName( ) ) )
-		str+="Name : "+dataSource.getName()+"\r\n";
+			stringBuffer.append( "Name : "+dataSource.getName()+"\r\n" );
 		if ( !isEmpty( dataSource.getAfterCloseScript( ) ) )
-		str+="AfterCloseScript : "+dataSource.getAfterCloseScript()+"\r\n";
+			stringBuffer.append( "AfterCloseScript : "+dataSource.getAfterCloseScript()+"\r\n" );
 		if ( !isEmpty( dataSource.getAfterOpenScript( ) ) )
-		str+="AfterOpenScript : "+dataSource.getAfterOpenScript()+"\r\n";
+			stringBuffer.append( "AfterOpenScript : "+dataSource.getAfterOpenScript()+"\r\n" );
 		if ( !isEmpty( dataSource.getBeforeCloseScript( ) ) )
-		str+="BeforeCloseScript : "+dataSource.getBeforeCloseScript()+"\r\n";
+			stringBuffer.append( "BeforeCloseScript : "+dataSource.getBeforeCloseScript()+"\r\n" );
 		if ( !isEmpty( dataSource.getBeforeOpenScript( ) ) )
-		str+="BeforeOpenScript : "+dataSource.getBeforeOpenScript()+"\r\n";
+			stringBuffer.append( "BeforeOpenScript : "+dataSource.getBeforeOpenScript()+"\r\n" );
 		//OdaDataSourceDesign
 		if ( !isEmpty( dataSource.getDriverName( ) ) )
-			str+="DriverName : "+dataSource.getDriverName()+"\r\n";
+			stringBuffer.append( "DriverName : "+dataSource.getDriverName()+"\r\n" );
 		if ( !isEmpty( dataSource.getPrivateProperties( ) ) )
-			str+="PrivateProperties : "+dataSource.getPrivateProperties()+"\r\n";
+			stringBuffer.append( "PrivateProperties : "+dataSource.getPrivateProperties()+"\r\n" );
 		if ( !isEmpty( dataSource.getPublicProperties( ) ) )
-			str+="PublicProperties : "+dataSource.getPublicProperties()+"\r\n";
+			stringBuffer.append( "PublicProperties : "+dataSource.getPublicProperties()+"\r\n" );
 		
-		str+=")";
-		return str;
+		stringBuffer.append( ")" );
+		return stringBuffer.toString();
 	}
 
 	private static boolean isEmpty( Object source )
