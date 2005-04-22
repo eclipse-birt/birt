@@ -14,6 +14,7 @@
       </library>
    </runtime>
    <requires>
+   	  <import plugin="org.junit" optional="true"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.data.oda"/>
    </requires>
