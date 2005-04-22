@@ -24,7 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTempla
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -95,13 +95,9 @@ public class GuiExtensionManager
 				return retValue;
 			}
 			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI( );
-			if ( edit == null )
-			{
-				return retValue;
-			}
-
+			
 			ExtendedItemPageGenerator generator = new ExtendedItemPageGenerator( );
-			generator.setQuickEdit( edit );
+			generator.setPropertyEditUI( edit );
 			retValue = generator;
 		}
 		return retValue;
@@ -121,7 +117,7 @@ public class GuiExtensionManager
 			{
 				return null;
 			}
-			IReportItemUI UI = ExtensionPointManager.getInstance( )
+			IReportItemFigureProvider UI = ExtensionPointManager.getInstance( )
 					.getExtendedElementPoint( id )
 					.getReportItemUI( );
 			if ( UI == null )
@@ -192,7 +188,7 @@ public class GuiExtensionManager
 
 			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.PALETTE_ICON );
 
-			IReportItemUI UI = point.getReportItemUI( );
+			IReportItemFigureProvider UI = point.getReportItemUI( );
 			if ( UI == null )
 			{
 				return root;

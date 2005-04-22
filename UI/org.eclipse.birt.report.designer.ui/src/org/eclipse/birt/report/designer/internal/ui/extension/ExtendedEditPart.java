@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -35,7 +36,7 @@ import org.eclipse.jface.window.Window;
 public class ExtendedEditPart extends ReportElementEditPart
 {
 
-	private IReportItemUI elementUI;
+	private IReportItemFigureProvider elementUI;
 
 	/**
 	 * @param model
@@ -77,6 +78,9 @@ public class ExtendedEditPart extends ReportElementEditPart
 	{
 		getExtendedElementUI( ).updateFigure( getExtendedItemHandle( ),
 				getFigure( ) );
+		
+		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+		
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
 				getConstraint( ) );
@@ -96,6 +100,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 			type = DesignChoiceConstants.DISPLAY_BLOCK;
 		}
 		constraint.setDisplay( type );
+		constraint.setMargin(  getModelAdapter( ).getMargin( null ) ); 
 		return constraint;
 	}
 
@@ -106,7 +111,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 */
 	protected IFigure createFigure( )
 	{
-		return getExtendedElementUI( ).getFigure( getExtendedItemHandle( ) );
+		return getExtendedElementUI( ).createFigure( getExtendedItemHandle( ) );
 	}
 
 	public void performDirectEdit( )
@@ -132,12 +137,12 @@ public class ExtendedEditPart extends ReportElementEditPart
 		}
 	}
 
-	public IReportItemUI getExtendedElementUI( )
+	public IReportItemFigureProvider getExtendedElementUI( )
 	{
 		return elementUI;
 	}
 
-	public void setExtendedElementUI( IReportItemUI elementUI )
+	public void setExtendedElementUI( IReportItemFigureProvider elementUI )
 	{
 		this.elementUI = elementUI;
 	}

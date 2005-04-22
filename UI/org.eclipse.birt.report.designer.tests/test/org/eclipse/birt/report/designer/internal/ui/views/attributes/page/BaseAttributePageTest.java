@@ -41,7 +41,7 @@ public class BaseAttributePageTest extends TestCase
 		};
 		page.setCategoryProvider( new ICategoryProvider( ) {
 
-			public String[] getCategorylabels( )
+			public String[] getCategoryLabels( )
 			{
 				return labels;
 			}

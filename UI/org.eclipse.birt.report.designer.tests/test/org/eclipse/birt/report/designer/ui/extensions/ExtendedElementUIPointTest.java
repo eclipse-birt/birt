@@ -28,13 +28,8 @@ public class ExtendedElementUIPointTest extends TestCase
 
 	public void setUp( ) throws Exception
 	{
-		point = (ExtendedElementUIPoint) PrivateAccessor.newInstance( ExtendedElementUIPoint.class,
-				new Class[]{
-					String.class
-				},
-				new Object[]{
-					"Test"
-				} );
+		point = (ExtendedElementUIPoint) PrivateAccessor.newInstance( ExtendedElementUIPoint.class );
+		point.setExtensionName( "Test");
 	}
 
 	public void testGetExtensionName( )

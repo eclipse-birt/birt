@@ -15,12 +15,14 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.ExtendedItemHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -106,11 +108,31 @@ public class HandleAdapterFactory
 		{
 			return getTextItemHandleAdapter( obj, mark );
 		}
+		if ( obj instanceof ExtendedItemHandle )
+		{
+		    return getExtendedItemHandleAdapter( obj, mark );
+		}
 
 		return null;
 	}
 
 	/**
+     * @param obj
+     * @param mark
+     * @return
+     */
+    private ExtendedItemHandleAdapter getExtendedItemHandleAdapter( Object obj, IModelAdapterHelper mark )
+    {
+        ExtendedItemHandleAdapter retValue = (ExtendedItemHandleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new ExtendedItemHandleAdapter( (ExtendedItemHandle) obj, mark );
+			map.put( obj, retValue );
+		}
+		return retValue;
+    }
+
+    /**
 	 * Get Table Handle Adapter
 	 * 
 	 * @param obj

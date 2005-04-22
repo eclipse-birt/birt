@@ -155,12 +155,18 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 	private Insets getFigureMargin( IFigure f )
 	{
-		if ( f instanceof IReportElementFigure )
+	    ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( f );
+	    Insets margin = INSETS_SINGLETON;
+	    if ( constraint != null )
+	        margin = constraint.getMargin( );
+	    
+	    if ( ( margin == null || margin == INSETS_SINGLETON ) &&	f instanceof IReportElementFigure )
 		{
-			return ( (IReportElementFigure) f ).getMargin( );
+			margin =  ( (IReportElementFigure) f ).getMargin( );
 		}
+		
 
-		return INSETS_SINGLETON;
+		return margin;
 	}
 
 	/**

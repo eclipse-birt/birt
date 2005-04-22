@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
 import org.eclipse.birt.report.designer.tests.ITestConstants;
-import org.eclipse.birt.report.designer.tests.example.matrix.TestingMatrixUI;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -49,8 +48,7 @@ public class ExtensionPointManagerTest extends BaseTestCase
 
 		assertEquals( ITestConstants.TEST_EXTENSION_NAME, point.getExtensionName( ) );
 
-		assertTrue( point.getReportItemUI( ) instanceof TestingMatrixUI );
-
+		
 		assertEquals( Boolean.TRUE,
 				point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER ) );
 		assertEquals( Boolean.TRUE,

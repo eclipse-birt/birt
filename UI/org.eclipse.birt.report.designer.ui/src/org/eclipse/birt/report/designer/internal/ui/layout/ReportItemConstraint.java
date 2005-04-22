@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.layout;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -28,6 +29,8 @@ public class ReportItemConstraint extends Rectangle
 	public static final int BLOCK = 2;
 
 	private int m_display = NONE;
+
+    private Insets m_margins = null;
 
 	public int getDisplay( )
 	{
@@ -68,5 +71,21 @@ public class ReportItemConstraint extends Rectangle
 	public boolean isNone( )
 	{
 		return m_display == NONE;
+	}
+	/**
+	 * @return the margin of the element
+	 */
+	public Insets getMargin()
+	{
+	    return m_margins;
+	}
+	
+	/**
+	 * Set the margin of this element
+	 * @param margin
+	 */
+	public void setMargin( final Insets margin )
+	{
+	    m_margins = margin;
 	}
 }

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -42,7 +41,7 @@ import org.eclipse.jface.util.Assert;
 public class ExtensionPointManager
 {
 
-	private Map pointsMap = new HashMap( );
+	private Map pointsMap = null;
 
 	private static ExtensionPointManager instance = null;
 
@@ -54,45 +53,25 @@ public class ExtensionPointManager
 	{
 		if ( instance == null )
 		{
-			instance = new ExtensionPointManager( );
+		    synchronized(ExtensionPointManager.class)
+		    {
+		        if (instance == null )
+		        {
+		            instance = new ExtensionPointManager( );
+		        }
+		    }
 		}
 		return instance;
 	}
 
 	/**
-	 * Gets the list of all the extended element point.
+	 * Gets the list of all the extended element points.
 	 * 
 	 * @return Returns the list of all the extended element point.
 	 */
 	public List getExtendedElementPoints( )
 	{
-		List list = new ArrayList( );
-		for ( Iterator itor = getExtensionElements( ).iterator( ); itor.hasNext( ); )
-		{
-			IConfigurationElement element = (IConfigurationElement) itor.next( );
-			String extensionName = getExtensionName( element );
-			ExtendedElementUIPoint point = null;
-			if ( extensionName != null )
-			{
-				if ( pointsMap.containsKey( extensionName ) )
-				{
-					point = (ExtendedElementUIPoint) pointsMap.get( extensionName );
-				}
-				else
-				{
-					point = loadElement( element );
-					if ( point != null )
-					{
-						pointsMap.put( extensionName, point );
-					}
-				}
-			}
-			if ( point != null )
-			{
-				list.add( point );
-			}
-		}
-		return list;
+		return Arrays.asList( getPointsMap().values().toArray() );
 	}
 
 	/**
@@ -106,24 +85,37 @@ public class ExtensionPointManager
 	public ExtendedElementUIPoint getExtendedElementPoint( String extensionName )
 	{
 		Assert.isLegal( extensionName != null );
-		if ( pointsMap.containsKey( extensionName ) )
-		{
-			return (ExtendedElementUIPoint) pointsMap.get( extensionName );
-		}
-		ExtendedElementUIPoint newPoint = createExtendedElementPoint( extensionName );
-		if ( newPoint != null )
-		{
-			pointsMap.put( extensionName, newPoint );
-		}
-		return newPoint;
+		return (ExtendedElementUIPoint) getPointsMap().get( extensionName );
 	}
 
-	private String getExtensionName( IConfigurationElement element )
-	{
-		return element.getAttribute( IExtensionConstants.EXTENSION_NAME );
-	}
+	/**
+     * 
+     */
+    private Map getPointsMap( )
+    {
+        if ( pointsMap == null )
+        {
+            synchronized( this )
+            {
+                if ( pointsMap == null )
+                {
+		            pointsMap = new HashMap();
+		        
+		            for ( Iterator iter = getExtensionElements( ).iterator( ); iter.hasNext( ); )
+		            {
+		                IExtension extension = (IExtension) iter.next( );
+		
+		                ExtendedElementUIPoint point = createExtendedElementPoint( extension );
+		                if ( point != null )
+		                    pointsMap.put( point.getExtensionName(), point );
+					}
+                }
+            }
+		}
+        return pointsMap;
+    }
 
-	private List getExtensionElements( )
+    private List getExtensionElements( )
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
 		if ( registry == null )
@@ -135,80 +127,76 @@ public class ExtensionPointManager
 		{//extension point cannot be resolved
 			return Collections.EMPTY_LIST;
 		}
-		return Arrays.asList( extensionPoint.getConfigurationElements( ) );
+		return Arrays.asList( extensionPoint.getExtensions( ) );
 	}
 
-	private ExtendedElementUIPoint createExtendedElementPoint(
-			String extensionName )
+	private ExtendedElementUIPoint createExtendedElementPoint( IExtension extension )
 	{
-		Assert.isLegal( extensionName != null );
-		List list = getExtensionElements( );
-		for ( Iterator itor = list.iterator( ); itor.hasNext( ); )
+		IConfigurationElement[] elements = extension.getConfigurationElements();
+		if ( elements != null && elements.length > 0 )
 		{
-			IConfigurationElement element = (IConfigurationElement) itor.next( );
-			String name = element.getAttribute( IExtensionConstants.EXTENSION_NAME );
-			if ( extensionName.equals( name ) )
-			{
-				return loadElement( element );
-			}
+			return loadElements( elements );
 		}
 		return null;
 	}
 
-	private ExtendedElementUIPoint loadElement( IConfigurationElement element )
+	private ExtendedElementUIPoint loadElements( IConfigurationElement[] elements )
 	{
-		String extensionName = getExtensionName( element );
-		if ( DesignEngine.getMetaDataDictionary( ).getExtension( extensionName ) == null )
-		{//Non-defined element
-			return null;
-		}
-		ExtendedElementUIPoint newPoint = new ExtendedElementUIPoint( extensionName );
-		String className = element.getAttribute( IExtensionConstants.CLASS );
-		if ( className == null )
-		{//class is required
-			return null;
-		}
-		try
-		{
-			Object ui = element.createExecutableExtension( IExtensionConstants.CLASS );
-			if ( ui instanceof IReportItemUI )
-			{
-				newPoint.setReportItemUI( (IReportItemUI) ui );
-			}
-			else
-			{//wrong type
-				return null;
-			}
-
-		}
-		catch ( Exception e )
-		{//class cannot be loaded
-			return null;
-		}
-
-		IConfigurationElement[] elements = element.getChildren( );
+		
+		ExtendedElementUIPoint newPoint = new ExtendedElementUIPoint( );
+	
 		if ( elements != null )
 		{
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				loadAttributes( newPoint, elements[i] );
-			}
+			try
+	        {
+			    for ( int i = 0; i < elements.length; i++ )
+				{
+			        loadAttributes( newPoint, elements[i] );
+				}
+	        } 
+			catch ( Exception e )
+	        {
+	            ExceptionHandler.handle( e );
+	            return null;
+	        }
+		
+		}
+		if ( DesignEngine.getMetaDataDictionary( ).getExtension( newPoint.getExtensionName() ) == null )
+		{
+		    //Non-defined element. Ignore
+			return null;
 		}
 		return newPoint;
 	}
 
 	private void loadAttributes( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element )
+			IConfigurationElement element ) throws CoreException
 	{
-		String elementName = element.getName( );
-		if ( IExtensionConstants.BUILDER.equals( elementName ) )
+	    String elementName = element.getName( );
+	    if ( IExtensionConstants.MODEL.equals( elementName ))
+	    {
+	        String value = element.getAttribute( IExtensionConstants.EXTENSION_NAME );
+	        newPoint.setExtensionName( value );
+	    }
+	    else if ( IExtensionConstants.REPORT_ITEM_FIGURE_UI.equals( elementName ) ||
+	            IExtensionConstants.REPORT_ITEM_IMAGE_UI.equals( elementName )||
+	            IExtensionConstants.REPORT_ITEM_LABEL_UI.equals( elementName ) )
+	    {
+	    	String className = element.getAttribute( IExtensionConstants.CLASS );
+			if ( className != null )
+			{
+				Object ui = element.createExecutableExtension( IExtensionConstants.CLASS );
+				newPoint.setReportItemUI( new ExtendedUIAdapter( ui ) );
+			}
+	    }
+		else if ( IExtensionConstants.BUILDER.equals( elementName ) )
 		{
 			loadClass( newPoint,
 					element,
 					IExtensionConstants.CLASS,
 					IExtensionConstants.BUILDER );
 		}
-		if ( IExtensionConstants.PROPERTYEDIT.equals( elementName ) )
+		else if ( IExtensionConstants.PROPERTYEDIT.equals( elementName ) )
 		{
 			loadClass( newPoint,
 					element,
@@ -216,7 +204,7 @@ public class ExtensionPointManager
 					IExtensionConstants.PROPERTYEDIT );
 		}
 
-		if ( IExtensionConstants.PALETTE.equals( elementName ) )
+		else if ( IExtensionConstants.PALETTE.equals( elementName ) )
 		{
 			loadIconAttribute( newPoint,
 					element,

@@ -66,17 +66,16 @@
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.reportitemUI">
-      <reportItemUI
-            class="org.eclipse.birt.report.designer.tests.example.matrix.TestingMatrixUI"
-            extensionName="TestingBall">
-         <palette
-               category="TestCategory"/>
-         <editor
-               canResize="false"
-               showInDesigner="true"/>
-         <outline icon="icon/cell.gif"/>
-         <builder class="org.eclipse.birt.report.designer.tests.example.matrix.ReportItemBuilderUITest"/>
-      </reportItemUI>
+      <model extensionName="TestingBall"/>
+      <builder class="org.eclipse.birt.report.designer.tests.example.matrix.ReportItemBuilderUITest"/>
+      <outline icon="icon/cell.gif"/>
+      <reportItemFigureUI class="org.eclipse.birt.report.designer.tests.example.matrix.TestingMatrixUI"/>
+      <editor
+            showInMasterPage="true"
+            canResize="false"
+            showInDesigner="true"/>
+      <palette category="TestCategory"/>
+      <propertyPage class="org.eclipse.birt.report.designer.tests.example.matrix.ReportItemPropertyEditUITest"/>
    </extension>
 
 </plugin>

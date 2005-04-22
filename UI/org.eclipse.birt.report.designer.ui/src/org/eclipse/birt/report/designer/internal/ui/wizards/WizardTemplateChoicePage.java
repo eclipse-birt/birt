@@ -129,11 +129,11 @@ public class WizardTemplateChoicePage extends WizardPage
 					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting" ), //$NON-NLS-1$
-			new Template( TITLE_MAILING_LABELS,
+			/*new Template( TITLE_MAILING_LABELS,
 					DESCRIPTION_MAILING_LABELS,
 					"/templates/mailing_labels.rptdesign", //$NON-NLS-1$
 					"/templates/mailing_labels.gif", //$NON-NLS-1$
-					"" ), //$NON-NLS-1$
+					"" ), //$NON-NLS-1$*/
 			new Template( TITLE_LETTER,
 					DESCRIPTION_LETTER,
 					"/templates/letter.rptdesign", //$NON-NLS-1$

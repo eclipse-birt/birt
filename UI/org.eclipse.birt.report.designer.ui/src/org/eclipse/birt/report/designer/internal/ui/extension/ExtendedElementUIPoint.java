@@ -17,7 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -28,7 +28,7 @@ public class ExtendedElementUIPoint {
 
 	private String extensionName;
 
-	private IReportItemUI reportItemUI = null;
+	private IReportItemFigureProvider reportItemUI = null;
 
 	private Map attributesMap = new HashMap(5);
 
@@ -41,9 +41,7 @@ public class ExtendedElementUIPoint {
 	 * @param extensionName
 	 *            the extension name of the extended element
 	 */
-	ExtendedElementUIPoint(String extensionName) {
-		this.extensionName = extensionName;
-
+	ExtendedElementUIPoint() {
 		//Default value
 		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_DESIGNER, Boolean.TRUE);
 		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE,
@@ -67,7 +65,7 @@ public class ExtendedElementUIPoint {
 	 * 
 	 * @return Returns the UI instance;
 	 */
-	public IReportItemUI getReportItemUI() {
+	public IReportItemFigureProvider getReportItemUI() {
 		return reportItemUI;
 	}
 
@@ -99,7 +97,7 @@ public class ExtendedElementUIPoint {
 	 * @param reportItemUI
 	 *            the UI instance to set.It cannot be null
 	 */
-	void setReportItemUI(IReportItemUI reportItemUI) {
+	void setReportItemUI(IReportItemFigureProvider reportItemUI) {
 		Assert.isLegal(reportItemUI != null);
 		this.reportItemUI = reportItemUI;
 	}
@@ -134,4 +132,13 @@ public class ExtendedElementUIPoint {
 	public void setClass(String key, Object value) {
 		classMap.put(key, value);
 	}
+
+    /**
+     * Set the extension Name of this extension point
+     * @param value
+     */
+    public void setExtensionName( String value )
+    {
+        this.extensionName = value;
+    }
 }

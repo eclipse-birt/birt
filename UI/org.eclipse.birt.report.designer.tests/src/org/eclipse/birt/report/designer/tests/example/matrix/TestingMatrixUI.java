@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemUI;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.util.Assert;
@@ -21,7 +21,7 @@ import org.eclipse.jface.util.Assert;
  *  
  */
 
-public class TestingMatrixUI implements IReportItemUI
+public class TestingMatrixUI implements IReportItemFigureProvider
 {
 
     public static final String TEST_ELEMENT = "TestingBall"; //$NON-NLS-1$
@@ -40,9 +40,9 @@ public class TestingMatrixUI implements IReportItemUI
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#getFigure(org.eclipse.birt.report.model.api.ReportItemHandle)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider#getFigure(org.eclipse.birt.report.model.api.ReportItemHandle)
 	 */
-	public IFigure getFigure( ExtendedItemHandle handle )
+	public IFigure createFigure( ExtendedItemHandle handle )
 	{
 		IFigure figure = new LabelFigure( );
 		if ( handle != null )
@@ -57,7 +57,7 @@ public class TestingMatrixUI implements IReportItemUI
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#updateFigure(org.eclipse.birt.report.model.api.ReportItemHandle,
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider#updateFigure(org.eclipse.birt.report.model.api.ReportItemHandle,
 	 *      org.eclipse.draw2d.IFigure)
 	 */
 	public void updateFigure( ExtendedItemHandle handle, IFigure figure )
@@ -69,7 +69,7 @@ public class TestingMatrixUI implements IReportItemUI
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#disposeFigure(org.eclipse.birt.report.model.api.ExtendedItemHandle, org.eclipse.draw2d.IFigure)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider#disposeFigure(org.eclipse.birt.report.model.api.ExtendedItemHandle, org.eclipse.draw2d.IFigure)
 	 */
 	public void disposeFigure(ExtendedItemHandle handle, IFigure figure)
 	{
