@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 public class ReportItemGenerationBase implements IReportItemGeneration {
 
 	protected ExtendedItemHandle modelHandle;
+	protected IBaseQueryDefinition[] queries;
 	
     /**
      * Constructor that does nothing
@@ -46,6 +48,10 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 	 */
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
+	}
+	public void setReportQueries(IBaseQueryDefinition[] queries)
+	{
+		this.queries = queries;
 	}
 
 	/* (non-Javadoc)

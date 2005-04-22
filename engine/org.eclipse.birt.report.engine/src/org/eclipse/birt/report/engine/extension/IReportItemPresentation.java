@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -44,6 +45,7 @@ public interface IReportItemPresentation {
 	 * @param modelHandle a handle to the extended item model object 
 	 */
 	public abstract void setModelObject(ExtendedItemHandle modelHandle);	
+	public void setReportQueries(IBaseQueryDefinition[] queries);
 
 	/**
 	 * passes the locale used in the presentation.
@@ -88,8 +90,6 @@ public interface IReportItemPresentation {
      * @return output type, for now OUTPUT_AS_IMAGE only
      */
     public int getOutputType();
-    
-    public Object getOutputContent();
     
 	/**
 	 * processes the extended item in report presentation environment. 

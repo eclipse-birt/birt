@@ -91,12 +91,13 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		if ( itemGeneration != null )
 		{
 			itemGeneration.setModelObject( handle );
+			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
 			IRowSet[] rowSets = executeQueries( item );
 			if ( rowSets != null )
 			{
 				try
 				{
-					itemGeneration.onRowSets( null );
+					itemGeneration.onRowSets( rowSets );
 				}
 				catch ( BirtException ex )
 				{
@@ -126,6 +127,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		if ( itemPresentation != null )
 		{
 			itemPresentation.setModelObject( handle );
+			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
 			//itemPresentation.setResolution();
 			itemPresentation.setLocale(context.getLocale());
 			itemPresentation.setSupportedImageFormats( "GIF;PNG;JPG;BMP" );
@@ -136,21 +138,24 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 						generationStatus ) );
 			}
 
+			Object output = null;
 			IRowSet[] rowSets = executeQueries( item );
 			if ( rowSets != null )
 			{
 				try
 				{
-					itemPresentation.onRowSets( rowSets );
+					output = itemPresentation.onRowSets( rowSets );
 				}
 				catch ( BirtException ex )
 				{
 					logger.log( Level.SEVERE, ex.getMessage( ), ex );
 				}
 			}
-			int type = itemPresentation.getOutputType( );
-			Object output = itemPresentation.getOutputContent( );
-			handleItemContent( item, emitter, content, type, output );
+			if (output != null)
+			{
+				int type = itemPresentation.getOutputType( );
+				handleItemContent( item, emitter, content, type, output );
+			}
 			closeQueries( rowSets );
 			itemPresentation.finish( );
 		}

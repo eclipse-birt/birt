@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -26,6 +27,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
     protected String outputFormat;
     protected String supportedImageFormats;
     protected Locale locale;
+    protected IBaseQueryDefinition[] queries;
 
 	/**
      * Constructor that does nothing
@@ -64,6 +66,10 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
 	 */
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
+	}
+	public void setReportQueries(IBaseQueryDefinition[] queries)
+	{
+		this.queries = queries;
 	}
 
 	public void setLocale(Locale locale)

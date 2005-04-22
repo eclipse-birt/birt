@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -26,7 +27,8 @@ public interface IReportItemGeneration {
 	 * 
 	 * @param modelHandle a handle to the extended item model object 
 	 */
-	public abstract void setModelObject(ExtendedItemHandle modelHandle);	
+	public abstract void setModelObject(ExtendedItemHandle modelHandle);
+	public void setReportQueries(IBaseQueryDefinition[] queries);
 
 	/**
 	 * processes the extended item in report generation environment. 
