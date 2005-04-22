@@ -13,10 +13,10 @@
  */
 package org.eclipse.birt.data.engine.api;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Scriptable;
 import java.util.Collection;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A prepared data engine query ready for execution. An instance of this class is compiled from the static
