@@ -16,13 +16,16 @@ import java.io.Serializable;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class Column implements Serializable
 {
 
 	private String name = null;
+	private String DbType = null;
+	private String schemaName = null;
+	private String tableName = null;
 
 	/**
 	 *  
@@ -47,5 +50,45 @@ public class Column implements Serializable
 	public void setName( String name )
 	{
 		this.name = name;
+	}
+	
+	
+	/**
+	 * @return Returns the dbType.
+	 */
+	public String getDbType() {
+		return DbType;
+	}
+	/**
+	 * @param dbType The dbType to set.
+	 */
+	public void setDbType(String dbType) {
+		DbType = dbType;
+	}
+	
+	
+	/**
+	 * @return Returns the schemaName.
+	 */
+	public String getSchemaName() {
+		return schemaName;
+	}
+	/**
+	 * @param schemaName The schemaName to set.
+	 */
+	public void setSchemaName(String schemaName) {
+		this.schemaName = schemaName;
+	}
+	/**
+	 * @return Returns the tableName.
+	 */
+	public String getTableName() {
+		return tableName;
+	}
+	/**
+	 * @param tableName The tableName to set.
+	 */
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 }

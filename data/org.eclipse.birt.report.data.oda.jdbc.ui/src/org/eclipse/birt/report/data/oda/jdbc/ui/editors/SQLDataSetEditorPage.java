@@ -9,26 +9,38 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
+
 import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.ExternalEditorPreferenceManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExternalEditorPreference;
+import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.compare.Splitter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
@@ -37,29 +49,116 @@ import org.eclipse.jface.text.rules.DefaultPartitioner;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceAdapter;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/24 04:48:35 $
+ * @version $Revision: 1.4 $ $Date: 2005/04/12 06:08:39 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
 {
 	private transient Document doc = null;
+	private SourceViewer viewer = null;
 	private Hashtable htActions = new Hashtable( );
     private transient IExternalEditorPreference preference = null;
+    private TreeItem rootNode = null;
+    private Text searchTxt = null;
+    private boolean isSchemaSupported = false;
+    private  Tree AvailableDbObjects = null;
+    private JdbcMetaDataProvider metaDataProvider = null;
+	// Images that will be used in displayign the tables, views etc
+	private Image dataSourceImage, schemaImage, tableImage, viewImage, 
+		    dataBaseImage, columnImage;
+	
+	// List of Schema Name
+	protected ArrayList schemaList;
+	
+	// List of Table names 
+	protected ArrayList tableList;
+	
+	private ComboViewer filterComboViewer = null;
+	OdaDataSourceHandle prevDataSourceHandle = null;
+	
+	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
+	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
+	private static String PAGE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.PageIcon";
+	private static String SCHEMA_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.SchemaIcon";
+	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
+	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
+	
+	static
+	{
+		try
+		{
+	
+			ImageRegistry reg = JFaceResources.getImageRegistry( );
+			reg.put( TABLE_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/table.gif" ) );//$NON-NLS-1$
+			reg.put( VIEW_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/view.gif" ) );//$NON-NLS-1$
+			reg.put( PAGE_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/create_join_wizard.gif" ) );//$NON-NLS-1$
+			reg.put( SCHEMA_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/schema.gif" ) );//$NON-NLS-1$
+			reg.put( DATABASE_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/data_source.gif" ) );//$NON-NLS-1$
+			reg.put( COLUMN_ICON,
+					ImageDescriptor.createFromFile( JdbcPlugin.class,
+							"icons/column.gif" ) );//$NON-NLS-1$
 
+	
+		}
+		catch ( Exception ex )
+		{
+			
+		} 
+	}
+
+
+    
 	/**
 	 * @param pageName
 	 */
@@ -75,7 +174,892 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	public Control createPageControl( Composite parent )
 	{
-        Composite composite = new Composite(parent, SWT.NONE);
+		
+	
+		
+		
+		Splitter splitter = new Splitter( parent, SWT.NONE );
+		splitter.setOrientation( SWT.HORIZONTAL );
+		splitter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
+		createTableSelectionComposite(splitter);
+		initialize();
+		// Populate the available Items
+		populateAvailableDbObjects();
+		   
+
+		createTextualQueryComposite(splitter);
+
+		splitter.setWeights( new int[]{
+				35,65
+		} );
+
+			
+		return splitter;
+	}
+	
+	/**
+	 * Creates the composite,  for displaying the list of available db objects
+	 * @param parent
+	 */
+	private void createTableSelectionComposite( Composite parent )
+	{
+		Composite tablescomposite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		
+		tablescomposite.setLayout(layout);
+		{
+			GridData data = new GridData(GridData.FILL_BOTH);
+			data.grabExcessVerticalSpace = true;
+			tablescomposite.setLayoutData(data);
+		}
+		
+		
+		// Available Items 
+		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
+		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
+		{
+			GridData data = new GridData();
+			dataSourceLabel.setLayoutData(data);
+		}
+
+		
+		
+		AvailableDbObjects = new Tree(tablescomposite, SWT.BORDER|SWT.MULTI );
+		
+		{
+			GridData data = new GridData(GridData.FILL_BOTH);
+			data.grabExcessHorizontalSpace = true;
+			data.grabExcessVerticalSpace = true;
+			//data.heightHint = 150;
+			AvailableDbObjects.setLayoutData(data);
+		}
+		
+		AvailableDbObjects.addMouseListener(new MouseAdapter() {
+			public void mouseDoubleClick(MouseEvent e) 
+			{
+				//addTable();
+			}
+		});
+		AvailableDbObjects.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			  if ( event.widget.getClass() != null )
+				 handleAvailabeTreeSelection();
+			}
+
+			private void handleAvailabeTreeSelection() {
+				TreeItem items[] = AvailableDbObjects.getSelection();	
+				for ( int i = 0; i <items.length; i++ )
+				{
+					if ( items[i].getGrayed() )
+					{
+						AvailableDbObjects.setRedraw(false);
+						AvailableDbObjects.deselectAll();
+						AvailableDbObjects.setRedraw(true);	
+						AvailableDbObjects.redraw();	
+					}
+				}
+			}
+		  });
+		
+
+
+		// Group for selecting the Tables etc
+		// Searching the Tables and Views
+		
+		Group selectTableGroup = new Group(tablescomposite, SWT.FILL);
+		{
+			GridLayout groupLayout = new GridLayout();
+			groupLayout.numColumns = 3;
+			//groupLayout.horizontalSpacing = 10;
+			groupLayout.verticalSpacing = 10;
+			selectTableGroup.setLayout(groupLayout);
+			
+			GridData data = new GridData(GridData.FILL_HORIZONTAL);
+			selectTableGroup.setLayoutData(data);
+		}
+		
+		Label FilterLabel = new Label(selectTableGroup, SWT.LEFT);
+		FilterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
+		
+		
+		searchTxt = new Text(selectTableGroup, SWT.BORDER) ;
+		{
+			GridData data = new GridData();
+			data.horizontalSpan = 2;
+			searchTxt.setLayoutData(data);
+		}
+
+		
+		// Select Type
+		Label selectTypeLabel = new Label(selectTableGroup, SWT.NONE);
+		selectTypeLabel.setText(JdbcPlugin.getResourceString("tablepage.label.selecttype"));
+		
+		// Filter Combo
+		filterComboViewer = new ComboViewer(selectTableGroup, SWT.READ_ONLY);
+		setFilterComboContents(filterComboViewer);
+		
+	
+		// Find Button
+		Button findButton = new Button(selectTableGroup, SWT.NONE);
+		findButton.setText(JdbcPlugin.getResourceString("tablepage.button.filter"));//$NON-NLS-1$
+
+		
+		// Add listener to the find button
+		findButton.addSelectionListener(new SelectionAdapter() {
+		public void widgetSelected(SelectionEvent event) {
+				 	PlatformUI.getWorkbench( ).getDisplay( ).asyncExec(
+				 	new Runnable()
+				 	{
+						public void run() 
+						{
+							populateAvailableDbObjects();
+							
+						}
+
+				 	}
+				 	);
+				 }
+		
+			 });
+		
+
+		
+		setRootElement();
+		
+		
+		//	 Create the drag source on the tree
+		addDragSupportToTree();   
+		
+
+	}
+	
+	private void setFilterComboContents(ComboViewer filterComboViewer)
+	{
+		if( filterComboViewer == null )
+		{
+			return;
+		}
+		
+		ArrayList dbTypeList = new ArrayList();
+		
+		DbType tableType  = new DbType(DbType.TABLE_TYPE, JdbcPlugin.getResourceString("tablepage.text.tabletype"));
+		DbType viewType = new DbType(DbType.VIEW_TYPE, JdbcPlugin.getResourceString("tablepage.text.viewtype"));
+		DbType allType = new DbType(DbType.ALL_TYPE, JdbcPlugin.getResourceString("tablepage.text.All"));
+
+		// Populate the Types of Data bases objects which can be retrieved
+		dbTypeList.add(tableType);
+		dbTypeList.add(viewType);
+		dbTypeList.add(allType);
+
+		
+        filterComboViewer.setContentProvider(new IStructuredContentProvider(){
+
+            public Object[] getElements(Object inputElement)
+            {
+                if(inputElement != null)
+                {
+                    return ((ArrayList)inputElement).toArray();
+                }
+                return new DbType[]{};
+            }
+
+            public void dispose()
+            {
+                // TODO Auto-generated method stub
+                
+            }
+
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
+            {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        
+        filterComboViewer.setLabelProvider(new LabelProvider(){
+            public String getText(Object inputElement)
+            {
+                DbType dbType = (DbType)inputElement;
+                return dbType.getName(); 
+            }
+            
+        });
+        
+		filterComboViewer.setInput(dbTypeList);
+		
+		// Set the Default selection to the First Item , which is "Table"
+		filterComboViewer.getCombo().select(0);
+        
+        
+		
+	}
+
+	/*
+	 * This method is invoked when the find button is clicked
+	 * It populates the Available Data Base obecets ( in the Tree control ) 
+	 * 
+	 */
+	protected void populateAvailableDbObjects()
+	{
+		
+		// Clear of the Old values in the Available Db objects 
+		// in the tree
+		
+		RemoveAllAvailableDbObjects();
+		
+		initJdbcInfo();
+		
+		setRootElement();
+		setRefreshInfo();
+		if ( isSchemaSupported )
+		{
+			getAvailableSchema();
+			populateTableList();
+		}
+		else
+		{
+			populateTableList();
+		}
+		
+		// Set the focus on the root node
+		if( rootNode != null )
+		{
+			selectNode(rootNode);
+		}
+		
+
+	}
+	
+	/*
+	 * Sets the Root Element of the Available Data Sources
+	 * This is usually the Name of the Catalog of the Database
+	 */
+	protected void setRootElement()
+	{
+		rootNode = new TreeItem(AvailableDbObjects,SWT.NONE);
+		rootNode.setImage(dataBaseImage);
+		
+		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		
+		rootNode.setText(dataSourceHandle.getName());
+		
+	}
+	
+	private void RemoveAllAvailableDbObjects()
+	{
+		AvailableDbObjects.removeAll();
+	}
+	
+	/**
+	 *  Gets the list of schema objects 
+	 */
+	private void getAvailableSchema()
+	{
+		if (isSchemaSupported)
+		{
+			ResultSet schemas = metaDataProvider.getAllSchema();
+			schemaList = createSchemaList( schemas );
+		}
+	}
+	
+	protected void populateTableList()
+	{
+		 // Remove all the existing children of the root Node
+		 if ( rootNode != null )
+		 {
+		 	AvailableDbObjects.removeAll();
+		 	setRootElement();
+		 }
+
+		  String namePattern = null;
+		  String[] tableType = null;
+
+		  
+		  if ( searchTxt.getText().length() > 0 )
+		  {
+		  	namePattern = searchTxt.getText();
+		  	// Add the % by default if there is no such pattern
+		  	if ( namePattern != null )
+		  	{
+		  		if ( namePattern.lastIndexOf('%') == -1)
+		  		{
+		  			namePattern = namePattern + "%";
+		  		}
+		  	}
+		  }
+		  
+		  String dbtype = getSelectedDbType();
+		  if ( dbtype != null && ! DbType.ALL_STRING.equalsIgnoreCase(dbtype))
+		  {
+		  	tableType = new String[]{ dbtype };
+		  }
+		  
+
+	    String catalogName = metaDataProvider.getCatalog();
+		ArrayList tableList = new ArrayList();
+		
+
+		if (schemaList != null && schemaList.size() > 0)
+		{
+			ResultSet tablesRs = null;
+			// For each schema Get  the List of Tables
+			int numTables = 0;
+			boolean maxRecordsDisplayed = false;
+			for( int i=0; i< schemaList.size(); i++)
+			{
+				if ( maxRecordsDisplayed ) 
+				{
+					break;
+				}
+				
+				int count = 0;
+				String schemaName = (String)schemaList.get(i);
+				tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);
+				tableList = new ArrayList();
+				if( tablesRs == null )
+				{
+					continue;
+				}
+	
+				try
+				{
+					// Create the schema Node
+
+					ArrayList schema = new ArrayList();
+					TreeItem schemaTreeItem[] = null;
+					
+					int tableCount = 0;
+					Image image = tableImage;
+					while( tablesRs.next()) 
+					{
+						if( count == 0 )
+						{
+							schema.add(schemaName);
+							schemaTreeItem = Utility.createTreeItems(rootNode, schema, SWT.NONE, schemaImage);
+						}
+						
+						count++;
+						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
+						String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
+						
+						int dbType = DbObject.TABLE_TYPE;
+				
+						if(type.equalsIgnoreCase("TABLE"))
+						{
+							image = tableImage;
+							dbType = DbObject.TABLE_TYPE;
+						}
+						else if(type.equalsIgnoreCase("VIEW"))
+						{
+							image = viewImage;
+							dbType = DbObject.VIEW_TYPE;
+						}
+						
+						String fullyQualifiedTableName = tableName;
+						if( schemaName != null && schemaName.trim().length() > 0)
+						{
+							fullyQualifiedTableName = schemaName + "." + tableName;
+						}
+						DbObject dbObject = new DbObject(fullyQualifiedTableName,tableName, dbType, image);
+						tableList.add(dbObject);
+						numTables ++;
+						
+						if ( numTables == DbType.MAX_ITEMS_DISPLAY_COUNT )
+						{
+							maxRecordsDisplayed = true;
+							break;
+						}
+
+					}
+					
+					if( schemaTreeItem != null && schemaTreeItem.length > 0)
+					{
+						TreeItem item[] = Utility.createTreeItems(schemaTreeItem[0], tableList, SWT.NONE, null);
+						schemaTreeItem[0].setExpanded(false);
+					}
+					
+					
+				}
+				catch(SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			checkForMaxRecordsDisplayed(maxRecordsDisplayed, tablesRs);
+
+		}
+		else
+		{
+			//ResultSet tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
+			ResultSet tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
+			if( tablesRs == null)
+			{
+				return;
+			}
+			int count = 0;
+			boolean maxRecordsDisplayed = false;
+			try
+			{
+				Image image = tableImage;
+				while( tablesRs.next())
+				{
+					count ++;
+					String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
+					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
+					int dbType = DbObject.TABLE_TYPE;
+								
+					if(type.equalsIgnoreCase("TABLE"))
+					{
+						image = tableImage;
+						dbType = DbObject.TABLE_TYPE;
+					}
+					else if(type.equalsIgnoreCase("VIEW"))
+					{
+						image = viewImage;
+						dbType = DbObject.VIEW_TYPE;
+					}
+					
+					DbObject dbObject = new DbObject(tableName, tableName,dbType, image);
+					tableList.add(dbObject);
+					
+					if ( count == DbType.MAX_ITEMS_DISPLAY_COUNT  )
+					{
+						maxRecordsDisplayed = true;
+						break;
+					}
+
+				}
+				
+				TreeItem item[] = Utility.createTreeItems(rootNode, tableList, SWT.NONE, null);
+				
+				// Add listener to display the column names when expanded
+				
+				checkForMaxRecordsDisplayed(maxRecordsDisplayed, tablesRs);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			
+		}
+
+	
+		// Add a listener for fetching columns
+	   addFetchColumnListener();  
+
+	}
+
+	private void initialize()
+	{
+		
+	
+		dataSourceImage = JFaceResources.getImage( PAGE_ICON );
+		
+		tableImage = JFaceResources.getImage( TABLE_ICON );
+		
+		viewImage = JFaceResources.getImage( VIEW_ICON );
+		
+		schemaImage = JFaceResources.getImage(SCHEMA_ICON);
+		
+		dataBaseImage = JFaceResources.getImage(DATABASE_ICON);
+		
+		columnImage = JFaceResources.getImage(COLUMN_ICON);
+		
+		// Initializing the jdbc related properties
+		metaDataProvider = new JdbcMetaDataProvider(null);
+		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		Connection jdbcConnection = metaDataProvider.connect(prevDataSourceHandle);
+		
+		try
+		{
+			if ( jdbcConnection != null )
+			{
+				
+				// Check if schema is supported
+				isSchemaSupported = metaDataProvider.isSchemaSupported();
+ 
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			
+		}
+	}
+		
+
+
+	/**
+	 *  Initializes the Jdbc related information , used  by this page
+	 * ( such as the Jdbc Connection , Catalog Name etc )
+	 *
+	 */
+	protected void initJdbcInfo()
+	{
+		if ( metaDataProvider == null )
+		{
+			metaDataProvider = new JdbcMetaDataProvider(null);
+			
+		}
+		
+		try
+		{
+			isSchemaSupported = metaDataProvider.isSchemaSupported();
+		}
+		catch(Exception e)
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	/**
+	 *  Initializes the Jdbc related information , used  by this page
+	 * ( such as the Jdbc Connection , Catalog Name etc )
+	 * @param curDataSourceHandle
+	 *
+	 */
+	protected void resetJdbcInfo(DataSourceHandle curDataSourceHandle)
+	{
+		if( metaDataProvider != null )
+		{
+			metaDataProvider.closeConnection();
+			metaDataProvider = new JdbcMetaDataProvider(null);
+			metaDataProvider.connect(curDataSourceHandle);
+			
+			// Clear the Table list and the schema List
+			tableList = null;
+			schemaList = null;
+		}
+		
+		try
+		{
+			isSchemaSupported = metaDataProvider.isSchemaSupported();
+		}
+		catch(Exception e)
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	
+
+	
+	/**
+	 *  Called to indicate that the process of getting the available Db objects
+	 *   is in progress
+	 *
+	 */
+	private void setRefreshInfo()
+	{
+		if ( rootNode == null )
+		{
+			return;
+		}
+		
+		TreeItem item = new TreeItem(rootNode,0);
+		item.setText(JdbcPlugin.getResourceString("tablepage.refreshing"));
+	}
+
+	private void selectNode(TreeItem item)
+	{
+		TreeItem[] selectedItem = new TreeItem[1];
+		selectedItem[0] = item;
+		AvailableDbObjects.setSelection(selectedItem);
+		AvailableDbObjects.setFocus();
+
+	}
+
+	/**
+	 * @param schemaRs: The ResultSet containing the List of schema
+	 * @return A List of schema names
+	 */
+	private ArrayList createSchemaList(ResultSet schemaRs)
+	{
+		
+		 
+		if ( schemaRs == null )
+		{
+			return null;
+		}
+		
+		ArrayList schemas = new ArrayList();
+		
+		try
+		{
+			while( schemaRs.next())
+			{
+				schemas.add(schemaRs.getString("TABLE_SCHEM"));//$NON-NLS-1$
+			}
+		}
+		catch( SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return schemas;
+	
+	}
+	
+	/**
+	 * 
+	 * @return The Type of the object selected in the type combo ( Can be one of the following )
+	 *   1) TABLE
+	 *   2) VIEW
+	 *   3) ALL
+	 */
+	private String  getSelectedDbType()
+	{
+		
+		IStructuredSelection selection = (IStructuredSelection)filterComboViewer.getSelection();
+		String type = DbType.ALL_STRING;
+		if(selection != null && selection.getFirstElement() != null )
+		{
+			DbType dbType =  (DbType)selection.getFirstElement();
+			
+			switch ( dbType.getType())
+			{
+				case DbType.TABLE_TYPE:
+					type = DbType.TABLE_STRING;
+					break;
+				case DbType.VIEW_TYPE:
+					type = DbType.VIEW_STRING;
+					break;
+				case DbType.ALL_TYPE:
+					type = null;
+					break;
+			}
+		}
+		
+		return type;
+	}
+
+	private void checkForMaxRecordsDisplayed(boolean maxRecordsDisplayed, ResultSet tablesRs)
+	{
+		if( ! maxRecordsDisplayed || tablesRs == null )
+		{
+			return;
+		}
+		
+		try {
+			if( maxRecordsDisplayed && tablesRs.next())
+			{
+				displayMaxSizeWarningMessage();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+	}
+	
+	/**
+	 * Display a message when the number of available items to be displayed 
+	 * are greater than the  Max allowed items
+	 */
+	private void displayMaxSizeWarningMessage()
+	{
+	
+		String maxRecords = new Integer(DbType.MAX_ITEMS_DISPLAY_COUNT).toString();
+		Shell shell = new Shell();
+	  	MessageDialog.openInformation(shell,
+				"",
+				JdbcPlugin.getFormattedString("tablePage.message.maxdisplayeditems", new String[]{ maxRecords, maxRecords } ));
+
+	}
+
+	
+
+	/**
+	* @param item A tree Item which has to be tested
+	* @return if the TreeItem represents a Schema node
+	*/
+	protected boolean isSchemaNode( TreeItem item )
+	{
+		if ( item != null && isSchemaSupported )
+		{
+			if (item.getParentItem() == rootNode)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void refreshPage() 
+	{
+
+		// Get the currently selected Data Source
+		OdaDataSourceHandle curDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		
+		if( curDataSourceHandle != prevDataSourceHandle )
+		{
+						
+
+			RemoveAllAvailableDbObjects();
+			resetJdbcInfo(curDataSourceHandle);
+			setRootElement();
+			
+			prevDataSourceHandle = curDataSourceHandle;
+		}
+		
+	}	
+	
+	private void addFetchColumnListener()
+	{
+		
+		
+		AvailableDbObjects.addListener(SWT.Expand, new Listener(){
+
+			public void handleEvent(Event event) {
+
+				TreeItem item = (TreeItem)event.item;
+				if (item == null) return;
+				
+				if (isSchemaNode(item) || (item == rootNode))
+				{
+					return;
+				}
+				
+				String tableName = (String)item.getData();
+					
+				String catalogName = metaDataProvider.getCatalog();
+				String schemaName = null;
+					
+				String schemaSeparator = ".";
+					
+				if (metaDataProvider.isSchemaSupported())
+				{
+					// remove the schema name from the fully qualified name
+					int index = -1;
+					if ((index = tableName.lastIndexOf(schemaSeparator)) != -1)
+					{
+						schemaName = tableName.substring(0, index);
+						tableName = tableName.substring( index + 1);
+					}
+				}
+				
+					
+				ArrayList columnList = metaDataProvider.getColumns(catalogName,schemaName, tableName,null);
+				TreeItem[] items = item.getItems();
+				if ( items != null )
+				{
+					for ( int i=0; i < items.length; i++)
+					{
+						items[i].dispose();
+					}
+				}
+				Utility.createTreeItems(item, columnList, SWT.NONE, columnImage);
+			}
+
+			
+		});
+		
+	}
+	
+
+	/**
+	 * Adds drag support to tree..Must set tree before execution.
+	 */
+	public void addDragSupportToTree( )
+	{
+
+		DragSource dragSource = new DragSource( AvailableDbObjects, DND.DROP_COPY );
+		dragSource.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
+		dragSource.addDragListener( new DragSourceAdapter( ) {
+
+			public void dragStart( DragSourceEvent event )
+			{
+				TreeItem[] selection = AvailableDbObjects.getSelection( );
+				if ( selection.length <= 0
+						|| selection[0].getData( ) == null )
+				{
+					event.doit = false;
+					return;
+				}
+			}
+
+			public void dragSetData( DragSourceEvent event )
+			{
+				if ( TextTransfer.getInstance( ).isSupportedType(
+						event.dataType ) )
+				{
+					TreeItem[] selection = AvailableDbObjects.getSelection( );
+					if ( selection.length > 0 )
+					{
+						event.data = selection[0].getData( );
+					}
+				}
+			}
+		} );
+	}
+	
+	/**
+	 * Adds drop support to viewer.Must set viewer before execution.
+	 *  
+	 */
+	public void addDropSupportToViewer( )
+	{
+
+		final StyledText text = viewer.getTextWidget( );
+		DropTarget dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
+		dropTarget.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
+		dropTarget.addDropListener( new DropTargetAdapter( ) {
+
+			public void dragEnter( DropTargetEvent event )
+			{
+				text.setFocus( );
+				if ( event.detail == DND.DROP_DEFAULT )
+					event.detail = DND.DROP_COPY;
+				if ( event.detail != DND.DROP_COPY )
+					event.detail = DND.DROP_NONE;
+			}
+
+			public void dragOver( DropTargetEvent event )
+			{
+				event.feedback = DND.FEEDBACK_SCROLL
+						| DND.FEEDBACK_INSERT_BEFORE;
+			}
+
+			public void dragOperationChanged( DropTargetEvent event )
+			{
+				dragEnter( event );
+			}
+
+			public void drop( DropTargetEvent event )
+			{
+				if ( event.data instanceof String )
+					insertText( (String) event.data );
+			}
+		} );
+	}
+
+	/**
+	 * Insert a text string into the text area
+	 * 
+	 * @param text
+	 */
+	private void insertText( String text )
+	{
+		StyledText textWidget = viewer.getTextWidget( );
+		int selectionStart = textWidget.getSelection( ).x;
+		textWidget.insert( text );
+		textWidget.setSelection( selectionStart + text.length( ) );
+		textWidget.setFocus( );
+	}
+
+
+
+	/**
+	 * Creates the textual query editor 
+	 * @param parent
+	 */
+	private void createTextualQueryComposite( Composite parent )
+	{
+		
+        Composite composite = new Composite(parent, SWT.FILL);
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
         composite.setLayout(layout);
@@ -83,7 +1067,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		CompositeRuler ruler = new CompositeRuler( );
 		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn( );
 		ruler.addDecorator( 0, lineNumbers );
-		SourceViewer viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
+		viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
 		viewer.configure( new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) ) );
 		doc = new Document( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( ) );
@@ -103,6 +1087,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
         GridData data = new GridData(GridData.FILL_BOTH);
         viewer.getControl().setLayoutData(data);
         
+        // Add drop support to the viewer
+        addDropSupportToViewer();
+        
         if(isExternalEditorConfigured())
         {
             Button btnExternalEditor = new Button(composite, SWT.NONE);
@@ -110,7 +1097,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
             btnExternalEditor.addSelectionListener(this);
         }
 
-		return composite;
 	}
     
     private final boolean isExternalEditorConfigured()
@@ -174,6 +1160,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	public void pageActivated( )
 	{
 		getContainer( ).setMessage( JdbcPlugin.getResourceString( "dataset.editor.page.query" ), IMessageProvider.NONE );//$NON-NLS-1$
+		
+		// If the Selected Data Source HAs changed then the 
+		// Table Selection Page and the Textual query editor should reflect this change
+		refreshPage();
 	}
 
 	/*
@@ -290,4 +1280,47 @@ class SQLEditorAction extends Action
 	{
 		setEnabled( viewer.canDoOperation( operationCode ) );
 	}
+	
+ }
+
+class DbType
+{
+	public static final int TABLE_TYPE = 0;
+	public static final String TABLE_STRING = "TABLE";
+	public static final int VIEW_TYPE = 1;
+	public static final String VIEW_STRING = "VIEW";
+	public static final int ALL_TYPE = 2;
+	public static final String ALL_STRING = "ALL";
+	public static final int MAX_ITEMS_DISPLAY_COUNT = 500;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public int getType()
+    {
+        return type;
+    }
+
+    public void setType(int type)
+    {
+        this.type = type;
+    }
+
+    int type;
+    String name;
+
+    public DbType(int type, String name)
+    {
+        super();
+        this.type = type;
+        this.name = name;
+    }
 }
+

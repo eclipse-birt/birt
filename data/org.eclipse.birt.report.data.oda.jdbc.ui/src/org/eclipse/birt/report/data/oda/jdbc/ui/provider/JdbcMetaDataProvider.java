@@ -27,6 +27,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinCondition;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.JoinType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
@@ -339,7 +340,15 @@ public class JdbcMetaDataProvider
         		
         		while( columnsRs.next())
         		{
-        			columnList.add( columnsRs.getString("COLUMN_NAME"));//$NON-NLS-1$
+        			
+        			Column column = new Column();
+        			column.setSchemaName(columnsRs.getString("TABLE_SCHEM"));
+        			column.setTableName(columnsRs.getString("TABLE_NAME"));
+        			column.setName(columnsRs.getString("COLUMN_NAME"));
+        			column.setDbType(columnsRs.getString("TYPE_NAME"));
+        			
+        			columnList.add(column);
+        			
         		}
 			}
         	catch(SQLException e)
@@ -507,7 +516,11 @@ public class JdbcMetaDataProvider
         					{
         						fromClause.append(FROM_CLAUSE_SPACING);
         					}
+        					
+        					// ORIGINAL CODE
         					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor));
+        					
+
         					fromClause.append( " AS ");
 							fromClause.append(tableAlias);
 						}
@@ -517,7 +530,11 @@ public class JdbcMetaDataProvider
         					{
         						fromClause.append(FROM_CLAUSE_SPACING);;
         					}
+        					
+        					
         					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
+        					
+        					//fromClause.append(tableName);
         				}
         			}
         			else
@@ -526,7 +543,11 @@ public class JdbcMetaDataProvider
         				{
         					fromClause.append(FROM_CLAUSE_SPACING);
         				}
+        				
+        				// ORIGINAL CODE
     					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
+        				
+        				//fromClause.append(tableName);
         			}
         			
         			if ( i != (tableCount -1))
@@ -681,9 +702,48 @@ public class JdbcMetaDataProvider
 			{
 				continue;
 			}
-			
 			String leftTable = join.getLeft().getFullyQualifiedName();
 			String rightTable = join.getRight().getFullyQualifiedName();
+			
+			
+			String leftColumn = joinCondition.getLeftExpr();
+			String rightColumn = joinCondition.getRightExpr();
+		
+	
+			int joinType = joinCondition.getJoinType();
+			int operation = joinCondition.getOperationType();
+			
+			String joinTypeTxt = getJoinText(joinType);
+			
+
+			String leftTableName = quoteName(leftTable, startDelimitor, endDelimitor );
+			String rightTableName = quoteName(rightTable, startDelimitor, endDelimitor);
+			String leftColumnName = quoteName(leftColumn, startDelimitor, endDelimitor);
+			String rightColumnName = quoteName(rightColumn, startDelimitor, endDelimitor);
+	
+			
+			
+	    	String leftColumnFullName = leftTableName + "." + leftColumnName;
+	    	String rightColumnFullName = rightTableName + "." + rightColumnName;
+
+ 
+			String key1 = leftTableName + joinTypeTxt + rightTableName;
+			
+			if ( joinMap.size() > 0)
+			{
+				if ( fromTables.contains(leftTable) && fromTables.contains(rightTable))
+				{
+					key1 = leftTableName + joinTypeTxt + rightTableName;
+				}
+				else if ( fromTables.contains(leftTable) && joinType == JoinType.INNER )
+				{
+					key1 = " " + joinTypeTxt + rightTableName ;
+				}
+				else if ( fromTables.contains(rightTable) && joinType == JoinType.INNER  )
+				{
+					key1 = " " + joinTypeTxt + leftTableName ;
+				}
+			}
 			
 			if ( !fromTables.contains(leftTable) )
 			{
@@ -695,30 +755,9 @@ public class JdbcMetaDataProvider
 				fromTables.add(rightTable);
 			}
 			
-			String leftColumn = joinCondition.getLeftExpr();
-			String rightColumn = joinCondition.getRightExpr();
-		
-	
-			int joinType = joinCondition.getJoinType();
-			int operation = joinCondition.getOperationType();
-			
-			String joinTypeTxt = getJoinText(joinType);
-			
-			String leftTableName = quoteName(leftTable, startDelimitor, endDelimitor );
-			String rightTableName = quoteName(rightTable, startDelimitor, endDelimitor);
-			String leftColumnName = quoteName(leftColumn, startDelimitor, endDelimitor);
-			String rightColumnName = quoteName(rightColumn, startDelimitor, endDelimitor);
-			
-			
-	    	String leftColumnFullName = leftTableName + "." + leftColumnName;
-	    	String rightColumnFullName = rightTable + "." + rightColumnName;
-
- 
-			String key1 = leftTableName + joinTypeTxt + rightTableName;
-			
 			String joinClause = (String)( joinMap.get(key1));
 			
-			String condition =  " ( " + leftColumnFullName + joinCondition.getOperatorString() +   rightColumnFullName + " ) ";
+			String condition =  " ( " + leftColumnFullName + " " + joinCondition.getOperatorString() +   " " + rightColumnFullName + " ) ";
 			
 			if ( joinClause != null )
 			{
@@ -731,17 +770,35 @@ public class JdbcMetaDataProvider
 		// Go through the Linked Map and prepare the from clause
 		
 		Iterator fromTablesIterator = joinMap.keySet().iterator();
+		int count = 0;
 		while( fromTablesIterator.hasNext())
 		{
 			String tables = (String)fromTablesIterator.next();
 			if ( tables != null )
 			{
-				fromClause.append(" ( ");
+				if ( count < joinMap.size() - 1)
+				{
+					//fromClause.append(" ( ");
+					fromClause.insert(0, "(");
+				}
+				else
+				{
+					fromClause.append(" ");
+				}
 				fromClause.append( tables );
 				fromClause.append( " ON ");
 				fromClause.append((String)joinMap.get(tables));
-				fromClause.append(" ) ");
+				if ( count < joinMap.size() -1 )
+				{
+					fromClause.append(" ) ");
+				}
+				else
+				{
+					fromClause.append(" ");
+				}
+
 				fromClause.append("\n");
+				count++;
 			}
 		}
 		
@@ -762,7 +819,11 @@ public class JdbcMetaDataProvider
     		}
     		fromClause.append(",");
     		fromClause.append(FROM_CLAUSE_SPACING);
+    		// ORIGINAL CODE
     		fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
+    		
+    		//fromClause.append(tableName);
+    		
     		if(alias != null && alias.length() >0 && !tableName.equalsIgnoreCase(alias))
     		{
     			fromClause.append(" AS ");
@@ -882,4 +943,8 @@ public class JdbcMetaDataProvider
 		return crossReferences;
 	}
 
+	public Connection getConnection()
+	{
+		return jdbcConnection;
+	}
 }
