@@ -90,16 +90,14 @@
       </appInfo>
       <documentation>
          This is a sample extension which defines the embedded Derby JDBC driver. It is an excerpt from the jdbc-oda driver&apos;s plugin manifest.
-
-   &lt;extension
-         point=&quot;org.eclipse.birt.report.data.oda.jdbc.driverinfo&quot;&gt;
-      &lt;jdbcDriver
+      &lt;extension
+         	point=&quot;org.eclipse.birt.report.data.oda.jdbc.driverinfo&quot;&gt;
       &lt;jdbcDriver
             driverClass=&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;
             urlTemplate=&quot;jdbc:derby:[subsubprotocol:][databasename][;attributes]&quot;
             name=&quot;Apache Derby Embedded Driver&quot;&gt;
       &lt;/jdbcDriver&gt;
-   &lt;/extension&gt;
+      &lt;/extension&gt;
       </documentation>
    </annotation>
 
