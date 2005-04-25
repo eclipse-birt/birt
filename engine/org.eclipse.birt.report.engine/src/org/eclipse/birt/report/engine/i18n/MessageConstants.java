@@ -17,6 +17,8 @@ package org.eclipse.birt.report.engine.i18n;
  */
 public interface MessageConstants
 {
+	public static final String FILE_NOT_FOUND = "Error.FileNotFound"; //$NON-NLS-1$
+	
 	// test
 	public static final String	TEST_ERROR_MESSAGE_00 = "Error.Msg001";						//$NON-NLS-1$
 	
