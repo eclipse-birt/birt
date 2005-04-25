@@ -24,6 +24,7 @@ import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
 import org.eclipse.birt.data.oda.util.driverconfig.DataSetType;
 import org.eclipse.birt.data.oda.util.driverconfig.DataTypeMapping;
 import org.eclipse.birt.data.oda.util.driverconfig.OdaDriverConfiguration;
+import org.eclipse.birt.data.oda.util.driverconfig.TraceLogging;
 
 /**
  * Each <code>Driver</code> maintains the state of a driver in the drivers 
@@ -110,5 +111,49 @@ class Driver
 			assert false;
 			return Types.NULL;
 		}
+	}
+	
+	void setLogConfiguration( IConnectionFactory connFactory )
+	{
+	    assert( connFactory != null );
+	    
+	    OdaDriverConfiguration config;
+	    try
+	    {
+	        config = getDriverConfig();
+	        assert( config != null );
+	    }
+	    catch( DataException e )
+	    {
+	        // not able to set log configuratin
+	        // TODO log warning
+	        return;
+	    }
+	    
+	    TraceLogging logConfig = config.getTraceLogging();
+	    if ( logConfig == null )
+	    {
+	        // TODO log info
+	        return;		// no log configuration, nothing to set
+	    }
+	    
+	    // set default configuration values
+	    String logFilenamePrefix = logConfig.getLogFileNamePrefix();
+	    if ( logFilenamePrefix == null || logFilenamePrefix.length() == 0 )
+	        logFilenamePrefix = m_driverName;
+	    String logDest = logConfig.getLogDirectory();
+	    // TODO set default log destination to that used by the ODA consumer application
+	    
+	    try
+	    {
+	        connFactory.setLogConfiguration( logConfig.getLogLevel(),
+	                		logDest,
+			                logFilenamePrefix,
+			                logConfig.getLogFormatterClass() );
+	    }
+	    catch( OdaException e1 )
+	    {
+	        // TODO log warning
+	    }
 	}
 }

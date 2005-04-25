@@ -62,10 +62,15 @@ public class ConnectionManager
 	{
 		try
 		{
+		    DriverManager driverMgr = DriverManager.getInstance();
 			IConnectionFactory factory = 
-				DriverManager.getInstance().getConnectionFactory( driverName );
+			    	driverMgr.getConnectionFactory( driverName );
 			String connectionName = 
-				DriverManager.getInstance().getConnectionClassName( driverName );
+			    	driverMgr.getConnectionClassName( driverName );
+			
+			// first pass log configuration to connection factory before any operations
+			driverMgr.setDriverLogConfiguration( driverName, factory );
+			
 			IConnection connection = factory.getConnection( connectionName );
 			connection.open( connectionProperties );
 			

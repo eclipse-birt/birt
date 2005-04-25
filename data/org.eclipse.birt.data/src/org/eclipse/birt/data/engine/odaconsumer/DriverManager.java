@@ -17,8 +17,10 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Hashtable;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.oda.IConnectionFactory;
+import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.driverconfig.ConnectionType;
 import org.eclipse.birt.data.oda.util.driverconfig.OdaDriverConfiguration;
+import org.eclipse.birt.data.oda.util.driverconfig.TraceLogging;
 
 /**
  * <code>DriverManager</code> manages a set of data source drivers.  Calling 
@@ -76,6 +78,16 @@ class DriverManager
 		OdaDriverConfiguration config = driver.getDriverConfig();
 		ConnectionType connectionType = config.getConnectionType();
 		return ( connectionType == null ) ? null : connectionType.getClassName();
+	}
+	
+	void setDriverLogConfiguration( String driverName, 
+	        						IConnectionFactory connFactory )
+	{
+	    assert( driverName != null && connFactory != null );
+	    
+		Driver driver = getDriver( driverName );
+		assert( driver != null );
+        driver.setLogConfiguration( connFactory );
 	}
 	
 	/**
