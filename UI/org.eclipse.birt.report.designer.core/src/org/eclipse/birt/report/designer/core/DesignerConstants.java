@@ -39,6 +39,10 @@ public class DesignerConstants
 	public static final String TABLE_ROW_NUMBER = "rowNumber"; //$NON-NLS-1$
 
 	public static final String TABLE_COLUMN_NUMBER = "columnNumber"; //$NON-NLS-1$
+	
+	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
+	
+	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
 
 	/**
 	 * Map between CSS style font family to system font family
