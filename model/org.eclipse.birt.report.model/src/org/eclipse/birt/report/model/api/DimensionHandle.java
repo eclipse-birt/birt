@@ -48,10 +48,11 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * 
  * <pre>
  * 
- * DesignElementHandle elementHandle = element.handle( );DimensionHandle dimensionHandle = elementHandle.getDimensionProperty( Style.FONT_SIZE_PROP );
+ * DesignElementHandle elementHandle = element.handle( );
+ * <p>
  * 
- *   
- *  
+ * DimensionHandle dimensionHandle = elementHandle
+ * 		.getDimensionProperty( Style.FONT_SIZE_PROP );
  * </pre>
  * 
  * <p>
@@ -179,9 +180,9 @@ public class DimensionHandle extends ComplexValueHandle
 	}
 
 	/**
-	 * Sets the value of a dimension in default units. The default unit may
-	 * be defined by the property in BIRT or the application unit defined in
-	 * the design session. 
+	 * Sets the value of a dimension in default units. The default unit may be
+	 * defined by the property in BIRT or the application unit defined in the
+	 * design session.
 	 * 
 	 * @param value
 	 *            the new value in application units.
@@ -202,19 +203,22 @@ public class DimensionHandle extends ComplexValueHandle
 	}
 
 	/**
-	 * Returns the font size for computing relative value of style property. The
-	 * font size value is retrieved from the element which actually has the
-	 * value of this dimension property. At one of the following conditions, the
-	 * font size value is returned from the current element with the normal
-	 * property search algorithm:
+	 * Returns the absolute dimension value with the following units. 
 	 * <ul>
-	 * <li>If this property is not a style property
-	 * <li>If this element is style
-	 * <li>if the unit of this property is not either of
-	 * <code>DesignChoiceConstants.UNITS_EM</code>,
-	 * <code>DesignChoiceConstants.UNITS_EX</code> and
-	 * <code>DesignChoiceConstants.UNITS_PERCENTAGE</code>
+	 * <li>UNITS_IN
+	 * <li>UNITS_CM
+	 * <li>UNITS_MM
+	 * <li>UNITS_PT
+	 * <li>UNITS_PC
+	 * <li>UNITS_PX
 	 * </ul>
+	 * 
+	 * This method tries to get the absolute value for absolute font size
+	 * constants with {@link IAbsoluteFontSizeValueProvider}. Only the value of CSS
+	 * property of the element which is not style is handled here.
+	 * <code>null</code> is returned if this dimension is not CSS style
+	 * property.
+	 * 
 	 * <p>
 	 * CSS 2.1 specification has the following statements:
 	 * <p>
@@ -234,73 +238,87 @@ public class DimensionHandle extends ComplexValueHandle
 	 * So when computing the value of text-indent, with this method, the value
 	 * of font-size is retrieved from body, instead of h1.
 	 * 
-	 * @return the actual font size for computing relative value.
+	 * @return the absolute dimension value.
 	 */
 
-	public Object getFactualFontSize( )
+	public DimensionValue getAbsoluteValue( )
 	{
-		DesignElement element = getElement( );
-		ReportDesign design = elementHandle.getDesign( );
+		// The original value, which might be relative, absolute or predefined
+		// choice.
 
-		if ( !propDefn.isStyleProperty( ) || element.isStyle( ) )
-			return element.getProperty( design, Style.FONT_SIZE_PROP );
+		Object value = getValue( );
 
-		if ( !DesignChoiceConstants.UNITS_EM.equalsIgnoreCase( getUnits( ) )
-				&& !DesignChoiceConstants.UNITS_EX
-						.equalsIgnoreCase( getUnits( ) )
-				&& !DesignChoiceConstants.UNITS_PERCENTAGE
-						.equalsIgnoreCase( getUnits( ) ) )
-			return element.getProperty( design, Style.FONT_SIZE_PROP );
-
-		Object propValue = null;
-		Object fontSizeValue = null;
-
-		DesignElement e = element;
-		ElementPropertyDefn fontSizeDefn = e
-				.getPropertyDefn( Style.FONT_SIZE_PROP );
-
-		// Located the element which has the property this dimension represents.
-
-		while ( e != null )
+		if ( value instanceof String )
 		{
-			propValue = e.getPropertyFromElement( design, propDefn );
-			if ( propValue != null )
-				break;
+			// Only font size has string constant, which are relative or
+			// absolute font size constants.
 
-			// If the property this dimension represents can not be inherited.
+			if ( Style.FONT_SIZE_PROP.equals( getDefn( ).getName( ) ) )
+			{
+				FontSizeValueHandler fontSizeValueHandle = new FontSizeValueHandler(
+						this );
+				return fontSizeValueHandle
+						.convertFontSizeConstant( (String) value );
+			}
+		}
+		else
+		{
+			assert value instanceof DimensionValue;
 
-			if ( !propDefn.canInherit( ) )
-				break;
+			DimensionValue dimensionValue = (DimensionValue) value;
 
-			e = e.getContainer( );
+			// If the value is absolute value.
+
+			if ( ComputedValueHandler
+					.isAbsoluteUnit( dimensionValue.getUnits( ) ) )
+				return dimensionValue;
+
+			// Only the relative value of CSS property in the non-style
+			// element is handled here.
+
+			if ( !propDefn.isStyleProperty( ) || getElement( ).isStyle( ) )
+				return null;
+
+			// Font size has its specific algorithm for getting absolute value.
+
+			if ( Style.FONT_SIZE_PROP.equalsIgnoreCase( getPropertyDefn( )
+					.getName( ) ) )
+			{
+				FontSizeValueHandler fontSizeValueHandler = new FontSizeValueHandler(
+						this );
+				return fontSizeValueHandler
+						.getAbsoluteValueForFontSize( dimensionValue );
+			}
+
+			ComputedValueHandler computedValueHandle = new ComputedValueHandler(
+					this );
+			return computedValueHandle
+					.getAbsoluteValueForLength( dimensionValue );
 		}
 
-		if ( propValue != null )
-			fontSizeValue = e.getProperty( design, fontSizeDefn );
-
-		if ( fontSizeValue == null )
-			fontSizeValue = element.getDefaultValue( design, fontSizeDefn );
-
-		return fontSizeValue;
+		assert false;
+		return null;
 	}
-	
+
 	/**
 	 * Gets the default unit of the property.
 	 * 
-	 * @return the default unit 
+	 * @return the default unit
 	 */
 
 	public String getDefaultUnit( )
 	{
-		ElementPropertyDefn defn = (ElementPropertyDefn)getPropertyDefn( );
+		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( );
 		if ( defn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
 		{
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
+
 			unit = getDesign( ).getUnits( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
+
 			return getDesign( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;

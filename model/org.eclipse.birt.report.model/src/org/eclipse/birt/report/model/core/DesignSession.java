@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.report.model.api.DefaultFileLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IFileLocator;
+import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -50,11 +52,10 @@ import org.eclipse.birt.report.model.parser.DesignReader;
  * 
  * ISearchFileAlgorithm algorithm = reportDesign.getSession( )
  * 		.getSearchFileAlgorithm( );
+ * <p>
  * 
  * //Get the absolute library file path.
- * String absoluteFilePath = algorithm.findFile( libraryFileName ); 
- *  
- *  
+ * String absoluteFilePath = algorithm.findFile( libraryFileName );
  * </pre>
  * 
  * To set this algorithm, the Java client needs to do the following when
@@ -75,6 +76,14 @@ public class DesignSession
 	 * The algorithm of how to search a file.
 	 */
 	protected IFileLocator fileLocator = new DefaultFileLocator( );
+
+	/**
+	 * The algorithm of how to provide the absolute dimension value for the
+	 * predefined absoute font size.
+	 */
+
+	protected IAbsoluteFontSizeValueProvider fontSizeProvider = DefaultAbsoluteFontSizeValueProvider
+			.getInstance( );
 
 	/**
 	 * The list of open designs for the user.
@@ -443,5 +452,39 @@ public class DesignSession
 	{
 		assert fileLocator != null;
 		return fileLocator;
+	}
+
+	/**
+	 * Returns the provider instance which provides the absolute dimension value
+	 * of predefined font size choice.
+	 * <ul>
+	 * <li><code>FONT_SIZE_XX_SMALL</code>
+	 * <li><code>FONT_SIZE_X_SMALL</code>
+	 * <li><code>FONT_SIZE_SMALL</code>
+	 * <li><code>FONT_SIZE_MEDIUM</code>
+	 * <li><code>FONT_SIZE_LARGE</code>
+	 * <li><code>FONT_SIZE_X_LARGE</code>
+	 * <li><code>FONT_SIZE_XX_LARGE</code>
+	 * </ul>
+	 * 
+	 * @return the instance of <code>IAbsoluteFontSizeValueProvider</code>
+	 */
+
+	public IAbsoluteFontSizeValueProvider getPredefinedFontSizeProvider( )
+	{
+		return fontSizeProvider;
+	}
+
+	/**
+	 * Set the instance of <code>IAbsoluteFontSizeValueProvider</code>.
+	 * 
+	 * @param fontSizeProvider
+	 *            the fontSizeProvider to set
+	 */
+
+	public void setPredefinedFontSizeProvider(
+			IAbsoluteFontSizeValueProvider fontSizeProvider )
+	{
+		this.fontSizeProvider = fontSizeProvider;
 	}
 }

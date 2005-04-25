@@ -78,8 +78,9 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_PT
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure / POINTS_PER_INCH;
-			else if ( DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( fromUnits ) )
-				targetMeasure = measure  * POINTS_PER_PICA / POINTS_PER_INCH;
+			else if ( DesignChoiceConstants.UNITS_PC
+					.equalsIgnoreCase( fromUnits ) )
+				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_INCH;
 			else
 				assert false;
 		}
@@ -93,8 +94,9 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_PT
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure / POINTS_PER_CM;
-			else if ( DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( fromUnits ) )
-				targetMeasure = measure  * POINTS_PER_PICA / POINTS_PER_CM;
+			else if ( DesignChoiceConstants.UNITS_PC
+					.equalsIgnoreCase( fromUnits ) )
+				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_CM;
 			else
 				assert false;
 		}
@@ -108,8 +110,9 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_PT
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * 10 / POINTS_PER_CM;
-			else if ( DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( fromUnits ) )
-				targetMeasure = measure  * POINTS_PER_PICA * 10 / POINTS_PER_CM;
+			else if ( DesignChoiceConstants.UNITS_PC
+					.equalsIgnoreCase( fromUnits ) )
+				targetMeasure = measure * POINTS_PER_PICA * 10 / POINTS_PER_CM;
 			else
 				assert false;
 		}
@@ -123,7 +126,8 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_MM
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_CM / 10;
-			else if ( DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( fromUnits ) )
+			else if ( DesignChoiceConstants.UNITS_PC
+					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA;
 			else
 				assert false;
@@ -138,7 +142,8 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_MM
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_CM / 10 / POINTS_PER_PICA;
-			else if ( DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( fromUnits ) )
+			else if ( DesignChoiceConstants.UNITS_PT
+					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure / POINTS_PER_PICA;
 			else
 				assert false;
@@ -157,9 +162,9 @@ public class DimensionUtil
 	 * @param dimension
 	 *            the numeric measure of the dimension.
 	 * @param appUnit
-	 *            the application unit of the dimension, if the dimension has not
-	 *            specified a unit, the the application unit will be applied to it.
-	 *            It must be one of the absolute unit.
+	 *            the application unit of the dimension, if the dimension has
+	 *            not specified a unit, the the application unit will be applied
+	 *            to it. It must be one of the absolute unit.
 	 * @param targetUnits
 	 *            the desired unit.
 	 * @return <code>DimensionValue</code> in the target unit.
@@ -185,9 +190,9 @@ public class DimensionUtil
 	 *            a string representing a absolute dimension value like "12pt,
 	 *            12pc...".
 	 * @param appUnit
-	 *            the application unit of the dimension, if the dimension has not
-	 *            specified a unit, the the application unit will be applied to it.
-	 *            It must be one of the absolute unit.
+	 *            the application unit of the dimension, if the dimension has
+	 *            not specified a unit, the the application unit will be applied
+	 *            to it. It must be one of the absolute unit.
 	 * @param targetUnits
 	 *            the desired unit.
 	 * @return <code>DimensionValue</code> in the target unit.
@@ -195,9 +200,8 @@ public class DimensionUtil
 	 *             if the dimension is not valid.
 	 */
 
-	public static DimensionValue convertTo( String dimension,
-			String appUnit, String targetUnits )
-			throws PropertyValueException
+	public static DimensionValue convertTo( String dimension, String appUnit,
+			String targetUnits ) throws PropertyValueException
 
 	{
 		DimensionValue dim = DimensionValue.parse( dimension );
@@ -226,11 +230,71 @@ public class DimensionUtil
 
 	public static final boolean isAbsoluteUnit( String unit )
 	{
-		return DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(unit)
-				|| DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(unit)
-				|| DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(unit)
-				|| DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(unit)
-				|| DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(unit);
+		return DesignChoiceConstants.UNITS_IN.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_CM.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_MM.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( unit );
+	}
+
+	/**
+	 * Returns whether the dimension string value is absolute font size
+	 * constant. The absolute font size constants are defined in
+	 * <code>DesignChoiceConstants</code> as followed.
+	 * 
+	 * <ul>
+	 * <li><code>FONT_SIZE_XX_SMALL</code>
+	 * <li><code>FONT_SIZE_X_SMALL</code>
+	 * <li><code>FONT_SIZE_SMALL</code>
+	 * <li><code>FONT_SIZE_MEDIUM</code>
+	 * <li><code>FONT_SIZE_LARGE</code>
+	 * <li><code>FONT_SIZE_X_LARGE</code>
+	 * <li><code>FONT_SIZE_XX_LARGE</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            dimension string value
+	 * @return true if the given value is absolute font size constant.
+	 */
+
+	public static boolean isAbsoluteFontSize( String value )
+	{
+		return DesignChoiceConstants.FONT_SIZE_XX_SMALL
+				.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_X_SMALL
+						.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_SMALL
+						.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_MEDIUM
+						.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_LARGE
+						.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_X_LARGE
+						.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_XX_LARGE
+						.equalsIgnoreCase( value );
+	}
+
+	/**
+	 * Returns whether the dimension string value is relative font size
+	 * constant. The relative font size constants are defined in
+	 * <code>DesignChoiceConstants</code> as followed.
+	 * 
+	 * <ul>
+	 * <li><code>FONT_SIZE_SMALLER</code>
+	 * <li><code>FONT_SIZE_LARGER</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            dimension string value
+	 * @return true if the given value is relative font size constant.
+	 */
+
+	public static boolean isRelativeFontSize( String value )
+	{
+		return DesignChoiceConstants.FONT_SIZE_SMALLER.equalsIgnoreCase( value )
+				|| DesignChoiceConstants.FONT_SIZE_LARGER
+						.equalsIgnoreCase( value );
 	}
 }
 
