@@ -48,6 +48,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE = ReportDesignConstants.ODA_DATA_SOURCE;
+	
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SET = ReportDesignConstants.SCRIPT_DATA_SET;
+
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE = ReportDesignConstants.SCRIPT_DATA_SOURCE;
 
 	public final static String ICON_ELEMENT_GRID = ReportDesignConstants.GRID_ITEM;
 
@@ -126,7 +130,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_CHART = "Chart icon"; //$NON-NLS-1$
 
 	// missing image icon
-	public final static String ICON_MISSING_IMG = "Missing image";
+	public final static String ICON_MISSING_IMG = "Missing image"; //$NON-NLS-1$
 
 	// add image constants for data explore
 	public final static String ICON_DATA_EXPLORER_VIEW = "Data explorer view"; //$NON-NLS-1$

@@ -142,12 +142,14 @@ public class DefaultNodeProvider implements INodeProvider
 
 		menu.add( new PasteAction( object ) );
 
-		menu.add( new Separator( ) );
+		//Insert point for refresh action
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
+				+ "-refresh" ) );//$NON-NLS-1$
 
 		Action action = new CodePageAction( object );
 		if ( action.isEnabled( ) )
 			menu.add( action );
-
+			
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-end" ) );//$NON-NLS-1$		
 	}

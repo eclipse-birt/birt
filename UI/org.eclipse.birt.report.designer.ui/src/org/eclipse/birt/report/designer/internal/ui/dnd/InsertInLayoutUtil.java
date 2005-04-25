@@ -527,6 +527,10 @@ public class InsertInLayoutUtil
 	{
 		DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
 				.getColumns( model, false );
+		if ( columns.length == 0 )
+		{
+			return null;
+		}
 		TableHandle tableHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getElementFactory( )
@@ -574,7 +578,7 @@ public class InsertInLayoutUtil
 
 		else if ( insertObj instanceof DataSetHandle )
 		{
-			return ( (DataSetHandle) insertObj ).isValid( )
+			return isHandleValid( (DataSetHandle) insertObj )
 					&& ( (DataSetHandle) insertObj ).getDataSource( ) != null
 					&& handleValidateDataSet( targetPart );
 		}
@@ -585,7 +589,8 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof ScalarParameterHandle )
 		{
-			return handleValidateParameter( targetPart );
+			return isHandleValid( (ScalarParameterHandle) insertObj )
+					&& handleValidateParameter( targetPart );
 		}
 		return false;
 	}
@@ -832,5 +837,10 @@ public class InsertInLayoutUtil
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+
+	protected static boolean isHandleValid( DesignElementHandle handle )
+	{
+		return handle.isValid( ) && handle.getValidationErrors( ).isEmpty( );
 	}
 }
