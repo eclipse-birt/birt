@@ -216,4 +216,47 @@ public class GridHandle extends ReportItemHandle
 		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
 		return adapter.canPaste( this, columnIndex, inForce );
 	}
+	
+	/**
+	 * Inserts and pastes a column with its cells to the given column number.
+	 * 
+	 * @param data
+	 *            the data of a column band to paste
+	 * @param columnNumber
+	 *            the column number
+	 * @throws SemanticException
+	 */
+
+	public void insertAndPasteColumn( ColumnBandData data, int columnNumber )
+			throws SemanticException
+	{
+		if ( data == null )
+			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
+
+		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
+		adapter.insertAndPasteColumnBand( this, columnNumber );
+	}
+
+	/**
+	 * Checks whether the insert and paste operation can be done with the given
+	 * copied column band data, the column index and the operation flag. This is
+	 * different from <code>canPasteColumn</code> since this action creates an
+	 * extra column for the table.
+	 * 
+	 * @param data
+	 *            the column band data to paste
+	 * @param columnIndex
+	 *            the column index
+	 * @return <code>true</code> indicates the paste operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public boolean canInsertAndPasteColumn( ColumnBandData data, int columnIndex )
+	{
+		if ( data == null )
+			throw new IllegalArgumentException( "empty column to check." ); //$NON-NLS-1$
+
+		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
+		return adapter.canInsertAndPaste( this, columnIndex );
+	}
 }

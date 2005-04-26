@@ -166,6 +166,22 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 		return false;
 	}
 
+	/**
+	 * Checks whether the paste operation can be done with the given copied
+	 * column band data, the column index and the operation flag.
+	 * 
+	 * @param grid
+	 *            the grid for the paste operation 
+	 * @param columnIndex
+	 *            the column index
+	 * @param inForce
+	 *            <code>true</code> indicates to paste the column regardless
+	 *            of the different layout of cells. <code>false</code>
+	 *            indicates not.
+	 * @return <code>true</code> indicates the paste operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+	
 	protected boolean canPaste( GridHandle grid, int columnIndex,
 			boolean inForce )
 	{
@@ -174,5 +190,34 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 		element = grid;
 
 		return super.canPaste( columnIndex, inForce );
+	}
+
+	/**
+	 * Tests whether the copied data can be inserted into the next position of
+	 * <code>columnIndex</code>.
+	 * 
+	 * @param grid
+	 *            the grid where the data to be inserted
+	 * @param columnIndex
+	 *            the column index
+	 * @return <code>true</code> if the insertion can be done. Otherwise
+	 *         <code>false</code>.
+	 */
+	
+	protected boolean canInsertAndPaste( GridHandle grid, int columnIndex )
+	{
+		assert grid != null;
+		element = grid;
+
+		return super.canInsertAndPaste( columnIndex );
+	}
+
+	protected void insertAndPasteColumnBand( GridHandle target, int columnIndex )
+			throws SemanticException
+	{
+		assert target != null;
+
+		element = target;
+		super.insertAndPasteColumnBand( columnIndex );
 	}
 }

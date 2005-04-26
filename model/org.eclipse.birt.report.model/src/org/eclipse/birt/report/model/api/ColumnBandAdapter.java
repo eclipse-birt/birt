@@ -171,8 +171,114 @@ abstract class ColumnBandAdapter
 		try
 		{
 			getDesign( ).getActivityStack( ).startTrans( );
-			pasteColumn( column, columnIndex );
-			pasteCells( cells, originalCells, columnIndex );
+			pasteColumn( column, columnIndex, false );
+			pasteCells( cells, originalCells, columnIndex, false );
+		}
+		catch ( SemanticException e )
+		{
+			getDesign( ).getActivityStack( ).rollback( );
+			throw e;
+		}
+		getDesign( ).getActivityStack( ).commit( );
+
+		return doPostPasteCheck( column, cells );
+	}
+
+	/**
+	 * Checks whether the paste operation can be done with the given copied
+	 * column band data, the column index and the operation flag.
+	 * 
+	 * @param columnIndex
+	 *            the column index
+	 * @return <code>true</code> indicates the paste operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	protected boolean canInsertAndPaste( int columnIndex )
+	{
+		int columnCount = getColumnCount( );
+		if ( columnIndex >= columnCount )
+			return true;
+
+		int targetColumnIndex = columnIndex++;
+		List originalCells = getCellsContextInfo( getCellsUnderColumn( targetColumnIndex ) );
+
+		if ( !isValidInsertAndPasteArea( originalCells ) )
+			return false;
+
+		List cells = data.getCells( );
+		try
+		{
+			isSameLayout( cells, originalCells );
+		}
+		catch ( SemanticException e )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks whether copied cells can be inserted and pasted.
+	 * 
+	 * @param cells
+	 *            cloned cells
+	 * @return <code>true</code> if the row count matches the count of
+	 *         "rowSpans" in <code>cells</code>, otherwise <code>false</code>.
+	 * 
+	 */
+
+	private boolean isValidInsertAndPasteArea( List cells )
+	{
+		int numOfRows = getRowCount( );
+		int rowCount = 0;
+
+		for ( int i = 0; i < cells.size( ); i++ )
+		{
+			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
+			rowCount += contextInfo.getRowSpan( );
+
+			// TODO dropping effects
+		}
+
+		assert rowCount <= numOfRows;
+		if ( rowCount < numOfRows )
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Inserts a copied column to the given column index.
+	 * 
+	 * @param columnIndex
+	 *            the column index
+	 * @return a list containing post-parsing errors. Each element in the list
+	 *         is <code>ErrorDetail</code>.
+	 * @throws SemanticException
+	 *             if layouts of slots are different.
+	 */
+
+	protected List insertAndPasteColumnBand( int columnIndex )
+			throws SemanticException
+	{
+		boolean canDone = canInsertAndPaste( columnIndex );
+
+		if ( !canDone )
+			throw new SemanticError( getElementHandle( ).getElement( ),
+					new String[]{getElementHandle( ).getName( )},
+					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN );
+
+		TableColumn column = data.getColumn( );
+		List cells = data.getCells( );
+		List originalCells = getCellsContextInfo( getCellsUnderColumn( columnIndex ) );
+
+		try
+		{
+			getDesign( ).getActivityStack( ).startTrans( );
+			pasteColumn( column, columnIndex, true );
+			pasteCells( cells, originalCells, columnIndex, true );
 		}
 		catch ( SemanticException e )
 		{
@@ -341,12 +447,15 @@ abstract class ColumnBandAdapter
 	 *            the copied column
 	 * @param columnNumber
 	 *            the column number
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert and paste action.
+	 *            Otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if any error occurs during pasting a column header
 	 */
 
-	protected void pasteColumn( TableColumn column, int columnNumber )
-			throws SemanticException
+	protected void pasteColumn( TableColumn column, int columnNumber,
+			boolean isInsert ) throws SemanticException
 	{
 		TableColumn targetColumn = null;
 		SlotHandle columns = getColumns( );
@@ -356,7 +465,7 @@ abstract class ColumnBandAdapter
 
 		if ( columns.getCount( ) == 0 && column != null )
 		{
-			addColumnHeader( column, columnNumber );
+			addColumnHeader( column, columnNumber, isInsert );
 			return;
 		}
 
@@ -364,8 +473,31 @@ abstract class ColumnBandAdapter
 				columns.getSlot( ), columnNumber );
 
 		replaceColumn( column, targetColumn.handle( getDesign( ) ),
-				columnNumber );
+				columnNumber, isInsert );
+	}
 
+	/**
+	 * Returns the column index that is the start column index of the
+	 * <code>target</code>.
+	 * 
+	 * @param target
+	 *            the column to find
+	 * @return a column index
+	 */
+
+	private int getColumnStartPos( ColumnHandle target )
+	{
+		SlotHandle columns = target.getContainerSlotHandle( );
+
+		int colStartPos = 1;
+		int colPosInSlot = columns.findPosn( target );
+		for ( int i = 0; i < colPosInSlot; i++ )
+		{
+			ColumnHandle col = (ColumnHandle) columns.get( i );
+			colStartPos += col.getRepeatCount( );
+		}
+
+		return colStartPos;
 	}
 
 	/**
@@ -383,21 +515,13 @@ abstract class ColumnBandAdapter
 	 */
 
 	private void replaceColumn( TableColumn source, ColumnHandle target,
-			int columnNumber ) throws SemanticException
+			int columnNumber, boolean isInsert ) throws SemanticException
 	{
 		SlotHandle columns = target.getContainerSlotHandle( );
 		assert target != null;
 
-		int colStartPos = 1;
-		int colPosInSlot = columns.findPosn( target );
-		for ( int i = 0; i < colPosInSlot; i++ )
-		{
-			ColumnHandle col = (ColumnHandle) columns.get( i );
-			colStartPos += col.getRepeatCount( );
-
-			if ( colStartPos == columnNumber )
-				break;
-		}
+		int colStartPos = getColumnStartPos( target );
+		int colEndPos = colStartPos + +target.getRepeatCount( ) - 1;
 
 		ColumnHandle toAdd = null;
 		if ( source == null )
@@ -405,12 +529,17 @@ abstract class ColumnBandAdapter
 		else
 			toAdd = (ColumnHandle) source.getHandle( getDesign( ) );
 
+		int oldPos = columns.findPosn( target );
+
 		// removes the column required.
 
 		if ( target.getRepeatCount( ) == 1 )
 		{
-			int oldPos = columns.findPosn( target );
-			columns.drop( target );
+			if ( isInsert )
+				oldPos++;
+			else
+				columns.drop( target );
+
 			columns.add( toAdd, oldPos );
 			return;
 		}
@@ -419,34 +548,51 @@ abstract class ColumnBandAdapter
 
 		// the new column is replaced at the beginning or end the target column
 
-		if ( columnNumber == colStartPos
-				|| columnNumber == colStartPos + target.getRepeatCount( ) - 1 )
+		if ( ( !isInsert && ( columnNumber == colStartPos || columnNumber == colEndPos ) )
+				|| ( isInsert && ( columnNumber == colEndPos ) ) )
 		{
-			target.setRepeatCount( target.getRepeatCount( ) - 1 );
+			// if it is only a paste operation, must tune the repeat count.
 
-			int pos = columns.findPosn( target );
+			if ( !isInsert )
+				target.setRepeatCount( target.getRepeatCount( ) - 1 );
+
+			int pos = oldPos;
 			if ( columnNumber != colStartPos )
 				pos++;
 
 			columns.add( toAdd, pos );
-
 			return;
 		}
 
 		// the new column is replaced at the center of the target column (not
-		// beginning or the end).
+		// beginning or the end) for the paste operation.
 
-		if ( columnNumber > colStartPos
-				&& columnNumber < colStartPos + target.getRepeatCount( ) - 1 )
+		// the new column is in the start column index for the insert and paste
+		// operation.
+
+		if ( ( ( columnNumber > colStartPos && columnNumber < colEndPos ) )
+				|| ( isInsert && columnNumber == colStartPos ) )
 		{
 			int repeat1 = columnNumber - colStartPos;
-			int repeat2 = target.getRepeatCount( ) - repeat1 - 1;
+
+			// if is a insert and paste operation, do not reduce the repeat
+			// count.
+
+			if ( isInsert )
+				repeat1++;
+
+			int repeat2 = target.getRepeatCount( ) - repeat1;
+
+			// if is a paste operation, reduce the repeat count.
+
+			if ( !isInsert )
+				repeat2 -= 1;
 
 			ColumnHandle newColumn = ( (TableColumn) target.copy( ) )
 					.handle( getDesign( ) );
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
-			int pos = columns.findPosn( target );
+			int pos = oldPos;
 			columns.add( toAdd, pos + 1 );
 			columns.add( newColumn, pos + 2 );
 		}
@@ -459,9 +605,13 @@ abstract class ColumnBandAdapter
 	 *            the column from the copy operation
 	 * @param columnNumber
 	 *            the column number of <code>column</code>
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert and paste action.
+	 *            Otherwise <code>false</code>.
 	 */
 
-	protected void addColumnHeader( TableColumn column, int columnNumber )
+	protected void addColumnHeader( TableColumn column, int columnNumber,
+			boolean isInsert )
 	{
 		SlotHandle columns = getColumns( );
 		assert columns.getCount( ) == 0;
@@ -470,16 +620,21 @@ abstract class ColumnBandAdapter
 		// the execution of table.getColumnCount()
 
 		int columnCount = getColumnCount( );
+		if ( isInsert )
+			columnCount++;
 
 		for ( int i = 0; i < columnCount; i++ )
 		{
 			ColumnHandle toAdd = null;
 
-			if ( i != columnNumber - 1 )
+			// either paste action or insert and paste actions.
+
+			if ( ( i == columnNumber - 1 && !isInsert )
+					|| ( isInsert && i == columnNumber ) )
+				toAdd = column.handle( getDesign( ) );
+			else
 				toAdd = getElementHandle( ).getElementFactory( )
 						.newTableColumn( );
-			else
-				toAdd = column.handle( getDesign( ) );
 
 			try
 			{
@@ -522,8 +677,10 @@ abstract class ColumnBandAdapter
 	}
 
 	/**
-	 * Removes cells in <code>originalCells</code> and inserts cells in
-	 * <code>copiedCells</code> to the element.
+	 * Performs insert and paste or paste operations. Removes cells in
+	 * <code>originalCells</code> if <code>isInsert</code> is
+	 * <code>true</code>. Then inserts cells in <code>copiedCells</code> to
+	 * the element.
 	 * 
 	 * @param copiedCells
 	 *            a list containing cells that is to be inserted.
@@ -531,12 +688,15 @@ abstract class ColumnBandAdapter
 	 *            a list containing cells that is to be deleted.
 	 * @param columnIndex
 	 *            the column index where copied cells are pasted
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert and paste action.
+	 *            Otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if any error occurs during pasting cells.
 	 */
 
 	protected void pasteCells( List copiedCells, List originalCells,
-			int columnIndex ) throws SemanticException
+			int columnIndex, boolean isInsert ) throws SemanticException
 	{
 		int[] originalPositions = new int[originalCells.size( )];
 		int[] originalRowSpans = new int[originalCells.size( )];
@@ -552,14 +712,14 @@ abstract class ColumnBandAdapter
 			originalPositions[i] = findCellPosition( cell );
 			originalRowSpans[i] = contextInfo.getRowSpan( );
 
-			cell.getContainerSlotHandle( ).drop( cell );
+			if ( !isInsert )
+				cell.getContainerSlotHandle( ).drop( cell );
 		}
 
 		int[] copiedRowSpans = new int[copiedCells.size( )];
 		for ( int i = 0; i < copiedCells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = (CellContextInfo) originalCells
-					.get( i );
+			CellContextInfo contextInfo = (CellContextInfo) copiedCells.get( i );
 			copiedRowSpans[i] = contextInfo.getRowSpan( );
 		}
 
@@ -585,7 +745,13 @@ abstract class ColumnBandAdapter
 			int pos = insertPosition[i];
 			CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
 
-			row.addElement( cell, TableRow.CONTENT_SLOT, pos - 1 );
+			// if this is only paste operation, then paste it to the old
+			// position. Otherwise, apppend it to the next avaiable position.
+
+			if ( !isInsert )
+				pos--;
+
+			row.addElement( cell, TableRow.CONTENT_SLOT, pos );
 		}
 	}
 
@@ -611,20 +777,14 @@ abstract class ColumnBandAdapter
 		int copiedRowCount = 0;
 		int originalRowCount = 0;
 
-		for ( int i = 0, j = 0; i < copiedRowSpans.length; i++ )
+		for ( int i = 0, j = -1; i < copiedRowSpans.length; i++ )
 		{
 			int copiedRowSpan = copiedRowSpans[i];
 			copiedRowCount += copiedRowSpan;
 
-			boolean isJChanged = false;
-
 			while ( originalRowCount < copiedRowCount )
-			{
-				originalRowCount += originalRowSpans[j];
-				j++;
-				isJChanged = true;
-			}
-			retValue[i] = originalPositions[isJChanged ? j - 1 : j];
+				originalRowCount += originalRowSpans[++j];
+			retValue[i] = originalPositions[j];
 		}
 
 		return retValue;

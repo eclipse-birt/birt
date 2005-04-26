@@ -165,7 +165,15 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 
 		element = target;
 		super.pasteColumnBand( columnIndex, inForce );
+	}
 
+	protected void insertAndPasteColumnBand( TableHandle target, int columnIndex )
+			throws SemanticException
+	{
+		assert target != null;
+
+		element = target;
+		super.insertAndPasteColumnBand( columnIndex );
 	}
 
 	/*
@@ -234,6 +242,22 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		return false;
 	}
 
+	/**
+	 * Checks whether the paste operation can be done with the given copied
+	 * column band data, the column index and the operation flag.
+	 * 
+	 * @param table
+	 *            the table for the paste operation 
+	 * @param columnIndex
+	 *            the column index
+	 * @param inForce
+	 *            <code>true</code> indicates to paste the column regardless
+	 *            of the different layout of cells. <code>false</code>
+	 *            indicates not.
+	 * @return <code>true</code> indicates the paste operation can be done.
+	 *         Otherwise <code>false</code>.
+	 */
+
 	protected boolean canPaste( TableHandle table, int columnIndex,
 			boolean inForce )
 	{
@@ -242,5 +266,25 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		element = table;
 
 		return super.canPaste( columnIndex, inForce );
+	}
+
+	/**
+	 * Tests whether the copied data can be inserted into the next position of
+	 * <code>columnIndex</code>.
+	 * 
+	 * @param table
+	 *            the table where the data to be inserted
+	 * @param columnIndex
+	 *            the column index
+	 * @return <code>true</code> if the insertion can be done. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	protected boolean canInsertAndPaste( TableHandle table, int columnIndex )
+	{
+		assert table != null;
+		element = table;
+
+		return super.canInsertAndPaste( columnIndex );
 	}
 }
