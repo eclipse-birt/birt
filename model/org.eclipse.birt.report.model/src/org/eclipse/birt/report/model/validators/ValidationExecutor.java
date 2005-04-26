@@ -17,9 +17,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
+import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
+import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SemanticTriggerDefn;
@@ -92,7 +97,7 @@ public class ValidationExecutor
 		ValidationEvent event = new ValidationEvent( targetElement, null,
 				errorDetailList );
 
-		targetElement.broadcast( event );
+		design.broadcastValidationEvent( targetElement,  event );
 
 		return exceptionList;
 	}

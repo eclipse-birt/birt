@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -1062,27 +1063,6 @@ public class ReportDesignHandle extends DesignElementHandle
 			return;
 		PropertyHandle propHandle = this
 				.getPropertyHandle( ReportDesign.IMAGES_PROP );
-//		List newImages = new ArrayList( );
-//		for ( int i = 0; i < images.size( ); i++ )
-//		{
-//			newImages.add( ( (EmbeddedImageHandle) images.get( i ) )
-//					.getStructure( ) );
-//		}
-//		getDesign( ).getActivityStack( ).startTrans( );
-//		try
-//		{
-//			for ( int i = 0; i < images.size( ); i++ )
-//			{
-//				EmbeddedImage image = (EmbeddedImage) newImages.get( i );
-//				propHandle.removeItem( image );
-//			}
-//		}
-//		catch ( PropertyValueException e )
-//		{
-//			getDesign( ).getActivityStack( ).rollback( );
-//			throw e;
-//		}
-//		getDesign( ).getActivityStack( ).commit( );
 		propHandle.removeItems( images );
 	}
 
@@ -1674,5 +1654,19 @@ public class ReportDesignHandle extends DesignElementHandle
 	public List getMessageKeys( )
 	{
 		return getDesign( ).getMessageKeys( );
+	}
+
+	/**
+	 * Adds the validation listener, which implements
+	 * <code>IValidationListener</code>. A listener receives notifications
+	 * each time an element is validated.
+	 * 
+	 * @param listener
+	 *            the validation listener.
+	 */
+
+	public void addValidationListener( IValidationListener listener )
+	{
+		getDesign( ).addValidationListener( listener );
 	}
 }

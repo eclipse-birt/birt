@@ -148,7 +148,7 @@ public class ValidationNode
 			ValidationEvent event = new ValidationEvent( toValidate,
 					triggerDefn.getValidationID( ), errorDetailList );
 
-			toValidate.broadcast( event );
+			design.broadcastValidationEvent( toValidate, event );
 		}
 
 		return errors;
@@ -175,11 +175,17 @@ public class ValidationNode
 	{
 		StringBuffer sb = new StringBuffer( );
 
+		sb.append( "element=" ); //$NON-NLS-1$
+		sb.append( element.getElementName( ) );
+		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "name=" ); //$NON-NLS-1$
 		if ( element != null )
 			sb.append( element.getName( ) );
 		else
 			sb.append( "[null]" ); //$NON-NLS-1$
+		sb.append( ", " ); //$NON-NLS-1$
+		sb.append( "id=" ); //$NON-NLS-1$
+		sb.append( element.toString( ) ); //$NON-NLS-1$
 
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "validator=" ); //$NON-NLS-1$

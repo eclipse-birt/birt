@@ -23,15 +23,6 @@ public class ArgumentInfo implements IArgumentInfo
 {
 
 	/**
-	 * Argument name for optional argument. The optional argument is used for
-	 * the method with variable argument. For example, concat( str1, ... ). The
-	 * argument is just an indication that it's optional, and takes information
-	 * from the previous one. Its display name is "...".
-	 */
-
-	public static String OPTIONAL_ARGUMENT_NAME = "optionalArgument"; //$NON-NLS-1$
-
-	/**
 	 * The script type of this argument.
 	 */
 

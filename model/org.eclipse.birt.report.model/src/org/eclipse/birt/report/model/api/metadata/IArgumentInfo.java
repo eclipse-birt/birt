@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-
 /**
  * Represents the definition of argument. The argument definition includes the
  * data type, internal name, and display name.
@@ -19,6 +18,15 @@ package org.eclipse.birt.report.model.api.metadata;
 
 public interface IArgumentInfo
 {
+
+	/**
+	 * Argument name for optional argument. The optional argument is used for
+	 * the method with variable argument. For example, concat( str1, ... ). The
+	 * argument is just an indication that it's optional, and takes information
+	 * from the previous one. Its display name is "...".
+	 */
+
+	final public static String OPTIONAL_ARGUMENT_NAME = "optionalArgument"; //$NON-NLS-1$
 
 	/**
 	 * Returns the internal name for the argument.
@@ -35,8 +43,7 @@ public interface IArgumentInfo
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	public String getDisplayName( ); 
-	
+	public String getDisplayName( );
 
 	/**
 	 * Returns the resource key for the display name.
@@ -45,7 +52,7 @@ public interface IArgumentInfo
 	 */
 
 	public String getDisplayNameKey( );
-	
+
 	/**
 	 * Returns the script type of this argument.
 	 * 
@@ -53,5 +60,5 @@ public interface IArgumentInfo
 	 */
 
 	public String getType( );
-	
+
 }

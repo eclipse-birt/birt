@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +33,9 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
+import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
@@ -53,7 +56,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- * 
+ *  
  */
 
 public class ReportDesign extends RootElement
@@ -316,6 +319,8 @@ public class ReportDesign extends RootElement
 
 	private ValidationExecutor validationExecutor = new ValidationExecutor(
 			this );
+
+	private List validationListeners = null;
 
 	/**
 	 * Default constructor.
@@ -1166,7 +1171,8 @@ public class ReportDesign extends RootElement
 
 	public boolean isFileExist( String fileName )
 	{
-		return getSession( ).getFileLocator( ).findFile( ((ReportDesignHandle)this.getHandle(this)), fileName ) != null;
+		return getSession( ).getFileLocator( ).findFile(
+				( (ReportDesignHandle) this.getHandle( this ) ), fileName ) != null;
 	}
 
 	/**
@@ -1227,5 +1233,46 @@ public class ReportDesign extends RootElement
 	public ValidationExecutor getValidationExecutor( )
 	{
 		return validationExecutor;
+	}
+
+	/**
+	 * Adds one validation listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the validation listener to add
+	 */
+
+	public void addValidationListener( IValidationListener listener )
+	{
+		if ( validationListeners == null )
+			validationListeners = new ArrayList( );
+
+		if ( !validationListeners.contains( listener ) )
+			validationListeners.add( listener );
+	}
+
+	/**
+	 * Broadcasts the validation event to validation listeners.
+	 * 
+	 * @param element
+	 *            the validated element
+	 * @param event
+	 *            the validation event
+	 */
+
+	public void broadcastValidationEvent( DesignElement element,
+			ValidationEvent event )
+	{
+		if ( validationListeners != null )
+		{
+			Iterator iter = validationListeners.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IValidationListener listener = (IValidationListener) iter
+						.next( );
+
+				listener.elementValidated( element.getHandle( this ), event );
+			}
+		}
 	}
 }
