@@ -37,6 +37,14 @@ public interface IFormatPage
 	public void setInput( String formatString );
 
 	/**
+	 * Sets preview text for default use.
+	 * 
+	 * @param text
+	 *            The preview text to be setted.
+	 */
+	public void setPreviewText( String text );
+
+	/**
 	 * Returns the format string from the page.
 	 * 
 	 * @return The format string.

@@ -71,11 +71,14 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private Label generalPreviewLabel;
 	private Label cPreviewLabel;
 	private Text formatCode;
-	private Text previewText;
+	private Text previewTextBox;
 
 	private int sourceType = 0;
 
 	private boolean hasLoaded = false;
+
+	private static String DEFAULT_PREVIEW_TEXT = Messages.getString("FormatStringPage.default.preview.text"); //$NON-NLS-1$
+	private String previewText = null;
 
 	/**
 	 * Constructs a new instance of format string page.
@@ -308,6 +311,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 * 
 	 * @param formatString
 	 *            The input format string.
+	 * @author Liu sanyong: -----> for parameter dialog use.
 	 */
 	public void setInput( String formatString )
 	{
@@ -318,15 +322,48 @@ public class FormatStringPage extends Composite implements IFormatPage
 		}
 		String fmtStr = formatString;
 		int pos = fmtStr.indexOf( ":" ); //$NON-NLS-1$
-		if ( StringUtil.isBlank( fmtStr ) || pos == -1 )
+		if ( StringUtil.isBlank( fmtStr ) )
 		{
 			setInput( null, null );
 			return;
 		}
+		else if ( pos == -1 )
+		{ // special case: only contains category, copy the category to pattern.
+			setInput( fmtStr, fmtStr );
+			return;
+		}
+
 		String category = fmtStr.substring( 0, pos );
 		String patternStr = fmtStr.substring( pos + 1 );
 		setInput( category, patternStr );
 		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
+	 */
+	public void setPreviewText( String text )
+	{
+		if ( text == null || StringUtil.isBlank( text ) )
+		{
+			previewText = null;
+		}
+		else
+		{
+			previewText = text;
+		}
+		updatePreview( );
+		return;
+	}
+
+	/**
+	 * @return Returns the previewText.
+	 */
+	public String getPreviewText( )
+	{
+		return previewText;
 	}
 
 	/**
@@ -372,6 +409,12 @@ public class FormatStringPage extends Composite implements IFormatPage
 		if ( patternStr == null )
 		{
 			patternStr = ""; //$NON-NLS-1$
+		}
+		// special case: when pattern equals category, omits(eliminatess) the
+		// pattern, only returns the category.-----> for parameter dialog use.
+		if ( category.equals( patternStr ) )
+		{
+			return category;
 		}
 		return category + ":" + patternStr; //$NON-NLS-1$
 	}
@@ -435,8 +478,9 @@ public class FormatStringPage extends Composite implements IFormatPage
 		String fmtStr = ""; //$NON-NLS-1$
 
 		Locale locale = Locale.getDefault( );
-		String gText = Messages.getString( "FormatStringPreferencePage.general.previewText" ); //$NON-NLS-1$
-		String cText = cPreviewLabel.getText( );
+
+		String gText = getPreviewText( ) == null ? DEFAULT_PREVIEW_TEXT
+				: getPreviewText( );
 
 		String displayName = typeChoicer.getText( );
 		String category = getCategoryForDisplayName( displayName );
@@ -504,13 +548,13 @@ public class FormatStringPage extends Composite implements IFormatPage
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( category ) )
 		{
 			pattern = formatCode.getText( );
-			if ( !StringUtil.isBlank( previewText.getText( ) ) )
+			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new StringFormatter( pattern, locale ).format( previewText.getText( ) );
+				fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			}
 			else
 			{
-				fmtStr = new StringFormatter( pattern, locale ).format( cText );
+				fmtStr = new StringFormatter( pattern, locale ).format( previewTextBox.getText( ) );
 			}
 			if ( fmtStr == null || fmtStr == "" ) //$NON-NLS-1$
 			{
@@ -651,19 +695,20 @@ public class FormatStringPage extends Composite implements IFormatPage
 			group.setLayout( new GridLayout( 2, false ) );
 
 			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatStringPreferencePage.previewText.label" ) ); //$NON-NLS-1$
-			previewText = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewText.setText( Messages.getString( "FormatStringPreferencePage.previewText.text" ) ); //$NON-NLS-1$
-			previewText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			previewText.addModifyListener( new ModifyListener( ) {
+			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
+			previewTextBox.setText( "" ); //$NON-NLS-1$
+			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			previewTextBox.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
 					if ( hasLoaded )
 					{
-						updatePreview( );
+						setPreviewText( previewTextBox.getText( ) );
 					}
 				}
 			} );
+
 			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatStringPreferencePage.previewLabel.label" ) ); //$NON-NLS-1$
 			cPreviewLabel = new Label( group, SWT.NONE );
 			cPreviewLabel.setText( Messages.getString( "FormatStringPreferencePage.previewLabel.text" ) ); //$NON-NLS-1$
@@ -679,10 +724,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 			help.setText( Messages.getString( "FormatStringPreferencePage.helpButton.label" ) ); //$NON-NLS-1$
 			help.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END
 					| GridData.GRAB_HORIZONTAL ) );
-			//			setButtonLayoutData( help );
-			//			data = (GridData) help.getLayoutData( );
-			//			data.horizontalAlignment = GridData.END;
-			//			data.grabExcessHorizontalSpace = true;
 		}
 		return customPage;
 	}
