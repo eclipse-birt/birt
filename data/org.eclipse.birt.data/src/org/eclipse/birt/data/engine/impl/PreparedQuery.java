@@ -481,7 +481,12 @@ abstract class PreparedQuery
 
 			if(this.isExecuted)
 				return;
-			//			 Execute the query
+
+			// Set the Javascript "rows" object and bind it to our result
+			rowsObject = new JSRows( this.outerResults, rowObject );
+			scope.put( "rows", scope, rowsObject );
+			
+			// Execute the query
 			odiResult = executeOdiQuery( );
 
 			// Data set is open in executeOdiQuery; now run aferOpen script
@@ -493,10 +498,6 @@ abstract class PreparedQuery
 			// Bind the row object to the odi result set
 			rowObject.setResultSet( odiResult, false );
 				
-			// Set the Javascript "rows" object and bind it to our result
-			rowsObject = new JSRows( this.outerResults, rowObject );
-			scope.put( "rows", scope, rowsObject );
-
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
 			    
