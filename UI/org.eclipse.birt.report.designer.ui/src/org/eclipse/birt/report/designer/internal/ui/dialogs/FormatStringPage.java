@@ -77,7 +77,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private boolean hasLoaded = false;
 
-	private static String DEFAULT_PREVIEW_TEXT = Messages.getString("FormatStringPage.default.preview.text"); //$NON-NLS-1$
+	private static String DEFAULT_PREVIEW_TEXT = Messages.getString( "FormatStringPage.default.preview.text" ); //$NON-NLS-1$
 	private String previewText = null;
 
 	/**
@@ -696,7 +696,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatStringPreferencePage.previewText.label" ) ); //$NON-NLS-1$
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewTextBox.setText( "" ); //$NON-NLS-1$
+			previewTextBox.setText( DEFAULT_PREVIEW_TEXT );
 			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			previewTextBox.addModifyListener( new ModifyListener( ) {
 

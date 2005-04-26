@@ -1139,7 +1139,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatNumberPreferencePage.numberToPreview.label" ) ); //$NON-NLS-1$
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewTextBox.setText( "" ); //$NON-NLS-1$
+			previewTextBox.setText( DEFAULT_PREVIEW_TEXT ); //$NON-NLS-1$
 			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			previewTextBox.addModifyListener( new ModifyListener( ) {
 
