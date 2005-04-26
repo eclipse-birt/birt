@@ -90,7 +90,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2005/04/12 06:08:39 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/23 03:21:32 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -655,6 +655,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 	}
 
+	
+	// Connects the metadata provider to the specified data source
+	protected Connection connectMetadataProvider( JdbcMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle )
+	{
+		return metadata.connect( dataSourceHandle );
+	}
+	
 	private void initialize()
 	{
 		
@@ -674,7 +681,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		// Initializing the jdbc related properties
 		metaDataProvider = new JdbcMetaDataProvider(null);
 		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-		Connection jdbcConnection = metaDataProvider.connect(prevDataSourceHandle);
+		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
 		
 		try
 		{
@@ -723,13 +730,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 * @param curDataSourceHandle
 	 *
 	 */
-	protected void resetJdbcInfo(DataSourceHandle curDataSourceHandle)
+	protected void resetJdbcInfo(OdaDataSourceHandle curDataSourceHandle)
 	{
 		if( metaDataProvider != null )
 		{
 			metaDataProvider.closeConnection();
 			metaDataProvider = new JdbcMetaDataProvider(null);
-			metaDataProvider.connect(curDataSourceHandle);
+			connectMetadataProvider( metaDataProvider, curDataSourceHandle);
 			
 			// Clear the Table list and the schema List
 			tableList = null;

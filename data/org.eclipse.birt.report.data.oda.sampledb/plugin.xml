@@ -128,10 +128,10 @@
                name="JdbcSelectDataSet"
                displayName="%dataset.jdbcselect">
             <dataSetEditorPage
-                  class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
+                  class="org.eclipse.birt.report.data.oda.sampledb.SampleDataSetEditor"
                   path="/"
-                  displayName="%dataset.editor.page.query"
-                  name="org.eclipse.birt.report.data.oda.sampledb.data-set-editor-page"/>
+                  name="org.eclipse.birt.report.data.oda.sampledb.data-set-editor-page"
+                  displayName="%dataset.editor.page.query"/>
          </odaDataSetUI>
       </odaDataSourceUI>
     </extension>
