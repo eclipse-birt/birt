@@ -81,12 +81,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String STYLE_PROPERTY_TAG = "styleProperty"; //$NON-NLS-1$
 		private static final String METHOD_TAG = "method"; //$NON-NLS-1$
 
-		private static final String HAS_STYLE_ATTRIB = "hasStyle"; //$NON-NLS-1$
 		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
-		private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$
-
+	
 		PeerExtensionElementLoader( IExtension extension )
 		{
 			super( extension );
@@ -115,7 +113,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( EXTENSION_NAME_ATTRIB );
 			String displayNameID = elementTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-			String hasStyle = elementTag.getAttribute( HAS_STYLE_ATTRIB );
+		
 			String defaultStyle = elementTag
 					.getAttribute( DEFAULT_STYLE_ATTRIB );
 			String isNameRequired = elementTag
@@ -144,10 +142,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 					elementDefn.setNameOption( MetaDataConstants.REQUIRED_NAME );
 				else
 					elementDefn.setNameOption( MetaDataConstants.OPTIONAL_NAME );
-
-				if ( !StringUtil.isBlank( hasStyle ) )
-					elementDefn.setHasStyle( Boolean.valueOf( hasStyle )
-							.booleanValue( ) );
 
 				List propList = new ArrayList( );
 
@@ -217,8 +211,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String type = propTag.getAttribute( TYPE_ATTRIB );
 			String canInherit = propTag.getAttribute( CAN_INHERIT_ATTRIB );
-			String isStyleProperty = propTag
-					.getAttribute( IS_STYLE_PROPERTY_ATTRIB );
+		
 			String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
 			String isEncrypted = propTag.getAttribute( IS_ENCRYPTED_ATTRIB );
 			String defaultDisplayName = propTag.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
@@ -245,10 +238,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
-
-			if ( !StringUtil.isBlank( isStyleProperty ) )
-				extPropDefn.setStyleProperty( Boolean.valueOf( isStyleProperty )
-						.booleanValue( ) );
 
 			if ( !StringUtil.isBlank( canInherit ) )
 				extPropDefn.setCanInherit( Boolean.valueOf( canInherit )

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com)  -->
-<xs:schema targetNamespace="http://www.actuate.com/Schema/BIRTSchema1" xmlns="http://www.actuate.com/Schema/BIRTSchema1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<xs:schema targetNamespace="http://www.actuate.com/Schema/BIRTSchema1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.actuate.com/Schema/BIRTSchema1" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="report">
 		<xs:annotation>
 			<xs:documentation>A BIRT report design.</xs:documentation>
@@ -152,7 +152,7 @@
 	</xs:complexType>
 	<xs:complexType name="DataSetSlotType">
 		<xs:choice>
-			<xs:element name="extended-data-set" type="ExtendedDataSetType">
+			<xs:element name="oda-data-set" type="ExtendedDataSetType">
 				<xs:annotation>
 					<xs:documentation>ODA extended data set</xs:documentation>
 				</xs:annotation>
@@ -177,7 +177,7 @@
 			<xs:documentation>Note that only the Jdbc Connection is defined, and that is preliminary. This section is to be completed by the Data Engine team.</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="extended-data-source" type="ExtendedDataSourceType">
+			<xs:element name="oda-data-source" type="ExtendedDataSourceType">
 				<xs:annotation>
 					<xs:documentation>ODA extended data source.</xs:documentation>
 				</xs:annotation>

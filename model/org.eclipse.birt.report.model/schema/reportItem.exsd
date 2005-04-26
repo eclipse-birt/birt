@@ -60,13 +60,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="hasStyle" type="boolean">
-            <annotation>
-               <documentation>
-                  Flag to indicate if the element supports style.
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="defaultStyle" type="string">
             <annotation>
                <documentation>
@@ -161,8 +154,6 @@
                   </enumeration>
                   <enumeration value="dataSet">
                   </enumeration>
-                  <enumeration value="page">
-                  </enumeration>
                   <enumeration value="points">
                   </enumeration>
                   <enumeration value="uri">
@@ -182,22 +173,11 @@
                   <enumeration value="element">
                   </enumeration>
                   <enumeration value="column">
-                  </enumeration>
-                  <enumeration value="variant">
-                  </enumeration>
-                  <enumeration value="structList">
-                  </enumeration>
+                  </enumeration>              
                </restriction>
             </simpleType>
          </attribute>
          <attribute name="canInherit" type="boolean" use="default" value="true">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="isStyleProperty" type="string" use="default" value="false">
             <annotation>
                <documentation>
                   
