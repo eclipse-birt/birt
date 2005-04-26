@@ -189,6 +189,41 @@ public class LabelFigure extends ReportElementFigure
 	}
 
 	/**
+	 * Since Eclipse TextFlow figure ignore the trailing /r/n for calculating
+	 * the client size, we must append the extra size ourselves.
+	 * 
+	 * @return dimension for the client area used by the editor.
+	 */
+	public Rectangle getEditorArea( )
+	{
+		Rectangle rect = getClientArea( ).getCopy( );
+
+		String s = getText( );
+
+		int count = 0;
+
+		if ( s != null && s.length( ) > 1 )
+		{
+			for ( int i = s.length( ) - 2; i >= 0; i -= 2 )
+			{
+				if ( "\r\n".equals( s.substring( i, i + 2 ) ) ) //$NON-NLS-1$
+				{
+					count++;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		int hh = getMinimumFontSize( getFont( ) );
+		rect.height += count * hh + ( ( count == 0 ) ? 0 : ( hh / 2 ) );
+
+		return rect;
+	}
+
+	/**
 	 * Sets the recommended size.
 	 * 
 	 * @param recommendSize

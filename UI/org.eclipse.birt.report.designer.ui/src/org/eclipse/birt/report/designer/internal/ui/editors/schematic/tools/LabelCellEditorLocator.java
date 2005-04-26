@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.tools.CellEditorLocator;
@@ -20,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * CellEditorLocator for label.
- * 
+ *  
  */
 final public class LabelCellEditorLocator implements CellEditorLocator
 {
@@ -45,6 +46,7 @@ final public class LabelCellEditorLocator implements CellEditorLocator
 
 	/**
 	 * Constructor
+	 * 
 	 * @param l
 	 */
 	public LabelCellEditorLocator( Figure l )
@@ -52,14 +54,16 @@ final public class LabelCellEditorLocator implements CellEditorLocator
 		setLabel( l );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.tools.CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
 	 */
 	public void relocate( CellEditor celleditor )
 	{
 		Text text = (Text) celleditor.getControl( );
 
-		Rectangle rect = figure.getClientArea( ).getCopy( );
+		Rectangle rect = ( (LabelFigure) figure ).getEditorArea( );
 		figure.translateToAbsolute( rect );
 
 		int xOffset = 0;
