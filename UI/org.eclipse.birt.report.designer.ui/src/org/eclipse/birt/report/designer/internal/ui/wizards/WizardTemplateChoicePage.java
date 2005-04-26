@@ -51,6 +51,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String TITLE_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.title.BlankReport" ); //$NON-NLS-1$
 	private static final String TITLE_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnListing" ); //$NON-NLS-1$
+	private static final String TITLE_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.title.FirstReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_LETTER = Messages.getString( "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.message.MailingLabels" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
@@ -60,13 +61,15 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
-
+    private static final String DESCRIPTION_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
+    
 	private List templateList;
 
 	private ImageCanvas previewCanvas;
 	private Button chkBox;
 
 	private Label description;
+
 
 	protected class Template
 	{
@@ -99,6 +102,11 @@ public class WizardTemplateChoicePage extends WizardPage
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
 					"/templates/blank_report.gif", //$NON-NLS-1$
 					"" ), //$NON-NLS-1$
+			new Template( TITLE_FIRST_REPORT,
+					DESCRIPTION_FIRST_REPORT,
+					"/templates/blank_report.rptdesign", //$NON-NLS-1$
+					"/templates/blank_report.gif", //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
 			new Template( TITLE_SIMPLE_LISTING,
 					DESCRIPTION_SIMPLE_LISTING,
 					"/templates/simple_listing.rptdesign", //$NON-NLS-1$

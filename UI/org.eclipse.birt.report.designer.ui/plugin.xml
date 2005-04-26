@@ -174,6 +174,11 @@
    <!-- Preview browsers -->
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <cheatsheet
+            category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
+            contentFile="/templates/my_first_report.xml"
+            name="%cheatsheet.firstreport"
+            id="org.eclipse.birt.report.designer.ui.cheatsheet.firstreport"/>
       <category
             name="%cheatsheet.category"
             id="org.eclipse.birt.report.designer.ui.cheatsheetcategory"/>
