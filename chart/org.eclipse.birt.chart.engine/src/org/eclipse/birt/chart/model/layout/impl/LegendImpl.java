@@ -1157,8 +1157,11 @@ public class LegendImpl extends BlockImpl implements Legend
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer, org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer,
+     *      org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
      */
     public final Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException
     {

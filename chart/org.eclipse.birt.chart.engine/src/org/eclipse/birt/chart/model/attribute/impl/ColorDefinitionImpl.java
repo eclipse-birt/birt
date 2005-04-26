@@ -770,7 +770,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
         cd.setTransparency(0);
         return cd;
     }
-    
+
     /*
      * (non-Javadoc)
      * 

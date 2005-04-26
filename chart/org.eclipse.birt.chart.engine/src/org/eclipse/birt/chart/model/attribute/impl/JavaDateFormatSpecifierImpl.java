@@ -197,7 +197,9 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
         return jdfs;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#format(java.util.Calendar, java.util.Locale)
      */
     public final String format(Calendar c, Locale lcl)

@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -310,14 +312,6 @@ public class AttributeSwitch
                 Object result = caseScriptValue(scriptValue);
                 if (result == null)
                     result = caseActionValue(scriptValue);
-                if (result == null)
-                    result = defaultCase(theEObject);
-                return result;
-            }
-            case AttributePackage.SERIES_HINT:
-            {
-                SeriesHint seriesHint = (SeriesHint) theEObject;
-                Object result = caseSeriesHint(seriesHint);
                 if (result == null)
                     result = defaultCase(theEObject);
                 return result;
@@ -729,22 +723,6 @@ public class AttributeSwitch
      * @generated
      */
     public Object caseScriptValue(ScriptValue object)
-    {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Series Hint</em>'. <!-- begin-user-doc
-     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
-     * -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Series Hint</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseSeriesHint(SeriesHint object)
     {
         return null;
     }

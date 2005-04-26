@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled <em>Enabled</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit <em>Grouping Unit</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin <em>Grouping Origin</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}
@@ -111,7 +115,7 @@ public interface SeriesGrouping extends EObject
      * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
      * @generated
      */
-    String getGroupingUnit();
+    GroupingUnitType getGroupingUnit();
 
     /**
      * Sets the value of the '
@@ -120,10 +124,67 @@ public interface SeriesGrouping extends EObject
      * 
      * @param value
      *            the new value of the '<em>Grouping Unit</em>' attribute.
+     * @see org.eclipse.birt.chart.model.attribute.GroupingUnitType
+     * @see #isSetGroupingUnit()
+     * @see #unsetGroupingUnit()
      * @see #getGroupingUnit()
      * @generated
      */
-    void setGroupingUnit(String value);
+    void setGroupingUnit(GroupingUnitType value);
+
+    /**
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit <em>Grouping Unit</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #isSetGroupingUnit()
+     * @see #getGroupingUnit()
+     * @see #setGroupingUnit(GroupingUnitType)
+     * @generated
+     */
+    void unsetGroupingUnit();
+
+    /**
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit <em>Grouping Unit</em>}' attribute is
+     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Grouping Unit</em>' attribute is set.
+     * @see #unsetGroupingUnit()
+     * @see #getGroupingUnit()
+     * @see #setGroupingUnit(GroupingUnitType)
+     * @generated
+     */
+    boolean isSetGroupingUnit();
+
+    /**
+     * Returns the value of the '<em><b>Grouping Origin</b></em>' containment reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc --> <!-- begin-model-doc -->
+     * 
+     * A data element that specifies the starting point for grouping. This does not apply to grouping of Text values. If
+     * undefined, grouping starts at the minimum value.
+     * 
+     * <!-- end-model-doc -->
+     * 
+     * @return the value of the '<em>Grouping Origin</em>' containment reference.
+     * @see #setGroupingOrigin(DataElement)
+     * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_GroupingOrigin()
+     * @model containment="true" resolveProxies="false" required="true"
+     * @generated
+     */
+    DataElement getGroupingOrigin();
+
+    /**
+     * Sets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin <em>Grouping Origin</em>}' containment
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Grouping Origin</em>' containment reference.
+     * @see #getGroupingOrigin()
+     * @generated
+     */
+    void setGroupingOrigin(DataElement value);
 
     /**
      * Returns the value of the '<em><b>Grouping Interval</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -196,7 +257,7 @@ public interface SeriesGrouping extends EObject
      * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
      * @generated
      */
-    String getGroupType();
+    DataType getGroupType();
 
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}'
@@ -204,10 +265,38 @@ public interface SeriesGrouping extends EObject
      * 
      * @param value
      *            the new value of the '<em>Group Type</em>' attribute.
+     * @see org.eclipse.birt.chart.model.attribute.DataType
+     * @see #isSetGroupType()
+     * @see #unsetGroupType()
      * @see #getGroupType()
      * @generated
      */
-    void setGroupType(String value);
+    void setGroupType(DataType value);
+
+    /**
+     * Unsets the value of the '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #isSetGroupType()
+     * @see #getGroupType()
+     * @see #setGroupType(DataType)
+     * @generated
+     */
+    void unsetGroupType();
+
+    /**
+     * Returns whether the value of the '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}' attribute is set.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Group Type</em>' attribute is set.
+     * @see #unsetGroupType()
+     * @see #getGroupType()
+     * @see #setGroupType(DataType)
+     * @generated
+     */
+    boolean isSetGroupType();
 
     /**
      * Returns the value of the '<em><b>Aggregate Expression</b></em>' attribute. <!-- begin-user-doc --> <!--

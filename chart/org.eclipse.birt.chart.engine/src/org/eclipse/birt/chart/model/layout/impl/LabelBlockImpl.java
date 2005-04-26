@@ -405,15 +405,18 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
         setLabel(LabelImpl.create());
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer, org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.chart.model.layout.Block#getPreferredSize(org.eclipse.birt.chart.device.IDisplayServer,
+     *      org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.factory.RunTimeContext)
      */
     public final Size getPreferredSize(IDisplayServer xs, Chart cm, RunTimeContext rtc) throws GenerationException
     {
         BoundingBox bb = null;
         final String sPreviousValue = getLabel().getCaption().getValue();
         getLabel().getCaption().setValue(rtc.externalizedMessage(sPreviousValue));
-        
+
         try
         {
             bb = Methods.computeBox(xs, IConstants.TOP, getLabel(), 0, 0);

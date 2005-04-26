@@ -125,8 +125,8 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier
 
     /**
      * 
-     * @param   dValue
-     * @param   lo
+     * @param dValue
+     * @param lo
      * @return
      */
     String format(double dValue, Locale lo);

@@ -334,6 +334,23 @@
       <details key="baseType" value="DataPointComponentType"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the possible data type values associated with chart components.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="DataType"/>
+    </eAnnotations>
+    <eLiterals name="Numeric"/>
+    <eLiterals name="DateTime" value="1"/>
+    <eLiterals name="Text" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="DataTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="DataType:Object"/>
+      <details key="baseType" value="DataType"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DateFormatDetail">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the form of Date.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -636,6 +653,27 @@
         <details key="name" value="Transparency"/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GroupingUnitType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the possible units for grouping data.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="GroupingUnitType"/>
+    </eAnnotations>
+    <eLiterals name="Seconds"/>
+    <eLiterals name="Minutes" value="1"/>
+    <eLiterals name="Hours" value="2"/>
+    <eLiterals name="Days" value="3"/>
+    <eLiterals name="Weeks" value="4"/>
+    <eLiterals name="Months" value="5"/>
+    <eLiterals name="Years" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="GroupingUnitType:Object"/>
+      <details key="baseType" value="GroupingUnitType"/>
+    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="HorizontalAlignment">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -1204,35 +1242,6 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SeriesHint">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the data value being displayed in the plot area for each data value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
-    </eAnnotations>
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="SeriesHint"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesClass" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type series class to which this hint applies.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="SeriesClass"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifier" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the modifier to be used.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="Modifier"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeriesValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the value for a 'Toggle_Visibility' action.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -1494,6 +1503,24 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition:Object"/>
       <details key="baseType" value="TriggerCondition"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnitsOfMeasurement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the possible values of Units of Measurement.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="UnitsOfMeasurement"/>
+    </eAnnotations>
+    <eLiterals name="Pixels"/>
+    <eLiterals name="Points" value="1"/>
+    <eLiterals name="Inches" value="2"/>
+    <eLiterals name="Centimeters" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="UnitsOfMeasurementObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="UnitsOfMeasurement:Object"/>
+      <details key="baseType" value="UnitsOfMeasurement"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URLValue" eSuperTypes="#//ActionValue">

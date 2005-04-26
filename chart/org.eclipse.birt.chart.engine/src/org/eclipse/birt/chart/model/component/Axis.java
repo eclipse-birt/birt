@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getSubtitle <em>Subtitle</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitlePosition <em>Title Position</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getAssociatedAxes <em>Associated Axes</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.Axis#getSeriesDefinitions <em>Series Definitions</em>}</li>
@@ -172,31 +172,31 @@ public interface Axis extends EObject
     void setTitle(Label value);
 
     /**
-     * Returns the value of the '<em><b>Subtitle</b></em>' containment reference. <!-- begin-user-doc --> Gets the
-     * axis sub-title. <!-- end-user-doc --> <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Sub Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc -->
      * 
      * This is the element subtitle.
      * 
      * <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Subtitle</em>' containment reference.
-     * @see #setSubtitle(Label)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Subtitle()
+     * @return the value of the '<em>Sub Title</em>' containment reference.
+     * @see #setSubTitle(Label)
+     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_SubTitle()
      * @model containment="true" resolveProxies="false"
      * @generated
      */
-    Label getSubtitle();
+    Label getSubTitle();
 
     /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getSubtitle <em>Subtitle</em>}'
+     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}'
      * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Subtitle</em>' containment reference.
-     * @see #getSubtitle()
+     *            the new value of the '<em>Sub Title</em>' containment reference.
+     * @see #getSubTitle()
      * @generated
      */
-    void setSubtitle(Label value);
+    void setSubTitle(Label value);
 
     /**
      * Returns the value of the '<em><b>Title Position</b></em>' attribute. The default value is

@@ -117,7 +117,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
     private transient boolean bVisibilityEnabled = true;
 
     private transient IUIServiceProvider serviceprovider = null;
-    
+
     private transient boolean bEnabled = true;
 
     /**
@@ -198,7 +198,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
             cbVisible.setSelection(this.lblCurrent.isVisible());
             cbVisible.setText(Messages.getString("LabelAttributesComposite.Lbl.IsVisible")); //$NON-NLS-1$
             cbVisible.addSelectionListener(this);
-            if(bEnabled)
+            if (bEnabled)
             {
                 bEnableUI = cbVisible.getSelection();
             }
@@ -281,16 +281,16 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
         populateLists();
     }
-    
+
     public void setEnabled(boolean bState)
     {
         boolean bEnableUI = true;
-        if(this.bVisibilityEnabled)
+        if (this.bVisibilityEnabled)
         {
             cbVisible.setEnabled(bState);
             bEnableUI = cbVisible.getSelection();
         }
-        if(this.bPositionEnabled)
+        if (this.bPositionEnabled)
         {
             lblPosition.setEnabled(bState & bEnableUI);
             cmbPosition.setEnabled(bState & bEnableUI);
@@ -307,7 +307,7 @@ public class LabelAttributesComposite extends Composite implements SelectionList
         grpOutline.setEnabled(bState & bEnableUI);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;
@@ -396,11 +396,14 @@ public class LabelAttributesComposite extends Composite implements SelectionList
 
             boolean bEnableUI = cbVisible.getSelection();
             grpOutline.setEnabled(bEnableUI);
-            lblPosition.setEnabled(bEnableUI);
+            if (this.bPositionEnabled)
+            {
+                lblPosition.setEnabled(bEnableUI);
+                cmbPosition.setEnabled(bEnableUI);
+            }
             lblFill.setEnabled(bEnableUI);
             lblShadow.setEnabled(bEnableUI);
             lblFont.setEnabled(bEnableUI);
-            cmbPosition.setEnabled(bEnableUI);
             fdcFont.setEnabled(bEnableUI);
             fccBackground.setEnabled(bEnableUI);
             fccShadow.setEnabled(bEnableUI);

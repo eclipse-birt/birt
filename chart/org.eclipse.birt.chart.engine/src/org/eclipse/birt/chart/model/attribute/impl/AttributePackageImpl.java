@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
@@ -35,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -69,6 +71,7 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.util.AttributeValidator;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -258,13 +261,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
-    private EClass seriesHintEClass = null;
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     private EClass seriesValueEClass = null;
 
     /**
@@ -356,6 +352,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    private EEnum dataTypeEEnum = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     private EEnum dateFormatDetailEEnum = null;
 
     /**
@@ -371,6 +374,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * @generated
      */
     private EEnum directionEEnum = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EEnum groupingUnitTypeEEnum = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -489,6 +499,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    private EEnum unitsOfMeasurementEEnum = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     private EEnum verticalAlignmentEEnum = null;
 
     /**
@@ -538,6 +555,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    private EDataType dataTypeObjectEDataType = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     private EDataType dateFormatDetailObjectEDataType = null;
 
     /**
@@ -553,6 +577,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * @generated
      */
     private EDataType directionObjectEDataType = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EDataType groupingUnitTypeObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -706,6 +737,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    private EDataType unitsOfMeasurementObjectEDataType = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     private EDataType verticalAlignmentObjectEDataType = null;
 
     /**
@@ -767,37 +805,37 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
-        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(TypePackage.eNS_URI)
-            : TypePackageImpl.eINSTANCE);
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
-        DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(DataPackage.eNS_URI)
-            : DataPackageImpl.eINSTANCE);
         LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
             .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
+        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(TypePackage.eNS_URI)
+            : TypePackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(DataPackage.eNS_URI)
+            : DataPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theAttributePackage.createPackageContents();
-        theModelPackage.createPackageContents();
-        theTypePackage.createPackageContents();
-        theComponentPackage.createPackageContents();
-        theDataPackage.createPackageContents();
         theLayoutPackage.createPackageContents();
+        theComponentPackage.createPackageContents();
+        theTypePackage.createPackageContents();
+        theModelPackage.createPackageContents();
+        theDataPackage.createPackageContents();
 
         // Initialize created meta-data
         theAttributePackage.initializePackageContents();
-        theModelPackage.initializePackageContents();
-        theTypePackage.initializePackageContents();
-        theComponentPackage.initializePackageContents();
-        theDataPackage.initializePackageContents();
         theLayoutPackage.initializePackageContents();
+        theComponentPackage.initializePackageContents();
+        theTypePackage.initializePackageContents();
+        theModelPackage.initializePackageContents();
+        theDataPackage.initializePackageContents();
 
         // Register package validator
         EValidator.Registry.INSTANCE.put(theAttributePackage, new EValidator.Descriptor()
@@ -1629,36 +1667,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
-    public EClass getSeriesHint()
-    {
-        return seriesHintEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public EAttribute getSeriesHint_SeriesClass()
-    {
-        return (EAttribute) seriesHintEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public EAttribute getSeriesHint_Modifier()
-    {
-        return (EAttribute) seriesHintEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     public EClass getSeriesValue()
     {
         return seriesValueEClass;
@@ -1939,6 +1947,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    public EEnum getDataType()
+    {
+        return dataTypeEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public EEnum getDateFormatDetail()
     {
         return dateFormatDetailEEnum;
@@ -1962,6 +1980,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
     public EEnum getDirection()
     {
         return directionEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EEnum getGroupingUnitType()
+    {
+        return groupingUnitTypeEEnum;
     }
 
     /**
@@ -2129,6 +2157,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    public EEnum getUnitsOfMeasurement()
+    {
+        return unitsOfMeasurementEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public EEnum getVerticalAlignment()
     {
         return verticalAlignmentEEnum;
@@ -2219,6 +2257,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    public EDataType getDataTypeObject()
+    {
+        return dataTypeObjectEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public EDataType getDateFormatDetailObject()
     {
         return dateFormatDetailObjectEDataType;
@@ -2242,6 +2290,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
     public EDataType getDirectionObject()
     {
         return directionObjectEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EDataType getGroupingUnitTypeObject()
+    {
+        return groupingUnitTypeObjectEDataType;
     }
 
     /**
@@ -2459,6 +2517,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
      * 
      * @generated
      */
+    public EDataType getUnitsOfMeasurementObject()
+    {
+        return unitsOfMeasurementObjectEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public EDataType getVerticalAlignmentObject()
     {
         return verticalAlignmentObjectEDataType;
@@ -2597,10 +2665,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         scriptValueEClass = createEClass(SCRIPT_VALUE);
         createEAttribute(scriptValueEClass, SCRIPT_VALUE__SCRIPT);
 
-        seriesHintEClass = createEClass(SERIES_HINT);
-        createEAttribute(seriesHintEClass, SERIES_HINT__SERIES_CLASS);
-        createEAttribute(seriesHintEClass, SERIES_HINT__MODIFIER);
-
         seriesValueEClass = createEClass(SERIES_VALUE);
         createEAttribute(seriesValueEClass, SERIES_VALUE__NAME);
 
@@ -2639,9 +2703,11 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         chartDimensionEEnum = createEEnum(CHART_DIMENSION);
         chartTypeEEnum = createEEnum(CHART_TYPE);
         dataPointComponentTypeEEnum = createEEnum(DATA_POINT_COMPONENT_TYPE);
+        dataTypeEEnum = createEEnum(DATA_TYPE);
         dateFormatDetailEEnum = createEEnum(DATE_FORMAT_DETAIL);
         dateFormatTypeEEnum = createEEnum(DATE_FORMAT_TYPE);
         directionEEnum = createEEnum(DIRECTION);
+        groupingUnitTypeEEnum = createEEnum(GROUPING_UNIT_TYPE);
         horizontalAlignmentEEnum = createEEnum(HORIZONTAL_ALIGNMENT);
         intersectionTypeEEnum = createEEnum(INTERSECTION_TYPE);
         leaderLineStyleEEnum = createEEnum(LEADER_LINE_STYLE);
@@ -2658,6 +2724,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         styledComponentEEnum = createEEnum(STYLED_COMPONENT);
         tickStyleEEnum = createEEnum(TICK_STYLE);
         triggerConditionEEnum = createEEnum(TRIGGER_CONDITION);
+        unitsOfMeasurementEEnum = createEEnum(UNITS_OF_MEASUREMENT);
         verticalAlignmentEEnum = createEEnum(VERTICAL_ALIGNMENT);
 
         // Create data types
@@ -2667,9 +2734,11 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         chartDimensionObjectEDataType = createEDataType(CHART_DIMENSION_OBJECT);
         chartTypeObjectEDataType = createEDataType(CHART_TYPE_OBJECT);
         dataPointComponentTypeObjectEDataType = createEDataType(DATA_POINT_COMPONENT_TYPE_OBJECT);
+        dataTypeObjectEDataType = createEDataType(DATA_TYPE_OBJECT);
         dateFormatDetailObjectEDataType = createEDataType(DATE_FORMAT_DETAIL_OBJECT);
         dateFormatTypeObjectEDataType = createEDataType(DATE_FORMAT_TYPE_OBJECT);
         directionObjectEDataType = createEDataType(DIRECTION_OBJECT);
+        groupingUnitTypeObjectEDataType = createEDataType(GROUPING_UNIT_TYPE_OBJECT);
         horizontalAlignmentObjectEDataType = createEDataType(HORIZONTAL_ALIGNMENT_OBJECT);
         idEDataType = createEDataType(ID);
         intersectionTypeObjectEDataType = createEDataType(INTERSECTION_TYPE_OBJECT);
@@ -2691,6 +2760,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         styledComponentObjectEDataType = createEDataType(STYLED_COMPONENT_OBJECT);
         tickStyleObjectEDataType = createEDataType(TICK_STYLE_OBJECT);
         triggerConditionObjectEDataType = createEDataType(TRIGGER_CONDITION_OBJECT);
+        unitsOfMeasurementObjectEDataType = createEDataType(UNITS_OF_MEASUREMENT_OBJECT);
         verticalAlignmentObjectEDataType = createEDataType(VERTICAL_ALIGNMENT_OBJECT);
     }
 
@@ -2946,15 +3016,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         initEAttribute(getScriptValue_Script(), theXMLTypePackage.getString(), "script", null, 1, 1, ScriptValue.class,
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(seriesHintEClass, SeriesHint.class, "SeriesHint", !IS_ABSTRACT, !IS_INTERFACE,
-            IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSeriesHint_SeriesClass(), theXMLTypePackage.getString(), "seriesClass", null, 1, 1,
-            SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSeriesHint_Modifier(), theXMLTypePackage.getString(), "modifier", null, 1, 1,
-            SeriesHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
-
         initEClass(seriesValueEClass, SeriesValue.class, "SeriesValue", !IS_ABSTRACT, !IS_INTERFACE,
             IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getSeriesValue_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, SeriesValue.class,
@@ -3055,6 +3116,11 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         addEEnumLiteral(dataPointComponentTypeEEnum, DataPointComponentType.ORTHOGONAL_VALUE_LITERAL);
         addEEnumLiteral(dataPointComponentTypeEEnum, DataPointComponentType.SERIES_VALUE_LITERAL);
 
+        initEEnum(dataTypeEEnum, DataType.class, "DataType");
+        addEEnumLiteral(dataTypeEEnum, DataType.NUMERIC_LITERAL);
+        addEEnumLiteral(dataTypeEEnum, DataType.DATE_TIME_LITERAL);
+        addEEnumLiteral(dataTypeEEnum, DataType.TEXT_LITERAL);
+
         initEEnum(dateFormatDetailEEnum, DateFormatDetail.class, "DateFormatDetail");
         addEEnumLiteral(dateFormatDetailEEnum, DateFormatDetail.DATE_LITERAL);
         addEEnumLiteral(dateFormatDetailEEnum, DateFormatDetail.DATE_TIME_LITERAL);
@@ -3068,6 +3134,15 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         initEEnum(directionEEnum, Direction.class, "Direction");
         addEEnumLiteral(directionEEnum, Direction.LEFT_RIGHT_LITERAL);
         addEEnumLiteral(directionEEnum, Direction.TOP_BOTTOM_LITERAL);
+
+        initEEnum(groupingUnitTypeEEnum, GroupingUnitType.class, "GroupingUnitType");
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.SECONDS_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.MINUTES_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.HOURS_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.DAYS_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.WEEKS_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.MONTHS_LITERAL);
+        addEEnumLiteral(groupingUnitTypeEEnum, GroupingUnitType.YEARS_LITERAL);
 
         initEEnum(horizontalAlignmentEEnum, HorizontalAlignment.class, "HorizontalAlignment");
         addEEnumLiteral(horizontalAlignmentEEnum, HorizontalAlignment.LEFT_LITERAL);
@@ -3162,6 +3237,12 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         addEEnumLiteral(triggerConditionEEnum, TriggerCondition.MOUSE_HOVER_LITERAL);
         addEEnumLiteral(triggerConditionEEnum, TriggerCondition.MOUSE_CLICK_LITERAL);
 
+        initEEnum(unitsOfMeasurementEEnum, UnitsOfMeasurement.class, "UnitsOfMeasurement");
+        addEEnumLiteral(unitsOfMeasurementEEnum, UnitsOfMeasurement.PIXELS_LITERAL);
+        addEEnumLiteral(unitsOfMeasurementEEnum, UnitsOfMeasurement.POINTS_LITERAL);
+        addEEnumLiteral(unitsOfMeasurementEEnum, UnitsOfMeasurement.INCHES_LITERAL);
+        addEEnumLiteral(unitsOfMeasurementEEnum, UnitsOfMeasurement.CENTIMETERS_LITERAL);
+
         initEEnum(verticalAlignmentEEnum, VerticalAlignment.class, "VerticalAlignment");
         addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.TOP_LITERAL);
         addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.CENTER_LITERAL);
@@ -3179,12 +3260,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
             IS_GENERATED_INSTANCE_CLASS);
         initEDataType(dataPointComponentTypeObjectEDataType, DataPointComponentType.class,
             "DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(dataTypeObjectEDataType, DataType.class, "DataTypeObject", IS_SERIALIZABLE,
+            IS_GENERATED_INSTANCE_CLASS);
         initEDataType(dateFormatDetailObjectEDataType, DateFormatDetail.class, "DateFormatDetailObject",
             IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
         initEDataType(dateFormatTypeObjectEDataType, DateFormatType.class, "DateFormatTypeObject", IS_SERIALIZABLE,
             IS_GENERATED_INSTANCE_CLASS);
         initEDataType(directionObjectEDataType, Direction.class, "DirectionObject", IS_SERIALIZABLE,
             IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(groupingUnitTypeObjectEDataType, GroupingUnitType.class, "GroupingUnitTypeObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
         initEDataType(horizontalAlignmentObjectEDataType, HorizontalAlignment.class, "HorizontalAlignmentObject",
             IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
         initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -3223,6 +3308,8 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         initEDataType(tickStyleObjectEDataType, TickStyle.class, "TickStyleObject", IS_SERIALIZABLE,
             IS_GENERATED_INSTANCE_CLASS);
         initEDataType(triggerConditionObjectEDataType, TriggerCondition.class, "TriggerConditionObject",
+            IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(unitsOfMeasurementObjectEDataType, UnitsOfMeasurement.class, "UnitsOfMeasurementObject",
             IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
         initEDataType(verticalAlignmentObjectEDataType, VerticalAlignment.class, "VerticalAlignmentObject",
             IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
@@ -3380,6 +3467,14 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         {
             "name", "DataPointComponentType:Object", "baseType", "DataPointComponentType"
         });
+        addAnnotation(dataTypeEEnum, source, new String[]
+        {
+            "name", "DataType"
+        });
+        addAnnotation(dataTypeObjectEDataType, source, new String[]
+        {
+            "name", "DataType:Object", "baseType", "DataType"
+        });
         addAnnotation(dateFormatDetailEEnum, source, new String[]
         {
             "name", "DateFormatDetail"
@@ -3503,6 +3598,14 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         addAnnotation(getGradient_Transparency(), source, new String[]
         {
             "kind", "element", "name", "Transparency"
+        });
+        addAnnotation(groupingUnitTypeEEnum, source, new String[]
+        {
+            "name", "GroupingUnitType"
+        });
+        addAnnotation(groupingUnitTypeObjectEDataType, source, new String[]
+        {
+            "name", "GroupingUnitType:Object", "baseType", "GroupingUnitType"
         });
         addAnnotation(horizontalAlignmentEEnum, source, new String[]
         {
@@ -3750,18 +3853,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         {
             "kind", "element", "name", "Script"
         });
-        addAnnotation(seriesHintEClass, source, new String[]
-        {
-            "name", "SeriesHint", "kind", "elementOnly"
-        });
-        addAnnotation(getSeriesHint_SeriesClass(), source, new String[]
-        {
-            "kind", "element", "name", "SeriesClass"
-        });
-        addAnnotation(getSeriesHint_Modifier(), source, new String[]
-        {
-            "kind", "element", "name", "Modifier"
-        });
         addAnnotation(seriesValueEClass, source, new String[]
         {
             "name", "SeriesValue", "kind", "elementOnly"
@@ -3873,6 +3964,14 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
         addAnnotation(triggerConditionObjectEDataType, source, new String[]
         {
             "name", "TriggerCondition:Object", "baseType", "TriggerCondition"
+        });
+        addAnnotation(unitsOfMeasurementEEnum, source, new String[]
+        {
+            "name", "UnitsOfMeasurement"
+        });
+        addAnnotation(unitsOfMeasurementObjectEDataType, source, new String[]
+        {
+            "name", "UnitsOfMeasurement:Object", "baseType", "UnitsOfMeasurement"
         });
         addAnnotation(urlValueEClass, source, new String[]
         {

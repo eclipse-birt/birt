@@ -25,7 +25,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Version" type="xsd:string">
+			<xsd:element name="Version" type="xsd:string" default="1.0.0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the version number of this chart.
@@ -81,17 +81,10 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="SeriesThickness" type="attribute:Percentage" minOccurs="0">
+			<xsd:element name="SeriesThickness" type="xsd:double" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the thickness to be used while rendering the chart with depth or in 3D. 
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="SeriesHints" type="attribute:SeriesHint" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Defines 'Hints' that should be used to process new series instances.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -128,7 +121,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 		<xsd:complexContent>
 			<xsd:extension base="Chart">
 				<xsd:sequence>
-					<xsd:element name="Axes" type="component:Axis" minOccurs="2" maxOccurs="unbounded">
+					<xsd:element name="Axes" type="component:Axis" minOccurs="1" maxOccurs="unbounded">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Holds all the base axes for the chart.

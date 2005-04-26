@@ -311,12 +311,11 @@ public interface ColorDefinition extends Fill
      * @return A copy of the existing color but with alpha=255
      */
     public ColorDefinition opaque();
-    
 
     /**
      * NOTE: Manually written
      * 
      * @return A copy of the existing color but with alpha=0
      */
-    public ColorDefinition transparent();    
+    public ColorDefinition transparent();
 } // ColorDefinition

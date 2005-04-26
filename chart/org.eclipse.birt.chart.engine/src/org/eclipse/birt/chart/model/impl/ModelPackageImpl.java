@@ -122,37 +122,37 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(TypePackage.eNS_URI)
-            : TypePackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
         ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
             .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
+        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(TypePackage.eNS_URI)
+            : TypePackageImpl.eINSTANCE);
         AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
             .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
         DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(DataPackage.eNS_URI)
             : DataPackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theModelPackage.createPackageContents();
-        theTypePackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
         theComponentPackage.createPackageContents();
+        theTypePackage.createPackageContents();
         theAttributePackage.createPackageContents();
         theDataPackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theModelPackage.initializePackageContents();
-        theTypePackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
         theComponentPackage.initializePackageContents();
+        theTypePackage.initializePackageContents();
         theAttributePackage.initializePackageContents();
         theDataPackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theModelPackage.freeze();
@@ -265,19 +265,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
      * 
      * @generated
      */
-    public EReference getChart_SeriesHints()
-    {
-        return (EReference) chartEClass.getEStructuralFeatures().get(9);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     public EAttribute getChart_GridColumnCount()
     {
-        return (EAttribute) chartEClass.getEStructuralFeatures().get(10);
+        return (EAttribute) chartEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -287,7 +277,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
      */
     public EReference getChart_ExtendedProperties()
     {
-        return (EReference) chartEClass.getEStructuralFeatures().get(11);
+        return (EReference) chartEClass.getEStructuralFeatures().get(10);
     }
 
     /**
@@ -297,7 +287,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
      */
     public EReference getChart_SampleData()
     {
-        return (EReference) chartEClass.getEStructuralFeatures().get(12);
+        return (EReference) chartEClass.getEStructuralFeatures().get(11);
     }
 
     /**
@@ -420,7 +410,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
         createEAttribute(chartEClass, CHART__SCRIPT);
         createEAttribute(chartEClass, CHART__UNITS);
         createEAttribute(chartEClass, CHART__SERIES_THICKNESS);
-        createEReference(chartEClass, CHART__SERIES_HINTS);
         createEAttribute(chartEClass, CHART__GRID_COLUMN_COUNT);
         createEReference(chartEClass, CHART__EXTENDED_PROPERTIES);
         createEReference(chartEClass, CHART__SAMPLE_DATA);
@@ -477,8 +466,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
         // Initialize classes and features; add operations and parameters
         initEClass(chartEClass, Chart.class, "Chart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getChart_Version(), theXMLTypePackage.getString(), "version", null, 1, 1, Chart.class,
-            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getChart_Version(), theXMLTypePackage.getString(), "version", "1.0.0", 1, 1, Chart.class,
+            !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getChart_Type(), theXMLTypePackage.getString(), "type", null, 1, 1, Chart.class, !IS_TRANSIENT,
             !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getChart_SubType(), theXMLTypePackage.getString(), "subType", null, 1, 1, Chart.class,
@@ -496,12 +485,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getChart_Units(), theXMLTypePackage.getString(), "units", null, 0, 1, Chart.class,
             !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getChart_SeriesThickness(), theAttributePackage.getPercentage(), "seriesThickness", null, 0, 1,
+        initEAttribute(getChart_SeriesThickness(), theXMLTypePackage.getDouble(), "seriesThickness", null, 0, 1,
             Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED,
             IS_ORDERED);
-        initEReference(getChart_SeriesHints(), theAttributePackage.getSeriesHint(), null, "seriesHints", null, 0, 1,
-            Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
-            IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getChart_GridColumnCount(), theXMLTypePackage.getInt(), "gridColumnCount", null, 1, 1,
             Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED,
             IS_ORDERED);
@@ -514,7 +500,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
         initEClass(chartWithAxesEClass, ChartWithAxes.class, "ChartWithAxes", !IS_ABSTRACT, !IS_INTERFACE,
             IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getChartWithAxes_Axes(), theComponentPackage.getAxis(), null, "axes", null, 2, -1,
+        initEReference(getChartWithAxes_Axes(), theComponentPackage.getAxis(), null, "axes", null, 1, -1,
             ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
             !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getChartWithAxes_WallFill(), theAttributePackage.getFill(), null, "wallFill", null, 1, 1,
@@ -592,10 +578,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
         addAnnotation(getChart_SeriesThickness(), source, new String[]
         {
             "kind", "element", "name", "SeriesThickness"
-        });
-        addAnnotation(getChart_SeriesHints(), source, new String[]
-        {
-            "kind", "element", "name", "SeriesHints"
         });
         addAnnotation(getChart_GridColumnCount(), source, new String[]
         {

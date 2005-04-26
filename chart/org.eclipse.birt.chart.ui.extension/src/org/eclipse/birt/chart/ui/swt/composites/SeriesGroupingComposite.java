@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
@@ -188,44 +190,48 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         SeriesGrouping grouping = getGrouping();
 
         boolean bEnableUI = btnEnabled.getSelection();
-        // Populate grouping type combo
-        cmbType.add("Text"); //$NON-NLS-1$
-        cmbType.add("Number"); //$NON-NLS-1$
-        cmbType.add("Date/Time"); //$NON-NLS-1$
+        // Populate the data type combo
+        Object[] oArr = DataType.VALUES.toArray();
+
+        for (int iR = 0; iR < oArr.length; iR++)
+        {
+            cmbType.add(((DataType) oArr[iR]).getName());
+        }
         if (bEnableUI && grouping.getGroupType() != null)
         {
-            cmbType.setText(getGrouping().getGroupType());
+            cmbType.setText(getGrouping().getGroupType().getName());
         }
         else
         {
             cmbType.select(0);
         }
+
         this.lblType.setEnabled(bEnableUI);
         this.cmbType.setEnabled(bEnableUI);
 
         this.lblInterval.setEnabled(bEnableUI);
         this.iscInterval.setEnabled(bEnableUI);
 
-        // Populate grouping unit combo (applicable only if type is Date/Time
-        cmbUnit.add("Seconds"); //$NON-NLS-1$
-        cmbUnit.add("Minutes"); //$NON-NLS-1$
-        cmbUnit.add("Hours"); //$NON-NLS-1$
-        cmbUnit.add("Days"); //$NON-NLS-1$
-        cmbUnit.add("Weeks"); //$NON-NLS-1$
-        cmbUnit.add("Months"); //$NON-NLS-1$
-        cmbUnit.add("Quarters"); //$NON-NLS-1$
-        cmbUnit.add("Years"); //$NON-NLS-1$
-        if (bEnableUI && grouping.getGroupType() != null && grouping.getGroupType().equals("Date/Time") //$NON-NLS-1$
+        // Populate grouping unit combo (applicable only if type is DateTime
+        // Populate the data type combo
+        Object[] oUnitArr = GroupingUnitType.VALUES.toArray();
+
+        for (int iR = 0; iR < oUnitArr.length; iR++)
+        {
+            cmbUnit.add(((GroupingUnitType) oUnitArr[iR]).getName());
+        }
+        if (bEnableUI && grouping.getGroupType() != null
+            && grouping.getGroupType().equals(DataType.DATE_TIME_LITERAL.getName())
             && grouping.getGroupingUnit() != null)
         {
-            cmbUnit.setText(grouping.getGroupingUnit());
+            cmbUnit.setText(grouping.getGroupingUnit().getName());
         }
         else
         {
             cmbUnit.select(0);
         }
-        lblUnit.setEnabled(bEnableUI & cmbType.getText().equals("Date/Time"));
-        cmbUnit.setEnabled(bEnableUI & cmbType.getText().equals("Date/Time"));
+        lblUnit.setEnabled(bEnableUI & cmbType.getText().equals(DataType.DATE_TIME_LITERAL.getName()));
+        cmbUnit.setEnabled(bEnableUI & cmbType.getText().equals(DataType.DATE_TIME_LITERAL.getName()));
 
         // Populate grouping aggregate expression combo
 
@@ -257,10 +263,10 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         Object oSource = e.getSource();
         if (oSource.equals(cmbType))
         {
-            getGrouping().setGroupType(cmbType.getText());
+            getGrouping().setGroupType(DataType.get(cmbType.getText()));
 
             boolean bEnableUI = btnEnabled.getSelection();
-            boolean bDate = cmbType.getText().equals("Date/Time");
+            boolean bDate = cmbType.getText().equals(DataType.DATE_TIME_LITERAL.getName());
 
             lblUnit.setEnabled(bEnableUI & bDate);
             cmbUnit.setEnabled(bEnableUI & bDate);
@@ -271,7 +277,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
         }
         else if (oSource.equals(cmbUnit))
         {
-            getGrouping().setGroupingUnit(cmbUnit.getText());
+            getGrouping().setGroupingUnit(GroupingUnitType.get(cmbUnit.getText()));
         }
         else if (oSource.equals(cmbAggregate))
         {
@@ -295,7 +301,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             lblType.setEnabled(bEnableUI);
             cmbType.setEnabled(bEnableUI);
 
-            boolean bDate = cmbType.getText().equals("Date/Time");
+            boolean bDate = cmbType.getText().equals(DataType.DATE_TIME_LITERAL.getName());
 
             lblUnit.setEnabled(bEnableUI & bDate);
             cmbUnit.setEnabled(bEnableUI & bDate);

@@ -55,7 +55,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubtitle <em>Subtitle</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubTitle <em>Sub Title</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}
@@ -123,14 +123,14 @@ public class AxisImpl extends EObjectImpl implements Axis
     protected Label title = null;
 
     /**
-     * The cached value of the '{@link #getSubtitle() <em>Subtitle</em>}' containment reference. <!-- begin-user-doc
+     * The cached value of the '{@link #getSubTitle() <em>Sub Title</em>}' containment reference. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
      * 
-     * @see #getSubtitle()
+     * @see #getSubTitle()
      * @generated
      * @ordered
      */
-    protected Label subtitle = null;
+    protected Label subTitle = null;
 
     /**
      * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute. <!-- begin-user-doc
@@ -602,9 +602,9 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * @generated
      */
-    public Label getSubtitle()
+    public Label getSubTitle()
     {
-        return subtitle;
+        return subTitle;
     }
 
     /**
@@ -612,14 +612,14 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * @generated
      */
-    public NotificationChain basicSetSubtitle(Label newSubtitle, NotificationChain msgs)
+    public NotificationChain basicSetSubTitle(Label newSubTitle, NotificationChain msgs)
     {
-        Label oldSubtitle = subtitle;
-        subtitle = newSubtitle;
+        Label oldSubTitle = subTitle;
+        subTitle = newSubTitle;
         if (eNotificationRequired())
         {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ComponentPackage.AXIS__SUBTITLE, oldSubtitle, newSubtitle);
+                ComponentPackage.AXIS__SUB_TITLE, oldSubTitle, newSubTitle);
             if (msgs == null)
                 msgs = notification;
             else
@@ -633,24 +633,24 @@ public class AxisImpl extends EObjectImpl implements Axis
      * 
      * @generated
      */
-    public void setSubtitle(Label newSubtitle)
+    public void setSubTitle(Label newSubTitle)
     {
-        if (newSubtitle != subtitle)
+        if (newSubTitle != subTitle)
         {
             NotificationChain msgs = null;
-            if (subtitle != null)
-                msgs = ((InternalEObject) subtitle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SUBTITLE, null, msgs);
-            if (newSubtitle != null)
-                msgs = ((InternalEObject) newSubtitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ComponentPackage.AXIS__SUBTITLE, null, msgs);
-            msgs = basicSetSubtitle(newSubtitle, msgs);
+            if (subTitle != null)
+                msgs = ((InternalEObject) subTitle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.AXIS__SUB_TITLE, null, msgs);
+            if (newSubTitle != null)
+                msgs = ((InternalEObject) newSubTitle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                    - ComponentPackage.AXIS__SUB_TITLE, null, msgs);
+            msgs = basicSetSubTitle(newSubTitle, msgs);
             if (msgs != null)
                 msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SUBTITLE, newSubtitle,
-                newSubtitle));
+            eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.AXIS__SUB_TITLE, newSubTitle,
+                newSubTitle));
     }
 
     /**
@@ -1529,8 +1529,8 @@ public class AxisImpl extends EObjectImpl implements Axis
             {
                 case ComponentPackage.AXIS__TITLE:
                     return basicSetTitle(null, msgs);
-                case ComponentPackage.AXIS__SUBTITLE:
-                    return basicSetSubtitle(null, msgs);
+                case ComponentPackage.AXIS__SUB_TITLE:
+                    return basicSetSubTitle(null, msgs);
                 case ComponentPackage.AXIS__ASSOCIATED_AXES:
                     return ((InternalEList) getAssociatedAxes()).basicRemove(otherEnd, msgs);
                 case ComponentPackage.AXIS__SERIES_DEFINITIONS:
@@ -1573,8 +1573,8 @@ public class AxisImpl extends EObjectImpl implements Axis
                 return getType();
             case ComponentPackage.AXIS__TITLE:
                 return getTitle();
-            case ComponentPackage.AXIS__SUBTITLE:
-                return getSubtitle();
+            case ComponentPackage.AXIS__SUB_TITLE:
+                return getSubTitle();
             case ComponentPackage.AXIS__TITLE_POSITION:
                 return getTitlePosition();
             case ComponentPackage.AXIS__ASSOCIATED_AXES:
@@ -1632,8 +1632,8 @@ public class AxisImpl extends EObjectImpl implements Axis
             case ComponentPackage.AXIS__TITLE:
                 setTitle((Label) newValue);
                 return;
-            case ComponentPackage.AXIS__SUBTITLE:
-                setSubtitle((Label) newValue);
+            case ComponentPackage.AXIS__SUB_TITLE:
+                setSubTitle((Label) newValue);
                 return;
             case ComponentPackage.AXIS__TITLE_POSITION:
                 setTitlePosition((Position) newValue);
@@ -1715,8 +1715,8 @@ public class AxisImpl extends EObjectImpl implements Axis
             case ComponentPackage.AXIS__TITLE:
                 setTitle((Label) null);
                 return;
-            case ComponentPackage.AXIS__SUBTITLE:
-                setSubtitle((Label) null);
+            case ComponentPackage.AXIS__SUB_TITLE:
+                setSubTitle((Label) null);
                 return;
             case ComponentPackage.AXIS__TITLE_POSITION:
                 unsetTitlePosition();
@@ -1792,8 +1792,8 @@ public class AxisImpl extends EObjectImpl implements Axis
                 return isSetType();
             case ComponentPackage.AXIS__TITLE:
                 return title != null;
-            case ComponentPackage.AXIS__SUBTITLE:
-                return subtitle != null;
+            case ComponentPackage.AXIS__SUB_TITLE:
+                return subTitle != null;
             case ComponentPackage.AXIS__TITLE_POSITION:
                 return isSetTitlePosition();
             case ComponentPackage.AXIS__ASSOCIATED_AXES:

@@ -34,7 +34,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Subtitle" type="Label" minOccurs="0">
+			<xsd:element name="SubTitle" type="Label" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					This is the element subtitle.

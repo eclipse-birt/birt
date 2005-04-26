@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -147,8 +149,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return createPalette();
             case AttributePackage.SCRIPT_VALUE:
                 return createScriptValue();
-            case AttributePackage.SERIES_HINT:
-                return createSeriesHint();
             case AttributePackage.SERIES_VALUE:
                 return createSeriesValue();
             case AttributePackage.SIZE:
@@ -225,6 +225,14 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                         + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
+            case AttributePackage.DATA_TYPE:
+            {
+                DataType result = DataType.get(initialValue);
+                if (result == null)
+                    throw new IllegalArgumentException("The value '" + initialValue
+                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                return result;
+            }
             case AttributePackage.DATE_FORMAT_DETAIL:
             {
                 DateFormatDetail result = DateFormatDetail.get(initialValue);
@@ -244,6 +252,14 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
             case AttributePackage.DIRECTION:
             {
                 Direction result = Direction.get(initialValue);
+                if (result == null)
+                    throw new IllegalArgumentException("The value '" + initialValue
+                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                return result;
+            }
+            case AttributePackage.GROUPING_UNIT_TYPE:
+            {
+                GroupingUnitType result = GroupingUnitType.get(initialValue);
                 if (result == null)
                     throw new IllegalArgumentException("The value '" + initialValue
                         + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -377,6 +393,14 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                         + "' is not a valid enumerator of '" + eDataType.getName() + "'");
                 return result;
             }
+            case AttributePackage.UNITS_OF_MEASUREMENT:
+            {
+                UnitsOfMeasurement result = UnitsOfMeasurement.get(initialValue);
+                if (result == null)
+                    throw new IllegalArgumentException("The value '" + initialValue
+                        + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                return result;
+            }
             case AttributePackage.VERTICAL_ALIGNMENT:
             {
                 VerticalAlignment result = VerticalAlignment.get(initialValue);
@@ -397,12 +421,16 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return createChartTypeObjectFromString(eDataType, initialValue);
             case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT:
                 return createDataPointComponentTypeObjectFromString(eDataType, initialValue);
+            case AttributePackage.DATA_TYPE_OBJECT:
+                return createDataTypeObjectFromString(eDataType, initialValue);
             case AttributePackage.DATE_FORMAT_DETAIL_OBJECT:
                 return createDateFormatDetailObjectFromString(eDataType, initialValue);
             case AttributePackage.DATE_FORMAT_TYPE_OBJECT:
                 return createDateFormatTypeObjectFromString(eDataType, initialValue);
             case AttributePackage.DIRECTION_OBJECT:
                 return createDirectionObjectFromString(eDataType, initialValue);
+            case AttributePackage.GROUPING_UNIT_TYPE_OBJECT:
+                return createGroupingUnitTypeObjectFromString(eDataType, initialValue);
             case AttributePackage.HORIZONTAL_ALIGNMENT_OBJECT:
                 return createHorizontalAlignmentObjectFromString(eDataType, initialValue);
             case AttributePackage.ID:
@@ -445,6 +473,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return createTickStyleObjectFromString(eDataType, initialValue);
             case AttributePackage.TRIGGER_CONDITION_OBJECT:
                 return createTriggerConditionObjectFromString(eDataType, initialValue);
+            case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT:
+                return createUnitsOfMeasurementObjectFromString(eDataType, initialValue);
             case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
                 return createVerticalAlignmentObjectFromString(eDataType, initialValue);
             default:
@@ -474,11 +504,15 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.DATA_POINT_COMPONENT_TYPE:
                 return instanceValue == null ? null : instanceValue.toString();
+            case AttributePackage.DATA_TYPE:
+                return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.DATE_FORMAT_DETAIL:
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.DATE_FORMAT_TYPE:
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.DIRECTION:
+                return instanceValue == null ? null : instanceValue.toString();
+            case AttributePackage.GROUPING_UNIT_TYPE:
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.HORIZONTAL_ALIGNMENT:
                 return instanceValue == null ? null : instanceValue.toString();
@@ -512,6 +546,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.TRIGGER_CONDITION:
                 return instanceValue == null ? null : instanceValue.toString();
+            case AttributePackage.UNITS_OF_MEASUREMENT:
+                return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.VERTICAL_ALIGNMENT:
                 return instanceValue == null ? null : instanceValue.toString();
             case AttributePackage.ACTION_TYPE_OBJECT:
@@ -526,12 +562,16 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return convertChartTypeObjectToString(eDataType, instanceValue);
             case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT:
                 return convertDataPointComponentTypeObjectToString(eDataType, instanceValue);
+            case AttributePackage.DATA_TYPE_OBJECT:
+                return convertDataTypeObjectToString(eDataType, instanceValue);
             case AttributePackage.DATE_FORMAT_DETAIL_OBJECT:
                 return convertDateFormatDetailObjectToString(eDataType, instanceValue);
             case AttributePackage.DATE_FORMAT_TYPE_OBJECT:
                 return convertDateFormatTypeObjectToString(eDataType, instanceValue);
             case AttributePackage.DIRECTION_OBJECT:
                 return convertDirectionObjectToString(eDataType, instanceValue);
+            case AttributePackage.GROUPING_UNIT_TYPE_OBJECT:
+                return convertGroupingUnitTypeObjectToString(eDataType, instanceValue);
             case AttributePackage.HORIZONTAL_ALIGNMENT_OBJECT:
                 return convertHorizontalAlignmentObjectToString(eDataType, instanceValue);
             case AttributePackage.ID:
@@ -574,6 +614,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
                 return convertTickStyleObjectToString(eDataType, instanceValue);
             case AttributePackage.TRIGGER_CONDITION_OBJECT:
                 return convertTriggerConditionObjectToString(eDataType, instanceValue);
+            case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT:
+                return convertUnitsOfMeasurementObjectToString(eDataType, instanceValue);
             case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
                 return convertVerticalAlignmentObjectToString(eDataType, instanceValue);
             default:
@@ -829,17 +871,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
      * 
      * @generated
      */
-    public SeriesHint createSeriesHint()
-    {
-        SeriesHintImpl seriesHint = new SeriesHintImpl();
-        return seriesHint;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     public SeriesValue createSeriesValue()
     {
         SeriesValueImpl seriesValue = new SeriesValueImpl();
@@ -1045,6 +1076,27 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
      * 
      * @generated
      */
+    public DataType createDataTypeObjectFromString(EDataType eDataType, String initialValue)
+    {
+        return (DataType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE.getDataType(),
+            initialValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertDataTypeObjectToString(EDataType eDataType, Object instanceValue)
+    {
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDataType(), instanceValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public DateFormatDetail createDateFormatDetailObjectFromString(EDataType eDataType, String initialValue)
     {
         return (DateFormatDetail) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
@@ -1103,6 +1155,28 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
     public String convertDirectionObjectToString(EDataType eDataType, Object instanceValue)
     {
         return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getDirection(), instanceValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public GroupingUnitType createGroupingUnitTypeObjectFromString(EDataType eDataType, String initialValue)
+    {
+        return (GroupingUnitType) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
+            .getGroupingUnitType(), initialValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertGroupingUnitTypeObjectToString(EDataType eDataType, Object instanceValue)
+    {
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getGroupingUnitType(),
+            instanceValue);
     }
 
     /**
@@ -1546,6 +1620,28 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
     public String convertTriggerConditionObjectToString(EDataType eDataType, Object instanceValue)
     {
         return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getTriggerCondition(),
+            instanceValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public UnitsOfMeasurement createUnitsOfMeasurementObjectFromString(EDataType eDataType, String initialValue)
+    {
+        return (UnitsOfMeasurement) AttributeFactory.eINSTANCE.createFromString(AttributePackage.eINSTANCE
+            .getUnitsOfMeasurement(), initialValue);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public String convertUnitsOfMeasurementObjectToString(EDataType eDataType, Object instanceValue)
+    {
+        return AttributeFactory.eINSTANCE.convertToString(AttributePackage.eINSTANCE.getUnitsOfMeasurement(),
             instanceValue);
     }
 

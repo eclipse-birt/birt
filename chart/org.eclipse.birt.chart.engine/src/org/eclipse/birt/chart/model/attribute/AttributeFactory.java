@@ -210,14 +210,6 @@ public interface AttributeFactory extends EFactory
     ScriptValue createScriptValue();
 
     /**
-     * Returns a new object of class '<em>Series Hint</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Series Hint</em>'.
-     * @generated
-     */
-    SeriesHint createSeriesHint();
-
-    /**
      * Returns a new object of class '<em>Series Value</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return a new object of class '<em>Series Value</em>'.

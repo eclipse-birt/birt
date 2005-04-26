@@ -339,6 +339,47 @@
 			<xsd:enumeration value="Series_Label"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="DataType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible data type values associated with chart components.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Numeric"/>
+			<xsd:enumeration value="DateTime"/>
+			<xsd:enumeration value="Text"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="GroupingUnitType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible units for grouping data.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Seconds"/>
+			<xsd:enumeration value="Minutes"/>
+			<xsd:enumeration value="Hours"/>
+			<xsd:enumeration value="Days"/>
+			<xsd:enumeration value="Weeks"/>
+			<xsd:enumeration value="Months"/>
+			<xsd:enumeration value="Years"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitsOfMeasurement">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type represents the possible values of Units of Measurement.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Pixels"/>
+			<xsd:enumeration value="Points"/>
+			<xsd:enumeration value="Inches"/>
+			<xsd:enumeration value="Centimeters"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 
 	<xsd:complexType name="ActionValue">
 		<xsd:annotation>
@@ -1154,29 +1195,6 @@
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines the style identifier(s) to be associated with this entry.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-		</xsd:sequence>
-	</xsd:complexType>
-	<xsd:complexType name="SeriesHint">
-		<xsd:annotation>
-			<xsd:documentation xml:lang="en">
-			This type represents the data value being displayed in the plot area for each data value.
-			</xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="SeriesClass" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Specifies the type series class to which this hint applies.
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element name="Modifier" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-					Defines the modifier to be used.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

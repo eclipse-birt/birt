@@ -59,7 +59,8 @@ public class BarChart extends DefaultChartTypeImpl
 
     private static final String sStackedDescription = Messages.getString("BarChart.Txt.StackedDescription"); //$NON-NLS-1$
 
-    private static final String sPercentStackedDescription = Messages.getString("BarChart.Txt.PercentStackedDescription"); //$NON-NLS-1$
+    private static final String sPercentStackedDescription = Messages
+        .getString("BarChart.Txt.PercentStackedDescription"); //$NON-NLS-1$
 
     private static final String sSideBySideDescription = Messages.getString("BarChart.Txt.SideBySideDescription"); //$NON-NLS-1$
 
@@ -116,8 +117,7 @@ public class BarChart extends DefaultChartTypeImpl
      */
     public IHelpContent getHelp()
     {
-        return new HelpContentImpl(
-            "Bar Chart", //$NON-NLS-1$
+        return new HelpContentImpl("Bar Chart", //$NON-NLS-1$
             Messages.getString("BarChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
@@ -333,6 +333,7 @@ public class BarChart extends DefaultChartTypeImpl
                 if (!currentChart.getType().equals("Line Chart")) //$NON-NLS-1$
                 {
                     currentChart.setSampleData(getConvertedSampleData(currentChart.getSampleData()));
+                    ((Axis) ((ChartWithAxes) currentChart).getAxes().get(0)).setType(AxisType.TEXT_LITERAL);
                 }
                 currentChart.setType(sType);
                 currentChart.setSubType(sNewSubType);
@@ -576,7 +577,8 @@ public class BarChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT //$NON-NLS-1$
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+                                          // //$NON-NLS-1$
             // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);

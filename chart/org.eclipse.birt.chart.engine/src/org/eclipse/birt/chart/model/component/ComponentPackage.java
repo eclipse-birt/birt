@@ -92,13 +92,13 @@ public interface ComponentPackage extends EPackage
     int AXIS__TITLE = 1;
 
     /**
-     * The feature id for the '<em><b>Subtitle</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * The feature id for the '<em><b>Sub Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int AXIS__SUBTITLE = 2;
+    int AXIS__SUB_TITLE = 2;
 
     /**
      * The feature id for the '<em><b>Title Position</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -801,15 +801,15 @@ public interface ComponentPackage extends EPackage
 
     /**
      * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getSubtitle <em>Subtitle</em>}'. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * {@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}'. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * 
-     * @return the meta object for the containment reference '<em>Subtitle</em>'.
-     * @see org.eclipse.birt.chart.model.component.Axis#getSubtitle()
+     * @return the meta object for the containment reference '<em>Sub Title</em>'.
+     * @see org.eclipse.birt.chart.model.component.Axis#getSubTitle()
      * @see #getAxis()
      * @generated
      */
-    EReference getAxis_Subtitle();
+    EReference getAxis_SubTitle();
 
     /**
      * Returns the meta object for the attribute '

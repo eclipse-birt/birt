@@ -138,10 +138,17 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupingUnit" type="xsd:string">
+			<xsd:element name="GroupingUnit" type="attribute:GroupingUnitType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the unit of grouping. The unit is only applicable for Date/Time values.
+					Specifies the unit of grouping.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="GroupingOrigin" type="DataElement">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					A data element that specifies the starting point for grouping. This does not apply to grouping of Text values. If undefined, grouping starts at the minimum value.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -152,10 +159,10 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupType" type="xsd:string">
+			<xsd:element name="GroupType" type="attribute:DataType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the type of data to be grouped. (e.g. Text, Number, Date/Time etc.)
+					Specifies the type of data to be grouped.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

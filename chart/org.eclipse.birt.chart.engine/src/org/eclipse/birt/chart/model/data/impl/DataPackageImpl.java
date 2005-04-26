@@ -234,37 +234,37 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
-        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(TypePackage.eNS_URI)
-            : TypePackageImpl.eINSTANCE);
-        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
-        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
         LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
             .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
+        ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ComponentPackage.eNS_URI) : ComponentPackageImpl.eINSTANCE);
+        TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(TypePackage.eNS_URI)
+            : TypePackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theDataPackage.createPackageContents();
-        theModelPackage.createPackageContents();
-        theTypePackage.createPackageContents();
-        theComponentPackage.createPackageContents();
-        theAttributePackage.createPackageContents();
         theLayoutPackage.createPackageContents();
+        theComponentPackage.createPackageContents();
+        theTypePackage.createPackageContents();
+        theModelPackage.createPackageContents();
+        theAttributePackage.createPackageContents();
 
         // Initialize created meta-data
         theDataPackage.initializePackageContents();
-        theModelPackage.initializePackageContents();
-        theTypePackage.initializePackageContents();
-        theComponentPackage.initializePackageContents();
-        theAttributePackage.initializePackageContents();
         theLayoutPackage.initializePackageContents();
+        theComponentPackage.initializePackageContents();
+        theTypePackage.initializePackageContents();
+        theModelPackage.initializePackageContents();
+        theAttributePackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theDataPackage.freeze();
@@ -647,9 +647,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
      * 
      * @generated
      */
-    public EAttribute getSeriesGrouping_GroupingInterval()
+    public EReference getSeriesGrouping_GroupingOrigin()
     {
-        return (EAttribute) seriesGroupingEClass.getEStructuralFeatures().get(2);
+        return (EReference) seriesGroupingEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -657,7 +657,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
      * 
      * @generated
      */
-    public EAttribute getSeriesGrouping_GroupType()
+    public EAttribute getSeriesGrouping_GroupingInterval()
     {
         return (EAttribute) seriesGroupingEClass.getEStructuralFeatures().get(3);
     }
@@ -667,9 +667,19 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
      * 
      * @generated
      */
-    public EAttribute getSeriesGrouping_AggregateExpression()
+    public EAttribute getSeriesGrouping_GroupType()
     {
         return (EAttribute) seriesGroupingEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getSeriesGrouping_AggregateExpression()
+    {
+        return (EAttribute) seriesGroupingEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -802,6 +812,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
         seriesGroupingEClass = createEClass(SERIES_GROUPING);
         createEAttribute(seriesGroupingEClass, SERIES_GROUPING__ENABLED);
         createEAttribute(seriesGroupingEClass, SERIES_GROUPING__GROUPING_UNIT);
+        createEReference(seriesGroupingEClass, SERIES_GROUPING__GROUPING_ORIGIN);
         createEAttribute(seriesGroupingEClass, SERIES_GROUPING__GROUPING_INTERVAL);
         createEAttribute(seriesGroupingEClass, SERIES_GROUPING__GROUP_TYPE);
         createEAttribute(seriesGroupingEClass, SERIES_GROUPING__AGGREGATE_EXPRESSION);
@@ -955,14 +966,17 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
         initEAttribute(getSeriesGrouping_Enabled(), theXMLTypePackage.getBoolean(), "enabled", null, 1, 1,
             SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSeriesGrouping_GroupingUnit(), theXMLTypePackage.getString(), "groupingUnit", null, 1, 1,
-            SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
-            !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSeriesGrouping_GroupingUnit(), theAttributePackage.getGroupingUnitType(), "groupingUnit",
+            "Seconds", 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
+            !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSeriesGrouping_GroupingOrigin(), this.getDataElement(), null, "groupingOrigin", null, 1, 1,
+            SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+            !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSeriesGrouping_GroupingInterval(), theXMLTypePackage.getInt(), "groupingInterval", null, 1,
             1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSeriesGrouping_GroupType(), theXMLTypePackage.getString(), "groupType", null, 1, 1,
-            SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
+        initEAttribute(getSeriesGrouping_GroupType(), theAttributePackage.getDataType(), "groupType", "Numeric", 1, 1,
+            SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE,
             !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSeriesGrouping_AggregateExpression(), theXMLTypePackage.getString(), "aggregateExpression",
             null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
@@ -1146,6 +1160,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
         addAnnotation(getSeriesGrouping_GroupingUnit(), source, new String[]
         {
             "kind", "element", "name", "GroupingUnit"
+        });
+        addAnnotation(getSeriesGrouping_GroupingOrigin(), source, new String[]
+        {
+            "kind", "element", "name", "GroupingOrigin"
         });
         addAnnotation(getSeriesGrouping_GroupingInterval(), source, new String[]
         {

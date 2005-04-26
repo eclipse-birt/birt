@@ -111,8 +111,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                     return basicSetDescription(null, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__BLOCK:
                     return basicSetBlock(null, msgs);
-                case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                    return basicSetSeriesHints(null, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__EXTENDED_PROPERTIES:
                     return ((InternalEList) getExtendedProperties()).basicRemove(otherEnd, msgs);
                 case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA:
@@ -153,8 +151,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 return getUnits();
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_THICKNESS:
                 return new Double(getSeriesThickness());
-            case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                return getSeriesHints();
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
                 return new Integer(getGridColumnCount());
             case ModelPackage.CHART_WITHOUT_AXES__EXTENDED_PROPERTIES:
@@ -203,9 +199,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_THICKNESS:
                 setSeriesThickness(((Double) newValue).doubleValue());
                 return;
-            case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) newValue);
-                return;
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
                 setGridColumnCount(((Integer) newValue).intValue());
                 return;
@@ -234,7 +227,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITHOUT_AXES__VERSION:
-                setVersion(VERSION_EDEFAULT);
+                unsetVersion();
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -259,9 +252,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_THICKNESS:
                 unsetSeriesThickness();
-                return;
-            case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) null);
                 return;
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
                 unsetGridColumnCount();
@@ -289,7 +279,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITHOUT_AXES__VERSION:
-                return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+                return isSetVersion();
             case ModelPackage.CHART_WITHOUT_AXES__TYPE:
                 return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
             case ModelPackage.CHART_WITHOUT_AXES__SUB_TYPE:
@@ -306,8 +296,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
                 return UNITS_EDEFAULT == null ? units != null : !UNITS_EDEFAULT.equals(units);
             case ModelPackage.CHART_WITHOUT_AXES__SERIES_THICKNESS:
                 return isSetSeriesThickness();
-            case ModelPackage.CHART_WITHOUT_AXES__SERIES_HINTS:
-                return seriesHints != null;
             case ModelPackage.CHART_WITHOUT_AXES__GRID_COLUMN_COUNT:
                 return isSetGridColumnCount();
             case ModelPackage.CHART_WITHOUT_AXES__EXTENDED_PROPERTIES:
@@ -352,14 +340,14 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
     public final SeriesDefinition[] getSeriesForLegend()
     {
         final ArrayList al = new ArrayList();
-        EList elOrthogonalSD; 
+        EList elOrthogonalSD;
         final EList elBaseSD = getSeriesDefinitions();
         for (int i = 0; i < elBaseSD.size(); i++)
         {
             elOrthogonalSD = ((SeriesDefinition) elBaseSD.get(i)).getSeriesDefinitions();
             al.addAll(elOrthogonalSD);
         }
-        
+
         return (SeriesDefinition[]) al.toArray(SeriesDefinition.EMPTY_ARRAY);
     }
 

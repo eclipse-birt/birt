@@ -414,8 +414,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                     return basicSetDescription(null, msgs);
                 case ModelPackage.CHART_WITH_AXES__BLOCK:
                     return basicSetBlock(null, msgs);
-                case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                    return basicSetSeriesHints(null, msgs);
                 case ModelPackage.CHART_WITH_AXES__EXTENDED_PROPERTIES:
                     return ((InternalEList) getExtendedProperties()).basicRemove(otherEnd, msgs);
                 case ModelPackage.CHART_WITH_AXES__SAMPLE_DATA:
@@ -460,8 +458,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 return getUnits();
             case ModelPackage.CHART_WITH_AXES__SERIES_THICKNESS:
                 return new Double(getSeriesThickness());
-            case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                return getSeriesHints();
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
                 return new Integer(getGridColumnCount());
             case ModelPackage.CHART_WITH_AXES__EXTENDED_PROPERTIES:
@@ -518,9 +514,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
             case ModelPackage.CHART_WITH_AXES__SERIES_THICKNESS:
                 setSeriesThickness(((Double) newValue).doubleValue());
                 return;
-            case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) newValue);
-                return;
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
                 setGridColumnCount(((Integer) newValue).intValue());
                 return;
@@ -561,7 +554,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITH_AXES__VERSION:
-                setVersion(VERSION_EDEFAULT);
+                unsetVersion();
                 return;
             case ModelPackage.CHART_WITH_AXES__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -586,9 +579,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 return;
             case ModelPackage.CHART_WITH_AXES__SERIES_THICKNESS:
                 unsetSeriesThickness();
-                return;
-            case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                setSeriesHints((SeriesHint) null);
                 return;
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
                 unsetGridColumnCount();
@@ -628,7 +618,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART_WITH_AXES__VERSION:
-                return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+                return isSetVersion();
             case ModelPackage.CHART_WITH_AXES__TYPE:
                 return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
             case ModelPackage.CHART_WITH_AXES__SUB_TYPE:
@@ -645,8 +635,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
                 return UNITS_EDEFAULT == null ? units != null : !UNITS_EDEFAULT.equals(units);
             case ModelPackage.CHART_WITH_AXES__SERIES_THICKNESS:
                 return isSetSeriesThickness();
-            case ModelPackage.CHART_WITH_AXES__SERIES_HINTS:
-                return seriesHints != null;
             case ModelPackage.CHART_WITH_AXES__GRID_COLUMN_COUNT:
                 return isSetGridColumnCount();
             case ModelPackage.CHART_WITH_AXES__EXTENDED_PROPERTIES:

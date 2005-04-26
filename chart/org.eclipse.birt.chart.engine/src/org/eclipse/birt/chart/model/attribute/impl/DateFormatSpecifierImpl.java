@@ -376,5 +376,4 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
         return df.format(c.getTime());
     }
 
-    
 } //DateFormatSpecifierImpl

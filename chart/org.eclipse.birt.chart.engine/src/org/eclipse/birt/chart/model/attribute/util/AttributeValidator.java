@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -192,8 +194,6 @@ public class AttributeValidator extends EObjectValidator
                 return validatePalette((Palette) value, diagnostics, context);
             case AttributePackage.SCRIPT_VALUE:
                 return validateScriptValue((ScriptValue) value, diagnostics, context);
-            case AttributePackage.SERIES_HINT:
-                return validateSeriesHint((SeriesHint) value, diagnostics, context);
             case AttributePackage.SERIES_VALUE:
                 return validateSeriesValue((SeriesValue) value, diagnostics, context);
             case AttributePackage.SIZE:
@@ -220,12 +220,16 @@ public class AttributeValidator extends EObjectValidator
                 return validateChartType((Object) value, diagnostics, context);
             case AttributePackage.DATA_POINT_COMPONENT_TYPE:
                 return validateDataPointComponentType((Object) value, diagnostics, context);
+            case AttributePackage.DATA_TYPE:
+                return validateDataType((Object) value, diagnostics, context);
             case AttributePackage.DATE_FORMAT_DETAIL:
                 return validateDateFormatDetail((Object) value, diagnostics, context);
             case AttributePackage.DATE_FORMAT_TYPE:
                 return validateDateFormatType((Object) value, diagnostics, context);
             case AttributePackage.DIRECTION:
                 return validateDirection((Object) value, diagnostics, context);
+            case AttributePackage.GROUPING_UNIT_TYPE:
+                return validateGroupingUnitType((Object) value, diagnostics, context);
             case AttributePackage.HORIZONTAL_ALIGNMENT:
                 return validateHorizontalAlignment((Object) value, diagnostics, context);
             case AttributePackage.INTERSECTION_TYPE:
@@ -258,6 +262,8 @@ public class AttributeValidator extends EObjectValidator
                 return validateTickStyle((Object) value, diagnostics, context);
             case AttributePackage.TRIGGER_CONDITION:
                 return validateTriggerCondition((Object) value, diagnostics, context);
+            case AttributePackage.UNITS_OF_MEASUREMENT:
+                return validateUnitsOfMeasurement((Object) value, diagnostics, context);
             case AttributePackage.VERTICAL_ALIGNMENT:
                 return validateVerticalAlignment((Object) value, diagnostics, context);
             case AttributePackage.ACTION_TYPE_OBJECT:
@@ -272,12 +278,16 @@ public class AttributeValidator extends EObjectValidator
                 return validateChartTypeObject((ChartType) value, diagnostics, context);
             case AttributePackage.DATA_POINT_COMPONENT_TYPE_OBJECT:
                 return validateDataPointComponentTypeObject((DataPointComponentType) value, diagnostics, context);
+            case AttributePackage.DATA_TYPE_OBJECT:
+                return validateDataTypeObject((DataType) value, diagnostics, context);
             case AttributePackage.DATE_FORMAT_DETAIL_OBJECT:
                 return validateDateFormatDetailObject((DateFormatDetail) value, diagnostics, context);
             case AttributePackage.DATE_FORMAT_TYPE_OBJECT:
                 return validateDateFormatTypeObject((DateFormatType) value, diagnostics, context);
             case AttributePackage.DIRECTION_OBJECT:
                 return validateDirectionObject((Direction) value, diagnostics, context);
+            case AttributePackage.GROUPING_UNIT_TYPE_OBJECT:
+                return validateGroupingUnitTypeObject((GroupingUnitType) value, diagnostics, context);
             case AttributePackage.HORIZONTAL_ALIGNMENT_OBJECT:
                 return validateHorizontalAlignmentObject((HorizontalAlignment) value, diagnostics, context);
             case AttributePackage.ID:
@@ -320,6 +330,8 @@ public class AttributeValidator extends EObjectValidator
                 return validateTickStyleObject((TickStyle) value, diagnostics, context);
             case AttributePackage.TRIGGER_CONDITION_OBJECT:
                 return validateTriggerConditionObject((TriggerCondition) value, diagnostics, context);
+            case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT:
+                return validateUnitsOfMeasurementObject((UnitsOfMeasurement) value, diagnostics, context);
             case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
                 return validateVerticalAlignmentObject((VerticalAlignment) value, diagnostics, context);
             default:
@@ -557,16 +569,6 @@ public class AttributeValidator extends EObjectValidator
      * 
      * @generated
      */
-    public boolean validateSeriesHint(SeriesHint seriesHint, DiagnosticChain diagnostics, Map context)
-    {
-        return validate_EveryDefaultConstraint(seriesHint, diagnostics, context);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     public boolean validateSeriesValue(SeriesValue seriesValue, DiagnosticChain diagnostics, Map context)
     {
         return validate_EveryDefaultConstraint(seriesValue, diagnostics, context);
@@ -698,6 +700,16 @@ public class AttributeValidator extends EObjectValidator
      * 
      * @generated
      */
+    public boolean validateDataType(Object dataType, DiagnosticChain diagnostics, Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public boolean validateDateFormatDetail(Object dateFormatDetail, DiagnosticChain diagnostics, Map context)
     {
         return true;
@@ -719,6 +731,16 @@ public class AttributeValidator extends EObjectValidator
      * @generated
      */
     public boolean validateDirection(Object direction, DiagnosticChain diagnostics, Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean validateGroupingUnitType(Object groupingUnitType, DiagnosticChain diagnostics, Map context)
     {
         return true;
     }
@@ -888,6 +910,16 @@ public class AttributeValidator extends EObjectValidator
      * 
      * @generated
      */
+    public boolean validateUnitsOfMeasurement(Object unitsOfMeasurement, DiagnosticChain diagnostics, Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public boolean validateVerticalAlignment(Object verticalAlignment, DiagnosticChain diagnostics, Map context)
     {
         return true;
@@ -960,6 +992,16 @@ public class AttributeValidator extends EObjectValidator
      * 
      * @generated
      */
+    public boolean validateDataTypeObject(DataType dataTypeObject, DiagnosticChain diagnostics, Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public boolean validateDateFormatDetailObject(DateFormatDetail dateFormatDetailObject, DiagnosticChain diagnostics,
         Map context)
     {
@@ -983,6 +1025,17 @@ public class AttributeValidator extends EObjectValidator
      * @generated
      */
     public boolean validateDirectionObject(Direction directionObject, DiagnosticChain diagnostics, Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean validateGroupingUnitTypeObject(GroupingUnitType groupingUnitTypeObject, DiagnosticChain diagnostics,
+        Map context)
     {
         return true;
     }
@@ -1325,6 +1378,17 @@ public class AttributeValidator extends EObjectValidator
      */
     public boolean validateTriggerConditionObject(TriggerCondition triggerConditionObject, DiagnosticChain diagnostics,
         Map context)
+    {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean validateUnitsOfMeasurementObject(UnitsOfMeasurement unitsOfMeasurementObject,
+        DiagnosticChain diagnostics, Map context)
     {
         return true;
     }

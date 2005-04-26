@@ -75,5 +75,5 @@ public interface Query extends EObject
      * @return
      */
     boolean isDefined();
-    
+
 } // Query

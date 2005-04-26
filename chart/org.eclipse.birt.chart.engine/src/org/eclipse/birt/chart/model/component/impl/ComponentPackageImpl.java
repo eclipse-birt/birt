@@ -162,37 +162,37 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         XMLTypePackageImpl.init();
 
         // Obtain or create and register interdependencies
-        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
+        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
         TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(TypePackage.eNS_URI)
             : TypePackageImpl.eINSTANCE);
+        ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE
+            .getEPackage(ModelPackage.eNS_URI) : ModelPackageImpl.eINSTANCE);
         AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
             .getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(AttributePackage.eNS_URI) : AttributePackageImpl.eINSTANCE);
         DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE
             .getEPackage(DataPackage.eNS_URI)
             : DataPackageImpl.eINSTANCE);
-        LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE
-            .getEPackage(LayoutPackage.eNS_URI) : LayoutPackageImpl.eINSTANCE);
 
         // Create package meta-data objects
         theComponentPackage.createPackageContents();
-        theModelPackage.createPackageContents();
+        theLayoutPackage.createPackageContents();
         theTypePackage.createPackageContents();
+        theModelPackage.createPackageContents();
         theAttributePackage.createPackageContents();
         theDataPackage.createPackageContents();
-        theLayoutPackage.createPackageContents();
 
         // Initialize created meta-data
         theComponentPackage.initializePackageContents();
-        theModelPackage.initializePackageContents();
+        theLayoutPackage.initializePackageContents();
         theTypePackage.initializePackageContents();
+        theModelPackage.initializePackageContents();
         theAttributePackage.initializePackageContents();
         theDataPackage.initializePackageContents();
-        theLayoutPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theComponentPackage.freeze();
@@ -235,7 +235,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
      * 
      * @generated
      */
-    public EReference getAxis_Subtitle()
+    public EReference getAxis_SubTitle()
     {
         return (EReference) axisEClass.getEStructuralFeatures().get(2);
     }
@@ -933,7 +933,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         axisEClass = createEClass(AXIS);
         createEAttribute(axisEClass, AXIS__TYPE);
         createEReference(axisEClass, AXIS__TITLE);
-        createEReference(axisEClass, AXIS__SUBTITLE);
+        createEReference(axisEClass, AXIS__SUB_TITLE);
         createEAttribute(axisEClass, AXIS__TITLE_POSITION);
         createEReference(axisEClass, AXIS__ASSOCIATED_AXES);
         createEReference(axisEClass, AXIS__SERIES_DEFINITIONS);
@@ -1051,7 +1051,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         initEReference(getAxis_Title(), this.getLabel(), null, "title", null, 0, 1, Axis.class, !IS_TRANSIENT,
             !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
             IS_ORDERED);
-        initEReference(getAxis_Subtitle(), this.getLabel(), null, "subtitle", null, 0, 1, Axis.class, !IS_TRANSIENT,
+        initEReference(getAxis_SubTitle(), this.getLabel(), null, "subTitle", null, 0, 1, Axis.class, !IS_TRANSIENT,
             !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
             IS_ORDERED);
         initEAttribute(getAxis_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Above", 0, 1,
@@ -1265,9 +1265,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
         {
             "kind", "element", "name", "Title"
         });
-        addAnnotation(getAxis_Subtitle(), source, new String[]
+        addAnnotation(getAxis_SubTitle(), source, new String[]
         {
-            "kind", "element", "name", "Subtitle"
+            "kind", "element", "name", "SubTitle"
         });
         addAnnotation(getAxis_TitlePosition(), source, new String[]
         {

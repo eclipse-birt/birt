@@ -544,13 +544,22 @@ public interface DataPackage extends EPackage
     int SERIES_GROUPING__GROUPING_UNIT = 1;
 
     /**
+     * The feature id for the '<em><b>Grouping Origin</b></em>' containment reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int SERIES_GROUPING__GROUPING_ORIGIN = 2;
+
+    /**
      * The feature id for the '<em><b>Grouping Interval</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int SERIES_GROUPING__GROUPING_INTERVAL = 2;
+    int SERIES_GROUPING__GROUPING_INTERVAL = 3;
 
     /**
      * The feature id for the '<em><b>Group Type</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -558,7 +567,7 @@ public interface DataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int SERIES_GROUPING__GROUP_TYPE = 3;
+    int SERIES_GROUPING__GROUP_TYPE = 4;
 
     /**
      * The feature id for the '<em><b>Aggregate Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -567,7 +576,7 @@ public interface DataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int SERIES_GROUPING__AGGREGATE_EXPRESSION = 4;
+    int SERIES_GROUPING__AGGREGATE_EXPRESSION = 5;
 
     /**
      * The number of structural features of the the '<em>Series Grouping</em>' class. <!-- begin-user-doc --> <!--
@@ -576,7 +585,7 @@ public interface DataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int SERIES_GROUPING_FEATURE_COUNT = 5;
+    int SERIES_GROUPING_FEATURE_COUNT = 6;
 
     /**
      * The meta object id for the '
@@ -1092,6 +1101,18 @@ public interface DataPackage extends EPackage
      * @generated
      */
     EAttribute getSeriesGrouping_GroupingUnit();
+
+    /**
+     * Returns the meta object for the containment reference '
+     * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin <em>Grouping Origin</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the containment reference '<em>Grouping Origin</em>'.
+     * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin()
+     * @see #getSeriesGrouping()
+     * @generated
+     */
+    EReference getSeriesGrouping_GroupingOrigin();
 
     /**
      * Returns the meta object for the attribute '

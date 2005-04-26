@@ -45,7 +45,6 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesHints <em>Series Hints</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
@@ -60,32 +59,59 @@ public interface Chart extends EObject
 {
 
     /**
-     * Returns the value of the '<em><b>Version</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
+     * Returns the value of the '<em><b>Version</b></em>' attribute. The default value is <code>"1.0.0"</code>.
+     * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
      * 
      * Specifies the version number of this chart.
      * 
      * <!-- end-model-doc -->
      * 
      * @return the value of the '<em>Version</em>' attribute.
+     * @see #isSetVersion()
+     * @see #unsetVersion()
      * @see #setVersion(String)
      * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Version()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+     * @model default="1.0.0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String"
+     *        required="true"
      * @generated
      */
     String getVersion();
 
     /**
      * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute. <!--
-     * begin-user-doc --> Specifies the version number of this chart. (This will be linked to the version number of the
-     * chart library.) <!-- end-user-doc -->
+     * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
      *            the new value of the '<em>Version</em>' attribute.
+     * @see #isSetVersion()
+     * @see #unsetVersion()
      * @see #getVersion()
      * @generated
      */
     void setVersion(String value);
+
+    /**
+     * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #isSetVersion()
+     * @see #getVersion()
+     * @see #setVersion(String)
+     * @generated
+     */
+    void unsetVersion();
+
+    /**
+     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}'
+     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Version</em>' attribute is set.
+     * @see #unsetVersion()
+     * @see #getVersion()
+     * @see #setVersion(String)
+     * @generated
+     */
+    boolean isSetVersion();
 
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> Gets the type of this
@@ -372,33 +398,6 @@ public interface Chart extends EObject
      * @generated
      */
     boolean isSetSeriesThickness();
-
-    /**
-     * Returns the value of the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Defines 'Hints' that should be used to process new series instances. (Intended primarily for use in the UI).
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Series Hints</em>' containment reference.
-     * @see #setSeriesHints(SeriesHint)
-     * @see org.eclipse.birt.chart.model.ModelPackage#getChart_SeriesHints()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    SeriesHint getSeriesHints();
-
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesHints <em>Series Hints</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Series Hints</em>' containment reference.
-     * @see #getSeriesHints()
-     * @generated
-     */
-    void setSeriesHints(SeriesHint value);
 
     /**
      * Returns the value of the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--

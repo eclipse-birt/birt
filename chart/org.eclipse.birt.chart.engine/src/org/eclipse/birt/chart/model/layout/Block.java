@@ -664,7 +664,7 @@ public interface Block extends EObject
     boolean isText();
 
     /**
-     * @return  'true' if this block type is 'the title block'
+     * @return 'true' if this block type is 'the title block'
      */
     boolean isTitle();
 

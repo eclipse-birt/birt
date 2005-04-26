@@ -69,7 +69,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesHints <em>Series Hints</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
@@ -89,7 +88,7 @@ public class ChartImpl extends EObjectImpl implements Chart
      * @generated
      * @ordered
      */
-    protected static final String VERSION_EDEFAULT = null;
+    protected static final String VERSION_EDEFAULT = "1.0.0";
 
     /**
      * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute. <!-- begin-user-doc --> <!--
@@ -100,6 +99,14 @@ public class ChartImpl extends EObjectImpl implements Chart
      * @ordered
      */
     protected String version = VERSION_EDEFAULT;
+
+    /**
+     * This is true if the Version attribute has been set. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    protected boolean versionESet = false;
 
     /**
      * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!-- begin-user-doc --> <!--
@@ -258,16 +265,6 @@ public class ChartImpl extends EObjectImpl implements Chart
     protected boolean seriesThicknessESet = false;
 
     /**
-     * The cached value of the '{@link #getSeriesHints() <em>Series Hints</em>}' containment reference. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #getSeriesHints()
-     * @generated
-     * @ordered
-     */
-    protected SeriesHint seriesHints = null;
-
-    /**
      * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -354,8 +351,37 @@ public class ChartImpl extends EObjectImpl implements Chart
     {
         String oldVersion = version;
         version = newVersion;
+        boolean oldVersionESet = versionESet;
+        versionESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__VERSION, oldVersion, version));
+            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__VERSION, oldVersion, version,
+                !oldVersionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void unsetVersion()
+    {
+        String oldVersion = version;
+        boolean oldVersionESet = versionESet;
+        version = VERSION_EDEFAULT;
+        versionESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART__VERSION, oldVersion,
+                VERSION_EDEFAULT, oldVersionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean isSetVersion()
+    {
+        return versionESet;
     }
 
     /**
@@ -670,62 +696,6 @@ public class ChartImpl extends EObjectImpl implements Chart
      * 
      * @generated
      */
-    public SeriesHint getSeriesHints()
-    {
-        return seriesHints;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public NotificationChain basicSetSeriesHints(SeriesHint newSeriesHints, NotificationChain msgs)
-    {
-        SeriesHint oldSeriesHints = seriesHints;
-        seriesHints = newSeriesHints;
-        if (eNotificationRequired())
-        {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                ModelPackage.CHART__SERIES_HINTS, oldSeriesHints, newSeriesHints);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public void setSeriesHints(SeriesHint newSeriesHints)
-    {
-        if (newSeriesHints != seriesHints)
-        {
-            NotificationChain msgs = null;
-            if (seriesHints != null)
-                msgs = ((InternalEObject) seriesHints).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                    - ModelPackage.CHART__SERIES_HINTS, null, msgs);
-            if (newSeriesHints != null)
-                msgs = ((InternalEObject) newSeriesHints).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                    - ModelPackage.CHART__SERIES_HINTS, null, msgs);
-            msgs = basicSetSeriesHints(newSeriesHints, msgs);
-            if (msgs != null)
-                msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__SERIES_HINTS, newSeriesHints,
-                newSeriesHints));
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     public int getGridColumnCount()
     {
         return gridColumnCount;
@@ -860,8 +830,6 @@ public class ChartImpl extends EObjectImpl implements Chart
                     return basicSetDescription(null, msgs);
                 case ModelPackage.CHART__BLOCK:
                     return basicSetBlock(null, msgs);
-                case ModelPackage.CHART__SERIES_HINTS:
-                    return basicSetSeriesHints(null, msgs);
                 case ModelPackage.CHART__EXTENDED_PROPERTIES:
                     return ((InternalEList) getExtendedProperties()).basicRemove(otherEnd, msgs);
                 case ModelPackage.CHART__SAMPLE_DATA:
@@ -900,8 +868,6 @@ public class ChartImpl extends EObjectImpl implements Chart
                 return getUnits();
             case ModelPackage.CHART__SERIES_THICKNESS:
                 return new Double(getSeriesThickness());
-            case ModelPackage.CHART__SERIES_HINTS:
-                return getSeriesHints();
             case ModelPackage.CHART__GRID_COLUMN_COUNT:
                 return new Integer(getGridColumnCount());
             case ModelPackage.CHART__EXTENDED_PROPERTIES:
@@ -948,9 +914,6 @@ public class ChartImpl extends EObjectImpl implements Chart
             case ModelPackage.CHART__SERIES_THICKNESS:
                 setSeriesThickness(((Double) newValue).doubleValue());
                 return;
-            case ModelPackage.CHART__SERIES_HINTS:
-                setSeriesHints((SeriesHint) newValue);
-                return;
             case ModelPackage.CHART__GRID_COLUMN_COUNT:
                 setGridColumnCount(((Integer) newValue).intValue());
                 return;
@@ -975,7 +938,7 @@ public class ChartImpl extends EObjectImpl implements Chart
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART__VERSION:
-                setVersion(VERSION_EDEFAULT);
+                unsetVersion();
                 return;
             case ModelPackage.CHART__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -1001,9 +964,6 @@ public class ChartImpl extends EObjectImpl implements Chart
             case ModelPackage.CHART__SERIES_THICKNESS:
                 unsetSeriesThickness();
                 return;
-            case ModelPackage.CHART__SERIES_HINTS:
-                setSeriesHints((SeriesHint) null);
-                return;
             case ModelPackage.CHART__GRID_COLUMN_COUNT:
                 unsetGridColumnCount();
                 return;
@@ -1027,7 +987,7 @@ public class ChartImpl extends EObjectImpl implements Chart
         switch (eDerivedStructuralFeatureID(eFeature))
         {
             case ModelPackage.CHART__VERSION:
-                return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+                return isSetVersion();
             case ModelPackage.CHART__TYPE:
                 return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
             case ModelPackage.CHART__SUB_TYPE:
@@ -1044,8 +1004,6 @@ public class ChartImpl extends EObjectImpl implements Chart
                 return UNITS_EDEFAULT == null ? units != null : !UNITS_EDEFAULT.equals(units);
             case ModelPackage.CHART__SERIES_THICKNESS:
                 return isSetSeriesThickness();
-            case ModelPackage.CHART__SERIES_HINTS:
-                return seriesHints != null;
             case ModelPackage.CHART__GRID_COLUMN_COUNT:
                 return isSetGridColumnCount();
             case ModelPackage.CHART__EXTENDED_PROPERTIES:
@@ -1068,7 +1026,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (version: ");
-        result.append(version);
+        if (versionESet)
+            result.append(version);
+        else
+            result.append("<unset>");
         result.append(", type: ");
         result.append(type);
         result.append(", subType: ");
@@ -1347,8 +1308,8 @@ public class ChartImpl extends EObjectImpl implements Chart
         Object[] oSD = null;
         for (int iC = 0; iC < ((ChartWithoutAxes) chart).getSeriesDefinitions().size(); iC++)
         {
-            oSD = ((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(iC))
-                .getSeriesDefinitions().toArray();
+            oSD = ((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(iC)).getSeriesDefinitions()
+                .toArray();
             for (int iA = 0; iA < oSD.length; iA++)
             {
                 vTmp.add(oSD[iA]);

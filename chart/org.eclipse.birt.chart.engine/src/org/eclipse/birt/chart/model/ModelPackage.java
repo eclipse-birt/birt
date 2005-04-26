@@ -148,22 +148,13 @@ public interface ModelPackage extends EPackage
     int CHART__SERIES_THICKNESS = 8;
 
     /**
-     * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int CHART__SERIES_HINTS = 9;
-
-    /**
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int CHART__GRID_COLUMN_COUNT = 10;
+    int CHART__GRID_COLUMN_COUNT = 9;
 
     /**
      * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list. <!-- begin-user-doc
@@ -172,7 +163,7 @@ public interface ModelPackage extends EPackage
      * @generated
      * @ordered
      */
-    int CHART__EXTENDED_PROPERTIES = 11;
+    int CHART__EXTENDED_PROPERTIES = 10;
 
     /**
      * The feature id for the '<em><b>Sample Data</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -181,7 +172,7 @@ public interface ModelPackage extends EPackage
      * @generated
      * @ordered
      */
-    int CHART__SAMPLE_DATA = 12;
+    int CHART__SAMPLE_DATA = 11;
 
     /**
      * The number of structural features of the the '<em>Chart</em>' class. <!-- begin-user-doc --> <!--
@@ -190,7 +181,7 @@ public interface ModelPackage extends EPackage
      * @generated
      * @ordered
      */
-    int CHART_FEATURE_COUNT = 13;
+    int CHART_FEATURE_COUNT = 12;
 
     /**
      * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}'
@@ -276,15 +267,6 @@ public interface ModelPackage extends EPackage
      * @ordered
      */
     int CHART_WITH_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
-
-    /**
-     * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int CHART_WITH_AXES__SERIES_HINTS = CHART__SERIES_HINTS;
 
     /**
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -454,15 +436,6 @@ public interface ModelPackage extends EPackage
     int CHART_WITHOUT_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
 
     /**
-     * The feature id for the '<em><b>Series Hints</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int CHART_WITHOUT_AXES__SERIES_HINTS = CHART__SERIES_HINTS;
-
-    /**
      * The feature id for the '<em><b>Grid Column Count</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
@@ -621,18 +594,6 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EAttribute getChart_SeriesThickness();
-
-    /**
-     * Returns the meta object for the containment reference '
-     * {@link org.eclipse.birt.chart.model.Chart#getSeriesHints <em>Series Hints</em>}'. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @return the meta object for the containment reference '<em>Series Hints</em>'.
-     * @see org.eclipse.birt.chart.model.Chart#getSeriesHints()
-     * @see #getChart()
-     * @generated
-     */
-    EReference getChart_SeriesHints();
 
     /**
      * Returns the meta object for the attribute '

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute.util;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -213,11 +215,6 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
         public Object caseScriptValue(ScriptValue object)
         {
             return createScriptValueAdapter();
-        }
-
-        public Object caseSeriesHint(SeriesHint object)
-        {
-            return createSeriesHintAdapter();
         }
 
         public Object caseSeriesValue(SeriesValue object)
@@ -599,21 +596,6 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
      * @generated
      */
     public Adapter createScriptValueAdapter()
-    {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.birt.chart.model.attribute.SeriesHint <em>Series Hint</em>}'. <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
-     * @return the new adapter.
-     * @see org.eclipse.birt.chart.model.attribute.SeriesHint
-     * @generated
-     */
-    public Adapter createSeriesHintAdapter()
     {
         return null;
     }
