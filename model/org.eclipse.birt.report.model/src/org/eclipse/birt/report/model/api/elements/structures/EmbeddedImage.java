@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents an embedded image. The class gives the name and type of the image.
@@ -295,6 +294,10 @@ public class EmbeddedImage extends Structure
 
 	public void setData( byte[] data )
 	{
+        // ignore the empty data
+        if( data == null )
+            return;
+        
 		try
 		{
 			this.data = new String( data, CHARSET );
@@ -332,14 +335,14 @@ public class EmbeddedImage extends Structure
 
 		if ( StringUtil.isBlank( name ) )
 		{
-			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( NAME_MEMBER ), name,
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		if ( StringUtil.isBlank( data ) )
 		{
-			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( DATA_MEMBER ), data,
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( DATA_MEMBER ), data,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
