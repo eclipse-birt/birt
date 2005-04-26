@@ -81,11 +81,20 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType ) )
 			return doVidateDateTime( value, locale );
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType )
-				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
-						.equalsIgnoreCase( dataType ) )
+				.equalsIgnoreCase( dataType ) )
 		{
-			return doValidateNumber( dataType, value, locale );
+			Number number = doValidateNumber( dataType, value, locale );
+			if ( number == null )
+				return null;
+			return new Double( number.doubleValue( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
+				.equalsIgnoreCase( dataType ) )
+		{
+			Number number = doValidateNumber( dataType, value, locale );
+			if ( number == null )
+				return null;
+			return new BigDecimal( number.doubleValue( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 				.equalsIgnoreCase( dataType ) )
@@ -151,7 +160,7 @@ public class ParameterValidationUtil
 	 *             if the value is invalid
 	 */
 
-	static final Double doValidateNumber( String dataType, String value,
+	static final Number doValidateNumber( String dataType, String value,
 			Locale locale ) throws ValidationValueException
 	{
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
@@ -163,12 +172,11 @@ public class ParameterValidationUtil
 			return null;
 
 		NumberFormat localeFormatter = NumberFormat.getNumberInstance( locale );
-		Number number = null;
 		try
 		{
 			// Parse in locale-dependent way.
 			// Use the decimal separator from the locale.
-			number = localeFormatter.parse( value );
+			return localeFormatter.parse( value );
 		}
 		catch ( ParseException e )
 		{
@@ -176,9 +184,7 @@ public class ParameterValidationUtil
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					dataType );
 		}
-		if ( number != null )
-			return new Double( number.doubleValue( ) );
-		return null;
+
 	}
 
 	/**
@@ -264,25 +270,37 @@ public class ParameterValidationUtil
 					.equalsIgnoreCase( dataType ) )
 				return doValidateDateTimeByPattern( format, value, locale );
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-					.equalsIgnoreCase( dataType )
-					|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
-							.equalsIgnoreCase( dataType ) )
-				return doValidateNumberByPattern( dataType, format, value,
-						locale );
+					.equalsIgnoreCase( dataType ) )
+			{
+				Number number = doValidateNumberByPattern( dataType, format,
+						value, locale );
+				if ( number == null )
+					return null;
+				return new Double( number.doubleValue( ) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
+					.equalsIgnoreCase( dataType ) )
+			{
+				Number number = doValidateNumberByPattern( dataType, format,
+						value, locale );
+				if ( number == null )
+					return null;
+				return new BigDecimal( number.doubleValue( ) );
+			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 					.equalsIgnoreCase( dataType ) )
 			{
 				if ( StringUtil.isBlank( value ) )
 					return value;
-				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE
+				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED
 						.equalsIgnoreCase( format ) )
-					return value.toLowerCase( locale );
-				else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE
-						.equalsIgnoreCase( format ) )
-					return value.toUpperCase( locale );
+					return value;
 				else
 				{
-					assert false;
+					// TODO: there must be a parse( ) in StringFormatter in core
+					// Then if the format is other choices or specified format
+					// pattern
+					// we can call the parse() to do the validation
 					return value;
 				}
 			}
@@ -414,23 +432,22 @@ public class ParameterValidationUtil
 	 *             if the value to validate is invalid
 	 */
 
-	static private Double doValidateNumberByPattern( String dataType,
+	static private Number doValidateNumberByPattern( String dataType,
 			String format, String value, Locale locale )
 			throws ValidationValueException
 	{
 		assert DesignChoiceConstants.PARAM_TYPE_FLOAT
-		.equalsIgnoreCase( dataType )
-		|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType );
+				.equalsIgnoreCase( dataType )
+				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType );
 		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
 			return null;
 		NumberFormatter formatter = new NumberFormatter( locale );
 		formatter.applyPattern( format );
-		Number number = null;
 		try
 		{
-			number = formatter.parse( value );
+			return formatter.parse( value );
 		}
 		catch ( ParseException e )
 		{
@@ -438,9 +455,6 @@ public class ParameterValidationUtil
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					dataType );
 		}
-		if ( number != null )
-			return new Double( number.doubleValue( ) );
-		return null;
 	}
 
 	/**
@@ -453,7 +467,7 @@ public class ParameterValidationUtil
 	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
 	 * be <code>java.lang.Double</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
-	 * be <code>java.lang.Double</code>.</li>
+	 * be <code>java.math.BigDecimal</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
 	 * be <code>java.lang.Boolean</code>.</li>
 	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must

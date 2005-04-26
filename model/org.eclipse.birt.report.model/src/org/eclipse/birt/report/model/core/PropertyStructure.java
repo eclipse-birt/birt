@@ -37,34 +37,24 @@ public abstract class PropertyStructure extends Structure
 	protected HashMap propValues = new HashMap( );
 
 	/**
-	 * Gets the value of the property specified by the property definition. If
-	 * the property value is not set, then the default value for it will be
-	 * returned.
+	 * Gets the locale value of a property.
 	 * 
 	 * @param design
-	 *            report design
+	 *            the report design
 	 * 
 	 * @param propDefn
-	 *            the property definition
-	 * 
-	 * @return the value of the property, null if no value was set
+	 *            definition of the property to get
+	 * @return value of the item as an object, or null if the item is not set
+	 *         locally or is not found.
 	 */
 
-	public final Object getProperty( ReportDesign design, PropertyDefn propDefn )
+	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
 	{
-		assert propDefn != null;
-
-		Object value = null;
 		if ( propDefn.isIntrinsic( ) )
-			value = getIntrinsicProperty( propDefn.getName( ) );
-		else
-			value = propValues.get( propDefn.getName( ) );
-
-		if ( value == null )
-			return propDefn.getDefault( );
-
-		return value;
+			return getIntrinsicProperty( propDefn.getName( ) );
+		return propValues.get( propDefn.getName( ) );
 	}
+
 
 	/**
 	 * Sets the value of the property.

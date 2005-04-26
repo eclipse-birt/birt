@@ -1587,7 +1587,7 @@ public class DesignWriter extends ElementVisitor
 				.getMember( memberName );
 		assert propDefn != null;
 
-		Object value = struct.getProperty( design, propDefn );
+		Object value = struct.getLocalProperty( design, propDefn );
 		if ( value == null )
 			return;
 
@@ -1764,14 +1764,14 @@ public class DesignWriter extends ElementVisitor
 				.getMember( resourceName );
 		assert nameProp != null;
 
-		Object value = struct.getProperty( design, nameProp );
+		Object value = struct.getLocalProperty( design, nameProp );
 		String xml = nameProp.getXmlValue( design, value );
 
 		StructPropertyDefn keyProp = (StructPropertyDefn) structDefn
 				.getMember( resourceKey );
 		assert keyProp != null;
 
-		value = struct.getProperty( design, keyProp );
+		value = struct.getLocalProperty( design, keyProp );
 		String xmlKey = keyProp.getXmlValue( design, value );
 		if ( StringUtil.isBlank( xmlKey ) && StringUtil.isBlank( xml ) )
 			return;
@@ -1915,7 +1915,7 @@ public class DesignWriter extends ElementVisitor
 		assert prop != null;
 		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
 
-		List list = (List) obj.getProperty( design, prop );
+		List list = (List) obj.getLocalProperty( design, prop );
 		if ( list == null || list.size( ) == 0 )
 			return;
 

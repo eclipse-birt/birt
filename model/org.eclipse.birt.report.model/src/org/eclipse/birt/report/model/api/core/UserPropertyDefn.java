@@ -112,17 +112,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	public Object getProperty( ReportDesign design, PropertyDefn prop )
 	{
-		assert prop != null;
-		String memberName = prop.getName( );
-		if ( memberName.equals( TYPE_MEMBER ) )
-			return type.getName( );
-		if ( memberName.equals( NAME_MEMBER ) )
-			return name;
-		if ( memberName.equals( DISPLAY_NAME_MEMBER ) )
-			return displayName;
-		if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
-			return displayNameID;
-		return null;
+		return getLocalProperty( design, prop );
 	}
 
 	/**
@@ -402,6 +392,25 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		// Build the cached semantic data.
 
 		this.build( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 */
+	
+	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
+	{
+		assert propDefn != null;
+		String memberName = propDefn.getName( );
+		if ( memberName.equals( TYPE_MEMBER ) )
+			return type.getName( );
+		if ( memberName.equals( NAME_MEMBER ) )
+			return name;
+		if ( memberName.equals( DISPLAY_NAME_MEMBER ) )
+			return displayName;
+		if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
+			return displayNameID;
+		return null;
 	}
 
 }

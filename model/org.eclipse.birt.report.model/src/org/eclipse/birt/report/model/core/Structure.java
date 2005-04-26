@@ -90,7 +90,7 @@ public abstract class Structure implements IStructure
 
 	public final Object getProperty( ReportDesign design, String memberName )
 	{
-		PropertyDefn prop = (PropertyDefn)getDefn( ).getMember( memberName );
+		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
 		if ( prop == null )
 			return null;
 
@@ -106,15 +106,30 @@ public abstract class Structure implements IStructure
 
 	public Object getProperty( ReportDesign design, PropertyDefn propDefn )
 	{
+		assert propDefn != null;
+		Object value = getLocalProperty( design, propDefn );
+		if ( value == null )
+			return propDefn.getDefault( );
+
+		return value;
+	}
+
+	/**
+	 * Gets the locale value of a property.
+	 * 
+	 * @param design
+	 *            the report design
+	 * 
+	 * @param propDefn
+	 *            definition of the property to get
+	 * @return value of the item as an object, or null if the item is not set
+	 *         locally or is not found.
+	 */
+
+	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
+	{
 		if ( propDefn.isIntrinsic( ) )
-		{
-			Object value = getIntrinsicProperty( propDefn.getName( ) );
-			if ( value == null )
-				return propDefn.getDefault( );
-
-			return value;
-		}
-
+			return getIntrinsicProperty( propDefn.getName( ) );
 		return null;
 	}
 
@@ -129,7 +144,7 @@ public abstract class Structure implements IStructure
 
 	public final void setProperty( String propName, Object value )
 	{
-		PropertyDefn prop = (PropertyDefn)getDefn( ).getMember( propName );
+		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( propName );
 		if ( prop == null )
 			return;
 
