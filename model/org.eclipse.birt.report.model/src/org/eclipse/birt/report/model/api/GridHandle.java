@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
  * Represents a grid item in the design. A grid item contains a set of report
@@ -30,7 +31,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * @see org.eclipse.birt.report.model.elements.GridItem
  */
 
-public class GridHandle extends ReportItemHandle
+public class GridHandle extends ReportItemHandle implements IGridItemModel
 {
 
 	/**

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
@@ -30,6 +31,8 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
  */
 
 public class OdaDataSourceHandle extends DataSourceHandle
+		implements
+			IOdaDataSourceModel
 {
 
 	/**
@@ -171,6 +174,6 @@ public class OdaDataSourceHandle extends DataSourceHandle
 					.getLocalProperties( );
 
 		return Collections.EMPTY_LIST;
-	
+
 	}
 }

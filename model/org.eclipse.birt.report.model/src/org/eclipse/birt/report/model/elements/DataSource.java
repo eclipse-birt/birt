@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 
 /**
  * This class represents a data source: a connection to a database or other
@@ -21,32 +22,8 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
  * 
  */
 
-public abstract class DataSource extends ReferenceableElement
+public abstract class DataSource extends ReferenceableElement implements IDataSourceModel
 {
-
-	/**
-	 * The property name of the script called before opening this data source.
-	 */
-
-	public static final String BEFORE_OPEN_METHOD = "beforeOpen"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called before closing this data source.
-	 */
-
-	public static final String BEFORE_CLOSE_METHOD = "beforeClose"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called after opening this data source.
-	 */
-
-	public static final String AFTER_OPEN_METHOD = "afterOpen"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script called after closing this data source.
-	 */
-
-	public static final String AFTER_CLOSE_METHOD = "afterClose"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.

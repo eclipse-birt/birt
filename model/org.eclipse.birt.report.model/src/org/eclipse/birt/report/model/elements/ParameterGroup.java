@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 
 /**
  * This class represents a parameter group. A parameter group creates a visual
@@ -24,21 +25,13 @@ import org.eclipse.birt.report.model.core.MultiElementSlot;
  * in the UI, and the order in which parameters appear in the group. The
  * BIRT-provided runtime UI will may choose to allow the user to expand &
  * collapse parameter groups independently.
- *  
+ * 
  */
 
 public class ParameterGroup extends DesignElement
+		implements
+			IParameterGroupModel
 {
-
-	public static final String START_EXPANDED_PROP = "startExpanded"; //$NON-NLS-1$
-	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
-	public static final String HELP_TEXT_KEY_PROP = "helpTextID"; //$NON-NLS-1$
-
-	/**
-	 * Constant for the Report Items slot within a container.
-	 */
-
-	public static final int PARAMETERS_SLOT = 0;
 
 	/**
 	 * The report items slot.

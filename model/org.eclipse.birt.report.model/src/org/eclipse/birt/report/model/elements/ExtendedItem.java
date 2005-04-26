@@ -22,9 +22,9 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * 
  */
 
-public class ExtendedItem extends ReportItem implements IExtendableElement
+public class ExtendedItem extends ReportItem implements IExtendableElement, IExtendedItemModel
 {
 
 	/**

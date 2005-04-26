@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -45,7 +46,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
-public class ImageHandle extends ReportItemHandle
+public class ImageHandle extends ReportItemHandle implements IImageItemModel
 {
 
 	/**
@@ -130,7 +131,7 @@ public class ImageHandle extends ReportItemHandle
 	 * </ul>
 	 * 
 	 * @return the image source type.
-	 *  
+	 * 
 	 */
 
 	public String getSource( )
@@ -167,7 +168,7 @@ public class ImageHandle extends ReportItemHandle
 	 * @return the type expression, if the image source type is
 	 *         <code>IMAGE_REF_TYPE_EXPR</code>. Otherwise, return
 	 *         <code>null</code>.
-	 *  
+	 * 
 	 */
 
 	public String getTypeExpression( )
@@ -407,7 +408,7 @@ public class ImageHandle extends ReportItemHandle
 	 *            new action to be set on the image, it represents a bookmark
 	 *            link, hyper-link, and drill through etc.
 	 * @return a handle to the action property, return <code>null</code> if
-     *         the action has not been set on the image.
+	 *         the action has not been set on the image.
 	 * 
 	 * @throws SemanticException
 	 *             if member of the action is not valid.
@@ -416,10 +417,10 @@ public class ImageHandle extends ReportItemHandle
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
 		setProperty( ImageItem.ACTION_PROP, action );
-        
-        if( action == null )
-            return null;
-        return (ActionHandle) action
+
+		if ( action == null )
+			return null;
+		return (ActionHandle) action
 				.getHandle( getPropertyHandle( ImageItem.ACTION_PROP ) );
 	}
 

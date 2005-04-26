@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 
 /**
  * Represents a free-form element. Free-form is the simplest form of report
@@ -22,7 +23,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * anywhere.
  */
 
-public class FreeFormHandle extends ReportItemHandle
+public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
 {
 
 	/**

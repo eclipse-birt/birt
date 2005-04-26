@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidat
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
  * This class represents a Graphic Master Page element in the report design. A
@@ -37,29 +38,10 @@ import org.eclipse.birt.report.model.core.MultiElementSlot;
  * access the content slot of the graphic master page.
  *  
  */
-public class GraphicMasterPage extends MasterPage
+public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageModel
 {
 
-	/**
-	 * Name of the property that gives the number of columns to appear on the
-	 * page.
-	 */
-
-	public static final String COLUMNS_PROP = "columns"; //$NON-NLS-1$
-
-	/**
-	 * Name of the dimension property that gives the spacing between columns of
-	 * a multi-column page.
-	 */
-
-	public static final String COLUMN_SPACING_PROP = "columnSpacing"; //$NON-NLS-1$
-
-	/**
-	 * Identifier of the slot that holds the page decoration.
-	 */
-
-	public static final int CONTENT_SLOT = 0;
-
+	
 	/**
 	 * Holds the report items that reside directly on the page.
 	 */

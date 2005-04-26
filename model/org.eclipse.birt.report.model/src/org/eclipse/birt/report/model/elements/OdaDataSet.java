@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.extension.AddOnExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
@@ -29,58 +30,10 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Represents an extended data set.
  */
 
-public class OdaDataSet extends DataSet implements IExtendableElement
+public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataSetModel
 {
 
-	/**
-	 * The property name of the query statement.
-	 */
-
-	public static final String QUERY_TEXT_PROP = "queryText"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the query type.
-	 */
-
-	public static final String TYPE_PROP = "type"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the result set name.
-	 */
-
-	public static final String RESULT_SET_NAME_PROP = "resultSetName"; //$NON-NLS-1$
-
-	/**
-	 * Name of the driver state property that gives the private driver design
-	 * state from the extended driver. It is optional from the ODA data source
-	 * builder. This is a CDATA section. If omitted or discarded, it will be
-	 * recomputed when the report is next edited or run.
-	 */
-
-	public static final String PRIVATE_DRIVER_DESIGN_STATE_PROP = "privateDriverDesignState"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script which provides the query.
-	 */
-
-	public static final String QUERY_SCRIPT_METHOD = "queryScript"; //$NON-NLS-1$
-
-	/**
-	 * The property name of public driver properties.
-	 */
-
-	public static final String PUBLIC_DRIVER_PROPERTIES_PROP = "publicDriverProperties"; //$NON-NLS-1$
-
-	/**
-	 * The property name of private driver properties.
-	 */
-
-	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
-
-	/**
-	 * The extensibility provider which provides the functionality of this
-	 * extendable element.
-	 */
+	
 
 	private ExtensibilityProvider provider = null;
 

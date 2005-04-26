@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.validators.TableDroppingValidator;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -31,35 +32,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * is defined by a series of bands. A table defines the same bands as a list.
  * Like a list, each band is divided into a number of sections. Each section
  * contains one or more rows. Each row is further divided into a set of cells.
- *  
+ * 
  */
 
-public class TableItem extends ListingElement
+public class TableItem extends ListingElement implements ITableItemModel
 {
-
-	/**
-	 * Name of the caption property.
-	 */
-
-	public static final String CAPTION_PROP = "caption"; //$NON-NLS-1$
-
-	/**
-	 * Name of the caption key property.
-	 */
-
-	public static final String CAPTION_KEY_PROP = "captionID"; //$NON-NLS-1$
-
-	/**
-	 * Name of the repeat header property.
-	 */
-
-	public static final String REPEAT_HEADER_PROP = "repeatHeader"; //$NON-NLS-1$
-
-	/**
-	 * Column definitions.
-	 */
-
-	public static final int COLUMN_SLOT = 4;
 
 	/**
 	 * Default constructor.
@@ -286,8 +263,8 @@ public class TableItem extends ListingElement
 
 		// Check table's slot context containment.
 
-		list.addAll( TableHeaderContextContainmentValidator.getInstance( ).validate(
-				design, this ) );
+		list.addAll( TableHeaderContextContainmentValidator.getInstance( )
+				.validate( design, this ) );
 
 		// check whether there is any overlapping cells with drop properties in
 		// the group headers.
@@ -313,10 +290,10 @@ public class TableItem extends ListingElement
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		errors.addAll( TableHeaderContextContainmentValidator.getInstance( ).validateForAdding(
-				design, container, content ) );
+		errors.addAll( TableHeaderContextContainmentValidator.getInstance( )
+				.validateForAdding( design, container, content ) );
 
-		return errors; 
+		return errors;
 	}
 
 	/*
@@ -334,11 +311,10 @@ public class TableItem extends ListingElement
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		errors.addAll( TableHeaderContextContainmentValidator.getInstance( ).validateForAdding(
-				design, container, defn ) );
+		errors.addAll( TableHeaderContextContainmentValidator.getInstance( )
+				.validateForAdding( design, container, defn ) );
 
-		return errors; 
+		return errors;
 	}
-
 
 }

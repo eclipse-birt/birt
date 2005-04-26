@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -51,7 +52,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * same. (User-defined properties may differ.)
  */
 
-public class GroupElementHandle
+public class GroupElementHandle implements IGroupElementModel
 {
 
 	/**
@@ -81,7 +82,7 @@ public class GroupElementHandle
 
 	public GroupElementHandle( ReportDesignHandle designHandle, List elements )
 	{
-		this.design = designHandle.getDesign();
+		this.design = designHandle.getDesign( );
 		assert elements != null;
 
 		this.elements = elements;

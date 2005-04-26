@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -83,26 +84,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public class GridItem extends ReportItem
+public class GridItem extends ReportItem implements IGridItemModel
 {
-
-	/**
-	 * Identifier of the columns slot.
-	 */
-
-	public static final int COLUMN_SLOT = 0;
-
-	/**
-	 * Identifier of the row slot.
-	 */
-
-	public static final int ROW_SLOT = 1;
-
-	/**
-	 * Number of slots in the this item.
-	 */
-
-	public static final int SLOT_COUNT = 2;
 
 	/**
 	 * The set of slots for the listing.

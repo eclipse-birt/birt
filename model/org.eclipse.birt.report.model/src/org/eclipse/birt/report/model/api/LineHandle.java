@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
 
 /**
  * Represents the line item. The user can set the line orientation.
@@ -22,7 +23,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * @see org.eclipse.birt.report.model.elements.LineItem
  */
 
-public class LineHandle extends ReportItemHandle
+public class LineHandle extends ReportItemHandle implements ILineItemModel
 {
 
 	/**

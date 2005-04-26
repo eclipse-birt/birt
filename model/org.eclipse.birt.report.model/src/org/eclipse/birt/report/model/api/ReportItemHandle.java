@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Represents a report item: any element that can appear within a section of the
@@ -34,6 +35,8 @@ import org.eclipse.birt.report.model.elements.ReportItem;
  */
 
 public abstract class ReportItemHandle extends ReportElementHandle
+		implements
+			IReportItemModel
 {
 
 	/**
@@ -65,7 +68,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				.getDataSetElement( design );
 		if ( dataSet == null )
 			return null;
-		
+
 		assert dataSet instanceof DataSet;
 
 		return (DataSetHandle) dataSet.getHandle( design );

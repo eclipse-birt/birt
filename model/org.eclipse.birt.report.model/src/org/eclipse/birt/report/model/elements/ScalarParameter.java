@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 /**
  * This class represents a scalar (single-value) parameter. Scalar parameters
@@ -25,101 +26,12 @@ import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator
  * nulls are allowed. If so, the value of the parameter is null. If nulls are
  * not allowed, then the user must enter a value.
  * 
- *  
+ * 
  */
 
-public class ScalarParameter extends Parameter
+public class ScalarParameter extends Parameter implements IScalarParameterModel
 {
 
-	/**
-	 * Name of the default value property.
-	 */
-
-	public static final String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the data type property.
-	 */
-
-	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
-
-	/**
-	 * Name of the conceal-value property.
-	 */
-
-	public static final String CONCEAL_VALUE_PROP = "concealValue"; //$NON-NLS-1$
-
-	/**
-	 * Name of the allow-null property.
-	 */
-
-	public static final String ALLOW_NULL_PROP = "allowNull"; //$NON-NLS-1$
-
-	/**
-	 * Name of the allow-blank property.
-	 */
-
-	public static final String ALLOW_BLANK_PROP = "allowBlank"; //$NON-NLS-1$
-
-	/**
-	 * Name of the format property.
-	 */
-
-	public static final String FORMAT_PROP = "format"; //$NON-NLS-1$
-
-	/**
-	 * Name of the control type property.
-	 */
-
-	public static final String CONTROL_TYPE_PROP = "controlType"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the alignment property.
-	 */
-
-	public static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the DataSet property for a dynamic list.
-	 */
-
-	public static final String DATASET_NAME_PROP = "dataSetName"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the value expression property for a dynamic list.
-	 */
-
-	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the label expression property for a dynamic list.
-	 */
-
-	public static final String LABEL_EXPR_PROP = "labelExpr"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the muchMatch property for a selection list.
-	 */
-
-	public static final String MUCH_MATCH_PROP = "mustMatch"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the fixedOrder property for a selection list.
-	 */
-
-	public static final String FIXED_ORDER_PROP = "fixedOrder"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the choice property for a selection list.
-	 */
-
-	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$ 
-	
-	/**
-	 * Name of the display prompt property.
-	 */
-
-	public static final String DISPLAY_PROMPT_PROP = "displayPrompt"; //$NON-NLS-1$ 
 	/**
 	 * The default constructor.
 	 */

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
 /**
  * This class represents a multi-line data item element. The multi-line data
@@ -27,39 +28,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * the text can be fixed at design time, or can be dynamically selected at run
  * time to match the format of the incoming text. The user can search text
  * within the multi-line data item.
- *  
+ * 
  */
 
-public class TextDataItem extends ReportItem
+public class TextDataItem extends ReportItem implements ITextDataItemModel
 {
-
-	/**
-	 * Name of the value expression property that gives an expression that
-	 * provides the text. The expression is most often simply a reference to a
-	 * query column. But, it can also reference a report parameter, a formula, a
-	 * special value, a file, or other data item..
-	 */
-
-	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
-
-	/**
-	 * Name of the content type expression property. It is an optional property
-	 * that defines the type of text. Applies to both static text and the value
-	 * expression. The choices are:
-	 * <ul>
-	 * <li>¡°Auto¡± (default): BIRT will infer the format as explained above.
-	 * <li>¡°Plain¡±: Plain text.
-	 * <li>¡°HTML¡±: HTML format.
-	 * <li>¡°RTF¡±: Rich Text Format.
-	 * <li>Expression: an expression that returns one of the above strings.
-	 * </ul>
-	 * Note that the content type is an expression, not a choice. It the
-	 * developer wishes to specify the format statically, the value must be
-	 * enclosed in quotes to make it a valid expression.
-	 *  
-	 */
-
-	public static final String CONTENT_TYPE_EXPR_PROP = "contentTypeExpr"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -169,7 +142,8 @@ public class TextDataItem extends ReportItem
 		if ( valueExpr == null )
 		{
 			list.add( new PropertyValueException( this, VALUE_EXPR_PROP,
-					valueExpr, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+					valueExpr,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;

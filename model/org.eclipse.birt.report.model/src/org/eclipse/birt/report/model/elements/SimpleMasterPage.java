@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.SingleElementSlot;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
 /**
  * This class represents a Simple Master Page element in the report design. Use
@@ -29,53 +30,14 @@ import org.eclipse.birt.report.model.core.SingleElementSlot;
  *  
  */
 
-public class SimpleMasterPage extends MasterPage
+public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageModel
 {
-
-	/**
-	 * The page header slot ID.
-	 */
-
-	public static final int PAGE_HEADER_SLOT = 0;
-
-	/**
-	 * The page footer slot ID.
-	 */
-
-	public static final int PAGE_FOOTER_SLOT = 1;
-
-	/**
-	 * The slot count of simple master page. There are only 2 slots defined in
-	 * simple master page, the page header and footer slot.
-	 */
-
-	public static final int SLOT_COUNT = 2;
 
 	/**
 	 * Slots to hold items defined either in page header or page footer.
 	 */
 
 	protected ContainerSlot slots[] = null;
-
-	/**
-	 * Name of the property 'show-header-on-first' that indicates whether show
-	 * the header on the first page or not.
-	 */
-
-	public static final String SHOW_HEADER_ON_FIRST_PROP = "showHeaderOnFirst"; //$NON-NLS-1$
-
-	/**
-	 * Name of the property 'show-footer-on-last' that indicates whether show
-	 * the footer on the last page.
-	 */
-
-	public static final String SHOW_FOOTER_ON_LAST_PROP = "showFooterOnLast"; //$NON-NLS-1$
-
-	/**
-	 * Name of the property 'floating-footer'.
-	 */
-
-	public static final String FLOATING_FOOTER = "floatingFooter"; //$NON-NLS-1$
 
 	/**
 	 * Default Constructor.

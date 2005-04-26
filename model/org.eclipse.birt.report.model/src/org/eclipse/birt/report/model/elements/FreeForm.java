@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
+import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 
 /**
  * This class represents a free-form element. A free-form holds a set of report
@@ -24,15 +25,10 @@ import org.eclipse.birt.report.model.core.MultiElementSlot;
  *  
  */
 
-public class FreeForm extends ReportItem
+public class FreeForm extends ReportItem implements IFreeFormModel
 {
 
-	/**
-	 * Constant for the Report Items slot within a free-form.
-	 */
-
-	public static final int REPORT_ITEMS_SLOT = 0;
-
+	
 	/**
 	 * The report items slot.
 	 */

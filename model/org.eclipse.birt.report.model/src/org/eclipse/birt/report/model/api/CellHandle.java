@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
 /**
  * Represents a cell within a table or grid. A cell can span multiple rows
@@ -30,7 +31,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * @see RowHandle#getCells()
  */
 
-public class CellHandle extends ReportElementHandle 
+public class CellHandle extends ReportElementHandle implements ICellModel
 {
 
 	/**
@@ -177,17 +178,18 @@ public class CellHandle extends ReportElementHandle
 	 * Sets the cell's column property. The input value gives the column in
 	 * which the cell starts. Columns are numbered from 1.
 	 * 
-	 * @param column the column index, starting from 1.
+	 * @param column
+	 *            the column index, starting from 1.
 	 * 
 	 * @throws SemanticException
 	 *             if this property is locked.
 	 */
 
-	public void setColumn( int column ) throws SemanticException 
+	public void setColumn( int column ) throws SemanticException
 	{
 		setIntProperty( Cell.COLUMN_PROP, column );
 	}
-	
+
 	/**
 	 * Returns the cell's height.
 	 * 

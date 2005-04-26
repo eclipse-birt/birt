@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
 /**
  * This class represents the data source that is defined in JavaScript. The
@@ -43,19 +44,9 @@ import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
  */
 
 public class ScriptDataSource extends DataSource
+		implements
+			IScriptDataSourceModel
 {
-
-	/**
-	 * The property name of the script that connects to the data source.
-	 */
-
-	public static final String OPEN_METHOD = "open"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script that close the data source.
-	 */
-
-	public static final String CLOSE_METHOD = "close"; //$NON-NLS-1$
 
 	/**
 	 * Constructs a default <code>ScriptDataSource</code>.
@@ -64,18 +55,19 @@ public class ScriptDataSource extends DataSource
 	public ScriptDataSource( )
 	{
 	}
-	
+
 	/**
 	 * Constructs the script data source with name.
 	 * 
-	 * @param theName the script data source name
+	 * @param theName
+	 *            the script data source name
 	 */
-	
+
 	public ScriptDataSource( String theName )
 	{
 		super( theName );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -135,7 +127,7 @@ public class ScriptDataSource extends DataSource
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-		
+
 		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
 				this, OPEN_METHOD ) );
 		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,

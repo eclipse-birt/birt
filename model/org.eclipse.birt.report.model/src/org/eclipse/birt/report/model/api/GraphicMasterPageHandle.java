@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
  * Represents a graphic master page in the design. A graphic master page
@@ -31,6 +32,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public class GraphicMasterPageHandle extends MasterPageHandle
+		implements
+			IGraphicMaterPageModel
 {
 
 	/**

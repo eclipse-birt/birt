@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 
 /**
  * Represents the various parameter types. This abstract base parameter element
@@ -24,6 +25,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public abstract class ParameterHandle extends ReportElementHandle
+		implements
+			IParameterModel
 {
 
 	/**
@@ -83,10 +86,11 @@ public abstract class ParameterHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the resource key of the additional text to display for the
-	 * parameter to explain how to use the parameter.
+	 * Sets the resource key of the additional text to display for the parameter
+	 * to explain how to use the parameter.
 	 * 
-	 * @param resourceKey the resource key of the help text
+	 * @param resourceKey
+	 *            the resource key of the help text
 	 * 
 	 * @throws SemanticException
 	 *             if the property is locked.
@@ -96,7 +100,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 	{
 		setStringProperty( Parameter.HELP_TEXT_KEY_PROP, resourceKey );
 	}
-	
+
 	/**
 	 * Tests whether the parameter will appear in the Requester page. Parameter
 	 * is visible by default.

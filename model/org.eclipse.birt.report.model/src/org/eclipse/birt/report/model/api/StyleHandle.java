@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Represents the style properties for either a shared style or an element with
@@ -46,6 +47,8 @@ import org.eclipse.birt.report.model.elements.Style;
  */
 
 public abstract class StyleHandle extends ReportElementHandle
+		implements
+			IStyleModel
 {
 
 	/**

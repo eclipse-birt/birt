@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 
 /**
  * Represents a master page. The master page is an abstract element that defines
@@ -31,6 +32,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public abstract class MasterPageHandle extends ReportElementHandle
+		implements
+			IMasterPageModel
 {
 
 	/**
@@ -265,10 +268,11 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the effective page height. 
+	 * Gets the effective page height.
+	 * 
 	 * @return the page height
 	 */
-	
+
 	public DimensionValue getPageHeight( )
 	{
 		String pageType = getPageType( );
@@ -276,11 +280,14 @@ public abstract class MasterPageHandle extends ReportElementHandle
 		{
 			if ( DesignChoiceConstants.PAGE_SIZE_A4.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.A4_HEIGHT );
-			else if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase( pageType ) )
-				return (DimensionValue)getProperty( MasterPage.HEIGHT_PROP );
-			else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL.equalsIgnoreCase( pageType ) )
+			else if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM
+					.equalsIgnoreCase( pageType ) )
+				return (DimensionValue) getProperty( MasterPage.HEIGHT_PROP );
+			else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL
+					.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.US_LEGAL_HEIGHT );
-			else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER.equalsIgnoreCase( pageType ) )
+			else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER
+					.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.US_LETTER_HEIGHT );
 			else
 				assert false;
@@ -293,10 +300,11 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the effective page width. 
+	 * Gets the effective page width.
+	 * 
 	 * @return the page width
 	 */
-	
+
 	public DimensionValue getPageWidth( )
 	{
 		String pageType = getPageType( );
@@ -304,11 +312,14 @@ public abstract class MasterPageHandle extends ReportElementHandle
 		{
 			if ( DesignChoiceConstants.PAGE_SIZE_A4.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.A4_WIDTH );
-			else if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase( pageType ) )
-				return (DimensionValue)getProperty( MasterPage.WIDTH_PROP );
-			else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL.equalsIgnoreCase( pageType ) )
+			else if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM
+					.equalsIgnoreCase( pageType ) )
+				return (DimensionValue) getProperty( MasterPage.WIDTH_PROP );
+			else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL
+					.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.US_LEGAL_WIDTH );
-			else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER.equalsIgnoreCase( pageType ) )
+			else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER
+					.equalsIgnoreCase( pageType ) )
 				return DimensionValue.parse( MasterPage.US_LETTER_WIDTH );
 			else
 				assert false;

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 /**
  * Represents a scalar (single-value) report parameter. If the user enters no
@@ -45,6 +46,8 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
  */
 
 public class ScalarParameterHandle extends ParameterHandle
+		implements
+			IScalarParameterModel
 {
 
 	/**

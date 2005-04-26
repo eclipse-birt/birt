@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 /**
  * Represents a table element. A table has a localized caption and can repeat
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
  * @see org.eclipse.birt.report.model.elements.TableItem
  */
 
-public class TableHandle extends ListingHandle
+public class TableHandle extends ListingHandle implements ITableItemModel
 {
 
 	/**

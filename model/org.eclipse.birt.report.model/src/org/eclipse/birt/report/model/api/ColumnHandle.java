@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * Represents a column within a table. The application generally does not create
@@ -27,6 +28,8 @@ import org.eclipse.birt.report.model.elements.TableColumn;
  */
 
 public class ColumnHandle extends ReportElementHandle
+		implements
+			ITableColumnModel
 {
 
 	/**
@@ -90,7 +93,7 @@ public class ColumnHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the column alignment. 
+	 * Gets the column alignment.
 	 * 
 	 * @return the column alignment
 	 * 
@@ -103,7 +106,7 @@ public class ColumnHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the column alignment. 
+	 * Sets the column alignment.
 	 * 
 	 * @param alignment
 	 *            the alignment to set

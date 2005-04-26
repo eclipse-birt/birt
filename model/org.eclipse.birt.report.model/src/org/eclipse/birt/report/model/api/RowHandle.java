@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Represents one row in a Grid or Table. Each row contains some number of
@@ -26,7 +27,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
  * @see org.eclipse.birt.report.model.elements.TableRow
  */
 
-public class RowHandle extends ReportElementHandle
+public class RowHandle extends ReportElementHandle implements ITableRowModel
 {
 
 	/**
@@ -100,7 +101,7 @@ public class RowHandle extends ReportElementHandle
 	 * iterator is the corresponding <code>StructureHandle</code> that deal
 	 * with a <code>Hide</code> in the list.
 	 * 
-	 * @return the iterator for visibility rules defined on this row. 
+	 * @return the iterator for visibility rules defined on this row.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
 	 */

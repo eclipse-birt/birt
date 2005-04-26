@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -28,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
  * @see org.eclipse.birt.report.model.elements.OdaDataSet
  */
 
-public class OdaDataSetHandle extends DataSetHandle
+public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 {
 
 	/**
@@ -362,10 +363,10 @@ public class OdaDataSetHandle extends DataSetHandle
 	public List getExtensionPropertyDefinitionList( )
 	{
 		if ( ( (OdaDataSet) getElement( ) ).getExtDefn( ) != null )
-			
+
 			return ( (OdaDataSet) getElement( ) ).getExtDefn( )
 					.getLocalProperties( );
-		
+
 		return Collections.EMPTY_LIST;
 	}
 }

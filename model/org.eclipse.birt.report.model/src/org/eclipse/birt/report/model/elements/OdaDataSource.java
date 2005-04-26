@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.extension.AddOnExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
@@ -29,21 +30,10 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Represents an extended data source.
  */
 
-public class OdaDataSource extends DataSource implements IExtendableElement
+public class OdaDataSource extends DataSource implements IExtendableElement, IOdaDataSourceModel
 {
 
-	/**
-	 * The property name of the name of a driver.
-	 */
-
-	public static final String DRIVER_NAME_PROP = "driverName"; //$NON-NLS-1$
-
-	/**
-	 * The property name of private driver properties.
-	 */
-
-	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
-
+	
 	/**
 	 * ODA data source can support extension. It has a unique name to identify
 	 * the extension. Using this name, BIRT can get the extension definition.

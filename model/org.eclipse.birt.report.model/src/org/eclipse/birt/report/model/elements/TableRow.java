@@ -20,39 +20,15 @@ import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * This class represents a row in a Grid or a table.
  * 
  */
 
-public class TableRow extends StyledElement
+public class TableRow extends StyledElement implements ITableRowModel
 {
-
-	/**
-	 * Name of the bookmark property. A bookmark to use as a target of links
-	 * within this report
-	 */
-
-	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
-
-	/**
-	 * Name of the height property.
-	 */
-
-	public static final String HEIGHT_PROP = "height"; //$NON-NLS-1$	
-
-	/**
-	 * Name of the visibility property.
-	 */
-
-	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
-
-	/**
-	 * Identifier of the slot that holds the cells in row.
-	 */
-
-	public static final int CONTENT_SLOT = 0;
 
 	/**
 	 * Holds the cells that reside directly on the row.

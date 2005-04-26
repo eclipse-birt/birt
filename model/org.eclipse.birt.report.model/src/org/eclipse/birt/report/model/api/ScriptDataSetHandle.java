@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 
 /**
  * Represents a script data set item. The scripted data set gives the report
@@ -27,6 +28,8 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
  */
 
 public class ScriptDataSetHandle extends DataSetHandle
+		implements
+			IScriptDataSetModel
 {
 
 	/**
@@ -91,7 +94,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 	{
 		setProperty( ScriptDataSet.DESCRIBE_METHOD, value );
 	}
-	
+
 	/**
 	 * Returns the script for providing the data for the next row from the
 	 * result set. When the data set has returned the last row from the result

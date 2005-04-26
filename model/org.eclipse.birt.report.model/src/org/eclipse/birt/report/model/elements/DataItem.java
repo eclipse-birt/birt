@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 
 /**
  * This class represents a data item element: one that displays the value of an
@@ -23,32 +24,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class DataItem extends ReportItem
+public class DataItem extends ReportItem implements IDataItemModel 
 {
-	/**
-	 * Name of the value expression property.
-	 */
-
-	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
-
-	/**
-	 * Name of the help text property.
-	 */
-
-	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
-
-	/**
-	 * Name of the help text key property.
-	 */
-
-	public static final String HELP_TEXT_KEY_PROP = "helpTextID"; //$NON-NLS-1$
-
-	/**
-	 * Name of the action property.
-	 */
 	
-    public static final String ACTION_PROP = "action"; //$NON-NLS-1$
-      
 	/**
 	 * Default constructor.
 	 */

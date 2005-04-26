@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -35,6 +36,8 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
  */
 
 public class ExtendedItemHandle extends ReportItemHandle
+		implements
+			IExtendedItemModel
 {
 
 	/**

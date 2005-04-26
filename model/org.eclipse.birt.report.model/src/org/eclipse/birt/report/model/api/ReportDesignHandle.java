@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 
@@ -125,6 +126,8 @@ import org.eclipse.birt.report.model.writer.DesignWriter;
  */
 
 public class ReportDesignHandle extends DesignElementHandle
+		implements
+			IReportDesignModel
 {
 
 	/**
@@ -835,7 +838,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            the config variable
 	 * @throws SemanticException
 	 *             if the name is empty or the same name exists.
-	 *  
+	 * 
 	 */
 
 	public void addConfigVariable( ConfigVariable configVar )
@@ -870,7 +873,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            the config variable name
 	 * @return the index ( from 0 ) of config variable with the given name.
 	 *         Return -1, if not found.
-	 *  
+	 * 
 	 */
 
 	private int findConfigVariablePos( String name )
@@ -926,7 +929,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            config variable name
 	 * @return config variable with the specified name. Return <code>null</code>,
 	 *         if not found.
-	 *  
+	 * 
 	 */
 
 	public ConfigVariable findConfigVariable( String name )
@@ -951,7 +954,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             if the old config variable is not found or the name of new
 	 *             one is empty.
-	 *  
+	 * 
 	 */
 
 	public void replaceConfigVariable( ConfigVariable oldVar,
@@ -1560,7 +1563,7 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	/**
 	 * Checks this whole report.
-	 *  
+	 * 
 	 */
 
 	public void checkReport( )
@@ -1579,7 +1582,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * 
 	 * @param baseName
 	 *            common base name of the customer-defined resource bundle.
-	 *  
+	 * 
 	 */
 
 	public void setMessageBaseName( String baseName )

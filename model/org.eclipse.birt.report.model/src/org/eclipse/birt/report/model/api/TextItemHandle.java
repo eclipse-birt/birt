@@ -16,15 +16,16 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 /**
  * Represents a text data item. The text item allows the developer to provide
  * the text as part of the report design. The text can be localized. Text can be
  * in HTML or plain text format.
- *  
+ * 
  */
 
-public class TextItemHandle extends ReportItemHandle
+public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 {
 
 	/**
@@ -55,32 +56,32 @@ public class TextItemHandle extends ReportItemHandle
 		return getStringProperty( TextItem.CONTENT_PROP );
 	}
 
+	/**
+	 * Returns the localized content for the text. If the localized text for the
+	 * text resource key is found, it will be returned. Otherwise, the static
+	 * text will be returned.
+	 * 
+	 * @return the localized content for the text.
+	 */
 
-    /**
-     * Returns the localized content for the text. If the localized text for the
-     * text resource key is found, it will be returned. Otherwise, the static
-     * text will be returned.
-     * 
-     * @return the localized content for the text.
-     */
+	public String getDisplayContent( )
+	{
+		String textKey = getStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP );
+		;
+		if ( !StringUtil.isBlank( textKey ) )
+		{
+			// find in report.
 
-    public String getDisplayContent( )
-    {
-        String textKey = getStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP );;
-        if( !StringUtil.isBlank( textKey ) )
-        {
-            // find in report.
-            
-            String localizedText = getDesign( ).getMessage( textKey );
-            if( ! StringUtil.isBlank( localizedText ) )
-                return localizedText;
-        }
-        
-        // use static text.
-            
-        return getStringProperty( TextItem.CONTENT_PROP );
-    }
-    
+			String localizedText = getDesign( ).getMessage( textKey );
+			if ( !StringUtil.isBlank( localizedText ) )
+				return localizedText;
+		}
+
+		// use static text.
+
+		return getStringProperty( TextItem.CONTENT_PROP );
+	}
+
 	/**
 	 * Sets the text for the text element.
 	 * 
@@ -134,7 +135,7 @@ public class TextItemHandle extends ReportItemHandle
 	 * @throws SemanticException
 	 *             if the value is not a valid choice item.
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
-	 *  
+	 * 
 	 */
 
 	public void setContentType( String contentType ) throws SemanticException

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * This class represents a column element within a table. If an element
@@ -35,26 +36,11 @@ import org.eclipse.birt.report.model.core.StyledElement;
  * <dt><strong>Alignment </strong></dt>
  * <dd>how to align items with the column: left, center or right.</dd>
  * </dl>
- *  
+ * 
  */
 
-public class TableColumn extends StyledElement
+public class TableColumn extends StyledElement implements ITableColumnModel
 {
-
-	/**
-	 * Name of the property that says how many columns are described by this
-	 * element.
-	 */
-
-	public static final String REPEAT_PROP = "repeat"; //$NON-NLS-1$
-
-	/**
-	 * Name of the width property of the column. If not width is provided, then
-	 * the column is variable-width and will resize to fit its content and the
-	 * width of the page.
-	 */
-
-	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$
 
 	/**
 	 * Default Constructor.

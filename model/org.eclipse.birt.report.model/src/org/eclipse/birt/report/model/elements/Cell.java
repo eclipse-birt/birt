@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -30,56 +31,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  *  
  */
 
-public class Cell extends StyledElement
+public class Cell extends StyledElement implements ICellModel
 {
-
-	/**
-	 * Name of the property that gives the column in which the cell starts.
-	 * Columns are numbered from 1.
-	 */
-
-	public static final String COLUMN_PROP = "column"; //$NON-NLS-1$
-
-	/**
-	 * Name of the property that gives the number of columns that this cell
-	 * spans. Defaults to 1, meaning that the cell appears in only one column.
-	 */
-
-	public static final String COL_SPAN_PROP = "colSpan"; //$NON-NLS-1$
-
-	/**
-	 * Name of the property that gives the number of rows that this cell spans.
-	 * Defaults to 1, meaning the cell appears in only one row. The row span is
-	 * used to create drop content within a table. The special value of -1 means
-	 * that the cell spans all rows for this particular table or group.
-	 */
-
-	public static final String ROW_SPAN_PROP = "rowSpan"; //$NON-NLS-1$
-
-	/**
-	 * Name of the drop property that gives the drop options for cells. Controls
-	 * how cells in one row overlap subsequent rows: None, detail or all.
-	 */
-
-	public static final String DROP_PROP = "drop"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the height property that gives the height of the cell.
-	 */
-
-	public static final String HEIGHT_PROP = "height"; //$NON-NLS-1$ 
-
-	/**
-	 * Name of the width property that gives the width of the cell.
-	 */
-
-	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$ 
-
-	/**
-	 * Identifier of the slot that holds the page decoration.
-	 */
-
-	public static final int CONTENT_SLOT = 0;
 
 	/**
 	 * Holds the report items that reside directly on the cell.

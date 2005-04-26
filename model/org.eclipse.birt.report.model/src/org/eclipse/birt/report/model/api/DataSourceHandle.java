@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 
 /**
  * This abstract class represents a data source element: a connection to an
@@ -24,10 +25,12 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * source events: open and close.
  * 
  * @see org.eclipse.birt.report.model.elements.DataSource
- *  
+ * 
  */
 
 public abstract class DataSourceHandle extends ReportElementHandle
+		implements
+			IDataSourceModel
 {
 
 	/**

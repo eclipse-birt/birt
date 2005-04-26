@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
 /**
  * Represents a script data source. Script data source is one that is defined in
@@ -30,6 +31,8 @@ import org.eclipse.birt.report.model.elements.ScriptDataSource;
  */
 
 public class ScriptDataSourceHandle extends DataSourceHandle
+		implements
+			IScriptDataSourceModel
 {
 
 	/**

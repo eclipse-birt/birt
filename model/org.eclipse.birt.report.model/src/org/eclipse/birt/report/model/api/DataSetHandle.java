@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 
 /**
  * Abstract handle for data set elements. A data set is a named object that
@@ -71,8 +72,10 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  *                    
  *                     
  *                      
- *                       DataSetHandle dataHandle = designHandle
- *                                		findDataSet( &quot;My First Data Set &quot; );
+ *                       
+ *                        DataSetHandle dataHandle = designHandle
+ *                                 		findDataSet( &quot;My First Data Set &quot; );
+ *                        
  *                       
  *                      
  *                     
@@ -111,6 +114,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public abstract class DataSetHandle extends ReportElementHandle
+		implements
+			IDataSetModel
 {
 
 	/**

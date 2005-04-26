@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 
 /**
  * Represents a group of parameters. A parameter group creates a visual grouping
@@ -24,6 +25,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public class ParameterGroupHandle extends ReportElementHandle
+		implements
+			IParameterGroupModel
 {
 
 	/**

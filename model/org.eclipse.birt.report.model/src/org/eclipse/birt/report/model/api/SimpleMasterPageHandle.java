@@ -15,14 +15,17 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
 /**
  * Represents a simple master page. The simple master page provides a header and
  * footer that appear on every page.
- *  
+ * 
  */
 
 public class SimpleMasterPageHandle extends MasterPageHandle
+		implements
+			ISimpleMasterPageModel
 {
 
 	/**

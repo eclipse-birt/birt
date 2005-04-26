@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
 /**
  * Represents a multi-line data item element. The multi-line data item displays
@@ -28,6 +29,8 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
  */
 
 public class TextDataHandle extends ReportItemHandle
+		implements
+			ITextDataItemModel
 {
 
 	/**
@@ -75,9 +78,9 @@ public class TextDataHandle extends ReportItemHandle
 
 	/**
 	 * Returns the expression that that defines the type of text the multi-line
-	 * data item holds. The content type can be one of Auto (default);
-	 * Plain: Plain text; HTML: HTML format; RTF: Rich Text Format;
-	 * Expression: an expression that returns one of the above strings.
+	 * data item holds. The content type can be one of Auto (default); Plain:
+	 * Plain text; HTML: HTML format; RTF: Rich Text Format; Expression: an
+	 * expression that returns one of the above strings.
 	 * 
 	 * @return the expression for the text type
 	 */
@@ -89,9 +92,9 @@ public class TextDataHandle extends ReportItemHandle
 
 	/**
 	 * Sets the expression that defines the text type this multi-line data item
-	 * holds. The content type can be one of Auto (default); Plain: Plain
-	 * text; HTML: HTML format; RTF: Rich Text Format; Expression: an
-	 * expression that returns one of the above strings.
+	 * holds. The content type can be one of Auto (default); Plain: Plain text;
+	 * HTML: HTML format; RTF: Rich Text Format; Expression: an expression that
+	 * returns one of the above strings.
 	 * 
 	 * @param expr
 	 *            the new expression for the text type
