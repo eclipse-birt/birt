@@ -166,6 +166,9 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
 			ContainerSlot header = group.getSlot( TableGroup.HEADER_SLOT );
 
+			if ( header.getCount( ) <= 0 )
+				continue;
+
 			// only gets the last row.
 
 			TableRow row = (TableRow) header
