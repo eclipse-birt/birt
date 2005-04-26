@@ -18,11 +18,13 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.commands.Command;
@@ -92,8 +94,7 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof ReportElementModel )
 		{
-			dropSourceSlotHandle( ( (ReportElementModel) source )
-					.getSlotHandle( ) );
+			dropSourceSlotHandle( ( (ReportElementModel) source ).getSlotHandle( ) );
 		}
 		else if ( source instanceof ListBandProxy )
 		{
@@ -113,7 +114,8 @@ public class DeleteCommand extends Command
 	{
 		try
 		{
-			SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
 					.dropImage( embeddedImage.getName( ) );
 		}
 		catch ( SemanticException e )
@@ -131,6 +133,14 @@ public class DeleteCommand extends Command
 			if ( handle instanceof CellHandle )
 			{
 				dropSourceSlotHandle( ( (CellHandle) handle ).getContent( ) );
+			}
+			else if ( handle instanceof RowHandle )
+			{
+				new DeleteRowCommand( handle ).execute( );
+			}
+			else if ( handle instanceof ColumnHandle )
+			{
+				new DeleteColumnCommand( handle ).execute( );
 			}
 			else
 			{
@@ -199,13 +209,12 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			return slot.getElementHandle( ) instanceof ListHandle;
 		}
-		else if( source instanceof EmbeddedImageHandle)
+		else if ( source instanceof EmbeddedImageHandle )
 		{
 			return true;
 		}
 		return source instanceof ReportElementHandle
 				&& !( source instanceof MasterPageHandle );
-				
 
 	}
 }
