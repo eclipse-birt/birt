@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -91,7 +92,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.20 $ $Date: 2005/04/12 05:26:21 $
+ * @version $Revision: 1.21 $ $Date: 2005/04/21 12:24:27 $
  */
 public class ReportQueryBuilder
 {
@@ -325,7 +326,8 @@ public class ReportQueryBuilder
 					item.setQueries(queries);
 					for ( int i = 0; i < queries.length; i++ )
 					{
-						if (queries[i] != null)
+						//only a regular query need add to list
+						if (queries[i] != null && queries[i] instanceof IQueryDefinition)
 						{
 							this.queries.add( queries[i] );
 						}
