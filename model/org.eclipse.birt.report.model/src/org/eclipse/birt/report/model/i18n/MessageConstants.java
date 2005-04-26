@@ -120,6 +120,7 @@ public interface MessageConstants
 	// SemanticError
 	public static final String SEMANTIC_ERROR_INVALID_COL_SPAN = "Error.SemanticError.INVALID_COL_SPAN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_OVERLAPPING_TABLE_CELLS = "Error.SemanticError.OVERLAPPING_TABLE_CELLS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_DROP_HEADINGS = "Error.SemanticError.INCONSITENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_SIZE = "Error.SemanticError.INVALID_PAGE_SIZE"; //$NON-NLS-1$

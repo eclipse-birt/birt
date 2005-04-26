@@ -15,11 +15,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -33,7 +39,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <h3>Applicability</h3>
  * This validator is only applied to <code>GridItem</code> and
  * <code>TableItem</code>.
- *  
+ * 
  */
 
 public class InconsistentColumnsValidator extends AbstractElementValidator
@@ -88,6 +94,8 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		if ( colDefnCount != maxCols && colDefnCount != 0 )
 		{
 			String errorCode = SemanticError.DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT;
+			if ( hasDroppingCell( element ) )
+				errorCode = SemanticError.DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT_WITH_DROP;
 
 			if ( element instanceof GridItem )
 				errorCode = SemanticError.DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT;
@@ -133,4 +141,50 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		return ( (TableItem) element ).findMaxCols( design );
 	}
 
+	/**
+	 * Checks whether there is any cell that has "drop" property.
+	 * 
+	 * @param element
+	 *            a grid or table element
+	 * @return <code>true</code> if any cell has the "drop" property,
+	 *         otherwise <code>false</code>.
+	 */
+
+	private boolean hasDroppingCell( DesignElement element )
+	{
+		if ( element instanceof GridItem )
+			return false;
+
+		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
+		int groupCount = groups.getCount( );
+
+		// check on group header by group header. From the outer to the
+		// inner-most.
+
+		for ( int groupIndex = 0; groupIndex < groupCount; groupIndex++ )
+		{
+			TableGroup group = (TableGroup) groups.getContent( groupIndex );
+			ContainerSlot header = group.getSlot( TableGroup.HEADER_SLOT );
+
+			// only gets the last row.
+
+			TableRow row = (TableRow) header
+					.getContent( header.getCount( ) - 1 );
+			ContainerSlot cells = row.getSlot( TableRow.CONTENT_SLOT );
+
+			for ( int cellIndex = 0; cellIndex < cells.getCount( ); cellIndex++ )
+			{
+				Cell cell = (Cell) cells.getContent( cellIndex );
+				String drop = (String) cell.getLocalProperty( null,
+						Cell.DROP_PROP );
+
+				if ( DesignChoiceConstants.DROP_TYPE_ALL
+						.equalsIgnoreCase( drop )
+						|| DesignChoiceConstants.DROP_TYPE_DETAIL
+								.equalsIgnoreCase( drop ) )
+					return true;
+			}
+		}
+		return false;
+	}
 }

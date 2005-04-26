@@ -33,6 +33,14 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT;
 
 	/**
+	 * Error code indicating the table has inconsistent column count because of
+	 * drop effects of some cells. The column count should match the maximum
+	 * cell count in header, detail, and foot slots.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT_WITH_DROP = MessageConstants.SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP;
+
+	/**
 	 * Error code indicating the grid has inconsistent column count. The column
 	 * count should match the maximum cell count in rows.
 	 */

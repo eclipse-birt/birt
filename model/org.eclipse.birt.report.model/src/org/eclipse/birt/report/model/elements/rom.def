@@ -361,6 +361,7 @@
     <Choice name="right" displayNameID="Choices.columnAlign.right" />
   </ChoiceType>
   <ChoiceType name="dateTimeFormat">
+    <Choice name="Unformatted" displayNameID="Choices.dateTimeFormat.unformatted" />        
 	<Choice name="General Date" displayNameID="Choices.dateTimeFormat.generalDate" />
     <Choice name="Long Date" displayNameID="Choices.dateTimeFormat.longDate" />
     <Choice name="Medium Date" displayNameID="Choices.dateTimeFormat.mediumDate" />
@@ -371,6 +372,7 @@
 	<Choice name="Custom" displayNameID="Choices.dateTimeFormat.custom" />    
   </ChoiceType>
   <ChoiceType name="numberFormat">
+    <Choice name="Unformatted" displayNameID="Choices.numberFormat.unformatted" />      
 	<Choice name="General Number" displayNameID="Choices.numberFormat.generalNumber" />
     <Choice name="Currency" displayNameID="Choices.numberFormat.currency" />
     <Choice name="Fixed" displayNameID="Choices.numberFormat.fixed" />

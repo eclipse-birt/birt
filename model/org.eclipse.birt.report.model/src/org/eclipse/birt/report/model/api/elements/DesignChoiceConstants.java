@@ -526,6 +526,7 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_NUMBER_FORMAT_TYPE = "numberFormat"; //$NON-NLS-1$
+	public static final String NUMBER_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$	
 	public static final String NUMBER_FORMAT_TYPE_GENERAL_NUMBER = "General Number"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_CURRENCY = "Currency"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_FIXED = "Fixed"; //$NON-NLS-1$
@@ -541,6 +542,7 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_DATETIME_FORMAT_TYPE = "dateTimeFormat"; //$NON-NLS-1$
+	public static final String DATETIEM_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$

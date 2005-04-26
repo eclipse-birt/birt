@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * Records adding a content into a container, or removing content from a
  * container. Removing a content from a container effectively deletes the
  * content from the report design .
- *  
+ * 
  */
 
 public class ContentRecord extends SimpleRecord
@@ -245,7 +245,8 @@ public class ContentRecord extends SimpleRecord
 			event = new ContentEvent( container, content, slotID,
 					ContentEvent.ADD );
 		else
-			event = new ContentEvent( container, slotID, ContentEvent.REMOVE );
+			event = new ContentEvent( container, content, slotID,
+					ContentEvent.REMOVE );
 
 		event.setInTransaction( transactionStarted );
 
@@ -260,42 +261,44 @@ public class ContentRecord extends SimpleRecord
 
 		container.broadcast( event );
 
-        // If the content was added, then send an element added
+		// If the content was added, then send an element added
 		// event to the content.
 
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
 		{
 			if ( isSelector( content ) )
 				content.broadcast( event, container.getRoot( ) );
-            
+
 			return;
 		}
-		    
-        // Broadcast to the content element of the deleted event.
-		
-        event = new ElementDeletedEvent( content );
+
+		// Broadcast to the content element of the deleted event.
+
+		event = new ElementDeletedEvent( content );
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 		content.broadcast( event, container.getRoot( ) );
 
-        // If element is dropped, clear up the listeners registered on the element. 
-	
-        if( !add && state != UNDONE_STATE || add && state == UNDONE_STATE )
-        	content.clearListeners( );
+		// If element is dropped, clear up the listeners registered on the
+		// element.
+
+		if ( !add && state != UNDONE_STATE || add && state == UNDONE_STATE )
+			content.clearListeners( );
 	}
 
-    /**
-     * Indicate whether the given <code>content</code> is a CSS-selecter.
-     * 
-     * @param content a given design element
-     * @return <code>true</code> if it is a predefined style.
-     */
-    
+	/**
+	 * Indicate whether the given <code>content</code> is a CSS-selecter.
+	 * 
+	 * @param content
+	 *            a given design element
+	 * @return <code>true</code> if it is a predefined style.
+	 */
+
 	private boolean isSelector( DesignElement content )
 	{
-        if( ! ( content instanceof StyleElement ) )
-            return false;
-        
+		if ( !( content instanceof StyleElement ) )
+			return false;
+
 		return MetaDataDictionary.getInstance( ).getPredefinedStyle(
 				content.getName( ) ) != null;
 	}
