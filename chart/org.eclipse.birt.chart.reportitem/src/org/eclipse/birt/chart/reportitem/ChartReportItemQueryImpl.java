@@ -9,8 +9,6 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -76,13 +74,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - start");
         
         // BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
-        final QueryDefinition qd = new QueryDefinition((BaseQueryDefinition) ibqdParent);
         RunTimeContext rtc = new RunTimeContext();
-        // rtc.setLocale(?);
-        
+        //rtc.setLocale(?);
+        IBaseQueryDefinition ibqd = null;
         try
         {
-            QueryHelper.instance(rtc).build(eih, qd, cm);
+            ibqd = QueryHelper.instance(rtc).build(eih, ibqdParent, cm);
         }
         catch (Exception gex )
         {
@@ -92,7 +89,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
             throw new BirtException("getReportQueries", gex);
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - end");
-        return new IBaseQueryDefinition[] { qd };
+        return new IBaseQueryDefinition[] { ibqd };
     }
 
 }
