@@ -180,7 +180,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param data
 	 *            the column band data to paste
 	 * @param columnIndex
-	 *            the column index
+	 *            the column index from 1 to the number of columns in the table
 	 * @param inForce
 	 *            <code>true</code> indicates to paste the column regardless
 	 *            of the different layout of cells. <code>false</code>
@@ -223,7 +223,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param data
 	 *            the data of a column band to paste
 	 * @param columnNumber
-	 *            the column number
+	 *            the column index from 1 to the number of columns in the table
 	 * @param inForce
 	 *            <code>true</code> if pastes the column regardless of the
 	 *            warning. Otherwise <code>false</code>.
@@ -246,7 +246,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param data
 	 *            the data of a column band to paste
 	 * @param columnNumber
-	 *            the column number
+	 *            the column index from 0 to the number of columns in the table
 	 * @throws SemanticException
 	 */
 
@@ -269,7 +269,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param data
 	 *            the column band data to paste
 	 * @param columnIndex
-	 *            the column index
+	 *            the column index from 0 to the number of columns in the table
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */

@@ -175,7 +175,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * @param data
 	 *            the data of a column band to paste
 	 * @param columnNumber
-	 *            the column number
+	 *            the column index from 1 to the number of columns in the grid
 	 * @param inForce
 	 *            <code>true</code> if pastes the column regardless of the
 	 *            warning. Otherwise <code>false</code>.
@@ -199,7 +199,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * @param data
 	 *            the column band data to paste
 	 * @param columnIndex
-	 *            the column index
+	 *            the column index from 1 to the number of columns in the grid
 	 * @param inForce
 	 *            <code>true</code> indicates to paste the column regardless
 	 *            of the different layout of cells. <code>false</code>
@@ -223,19 +223,19 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * 
 	 * @param data
 	 *            the data of a column band to paste
-	 * @param columnNumber
-	 *            the column number
+	 * @param columnIndex
+	 *            the column index from 0 to the number of columns in the grid
 	 * @throws SemanticException
 	 */
 
-	public void insertAndPasteColumn( ColumnBandData data, int columnNumber )
+	public void insertAndPasteColumn( ColumnBandData data, int columnIndex )
 			throws SemanticException
 	{
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
 
 		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
-		adapter.insertAndPasteColumnBand( this, columnNumber );
+		adapter.insertAndPasteColumnBand( this, columnIndex );
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * @param data
 	 *            the column band data to paste
 	 * @param columnIndex
-	 *            the column index
+	 *            the column index from 0 to the number of columns in the grid
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */

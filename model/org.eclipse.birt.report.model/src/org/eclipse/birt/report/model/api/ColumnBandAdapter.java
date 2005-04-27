@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -197,14 +198,23 @@ abstract class ColumnBandAdapter
 	protected boolean canInsertAndPaste( int columnIndex )
 	{
 		int columnCount = getColumnCount( );
-		if ( columnIndex >= columnCount )
-			return true;
+		int targetColumnIndex = columnIndex + 1;
 
-		int targetColumnIndex = columnIndex++;
-		List originalCells = getCellsContextInfo( getCellsUnderColumn( targetColumnIndex ) );
+		List originalCells = null;
 
-		if ( !isValidInsertAndPasteArea( originalCells ) )
-			return false;
+		if ( targetColumnIndex > columnCount )
+		{
+			// for this case, we only focus on the slot layout information, no
+			// sense to check the row number
+
+			originalCells = getCellsContextInfo( getCellsUnderColumn( 1 ) );
+		}
+		else
+		{
+			originalCells = getCellsContextInfo( getCellsUnderColumn( targetColumnIndex ) );
+			if ( !isValidInsertAndPasteArea( originalCells ) )
+				return false;
+		}
 
 		List cells = data.getCells( );
 		try
@@ -469,6 +479,12 @@ abstract class ColumnBandAdapter
 			return;
 		}
 
+		if ( isInsert && columnNumber == 0 )
+		{
+			columns.add( column.handle( getDesign( ) ), 0 );
+			return;
+		}
+
 		targetColumn = ColumnHelper.findColumn( getDesign( ),
 				columns.getSlot( ), columnNumber );
 
@@ -698,35 +714,23 @@ abstract class ColumnBandAdapter
 	protected void pasteCells( List copiedCells, List originalCells,
 			int columnIndex, boolean isInsert ) throws SemanticException
 	{
-		int[] originalPositions = new int[originalCells.size( )];
-		int[] originalRowSpans = new int[originalCells.size( )];
+
+		// insert column index that is from 1. this must happen before removing
+		// operation.
+
+		int[] insertPosition = getInsertPosition( copiedCells, originalCells,
+				columnIndex, isInsert );
 
 		// remove cells first.
 
-		for ( int i = 0; i < originalCells.size( ); i++ )
+		for ( int i = 0; !isInsert && i < originalCells.size( ); i++ )
 		{
 			CellContextInfo contextInfo = (CellContextInfo) originalCells
 					.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
-
-			originalPositions[i] = findCellPosition( cell );
-			originalRowSpans[i] = contextInfo.getRowSpan( );
-
 			if ( !isInsert )
 				cell.getContainerSlotHandle( ).drop( cell );
 		}
-
-		int[] copiedRowSpans = new int[copiedCells.size( )];
-		for ( int i = 0; i < copiedCells.size( ); i++ )
-		{
-			CellContextInfo contextInfo = (CellContextInfo) copiedCells.get( i );
-			copiedRowSpans[i] = contextInfo.getRowSpan( );
-		}
-
-		// insert column index that is from 1.
-
-		int[] insertPosition = getIndexToAdd( originalPositions,
-				originalRowSpans, copiedRowSpans );
 
 		// adds the copied cells to the destination.
 
@@ -751,8 +755,83 @@ abstract class ColumnBandAdapter
 			if ( !isInsert )
 				pos--;
 
-			row.addElement( cell, TableRow.CONTENT_SLOT, pos );
+			if ( pos != -1 )
+				row.addElement( cell, TableRow.CONTENT_SLOT, pos );
+			else
+				row.addElement( cell, TableRow.CONTENT_SLOT );
 		}
+	}
+
+	/**
+	 * Returns insert positions of <code>copiedCells</code>. Each element in
+	 * the return value is an integer, which can be
+	 * 
+	 * <ul>
+	 * <li>0 -- insert to the beginning of row
+	 * <li>an integer between 0 and the maximal position
+	 * <li>-1 -- insert to the end of the row
+	 * </ul>
+	 * 
+	 * @param copiedCells
+	 *            a list containing cells that is to be inserted.
+	 * @param originalCells
+	 *            a list containing cells that is to be deleted.
+	 * @param columnIndex
+	 *            the column index where copied cells are pasted
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert and paste action.
+	 *            Otherwise <code>false</code>.
+	 * 
+	 * @return an array containg insert positions
+	 */
+
+	private int[] getInsertPosition( List copiedCells, List originalCells,
+			int columnIndex, boolean isInsert )
+	{
+		// insert column index that is from 1.
+
+		int[] insertPosition = null;
+
+		int columnCount = getColumnCount( );
+		if ( isInsert && ( columnIndex == 0 || columnIndex == columnCount - 1 ) )
+		{
+			insertPosition = new int[copiedCells.size( )];
+
+			if ( columnIndex == 0 )
+				Arrays.fill( insertPosition, 0 );
+			else
+				Arrays.fill( insertPosition, -1 );
+		}
+		else
+		{
+			int[] copiedRowSpans = new int[copiedCells.size( )];
+			int[] originalPositions = new int[originalCells.size( )];
+			int[] originalRowSpans = new int[originalCells.size( )];
+
+			// remove cells first.
+
+			for ( int i = 0; i < originalCells.size( ); i++ )
+			{
+				CellContextInfo contextInfo = (CellContextInfo) originalCells
+						.get( i );
+				CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
+
+				originalPositions[i] = findCellPosition( cell );
+				originalRowSpans[i] = contextInfo.getRowSpan( );
+			}
+
+			for ( int i = 0; i < copiedCells.size( ); i++ )
+			{
+				CellContextInfo contextInfo = (CellContextInfo) copiedCells
+						.get( i );
+				copiedRowSpans[i] = contextInfo.getRowSpan( );
+			}
+
+			insertPosition = getIndexToAdd( originalPositions,
+					originalRowSpans, copiedRowSpans );
+		}
+
+		return insertPosition;
 	}
 
 	/**
@@ -769,7 +848,7 @@ abstract class ColumnBandAdapter
 	 * @return a list containing insert positions of copied cells.
 	 */
 
-	protected static int[] getIndexToAdd( int[] originalPositions,
+	private static int[] getIndexToAdd( int[] originalPositions,
 			int[] originalRowSpans, int[] copiedRowSpans )
 	{
 		int[] retValue = new int[copiedRowSpans.length];
