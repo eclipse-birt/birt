@@ -48,6 +48,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -262,6 +263,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( firstSelectedElement instanceof ColumnHandle )
 			{
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						new InsertPasteColumnAction( selectedElements ) );
 				if ( getColumnHandles( ).size( ) != 0 )
 				{
 					MenuManager subMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
