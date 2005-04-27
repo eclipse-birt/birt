@@ -2420,18 +2420,6 @@
     <StyleProperty name="paddingLeft" />
     <StyleProperty name="paddingBottom" />
     <StyleProperty name="paddingRight" />
-    <StyleProperty name="borderTopWidth" />
-    <StyleProperty name="borderTopStyle" />
-    <StyleProperty name="borderTopColor" />
-    <StyleProperty name="borderBottomWidth" />
-    <StyleProperty name="borderBottomStyle" />
-    <StyleProperty name="borderBottomColor" />
-    <StyleProperty name="borderLeftWidth" />
-    <StyleProperty name="borderLeftStyle" />
-    <StyleProperty name="borderLeftColor" />
-    <StyleProperty name="borderRightWidth" />
-    <StyleProperty name="borderRightStyle" />
-    <StyleProperty name="borderRightColor" />
     <StyleProperty name="dateTimeFormat" />
     <StyleProperty name="numberFormat" />
     <StyleProperty name="numberAlign" />
@@ -2449,8 +2437,20 @@
   <Element name="Row" javaClass="org.eclipse.birt.report.model.elements.TableRow" displayNameID="Element.Row" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
     <Property name="visibility" displayNameID="Element.Row.visibility" type="structure" isList="true" detailType="Hide" />
     <Property name="height" displayNameID="Element.Row.height" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" />
+    <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" />    
     <PropertyVisibility name="bookmark" propertyVisibility="hide" />      
+    <PropertyVisibility name="borderTopColor" propertyVisibility="hide" />          
+    <PropertyVisibility name="borderTopStyle" propertyVisibility="hide" />              
+    <PropertyVisibility name="borderTopWidth" propertyVisibility="hide" />             
+    <PropertyVisibility name="borderLeftColor" propertyVisibility="hide" />          
+    <PropertyVisibility name="borderLeftStyle" propertyVisibility="hide" />              
+    <PropertyVisibility name="borderLeftWidth" propertyVisibility="hide" />                  
+    <PropertyVisibility name="borderRightColor" propertyVisibility="hide" />          
+    <PropertyVisibility name="borderRightStyle" propertyVisibility="hide" />              
+    <PropertyVisibility name="borderRightWidth" propertyVisibility="hide" />                  
+    <PropertyVisibility name="borderBottomColor" propertyVisibility="hide" />          
+    <PropertyVisibility name="borderBottomStyle" propertyVisibility="hide" />              
+    <PropertyVisibility name="borderBottomWidth" propertyVisibility="hide" />                           
     <Slot name="cell" displayNameID="Element.Row.slot.cell" multipleCardinality="true">
       <Type name="Cell" />
       <Trigger validator="CellOverlappingValidator"/>
@@ -2539,8 +2539,6 @@
     <StyleProperty name="fontWeight" />
     <StyleProperty name="fontStyle" />
     <StyleProperty name="fontVariant" />
-    <StyleProperty name="letterSpacing" />
-    <StyleProperty name="lineHeight" />
     <StyleProperty name="marginTop" />
     <StyleProperty name="marginBottom" />
     <StyleProperty name="marginLeft" />
@@ -2553,10 +2551,10 @@
     <StyleProperty name="pageBreakAfter" />
     <StyleProperty name="pageBreakBefore" />
     <StyleProperty name="showIfBlank" />
+    <StyleProperty name="textAlign" />
     <StyleProperty name="textUnderline" />
     <StyleProperty name="textOverline" />
     <StyleProperty name="textLineThrough" />
-    <StyleProperty name="textTransform" />
     <StyleProperty name="verticalAlign" />
   </Element>
   <Element name="Grid" javaClass="org.eclipse.birt.report.model.elements.GridItem" displayNameID="Element.Grid" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="grid">
