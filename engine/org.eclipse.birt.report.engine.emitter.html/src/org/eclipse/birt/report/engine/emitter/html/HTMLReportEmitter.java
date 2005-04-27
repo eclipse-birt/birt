@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,23 +22,23 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.api.IEmitterServices;
-import org.eclipse.birt.report.engine.api.IHyperlinkProcessor;
-import org.eclipse.birt.report.engine.api.IViewHTMLOptions;
-import org.eclipse.birt.report.engine.api.IViewOptions;
+import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.RenderOptionBase;
+import org.eclipse.birt.report.engine.api.impl.IEmitterServices;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
-import org.eclipse.birt.report.engine.emitter.DefaultHyperlinkProcessor;
-import org.eclipse.birt.report.engine.emitter.EmbeddedHyperlinkProcessor;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
-import org.eclipse.birt.report.engine.resource.IRepository;
-import org.eclipse.birt.report.engine.resource.ResourceManager;
 
 /**
  * <code>HTMLReportEmitter</code> is a concrete class that implements
@@ -42,7 +46,7 @@ import org.eclipse.birt.report.engine.resource.ResourceManager;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/04/08 05:20:28 $
+ * @version $Revision: 1.22 $ $Date: 2005/04/21 01:56:10 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -53,22 +57,28 @@ public class HTMLReportEmitter implements IReportEmitter
 
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 
-	protected String targetFile = null;
+	protected OutputStream out = null;
 	/**
 	 * The <code>Report</code> object.
 	 */
 	protected IReportContent report;
+	
+	protected IReportRunnable runnable;
+	
+	protected IRenderOption renderOption;
 
 	/**
 	 * Specifies if the HTML output is embeddable.
 	 */
-	protected boolean isEmbeddable;
+	protected boolean isEmbeddable = false;
 
 	/**
 	 * The
 	 * <code>HTMLWriter<code> object that Emitters use to output HTML content.
 	 */
 	protected HTMLWriter writer;
+	
+	protected Object renderContext;
 
 	/**
 	 * The <code>HTMLImageEmitter</code> object that outputs image content.
@@ -109,25 +119,18 @@ public class HTMLReportEmitter implements IReportEmitter
 	protected static Logger logger = Logger.getLogger( HTMLReportEmitter.class
 			.getName( ) );
 
-	/**
-	 * A resource manager.
-	 */
-	protected ResourceManager resourceManager;
 
-	/**
-	 * A <code>IHyperlinkProcessor</code> object that customizes hyperlink.
-	 */
-	protected IHyperlinkProcessor hyperlinkProcessor;
+	protected IHTMLImageHandler imageHandler;
+	protected IHTMLActionHandler actionHandler;
+
+
 
 	/**
 	 * emitter services
 	 */
 	protected IEmitterServices services;
 
-	/**
-	 * Dow e need to save image files in temp location?
-	 */
-	protected boolean saveImgFile = false;
+
 
 	/**
 	 * A <code>HashMap</code> object that maps a style name to actual output
@@ -151,28 +154,66 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void initialize( IEmitterServices services )
 	{
 		this.services = services;
-		IRepository repository = services.getRepository( );
-		saveImgFile = ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE );
-
-		targetFile = services.getOption( IViewOptions.TARGET_FILENAME );
-		if ( targetFile == null )
+		Object value = services.getOption( RenderOptionBase.OUTPUT_STREAM );
+		if(value!=null && value instanceof OutputStream)
 		{
-			targetFile = REPORT_FILE;
+			out = (OutputStream)value;
+		}
+		Object fd = services.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
+		File file = null;
+		try
+		{
+			if(fd!=null)
+			{
+				file = new File(fd.toString());
+				out = new BufferedOutputStream( new FileOutputStream( file ) );
+			}
+			else
+			{
+				if(out==null)
+				{
+					//FIXME
+					file = new File(REPORT_FILE) ;
+					out = new BufferedOutputStream( new FileOutputStream( file ) );
+				}
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			// FIXME
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		
+		Object emitterConfig = services.getEmitterConfig().get("html"); //$NON-NLS-1$
+		if(emitterConfig!=null && emitterConfig instanceof HTMLEmitterConfig)
+		{
+			imageHandler = ((HTMLEmitterConfig)emitterConfig).getImageHandler();
+			actionHandler = ((HTMLEmitterConfig)emitterConfig).getActionHandler();
+		}
+		
+		Object im = services.getOption(HTMLRenderOption.IMAGE_HANDLER);
+		if(im!=null && im instanceof IHTMLImageHandler)
+		{
+			imageHandler = (IHTMLImageHandler)im;
+		}
+		
+		Object ac = services.getOption(HTMLRenderOption.ACTION_HANDLER);
+		if(ac!=null && ac instanceof IHTMLActionHandler)
+		{
+			actionHandler = (IHTMLActionHandler)ac;
+		}
+				
+		renderContext = services.getRenderContext();
+		renderOption = services.getRenderOption();
+		runnable = services.getReportRunnable();
+		HTMLRenderOption renderOption = (HTMLRenderOption)services.getRenderOption();
+		if(renderOption!=null)
+		{
+			isEmbeddable = renderOption.getEmbeddable();
 		}
 
-		isEmbeddable = IViewHTMLOptions.HTML_NOCSS.equalsIgnoreCase( services
-				.getOption( IViewHTMLOptions.HTML_TYPE ) );
-
 		writer = new HTMLWriter( );
-
-		resourceManager = new ResourceManager( repository );
-
-		if ( services.getEngineMode( ) == IEmitterServices.ENGINE_EMBEDDED_MODE )
-			hyperlinkProcessor = new EmbeddedHyperlinkProcessor( services
-					.getServletURL( ), services.getReportName( ), services
-					.getLocale( ) );
-		else if ( services.getEngineMode( ) == IEmitterServices.ENGINE_STANDALONE_MODE )
-			hyperlinkProcessor = new DefaultHyperlinkProcessor( );
 
 		imageEmitter = new HTMLImageEmitter( this, isEmbeddable );
 		pageSetupEmitter = new HTMLPageSetupEmitter( this, isEmbeddable );
@@ -189,21 +230,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		return writer;
 	}
 
-	/**
-	 * @return The hyperlink transformation object.
-	 */
-	public IHyperlinkProcessor getHyperlinkBuilder( )
-	{
-		return hyperlinkProcessor;
-	}
 
-	/**
-	 * @return The resource manager.
-	 */
-	public ResourceManager getResourceManager( )
-	{
-		return resourceManager;
-	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -283,8 +311,6 @@ public class HTMLReportEmitter implements IReportEmitter
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 
 		this.report = report;
-
-		OutputStream out = this.resourceManager.openOutputStream( targetFile );
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
 
 		if ( isEmbeddable )
@@ -497,13 +523,6 @@ public class HTMLReportEmitter implements IReportEmitter
 		return ( (Boolean) stack.peek( ) ).booleanValue( );
 	}
 
-	/**
-	 * @return the <code>saveImgFile</code> flag.
-	 */
-	public boolean needSaveImgFile( )
-	{
-		return saveImgFile;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -522,6 +541,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public String getOutputFormat( )
 	{
+		// TODO Auto-generated method stub
 		return OUTPUT_FORMAT_HTML;
 	}
 
@@ -568,4 +588,5 @@ public class HTMLReportEmitter implements IReportEmitter
 		writer.writeCode( "      }" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
+
 }
