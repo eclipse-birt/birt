@@ -106,10 +106,10 @@ public class ReportEngine {
 	 * @throws EngineException throwed when the input stream is null, or the 
 	 * stream does not yield a valid report design
 	 */
-	public IReportRunnable openReportDesign(DesignElementHandle designHandle) throws EngineException
+	/*public IReportRunnable openReportDesign(DesignElementHandle designHandle) throws EngineException
 	{
 		return helper.openReportDesign(designHandle);
-	}
+	}*/
 	
 	/**
 	 * creates an engine task for running and rendering report directly to
