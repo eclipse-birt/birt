@@ -350,11 +350,17 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			IChoice[] choices = set.getChoices( );
 			if ( choices.length > 0 )
 			{
-				choiceArray = new String[choices.length][2];
-				for ( int i = 0; i < choices.length; i++ )
+				// excludes "unformatted" category.
+				choiceArray = new String[choices.length - 1][2];
+				for ( int i = 0, j = 0; i < choices.length; i++ )
 				{
-					choiceArray[i][0] = choices[i].getDisplayName( );
-					choiceArray[i][1] = choices[i].getName( );
+					if ( !choices[i].getName( )
+							.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) )
+					{
+						choiceArray[j][0] = choices[i].getDisplayName( );
+						choiceArray[j][1] = choices[i].getName( );
+						j++;
+					}
 				}
 			}
 			else

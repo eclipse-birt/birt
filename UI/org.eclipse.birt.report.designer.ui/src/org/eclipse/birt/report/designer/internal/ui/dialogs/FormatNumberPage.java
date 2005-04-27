@@ -242,11 +242,14 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			IChoice[] choices = set.getChoices( );
 			if ( choices.length > 0 )
 			{
-				choiceArray = new String[choices.length - 1][2];
+				// excludes "standard" and "unformatted" category.
+				choiceArray = new String[choices.length - 2][2];
 				for ( int i = 0, j = 0; i < choices.length; i++ )
 				{
 					if ( !choices[i].getName( )
-							.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD ) )
+							.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD )
+							&& !choices[i].getName( )
+									.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED ) )
 					{
 						choiceArray[j][0] = choices[i].getDisplayName( );
 						choiceArray[j][1] = choices[i].getName( );
