@@ -937,18 +937,11 @@ public class DEUtil
 			}
 			else if ( transferData instanceof ColumnBandData )
 			{
-				if (targetObj instanceof ColumnHandle)
+				if ( targetObj instanceof ColumnHandle )
 				{
-					int columnNumber = HandleAdapterFactory.getInstance().getColumnHandleAdapter(targetObj).getColumnNumber();
-					Object parent = ((ColumnHandle)targetObj).getContainer();
-					if (parent instanceof TableHandle)
-					{
-						return ((TableHandle)parent).canPasteColumn((ColumnBandData)transferData ,columnNumber, true)?CONTAIN_PARENT:CONTAIN_NO;		
-					}
-					else if (parent instanceof GridHandle)
-					{
-						return ((GridHandle)parent).canPasteColumn((ColumnBandData)transferData ,columnNumber, true)?CONTAIN_PARENT:CONTAIN_NO;
-					}
+					return handleValidateContainColumnPaste( (ColumnHandle) targetObj,
+							(ColumnBandData) transferData,
+							false ) ? CONTAIN_PARENT : CONTAIN_NO;
 				}
 				return CONTAIN_NO;
 			}
@@ -975,6 +968,49 @@ public class DEUtil
 				return CONTAIN_NO;
 			}
 		}
+	}
+	
+	/**
+	 * Validates target column can paste another column.
+	 * 
+	 * @param targetObj
+	 *            target table/grid column
+	 * @param transferData
+	 *            copy data of table/grid column
+	 * @param isNew
+	 *            true: insert and paste; false: override and paste
+	 * @return can paste
+	 */
+	public static boolean handleValidateContainColumnPaste(
+			ColumnHandle targetObj, ColumnBandData transferData, boolean isNew )
+	{
+		int columnNumber = HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( targetObj )
+				.getColumnNumber( );
+		Object parent = targetObj.getContainer( );
+		if ( parent instanceof TableHandle )
+		{
+			if ( isNew )
+			{
+				return ( (TableHandle) parent ).canInsertAndPasteColumn( transferData,
+						columnNumber );
+			}
+			return ( (TableHandle) parent ).canPasteColumn( transferData,
+					columnNumber,
+					true );
+		}
+		else if ( parent instanceof GridHandle )
+		{
+			if ( isNew )
+			{
+				return ( (GridHandle) parent ).canInsertAndPasteColumn( transferData,
+						columnNumber );
+			}
+			return ( (GridHandle) parent ).canPasteColumn( transferData,
+					columnNumber,
+					true );
+		}
+		return false;
 	}
 
 	protected static int handleValidateTargetCanContainByContainer(
