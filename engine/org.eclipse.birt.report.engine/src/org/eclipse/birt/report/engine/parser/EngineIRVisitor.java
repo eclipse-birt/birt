@@ -128,7 +128,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/04/12 07:11:09 $
+ * @version $Revision: 1.23 $ $Date: 2005/04/27 03:11:13 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -420,6 +420,7 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitParameterGroup( ParameterGroupHandle handle )
 	{
 		ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+		paramGroup.setParameterType(IParameterDefnBase.PARAMETER_GROUP);
 		paramGroup.setName(handle.getName());
 		paramGroup.setDisplayName( handle.getDisplayName( ) );
 		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
@@ -443,6 +444,7 @@ class EngineIRVisitor extends DesignVisitor
 		assert ( handle.getName( ) != null );
 		// Create Parameter
 		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
+		scalarParameter.setParameterType(IParameterDefnBase.SCALAR_PARAMETER);
 		scalarParameter.setName(handle.getName());
 		String align = handle.getAlignment();
 		if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align))
