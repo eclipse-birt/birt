@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.lang.reflect.Constructor;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -42,9 +43,11 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.metadata.AddOnExtensionLoader;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 
 /**
  * Creates a new report elements and returns handles to it. Use this to create
@@ -79,7 +82,8 @@ public class ElementFactory
 
 	/**
 	 * Creates a design element specified by the element type name. Element type
-	 * names are defined in rom.def and are managed by the meta-data system.
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
 	 * 
 	 * @param elementTypeName
 	 *            the element type name
@@ -130,6 +134,45 @@ public class ElementFactory
 			// Impossible.
 
 			assert false;
+		}
+
+		return newExtensionElement( elementTypeName, name );
+	}
+
+	/**
+	 * Creates an extension element specified by the extension type name.
+	 * 
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the extension
+	 *         with the given type name is not found
+	 */
+
+	private DesignElementHandle newExtensionElement( String elementTypeName,
+			String name )
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( elementTypeName );
+		if ( extDefn == null )
+			return null;
+		String extensionPoint = extDefn.getExtensionPoint( );
+		if ( PeerExtensionLoader.EXTENSION_POINT
+				.equalsIgnoreCase( extensionPoint ) )
+			return newExtendedItem( name, elementTypeName );
+
+		else if ( AddOnExtensionLoader.EXTENSION_POINT
+				.equalsIgnoreCase( extensionPoint ) )
+		{
+			if ( ReportDesignConstants.ODA_DATA_SET.equalsIgnoreCase( extDefn
+					.getExtends( ) ) )
+				return newOdaDataSet( name, elementTypeName );
+			else if ( ReportDesignConstants.ODA_DATA_SOURCE
+					.equalsIgnoreCase( extDefn.getExtends( ) ) )
+				return newOdaDataSource( name, elementTypeName );
 		}
 
 		return null;
@@ -678,8 +721,10 @@ public class ElementFactory
 	 * 
 	 * @param name
 	 *            the required oda data source name.
+	 * @param extensionName
+	 *            the element name of the extension
 	 * @return a handle to oda data source
-	 * 
+	 *  
 	 */
 
 	public OdaDataSourceHandle newOdaDataSource( String name,
@@ -729,8 +774,10 @@ public class ElementFactory
 	 * 
 	 * @param name
 	 *            the required oda data set name.
+	 * @param extensionName
+	 *            the element name of the extension
 	 * @return a handle to oda data set
-	 * 
+	 *  
 	 */
 
 	public OdaDataSetHandle newOdaDataSet( String name, String extensionName )

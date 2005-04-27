@@ -73,5 +73,15 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		return false;
 	}
+	
+	/**
+	 * Gets the extension point of this extension element.
+	 * @return the extension point of this extension element
+	 */
+	
+	public String getExtensionPoint( )
+	{
+		return this.extensionPoint;
+	}
 
 }
