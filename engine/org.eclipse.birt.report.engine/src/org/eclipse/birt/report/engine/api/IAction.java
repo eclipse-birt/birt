@@ -23,7 +23,7 @@ import java.util.Map;
  * added later if it deems necessary.
  *  
  */
-public interface IAction extends IReportItem
+public interface IAction extends IReportPart
 {
 
 	/**

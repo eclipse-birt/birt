@@ -18,7 +18,7 @@ import java.io.InputStream;
 /**
  * Defines an image
  */
-public interface IImage extends IReportItem {
+public interface IImage extends IReportPart {
 	
 	public final static int DESIGN_IMAGE = 0;
 	public final static int REPORTDOC_IMAGE = 1;

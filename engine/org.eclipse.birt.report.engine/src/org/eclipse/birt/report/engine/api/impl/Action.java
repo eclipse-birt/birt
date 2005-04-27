@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.IReportItem;
+import org.eclipse.birt.report.engine.api.IReportPart;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.content.impl.ActionContent;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class Action implements IAction, IReportItem
+public class Action implements IAction, IReportPart
 {
 
 	protected IHyperlinkAction content;
