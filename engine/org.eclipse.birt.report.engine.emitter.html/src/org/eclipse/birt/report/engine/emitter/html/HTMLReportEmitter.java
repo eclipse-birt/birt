@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
-import org.eclipse.birt.report.engine.api.impl.IEmitterServices;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
@@ -38,6 +37,7 @@ import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
+import org.eclipse.birt.report.engine.extension.IEmitterServices;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 
 /**
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/04/27 03:12:15 $
+ * @version $Revision: 1.24 $ $Date: 2005/04/27 05:35:26 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {

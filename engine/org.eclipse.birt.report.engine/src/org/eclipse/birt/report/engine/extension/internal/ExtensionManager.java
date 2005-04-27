@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemQuery;
  */
 public class ExtensionManager
 {
-	public final static String EXTENSION_POINT_EMITTER = "org.eclipse.birt.report.engine.emitterSet";	
+	public final static String EXTENSION_POINT_EMITTER = "org.eclipse.birt.report.engine.emitters";	
 	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; 
 	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation";
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery";

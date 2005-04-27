@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.extension.EngineEmitterServices;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
@@ -73,6 +74,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		Collection paramDefns = ((ReportRunnable)runnable).getParameterDefns(false);
 		evaluateDefaults(paramDefns);
+		//combine the values
+		defaultValues.putAll(parameterValues);
 		Iterator iter = paramDefns.iterator();
 		while(iter.hasNext())
 		{
@@ -81,13 +84,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			String paramName = paramHandle.getName( );
 			assert paramName != null;
 			
-			Object paramValue = parameterValues.get( paramName );
+			Object paramValue = defaultValues.get(paramName);
 
-			if(paramValue==null)
-			{
-				paramValue = defaultValues.get(paramName);
-			}
-			
 			if ( ! validateParameter( paramHandle, paramValue ) )
 			{
 				return false;
@@ -125,7 +123,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		//regiest default parameter
 		if(defaultValues!=null)
 		{
-			executionContext.registerBeans(defaultValues);
+			executionContext.registerBean("params", defaultValues); //$NON-NLS-1$
 		}
 		//setup runtime configurations
 		//user defined configs should be overload by system properties.
