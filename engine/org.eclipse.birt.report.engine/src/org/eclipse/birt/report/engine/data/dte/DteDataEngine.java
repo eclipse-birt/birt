@@ -42,7 +42,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/21 12:24:27 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/22 01:34:22 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -145,7 +145,8 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-			}
+				context.addErrorMsg( e );
+			}			
 		} // End of data source handling
 
 		// Handle data sets
@@ -161,8 +162,8 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-
-			}
+				context.addErrorMsg( e );
+			}			
 		} // End of data set handling
 
 		// build report queries
@@ -182,7 +183,8 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-			}
+				context.addErrorMsg( e );
+			}			
 		} // end of prepare
 	}
 
@@ -216,15 +218,17 @@ public class DteDataEngine implements IDataEngine
 					}
 					IResultIterator ri = queryResults.getResultIterator( );
 					assert ri != null;
-					DteResultSet dRS = new DteResultSet( queryResults, this );
+					DteResultSet dRS = new DteResultSet( queryResults, this,
+							context );
 					rsStack.addLast( dRS );
 					return dRS;
 				}
 				catch ( BirtException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
+					context.addErrorMsg( e );
 					return null;
-				}
+				}				
 			}
 		}
 		else if ( query instanceof ISubqueryDefinition )
@@ -245,6 +249,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
+				context.addErrorMsg( e );
 				return null;
 			}
 		}
@@ -301,6 +306,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
+				context.addErrorMsg( e );
 				return null;
 			}
 		}

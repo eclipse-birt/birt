@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * In any case, the user gets the two different content object for any two
  * calls.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/04/08 05:21:07 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/21 01:57:06 $
  */
 public class ContentFactory
 {
@@ -320,6 +320,17 @@ public class ContentFactory
 		return new TextItemContent( design,  parent );
 	}
 	
+	/**
+	 * Creates the content object for the non-ReportItem
+	 * 
+	 * @param value
+	 *            the displayed text
+	 * @return the content object instance
+	 */
+	public static ITextContent createTextContent( String value )
+	{
+		return new TextItemContent( value );
+	}
 	/**
 	 * Creates the Report content object
 	 * @param design the Report

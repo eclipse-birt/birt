@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/21 01:57:06 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -116,48 +116,56 @@ public class TableItemExecutor extends ListingElementExecutor
 		
 		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
 				.getCaption( ) ) );
-		setStyles( tableObj, item );
-		setVisibility( item, tableObj );
-
-		String bookmarkStr = evalBookmark( item );
-		if ( bookmarkStr != null )
-			tableObj.setBookmarkValue( bookmarkStr );
-
-		logger.log( Level.FINE, "start get table data" ); //$NON-NLS-1$
-		rs = openResultSet( table );
-		logger.log( Level.FINE, "end get table data" ); //$NON-NLS-1$
-		boolean isRowAvailable = false;
-		if ( rs != null )
+		try
 		{
-			isRowAvailable = rs.next( );
+			logger.log( Level.FINE, "start get table data" ); //$NON-NLS-1$
+			rs = openResultSet( table );
+			logger.log( Level.FINE, "end get table data" ); //$NON-NLS-1$
+			boolean isRowAvailable = false;
+			if ( rs != null )
+			{
+				isRowAvailable = rs.next( );
+			}
+			setStyles( tableObj, item );
+			setVisibility( item, tableObj );
+
+			String bookmarkStr = evalBookmark( item );
+			if ( bookmarkStr != null )
+				tableObj.setBookmarkValue( bookmarkStr );
+		
+			tableEmitter.start( tableObj );
+
+			accessColumns( tableEmitter, table );
+			//access table header
+			accessHeader( );
+
+			//data driving report
+			tableEmitter.startBody( );
+			setUpDropProperties( table );
+			if ( isRowAvailable )
+			{
+				context.execute( table.getOnRow( ) );
+				this.accessGroup( 0 );
+			}
+
+			//access table footer
+			accessSummary( );
+			tableEmitter.endBody( );
+			tableEmitter.end( );
+			//execute the on finish script
+			context.execute( table.getOnFinish( ) );		
+
 		}
-
-		tableEmitter.start( tableObj );
-
-		accessColumns( tableEmitter, table );
-		//access table header
-		accessHeader( );
-
-		//data driving report
-		tableEmitter.startBody( );
-		setUpDropProperties( table );
-		if ( isRowAvailable )
+		catch ( Throwable t )
 		{
-			context.execute( table.getOnRow( ) );
-			this.accessGroup( 0 );
+			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 		}
-
-		//access table footer
-		accessSummary( );
-		tableEmitter.endBody( );
-		tableEmitter.end( );
-
-		closeResultSet( rs );
-
-		logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
-		//execute the on finish script
-		context.execute( table.getOnFinish( ) );
-		context.popContentObject( );
+		finally
+		{
+			closeResultSet( rs );
+			logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
+			context.popContentObject( );
+		}
 	}
 
 	/**

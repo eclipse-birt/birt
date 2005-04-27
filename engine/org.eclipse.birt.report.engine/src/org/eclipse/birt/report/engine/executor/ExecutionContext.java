@@ -14,15 +14,18 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -48,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/27 03:11:13 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -104,6 +107,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	
 
 	protected Stack contentStack = new Stack( );
+	
+	/** Stores the error message during running the report */
+	protected List errMsgLst = new ArrayList( );
 	
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -261,7 +267,16 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public Object evaluate( IBaseExpression expr )
 	{
-		return dataEngine.evaluate( expr );
+		try
+		{
+			return dataEngine.evaluate( expr );
+		}
+		catch ( Throwable t )
+		{
+			//May throw the run-time exception etc.
+			log.log( Level.SEVERE, t.getMessage( ), t );
+		}
+		return null;
 	}
 
 	/**
@@ -648,6 +663,33 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		return ( IReportElementContent ) contentStack.peek( );
 	}
 
+	/**
+	 * Adds the error message
+	 * @param errMsg the error message
+	 */
+	public void addErrorMsg( String errMsg )
+	{
+		errMsgLst.add( errMsg );	
+	}
+
+	/**
+	 * Adds the error message
+	 * 
+	 * @param ex
+	 *            the BirtException instance
+	 */
+	public void addErrorMsg( BirtException ex )
+	{
+		errMsgLst.add( ex.getMessage( ) );
+	}
+	/**
+	 * 
+	 * @return Returns the error message list
+	 */
+	public List getMsgLst( )
+	{		
+		return this.errMsgLst;
+	}
 	/**
 	 * report object is the script object used in the script context.
 	 * 

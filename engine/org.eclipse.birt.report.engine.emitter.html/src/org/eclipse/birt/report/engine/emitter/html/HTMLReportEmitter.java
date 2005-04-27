@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/04/21 01:56:10 $
+ * @version $Revision: 1.23 $ $Date: 2005/04/27 03:12:15 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -440,7 +440,8 @@ public class HTMLReportEmitter implements IReportEmitter
 			writer.openTag( HTMLTags.TAG_BODY );
 			if ( bodyStyle != null )
 			{
-				writer.attribute( HTMLTags.ATTR_CLASS, bodyStyle.getName( ) );
+				writer.attribute( HTMLTags.ATTR_CLASS,
+						getMappedStyleName( bodyStyle.getName( ) ) );
 			}
 		}
 		else

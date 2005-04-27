@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/12 05:26:21 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -94,9 +94,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 		imageContent.setHelpText( getLocalizedString( imageItem
 				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
 		imageContent.setAltText( getLocalizedString(
-				imageItem.getAltTextKey( ), imageItem.getAltText( ) ) );
-		setStyles( imageContent, item );
-		setVisibility( item, imageContent );
+				imageItem.getAltTextKey( ), imageItem.getAltText( ) ) );		
 		String fileExt = null;
 
 		// Handles the image according to its type
@@ -110,7 +108,6 @@ public class ImageItemExecutor extends StyledItemExecutor
 			case ImageItemDesign.IMAGE_FILE : // File
 				String imageFile = imageItem.getImageFile( );
 				assert imageFile != null;
-
 				//image file may be file: or a file path.
 				try
 				{
@@ -213,12 +210,15 @@ public class ImageItemExecutor extends StyledItemExecutor
 					else
 					{
 					    logger.log( Level.SEVERE, "[ImageItemExecutor] cannot query image data from database"); //$NON-NLS-1$
-					}
-					closeResultSet( rs );
+					}					
 				}
 				catch ( Exception e )
 				{
 				    logger.log( Level.SEVERE,"[ImageItemExecutor] fail to handle database image with an exception below:", e ); //$NON-NLS-1$
+				}
+				finally
+				{
+					closeResultSet( rs );
 				}
 
 				break;
@@ -234,9 +234,13 @@ public class ImageItemExecutor extends StyledItemExecutor
 		if ( bookmarkStr != null )
 			imageContent.setBookmarkValue( bookmarkStr );
 
+		setStyles( imageContent, item );
+		setVisibility( item, imageContent );
 		// forward to emitter for further processing
+
 		imageEmitter.start( imageContent );
 		imageEmitter.end( );
+		
 	}
 
 	/*

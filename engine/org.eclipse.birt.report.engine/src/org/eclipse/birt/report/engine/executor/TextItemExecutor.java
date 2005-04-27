@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/04/12 05:26:21 $
+ * @version $Revision: 1.12 $ $Date: 2005/04/21 01:57:06 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -72,69 +72,87 @@ public class TextItemExecutor extends StyledItemExecutor
 		{
 			return;
 		}
-		IResultSet rs = openResultSet( item );
-		if ( rs != null )
-		{
-			rs.next( );
-		}
-		TextItemContent textContent = (TextItemContent)ContentFactory.createTextContent( textItem, context.getContentObject( ) );
+		TextItemContent textContent = (TextItemContent) ContentFactory
+				.createTextContent( textItem, context.getContentObject( ) );
 
-		setStyles( textContent, item );
-		setVisibility( item, textContent );
-
-		//Checks if the content has been parsed before. If so, use the DOM tree
-		// directly to improve performance. In addition to the DOM tree, the CSS
-		// style is also a part of the parsed content. Or else, parse the
-		// content and save the DOM tree and CSS style in the Text item design.
-		HTMLProcessor htmlProcessor = new HTMLProcessor( context );
-		if ( textItem.getDomTree( ) == null )
+		IResultSet rs = null;
+		try
 		{
-			//Only when the Text is in the master page.
-			//Because ExpressionBuilder has parsed the content. And the style
-			// has not been extracted yet.
-			String content = getLocalizedString( textItem.getTextKey( ),
-					textItem.getText( ) );
-
-			textItem.setDomTree( new TextParser( ).parse( content, textItem
-					.getTextType( ) ) );
-			textContent.setDomTree( textItem.getDomTree( ) );
-		}
-		Document doc = textItem.getDomTree( );
-		Element body = null;
-		if ( doc != null )
-		{
-			Node node = doc.getFirstChild( );
-			//The following must be true
-			if ( node instanceof Element )
+			rs = openResultSet( item );
+			if ( rs != null )
 			{
-				body = (Element) node;
+				rs.next( );
 			}
-		}
-		if ( body != null )
-		{
-			//Checks if the DOM can be reused here. If no, then convert the DOM
-			// tree.
-			if ( !textItem.isReused( ) )
+			
+			setStyles( textContent, item );
+			setVisibility( item, textContent );
+
+			//Checks if the content has been parsed before. If so, use the DOM
+			// tree
+			// directly to improve performance. In addition to the DOM tree, the
+			// CSS
+			// style is also a part of the parsed content. Or else, parse the
+			// content and save the DOM tree and CSS style in the Text item
+			// design.
+			HTMLProcessor htmlProcessor = new HTMLProcessor( context );
+			if ( textItem.getDomTree( ) == null )
 			{
-				htmlProcessor.execute( body, textContent );
-				//Saves the CSS style associated with the original text content
-				textItem.setCssStyleSet( textContent.getCssStyleSet( ) );
-				textItem.setReused( true );
+				//Only when the Text is in the master page.
+				//Because ExpressionBuilder has parsed the content. And the
+				// style
+				// has not been extracted yet.
+				String content = getLocalizedString( textItem.getTextKey( ),
+						textItem.getText( ) );
+
+				textItem.setDomTree( new TextParser( ).parse( content, textItem
+						.getTextType( ) ) );
+				textContent.setDomTree( textItem.getDomTree( ) );
 			}
-			evaluateEmbeddedExpression( body, textItem, textContent,
-					htmlProcessor );
-		}
+			Document doc = textItem.getDomTree( );
+			Element body = null;
+			if ( doc != null )
+			{
+				Node node = doc.getFirstChild( );
+				//The following must be true
+				if ( node instanceof Element )
+				{
+					body = (Element) node;
+				}
+			}
+			if ( body != null )
+			{
+				//Checks if the DOM can be reused here. If no, then convert the
+				// DOM
+				// tree.
+				if ( !textItem.isReused( ) )
+				{
+					htmlProcessor.execute( body, textContent );
+					//Saves the CSS style associated with the original text
+					// content
+					textItem.setCssStyleSet( textContent.getCssStyleSet( ) );
+					textItem.setReused( true );
+				}
+				evaluateEmbeddedExpression( body, textItem, textContent,
+						htmlProcessor );
+			}
 
-		String bookmarkStr = evalBookmark( textItem );
-		if ( bookmarkStr != null )
+			String bookmarkStr = evalBookmark( textItem );
+			if ( bookmarkStr != null )
+			{
+				textContent.setBookmarkValue( bookmarkStr );
+			}
+
+			textEmitter.start( textContent );
+			textEmitter.end( );
+		}
+		catch ( Throwable t )
 		{
-			textContent.setBookmarkValue( bookmarkStr );
+			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 		}
-
-		textEmitter.start( textContent );
-		textEmitter.end( );
-		closeResultSet( rs );
-		
+		finally
+		{
+			closeResultSet( rs );
+		}		
 	}
 
 	/**
@@ -229,7 +247,7 @@ public class TextItemExecutor extends StyledItemExecutor
 						// format-related styles are constant, which are the
 						// same as those of the content.
 						formatValue( value, format, text.getStyle( ),
-								formattedStr );
+								formattedStr, content );
 						Element appendedNode = null;
 
 						Document textDoc;

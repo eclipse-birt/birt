@@ -22,13 +22,13 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/03/23 06:01:53 $
+ * @version $Revision: 1.13 $ $Date: 2005/04/22 07:48:44 $
  */
 public class XMLWriter
 {
 
 	/** logger */
-	protected Logger log = Logger.getLogger( XMLWriter.class.getName( ) );
+	protected static Logger log = Logger.getLogger( XMLWriter.class.getName( ) );
 
 	/** the print writer for outputting */
 	protected PrintWriter printWriter;

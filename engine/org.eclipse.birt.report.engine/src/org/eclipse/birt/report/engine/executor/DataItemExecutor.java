@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -30,7 +32,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/21 01:57:06 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -69,48 +71,61 @@ public class DataItemExecutor extends StyledItemExecutor
 		{
 			return;
 		}
-		IResultSet rs = openResultSet( item );
-		if ( rs != null )
+		TextItemContent textObj = (TextItemContent) ContentFactory
+				.createTextContent( dataItem, context.getContentObject( ) );
+
+		IResultSet rs = null;
+		try
 		{
-			rs.next( );
-		}
-
-		Object value = context.evaluate( dataItem.getValue( ) );
-		//get the mapping value
-		value = getMapVal( value, dataItem );
-
-		TextItemContent textObj = (TextItemContent)ContentFactory.createTextContent( dataItem, context.getContentObject( ) );
-		textObj.setHelpText( getLocalizedString( dataItem.getHelpTextKey( ),
-				dataItem.getHelpText( ) ) );
-		setStyles( textObj, item );
-
-		StringBuffer formattedString = new StringBuffer( );
-		formatValue( value, null, dataItem.getStyle( ), formattedString );
-		textObj.setValue( formattedString.toString( ) );
-
-		if ( value != null )
-		{
-			if ( value instanceof Number)
+			rs = openResultSet( item );
+			if ( rs != null )
 			{
-				String numberAlign = ( ( StyleDesign )textObj.getMergedStyle( ) ).getNumberAlign( );
-				if( numberAlign != null )
+				rs.next( );
+			}
+			Object value = context.evaluate( dataItem.getValue( ) );
+			//get the mapping value
+			value = getMapVal( value, dataItem );
+
+			textObj.setHelpText( getLocalizedString(
+					dataItem.getHelpTextKey( ), dataItem.getHelpText( ) ) );
+			setStyles( textObj, item );
+
+			StringBuffer formattedString = new StringBuffer( );
+			formatValue( value, null, dataItem.getStyle( ), formattedString ,textObj);
+			textObj.setValue( formattedString.toString( ) );
+
+			if ( value != null )
+			{
+				if ( value instanceof Number )
 				{
-					// set number alignment
-					textObj.setStyleProperty( Style.TEXT_ALIGN_PROP, numberAlign );
+					String numberAlign = ( (StyleDesign) textObj
+							.getMergedStyle( ) ).getNumberAlign( );
+					if ( numberAlign != null )
+					{
+						// set number alignment
+						textObj.setStyleProperty( Style.TEXT_ALIGN_PROP,
+								numberAlign );
+					}
 				}
 			}
+
+			setVisibility( item, textObj );
+			processAction( dataItem.getAction( ), textObj );
+			String bookmarkStr = evalBookmark( item );
+			if ( bookmarkStr != null )
+				textObj.setBookmarkValue( bookmarkStr );
+			//pass the text content instance to emitter
+			textEmitter.start( textObj );
+			textEmitter.end( );
 		}
-
-		setVisibility( item, textObj );
-		processAction( dataItem.getAction( ), textObj );
-		String bookmarkStr = evalBookmark( item );
-		if ( bookmarkStr != null )
-			textObj.setBookmarkValue( bookmarkStr );
-		//pass the text content instance to emitter
-		textEmitter.start( textObj );
-		textEmitter.end( );
-
-		closeResultSet( rs );
+		catch(Throwable t)
+		{
+			logger.log( Level.SEVERE, "Error:", t);//$NON-NLS-1$
+		}
+		finally
+		{
+			closeResultSet( rs );
+		}
 	}
 
 	/*

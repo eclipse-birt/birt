@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -28,7 +30,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.5 $ $Date: 2005/03/15 03:29:37 $
+ * @version $Revision: 1.6 $ $Date: 2005/04/21 01:57:06 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -61,77 +63,90 @@ public class GridItemExecutor extends StyledItemExecutor
 			return;
 		}
 		TableContent tableObj = (TableContent)ContentFactory.createTableContent( gridItem, context.getContentObject( ) );
-
-		setStyles( tableObj, item );
-		setVisibility( item, tableObj );
-
-		String bookmarkStr = evalBookmark( gridItem );
-		if ( bookmarkStr != null )
-			tableObj.setBookmarkValue( bookmarkStr );
-
-		IResultSet rs = openResultSet( item );
-		if ( rs != null )
+		
+		IResultSet rs = null;
+		try
 		{
-			rs.next( );
-		}
-		tableEmitter.start( tableObj );
-
-		if ( gridItem.getColumnCount( ) > 0 )
-		{
-			tableEmitter.startColumns( );
-			for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
+			rs = openResultSet( item );
+			if ( rs != null )
 			{
-				ColumnContent colContent =(ColumnContent) ContentFactory
-						.createColumnContent( gridItem.getColumn( i ), tableObj );
-				setStyles( colContent, gridItem.getColumn( i ) );
-				emitter.getTableEmitter( ).startColumn( colContent );
-				emitter.getTableEmitter( ).endColumn( );
+				rs.next( );
 			}
-			tableEmitter.endColumns( );
-		}
-		tableEmitter.startBody( );
-		for ( int i = 0; i < gridItem.getRowCount( ); i++ )
-		{
-			RowDesign row = gridItem.getRow( i );
-			//			if ( !isRowVisible( row ) )
-			//			{
-			//				break;
-			//			}
-			RowContent rowContent =(RowContent) ContentFactory.createRowContent( row, tableObj );
-			setVisibility( row, rowContent );
-			setBookmarkValue( row, rowContent );
-			setStyles( rowContent, row );
+			setStyles( tableObj, item );
+			setVisibility( item, tableObj );
 
-			tableEmitter.startRow( rowContent );
-			for ( int j = 0; j < row.getCellCount( ); j++ )
+			String bookmarkStr = evalBookmark( gridItem );
+			if ( bookmarkStr != null )
+				tableObj.setBookmarkValue( bookmarkStr );
+			
+			tableEmitter.start( tableObj );
+
+			if ( gridItem.getColumnCount( ) > 0 )
 			{
-				CellDesign cell = row.getCell( j );
-				if ( cell != null )
+				tableEmitter.startColumns( );
+				for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 				{
-					CellContent cellContent =(CellContent) ContentFactory
-							.createCellContent( cell, rowContent );
-					context.pushContentObject( cellContent );
-					setStyles( cellContent, cell );
-					tableEmitter.startCell( cellContent );
-
-					for ( int m = 0; m < cell.getContentCount( ); m++ )
-					{
-						ReportItemDesign ri = cell.getContent( m );
-						if ( ri != null )
-						{
-							ri.accept( this.visitor );
-						}
-					}
-
-					tableEmitter.endCell( );
-					context.popContentObject( );
+					ColumnContent colContent = (ColumnContent) ContentFactory
+							.createColumnContent( gridItem.getColumn( i ),
+									tableObj );
+					setStyles( colContent, gridItem.getColumn( i ) );
+					emitter.getTableEmitter( ).startColumn( colContent );
+					emitter.getTableEmitter( ).endColumn( );
 				}
+				tableEmitter.endColumns( );
 			}
-			tableEmitter.endRow( );
+			tableEmitter.startBody( );
+			for ( int i = 0; i < gridItem.getRowCount( ); i++ )
+			{
+				RowDesign row = gridItem.getRow( i );
+				//			if ( !isRowVisible( row ) )
+				//			{
+				//				break;
+				//			}
+				RowContent rowContent = (RowContent) ContentFactory
+						.createRowContent( row, tableObj );
+				setVisibility( row, rowContent );
+				setBookmarkValue( row, rowContent );
+				setStyles( rowContent, row );
+
+				tableEmitter.startRow( rowContent );
+				for ( int j = 0; j < row.getCellCount( ); j++ )
+				{
+					CellDesign cell = row.getCell( j );
+					if ( cell != null )
+					{
+						CellContent cellContent = (CellContent) ContentFactory
+								.createCellContent( cell, rowContent );
+						context.pushContentObject( cellContent );
+						setStyles( cellContent, cell );
+						tableEmitter.startCell( cellContent );
+
+						for ( int m = 0; m < cell.getContentCount( ); m++ )
+						{
+							ReportItemDesign ri = cell.getContent( m );
+							if ( ri != null )
+							{
+								ri.accept( this.visitor );
+							}
+						}
+
+						tableEmitter.endCell( );
+						context.popContentObject( );
+					}
+				}
+				tableEmitter.endRow( );
+			}
+			tableEmitter.endBody( );
+			tableEmitter.end( );
 		}
-		tableEmitter.endBody( );
-		tableEmitter.end( );
-		closeResultSet( rs );
+		catch ( Throwable t )
+		{
+			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+		}
+		finally
+		{
+			closeResultSet( rs );			
+		}
 		context.exitScope( );
 	}
 

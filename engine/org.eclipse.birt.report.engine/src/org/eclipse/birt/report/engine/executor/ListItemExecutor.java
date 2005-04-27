@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/08 05:21:07 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -64,45 +64,54 @@ public class ListItemExecutor extends ListingElementExecutor
 			return;
 		}
 		list = (ListItemDesign) item;
-		logger.log( Level.FINE,"start list item" ); //$NON-NLS-1$
-		//execute the on start script
-		context.execute( list.getOnStart( ) );
-
-		ContainerContent listContent = (ContainerContent)ContentFactory
+		logger.log( Level.FINE, "start list item" ); //$NON-NLS-1$
+		ContainerContent listContent = (ContainerContent) ContentFactory
 				.createContainerContent( item, context.getContentObject( ) );
 		context.pushContentObject( listContent );
+				
+		try
+		{
+			//execute the on start script
+			context.execute( list.getOnStart( ) );
+			String bookmarkStr = evalBookmark( item );
+			if ( bookmarkStr != null )
+				listContent.setBookmarkValue( bookmarkStr );			
+			emitter.getContainerEmitter( ).start( listContent );
+			logger.log( Level.FINE, "start get list data" ); //$NON-NLS-1$
+			rs = openResultSet( list );
+			logger.log( Level.FINE, "end get list data" ); //$NON-NLS-1$
+
+			setVisibility( item, listContent );
+			setStyles( listContent, item );
+			
+			boolean isRowAvailable = false;
+			if ( rs != null )
+			{
+				isRowAvailable = rs.next( );
+			}
+			//access list header
+			accessHeader( );
+
+			if ( isRowAvailable )
+			{
+				context.execute( list.getOnRow( ) );
+				this.accessGroup( 0 );
+			}
+			accessFooter( );
+			emitter.getContainerEmitter( ).end( );
+			context.execute( list.getOnFinish( ) );
+		}
+		catch ( Throwable t )
+		{
+			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+		}
+		finally
+		{
+			closeResultSet( rs );			
+			context.popContentObject( );
+			logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
+		}
 		
-		String bookmarkStr = evalBookmark( item );
-		if ( bookmarkStr != null )
-			listContent.setBookmarkValue( bookmarkStr );
-
-		setVisibility( item, listContent );
-		setStyles( listContent, item );
-		emitter.getContainerEmitter( ).start( listContent );
-		logger.log( Level.FINE, "start get list data" ); //$NON-NLS-1$
-		rs = openResultSet( list );
-		logger.log( Level.FINE, "end get list data" ); //$NON-NLS-1$
-
-		boolean isRowAvailable = false;
-		if ( rs != null )
-		{
-			isRowAvailable = rs.next( );
-		}
-		//access list header
-		accessHeader( );
-
-		if ( isRowAvailable )
-		{
-			context.execute( list.getOnRow( ) );
-			this.accessGroup( 0 );
-		}
-		accessFooter( );
-		closeResultSet( rs );
-
-		emitter.getContainerEmitter( ).end( );
-		context.execute( list.getOnFinish( ) );
-		context.popContentObject( );
-		logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
 	}
 
 	/**

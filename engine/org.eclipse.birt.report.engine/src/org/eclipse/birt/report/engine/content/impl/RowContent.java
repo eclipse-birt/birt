@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/25 06:02:24 $
+ * @version $Revision: 1.2 $ $Date: 2005/04/21 01:57:06 $
  */
 public class RowContent extends StyledElementContent implements IRowContent
 {
@@ -36,7 +36,9 @@ public class RowContent extends StyledElementContent implements IRowContent
 	 */
 	public DimensionType getHeight( )
 	{
-		return ( (RowDesign) this.designReference ).getHeight( );
+		return designReference == null
+				? null
+				: ( (RowDesign) this.designReference ).getHeight( );
 	}
 
 	/**

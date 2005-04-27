@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
 import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -46,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/03/18 19:40:27 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/21 01:57:06 $
  */
 public class ReportExecutor
 {
@@ -139,6 +140,31 @@ public class ReportExecutor
 					.getMasterPage( ) );
 			report.getContent( i ).accept( builder );
 			builder.endPageFlow( );
+		}
+		//Outputs the error message at the end of the report
+		if ( context.getMsgLst().size() > 0 )
+		{
+			IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
+			if ( textEmitter != null )
+			{
+				builder.startPageFlow( null );
+				textEmitter
+						.start( ContentFactory
+								.createTextContent( "There are errors on the report page:" ) );//$NON-NLS-1$
+				textEmitter.end( );
+				for ( int i = 0; i < context.getMsgLst( ).size( ); i++ )
+				{
+					textEmitter
+							.start( ContentFactory
+									.createTextContent( "Error"
+											+ ( i + 1 )
+											+ ":"
+											+ context.getMsgLst( ).get( i )
+													.toString( ) ) );//$NON-NLS-1$
+					textEmitter.end( );
+				}
+				builder.endPageFlow( );
+			}
 		}
 		//USED TO FIX BUG 74548
 		//FIXME: update the master page handle routines.

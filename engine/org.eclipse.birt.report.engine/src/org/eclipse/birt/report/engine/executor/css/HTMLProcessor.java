@@ -26,13 +26,13 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/08 08:05:46 $
  */
 public class HTMLProcessor
 {
 
 	/** the logger */
-	private Logger logger = Logger.getLogger( HTMLProcessor.class.getName() );
+	private static Logger logger = Logger.getLogger( HTMLProcessor.class.getName() );
 
 	/** the execution context */
 	ExecutionContext context;

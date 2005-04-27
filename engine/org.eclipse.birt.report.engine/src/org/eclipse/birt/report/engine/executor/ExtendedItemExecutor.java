@@ -92,32 +92,43 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		{
 			itemGeneration.setModelObject( handle );
 			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
-			IRowSet[] rowSets = executeQueries( item );
-			if ( rowSets != null )
+			IRowSet[] rowSets = null;
+			try
 			{
-				try
+				rowSets = executeQueries( item );
+				if ( rowSets != null )
 				{
-					itemGeneration.onRowSets( rowSets );
+					try
+					{
+						itemGeneration.onRowSets( rowSets );
+					}
+					catch ( BirtException ex )
+					{
+						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					}
 				}
-				catch ( BirtException ex )
+				if ( itemGeneration.needSerialization( ) )
 				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					try
+					{
+						ByteArrayOutputStream out = new ByteArrayOutputStream( );
+						itemGeneration.serialize( out );
+						generationStatus = out.toByteArray( );
+					}
+					catch ( BirtException ex )
+					{
+						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					}
 				}
 			}
-			if ( itemGeneration.needSerialization( ) )
+			catch ( Throwable t )
 			{
-				try
-				{
-					ByteArrayOutputStream out = new ByteArrayOutputStream( );
-					itemGeneration.serialize( out );
-					generationStatus = out.toByteArray( );
-				}
-				catch ( BirtException ex )
-				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
-				}
+				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 			}
-			closeQueries( rowSets );
+			finally
+			{
+				closeQueries( rowSets );
+			}
 			itemGeneration.finish( );
 		}
 
@@ -139,24 +150,35 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			}
 
 			Object output = null;
-			IRowSet[] rowSets = executeQueries( item );
-			if ( rowSets != null )
+			IRowSet[] rowSets = null;
+			try
 			{
-				try
+				rowSets = executeQueries( item );
+				if ( rowSets != null )
 				{
-					output = itemPresentation.onRowSets( rowSets );
+					try
+					{
+						output = itemPresentation.onRowSets( rowSets );
+					}
+					catch ( BirtException ex )
+					{
+						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					}
 				}
-				catch ( BirtException ex )
+				if ( output != null )
 				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					int type = itemPresentation.getOutputType( );
+					handleItemContent( item, emitter, content, type, output );
 				}
 			}
-			if (output != null)
+			catch ( Throwable t )
 			{
-				int type = itemPresentation.getOutputType( );
-				handleItemContent( item, emitter, content, type, output );
+				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 			}
-			closeQueries( rowSets );
+			finally
+			{
+				closeQueries( rowSets );
+			}
 			itemPresentation.finish( );
 		}
 	}

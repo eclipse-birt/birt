@@ -92,11 +92,15 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.21 $ $Date: 2005/04/21 12:24:27 $
+ * @version $Revision: 1.22 $ $Date: 2005/04/26 07:04:01 $
  */
 public class ReportQueryBuilder
 {
-
+	/**
+	 * for logging
+	 */
+	protected static Logger logger = Logger.getLogger( ReportQueryBuilder.class
+			.getName( ) );
 	/**
 	 * constructor
 	 */
@@ -121,11 +125,7 @@ public class ReportQueryBuilder
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
 
-		/**
-		 * for logging
-		 */
-		protected Logger logger = Logger.getLogger( QueryBuilderVisitor.class
-				.getName( ) );
+		
 
 		/**
 		 * a collection of all the queries
