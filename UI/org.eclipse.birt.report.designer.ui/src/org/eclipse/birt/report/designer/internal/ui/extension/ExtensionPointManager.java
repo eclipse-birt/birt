@@ -67,7 +67,7 @@ public class ExtensionPointManager
 	/**
 	 * Gets the list of all the extended element points.
 	 * 
-	 * @return Returns the list of all the extended element point.
+	 * @return Returns the list of all the extended element point (ExtendedElementUIPoint).
 	 */
 	public List getExtendedElementPoints( )
 	{

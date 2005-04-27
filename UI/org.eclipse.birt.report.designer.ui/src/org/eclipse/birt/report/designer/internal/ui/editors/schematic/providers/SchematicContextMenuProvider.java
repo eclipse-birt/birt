@@ -41,6 +41,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -405,6 +407,22 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
 		subMenu.add( action );
 
+		/*
+		 * Extended Items insert actions
+		 */
+		
+		List points = ExtensionPointManager.getInstance().getExtendedElementPoints();
+		for (Iterator iter = points.iterator(); iter.hasNext() ; )
+		{
+		    ExtendedElementUIPoint point = (ExtendedElementUIPoint)iter.next();
+		    action = getAction( point.getExtensionName( ) );
+			if ( action != null )
+			{
+			    action.setText( point.getExtensionName( ) );
+			    subMenu.add( action );
+			}
+		}
+		
 		menuManager.appendToGroup( group_name, subMenu );
 	}
 

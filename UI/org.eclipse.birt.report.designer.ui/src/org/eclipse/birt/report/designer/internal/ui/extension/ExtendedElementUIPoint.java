@@ -82,7 +82,9 @@ public class ExtendedElementUIPoint {
 	 * Gets the corresponding attribute of the key of the extended element
 	 * 
 	 * @param key
-	 *            the key of the attribute.It cannot be null
+	 *            the key of the attribute. It cannot be null. One of the constants
+	 *  defined in IExtensionConstants
+	 * 				
 	 * @return Returns the corresponding attribute, or null if the key is
 	 *         invalid or the corresponding attribute hasn't been set
 	 */
