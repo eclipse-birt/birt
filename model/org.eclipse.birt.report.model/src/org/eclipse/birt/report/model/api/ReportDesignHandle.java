@@ -1672,4 +1672,19 @@ public class ReportDesignHandle extends DesignElementHandle
 	{
 		getDesign( ).addValidationListener( listener );
 	}
+
+	/**
+	 * Removes a given validation listener. If the listener not registered, then
+	 * the request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the listener to de-register
+	 * @return <code>true</code> if <code>listener</code> is sucessfully
+	 *         removed. Otherwise <code>false</code>.
+	 */
+
+	public boolean removeValidationListener( IValidationListener listener )
+	{
+		return getDesign( ).removeValidationListener( listener );
+	}
 }

@@ -57,7 +57,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- *  
+ * 
  */
 
 public class ReportDesign extends RootElement implements IReportDesignModel
@@ -1038,6 +1038,24 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 
 		if ( !validationListeners.contains( listener ) )
 			validationListeners.add( listener );
+	}
+
+	/**
+	 * Removes one validation listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the validation listener to remove
+	 * @return <code>true</code> if <code>listener</code> is sucessfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean removeValidationListener( IValidationListener listener )
+	{
+		if ( validationListeners == null )
+			return false;
+		return validationListeners.remove( listener );
 	}
 
 	/**
