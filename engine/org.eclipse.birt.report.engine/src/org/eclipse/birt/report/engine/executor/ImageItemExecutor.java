@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.ContentFactory;
@@ -52,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/27 05:35:36 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -114,7 +115,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 					URL url = new URL( imageFile );
 					if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 					{
-						imageFile = url.getPath( );
+						imageFile = URLDecoder.decode( url.getFile( ) );
 					}
 				}
 				catch ( MalformedURLException ex )
