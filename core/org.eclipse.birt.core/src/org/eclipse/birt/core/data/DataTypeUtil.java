@@ -197,7 +197,7 @@ public final class DataTypeUtil
 					"Boolean", resourceBundle );
 	}
 
-	public static Date toDate( Object source ) throws BirtException
+	public static Date toDate( Object source, Locale locale ) throws BirtException
 	{
 		if ( source == null )
 			return null;
@@ -227,13 +227,18 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof String )
 		{
-			return convertStringtoDate( (String) source );
+			return convertStringtoDate( (String) source, locale);
 		}
 		else
 			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
 					resourceBundle );
 	}
 
+	public static Date toDate( Object source ) throws BirtException
+	{
+		return toDate( source, Locale.US );
+	}
+	
 	public static Double toDouble( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -355,13 +360,15 @@ public final class DataTypeUtil
 	
 	
 	/**
-	 * convert String to java.util.Date
+	 * convert String with the specified locale to java.util.Date
 	 * 
 	 * @param source
 	 *            the String to be convert
+	 * @param locate
+	 * 			  the locate of the string
 	 * @return result Date
 	 */
-	private static Date convertStringtoDate( String source )
+	private static Date convertStringtoDate( String source, Locale locale )
 			throws BirtException
 	{
 		DateFormat dateFormat = null;
@@ -383,7 +390,7 @@ public final class DataTypeUtil
 			try
 			{
 				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-						DateFormat.MEDIUM, Locale.US );
+						DateFormat.MEDIUM, locale );
 				resultDate = dateFormat.parse( source );
 			}
 			catch ( ParseException e1 )
@@ -394,7 +401,7 @@ public final class DataTypeUtil
 		if ( resultDate == null )
 		{
 			//Date style is SHORT such as 12.13.52
-			//Time sytle is SHORT such as 3:30pm
+			//Time style is SHORT such as 3:30pm
 			try
 			{
 				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
@@ -406,7 +413,7 @@ public final class DataTypeUtil
 				try
 				{
 					dateFormat = DateFormat.getDateTimeInstance(
-							DateFormat.SHORT, DateFormat.SHORT, Locale.US );
+							DateFormat.SHORT, DateFormat.SHORT, locale );
 					resultDate = dateFormat.parse( source );
 				}
 				catch ( ParseException e1 )
@@ -429,7 +436,7 @@ public final class DataTypeUtil
 				try
 				{
 					dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
-							Locale.US );
+							locale );
 					resultDate = dateFormat.parse( source );
 				}
 				catch ( ParseException e1 )
