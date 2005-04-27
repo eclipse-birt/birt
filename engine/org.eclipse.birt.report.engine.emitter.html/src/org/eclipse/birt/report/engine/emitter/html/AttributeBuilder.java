@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import java.io.File;
-
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.metadata.Choice;
 
@@ -23,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.Choice;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/04/12 08:04:47 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/27 03:12:15 $
  */
 public class AttributeBuilder
 {
@@ -155,10 +152,6 @@ public class AttributeBuilder
 			if ( image!=null )
 			{
 				image = HTMLBaseEmitter.handleStyleImage(image, emitter);
-			}
-			if ( FileUtil.isLocalResource( image ))
-			{
-				image ="file:" + (new File(image).getAbsolutePath());  //$NON-NLS-1$
 			}
 			if(image!=null  && image.length()>0)
 			{
