@@ -657,9 +657,16 @@ public class ExpressionTreeSupport
 		StringBuffer textData = new StringBuffer( );
 		textData.append( info.getDisplayName( ) );
 		textData.append( "(" );//$NON-NLS-1$
-
+		
+		boolean firstArg = true;
 		for ( Iterator it = info.argumentListIterator( ); it.hasNext( ); )
 		{
+			if (!firstArg)
+			{
+				textData.append("|");//$NON-NLS-1$
+			}
+			firstArg = false;
+			
 			IArgumentInfoList arguments = (IArgumentInfoList) it.next( );
 			boolean firstTime = true;
 			for ( Iterator iterator = arguments.argumentsIterator( ); iterator.hasNext( ); )
@@ -690,8 +697,15 @@ public class ExpressionTreeSupport
 		if ( info instanceof IMethodInfo )
 		{
 			textData.append( "(" );//$NON-NLS-1$
+			boolean firstArg = true;
 			for ( Iterator it = ( (IMethodInfo) info ).argumentListIterator( ); it.hasNext( ); )
 			{
+				if (!firstArg)
+				{
+					textData.append("|");//$NON-NLS-1$
+				}
+				firstArg = false;
+				
 				IArgumentInfoList arguments = (IArgumentInfoList) it.next( );
 				boolean firstTime = true;
 				for ( Iterator iterator = arguments.argumentsIterator( ); iterator.hasNext( ); )
