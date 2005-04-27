@@ -94,9 +94,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String INSERT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
 
-	//	private static final String SHOW_MENU_ITEM_TEXT = Messages.getString(
-	// "SchematicContextMenuProvider.Menu.Show" ); //$NON-NLS-1$
-
 	private static final String ELEMENT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ); //$NON-NLS-1$
 
 	/** the action registry */
@@ -191,14 +188,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			//			if ( action != null )
-			//			{
-			//				action.setEnabled( action.isEnabled( ) );
-			//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-			//						action );
-			//			}
-
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
@@ -208,6 +197,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new DeleteAction( selectedElements ) );
 
+			if ( multiSelection == ReportDesignHandle.class )
+			{
+				createInsertElementMenu( menuManager,
+						GEFActionConstants.GROUP_EDIT );
+			}
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
 		}
@@ -219,14 +213,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			//			if ( action != null )
-			//			{
-			//				action.setEnabled( action.isEnabled( ) );
-			//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-			//						action );
-			//			}
-
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
@@ -317,14 +303,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					getAction( ActionFactory.UNDO.getId( ) ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.REDO.getId( ) ) );
-			//			IAction action = getAction( ActionFactory.SAVE.getId( ) );
-			//			if ( action != null )
-			//			{
-			//				action.setEnabled( action.isEnabled( ) );
-			//				menuManager.appendToGroup( GEFActionConstants.GROUP_SAVE,
-			//						action );
-			//			}
-
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new CutAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
@@ -343,7 +321,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
-			//			createShowMenu( menuManager );
 			createInsertGroupMenu( menuManager );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteTableGroupAction.ID ) );
@@ -368,7 +345,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 		}
 	}
-	
+
 	/**
 	 * @param menuManager
 	 */
@@ -382,27 +359,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 		menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, subMenu );
 	}
-
-	//	private void createShowMenu( IMenuManager menuManager )
-	//	{
-	//		MenuManager subMenu = new MenuManager( SHOW_MENU_ITEM_TEXT );
-	//
-	//		// if ( isSelectedGroup( ) )
-	//		// {
-	//		// subMenu.add( new
-	//		// IncludeTableGroupAction.IncludeTableGroupHeaderAction(
-	//		// getFirstElement( ) ) );
-	//		// subMenu.add( new
-	//		// IncludeTableGroupAction.IncludeTableGroupFooterAction(
-	//		// getFirstElement( ) ) );
-	//		// }
-	//		// else
-	//		// {
-	//		subMenu.add( getAction( IncludeHeaderAction.ID ) );
-	//		subMenu.add( getAction( IncludeFooterAction.ID ) );
-	//		// }
-	//		menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT, subMenu );
-	//	}
 
 	/**
 	 * Creats sub menu in the specified action group of the specified menu
@@ -755,27 +711,4 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 		return listParts;
 	}
-
-	//	private boolean isSelectedGroup( )
-	//	{
-	//		if ( getFirstElement( ) instanceof RowHandle )
-	//		{
-	//			DesignElementHandle container = ( (RowHandle) getFirstElement( )
-	// ).getContainer( );
-	//			if ( container instanceof TableGroupHandle )
-	//			{
-	//				return true;
-	//			}
-	//		}
-	//		if ( getFirstElement( ) instanceof SlotHandle )
-	//		{
-	//			DesignElementHandle container = ( (SlotHandle) getFirstElement( )
-	// ).getElementHandle( );
-	//			if ( container instanceof ListGroupHandle )
-	//			{
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
 }
