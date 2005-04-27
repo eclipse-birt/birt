@@ -12,20 +12,18 @@
 package org.eclipse.birt.report.engine.parser;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.impl.ParameterGroupDefn;
+import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -52,14 +50,10 @@ import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
-import org.eclipse.birt.report.engine.ir.ParameterGroupDefn;
-import org.eclipse.birt.report.engine.ir.ParameterSelectionList;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.ir.ScalarParameterDefn;
-import org.eclipse.birt.report.engine.ir.SelectionChoice;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
@@ -134,7 +128,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.21 $ $Date: 2005/04/12 05:32:52 $
+ * @version $Revision: 1.22 $ $Date: 2005/04/12 07:11:09 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -426,13 +420,13 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitParameterGroup( ParameterGroupHandle handle )
 	{
 		ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
-		setupReportElement( paramGroup, handle );
+		paramGroup.setName(handle.getName());
+		paramGroup.setDisplayName( handle.getDisplayName( ) );
+		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
+		paramGroup.setHelpText( handle.getHelpText( ) );
+		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
 
-		paramGroup.setDisplayName( handle.getDisplayNameKey( ), handle
-				.getDisplayName( ) );
-		paramGroup
-				.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
-
+		
 		SlotHandle parameters = handle.getParameters( );
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
@@ -449,76 +443,72 @@ class EngineIRVisitor extends DesignVisitor
 		assert ( handle.getName( ) != null );
 		// Create Parameter
 		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
-		setupReportElement( scalarParameter, handle );
-		scalarParameter.setAlignment( handle.getAlignment( ) );
-		scalarParameter.setAllowBlank( handle.allowBlank( ) );
-		scalarParameter.setAllowNull( handle.allowNull( ) );
-		scalarParameter.setControlType( handle.getControlType( ) );
-		scalarParameter.setDefaultValue( getValue( handle.getDefaultValue( ),
-				handle.getDataType( ) ) );
-		//DE doesn't provide this method
-		scalarParameter.setDisplayName( handle.getDisplayNameKey( ), handle
-				.getDisplayName( ) );
-
-		/*
-		 * if ( handle.getExtends( ) != null ) { scalarParameter.setExtends(
-		 * handle.getExtends( ).getClass( ) .getName( ) ); }
-		 */
+		scalarParameter.setName(handle.getName());
+		String align = handle.getAlignment();
+		if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align))
+			scalarParameter.setAlignment( IScalarParameterDefn.CENTER );
+		else if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals(align))
+			scalarParameter.setAlignment( IScalarParameterDefn.LEFT );
+		else if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals(align))
+			scalarParameter.setAlignment( IScalarParameterDefn.RIGHT );
+		else 
+			scalarParameter.setAlignment( IScalarParameterDefn.AUTO );
+		
+		scalarParameter.setAllowBlank( handle.allowBlank( ));
+		scalarParameter.setAllowNull( handle.allowNull( ));
+		
+		String controlType = handle.getControlType( );
+		if(DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(controlType))
+			scalarParameter.setControlType(IScalarParameterDefn.CHECK_BOX );
+		else if(DesignChoiceConstants.PARAM_CONTROL_LIST_BOX.equals(controlType))
+			scalarParameter.setControlType(IScalarParameterDefn.LIST_BOX);
+		else if(DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(controlType))
+			scalarParameter.setControlType(IScalarParameterDefn.RADIO_BUTTON);
+		else 
+			scalarParameter.setControlType(IScalarParameterDefn.TEXT_BOX);
+		
+		scalarParameter.setDefaultValueExpr( handle.getDefaultValue( ) );
+		scalarParameter.setDisplayName( handle.getDisplayName( ) );
+		scalarParameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
+		
 		scalarParameter.setFormat( handle.getFormat( ) );
-		scalarParameter.setHelpText( handle.getHelpTextKey( ), handle
-				.getHelpText( ) );
+		scalarParameter.setHelpText( handle.getHelpText( ) );
+		scalarParameter.setHelpTextKey( handle.getHelpTextKey( ) );
 		scalarParameter.setIsHidden( handle.isHidden( ) );
-		//scalarParameter.setName( handle.getName( ) );
-		Iterator selectionIter = handle.choiceIterator( );
-		ParameterSelectionList paramList = new ParameterSelectionList( );
-		//TODO: MODEL should support fixOrder and mustExact
-		ArrayList values = new ArrayList( );
-		while ( selectionIter.hasNext( ) )
-		{
-			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
-					.next( );
-			SelectionChoice selectionChoice = new SelectionChoice( handle
-					.getDesign( ) );
-			selectionChoice.setLabel( selection.getLabelKey( ), selection
-					.getLabel( ) );
-			selectionChoice.setValue( selection.getValue( ) );
-			values.add( selectionChoice );
-		}
+		scalarParameter.setName( handle.getName( ) );
+
 		String valueType = handle.getDataType( );
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_BOOLEAN );
-		}
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_BOOLEAN );
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_DATE_TIME );
-		}
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE_TIME );
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_DECIMAL );
-		}
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_DECIMAL );
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_FLOAT );
-		}
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_FLOAT );
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( valueType ) )
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_STRING );
-		}
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
 		else
-		{
-			scalarParameter.setValueType( IParameterDefn.TYPE_ANY );
-		}
-		paramList.setAllowNewValues(!handle.isMustMatch());
-		paramList.setIsOrder(handle.isFixedOrder());
-		if(!handle.isFixedOrder())
-		{
-		    Collections.sort(values,(Comparator) new SelectionChoiceCompartor(paramList.getType()));
-		}
-		paramList.setValues( values );
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
 		
+		ArrayList values = new ArrayList( );
+		Iterator selectionIter = handle.choiceIterator( );
+		while ( selectionIter.hasNext( ) )
+		{
+			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter.next( );
+			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice( handle.getDesign( ) );
+			selectionChoice.setLabel( selection.getLabelKey( ), selection.getLabel( ) );
+			selectionChoice.setValue( selection.getValue( ), scalarParameter.getDataType() );
+			values.add( selectionChoice );
+		}
+		scalarParameter.setSelectionList(values);
+		scalarParameter.setAllowNewValues(!handle.isMustMatch());
+		scalarParameter.setFixedOrder(handle.isFixedOrder());
 		
-		scalarParameter.setParameterSeclectionList( paramList );
+		if(scalarParameter.getSelectionList() != null && scalarParameter.getSelectionList().size() > 0)
+			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_STATIC);
+		else
+			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_NONE);
 		
 		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 		currentElement = scalarParameter;
@@ -1730,104 +1720,8 @@ class EngineIRVisitor extends DesignVisitor
 		return IConditionalExpression.OP_NONE;
 	}
 
-	/**
-	 * get value
-	 * 
-	 * @param value
-	 * @param type
-	 *            the data type
-	 * @return
-	 */
-	protected Object getValue( String value, String type )
-	{
-		try
-		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-			{
-				return DataTypeUtil.toBoolean( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-			{
-				return DataTypeUtil.toDate( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-			{
-				return DataTypeUtil.toBigDecimal( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-			{
-				return DataTypeUtil.toDouble( value );
-			}
-			else
-			{
-				return value;
-			}
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-			return null;
-		}
-	}
 	
 	
-	protected class SelectionChoiceCompartor implements Comparator
-	{
-	    protected int type;
-	    
-	    public SelectionChoiceCompartor(int type)
-	    {
-	        this.type = type;
-	    }
-
-        /* (non-Javadoc)
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
-        public int compare(Object o1, Object o2)
-        {
-            if((o1 instanceof SelectionChoice)&&(o2 instanceof SelectionChoice))
-            {
-                try
-                {
-                    Object value1 = getValue((SelectionChoice)o1);
-                    Object value2 = getValue((SelectionChoice)o2);
-                    return ((Comparable)value1).compareTo(value2);
-                }
-                catch(BirtException ex)
-                {
-                    logger.log(Level.SEVERE, ex.getMessage());
-                }
-            }
-            return -1;
-        }
-        
-        private Object getValue(SelectionChoice choice) throws BirtException
-        {
-            switch(this.type)
-            {
-            	case IParameterDefn.TYPE_BOOLEAN:
-            	{
-            	    return DataTypeUtil.toBoolean(choice.getValue());
-            	}
-            	case IParameterDefn.TYPE_DATE_TIME:
-            	{
-            	    return DataTypeUtil.toDate(choice.getValue());
-            	}
-            	case IParameterDefn.TYPE_DECIMAL:
-            	{
-            	    return DataTypeUtil.toBigDecimal(choice.getValue());
-            	}
-            	case IParameterDefn.TYPE_FLOAT:
-            	{
-            	    return DataTypeUtil.toDouble(choice.getValue());
-            	}
-            	default:
-            	{
-            	    return choice.getValue();
-            	}
-            	
-            }
-        }
-	    
-	}
+	
+	
 }

@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
@@ -24,6 +25,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IPageSetupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IReportElementContent;
@@ -45,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -94,13 +97,16 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	// A DOM Parser for parsing HTML
 	protected TextParser parser;
+	
+	protected IReportRunnable runnable;
+	
+	protected IRenderOption renderOption;
+	
 
 	protected Stack contentStack = new Stack( );
 	
 	/**
 	 * create a new context. Call close to finish using the execution context
-	 * 
-	 * @see close()
 	 */
 	public ExecutionContext( )
 	{
@@ -110,11 +116,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		scriptContext = new ScriptContext( );
 
 		//create script context used to execute the script statements
-
 		//register the global variables in the script context
-		scriptContext.registerBean( "report", new ReportObject( ) ); //$NON-NLS-1$
-		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
-		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
+		scriptContext.registerBean( "report", new ReportObject( ) ); 	//$NON-NLS-1$
+		scriptContext.registerBean( "params", params ); 				//$NON-NLS-1$
+		scriptContext.registerBean( "config", configs ); 				//$NON-NLS-1$
 		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
 	}
 
@@ -151,6 +156,20 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		scriptContext.exitScope( );
 	}
 
+	
+	public void registerBeans(HashMap map)
+	{
+		if(map != null)
+		{
+			Iterator iter = map.keySet().iterator();
+			while(iter.hasNext())
+			{
+				String key = (String)iter.next();
+				registerBean(key, map.get(key));
+			}
+			
+		}
+	}
 	/**
 	 * declares a variable in the current scope. The variable is then accessible
 	 * through JavaScript.
@@ -663,7 +682,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		 * @return a map of name/value pairs for all the parameters and their
 		 *         values
 		 */
-		public Map getParmas( )
+		public Map getParams( )
 		{
 			return params;
 		}
@@ -685,7 +704,6 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			return report.getReportDesign( ).handle( ).getDataSets( );
 		}
 
-		//TODO return the set of configuration files
 		/**
 		 * @return a map of name/value pairs for all the configuration variables
 		 */
@@ -695,4 +713,32 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 	}
 
+	/**
+	 * @return Returns the runnable.
+	 */
+	public IReportRunnable getRunnable()
+	{
+		return runnable;
+	}
+	/**
+	 * @param runnable The runnable to set.
+	 */
+	public void setRunnable(IReportRunnable runnable)
+	{
+		this.runnable = runnable;
+	}
+	/**
+	 * @return Returns the renderOption.
+	 */
+	public IRenderOption getRenderOption()
+	{
+		return renderOption;
+	}
+	/**
+	 * @param renderOption The renderOption to set.
+	 */
+	public void setRenderOption(IRenderOption renderOption)
+	{
+		this.renderOption = renderOption;
+	}
 }

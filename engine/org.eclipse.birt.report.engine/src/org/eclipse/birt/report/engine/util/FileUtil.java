@@ -25,10 +25,13 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
+
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/04/08 05:21:07 $
+ * @version $Revision: 1.8 $ $Date: 2005/04/21 01:57:06 $
  */
 public class FileUtil
 {
@@ -338,5 +341,22 @@ public class FileUtil
 		    logger.log( Level.SEVERE,  "Cannot get the content of the file " + fileName, e ); //$NON-NLS-1$
 		}
 		return null;
+	}
+	
+	
+	
+	public static void deleteDir(File file)
+	{
+		if(file.isDirectory())
+		{
+			String[] list = file.list();
+			for(int i=0; i<list.length; i++)
+			{
+				File f = new File(file, list[i]);
+				deleteDir(f);
+			}
+			file.delete();
+		}
+		file.delete();
 	}
 }

@@ -38,5 +38,12 @@ public interface MessageConstants
 	public static final String UNBOUNDED_PARAMETER_EXCEPTION = "Error.UnboundedParameterException"; //$NON-NLS-1$
 	
 	public static final String UNSUPPORTED_ENGINE_FEATURE_EXCEPTION = "Error.UnsupportedEngineFeatureException"; //$NON-NLS-1$
+	
+	public static final String INVALID_DESIGNFILE_EXCEPTION = "Error.InvalidDesignFileException";  //$NON-NLS-1$
+	
+	public static final String FILE_NOT_FOUND_EXCEPTION = "Error.FileNotFoundException"; //$NON-NLS-1$
+	
+	public static final String INVALID_FORMAT_EXCEPTION = "Error.InvalidFormatException"; //$NON-NLS-1$
+	
 }
 

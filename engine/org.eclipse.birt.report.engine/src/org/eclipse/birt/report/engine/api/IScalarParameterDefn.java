@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.util.ArrayList;
 
 /**
- * Defines a Scalar parameter
+ * Defines a scalar parameter
  */
 public interface IScalarParameterDefn extends IParameterDefn
 {
@@ -27,13 +28,48 @@ public interface IScalarParameterDefn extends IParameterDefn
 	public static final int CENTER = 2;
 	public static final int RIGHT = 3;
 
+	public static final int TYPE_ANY = 0;
+	public static final int TYPE_STRING = 1;
+	public static final int TYPE_FLOAT = 2;
+	public static final int TYPE_DECIMAL = 3;
+	public static final int TYPE_DATE_TIME = 4;
+	public static final int TYPE_BOOLEAN=5;
+	
+	public static final int SELECTION_LIST_NONE = 0;
+	public static final int SELECTION_LIST_DYNAMIC = 1;
+	public static final int SELECTION_LIST_STATIC = 2;
+	
 	/**
-	 * @return default value for the parameter
-	 *  
+	 * returns the parameter data type. See the ColumnDefn class
+	 * for the valid data type constants.
+	 * 
+	 * @return the parameter data type
 	 */
-	Object getDefaultValue( );
+	
+	int getDataType( );
 
+	/** 
+	 * returns whether the user can enter a value different from values in a selection list
+	 * Applies only to parameters with a selection list. Usually, a parameter with 
+	 * allowNewValue=true is displayed as a combo-box, while a parameter with 
+	 * allowNewValue=false is displayed as a list. This is only a UI gesture. Engine does
+	 * not validate whether the value passed in is in the list.
+	 *  
+	 * @return whether the user can enter a value different from all values
+	 *         in the list. Applies only when the parameter has a selection list.
+	 * 	       Default is true. 
+	 */
+	 public boolean allowNewValues( );
 
+	/**
+	 * returns whether the UI should display the seleciton list in a fixed order. Only
+	 * applies to parameters with a selection list. 
+	 * 
+	 * @return whether the UI should display the selection list in fixed order as the
+	 *         values appear in the list. Default is true.
+	 */
+	public boolean displayInFixedOrder( );
+	
 	/**
 	 * @return whether the input value needs to be concealed (i.e., password,
 	 *         bank account number, etc.)
@@ -58,7 +94,7 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 *         parameter UI
 	 *  
 	 */
-	String getFormat( );
+	String getDisplayFormat( );
 
 	/**
 	 * @return the control type used in the parameter UI. Supports TEXT_BOX
@@ -76,6 +112,10 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 * @return get a parameter value selection object, from which a list of
 	 *         parameter values and label values can be retrieved.
 	 */
-	public IParameterSelectionList getParameterSelectionList( );
+	public ArrayList getSelectionList( );
 
+	/**
+	 * @return the type of the parameter selection list
+	 */
+	public int getSelectionListType();
 }

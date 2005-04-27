@@ -11,24 +11,17 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.util.ArrayList;
-
 /**
- * The interface for objects which visually groups report parameters.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
-public interface IParameterGroupDefn extends IParameterDefnBase
-{
+public interface IHTMLActionHandler {
+
 	/**
-	 * returns the set of parameters that appear inside the group.
+	 * generates a URL based on the action definition
 	 * 
-	 * @return the set of parameters that appear inside the group.
+	 * @param actionDefn definition of an action
+	 * @param context the context for craetingt he hyperlink
+	 * @return the URL based on an action 
 	 */
-	public ArrayList getContents( );
-	
-	/**
-	 * @return whether to display the parameter group expanded
-	 */
-	public boolean displayExpanded(); 
+	public String getURL(IAction actionDefn, Object context);
 }

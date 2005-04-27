@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemQuery;
  */
 public class ExtensionManager
 {
-	public final static String EXTENSION_POINT_EMITTER = "org.eclipse.birt.report.engine.emitterSet";	
+	public final static String EXTENSION_POINT_EMITTER = "org.eclipse.birt.report.engine.emitters";	
 	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; 
 	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation";
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery";
@@ -58,6 +58,10 @@ public class ExtensionManager
 	 * stores all the emitter extensions 
 	 */
 	protected HashMap emitterExtensions = new HashMap();
+	
+	protected HashMap formatMimeType = new HashMap();
+	
+	protected HashMap formatOptions = new HashMap();
 	
 	ExtensionManager()
 	{
@@ -153,7 +157,14 @@ public class ExtensionManager
 		}
 		return null;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
+	public HashMap getEmitterExtensions()
+	{
+		return this.emitterExtensions;
+	}
 	
 	protected Object createObject(IConfigurationElement config, String property)
 	{
@@ -259,9 +270,52 @@ public class ExtensionManager
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
 			for (int j = 0; j < configs.length; j++)
 			{				
-				String format = configs[j].getAttribute("format"); //$NON-NLS-1$
-				emitterExtensions.put(format, configs[j]);
+				IConfigurationElement[] formats = configs[j].getChildren("format"); //$NON-NLS-1$
+				
+				if(formats != null && formats.length>0)
+				{
+					for(int k=0; k<formats.length; k++)
+					{
+						String formatName = formats[k].getAttribute("name"); //$NON-NLS-1$
+						String mimeType = formats[k].getAttribute("mimeType"); //$NON-NLS-1$
+						if(!emitterExtensions.containsKey(formatName))
+						{
+							emitterExtensions.put(formatName, configs[j]);
+							formatMimeType.put(formatName, mimeType);
+							IConfigurationElement[] options = formats[k].getChildren("option"); //$NON-NLS-1$
+							if(options!=null && options.length>0)
+							{
+								String[] optionNames = new String[options.length];
+								for(int l=0; l<options.length; l++)
+								{
+									optionNames[l] = options[l].getAttribute("name"); //$NON-NLS-1$
+								}
+								formatMimeType.put(formatName, optionNames);
+							}
+						}
+					}
+				}
+				
+				
 			}
 		}
+	}
+	
+	public String[] getOptions(String format)
+	{
+		if(formatOptions.containsKey(format))
+		{
+			return (String[])formatOptions.get(format);
+		}
+		return null;
+	}
+	
+	public String getMIMEType(String format)
+	{
+		if(formatMimeType.containsKey(format))
+		{
+			return (String)formatMimeType.get(format);
+		}
+		return null;
 	}
 }

@@ -11,16 +11,24 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.util.Locale;
-
 
 /**
- * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * defines one choice in a parameter selction value list
  */
 public interface IParameterSelectionChoice
 {
-	String getValue();
+	/**
+	 * returns the value of the selection choice
+	 * 
+	 * @return the value of the selction choice
+	 */
+	Object getValue();
+	
+	/**
+	 * returns the locale-specific label for a selection choice. The locale used is the 
+	 * locale in the parameter definition request.
+	 * 
+	 * @return the localized label for the parameter
+	 */
 	String getLabel();
-	String getLabel(Locale locale);
 }

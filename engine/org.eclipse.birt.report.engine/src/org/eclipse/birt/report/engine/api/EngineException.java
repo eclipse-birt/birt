@@ -17,73 +17,66 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 
 /**
- *
- *Deal with some special exception in Engine project.
+ * Describes an engine exception that clients of the engine need to handle
  */
 public class EngineException extends BirtException {
 	
-
 	static protected ResourceBundle rb = new EngineResourceHandle(Locale.getDefault()).getResourceBundle();
+	
 	/**
-	 * @param errorCode
-	 * @param arg0
+	 * @param errorCode erroe code for the exception
+	 * @param arg0 
 	 */
 	public EngineException( String errorCode, Object arg0 )
 	{
 		super( errorCode, arg0, rb);
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param errorCode
 	 * @param arg0
-	 * @param bundle
 	 * @param cause
 	 */
 	public EngineException( String errorCode, Object arg0,
 			Throwable cause )
 	{
 		super( errorCode, arg0, rb, cause );
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param errorCode
 	 * @param args
-	 * @param bundle
 	 */
 	public EngineException( String errorCode, Object[] args)
 	{
 		super( errorCode, args, rb );
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param errorCode
 	 * @param args
-	 * @param bundle
 	 * @param cause
 	 */
 	public EngineException( String errorCode, Object[] args,
 			Throwable cause )
 	{
 		super( errorCode, args, rb, cause );
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param errorCode
-	 * @param bundle
 	 */
 	public EngineException( String errorCode)
 	{
 		super( errorCode, rb );
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param errorCode
-	 * @param bundle
 	 * @param cause
 	 */
 	public EngineException( String errorCode,Throwable cause )
 	{
 		super( errorCode, rb, cause );
-		// TODO Auto-generated constructor stub
 	}
 }

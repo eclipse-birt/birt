@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.SessionHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.6 $ $Date: 2005/02/25 08:21:38 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/07 03:33:25 $
  */
 public class ReportParser
 {
@@ -47,6 +47,8 @@ public class ReportParser
 	/**
 	 * parse the XML input stream.
 	 * 
+	 * @param name design file name 
+	 * 
 	 * @param in
 	 *            design file
 	 * @return created report IR, null if exit any errors.
@@ -60,6 +62,25 @@ public class ReportParser
 
 		// Obtain design handle
 		ReportDesignHandle designHandle = sessionHandle.openDesign( name, in );
+
+		return parse( designHandle );
+	}
+	
+	/**
+	 * parse the XML input stream.
+	 * 
+	 * @param name
+	 *            design file name
+	 * @return created report IR, null if exit any errors.
+	 */
+	public Report parse(String name) throws DesignFileException
+	{
+		//	 Create new design session
+		SessionHandle sessionHandle = DesignEngine.newSession( Locale
+				.getDefault( ) );
+
+		// Obtain design handle
+		ReportDesignHandle designHandle = sessionHandle.openDesign( name );
 
 		return parse( designHandle );
 	}

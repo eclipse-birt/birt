@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/01 02:22:59 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
  */
 public class Report
 {
@@ -228,37 +228,7 @@ public class Report
 		this.parameters.add( parameter );
 	}
 
-	/**
-	 * Finds a parameter given a parameter name.
-	 * 
-	 * @param parameterName
-	 *            The name of the parameter to locate.
-	 * @return A <code>ParameterDefn</code> object that describes the
-	 *         parameter, or <code>null</code> if no parameter of the given
-	 *         name is found.
-	 */
-	public ParameterDefn findParameter( String parameterName )
-	{
-		assert parameterName != null;
-		ParameterDefn param = null;
-		if ( allParameters == null )
-		{
-			allParameters = new ArrayList( );
-			flattenParameter( parameters );
-		}
 
-		for ( int n = 0; n < allParameters.size( ); n++ )
-		{
-			param = (ParameterDefn) allParameters.get( n );
-			if ( parameterName.equals( param.getName( ) ) )
-			{
-				break;
-			}
-
-		}
-
-		return param;
-	}
 
 	/**
 	 * Finds a master page with given name.
@@ -358,10 +328,10 @@ public class Report
 		for ( int n = 0; n < params.size( ); n++ )
 		{
 			param = (IParameterDefnBase) params.get( n );
-			if ( param.getType( ) == IParameterDefnBase.PARAMETER_GROUP )
+			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP )
 			{
 				flattenParameter( ( (IParameterGroupDefn) param )
-						.getParameters( ) );
+						.getContents() );
 			}
 			else
 			{
@@ -398,7 +368,7 @@ public class Report
 		return allParameters;
 	}
 
-	public Map getConfigs( )
+	public HashMap getConfigs( )
 	{
 		HashMap configs = new HashMap( );
 		Iterator iter = reportDesign.handle( ).configVariablesIterator( );

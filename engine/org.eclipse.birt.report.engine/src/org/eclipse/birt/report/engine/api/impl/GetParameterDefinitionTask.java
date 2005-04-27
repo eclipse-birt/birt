@@ -1,0 +1,212 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
+
+package org.eclipse.birt.report.engine.api.impl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+
+/**
+ * Defines en engine task that handles parameter definition retrieval
+ */
+public class GetParameterDefinitionTask extends EngineTask implements IGetParameterDefinitionTask
+{
+	protected HashMap 			defaultValues = new HashMap();
+	protected Collection 		params = null;
+	protected ExecutionContext 	exeContext;
+
+	/**
+	 * @param engine
+	 * @param runnable
+	 */
+	public GetParameterDefinitionTask(ReportEngine engine, IReportRunnable runnable)
+	{
+		super(engine, runnable);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#getParameterDefns(boolean)
+	 */
+	public Collection getParameterDefns(boolean includeParameterGroups)
+	{
+		Collection original = ((ReportRunnable)runnable).getParameterDefns(includeParameterGroups);
+		Iterator iter = original.iterator();
+		
+		// Clone parameter definitions, fill in locale and report dsign information
+		params = new ArrayList();
+		
+		while (iter.hasNext())
+		{
+			ParameterDefnBase paraBase = (ParameterDefnBase) iter.next();
+			try
+			{
+				params.add(paraBase.clone());
+			}
+			catch (CloneNotSupportedException e)
+			{
+				log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
+		
+		if (params != null)
+		{
+			iter = params.iterator();
+			while (iter.hasNext())
+			{
+				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
+				if (pBase instanceof ScalarParameterDefn) 
+				{
+					((ScalarParameterDefn)pBase).setReportDesign(runnable.getDesignHandle().getDesign());
+					((ScalarParameterDefn)pBase).setLocale(locale);
+					((ScalarParameterDefn)pBase).evaluateSelectionList();
+				}
+				else if (pBase instanceof ParameterGroupDefn)
+				{
+					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
+					while (iter2.hasNext())
+					{
+						IParameterDefnBase p = (IParameterDefnBase) iter2.next();
+						if (p instanceof ScalarParameterDefn) 
+						{
+							((ScalarParameterDefn)p).setReportDesign(runnable.getDesignHandle().getDesign());
+							((ScalarParameterDefn)p).setLocale(locale);	
+							((ScalarParameterDefn)pBase).evaluateSelectionList();
+						}
+					}
+				}
+			}
+		}
+		return params;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#evaluateDefaults()
+	 */
+	public void evaluateDefaults() throws EngineException
+	{
+		//evaluate the default value
+		if (params == null)
+			params = getParameterDefns(false);
+
+		if (params != null)
+		{
+			Iterator iter = params.iterator();
+			while (iter.hasNext())
+			{
+				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
+				if (pBase instanceof ScalarParameterDefn) 
+					evaluateDefault((ScalarParameterDefn)pBase);
+				else if (pBase instanceof ParameterGroupDefn)
+				{
+					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
+					while (iter2.hasNext())
+					{
+							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
+							if (p instanceof ScalarParameterDefn) 
+								evaluateDefault((ScalarParameterDefn)p);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * evaluate default values for parameter p. This involves expression execution and has to be called
+	 * from within a task 
+	 * 
+	 * @param p the scalar parameter wgose default value is to be evaluated
+	 */
+	private void evaluateDefault(ScalarParameterDefn p)
+	{
+		String expr = p.getDefaultValueExpr();
+		int type = p.getDataType();
+		//Object value = evaluate(expr, type);
+		
+		if ( expr != null )
+		{
+			Object value = executionContext.evaluate(expr);
+		
+			if ( value != null )
+			{
+				try
+				{
+					switch (type)
+					{
+						case IScalarParameterDefn.TYPE_BOOLEAN :
+							value = DataTypeUtil.toBoolean(value);
+							break;
+						case IScalarParameterDefn.TYPE_DATE_TIME :
+							value = DataTypeUtil.toDate(value);
+							break;
+						case IScalarParameterDefn.TYPE_DECIMAL :
+							value = DataTypeUtil.toBigDecimal(value);
+							break;
+						case IScalarParameterDefn.TYPE_FLOAT :
+							value = DataTypeUtil.toDouble(value);
+							break;
+					}
+				}
+				catch (BirtException e)
+				{
+					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				}
+	
+				if (value != null)
+					defaultValues.put(p.getName(), value);
+			}
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#setValue(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public void setValue(String name, Object value)
+	{
+		defaultValues.put(name, value);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#getParameterValues()
+	 */
+	public HashMap getParameterValues()
+	{
+		return defaultValues;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#getDefaultValue(org.eclipse.birt.report.engine.api2.IParameterDefnBase)
+	 */
+	public Object getDefaultValue(IParameterDefnBase param)
+	{
+		// For now, only supports scalar parameters
+		if (param instanceof ScalarParameterDefn)
+			return defaultValues.get(param.getName());
+		return null;
+	}
+}
+

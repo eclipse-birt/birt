@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api;
 
-
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -20,12 +18,10 @@ import java.util.Map;
  * 
  * Note that even though display name and help text are locale-sensitive, the
  * API does not take a locale. The parameter returned to the user was obtained
- * from a report handle, which has already had a locale.
+ * from a report runnable, which has already had a locale.
  */
-
 public interface IParameterDefnBase
 {
-
 	public static final int SCALAR_PARAMETER = 0;
 	public static final int FILTER_PARAMETER = 1;
 	public static final int LIST_PARAMETER = 2;
@@ -36,33 +32,42 @@ public interface IParameterDefnBase
 	 * @return the parameter type, i.e., scalar, filter, list, table or
 	 *         parameter group
 	 */
-	public int getType( );
+	public int getParameterType( );
 
-	/*
-	 * get the name of a parameter definition
+	/**
+	 * returns the name of the parameter
+	 * 
+	 * @return the name of the parameter 
 	 */
 	public String getName( );
 
 	/**
-	 * @return display name under the default locale
+	 * returns the locale-specific display name for the parameter. The locale used is the
+	 * locale in the getParameterDefinition task
+	 * 
+	 * @return display name under the request or default locale
 	 */
-	public String getDisplayName( );
+	public String getDisplayName();
 	
 	/**
-	 * get the display name of the locale
-	 * @param locale locale
-	 * @return display name
+	 * returns the locale-specific help text. The locale used is the
+	 * locale in the getParameterDefinition task
+	 * 
+	 * @return help text for the parameter  
 	 */
-	public String getDisplayName (Locale locale);
+	public String getHelpText( );
+	
+	/**
+	 *	returns a collection of user-defined property name and value pairs
+	 *
+	 * 	@return a collection of user-defined property name ane value pairs
+	 */
+	public Map getUserPropertyValues( );
 
 	/**
-	 * @return an ordered collection of custom property name ane value pairs
-	 *  
+	 * returns the value of a user-defined property
+	 * 
+	 * @return the value for a user-defined property
 	 */
-	public Map getCustomProperties( );
-
-	/**
-	 * @return the value for a custom property
-	 */
-	public String getCustomPropertyValue( String name );
+	public String getUserPropertyValue( String name );
 }

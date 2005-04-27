@@ -52,33 +52,20 @@
       </annotation>
       <complexType>
          <sequence>
+            <element ref="format" minOccurs="1" maxOccurs="unbounded"/>
             <element ref="reportItem" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
-         <attribute name="format" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Supported output formats in this emitter. Format strings are case-insensitive.
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  a unique identifier for this emitter
+                  an optional identifier of the emitter extension
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  a fully qualified name of a java class that implements &lt;code&gt;IReportEmitter&lt;/code&gt;
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  optional name for the emitter
+                  the java class that implements the &lt;code&gt;IReportEmitter&lt;/code&gt; interface
                </documentation>
             </annotation>
          </attribute>
@@ -95,14 +82,14 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the name of the report item that the emitter class supports. For example, &quot;org.eclipse.birt.chart&quot; for the BIRT provided chart extended item
+                  the name of the report item that the emitterClass supports. For example, &quot;chart&quot; for chart extension item
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  the class that supports this type of report item for a specific format
+                  the emitter class that supports this type of report item for a specific format
                </documentation>
             </annotation>
          </attribute>
@@ -114,6 +101,40 @@
             </annotation>
          </attribute>
       </complexType>
+   </element>
+
+
+   <element name="format">
+    	<complexType>
+	        <sequence>
+	            <element ref="option" minOccurs="0" maxOccurs="unbounded"/>
+	         </sequence>
+         </complexType>
+   		<attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  the format name,such as html, pdf etc
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="mimeType" type="string">
+            <annotation>
+               <documentation>
+                  the MimeType of this format
+               </documentation>
+            </annotation>
+         </attribute>
+    
+   </element>
+
+   <element name="option">
+   		<attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  the option name
+               </documentation>
+            </annotation>
+         </attribute>
    </element>
 
    <annotation>
@@ -136,11 +157,10 @@
 &lt;pre&gt;
 
 &lt;extension 
- point=&quot;org.eclipse.birt.report.engine.emitters&quot;
+ point=&quot;org.eclipse.birt.report.engine.emitterSet&quot;
  name = &quot;Engine Emitters&quot;&gt;
  &lt;emitter 
   format=&quot;HTML&quot; 
-  name=&quot;HTML emitters&quot;
   id=&quot;org.eclipse.birt.report.engine.emitter.html&quot;
   class=&quot;org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter&quot;&gt;
   &lt;reportItem name=&quot;chart&quot;
@@ -149,8 +169,7 @@
   &lt;/reportItem&gt;
  &lt;/emitter&gt;
  &lt;emitter 
-  format=&quot;FO&quot;
-  name=&quot;FO Emitter&quot; 
+  format=&quot;FO&quot; 
   id=&quot;org.eclipse.birt.report.engine.emitter.fo&quot;
   class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt;
   &lt;reportItem name=&quot;chart&quot;
@@ -159,7 +178,7 @@
  &lt;/emitter&gt;
  &lt;emitter
   id=&quot;org.eclipse.birt.report.engine.emitter.pdf&quot;
-  name=&quot;PDF emitter&quot; class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt; 
+  class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt; 
   &lt;reportItem name=&quot;chart&quot;
    id=&quot;org.eclipse.birt.report.engine.emitter.chart.pdf&quot;
    emitterClass=&quot;org.eclipse.birt.report.engine.emitter.html.FOChartEmitter&quot;/&gt;
@@ -178,7 +197,7 @@ Notice that in this example, the same class is used for both PDF and FO format. 
       </appInfo>
       <documentation>
          The value of the class attribute for the emitter element must be the fully qualified name of a class that implement  &lt;code&gt;org.eclipse.birt.engine.extension.IReportEmitter&lt;/code&gt;.&lt;p&gt;
-The value of the class attribute for the reportItem element must be a fully  qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemEmitter&lt;/code&gt;.
+The value of the emitterClass attribute for the reportItem element must be a fully  qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IReportItemEmitter&lt;/code&gt;.
       </documentation>
    </annotation>
 
