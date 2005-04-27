@@ -266,6 +266,12 @@ public class TableOptionDialog extends BaseDialog
 
 				public void verifyText( VerifyEvent e )
 				{
+					if ( e.keyCode == 8 || e.keyCode == 127 )
+					{
+						e.doit = true;
+						return;
+					}
+
 					try
 					{
 						Integer.parseInt( e.text );
@@ -344,6 +350,7 @@ public class TableOptionDialog extends BaseDialog
 				}
 				catch ( NumberFormatException e )
 				{
+					text.setText( String.valueOf( 1 ) );
 				}
 			}
 		}
@@ -366,6 +373,7 @@ public class TableOptionDialog extends BaseDialog
 				}
 				catch ( NumberFormatException e )
 				{
+					text.setText( String.valueOf( 1 ) );
 				}
 			}
 		}
