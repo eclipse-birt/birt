@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/27 05:35:36 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -73,22 +73,24 @@ public class ListItemExecutor extends ListingElementExecutor
 		{
 			//execute the on start script
 			context.execute( list.getOnStart( ) );
-			String bookmarkStr = evalBookmark( item );
-			if ( bookmarkStr != null )
-				listContent.setBookmarkValue( bookmarkStr );			
-			emitter.getContainerEmitter( ).start( listContent );
 			logger.log( Level.FINE, "start get list data" ); //$NON-NLS-1$
 			rs = openResultSet( list );
-			logger.log( Level.FINE, "end get list data" ); //$NON-NLS-1$
-
-			setVisibility( item, listContent );
-			setStyles( listContent, item );
-			
 			boolean isRowAvailable = false;
 			if ( rs != null )
 			{
 				isRowAvailable = rs.next( );
 			}
+			logger.log( Level.FINE, "end get list data" ); //$NON-NLS-1$
+
+			String bookmarkStr = evalBookmark( item );
+			if ( bookmarkStr != null )
+				listContent.setBookmarkValue( bookmarkStr );			
+
+			setVisibility( item, listContent );
+			setStyles( listContent, item );
+			
+			emitter.getContainerEmitter( ).start( listContent );
+
 			//access list header
 			accessHeader( );
 
