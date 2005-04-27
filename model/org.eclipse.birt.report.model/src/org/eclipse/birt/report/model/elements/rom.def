@@ -1190,17 +1190,39 @@
 		</Method>						
   </Class>
   <Class name="Finance" displayNameID="Class.Finance" toolTipID="Class.Finance.toolTip">	
+		<Method name="sln" displayNameID="Class.Finance.sln" toolTipID="Class.Finance.sln.toolTip" returnType="number" isStatic="true">
+			<Argument name="initialCost" type="number" tagID="Class.Finance.sln.initialCost"/>
+			<Argument name="salvageValue" type="number" tagID="Class.Finance.sln.salvageValue"/>			 
+			<Argument name="assetLifespan" type="number" tagID="Class.Finance.sln.assetLifespan"/>			 			
+		</Method>			      
+		<Method name="nper" displayNameID="Class.Finance.nper" toolTipID="Class.Finance.nper.toolTip" returnType="number" isStatic="true">
+			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.nper.ratePerPeriod"/>
+			<Argument name="eachPmt" type="number" tagID="Class.Finance.nper.eachPmt"/>			 
+			<Argument name="presentValue" type="number" tagID="Class.Finance.nper.presentValue"/>			 			
+			<Argument name="futureValue" type="number" tagID="Class.Finance.nper.futureValue"/>			 						
+			<Argument name="whenDue" type="number" tagID="Class.Finance.nper.whenDue"/>			 									
+		</Method>								
+		<Method name="npv" displayNameID="Class.Finance.npv" toolTipID="Class.Finance.npv.toolTip" returnType="number" isStatic="true">
+			<Argument name="rate" type="number" tagID="Class.Finance.npv.rate"/>
+			<Argument name="cashArray" type="number[]" tagID="Class.Finance.npv.cashArray"/>			 
+		</Method>						 		
+	    <Method name="mirr" displayNameID="Class.Finance.mirr" toolTipID="Class.Finance.mirr.toolTip" returnType="number" isStatic="true">
+			<Argument name="cashArray" type="number[]" tagID="Class.Finance.mirr.cashArray"/>			 
+			<Argument name="financeRate" type="number" tagID="Class.Finance.mirr.rate"/>
+			<Argument name="reinvestmentRate " type="number" tagID="Class.Finance.mirr.rate"/>
+		</Method>	
+	    <Method name="percent" displayNameID="Class.Finance.percent" toolTipID="Class.Finance.percent.toolTip" returnType="number" isStatic="true">
+			<Argument name="denom" type="number" tagID="Class.Finance.percent.denom"/>			 
+			<Argument name="num" type="number" tagID="Class.Finance.percent.num"/>
+			<Argument name="valueIfZero" type="number" tagID="Class.Finance.percent.rate"/>
+		</Method>			
+        <!--		
 		<Method name="ddb" displayNameID="Class.Finance.ddb" toolTipID="Class.Finance.ddb.toolTip" returnType="number" isStatic="true">
 			<Argument name="initialCost" type="number" tagID="Class.Finance.ddb.initialCost"/>
 			<Argument name="salvageValue" type="number" tagID="Class.Finance.ddb.salvageValue"/>			 
 			<Argument name="assetLifespan" type="number" tagID="Class.Finance.ddb.assetLifespan"/>			 			
 			<Argument name="singlePeriod" type="number" tagID="Class.Finance.ddb.singlePeriod"/>			 			
-		</Method>						
-		<Method name="sln" displayNameID="Class.Finance.sln" toolTipID="Class.Finance.sln.toolTip" returnType="number" isStatic="true">
-			<Argument name="initialCost" type="number" tagID="Class.Finance.sln.initialCost"/>
-			<Argument name="salvageValue" type="number" tagID="Class.Finance.sln.salvageValue"/>			 
-			<Argument name="assetLifespan" type="number" tagID="Class.Finance.sln.assetLifespan"/>			 			
-		</Method>						
+		</Method>									
 		<Method name="syd" displayNameID="Class.Finance.syd" toolTipID="Class.Finance.syd.toolTip" returnType="number" isStatic="true">
 			<Argument name="initialCost" type="number" tagID="Class.Finance.syd.initialCost"/>
 			<Argument name="salvageValue" type="number" tagID="Class.Finance.syd.salvageValue"/>			 
@@ -1221,13 +1243,6 @@
 			<Argument name="presentValue" type="number" tagID="Class.Finance.ipmt.presentValue"/>			 			
 			<Argument name="futureValue" type="number" tagID="Class.Finance.ipmt.futureValue"/>			 						
 			<Argument name="whenDue" type="number" tagID="Class.Finance.ipmt.whenDue"/>			 									
-		</Method>						
-		<Method name="nper" displayNameID="Class.Finance.nper" toolTipID="Class.Finance.nper.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.nper.ratePerPeriod"/>
-			<Argument name="eachPmt" type="number" tagID="Class.Finance.nper.eachPmt"/>			 
-			<Argument name="presentValue" type="number" tagID="Class.Finance.nper.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.nper.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.nper.whenDue"/>			 									
 		</Method>						
 		<Method name="pmt" displayNameID="Class.Finance.pmt" toolTipID="Class.Finance.pmt.toolTip" returnType="number" isStatic="true">
 			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.pmt.ratePerPeriod"/>
@@ -1263,20 +1278,7 @@
 			<Argument name="cashArray" type="String" tagID="Class.Finance.irr.cashArray"/>			 
 			<Argument name="startingGuess" type="number" tagID="Class.Finance.irr.startingGuess"/>
 		</Method>						 
-		<Method name="npv" displayNameID="Class.Finance.npv" toolTipID="Class.Finance.npv.toolTip" returnType="number" isStatic="true">
-			<Argument name="rate" type="number" tagID="Class.Finance.npv.rate"/>
-			<Argument name="cashArray" type="number[]" tagID="Class.Finance.npv.cashArray"/>			 
-		</Method>						 		
-	    <Method name="mirr" displayNameID="Class.Finance.mirr" toolTipID="Class.Finance.mirr.toolTip" returnType="number" isStatic="true">
-			<Argument name="cashArray" type="number[]" tagID="Class.Finance.mirr.cashArray"/>			 
-			<Argument name="financeRate" type="number" tagID="Class.Finance.mirr.rate"/>
-			<Argument name="reinvestmentRate " type="number" tagID="Class.Finance.mirr.rate"/>
-		</Method>	
-	    <Method name="percent" displayNameID="Class.Finance.percent" toolTipID="Class.Finance.percent.toolTip" returnType="number" isStatic="true">
-			<Argument name="denom" type="number" tagID="Class.Finance.percent.denom"/>			 
-			<Argument name="num" type="number" tagID="Class.Finance.percent.num"/>
-			<Argument name="valueIfZero" type="number" tagID="Class.Finance.percent.rate"/>
-		</Method>			
+		-->
   </Class>			
   <Class name="DateTimeSpan" displayNameID="Class.DateTimeSpan" toolTipID="Class.DateTimeSpan.toolTip">	
 	    <Method name="years" displayNameID="Class.DateTimeSpan.years" toolTipID="Class.DateTimeSpan.years.toolTip" returnType="number" isStatic="true">
