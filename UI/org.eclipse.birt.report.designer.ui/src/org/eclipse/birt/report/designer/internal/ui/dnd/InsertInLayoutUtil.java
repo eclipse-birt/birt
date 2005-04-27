@@ -527,7 +527,7 @@ public class InsertInLayoutUtil
 	{
 		DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
 				.getColumns( model, false );
-		if ( columns.length == 0 )
+		if ( columns == null || columns.length == 0 )
 		{
 			return null;
 		}
