@@ -15,6 +15,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/04/27 05:35:26 $
+ * @version $Revision: 1.25 $ $Date: 2005/04/27 07:03:39 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -154,11 +155,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	public void initialize( IEmitterServices services )
 	{
 		this.services = services;
-		Object value = services.getOption( RenderOptionBase.OUTPUT_STREAM );
-		if(value!=null && value instanceof OutputStream)
-		{
-			out = (OutputStream)value;
-		}
+
 		Object fd = services.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
 		File file = null;
 		try
@@ -168,22 +165,34 @@ public class HTMLReportEmitter implements IReportEmitter
 				file = new File(fd.toString());
 				out = new BufferedOutputStream( new FileOutputStream( file ) );
 			}
+		}
+		catch( FileNotFoundException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
+		}
+		
+		if( out == null )
+		{
+			Object value = services.getOption( RenderOptionBase.OUTPUT_STREAM );
+			if( value != null && value instanceof OutputStream )
+			{
+				out = ( OutputStream ) value;
+			}
 			else
 			{
-				if(out==null)
+				try
 				{
 					//FIXME
-					file = new File(REPORT_FILE) ;
+					file = new File( REPORT_FILE );
 					out = new BufferedOutputStream( new FileOutputStream( file ) );
+				}
+				catch ( FileNotFoundException e )
+				{
+					// FIXME
+					logger.log(Level.SEVERE, e.getMessage( ), e );
 				}
 			}
 		}
-		catch (FileNotFoundException e)
-		{
-			// FIXME
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
 		
 		Object emitterConfig = services.getEmitterConfig().get("html"); //$NON-NLS-1$
 		if(emitterConfig!=null && emitterConfig instanceof HTMLEmitterConfig)
@@ -417,6 +426,17 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 		writer.endWriter( );
 		writer.close( );
+		if( out != null )
+		{
+			try
+			{
+				out.close( );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
 	}
 
 	/*
