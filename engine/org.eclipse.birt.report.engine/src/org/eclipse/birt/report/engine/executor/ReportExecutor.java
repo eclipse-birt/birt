@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/27 05:35:36 $
  */
 public class ReportExecutor
 {
@@ -134,11 +134,19 @@ public class ReportExecutor
 		//assert ( report.getContentCount( ) >= 1 );
 
 		// only top-level elements maybe have the master page reference for now
-		for ( int i = 0; i < report.getContentCount( ); i++ )
+		if ( report.getContentCount( ) > 0 )
 		{
-			builder.startPageFlow( report.getContent( i ).getStyle( )
-					.getMasterPage( ) );
-			report.getContent( i ).accept( builder );
+			for ( int i = 0; i < report.getContentCount( ); i++ )
+			{
+				builder.startPageFlow( report.getContent( i ).getStyle( )
+						.getMasterPage( ) );
+				report.getContent( i ).accept( builder );
+				builder.endPageFlow( );
+			}
+		}
+		else
+		{
+			builder.startPageFlow( null );
 			builder.endPageFlow( );
 		}
 		//Outputs the error message at the end of the report
@@ -168,10 +176,8 @@ public class ReportExecutor
 		}
 		//USED TO FIX BUG 74548
 		//FIXME: update the master page handle routines.
-		if ( report.getContentCount( ) > 0 )
-		{
-			emitter.getPageSetupEmitter( ).endBody( );
-		}
+		emitter.getPageSetupEmitter( ).endBody( );
+		
 		emitter.endBody( );
 		context.popMasterPage( );
 		context.popMasterPage( );
