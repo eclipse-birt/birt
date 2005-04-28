@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
 /**
  * image content object
  * 
- * @version $Revision: 1.1 $ $Date: 2005/04/27 03:11:13 $
+ * @version $Revision: 1.2 $ $Date: 2005/04/28 10:11:12 $
  */
 public class Image implements IImage
 {
@@ -116,8 +116,8 @@ public class Image implements IImage
 		case ImageItemDesign.IMAGE_NAME:
 			if( imgData != null )
 			{
-				this.in = new ByteArrayInputStream(this.data);
 				this.data = imgData;
+				this.in = new ByteArrayInputStream(this.data);
 				this.source = IImage.DESIGN_IMAGE;
 				this.id = imgUri;
 			}
@@ -125,8 +125,8 @@ public class Image implements IImage
 		case ImageItemDesign.IMAGE_EXPRESSION:
 			if( imgData != null )
 			{
-				this.in = new ByteArrayInputStream(this.data);
 				this.data = imgData;
+				this.in = new ByteArrayInputStream(this.data);
 				this.source = IImage.CUSTOM_IMAGE;
 			}
 			break;
