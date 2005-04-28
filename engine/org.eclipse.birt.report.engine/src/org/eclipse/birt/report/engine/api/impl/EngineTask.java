@@ -96,6 +96,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setLocale(Locale locale) {
 		this.locale = locale;
+		executionContext.setLocale(locale);
 	}
 	
 	/**

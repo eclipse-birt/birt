@@ -68,8 +68,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public RunAndRenderTask(ReportEngine engine, IReportRunnable runnable)
 	{
 		super(engine, runnable);
-		executionContext.setRunnable(runnable);
-		executionContext.setLocale(locale);
 	}
 
 	/* (non-Javadoc)
