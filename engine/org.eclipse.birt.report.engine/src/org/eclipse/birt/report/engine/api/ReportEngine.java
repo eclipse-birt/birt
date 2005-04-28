@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.InputStream;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -55,8 +56,24 @@ public class ReportEngine {
 	{	
 		this.config = config;	
 		this.helper = new ReportEngineHelper(this);
+		setupLogging();
 	}
 	
+	/**
+	 * set up engine logging
+	 */
+	private void setupLogging() {
+		String dest = (String)config.configObjects.get(EngineConfig.LOG_DESTINATION);
+		
+		if ( dest != null )
+		{
+			Level level = (Level)config.configObjects.get(EngineConfig.LOG_LEVEL);
+			if (level == null)
+				level = Level.WARNING;
+			helper.setupLogging(dest, level);
+		}
+	}
+
 	/**
 	 * returns the engine configuration object
 	 * 

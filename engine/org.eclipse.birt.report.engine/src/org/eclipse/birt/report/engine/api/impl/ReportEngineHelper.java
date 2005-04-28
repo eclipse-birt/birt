@@ -59,10 +59,7 @@ public class ReportEngineHelper
 	public ReportEngineHelper(ReportEngine engine)
 	{
 		this.engine = engine;
-		
 		extensionMgr = ExtensionManager.getInstance();
-		
-		
 	}
 	
 	/**
@@ -187,5 +184,13 @@ public class ReportEngineHelper
 	 */
 	public String getMIMEType(String format) {
 		return extensionMgr.getMIMEType(format);
+	}
+
+	/**
+	 * @param dest log destination. It is the name prefix for log file
+	 * @param level log level
+	 */
+	public void setupLogging(String dest, Level level) {
+		EngineLogger.startEngineLogging(dest, level);
 	}
 }

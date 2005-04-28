@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 /**
  * Wraps around configuration settings for report engine. Allows developers to 
@@ -22,8 +23,10 @@ import java.util.HashMap;
  */
 public class EngineConfig {
 
-	public static final String CONFIG_VAR_ENGINE_HOME = "BIRT_HOME";				 //$NON-NLS-1$
-
+	public static final String CONFIG_VAR_ENGINE_HOME = "BIRT_HOME";		//$NON-NLS-1$
+	protected static final String STATUS_HANDLER= "status";					//$NON-NLS-1$
+	protected static final String LOG_DESTINATION= "logDest";				//$NON-NLS-1$			
+	protected static final String LOG_LEVEL= "logLevel";					//$NON-NLS-1$
 	
 	/**
 	 * stores various configuration objects
@@ -137,6 +140,36 @@ public class EngineConfig {
 	public void setEmitterConfiguration(String format, Object emitterConfig)
 	{
 		emitterConfigs.put(format, emitterConfig);
+	}
+	
+	/**
+	 * 	sets the handler for reporting report running status.  
+	 * 
+	 * @param handler status handler
+	 */
+	public void setStatusHandler(IStatusHandler handler)
+	{
+		emitterConfigs.put(STATUS_HANDLER, handler);
+	}
+
+	/**
+	 * sets the log file location for engine
+	 * 
+	 * @param namePrefix the name prefix used for engine log file. Engine appends date and
+	 * time to the file name. 
+	 */
+	public void setLogDestination(String namePrefix)
+	{
+		configObjects.put(LOG_DESTINATION, namePrefix);
+	}
+	
+	/**
+	 * sets the log level for engine
+	 * 
+	 * @param level log level
+	 */
+	public void setLogLevel(Level level){
+		configObjects.put(LOG_LEVEL, level);
 	}
 
 }
