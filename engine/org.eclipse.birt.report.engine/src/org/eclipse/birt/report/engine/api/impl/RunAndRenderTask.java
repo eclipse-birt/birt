@@ -77,7 +77,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		// evaluate default and combines it with the parameter values that are set
 		Collection paramDefns = ((ReportRunnable)runnable).getParameterDefns(false);
-		evaluateDefaults(paramDefns);
+		runValues.putAll(evaluateDefaults(paramDefns));
 		runValues.putAll(inputValues);
 		
 		// Validate each parameter. Ideally, we will return all validation failures. 
@@ -221,78 +221,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 		assert type == IScalarParameterDefn.TYPE_ANY;
 		return true;
-	}
-	
-	private void evaluateDefaults(Collection params) 
-	{
-		if (params != null)
-		{
-			Iterator iter = params.iterator();
-			while (iter.hasNext())
-			{
-				
-				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
-				if (pBase instanceof ScalarParameterDefn) 
-					evaluateDefault((ScalarParameterDefn) pBase, ((ScalarParameterDefn) pBase).getDefaultValueExpr());
-				else if (pBase instanceof ParameterGroupDefn)
-				{
-					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
-					while (iter2.hasNext())
-					{
-							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
-							if (p instanceof ScalarParameterDefn) 
-							{
-								evaluateDefault((ScalarParameterDefn) p,((ScalarParameterDefn) p).getDefaultValueExpr() );
-							}
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @param p the scalar parameter
-	 * @param expr the default value expression 
-	 */
-	private void evaluateDefault(ScalarParameterDefn p, String expr)
-	{
-		Object value = null;
-		int type = p.getDataType();
-		
-		// evaluate the default value expression
-		if (expr != null)
-		{
-			value = executionContext.evaluate(expr);
-			if( value == null && expr != null && expr.length() > 0)
-				value = expr;
-			try
-			{
-				switch (type)
-				{
-					case IScalarParameterDefn.TYPE_BOOLEAN :
-						value = DataTypeUtil.toBoolean(value);
-						break;
-					case IScalarParameterDefn.TYPE_DATE_TIME :
-						value = DataTypeUtil.toDate(value);
-						break;
-					case IScalarParameterDefn.TYPE_DECIMAL :
-						value = DataTypeUtil.toBigDecimal(value);
-						break;
-					case IScalarParameterDefn.TYPE_FLOAT :
-						value = DataTypeUtil.toDouble(value);
-						break;
-				}
-	
-			}
-			catch (BirtException e)
-			{
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				value = null;
-			}
-		}
-		
-		if(value != null)
-			runValues.put(p.getName(), value);
 	}
 	
 	/*

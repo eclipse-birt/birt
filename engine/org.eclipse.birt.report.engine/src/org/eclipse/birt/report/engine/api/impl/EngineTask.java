@@ -11,12 +11,21 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -147,5 +156,84 @@ public abstract class EngineTask implements IEngineTask
 	public IReportRunnable getReportRunnable()
 	{
 		return this.runnable;
+	}
+	
+	/**
+	 * @param params a collection of parameter definitions
+	 */
+	protected HashMap evaluateDefaults(Collection params) 
+	{
+		HashMap values = new HashMap();
+		if (params != null)
+		{
+			Iterator iter = params.iterator();
+			while (iter.hasNext())
+			{
+				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
+				if (pBase instanceof ScalarParameterDefn) 
+				{
+					Object val = evaluateDefault((ScalarParameterDefn) pBase, ((ScalarParameterDefn) pBase).getDefaultValueExpr());
+					values.put(pBase.getName(), val);
+				}
+				else if (pBase instanceof ParameterGroupDefn)
+				{
+					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
+					while (iter2.hasNext())
+					{
+							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
+							if (p instanceof ScalarParameterDefn) 
+							{
+								Object val = evaluateDefault((ScalarParameterDefn) p,((ScalarParameterDefn) p).getDefaultValueExpr() );
+								values.put(pBase.getName(), val);
+							}
+					}
+				}
+			}
+		}
+		return values;
+	}
+
+	/**
+	 * @param p the scalar parameter
+	 * @param expr the default value expression 
+	 */
+	private Object evaluateDefault(ScalarParameterDefn p, String expr)
+	{
+		Object value = null;
+		int type = p.getDataType();
+		
+		// evaluate the default value expression
+		if (expr != null)
+		{
+			value = executionContext.evaluate(expr);
+			if( value == null && expr != null && expr.length() > 0)
+				value = expr;
+			try
+			{
+				switch (type)
+				{
+					case IScalarParameterDefn.TYPE_BOOLEAN :
+						value = DataTypeUtil.toBoolean(value);
+						break;
+					case IScalarParameterDefn.TYPE_DATE_TIME :
+						value = DataTypeUtil.toDate(value);
+						break;
+					case IScalarParameterDefn.TYPE_DECIMAL :
+						value = DataTypeUtil.toBigDecimal(value);
+						break;
+					case IScalarParameterDefn.TYPE_FLOAT :
+						value = DataTypeUtil.toDouble(value);
+						break;
+				}
+	
+			}
+			catch (BirtException e)
+			{
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				value = null;
+			}
+		}
+		
+		return value;
 	}
 }

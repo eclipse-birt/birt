@@ -115,75 +115,14 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		//evaluate the default value
 		if (params == null)
 			params = getParameterDefns(false);
-
-		if (params != null)
+		
+		if (params != null && params.size() > 0)
 		{
-			Iterator iter = params.iterator();
-			while (iter.hasNext())
-			{
-				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
-				if (pBase instanceof ScalarParameterDefn) 
-					evaluateDefault((ScalarParameterDefn)pBase);
-				else if (pBase instanceof ParameterGroupDefn)
-				{
-					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
-					while (iter2.hasNext())
-					{
-							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
-							if (p instanceof ScalarParameterDefn) 
-								evaluateDefault((ScalarParameterDefn)p);
-					}
-				}
-			}
+			defaultValues.putAll(evaluateDefaults(params));
 		}
 	}
 
-	/**
-	 * evaluate default values for parameter p. This involves expression execution and has to be called
-	 * from within a task 
-	 * 
-	 * @param p the scalar parameter wgose default value is to be evaluated
-	 */
-	private void evaluateDefault(ScalarParameterDefn p)
-	{
-		String expr = p.getDefaultValueExpr();
-		int type = p.getDataType();
-		
-		if ( expr != null )
-		{
-			Object value = executionContext.evaluate(expr);
-		
-			if ( value != null )
-			{
-				try
-				{
-					switch (type)
-					{
-						case IScalarParameterDefn.TYPE_BOOLEAN :
-							value = DataTypeUtil.toBoolean(value);
-							break;
-						case IScalarParameterDefn.TYPE_DATE_TIME :
-							value = DataTypeUtil.toDate(value);
-							break;
-						case IScalarParameterDefn.TYPE_DECIMAL :
-							value = DataTypeUtil.toBigDecimal(value);
-							break;
-						case IScalarParameterDefn.TYPE_FLOAT :
-							value = DataTypeUtil.toDouble(value);
-							break;
-					}
-				}
-				catch (BirtException e)
-				{
-					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				}
-	
-				if (value != null)
-					defaultValues.put(p.getName(), value);
-			}
-		}
-	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
