@@ -25,6 +25,7 @@ public interface IImage extends IReportPart {
 	public final static int URL_IMAGE = 2;
 	public final static int FILE_IMAGE = 3;
 	public final static int CUSTOM_IMAGE = 4;
+	public final static int INVALID_IMAGE = -1;
 	
 	
 	/**

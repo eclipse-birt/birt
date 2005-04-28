@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/27 03:11:13 $
  */
 public class FileUtil
 {
@@ -322,6 +322,11 @@ public class FileUtil
 	 */
 	public static byte[] getFileContent( String fileName )
 	{
+		if( fileName == null )
+		{
+			return null;
+		}
+		
 		try
 		{
 			//Uses the buffered stream to improve the performance.

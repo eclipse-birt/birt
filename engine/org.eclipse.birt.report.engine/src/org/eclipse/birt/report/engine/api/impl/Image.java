@@ -31,15 +31,15 @@ import org.eclipse.birt.report.engine.util.FileUtil;
 /**
  * image content object
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/25 07:28:38 $
+ * @version $Revision: 1.1 $ $Date: 2005/04/27 03:11:13 $
  */
 public class Image implements IImage
 {
 	protected static Logger logger = Logger.getLogger( Image.class
 			.getName( ) );
-	protected String id;
+	protected String id = null;
 	
-	protected int source;
+	protected int source = IImage.INVALID_IMAGE;
 	
 	protected byte[] data = null;
 	
@@ -93,35 +93,49 @@ public class Image implements IImage
 
 	public Image(IImageItemContent content)
 	{
+		String imgUri = content.getUri( );
+		byte[] imgData = content.getData( );
+		
 		switch(content.getImageSource())
 		{
 		case ImageItemDesign.IMAGE_FILE:
-			
-			try
+			if( imgUri != null )
+			{
+				try
 				{
-					in = new BufferedInputStream(new FileInputStream(new File(content.getUri())));
+					in = new BufferedInputStream(new FileInputStream(new File(imgUri)));
+					this.id = imgUri;
+					this.source = IImage.FILE_IMAGE;
 				}
 				catch (FileNotFoundException e)
 				{
 					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
-			this.source = IImage.FILE_IMAGE;
-			this.id = content.getUri();
+			}
 			break;
 		case ImageItemDesign.IMAGE_NAME:
-			this.data = content.getData();
-			this.in = new ByteArrayInputStream(this.data);
-			this.source = IImage.DESIGN_IMAGE;
-			this.id = content.getUri();
+			if( imgData != null )
+			{
+				this.in = new ByteArrayInputStream(this.data);
+				this.data = imgData;
+				this.source = IImage.DESIGN_IMAGE;
+				this.id = imgUri;
+			}
 			break;
 		case ImageItemDesign.IMAGE_EXPRESSION:
-			this.data = content.getData();
-			this.in = new ByteArrayInputStream(this.data);
-			this.source = IImage.CUSTOM_IMAGE;
+			if( imgData != null )
+			{
+				this.in = new ByteArrayInputStream(this.data);
+				this.data = imgData;
+				this.source = IImage.CUSTOM_IMAGE;
+			}
 			break;
 		case ImageItemDesign.IMAGE_URI:
-			this.id = content.getUri();
-			this.source = IImage.URL_IMAGE;
+			if( imgUri != null )
+			{
+				this.id = imgUri;
+				this.source = IImage.URL_IMAGE;
+			}
 			break;
 		default:
 			assert(false);
