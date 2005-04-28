@@ -87,6 +87,9 @@
 		<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 		</fileset>
+		<fileset dir="${core.dir}/lib">
+			<include name="js.jar"/>
+		</fileset>
 		<fileset dir="${oda.dir}">
 			<include name="oda.jar"/>
 		</fileset>
