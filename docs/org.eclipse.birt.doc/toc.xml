@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="BIRT Developer Guide" >
+  <topic label="Field Guide to BIRT" href="birt/birt-02-2.html" />
+	<topic label="Report Object Model API" href="model/api/index.html"/>
+	<topic label="Report Engine API" href="engine/api/index.html"/>
+	<topic label="Open Data Access (ODA) API" href="data/api/index.html"/>
+	<topic label="Chart API" href="chart/api/index.html"/>
+</toc>
