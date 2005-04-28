@@ -34,14 +34,16 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	
 	protected Logger log = Logger.getLogger( ParameterSelectionChoice.class.getName( ) );
 	
+	/**
+	 * @param design the report design
+	 */
 	public ParameterSelectionChoice(ReportDesign design)
 	{
 		this.design = design;
 	}
 	
 	/**
-	 * 
-	 * @param locale
+	 * @param locale the locale
 	 */
 	public void setLocale(Locale locale)
 	{
@@ -49,8 +51,8 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	}
 	
 	/**
-	 * @param lableKey
-	 * @param label
+	 * @param lableKey the label key string
+	 * @param label the label string
 	 */
 	public void setLabel(String lableKey, String label)
 	{
@@ -58,8 +60,12 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 		this.labelKey = lableKey;
 	}
 	
-	/** 
-	 * @param value
+	/**
+	 * set parameter choice value. The string value is in English locale, and needs to be parsed
+	 * back into object value based on the data type. 
+	 * 
+	 * @param value the string value for the object
+	 * @param type the parameter data type
 	 */
 	public void setValue(String value, int type) {
 		try {
@@ -99,7 +105,7 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 		
 		String ret = design.getMessage( labelKey, 
 				(locale == null ) ? Locale.getDefault() : locale);
-		return (ret == null) ? label : ret;
+		return (ret == null || ret.length() == 0) ? label : ret;
 	}
 	
 	/* (non-Javadoc)

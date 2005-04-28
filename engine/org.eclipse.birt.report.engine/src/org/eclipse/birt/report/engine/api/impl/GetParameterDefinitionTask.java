@@ -25,17 +25,23 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
- * Defines en engine task that handles parameter definition retrieval
+ * Defines an engine task that handles parameter definition retrieval
  */
 public class GetParameterDefinitionTask extends EngineTask implements IGetParameterDefinitionTask
 {
+	// Stores default values for all parameters
 	protected HashMap 			defaultValues = new HashMap();
+	
+	// stores all parameter definitions. Each task clones the parameter definition information
+	// so that Engine IR (repor runnable) can keep a task-independent of the parameter definitions.
 	protected Collection 		params = null;
-	protected ExecutionContext 	exeContext;
+	
+	// Exeution context
+	protected ExecutionContext 	context;
 
 	/**
-	 * @param engine
-	 * @param runnable
+	 * @param engine reference to the report engine
+	 * @param runnable the runnable report design
 	 */
 	public GetParameterDefinitionTask(ReportEngine engine, IReportRunnable runnable)
 	{
@@ -57,10 +63,10 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		
 		while (iter.hasNext())
 		{
-			ParameterDefnBase paraBase = (ParameterDefnBase) iter.next();
+			ParameterDefnBase pBase = (ParameterDefnBase) iter.next();
 			try
 			{
-				params.add(paraBase.clone());
+				params.add(pBase.clone());
 			}
 			catch (CloneNotSupportedException e)
 			{
@@ -90,7 +96,7 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 						{
 							((ScalarParameterDefn)p).setReportDesign(runnable.getDesignHandle().getDesign());
 							((ScalarParameterDefn)p).setLocale(locale);	
-							((ScalarParameterDefn)pBase).evaluateSelectionList();
+							((ScalarParameterDefn)p).evaluateSelectionList();
 						}
 					}
 				}
@@ -142,7 +148,6 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 	{
 		String expr = p.getDefaultValueExpr();
 		int type = p.getDataType();
-		//Object value = evaluate(expr, type);
 		
 		if ( expr != null )
 		{

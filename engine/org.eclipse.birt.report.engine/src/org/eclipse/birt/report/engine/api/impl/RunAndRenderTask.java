@@ -31,10 +31,15 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 {
 	/**
-	 * a map that stored parameter values
+	 * The parameter values that the caller has set explicitly
 	 */
-	protected HashMap parameterValues = new HashMap();
-	protected HashMap defaultValues = new HashMap();
+	protected HashMap inputValues = new HashMap();
+	
+	/**
+	 * The parameter values that will be used to run the report. It is a merged map between
+	 * the input value and the default values.
+	 */
+	protected HashMap runValues = new HashMap();
 
 	/**
 	 * options for rendering the report
@@ -72,24 +77,20 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public boolean validateParameters()
 	{
+		// evaluate default and combines it with the parameter values that are set
 		Collection paramDefns = ((ReportRunnable)runnable).getParameterDefns(false);
 		evaluateDefaults(paramDefns);
-		//combine the values
-		defaultValues.putAll(parameterValues);
+		runValues.putAll(inputValues);
+		
+		// Validate each parameter. Ideally, we will return all validation failures. 
+		// For now, just return false on first failure.
 		Iterator iter = paramDefns.iterator();
 		while(iter.hasNext())
 		{
-			IParameterDefn paramHandle = (IParameterDefn) iter.next();
+			IParameterDefnBase p = (IParameterDefnBase) iter.next();
 
-			String paramName = paramHandle.getName( );
-			assert paramName != null;
-			
-			Object paramValue = defaultValues.get(paramName);
-
-			if ( ! validateParameter( paramHandle, paramValue ) )
-			{
+			if ( ! validateParameter( p, runValues.get(p.getName()) ) )
 				return false;
-			}
 		}
 		return true;
 	}
@@ -103,58 +104,49 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		if( !validateParameters() )
 		{
-			throw new EngineException("parameter validation failed!"); //$NON-NLS-1$
+			throw new EngineException( "parameter validation failed!" ); //$NON-NLS-1$
 		}
-		//create the emitter services object that is needed in the emitters.
-		EngineEmitterServices services = new EngineEmitterServices(this);
 		
+		//create the emitter services object that is needed in the emitters.
+		EngineEmitterServices services = new EngineEmitterServices(this);	
 		services.setReportName(runnable.getReportName());
 		services.setRenderOption(renderOption);
+		
 		EngineConfig config = engine.getConfig();
-		if(config!=null)
-		{
+		if ( config != null )
 			services.setEmitterConfig(engine.getConfig().getEmitterConfigs());
-			
-		}
 		services.setRenderContext(renderContext);
 		services.setReportRunnable(runnable);
+				
+		//register default parameters
+		if( runValues != null)
+			executionContext.registerBean("params", runValues); //$NON-NLS-1$
 		
-		
-		//regiest default parameter
-		if(defaultValues!=null)
-		{
-			executionContext.registerBean("params", defaultValues); //$NON-NLS-1$
-		}
 		//setup runtime configurations
-		//user defined configs should be overload by system properties.
+		//user defined configs are overload using system properties.
 		executionContext.getConfigs().putAll(runnable.getConfigs());
 		executionContext.getConfigs().putAll(System.getProperties());
+		
+		// Set up rendering environment and check for supported format
 		executionContext.setRenderOption(renderOption);
 		String format = renderOption.getOutputFormat();
-		if (!ExtensionManager.getInstance().getEmitterExtensions()
-				.containsKey(format)) //$NON-NLS-1$
+		if (!ExtensionManager.getInstance().getEmitterExtensions().containsKey(format)) //$NON-NLS-1$
 		{
-			log
-					.log(
-							Level.SEVERE,
-							"Unsupported format {0}!", format); //$NON-NLS-1$
+			log.log( Level.SEVERE, "{0} format is not currently supported.", format); //$NON-NLS-1$
 			throw new EngineException(
 					MessageConstants.INVALID_FORMAT_EXCEPTION,
 					format);
 		}
 
-		IReportEmitter emitter = ExtensionManager.getInstance()
-				.createEmitter(format);
-		ReportExecutor executor;
+		IReportEmitter emitter = ExtensionManager.getInstance().createEmitter(format);
 		if (emitter != null)
 		{
-			 
 			emitter.initialize(services);
-			executor = new ReportExecutor(executionContext, emitter);
+			ReportExecutor executor = new ReportExecutor(executionContext, emitter);
 
 			try
 			{
-				executor.execute(((ReportRunnable)runnable).getReport(), parameterValues);
+				executor.execute(((ReportRunnable)runnable).getReport(), inputValues);
 			}
 			catch (Exception ex)
 			{
@@ -164,130 +156,73 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 	}
 
-	private boolean validateParameter(IParameterDefn handle, Object result)
+	/**
+	 * validate whether the parameter value is a valid value for the parameter
+	 * 
+	 * @param p the parameter to be verified
+	 * @param paramValue the value for the parameter
+	 * @return true if the given parameter value is valid; false otherwise
+	 */
+	private boolean validateParameter(IParameterDefnBase p, Object paramValue)
 	{
-		assert IParameterDefnBase.SCALAR_PARAMETER == handle.getParameterType();
-		IScalarParameterDefn paramHandle = (IScalarParameterDefn) handle;
-
-		String paramName = paramHandle.getName();
-		int type = paramHandle.getDataType();
-
-		// TODO: Note that if a parameter is not required, and it is not
-		// defined,
-		// the following code would add a null to it. We simply should
-		// not add the
-		// entry to the map.
-		if (result == null)
-		{
+		// Only support validation for scalar parameter
+		if (IParameterDefnBase.SCALAR_PARAMETER != p.getParameterType())
 			return false;
-		}
 		
-		if (result == null)
+		assert p instanceof IScalarParameterDefn;
+		IScalarParameterDefn paramHandle = (IScalarParameterDefn) p;
+		String 	paramName = paramHandle.getName();
+		int 	type = paramHandle.getDataType();
+		
+		// Handle null parameter values
+		if (paramValue == null)
 		{
-			if (!paramHandle.allowNull())
-			{
-				log
-						.log(
-								Level.SEVERE,
-								"{0} doesn't allow a null value or user doesn't input a proper parameter.", paramName); //$NON-NLS-1$
-				return false;
-			}
-			return true;
-		}
-		else
-		{
-			/*if(type==IParameterDefn.TYPE_STRING && result.toString().length()==0 &&!parmHandle.allowBlank())
-			{
-				return false;
-			}	*/		
+			if (paramHandle.allowNull())
+				return true;
+
+			log.log(Level.SEVERE, 
+						"Parameter {0} doesn't allow a null value or user doesn't input a proper parameter.", 
+						paramName); //$NON-NLS-1$
+			return false;
 		}
 
 		/*
-		 * Get value according to different type If it has a non-null
-		 * value, we should validate whether this value has a correct
-		 * type
+		 * Validate based on parameter type
 		 */
 		if (type == IScalarParameterDefn.TYPE_DECIMAL || type == IScalarParameterDefn.TYPE_FLOAT)
 		{
-			if (result instanceof Number)
+			if (paramValue instanceof Number)
 				return true;
 
-			log.log(Level.SEVERE,
-							"{0} should be a number", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "Parameter {0} should be a number", paramName); //$NON-NLS-1$
 			return false;
 		}
 		else if (type == IScalarParameterDefn.TYPE_DATE_TIME)
 		{
-			if (result instanceof Date)
+			if (paramValue instanceof Date)
 				return true;
-			log.log(Level.SEVERE,
-								"The specified value of {0} must be date, or it cannot be parsed. Please check your date value.You should input the date value like \"9/13/08 8:01 PM\"", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "The specified value of {0} must be date, or it cannot be parsed. Please check your date value.You should input the date value like \"9/13/08 8:01 PM\"", paramName); //$NON-NLS-1$
 			return false;
 		}
 		else if (type == IScalarParameterDefn.TYPE_STRING)
 		{
-			String value = result.toString().trim();
+			String value = paramValue.toString().trim();
 			if (value.equals("") && !paramHandle.allowBlank()) //$NON-NLS-1$
 			{
-				log.log(Level.SEVERE,
-								"{0} can't be blank", paramName); //$NON-NLS-1$
+				log.log(Level.SEVERE, "parameter {0} can't be blank", paramName); //$NON-NLS-1$
 				return false;
 			}
 			return true;
 		}
 		else if (type == IScalarParameterDefn.TYPE_BOOLEAN)
 		{
-			if (result instanceof Boolean)
+			if (paramValue instanceof Boolean)
 				return true;
-			log.log(Level.SEVERE,
-							"{0} should be a boolean value", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "{0} should be a boolean value", paramName); //$NON-NLS-1$
 			return false;
 		}
 		assert type == IScalarParameterDefn.TYPE_ANY;
 		return true;
-	}
-	
-	/**
-	 * get value
-	 * 
-	 * @param value
-	 * @param type
-	 *                the data type
-	 * @return
-	 */
-	protected Object getValue(String expr, int type)
-	{
-		Object value = executionContext.evaluate(expr);
-		if(value==null && expr!=null && expr.length()>0)
-		{
-			value = expr;
-		}
-		if(expr==null)
-		{
-			return null;
-		}
-		try
-		{
-			switch (type)
-			{
-				case IScalarParameterDefn.TYPE_BOOLEAN :
-					return DataTypeUtil.toBoolean(value);
-				case IScalarParameterDefn.TYPE_DATE_TIME :
-					return DataTypeUtil.toDate(value);
-				case IScalarParameterDefn.TYPE_DECIMAL :
-					return DataTypeUtil.toBigDecimal(value);
-				case IScalarParameterDefn.TYPE_FLOAT :
-					return DataTypeUtil.toDouble(value);
-				default :
-					return value;
-			}
-
-		}
-		catch (BirtException e)
-		{
-			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			return null;
-		}
 	}
 	
 	private void evaluateDefaults(Collection params) 
@@ -300,9 +235,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				
 				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
 				if (pBase instanceof ScalarParameterDefn) 
-				{
-					setScalarParameterValue((ScalarParameterDefn) pBase, ((ScalarParameterDefn) pBase).getDefaultValueExpr());
-				}
+					evaluateDefault((ScalarParameterDefn) pBase, ((ScalarParameterDefn) pBase).getDefaultValueExpr());
 				else if (pBase instanceof ParameterGroupDefn)
 				{
 					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
@@ -311,7 +244,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
 							if (p instanceof ScalarParameterDefn) 
 							{
-								setScalarParameterValue((ScalarParameterDefn) p,((ScalarParameterDefn) p).getDefaultValueExpr() );
+								evaluateDefault((ScalarParameterDefn) p,((ScalarParameterDefn) p).getDefaultValueExpr() );
 							}
 					}
 				}
@@ -320,14 +253,48 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	}
 	
 	/**
-	 * @param p
-	 * @param strValue
+	 * @param p the scalar parameter
+	 * @param expr the default value expression 
 	 */
-	private void setScalarParameterValue(ScalarParameterDefn p, String strValue)
+	private void evaluateDefault(ScalarParameterDefn p, String expr)
 	{
-		Object value =  getValue(strValue, p.getDataType());
+		Object value = null;
+		int type = p.getDataType();
+		
+		// evaluate the default value expression
+		if (expr != null)
+		{
+			value = executionContext.evaluate(expr);
+			if( value == null && expr != null && expr.length() > 0)
+				value = expr;
+			try
+			{
+				switch (type)
+				{
+					case IScalarParameterDefn.TYPE_BOOLEAN :
+						value = DataTypeUtil.toBoolean(value);
+						break;
+					case IScalarParameterDefn.TYPE_DATE_TIME :
+						value = DataTypeUtil.toDate(value);
+						break;
+					case IScalarParameterDefn.TYPE_DECIMAL :
+						value = DataTypeUtil.toBigDecimal(value);
+						break;
+					case IScalarParameterDefn.TYPE_FLOAT :
+						value = DataTypeUtil.toDouble(value);
+						break;
+				}
+	
+			}
+			catch (BirtException e)
+			{
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				value = null;
+			}
+		}
+		
 		if(value != null)
-			defaultValues.put(p.getName(), value);
+			runValues.put(p.getName(), value);
 	}
 	
 	/*
@@ -355,7 +322,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void setParameterValues(HashMap params)
 	{
-		this.parameterValues = params;
+		this.inputValues = params;
 	}
 
 	/* (non-Javadoc)
@@ -363,6 +330,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public HashMap getParameterValues()
 	{
-		return parameterValues;
+		return inputValues;
 	}
 }

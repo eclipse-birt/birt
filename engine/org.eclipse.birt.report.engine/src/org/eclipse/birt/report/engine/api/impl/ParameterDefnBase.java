@@ -86,9 +86,12 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	 */
 	public String getDisplayName( )
 	{
+		if (displayNameKey == null)
+			return displayName;
+		
 		String ret = reportDesign.getMessage( displayNameKey, 
 				(locale == null ) ? Locale.getDefault() : locale);
-		if (ret == null)
+		if (ret == null || ret.length() == 0)
 			return displayName;
 		return ret;		
 	}
@@ -111,9 +114,12 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	 */
 	public String getHelpText( )
 	{
+		if (helpTextKey == null)
+			return helpText;
+		
 		String ret = reportDesign.getMessage( helpTextKey, 
 				(locale == null ) ? Locale.getDefault() : locale);
-		if (ret == null)
+		if (ret == null || ret.length() == 0)
 			return helpText;
 		return ret;		
 	}
