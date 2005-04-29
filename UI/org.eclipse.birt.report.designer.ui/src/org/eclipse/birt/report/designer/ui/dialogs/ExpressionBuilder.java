@@ -88,8 +88,6 @@ public class ExpressionBuilder extends BaseDialog
 
 	private List dataSetList = null;
 
-	private String text;
-
 	private ExpressionTreeSupport treeCommon = new ExpressionTreeSupport( );
 
 	class EBTextAction extends TextEditorAction
@@ -224,21 +222,6 @@ public class ExpressionBuilder extends BaseDialog
 	private void setFocus( )
 	{
 		expressionViewer.getControl().setFocus();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
-	 */
-	protected boolean initDialog( )
-	{
-		if ( text != null && expressionViewer != null )
-		{
-			expressionViewer.getTextWidget( ).setText( text );
-		}
-
-		return super.initDialog( );
 	}
 
 	/**
@@ -436,16 +419,6 @@ public class ExpressionBuilder extends BaseDialog
 	public void setDataSetList( List dataSetList )
 	{
 		this.dataSetList = dataSetList;
-	}
-
-	/**
-	 * Sets the initial text.
-	 * 
-	 * @param text
-	 */
-	public void setText( String text )
-	{
-		this.text = text;
 	}
 
 }

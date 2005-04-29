@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Highli
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -310,8 +311,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 			ti.setText( 0, provider.getColumnText( handle, 0 ) );
 			ti.setText( 1, provider.getColumnText( handle, 1 ) );
 		}
-		
-		fTableViewer.getTable().setFocus();
+
+		fTableViewer.getTable( ).setFocus( );
 	}
 
 	private void updateButtons( )
@@ -342,6 +343,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
 
+		builder.setDesignHandle( (DesignElementHandle) model );
+
 		if ( builder.open( ) == Window.OK )
 		{
 			fTableViewer.add( builder.getHandle( ) );
@@ -368,6 +371,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 			builder.updateHandle( handle, fTableViewer.getTable( )
 					.getItemCount( ) );
+
+			builder.setDesignHandle( (DesignElementHandle) model );
 
 			if ( builder.open( ) == Window.OK )
 			{

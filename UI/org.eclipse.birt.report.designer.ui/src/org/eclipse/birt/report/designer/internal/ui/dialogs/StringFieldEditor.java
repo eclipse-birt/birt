@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -280,7 +281,7 @@ public class StringFieldEditor extends AbstractFieldEditor
 		if ( textField != null )
 		{
 			String value = getPreferenceStore( ).getString( getPreferenceName( ) );
-			textField.setText( value );
+			textField.setText( DEUtil.resolveNull( value ) );
 			oldValue = value;
 			setOldValue( getStringValue( ) );
 		}
@@ -295,7 +296,7 @@ public class StringFieldEditor extends AbstractFieldEditor
 		if ( textField != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getPreferenceName( ) );
-			textField.setText( value );
+			textField.setText( DEUtil.resolveNull( value ) );
 			setOldValue( getStringValue( ) );
 		}
 		valueChanged( );

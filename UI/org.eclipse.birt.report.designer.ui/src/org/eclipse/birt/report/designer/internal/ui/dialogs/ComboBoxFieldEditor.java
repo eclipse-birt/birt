@@ -195,7 +195,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 		setOldValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
-			if ( value.equals( fEntryNamesAndValues[i][1] ) )
+			if ( fEntryNamesAndValues[i][1].equals(value) )
 			{
 				fCombo.setText( fEntryNamesAndValues[i][0] );
 				return;
