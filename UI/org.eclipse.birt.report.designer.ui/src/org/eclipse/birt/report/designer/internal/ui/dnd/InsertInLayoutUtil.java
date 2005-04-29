@@ -322,7 +322,7 @@ public class InsertInLayoutUtil
 			Assert.isTrue( object instanceof DataSetItemModel );
 			Assert.isTrue( object == dataSetColumn || object == null );
 			getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
-			getGroupHandle( container ).setKeyExpr( dataSetColumn.getDataSetColumnName( ) );
+			getGroupHandle( container ).setKeyExpr( DEUtil.getExpression( dataSetColumn ) );
 		}
 
 		protected DataSetHandle getDataSetHandle( DataSetItemModel model )
