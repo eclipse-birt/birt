@@ -55,7 +55,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 *  
 	 */
 
-	ParameterMetaData( java.sql.ParameterMetaData jparaMeta )
+	public ParameterMetaData( java.sql.ParameterMetaData jparaMeta )
 			throws OdaException
 	{
 		this.paraMetadata = jparaMeta;

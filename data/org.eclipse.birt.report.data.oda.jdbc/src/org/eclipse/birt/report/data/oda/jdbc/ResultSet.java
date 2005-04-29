@@ -65,7 +65,7 @@ public class ResultSet implements IResultSet
 	 * construct it.
 	 *  
 	 */
-	ResultSet( java.sql.ResultSet jrs ) throws OdaException
+	public ResultSet( java.sql.ResultSet jrs ) throws OdaException
 	{
 
 		/* record down the JDBC ResultSet object */

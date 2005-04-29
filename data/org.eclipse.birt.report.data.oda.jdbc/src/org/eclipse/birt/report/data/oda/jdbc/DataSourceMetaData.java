@@ -42,7 +42,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 * @param dbMeta
 	 *            the JDBC DatabaseMetaData related to this object.
 	 */
-	DataSourceMetaData( IConnection connection, DatabaseMetaData dbMeta )
+	public DataSourceMetaData( IConnection connection, DatabaseMetaData dbMeta )
 	{
 
 		this.dbMetadata = dbMeta;

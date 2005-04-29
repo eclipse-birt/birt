@@ -55,7 +55,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 * JDBC's ResultSetMetaData to construct it.
 	 *  
 	 */
-	ResultSetMetaData( java.sql.ResultSetMetaData rsMeta ) throws OdaException
+	public ResultSetMetaData( java.sql.ResultSetMetaData rsMeta ) throws OdaException
 	{
 		/* record down the JDBC ResultSetMetaData object */
 		this.rsMetadata = rsMeta;

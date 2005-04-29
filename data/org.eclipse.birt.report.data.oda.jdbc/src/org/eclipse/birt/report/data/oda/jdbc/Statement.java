@@ -76,7 +76,7 @@ public class Statement implements IStatement
 	 * Connection to construct it.
 	 *  
 	 */
-	Statement( java.sql.Connection connection ) throws OdaException
+	public Statement( java.sql.Connection connection ) throws OdaException
 	{
 		if ( connection != null )
 
