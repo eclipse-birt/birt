@@ -91,7 +91,7 @@ public class ResourceConstants
 	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
 	
 	public final static String QUERY_FAILURE = "QUERY_FAILURE";
-	
+	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "STARTING_GROUP_VALUE_CANNOT_BE_NULL";
 	public final static String INVALID_EXPR = "INVALID_EXPR";
 	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
@@ -188,4 +188,5 @@ public class ResourceConstants
 	public final static String CANNOT_CLEAR_IN_PARAMETERS = "odaconsumer.CannotClearInParameters";
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
 	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
+	
 }
