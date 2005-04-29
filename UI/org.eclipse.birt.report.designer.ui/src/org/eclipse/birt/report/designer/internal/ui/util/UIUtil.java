@@ -15,16 +15,14 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -342,24 +340,7 @@ public class UIUtil
 				if ( dialog.open( ) == Window.CANCEL )
 				{//Cancel the action
 					return false;
-				}
-				DataItemHandle dataItemHandle = factory.newDataItem( null );
-				dataItemHandle.setValueExpr( groupHandle.getKeyExpr( ) );
-				if ( parent instanceof ListHandle )
-				{
-					groupHandle.getHeader( ).add( dataItemHandle );
-				}
-				else if ( parent instanceof TableHandle )
-				{
-					if ( groupHandle.getHeader( ).getCount( ) != 0 )
-					{
-						RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
-								.get( 0 ) );
-						CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
-								.get( 0 );
-						cellHandle.getContent( ).add( dataItemHandle );
-					}
-				}
+				}				
 			}
 			return true;
 		}
@@ -367,10 +348,10 @@ public class UIUtil
 	}
 
 	/**
-	 * Gets the first selected editpart in layout editor. Whenever the user has
-	 * deselected all editparts, the contents editpart should be returned.
+	 * Gets the first selected edit part in layout editor. Whenever the user has
+	 * deselected all edit parts, the contents edit part should be returned.
 	 * 
-	 * @return the first selected EditPart or root editpart
+	 * @return the first selected EditPart or root edit part
 	 */
 	public static EditPart getCurrentEditPart( )
 	{
@@ -431,5 +412,37 @@ public class UIUtil
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		return layout;
+	}
+
+	/**
+	 * Convert the give string to GUI style, which cannot be null
+	 * 
+	 * @param string
+	 *            the string to convert
+	 * @return Returns the string, or an empty string for null
+	 */
+	public static String convertToGUIString( String string )
+	{
+		if ( StringUtil.isBlank( string ) )
+		{
+			string = ""; //$NON-NLS-1$
+		}
+		return string;
+	}
+
+	/**
+	 * Convert the give string to Model style
+	 * 
+	 * @param string
+	 *            the string to convert
+	 * @return Returns the string, or null for an empty string
+	 */
+	public static String convertToModelString( String string )
+	{
+		if ( StringUtil.isBlank( string ) )
+		{
+			string = null; //$NON-NLS-1$
+		}
+		return string;
 	}
 }
