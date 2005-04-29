@@ -51,7 +51,7 @@ public class IncludeDetailAction extends InsertRowAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		if ( getTableEditPart( ) != null )
+		if ( getTableEditPart( ) != null && !getTableEditPart( ).isDelete( ) )
 		{
 			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
