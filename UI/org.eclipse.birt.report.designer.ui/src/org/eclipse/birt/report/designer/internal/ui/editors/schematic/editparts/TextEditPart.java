@@ -9,9 +9,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TextEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.IFigure;
@@ -26,6 +28,8 @@ public class TextEditPart extends LabelEditPart
 	private static final String DLG_TITLE_TEXT = Messages.getString( "TextEditPart.Dialog.Title" ); //$NON-NLS-1$
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
+	
+	private static final String TEXT_TRANS_MSG = Messages.getString( "TextEditPart.trans.editText" ); //$NON-NLS-1$
 
 	/**
 	 * @param model
@@ -40,14 +44,22 @@ public class TextEditPart extends LabelEditPart
 	 */
 	public void performDirectEdit( )
 	{
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+		.getCommandStack();
+		stack.startTrans( TEXT_TRANS_MSG );
+		
 		TextEditDialog dialog = new TextEditDialog( DLG_TITLE_TEXT,
 				( (TextItemHandle) getModel( ) ) );
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
+			stack.commit();
 			refreshVisuals( );
 		}
-
+		else
+		{
+			stack.rollback();
+		}
 	}
 
 	protected IFigure createFigure( )
