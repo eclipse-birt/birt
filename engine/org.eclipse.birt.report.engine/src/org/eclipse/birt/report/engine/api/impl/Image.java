@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
 /**
  * image content object
  * 
- * @version $Revision: 1.2 $ $Date: 2005/04/28 10:11:12 $
+ * @version $Revision: 1.3 $ $Date: 2005/04/28 13:33:58 $
  */
 public class Image implements IImage
 {
@@ -56,14 +56,18 @@ public class Image implements IImage
 	 */
 	public Image(String uri)
 	{
+		if( uri == null || uri.length( ) == 0 )
+		{
+			return;
+		}
+		
 		id = uri;
 		if(FileUtil.isLocalResource(uri))
 		{
-			
-			this.source = IImage.FILE_IMAGE;
 			try
 			{
 				this.in = new BufferedInputStream(new FileInputStream(new File(uri)));
+				this.source = IImage.FILE_IMAGE;
 			}
 			catch (FileNotFoundException e)
 			{
@@ -84,6 +88,11 @@ public class Image implements IImage
 	 */
 	public Image(byte[] data, String name)
 	{
+		if( data == null )
+		{
+			return;
+		}
+		
 		id = name;
 		this.data = data;
 		this.source = IImage.CUSTOM_IMAGE;
@@ -116,8 +125,8 @@ public class Image implements IImage
 		case ImageItemDesign.IMAGE_NAME:
 			if( imgData != null )
 			{
+				this.in = new ByteArrayInputStream(imgData);
 				this.data = imgData;
-				this.in = new ByteArrayInputStream(this.data);
 				this.source = IImage.DESIGN_IMAGE;
 				this.id = imgUri;
 			}
@@ -125,8 +134,8 @@ public class Image implements IImage
 		case ImageItemDesign.IMAGE_EXPRESSION:
 			if( imgData != null )
 			{
+				this.in = new ByteArrayInputStream(imgData);
 				this.data = imgData;
-				this.in = new ByteArrayInputStream(this.data);
 				this.source = IImage.CUSTOM_IMAGE;
 			}
 			break;
@@ -188,6 +197,12 @@ public class Image implements IImage
 	 */
 	public void writeImage(File dest) throws IOException
 	{
+		if( source == IImage.INVALID_IMAGE )
+		{
+			logger.log(Level.SEVERE, "image source {0} is not valid!", id); //$NON-NLS-1$
+			return;
+		}
+		
 		InputStream input = null;
 		if(in!=null)
 		{
@@ -199,7 +214,7 @@ public class Image implements IImage
 		}
 		else
 		{
-			logger.log(Level.SEVERE, "image source {0} not found!", id); //$NON-NLS-1$
+			logger.log(Level.SEVERE, "image source {0} is not found!", id); //$NON-NLS-1$
 		}
 		if(!dest.exists())
 		{
@@ -229,8 +244,6 @@ public class Image implements IImage
 		
 	}
 	
-	
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IReportItemPart#getReportRunnable()
 	 */
