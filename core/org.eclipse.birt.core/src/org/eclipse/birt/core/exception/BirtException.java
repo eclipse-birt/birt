@@ -195,7 +195,7 @@ public class BirtException extends Exception {
         }
         catch (Exception e)
         {
-            return ""; // $NON-NLS-1$
+            return errorCode; 
         }
    
         MessageFormat form = new MessageFormat(localizedMessage);
