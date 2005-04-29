@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/03/30 07:38:17 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/27 05:35:36 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -372,9 +372,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		// supported.
 		ReportElementContent parent = reportContent;
 		String formatStr=null;
-		while ( formatStr == null && parent.getParent( ) != null )
+		while ( formatStr == null && parent != null )
 		{
-			parent = (ReportElementContent) parent.getParent( );
 			if ( parent instanceof StyledElementContent )
 			{
 				StyleDesign style = (StyleDesign) ( (StyledElementContent) parent )
@@ -382,16 +381,17 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				if ( style != null && style.getStringFormat( ) != null
 						&& style.getStringFormat( ).length( ) != 0 )
 				{
-					return style.getStringFormat( );
+					formatStr = style.getStringFormat( );
 				}
-			}			
+			}
+			parent = (ReportElementContent) parent.getParent( );
 		}
-		if(parent.getParent()==null)
+		if(formatStr == null && parent == null)
 		{
 			StyleDesign bodyStyle=(StyleDesign)context.getReport().getBodyStyle();
 			if(bodyStyle!=null)
 			{
-				return bodyStyle.getStringFormat();
+				formatStr = bodyStyle.getStringFormat();
 			}
 		}
 		return formatStr;
@@ -409,9 +409,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		// supported.
 		ReportElementContent parent = reportContent;
 		String formatStr=null;
-		while ( formatStr == null && parent.getParent( ) != null )
+		while ( formatStr == null && parent != null )
 		{
-			parent = (ReportElementContent) parent.getParent( );
 			if ( parent instanceof StyledElementContent )
 			{
 				StyleDesign style = (StyleDesign) ( (StyledElementContent) parent )
@@ -419,16 +418,17 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				if ( style != null && style.getNumberFormat( ) != null
 						&& style.getNumberFormat( ).length( ) != 0 )
 				{
-					return style.getNumberFormat( );
+					formatStr = style.getNumberFormat( );
 				}
 			}
+			parent = (ReportElementContent) parent.getParent( );
 		}
-		if(parent.getParent()==null)
+		if(formatStr == null && parent == null)
 		{
 			StyleDesign bodyStyle=(StyleDesign)context.getReport().getBodyStyle();
 			if(bodyStyle!=null)
 			{
-				return bodyStyle.getNumberFormat();
+				formatStr = bodyStyle.getNumberFormat();
 			}
 		}
 		return formatStr;
@@ -441,32 +441,28 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @return the DateTimeFormat property of the nearest ancestor with this
 	 *         property
 	 */
-	protected String getDateTimeFormat( ReportElementContent reportContent)
+	protected String getDateTimeFormat(ReportElementContent reportContent) 
 	{
 		//TODO At present the non-CSS style defined on the Column is not
 		// supported.
 		ReportElementContent parent = reportContent;
-		String formatStr=null;
-		while ( formatStr == null && parent.getParent( ) != null )
-		{
-			parent = (ReportElementContent) parent.getParent( );
-			if ( parent instanceof StyledElementContent )
-			{
-				StyleDesign style = (StyleDesign) ( (StyledElementContent) parent )
-						.getMergedStyle( );
-				if ( style != null && style.getDateTimeFormat( ) != null
-						&& style.getDateTimeFormat( ).length( ) != 0 )
-				{
-					return style.getDateTimeFormat( );
+		String formatStr = null;
+		while (formatStr == null && parent != null) {
+			if (parent instanceof StyledElementContent) {
+				StyleDesign style = (StyleDesign) ((StyledElementContent) parent)
+						.getMergedStyle();
+				if (style != null && style.getDateTimeFormat() != null
+						&& style.getDateTimeFormat().length() != 0) {
+					formatStr = style.getDateTimeFormat();
 				}
 			}
+			parent = (ReportElementContent) parent.getParent();
 		}
-		if(parent.getParent()==null)
-		{
-			StyleDesign bodyStyle=(StyleDesign)context.getReport().getBodyStyle();
-			if(bodyStyle!=null)
-			{
-				return bodyStyle.getDateTimeFormat();
+		if (formatStr == null && parent == null) {
+			StyleDesign bodyStyle = (StyleDesign) context.getReport()
+					.getBodyStyle();
+			if (bodyStyle != null) {
+				formatStr = bodyStyle.getDateTimeFormat();
 			}
 		}
 		return formatStr;
