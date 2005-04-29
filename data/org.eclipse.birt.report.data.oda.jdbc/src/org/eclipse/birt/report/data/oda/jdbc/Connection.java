@@ -219,7 +219,7 @@ public class Connection implements IConnection
 		
 		close( );
 		
-		String dataSource = connProperties.getProperty( "ODA:data-source" );
+		String dataSource = connProperties.getProperty( Constants.ODADataSource );
 		if ( dataSource != null )
 		{
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use data source" );
@@ -235,11 +235,11 @@ public class Connection implements IConnection
 		}
 		else
 		{
-			String url = connProperties.getProperty( "ODA:url" );
+			String url = connProperties.getProperty( Constants.ODAURL );
 			if ( url == null || url.length() == 0 )
 			{
 				throw new DriverException(
-						"Missing property: \"ODA:url\" or \"ODA:data-source\".",
+						"Missing property: \""+Constants.ODAURL+"\" or \""+Constants.ODADataSource+"\".",
 						DriverException.ERROR_MISSING_PROPERTIES );
 			}
 			connectByUrl( url, connProperties );
@@ -258,13 +258,13 @@ public class Connection implements IConnection
 		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use URL" );
 		
 		// Copy connProperties to props; skip property starting with
-		// "ODA:"; those are properties read by this driver
+		// "oda"; those are properties read by this driver
 		Properties props = new Properties( );
 		for ( Enumeration enumeration = connProperties.propertyNames( ); 
 				enumeration.hasMoreElements( ); )
 		{
 			String propName = (String) enumeration.nextElement( );
-			if ( !propName.startsWith( "ODA:" ) )
+			if ( !propName.startsWith( "oda" ) )
 			{
 				props.setProperty( propName, connProperties
 						.getProperty( propName ) );
@@ -272,14 +272,14 @@ public class Connection implements IConnection
 		}
 				
 		// Read user name and password
-		String user = connProperties.getProperty( "ODA:user" );
+		String user = connProperties.getProperty( Constants.ODAUser );
 		if ( user != null )
 			props.setProperty("user", user);
-		String pwd = connProperties.getProperty( "ODA:password" );
+		String pwd = connProperties.getProperty( Constants.ODAPassword );
 		if ( pwd != null )
 				props.setProperty("password", pwd);
 
-		String driverClass = connProperties.getProperty( "ODA:driver-class" );
+		String driverClass = connProperties.getProperty( Constants.ODADriverClass );
 		
 		try
 		{
@@ -332,6 +332,18 @@ public class Connection implements IConnection
 			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
 					DriverException.ERROR_NO_CONNECTION );
 		}
+	}
+	
+	/**
+	 *	define constants  ODAURL, ODAPassword, ODAUser, ODADriverClass, ODADataSource
+	 */
+	public static class Constants
+	{
+	    public static String ODAURL = "odaURL";
+	    public static String ODAPassword = "odaPassword";
+	    public static String ODAUser = "odaUser";
+	    public static String ODADriverClass = "odaDriverClass";
+	    public static String ODADataSource ="odaDataSource";
 	}
 	
 }

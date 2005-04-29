@@ -152,27 +152,27 @@
                   type="string"
                   defaultDisplayName="JDBC Driver Class"
                   canInherit="true"
-                  name="ODA:driver-class"/>
+                  name="odaDriverClass"/>
             <property
                   type="string"
                   defaultDisplayName="JDBC Driver URL"
                   canInherit="true"
-                  name="ODA:url"/>
+                  name="odaURL"/>
             <property
                   type="string"
                   defaultDisplayName="Data Source"
                   canInherit="true"
-                  name="ODA:data-source"/>
+                  name="odaDataSource"/>
             <property
                   type="string"
                   defaultDisplayName="User Name"
                   canInherit="true"
-                  name="ODA:user"/>
+                  name="odaUser"/>
             <property
                   type="string"
                   defaultDisplayName="Password"
                   canInherit="true"
-                  name="ODA:password"/>
+                  name="odaPassword"/>
          </propertyGroup>
       </odaDataSource>
    </extension>
