@@ -224,8 +224,8 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	void applyEditorValueAndDeactivate( )
 	{
 		inProcessing = 1;
-		
-		doValueChanged();
+
+		doValueChanged( );
 
 		fireApplyEditorValue( );
 		deactivate( );
@@ -233,7 +233,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	}
 
 	/**
-	 * 
+	 *  
 	 */
 	protected void doValueChanged( )
 	{
@@ -269,7 +269,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 				//setErrorMessage(MessageFormat.format(getErrorMessage(), new
 				// Object[] { newValue.toString()}));
 			}
-		}		
+		}
 	}
 
 	/*
@@ -305,10 +305,11 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		if ( value != null && dialog.getRGB( ) != null )
 		{
 			deactivate( );
-			return ColorUtil.format(ColorUtil.formRGB(dialog.getRGB( ).red,dialog.getRGB().green,dialog.getRGB().blue),
+			return ColorUtil.format( ColorUtil.formRGB( dialog.getRGB( ).red,
+					dialog.getRGB( ).green, dialog.getRGB( ).blue ),
 					ColorUtil.HTML_FORMAT );
 		}
-		comboBox.setFocus();
+		comboBox.setFocus( );
 
 		return value;
 	}
@@ -368,15 +369,19 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 */
 	protected void focusLost( )
 	{
-		if ( inProcessing  == 1 )	return;
-		super.focusLost();
+		if ( inProcessing == 1 )
+			return;
+		super.focusLost( );
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
 	protected void doSetFocus( )
 	{
-		comboBox.setFocus();
+		comboBox.setFocus( );
 	}
 
 }
