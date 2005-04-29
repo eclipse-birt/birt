@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.designer.internal.ui.views.LabelCellEditor;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -20,7 +21,6 @@ import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -101,7 +101,7 @@ public class LabelEditManager extends DirectEditManager
 	protected CellEditor createCellEditorOn( Composite composite )
 	{
 
-		TextCellEditor editor = new TextCellEditor( composite, SWT.MULTI | SWT.WRAP );
+		LabelCellEditor editor = new LabelCellEditor( composite, SWT.MULTI | SWT.WRAP );
 		final Control c = editor.getControl( );
 		c.addMouseTrackListener( new MouseTrackAdapter( )
 		{
