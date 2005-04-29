@@ -159,17 +159,10 @@ public interface IPropertyType
 	public static final int LITERAL_STRING_TYPE = PropertyType.LITERAL_STRING_TYPE;
 	
 	/**
-	 * Type code for the format property type. This applies to String, Number
-	 * and Date/Time formats. It allows a format type and a format description.
-	 */
-	
-	public static final int FORMAT_TYPE = PropertyType.FORMAT_TYPE;
-
-	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 23;
+	public static final int TYPE_COUNT = 22;
 
 	/**
 	 * Name of the String property type.
@@ -303,13 +296,6 @@ public interface IPropertyType
 
 	public static final String LITERAL_STRING_TYPE_NAME = PropertyType.LITERAL_STRING_TYPE_NAME;
 	
-	/**
-	 * Name of the format property type. It allows a format type and a format
-	 * description.
-	 */
-
-	public static final String FORMAT_TYPE_NAME = PropertyType.FORMAT_TYPE_NAME;
-
 	/**
 	 * Returns the localized display name.
 	 * 

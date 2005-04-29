@@ -18,11 +18,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.FormatHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
@@ -276,9 +278,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	protected String[][] initChoiceArray( )
 	{
 		if ( choiceArray == null )
-		{
-			IChoiceSet set = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-					Style.NUMBER_FORMAT_PROP );
+		{			 
+			IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( NumberFormatValue.FORMAT_VALUE_STRUCT,
+					NumberFormatValue.CATEGORY_MEMBER );
 			IChoice[] choices = set.getChoices( );
 			if ( choices.length > 0 )
 			{
@@ -370,9 +372,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 */
 	private String getDisplayName4Category( String category )
 	{
-		return ChoiceSetFactory.getPropDisplayName( ReportDesignConstants.STYLE_ELEMENT,
-				Style.NUMBER_FORMAT_PROP,
-				category );
+		return ChoiceSetFactory.getStructDisplayName(
+				NumberFormatValue.FORMAT_VALUE_STRUCT,
+				NumberFormatValue.CATEGORY_MEMBER, category );
 	}
 
 	private String getPatternForCategory( String category )
@@ -395,17 +397,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern = "0.00E00"; //$NON-NLS-1$
 		}
 		return pattern;
-	}
-
-	/**
-	 * Sets input of the page.
-	 * 
-	 * @param input
-	 *            The input formatHandle.
-	 */
-	public void setInput( FormatHandle input )
-	{
-		setInput( input.getCategory( ), input.getPattern( ) );
 	}
 
 	/**
@@ -1288,8 +1279,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			{
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
 
-				String category = ChoiceSetFactory.getPropValue( ReportDesignConstants.STYLE_ELEMENT,
-						Style.NUMBER_FORMAT_PROP,
+				String category = ChoiceSetFactory.getStructPropValue( NumberFormatValue.FORMAT_VALUE_STRUCT,
+						NumberFormatValue.CATEGORY_MEMBER,
 						displayName );
 
 				String pattern = getPatternForCategory( category );

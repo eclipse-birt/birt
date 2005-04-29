@@ -39,7 +39,8 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	public FormatDateTimePreferencePage( Object model )
 	{
 		super( model );
-		setTitle( Messages.getString( "FormatDateTimePreferencePage.formatDateTime.title" ) ); //$NON-NLS-1$
+		setTitle( Messages
+				.getString( "FormatDateTimePreferencePage.formatDateTime.title" ) ); //$NON-NLS-1$
 		setPreferenceName( Style.DATE_TIME_FORMAT_PROP );
 	}
 
@@ -79,8 +80,12 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
 		formatPage = new FormatDateTimePage( parent, SWT.NULL );
-		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( ) );
+		( (Composite) formatPage ).setLayoutData( new GridData(
+				GridData.FILL_HORIZONTAL ) );
+		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) )
+				.getDateTimeFormatCategory( ),
+				( (StylePreferenceStore) getPreferenceStore( ) )
+						.getDateTimeFormat( ) );
 	}
 
 	/*
@@ -110,18 +115,17 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null
-				|| !formatPage.isFormatModified( )
+		if ( formatPage == null || !formatPage.isFormatModified( )
 				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
 		try
 		{
-			( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( )
-					.setCategory( formatPage.getCategory( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( )
-					.setPattern( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setDateTimeFormatCategory( formatPage.getCategory( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setDateTimeFormat( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )

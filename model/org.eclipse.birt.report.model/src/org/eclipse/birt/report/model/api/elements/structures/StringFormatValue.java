@@ -1,0 +1,50 @@
+
+package org.eclipse.birt.report.model.api.elements.structures;
+
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.SimpleValueHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+
+public class StringFormatValue extends FormatValue
+{
+
+	/**
+	 * Name of this structure. Matches the definition in the meta-data
+	 * dictionary.
+	 */
+
+	public static final String FORMAT_VALUE_STRUCT = "StringFormatValue"; //$NON-NLS-1$
+
+	public String getStructName( )
+	{
+		return FORMAT_VALUE_STRUCT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
+	 */
+
+	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
+	{
+		return new FormatValueHandle( valueHandle, index );
+	}
+
+	/**
+	 * Return an <code>FormatValueHandle</code> to deal with the string
+	 * format.
+	 * 
+	 * @param valueHandle
+	 *            the property or member handle
+	 * @return the strcuture handle
+	 * 
+	 */
+
+	public StructureHandle getHandle( SimpleValueHandle valueHandle )
+	{
+		return new FormatValueHandle( valueHandle.getElementHandle( ),
+				valueHandle.getReference( ) );
+	}
+}

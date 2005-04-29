@@ -377,7 +377,6 @@ class MetaDataHandler extends XMLParserHandler
 			{
 
 				case PropertyType.DIMENSION_TYPE :
-				case PropertyType.FORMAT_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :
@@ -448,7 +447,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 				memberDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
-						true ) );
+						false ) );
 
 			if ( choiceSet != null )
 				memberDefn.setDetails( choiceSet );
@@ -601,7 +600,7 @@ class MetaDataHandler extends XMLParserHandler
 		/**
 		 * Parses the property visiblity.
 		 */
-		
+
 		private class PropertyVisibilityState extends InnerParseState
 		{
 
@@ -708,7 +707,6 @@ class MetaDataHandler extends XMLParserHandler
 			switch ( typeDefn.getTypeCode( ) )
 			{
 				case PropertyType.DIMENSION_TYPE :
-				case PropertyType.FORMAT_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :
@@ -802,7 +800,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
-						true ) );
+						false ) );
 
 			if ( choiceSet != null )
 				propDefn.setDetails( choiceSet );

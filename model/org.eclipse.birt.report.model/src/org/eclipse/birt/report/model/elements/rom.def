@@ -1352,6 +1352,18 @@
 		<SemanticValidator name="UnsupportedElementValidator" class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator"/>
 		<SemanticValidator name="ValueRequiredValidator" class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator"/>
   </Validators>
+  <Structure name="NumberFormatValue" displayNameID="Structure.NumberFormatValue">
+    <Member name="category" displayNameID="Structure.NumberFormatValue.category" type="choice" detailType="numberFormat" isIntrinsic="true" />
+    <Member name="pattern" displayNameID="Structure.NumberFormatValue.pattern" type="string" isIntrinsic="true" />		
+  </Structure>  
+  <Structure name="StringFormatValue" displayNameID="Structure.StringFormatValue">
+    <Member name="category" displayNameID="Structure.StringFormatValue.category" type="choice"  detailType="stringFormat" isIntrinsic="true" />
+    <Member name="pattern" displayNameID="Structure.StringFormatValue.pattern" type="string" isIntrinsic="true" />		
+  </Structure>  
+  <Structure name="DateTimeFormatValue" displayNameID="Structure.DateTimeFormatValue">
+    <Member name="category" displayNameID="Structure.DateTimeFormatValue.category" type="choice" detailType="dateTimeFormat" isIntrinsic="true" />
+    <Member name="pattern" displayNameID="Structure.DateTimeFormatValue.pattern" type="string" isIntrinsic="true" />		
+  </Structure>     
   <Structure name="MapRule" displayNameID="Structure.MapRule">
     <Member name="operator" displayNameID="Structure.MapRule.operator" type="choice" detailType="mapOperator" isIntrinsic="true">
       <Default>eq</Default>
@@ -1380,10 +1392,10 @@
     <Member name="borderRightWidth" displayNameID="Structure.HighlightRule.border.right.width" type="dimension" detailType="lineWidth" validator="NonNegativeValueValidator"/>
     <Member name="borderRightColor" displayNameID="Structure.HighlightRule.border.right.color" type="color" />
     <Member name="backgroundColor" displayNameID="Structure.HighlightRule.background.color" type="color" />
-    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="format" detailType="dateTimeFormat"/>
-    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="format" detailType="numberFormat"/>
+    <Member name="dateTimeFormat" displayNameID="Structure.HighlightRule.format.dateTime" type="structure" detailType="DateTimeFormatValue"/>
+    <Member name="numberFormat" displayNameID="Structure.HighlightRule.format.number" type="structure" detailType="NumberFormatValue"/>
     <Member name="numberAlign" displayNameID="Structure.HighlightRule.format.number.align" type="choice" detailType="textAlign" />
-    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="format" detailType="stringFormat"/>
+    <Member name="stringFormat" displayNameID="Structure.HighlightRule.format.string" type="structure" detailType="StringFormatValue"/>
     <Member name="fontFamily" displayNameID="Structure.HighlightRule.font.family" type="string" detailType="fontFamily" />
     <Member name="fontSize" displayNameID="Structure.HighlightRule.font.size" type="dimension" detailType="fontSize" validator="PositiveValueValidator"/>
     <Member name="fontStyle" displayNameID="Structure.HighlightRule.font.style" type="choice" detailType="fontStyle" />
@@ -1530,7 +1542,7 @@
   <Structure name="CachedMetaData" displayNameID="Structure.CachedMetaData">
     <Member name="parameters" displayNameID="Structure.CachedMetaData.parameters" type="structure" isList="true" detailType="DataSetParam"/>
     <Member name="resultSet" displayNameID="Structure.CachedMetaData.resultSet" type="structure" isList="true" detailType="ResultSetColumn"/>		
-  </Structure>
+  </Structure>   
   <Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="report">
     <Property name="version" displayNameID="Element.ReportDesign.version" type="string" canInherit="false" />
     <Property name="author" displayNameID="Element.ReportDesign.author" type="string" canInherit="false" />
@@ -1921,12 +1933,12 @@
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
-      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="format" detailType="dateTimeFormat" isStyleProperty="true" />
-      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="format" detailType="numberFormat" isStyleProperty="true" />
+      <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="structure" detailType="DateTimeFormatValue" isStyleProperty="true" />
+      <Property name="numberFormat" displayNameID="Element.Style.format.number" type="structure" detailType="NumberFormatValue" isStyleProperty="true" />
       <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true">
         <Default>left</Default>
       </Property>
-      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="format" detailType="stringFormat" isStyleProperty="true" />
+      <Property name="stringFormat" displayNameID="Element.Style.format.string" type="structure" detailType="StringFormatValue" isStyleProperty="true" />
     </PropertyGroup>
     <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" >
       <Default>true</Default>

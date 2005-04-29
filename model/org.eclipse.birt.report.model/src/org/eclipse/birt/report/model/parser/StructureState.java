@@ -22,18 +22,21 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.Hide;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
@@ -51,7 +54,7 @@ import org.xml.sax.SAXException;
 /**
  * Parses one structure. The structure can be either a top level structure on an
  * element or a structure in a list.
- *  
+ * 
  */
 
 public class StructureState extends AbstractPropertyState
@@ -75,6 +78,12 @@ public class StructureState extends AbstractPropertyState
 	 */
 
 	private static Map structDict = null;
+
+	/**
+	 * The structure which holds this property as a member.
+	 */
+
+	protected IStructure parentStruct = null;
 
 	/**
 	 * Constructs the state of the structure which is one property.
@@ -113,6 +122,30 @@ public class StructureState extends AbstractPropertyState
 
 		this.propDefn = propDefn;
 		this.list = theList;
+	}
+
+	/**
+	 * Constructs the state of the structure which is in one structure list.
+	 * 
+	 * @param theHandler
+	 *            the design parser handler
+	 * @param element
+	 *            the element holding this structure
+	 * @param propDefn
+	 *            the definition of the property which holds this structure
+	 * @param parentStruct
+	 *            the structure that contains the current structure
+	 */
+
+	StructureState( DesignParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn, IStructure parentStruct )
+	{
+		super( theHandler, element );
+
+		assert propDefn != null;
+
+		this.propDefn = propDefn;
+		this.parentStruct = parentStruct;
 	}
 
 	protected void setName( String name )
@@ -160,7 +193,7 @@ public class StructureState extends AbstractPropertyState
 			// If the structure has its specific state, the structure will be
 			// created by the specific state.
 
-			struct = createStructure( (StructureDefn)propDefn.getStructDefn( ) );
+			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
 		}
 	}
 
@@ -194,6 +227,9 @@ public class StructureState extends AbstractPropertyState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
 			return new TextPropertyState( handler, element, struct );
 
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+			return new StructureState( handler, element, propDefn, struct );
+
 		return super.startElement( tagName );
 	}
 
@@ -207,7 +243,11 @@ public class StructureState extends AbstractPropertyState
 	{
 		if ( struct != null )
 		{
-			if ( list != null )
+			if ( parentStruct != null )
+			{
+				parentStruct.setProperty( propDefn, struct );
+			}
+			else if ( list != null )
 			{
 				// structure in a list property.
 
@@ -262,7 +302,7 @@ public class StructureState extends AbstractPropertyState
 	 * @return the structure instance created.
 	 */
 
-	IStructure createStructure( StructureDefn structDefn )
+	static IStructure createStructure( StructureDefn structDefn )
 	{
 		assert structDefn != null;
 
@@ -293,7 +333,7 @@ public class StructureState extends AbstractPropertyState
 
 	/**
 	 * Populates the dictionary for the structure class and name mapping.
-	 *  
+	 * 
 	 */
 
 	private static void populateStructDict( )
@@ -355,5 +395,15 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( CachedMetaData.CACHED_METADATA_STRUCT.toLowerCase( ),
 				CachedMetaData.class );
+
+		structDict.put( StringFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				StringFormatValue.class );
+
+		structDict.put( NumberFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				NumberFormatValue.class );
+
+		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				DateTimeFormatValue.class );
+
 	}
 }

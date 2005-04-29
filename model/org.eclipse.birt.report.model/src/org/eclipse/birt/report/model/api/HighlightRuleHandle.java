@@ -12,7 +12,11 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.MemberRef;
 
 /**
@@ -543,120 +547,6 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	}
 
 	/**
-	 * Returns the value of the date-time-format property.
-	 * 
-	 * @return the date-time-format as a string
-	 */
-
-	public FormatHandle getDateTimeFormat( )
-	{
-		return doGetFormatHandle( HighlightRule.DATE_TIME_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the value of the date-time-format property.
-	 * 
-	 * @param value
-	 *            the new text transform
-	 * @deprecated
-	 */
-
-	public void setDateTimeFormat( String value )
-	{
-		try
-		{
-			getDateTimeFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns a format handle for a member.
-	 * 
-	 * @param memberName
-	 *            the member name.
-	 * @return A FormatHandle for the given member.
-	 */
-
-	private FormatHandle doGetFormatHandle( String memberName )
-	{
-		MemberRef memberRef = new MemberRef( structRef, memberName );
-		return new FormatHandle( getElementHandle( ), memberRef );
-	}
-
-	/**
-	 * Returns the value of the number-format member.
-	 * 
-	 * @return the value of the number-format member
-	 */
-
-	public FormatHandle getNumberFormat( )
-	{
-		return doGetFormatHandle( HighlightRule.NUMBER_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the value of the date-time-format member.
-	 * 
-	 * @param value
-	 *            the new number-format value
-	 * @deprecated
-	 */
-
-	public void setNumberFormat( String value )
-	{
-		try
-		{
-			getNumberFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
-
-	}
-
-	/**
-	 * Returns the value of the string format
-	 * 
-	 * @return the value of the string format member
-	 */
-
-	public FormatHandle getStringFormat( )
-	{
-		return doGetFormatHandle( HighlightRule.STRING_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the value of the string-format member.
-	 * 
-	 * @param value
-	 *            the new string-format
-	 * @deprecated
-	 */
-
-	public void setStringFormat( String value )
-	{
-		try
-		{
-			getStringFormat( ).setStringValue( value );
-		}
-		catch ( SemanticException e )
-		{
-			// not go here.
-
-			assert false;
-		}
-	}
-
-	/**
 	 * Returns the value of the number-align member.
 	 * 
 	 * @return the number-align value
@@ -879,5 +769,313 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	public void setFontStyle( String value ) throws SemanticException
 	{
 		setProperty( HighlightRule.FONT_STYLE_MEMBER, value );
+	}
+
+	/**
+	 * Returns the pattern of a string format for a highlight rule.
+	 * 
+	 * @return the pattern of a string format
+	 */
+
+	public String getStringFormat( )
+	{
+		Object value = getProperty( HighlightRule.STRING_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of a string format for a highlight rule.
+	 * 
+	 * @return the category of a string forma
+	 */
+
+	public String getStringFormatCategory( )
+	{
+		Object value = getProperty( HighlightRule.STRING_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a string format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a string forma
+	 */
+
+	public void setStringFormat( String pattern )
+	{
+		try
+		{
+			setFormatValue( HighlightRule.STRING_FORMAT_MEMBER,
+					FormatValue.PATTERN_MEMBER, pattern );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the category of a string format for a highlight rule. The
+	 * <code>pattern</code> can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * </ul>
+	 * 
+	 * @param category
+	 *            the category of a string format
+	 * @throws SemanticException
+	 *             if <code>category</code> is not one of the above values.
+	 */
+
+	public void setStringFormatCategory( String category )
+			throws SemanticException
+	{
+		setFormatValue( HighlightRule.STRING_FORMAT_MEMBER,
+				FormatValue.CATEGORY_MEMBER, category );
+	}
+
+	/**
+	 * Returns the pattern of a number format for a highlight rule.
+	 * 
+	 * @return the pattern of a number format
+	 */
+
+	public String getNumberFormat( )
+	{
+		Object value = getProperty( HighlightRule.NUMBER_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of a number format for a highlight rule.
+	 * 
+	 * @return the category of a number format
+	 */
+
+	public String getNumberFormatCategory( )
+	{
+		Object value = getProperty( HighlightRule.NUMBER_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a number format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a number format
+	 */
+
+	public void setNumberFormat( String pattern )
+	{
+		try
+		{
+			setFormatValue( HighlightRule.NUMBER_FORMAT_MEMBER,
+					FormatValue.PATTERN_MEMBER, pattern );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+
+	}
+
+	/**
+	 * Sets the category of a number format for a highlight rule. The
+	 * <code>pattern</code> can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param category
+	 *            the category of a number format
+	 * @throws SemanticException
+	 *             if <code>category</code> is not one of the above values.
+	 */
+
+	public void setNumberFormatCategory( String category )
+			throws SemanticException
+	{
+		setFormatValue( HighlightRule.NUMBER_FORMAT_MEMBER,
+				FormatValue.CATEGORY_MEMBER, category );
+	}
+
+	/**
+	 * Returns the pattern of the date-time-format for a highlight rule.
+	 * 
+	 * @return the pattern of the date-time-format
+	 */
+
+	public String getDateTimeFormat( )
+	{
+		Object value = getProperty( HighlightRule.DATE_TIME_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateTimeFormatValue;
+
+		return ( (DateTimeFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of the date-time-format for a highlight rule.
+	 * 
+	 * @return the category of the date-time-format
+	 */
+
+	public String getDateTimeFormatCategory( )
+	{
+		Object value = getProperty( HighlightRule.DATE_TIME_FORMAT_MEMBER );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateTimeFormatValue;
+
+		return ( (DateTimeFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a date time format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a date time format
+	 */
+
+	public void setDateTimeFormat( String pattern )
+	{
+		try
+		{
+			setFormatValue( HighlightRule.DATE_TIME_FORMAT_MEMBER,
+					FormatValue.PATTERN_MEMBER, pattern );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+
+	}
+
+	/**
+	 * Sets the category of a number format for a highlight rule. The
+	 * <code>pattern</code> can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param pattern
+	 *            the category of a date-time format
+	 * @throws SemanticException
+	 *             if <code>pattern</code> is not one of the above values.
+	 */
+
+	public void setDateTimeFormatCategory( String pattern )
+			throws SemanticException
+	{
+		setFormatValue( HighlightRule.DATE_TIME_FORMAT_MEMBER,
+				FormatValue.CATEGORY_MEMBER, pattern );
+	}
+
+	/**
+	 * Sets the category/pattern value for a string/number/date-time format.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param memberName
+	 *            the category or pattern member name
+	 * @param valueToSet
+	 *            the value to set
+	 * @throws SemanticException
+	 *             if the category is not one of BIRT defined.
+	 */
+
+	private void setFormatValue( String propName, String memberName,
+			String valueToSet ) throws SemanticException
+	{
+		Object value = getProperty( propName );
+		FormatValue formatValueToSet = null;
+
+		if ( value == null )
+		{
+			if ( HighlightRule.DATE_TIME_FORMAT_MEMBER
+					.equalsIgnoreCase( propName ) )
+				formatValueToSet = new DateTimeFormatValue( );
+			else if ( HighlightRule.NUMBER_FORMAT_MEMBER
+					.equalsIgnoreCase( propName ) )
+				formatValueToSet = new NumberFormatValue( );
+			else if ( HighlightRule.STRING_FORMAT_MEMBER
+					.equalsIgnoreCase( propName ) )
+				formatValueToSet = new StringFormatValue( );
+			else
+				assert false;
+
+			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+				formatValueToSet.setCategory( valueToSet );
+			else if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+				formatValueToSet.setPattern( valueToSet );
+			else
+				assert false;
+
+			setProperty( propName, formatValueToSet );
+		}
+		else
+		{
+			MemberHandle propHandle = getMember( propName );
+			formatValueToSet = (FormatValue) propHandle.getValue( );
+
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+					.getHandle( propHandle );
+
+			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+				formatHandle.setCategory( valueToSet );
+			else if ( FormatValue.PATTERN_MEMBER.equalsIgnoreCase( memberName ) )
+				formatHandle.setPattern( valueToSet );
+			else
+				assert false;
+		}
 	}
 }

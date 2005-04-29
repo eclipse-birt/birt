@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -35,7 +36,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * <p>
  * The various "get" methods also have special meanings: they convert property
  * values to the format needed by the Factory.
- *  
+ * 
  */
 
 public class FactoryPropertyHandle extends ElementDetailHandle
@@ -118,6 +119,12 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public String getStringValue( )
 	{
+		if ( value instanceof FormatValue )
+		{
+			FormatValue formatValue = (FormatValue) value;
+			return formatValue.getPattern( );
+		}
+
 		return propDefn.getStringValue( getDesign( ), value );
 	}
 
@@ -163,8 +170,8 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	/**
 	 * Gets the CSS color value. This is either a CSS (pre-defined) color name
-	 * or an RGB value encoded in CSS format: rgb(r,g,b). Returns <code>null</code>
-	 * if the property is not set.
+	 * or an RGB value encoded in CSS format: rgb(r,g,b). Returns
+	 * <code>null</code> if the property is not set.
 	 * 
 	 * @return the color value as a string
 	 */

@@ -140,6 +140,7 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
+	
 	public static IChoiceSet getElementChoiceSet( String elementName,
 			String property )
 	{
@@ -256,6 +257,26 @@ public class ChoiceSetFactory
 	}
 
 	/**
+	 * Gets structure property 's display name given element name, property name and the
+	 * property's value.
+	 * 
+	 * @param structName
+	 *            The structure name.
+	 * @param memberName
+	 *            The member name.
+	 * @param valule
+	 *            The property 's value.
+	 * @return The given property 's display name
+	 */
+	
+	public static String getStructDisplayName( String structName,
+			String memberName, String value )
+	{
+		IChoiceSet set = getStructChoiceSet( structName, memberName );
+		return getDisplayNameFromChoiceSet( value, set );
+	}
+	
+	/**
 	 * Gets property value given element name, property name and its the
 	 * property's display name.
 	 * 
@@ -271,6 +292,24 @@ public class ChoiceSetFactory
 			String displayName )
 	{
 		IChoiceSet set = getElementChoiceSet( elementName, property );
+		return getValueFromChoiceSet( displayName, set );
+	}
+	/**
+	 * Gets structure property value given element name, property name and its the
+	 * property's display name.
+	 * 
+	 * @param structName
+	 *            The design element name.
+	 * @param memberName
+	 *            The property name.
+	 * @param displayName
+	 *            The property 's display name.
+	 * @return The given property 's value
+	 */
+	public static String getStructPropValue( String structName, String memberName,
+			String displayName )
+	{
+		IChoiceSet set = getStructChoiceSet( structName, memberName );
 		return getValueFromChoiceSet( displayName, set );
 	}
 

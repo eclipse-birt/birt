@@ -11,11 +11,17 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 import org.xml.sax.SAXException;
 
 /**
@@ -104,5 +110,38 @@ class PropertyState extends AbstractPropertyState
 		{
 			setProperty( name, value );
 		}
+	}
+
+	public AbstractParseState jumpTo( )
+	{
+		if ( !valid )
+			return new AnyElementState( getHandler( ) );
+
+		IPropertyDefn jmpDefn = null;
+		if ( struct != null )
+			jmpDefn = struct.getDefn( ).getMember( name );
+		else
+			jmpDefn = element.getPropertyDefn( name );
+
+		if ( ( jmpDefn != null ) && ( jmpDefn.getStructDefn( ) != null ) )
+		{
+			if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
+					.equalsIgnoreCase( jmpDefn.getStructDefn( ).getName( ) )
+					|| NumberFormatValue.FORMAT_VALUE_STRUCT
+							.equalsIgnoreCase( jmpDefn.getStructDefn( )
+									.getName( ) )
+					|| StringFormatValue.FORMAT_VALUE_STRUCT
+							.equalsIgnoreCase( jmpDefn.getStructDefn( )
+									.getName( ) ) )
+			{
+				CompatibleFormatPropertyState state = new CompatibleFormatPropertyState(
+						handler, element, propDefn, struct );
+				state.setName( name );
+				state.createStructure( );
+				return state;
+			}
+		}
+
+		return super.jumpTo( );
 	}
 }

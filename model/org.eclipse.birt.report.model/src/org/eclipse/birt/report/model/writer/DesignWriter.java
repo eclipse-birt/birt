@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -1011,10 +1012,11 @@ public class DesignWriter extends ElementVisitor
 
 		// Formats
 
-		property( obj, Style.DATE_TIME_FORMAT_PROP );
-		property( obj, Style.NUMBER_FORMAT_PROP );
 		property( obj, Style.NUMBER_ALIGN_PROP );
-		property( obj, Style.STRING_FORMAT_PROP );
+
+		writeStructure( obj, Style.DATE_TIME_FORMAT_PROP );
+		writeStructure( obj, Style.NUMBER_FORMAT_PROP );
+		writeStructure( obj, Style.STRING_FORMAT_PROP );
 
 		// Text format
 
@@ -1089,11 +1091,13 @@ public class DesignWriter extends ElementVisitor
 				property( rule, HighlightRule.TEXT_ALIGN_MEMBER );
 				property( rule, HighlightRule.TEXT_TRANSFORM_MEMBER );
 				property( rule, HighlightRule.TEXT_INDENT_MEMBER );
+
 				// Format
-				property( rule, HighlightRule.DATE_TIME_FORMAT_MEMBER );
-				property( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
 				property( rule, HighlightRule.NUMBER_ALIGN_MEMBER );
-				property( rule, HighlightRule.STRING_FORMAT_MEMBER );
+
+				writeStructure( rule, HighlightRule.DATE_TIME_FORMAT_MEMBER );
+				writeStructure( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
+				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
 				property( rule, HighlightRule.VALUE1_MEMBER );
 				property( rule, HighlightRule.VALUE2_MEMBER );
@@ -1128,6 +1132,79 @@ public class DesignWriter extends ElementVisitor
 			}
 			writer.endElement( );
 		}
+	}
+
+	/**
+	 * Writes the structure list, each of which has only one member.
+	 * 
+	 * @param obj
+	 *            the design element
+	 * @param propName
+	 *            the name of the list property
+	 */
+
+	private void writeStructure( DesignElement obj, String propName )
+	{
+		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
+				propName );
+		if ( prop == null )
+			return;
+
+		IStructure struct = (IStructure) obj
+				.getLocalProperty( design, propName );
+		if ( struct == null )
+			return;
+
+		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
+
+		IStructureDefn structDefn = prop.getStructDefn( );
+
+		Iterator iter = structDefn.getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
+					.next( );
+
+			property( struct, strcutPropDefn.getName( ) );
+		}
+
+		writer.endElement( );
+	}
+
+	/**
+	 * Writes the structure list, each of which has only one member.
+	 * 
+	 * @param struct
+	 *            the partent structure that contains this structure
+	 * @param memberName
+	 *            the name of the list property
+	 */
+
+	private void writeStructure( IStructure struct, String memberName )
+	{
+		IStructureDefn structDefn = struct.getDefn( ).getMember( memberName )
+				.getStructDefn( );
+
+		IStructure memberStruct = (IStructure) struct.getLocalProperty( null,
+				(PropertyDefn) struct.getDefn( ).getMember( memberName ) );
+
+		if ( memberStruct == null )
+			return;
+
+		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, memberName );
+
+		Iterator iter = structDefn.getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
+					.next( );
+
+			property( memberStruct, strcutPropDefn.getName( ) );
+		}
+
+		writer.endElement( );
 	}
 
 	/**

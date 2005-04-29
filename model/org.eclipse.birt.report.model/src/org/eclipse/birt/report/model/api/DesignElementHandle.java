@@ -48,7 +48,6 @@ import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.FormatPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -324,27 +323,6 @@ public abstract class DesignElementHandle
 			return null;
 
 		return new FontHandle( this );
-	}
-
-	/**
-	 * Gets the format handle for the element. If this element defines a string,
-	 * number or date/time format property, return a <code>FormatHandle</code>.
-	 * Otherwise, return <code>null</code>.
-	 * 
-	 * @param propName
-	 *            name of the property.
-	 * @return a corresponding <code>FormatHandle</code> or <code>null</code>.
-	 * @see FormatHandle
-	 */
-
-	protected FormatHandle getFormatProperty( String propName )
-	{
-		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn( propName );
-		if ( propDefn == null )
-			return null;
-
-		assert propDefn.getType( ) instanceof FormatPropertyType;
-		return new FormatHandle( this, propDefn );
 	}
 
 	/**

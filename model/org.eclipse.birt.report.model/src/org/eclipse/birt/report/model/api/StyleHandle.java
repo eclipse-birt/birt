@@ -15,6 +15,10 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
@@ -408,101 +412,310 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Returns the string-format for a style. The string format rules apply when
-	 * a data control displays a string (text) value.
+	 * Returns the pattern of a string format.
 	 * 
-	 * @return the value of the string-format
+	 * @return the pattern of a string format
 	 */
 
-	public FormatHandle getStringFormat( )
+	public String getStringFormat( )
 	{
-		return getFormatProperty( Style.STRING_FORMAT_PROP );
+		Object value = getProperty( Style.STRING_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getPattern( );
 	}
 
 	/**
-	 * Sets the string-format for a style. The string format rules apply when a
-	 * data control displays a string (text) value.
+	 * Returns the category of a string format.
 	 * 
-	 * @param value
-	 *            the new string-format value
-	 * @deprecated
+	 * @return the category of a string format
 	 */
 
-	public void setStringFormat( String value )
+	public String getStringFormatCategory( )
+	{
+		Object value = getProperty( Style.STRING_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a string format.
+	 * 
+	 * @param pattern
+	 *            the pattern of a string forma
+	 */
+
+	public void setStringFormat( String pattern )
 	{
 		try
 		{
-			getStringFormat( ).setStringValue( value );
+			setFormatValue( Style.STRING_FORMAT_PROP,
+					FormatValue.PATTERN_MEMBER, pattern );
+
 		}
 		catch ( SemanticException e )
 		{
-			// set a string, should not fail.
+			assert false;
 		}
+
 	}
 
 	/**
-	 * Returns the number-format for a style. The number rules when the data
-	 * item displays a numeric value;
+	 * Sets the category of a string format. The <code>pattern</code> can be
+	 * one of:
 	 * 
-	 * @return the value of the number-format
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER</code>
+	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * </ul>
+	 * 
+	 * @param pattern
+	 *            the category of a string format
+	 * @throws SemanticException
+	 *             if <code>pattern</code> is not one of the above values.
 	 */
 
-	public FormatHandle getNumberFormat( )
+	public void setStringFormatCategory( String pattern )
+			throws SemanticException
 	{
-		return getFormatProperty( Style.NUMBER_FORMAT_PROP );
+		setFormatValue( Style.STRING_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
+				pattern );
 	}
 
 	/**
-	 * Sets the number-format for a style. The number rules when the data item
-	 * displays a numeric value;
+	 * Returns the pattern of a number format for a style.
 	 * 
-	 * @param value
-	 *            the new number-format value
-	 * @deprecated
+	 * @return the pattern of a number format
 	 */
 
-	public void setNumberFormat( String value )
+	public String getNumberFormat( )
+	{
+		Object value = getProperty( Style.NUMBER_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of a number format for a style.
+	 * 
+	 * @return the category of a number format
+	 */
+
+	public String getNumberFormatCategory( )
+	{
+		Object value = getProperty( Style.NUMBER_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a number format.
+	 * 
+	 * @param pattern
+	 *            the pattern of a number format
+	 */
+
+	public void setNumberFormat( String pattern )
 	{
 		try
 		{
-			getNumberFormat( ).setStringValue( value );
+			setFormatValue( Style.NUMBER_FORMAT_PROP,
+					FormatValue.PATTERN_MEMBER, pattern );
 		}
 		catch ( SemanticException e )
 		{
-			// set a string, should not fail.
+			assert false;
 		}
+
 	}
 
 	/**
-	 * Returns the date-time-format for a style. The date/time rules when the
-	 * item displays a date/time value.
+	 * Sets the category of a number format for a highlight rule. The
+	 * <code>pattern</code> can be one of:
 	 * 
-	 * @return the value of the date-time-format
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD</code>
+	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param category
+	 *            the category of a number format
+	 * @throws SemanticException
+	 *             if <code>category</code> is not one of the above values.
 	 */
 
-	public FormatHandle getDateTimeFormat( )
+	public void setNumberFormatCategory( String category )
+			throws SemanticException
 	{
-		return getFormatProperty( Style.DATE_TIME_FORMAT_PROP );
+		setFormatValue( Style.NUMBER_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
+				category );
 	}
 
 	/**
-	 * Sets the date-time-format for a style. The date/time rules when the item
-	 * displays a date/time value.
+	 * Returns the pattern of the date-time-format.
 	 * 
-	 * @param value
-	 *            the new date-time-format value
-	 * @deprecated
+	 * @return the pattern of the date-time-format
 	 */
 
-	public void setDateTimeFormat( String value )
+	public String getDateTimeFormat( )
+	{
+		Object value = getProperty( Style.DATE_TIME_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateTimeFormatValue;
+
+		return ( (DateTimeFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of the date-time-format.
+	 * 
+	 * @return the category of the date-time-format
+	 */
+
+	public String getDateTimeFormatCategory( )
+	{
+		Object value = getProperty( Style.DATE_TIME_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateTimeFormatValue;
+
+		return ( (DateTimeFormatValue) value ).getCategory( );
+	}
+
+	/**
+	 * Sets the pattern of a date time format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a date time format
+	 */
+
+	public void setDateTimeFormat( String pattern )
 	{
 		try
 		{
-			getDateTimeFormat( ).setStringValue( value );
+			setFormatValue( Style.DATE_TIME_FORMAT_PROP,
+					FormatValue.PATTERN_MEMBER, pattern );
 		}
 		catch ( SemanticException e )
 		{
-			// set a string, should not fail.
+			assert false;
+		}
+
+	}
+
+	/**
+	 * Sets the category of a number format. The <code>pattern</code> can be
+	 * one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME</code>
+	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param pattern
+	 *            the category of a date-time format
+	 * @throws SemanticException
+	 *             if <code>pattern</code> is not one of the above values.
+	 */
+
+	public void setDateTimeFormatCategory( String pattern )
+			throws SemanticException
+	{
+		setFormatValue( Style.DATE_TIME_FORMAT_PROP,
+				FormatValue.CATEGORY_MEMBER, pattern );
+	}
+
+	/**
+	 * Sets the category/pattern value for a string/number/date-time format.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param memberName
+	 *            the category or pattern member name
+	 * @param valueToSet
+	 *            the value to set
+	 * @throws SemanticException
+	 *             if the category is not one of BIRT defined.
+	 */
+
+	private void setFormatValue( String propName, String memberName,
+			String valueToSet ) throws SemanticException
+	{
+		Object value = getProperty( propName );
+
+		FormatValue formatValueToSet = null;
+
+		if ( value == null )
+		{
+			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
+				formatValueToSet = new DateTimeFormatValue( );
+			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
+				formatValueToSet = new NumberFormatValue( );
+			else if ( Style.STRING_FORMAT_PROP.equalsIgnoreCase( propName ) )
+				formatValueToSet = new StringFormatValue( );
+			else
+				assert false;
+
+			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+				formatValueToSet.setCategory( valueToSet );
+			else if ( FormatValue.PATTERN_MEMBER.equalsIgnoreCase( memberName ) )
+				formatValueToSet.setPattern( valueToSet );
+			else
+				assert false;
+
+			setProperty( propName, formatValueToSet );
+		}
+		else
+		{
+			PropertyHandle propHandle = getPropertyHandle( propName );
+			formatValueToSet = (FormatValue) propHandle.getValue( );
+
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+					.getHandle( propHandle );
+
+			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+				formatHandle.setCategory( valueToSet );
+			else if ( FormatValue.PATTERN_MEMBER.equalsIgnoreCase( memberName ) )
+				formatHandle.setPattern( valueToSet );
+			else
+				assert false;
 		}
 	}
 

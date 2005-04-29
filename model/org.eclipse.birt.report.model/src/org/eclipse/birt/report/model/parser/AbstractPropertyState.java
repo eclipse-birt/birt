@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -124,6 +125,7 @@ public class AbstractPropertyState extends AbstractParseState
 			valid = false;
 			return;
 		}
+		
 		super.parseAttrs( attrs );
 	}
 
@@ -347,7 +349,8 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 						.equalsIgnoreCase( errorCode ) )
 		{
-			if ( propDefn.getTypeCode( ) == PropertyType.FORMAT_TYPE )
+			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
+					.getName( ) ) )
 				return true;
 		}
 
@@ -374,6 +377,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
+
 	public AbstractParseState jumpTo( )
 	{
 		// If this state can not be parsed properly, any states in it are

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.model.api.FormatHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -173,27 +172,103 @@ public class StylePreferenceStore implements IPreferenceStore
 	}
 
 	/**
-	 *  
+	 * Gets string format pattern.
 	 */
-	public FormatHandle getStringFormat( )
+	public String getStringFormat( )
 	{
 		return ( (StyleHandle) model ).getStringFormat( );
 	}
 
 	/**
-	 *  
+	 * Gets string format category.
 	 */
-	public FormatHandle getDateTimeFormat( )
+	public String getStringFormatCategory( )
+	{
+		return ( (StyleHandle) model ).getStringFormatCategory( );
+	}
+
+	/**
+	 * Gets Date time format pattern.
+	 */
+	public String getDateTimeFormat( )
 	{
 		return ( (StyleHandle) model ).getDateTimeFormat( );
 	}
 
+	
 	/**
-	 *  
+	 * Gets Date time format category.
 	 */
-	public FormatHandle getNumberFormat( )
+	public String getDateTimeFormatCategory( )
+	{
+		return ( (StyleHandle) model ).getDateTimeFormatCategory( );
+	}
+
+	/**
+	 * Gets number format pattern.
+	 */
+	public String getNumberFormat( )
 	{
 		return ( (StyleHandle) model ).getNumberFormat( );
+	}
+
+	/**
+	 * Gets number format category.
+	 */
+	public String getNumberFormatCategory( )
+	{
+		return ( (StyleHandle) model ).getNumberFormatCategory( );
+	}
+
+	/**
+	 * Sets string format pattern.
+	 */
+	public void setStringFormat( String format )
+	{
+		( (StyleHandle) model ).setStringFormat( format );
+	}
+
+	/**
+	 * Sets string format category.
+	 */
+	public void setStringFormatCategory( String category )
+			throws SemanticException
+	{
+		( (StyleHandle) model ).setStringFormatCategory( category );
+	}
+
+	/**
+	 * Sets date time format pattern.
+	 */
+	public void setDateTimeFormat( String format )
+	{
+		( (StyleHandle) model ).setDateTimeFormat( format );
+	}
+
+	/**
+	 * Sets date time format category.
+	 */
+	public void setDateTimeFormatCategory( String category )
+			throws SemanticException
+	{
+		( (StyleHandle) model ).setDateTimeFormatCategory( category );
+	}
+
+	/**
+	 * Sets number format pattern.
+	 */
+	public void setNumberFormat( String format )
+	{
+		( (StyleHandle) model ).setNumberFormat( format );
+	}
+
+	/**
+	 * Sets number format category.
+	 */
+	public void setNumberFormatCategory( String category )
+			throws SemanticException
+	{
+		( (StyleHandle) model ).setNumberFormatCategory( category );
 	}
 
 	/*
@@ -213,7 +288,7 @@ public class StylePreferenceStore implements IPreferenceStore
 	 */
 	public long getLong( String name )
 	{
-		//TODO
+		// TODO
 		return 0;
 	}
 
@@ -459,7 +534,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	{
 		try
 		{
-			( (StyleHandle) model ).setProperty( name, Boolean.valueOf( value ) );
+			( (StyleHandle) model )
+					.setProperty( name, Boolean.valueOf( value ) );
 		}
 		catch ( SemanticException e )
 		{

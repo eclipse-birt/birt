@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * Creates a preference page for number format.
- *  
+ * 
  */
 
 public class FormatNumberPreferencePage extends BaseStylePreferencePage
@@ -41,7 +41,8 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 	public FormatNumberPreferencePage( Object model )
 	{
 		super( model );
-		setTitle( Messages.getString( "FormatNumberPreferencePage.formatNumber.title" ) ); //$NON-NLS-1$
+		setTitle( Messages
+				.getString( "FormatNumberPreferencePage.formatNumber.title" ) ); //$NON-NLS-1$
 		setPreferenceName( Style.NUMBER_FORMAT_PROP );
 	}
 
@@ -82,8 +83,12 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 		final Composite parent = getFieldEditorParent( );
 
 		formatPage = new FormatNumberPage( parent, SWT.NULL );
-		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( ) );
+		( (Composite) formatPage ).setLayoutData( new GridData(
+				GridData.FILL_HORIZONTAL ) );
+		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) )
+				.getNumberFormatCategory( ),
+				( (StylePreferenceStore) getPreferenceStore( ) )
+						.getNumberFormat( ) );
 	}
 
 	/*
@@ -113,18 +118,17 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null
-				|| !formatPage.isFormatModified( )
+		if ( formatPage == null || !formatPage.isFormatModified( )
 				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
 		try
 		{
-			( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( )
-					.setCategory( formatPage.getCategory( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( )
-					.setPattern( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setNumberFormatCategory( formatPage.getCategory( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setNumberFormat( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )

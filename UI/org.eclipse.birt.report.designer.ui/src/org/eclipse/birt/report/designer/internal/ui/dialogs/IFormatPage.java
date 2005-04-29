@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import org.eclipse.birt.report.model.api.FormatHandle;
 
 /**
  * IFormatPage for format number, string, dateTime
@@ -47,14 +46,6 @@ public interface IFormatPage
 	 *            The format pattern.
 	 */
 	public void setInput( String category, String pattern );
-
-	/**
-	 * Sets input for the format page given a format handle.
-	 * 
-	 * @param handle
-	 *            Given format handle.
-	 */
-	public void setInput( FormatHandle handle );
 
 	/**
 	 * Sets input for the page.

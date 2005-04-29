@@ -755,9 +755,9 @@ public class MemberRef
 		{
 			case PROPERTY :
 			case PROPERTY_LISTn :
-			case PROPERTY_LISTn_MEMBER :
 			case PROPERTY_MEMBER :
 				return propDefn.getStructDefn( );
+			case PROPERTY_LISTn_MEMBER :
 			case PROPERTY_LISTn_MEMBER_MEMBER :
 			case PROPERTY_LISTn_MEMBER_LISTn :
 			case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :

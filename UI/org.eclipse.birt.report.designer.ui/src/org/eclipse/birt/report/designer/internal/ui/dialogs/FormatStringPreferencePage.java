@@ -39,7 +39,8 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	public FormatStringPreferencePage( Object model )
 	{
 		super( model );
-		setTitle( Messages.getString( "FormatStringPreferencePage.formatString.title" ) ); //$NON-NLS-1$
+		setTitle( Messages
+				.getString( "FormatStringPreferencePage.formatString.title" ) ); //$NON-NLS-1$
 		setPreferenceName( Style.STRING_FORMAT_PROP );
 	}
 
@@ -79,8 +80,12 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
 		formatPage = new FormatStringPage( parent, SWT.NULL );
-		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( ) );
+		( (Composite) formatPage ).setLayoutData( new GridData(
+				GridData.FILL_HORIZONTAL ) );
+		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) )
+				.getStringFormatCategory( ),
+				( (StylePreferenceStore) getPreferenceStore( ) )
+						.getStringFormat( ) );
 	}
 
 	/*
@@ -111,18 +116,17 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null
-				|| !formatPage.isFormatModified( )
+		if ( formatPage == null || !formatPage.isFormatModified( )
 				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
 		try
 		{
-			( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( )
-					.setCategory( formatPage.getCategory( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( )
-					.setPattern( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setStringFormatCategory( formatPage.getCategory( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) )
+					.setStringFormat( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )
