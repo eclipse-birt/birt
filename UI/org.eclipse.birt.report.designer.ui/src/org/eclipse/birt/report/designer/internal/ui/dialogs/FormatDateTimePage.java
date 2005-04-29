@@ -36,7 +36,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -54,6 +53,21 @@ import org.eclipse.swt.widgets.Text;
 
 public class FormatDateTimePage extends Composite implements IFormatPage
 {
+
+	private static final String LABEL_FORMAT_DATE_TIME_PAGE = Messages.getString( "FormatDateTimePage.label.format.page" ); //$NON-NLS-1$
+	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.general.preview.group" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatDateTimePage.label.custom.settings" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_EXAMPLE_FORMATS = Messages.getString( "FormatDateTimePage.label.example.formats" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString( "FormatDateTimePage.label.custom.settings.label" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.format.code" ); //$NON-NLS-1$
+	private static final String LABEL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.preview.group" ); //$NON-NLS-1$
+	private static final String LABEL_PREVIEW_DATE_TIME = Messages.getString( "FormatDateTimePage.label.preview.dateTime" ); //$NON-NLS-1$
+	private static final String LABEL_PREVIEW_LABEL = Messages.getString( "FormatDateTimePage.label.preview.label" ); //$NON-NLS-1$
+	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" ); //$NON-NLS-1$
+	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatDateTimePage.label.table.column.format.result" ); //$NON-NLS-1$
+
+	private static final String PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW = Messages.getString( "FormatDateTimePage.preview.invalid.dateTime" ); //$NON-NLS-1$
+	private static final String PREVIEW_TEXT_INVALID_FORMAT_CODE = Messages.getString( "FormatDateTimePage.preview.invalid.formatCode" ); //$NON-NLS-1$
 
 	private String patternStr = null;
 	private String category = null;
@@ -77,27 +91,41 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private Text previewTextBox;
 	private Text formatCode;
 
-	private int sourceType = 0;
-
 	private boolean hasLoaded = false;
 
 	private String previewText = null;
 
+	private boolean isDirty = false;
+
 	/**
-	 * Constructor.
+	 * Constructs a page for formatting date time.
 	 * 
 	 * @param parent
 	 *            The container
 	 * @param style
-	 *            The style
-	 * @param sourceType
-	 *            container's type
+	 *            The style of the page
+	 * @param pageAlignment
+	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
-	public FormatDateTimePage( Composite parent, int style, int sourceType )
+	public FormatDateTimePage( Composite parent, int style, int pageAlignment )
 	{
 		super( parent, style );
-		this.sourceType = sourceType;
 		createContents( );
+	}
+
+	/**
+	 * Constructs a page for formatting date time, default aligns the page
+	 * virtically.
+	 * 
+	 * @param parent
+	 *            The container
+	 * @param style
+	 *            The style of the page
+	 */
+	public FormatDateTimePage( Composite parent, int style )
+	{
+		this( parent, style, PAGE_ALIGN_VIRTICAL );
 	}
 
 	/**
@@ -111,14 +139,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		getFormatTypes( );
 
 		Composite topContainer = new Composite( this, SWT.NONE );
-		GridData data = new GridData( );
-		if ( sourceType != SOURCE_TYPE_STYLE )
-		{
-			data = new GridData( GridData.FILL_HORIZONTAL );
-		}
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		topContainer.setLayoutData( data );
 		topContainer.setLayout( new GridLayout( 2, false ) );
-		new Label( topContainer, SWT.NONE ).setText( Messages.getString( "FormatDateTimePreferencePage.formatDateTime.label" ) ); //$NON-NLS-1$
+		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_DATE_TIME_PAGE );
 		typeChoicer = new Combo( topContainer, SWT.READ_ONLY );
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		typeChoicer.setLayoutData( data );
@@ -126,11 +150,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				String displayName = typeChoicer.getText( );
-				String category = getCategory4DisplayName( displayName );
-				Control control = (Control) categoryPageMaps.get( category );
-				( (StackLayout) infoComp.getLayout( ) ).topControl = control;
-				infoComp.layout( );
+				reLayoutSubPages( );
+
 				updatePreview( );
 			}
 		} );
@@ -141,6 +162,20 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		infoComp.setLayout( new StackLayout( ) );
 		createInfoPages( infoComp );
+	}
+
+	/**
+	 * Re layouts sub pages according to the selected format type.
+	 */
+	protected void reLayoutSubPages( )
+	{
+		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
+
+		Control control = (Control) categoryPageMaps.get( category );
+
+		( (StackLayout) infoComp.getLayout( ) ).topControl = control;
+
+		infoComp.layout( );
 	}
 
 	/**
@@ -195,29 +230,35 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * @param patternStr
 	 *            The pattern of the format string.
 	 */
-	public void setInput( String category, String patternStr )
+	public void setInput( String categoryStr, String patternStr )
 	{
 		hasLoaded = false;
-		oldCategory = category;
-		oldPattern = patternStr;
 
-		if ( oldCategory == null )
+		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
 		}
 		else
 		{
-			if ( oldCategory.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM ) )
+			if ( categoryStr.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM ) )
 			{
-				formatCode.setText( oldPattern == null ? "" : oldPattern ); //$NON-NLS-1$
+				formatCode.setText( patternStr == null ? "" : patternStr ); //$NON-NLS-1$
 			}
-			typeChoicer.select( getIndexOfCategory( oldCategory ) );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
 		}
 
-		( (StackLayout) infoComp.getLayout( ) ).topControl = (Control) categoryPageMaps.get( getCategory4DisplayName( typeChoicer.getText( ) ) );
-		infoComp.layout( );
-		hasLoaded = true;
+		// re layout out sub pages.
+		reLayoutSubPages( );
+
+		// update preview.
 		updatePreview( );
+
+		// set initail.
+		oldCategory = categoryStr;
+		oldPattern = patternStr;
+
+		hasLoaded = true;
+		return;
 	}
 
 	/*
@@ -242,7 +283,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	/**
 	 * @return Returns the previewText.
 	 */
-	public String getPreviewText( )
+	private String getPreviewText( )
 	{
 		return previewText;
 	}
@@ -250,7 +291,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	/**
 	 * Returns the patternStr from the page.
 	 */
-	public String getPatternStr( )
+	public String getPattern( )
 	{
 		return patternStr;
 	}
@@ -268,6 +309,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 */
 	public String getFormatString( )
 	{
+		if ( category == null && patternStr == null )
+		{
+			return null;
+		}
 		if ( category == null )
 		{
 			category = ""; //$NON-NLS-1$
@@ -290,10 +335,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * 
 	 * @return true if the format string is modified.
 	 */
-	public boolean isFormatStrModified( )
+	public boolean isFormatModified( )
 	{
 		String c = getCategory( );
-		String p = getPatternStr( );
+		String p = getPattern( );
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -320,14 +365,34 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	}
 
 	/**
+	 * Returns whether the page is modified.
+	 * 
+	 * @return Returns the isDirty.
+	 */
+	public boolean isDirty( )
+	{
+		return isDirty;
+	}
+
+	/**
+	 * Marks the dirty marker of the page.
+	 * 
+	 * @param dirty
+	 */
+	private void markDirty( boolean dirty )
+	{
+		isDirty = dirty;
+	}
+
+	/**
 	 * Sets the pattern string for this preference.
 	 * 
 	 * @param patternStr
 	 *            The patternStr to set.
 	 */
-	private void setPatternStr( String patternStr )
+	private void setPattern( String patternStr )
 	{
-		this.patternStr = patternStr == "" ? null : patternStr; //$NON-NLS-1$
+		this.patternStr = patternStr;
 	}
 
 	/**
@@ -335,7 +400,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 */
 	private void setCategory( String category )
 	{
-		this.category = category == "" ? null : category; //$NON-NLS-1$
+		this.category = category;
 	}
 
 	/**
@@ -406,14 +471,14 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	/**
 	 * Gets the index of given category.
 	 */
-	private int getIndexOfCategory( String name )
+	private int getIndexOfCategory( String category )
 	{
 		int index = 0;
 		if ( initChoiceArray( ) != null )
 		{
 			for ( int i = 0; i < choiceArray.length; i++ )
 			{
-				if ( choiceArray[i][1].equals( name ) )
+				if ( choiceArray[i][1].equals( category ) )
 				{
 					return i;
 				}
@@ -425,7 +490,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	/**
 	 * Gets the corresponding category for given display name.
 	 */
-	private String getCategory4DisplayName( String displayName )
+	private String getCategory4UIDisplayName( String displayName )
 	{
 		if ( initChoiceArray( ) != null )
 		{
@@ -438,6 +503,19 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			}
 		}
 		return displayName;
+	}
+
+	/**
+	 * Gets the corresponding internal display name given the category.
+	 * 
+	 * @param category
+	 * @return
+	 */
+	private String getDisplayName4Category( String category )
+	{
+		return ChoiceSetFactory.getPropDisplayName( ReportDesignConstants.STYLE_ELEMENT,
+				Style.DATE_TIME_FORMAT_PROP,
+				category );
 	}
 
 	/**
@@ -497,29 +575,25 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * @param parent
 	 *            Parent contains these info panes.
 	 */
-	private HashMap createInfoPages( Composite parent )
+	private void createInfoPages( Composite parent )
 	{
-		if ( categoryPageMaps == null )
-		{
-			categoryPageMaps = new HashMap( );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME,
-					getGeneralPage( parent ) );
-			categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM,
-					getCustomPage( parent ) );
-		}
-		return categoryPageMaps;
+		categoryPageMaps = new HashMap( );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME,
+				getGeneralPage( parent ) );
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM,
+				getCustomPage( parent ) );
 	}
 
 	/**
@@ -527,11 +601,12 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 */
 	private void updatePreview( )
 	{
+		markDirty( hasLoaded );
+
 		String pattern = ""; //$NON-NLS-1$
 		String fmtStr = ""; //$NON-NLS-1$
 
-		String displayName = typeChoicer.getText( );
-		String category = getCategory4DisplayName( displayName );
+		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
 		Date sampleDateTime = new Date( );
@@ -551,56 +626,56 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals( category ) )
 		{
 			pattern = getPatternForCategory( category );
 			fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
-			generalPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( category ) )
@@ -619,17 +694,24 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				}
 				catch ( Exception e )
 				{
-					fmtStr = Messages.getString( "FormatDateTimePreferencePage.preview.invalidDateTimeToPreview" ); //$NON-NLS-1$
+					fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 				}
 			}
-			if ( fmtStr == null || fmtStr == "" ) //$NON-NLS-1$
-			{
-				fmtStr = Messages.getString( "FormatDateTimePreferencePage.preview.invalidFormatCode" ); //$NON-NLS-1$
-			}
-			cusPreviewLabel.setText( fmtStr );
-			setPatternStr( pattern );
+
+			cusPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setPattern( pattern );
 			return;
 		}
+	}
+
+	private String validatedFmtStr( String fmtStr )
+	{
+		String text = fmtStr;
+		if ( text == null )
+		{
+			text = PREVIEW_TEXT_INVALID_FORMAT_CODE;
+		}
+		return text;
 	}
 
 	/**
@@ -657,7 +739,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private Label createPreviewPart( Composite parent )
 	{
 		Group group = new Group( parent, SWT.NONE );
-		group.setText( Messages.getString( "FormatDateTimePreferencePage.previewPart.groupLabel" ) ); //$NON-NLS-1$
+		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		group.setLayoutData( data );
 		group.setLayout( new GridLayout( 1, false ) );
@@ -684,19 +766,19 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			customPage.setLayout( new GridLayout( 1, false ) );
 
 			Group group = new Group( customPage, SWT.NONE );
-			group.setText( Messages.getString( "FormatDateTimePreferencePage.customSettings.groupLabel" ) ); //$NON-NLS-1$
+			group.setText( LABEL_CUSTOM_SETTINGS );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			group.setLayoutData( data );
 			group.setLayout( new GridLayout( 2, false ) );
 
 			Label label = new Label( group, SWT.NONE );
-			label.setText( Messages.getString( "FormatDateTimePreferencePage.exampleFormat.lable" ) ); //$NON-NLS-1$
+			label.setText( LABEL_CUSTOM_EXAMPLE_FORMATS );
 			data = new GridData( );
 			data.horizontalSpan = 2;
 			label.setLayoutData( data );
 
 			label = new Label( group, SWT.NONE );
-			label.setText( Messages.getString( "FormatDateTimePreferencePage.exampleFormat.lable2" ) ); //$NON-NLS-1$
+			label.setText( LABEL_CUSTOM_SETTING_LABEL );
 			data = new GridData( );
 			data.horizontalSpan = 2;
 			label.setLayoutData( data );
@@ -708,7 +790,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			container.setLayoutData( data );
 			container.setLayout( new GridLayout( 2, false ) );
 
-			new Label( container, SWT.NULL ).setText( Messages.getString( "FormatDateTimePreferencePage.formatCode.label" ) ); //$NON-NLS-1$
+			new Label( container, SWT.NULL ).setText( LABEL_FORMAT_CODE );
 			formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
 			formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			formatCode.addModifyListener( new ModifyListener( ) {
@@ -723,14 +805,14 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			} );
 
 			group = new Group( customPage, SWT.NONE );
-			group.setText( Messages.getString( "FormatDateTimePreferencePage.previewGroup.label" ) ); //$NON-NLS-1$
+			group.setText( LABEL_PREVIEW_GROUP );
 			data = new GridData( GridData.FILL_HORIZONTAL );
 			group.setLayoutData( data );
 			GridLayout layout = new GridLayout( 2, false );
 			layout.verticalSpacing = 1;
 			group.setLayout( layout );
 
-			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatDateTimePreferencePage.previewText.label" ) ); //$NON-NLS-1$
+			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_DATE_TIME );
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
 			previewTextBox.setText( "" ); //$NON-NLS-1$
 			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -748,7 +830,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 					}
 					else
 					{
-						guideLabel.setText( Messages.getString( "FormatDateTimePreferencePage.previewText.guideText" ) ); //$NON-NLS-1$
+						guideLabel.setText( Messages.getString( "FormatDateTimePage.label.guide.text" ) ); //$NON-NLS-1$
 					}
 				}
 			} );
@@ -764,21 +846,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			data = new GridData( GridData.FILL_HORIZONTAL );
 			guideLabel.setLayoutData( data );
 
-			new Label( group, SWT.NONE ).setText( Messages.getString( "FormatDateTimePreferencePage.previewLabel.label" ) ); //$NON-NLS-1$
+			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_LABEL );
 			cusPreviewLabel = new Label( group, SWT.NONE );
 			cusPreviewLabel.setText( "" ); //$NON-NLS-1$
 			cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-			Composite helpBar = new Composite( customPage, SWT.NONE );
-			data = new GridData( GridData.FILL_HORIZONTAL );
-			helpBar.setLayoutData( data );
-			helpBar.setLayout( new GridLayout( 3, false ) );
-
-			new Label( helpBar, SWT.NONE ).setText( Messages.getString( "FormatDateTimePreferencePage.helpLabel.label" ) ); //$NON-NLS-1$
-			Button help = new Button( helpBar, SWT.PUSH );
-			help.setText( Messages.getString( "FormatDateTimePreferencePage.helpButton.label" ) ); //$NON-NLS-1$
-			help.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END
-					| GridData.GRAB_HORIZONTAL ) );
 		}
 		return customPage;
 	}
@@ -794,9 +865,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		Table table = new Table( parent, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
 				| SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		GridData data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 2;
-		data.heightHint = 60;
 		table.setLayoutData( data );
 
 		table.setLinesVisible( true );
@@ -806,42 +876,52 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				String category = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
+				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
+				String category = ChoiceSetFactory.getPropValue( ReportDesignConstants.STYLE_ELEMENT,
+						Style.DATE_TIME_FORMAT_PROP,
+						displayName );
 				String pattern = getPatternForCategory( category );
 				formatCode.setText( pattern );
 				updatePreview( );
 			}
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );
-		tableColumValue.setText( Messages.getString( "FormatDateTimePreferencePage.tableColumn.formatCode" ) ); //$NON-NLS-1$
+		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
 		tableColumValue.setWidth( 120 );
 		tableColumValue.setResizable( true );
 
 		TableColumn tableColumnDisplay = new TableColumn( table, SWT.NONE );
-		tableColumnDisplay.setText( Messages.getString( "FormatDateTimePreferencePage.tableColumn.formatResult" ) ); //$NON-NLS-1$
-		tableColumnDisplay.setWidth( 130 );
+		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
+		tableColumnDisplay.setWidth( 200 );
 		tableColumnDisplay.setResizable( true );
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.generalDate" ), "01/23/2001 8:53:03 PM" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.longDate" ), "January 23, 2001" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.mediumDate" ), "23-Jan-01" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.shortDate" ), "01-23-2001" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.longTime" ), "8:45:00 PM" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.tableItem.mediumTime" ), "8:45:00 PM" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( new Date( ) )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
-				Messages.getString( "FormatDateTimePreferencePage.table.shortTime" ), "20:45" //$NON-NLS-1$ //$NON-NLS-2$
+				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( new Date( ) )
 		} );
 	}
 }

@@ -21,14 +21,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * Creates a preference page for DateTime format.
+ * A preference page for formatting DateTime.
  */
 
 public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 {
 
 	private String name;
-	private FormatDateTimePage formatPage;
+	private IFormatPage formatPage;
 
 	/**
 	 * Constructs a format datetime preference page.
@@ -78,12 +78,9 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
-		formatPage = new FormatDateTimePage( parent,
-				SWT.NULL,
-				FormatNumberPage.SOURCE_TYPE_STYLE );
-		formatPage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatPage = new FormatDateTimePage( parent, SWT.NULL );
+		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( ) );
-
 	}
 
 	/*
@@ -113,7 +110,9 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null || !formatPage.isFormatStrModified( ) )
+		if ( formatPage == null
+				|| !formatPage.isFormatModified( )
+				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
@@ -122,7 +121,7 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 			( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( )
 					.setCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( )
-					.setPattern( formatPage.getPatternStr( ) );
+					.setPattern( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )

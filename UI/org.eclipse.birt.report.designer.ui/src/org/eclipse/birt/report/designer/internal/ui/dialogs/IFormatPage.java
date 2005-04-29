@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.model.api.FormatHandle;
+
 /**
  * IFormatPage for format number, string, dateTime
  */
@@ -19,14 +21,40 @@ public interface IFormatPage
 {
 
 	/**
-	 * source type for style builder.
+	 * Aligns the page vietically.
 	 */
-	public static int SOURCE_TYPE_STYLE = 0;
+	public static int PAGE_ALIGN_VIRTICAL = 0;
 
 	/**
-	 * source type for paramet builder.
+	 * Aligns the page horizontally.
 	 */
-	public static int SOURCE_TYPE_PARAMETER = 1;
+	public static int PAGE_ALIGN_HORIZONTAL = 1;
+
+	/**
+	 * Sets preview text for default use.
+	 * 
+	 * @param text
+	 *            The preview text to be set.
+	 */
+	public void setPreviewText( String text );
+
+	/**
+	 * Sets input for the format page.
+	 * 
+	 * @param category
+	 *            The format category.
+	 * @param pattern
+	 *            The format pattern.
+	 */
+	public void setInput( String category, String pattern );
+
+	/**
+	 * Sets input for the format page given a format handle.
+	 * 
+	 * @param handle
+	 *            Given format handle.
+	 */
+	public void setInput( FormatHandle handle );
 
 	/**
 	 * Sets input for the page.
@@ -37,12 +65,18 @@ public interface IFormatPage
 	public void setInput( String formatString );
 
 	/**
-	 * Sets preview text for default use.
+	 * Gets format category.
 	 * 
-	 * @param text
-	 *            The preview text to be setted.
+	 * @return The format category.
 	 */
-	public void setPreviewText( String text );
+	public String getCategory( );
+
+	/**
+	 * Gets format pattern.
+	 * 
+	 * @return The format pattern.
+	 */
+	public String getPattern( );
 
 	/**
 	 * Returns the format string from the page.
@@ -56,5 +90,12 @@ public interface IFormatPage
 	 * 
 	 * @return True if the format string is modified.
 	 */
-	public boolean isFormatStrModified( );
+	public boolean isFormatModified( );
+
+	/**
+	 * Determines the page is dirty.
+	 * 
+	 * @return True if the page is dirty.
+	 */
+	public boolean isDirty( );
 }

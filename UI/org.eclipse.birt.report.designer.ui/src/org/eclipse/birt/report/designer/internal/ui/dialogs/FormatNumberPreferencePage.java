@@ -30,7 +30,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 
 	private String name;
 
-	private FormatNumberPage formatPage;
+	private IFormatPage formatPage;
 
 	/**
 	 * Constructs a format number preference page.
@@ -81,10 +81,8 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
 
-		formatPage = new FormatNumberPage( parent,
-				SWT.NULL,
-				FormatNumberPage.SOURCE_TYPE_STYLE );
-		formatPage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatPage = new FormatNumberPage( parent, SWT.NULL );
+		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( ) );
 	}
 
@@ -115,7 +113,9 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null || !formatPage.isFormatStrModified( ) )
+		if ( formatPage == null
+				|| !formatPage.isFormatModified( )
+				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
@@ -124,7 +124,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 			( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( )
 					.setCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( )
-					.setPattern( formatPage.getPatternStr( ) );
+					.setPattern( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )
@@ -133,5 +133,4 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 			return false;
 		}
 	}
-
 }

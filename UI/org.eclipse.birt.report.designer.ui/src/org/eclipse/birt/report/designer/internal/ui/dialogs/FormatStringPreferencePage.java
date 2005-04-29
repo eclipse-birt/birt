@@ -21,14 +21,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * Creates a preference page for string format.
+ * A preference page for formatting string.
  */
 
 public class FormatStringPreferencePage extends BaseStylePreferencePage
 {
 
 	private String name;
-	private FormatStringPage formatPage;
+	private IFormatPage formatPage;
 
 	/**
 	 * Constructs a format string preference page.
@@ -78,10 +78,8 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
-		formatPage = new FormatStringPage( parent,
-				SWT.NULL,
-				FormatNumberPage.SOURCE_TYPE_STYLE );
-		formatPage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatPage = new FormatStringPage( parent, SWT.NULL );
+		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( ) );
 	}
 
@@ -113,7 +111,9 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null || !formatPage.isFormatStrModified( ) )
+		if ( formatPage == null
+				|| !formatPage.isFormatModified( )
+				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
@@ -122,7 +122,7 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 			( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( )
 					.setCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( )
-					.setPattern( formatPage.getPatternStr( ) );
+					.setPattern( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )
@@ -131,5 +131,4 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 			return false;
 		}
 	}
-
 }
