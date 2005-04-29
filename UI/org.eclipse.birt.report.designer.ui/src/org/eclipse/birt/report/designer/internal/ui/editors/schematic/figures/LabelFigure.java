@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -75,18 +76,21 @@ public class LabelFigure extends ReportElementFigure
 					FlowBox box;
 
 					int left = Integer.MAX_VALUE, top = left;
+					int bottom = Integer.MIN_VALUE;
 
 					for ( int i = 0; i < list.size( ); i++ )
 					{
 						box = (FlowBox) list.get( i );
 						left = Math.min( left, box.x );
 						top = Math.min( top, box.y );
+						bottom = Math.max( bottom, box.y + box.getHeight( ) );
 					}
 
 					setBounds( new Rectangle( left,
 							top,
 							LabelFigure.this.getClientArea( ).width,
-							LabelFigure.this.getClientArea( ).height ) );
+							Math.max( LabelFigure.this.getClientArea( ).height,
+									bottom - top ) ) );
 
 					list = getChildren( );
 					for ( int i = 0; i < list.size( ); i++ )
@@ -321,5 +325,20 @@ public class LabelFigure extends ReportElementFigure
 	public void setVerticalAlign( String verticalAlign )
 	{
 		label.setVerticalAlign( verticalAlign );
+	}
+
+	/**
+	 * Sets the toolTip text for this figure.
+	 * 
+	 * @param toolTip
+	 */
+	public void setToolTipText( String toolTip )
+	{
+		if ( toolTip != null )
+		{
+			Label tooltip = new Label( toolTip );
+			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+			setToolTip( tooltip );
+		}
 	}
 }

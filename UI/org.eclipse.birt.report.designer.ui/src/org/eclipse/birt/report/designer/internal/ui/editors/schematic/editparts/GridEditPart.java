@@ -31,8 +31,10 @@ public class GridEditPart extends TableEditPart
 {
 
 	private static final String GUIDEHANDLE_TEXT = Messages.getString( "GridEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+
 	/**
 	 * Constructor
+	 * 
 	 * @param obj
 	 */
 	public GridEditPart( Object obj )
@@ -81,16 +83,19 @@ public class GridEditPart extends TableEditPart
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
 	 */
 	protected AbstractGuideHandle createGuideHandle( )
 	{
-		TableGuideHandle handle = new TableGuideHandle(this);
+		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
 		return handle;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -99,16 +104,6 @@ public class GridEditPart extends TableEditPart
 	public void insertRow( int rowNumber )
 	{
 		super.insertRow( rowNumber );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart#canMerge()
-	 */
-	public boolean canMerge( )
-	{
-		return TableUtil.getSelectionCells( this ).size( ) > 1;
 	}
 
 	/*

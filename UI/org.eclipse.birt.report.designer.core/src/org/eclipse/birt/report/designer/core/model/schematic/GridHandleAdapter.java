@@ -54,7 +54,8 @@ public class GridHandleAdapter extends TableHandleAdapter
 
 		for ( Iterator it = rows.iterator( ); it.hasNext( ); )
 		{
-			children.addAll( ( (RowHandle) it.next( ) ).getCells( ).getContents( ) );
+			children.addAll( ( (RowHandle) it.next( ) ).getCells( )
+					.getContents( ) );
 		}
 		removePhantomCells( children );
 		return children;
@@ -85,6 +86,16 @@ public class GridHandleAdapter extends TableHandleAdapter
 		insertRowInfo( getGridHandle( ).getRows( ),
 				TableHandleAdapter.RowUIInfomation.GRID_ROW,
 				TableHandleAdapter.RowUIInfomation.GRID_ROW );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter#canMerge(java.util.List)
+	 */
+	public boolean canMerge( List list )
+	{
+		return list != null && list.size( ) > 1;
 	}
 
 	/**

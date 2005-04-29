@@ -19,6 +19,7 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.TableCellSelectionHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -84,121 +85,29 @@ public class CellDragTracker extends DragEditPartsTracker implements
 
 	private Request targetRequest;
 
-	private static final Request MARQUEE_REQUEST = new Request( RequestConstants.REQ_SELECTION );
+	public static final Request MARQUEE_REQUEST = new Request( RequestConstants.REQ_SELECTION );
 
 	private List calculateNewSelection( )
 	{
 
 		List newSelections = new ArrayList( );
 
-		calculateNewSelection( getMarqueeSelectionRectangle( ), newSelections );
+		TableUtil.calculateNewSelection( getMarqueeSelectionRectangle( ),
+				newSelections,
+				getAllChildren( ) );
 		int size = newSelections.size( );
-		calculateNewSelection( getUnionBounds( newSelections ), newSelections );
+		TableUtil.calculateNewSelection( TableUtil.getUnionBounds( newSelections ),
+				newSelections,
+				getAllChildren( ) );
 		while ( size != newSelections.size( ) )
 		{
 			size = newSelections.size( );
-			calculateNewSelection( getUnionBounds( newSelections ),
-					newSelections );
+			TableUtil.calculateNewSelection( TableUtil.getUnionBounds( newSelections ),
+					newSelections,
+					getAllChildren( ) );
 
 		}
 		return newSelections;
-	}
-
-	private void calculateNewSelection( Rectangle bounds, List list )
-	{
-		List children = getAllChildren( );
-
-		for ( int i = 0; i < children.size( ); i++ )
-		{
-			EditPart child = (EditPart) children.get( i );
-			if ( !child.isSelectable( ) || isInTable( child ) )
-				continue;
-			IFigure figure = ( (GraphicalEditPart) child ).getFigure( );
-			Rectangle r = figure.getBounds( ).getCopy( );
-			figure.translateToAbsolute( r );
-
-			Rectangle rect = bounds.getCopy( ).intersect( r );
-
-			if ( rect.width > 0
-					&& rect.height > 0
-					&& figure.isShowing( )
-					&& child.getTargetEditPart( MARQUEE_REQUEST ) == child
-					&& isFigureVisible( figure ) )
-			{
-				if ( !list.contains( child ) )
-				{
-					list.add( child );
-				}
-
-			}
-		}
-	}
-
-	private Rectangle getUnionBounds( List list )
-	{
-
-//		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
-//
-//		int size = list.size( );
-//		TableCellEditPart[] parts = new TableCellEditPart[size];
-//		list.toArray( parts );
-//
-//		TableCellEditPart[] caleNumber = table.getMinAndMaxNumber( parts );
-//		TableCellEditPart minRow = caleNumber[0];
-//		TableCellEditPart minColumn = caleNumber[1];
-//		TableCellEditPart maxRow = caleNumber[2];
-//		TableCellEditPart maxColumn = caleNumber[3];
-//
-//		Rectangle min = minRow.getBounds( ).getCopy( );
-//		Rectangle max = maxColumn.getBounds( ).getCopy( );
-//		Rectangle retValue = min.union( max )
-//				.union( minColumn.getBounds( ).getCopy( ) )
-//				.union( maxRow.getBounds( ).getCopy( ) )
-//				.shrink( 2, 2 );
-//		minRow.getFigure( ).translateToAbsolute( retValue );
-//
-//		return retValue;
-//		TableEditPart table = (TableEditPart) getSourceEditPart( ).getParent( );
-
-		int size = list.size( );
-		if (size == 0)
-		{
-			return new Rectangle();
-		}
-		IFigure figure = ((TableCellEditPart)list.get(0)).getFigure();
-		Rectangle retValue = figure.getBounds().getCopy();
-		
-		for (int i=1; i<size; i++)
-		{
-			TableCellEditPart cellPart = (TableCellEditPart)list.get(i);
-			retValue.union(cellPart.getFigure().getBounds());		
-		}
-		retValue.shrink(2, 2);
-		figure.translateToAbsolute( retValue );
-
-		return retValue;
-	}
-
-	/**
-	 * @param child
-	 * @return
-	 */
-	private boolean isInTable( EditPart child )
-	{
-		if ( child instanceof TableCellEditPart )
-		{
-			return false;
-		}
-		EditPart part = child.getParent( );
-		while ( part != null )
-		{
-			if ( part instanceof TableCellEditPart )
-			{
-				return true;
-			}
-			part = part.getParent( );
-		}
-		return false;
 	}
 
 	protected Request createTargetRequest( )
@@ -243,7 +152,7 @@ public class CellDragTracker extends DragEditPartsTracker implements
 	}
 
 	/**
-	 * Return a List including all of the children of the Table editpart
+	 * Return a List including all of the children of the Table editPart
 	 */
 	private List getAllChildren( )
 	{
@@ -523,26 +432,13 @@ public class CellDragTracker extends DragEditPartsTracker implements
 		return false;
 	}
 
-	private boolean isFigureVisible( IFigure fig )
-	{
-		Rectangle figBounds = fig.getBounds( ).getCopy( );
-		IFigure walker = fig.getParent( );
-		while ( !figBounds.isEmpty( ) && walker != null )
-		{
-			walker.translateToParent( figBounds );
-			figBounds.intersect( walker.getBounds( ) );
-			walker = walker.getParent( );
-		}
-		return !figBounds.isEmpty( );
-	}
-
 	private void performMarqueeSelect( )
 	{
 		EditPartViewer viewer = getCurrentViewer( );
 
 		List newSelections = calculateNewSelection( );
 
-		// If in multi select mode, add the new selections to the already
+		// If in multiple select mode, add the new selections to the already
 		// selected group; otherwise, clear the selection and select the new
 		// group
 		//System.out.println(getSelectionMode());
@@ -586,7 +482,6 @@ public class CellDragTracker extends DragEditPartsTracker implements
 		else
 			setDefaultCursor( SharedCursors.NO );
 	}
-
 
 	private void showMarqueeFeedback( )
 	{

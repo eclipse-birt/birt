@@ -1225,7 +1225,17 @@ public class TableEditPart extends ReportElementEditPart implements
 			}
 			temp.add( part.getModel( ) );
 		}
-		return getTableAdapter( ).canMerge( temp );
+		boolean rt = getTableAdapter( ).canMerge( temp );
+
+		if ( rt )
+		{
+			TableUtil.calculateNewSelection( TableUtil.getUnionBounds( list ),
+					list,
+					getChildren( ) );
+			return list.size( ) == size;
+		}
+
+		return rt;
 	}
 
 	/**
