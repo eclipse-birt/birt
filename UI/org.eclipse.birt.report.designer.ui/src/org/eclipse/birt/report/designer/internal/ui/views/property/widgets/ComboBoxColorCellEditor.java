@@ -304,16 +304,10 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		value = dialog.open( );
 		if ( value != null && dialog.getRGB( ) != null )
 		{
-			//TODO: temp solution, remove following line after the equals
-			// method
-			// is ok
 			deactivate( );
-			return ColorUtil.format( dialog.getRGB( ).hashCode( ),
+			return ColorUtil.format(ColorUtil.formRGB(dialog.getRGB( ).red,dialog.getRGB().green,dialog.getRGB().blue),
 					ColorUtil.HTML_FORMAT );
 		}
-		//TODO: temp solution, remove following line after the equals method
-		// is ok
-		//deactivate( );
 		comboBox.setFocus();
 
 		return value;
