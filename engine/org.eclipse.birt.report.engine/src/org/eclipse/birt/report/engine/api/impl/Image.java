@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
 /**
  * image content object
  * 
- * @version $Revision: 1.3 $ $Date: 2005/04/28 13:33:58 $
+ * @version $Revision: 1.4 $ $Date: 2005/04/29 03:37:15 $
  */
 public class Image implements IImage
 {
@@ -237,8 +237,14 @@ public class Image implements IImage
 			}
 			finally
 			{
-				input.close();
-				output.close();	
+				if( input != null )
+				{
+					input.close();
+				}
+				if( output != null )
+				{
+					output.close();	
+				}
 			}
 		}
 		

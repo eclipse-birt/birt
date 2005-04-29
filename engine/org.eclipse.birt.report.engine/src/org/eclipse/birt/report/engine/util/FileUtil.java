@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/27 03:11:13 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/28 10:11:12 $
  */
 public class FileUtil
 {
@@ -296,20 +296,26 @@ public class FileUtil
 	 */
 	public static boolean isRelativePath( String fileName )
 	{
-		if( fileName == null )
+		if( fileName == null
+			|| fileName.indexOf( ':' ) > 0
+			|| fileName.startsWith( "\\\\" ) ) //$NON-NLS-1$
 		{
 			return false;
 		}
-		try
+		
+		if( File.separatorChar == '/' )
 		{
-			URI uri = new URI( fileName );
-			return !uri.isAbsolute( );
+			// Linux
+			return !fileName.startsWith( File.separator );
 		}
-		catch ( URISyntaxException e )
+		else if ( File.separatorChar == '\\' )
 		{
+			// Windows
 			File file = new File( fileName );
 			return !file.isAbsolute( );
 		}
+		
+		return false;
 	}
 
 	/**
