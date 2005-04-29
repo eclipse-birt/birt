@@ -18,6 +18,11 @@ package org.eclipse.birt.report.model.parser;
 
 public interface DesignSchemaConstants
 {
+	/**
+	 * The version of report design.
+	 */
+
+	public final static String REPORT_VERSION = "1"; //$NON-NLS-1$
 
 	static final String	BACKGROUND_ATTACHMENT_ATTRIB			= "background-attachment";		//$NON-NLS-1$
 	static final String	BACKGROUND_COLOR_ATTRIB					= "background-color";			//$NON-NLS-1$
@@ -54,13 +59,14 @@ public interface DesignSchemaConstants
 	static final String	DATA_SOURCES_TAG						= "data-sources";				//$NON-NLS-1$ 
 	static final String	DATA_TAG								= "data";						//$NON-NLS-1$ 
 	static final String	DEFAULT_VALUE_TAG						= "default-value";				//$NON-NLS-1$
-	static final String	DETAIL_TAG								= "detail";						//$NON-NLS-1$ 
+	static final String	DETAIL_TAG								= "detail";						//$NON-NLS-1$
+	static final String ENCRYPTED_PROPERTY_TAG					= "encrypted-property";			//$NON-NLS-1$
 	static final String EX_PROPERTY_TAG							= "ex-property";				//$NON-NLS-1$
 	static final String EXPRESSION_TAG							= "expression";					//$NON-NLS-1$
 	static final String	EXTENDED_ITEM_TAG						= "extended-item";				//$NON-NLS-1$ 
 	static final String	EXTENDS_ATTRIB							= "extends";					//$NON-NLS-1$
 	static final String EXTENSION_ATTRIB						= "extension";					//$NON-NLS-1$
-	static final String EXTENSION_NAME_ATTRIB 					= "extensionName"; 			//$NON-NLS-1$
+	static final String EXTENSION_NAME_ATTRIB 					= "extensionName"; 				//$NON-NLS-1$
 	static final String	FILTER_PARAMETER_TAG					= "filter-parameter";			//$NON-NLS-1$ 
 	static final String	FONT_FAMILY_ATTRIB						= "font-family";				//$NON-NLS-1$ 
 	static final String	FONT_SIZE_ATTRIB						= "font-size";					//$NON-NLS-1$ 
@@ -74,7 +80,7 @@ public interface DesignSchemaConstants
 	static final String	GROUP_TAG								= "group";						//$NON-NLS-1$ 
 	static final String	HEADER_TAG								= "header";						//$NON-NLS-1$ 
 	static final String	HEADLINE_TAG							= "headline";					//$NON-NLS-1$ 
-	static final String HTML_PROPERTY_TAG						="html-property"; 				//$NON-NLS-1$
+	static final String HTML_PROPERTY_TAG						= "html-property"; 				//$NON-NLS-1$
 	static final String	IMAGE_TAG								= "image";						//$NON-NLS-1$ 
 	static final String IMPORT_TAG 								= "import"; 					//$NON-NLS-1$
 	static final String	INCLUDE_LIBRARY_TAG						= "include-library";			//$NON-NLS-1$ 
@@ -162,8 +168,10 @@ public interface DesignSchemaConstants
 	static final String	TRANSLATION_TAG							= "translation";				//$NON-NLS-1$
 	static final String	TRANSLATIONS_TAG						= "translations";				//$NON-NLS-1$
 	static final String	VALUE_TAG								= "value";						//$NON-NLS-1$
-	static final String	VERTICAL_ALIGN_ATTRIB					= "vertical-align";				//$NON-NLS-1$ 
+	static final String	VERTICAL_ALIGN_ATTRIB					= "vertical-align";				//$NON-NLS-1$
+	static final String VERSION_ATTRIB							= "version";					//$NON-NLS-1$
 	static final String XML_PROPERTY_TAG						= "xml-property"; 				//$NON-NLS-1$
+	static final String XMLNS_ATTRIB							= "xmlns";						//$NON-NLS-1$
 	
 	/**
 	 * @deprecated by the {@link #TEXT_DATA_TAG}

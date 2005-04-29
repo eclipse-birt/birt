@@ -178,11 +178,11 @@ public abstract class PropertyDefn
 
 	private boolean valueRequired = false;
 
-	/*
+	/**
      * Whether the value of this property should be protected.
      */
      
-	private boolean isEncrypted = false;
+	private boolean isEncryptable = false;
 
 	/**
 	 * Constructs a Property Definition.
@@ -1108,20 +1108,20 @@ public abstract class PropertyDefn
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncrypted()
 	 */
 
-	public boolean isEncrypted( )
+	public boolean isEncryptable( )
 	{
-		return isEncrypted;
+		return isEncryptable;
 	}
 
 	/**
 	 * Sets this property encrypted or not.
 	 * 
-	 * @param isEncrypted
+	 * @param isEncryptable
 	 *            flag indicating whether this property is encrypted.
 	 */
 
-	void setIsEncrypted( boolean isEncrypted )
+	void setIsEncryptable( boolean isEncryptable )
 	{
-		this.isEncrypted = isEncrypted;
+		this.isEncryptable = isEncryptable;
 	}
 }

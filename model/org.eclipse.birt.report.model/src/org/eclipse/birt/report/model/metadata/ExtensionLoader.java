@@ -136,7 +136,7 @@ public abstract class ExtensionLoader
 		static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
 		static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
 		static final String DEFAULT_DISPLAY_NAME_ATTRIB = "defaultDisplayName"; //$NON-NLS-1$
-		static final String IS_ENCRYPTED_ATTRIB = "isEncrypted"; //$NON-NLS-1$
+		static final String IS_ENCRYPTABLE_ATTRIB = "isEncryptable"; //$NON-NLS-1$
 
 		IExtension extension;
 

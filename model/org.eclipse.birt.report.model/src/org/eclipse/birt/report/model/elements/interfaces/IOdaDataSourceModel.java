@@ -29,4 +29,10 @@ public interface IOdaDataSourceModel
 
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
 
+	/**
+	 * The property name of public driver properties.
+	 * @deprecated
+	 */
+
+	public static final String PUBLIC_DRIVER_PROPERTIES_PROP = "publicDriverProperties"; //$NON-NLS-1$
 }

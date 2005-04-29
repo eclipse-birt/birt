@@ -44,6 +44,10 @@ public class ActionStructureState extends StructureState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, element, propDefn, struct );
 
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+			return new EncryptedPropertyState( handler, element, propDefn, struct );
+
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
 			return new ActionExpressionState( handler, element, propDefn,
 					struct );

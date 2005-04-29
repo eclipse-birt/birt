@@ -52,6 +52,7 @@ public interface IOdaDataSetModel
 
 	/**
 	 * The property name of public driver properties.
+	 * @deprecated
 	 */
 
 	public static final String PUBLIC_DRIVER_PROPERTIES_PROP = "publicDriverProperties"; //$NON-NLS-1$

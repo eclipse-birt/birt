@@ -105,6 +105,12 @@ public class DesignWriter extends ElementVisitor
 {
 
 	/**
+	 * The constant for default model name space.
+	 */
+
+	final private static String DEFAULT_NAME_SPACE = " http://www.eclipse.org/birt/2005/design"; //$NON-NLS-1$
+
+	/**
 	 * The low-level writer that emits XML syntax.
 	 */
 
@@ -171,8 +177,7 @@ public class DesignWriter extends ElementVisitor
 
 	private void writeFile( )
 	{
-		writer
-				.literal( "<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->\r\n" ); //$NON-NLS-1$
+		writer.literal( "<!-- Written by Eclipse BIRT 1.0 -->\r\n" ); //$NON-NLS-1$
 		design.apply( this );
 	}
 
@@ -187,8 +192,9 @@ public class DesignWriter extends ElementVisitor
 	public void visitReportDesign( ReportDesign obj )
 	{
 		writer.startElement( DesignSchemaConstants.REPORT_TAG );
-		writer.attribute( "xmlns", //$NON-NLS-1$ 
-				"http://www.eclipse.com/schemas/BIRT_schema.xsd" ); //$NON-NLS-1$ 
+		writer.attribute( DesignSchemaConstants.XMLNS_ATTRIB,
+				DEFAULT_NAME_SPACE );
+		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB, DesignSchemaConstants.REPORT_VERSION );
 		property( obj, ReportDesign.AUTHOR_PROP );
 		property( obj, ReportDesign.HELP_GUIDE_PROP );
 		property( obj, ReportDesign.CREATED_BY_PROP );
@@ -1546,7 +1552,7 @@ public class DesignWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
-		if ( propDefn.isEncrypted( ) )
+		if ( propDefn.isEncryptable( ) )
 		{
 			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 					.getEncryptionHelper( );
@@ -1595,7 +1601,7 @@ public class DesignWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
-		if ( propDefn.isEncrypted( ) )
+		if ( propDefn.isEncryptable( ) )
 		{
 			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 					.getEncryptionHelper( );
@@ -1851,6 +1857,9 @@ public class DesignWriter extends ElementVisitor
 				return DesignSchemaConstants.METHOD_TAG;
 
 			default :
+				if ( prop.isEncryptable( ) )
+					return DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
+			
 				return DesignSchemaConstants.PROPERTY_TAG;
 		}
 	}
@@ -2297,10 +2306,10 @@ public class DesignWriter extends ElementVisitor
 		assert obj instanceof GridItem || obj instanceof TableItem;
 		assert slot == GridItem.COLUMN_SLOT || slot == TableItem.COLUMN_SLOT;
 
-		// TODO: UI requires the column to keep the table layout information, so 
-		// the unnecessary columns can not be remove this moment. The related 
+		// TODO: UI requires the column to keep the table layout information, so
+		// the unnecessary columns can not be remove this moment. The related
 		// SCR is SRC#74095.
-		
+
 		boolean revert = true;
 		if ( revert )
 		{

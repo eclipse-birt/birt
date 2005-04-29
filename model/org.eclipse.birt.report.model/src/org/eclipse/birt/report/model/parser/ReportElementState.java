@@ -278,6 +278,8 @@ public abstract class ReportElementState extends DesignParseState
 	 * 
 	 * @param attrs
 	 *            the SAX attributes object
+	 * @param extensionNameRequired
+	 *            whether extension name is required
 	 */
 
 	protected void parseExtensionName( Attributes attrs,
@@ -292,15 +294,12 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( StringUtil.isBlank( extensionName ) )
 		{
-			if ( extensionNameRequired )
-				RecoverableError
-						.dealMissingInvalidExtension(
-								handler,
-								new SemanticError(
-										element,
-										SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION ) );
-			else
+			if ( !extensionNameRequired )
 				return;
+
+			SemanticError e = new SemanticError( element,
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
+			RecoverableError.dealMissingInvalidExtension( handler, e );
 		}
 		else
 		{
@@ -309,14 +308,10 @@ public abstract class ReportElementState extends DesignParseState
 					.getExtension( extensionName );
 			if ( extDefn == null )
 			{
-
-				RecoverableError
-						.dealMissingInvalidExtension(
-								handler,
-								new SemanticError(
-										element,
-										new String[]{extensionName},
-										SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND ) );
+				SemanticError e = new SemanticError( element,
+						new String[]{extensionName},
+						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+				RecoverableError.dealMissingInvalidExtension( handler, e );
 			}
 		}
 

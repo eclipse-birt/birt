@@ -173,7 +173,7 @@
                   <enumeration value="element">
                   </enumeration>
                   <enumeration value="column">
-                  </enumeration>              
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>
@@ -198,7 +198,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="isEncrypted" type="string">
+         <attribute name="isEncryptable" type="string">
             <annotation>
                <documentation>
                   The flag indicating whether this property is encrypted.

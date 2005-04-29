@@ -154,11 +154,11 @@ public class UserPropertyStructureState extends StructureState
 
 			if ( !UserPropertyDefn.CHOICES_MEMBER.equalsIgnoreCase( name ) )
 			{
-				RecoverableError
-						.dealUndefinedProperty(
-								handler,
-								new DesignParserException( null, name,
-										DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+				DesignParserException e = new DesignParserException(
+						null,
+						new String[]{name},
+						DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
+				RecoverableError.dealUndefinedProperty( handler, e );
 				valid = false;
 				return;
 			}

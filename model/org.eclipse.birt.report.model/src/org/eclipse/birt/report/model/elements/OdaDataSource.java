@@ -225,9 +225,6 @@ public class OdaDataSource extends DataSource implements IExtendableElement, IOd
 		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
 				this, DRIVER_NAME_PROP ) );
 
-		list.addAll( validateStructureList( design,
-				PRIVATE_DRIVER_PROPERTIES_PROP ) );
-
 		return list;
 	}
 

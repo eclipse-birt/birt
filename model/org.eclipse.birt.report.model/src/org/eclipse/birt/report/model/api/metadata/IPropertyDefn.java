@@ -123,5 +123,5 @@ public interface IPropertyDefn
 	 * @return <code>true</code> if this property should be encrypted.
 	 */
 
-	public boolean isEncrypted( );
+	public boolean isEncryptable( );
 }

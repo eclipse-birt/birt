@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 /**
  * This class describes a parse error. Many errors are reported using the same
  * exceptions used for API operations.
- *  
+ * 
  */
 
 public class DesignParserException extends BirtException
@@ -29,12 +29,6 @@ public class DesignParserException extends BirtException
 	 */
 
 	protected String fileName = null;
-
-	/**
-	 * The property name of the undefined property.
-	 */
-
-	protected String propName = null;
 
 	/**
 	 * A custom color did not have a correct RGB value.
@@ -72,6 +66,12 @@ public class DesignParserException extends BirtException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_URL_VALUE;
+
+	/**
+	 * One property is not encryptable.
+	 */
+
+	public static final String DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = MessageConstants.DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE;
 
 	/**
 	 * Image Name is empty.
@@ -171,6 +171,18 @@ public class DesignParserException extends BirtException
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ENCODING = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING;
 
 	/**
+	 * The report version is unsupported.
+	 */
+
+	public static final String DESIGN_EXCEPTION_UNSUPPORTED_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION;
+
+	/**
+	 * The report version is invalid.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_INVALID_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_VERSION;
+
+	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
@@ -219,17 +231,16 @@ public class DesignParserException extends BirtException
 	 * 
 	 * @param name
 	 *            the input file name
-	 * @param propName
-	 *            the property name
+	 * @param values
+	 *            the values for message
 	 * @param errCode
 	 *            the error condition
 	 */
 
-	public DesignParserException( String name, String propName, String errCode )
+	public DesignParserException( String name, String[] values, String errCode )
 	{
-		super( errCode, null );
+		super( errCode, values, null, null );
 		fileName = name;
-		this.propName = propName;
 	}
 
 	/**
@@ -252,9 +263,15 @@ public class DesignParserException extends BirtException
 
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY )
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{propName} );
+		if ( sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
+				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
+				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION )
+		{
+			assert oaMessageArguments.length == 1;
+
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
+
 		return ModelMessages.getMessage( sResourceKey );
 	}
 

@@ -14,13 +14,11 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.IStructure;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
-import org.xml.sax.Attributes;
 
 /**
  * Base class for report element parse states.
@@ -69,7 +67,7 @@ public abstract class DesignParseState extends AbstractParseState
 
 	/**
 	 * Sets the value of a property with a string parsed from the XML file.
-	 * Performs any required semantic checks. 
+	 * Performs any required semantic checks.
 	 * 
 	 * @param propName
 	 *            property name
@@ -116,7 +114,14 @@ public abstract class DesignParseState extends AbstractParseState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		{
+			if ( getElement( ) instanceof OdaDataSource
+					&& handler.getDesign( ).getStringProperty( handler.getDesign( ),
+							ReportDesign.VERSION_PROP ) == null )
+				return new CompatibleOdaDriverPropertyState( handler,
+						getElement( ) );
 			return new PropertyState( handler, getElement( ) );
+		}
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
 			return new PropertyListState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
@@ -131,6 +136,9 @@ public abstract class DesignParseState extends AbstractParseState
 			return new TextPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
 			return new TextPropertyState( handler, getElement( ) );
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+			return new EncryptedPropertyState( handler, getElement( ) );
 
 		return super.startElement( tagName );
 	}

@@ -213,7 +213,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String canInherit = propTag.getAttribute( CAN_INHERIT_ATTRIB );
 		
 			String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
-			String isEncrypted = propTag.getAttribute( IS_ENCRYPTED_ATTRIB );
+			String isEncrypted = propTag.getAttribute( IS_ENCRYPTABLE_ATTRIB );
 			String defaultDisplayName = propTag.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
@@ -244,7 +244,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 						.booleanValue( ) );
 
 			if ( !StringUtil.isBlank( isEncrypted ) )
-				extPropDefn.setIsEncrypted( Boolean.valueOf( isEncrypted )
+				extPropDefn.setIsEncryptable( Boolean.valueOf( isEncrypted )
 						.booleanValue( ) );
 
 

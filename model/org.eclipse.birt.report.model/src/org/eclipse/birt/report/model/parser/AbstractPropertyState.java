@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -113,11 +114,13 @@ public class AbstractPropertyState extends AbstractParseState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
+
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 		if ( StringUtil.isBlank( name ) )
 		{
-			handler.semanticError( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			DesignParserException e = new DesignParserException(
+					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED );
+			handler.semanticError( e );
 			valid = false;
 			return;
 		}
@@ -160,13 +163,10 @@ public class AbstractPropertyState extends AbstractParseState
 				.getMember( member );
 		if ( memberDefn == null )
 		{
-			RecoverableError
-					.dealUndefinedProperty(
-							handler,
-							new DesignParserException(
-									null,
-									member,
-									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			DesignParserException e = new DesignParserException( null,
+					new String[]{member},
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
+			RecoverableError.dealUndefinedProperty( handler, e );
 
 			valid = false;
 			return;
@@ -179,13 +179,19 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( StringUtil.isBlank( valueToSet ) )
 			return;
 
-		if ( memberDefn.isEncrypted( ) )
+		if ( memberDefn.isEncryptable( ) )
 		{
 			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 					.getEncryptionHelper( );
 			valueToSet = helper.decrypt( valueToSet );
 		}
 
+		doSetMember( propName, memberDefn, valueToSet );
+	}
+
+	protected void doSetMember( String propName, StructPropertyDefn memberDefn,
+			String valueToSet )
+	{
 		// Validate the value.
 
 		try
@@ -197,7 +203,7 @@ public class AbstractPropertyState extends AbstractParseState
 		catch ( PropertyValueException ex )
 		{
 			ex.setElement( element );
-			ex.setPropertyName( propName + "." + member ); //$NON-NLS-1$
+			ex.setPropertyName( propName + "." + memberDefn.getName( ) ); //$NON-NLS-1$
 			handleMemberValueException( ex, memberDefn );
 			valid = false;
 		}
@@ -220,9 +226,9 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( propName.equalsIgnoreCase( DesignElement.NAME_PROP )
 				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
 		{
-			handler
-					.semanticError( new DesignParserException(
-							DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX ) );
+			DesignParserException e = new DesignParserException(
+					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
+			handler.semanticError( e );
 			valid = false;
 			return;
 		}
@@ -230,46 +236,41 @@ public class AbstractPropertyState extends AbstractParseState
 		// The property definition is not found, including user
 		// properties.
 
-		ElementPropertyDefn prop = element.getPropertyDefn( propName );
-		if ( prop == null )
+		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
+		if ( propDefn == null )
 		{
-			RecoverableError
-					.dealUndefinedProperty(
-							handler,
-							new DesignParserException(
-									null,
-									propName,
-									DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY ) );
+			DesignParserException e = new DesignParserException( null,
+					new String[]{propName},
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
+			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
 			return;
 		}
 
 		String valueToSet = value;
-		if ( prop.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
+		if ( propDefn.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
 			valueToSet = StringUtil.trimString( valueToSet );
 
 		if ( StringUtil.isBlank( valueToSet ) )
 			return;
 
-		if ( prop.isEncrypted( ) )
-		{
-			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-					.getEncryptionHelper( );
-			valueToSet = helper.decrypt( valueToSet );
-		}
+		doSetProperty( propDefn, valueToSet );
+	}
 
+	protected void doSetProperty( PropertyDefn propDefn, String valueToSet )
+	{
 		// Validate the value.
 
 		try
 		{
-			Object propValue = prop.validateXml( handler.getDesign( ),
+			Object propValue = propDefn.validateXml( handler.getDesign( ),
 					valueToSet );
-			element.setProperty( propName, propValue );
+			element.setProperty( propDefn, propValue );
 		}
 		catch ( PropertyValueException ex )
 		{
 			ex.setElement( element );
-			ex.setPropertyName( propName );
+			ex.setPropertyName( propDefn.getName( ) );
 			handlePropertyValueException( ex );
 			valid = false;
 		}

@@ -18,6 +18,13 @@ public interface IReportDesignModel
 {
 
 	/**
+	 * Name of the version property. The version property defines the version of
+	 * this report file.
+	 */
+
+	public static final String VERSION_PROP = "version"; //$NON-NLS-1$
+
+	/**
 	 * Name of the author property.
 	 */
 

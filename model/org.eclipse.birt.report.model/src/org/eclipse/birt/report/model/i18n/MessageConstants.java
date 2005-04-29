@@ -90,6 +90,7 @@ public interface MessageConstants
 
 	// NameException
 	public static final String NAME_EXCEPTION_NAME_REQUIRED = "Error.NameException.NAME_REQUIRED"; //$NON-NLS-1$
+
 	public static final String NAME_EXCEPTION_NAME_FORBIDDEN = "Error.NameException.NAME_FORBIDDEN"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_DUPLICATE = "Error.NameException.DUPLICATE"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_HAS_REFERENCES = "Error.NameException.HAS_REFERENCES"; //$NON-NLS-1$
@@ -186,6 +187,10 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY = "Error.DesignParserException.UNDEFINED_PROPERTY"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT = "Error.DesignParserException.QUERY_CONFLICT"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING = "Error.DesignParserException.UNSUPPORTED_ENCODING"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = "Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION = "Error.DesignParserException.UNSUPPORTED_VERSION"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_INVALID_VERSION = "Error.DesignParserException.INVALID_VERSION"; //$NON-NLS-1$
+
 
 	// DesignFileException
 	public static final String DESIGN_FILE_EXCEPTION_FILE_NOT_FOUND = "Error.DesignFileException.FILE_NOT_FOUND"; //$NON-NLS-1$

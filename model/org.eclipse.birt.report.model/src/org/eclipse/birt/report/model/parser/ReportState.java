@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -45,12 +44,6 @@ public class ReportState extends DesignParseState
 	 */
 
 	protected ArrayList colorList;
-
-	/**
-	 * Base64 encoding/decoding tools for embedded image.
-	 */
-
-	protected Base64 base = new Base64( );
 
 	/**
 	 * Constructs the report state with the design file parser handler.
@@ -103,6 +96,50 @@ public class ReportState extends DesignParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
 			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		String version = attrs.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+
+		if ( !StringUtil.isBlank( version ) )
+		{
+			int result;
+			try
+			{
+				result = StringUtil.compareVersion(
+						DesignSchemaConstants.REPORT_VERSION, version );
+			}
+			catch ( Exception ex )
+			{
+				// The format of version string is invalid.
+				
+				DesignParserException e = new DesignParserException(
+						null,
+						new String[]{version},
+						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
+				throw new XMLParserException( e );
+			}
+			
+			if ( result < 0 )
+			{
+				DesignParserException e = new DesignParserException(
+						null,
+						new String[]{version},
+						DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
+				throw new XMLParserException( e );
+			}
+
+			setProperty( ReportDesign.VERSION_PROP, version );
+		}
+
+		super.parseAttrs( attrs );
 	}
 
 	/**
