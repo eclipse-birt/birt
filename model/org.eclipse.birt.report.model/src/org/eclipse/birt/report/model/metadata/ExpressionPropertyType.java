@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 
@@ -66,4 +68,18 @@ public class ExpressionPropertyType extends TextualPropertyType
 		return (String) value;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
+	 */
+    
+	public Object validateValue( ReportDesign design, PropertyDefn defn,
+			Object value ) throws PropertyValueException
+	{
+        if ( value == null )
+            return null;
+        if ( value instanceof String )
+        	return value;
+            
+        throw new PropertyValueException( value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, EXPRESSION_TYPE );
+    }
 }
