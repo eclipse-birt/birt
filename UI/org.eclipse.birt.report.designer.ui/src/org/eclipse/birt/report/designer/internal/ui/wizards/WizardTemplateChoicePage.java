@@ -244,6 +244,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		data = new GridData( GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL );
 		data.grabExcessHorizontalSpace = true;
 		data.grabExcessVerticalSpace = true;
+		data.heightHint = 230;
 		previewCanvas.setLayoutData( data );
 
 		Label descriptionTitle = new Label( previewPane, SWT.NONE );
