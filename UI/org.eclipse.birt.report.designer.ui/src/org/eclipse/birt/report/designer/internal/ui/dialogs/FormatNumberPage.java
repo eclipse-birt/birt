@@ -69,7 +69,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_DECIMAL_PLACES = Messages.getString( "FormatNumberPage.label.decimal.places" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.custom.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatNumberPage.label.example.formats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatNumberPage.label.custom.settings.label" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString("FormatNumberPage.label.style.custome.settings.label");  //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatNumberPage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.custom.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_NUMBER = Messages.getString( "FormatNumberPage.label.preview.number" ); //$NON-NLS-1$

@@ -58,7 +58,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.general.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatDateTimePage.label.custom.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_EXAMPLE_FORMATS = Messages.getString( "FormatDateTimePage.label.example.formats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString( "FormatDateTimePage.label.custom.settings.label" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString("FormatDateTimePage.label.style.custom.setting.label"); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_DATE_TIME = Messages.getString( "FormatDateTimePage.label.preview.dateTime" ); //$NON-NLS-1$

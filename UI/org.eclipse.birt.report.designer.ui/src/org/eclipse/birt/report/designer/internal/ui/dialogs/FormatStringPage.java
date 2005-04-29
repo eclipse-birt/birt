@@ -56,7 +56,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.previewWithFormat" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTING_GROUP = Messages.getString( "FormatStringPage.label.customSettings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTING = Messages.getString( "FormatStringPage.label.exampleFormats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString( "FormatStringPage.label.custom.settings" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString("FormatStringPage.label.style.custom.settings.label");  //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatStringPage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.preview" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_STRING = Messages.getString( "FormatStringPage.label.stringToPreview" ); //$NON-NLS-1$
