@@ -23,6 +23,6 @@
    </requires>
    <extension-point id="reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
    <extension-point id="reportitemPresentation" name="Extended Item Presentation-Time Support" schema="schema/reportitemPresentation.exsd"/>
-   <extension-point id="emitterSet" name="Emitters that Support Report Rendering" schema="schema/emitterSet.exsd"/>
+   <extension-point id="emitters" name="Emitters that Support Report Rendering" schema="schema/emitters.exsd"/>
    <extension-point id="reportitemQuery" name="Extended Item DTE Prepare-Time support" schema="schema/reportitemQuery.exsd"/>
 </plugin>
