@@ -107,9 +107,6 @@ public class DeleteCommand extends Command
 
 	}
 
-	/**
-	 * @param object
-	 */
 	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
 	{
 		try
@@ -207,7 +204,8 @@ public class DeleteCommand extends Command
 		else if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
-			return slot.getElementHandle( ) instanceof ListHandle;
+			return slot.getElementHandle( ) instanceof ListHandle
+					&& slot.getCount( ) > 0;
 		}
 		else if ( source instanceof EmbeddedImageHandle )
 		{
