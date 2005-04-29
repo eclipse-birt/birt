@@ -128,7 +128,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/04/27 03:11:13 $
+ * @version $Revision: 1.24 $ $Date: 2005/04/27 22:14:19 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1122,7 +1122,7 @@ class EngineIRVisitor extends DesignVisitor
 		if ( iter != null )
 		{
 			PropertyHandle propHandle = (PropertyHandle) iter.next( );
-			if ( propHandle.isSet( ) )
+			if ( propHandle != null && propHandle.isSet( ) )
 			{
 				String name = propHandle.getDefn( ).getName( );
 				Object value = propHandle.getValue( );

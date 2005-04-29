@@ -1,9 +1,15 @@
-/*
- * Created on 2005-4-13
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+
 package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -15,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  *
- * @version $Revision: 1.1 $ $Date: 2005/04/21 12:24:27 $
+ * @version $Revision: 1.2 $ $Date: 2005/04/22 03:46:34 $
  */
 public class RowSet implements IRowSet
 {
@@ -29,7 +35,10 @@ public class RowSet implements IRowSet
 		this.rset = rset;
 		try
 		{
-			metaData = new RowMetaData(rset.getQr().getResultMetaData());
+			if ( rset != null && rset.getQr( ) != null )
+			{
+				metaData = new RowMetaData( rset.getQr( ).getResultMetaData( ) );
+			}
 		}
 		catch(BirtException ex)
 		{
@@ -74,7 +83,10 @@ public class RowSet implements IRowSet
 		if (closed == false)
 		{
 			closed = true;
-			rset.close();
+			if ( rset != null )
+			{
+				rset.close( );
+			}
 		}
 	}
 	

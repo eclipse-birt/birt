@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/03/30 07:38:21 $
+ * @version $Revision: 1.4 $ $Date: 2005/04/12 03:16:23 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -34,7 +34,7 @@ public class StringFormatter
 	//	original format string
 	protected String formatPattern;
 	//	Locale
-	private Locale locale;
+	private Locale locale = Locale.getDefault( );
 
 	// uppercase or lowercase;
 	private char chcase;
@@ -61,12 +61,19 @@ public class StringFormatter
 	}
 
 	/**
+	 * constructor with no argument
+	 */
+	public StringFormatter(  )
+	{
+		applyPattern( null );
+	}
+	/**
 	 * constructor with no formatting string
 	 */
 	public StringFormatter( Locale locale )
 	{
 		this.locale = locale;
-		init( );
+		applyPattern( null );
 	}
 
 	/**
@@ -75,13 +82,21 @@ public class StringFormatter
 	 * @param format
 	 *            the format string
 	 */
-	public StringFormatter( String format, Locale locale )
-	{
-		this.locale = locale;
-		init( );
+	public StringFormatter( String format )
+	{		
 		applyPattern( format );
 	}
 
+	/**
+	 * Constructor with the format string and locale
+	 * @param format the format string
+	 * @param locale the locale
+	 */
+	public StringFormatter( String format, Locale locale)
+	{
+		this.locale = locale;
+		applyPattern( format );
+	}
 	/**
 	 * @param format
 	 *            the format pattern
@@ -89,6 +104,10 @@ public class StringFormatter
 	public void applyPattern( String format )
 	{
 		init( );
+		if ( format == null )
+		{
+			return;
+		}
 		char c = ' ';
 		StringBuffer scan = new StringBuffer( format );
 		int len = scan.length( );

@@ -119,6 +119,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
 					}
+					itemGeneration.finish( );
 				}
 			}
 			catch ( Throwable t )
@@ -128,8 +129,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			finally
 			{
 				closeQueries( rowSets );
-			}
-			itemGeneration.finish( );
+			}			
 		}
 
 		//call the presentation peer to create the content object
@@ -170,6 +170,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					int type = itemPresentation.getOutputType( );
 					handleItemContent( item, emitter, content, type, output );
 				}
+				itemPresentation.finish( );
 			}
 			catch ( Throwable t )
 			{
@@ -178,8 +179,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			finally
 			{
 				closeQueries( rowSets );
-			}
-			itemPresentation.finish( );
+			}			
 		}
 	}
 

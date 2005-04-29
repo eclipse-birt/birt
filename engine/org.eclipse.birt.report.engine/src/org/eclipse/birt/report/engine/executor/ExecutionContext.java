@@ -51,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/04/27 03:11:13 $
+ * @version $Revision: 1.12 $ $Date: 2005/04/27 05:35:36 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -669,7 +669,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public void addErrorMsg( String errMsg )
 	{
-		errMsgLst.add( errMsg );	
+		if ( !errMsgLst.contains( errMsg ) )
+		{
+			errMsgLst.add( errMsg );
+		}
 	}
 
 	/**
@@ -680,7 +683,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public void addErrorMsg( BirtException ex )
 	{
-		errMsgLst.add( ex.getMessage( ) );
+		addErrorMsg( ex.getMessage( ) );
 	}
 	/**
 	 * 
