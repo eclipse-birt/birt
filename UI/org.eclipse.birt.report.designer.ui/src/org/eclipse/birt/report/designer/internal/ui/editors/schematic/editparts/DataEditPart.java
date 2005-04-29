@@ -76,6 +76,18 @@ public class DataEditPart extends LabelEditPart
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 */
+	public void refreshFigure( )
+	{
+		super.refreshFigure( );
+
+		( (LabelFigure) getFigure( ) ).setToolTipText( ( (DataItemHandle) getModel( ) ).getValueExpr( ) );
+	}
+
 	protected String getText( )
 	{
 		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
