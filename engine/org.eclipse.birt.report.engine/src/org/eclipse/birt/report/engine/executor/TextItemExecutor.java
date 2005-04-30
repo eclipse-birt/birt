@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.13 $ $Date: 2005/04/27 05:35:36 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -148,6 +148,8 @@ public class TextItemExecutor extends StyledItemExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+			context.addErrorMsg( "Fails to handle Text " + item.getName( )
+					+ ":" + t.getLocalizedMessage( ) );
 		}
 		finally
 		{
@@ -280,6 +282,9 @@ public class TextItemExecutor extends StyledItemExecutor
 											Level.SEVERE,
 											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
+							context.addErrorMsg( "Fails to handle Text " + text.getName( )
+									+ ":" + e.getLocalizedMessage( ) );
+
 						}
 						catch ( FactoryConfigurationError e )
 						{
@@ -288,6 +293,9 @@ public class TextItemExecutor extends StyledItemExecutor
 											Level.SEVERE,
 											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
+							context.addErrorMsg( "Fails to handle Text " + text.getName( )
+									+ ":" + e.getLocalizedMessage( ) );
+
 						}
 					}
 				}
@@ -363,6 +371,9 @@ public class TextItemExecutor extends StyledItemExecutor
 										Level.SEVERE,
 										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
+						context.addErrorMsg( "Fails to handle Text " + text.getName( )
+								+ ":" + e.getLocalizedMessage( ) );
+
 					}
 					catch ( FactoryConfigurationError e )
 					{
@@ -371,12 +382,18 @@ public class TextItemExecutor extends StyledItemExecutor
 										Level.SEVERE,
 										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
+						context.addErrorMsg( "Fails to handle Text " + text.getName( )
+								+ ":" + e.getLocalizedMessage( ) );
+
 					}
 				}
 				else
 				{
 					logger.log( Level.SEVERE,
 							"can't handle image element in HTML" ); //$NON-NLS-1$
+					context.addErrorMsg( "Fails to handle Text " + text.getName( )
+							+ ": Cannot handle image element in HTML." );
+
 				}
 
 				return;

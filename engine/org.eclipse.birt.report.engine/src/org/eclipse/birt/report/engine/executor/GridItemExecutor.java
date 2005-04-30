@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.6 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/27 05:35:36 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -142,6 +142,10 @@ public class GridItemExecutor extends StyledItemExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+			context.addErrorMsg( "Fails to handle Grid "
+					+ item.getName( ) + ":"
+					+ t.getLocalizedMessage( ) );
+
 		}
 		finally
 		{

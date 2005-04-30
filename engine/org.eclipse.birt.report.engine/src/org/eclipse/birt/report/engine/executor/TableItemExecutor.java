@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/27 05:35:36 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/27 06:37:07 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -160,6 +160,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+			context.addErrorMsg( "Fails to handle Table " + item.getName( )
+					+ ":" + t.getLocalizedMessage( ) );
+
 		}
 		finally
 		{

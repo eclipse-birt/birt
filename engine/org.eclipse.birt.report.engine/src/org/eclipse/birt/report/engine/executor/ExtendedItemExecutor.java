@@ -105,6 +105,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					catch ( BirtException ex )
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+						context.addErrorMsg( "Fails to handle ExtendedItem "
+								+ item.getName( ) + ":"
+								+ ex.getLocalizedMessage( ) );
+
 					}
 				}
 				if ( itemGeneration.needSerialization( ) )
@@ -118,6 +122,9 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					catch ( BirtException ex )
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+						context.addErrorMsg( "Fails to handle ExtendedItem "
+								+ item.getName( ) + ":"
+								+ ex.getLocalizedMessage( ) );
 					}
 					itemGeneration.finish( );
 				}
@@ -125,6 +132,9 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			catch ( Throwable t )
 			{
 				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+				context.addErrorMsg( "Fails to handle ExtendedItem "
+						+ item.getName( ) + ":"
+						+ t.getLocalizedMessage( ) );
 			}
 			finally
 			{
@@ -163,6 +173,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					catch ( BirtException ex )
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
+						context.addErrorMsg( "Fails to handle ExtendedItem "
+								+ item.getName( ) + ":"
+								+ ex.getLocalizedMessage( ) );
+
 					}
 				}
 				if ( output != null )
@@ -175,6 +189,9 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			catch ( Throwable t )
 			{
 				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+				context.addErrorMsg( "Fails to handle ExtendedItem "
+						+ item.getName( ) + ":"
+						+ t.getLocalizedMessage( ) );
 			}
 			finally
 			{

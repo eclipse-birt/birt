@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/04/21 01:57:06 $
+ * @version $Revision: 1.8 $ $Date: 2005/04/27 05:35:36 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -121,6 +121,8 @@ public class DataItemExecutor extends StyledItemExecutor
 		catch(Throwable t)
 		{
 			logger.log( Level.SEVERE, "Error:", t);//$NON-NLS-1$
+			context.addErrorMsg( "Fails to handle Data " + item.getName( )
+					+ " :" + t.getLocalizedMessage( ) );
 		}
 		finally
 		{

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/04/27 05:35:36 $
+ * @version $Revision: 1.12 $ $Date: 2005/04/27 06:37:07 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -106,6 +106,8 @@ public class ListItemExecutor extends ListingElementExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
+			context.addErrorMsg( "Fails to handle List " + item.getName( )
+					+ ":" + t.getLocalizedMessage( ) );
 		}
 		finally
 		{

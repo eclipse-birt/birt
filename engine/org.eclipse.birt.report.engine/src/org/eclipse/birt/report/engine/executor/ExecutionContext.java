@@ -51,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/04/27 05:35:36 $
+ * @version $Revision: 1.13 $ $Date: 2005/04/29 07:54:07 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -683,7 +683,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public void addErrorMsg( BirtException ex )
 	{
-		addErrorMsg( ex.getMessage( ) );
+		addErrorMsg( ex.getLocalizedMessage( ) );
 	}
 	/**
 	 * 
