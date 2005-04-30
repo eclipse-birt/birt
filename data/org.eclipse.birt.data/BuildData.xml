@@ -69,6 +69,7 @@
 	<!-- ===== Default value for public properties ============= -->
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
+	<property name="apiJavadoc.dir" location="docs/birt/api"/>
 	<property name="plugin.version" value="0.0.1" />
 	<property name="export.dir" location="export" />
 
@@ -173,6 +174,24 @@
 				 source="1.4"
 				 packagenames="${module.name}.*">
 				<packageset dir="${src}" defaultexcludes="yes" />
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+				<classpath refid="class.path" />
+		</javadoc>
+	</target>
+	
+	<target name="apiJavaDoc">
+		<mkdir dir="${birtjavadoc.dir}" />
+		<javadoc destdir="${apiJavadoc.dir}" 
+				author="true" 
+				version="true" 
+				use="true" 
+				windowtitle="BIRT Data Engine API Specification" 
+				doctitle="BIRT Data Engine API"  
+				source="1.4"
+				packagenames="${module.name}.*">
+			  	<packageset dir="${src}" defaultexcludes="yes">
+					<include name="org/eclipse/birt/data/engine/api/**" />
+			  	</packageset>
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
