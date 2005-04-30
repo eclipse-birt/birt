@@ -7,11 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -102,7 +99,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		if( !validateParameters() )
 		{
-			throw new EngineException( "parameter validation failed!" ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
 		
 		//create the emitter services object that is needed in the emitters.
@@ -128,30 +125,37 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		// Set up rendering environment and check for supported format
 		executionContext.setRenderOption(renderOption);
 		String format = renderOption.getOutputFormat();
-		if (!ExtensionManager.getInstance().getEmitterExtensions().containsKey(format)) //$NON-NLS-1$
+		if (format == null || format.length() == 0) // $NON-NLS-1
 		{
-			log.log( Level.SEVERE, "{0} format is not currently supported.", format); //$NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.INVALID_FORMAT_EXCEPTION,
-					format);
+			renderOption.setOutputFormat( "html" );	// $NON-NLS-1
+			format = "html"; // $NON-NLS-1
+		}
+		
+		if (!ExtensionManager.getInstance().getEmitterExtensions().containsKey(format))
+		{
+			log.log( Level.SEVERE, MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format);
+			throw new EngineException(MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format);
 		}
 
 		IReportEmitter emitter = ExtensionManager.getInstance().createEmitter(format);
-		if (emitter != null)
+		if (emitter == null)
 		{
-			emitter.initialize(services);
-			ReportExecutor executor = new ReportExecutor(executionContext, emitter);
-
-			try
-			{
-				executor.execute(((ReportRunnable)runnable).getReport(), inputValues);
-			}
-			catch (Exception ex)
-			{
-				log.log(Level.SEVERE, "ERROR IN EXECUTION!", ex); //$NON-NLS-1$
-			}
+			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", format);	// $NON-NLS-1$
+			throw new EngineException(MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION);			
 		}
 
+		// emitter is not null
+		emitter.initialize(services);
+		ReportExecutor executor = new ReportExecutor(executionContext, emitter);
+
+		try
+		{
+			executor.execute(((ReportRunnable)runnable).getReport(), inputValues);
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "An error happened while running the report. Cause:", ex); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -179,8 +183,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				return true;
 
 			log.log(Level.SEVERE, 
-						"Parameter {0} doesn't allow a null value or user doesn't input a proper parameter.", 
-						paramName); //$NON-NLS-1$
+						"Parameter {0} doesn't allow a null value.",	//$NON-NLS-1$ 
+						paramName); 
 			return false;
 		}
 
@@ -192,14 +196,14 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			if (paramValue instanceof Number)
 				return true;
 
-			log.log(Level.SEVERE, "Parameter {0} should be a number", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a number.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
 			return false;
 		}
 		else if (type == IScalarParameterDefn.TYPE_DATE_TIME)
 		{
 			if (paramValue instanceof Date)
 				return true;
-			log.log(Level.SEVERE, "The specified value of {0} must be date, or it cannot be parsed. Please check your date value.You should input the date value like \"9/13/08 8:01 PM\"", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a valid date.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
 			return false;
 		}
 		else if (type == IScalarParameterDefn.TYPE_STRING)
@@ -207,7 +211,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			String value = paramValue.toString().trim();
 			if (value.equals("") && !paramHandle.allowBlank()) //$NON-NLS-1$
 			{
-				log.log(Level.SEVERE, "parameter {0} can't be blank", paramName); //$NON-NLS-1$
+				log.log(Level.SEVERE, "parameter {0} can't be blank.", paramName); //$NON-NLS-1$
 				return false;
 			}
 			return true;
@@ -216,7 +220,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			if (paramValue instanceof Boolean)
 				return true;
-			log.log(Level.SEVERE, "{0} should be a boolean value", paramName); //$NON-NLS-1$
+			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a boolean.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
 			return false;
 		}
 		assert type == IScalarParameterDefn.TYPE_ANY;

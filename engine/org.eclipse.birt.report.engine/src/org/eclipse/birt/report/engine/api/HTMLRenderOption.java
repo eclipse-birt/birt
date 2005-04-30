@@ -19,8 +19,7 @@ public class HTMLRenderOption extends RenderOptionBase {
 	public static final String HTML_TYPE = "HTMLType"; 		//$NON-NLS-1$
 	public static final String HTML = "HTML"; 				//$NON-NLS-1$
 	public static final String HTML_NOCSS = "HTMLNoCSS"; 	//$NON-NLS-1$
-	public static final String USER_AGENT = "user-agent"; //$NON-NLS-1$
-	public static final String BROWSER_IE = "IE";
+	public static final String USER_AGENT = "user-agent"; 	//$NON-NLS-1$
 	
 	/**
 	 * constructor
@@ -51,4 +50,21 @@ public class HTMLRenderOption extends RenderOptionBase {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * @param userAgent the user agent of the request
+	 */
+	public void setUserAgent(String userAgent)
+	{
+		options.put(USER_AGENT, userAgent);
+	}
+	
+	/**
+	 * @return the user agent for the request
+	 */
+	public String getUserAgent()
+	{
+		return (String)options.get(USER_AGENT);
+	}
+	
 }

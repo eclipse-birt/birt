@@ -14,26 +14,15 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IAction;
-import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.IReportPart;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.impl.ActionContent;
 
 /**
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class Action implements IAction, IReportPart
+public class Action extends ReportPart implements IAction
 {
 
 	protected IHyperlinkAction content;
-	
-	protected IReportRunnable reportRunnable;
-	
-	protected IRenderOption renderOption;
-	
 	protected String actionString;
 	
 	public Action(IHyperlinkAction content)
@@ -82,8 +71,6 @@ public class Action implements IAction, IReportPart
 	{
 		return content.getReportName();
 	}
-	
-	
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getParameterBindings()
@@ -107,36 +94,5 @@ public class Action implements IAction, IReportPart
 	public String getTargetWindow()
 	{
 		return content.getTargetWindow();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IReportItem#getReportRunnable()
-	 */
-	public IReportRunnable getReportRunnable()
-	{
-		return reportRunnable;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IReportItem#getRenderOption()
-	 */
-	public IRenderOption getRenderOption()
-	{
-		return renderOption;
-	}
-
-	/**
-	 * @param renderOption The renderOption to set.
-	 */
-	public void setRenderOption(IRenderOption renderOption)
-	{
-		this.renderOption = renderOption;
-	}
-	/**
-	 * @param reportRunnable The reportRunnable to set.
-	 */
-	public void setReportRunnable(IReportRunnable reportRunnable)
-	{
-		this.reportRunnable = reportRunnable;
 	}
 }

@@ -14,13 +14,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -68,7 +65,7 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			{
 				params.add(pBase.clone());
 			}
-			catch (CloneNotSupportedException e)
+			catch (CloneNotSupportedException e)	// This is a Java exception
 			{
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}

@@ -38,7 +38,6 @@ public class RenderOptionBase implements IRenderOption {
 	public static final String OUTPUT_STREAM = "outputStream"; 		//$NON-NLS-1$
 
 	public static final String LOCALE = "locale"; 					//$NON-NLS-1$
-	public static final String EXTENSION_ID = "extensionID"; 		//$NON-NLS-1$
 
 	/**
 	 * a hash map that stores the rendering options

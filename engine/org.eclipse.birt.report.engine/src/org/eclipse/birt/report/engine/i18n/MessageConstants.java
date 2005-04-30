@@ -15,35 +15,16 @@ package org.eclipse.birt.report.engine.i18n;
  * Provide message key constants for a message that needs to be localized.
  * 
  */
-public interface MessageConstants
+public class MessageConstants
 {
-	public static final String FILE_NOT_FOUND = "Error.FileNotFound"; //$NON-NLS-1$
-	
 	// test
 	public static final String	TEST_ERROR_MESSAGE_00 = "Error.Msg001";						//$NON-NLS-1$
-	
 
-	// messages.
-
-	// Errors
-
-	// FormatException
-	public static final String	FORMAT_EXCEPTION_FORMAT_NOT_SUPPORTED
-								= "Error.FormatException.FORMAT_NOT_SUPPORTED";						//$NON-NLS-1$
-	
-	public static final String INVALID_HANDLE_EXCEPTION = "Error.InvalidHandleException"; //$NON-NLS-1$
-	
-	public static final String SEMANTIC_ERROR_EXCEPTION = "Error.SemanticErrorException"; //$NON-NLS-1$
-	
-	public static final String UNBOUNDED_PARAMETER_EXCEPTION = "Error.UnboundedParameterException"; //$NON-NLS-1$
-	
-	public static final String UNSUPPORTED_ENGINE_FEATURE_EXCEPTION = "Error.UnsupportedEngineFeatureException"; //$NON-NLS-1$
-	
-	public static final String INVALID_DESIGNFILE_EXCEPTION = "Error.InvalidDesignFileException";  //$NON-NLS-1$
-	
-	public static final String FILE_NOT_FOUND_EXCEPTION = "Error.FileNotFoundException"; //$NON-NLS-1$
-	
-	public static final String INVALID_FORMAT_EXCEPTION = "Error.InvalidFormatException"; //$NON-NLS-1$
-	
+	// Exceptions
+	public static final String	FORMAT_NOT_SUPPORTED_EXCEPTION = "Error.OutputFormatNotSupported";			//$NON-NLS-1$	
+	public static final String 	INVALID_PARAMETER_EXCEPTION = "Error.InvalidParameter"; 					//$NON-NLS-1$
+	public static final String  DESIGN_FILE_NOT_FOUND_EXCEPTION = "Error.DesignFileNotFound"; 				//$NON-NLS-1$
+	public static final String  INVALID_DESIGN_FILE_EXCEPTION = "Error.InvalidDesignFile";  				//$NON-NLS-1$
+	public static final String  CANNOT_CREATE_EMITTER_EXCEPTION = "Error.CannotCreateExtensionInstance";  	//$NON-NLS-1$
 }
 

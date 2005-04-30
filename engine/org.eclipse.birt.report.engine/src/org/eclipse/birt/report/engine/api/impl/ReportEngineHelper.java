@@ -79,7 +79,7 @@ public class ReportEngineHelper
 		if(!file.exists())
 		{
 			logger.log(Level.SEVERE, "{0} not found!", designName); //$NON-NLS-1$
-			throw new EngineException(MessageConstants.FILE_NOT_FOUND_EXCEPTION, designName);
+			throw new EngineException(MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, designName);
 		}
 		
 		try 
@@ -89,7 +89,7 @@ public class ReportEngineHelper
 		catch (DesignFileException e) 
 		{
 			logger.log(Level.SEVERE, "invalid design file {0}", designName); //$NON-NLS-1$
-			throw new EngineException(MessageConstants.INVALID_DESIGNFILE_EXCEPTION, designName, e);
+			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
 		}
 		assert(report != null);
 		ReportRunnable runnable = new ReportRunnable(report);

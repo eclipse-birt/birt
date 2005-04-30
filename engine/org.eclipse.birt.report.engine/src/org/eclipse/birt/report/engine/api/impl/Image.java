@@ -22,36 +22,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IImage;
-import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IImageItemContent;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
 
 /**
- * image content object
- * 
- * @version $Revision: 1.4 $ $Date: 2005/04/29 03:37:15 $
+ * Defines an image object that provides services for passing or writing image content
+ * out. 
  */
-public class Image implements IImage
+public class Image extends ReportPart implements IImage
 {
-	protected static Logger logger = Logger.getLogger( Image.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger( Image.class.getName( ) );
+	
+	/**
+	 * image ID
+	 */
 	protected String id = null;
 	
+	/**
+	 * image source
+	 */
 	protected int source = IImage.INVALID_IMAGE;
 	
+	/**
+	 * Comment for <code>data</code>
+	 */
 	protected byte[] data = null;
 	
 	protected InputStream in = null;
 	
-	protected IReportRunnable runnable;
-	
-	protected IRenderOption renderOption;
-	
-	
 	/**
-	 * the file uri
+	 * Constructor with an image uri
+	 * 
 	 * @param uri
 	 */
 	public Image(String uri)
@@ -73,7 +75,6 @@ public class Image implements IImage
 			{
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
-			
 		}
 		else
 		{
@@ -222,9 +223,7 @@ public class Image implements IImage
 			String parent = new File(dest.getAbsolutePath()).getParent();
 			File parentDir = new File(parent);
 			if(!parentDir.exists())
-			{
 				parentDir.mkdirs();
-			}
 			OutputStream output = null;
 			try
 			{
@@ -238,31 +237,14 @@ public class Image implements IImage
 			finally
 			{
 				if( input != null )
-				{
 					input.close();
-				}
 				if( output != null )
-				{
 					output.close();	
-				}
 			}
 		}
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IReportItemPart#getReportRunnable()
-	 */
-	public IReportRunnable getReportRunnable()
-	{
-		return runnable;
-	}
-	
-	public void setReportRunnable(IReportRunnable runnable)
-	{
-		this.runnable = runnable;
-	}
-
 	/**
 	 * Copies the stream from the source to the target
 	 * 
@@ -286,19 +268,5 @@ public class Image implements IImage
 				tgt.write( buffer, 0, size );
 			}
 		} while ( size > 0 );
-	}
-	/**
-	 * @return Returns the renderOption.
-	 */
-	public IRenderOption getRenderOption()
-	{
-		return renderOption;
-	}
-	/**
-	 * @param renderOption The renderOption to set.
-	 */
-	public void setRenderOption(IRenderOption renderOption)
-	{
-		this.renderOption = renderOption;
 	}
 }
