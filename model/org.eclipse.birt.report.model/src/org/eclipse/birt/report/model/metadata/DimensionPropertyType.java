@@ -362,6 +362,9 @@ public class DimensionPropertyType extends PropertyType
 		if ( dim == null )
 			return 0.0;
 
+		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+			return dim.getMeasure( );
+			
 		return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
 				design.getSession( ).getUnits( ) ).getMeasure( );
 	}
