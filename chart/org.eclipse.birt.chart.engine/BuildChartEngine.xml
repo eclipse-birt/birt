@@ -84,6 +84,9 @@
 		
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	
+	<property name="def.emf.version" value="2.0.1" />
+	<property name="def.eclipse.version" value="3.0.1" />
+
 	<!-- set eclipse related properties -->
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
@@ -158,25 +161,6 @@
 		<delete dir="chart-engine.jar"/>
 	</target>
 	
-	<!-- Generate the JavaDoc.
-		 Parameters:
-		 		- ${javadoc.dir} target directory to put the java document
-	 -->	
-	<target name="Javadoc">
-		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}" 
-				 author="true" 
-				 version="true" 
-				 use="true" 
-				 windowtitle="BIRT Chart Engine Project" 
-				 source="1.4"
-				 packagenames="${module.name}.*">
-				<packageset dir="${dir.src}" defaultexcludes="yes" />
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
-				<classpath refid="class.path" />
-		</javadoc>
-	</target>
-
 	<!-- Compile Source Files -->
 	<target name="compileSource" depends="buildDependency">
 		<mkdir dir="${dir.bin}"/>
@@ -212,17 +196,11 @@
 		<condition property="emf.version" value="${def.emf.version}">
 			<equals arg1="${emf.version}" arg2="$${emf.version}"/>
 		</condition>
-		<condition property="destination.dir" value="${def.destination.dir}">
-			<equals arg1="${destination.dir}" arg2="$${destination.dir}"/>
-		</condition>
-		<mkdir dir="${destination.dir}"/>
 	</target>
 
-	<target name="javadoc" depends="javadoc_init">
-		<delete>
-			<fileset dir="${destination.dir}"/>
-		</delete>
-		<javadoc access="public" author="true" overview="overview.html" destdir="${destination.dir}" doctitle="BIRT Chart v1.0 API Specification" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+	<target name="Javadoc" depends="javadoc_init">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc access="public" author="true" overview="overview.html" windowtitle="BIRT Chart Engine Project" destdir="${javadoc.dir}" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
@@ -271,6 +249,7 @@
 					</fileset>
 					<pathelement path="${core.dir}/bin"/>
 				</classpath>
+				<bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 	</target>
 
