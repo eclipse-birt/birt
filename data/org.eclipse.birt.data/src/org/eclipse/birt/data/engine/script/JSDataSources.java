@@ -14,6 +14,8 @@
 package org.eclipse.birt.data.engine.script;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.impl.DataSourceRuntime;
 import org.mozilla.javascript.Scriptable;
@@ -27,12 +29,14 @@ public class JSDataSources extends ScriptableObject
 {
 	private Map			dataSources;
 	
+	private static Logger logger = Logger.getLogger( JSDataSources.class.getName( ) );
 	/**
 	 * Constructor.
 	 * @param dataSourceMap A map of data source name (String) to DataSourceRuntime objects
 	 */
 	public JSDataSources( Map dataSourceMap )
 	{
+		logger.entering( JSDataSources.class.getName( ), "JSDataSources" );
 		assert dataSourceMap != null;
 		this.dataSources = dataSourceMap;
 		
@@ -53,13 +57,22 @@ public class JSDataSources extends ScriptableObject
 	 */
 	public Object get(String name, Scriptable start)
 	{
+		logger.entering( JSDataSources.class.getName( ), "get", name );
 		DataSourceRuntime ds = (DataSourceRuntime)dataSources.get( name ); 
 		if ( ds != null )
 		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSDataSources.class.getName( ),
+					"get",
+					ds.getScriptable( ) );
 			return ds.getScriptable();
 		}
 		else
 		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSDataSources.class.getName( ),
+					"get",
+					super.get( name, start) );
 			return super.get( name, start);
 		}
 	}
@@ -78,9 +91,21 @@ public class JSDataSources extends ScriptableObject
 	 */
 	public boolean has(String name, Scriptable start)
 	{
+		logger.entering( JSDataSources.class.getName( ), "has", name );
 		if ( dataSources.containsKey( name ) )
+		{	
+			logger.exiting( JSDataSources.class.getName( ),
+					"has",
+					new Boolean( true ) );
 			return true;
+		}
 		else
+		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSDataSources.class.getName( ),
+					"has",
+					new Boolean( super.has( name, start ) ) );
 			return super.has( name, start);
+		}
 	}
 }

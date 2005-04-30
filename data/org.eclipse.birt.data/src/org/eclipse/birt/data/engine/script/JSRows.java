@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.script;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -35,6 +37,7 @@ public class JSRows extends ScriptableObject
 	 */
 	 private ArrayList rows = new ArrayList( );
 
+	 private static Logger logger = Logger.getLogger( JSRows.class.getName( ) );
 	/*
 	 * return the Class Name
 	 * 
@@ -53,6 +56,7 @@ public class JSRows extends ScriptableObject
 	 */
 	public JSRows( IQueryResults outerResults, JSRowObject currentRowObj ) throws DataException
 	{
+		logger.entering( JSRows.class.getName( ), "JSRows" );
 		try
 		{
 			if ( currentRowObj != null )
@@ -77,6 +81,11 @@ public class JSRows extends ScriptableObject
 		}
 		catch (BirtException e)
 		{
+			logger.logp( Level.FINER,
+					JSRows.class.getName( ),
+					"get",
+					e.getMessage( ),
+					e );
 			assert e instanceof DataException;
 			throw (DataException)e;
 		}
@@ -87,12 +96,20 @@ public class JSRows extends ScriptableObject
 	 */
 	public Object get( int index, Scriptable start )
 	{
+		logger.entering( JSColumnDefn.class.getName( ),
+				"get",
+				new Integer( index ) );
 		if ( has( index, start ) )
 		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSColumnDefn.class.getName( ),
+					"get",
+					rows.get( rows.size( ) - 1 - index ) );			
 			return rows.get( rows.size( ) - 1 - index );
 		}
 		else
 		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", null );			
 			return null;
 		}
 	}
@@ -102,6 +119,10 @@ public class JSRows extends ScriptableObject
 	 */
 	public boolean has( int index, Scriptable start )
 	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( JSColumnDefn.class.getName( ),
+				"has",
+				new Integer( index ) );
 		return ( rows.size( ) > index ) ? true : false;
 	}
 
@@ -109,7 +130,7 @@ public class JSRows extends ScriptableObject
 	 * Get the size of the 'rows' object
 	 * @return size of the 'rows' object.
 	 */
-	public int size( )
+	private int size( )
 	{
 		return rows.size( );
 	}

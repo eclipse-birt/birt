@@ -19,6 +19,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -61,12 +63,15 @@ public class JSColumnDefn extends ScriptableObject
 	private IResultClass resultClass;
 	private int fieldIndex;
 	
+	private static Logger logger = Logger.getLogger( JSColumnDefn.class.getName( ) );
+	
 	/**
 	 * Constructor
 	 * @param index 1-based index of column in resultClass
 	 */
 	JSColumnDefn( IResultClass resultClass, int index )
 	{
+		logger.entering( JSColumnDefn.class.getName( ), "JSColumnDefn" );
 		assert resultClass != null;
 		assert index > 0 && index <= resultClass.getFieldCount();
 		this.resultClass = resultClass;
@@ -81,71 +86,132 @@ public class JSColumnDefn extends ScriptableObject
 	 */
 	public Object get(String name, Scriptable start)
 	{
-		if ( ! propNameSet.contains( name ) )
-			return super.get(name, start);
+		logger.entering( JSColumnDefn.class.getName( ), "get", name );
+		if ( !propNameSet.contains( name ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ),
+					"get",
+					super.get( name, start ) );
+			return super.get( name, start );
+		}
 		
 		// Static properties
 		if ( name.equals( INTEGER ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", INTEGER_VAL );
 			return INTEGER_VAL;
+		}
 		if ( name.equals( FLOAT) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", FLOAT_VAL );
 			return FLOAT_VAL;
+		}
 		if ( name.equals( DECIMAL ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", DECIMAL_VAL );
 			return DECIMAL_VAL;
+		}
 		if ( name.equals( BOOLEAN ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", BOOLEAN_VAL );
 			return BOOLEAN_VAL;
+		}
 		if ( name.equals( STRING ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", STRING_VAL );
 			return STRING_VAL;
+		}
 		if ( name.equals( DATETIME ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "get", DATETIME_VAL );
 			return DATETIME_VAL;
+		}
 		
 		try
 		{
 			// Result class properties
 			if ( name.equals(INDEX))
+			{
+				logger.exiting( JSColumnDefn.class.getName( ), "get", new Integer(fieldIndex) );
 				return new Integer(fieldIndex);
+			}
 			if ( name.equals(NAME))
+			{
+				logger.exiting( JSColumnDefn.class.getName( ), "get", resultClass.getFieldName( fieldIndex ) );
 				return resultClass.getFieldName( fieldIndex );
-			
+			}
 			if ( name.equals(TYPE) )
 			{
 				Class c = resultClass.getFieldValueClass(fieldIndex);
 				if( c == Integer.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", INTEGER_VAL );
 				    return INTEGER_VAL;
+				}
 				if( c == Double.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", FLOAT_VAL );
 				    return FLOAT_VAL;
+				}
 				if( c == String.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", STRING_VAL );
 					return STRING_VAL;
+				}
 				if( c == BigDecimal.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", DECIMAL_VAL );
 					return DECIMAL_VAL;
+				}
 				if( c == Boolean.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", BOOLEAN_VAL );
 					return BOOLEAN_VAL;
+				}
 				if( c == Date.class ||
 					c == Time.class ||
 					c == Timestamp.class )
+				{
+					logger.exiting( JSColumnDefn.class.getName( ), "get", DATETIME_VAL );
 					return DATETIME_VAL;
+				}
 				// unknown type
+				logger.exiting( JSColumnDefn.class.getName( ), "get", null );
 				return null;
 			}
 			
 			if ( name.equals(NATIVE_TYPE))
 			{
 				// TODO: need IResultClass to return the native data type string
+				logger.exiting( JSColumnDefn.class.getName( ), "get", null );
 				return null;
 			}
 			
 			if ( name.equals(LABEL) )
+			{
+				logger.exiting( JSColumnDefn.class.getName( ), "get", resultClass.getFieldLabel(fieldIndex) );
 				return resultClass.getFieldLabel(fieldIndex);
+			}
 			if ( name.equals(ALIAS))
+			{
+				logger.exiting( JSColumnDefn.class.getName( ), "get", resultClass.getFieldAlias(fieldIndex) );
 				return resultClass.getFieldAlias(fieldIndex);
+			}
 		}
 		catch ( DataException e)
 		{
-			// TODO: log exception
+			logger.logp( Level.FINER,
+					JSColumnDefn.class.getName( ),
+					"get",
+					e.getMessage( ),
+					e );
+			logger.exiting( JSColumnDefn.class.getName( ), "get", null );
 			return null;
 		}
 		
 		// Should never get here
 		assert false;
+		logger.exiting( JSColumnDefn.class.getName( ), "get", null );
 		return null;
 	}
 	
@@ -170,9 +236,14 @@ public class JSColumnDefn extends ScriptableObject
 	 */
 	public boolean has(String name, Scriptable start)
 	{
-		if ( propNameSet.contains( name ) )
+		logger.entering( JSColumnDefn.class.getName( ), "has", name );
+		if ( propNameSet.contains( name ) ){
+			logger.exiting( JSColumnDefn.class.getName( ), "has", new Boolean(true) );
 			return true;
-		else
+		}
+		else{
+			logger.exiting( JSColumnDefn.class.getName( ), "has", new Boolean(super.has(name, start)) );
 			return super.has(name, start);
+		}
 	}
 }

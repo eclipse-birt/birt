@@ -11,6 +11,8 @@
 package org.eclipse.birt.data.engine.script;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
@@ -34,6 +37,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ScriptEvalUtil
 {
+	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
 	/**
 	 * Evaluates a conditional expression. A conditional expression comprises of
 	 * a Javascript expression, an operator, and up to 2 operands (which are 
@@ -44,6 +48,17 @@ public class ScriptEvalUtil
 			int operator, Object resultOp1, Object resultOp2 )
 			throws DataException
 	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( 
+				ScriptEvalUtil.class.getName( ),
+				"evalConditionalExpr",
+				"evalConditionalExpr() resultObject="
+				+ LogUtil.toString( resultObject )
+				+ ", operator=" + operator
+				+ ( resultOp1 == null? null: ( ", resultOp1=" + LogUtil.toString( resultOp1 ) ) )
+				+ ( resultOp2 == null? null: ( ", resultOp2=" + LogUtil.toString( resultOp2 ) ) ) 
+				);
+
 		boolean result = false;
 		switch ( operator )
 		{
@@ -111,6 +126,10 @@ public class ScriptEvalUtil
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_OPERATOR );
 		}
+		
+		logger.exiting( ScriptEvalUtil.class.getName( ),
+				"evalConditionalExpr",
+				new Boolean( result ) );
 		return new Boolean( result );
 	}
 
@@ -209,6 +228,12 @@ public class ScriptEvalUtil
 			String scriptText, String source, int lineNo)
 			throws DataException 
 	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+				"evaluateJSExpr",
+				"evaluateJSExpr() scriptText=" + scriptText 
+				+ ", source=" + source 
+				+ ", lineNo=" + lineNo);
 		Object result = null;
 		try
 		{
@@ -218,6 +243,10 @@ public class ScriptEvalUtil
 		{
 			RethrowJSEvalException(e);
 		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( ScriptEvalUtil.class.getName( ),
+					"evaluateJSExpr",
+					convertNativeObjToJavaObj( result ) );
 		return convertNativeObjToJavaObj(result);
 	}
 	
@@ -226,6 +255,10 @@ public class ScriptEvalUtil
 	 * Double (for all numeric types), java.util.Date, String, Boolean. 
 	 */	
 	public static Object convertNativeObjToJavaObj(Object inputObj){
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+					"convertNativeObjToJavaObj",
+					LogUtil.toString( inputObj ) );
 		if ( inputObj instanceof Scriptable) 
 		{
 			// Return type is a Javascript native object
@@ -233,23 +266,43 @@ public class ScriptEvalUtil
 			String jsClass = ((Scriptable) inputObj).getClassName();
 			if (jsClass.equals("Date")) 
 			{
-				return new Date((long) Context.toNumber(inputObj));
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( ScriptEvalUtil.class.getName( ),
+							"convertNativeObjToJavaObj",
+							new Date( (long) Context.toNumber( inputObj ) ) );
+					return new Date( (long) Context.toNumber( inputObj ) );
 			} 
 			else if (jsClass.equals("Boolean")) 
 			{
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( ScriptEvalUtil.class.getName( ),
+							"convertNativeObjToJavaObj",
+							new Boolean( Context.toBoolean( inputObj ) ) );
 				return new Boolean(Context.toBoolean(inputObj));
 			} 
 			else if (jsClass.equals("Number")) 
 			{
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( ScriptEvalUtil.class.getName( ),
+							"convertNativeObjToJavaObj",
+							new Double( Context.toNumber( inputObj ) ) );
 				return new Double(Context.toNumber(inputObj));
 			} 
 			else 
 			{
 				// For JS "String" type, toString gives the correct result
 				// For all other types that we cannot handle, toString is the best we can do
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( ScriptEvalUtil.class.getName( ),
+							"convertNativeObjToJavaObj",
+							inputObj.toString( ).trim() );
 				return inputObj.toString();
 			}
 		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( ScriptEvalUtil.class.getName( ),
+					"convertNativeObjToJavaObj",
+					inputObj );
 		return inputObj;
 	}
 	
@@ -260,8 +313,18 @@ public class ScriptEvalUtil
 				String source, int lineNo )
 		throws DataException
 	{
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+				"evalExpr",
+				"evalExpr() expr="
+						+ LogUtil.toString( expr ) + ", source=" + source
+						+ ", lineNo=" + lineNo );
 		if ( expr == null )
 		{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						null );
 			return null;
 		}
 		else if ( expr instanceof IConditionalExpression)
@@ -270,11 +333,26 @@ public class ScriptEvalUtil
 			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
 			Object Op1 = evalExpr( ConditionalExpr.getOperand1( ), cx, scope, source, lineNo );
 			Object Op2 = evalExpr( ConditionalExpr.getOperand2( ), cx, scope, source, lineNo );
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						evalConditionalExpr( expression,
+								ConditionalExpr.getOperator( ),
+								Op1,
+								Op2 ) );
 			return evalConditionalExpr( expression, ConditionalExpr.getOperator( ), Op1, Op2 );
 		}
 		else
 		{
 			IScriptExpression jsExpr = (IScriptExpression) expr;
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( ScriptEvalUtil.class.getName( ),
+						"evalExpr",
+						evaluateJSExpr( cx,
+								scope,
+								jsExpr.getText( ),
+								source,
+								lineNo ) );
 			return evaluateJSExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
 	}
@@ -295,27 +373,34 @@ public class ScriptEvalUtil
 		if ( e instanceof JavaScriptException )
 		{
 			JavaScriptException err = (JavaScriptException )e;
-			source = err.getSourceName();
-			lineNo = err.getLineNumber();
+			source = err.sourceName();
+			lineNo = err.lineNumber();
 		}
 		else if ( e instanceof EcmaError )
 		{
 			EcmaError err = (EcmaError) e;
-			source = err.getSourceName();
-			lineNo = err.getLineNumber();
+			source = err.sourceName();
+			lineNo = err.lineNumber();
 		}
 		else if ( e instanceof EvaluatorException)
 		{
 			EvaluatorException err = (EvaluatorException )e;
-			source = err.getSourceName();
-			lineNo = err.getLineNumber();
+			source = err.sourceName();
+			lineNo = err.lineNumber();
 		}
 		else if ( e instanceof RuntimeException)
 		{
 			// Not an expected error
 			throw (RuntimeException) e;
 		}
-		
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.logp( Level.FINER,
+				ScriptEvalUtil.class.getName( ),
+				"RethrowJSEvalException",
+				"RethrowJSEvalException()"
+						+ "source=" + source + ", lineNo=" + lineNo,
+				e );
+
 		throw new DataException( ResourceConstants.SCRIPT_EVAL_ERROR, e,
 				new Object[] { source, new Integer(lineNo), e.getMessage() });
 		

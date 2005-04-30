@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -30,16 +32,19 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JSStringMap extends ScriptableObject
 {
-	private Map 		map;
-	private boolean		mapToSet;
+	 private Map map;
+	 private boolean mapToSet;
 	
-	/**
+	 private static Logger logger = Logger.getLogger( JSStringMap.class.getName( ) );
+
+	 /**
 	 * Constructor
 	 * @param map Java Map to wrap
 	 * @param mapToSet If true, map is a mapping from String to Set
 	 */
 	public JSStringMap( Map map, boolean mapToSet )
 	{
+		logger.entering( JSStringMap.class.getName( ), "JSStringMap" );
 		this.map = map;
 		this.mapToSet = mapToSet;
 	}
@@ -57,10 +62,12 @@ public class JSStringMap extends ScriptableObject
 	 */
 	public void delete(String name)
 	{
+		logger.entering( JSStringMap.class.getName( ), "delete", name );
 		if ( map.containsKey( name ))
 		{
 			map.remove( name );
 		}
+		logger.exiting( JSStringMap.class.getName( ), "delete" );
 	}
 	
 	/**
@@ -68,6 +75,7 @@ public class JSStringMap extends ScriptableObject
 	 */
 	public Object get(String name, Scriptable start)
 	{
+		logger.entering( JSStringMap.class.getName( ), "get", name );
 		if ( map.containsKey(name) )
 		{
 			Object result = map.get(name);
@@ -79,15 +87,26 @@ public class JSStringMap extends ScriptableObject
 				// properties, perhaps return as array?
 				assert result instanceof Set;
 				Iterator it = ((Set) result).iterator();
-				if ( it.hasNext() )
-					return it.next();
-				else
+				if ( it.hasNext() ){
+					Object obj = it.next();
+					logger.exiting( JSStringMap.class.getName( ), "get", obj );
+					return obj;
+				}
+				else{
+					logger.exiting( JSStringMap.class.getName( ), "get", null );
 					return null;
+				}
 			}
+			logger.exiting( JSStringMap.class.getName( ), "get", result );			
 			return result;
 		}
-		else
+		else{
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSStringMap.class.getName( ),
+						"get",
+						super.get( name, start ) );			
 			return super.get(name, start);
+		}
 	}
 	
 	/**
@@ -103,6 +122,11 @@ public class JSStringMap extends ScriptableObject
 	 */
 	public boolean has(String name, Scriptable start)
 	{
+		logger.entering( JSStringMap.class.getName( ), "has", name );
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSStringMap.class.getName( ),
+					"has",
+					new Boolean( map.containsKey( name ) ) );
 		return map.containsKey(name);
 	}
 	
@@ -111,6 +135,7 @@ public class JSStringMap extends ScriptableObject
 	 */
 	public void put(String name, Scriptable start, Object value)
 	{
+		logger.entering( JSStringMap.class.getName( ), "put", name );
 		String valStr = value.toString();
 		if ( mapToSet )
 		{
@@ -126,7 +151,6 @@ public class JSStringMap extends ScriptableObject
 		{
 			map.put( name, valStr);
 		}
+		logger.exiting( JSStringMap.class.getName( ), "put" );
 	}
-	
-	
 }

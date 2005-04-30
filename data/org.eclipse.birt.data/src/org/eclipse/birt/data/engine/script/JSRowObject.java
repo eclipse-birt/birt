@@ -13,6 +13,9 @@
  */ 
 package org.eclipse.birt.data.engine.script;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -39,11 +42,14 @@ public class JSRowObject extends ScriptableObject
     
     private boolean	allowUpdate = false;
     
-    /**
+	private static Logger logger = Logger.getLogger( JSRowObject.class.getName( ) );
+
+	/**
      * Constructor. Creates an empty row object with no binding.
      */
     public JSRowObject( DataSetRuntime dataSet )
 	{
+		logger.entering( JSRowObject.class.getName( ), "JSRowObject" );
     	this.dataSet = dataSet;
 	}
     
@@ -115,6 +121,11 @@ public class JSRowObject extends ScriptableObject
     			catch (DataException e)
 				{
     				// Shouldn't get here really
+    				logger.logp( Level.FINER,
+							JSColumnDefn.class.getName( ),
+							"getIds",
+							e.getMessage( ),
+							e );
 				}
     		}
     	}
@@ -127,6 +138,9 @@ public class JSRowObject extends ScriptableObject
      */
     public boolean has( int index, Scriptable start )
     {
+		logger.entering( JSRowObject.class.getName( ),
+				"has",
+				new Integer( index ) );
         // We maintain indexes 0 to columnCount
         // Column 0 is internal row ID; column 1 - columnCount are actual columns
     	IResultObject obj = this.getResultObject( );
@@ -135,10 +149,17 @@ public class JSRowObject extends ScriptableObject
 				&& obj != null
 				&& index <= obj.getResultClass( ).getFieldCount( ) )
 		{
+			logger.exiting( JSRowObject.class.getName( ),
+					"has",
+					new Boolean( true ) );
 			return true;
 		}
         
         // Let super handle the rest; caller may have added properties
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSRowObject.class.getName( ),
+				"has",
+				new Boolean( super.has( index, start ) ) );
         return super.has( index, start );
     }
     
@@ -147,17 +168,29 @@ public class JSRowObject extends ScriptableObject
      */
     public boolean has( String name, Scriptable start )
     {
-    	if ( name.equals(DATA_SET) || name.endsWith(COLUMN_MD) )
+		logger.entering( JSRowObject.class.getName( ), "has", name );
+    	if ( name.equals(DATA_SET) || name.endsWith(COLUMN_MD) ){
+			logger.exiting( JSRowObject.class.getName( ),
+					"has",
+					new Boolean( true ) );
     		return true;
+    	}
     	
         // Check if name is a valid column name or alias
        	IResultObject obj = this.getResultObject( );
 		if ( obj != null
 					&& obj.getResultClass( ).getFieldIndex( name ) >= 0 )
 		{
+			logger.exiting( JSRowObject.class.getName( ),
+					"has",
+					new Boolean( true ) );
 			return true;
 		}
         // Let super handle the rest; caller may have added properties
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSRowObject.class.getName( ),
+				"has",
+				new Boolean( super.has( name, start ) ) );
         return super.has( name, start );
     }
     
@@ -166,26 +199,45 @@ public class JSRowObject extends ScriptableObject
      */
     public Object get( int index, Scriptable start )
     {
+		logger.entering( JSRowObject.class.getName( ),
+				"get",
+				new Integer( index ) );
        	// Special case: row[0] refers to internal row ID
        	// It has undefined meaning for standalone IResultObject (we will let
        	// IResultObject handle it in such case)
     	try
 		{
 	       	if ( index == 0 && resultSet != null )
+	       	{
+	    		logger.exiting( JSRowObject.class.getName( ),
+						"get",
+						new Integer( resultSet.getCurrentResultIndex( ) ) );
 	       		return new Integer( resultSet.getCurrentResultIndex() );
+	       	}
 	       	else
 	       	{
 				IResultObject obj = this.getResultObject( );
-				if ( obj != null )
+				if ( obj != null ){
+					if ( logger.isLoggable( Level.FINER ) )
+		    			logger.exiting( JSRowObject.class.getName( ),
+							"get",
+							obj.getFieldValue( index ) );
 					return obj.getFieldValue( index );
-				else
+				}
+				else{
+		    		logger.exiting( JSRowObject.class.getName( ), "get", null );
 					return null;
+				}
 			}
 		}
     	catch (DataException e )
 		{
-    		// TODO: log exception
-    		e.printStackTrace();
+    		logger.logp( Level.FINER,
+					JSColumnDefn.class.getName( ),
+					"get",
+					e.getMessage( ),
+					e );
+    		logger.exiting( JSRowObject.class.getName( ), "get", null );
     		return null;
 		}
 	}
@@ -195,10 +247,20 @@ public class JSRowObject extends ScriptableObject
 	 */
     public Object get( String name, Scriptable start )
     {
-    	if ( name.equals(DATA_SET) )
+		logger.entering( JSRowObject.class.getName( ), "get", name );
+    	if ( name.equals(DATA_SET) ){
+			if ( logger.isLoggable( Level.FINER ) )
+    			logger.exiting( JSRowObject.class.getName( ),
+					"get",
+					dataSet.getScriptable( ) );
     		return dataSet.getScriptable();
+    	}
     	else if ( name.equals(COLUMN_MD) )
     	{
+			if ( logger.isLoggable( Level.FINER ) )
+    			logger.exiting( JSRowObject.class.getName( ),
+					"get",
+					getColumnMetadataScriptable( ) );
     		return getColumnMetadataScriptable();
     	}
     	
@@ -206,14 +268,28 @@ public class JSRowObject extends ScriptableObject
         try
 		{
 			IResultObject obj = this.getResultObject( );
-			if ( obj != null )
+			if ( obj != null ){
+				if ( logger.isLoggable( Level.FINER ) )
+	    			logger.exiting( JSRowObject.class.getName( ),
+						"get",
+						obj.getFieldValue( name ) );
 				return obj.getFieldValue( name );
+			}
 		}
 		catch ( DataException e )
 		{
 			// Fall through and let super return not-found
-		}
+    		logger.logp( Level.FINER,
+					JSColumnDefn.class.getName( ),
+					"get",
+					e.getMessage( ),
+					e );
+ 		}
 		
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSRowObject.class.getName( ),
+				"get",
+				super.get( name, start ) );
 		return super.get( name, start );
     }
 
@@ -242,6 +318,7 @@ public class JSRowObject extends ScriptableObject
      */
     public void put( String name, Scriptable start, Object value )
     {
+		logger.entering( JSRowObject.class.getName( ), "put", name );
     	if ( name.equals(DATA_SET) || name.equals(COLUMN_MD) )
     		// these two are not updatable
     		return;
@@ -264,7 +341,13 @@ public class JSRowObject extends ScriptableObject
 		}
 		catch ( DataException e )
 		{
-		}
+    		logger.logp( Level.FINER,
+					JSColumnDefn.class.getName( ),
+					"put",
+					e.getMessage( ),
+					e );
+ 		}
+		logger.exiting( JSRowObject.class.getName( ), "put" );
     }
     
     /**
@@ -273,6 +356,9 @@ public class JSRowObject extends ScriptableObject
      */
     public void put( int index, Scriptable start, Object value )
     {
+		logger.entering( JSRowObject.class.getName( ),
+				"put",
+				new Integer( index ) );
         try
 		{
         	IResultObject obj = this.getResultObject( );    	
@@ -291,7 +377,13 @@ public class JSRowObject extends ScriptableObject
 		}
 		catch ( DataException e )
 		{
+    		logger.logp( Level.FINER,
+					JSColumnDefn.class.getName( ),
+					"put",
+					e.getMessage( ),
+					e );
 		}
+		logger.exiting( JSRowObject.class.getName( ), "put" );
     }
     
     /**

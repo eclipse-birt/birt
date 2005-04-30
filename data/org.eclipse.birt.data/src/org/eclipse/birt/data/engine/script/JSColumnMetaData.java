@@ -13,6 +13,9 @@
  */ 
 package org.eclipse.birt.data.engine.script;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.mozilla.javascript.Scriptable;
@@ -27,8 +30,11 @@ public class JSColumnMetaData extends ScriptableObject
 	private IResultClass resultClass;
 	private Scriptable[] cachedColumns;
 	
+	private static Logger logger = Logger.getLogger( JSColumnMetaData.class.getName( ) );
+
 	public JSColumnMetaData( IResultClass resultClass )
 	{
+		logger.entering( JSColumnMetaData.class.getName( ), "JSColumnMetaData" );
 		this.resultClass = resultClass;
 		cachedColumns = new Scriptable[resultClass.getFieldCount()];
 		
@@ -54,14 +60,24 @@ public class JSColumnMetaData extends ScriptableObject
 	 */
 	public Object get(int index, Scriptable start)
 	{
+		logger.entering( JSColumnMetaData.class.getName( ),
+				"get",
+				new Integer( index ) );
 		// Our index is 1-based
 		if ( index > 0 && index <= resultClass.getFieldCount() )
 		{
 			// JSColumnDefn objects are created only on demand
 			if ( cachedColumns[index-1] == null )
 				cachedColumns[index-1] = new JSColumnDefn( resultClass, index );
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"get",
+					cachedColumns[index - 1] );
 			return cachedColumns[index-1];
 		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"get",
+					super.get( index, start ) );
 		return super.get(index, start);
 	}
 	
@@ -70,11 +86,20 @@ public class JSColumnMetaData extends ScriptableObject
 	 */
 	public Object get(String name, Scriptable start)
 	{
+		logger.entering( JSColumnMetaData.class.getName( ), "get", name );
 		int index = resultClass.getFieldIndex(name);
-		if ( index <= 0 )
+		if ( index <= 0 ){
 			// Not the name of a field
+			if ( logger.isLoggable( Level.FINER ) )
+				logger.exiting( JSColumnMetaData.class.getName( ),
+						"get",
+						super.get( name, start ) );
 			return super.get(name, start);
-		
+		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"get",
+					get( index, start ) );
 		return get( index, start);
 	}
 	
@@ -83,6 +108,7 @@ public class JSColumnMetaData extends ScriptableObject
 	 */
 	public Object[] getIds()
 	{
+		logger.entering( JSColumnMetaData.class.getName( ), "getIds" );
 		// Each field can be accessec by name or index
 		Object[] ids = new Object[ 2 * resultClass.getFieldCount() ];
 		
@@ -94,12 +120,17 @@ public class JSColumnMetaData extends ScriptableObject
 			}
 			catch (DataException e)
 			{
-				// Should not get here. TODO: log exception
-				e.printStackTrace();
+				// Should not get here. 
+				logger.logp( Level.FINER,
+						JSColumnMetaData.class.getName( ),
+						"get",
+						e.getMessage( ),
+						e );
 			}
 			ids[ 2* i + 1] = new Integer(i + 1);
 		}
 		
+		logger.exiting( JSColumnMetaData.class.getName( ), "getIds", ids );
 		return ids;
 	}
 	
@@ -108,8 +139,20 @@ public class JSColumnMetaData extends ScriptableObject
 	 */
 	public boolean has(int index, Scriptable start)
 	{
-		if ( index >0 && index <= resultClass.getFieldCount() )
+		logger.entering( JSColumnMetaData.class.getName( ),
+				"has",
+				new Integer( index ) );
+		if ( index > 0 && index <= resultClass.getFieldCount( ) )
+		{
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"has",
+					new Boolean( true ) );
 			return true;
+		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"has",
+					new Boolean( super.has( index, start ) ) );
 		return super.has( index, start );
 	}
 	
@@ -118,8 +161,18 @@ public class JSColumnMetaData extends ScriptableObject
 	 */
 	public boolean has(String name, Scriptable start)
 	{
-		if ( resultClass.getFieldIndex( name) > 0 )
+		logger.entering( JSColumnMetaData.class.getName( ), "has" );
+		if ( resultClass.getFieldIndex( name ) > 0 )
+		{
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"has",
+					new Boolean( true ) );
 			return true;
+		}
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( JSColumnMetaData.class.getName( ),
+					"has",
+					new Boolean( super.has( name, start ) ) );
 		return super.has( name, start);
 	}
 }
