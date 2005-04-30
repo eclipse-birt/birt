@@ -55,9 +55,9 @@ public class LabelEditPart extends ReportElementEditPart
 	 */
 	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString( "LabelEditPart.Figure.Default" );//$NON-NLS-1$
 
-	public void markDirty( boolean bool )
+	public void markDirty( boolean bool,  boolean notifyParent )
 	{
-		super.markDirty( bool );
+		super.markDirty( bool,notifyParent  );
 
 		// refresh label to adopt container's changes.
 		if ( bool )
