@@ -15,6 +15,8 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -35,7 +37,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  *  
  */
-public class LineStyleChooserComposite extends Composite implements SelectionListener, MouseListener, KeyListener
+public class LineStyleChooserComposite extends Composite implements SelectionListener, MouseListener, KeyListener,
+    FocusListener
 {
 
     private transient Composite cmpContentInner = null;
@@ -60,7 +63,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
     public static final int STYLE_CHANGED_EVENT = 1;
 
     private transient int iSize = 20;
-    
+
     private transient boolean bEnabled = true;
 
     /**
@@ -144,7 +147,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
         btnDown.setEnabled(bState);
         this.bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return this.bEnabled;
@@ -155,11 +158,11 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
      */
     private void createDropDownComponent(int iXLoc, int iYLoc)
     {
-        if(!bEnabled)
+        if (!bEnabled)
         {
             return;
         }
-        Shell shell = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
+        Shell shell = new Shell(this.getShell(), SWT.NONE);
         shell.setLayout(new FillLayout());
         shell.setSize(cnvSelection.getSize().x, 150);
         shell.setLocation(iXLoc, iYLoc);
@@ -168,6 +171,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
         fillDropDown.type = SWT.VERTICAL;
         cmpDropDown.setLayout(fillDropDown);
         cmpDropDown.addKeyListener(this);
+        cmpDropDown.addFocusListener(this);
         for (int iC = 0; iC < this.iLineStyles.length; iC++)
         {
             LineCanvas cnv = new LineCanvas(cmpDropDown, SWT.NONE, iLineStyles[iC], 1);
@@ -260,7 +264,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
      */
     public void mouseDown(MouseEvent e)
     {
-        if(!bEnabled)
+        if (!bEnabled)
         {
             return;
         }
@@ -329,5 +333,27 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
     {
         // TODO Auto-generated method stub
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+     */
+    public void focusGained(FocusEvent e)
+    {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+     */
+    public void focusLost(FocusEvent e)
+    {
+        if (e.getSource().equals(cmpDropDown))
+        {
+            cmpDropDown.getShell().dispose();
+        }
     }
 }

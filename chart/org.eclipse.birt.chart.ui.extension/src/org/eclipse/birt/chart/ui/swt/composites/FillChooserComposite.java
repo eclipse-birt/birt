@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -60,7 +62,7 @@ import org.eclipse.swt.widgets.Slider;
  *  
  */
 public class FillChooserComposite extends Composite implements SelectionListener, MouseListener, DisposeListener,
-    KeyListener
+    KeyListener, FocusListener
 {
 
     private transient Composite cmpContentInner = null;
@@ -241,7 +243,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         {
             iShellHeight = iShellHeight - 30;
         }
-        Shell shell = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
+        Shell shell = new Shell(this.getShell(), SWT.NONE);
         shell.setLayout(new FillLayout());
         shell.setSize(iShellWidth, iShellHeight);
         shell.setLocation(iXLoc, iYLoc);
@@ -255,6 +257,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         glDropDown.numColumns = 8;
         cmpDropDown.setLayout(glDropDown);
         cmpDropDown.addKeyListener(this);
+        cmpDropDown.addFocusListener(this);
 
         if (colorArray == null)
         {
@@ -596,7 +599,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
             Color clrTmp = ((ColorSelectionCanvas) e.getSource()).getColorAt(e.x, e.y);
             cTmp.set(clrTmp.getRed(), clrTmp.getGreen(), clrTmp.getBlue());
             int iTransparency = 255;
-            if (fCurrent instanceof ColorDefinition)
+            if (fCurrent instanceof ColorDefinition && this.iTransparency != 0)
             {
                 iTransparency = (bTransparencyChanged) ? this.iTransparency : ((ColorDefinition) fCurrent)
                     .getTransparency();
@@ -671,6 +674,47 @@ public class FillChooserComposite extends Composite implements SelectionListener
     {
         // TODO Auto-generated method stub
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+     */
+    public void focusGained(FocusEvent e)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+     */
+    public void focusLost(FocusEvent e)
+    {
+        if (e.getSource().equals(cmpDropDown))
+        {
+            if (btnCustom != null && btnCustom.isFocusControl())
+            {
+                return;
+            }
+            if (btnGradient != null && btnGradient.isFocusControl())
+            {
+                return;
+            }
+            if (btnImage != null && btnImage.isFocusControl())
+            {
+                return;
+            }
+            if (srTransparency != null && srTransparency.isEnabled() && srTransparency.isFocusControl())
+            {
+                return;
+            }
+            cmpDropDown.getShell().dispose();
+            return;
+        }
     }
 }
 

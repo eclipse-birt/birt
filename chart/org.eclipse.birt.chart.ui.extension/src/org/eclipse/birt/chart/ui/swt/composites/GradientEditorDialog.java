@@ -64,6 +64,8 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
 
     private transient Gradient gBackup = null;
 
+    private transient boolean bWasCancelled = true;
+
     private transient FillCanvas cnvPreview = null;
 
     private transient Shell shell = null;
@@ -227,6 +229,10 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
 
     public Gradient getGradient()
     {
+        if (bWasCancelled)
+        {
+            return gBackup;
+        }
         return gCurrent;
     }
 
@@ -243,6 +249,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         }
         else if (e.getSource().equals(btnAccept))
         {
+            bWasCancelled = true;
             shell.dispose();
         }
         else if (e.getSource().equals(btnCancel))

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -100,8 +101,7 @@ public class PieChart extends DefaultChartTypeImpl
      */
     public IHelpContent getHelp()
     {
-        return new HelpContentImpl(
-            "Pie Chart", //$NON-NLS-1$
+        return new HelpContentImpl("Pie Chart", //$NON-NLS-1$
             Messages.getString("PieChart.Txt.HelpText")); //$NON-NLS-1$
     }
 
@@ -269,6 +269,9 @@ public class PieChart extends DefaultChartTypeImpl
                 .clear();
             ((SeriesDefinition) ((ChartWithoutAxes) currentChart).getSeriesDefinitions().get(0)).getSeriesDefinitions()
                 .addAll(vOSD);
+
+            // Set the legend item type t Categories to have the chart behave as expected by default.
+            currentChart.getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
         }
         else if (currentChart.getType().equals(sType))
         {
@@ -402,7 +405,8 @@ public class PieChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT //$NON-NLS-1$
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+                                          // //$NON-NLS-1$
             // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);

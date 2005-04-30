@@ -44,9 +44,9 @@ import org.eclipse.swt.widgets.Shell;
 public class FontDefinitionDialog implements SelectionListener, Listener, IAngleChangeListener
 {
 
-    public static final int MIN_FONT_SIZE = 8;
+    public static final int MIN_FONT_SIZE = 1;
 
-    public static final int MAX_FONT_SIZE = 72;
+    public static final int MAX_FONT_SIZE = 7200;
 
     private transient FontDefinition fdCurrent = null;
 
@@ -195,31 +195,27 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         Label lblStyle = new Label(cmpContent, SWT.NONE);
         GridData gdLStyle = new GridData();
         gdLStyle.heightHint = 22;
-        //        gdLStyle.horizontalSpan = 2;
         lblStyle.setLayoutData(gdLStyle);
         lblStyle.setText(Messages.getString("FontDefinitionDialog.Lbl.Style")); //$NON-NLS-1$
 
         btnBold = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBBold = new GridData(GridData.FILL_HORIZONTAL);
         btnBold.setLayoutData(gdBBold);
-        // TODO: This should be an image
-        btnBold.setText("B"); //$NON-NLS-1$
+        btnBold.setImage(UIHelper.getImage("images/fnt_style_bold.gif")); //$NON-NLS-1$
         btnBold.addSelectionListener(this);
         btnBold.setSelection(fdCurrent.isBold());
 
         btnItalic = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBItalic = new GridData(GridData.FILL_HORIZONTAL);
         btnItalic.setLayoutData(gdBItalic);
-        // TODO: This should be an image
-        btnItalic.setText("I"); //$NON-NLS-1$
+        btnItalic.setImage(UIHelper.getImage("images/fnt_style_italic.gif")); //$NON-NLS-1$
         btnItalic.addSelectionListener(this);
         btnItalic.setSelection(fdCurrent.isItalic());
 
         btnUnderline = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBUnderline = new GridData(GridData.FILL_HORIZONTAL);
         btnUnderline.setLayoutData(gdBUnderline);
-        // TODO: This should be an image
-        btnUnderline.setText("U"); //$NON-NLS-1$
+        btnUnderline.setImage(UIHelper.getImage("images/fnt_style_underline.gif")); //$NON-NLS-1$
         btnUnderline.addSelectionListener(this);
         btnUnderline.setSelection(fdCurrent.isUnderline());
 
