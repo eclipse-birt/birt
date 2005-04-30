@@ -30,10 +30,11 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Represents an extended data set.
  */
 
-public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataSetModel
+public class OdaDataSet extends DataSet
+		implements
+			IExtendableElement,
+			IOdaDataSetModel
 {
-
-	
 
 	private ExtensibilityProvider provider = null;
 
@@ -131,10 +132,12 @@ public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataS
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
-	
+
 	public List getPropertyDefns( )
 	{
 		if ( provider != null )
@@ -143,22 +146,23 @@ public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataS
 		return super.getPropertyDefns( );
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java.lang.String)
 	 */
-	
+
 	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
 		assert propName != null;
 
 		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
-		if ( propDefn != null  )
+		if ( propDefn != null )
 			return propDefn;
-		
-		if (provider != null) 
+
+		if ( provider != null )
 			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
-		
+
 		return propDefn;
 	}
 
@@ -188,7 +192,10 @@ public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataS
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			extensionName = (String) value;
-			provider = new AddOnExtensibilityProvider( this, extensionName );
+			if ( extensionName != null )
+				provider = new AddOnExtensibilityProvider( this, extensionName );
+			else 
+				provider = null;
 		}
 		else
 		{
@@ -196,10 +203,12 @@ public class OdaDataSet extends DataSet implements IExtendableElement, IOdaDataS
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	
+
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
 		super.checkExtends( parent );

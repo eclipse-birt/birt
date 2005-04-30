@@ -792,7 +792,7 @@ public class ElementFactory
 		}
 		OdaDataSet element = new OdaDataSet( name );
 		design.makeUniqueName( element );
-		element.setProperty( OdaDataSource.EXTENSION_NAME_PROP, extensionName );
+		element.setProperty( OdaDataSet.EXTENSION_NAME_PROP, extensionName );
 
 		return element.handle( design );
 	}

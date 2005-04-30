@@ -30,10 +30,12 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Represents an extended data source.
  */
 
-public class OdaDataSource extends DataSource implements IExtendableElement, IOdaDataSourceModel
+public class OdaDataSource extends DataSource
+		implements
+			IExtendableElement,
+			IOdaDataSourceModel
 {
 
-	
 	/**
 	 * ODA data source can support extension. It has a unique name to identify
 	 * the extension. Using this name, BIRT can get the extension definition.
@@ -138,7 +140,7 @@ public class OdaDataSource extends DataSource implements IExtendableElement, IOd
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
-	
+
 	public List getPropertyDefns( )
 	{
 		if ( provider != null )
@@ -159,10 +161,10 @@ public class OdaDataSource extends DataSource implements IExtendableElement, IOd
 
 		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
 		if ( propDefn != null )
-			return propDefn;	
+			return propDefn;
 
 		if ( provider != null )
-			return (ElementPropertyDefn)provider.getPropertyDefn( propName );
+			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
 
 		return propDefn;
 	}
@@ -192,7 +194,10 @@ public class OdaDataSource extends DataSource implements IExtendableElement, IOd
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			extensionName = (String) value;
-			provider = new AddOnExtensibilityProvider( this, extensionName );
+			if ( extensionName != null )
+				provider = new AddOnExtensibilityProvider( this, extensionName );
+			else 
+				provider = null;			
 		}
 		else
 		{
@@ -200,10 +205,12 @@ public class OdaDataSource extends DataSource implements IExtendableElement, IOd
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	
+
 	public void checkExtends( DesignElement parent ) throws ExtendsException
 	{
 		super.checkExtends( parent );

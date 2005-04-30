@@ -54,7 +54,10 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * 
  */
 
-public class ExtendedItem extends ReportItem implements IExtendableElement, IExtendedItemModel
+public class ExtendedItem extends ReportItem
+		implements
+			IExtendableElement,
+			IExtendedItemModel
 {
 
 	/**
@@ -299,7 +302,10 @@ public class ExtendedItem extends ReportItem implements IExtendableElement, IExt
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			extensionName = (String) value;
-			provider = new PeerExtensibilityProvider( this, extensionName );
+			if ( extensionName != null )
+				provider = new PeerExtensibilityProvider( this, extensionName );
+			else 
+				provider = null;			
 		}
 		else
 		{
