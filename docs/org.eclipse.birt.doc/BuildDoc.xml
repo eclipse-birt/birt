@@ -178,9 +178,9 @@
 	
 	<target name="chartJavadoc">
 		<delete dir="${chartengine.javadoc.dir}"/>
-		<ant dir="${chartengine.dir}" antfile="BuildChartEngine.xml" target="javadoc" inheritall="false" inheritrefs="false">
+		<ant dir="${chartengine.dir}" antfile="BuildChartEngine.xml" target="Javadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="destination.dir" value="../${module.name}/${chartengine.javadoc.dir}" />
+      <property name="javadoc.dir" value="../${module.name}/${chartengine.javadoc.dir}" />
 		</ant>
   </target>
 	
