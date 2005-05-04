@@ -128,22 +128,18 @@ public final class PlotWith2DAxes extends PlotContent
      *            The display server using which the chart is computed
      * @param _cwa
      *            An instance of the model (ChartWithAxes)
+     * @throws ValidationException 
+     * @throws UndefinedValueException 
+     * @throws UnexpectedInputException 
      */
-    public PlotWith2DAxes(IDisplayServer _ids, ChartWithAxes _cwa, RunTimeContext _rtc)
+    public PlotWith2DAxes(IDisplayServer _ids, ChartWithAxes _cwa, RunTimeContext _rtc) throws UnexpectedInputException, UndefinedValueException, ValidationException
     {
         cwa = _cwa;
         ids = _ids;
         rtc = _rtc;
         ssl = new StackedSeriesLookup(_rtc);
         dPointToPixel = ids.getDpiResolution() / 72d;
-        try
-        {
-            buildAxes(); // CREATED ONCE
-        }
-        catch (Exception ex )
-        {
-            DefaultLoggerImpl.instance().log(ex);
-        }
+        buildAxes(); // CREATED ONCE
     }
 
     /**

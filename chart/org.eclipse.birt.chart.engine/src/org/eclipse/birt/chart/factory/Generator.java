@@ -189,7 +189,14 @@ public final class Generator
         if (cmRunTime instanceof ChartWithAxes)
         {
             iChartType = WITH_AXES;
-            oComputations = new PlotWith2DAxes(ids, (ChartWithAxes) cmRunTime, rtc);
+            try
+            {
+                oComputations = new PlotWith2DAxes(ids, (ChartWithAxes) cmRunTime, rtc);
+            }
+            catch (Exception e)
+            {
+                throw new GenerationException(e);
+            }
         }
         else if (cmRunTime instanceof ChartWithoutAxes)
         {

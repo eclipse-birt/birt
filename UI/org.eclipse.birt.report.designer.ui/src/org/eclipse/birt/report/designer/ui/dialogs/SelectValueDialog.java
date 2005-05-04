@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/04/08 23:16:37 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/28 21:24:27 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -185,44 +185,54 @@ public class SelectValueDialog extends BaseDialog
 		try
 		{
             this.okButton.setEnabled(false);
-			//Execute the query and populate this list
-			BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
-					.getPreparedQuery( getDataSetHandle( ), true, false)
-					.getReportQueryDefn( );
-			ScriptExpression expression = new ScriptExpression( getExpression( ) );
-			GroupDefinition defn = new GroupDefinition( );
-			defn.setKeyExpression( getExpression( ) );
-			query.setUsesDetails( false );
-			query.addGroup( defn );
-			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
+            if(getExpression() != null && getExpression().trim().length() > 0)
+            {
+                //Execute the query and populate this list
+                BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
+                        .getPreparedQuery( getDataSetHandle( ), true, false)
+                        .getReportQueryDefn( );
+                ScriptExpression expression = new ScriptExpression( getExpression( ) );
+                GroupDefinition defn = new GroupDefinition( );
+                defn.setKeyExpression( getExpression( ) );
+                query.setUsesDetails( false );
+                query.addGroup( defn );
+                query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
 
-			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-					.getEngine( )
-					.prepare( (IQueryDefinition) query );
-			IQueryResults results = preparedQuery.execute( null );
-			selectValueList.removeAll( );
-			if ( results != null )
-			{
-				IResultIterator iter = results.getResultIterator( );
-				if ( iter != null )
-				{
-					while ( iter.next( ) )
-					{
-                        String value = iter.getString( expression );
-                        if(value != null)
+                IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
+                        .getEngine( )
+                        .prepare( (IQueryDefinition) query );
+                IQueryResults results = preparedQuery.execute( null );
+                selectValueList.removeAll( );
+                
+                if ( results != null )
+                {
+                    IResultIterator iter = results.getResultIterator( );
+                    if ( iter != null )
+                    {
+                        while ( iter.next( ) )
                         {
-                            selectValueList.add( value );
+                            String value = iter.getString( expression );
+                            if(value != null)
+                            {
+                                selectValueList.add( value );
+                            }
                         }
-					}
-				}
+                    }
 
-				results.close( );
-			}
+                    results.close( );
+                }
+            }
+            else
+            {
+                selectValueList.removeAll( );
+                ExceptionHandler.openErrorMessageBox(Messages.getString("SelectValueDialog.errorRetrievinglist"), Messages.getString("SelectValueDialog.noExpressionSet")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
             if(selectValueList.getItemCount() > 0)
             {
                 selectValueList.select(0);
                 this.okButton.setEnabled(true);
             }
+            
 		}
 		catch ( Exception e )
 		{
