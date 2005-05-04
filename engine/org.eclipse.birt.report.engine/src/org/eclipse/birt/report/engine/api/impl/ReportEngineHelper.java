@@ -163,18 +163,6 @@ public class ReportEngineHelper
 	}
 
 	/**
-	 * returns a list of strings that describes the supported option names
-	 * 
-	 * @param format the output format
-	 * @param extensionID the extension ID, which could be null if only one plugin supports
-	 * the output format
-	 * @return a list of strings that describes the supported option names
-	 */
-	public String[] getSupportedOptions(String format) {
-		return extensionMgr.getOptions(format);
-	}
-
-	/**
 	 * the MIME type for the specific formatted supported by the extension. 
 	 * 
 	 * @param format the output format

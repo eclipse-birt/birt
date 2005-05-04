@@ -26,26 +26,9 @@
 	 	<emitter 
 			name="html emitter"
 	  		id="org.eclipse.birt.report.engine.emitter.html"
-	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter">
-	  		<format name="html" mimeType="text/html">
-	  			<option name="isEmbedded"/>
-	  		</format>
-		  	<reportItem name="Container"
-		   		id="org.eclipse.birt.report.engine.emitter.container.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLContainerEmitter">
-		  	</reportItem>
-		  	<reportItem name="Image"
-		   		id="org.eclipse.birt.report.engine.emitter.image.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLImageEmitter">
-		  	</reportItem>
-		  	<reportItem name="Table"
-		   		id="org.eclipse.birt.report.engine.emitter.table.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLTableEmitter">
-		  	</reportItem>
-		  	<reportItem name="Text"
-		   		id="org.eclipse.birt.report.engine.emitter.Text.html"
-		   		class="org.eclipse.birt.report.engine.emitter.html.HTMLTextEmitter">
-		  	</reportItem>
+	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
+	  		format="html"
+	  		mimeType="text/html" >
 	 	</emitter>
    </extension>
 </plugin>

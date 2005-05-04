@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.extension.internal;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -24,15 +26,17 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 
 /**
- * Manages engine extensions. Currently, engine supports three types of extensions: emitter set,
- * extended items generation time extension, and extended items presentation time extension
+ * Manages engine extensions. Currently, engine supports 4 types of extensions: emitters,
+ * extended items Query, Generation, Presentation time extensions
  */
 public class ExtensionManager
 {
-	public final static String EXTENSION_POINT_EMITTER = "org.eclipse.birt.report.engine.emitters";	
-	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; 
-	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation";
-	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery";
+	protected static Logger logger = Logger.getLogger( ExtensionManager.class.getName( ) );
+	
+	public final static String EXTENSION_POINT_EMITTERS = "org.eclipse.birt.report.engine.emitters";	// $NON-NLS-1$
+	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; // $NON-NLS-1$
+	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; // $NON-NLS-1$
+	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; // $NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -59,10 +63,14 @@ public class ExtensionManager
 	 */
 	protected HashMap emitterExtensions = new HashMap();
 	
-	protected HashMap formatMimeType = new HashMap();
+	/**
+	 * stores all the mime types that are supported
+	 */
+	protected HashMap mimeTypes = new HashMap();
 	
-	protected HashMap formatOptions = new HashMap();
-	
+	/**
+	 * Dummy constructor
+	 */
 	ExtensionManager()
 	{
 		loadGenerationExtensionDefns();
@@ -126,6 +134,11 @@ public class ExtensionManager
 		}
 		return null;
 	}
+	
+	/**
+	 * @param itemType the type of the extended item, i.e., "chart"
+	 * @return an object that is used for query preparation time extended item processing 
+	 */
 	public IReportItemQuery createQueryItem(String itemType)
 	{
 		IConfigurationElement config = (IConfigurationElement)queryExtensions.get(itemType);
@@ -157,28 +170,35 @@ public class ExtensionManager
 		}
 		return null;
 	}
+	
 	/**
-	 * 
-	 * @return
+	 * @return all the emitter extensions
 	 */
 	public HashMap getEmitterExtensions()
 	{
 		return this.emitterExtensions;
 	}
 	
+	/**
+	 * @param config
+	 * @param property 
+	 * @return
+	 */
 	protected Object createObject(IConfigurationElement config, String property)
 	{
 		try
 		{
 			Object object = config.createExecutableExtension(property);
 			if (object != null)
-			{
 				return object;
-			}
 		}
 		catch(FrameworkException ex)
 		{
-			//TODO log it out
+			if (logger.getLevel().intValue() >= Level.WARNING.intValue())
+			{
+				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	// $NON-NLS-1$ 
+						new String[] {config.getAttribute("class"), property} );	// $NON-NLS-1$
+			}
 			ex.printStackTrace();
 		}
 		return null;
@@ -192,9 +212,8 @@ public class ExtensionManager
 		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
 		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_GENERATION);
 		if(extPoint==null)
-		{
 			return;
-		}
+
 		IExtension[] exts = extPoint.getExtensions();
 		for (int i = 0; i < exts.length; i++)
 		{
@@ -215,9 +234,8 @@ public class ExtensionManager
 		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
 		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_PRESENTATION);
 		if(extPoint==null)
-		{
 			return;
-		}
+
 		IExtension[] exts = extPoint.getExtensions();
 		for (int i = 0; i < exts.length; i++)
 		{
@@ -238,9 +256,8 @@ public class ExtensionManager
 		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
 		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_QUERY);
 		if(extPoint==null)
-		{
 			return;
-		}
+
 		IExtension[] exts = extPoint.getExtensions();
 		for (int i = 0; i < exts.length; i++)
 		{
@@ -259,62 +276,36 @@ public class ExtensionManager
 	protected void loadEmitterExtensionDefns()
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
-		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_EMITTER);
+		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_EMITTERS);
 		if(extPoint==null)
-		{
 			return;
-		}
+
 		IExtension[] exts = extPoint.getExtensions();
-		for (int i = 0; i < exts.length; i++)
+		for (int i = 0; i < exts.length; i++)	// loop at emitters level, i.e., fo or html
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
-			for (int j = 0; j < configs.length; j++)
+			for (int j = 0; j < configs.length; j++)	// loop at emitter level 
 			{				
-				IConfigurationElement[] formats = configs[j].getChildren("format"); //$NON-NLS-1$
-				
-				if(formats != null && formats.length>0)
+				String format = configs[j].getAttribute("format");	// $NON-NLS-1$
+				String mimeType = configs[j].getAttribute("mimeType");	// $NON-NLS-1$
+				if(!emitterExtensions.containsKey(format))
 				{
-					for(int k=0; k<formats.length; k++)
-					{
-						String formatName = formats[k].getAttribute("name"); //$NON-NLS-1$
-						String mimeType = formats[k].getAttribute("mimeType"); //$NON-NLS-1$
-						if(!emitterExtensions.containsKey(formatName))
-						{
-							emitterExtensions.put(formatName, configs[j]);
-							formatMimeType.put(formatName, mimeType);
-							IConfigurationElement[] options = formats[k].getChildren("option"); //$NON-NLS-1$
-							if(options!=null && options.length>0)
-							{
-								String[] optionNames = new String[options.length];
-								for(int l=0; l<options.length; l++)
-								{
-									optionNames[l] = options[l].getAttribute("name"); //$NON-NLS-1$
-								}
-								formatMimeType.put(formatName, optionNames);
-							}
-						}
-					}
+					emitterExtensions.put(format, configs[j]);
+					mimeTypes.put(format, mimeType);
 				}
-				
-				
 			}
 		}
 	}
 	
-	public String[] getOptions(String format)
-	{
-		if(formatOptions.containsKey(format))
-		{
-			return (String[])formatOptions.get(format);
-		}
-		return null;
-	}
-	
+	/**
+	 * @param format the output format
+	 * @return the mime type for the specific format
+	 */
 	public String getMIMEType(String format)
 	{
-		if(formatMimeType.containsKey(format))
+		if(mimeTypes.containsKey(format))
 		{
-			return (String)formatMimeType.get(format);
+			return (String)mimeTypes.get(format);
 		}
 		return null;
 	}

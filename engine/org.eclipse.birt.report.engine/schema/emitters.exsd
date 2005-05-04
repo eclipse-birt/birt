@@ -52,7 +52,6 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="format" minOccurs="1" maxOccurs="unbounded"/>
             <element ref="reportItem" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string">
@@ -66,6 +65,20 @@
             <annotation>
                <documentation>
                   the java class that implements the &lt;code&gt;IReportEmitter&lt;/code&gt; interface
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="format" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The output format that the emitter supports
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="mimeType" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The MIME type for the supported output format
                </documentation>
             </annotation>
          </attribute>
@@ -103,40 +116,6 @@
       </complexType>
    </element>
 
-
-   <element name="format">
-    	<complexType>
-	        <sequence>
-	            <element ref="option" minOccurs="0" maxOccurs="unbounded"/>
-	         </sequence>
-         </complexType>
-   		<attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  the format name,such as html, pdf etc
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="mimeType" type="string">
-            <annotation>
-               <documentation>
-                  the MimeType of this format
-               </documentation>
-            </annotation>
-         </attribute>
-    
-   </element>
-
-   <element name="option">
-   		<attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  the option name
-               </documentation>
-            </annotation>
-         </attribute>
-   </element>
-
    <annotation>
       <appInfo>
          <meta.section type="since"/>
@@ -170,6 +149,7 @@
  &lt;/emitter&gt;
  &lt;emitter 
   format=&quot;FO&quot; 
+  mimeType=&quot;text/html&quot;
   id=&quot;org.eclipse.birt.report.engine.emitter.fo&quot;
   class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt;
   &lt;reportItem name=&quot;chart&quot;
@@ -177,8 +157,9 @@
    Class=&quot;org.eclipse.birt.report.engine.emitter.html.FOChartEmitter&quot;/&gt;
  &lt;/emitter&gt;
  &lt;emitter
+  mimeType=&quot;application/pdf&quot;
   id=&quot;org.eclipse.birt.report.engine.emitter.pdf&quot;
-  class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt; 
+  class=&quot;org.eclipse.birt.report.engine.emitter.html.FOPReportEmitter&quot;&gt; 
   &lt;reportItem name=&quot;chart&quot;
    id=&quot;org.eclipse.birt.report.engine.emitter.chart.pdf&quot;
    emitterClass=&quot;org.eclipse.birt.report.engine.emitter.html.FOChartEmitter&quot;/&gt;
