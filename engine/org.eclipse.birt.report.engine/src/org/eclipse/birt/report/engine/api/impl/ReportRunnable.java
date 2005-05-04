@@ -151,7 +151,7 @@ public class ReportRunnable implements IReportRunnable
 	/**
 	 * @return Returns the configs.
 	 */
-	public HashMap getConfigs()
+	public HashMap getTestConfig()
 	{
 		return report.getConfigs();
 	}

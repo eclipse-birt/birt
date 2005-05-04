@@ -52,8 +52,8 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * 
 	 * @param parameterName the name of the parameter
 	 * @throws EngineException throws exception if the query for dynamic selection list has problem to run 
-	 *//*
-	public abstract void fillDynamicSelectionList(String parameterName) throws EngineException;*/
+	 */
+	//public abstract void fillDynamicSelectionList(String parameterName) throws EngineException;
 
 	/**
 	 * Set one parameter value. If parameter does not exist in report design, do nothing. 
@@ -65,9 +65,10 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 
 	/**
 	 * get all default values
+	 * 
 	 * @return the default value map
 	 */
-	public HashMap getParameterValues();
+	public HashMap getDefaultValues();
 	
 	/**
 	 * get default value by name
@@ -75,5 +76,4 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * @return
 	 */
 	public Object getDefaultValue(IParameterDefnBase param);
-	
 }

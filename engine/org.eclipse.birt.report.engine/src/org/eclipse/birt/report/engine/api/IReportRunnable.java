@@ -20,12 +20,16 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  */
 public interface IReportRunnable {
 	
-	public final String TITLE_PROP = "title"; //$NON-NLS-1$
-	/**
-	 * Name of the "base" property.
-	 */
-
+	public static final String TITLE = "title"; //$NON-NLS-1$
+	public static final String AUTHOR = "author"; //$NON-NLS-1$
+	public static final String DESCRIPTION = "description"; //$NON-NLS-1$
+	public static final String COMMENTS = "comments"; //$NON-NLS-1$
+	public static final String CREATEDBY = "createdBy"; //$NON-NLS-1$
+	public static final String HELP_GUIDE = "helpGuide"; //$NON-NLS-1$
 	public static final String BASE_PROP = "base"; //$NON-NLS-1$
+	public static final String UNITS = "units"; // $NON-NLS-1$
+	public static final String REFRESH_RATE = "refreshRate"; //$NON-NLS-1$
+	
 	/**
 	 * returns an image stored in a report design file, or null if the image name does not exist
 	 * 
@@ -54,7 +58,6 @@ public interface IReportRunnable {
 	public abstract Object getProperty(String path, String propertyName);
 	
 	/**
-	 * 
 	 * returns the design element handle that design engine creates when opening the report
 	 * 
 	 * @return the design element handle that design engine creates when opening the report
@@ -64,11 +67,11 @@ public interface IReportRunnable {
 	/**
 	 * @return the name of the report
 	 */
-	public String getReportName();
+	public abstract String getReportName();
 	
 	/**
 	 * @return test configurations for the report
 	 */
-	public HashMap getConfigs();
+	public abstract HashMap getTestConfig();
 	
 }

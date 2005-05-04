@@ -119,7 +119,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		
 		//setup runtime configurations
 		//user defined configs are overload using system properties.
-		executionContext.getConfigs().putAll(runnable.getConfigs());
+		executionContext.getConfigs().putAll(runnable.getTestConfig());
 		executionContext.getConfigs().putAll(System.getProperties());
 		
 		// Set up rendering environment and check for supported format

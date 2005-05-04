@@ -87,7 +87,7 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.registerBeans(config.getScriptObjects());
 		}
 		executionContext.setRunnable(runnable);
-		executionContext.registerBeans(runnable.getConfigs());
+		executionContext.registerBeans(runnable.getTestConfig());
 		taskID = id++;
 	}
 	

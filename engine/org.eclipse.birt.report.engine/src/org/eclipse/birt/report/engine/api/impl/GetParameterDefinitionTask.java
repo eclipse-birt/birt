@@ -132,9 +132,9 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#getParameterValues()
+	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getDefaultValues()
 	 */
-	public HashMap getParameterValues()
+	public HashMap getDefaultValues()
 	{
 		return defaultValues;
 	}
