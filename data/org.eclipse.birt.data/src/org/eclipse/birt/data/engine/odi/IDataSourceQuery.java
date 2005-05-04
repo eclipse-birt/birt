@@ -135,7 +135,7 @@ public interface IDataSourceQuery extends IQuery
 	 * @param name	The name of property.
 	 * @param value	The value to add to the named property.
 	 */
-	public void addProperty( String name, String value );
+	public void addProperty( String name, String value ) throws DataException;
 
 	/**
      * Dynamically declares an user-defined custom, modifiable field 

@@ -127,6 +127,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     
 	// input parameter values
 	private Collection inputParamValues;
+	
+	// Properties added by addProperty()
+	private ArrayList propNames;
+	private ArrayList propValues;
 
     DataSourceQuery( DataSource dataSource, String queryType, String queryText )
     {
@@ -216,11 +220,24 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#addProperty(java.lang.String, java.lang.String)
      */
-    public void addProperty(String name, String value)
+    public void addProperty(String name, String value ) throws DataException
     {
-        // TODO 
-        // How to implement this? We need ODA consumer to allow us to set properties on the Statement
-        // before it is prepared
+    	if ( name == null )
+    		throw new NullPointerException("Property name is null");
+    	
+    	// Must be called before prepare() per interface spec
+        if ( odaStatement != null )
+            throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
+    	
+   		if ( propNames == null )
+   		{
+   			assert propValues == null;
+   			propNames = new ArrayList();
+   			propValues = new ArrayList();
+   		}
+   		assert propValues != null;
+   		propNames.add( name );
+   		propValues.add( value );
     }
 
     /* (non-Javadoc)
@@ -269,6 +286,10 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
         odaStatement = dataSource.getConnection().prepareStatement( queryText, queryType );
+        
+        // Add custom properties
+        addProperties();
+        
         // Add parameter hints. This step must be done before odaStatement.setColumnsProjection()
         // for some jdbc driver need to carry out a query execution before the metadata can be achieved
         // and only when the Parameters are successfully set the query execution can succeed.
@@ -280,8 +301,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         addColumnHints( odaStatement );
         odaStatement.setColumnsProjection( this.projectedFields );
 
-    	
-    	
         // If ODA can provide result metadata, get it now
         try
         {
@@ -331,6 +350,27 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     		}
     	}
 	}
+    
+    /** Adds custom properties to oda statement being prepared */
+    private void addProperties() throws DataException
+	{
+    	assert odaStatement != null;
+    	if ( propNames != null )
+    	{
+    		assert propValues != null;
+    		
+    		Iterator it_name = propNames.iterator();
+    		Iterator it_val = propValues.iterator();
+    		while ( it_name.hasNext())
+    		{
+    			assert it_val.hasNext();
+    			String name = (String) it_name.next();
+    			String val = (String) it_val.next();
+    			odaStatement.setProperty( name, val );
+    		}
+    	}
+	}
+    
    
 	/** 
 	 * Adds input and output parameter hints to odaStatement
