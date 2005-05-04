@@ -109,6 +109,7 @@ public class WebViewer
 			+ servletName + "?" //$NON-NLS-1$
 			+ "__report=" + encodedReportName //$NON-NLS-1$
 			+ "&__format=" + format //$NON-NLS-1$
+			+ "&__usetestconfig=true" //$NON-NLS-1$
 			+ "&__locale=" + LocaleTable.get(locale); //$NON-NLS-1$
 		
 	}
