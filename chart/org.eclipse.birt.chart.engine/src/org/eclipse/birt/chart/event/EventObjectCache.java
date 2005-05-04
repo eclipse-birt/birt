@@ -90,6 +90,10 @@ public class EventObjectCache
                 il.log(iex);
             }
         }
+        else
+        {
+            pre.setSourceObject(oSource);
+        }
         return pre;
     }
 

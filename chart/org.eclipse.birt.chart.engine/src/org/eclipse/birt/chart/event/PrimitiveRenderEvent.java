@@ -267,6 +267,13 @@ public abstract class PrimitiveRenderEvent extends EventObject implements Compar
     {
         this.dDepth = dDepth;
     }
+    
+    public final void setSourceObject(Object oSource)
+    {
+    	if (oSource == null)
+    	    throw new IllegalArgumentException("null source");
+    	super.source = oSource;
+    }
 
     /**
      * 

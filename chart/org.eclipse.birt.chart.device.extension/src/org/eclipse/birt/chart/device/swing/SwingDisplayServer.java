@@ -169,7 +169,7 @@ public class SwingDisplayServer extends DisplayAdapter
      * 
      * @see org.eclipse.birt.devices.IDisplayServer#loadImage(java.lang.String)
      */
-    public final Object loadImage(URL url) throws ImageLoadingException
+    public Object loadImage(URL url) throws ImageLoadingException
     {
     	return _simc.loadImage(url);
     }

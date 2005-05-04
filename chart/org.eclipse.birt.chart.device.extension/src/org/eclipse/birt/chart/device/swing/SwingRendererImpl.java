@@ -990,7 +990,7 @@ public class SwingRendererImpl extends DeviceAdapter
      * 
      * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#enableInteraction(org.eclipse.birt.chart.output.InteractionEvent)
      */
-    public final void enableInteraction(InteractionEvent iev) throws RenderingException
+    public void enableInteraction(InteractionEvent iev) throws RenderingException
     {
         if (_iun == null)
         {
