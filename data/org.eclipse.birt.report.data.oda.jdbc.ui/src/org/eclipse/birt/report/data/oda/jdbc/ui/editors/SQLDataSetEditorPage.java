@@ -24,10 +24,10 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExter
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetEditorDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -90,7 +90,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.5 $ $Date: 2005/04/23 03:21:32 $
+ * @version $Revision: 1.6 $ $Date: 2005/04/26 02:15:50 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -116,6 +116,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	
 	private ComboViewer filterComboViewer = null;
 	OdaDataSourceHandle prevDataSourceHandle = null;
+	Connection jdbcConnection = null;
+	boolean validConnection = false;
 	
 	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
 	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
@@ -678,26 +680,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		columnImage = JFaceResources.getImage(COLUMN_ICON);
 		
-		// Initializing the jdbc related properties
-		metaDataProvider = new JdbcMetaDataProvider(null);
-		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
-		
-		try
-		{
-			if ( jdbcConnection != null )
-			{
-				
-				// Check if schema is supported
-				isSchemaSupported = metaDataProvider.isSchemaSupported();
- 
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			
-		}
 	}
 		
 
@@ -714,10 +696,21 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			metaDataProvider = new JdbcMetaDataProvider(null);
 			
 		}
+
+		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
+		
+		validConnection = (jdbcConnection == null) ? false: true; 
 		
 		try
 		{
-			isSchemaSupported = metaDataProvider.isSchemaSupported();
+			if ( jdbcConnection != null )
+			{
+				
+				// Check if schema is supported
+				isSchemaSupported = metaDataProvider.isSchemaSupported();
+ 
+			}
 		}
 		catch(Exception e)
 		{
@@ -736,7 +729,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		{
 			metaDataProvider.closeConnection();
 			metaDataProvider = new JdbcMetaDataProvider(null);
-			connectMetadataProvider( metaDataProvider, curDataSourceHandle);
+			jdbcConnection = connectMetadataProvider( metaDataProvider, curDataSourceHandle);
 			
 			// Clear the Table list and the schema List
 			tableList = null;
@@ -745,7 +738,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		try
 		{
-			isSchemaSupported = metaDataProvider.isSchemaSupported();
+			if ( jdbcConnection != null)
+			{
+				isSchemaSupported = metaDataProvider.isSchemaSupported();
+			}
 		}
 		catch(Exception e)
 		{
@@ -910,6 +906,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			setRootElement();
 			
 			prevDataSourceHandle = curDataSourceHandle;
+			
+			populateAvailableDbObjects();
 		}
 		
 	}	
@@ -1057,7 +1055,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		textWidget.setFocus( );
 	}
 
-
+	private boolean isValidConnection()
+	{
+		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		metaDataProvider = new JdbcMetaDataProvider(null);
+		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
+		validConnection = ( jdbcConnection == null) ? false: true;
+		return validConnection;
+	}
 
 	/**
 	 * Creates the textual query editor 

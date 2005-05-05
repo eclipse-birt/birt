@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.provider;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -212,7 +213,10 @@ public class JdbcMetaDataProvider
      */
       public DatabaseMetaData getMetaData()
       {
-      	assert jdbcConnection != null;
+      	if ( jdbcConnection == null )
+      	{
+      		return null;
+      	}
       	
       	if ( metaData == null)
       	{
