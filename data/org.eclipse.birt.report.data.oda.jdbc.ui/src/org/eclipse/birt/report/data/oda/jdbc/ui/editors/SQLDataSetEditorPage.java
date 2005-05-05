@@ -90,7 +90,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/05 00:28:34 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/05 02:16:15 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -288,7 +288,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		searchTxt = new Text(selectTableGroup, SWT.BORDER) ;
 		{
-			GridData data = new GridData();
+			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			data.horizontalSpan = 2;
 			searchTxt.setLayoutData(data);
 		}
@@ -301,6 +301,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		// Filter Combo
 		filterComboViewer = new ComboViewer(selectTableGroup, SWT.READ_ONLY);
 		setFilterComboContents(filterComboViewer);
+		filterComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 	
 		// Find Button
