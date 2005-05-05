@@ -152,24 +152,17 @@ public class EngineConfig {
 		emitterConfigs.put(STATUS_HANDLER, handler);
 	}
 
-	/**
-	 * sets the log file location for engine
-	 * 
-	 * @param namePrefix the name prefix used for engine log file. Engine appends date and
-	 * time to the file name. 
-	 */
-	public void setLogDestination(String namePrefix)
-	{
-		configObjects.put(LOG_DESTINATION, namePrefix);
-	}
-	
-	/**
-	 * sets the log level for engine
-	 * 
-	 * @param level log level
-	 */
-	public void setLogLevel(Level level){
-		configObjects.put(LOG_LEVEL, level);
-	}
+    /**
+     * set log configuration, i.e., log file name prefix and log level
+     * 
+     * @param namePrefix the name prefix used for engine log file. Engine appends date and
+     * time to the file name. 
+     * @param level the engine log level
+     */
+    public void setLogConfig(String namePrefix, Level level)
+    {
+    	configObjects.put(LOG_DESTINATION, namePrefix);
+    	configObjects.put(LOG_LEVEL, level);
+    }
 
 }

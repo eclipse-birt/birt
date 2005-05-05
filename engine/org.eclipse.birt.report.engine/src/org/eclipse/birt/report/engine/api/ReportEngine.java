@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
  * A report engine provides an entry point for reporting functionalities. It is
@@ -72,6 +71,16 @@ public class ReportEngine {
 				level = Level.WARNING;
 			helper.setupLogging(dest, level);
 		}
+	}
+	
+	/**
+	 * Change the log level to newLevel
+	 * @param newLevel - new log level 
+	 */
+	public void changeLogLevel(Level newLevel)
+	{
+		if ( newLevel != null )
+			helper.changeLogLevel( newLevel );
 	}
 
 	/**
@@ -192,5 +201,7 @@ public class ReportEngine {
 	 */
 	public void destroy() throws EngineException
 	{
+		helper.stopLogging();
+		helper = null;
 	}
 }

@@ -181,4 +181,19 @@ public class ReportEngineHelper
 	public void setupLogging(String dest, Level level) {
 		EngineLogger.startEngineLogging(dest, level);
 	}
+	
+	/**
+	 * Stop engine logging
+	 */
+	public void stopLogging() {
+		EngineLogger.stopEngineLogging();
+	}
+	
+	/**
+	 * Change the log level to the newLevel
+	 * @param newLevel - new log level
+	 */
+	public void changeLogLevel( Level newLevel ){
+		EngineLogger.changeLogLevel( newLevel );
+	}
 }

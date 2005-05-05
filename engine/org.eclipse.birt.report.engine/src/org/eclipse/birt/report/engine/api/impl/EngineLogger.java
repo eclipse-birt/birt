@@ -91,6 +91,19 @@ public class EngineLogger {
 	}
 
 	/**
+	 * Change the log level to the newLevel
+	 * @param newLevel - new log level
+	 */
+	public static void changeLogLevel( Level newLevel )
+	{
+		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
+		assert (logger != null);
+
+		if ( newLevel != null )
+			logger.setLevel( newLevel );		
+	}
+	
+	/**
 	 * This is a utility function that will create an unique file name with the timestamp information in the file name.
 	 * For example, if the original name string is BIRT, the returned file name will be BIRT_2005_02_26_11_26_56.log.
 	 * @param namePrefix - the original name prefix string
