@@ -252,7 +252,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void setParameterValues(HashMap params)
 	{
-		this.inputValues = params;
+		inputValues = params;
 	}
 
 	/* (non-Javadoc)
@@ -261,5 +261,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public HashMap getParameterValues()
 	{
 		return inputValues;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setParameterValue(java.lang.String, java.lang.Object)
+	 */
+	public void setParameterValue(String name, Object value) {
+		inputValues.put(name, value);
 	}
 }

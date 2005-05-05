@@ -45,6 +45,14 @@ public interface IRunAndRenderTask extends IEngineTask {
 	public abstract void setParameterValues(HashMap params);
 	
 	/**
+	 * sets one parameter value
+	 * 
+	 * @param name parameter name
+	 * @param value parameter value
+	 */
+	public abstract void setParameterValue(String name, Object value);
+	
+	/**
 	 * returns the parameter name/value collection
 	 * 
 	 * @return the parameter names/values in a hash map 
