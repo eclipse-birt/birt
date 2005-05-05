@@ -41,7 +41,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/04/08 23:16:34 $
+ * @version $Revision: 1.7 $ $Date: 2005/04/19 01:14:17 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -59,16 +59,27 @@ public class JdbcSQLContentAssistProcessor implements
 	public JdbcSQLContentAssistProcessor( DataSetHandle ds )
 	{
 		super( );
-		handle = (OdaDataSetHandle) ds;
-		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
-		metaData = ConnectionMetaDataManager.getInstance( )
-				.getMetaData( (String)dataSourceHandle.getProperty(Constants.ODADriverClass),
+        handle = (OdaDataSetHandle) ds;
+        OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) handle.getDataSource( );
+        setDataSourceHandle(dataSourceHandle);
+	}
+    
+    public void setDataSourceHandle(OdaDataSourceHandle dataSourceHandle)
+    {
+        if(metaData != null)
+        {
+            metaData.clearCache();
+            metaData = null;
+        }
+        metaData = ConnectionMetaDataManager.getInstance( )
+                .getMetaData( (String)dataSourceHandle.getProperty(Constants.ODADriverClass),
                         (String)dataSourceHandle.getProperty(Constants.ODAURL),
                         (String)dataSourceHandle.getProperty(Constants.ODAUser),
                         (String)dataSourceHandle.getProperty(Constants.ODAPassword), //$NON-NLS-1$
-						JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getDriverName( ) ),
-						null );
-	}
+                        JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getDriverName( ) ),
+                        null );
+        
+    }
 
 	/*
 	 * (non-Javadoc)

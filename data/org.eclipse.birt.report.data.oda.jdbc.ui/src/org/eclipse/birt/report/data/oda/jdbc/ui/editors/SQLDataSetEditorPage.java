@@ -90,7 +90,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.6 $ $Date: 2005/04/26 02:15:50 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/05 00:28:34 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -104,6 +104,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     private boolean isSchemaSupported = false;
     private  Tree AvailableDbObjects = null;
     private JdbcMetaDataProvider metaDataProvider = null;
+    private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	// Images that will be used in displayign the tables, views etc
 	private Image dataSourceImage, schemaImage, tableImage, viewImage, 
 		    dataBaseImage, columnImage;
@@ -904,7 +905,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			RemoveAllAvailableDbObjects();
 			resetJdbcInfo(curDataSourceHandle);
 			setRootElement();
-			
+            sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceHandle);
 			prevDataSourceHandle = curDataSourceHandle;
 			
 			populateAvailableDbObjects();
@@ -1081,7 +1082,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		ruler.addDecorator( 0, lineNumbers );
 		viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		viewer.configure( new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) ) );
+        sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) );
+		viewer.configure( sourceViewerConfiguration );
 		doc = new Document( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( ) );
 		DefaultPartitioner partitioner = new DefaultPartitioner( new SQLPartitionScanner( ),
 				new String[]{
