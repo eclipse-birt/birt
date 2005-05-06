@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.device.svg"
+   name="org.eclipse.birt.chart.device.svg"
+   version="1.0.0"
+   provider-name="eclipse.org">
+
+   <runtime>
+      <library name="device-svg.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.birt.chart.device.extension"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+   </requires>
+   <extension
+         point="org.eclipse.birt.chart.engine.devicerenderers">
+      <deviceRenderer
+            device="org.eclipse.birt.chart.device.svg.SVGRendererImpl"
+            name="dv.SVG"/>            
+   </extension>
+   <extension
+         point="org.eclipse.birt.chart.engine.displayservers">
+      <displayserver
+            server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"
+            name="ds.SVG"/>
+   </extension>
+</plugin>
