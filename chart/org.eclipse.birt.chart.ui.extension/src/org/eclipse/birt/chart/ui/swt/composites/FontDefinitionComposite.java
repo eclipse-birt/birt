@@ -53,7 +53,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
 
     public static final int COLOR_DATA = 1;
 
-    private transient int iSize = 20;
+    private transient int iSize = 18;
 
     private transient boolean bEnabled = true;
 
@@ -103,13 +103,13 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         cmpContent.setLayoutData(gdCContent);
 
         cnvSelection = new FontCanvas(cmpContent, SWT.BORDER, fdCurrent, cdCurrent, false, false, false);
-        GridData gdCNVSelection = new GridData(GridData.FILL_BOTH);
+        GridData gdCNVSelection = new GridData(GridData.FILL_HORIZONTAL);
         gdCNVSelection.heightHint = iSize;
         cnvSelection.setLayoutData(gdCNVSelection);
 
         btnEllipsis = new Button(cmpContent, SWT.NONE);
         GridData gdBEllipsis = new GridData();
-        gdBEllipsis.widthHint = iSize;
+        gdBEllipsis.widthHint = iSize - 2;
         gdBEllipsis.heightHint = iSize + 4;
         btnEllipsis.setLayoutData(gdBEllipsis);
         btnEllipsis.setText("..."); //$NON-NLS-1$

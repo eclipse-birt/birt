@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Actuate Corporation
@@ -60,13 +61,33 @@ public class LineCanvas extends Canvas implements PaintListener
 
     public void paintControl(PaintEvent pe)
     {
-        Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
+        Color cForeground = null;
+        Color cBackground = null;
+        if (this.isEnabled())
+        {
+            cForeground = new Color(this.getDisplay(), 0, 0, 0);
+            cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+        }
+        else
+        {
+            cForeground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+            cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
+        }
         GC gc = pe.gc;
-        gc.setForeground(cBlack);
+        gc.setBackground(cBackground);
+        gc.setForeground(cForeground);
         gc.setLineStyle(iLineStyle);
         gc.setLineWidth(iLineWidth);
+        gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this.getSize().y / 2);
-        cBlack.dispose();
+        cForeground.dispose();
+        cBackground.dispose();
         gc.dispose();
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        super.setEnabled(bState);
+        redraw();
     }
 }

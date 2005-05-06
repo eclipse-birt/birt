@@ -249,7 +249,7 @@ public class GradientEditorDialog implements SelectionListener, Listener, IAngle
         }
         else if (e.getSource().equals(btnAccept))
         {
-            bWasCancelled = true;
+            bWasCancelled = false;
             shell.dispose();
         }
         else if (e.getSource().equals(btnCancel))

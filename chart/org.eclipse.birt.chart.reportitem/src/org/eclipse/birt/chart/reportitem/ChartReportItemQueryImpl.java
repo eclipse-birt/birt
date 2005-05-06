@@ -16,29 +16,31 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
- *
+ *  
  */
 public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 {
     /**
-     * 
+     *  
      */
     private Chart cm = null;
-    
+
     /**
-     * 
+     *  
      */
     private ExtendedItemHandle eih = null;
 
     /**
-     * 
+     *  
      */
     public ChartReportItemQueryImpl()
     {
-        
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
      */
     public void setModelObject(ExtendedItemHandle eih)
@@ -62,17 +64,20 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
                 return;
             }
         }
-        cm = ((ChartReportItemImpl) item).getModel();
+        cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance");
         this.eih = eih;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#getReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
      */
     public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition ibqdParent) throws BirtException
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - start");
-        
+        DefaultLoggerImpl.instance()
+            .log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - start");
+
         // BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
         RunTimeContext rtc = new RunTimeContext();
         //rtc.setLocale(?);
@@ -89,7 +94,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
             throw new BirtException("getReportQueries", gex);
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - end");
-        return new IBaseQueryDefinition[] { ibqd };
+        return new IBaseQueryDefinition[]
+        {
+            ibqd
+        };
     }
 
 }

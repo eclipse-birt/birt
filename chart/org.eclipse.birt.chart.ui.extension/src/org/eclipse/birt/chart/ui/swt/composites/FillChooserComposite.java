@@ -112,7 +112,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
     private transient boolean bEnabled = true;
 
-    private transient int iSize = 20;
+    private transient int iSize = 18;
 
     /**
      * @param parent
@@ -189,7 +189,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         btnDown = new Button(cmpContentInner, SWT.ARROW | SWT.DOWN);
         GridData gdBDown = new GridData(GridData.FILL);
         gdBDown.verticalAlignment = GridData.BEGINNING;
-        gdBDown.widthHint = iSize;
+        gdBDown.widthHint = iSize - 2;
         gdBDown.heightHint = iSize;
         btnDown.setLayoutData(gdBDown);
         btnDown.addSelectionListener(this);
@@ -395,6 +395,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
     public void setEnabled(boolean bState)
     {
         btnDown.setEnabled(bState);
+        cnvSelection.setEnabled(bState);
         this.bEnabled = bState;
     }
 

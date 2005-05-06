@@ -26,8 +26,11 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
@@ -49,6 +52,8 @@ public final class ChartReportItemImpl extends ReportItem
     private static final List liLegendAnchors = new LinkedList();
 
     private static final List liChartDimensions = new LinkedList();
+
+    private transient ReportDesignHandle reporthandle = null;
 
     static
     {
@@ -98,25 +103,31 @@ public final class ChartReportItemImpl extends ReportItem
     /**
      *  
      */
-    public ChartReportItemImpl()
+    public ChartReportItemImpl(ReportDesignHandle reporthandle)
     {
+        this.reporthandle = reporthandle;
+    }
 
+    public void setModel(Chart chart, boolean bAddCommand)
+    {
+        this.cm = chart;
+        if (bAddCommand)
+        {
+            addCommandToActivityStack();
+        }
     }
 
     /**
-     * @param cm
+     *  
      */
-    public void setModel(Chart cm)
+    private void addCommandToActivityStack()
     {
-        this.cm = cm;
-    }
-
-    /**
-     * @return
-     */
-    public final Chart getModel()
-    {
-        return cm;
+        if (reporthandle == null)
+        {
+            return;
+        }
+        IActivityRecord command = new ChartElementCommandImpl();
+        this.reporthandle.getCommandStack().execute(command);
     }
 
     /**
@@ -258,6 +269,10 @@ public final class ChartReportItemImpl extends ReportItem
         {
             return new Boolean((cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false);
         }
+        else if (propName.equals("chart.instance"))
+        {
+            return cm;
+        }
         return null;
     }
 
@@ -279,6 +294,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void setProperty(String propName, Object value)
     {
+        System.out.println("ChartReportItem's setProperty called with property name " + propName);
         DefaultLoggerImpl.instance()
             .log(ILogger.INFORMATION, "setProperty(...) - " + propName + " with value " + value);
         if (propName.equals("title.value"))
@@ -313,6 +329,12 @@ public final class ChartReportItemImpl extends ReportItem
                     .log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
             }
         }
+        else if (propName.equals("chart.instance"))
+        {
+            this.cm = (Chart) value;
+        }
+        // Add the command to the Activity Stack
+
         if (oDesignerRepresentation != null)
         {
             ((DesignerRepresentation) oDesignerRepresentation).setDirty(true);
@@ -337,8 +359,8 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public final IReportItem copy()
     {
-        final ChartReportItemImpl crii = new ChartReportItemImpl();
-        crii.setModel((Chart) EcoreUtil.copy(cm));
+        final ChartReportItemImpl crii = new ChartReportItemImpl(reporthandle);
+        crii.setProperty("chart.instance", EcoreUtil.copy(cm));
         return crii;
     }
 

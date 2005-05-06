@@ -41,49 +41,51 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
- *
+ *  
  */
 public final class ChartReportItemPresentationImpl extends ReportItemPresentationBase
 {
     /**
-     * 
+     *  
      */
     private File fChartImage = null;
-    
+
     /**
-     * 
+     *  
      */
     private FileInputStream fis = null;
-    
+
     /**
-     * 
+     *  
      */
     private String sExtension = null;
-    
+
     /**
-     * 
+     *  
      */
     private Chart cm = null;
-    
+
     /**
-     * 
+     *  
      */
     private RunTimeContext rtc = null;
-    
+
     /**
-     * 
+     *  
      */
     private IBaseQueryDefinition[] ibqda = null;
-    
+
     /**
-     * 
+     *  
      */
     public ChartReportItemPresentationImpl()
     {
-        
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
      */
     public void setModelObject(ExtendedItemHandle eih)
@@ -107,10 +109,12 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
                 return;
             }
         }
-        cm = ((ChartReportItemImpl) item).getModel();
+        cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale(java.util.Locale)
      */
     public final void setLocale(Locale lcl)
@@ -118,8 +122,10 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         rtc = new RunTimeContext();
         rtc.setLocale(lcl);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setResolution(int)
      */
     public void setResolution(int iDPI)
@@ -127,7 +133,9 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         // UNUSED BY CHART EXTENSION
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setOutputFormat(java.lang.String)
      */
     public void setOutputFormat(String sOutputFormat)
@@ -146,7 +154,9 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setSupportedImageFormats(java.lang.String)
      */
     public void setSupportedImageFormats(String sSupportedFormats)
@@ -154,14 +164,18 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         // UNUSED BY CHART EXTENSION
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize(java.io.InputStream)
      */
     public void deserialize(InputStream is)
     {
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType()
      */
     public int getOutputType()
@@ -169,7 +183,9 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         return OUTPUT_AS_IMAGE;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputContent()
      */
     public Object getOutputContent()
@@ -177,15 +193,19 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition[])
      */
     public void setReportQueries(IBaseQueryDefinition[] ibqda)
     {
         this.ibqda = ibqda;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
      */
     public Object onRowSets(IRowSet[] irsa) throws BirtException
@@ -193,7 +213,8 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         // BIND RESULTSET TO CHART DATASETS
         if (irsa == null || irsa.length != 1 || ibqda == null || ibqda.length != 1)
         {
-            throw new BirtException("chart.presentation", new UnexpectedInputException("The number of rowsets provided to the chart was incorrect or 'null'", null), null);
+            throw new BirtException("chart.presentation", new UnexpectedInputException(
+                "The number of rowsets provided to the chart was incorrect or 'null'", null), null);
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: onRowSets(...) - start");
 
@@ -211,12 +232,15 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         catch (Exception gex )
         {
             DefaultLoggerImpl.instance().log(gex);
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "ChartReportItemGenerationImpl: onRowSets(...) - exception");
+            DefaultLoggerImpl.instance()
+                .log(ILogger.ERROR, "ChartReportItemGenerationImpl: onRowSets(...) - exception");
             throw new BirtException("process", gex);
         }
 
-        try {
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - building chart");
+        try
+        {
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                "ChartReportItemPresentationImpl: onRowSets(...) - building chart");
             // SETUP A TEMP FILE FOR STREAMING
             try
             {
@@ -228,7 +252,7 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
             {
                 throw new BirtException("tmp png file creation", ioex);
             }
-    
+
             // FETCH A HANDLE TO THE DEVICE RENDERER
             IDeviceRenderer idr = null;
             try
@@ -240,7 +264,7 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
                 DefaultLoggerImpl.instance().log(pex);
                 throw new BirtException(sExtension.toUpperCase(Locale.US) + " device retrieval", pex);
             }
-    
+
             // BUILD THE CHART
             final Bounds bo = cm.getBlock().getBounds();
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
@@ -255,9 +279,10 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
                 DefaultLoggerImpl.instance().log(gex);
                 throw new BirtException("chart build", gex);
             }
-    
+
             // WRITE TO THE IMAGE FILE
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - rendering chart");
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                "ChartReportItemPresentationImpl: onRowSets(...) - rendering chart");
             idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, fChartImage.getPath());
             try
             {
@@ -268,7 +293,7 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
                 DefaultLoggerImpl.instance().log(rex);
                 throw new BirtException("chart render", rex);
             }
-    
+
             // RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
             try
             {
@@ -279,9 +304,11 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
                 DefaultLoggerImpl.instance().log(ioex);
                 throw new BirtException("input stream creation", ioex);
             }
-        } catch (Exception ex)
+        }
+        catch (Exception ex )
         {
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - failed");
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+                "ChartReportItemPresentationImpl: onRowSets(...) - failed");
             DefaultLoggerImpl.instance().log(ex);
             return null;
         }
@@ -290,7 +317,9 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         return fis;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getSize()
      */
     public Size getSize()
@@ -310,13 +339,15 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         return super.getSize();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
      */
     public void finish()
     {
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - start");
-        
+
         // CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
         try
         {

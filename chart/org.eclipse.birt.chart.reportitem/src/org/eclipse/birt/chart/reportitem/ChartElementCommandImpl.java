@@ -10,13 +10,15 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.report.model.activity.ActivityRecord;
+import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.api.extension.ElementCommand;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class ChartElementCommandImpl extends ElementCommand
+public class ChartElementCommandImpl extends ActivityRecord
 {
 
     /**
@@ -24,7 +26,7 @@ public class ChartElementCommandImpl extends ElementCommand
      */
     public ChartElementCommandImpl()
     {
-        super();
+        //        super();
     }
 
     /*
@@ -66,7 +68,7 @@ public class ChartElementCommandImpl extends ElementCommand
     public boolean canUndo()
     {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     /*
@@ -77,18 +79,18 @@ public class ChartElementCommandImpl extends ElementCommand
     public boolean canRedo()
     {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.birt.report.model.extension.IElementCommand#getLabel()
+     * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
      */
-    public String getLabel()
+    public void sendNotifcations(boolean transactionStarted)
     {
         // TODO Auto-generated method stub
-        return "Chart";
+
     }
 
 }

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -53,62 +54,75 @@ class FillCanvas extends Canvas implements PaintListener
     public void paintControl(PaintEvent pe)
     {
         Color cBackground = null;
+        Color clrTransparencyBackground = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
         GC gc = pe.gc;
-        if (fCurrent == null)
+        if (!this.isEnabled())
         {
-            gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-            Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
-            gc.setForeground(cBlack);
-            gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2); //$NON-NLS-1$
-            cBlack.dispose();
+            cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
+            gc.setBackground(cBackground);
+            gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         }
         else
         {
-            if (fCurrent instanceof ColorDefinition)
+            if (fCurrent == null)
             {
-                if (((ColorDefinition) fCurrent).getTransparency() == 0)
-                {
-                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-                    Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
-                    gc.setForeground(cBlack);
-                    gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2);
-                    cBlack.dispose();
-                }
-                else
-                {
-                    cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
-                        ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
-                    gc.setBackground(cBackground);
-                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-                }
+                gc.setBackground(clrTransparencyBackground);
+                gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+                Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
+                gc.setForeground(cBlack);
+                gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2); //$NON-NLS-1$
+                cBlack.dispose();
             }
-            else if (fCurrent instanceof Image)
+            else
             {
-                gc.fillRectangle(2, 2, getSize().x - 4, this.getSize().y - 4);
-                gc.drawImage(getSWTImage((Image) fCurrent), 2, 2);
-            }
-            else if (fCurrent instanceof Gradient)
-            {
-                if (((Gradient) fCurrent).getStartColor() == null && ((Gradient) fCurrent).getEndColor() == null)
+                if (fCurrent instanceof ColorDefinition)
                 {
-                    return;
+                    if (((ColorDefinition) fCurrent).getTransparency() == 0)
+                    {
+                        gc.setBackground(clrTransparencyBackground);
+                        gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+                        Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
+                        gc.setForeground(cBlack);
+                        gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2);
+                        cBlack.dispose();
+                    }
+                    else
+                    {
+                        cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
+                            ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
+                        gc.setBackground(cBackground);
+                        gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
+                    }
                 }
-                Color clrStart = null;
-                Color clrEnd = null;
-                if (((Gradient) fCurrent).getStartColor() != null)
+                else if (fCurrent instanceof Image)
                 {
-                    clrStart = new Color(Display.getDefault(), ((Gradient) fCurrent).getStartColor().getRed(),
-                        ((Gradient) fCurrent).getStartColor().getGreen(), ((Gradient) fCurrent).getStartColor()
-                            .getBlue());
-                    gc.setForeground(clrStart);
+                    gc.fillRectangle(2, 2, getSize().x - 4, this.getSize().y - 4);
+                    gc.drawImage(getSWTImage((Image) fCurrent), 2, 2);
                 }
-                if (((Gradient) fCurrent).getEndColor() != null)
+                else if (fCurrent instanceof Gradient)
                 {
-                    clrEnd = new Color(Display.getDefault(), ((Gradient) fCurrent).getEndColor().getRed(),
-                        ((Gradient) fCurrent).getEndColor().getGreen(), ((Gradient) fCurrent).getEndColor().getBlue());
-                    gc.setBackground(clrEnd);
+                    if (((Gradient) fCurrent).getStartColor() == null && ((Gradient) fCurrent).getEndColor() == null)
+                    {
+                        return;
+                    }
+                    Color clrStart = null;
+                    Color clrEnd = null;
+                    if (((Gradient) fCurrent).getStartColor() != null)
+                    {
+                        clrStart = new Color(Display.getDefault(), ((Gradient) fCurrent).getStartColor().getRed(),
+                            ((Gradient) fCurrent).getStartColor().getGreen(), ((Gradient) fCurrent).getStartColor()
+                                .getBlue());
+                        gc.setForeground(clrStart);
+                    }
+                    if (((Gradient) fCurrent).getEndColor() != null)
+                    {
+                        clrEnd = new Color(Display.getDefault(), ((Gradient) fCurrent).getEndColor().getRed(),
+                            ((Gradient) fCurrent).getEndColor().getGreen(), ((Gradient) fCurrent).getEndColor()
+                                .getBlue());
+                        gc.setBackground(clrEnd);
+                    }
+                    gc.fillGradientRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4, false);
                 }
-                gc.fillGradientRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4, false);
             }
         }
         if (cBackground != null)
@@ -143,5 +157,11 @@ class FillCanvas extends Canvas implements PaintListener
             e.printStackTrace();
         }
         return img;
+    }
+
+    public void setEnabled(boolean bState)
+    {
+        super.setEnabled(bState);
+        redraw();
     }
 }

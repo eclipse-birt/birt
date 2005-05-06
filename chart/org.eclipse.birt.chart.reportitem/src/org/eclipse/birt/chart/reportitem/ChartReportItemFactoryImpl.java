@@ -37,7 +37,7 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements IMe
      */
     public IReportItem newReportItem(ReportDesignHandle item)
     {
-        return new ChartReportItemImpl();
+        return new ChartReportItemImpl(item);
     }
 
     /*

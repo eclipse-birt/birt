@@ -62,7 +62,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
 
     public static final int STYLE_CHANGED_EVENT = 1;
 
-    private transient int iSize = 20;
+    private transient int iSize = 18;
 
     private transient boolean bEnabled = true;
 
@@ -136,7 +136,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
         btnDown = new Button(cmpContentInner, SWT.ARROW | SWT.DOWN);
         GridData gdBDown = new GridData(GridData.FILL);
         gdBDown.verticalAlignment = GridData.BEGINNING;
-        gdBDown.widthHint = iSize;
+        gdBDown.widthHint = iSize - 2;
         gdBDown.heightHint = iSize;
         btnDown.setLayoutData(gdBDown);
         btnDown.addSelectionListener(this);
@@ -145,6 +145,7 @@ public class LineStyleChooserComposite extends Composite implements SelectionLis
     public void setEnabled(boolean bState)
     {
         btnDown.setEnabled(bState);
+        cnvSelection.setEnabled(bState);
         this.bEnabled = bState;
     }
 

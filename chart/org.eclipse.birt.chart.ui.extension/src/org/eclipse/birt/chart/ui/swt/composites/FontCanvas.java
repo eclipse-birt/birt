@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Actuate Corporation
@@ -87,6 +88,7 @@ public class FontCanvas extends Canvas implements PaintListener
         Font fSize = null;
         Font fCurrent = null;
         Color cFore = null;
+        Color cBack = null;
         GC gc = pe.gc;
         Font fOld = gc.getFont();
 
@@ -98,7 +100,17 @@ public class FontCanvas extends Canvas implements PaintListener
         {
             cFore = new Color(this.getDisplay(), 0, 0, 0);
         }
+        if (this.isEnabled())
+        {
+            cBack = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+        }
+        else
+        {
+            cBack = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
+        }
         gc.setForeground(cFore);
+        gc.setBackground(cBack);
+        gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         if (fdCurrent != null)
         {
             // Handle styles
@@ -193,6 +205,7 @@ public class FontCanvas extends Canvas implements PaintListener
             fCurrent.dispose();
         }
         cFore.dispose();
+        cBack.dispose();
         gc.setFont(fOld);
     }
 
