@@ -15,9 +15,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
-import org.eclipse.birt.report.engine.extension.EngineEmitterServices;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
@@ -104,7 +104,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		
 		//create the emitter services object that is needed in the emitters.
 		EngineEmitterServices services = new EngineEmitterServices(this);	
-		services.setReportName(runnable.getReportName());
 		services.setRenderOption(renderOption);
 		
 		EngineConfig config = engine.getConfig();

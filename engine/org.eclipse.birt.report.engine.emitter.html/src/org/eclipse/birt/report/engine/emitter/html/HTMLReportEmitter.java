@@ -34,11 +34,11 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.IStyledElementContent;
 import org.eclipse.birt.report.engine.emitter.IContainerEmitter;
+import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
-import org.eclipse.birt.report.engine.extension.IEmitterServices;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 
 /**
@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/04/28 08:23:30 $
+ * @version $Revision: 1.27 $ $Date: 2005/04/28 11:20:40 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -324,7 +324,7 @@ public class HTMLReportEmitter implements IReportEmitter
 
 		if ( isEmbeddable )
 		{
-			fixPng( );
+			fixTransparentPNG( );
 			return;
 		}
 
@@ -408,7 +408,7 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 
 		writer.closeTag( HTMLTags.TAG_STYLE );
-		fixPng( );
+		fixTransparentPNG( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 	}
 
@@ -419,7 +419,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endReport( )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] End emitter." ); //$NON-NLS-1$
+		logger.log( Level.FINE, "[HTMLReportEmitter] End report." ); //$NON-NLS-1$
 		if ( !isEmbeddable )
 		{
 			writer.closeTag( HTMLTags.TAG_HTML );
@@ -562,7 +562,6 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public String getOutputFormat( )
 	{
-		// TODO Auto-generated method stub
 		return OUTPUT_FORMAT_HTML;
 	}
 
@@ -576,7 +575,11 @@ public class HTMLReportEmitter implements IReportEmitter
 		return (String) styleNameMapping.get( name );
 	}
 
-	protected void fixPng( )
+	/**
+	 * Fixes a PNG problem related to transparency. See 
+	 * http://homepage.ntlworld.com/bobosola/ for detail. 
+	 */
+	protected void fixTransparentPNG( )
 	{
 		writer.writeCode( "<!--[if gte IE 5.5000]>" ); //$NON-NLS-1$
 		writer
