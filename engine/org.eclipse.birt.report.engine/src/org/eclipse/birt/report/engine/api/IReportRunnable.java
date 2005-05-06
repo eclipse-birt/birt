@@ -74,4 +74,10 @@ public interface IReportRunnable {
 	 */
 	public abstract HashMap getTestConfig();
 	
+	/**
+	 * returns the report engine
+	 * 
+	 * @return the report engine
+	 */
+	public abstract ReportEngine getReportEngine();
 }

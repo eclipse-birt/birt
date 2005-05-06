@@ -94,6 +94,7 @@ public class ReportEngineHelper
 		assert(report != null);
 		ReportRunnable runnable = new ReportRunnable(report);
 		runnable.setReportName(designName);
+		runnable.setReportEngine(engine);
 		return runnable;
 	}
 	
@@ -130,6 +131,7 @@ public class ReportEngineHelper
 		assert(report != null);
 		ReportRunnable ret = new ReportRunnable(report);
 		ret.setReportName(((ReportDesignHandle)designHandle).getFileName());
+		ret.setReportEngine(engine);
 		return ret;
 	}
 	

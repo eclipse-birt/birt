@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
@@ -29,26 +30,44 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	protected Report report;
 
+	/**
+	 * report file name
+	 */
 	protected String reportName;
 	
-	protected HashMap configs;
+	/**
+	 * reference to report engine
+	 */
+	protected ReportEngine engine = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param report reference to report
+	 */
 	ReportRunnable(Report report)
 	{
 		this.report = report;
 	}
 
+	/**
+	 * @param name report file name
+	 */
 	public void setReportName(String name)
 	{
 		this.reportName = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getReportName()
+	 */
 	public String getReportName()
 	{
 		return this.reportName;
 	}
+
 	/**
-	 * @return
+	 * @return reference to the report object
 	 */
 	public Report getReport()
 	{
@@ -56,12 +75,8 @@ public class ReportRunnable implements IReportRunnable
 	}
 
 
-	/**
-	 * returns an image stored in a report design file. null if the image
-	 * name does not exist
-	 * 
-	 * @param name
-	 *                the image name for the embedded image
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getImage(java.lang.String)
 	 */
 	public IImage getImage(String name)
 	{
@@ -79,50 +94,27 @@ public class ReportRunnable implements IReportRunnable
 		return null;
 	}
 
-	/**
-	 * returns the property value for things like report description, title,
-	 * etc.
-	 * 
-	 * @param propertyName
-	 *                the name of the property
-	 * @return the property value for things like report description, title,
-	 *         etc.
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getProperty(java.lang.String)
 	 */
 	public Object getProperty(String propertyName)
 	{
 		FactoryPropertyHandle handle = getDesignHandle().getFactoryPropertyHandle(propertyName);
 		if(handle!=null)
-		{
 			return handle.getStringValue();
-		}
 		return null;
-		
-		
 	}
 
-	/**
-	 * returns the property value defined on a components in a report
-	 * design. For example, getProperty("/dataSets/dsName", "url") wil
-	 * return the url value for a data set with name dsName.
-	 * 
-	 * @param propertyName
-	 *                the name of the property
-	 * @param path
-	 *                a simplified XPath that allows access to properties
-	 *                for components in a report design. Only downward path
-	 *                is allowed, i.e., no .. in the path.
-	 * @return the property value for things like report description, title,
-	 *         etc.
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getProperty(java.lang.String, java.lang.String)
 	 */
 	public Object getProperty(String path, String propertyName)
 	{
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IReportRunnable#getDesignHandle()
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getDesignHandle()
 	 */
 	public DesignElementHandle getDesignHandle()
 	{
@@ -130,7 +122,7 @@ public class ReportRunnable implements IReportRunnable
 	}
 	
 	/**
-	 * return report parameter definitions
+	 * return report parameter definitions defined in report design
 	 * 
 	 * @param includeParameterGroups
 	 *                whether returns one level of parameters with parameter
@@ -148,12 +140,25 @@ public class ReportRunnable implements IReportRunnable
 		return params;
 	}
 
-	/**
-	 * @return Returns the configs.
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#getTestConfig()
 	 */
 	public HashMap getTestConfig()
 	{
 		return report.getConfigs();
 	}
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.engine.api.IReportRunnable#getReportEngine()
+     */
+    public ReportEngine getReportEngine() {
+        return engine;
+    }
+
+    /**
+     * @param engine The engine to set.
+     */
+    public void setReportEngine(ReportEngine engine) {
+        this.engine = engine;
+    }
 }
