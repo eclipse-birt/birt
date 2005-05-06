@@ -199,7 +199,7 @@ public class ReportEngine {
 	/**
 	 * shuts down the report engine
 	 */
-	public void destroy() throws EngineException
+	public void destroy()
 	{
 		helper.stopLogging();
 		helper = null;
