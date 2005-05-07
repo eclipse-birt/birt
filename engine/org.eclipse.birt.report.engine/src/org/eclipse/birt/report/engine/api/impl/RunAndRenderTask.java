@@ -155,6 +155,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			log.log(Level.SEVERE, "An error happened while running the report. Cause:", ex); //$NON-NLS-1$
 		}
+		catch (OutOfMemoryError err)
+		{
+			log.log(Level.SEVERE, "An OutOfMemory error happened while running the report."); //$NON-NLS-1$
+			throw err;
+		}
 	}
 
 	/**
