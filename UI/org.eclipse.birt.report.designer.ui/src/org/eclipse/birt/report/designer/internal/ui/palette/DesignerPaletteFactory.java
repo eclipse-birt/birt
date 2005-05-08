@@ -58,7 +58,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 
 	private static final String TOOL_TIP_TABLE_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.tableReportItem" ); //$NON-NLS-1$
 
-	private static final String CONTENTS_LABEL = Messages.getString( "DesignerPaletteFactory.toolTip.contents" ); //$NON-NLS-1$
+	private static final String REPORT_ITEMS_LABEL = Messages.getString( "DesignerPaletteFactory.categoryName.reportItems" ); //$NON-NLS-1$
 
 	/**
 	 * Creates the palette and returns the palette
@@ -101,27 +101,27 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	private static PaletteContainer createContentCategory( )
 	{
 		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
-				CONTENTS_LABEL,
+				REPORT_ITEMS_LABEL,
 				null );		
 		List entries = new ArrayList( );
 
-		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_TEXT,
-				TOOL_TIP_TEXT_REPORT_ITEM,
-				IReportElementConstants.REPORT_ELEMENT_TEXT,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
-
-		entries.add( combined );
-
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LABEL,
+		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LABEL,
 				TOOL_TIP_LABEL_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_LABEL,
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_LABEL ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
 				new LabelToolExtends( ) );
+
+		entries.add( combined );
+		
+		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_TEXT,
+				TOOL_TIP_TEXT_REPORT_ITEM,
+				IReportElementConstants.REPORT_ELEMENT_TEXT,
+				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TEXT ),
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
+				new TextToolExtends( ) );
 
 		entries.add( combined );
 
