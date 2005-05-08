@@ -174,7 +174,7 @@
 				 source="1.4"
 				 packagenames="${module.name}.*">
 				<packageset dir="${src}" defaultexcludes="yes" />
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
 	</target>
@@ -192,7 +192,7 @@
 			  	<packageset dir="${src}" defaultexcludes="yes">
 					<include name="org/eclipse/birt/data/engine/api/**" />
 			  	</packageset>
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
 	</target>
