@@ -120,12 +120,48 @@
 		 		- ${plugin.version} the version of plugin exported
 	 -->
 	<target name="Export">
+		<antcall target="i18n"/>
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." 
-	        	includes="*.jar,plugin.xml,plugin.properties,${db.dir}/**"/>
+	        <fileset
+	        	dir="."
+	        	includes="*.jar,plugin.xml,plugin*.properties,${db.dir}/**"
+	        />
 	    </copy>
 	</target>
-
+	
+	<target name="i18n">
+		<native2ascii
+			encoding="Cp1252"
+			src="."
+			dest="."
+			includes="plugin_de_DE.msg" ext=".properties"/>
+		<native2ascii
+			encoding="Cp1252"
+			src="."
+			dest="."
+			includes=" plugin_es_ES.msg" ext=".properties"/>
+		<native2ascii
+			encoding="Cp1252"
+			src="."
+			dest="."
+			includes="plugin_fr_FR.msg" ext=".properties"/>
+		<native2ascii
+			encoding="GBK"
+			src="."
+			dest="."
+			includes="plugin_zh_CN.msg" ext=".properties"/>
+		<native2ascii
+			encoding="SJIS"
+			src="."
+			dest="."
+			includes="plugin_ja_JP.msg" ext=".properties"/>
+		<native2ascii
+			encoding="MS949"
+			src="."
+			dest="."
+			includes="plugin_ko_KR.msg" ext=".properties"/>
+	</target>
+	
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
 	<!-- Run Unit test.
 			 Parameters:
