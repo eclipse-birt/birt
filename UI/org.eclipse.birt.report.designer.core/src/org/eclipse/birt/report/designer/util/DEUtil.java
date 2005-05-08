@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnBandData;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -54,6 +56,7 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
@@ -963,11 +966,31 @@ public class DEUtil
 						validateContainer,
 						transferData );
 			}
+			else if ( transferData instanceof IStructure )
+			{
+				return handleValidateTargetCanContainStructure( targetObj,
+						(IStructure) transferData ) ? CONTAIN_THIS : CONTAIN_NO;
+			}
 			else
 			{
 				return CONTAIN_NO;
 			}
 		}
+	}
+	
+	public static boolean handleValidateTargetCanContainStructure(
+			Object targetObj, IStructure transferData )
+	{
+		if ( targetObj instanceof EmbeddedImageNode )
+		{
+			targetObj = ( (EmbeddedImageNode) targetObj ).getReportDesignHandle( );
+		}
+		if ( transferData instanceof EmbeddedImage
+				&& targetObj instanceof ReportDesignHandle )
+		{
+			return ( (ReportDesignHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+		}
+		return false;
 	}
 	
 	/**
@@ -1170,7 +1193,8 @@ public class DEUtil
 			return handleValidateTargetCanContainMore( ( (ReportElementModel) targetObj ).getSlotHandle( ),
 					length );
 		}
-		return targetObj instanceof DesignElementHandle;
+		return targetObj instanceof DesignElementHandle
+				|| targetObj instanceof EmbeddedImageNode;
 	}
 
 	/**
@@ -1231,10 +1255,10 @@ public class DEUtil
 	}
 
 	/**
-	 * Escapte \ and " following standard of Javascript
+	 * Escapes \ and " following standard of Javascript
 	 * 
 	 * @param str
-	 * @return
+	 * @return new string after escape special character
 	 */
 	public static String escape( String str )
 	{
