@@ -172,14 +172,13 @@ public class DataEngineImpl extends DataEngine
 			( (DataSourceRuntime) existingDefn ).closeOdiDataSource( );
 			( (DataSourceRuntime) existingDefn ).setDesign( dataSource );
 		}
-		else
-		{
-			// Create a corresponding runtime for the data source and add it to
-			// the map
-			DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource,
-					this );
-			dataSources.put( newDefn.getName( ), newDefn );
-		}
+		
+		// Create a corresponding runtime for the data source and add it to
+		// the map
+		DataSourceRuntime newDefn = DataSourceRuntime.newInstance( dataSource,
+				this );
+		dataSources.put( newDefn.getName( ), newDefn );
+		
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSource" );
 	}
 
