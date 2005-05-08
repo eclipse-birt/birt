@@ -38,7 +38,7 @@ public class StyleRecord extends SimpleRecord
 	 * The old style. Can be null.
 	 */
 
-	protected StyleElement oldStyle = null;
+	protected Object oldStyle = null;
 
 	/**
 	 * The new style. Can be null.
@@ -60,7 +60,10 @@ public class StyleRecord extends SimpleRecord
 		assert obj != null;
 		element = obj;
 		newStyle = style;
-		oldStyle = element.getStyle( );
+		if ( element.getStyle( ) != null )
+			oldStyle = element.getStyle();
+		else 
+			oldStyle = element.getStyleName( );
 
 		label = ModelMessages.getMessage( MessageConstants.SET_STYLE_MESSAGE );
 	}
@@ -73,7 +76,15 @@ public class StyleRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		element.setStyle( undo ? oldStyle : newStyle );
+		if ( undo )
+		{
+			if ( oldStyle instanceof String )
+				element.setStyleName( (String) oldStyle );
+			else 
+				element.setStyle( (StyleElement) oldStyle );
+		}
+		else
+			element.setStyle( newStyle );
 	}
 
 	/*

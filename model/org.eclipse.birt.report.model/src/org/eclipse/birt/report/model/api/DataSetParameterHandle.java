@@ -44,7 +44,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
- * 
+ *  
  */
 
 public class DataSetParameterHandle extends StructureHandle
@@ -237,26 +237,12 @@ public class DataSetParameterHandle extends StructureHandle
 	 * 
 	 * @return <code>true</code> if the value can be <code>null</code>.
 	 *         Otherwise <code>false</code>.
+	 * @deprecated Use <code>allowNull()</code>
 	 */
 
 	public boolean isNullable( )
 	{
-		return ( (Boolean) getProperty( DataSetParameter.IS_NULLABLE_MEMBER ) )
-				.booleanValue( );
-	}
-
-	/**
-	 * Checks whether the value of this parameter can be <code>null</code>.
-	 * 
-	 * @return <code>true</code> if the value can be <code>null</code>.
-	 *         Otherwise <code>false</code>.
-	 *         
-	 * @deprecated by {@link #isNullable()}
-	 */
-
-	public boolean getIsNullable( )
-	{
-		return isNullable( );
+		return allowNull( );
 	}
 
 	/**
@@ -265,12 +251,39 @@ public class DataSetParameterHandle extends StructureHandle
 	 * @param isNullable
 	 *            <code>true</code> if the value can be <code>null</code>.
 	 *            Otherwise <code>false</code>.
+	 * @deprecated Use <code>setAllowNull(boolean)</code>
 	 */
 
 	public void setIsNullable( boolean isNullable )
 	{
-		setPropertySilently( DataSetParameter.IS_NULLABLE_MEMBER, Boolean
-				.valueOf( isNullable ) );
+		setAllowNull( isNullable );
+	}
+
+	/**
+	 * Checks whether the value of this parameter can be <code>null</code>.
+	 * 
+	 * @return <code>true</code> if the value can be <code>null</code>.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public boolean allowNull( )
+	{
+		return ( (Boolean) getProperty( DataSetParameter.ALLOW_NULL_MEMBER ) )
+				.booleanValue( );
+	}
+
+	/**
+	 * Sets whether the value of this parameter can be <code>null</code>.
+	 * 
+	 * @param allowNull
+	 *            <code>true</code> if the value can be <code>null</code>.
+	 *            Otherwise <code>false</code>.
+	 */
+
+	public void setAllowNull( boolean allowNull )
+	{
+		setPropertySilently( DataSetParameter.ALLOW_NULL_MEMBER, Boolean
+				.valueOf( allowNull ) );
 	}
 
 	/**

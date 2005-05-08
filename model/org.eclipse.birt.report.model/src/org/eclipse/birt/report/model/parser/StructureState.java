@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -54,7 +55,7 @@ import org.xml.sax.SAXException;
 /**
  * Parses one structure. The structure can be either a top level structure on an
  * element or a structure in a list.
- * 
+ *  
  */
 
 public class StructureState extends AbstractPropertyState
@@ -152,6 +153,16 @@ public class StructureState extends AbstractPropertyState
 	{
 		super.setName( name );
 		propDefn = element.getPropertyDefn( name );
+
+		if ( struct == null )
+		{
+			assert propDefn != null;
+
+			// If the structure has its specific state, the structure will be
+			// created by the specific state.
+
+			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
+		}
 	}
 
 	/*
@@ -274,9 +285,12 @@ public class StructureState extends AbstractPropertyState
 		if ( !valid )
 			return new AnyElementState( getHandler( ) );
 
-		if ( Label.ACTION_PROP.equalsIgnoreCase( name )
-				|| ImageItem.ACTION_PROP.equalsIgnoreCase( name )
-				|| DataItem.ACTION_PROP.equalsIgnoreCase( name ) )
+		if ( element instanceof Label
+				&& Label.ACTION_PROP.equalsIgnoreCase( name )
+				|| element instanceof ImageItem
+				&& ImageItem.ACTION_PROP.equalsIgnoreCase( name )
+				|| element instanceof DataItem
+				&& DataItem.ACTION_PROP.equalsIgnoreCase( name ) )
 		{
 			ActionStructureState state = new ActionStructureState( handler,
 					element );
@@ -284,13 +298,20 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
-		/*
-		 * if ( DataSet.CACHED_METADATA_PROP.equalsIgnoreCase( name ) ) {
-		 * CachedMetaDataStructureState state = new
-		 * CachedMetaDataStructureState( handler, element ); state.setName( name );
-		 * 
-		 * return state; }
-		 */
+		if ( element instanceof DataSet )
+		{
+			if ( propDefn != null
+					&& DataSet.PARAMETERS_PROP.equalsIgnoreCase( propDefn
+							.getName( ) ) )
+			{
+				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
+						handler, element, propDefn, list );
+				state.setName( propDefn.getName( ) );
+
+				return state;
+			}
+		}
+
 		return super.jumpTo( );
 	}
 
@@ -333,7 +354,7 @@ public class StructureState extends AbstractPropertyState
 
 	/**
 	 * Populates the dictionary for the structure class and name mapping.
-	 * 
+	 *  
 	 */
 
 	private static void populateStructDict( )

@@ -43,13 +43,13 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
  * time, decimal, float, structure or table.</dd>
  * 
  * <dt><strong>Is optional </strong></dt>
- * <dd>whether this parameter is optional.</dd>d
+ * <dd>whether this parameter is optional.</dd>
  * 
- * <dt><strong>Is Nullable </strong></dt>
- * <dd>whether the value of this parameter can be nullable.</dd>d
+ * <dt><strong>Allow Null </strong></dt>
+ * <dd>whether the value of this parameter can be nullable.</dd>
  * 
  * <dt><strong>Is Input </strong></dt>
- * <dd>whether this parameter is an input parameter.</dd>d
+ * <dd>whether this parameter is an input parameter.</dd>
  * 
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
@@ -102,9 +102,18 @@ public class DataSetParameter extends Structure
 	/**
 	 * Name of the member indicating that whether the value of this parameter
 	 * can be <code>null</code>.
+	 * 
+	 * @deprecated
 	 */
 
 	public static final String IS_NULLABLE_MEMBER = "isNullable"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member indicating that whether the value of this parameter
+	 * can be <code>null</code>.
+	 */
+
+	public static final String ALLOW_NULL_MEMBER = "allowNull"; //$NON-NLS-1$
 
 	/**
 	 * Name of the member indicating that whether this is an input parameter.
@@ -143,10 +152,10 @@ public class DataSetParameter extends Structure
 	private Boolean isOptional;
 
 	/**
-	 * Whether this parameter is nullable.
+	 * Whether this parameter allows null.
 	 */
 
-	private Boolean isNullable;
+	private Boolean allowNull;
 
 	/**
 	 * Whether this parameter is an input parameter.
@@ -195,8 +204,9 @@ public class DataSetParameter extends Structure
 			return isOptional;
 		if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
 			return defaultValue;
-		if ( IS_NULLABLE_MEMBER.equals( propName ) )
-			return isNullable;
+		if ( IS_NULLABLE_MEMBER.equals( propName )
+				|| ALLOW_NULL_MEMBER.equals( propName ) )
+			return allowNull;
 		if ( IS_INPUT_MEMBER.equals( propName ) )
 			return isInput;
 		if ( IS_OUTPUT_MEMBER.equals( propName ) )
@@ -223,8 +233,9 @@ public class DataSetParameter extends Structure
 			isOptional = (Boolean) value;
 		else if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
 			defaultValue = (String) value;
-		else if ( IS_NULLABLE_MEMBER.equals( propName ) )
-			isNullable = (Boolean) value;
+		else if ( IS_NULLABLE_MEMBER.equals( propName )
+				|| ALLOW_NULL_MEMBER.equals( propName ) )
+			allowNull = (Boolean) value;
 		else if ( IS_INPUT_MEMBER.equals( propName ) )
 			isInput = (Boolean) value;
 		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
@@ -311,12 +322,12 @@ public class DataSetParameter extends Structure
 	 * 
 	 * @return <code>true</code> if the value can be <code>null</code>.
 	 *         Otherwise <code>false</code>.
+	 * @deprecated Use <code>allowNull()</code>
 	 */
 
 	public boolean isNullable( )
 	{
-		return ( (Boolean) getProperty( null, IS_NULLABLE_MEMBER ) )
-				.booleanValue( );
+		return allowNull( );
 	}
 
 	/**
@@ -325,11 +336,38 @@ public class DataSetParameter extends Structure
 	 * @param isNullable
 	 *            <code>true</code> if the value can be <code>null</code>.
 	 *            Otherwise <code>false</code>.
+	 * @deprecated Use <code>setAllowNull(boolean)</code>
 	 */
 
 	public void setIsNullable( boolean isNullable )
 	{
-		setProperty( IS_NULLABLE_MEMBER, Boolean.valueOf( isNullable ) );
+		setAllowNull( isNullable );
+	}
+
+	/**
+	 * Checks whether the value of this parameter can be <code>null</code>.
+	 * 
+	 * @return <code>true</code> if the value can be <code>null</code>.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public boolean allowNull( )
+	{
+		return ( (Boolean) getProperty( null, ALLOW_NULL_MEMBER ) )
+				.booleanValue( );
+	}
+
+	/**
+	 * Sets whether the value of this parameter can be <code>null</code>.
+	 * 
+	 * @param allowNull
+	 *            <code>true</code> if the value can be <code>null</code>.
+	 *            Otherwise <code>false</code>.
+	 */
+
+	public void setAllowNull( boolean allowNull )
+	{
+		setProperty( ALLOW_NULL_MEMBER, Boolean.valueOf( allowNull ) );
 	}
 
 	/**

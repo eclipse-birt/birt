@@ -1471,7 +1471,7 @@
     <Member name="isOptional" displayNameID="Structure.DataSetParam.isOptional" type="boolean" isIntrinsic="true">
     	<Default>false</Default>
 	</Member>    	
-	<Member name="isNullable" displayNameID="Structure.DataSetParam.isNullable" type="boolean" isIntrinsic="true">	
+	<Member name="allowNull" displayNameID="Structure.DataSetParam.allowNull" type="boolean" isIntrinsic="true">	
 		<Default>false</Default>	
 	</Member>   		
 	<Member name="isInput" displayNameID="Structure.DataSetParam.isInput" type="boolean" isIntrinsic="true">
@@ -1542,7 +1542,7 @@
   <Structure name="CachedMetaData" displayNameID="Structure.CachedMetaData">
     <Member name="parameters" displayNameID="Structure.CachedMetaData.parameters" type="structure" isList="true" detailType="DataSetParam"/>
     <Member name="resultSet" displayNameID="Structure.CachedMetaData.resultSet" type="structure" isList="true" detailType="ResultSetColumn"/>		
-  </Structure>   
+  </Structure>
   <Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="report">
     <Property name="version" displayNameID="Element.ReportDesign.version" type="string" canInherit="false" />
     <Property name="author" displayNameID="Element.ReportDesign.author" type="string" canInherit="false" />

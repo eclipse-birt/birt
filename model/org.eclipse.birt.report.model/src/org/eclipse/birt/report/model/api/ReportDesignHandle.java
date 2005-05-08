@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
+import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -838,7 +839,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            the config variable
 	 * @throws SemanticException
 	 *             if the name is empty or the same name exists.
-	 * 
+	 *  
 	 */
 
 	public void addConfigVariable( ConfigVariable configVar )
@@ -873,7 +874,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            the config variable name
 	 * @return the index ( from 0 ) of config variable with the given name.
 	 *         Return -1, if not found.
-	 * 
+	 *  
 	 */
 
 	private int findConfigVariablePos( String name )
@@ -929,7 +930,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *            config variable name
 	 * @return config variable with the specified name. Return <code>null</code>,
 	 *         if not found.
-	 * 
+	 *  
 	 */
 
 	public ConfigVariable findConfigVariable( String name )
@@ -954,7 +955,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             if the old config variable is not found or the name of new
 	 *             one is empty.
-	 * 
+	 *  
 	 */
 
 	public void replaceConfigVariable( ConfigVariable oldVar,
@@ -1562,8 +1563,8 @@ public class ReportDesignHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Checks this whole report.
-	 * 
+	 * Checks this whole report. Only one <code>ValidationEvent</code> will be
+	 * sent, which contains all error information of this check.
 	 */
 
 	public void checkReport( )
@@ -1571,6 +1572,11 @@ public class ReportDesignHandle extends DesignElementHandle
 		// validate the whole design
 
 		design.semanticCheck( design );
+
+		ValidationEvent event = new ValidationEvent( design, null,
+				getErrorList( ) );
+
+		design.broadcastValidationEvent( design, event );
 	}
 
 	/**
@@ -1582,7 +1588,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * 
 	 * @param baseName
 	 *            common base name of the customer-defined resource bundle.
-	 * 
+	 *  
 	 */
 
 	public void setMessageBaseName( String baseName )

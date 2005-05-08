@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -86,13 +84,6 @@ public class ValidationExecutor
 			if ( node.getTriggerDefn( ).isPreRequisite( ) && !errors.isEmpty( ) )
 				break;
 		}
-
-		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
-
-		ValidationEvent event = new ValidationEvent( targetElement, null,
-				errorDetailList );
-
-		design.broadcastValidationEvent( targetElement,  event );
 
 		return exceptionList;
 	}
