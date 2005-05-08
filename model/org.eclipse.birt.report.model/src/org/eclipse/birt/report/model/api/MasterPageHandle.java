@@ -139,6 +139,51 @@ public abstract class MasterPageHandle extends ReportElementHandle
 		setStringProperty( MasterPage.TYPE_PROP, type );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	public void setProperty( String propName, Object value )
+			throws SemanticException
+	{
+		// Special treatment for master page "type" property.
+
+		if ( MasterPage.TYPE_PROP.equals( propName ) )
+		{
+			// If type set to A4, US Letter or US Legal, clear up height/width
+			// value.
+			try
+			{
+				getDesign( ).getActivityStack( ).startTrans( );
+
+				// clear up height/width value when set type to .
+				super.setProperty( MasterPage.TYPE_PROP, value );
+
+				if ( !DesignChoiceConstants.PAGE_SIZE_CUSTOM
+						.equalsIgnoreCase( (String) value ) )
+				{
+
+					super.setProperty( MasterPage.WIDTH_PROP, null );
+					super.setProperty( MasterPage.HEIGHT_PROP, null );
+				}
+
+				getDesign( ).getActivityStack( ).commit( );
+			}
+			catch ( SemanticException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			return;
+		}
+
+		super.setProperty( propName, value );
+	}
+
 	/**
 	 * Returns the page orientation. The return type of the page is defined in
 	 * <code>DesignChoiceConstants</code> can be one of:
