@@ -43,7 +43,6 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String MESSAGE_REPORT_TEMPLATES = Messages.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
 	private static final String MESSAGE_SHOW_CHEATSHEET = Messages.getString( "WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
 	private static final String TITLE_LETTER = Messages.getString( "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
-	private static final String TITLE_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.title.MailingLabels" ); //$NON-NLS-1$
 	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.ChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.title.GroupedListing" ); //$NON-NLS-1$
@@ -53,7 +52,6 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String TITLE_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnListing" ); //$NON-NLS-1$
 	private static final String TITLE_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.title.FirstReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_LETTER = Messages.getString( "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
-	private static final String DESCRIPTION_MAILING_LABELS = Messages.getString( "WizardTemplateChoicePage.message.MailingLabels" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.ChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.message.GroupedListing" ); //$NON-NLS-1$
@@ -78,7 +76,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				String picturePath, String cheatSheetId )
 		{
 			this.name = name;
-			this.description = description;
+			this.descript = description;
 			this.reportPath = reportPath;
 			this.picturePath = picturePath;
 			this.cheatSheetId = cheatSheetId;
@@ -86,7 +84,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public String name;
 
-		public String description;
+		public String descript;
 
 		public String reportPath;
 
@@ -245,6 +243,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		data.grabExcessHorizontalSpace = true;
 		data.grabExcessVerticalSpace = true;
 		data.heightHint = 230;
+		data.widthHint = 185;
 		previewCanvas.setLayoutData( data );
 
 		Label descriptionTitle = new Label( previewPane, SWT.NONE );
@@ -280,11 +279,6 @@ public class WizardTemplateChoicePage extends WizardPage
 		setControl( composite );
 	}
 
-	/**
-	 * @param templateList
-	 * @param description
-	 * @param previewCanvas
-	 */
 	private void hookListeners( )
 	{
 		templateList.addListener( SWT.Selection, templateListener );
@@ -297,7 +291,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			//change description/image
 			selectedIndex = templateList.getSelectionIndex( );
-			description.setText( templates[selectedIndex].description );
+			description.setText( templates[selectedIndex].descript );
 
 			String key = templates[selectedIndex].picturePath;
 			Object img = imageMap.get( key );
@@ -313,7 +307,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewCanvas.loadImage( ( (Image) img ) );
 			previewCanvas.showOriginal( );
 
-			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) );
+			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) ); //$NON-NLS-1$
 		}
 	};
 
