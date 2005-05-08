@@ -204,8 +204,7 @@ public class DeleteCommand extends Command
 		else if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
-			return slot.getElementHandle( ) instanceof ListHandle
-					&& slot.getCount( ) > 0;
+			return slot.getElementHandle( ) instanceof ListHandle;
 		}
 		else if ( source instanceof EmbeddedImageHandle )
 		{
