@@ -1915,19 +1915,19 @@
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property name="paddingTop" displayNameID="Element.Style.padding.top" type="dimension" isStyleProperty="true" canInherit="false">
+      <Property name="paddingTop" displayNameID="Element.Style.padding.top" type="dimension" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property name="paddingLeft" displayNameID="Element.Style.padding.left" type="dimension" isStyleProperty="true" canInherit="false">
+      <Property name="paddingLeft" displayNameID="Element.Style.padding.left" type="dimension" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property name="paddingBottom" displayNameID="Element.Style.padding.bottom" type="dimension" isStyleProperty="true" canInherit="false">
+      <Property name="paddingBottom" displayNameID="Element.Style.padding.bottom" type="dimension" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property name="paddingRight" displayNameID="Element.Style.padding.right" type="dimension" isStyleProperty="true" canInherit="false">
+      <Property name="paddingRight" displayNameID="Element.Style.padding.right" type="dimension" isStyleProperty="true" canInherit="false" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
