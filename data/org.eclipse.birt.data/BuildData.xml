@@ -180,7 +180,7 @@
 	</target>
 	
 	<target name="apiJavaDoc">
-		<mkdir dir="${birtjavadoc.dir}" />
+		<mkdir dir="${apiJavadoc.dir}" />
 		<javadoc destdir="${apiJavadoc.dir}" 
 				author="true" 
 				version="true" 
