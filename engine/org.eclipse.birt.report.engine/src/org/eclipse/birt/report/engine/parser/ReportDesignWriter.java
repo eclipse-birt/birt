@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/15 03:29:36 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/17 07:57:03 $
  */
 class ReportDesignWriter
 {

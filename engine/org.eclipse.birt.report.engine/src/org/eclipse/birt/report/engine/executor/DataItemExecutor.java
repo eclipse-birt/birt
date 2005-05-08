@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/04/27 05:35:36 $
+ * @version $Revision: 1.9 $ $Date: 2005/04/30 08:00:00 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {

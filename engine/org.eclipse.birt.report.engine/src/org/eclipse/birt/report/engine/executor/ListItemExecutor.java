@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/04/27 06:37:07 $
+ * @version $Revision: 1.13 $ $Date: 2005/04/30 08:00:00 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {

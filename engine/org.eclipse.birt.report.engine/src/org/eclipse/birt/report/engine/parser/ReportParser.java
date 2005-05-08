@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.SessionHandle;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.7 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.8 $ $Date: 2005/04/27 03:11:13 $
  */
 public class ReportParser
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/27 05:35:36 $
+ * @version $Revision: 1.11 $ $Date: 2005/04/28 08:10:51 $
  */
 public class ReportExecutor
 {

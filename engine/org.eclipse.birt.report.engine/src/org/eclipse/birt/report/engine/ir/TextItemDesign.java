@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/03/07 07:11:21 $
+ * @version $Revision: 1.7 $ $Date: 2005/03/18 19:51:20 $
  */
 public class TextItemDesign extends ReportItemDesign
 {

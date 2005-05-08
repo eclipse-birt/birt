@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,7 +22,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/07 02:16:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 06:34:16 $
  */
 class NativeJavaMap extends NativeJavaObject
 {

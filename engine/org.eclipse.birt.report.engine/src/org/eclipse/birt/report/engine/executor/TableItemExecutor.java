@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.11 $ $Date: 2005/04/27 06:37:07 $
+ * @version $Revision: 1.12 $ $Date: 2005/04/30 08:00:00 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {

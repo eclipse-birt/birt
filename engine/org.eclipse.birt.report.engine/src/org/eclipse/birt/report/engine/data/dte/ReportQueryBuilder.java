@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -92,7 +92,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.22 $ $Date: 2005/04/26 07:04:01 $
+ * @version $Revision: 1.23 $ $Date: 2005/04/27 05:35:35 $
  */
 public class ReportQueryBuilder
 {

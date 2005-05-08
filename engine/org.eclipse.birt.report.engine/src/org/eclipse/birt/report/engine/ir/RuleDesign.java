@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 /**
  * 
- * @version $Revision: #1 $ $Date: 2005/01/21 $
+ * @version $Revision: 1.3 $ $Date: 2005/02/07 02:00:39 $
  */
 public abstract class RuleDesign
 {
