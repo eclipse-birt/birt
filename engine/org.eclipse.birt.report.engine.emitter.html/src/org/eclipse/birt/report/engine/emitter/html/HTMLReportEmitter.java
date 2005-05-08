@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/05/06 00:52:19 $
+ * @version $Revision: 1.29 $ $Date: 2005/05/08 06:09:15 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {

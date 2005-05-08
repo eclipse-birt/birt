@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.5 $ $Date: 2005/02/21 01:14:42 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:08:26 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/04/21 12:29:51 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/08 06:07:16 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 

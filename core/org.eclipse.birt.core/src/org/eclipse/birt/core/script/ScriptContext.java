@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.6 $ $Date: 2005/04/15 03:04:23 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/08 06:07:16 $
  */
 public class ScriptContext
 {

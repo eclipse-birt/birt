@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/04/29 07:22:31 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:26 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {

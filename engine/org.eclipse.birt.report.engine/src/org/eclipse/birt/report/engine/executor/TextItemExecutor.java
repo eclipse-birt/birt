@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/04/30 08:00:00 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/08 06:08:26 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {

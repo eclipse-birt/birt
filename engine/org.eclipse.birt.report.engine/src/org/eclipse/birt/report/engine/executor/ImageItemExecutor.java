@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.13 $ $Date: 2005/04/30 08:00:00 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/08 06:08:26 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {

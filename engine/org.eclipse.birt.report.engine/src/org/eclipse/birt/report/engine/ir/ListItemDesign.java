@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: 1.4 $ $Date: 2005/02/10 23:45:35 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
  */
 public class ListItemDesign extends ListingDesign
 {
