@@ -19,12 +19,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -56,7 +54,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.previewWithFormat" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTING_GROUP = Messages.getString( "FormatStringPage.label.customSettings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTING = Messages.getString( "FormatStringPage.label.exampleFormats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString("FormatStringPage.label.style.custom.settings.label");  //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTING_LABEL = Messages.getString( "FormatStringPage.label.style.custom.settings.label" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatStringPage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.preview" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_STRING = Messages.getString( "FormatStringPage.label.stringToPreview" ); //$NON-NLS-1$
@@ -73,7 +71,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	Locale DEFAULT_LOCALE = Locale.getDefault( );
 
-	private String patternStr = null;
+	private String pattern = null;
 	private String category = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
@@ -166,6 +164,9 @@ public class FormatStringPage extends Composite implements IFormatPage
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		infoComp.setLayout( new StackLayout( ) );
 		createCategoryPages( infoComp );
+
+		setInput( null, null );
+		setPreviewText( DEFAULT_PREVIEW_TEXT );
 	}
 
 	private void reLayoutSubPages( )
@@ -182,12 +183,12 @@ public class FormatStringPage extends Composite implements IFormatPage
 	/**
 	 * Sets the pattern string for this preference.
 	 * 
-	 * @param patternStr
+	 * @param pattern
 	 *            The patternStr to set.
 	 */
-	private void setPattern( String patternStr )
+	private void setPattern( String pattern )
 	{
-		this.patternStr = patternStr;
+		this.pattern = pattern;
 	}
 
 	/**
@@ -204,7 +205,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 */
 	public String getPattern( )
 	{
-		return patternStr;
+		return pattern;
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 */
 	public String getFormatString( )
 	{
-		if ( category == null && patternStr == null )
+		if ( category == null && pattern == null )
 		{
 			return null;
 		}
@@ -228,17 +229,17 @@ public class FormatStringPage extends Composite implements IFormatPage
 		{
 			category = ""; //$NON-NLS-1$
 		}
-		if ( patternStr == null )
+		if ( pattern == null )
 		{
-			patternStr = ""; //$NON-NLS-1$
+			pattern = ""; //$NON-NLS-1$
 		}
 		// special case: when pattern equals category, omits(eliminatess) the
 		// pattern, only returns the category.-----> for parameter dialog use.
-		if ( category.equals( patternStr ) )
+		if ( category.equals( pattern ) )
 		{
 			return category;
 		}
-		return category + ":" + patternStr; //$NON-NLS-1$
+		return category + ":" + pattern; //$NON-NLS-1$
 	}
 
 	/**
@@ -344,9 +345,9 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 */
 	private String getDisplayName4Category( String category )
 	{
-		return ChoiceSetFactory.getStructDisplayName(
-				StringFormatValue.FORMAT_VALUE_STRUCT,
-				StringFormatValue.CATEGORY_MEMBER, category );
+		return ChoiceSetFactory.getStructDisplayName( StringFormatValue.FORMAT_VALUE_STRUCT,
+				StringFormatValue.CATEGORY_MEMBER,
+				category );
 	}
 
 	/**
@@ -358,12 +359,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 */
 	protected String getPatternForCategory( String category )
 	{
-		String pattern = category;
-		if ( category == null )
-		{
-			pattern = ""; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
+		String pattern;
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
 			pattern = ""; //$NON-NLS-1$
 		}
@@ -403,17 +400,29 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
 	 */
-	public void setPreviewText( String text )
+	public void setPreviewText( String preText )
 	{
-		if ( text == null || StringUtil.isBlank( text ) )
+		if ( preText == null )
+		{
+			previewTextBox.setText( DEFAULT_PREVIEW_TEXT );
+		}
+		else
+		{
+			previewTextBox.setText( preText );
+		}
+		return;
+	}
+
+	private void setDefaultPreviewText( String defText )
+	{
+		if ( defText == null || StringUtil.isBlank( defText ) )
 		{
 			previewText = null;
 		}
 		else
 		{
-			previewText = text;
+			previewText = defText;
 		}
-		updatePreview( );
 		return;
 	}
 
@@ -470,6 +479,20 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		hasLoaded = false;
 
+		initiatePageLayout( categoryStr, patternStr );
+		reLayoutSubPages( );
+		updatePreview( );
+
+		// set initial.
+		oldCategory = categoryStr;
+		oldPattern = patternStr;
+
+		hasLoaded = true;
+		return;
+	}
+
+	private void initiatePageLayout( String categoryStr, String patternStr )
+	{
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -483,18 +506,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 			typeChoicer.select( getIndexOfCategory( categoryStr ) );
 		}
 
-		// re layout sub pages.
-		reLayoutSubPages( );
-
-		// update preview.
-		updatePreview( );
-
-		// set initial.
-		oldCategory = categoryStr;
-		oldPattern = patternStr;
-
-		hasLoaded = true;
-		return;
 	}
 
 	/**
@@ -558,77 +569,79 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		markDirty( hasLoaded );
 
-		String pattern = ""; //$NON-NLS-1$
-		String fmtStr = ""; //$NON-NLS-1$
-
-		String gText = getPreviewText( ) == null ? DEFAULT_PREVIEW_TEXT
-				: getPreviewText( );
+		String gText;
+		if ( getPreviewText( ) == null )
+		{
+			gText = DEFAULT_PREVIEW_TEXT;
+		}
+		else
+		{
+			gText = getPreviewText( );
+		}
 
 		String category = getCategory4DisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
+			String pattern = getPatternForCategory( category );
 			generalPreviewLabel.setText( gText );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String pattern = getPatternForCategory( category );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String pattern = getPatternForCategory( category );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
-			gText = SAMPLE_TEXT_ZIP_CODE;
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String pattern = getPatternForCategory( category );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_CODE );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
-			gText = SAMPLE_TEXT_ZIP_C0DE4;
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String pattern = getPatternForCategory( category );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_C0DE4 );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
-			gText = SAMPLE_TEXT_PHONE_NUMBER;
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String pattern = getPatternForCategory( category );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_PHONE_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
-			pattern = getPatternForCategory( category );
+			String pattern = getPatternForCategory( category );
 			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
-			fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 			return;
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( category ) )
 		{
-			pattern = formatCode.getText( );
+			String pattern = formatCode.getText( );
+			String fmtStr;
 			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
 			{
 				fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
@@ -713,7 +726,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 		group.setLayout( new GridLayout( 1, false ) );
 
 		Label previewText = new Label( group, SWT.NONE );
-		previewText.setText( "" ); //$NON-NLS-1$
 		previewText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL ) );
 		return previewText;
@@ -780,22 +792,21 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_STRING );
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewTextBox.setText( DEFAULT_PREVIEW_TEXT );
 			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			previewTextBox.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
+					setDefaultPreviewText( previewTextBox.getText( ) );
 					if ( hasLoaded )
 					{
-						setPreviewText( previewTextBox.getText( ) );
+						updatePreview( );
 					}
 				}
 			} );
 
 			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_LABEL );
 			cPreviewLabel = new Label( group, SWT.NONE );
-			cPreviewLabel.setText( DEFAULT_PREVIEW_TEXT );
 			cPreviewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 		return customPage;
@@ -824,9 +835,9 @@ public class FormatStringPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
-				String category = ChoiceSetFactory.getStructPropValue(
-						StringFormatValue.FORMAT_VALUE_STRUCT,
-						StringFormatValue.CATEGORY_MEMBER, displayName );
+				String category = ChoiceSetFactory.getStructPropValue( StringFormatValue.FORMAT_VALUE_STRUCT,
+						StringFormatValue.CATEGORY_MEMBER,
+						displayName );
 				String pattern = getPatternForCategory( category );
 				formatCode.setText( pattern );
 				updatePreview( );
